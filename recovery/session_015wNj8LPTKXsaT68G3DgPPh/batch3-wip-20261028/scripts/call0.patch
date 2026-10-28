@@ -1,0 +1,99 @@
+diff --git a/.github/workflows/c8-theorem-a-constants-planar.yml b/.github/workflows/c8-theorem-a-constants-planar.yml
+index 85fffc7..75205e0 100644
+--- a/.github/workflows/c8-theorem-a-constants-planar.yml
++++ b/.github/workflows/c8-theorem-a-constants-planar.yml
+@@ -5,6 +5,10 @@ name: C8 planar Theorem A constants (certified replay)
+     paths:
+       - 'frontiers/c8_theorem_a_constants_planar_20260930/**'
+       - '.github/workflows/c8-theorem-a-constants-planar.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+   workflow_dispatch:
+@@ -23,6 +27,13 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-theorem-a-constants-planar'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest and main-resident pins, replay every band and the C table in both interpreter modes, reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+@@ -50,17 +61,9 @@ jobs:
+               blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob != entry['git_blob']:
+                   raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+-          script = str(root / 'theorem_a.py')
+           # every one of the 153 bands in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', '2'], cwd=root, capture_output=True, timeout=3600)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-400:])
+-          for m in ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', '2', '--mutant', m], cwd=root, capture_output=True, timeout=1800).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-theorem-a-constants-planar', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'bands_replayed': 153, 'mutants_rejected': 4}))
+           PY
+           git diff --exit-code
+diff --git a/.github/workflows/c8-torus-vanishing-remainder.yml b/.github/workflows/c8-torus-vanishing-remainder.yml
+index 3c06386..d149657 100644
+--- a/.github/workflows/c8-torus-vanishing-remainder.yml
++++ b/.github/workflows/c8-torus-vanishing-remainder.yml
+@@ -5,6 +5,10 @@ name: C8 torus vanishing remainder (certified replay)
+     paths:
+       - 'frontiers/c8_torus_vanishing_remainder_20261001/**'
+       - '.github/workflows/c8-torus-vanishing-remainder.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+@@ -31,6 +35,13 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-torus-vanishing-remainder'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest, main-resident pin and packet copies; replay the certificate; reject the mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+@@ -64,17 +75,8 @@ jobs:
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob(data) != entry['git_blob']:
+                   raise ValueError('pinned source identity mismatch: ' + entry['path'])
+           flags = os.environ['FLAGS'].split()
+-          script = str(root / 'theorem_v.py')
+-          out = subprocess.run([sys.executable, *flags, script, '--check'], cwd=root, capture_output=True, timeout=3600)
+-          if out.returncode != 0:
+-              raise RuntimeError('--check failed: ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-          print(flags, out.stdout.decode().strip())
+-          muts = ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half')
+-          procs = [subprocess.Popen([sys.executable, *flags, script, '--mutant', m], cwd=root,
+-                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) for m in muts]
+-          for m, p in zip(muts, procs):
+-              if p.wait(timeout=3600) != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
+-          print(json.dumps({'scientific_effect': 'NONE', 'mutants_rejected': len(muts)}))
++          from tools.check_mode_replay import replay
++          replay('c8-torus-vanishing-remainder', root, flags=flags)
++          print(json.dumps({'scientific_effect': 'NONE', 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code

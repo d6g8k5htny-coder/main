@@ -1,0 +1,112 @@
+[
+ {
+  "args": [
+   "--check-full",
+   "--procs",
+   "2"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": null,
+  "mode": "normal",
+  "returncode": 0,
+  "seconds": 2219.6,
+  "started": "08:46:17",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"ok\", \"bands_replayed\": 153, \"C_table\": {\"1/1024\": \"2151134031/400\", \"1/128\": \"87390113247/250\", \"1/2048\": \"53623024479/10000\", \"1/256\": \"93707999311/10000\", \"1/4096\": \"26776575319/5000\", \"1/512\": \"54156592391/10000\", \"1/64\": \"14397396179923/10000\"}, \"C_table_side24\": {\"1/1024\": \"1604824613/1250\", \"1/128\": \"815443379659/5000\", \"1/2048\": \"215461191/5000\", \"1/256\": \"815443379659/5000\", \"1/4096\": \"19661409/500\", \"1/512\": \"1173169654911/10000\", \"1/64\": \"5553365927589/5000\"}, \"mutant\": null}\n",
+  "stdout_sha256": "9525d22b88a35c2c198344b7bacd15603f0c71ddbfe6f63ad43056f3dde72b27"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "2"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": null,
+  "mode": "optimized",
+  "returncode": 0,
+  "seconds": 122.9,
+  "started": "09:23:16",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"ok\", \"bands_replayed\": 11, \"C_table\": {\"1/1024\": \"2151134031/400\", \"1/128\": \"87390113247/250\", \"1/2048\": \"53623024479/10000\", \"1/256\": \"93707999311/10000\", \"1/4096\": \"26776575319/5000\", \"1/512\": \"54156592391/10000\", \"1/64\": \"14397396179923/10000\"}, \"C_table_side24\": {\"1/1024\": \"1604824613/1250\", \"1/128\": \"815443379659/5000\", \"1/2048\": \"215461191/5000\", \"1/256\": \"815443379659/5000\", \"1/4096\": \"19661409/500\", \"1/512\": \"1173169654911/10000\", \"1/64\": \"5553365927589/5000\"}, \"mutant\": null}\n",
+  "stdout_sha256": "d8bdd351b6925fef500353c53c695cb535208817aa3348e9334b0f220b4dc875"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "2",
+   "--mutant",
+   "no-delta"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": "no-delta",
+  "mode": "normal",
+  "returncode": 1,
+  "seconds": 59.6,
+  "started": "09:25:19",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"FAIL\", \"reason\": \"band 0 (['0', '1/536870912']) differs from RESULTS.json\", \"mutant\": \"no-delta\"}\n",
+  "stdout_sha256": "3ec9f7558eb1c925365d086ce17c2f76ae2f616ae9775e83ae211629462a7a3a"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "2",
+   "--mutant",
+   "cap-half"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": "cap-half",
+  "mode": "normal",
+  "returncode": 1,
+  "seconds": 126.4,
+  "started": "09:26:19",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"FAIL\", \"reason\": \"band 0 (['0', '1/536870912']) differs from RESULTS.json\", \"mutant\": \"cap-half\"}\n",
+  "stdout_sha256": "5731f869238756b74c05dcff7a6e6fba02eaf12e2b20e0a730927118c289f6a3"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "2",
+   "--mutant",
+   "no-zfloor-correction"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": "no-zfloor-correction",
+  "mode": "normal",
+  "returncode": 1,
+  "seconds": 142.8,
+  "started": "09:28:25",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"FAIL\", \"reason\": \"band 0 (['0', '1/536870912']) differs from RESULTS.json\", \"mutant\": \"no-zfloor-correction\"}\n",
+  "stdout_sha256": "6b4f63ed6ffcd03b5d2551cafdbe3255ecda374525aaf3e23c8d1f394e5df869"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "2",
+   "--mutant",
+   "no-om-term"
+  ],
+  "family": "c8-theorem-a-constants-planar",
+  "label": "no-om-term",
+  "mode": "normal",
+  "returncode": 1,
+  "seconds": 135.3,
+  "started": "09:30:48",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "{\"check\": \"FAIL\", \"reason\": \"band 0 (['0', '1/536870912']) differs from RESULTS.json\", \"mutant\": \"no-om-term\"}\n",
+  "stdout_sha256": "5346da9453e69497808ca740d977b08f49bb4a3b989ab016f5ee644a12e3294d"
+ }
+]

@@ -1,0 +1,274 @@
+diff --git a/tools/check_mode_replay.py b/tools/check_mode_replay.py
+index 0b0ccf1..cb66f96 100644
+--- a/tools/check_mode_replay.py
++++ b/tools/check_mode_replay.py
+@@ -2,19 +2,22 @@
+ """Authenticate the C8 check-mode checkers' acceptance and rejection verdicts.
+ 
+ Called AFTER each workflow's unchanged source and pin guards. Each checker runs
+-from its packet directory as `<script> --check [EXTRA...] [--mutant LABEL]` and
+-prints one JSON verdict: {"check": "ok", ...} with exit 0, or, from its
+-require(), {"check": "FAIL", "reason": ..., "mutant": LABEL} with exit 1. EXTRA
+-is empty except for the families in POOLED, whose wrappers passed it. The
+-reference file holds complete verdicts measured from the unchanged checkers,
+-never outputs learned from the invocation being tested. Parsing and comparison
+-are those of tools/legacy_json_replay.py: formatting may differ, but every key,
+-type, value and list must match. This is an engineering protocol, not a sandbox
+-or mathematical acceptance test.
++from its packet directory with the arguments its original wrapper passed, and
++reports one verdict. Most print one JSON verdict on stdout: {"check": "ok", ...}
++with exit 0, or, from their require(), {"check": "FAIL", "reason": ...,
++"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS print a JSON
++success line whose "check" is "passed", and reject with exit 1, nothing on
++stdout and the one line "FAIL: <reason>" on stderr. The reference file holds
++complete verdicts measured from the unchanged checkers, never outputs learned
++from the invocation being tested. Parsing and comparison are those of
++tools/legacy_json_replay.py: formatting may differ, but every key, type, value
++and list must match, and a stderr rejection must match byte for byte. This is
++an engineering protocol, not a sandbox or mathematical acceptance test.
+ """
+ from __future__ import annotations
+ 
+ import concurrent.futures
++import functools
+ import hashlib
+ import json
+ from pathlib import Path
+@@ -29,19 +32,64 @@ INVENTORIES = {
+     'c8-cap-failure-coefficient-dims': ('no-y-tail', 'r3-one', 'no-bp', 'frob-omega-off'),
+     'c8-normalizer-floor-planar': ('swap-minmax', 'drop-torus-error', 'sign-saddle'),
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
++    'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
++    'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
+ }
+ MODES = (('normal', ('-B', '-S')), ('optimized', ('-B', '-O', '-S')))
+ # Families whose original wrapper passed extra checker arguments and ran its
+ # mutants concurrently. As there, both baselines run first, one at a time, and
+ # then every mutant of both modes runs on `workers` threads; verdicts are read
+-# in submission order. Every other family runs each mode's inventory in turn.
++# in submission order. Every other family not in PLANNED runs each mode's
++# inventory in turn.
+ POOLED = {
+     'c8-cap-failure-coefficient-planar': {'baseline': ('--procs', '2'), 'mutant': ('--procs', '1'), 'workers': 2},
+ }
++# Families whose original wrapper ran another child list, restated by _plan()
++# with each child's arguments and timeout. Their reference file holds one
++# baseline verdict per mode. PER_JOB_MODE families ran one interpreter mode per
++# matrix job; replay() then takes that job's flags.
++PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder')
++PER_JOB_MODE = {'c8-torus-vanishing-remainder'}
++STDERR_REJECTIONS = {'c8-torus-vanishing-remainder'}
++
++
++def _plan(family: str, modes: tuple[str, ...]) -> list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]]:
++    """Return the stages (workers, children); a child is (mode, label, arguments, timeout)."""
++    labels = INVENTORIES[family]
++    if family == 'c8-theorem-a-constants-planar':
++        # One at a time: every band with --check-full in normal mode, the
++        # sampled --check in optimized mode, then each mutant in normal mode only.
++        return [(1, [('normal', None, ('--check-full', '--procs', '2'), 3600),
++                     ('optimized', None, ('--check', '--procs', '2'), 3600),
++                     *[('normal', m, ('--check', '--procs', '2', '--mutant', m), 1800) for m in labels]])]
++    if family == 'c8-torus-vanishing-remainder':
++        # In each job: the baseline, then all five mutants at once, which take
++        # no --check.
++        stages: list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]] = []
++        for mode in modes:
++            stages += [(1, [(mode, None, ('--check',), 3600)]),
++                       (len(labels), [(mode, m, ('--mutant', m), 3600) for m in labels])]
++        return stages
++    raise ProtocolError('unknown checker family')
++
++
++def _accepts(family: str, report: Any) -> bool:
++    if family in STDERR_REJECTIONS:
++        return type(report) is dict and report.get('check') == 'passed'
++    return type(report) is dict and report.get('check') == 'ok' and report.get('mutant', '') is None
++
++
++def _rejects(family: str, label: str, report: Any) -> bool:
++    if family in STDERR_REJECTIONS:
++        return (type(report) is str and report.startswith('FAIL: ') and report.endswith('\n')
++                and report.count('\n') == 1)
++    return (type(report) is dict and set(report) == {'check', 'reason', 'mutant'}
++            and report['check'] == 'FAIL' and report['mutant'] == label and type(report['reason']) is str)
+ 
+ 
+ def _contract(family: str) -> dict[str, Any]:
+-    if family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES):
++    if (family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES)
++            or not set(PLANNED) <= set(INVENTORIES) or set(POOLED) & set(PLANNED)):
+         raise ProtocolError('unknown checker family')
+     data = strict_json(Path(__file__).with_name('check_mode_contracts.json').read_bytes())
+     if (type(data) is not dict or type(data.get('schema')) is not int
+@@ -49,8 +97,8 @@ def _contract(family: str) -> dict[str, Any]:
+             or set(data['families']) != set(INVENTORIES)):
+         raise ProtocolError('invalid reference inventory')
+     entry = data['families'][family]
+-    keys = {'directory', 'script', 'script_git_blob', 'results_sha256',
+-            'results_bytes', 'baseline', 'mutants'}
++    keys = {'directory', 'script', 'script_git_blob', 'results_sha256', 'results_bytes', 'mutants',
++            'baselines' if family in PLANNED else 'baseline'}
+     if type(entry) is not dict or set(entry) != keys:
+         raise ProtocolError('invalid family reference schema')
+     if (type(entry['script']) is not str
+@@ -61,57 +109,84 @@ def _contract(family: str) -> dict[str, Any]:
+     for key, size in [('script_git_blob', 40), ('results_sha256', 64)]:
+         if type(entry[key]) is not str or not re.fullmatch('[0-9a-f]{%d}' % size, entry[key]):
+             raise ProtocolError('invalid reference digest')
+-    baseline = entry['baseline']
+-    if type(baseline) is not dict or baseline.get('check') != 'ok' or baseline.get('mutant', '') is not None:
++    if family in PLANNED:
++        baselines = entry['baselines']
++        if (type(baselines) is not dict or set(baselines) != {name for name, _ in MODES}
++                or not all(_accepts(family, report) for report in baselines.values())):
++            raise ProtocolError('reference is not an acceptance verdict')
++    elif not _accepts(family, entry['baseline']):
+         raise ProtocolError('reference is not an acceptance verdict')
+     if (type(entry['mutants']) is not dict
+             or set(entry['mutants']) != set(INVENTORIES[family])):
+         raise ProtocolError('missing, extra, or repeated mutant reference')
+     for label, report in entry['mutants'].items():
+-        if (type(report) is not dict or set(report) != {'check', 'reason', 'mutant'}
+-                or report['check'] != 'FAIL' or report['mutant'] != label
+-                or type(report['reason']) is not str):
++        if not _rejects(family, label, report):
+             raise ProtocolError('reference is not a rejection verdict')
+     return entry
+ 
+ 
+-def _child(family: str, entry: dict[str, Any], root: Path, script: Path, mode: str,
+-           flags: tuple[str, ...], label: str | None, extra: tuple[str, ...],
+-           timeout: float) -> dict[str, Any]:
+-    command = [sys.executable, *flags, str(script), '--check', *extra]
+-    if label is not None:
+-        command += ['--mutant', label]
++def _child(family: str, root: Path, script: Path, mode: str, flags: tuple[str, ...], label: str | None,
++           arguments: tuple[str, ...], timeout: float, reference: Any) -> dict[str, Any]:
++    command = [sys.executable, *flags, str(script), *arguments]
+     child = subprocess.run(command, cwd=root, capture_output=True, timeout=timeout)
+     record = {'family': family, 'mode': mode, 'label': label,
+               'returncode': child.returncode,
+               'stdout_bytes': len(child.stdout), 'stderr_bytes': len(child.stderr),
+               'stdout_sha256': hashlib.sha256(child.stdout).hexdigest(),
+               'stderr_sha256': hashlib.sha256(child.stderr).hexdigest()}
+-    if label is None:
+-        status, reference = 0, entry['baseline']
++    if label is not None and family in STDERR_REJECTIONS:
++        ok = child.returncode == 1 and not child.stdout and child.stderr == reference.encode()
+     else:
+-        status, reference = 1, entry['mutants'][label]
+-    ok = child.returncode == status and not child.stderr
+-    if ok:
+-        try:
+-            ok = _same(strict_json(child.stdout), reference)
+-        except ProtocolError:
+-            ok = False
++        ok = child.returncode == (0 if label is None else 1) and not child.stderr
++        if ok:
++            try:
++                ok = _same(strict_json(child.stdout), reference)
++            except ProtocolError:
++                ok = False
+     record['protocol_ok'] = ok
+     return record
+ 
+ 
+-def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str, Any]]:
+-    """Run the complete fixed inventory in both modes, or fail immediately.
++def _stage(workers: int, calls: list[Any], accept: Any) -> None:
++    """Run the calls at most `workers` at a time; read verdicts in submission order."""
++    if workers == 1:
++        for call in calls:
++            accept(call())
++        return
++    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
++        futures = [pool.submit(call) for call in calls]
++        try:
++            for future in futures:
++                accept(future.result())
++        except BaseException:
++            for future in futures:
++                future.cancel()
++            raise
++
++
++def replay(family: str, root: Path, *, timeout: float | None = None,
++           flags: list[str] | tuple[str, ...] | None = None) -> list[dict[str, Any]]:
++    """Run the complete fixed inventory, or fail immediately.
+ 
+     root is the already source-verified packet directory, and also each child's
+     working directory, as the checkers expect. Timeout/OSError is a failed run,
+     never an intended negative-control receipt. All child inputs stay
+     unchanged; no synthetic output, package rehash, or checker amendment occurs.
+-    A pooled family stops at the first failing verdict too; children already
+-    running finish, and children not yet started are cancelled.
++    A concurrent stage stops at the first failing verdict too; children already
++    running finish, and children not yet started are cancelled. A PLANNED
++    family's timeouts are fixed by its plan; a PER_JOB_MODE family takes its
++    job's interpreter flags and runs that mode only.
+     """
+     entry = _contract(family)
++    if family in PLANNED and timeout is not None:
++        raise ProtocolError('this family plan fixes its own timeouts')
++    job_modes: tuple[str, ...] = ()
++    if family in PER_JOB_MODE:
++        job_modes = tuple(name for name, mode_flags in MODES if flags is not None and tuple(flags) == mode_flags)
++        if len(job_modes) != 1:
++            raise ProtocolError('this family runs one interpreter mode per job')
++    elif flags is not None:
++        raise ProtocolError('this family runs both interpreter modes in one job')
+     root = Path(root).resolve()
+     script = root / entry['script']
+     if script.is_symlink() or not script.is_file():
+@@ -124,6 +199,7 @@ def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str,
+             or hashlib.sha256(results).hexdigest() != entry['results_sha256']):
+         raise ProtocolError('RESULTS.json differs from the characterized source')
+     records: list[dict[str, Any]] = []
++    flags_of = dict(MODES)
+ 
+     def accept(record: dict[str, Any]) -> None:
+         print(json.dumps(record, sort_keys=True), flush=True)
+@@ -132,22 +208,27 @@ def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str,
+                                 (family, record['mode'], record['label'] or 'baseline'))
+         records.append(record)
+ 
++    def call(mode: str, label: str | None, arguments: tuple[str, ...], seconds: float) -> Any:
++        if label is not None:
++            reference = entry['mutants'][label]
++        else:
++            reference = entry['baselines'][mode] if family in PLANNED else entry['baseline']
++        return functools.partial(_child, family, root, script, mode, flags_of[mode], label, arguments, seconds,
++                                 reference)
++
++    if family in PLANNED:
++        for workers, children in _plan(family, job_modes):
++            _stage(workers, [call(*child) for child in children], accept)
++        return records
++    seconds = 1500 if timeout is None else timeout
+     pooled = POOLED.get(family)
+     if pooled is None:
+-        for mode, flags in MODES:
+-            for label in [None, *INVENTORIES[family]]:
+-                accept(_child(family, entry, root, script, mode, flags, label, (), timeout))
++        for mode, _ in MODES:
++            _stage(1, [call(mode, None, ('--check',), seconds)]
++                   + [call(mode, m, ('--check', '--mutant', m), seconds) for m in INVENTORIES[family]], accept)
+         return records
+-    for mode, flags in MODES:
+-        accept(_child(family, entry, root, script, mode, flags, None, pooled['baseline'], timeout))
+-    with concurrent.futures.ThreadPoolExecutor(max_workers=pooled['workers']) as pool:
+-        futures = [pool.submit(_child, family, entry, root, script, mode, flags, label, pooled['mutant'], timeout)
+-                   for mode, flags in MODES for label in INVENTORIES[family]]
+-        try:
+-            for future in futures:
+-                accept(future.result())
+-        except BaseException:
+-            for future in futures:
+-                future.cancel()
+-            raise
++    for mode, _ in MODES:
++        _stage(1, [call(mode, None, ('--check', *pooled['baseline']), seconds)], accept)
++    _stage(pooled['workers'], [call(mode, m, ('--check', *pooled['mutant'], '--mutant', m), seconds)
++                               for mode, _ in MODES for m in INVENTORIES[family]], accept)
+     return records

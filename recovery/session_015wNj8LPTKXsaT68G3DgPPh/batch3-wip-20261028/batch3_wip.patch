@@ -1,0 +1,1034 @@
+diff --git a/.github/workflows/c8-theorem-a-constants-planar.yml b/.github/workflows/c8-theorem-a-constants-planar.yml
+index 85fffc7..75205e0 100644
+--- a/.github/workflows/c8-theorem-a-constants-planar.yml
++++ b/.github/workflows/c8-theorem-a-constants-planar.yml
+@@ -5,6 +5,10 @@ name: C8 planar Theorem A constants (certified replay)
+     paths:
+       - 'frontiers/c8_theorem_a_constants_planar_20260930/**'
+       - '.github/workflows/c8-theorem-a-constants-planar.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+   workflow_dispatch:
+@@ -23,6 +27,13 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-theorem-a-constants-planar'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest and main-resident pins, replay every band and the C table in both interpreter modes, reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+@@ -50,17 +61,9 @@ jobs:
+               blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob != entry['git_blob']:
+                   raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+-          script = str(root / 'theorem_a.py')
+           # every one of the 153 bands in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', '2'], cwd=root, capture_output=True, timeout=3600)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-400:])
+-          for m in ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', '2', '--mutant', m], cwd=root, capture_output=True, timeout=1800).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-theorem-a-constants-planar', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'bands_replayed': 153, 'mutants_rejected': 4}))
+           PY
+           git diff --exit-code
+diff --git a/.github/workflows/c8-torus-vanishing-remainder.yml b/.github/workflows/c8-torus-vanishing-remainder.yml
+index 3c06386..d149657 100644
+--- a/.github/workflows/c8-torus-vanishing-remainder.yml
++++ b/.github/workflows/c8-torus-vanishing-remainder.yml
+@@ -5,6 +5,10 @@ name: C8 torus vanishing remainder (certified replay)
+     paths:
+       - 'frontiers/c8_torus_vanishing_remainder_20261001/**'
+       - '.github/workflows/c8-torus-vanishing-remainder.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+@@ -31,6 +35,13 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-torus-vanishing-remainder'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest, main-resident pin and packet copies; replay the certificate; reject the mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+@@ -64,17 +75,8 @@ jobs:
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob(data) != entry['git_blob']:
+                   raise ValueError('pinned source identity mismatch: ' + entry['path'])
+           flags = os.environ['FLAGS'].split()
+-          script = str(root / 'theorem_v.py')
+-          out = subprocess.run([sys.executable, *flags, script, '--check'], cwd=root, capture_output=True, timeout=3600)
+-          if out.returncode != 0:
+-              raise RuntimeError('--check failed: ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-          print(flags, out.stdout.decode().strip())
+-          muts = ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half')
+-          procs = [subprocess.Popen([sys.executable, *flags, script, '--mutant', m], cwd=root,
+-                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) for m in muts]
+-          for m, p in zip(muts, procs):
+-              if p.wait(timeout=3600) != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
+-          print(json.dumps({'scientific_effect': 'NONE', 'mutants_rejected': len(muts)}))
++          from tools.check_mode_replay import replay
++          replay('c8-torus-vanishing-remainder', root, flags=flags)
++          print(json.dumps({'scientific_effect': 'NONE', 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code
+diff --git a/reviews/c8_check_mode_wrappers_batch3_20261027/SCOPE.md b/reviews/c8_check_mode_wrappers_batch3_20261027/SCOPE.md
+new file mode 100644
+index 0000000..17837ef
+--- /dev/null
++++ b/reviews/c8_check_mode_wrappers_batch3_20261027/SCOPE.md
+@@ -0,0 +1,221 @@
++# C8 check-mode wrappers, batch 3: the planar Theorem A constants and torus remainder wrappers
++
++Dylan Roy — delegated AI engineering. Actual author: Anthropic Claude, session
++`session_015wNj8LPTKXsaT68G3DgPPh` (C8), stage `C8-WRAPPERS-REPAIR-C8-20261026`,
++batch 3, pickup Math-#322/6422210000 and its batch-3 lines Math-#322/6426350379
++and Math-#322/6443140956. Dylan approved draft PRs for the seven `c8-*` wrappers
++around this session's packets, in the author's session at about 16:45Z on 26
++October 2026. Scientific effect NONE; shared-account organizational credit 0.
++Author-side implementation only: a separate nonauthor engineering review and a
++separate integrator are required. No mathematical acceptance is asserted.
++
++The branch is cut from batch 2's head `6fbdbba3` (Math-#520), because it extends
++the same helper, reference file and test file. The scope notes of batches 1 and 2
++are unchanged.
++
++## Finding and exact source
++
++01Cz's ledger (Math-#322/6388271177) classifies both wrappers as `status_only`:
++
++- `c8-theorem-a-constants-planar` accepted its two baselines on exit status 0
++  alone, with stderr discarded and stdout only echoed, and each mutant on exit
++  status 1 alone, with its stdout and stderr captured and thrown away.
++- `c8-torus-vanishing-remainder` accepted its baseline on exit status 0 alone and
++  each mutant on `p.wait() == 1` alone, with the mutants' stdout and stderr sent
++  to `/dev/null`.
++
++So an unrelated crash, a silent exit 1 or a failure for another reason counted as
++an intended rejection, and the baselines' verdicts were never compared. The ledger
++read the workflow blobs `3a5ee3eb` and `ccf71286` at `d1f6ad28`. The blobs below
++differ from those only in the `actions/setup-python` pin (`2c041de`), so the
++classification still applies.
++
++| Object | Identity |
++|---|---|
++| Math- `main` at characterization | `1965142e66a067c69ea2b936517226a6bbf2cdd8` |
++| Branch base (batch 2's head, on `main` `7d63d08f`) | `6fbdbba3a12dff01dd8ceb32133b3c682638ef65` |
++| `c8-theorem-a-constants-planar.yml` before | blob `85fffc7938dd7daae3ab921d2d957d1a2ab7931a` |
++| `c8-torus-vanishing-remainder.yml` before | blob `3c06386130f3c7e2c36b9b39ae274017c8648f5a` |
++| `theorem_a.py` (unchanged) | blob `ae279e9015483a666ece8deb2544cbc458a5e270`, 52,864 B |
++| theorem-A `RESULTS.json` (unchanged) | 150,257 B, SHA-256 `b4a77fd298297f6dfe077748d32b66f1fd209130443d2eaceea4463ef063c0fe` |
++| `theorem_v.py` (unchanged) | blob `5fd6b75df48940f293f0c112c1005418dcd75bde`, 41,036 B |
++| torus `RESULTS.json` (unchanged) | 405,837 B, SHA-256 `395171fac7e6656c8fa4e6ef518633f99e0921d2d83bf7317608fe0cd73983a6` |
++| torus `theorem_b.py` (unchanged, loaded) | blob `36b39dbd33ef2e6d277ce1c3820b3f0d6659d779`, 53,141 B |
++| torus `engine_e2.py` (unchanged, loaded) | blob `ae279e9015483a666ece8deb2544cbc458a5e270`, 52,864 B |
++| torus `engine_e3.py` (unchanged, loaded) | blob `267890232119b35206be7a8cc74d730de9a68644`, 76,209 B |
++
++The packet trees (`95d1459b` and `04fc5584`) and both workflow blobs are
++identical at `1965142e`, `7d63d08f` and `6fbdbba3`. As the torus
++`SOURCE_MAP.json` pins them, the three loaded files are byte-identical packet
++copies: `theorem_b.py` of the lifetime-difference packet's Theorem L certificate
++(Math-#215), `engine_e2.py` of `theorem_a.py` (Math-#206), and `engine_e3.py` of
++the d = 3 packet's `theorem_a3.py` (Math-#212). The imported
++`tools/legacy_json_replay.py` (blob `854db466`) and
++`tests/test_legacy_workflow_triggers.py` (blob `c2e37a3a`) are the blobs every
++local run below used.
++
++## Repair and preservation
++
++Five files: `tools/check_mode_replay.py`, `tools/check_mode_contracts.json`,
++`tests/test_check_mode_workflows.py`, the two workflows, and this note.
++
++- **`tools/check_mode_replay.py`:**
++  - Two inventory rows, and a `PLANNED` set for families whose wrapper ran a
++    child list other than the batch-1 and batch-2 shapes. `_plan()` restates
++    each one with its arguments, timeouts and concurrency:
++    - theorem-A, one child at a time: normal `--check-full --procs 2`
++      (3600 s), optimized `--check --procs 2` (3600 s), then each mutant in
++      normal mode only as `--check --procs 2 --mutant M` (1800 s);
++    - torus, in each matrix job: `--check` (3600 s), then all five
++      `--mutant M` at once (3600 s each), which take no `--check`.
++  - `PER_JOB_MODE`: the torus wrapper ran one interpreter mode per matrix job,
++    so `replay()` takes that job's `FLAGS` and runs that mode only. Any other
++    family refuses `flags`, and a `PLANNED` family refuses a `timeout`.
++  - `STDERR_REJECTIONS`: the torus checker rejects with `SystemExit('FAIL: …')`:
++    exit 1, nothing on stdout, and one line on stderr. For it a mutant must
++    match that line byte for byte; its success line is the JSON
++    `{"object": …, "check": "passed", "scientific_effect": "NONE"}`.
++  - `LOADS`: the torus checker loads `theorem_b.py`, which loads `engine_e2.py`
++    and `engine_e3.py`. The reference file binds their git blobs as it binds
++    the checker's, so a change to any of them needs a new characterization. No
++    earlier family's checker loads another packet file.
++  - The children of a stage run through one `_stage()`: one at a time, or on
++    a thread pool with verdicts read in submission order. The batch-1 and
++    batch-2 families keep their order, arguments, timeouts, concurrency and
++    checks; their code path is refactored into `_stage()` and is covered by
++    the same tests as before.
++- **`tools/check_mode_contracts.json`:** two new families with the measured
++  verdicts. A `PLANNED` family stores one baseline verdict per mode. The
++  earlier families' entries are unchanged.
++- **`tests/test_check_mode_workflows.py`:** the families join the tables.
++  `groups()` restates each wrapper's child list on its own, apart from the
++  helper. The synthetic checker accepts exactly the arguments each wrapper
++  passed in each mode, and nothing else. A matrix family is tested once per
++  job, with that job's `FLAGS`. New tests: the stderr channel (stdout output,
++  stderr output, wrong exit), and rebound sources (a changed checker or loaded
++  file whose manifest row moved with it must fail before any child starts).
++  The custody test also requires every other Python file in each packet to be
++  a bound loaded source. The reference custody digest moves with the new
++  families.
++- **The workflows:** each calls `replay(...)` in place of its exit-only child
++  loops (`replay('c8-torus-vanishing-remainder', root, flags=flags)` for the
++  matrix job), and gains the same earlier contract step and trigger paths as
++  the batch-1 and batch-2 wrappers.
++
++Unchanged: the source block before any child; the action pins, read-only
++permissions, `persist-credentials: false`, Python 3.11.16, the matrix and the
++120-minute job budgets; the checker arguments, the per-child timeouts, the
++mutant order and concurrency; the terminal records; the final
++`git diff --exit-code`; every packet file.
++
++Two behaviors change, on failure or timing only:
++
++- The old torus wrapper raised at the first mutant that did not exit 1 and left
++  the other four running; the helper waits for them before it raises.
++- Each torus mutant's 3600 s now counts from its own start. Before, a later
++  mutant's wait began only after the earlier waits returned.
++
++## The contract
++
++The references are complete verdicts measured from the unchanged CLI, never
++outputs learned from the invocation under test.
++
++**`c8-theorem-a-constants-planar`:**
++
++- **Baselines:** exit 0, empty stderr, and the measured verdict
++  `{"check": "ok", "bands_replayed": N, "C_table": {…}, "C_table_side24": {…},
++  "mutant": null}`, with all seven entries of each `C` table as `RESULTS.json`
++  stores them (for example `"1/512": "54156592391/10000"`, the README's
++  `C(1/512) = 5415659.2391`):
++  - normal `--check-full --procs 2`: `N = 153`, every band;
++  - optimized `--check --procs 2`: `N = 11`, the sampled bands.
++
++  The checker prints it only after the canonical layout, the parameters, the
++  band list, every replayed band record, both `C` tables and the
++  sharp-coefficient floors have matched `RESULTS.json`.
++- **Each mutant** (normal `--check --procs 2 --mutant M`): exit 1, empty stderr,
++  and exactly the verdict its `require()` prints, `{"check": "FAIL", "reason": …,
++  "mutant": M}`.
++
++| Mutants (in order) | Measured reason |
++|---|---|
++| `no-delta`, `cap-half`, `no-zfloor-correction`, `no-om-term` | `band 0 (['0', '1/536870912']) differs from RESULTS.json` |
++
++`--check` computes its 11 sampled bands under the mutant and then compares them
++in index order, so every mutant fails at band 0, the band `[0, 2^-29]`. The
++verdict names that band and the label, not which quantity the mutant changed.
++That is how this checker reports, and the packet bytes stay unchanged. The
++contract therefore pins the first failing check exactly. A crash, a silent exit,
++stderr output, a failure at any other check, or a verdict for another label is
++rejected.
++
++**`c8-torus-vanishing-remainder`**, in each mode:
++
++- **Baseline** (`--check`): exit 0, empty stderr, and the measured verdict
++  `{"object": "CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1", "check": "passed",
++  "scientific_effect": "NONE"}`, the same in both modes.
++- **Each mutant** (`--mutant M`): exit 1, empty stdout, and exactly the stderr
++  line `FAIL: replay differs from RESULTS.json`, for `torus-const-only`,
++  `exp-radius`, `no-lin`, `no-om-term` and `coupling-half`, the same in both
++  modes.
++
++Each torus mutant passes the checker's twelve internal `require()` checks and
++fails only at the final comparison of its whole replay with `RESULTS.json`. The
++line therefore shows that the mutated certificate ran to the end and changed the
++stored result, not which quantity changed. That is how this checker reports, and
++the packet bytes stay unchanged. A crash (its traceback is on stderr), a silent
++exit, any stdout, any other stderr, or a failure at an internal check is
++rejected.
++
++## Execution and non-vacuous regressions
++
++All of the following ran locally on CPython 3.11.15. The characterization ran on
++`1965142e`. The tests, the RED control and the real-checker replay ran on this
++branch's tree.
++
++- **Characterization:** two separate runs of the unchanged checkers, with the
++  wrappers' exact arguments, each child a separate process started from its
++  packet directory. All 18 stdout and stderr byte strings of the second
++  run equal the first run's, and the exit statuses are as above. These runs
++  started the two families side by side, which changes only the timing.
++  In run 1, theorem-A's `--check-full` took 32.3 minutes beside the torus
++  children, its sampled `--check` 1.9 minutes, and each mutant 0.9 to 1.9
++  minutes. A torus baseline took about 4 minutes, and the five mutants about
++  7 to 8 minutes at once.
++- **The real checkers through the helper**, run as the workflow steps run them:
++@@REAL@@
++- **This test file:** 15 tests OK in both modes, for each new family alone, as
++  its workflow step runs it (@@T_ALONE@@), for all five families (@@T_ALL@@), and
++  under the full suite's discovery.
++- **RED control:** the same tests, with `CHECK_MODE_SOURCE_ROOT` set to this
++  branch's base `6fbdbba3`, whose two wrappers are unchanged. In each mode:
++
++  | Test | theorem-A | torus |
++  |---|---|---|
++  | crashes | 4 | 10 |
++  | silent exits | 4 | 10 |
++  | wrong reasons | 4 | 10 |
++  | wrong mutant label | 1 | — |
++  | baseline faults (stderr, wrong value, missing key, malformed) | 8 | 8 |
++  | JSON faults (stderr, duplicate, NaN, trailing, extra, missing, malformed) | 7 | — |
++  | stderr-channel faults (stdout, stderr) | — | 4 |
++  | rebound sources (checker; and a loaded file) | 1 | 2 |
++  | **false acceptances** | **29** | **44** |
++
++  The wrong exit statuses were already rejected there. For torus, whose
++  mutants run at once, those four subtests fail there only on the new
++  requirement that the error name the faulty child. The trigger, step and
++  import tests fail there too (nine subtests per family), as expected. The
++  inventory test passes there, because the old wrappers ran the same schedule.
++- **Full suite, normal mode:** @@SUITE@@
++
++## Limits
++
++- The local interpreter is 3.11.15, not the hosted 3.11.16. The hosted run is the
++  qualifying execution.
++- The synthetic fixture uses a one-entry pin list and a minimal manifest. The real
++  pins and packet copies run only in the real hosted jobs.
++- The torus mutants share one measured reason (above). The theorem-A mutants are
++  checked in normal mode only, as the wrapper ran them.
++- This is batch 3 of seven. `c8-lifetime-difference-constant` and
++  `c8-theorem-a-constants-d3` keep their own stages.
+diff --git a/tests/test_check_mode_workflows.py b/tests/test_check_mode_workflows.py
+index ee3cd5c..560f3c9 100644
+--- a/tests/test_check_mode_workflows.py
++++ b/tests/test_check_mode_workflows.py
+@@ -28,6 +28,8 @@ WORKFLOWS = {
+     'c8-cap-failure-coefficient-dims': 'c8-cap-failure-coefficient-dims.yml',
+     'c8-normalizer-floor-planar': 'c8-normalizer-floor-planar.yml',
+     'c8-cap-failure-coefficient-planar': 'c8-cap-failure-coefficient-planar.yml',
++    'c8-theorem-a-constants-planar': 'c8-theorem-a-constants-planar.yml',
++    'c8-torus-vanishing-remainder': 'c8-torus-vanishing-remainder.yml',
+ }
+ ACTIVE = {k: v for k, v in CONTRACTS['families'].items()
+           if not os.environ.get('CHECK_MODE_TEST_FAMILY') or k == os.environ['CHECK_MODE_TEST_FAMILY']}
+@@ -38,14 +40,18 @@ ORDERS = {
+     'c8-cap-failure-coefficient-dims': ('no-y-tail', 'r3-one', 'no-bp', 'frob-omega-off'),
+     'c8-normalizer-floor-planar': ('swap-minmax', 'drop-torus-error', 'sign-saddle'),
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
++    'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
++    'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
+ }
+-# Extra checker arguments each original wrapper passed, for the baseline and
+-# for each mutant. A pooled wrapper ran both baselines first and then its
+-# mutants concurrently, so the mutants may start in any order.
+-EXTRA = {'c8-cap-failure-coefficient-planar': (['--procs', '2'], ['--procs', '1'])}
+-POOLED = {'c8-cap-failure-coefficient-planar'}
+ MODES = ('normal', 'optimized')
+-VERIFY = '      - name: Verify manifest and main-resident pins'
++FLAGS = {'normal': '-B -S', 'optimized': '-B -O -S'}
++# The torus wrapper ran one interpreter mode per matrix job, from FLAGS, and its
++# checker rejects with one stderr line and nothing on stdout.
++PER_JOB = {'c8-torus-vanishing-remainder'}
++STDERR = {'c8-torus-vanishing-remainder'}
++# The packet files each checker loads besides itself.
++LOADED = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++VERIFY = '      - name: Verify manifest'
+ STEP = (
+     '      - name: Check trigger coverage and the complete shell rejection contract in both modes\n'
+     '        env:\n'
+@@ -57,6 +63,44 @@ STEP = (
+ )
+ 
+ 
++def groups(family, job=None):
++    """One job's children, as each original wrapper started them.
++
++    A child is (label, mode, checker arguments). The children of one group may
++    start in any order, because the wrapper ran them concurrently; a group
++    starts only after the previous one. A per-job family's job is its mode.
++    """
++    labels = ORDERS[family]
++    if family == 'c8-cap-failure-coefficient-planar':
++        return ([[('baseline', m, ['--check', '--procs', '2'])] for m in MODES]
++                + [[(x, m, ['--check', '--procs', '1', '--mutant', x]) for m in MODES for x in labels]])
++    if family == 'c8-theorem-a-constants-planar':
++        return ([[('baseline', 'normal', ['--check-full', '--procs', '2'])],
++                 [('baseline', 'optimized', ['--check', '--procs', '2'])]]
++                + [[(x, 'normal', ['--check', '--procs', '2', '--mutant', x])] for x in labels])
++    if family == 'c8-torus-vanishing-remainder':
++        return [[('baseline', job, ['--check'])], [(x, job, ['--mutant', x]) for x in labels]]
++    return [[(x, m, ['--check'] if x == 'baseline' else ['--check', '--mutant', x])]
++            for m in MODES for x in ('baseline', *labels)]
++
++
++def jobs(family):
++    return list(MODES) if family in PER_JOB else [None]
++
++
++def runs(family):
++    """Every child of every job, as (label, mode)."""
++    return [(x, m) for job in jobs(family) for group in groups(family, job) for x, m, _ in group]
++
++
++def mutant_runs(family):
++    return [(x, m) for x, m in runs(family) if x != 'baseline']
++
++
++def concurrent(family):
++    return any(len(group) > 1 for job in jobs(family) for group in groups(family, job))
++
++
+ def digest(data):
+     return hashlib.sha256(data).hexdigest()
+ 
+@@ -85,22 +129,20 @@ def verification_shell(text):
+ 
+ CHILD = r'''
+ import json, os, sys
+-baseline = BASELINE
++baselines = BASELINES
+ reports = REPORTS
+-extra_baseline, extra_mutant = EXTRA_ARGS
+-args = sys.argv[1:]
+-if args == ['--check', *extra_baseline]:
+-    label = 'baseline'
+-elif len(args) == len(extra_mutant) + 3 and args[:-2] == ['--check', *extra_mutant] and args[-2] == '--mutant':
+-    label = args[-1]
+-else:
++expected = EXPECTED
++stderr_rejections = STDERR_REJECTIONS
++mode = 'optimized' if sys.flags.optimize else 'normal'
++label = expected.get(mode, {}).get(tuple(sys.argv[1:]))
++if label is None:
+     sys.stderr.write('unexpected arguments\n')
+     sys.exit(3)
+-mode = 'optimized' if sys.flags.optimize else 'normal'
+ with open(os.environ['CHECK_MODE_TRACE'], 'a') as f:
+     f.write(json.dumps([label, mode, os.getcwd()]) + '\n')
+-value, rc = (baseline, 0) if label == 'baseline' else (reports[label], 1)
+-output = json.dumps(value) + '\n'
++value, rc = (baselines[mode], 0) if label == 'baseline' else (reports[label], 1)
++on_stderr = label != 'baseline' and stderr_rejections
++output, errors = ('', value) if on_stderr else (json.dumps(value) + '\n', '')
+ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_MODE') == mode:
+     kind = os.environ.get('CHECK_MODE_FAULT', '')
+     if kind == 'crash':
+@@ -108,11 +150,16 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'silent':
+         sys.exit(rc)
+     if kind == 'stderr':
+-        sys.stderr.write('unexpected diagnostic\n')
++        errors += 'unexpected diagnostic\n'
++    if kind == 'stdout':
++        output += 'unexpected output\n'
+     if kind == 'wrong-exit':
+         rc = 0 if label != 'baseline' else 1
+     if kind == 'wrong-reason':
+-        output = json.dumps(dict(value, reason='unrelated check failed')) + '\n'
++        if on_stderr:
++            errors = 'FAIL: unrelated check failed\n'
++        else:
++            output = json.dumps(dict(value, reason='unrelated check failed')) + '\n'
+     if kind == 'wrong-label':
+         output = json.dumps(dict(value, mutant='another-mutant')) + '\n'
+     if kind == 'wrong-value':
+@@ -133,6 +180,7 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'malformed':
+         output = 'not JSON\n'
+ sys.stdout.write(output)
++sys.stderr.write(errors)
+ sys.exit(rc)
+ '''
+ 
+@@ -141,7 +189,9 @@ class CheckModeWorkflowTests(unittest.TestCase):
+     maxDiff = None
+ 
+     def case(self, family, label='baseline', mode='normal', fault='', tamper=None):
+-        with tempfile.TemporaryDirectory(prefix='check-mode-test-') as td:
++        # A wrapper that raises while concurrent children still run (as the old
++        # torus wrapper did) can leave them writing here during the cleanup.
++        with tempfile.TemporaryDirectory(prefix='check-mode-test-', ignore_cleanup_errors=True) as td:
+             outside = Path(td)
+             repo = outside / 'repo'
+             repo.mkdir()
+@@ -150,10 +200,27 @@ class CheckModeWorkflowTests(unittest.TestCase):
+             entry = contract['families'][family]
+             directory = repo / entry['directory']
+             directory.mkdir(parents=True)
+-            script = (CHILD.replace('BASELINE', repr(entry['baseline'])).replace('REPORTS', repr(entry['mutants']))
+-                      .replace('EXTRA_ARGS', repr(EXTRA.get(family, ([], [])))))
++            baselines = entry['baselines'] if 'baselines' in entry else {m: entry['baseline'] for m in MODES}
++            expected = {}
++            for job in jobs(family):
++                for group in groups(family, job):
++                    for x, m, arguments in group:
++                        expected.setdefault(m, {})[tuple(arguments)] = x
++            script = (CHILD.replace('BASELINES', repr(baselines)).replace('REPORTS', repr(entry['mutants']))
++                      .replace('EXPECTED', repr(expected)).replace('STDERR_REJECTIONS', repr(family in STDERR)))
+             data = script.encode()
+-            (directory / entry['script']).write_bytes(data)
++            loaded = {name: ('# synthetic %s; no scientific authority\n' % name).encode()
++                      for name in LOADED.get(family, ())}
++            # A rebound source changes with its manifest row, as a pull request
++            # would change it, but keeps its characterized reference identity.
++            written = dict(loaded, **{entry['script']: data})
++            if tamper == 'rebound':
++                written[entry['script']] = data + b'# rebound without a new characterization\n'
++            if tamper == 'rebound-loaded':
++                name = LOADED[family][0]
++                written[name] = loaded[name] + b'# rebound without a new characterization\n'
++            for name, content in written.items():
++                (directory / name).write_bytes(content)
+             results = (ROOT / entry['directory'] / 'RESULTS.json').read_bytes()
+             (directory / 'RESULTS.json').write_bytes(results)
+             upstream = b'synthetic upstream; no scientific authority\n'
+@@ -161,18 +228,24 @@ class CheckModeWorkflowTests(unittest.TestCase):
+             pin = dict(row('upstream.txt', upstream), current_required=True)
+             source_map = json.dumps({'sources': [pin]}).encode()
+             (directory / 'SOURCE_MAP.json').write_bytes(source_map)
+-            files = [row(entry['script'], data), row('RESULTS.json', results), row('SOURCE_MAP.json', source_map)]
++            files = ([row(name, content) for name, content in sorted(written.items())]
++                     + [row('RESULTS.json', results), row('SOURCE_MAP.json', source_map)])
+             (directory / 'SOURCE_FILES.json').write_text(json.dumps({'files': files}))
+             (repo / 'tools').mkdir()
+             for helper in ('check_mode_replay.py', 'legacy_json_replay.py'):
+                 if (SOURCE / 'tools' / helper).exists():
+                     shutil.copyfile(SOURCE / 'tools' / helper, repo / 'tools' / helper)
+             entry['script_git_blob'] = blob(data)
+-            # Only the checker identity is re-bound for this synthetic fixture.
++            if family in LOADED:
++                entry['loaded_git_blobs'] = {name: blob(content) for name, content in loaded.items()}
++            # Only the checker identities are re-bound for this synthetic fixture.
+             (repo / 'tools/check_mode_contracts.json').write_text(json.dumps(contract))
+             env = os.environ.copy()
+             env.update({'CHECK_MODE_TRACE': str(trace), 'CHECK_MODE_TARGET': label, 'CHECK_MODE_MODE': mode,
+                         'CHECK_MODE_FAULT': fault, 'PYTHONDONTWRITEBYTECODE': '1'})
++            if family in PER_JOB:
++                # A matrix job: the mode under test is the job's.
++                env['FLAGS'] = FLAGS[mode]
+             for cmd in (['git', 'init', '-q'], ['git', 'add', '.'],
+                         ['git', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid',
+                          '-c', 'commit.gpgsign=false', 'commit', '-qm', 'synthetic fixture']):
+@@ -189,8 +262,8 @@ class CheckModeWorkflowTests(unittest.TestCase):
+     def rejected(self, family, label, mode, fault):
+         result, events, _ = self.case(family, label, mode, fault)
+         self.assertNotEqual(result.returncode, 0, (family, label, mode, fault, 'false acceptance', events))
+-        if family in POOLED:
+-            # Two mutants may run at once, so the faulty child need not have started last.
++        if concurrent(family):
++            # Children may run at once, so the faulty child need not have started last.
+             self.assertIn([label, mode], [event[:2] for event in events], (family, label, mode, fault, events))
+             self.assertIn('check-mode protocol mismatch: %s/%s/%s' % (family, mode, label),
+                           result.stderr.decode(errors='replace'))
+@@ -200,74 +273,102 @@ class CheckModeWorkflowTests(unittest.TestCase):
+ 
+     def test_reference_custody(self):
+         canonical = json.dumps(CONTRACTS['families'], sort_keys=True, separators=(',', ':')).encode()
+-        self.assertEqual(digest(canonical), '75133e1782b3dd8d61dc76c40478ab5886ea6ecf7f97642ad49c2d0e596809a8')
++        self.assertEqual(digest(canonical), '30f3b2f43f18082b0b60509747e1525fb84afb1aa8e0db0ac8b9b1818697cd1a')
+         for family, entry in ACTIVE.items():
+             with self.subTest(family=family):
+                 packet = ROOT / entry['directory']
+                 self.assertEqual(blob((packet / entry['script']).read_bytes()), entry['script_git_blob'])
+                 results = (packet / 'RESULTS.json').read_bytes()
+                 self.assertEqual((len(results), digest(results)), (entry['results_bytes'], entry['results_sha256']))
++                # Every other Python file in the packet is a loaded source, bound like the checker.
++                loaded = entry.get('loaded_git_blobs', {})
++                self.assertEqual(sorted(loaded), sorted(LOADED.get(family, ())))
++                self.assertEqual(sorted(p.name for p in packet.glob('*.py') if p.name != entry['script']),
++                                 sorted(loaded))
++                for name, git_blob in loaded.items():
++                    self.assertEqual(blob((packet / name).read_bytes()), git_blob)
+ 
+     def test_valid_complete_inventory(self):
+         for family in ACTIVE:
+-            with self.subTest(family=family):
+-                result, events, packet = self.case(family)
+-                self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace'))
+-                if family in POOLED:
+-                    self.assertEqual(events[:2], [['baseline', mode, packet] for mode in MODES])
+-                    self.assertEqual(sorted(events[2:]),
+-                                     sorted([label, mode, packet] for mode in MODES for label in ORDERS[family]))
+-                else:
+-                    labels = ['baseline', *ORDERS[family]]
+-                    self.assertEqual(events, [[label, mode, packet] for mode in MODES for label in labels])
++            for job in jobs(family):
++                with self.subTest(family=family, job=job):
++                    result, events, packet = self.case(family, mode=job or 'normal')
++                    self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace'))
++                    start = 0
++                    for group in groups(family, job):
++                        self.assertEqual(sorted(events[start:start + len(group)]),
++                                         sorted([x, m, packet] for x, m, _ in group))
++                        start += len(group)
++                    self.assertEqual(len(events), start)
+ 
+     def test_formatting_alone_is_accepted(self):
+         for family in ACTIVE:
+-            for label in ('baseline', ORDERS[family][0]):
+-                with self.subTest(family=family, label=label):
+-                    result, _, _ = self.case(family, label, 'optimized', 'format')
++            label = ORDERS[family][0]
++            cases = [('baseline', 'optimized')]
++            if family not in STDERR:
++                cases.append((label, 'optimized' if (label, 'optimized') in runs(family) else 'normal'))
++            for label, mode in cases:
++                with self.subTest(family=family, label=label, mode=mode):
++                    result, _, _ = self.case(family, label, mode, 'format')
+                     self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace'))
+ 
+     def test_crashes_each_mutant_each_mode(self):
+         for family in ACTIVE:
+-            for label in ORDERS[family]:
+-                for mode in MODES:
+-                    with self.subTest(family=family, label=label, mode=mode):
+-                        self.rejected(family, label, mode, 'crash')
++            for label, mode in mutant_runs(family):
++                with self.subTest(family=family, label=label, mode=mode):
++                    self.rejected(family, label, mode, 'crash')
+ 
+     def test_silent_exits_each_mutant_each_mode(self):
+         for family in ACTIVE:
+-            for label in ORDERS[family]:
+-                for mode in MODES:
+-                    with self.subTest(family=family, label=label, mode=mode):
+-                        self.rejected(family, label, mode, 'silent')
++            for label, mode in mutant_runs(family):
++                with self.subTest(family=family, label=label, mode=mode):
++                    self.rejected(family, label, mode, 'silent')
+ 
+     def test_wrong_reasons_each_mutant_each_mode(self):
+         for family in ACTIVE:
+-            for label in ORDERS[family]:
+-                for mode in MODES:
+-                    with self.subTest(family=family, label=label, mode=mode):
+-                        self.rejected(family, label, mode, 'wrong-reason')
++            for label, mode in mutant_runs(family):
++                with self.subTest(family=family, label=label, mode=mode):
++                    self.rejected(family, label, mode, 'wrong-reason')
+ 
+     def test_wrong_mutant_label(self):
++        # A stderr rejection names no label, so only JSON verdicts can carry a wrong one.
+         for family in ACTIVE:
+-            for mode in MODES:
+-                with self.subTest(family=family, mode=mode):
+-                    self.rejected(family, ORDERS[family][0], mode, 'wrong-label')
++            if family in STDERR:
++                continue
++            for label, mode in mutant_runs(family):
++                if label == ORDERS[family][0]:
++                    with self.subTest(family=family, mode=mode):
++                        self.rejected(family, label, mode, 'wrong-label')
+ 
+     def test_baseline_contract(self):
+         for family in ACTIVE:
+-            for fault in ('stderr', 'wrong-value', 'wrong-exit', 'missing', 'malformed'):
+-                for mode in MODES:
++            for label, mode in runs(family):
++                if label != 'baseline':
++                    continue
++                for fault in ('stderr', 'wrong-value', 'wrong-exit', 'missing', 'malformed'):
+                     with self.subTest(family=family, fault=fault, mode=mode):
+-                        self.rejected(family, 'baseline', mode, fault)
++                        self.rejected(family, label, mode, fault)
+ 
+     def test_json_contract(self):
+         for family in ACTIVE:
+-            label = ORDERS[family][0]
+-            for fault in ('stderr', 'wrong-exit', 'duplicate', 'nonfinite', 'trailing', 'extra', 'missing',
+-                          'malformed'):
+-                for mode in MODES:
++            if family in STDERR:
++                continue
++            for label, mode in mutant_runs(family):
++                if label != ORDERS[family][0]:
++                    continue
++                for fault in ('stderr', 'wrong-exit', 'duplicate', 'nonfinite', 'trailing', 'extra', 'missing',
++                              'malformed'):
++                    with self.subTest(family=family, fault=fault, mode=mode):
++                        self.rejected(family, label, mode, fault)
++
++    def test_stderr_contract(self):
++        for family in ACTIVE:
++            if family not in STDERR:
++                continue
++            for label, mode in mutant_runs(family):
++                if label != ORDERS[family][0]:
++                    continue
++                for fault in ('stdout', 'stderr', 'wrong-exit'):
+                     with self.subTest(family=family, fault=fault, mode=mode):
+                         self.rejected(family, label, mode, fault)
+ 
+@@ -279,12 +380,25 @@ class CheckModeWorkflowTests(unittest.TestCase):
+                     self.assertNotEqual(result.returncode, 0)
+                     self.assertEqual(events, [])
+ 
++    def test_rebound_sources_need_a_new_characterization(self):
++        # The manifest moves with the changed source, so only the reference identities can stop it.
++        for family in ACTIVE:
++            for tamper in ('rebound', *(('rebound-loaded',) if family in LOADED else ())):
++                with self.subTest(family=family, tamper=tamper):
++                    result, events, _ = self.case(family, tamper=tamper)
++                    self.assertNotEqual(result.returncode, 0, (family, tamper, 'false acceptance', events))
++                    self.assertEqual(events, [])
++                    self.assertIn('checker differs from the characterized source',
++                                  result.stderr.decode(errors='replace'))
++
+ 
+ class CheckModeTriggerTests(unittest.TestCase):
+     def test_paths_cover_the_helper_its_inputs_and_these_tests(self):
+         for family, entry in ACTIVE.items():
+             paths = trigger_paths(workflow_text(family))
+-            for path in (entry['directory'] + '/' + entry['script'], '.github/workflows/' + WORKFLOWS[family],
++            loaded = [entry['directory'] + '/' + name for name in sorted(entry.get('loaded_git_blobs', {}))]
++            for path in (entry['directory'] + '/' + entry['script'], *loaded,
++                         '.github/workflows/' + WORKFLOWS[family],
+                          'tools/check_mode_replay.py', 'tools/check_mode_contracts.json',
+                          'tools/legacy_json_replay.py', 'tools/__init__.py', 'tools.py', SELF,
+                          'tests/test_legacy_workflow_triggers.py'):
+@@ -310,7 +424,9 @@ class CheckModeTriggerTests(unittest.TestCase):
+                 self.assertEqual(lines, ['from tools.check_mode_replay import replay'])
+                 self.assertEqual(text.count("replay('%s', root" % family), 1)
+                 # No exit-status-only check of a child remains beside the replay.
+-                self.assertNotIn('.returncode', verification_shell(text))
++                shell = verification_shell(text)
++                self.assertNotIn('.returncode', shell)
++                self.assertNotIn('.wait(', shell)
+ 
+ 
+ if __name__ == '__main__':
+diff --git a/tools/check_mode_contracts.json b/tools/check_mode_contracts.json
+index 04c769a..e16c68c 100644
+--- a/tools/check_mode_contracts.json
++++ b/tools/check_mode_contracts.json
+@@ -1 +1 @@
+-{"families":{"c8-cap-failure-coefficient-dims":{"baseline":{"cG3_0":{"1":["2803036.717892","2803338.074669"],"1/2":["358497.545122","619756.489477"],"2":["22424320.655069","22424320.655072"],"3/2":["9460258.333462","9460258.334033"],"3/4":["1182683.064519","1201290.889423"]},"check":"ok","mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_dims_20261001","mutants":{"frob-omega-off":{"check":"FAIL","mutant":"frob-omega-off","reason":"certified values differ from RESULTS.json"},"no-bp":{"check":"FAIL","mutant":"no-bp","reason":"certified values differ from RESULTS.json"},"no-y-tail":{"check":"FAIL","mutant":"no-y-tail","reason":"certified values differ from RESULTS.json"},"r3-one":{"check":"FAIL","mutant":"r3-one","reason":"certified values differ from RESULTS.json"}},"results_bytes":6837,"results_sha256":"1406d5138ac3d33bcb0358f6a3005a67e3a4a2dbfc2c43bc3ac2593667550608","script":"cap_coefficient_dims.py","script_git_blob":"af7e9d103f962f613c57f5e695f030165e348beb"},"c8-cap-failure-coefficient-planar":{"baseline":{"c_G(0,2)":["5324360.4426","5324360.4427"],"c_G(6/5,1/6)":["35736.7352","35736.8785"],"check":"ok","k_values":6,"mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_planar_20260930","mutants":{"no-third-jet":{"check":"FAIL","mutant":"no-third-jet","reason":"certified record for k = 1/6 differs from RESULTS.json"},"sign-lo":{"check":"FAIL","mutant":"sign-lo","reason":"certified record for k = 1/6 differs from RESULTS.json"},"variance-yyy":{"check":"FAIL","mutant":"variance-yyy","reason":"certified record for k = 1/6 differs from RESULTS.json"}},"results_bytes":6427,"results_sha256":"d3de1a20793fbbcbb051b5740af45628627b905827fe2e0d4758ac9e37c36088","script":"cap_coefficient.py","script_git_blob":"cfdaa4d7ceaaf707ed7c066570215862879cce65"},"c8-normalizer-floor-planar":{"baseline":{"check":"ok","mutant":null,"z_star_combined":"3.5044542729","z_star_high":"3.5044542729","z_star_low":"7.0499921959"},"directory":"frontiers/c8_normalizer_floor_planar_20260930","mutants":{"drop-torus-error":{"check":"FAIL","mutant":"drop-torus-error","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"sign-saddle":{"check":"FAIL","mutant":"sign-saddle","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"swap-minmax":{"check":"FAIL","mutant":"swap-minmax","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"}},"results_bytes":1874499,"results_sha256":"a2c4d6890cc9ab0984605f78ccf89b38d93b9515b8d70a6d5e5c3d417b4b3882","script":"floor.py","script_git_blob":"29f1b512062fda6b3565429e9fe53e91b9b3c2f8"}},"provenance":"Native unchanged check-mode verdicts of the C8 checkers, measured for Math-#322 (C8-WRAPPERS-REPAIR-C8-20261026) in both modes from each packet directory. This file is an engineering reference, not mathematical acceptance.","schema":1,"source_cut":"f0f90857dcf7586e5195fcb05c0058657fba4003"}
++{"families":{"c8-cap-failure-coefficient-dims":{"baseline":{"cG3_0":{"1":["2803036.717892","2803338.074669"],"1/2":["358497.545122","619756.489477"],"2":["22424320.655069","22424320.655072"],"3/2":["9460258.333462","9460258.334033"],"3/4":["1182683.064519","1201290.889423"]},"check":"ok","mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_dims_20261001","mutants":{"frob-omega-off":{"check":"FAIL","mutant":"frob-omega-off","reason":"certified values differ from RESULTS.json"},"no-bp":{"check":"FAIL","mutant":"no-bp","reason":"certified values differ from RESULTS.json"},"no-y-tail":{"check":"FAIL","mutant":"no-y-tail","reason":"certified values differ from RESULTS.json"},"r3-one":{"check":"FAIL","mutant":"r3-one","reason":"certified values differ from RESULTS.json"}},"results_bytes":6837,"results_sha256":"1406d5138ac3d33bcb0358f6a3005a67e3a4a2dbfc2c43bc3ac2593667550608","script":"cap_coefficient_dims.py","script_git_blob":"af7e9d103f962f613c57f5e695f030165e348beb"},"c8-cap-failure-coefficient-planar":{"baseline":{"c_G(0,2)":["5324360.4426","5324360.4427"],"c_G(6/5,1/6)":["35736.7352","35736.8785"],"check":"ok","k_values":6,"mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_planar_20260930","mutants":{"no-third-jet":{"check":"FAIL","mutant":"no-third-jet","reason":"certified record for k = 1/6 differs from RESULTS.json"},"sign-lo":{"check":"FAIL","mutant":"sign-lo","reason":"certified record for k = 1/6 differs from RESULTS.json"},"variance-yyy":{"check":"FAIL","mutant":"variance-yyy","reason":"certified record for k = 1/6 differs from RESULTS.json"}},"results_bytes":6427,"results_sha256":"d3de1a20793fbbcbb051b5740af45628627b905827fe2e0d4758ac9e37c36088","script":"cap_coefficient.py","script_git_blob":"cfdaa4d7ceaaf707ed7c066570215862879cce65"},"c8-normalizer-floor-planar":{"baseline":{"check":"ok","mutant":null,"z_star_combined":"3.5044542729","z_star_high":"3.5044542729","z_star_low":"7.0499921959"},"directory":"frontiers/c8_normalizer_floor_planar_20260930","mutants":{"drop-torus-error":{"check":"FAIL","mutant":"drop-torus-error","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"sign-saddle":{"check":"FAIL","mutant":"sign-saddle","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"swap-minmax":{"check":"FAIL","mutant":"swap-minmax","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"}},"results_bytes":1874499,"results_sha256":"a2c4d6890cc9ab0984605f78ccf89b38d93b9515b8d70a6d5e5c3d417b4b3882","script":"floor.py","script_git_blob":"29f1b512062fda6b3565429e9fe53e91b9b3c2f8"},"c8-theorem-a-constants-planar":{"baselines":{"normal":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":153,"check":"ok","mutant":null},"optimized":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":11,"check":"ok","mutant":null}},"directory":"frontiers/c8_theorem_a_constants_planar_20260930","mutants":{"cap-half":{"check":"FAIL","mutant":"cap-half","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-delta":{"check":"FAIL","mutant":"no-delta","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-om-term":{"check":"FAIL","mutant":"no-om-term","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-zfloor-correction":{"check":"FAIL","mutant":"no-zfloor-correction","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"}},"results_bytes":150257,"results_sha256":"b4a77fd298297f6dfe077748d32b66f1fd209130443d2eaceea4463ef063c0fe","script":"theorem_a.py","script_git_blob":"ae279e9015483a666ece8deb2544cbc458a5e270"},"c8-torus-vanishing-remainder":{"baselines":{"normal":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"},"optimized":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"}},"directory":"frontiers/c8_torus_vanishing_remainder_20261001","loaded_git_blobs":{"engine_e2.py":"ae279e9015483a666ece8deb2544cbc458a5e270","engine_e3.py":"267890232119b35206be7a8cc74d730de9a68644","theorem_b.py":"36b39dbd33ef2e6d277ce1c3820b3f0d6659d779"},"mutants":{"coupling-half":"FAIL: replay differs from RESULTS.json\n","exp-radius":"FAIL: replay differs from RESULTS.json\n","no-lin":"FAIL: replay differs from RESULTS.json\n","no-om-term":"FAIL: replay differs from RESULTS.json\n","torus-const-only":"FAIL: replay differs from RESULTS.json\n"},"results_bytes":405837,"results_sha256":"395171fac7e6656c8fa4e6ef518633f99e0921d2d83bf7317608fe0cd73983a6","script":"theorem_v.py","script_git_blob":"5fd6b75df48940f293f0c112c1005418dcd75bde"}},"provenance":"Native unchanged check-mode verdicts of the C8 checkers, measured for Math-#322 (C8-WRAPPERS-REPAIR-C8-20261026) in both modes from each packet directory. This file is an engineering reference, not mathematical acceptance.","schema":1,"source_cut":"f0f90857dcf7586e5195fcb05c0058657fba4003"}
+diff --git a/tools/check_mode_replay.py b/tools/check_mode_replay.py
+index 0b0ccf1..fd4385d 100644
+--- a/tools/check_mode_replay.py
++++ b/tools/check_mode_replay.py
+@@ -2,19 +2,24 @@
+ """Authenticate the C8 check-mode checkers' acceptance and rejection verdicts.
+ 
+ Called AFTER each workflow's unchanged source and pin guards. Each checker runs
+-from its packet directory as `<script> --check [EXTRA...] [--mutant LABEL]` and
+-prints one JSON verdict: {"check": "ok", ...} with exit 0, or, from its
+-require(), {"check": "FAIL", "reason": ..., "mutant": LABEL} with exit 1. EXTRA
+-is empty except for the families in POOLED, whose wrappers passed it. The
+-reference file holds complete verdicts measured from the unchanged checkers,
+-never outputs learned from the invocation being tested. Parsing and comparison
+-are those of tools/legacy_json_replay.py: formatting may differ, but every key,
+-type, value and list must match. This is an engineering protocol, not a sandbox
+-or mathematical acceptance test.
++from its packet directory with the arguments its original wrapper passed, and
++reports one verdict. Most print one JSON verdict on stdout: {"check": "ok", ...}
++with exit 0, or, from their require(), {"check": "FAIL", "reason": ...,
++"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS print a JSON
++success line whose "check" is "passed", and reject with exit 1, nothing on
++stdout and the one line "FAIL: <reason>" on stderr. The reference file holds
++complete verdicts measured from the unchanged checkers, never outputs learned
++from the invocation being tested, with the identities of each checker, the
++packet files it loads (LOADS) and its RESULTS.json. Parsing and comparison are
++those of tools/legacy_json_replay.py: formatting may differ, but every key,
++type, value and list must match, and a stderr rejection must match byte for
++byte. This is an engineering protocol, not a sandbox or mathematical acceptance
++test.
+ """
+ from __future__ import annotations
+ 
+ import concurrent.futures
++import functools
+ import hashlib
+ import json
+ from pathlib import Path
+@@ -29,19 +34,69 @@ INVENTORIES = {
+     'c8-cap-failure-coefficient-dims': ('no-y-tail', 'r3-one', 'no-bp', 'frob-omega-off'),
+     'c8-normalizer-floor-planar': ('swap-minmax', 'drop-torus-error', 'sign-saddle'),
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
++    'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
++    'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
+ }
+ MODES = (('normal', ('-B', '-S')), ('optimized', ('-B', '-O', '-S')))
+ # Families whose original wrapper passed extra checker arguments and ran its
+ # mutants concurrently. As there, both baselines run first, one at a time, and
+ # then every mutant of both modes runs on `workers` threads; verdicts are read
+-# in submission order. Every other family runs each mode's inventory in turn.
++# in submission order. Every other family not in PLANNED runs each mode's
++# inventory in turn.
+ POOLED = {
+     'c8-cap-failure-coefficient-planar': {'baseline': ('--procs', '2'), 'mutant': ('--procs', '1'), 'workers': 2},
+ }
++# Families whose original wrapper ran another child list, restated by _plan()
++# with each child's arguments and timeout. Their reference file holds one
++# baseline verdict per mode. PER_JOB_MODE families ran one interpreter mode per
++# matrix job; replay() then takes that job's flags.
++PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder')
++PER_JOB_MODE = {'c8-torus-vanishing-remainder'}
++STDERR_REJECTIONS = {'c8-torus-vanishing-remainder'}
++# Packet files a checker loads besides itself. The reference file binds them
++# like the checker, so a change to any of them needs a new characterization.
++LOADS = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++
++
++def _plan(family: str,
++          modes: tuple[str, ...]) -> list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]]:
++    """Return the stages (workers, children); a child is (mode, label, arguments, timeout)."""
++    labels = INVENTORIES[family]
++    if family == 'c8-theorem-a-constants-planar':
++        # One at a time: every band with --check-full in normal mode, the
++        # sampled --check in optimized mode, then each mutant in normal mode only.
++        return [(1, [('normal', None, ('--check-full', '--procs', '2'), 3600),
++                     ('optimized', None, ('--check', '--procs', '2'), 3600),
++                     *[('normal', m, ('--check', '--procs', '2', '--mutant', m), 1800) for m in labels]])]
++    if family == 'c8-torus-vanishing-remainder':
++        # In each job: the baseline, then all five mutants at once, which take
++        # no --check.
++        stages: list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]] = []
++        for mode in modes:
++            stages += [(1, [(mode, None, ('--check',), 3600)]),
++                       (len(labels), [(mode, m, ('--mutant', m), 3600) for m in labels])]
++        return stages
++    raise ProtocolError('unknown checker family')
++
++
++def _accepts(family: str, report: Any) -> bool:
++    if family in STDERR_REJECTIONS:
++        return type(report) is dict and report.get('check') == 'passed'
++    return type(report) is dict and report.get('check') == 'ok' and report.get('mutant', '') is None
++
++
++def _rejects(family: str, label: str, report: Any) -> bool:
++    if family in STDERR_REJECTIONS:
++        return (type(report) is str and report.startswith('FAIL: ') and report.endswith('\n')
++                and report.count('\n') == 1)
++    return (type(report) is dict and set(report) == {'check', 'reason', 'mutant'}
++            and report['check'] == 'FAIL' and report['mutant'] == label and type(report['reason']) is str)
+ 
+ 
+ def _contract(family: str) -> dict[str, Any]:
+-    if family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES):
++    if (family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES)
++            or not set(PLANNED) <= set(INVENTORIES) or set(POOLED) & set(PLANNED)
++            or not set(LOADS) <= set(INVENTORIES)):
+         raise ProtocolError('unknown checker family')
+     data = strict_json(Path(__file__).with_name('check_mode_contracts.json').read_bytes())
+     if (type(data) is not dict or type(data.get('schema')) is not int
+@@ -49,8 +104,10 @@ def _contract(family: str) -> dict[str, Any]:
+             or set(data['families']) != set(INVENTORIES)):
+         raise ProtocolError('invalid reference inventory')
+     entry = data['families'][family]
+-    keys = {'directory', 'script', 'script_git_blob', 'results_sha256',
+-            'results_bytes', 'baseline', 'mutants'}
++    keys = {'directory', 'script', 'script_git_blob', 'results_sha256', 'results_bytes', 'mutants',
++            'baselines' if family in PLANNED else 'baseline'}
++    if family in LOADS:
++        keys.add('loaded_git_blobs')
+     if type(entry) is not dict or set(entry) != keys:
+         raise ProtocolError('invalid family reference schema')
+     if (type(entry['script']) is not str
+@@ -61,57 +118,91 @@ def _contract(family: str) -> dict[str, Any]:
+     for key, size in [('script_git_blob', 40), ('results_sha256', 64)]:
+         if type(entry[key]) is not str or not re.fullmatch('[0-9a-f]{%d}' % size, entry[key]):
+             raise ProtocolError('invalid reference digest')
+-    baseline = entry['baseline']
+-    if type(baseline) is not dict or baseline.get('check') != 'ok' or baseline.get('mutant', '') is not None:
++    if family in LOADS:
++        loaded = entry['loaded_git_blobs']
++        if (type(loaded) is not dict or set(loaded) != set(LOADS[family])
++                or not all(Path(name).name == name for name in loaded)):
++            raise ProtocolError('invalid script or results metadata')
++        if not all(type(value) is str and re.fullmatch('[0-9a-f]{40}', value) for value in loaded.values()):
++            raise ProtocolError('invalid reference digest')
++    if family in PLANNED:
++        baselines = entry['baselines']
++        if (type(baselines) is not dict or set(baselines) != {name for name, _ in MODES}
++                or not all(_accepts(family, report) for report in baselines.values())):
++            raise ProtocolError('reference is not an acceptance verdict')
++    elif not _accepts(family, entry['baseline']):
+         raise ProtocolError('reference is not an acceptance verdict')
+     if (type(entry['mutants']) is not dict
+             or set(entry['mutants']) != set(INVENTORIES[family])):
+         raise ProtocolError('missing, extra, or repeated mutant reference')
+     for label, report in entry['mutants'].items():
+-        if (type(report) is not dict or set(report) != {'check', 'reason', 'mutant'}
+-                or report['check'] != 'FAIL' or report['mutant'] != label
+-                or type(report['reason']) is not str):
++        if not _rejects(family, label, report):
+             raise ProtocolError('reference is not a rejection verdict')
+     return entry
+ 
+ 
+-def _child(family: str, entry: dict[str, Any], root: Path, script: Path, mode: str,
+-           flags: tuple[str, ...], label: str | None, extra: tuple[str, ...],
+-           timeout: float) -> dict[str, Any]:
+-    command = [sys.executable, *flags, str(script), '--check', *extra]
+-    if label is not None:
+-        command += ['--mutant', label]
++def _child(family: str, root: Path, script: Path, mode: str, flags: tuple[str, ...], label: str | None,
++           arguments: tuple[str, ...], timeout: float, reference: Any) -> dict[str, Any]:
++    command = [sys.executable, *flags, str(script), *arguments]
+     child = subprocess.run(command, cwd=root, capture_output=True, timeout=timeout)
+     record = {'family': family, 'mode': mode, 'label': label,
+               'returncode': child.returncode,
+               'stdout_bytes': len(child.stdout), 'stderr_bytes': len(child.stderr),
+               'stdout_sha256': hashlib.sha256(child.stdout).hexdigest(),
+               'stderr_sha256': hashlib.sha256(child.stderr).hexdigest()}
+-    if label is None:
+-        status, reference = 0, entry['baseline']
++    if label is not None and family in STDERR_REJECTIONS:
++        ok = child.returncode == 1 and not child.stdout and child.stderr == reference.encode()
+     else:
+-        status, reference = 1, entry['mutants'][label]
+-    ok = child.returncode == status and not child.stderr
+-    if ok:
+-        try:
+-            ok = _same(strict_json(child.stdout), reference)
+-        except ProtocolError:
+-            ok = False
++        ok = child.returncode == (0 if label is None else 1) and not child.stderr
++        if ok:
++            try:
++                ok = _same(strict_json(child.stdout), reference)
++            except ProtocolError:
++                ok = False
+     record['protocol_ok'] = ok
+     return record
+ 
+ 
+-def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str, Any]]:
+-    """Run the complete fixed inventory in both modes, or fail immediately.
++def _stage(workers: int, calls: list[Any], accept: Any) -> None:
++    """Run the calls at most `workers` at a time; read verdicts in submission order."""
++    if workers == 1:
++        for call in calls:
++            accept(call())
++        return
++    with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
++        futures = [pool.submit(call) for call in calls]
++        try:
++            for future in futures:
++                accept(future.result())
++        except BaseException:
++            for future in futures:
++                future.cancel()
++            raise
++
++
++def replay(family: str, root: Path, *, timeout: float | None = None,
++           flags: list[str] | tuple[str, ...] | None = None) -> list[dict[str, Any]]:
++    """Run the complete fixed inventory, or fail immediately.
+ 
+     root is the already source-verified packet directory, and also each child's
+     working directory, as the checkers expect. Timeout/OSError is a failed run,
+     never an intended negative-control receipt. All child inputs stay
+     unchanged; no synthetic output, package rehash, or checker amendment occurs.
+-    A pooled family stops at the first failing verdict too; children already
+-    running finish, and children not yet started are cancelled.
++    A concurrent stage stops at the first failing verdict too; children already
++    running finish, and children not yet started are cancelled. A PLANNED
++    family's timeouts are fixed by its plan; a PER_JOB_MODE family takes its
++    job's interpreter flags and runs that mode only.
+     """
+     entry = _contract(family)
++    if family in PLANNED and timeout is not None:
++        raise ProtocolError('this family plan fixes its own timeouts')
++    job_modes: tuple[str, ...] = ()
++    if family in PER_JOB_MODE:
++        job_modes = tuple(name for name, mode_flags in MODES if flags is not None and tuple(flags) == mode_flags)
++        if len(job_modes) != 1:
++            raise ProtocolError('this family runs one interpreter mode per job')
++    elif flags is not None:
++        raise ProtocolError('this family runs both interpreter modes in one job')
+     root = Path(root).resolve()
+     script = root / entry['script']
+     if script.is_symlink() or not script.is_file():
+@@ -119,11 +210,19 @@ def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str,
+     data = script.read_bytes()
+     if hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest() != entry['script_git_blob']:
+         raise ProtocolError('checker differs from the characterized source')
++    for name, git_blob in sorted(entry.get('loaded_git_blobs', {}).items()):
++        path = root / name
++        if path.is_symlink() or not path.is_file():
++            raise ProtocolError('regular source checker required')
++        loaded = path.read_bytes()
++        if hashlib.sha1(b'blob %d\0' % len(loaded) + loaded).hexdigest() != git_blob:
++            raise ProtocolError('checker differs from the characterized source')
+     results = (root / 'RESULTS.json').read_bytes()
+     if (len(results) != entry['results_bytes']
+             or hashlib.sha256(results).hexdigest() != entry['results_sha256']):
+         raise ProtocolError('RESULTS.json differs from the characterized source')
+     records: list[dict[str, Any]] = []
++    flags_of = dict(MODES)
+ 
+     def accept(record: dict[str, Any]) -> None:
+         print(json.dumps(record, sort_keys=True), flush=True)
+@@ -132,22 +231,27 @@ def replay(family: str, root: Path, *, timeout: float = 1500) -> list[dict[str,
+                                 (family, record['mode'], record['label'] or 'baseline'))
+         records.append(record)
+ 
++    def call(mode: str, label: str | None, arguments: tuple[str, ...], seconds: float) -> Any:
++        if label is not None:
++            reference = entry['mutants'][label]
++        else:
++            reference = entry['baselines'][mode] if family in PLANNED else entry['baseline']
++        return functools.partial(_child, family, root, script, mode, flags_of[mode], label, arguments, seconds,
++                                 reference)
++
++    if family in PLANNED:
++        for workers, children in _plan(family, job_modes):
++            _stage(workers, [call(*child) for child in children], accept)
++        return records
++    seconds = 1500 if timeout is None else timeout
+     pooled = POOLED.get(family)
+     if pooled is None:
+-        for mode, flags in MODES:
+-            for label in [None, *INVENTORIES[family]]:
+-                accept(_child(family, entry, root, script, mode, flags, label, (), timeout))
++        for mode, _ in MODES:
++            _stage(1, [call(mode, None, ('--check',), seconds)]
++                   + [call(mode, m, ('--check', '--mutant', m), seconds) for m in INVENTORIES[family]], accept)
+         return records
+-    for mode, flags in MODES:
+-        accept(_child(family, entry, root, script, mode, flags, None, pooled['baseline'], timeout))
+-    with concurrent.futures.ThreadPoolExecutor(max_workers=pooled['workers']) as pool:
+-        futures = [pool.submit(_child, family, entry, root, script, mode, flags, label, pooled['mutant'], timeout)
+-                   for mode, flags in MODES for label in INVENTORIES[family]]
+-        try:
+-            for future in futures:
+-                accept(future.result())
+-        except BaseException:
+-            for future in futures:
+-                future.cancel()
+-            raise
++    for mode, _ in MODES:
++        _stage(1, [call(mode, None, ('--check', *pooled['baseline']), seconds)], accept)
++    _stage(pooled['workers'], [call(mode, m, ('--check', *pooled['mutant'], '--mutant', m), seconds)
++                               for mode, _ in MODES for m in INVENTORIES[family]], accept)
+     return records
