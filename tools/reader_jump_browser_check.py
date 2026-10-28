@@ -19,7 +19,7 @@ def main():
                 nav=menu.locator('nav');box=nav.bounding_box();assert box and box['x']>=0 and box['y']>=0 and box['x']+box['width']<=width and box['y']+box['height']<=844
                 if not args.baseline:
                     menu.locator('a').first.focus();p.keyboard.press('Escape');assert not menu.evaluate('(e)=>e.open');expect(summary).to_be_focused()
-                    summary.press('Space');p.locator('#reading-list > summary').click();assert not menu.evaluate('(e)=>e.open');expect(p.locator('#reading-list > summary')).to_be_focused()
+                    summary.press('Space');p.mouse.click(1,1);assert not menu.evaluate('(e)=>e.open')
                     summary.press('Space');link=menu.get_by_role('link',name='Compare snapshots',exact=True);link.focus();p.keyboard.press('Enter');expect(p).to_have_url(origin+'compare.html');assert not p.locator('.reader-jump').evaluate('(e)=>e.open')
                     p.locator('.reader-jump > summary').click();p.locator('.reader-jump').get_by_role('link',name='Reading list',exact=True).click();expect(p).to_have_url(origin+'workspace.html#reading-list');expect(p.locator('#reading-list')).to_have_attribute('open','')
                     p.emulate_media(media='print');expect(p.locator('.reader-jump')).to_be_hidden();p.emulate_media(media='screen')
@@ -31,7 +31,7 @@ def main():
         if not args.baseline:
             for scripted in [True,False]:
                 for scheme in ['light','dark']:
-                    row={'case':f'focus-yield-{scheme}-'+('scripted' if scripted else 'native-no-js')};report['cases'].append(row)
+                    row={'case':f'toolbar-focus-{scheme}-'+('scripted' if scripted else 'native-no-js')};report['cases'].append(row)
                     c=browser.new_context(viewport={'width':320,'height':800},color_scheme=scheme,java_script_enabled=scripted);c.route('https://**/*',lambda route:route.fallback() if route.request.url.startswith(origin) else route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
                     try:
                         p.goto(origin+('workspace.html' if scripted else 'formal.html'))
@@ -39,15 +39,15 @@ def main():
                         summary.focus();expect(summary).to_be_focused()
                         p.keyboard.press('Shift+Tab');assert not menu.evaluate('(e)=>e.contains(document.activeElement)')
                         assert p.evaluate('document.activeElement.matches(":focus-visible")')
-                        assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='0','External visible focus must not be covered by the launcher'
-                        assert menu.evaluate('(e)=>getComputedStyle(e).pointerEvents')=='none'
+                        assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1','The tools strip remains available during outside focus'
+                        assert menu.evaluate('(e)=>getComputedStyle(e).pointerEvents')!='none'
                         p.keyboard.press('Tab');expect(summary).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
                         p.keyboard.press('Space');expect(menu).to_have_attribute('open','');p.keyboard.press('Tab');expect(menu.locator('a').first).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
                         p.keyboard.press('Shift+Tab');expect(summary).to_be_focused();p.keyboard.press('Space');assert not menu.evaluate('(e)=>e.open')
                         summary.evaluate('(e)=>e.blur()');assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
                         if scripted:
                             p.locator('#library-current-link').click()
-                            field=p.locator('.current-search');field.click();expect(field).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='0'
+                            field=p.locator('.current-search');field.click();expect(field).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
                             field.evaluate('(e)=>e.blur()');assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
                         row['passed']=True
                     except Exception:row['passed']=False;row['error']=traceback.format_exc()

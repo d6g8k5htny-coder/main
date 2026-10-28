@@ -1,10 +1,17 @@
 // Optional dismissal only: native details/links work without this module.
 export function startReaderJump(doc,win) {
-  const menu=doc.querySelector('body > .reader-jump');
+  const menu=doc.querySelector('.reader-tools > .reader-jump');
   if(!menu||menu.dataset.enhanced)return null;
   const summary=menu.querySelector(':scope > summary');
   if(!summary)return null;
   menu.dataset.enhanced='true';
+  menu.addEventListener('toggle',()=>{
+    if(!menu.open)return;
+    // Align the existing tools strip before showing a downward menu. Its CSS
+    // viewport bound then works at initial page position and in landscape.
+    const top=menu.closest('.reader-tools').getBoundingClientRect().top;
+    if(top>0)win.scrollBy({top,behavior:'instant'});
+  });
   menu.addEventListener('click',event=>{
     if(event.target.closest('a[href]'))menu.open=false;
   });
