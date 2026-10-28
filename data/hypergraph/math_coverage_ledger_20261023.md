@@ -11,6 +11,29 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
 
+## Row 311 lobe numerical-consumer membership, 26 October 2026
+
+Only existing row 311's implementation cell gains
+`experiments/zeta_fold_exploration/dbn/lobe_identity.py`, explicitly named by
+zeta README §4 item 4 (lines 571–575). At parent #659 head
+`b5931e6b30b220c8263f27bc891f178e7928cf57`, the program is 869 bytes,
+blob `023541dddbcd224d38df12fa2031487194cfa1c9`, SHA-256
+`3ae66f0ed35026f0d74561c98df360b90118a0163daa430cac69a095e48799d5`.
+The exact README/source identities and distinct #652 historical provenance are
+retained in [the index qualification](README.md#row-311-lobe-numerical-consumer-membership-2026-10-26)
+and [the source-bound record](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6425650646).
+
+This is one declared numerical control at t=0 between the first two scaled
+zeta zeros, not a certified quadrature or proof of a general identity. No new
+direct Bridge/C46/C47-to-program relationship is asserted. Existing source
+memberships and all node/lane/bound/status/Drive cells remain; the other 344
+raw rows are exact. One new implementation vertex yields 1348, with 345 rows
+and ordered hyperedges, source 219/126, implementation 297/48, 30 placeholder-only
+and 14 bound units unchanged. The separate child is stacked on frozen #659;
+that parent's candidate, historical counts and source-only review are not
+expanded. No source program/replay/Lean execution, new theorem unit, scientific
+status or original-review change follows. Complete corpus accounting stays open.
+
 ## Main source-membership supplement, 24 October 2026
 
 Rows 307 and 310 now list the **56 tracked Markdown members** under their existing
@@ -536,7 +559,7 @@ OBL OPEN; source accounting only, NOT A RESULT.
 | 308 | main#527 | main | `experiments/reactor_v0` | GB-8r | MISSING | experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py | — | N | orphan | 0 |
 | 309 | main#527 | main | `experiments/semantic_memory` | GB-8r | MISSING | experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml | — | N | orphan | 0 |
 | 310 | main#527 | main | `experiments/universality` | GB-8r | experiments/universality/AMPLITUDE_MIXTURE_FALSIFIER.md; experiments/universality/PROTOCOL.md; experiments/universality/README.md; experiments/universality/VALIDATION.md; experiments/universality/finite_candidate_lifetime/PROOF.md; experiments/universality/finite_candidate_lifetime/REVIEW.md; experiments/universality/finite_contact_genericity/PROOF.md; experiments/universality/finite_contact_genericity/REVIEW.md; experiments/universality/finite_elder_transfer/PROOF.md; experiments/universality/finite_elder_transfer/REVIEW.md; experiments/universality/finite_fold_chart/PROOF.md; experiments/universality/finite_fold_chart/REVIEW.md; experiments/universality/finite_gaussian_contact/PROOF.md; experiments/universality/finite_gaussian_contact/REVIEW.md; experiments/universality/finite_h0_lifetime/PROOF.md; experiments/universality/finite_h0_lifetime/REVIEW.md; experiments/universality/finite_weighted_fold_window/PROOF.md; experiments/universality/finite_weighted_fold_window/REVIEW.md; experiments/universality/fold_structural_universality/PROOF.md; experiments/universality/fold_structural_universality/REVIEW.md; experiments/universality/higher_homology_fold/PROOF.md; experiments/universality/higher_homology_fold/REVIEW.md; experiments/universality/iid_short_bar_process/PROOF.md; experiments/universality/iid_short_bar_process/REVIEW.md; experiments/universality/periodized_gaussian_h0/PROOF.md; experiments/universality/periodized_gaussian_h0/REVIEW.md; experiments/universality/spectral_gaussian_admission/PROOF.md; experiments/universality/spectral_gaussian_admission/REVIEW.md | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
-| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py | — | N | orphan | 0 |
+| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py; experiments/zeta_fold_exploration/dbn/lobe_identity.py | — | N | orphan | 0 |
 | 312 | main#527 | main | `formal/UniversalLaw` | GB-8p | main:formal/sources/side24_v1/PROOF.md; main:formal/sources/side24_v1/ENCLOSURE.json | formal/UniversalLaw/Side24/Ledger.lean; formal/UniversalLaw/Side24/ConeMoments.lean; formal/UniversalLaw/Side24/Endpoints.lean | — | N | orphan | 0 |
 | 313 | main#527 | main | `formal/UniversalLaw.lean` | GB-8p | MISSING | formal/UniversalLaw.lean; main:formal/manifest.json | — | N | orphan | 0 |
 | 314 | #538 | Math- | `frontiers/critical_ridge_20261020` | PENDING_OPEN_PR #491,#496,#497 | execution/author/PROOF.md; project/CriticalRidge.lean; c299_hosted_verify.py | (in PR head) | — | N | unmerged | 0 |
