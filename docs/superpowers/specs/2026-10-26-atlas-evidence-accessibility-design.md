@@ -89,3 +89,19 @@ in atlas-spatial-shell.mjs with the existing normal/forced-color brand outline.
 Chromium's original automatic list scrolling already worked; this is portability
 and clarity improvement, not a demonstrated old keyboard failure. Exact source
 amendment388/6471921116, focus clarification388/6472420232.
+
+## Bounded checkout exception after hosted failures
+
+The original product scope excluded workflow edits. Two actual hosted PR runs
+then failed before architecture tests because full-history checkout had only
+one minute. The separately coordinated680/6475889451 exception changes ONLY
+research-architecture.yml checkout1→5minutes and its completejob49→53minutes,
+with matching stage arithmetic. Full history, action pins, nonpersistent
+credentials, permissions, all preparation/test/trust scripts, current-source
+receipts, required checks, review and branch controls remain unchanged.
+Static semantic equality outside those two budgets, existing normal/optimized
+contract controls, separate engineering review, original/candidate private
+custody and actual new-head hosted qualification are required. No source receipt
+is rebound, failed attempt rerun, protected check skipped or scientific status
+changed. All production viewer and mathematical records remain byte-identical
+to the reviewed visible-heading product.

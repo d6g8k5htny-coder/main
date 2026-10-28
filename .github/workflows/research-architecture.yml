@@ -36,8 +36,8 @@ jobs:
   graph:
     name: research-architecture
     runs-on: ubuntu-24.04
-    # Complete stage ceiling: 19 preparation + 16 tests + fourteen 1-minute stages.
-    timeout-minutes: 49
+    # Complete stage ceiling: 19 preparation + 16 tests + 5 checkout + thirteen 1-minute stages.
+    timeout-minutes: 53
     outputs:
       checked_commit: ${{ steps.accepted.outputs.checked_commit }}
       repository: ${{ steps.accepted.outputs.repository }}
@@ -49,7 +49,7 @@ jobs:
       artifact_name: ${{ steps.accepted.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        timeout-minutes: 1
+        timeout-minutes: 5
         with:
           persist-credentials: false
           fetch-depth: 0

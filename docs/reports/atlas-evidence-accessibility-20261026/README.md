@@ -38,6 +38,24 @@ All 65 JavaScript/CSS files and protected formal inputs remain unchanged.
 The final report-only/native source, current hosted checks and actual deployed
 revision are qualified separately in the PR.
 
+## Release infrastructure: bounded complete checkout
+
+The repaired native source `fe3df234` passed the hosted public-shop browser
+workflow. Integration still stopped because a second architecture attempt
+again exhausted its one-minute full-history checkout, before its tests began.
+The narrow follow-up at local `b451dbd9` allows five minutes for that checkout
+and adjusts the complete finite job ceiling from49 to53minutes. The ceiling
+continues to equal the sum of every stage allowance. Full history, the pinned
+action, nonpersistent credentials, permissions, all trust/test/receipt scripts,
+required checks and review requirements stay unchanged.
+
+[Budget and contract evidence](checkout-budget-phase.json) records the exact
+two semantic YAML differences and30passing existing required-formal controls
+in each normal/optimized mode. Production reader files and mathematics are
+unchanged. Actual hosted completion of this larger checkout budget, current-head
+required checks, integration, deployment and public replay remain separately
+qualified in the PR; the old failures retain their original outcomes.
+
 ## Source and evidence
 
 The frozen public observation is Main55961773d31a7b2b9906d8be73a26ad44c364dd6,

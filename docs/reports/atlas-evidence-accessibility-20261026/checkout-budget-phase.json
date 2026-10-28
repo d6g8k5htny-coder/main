@@ -1,0 +1,71 @@
+{
+  "source": "b451dbd9abb86ba1efc8115e56022bddfc87009f",
+  "tree": "46d6624477aed679d69c5566a14c12e708e4f5e9",
+  "parent": "039fd9401ca35cdb9e707db5d82c07954cdd4fe1",
+  "native_preimage": {
+    "head": "fe3df234defb48c5f86b2f5e85b8f96193da16f5",
+    "tree": "b544d3e328878d6d79677307f969063bd0990b94",
+    "tested_merge": "08aaea02c11e3cb7d7ed918c8c7d343f83e94d74",
+    "public_shop_run": 40732849134,
+    "public_shop_conclusion": "success",
+    "workspace_run": 40732849314,
+    "architecture_job": 122973484134,
+    "architecture_conclusion": "failure",
+    "failure": "Unchanged full-history checkout timed out after1minute, before architecture tests began; original source/log/error retained.",
+    "required_verify_job": 122974124018,
+    "verify_conclusion": "failure",
+    "formal_job": 122973483350,
+    "formal_conclusion": "success"
+  },
+  "scope_claim": "680/6475889451",
+  "change": "Bounded checkout1\u21925minutes and matching completejob49\u219253minutes. No change in fullhistory, actionpins, credentials, permissions, source/trust/preparation/test/receipt/gate scripts or required review/check set.",
+  "static_semantic_verification": {
+    "observed_at": "2026-10-28T17:26:18.236196+00:00",
+    "parser": "PyYAML6.0.3",
+    "original_bytes": 26511,
+    "original_sha256": "e9fc7a1bc875144ebbd81574aef3ce80888796fca8901c80b22dd7af47bee9d2",
+    "candidate_bytes": 26524,
+    "candidate_sha256": "dea19da2aa351946a31c7cad8066f9b96de1944297421ec7a10ab78e85029709",
+    "semantic_differences": [
+      {
+        "path": "/jobs/graph/timeout-minutes",
+        "before": 49,
+        "after": 53
+      },
+      {
+        "path": "/jobs/graph/steps/0/timeout-minutes",
+        "before": 1,
+        "after": 5
+      }
+    ],
+    "complete_stage_sum_before": 49,
+    "complete_stage_sum_after": 53,
+    "all_other_workflow_fields_identical": true,
+    "checkout_action_unchanged": true,
+    "full_history_preserved": true,
+    "credentials_not_persisted": true,
+    "qualification": "Bounded checkout reliability change only. No skippedcheck, gate/script/permission/actionpin/review/protection change; actualhostedcheckout duration stillmustbeobserved."
+  },
+  "normal_controls": {
+    "command": "Python3.11 -B -S unittest discover tests/test_required_formal_check.py",
+    "tests": 30,
+    "exit": 0,
+    "log": {
+      "bytes": 3387,
+      "sha256": "454cfc200234d9c43a76f969abc66ce79702a03972292d455838bc85a18cdb76"
+    }
+  },
+  "optimized_controls": {
+    "command": "Python3.11 -B -O -S unittest discover tests/test_required_formal_check.py",
+    "tests": 30,
+    "exit": 0,
+    "log": {
+      "bytes": 3387,
+      "sha256": "cae6c5383c03642d60a57bbacbcf01f09d30b157466b02f5aa371068fc07c11a"
+    }
+  },
+  "asset_release_check": "c2cf1884e7fd0d7627285acbb343e25c3c02351ca3ffc9d19964aea628f25330; exit0",
+  "production_and_mathematics": "All viewer HTML/JS/CSS/data, original formal evidence/artifact/review/Lean/manifests/status and source-admission tools unchanged from nativefe3. Only one formerly protected workflow budget changes; remaining86protectedinputs unchanged. Actual71Atlas/23audit/20layout measurements remain at8edf, not rebound as new executions.",
+  "hosted_qualification": "New bounded checkout has not executed at report authoring. Actual next native head/run/attempt/current required checks/review/guardedmerge/deployment/public73 must be qualified separately in PR; no old success/receipt transferred.",
+  "scientific_effect": "NONE"
+}

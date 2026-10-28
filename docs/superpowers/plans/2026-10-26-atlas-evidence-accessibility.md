@@ -21,7 +21,8 @@ audit dependencies are development-only and pinned in their evidence.
   Historical manifest0d694/8dfcfe, artifact3b39 and original review stay unchanged.
 - Claim math.side24-coefficient; declaration UniversalLaw.Side24.pairing_sum_six.
 - Preserve original builder, fixtures, EVIDENCE, artifacts and all assertions.
-- No source-admission/Lean/manifest/status/workflow/protection changes.
+- No source-admission/Lean/manifest/status/protection changes. The explicitly
+  coordinated checkout-budget exception below preserves all workflow checks.
 - Coordinate actual additional product paths before fixes; no foreign ownership.
 - Engineering evidence only; historical execution/rejected alignment stay pinned.
 
@@ -88,3 +89,17 @@ explicit source tree/payload and a new output directory.
   trusted intake/current required checks/rules/threads; ordinary guarded merge.
 - [ ] Verify actual deployment and public journeys, final private evidence,
   concise PR disposition and only-own role releases; no background promise.
+
+### Release-blocking checkout budget, 28 October
+
+Two actual PR attempts timed out during the full-history architecture checkout,
+before its tests began. Ownership of only
+`.github/workflows/research-architecture.yml` was added at680/6475889451 after
+current43PR ownership checks found no overlap. Allow five minutes for checkout;
+match the complete finite job ceiling to53minutes (19preparation+16tests+
+5checkout+13other one-minute stages). Keep full history, action pins, credentials,
+permissions, scripts, tests, receipt verification and required checks unchanged.
+Parse both YAML documents, verify exactly those two semantic budget differences,
+run existing required-formal controls in normal/optimized modes, obtain separate
+source-bound review and verified original/candidate custody, then qualify the
+actual next hosted run. No old failed check is rerun or reclassified.
