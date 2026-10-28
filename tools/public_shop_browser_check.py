@@ -1914,7 +1914,7 @@ def check_ring(page, locator, where, scope=None):
         locator.evaluate("e => e.blur()")
         blurred=page.screenshot(clip=clip,animations="disabled")
     finally:
-        if view!=restore:page.set_viewport_size(restore)
+        if page.viewport_size!=restore:page.set_viewport_size(restore)
     painted=page.evaluate(RING_PIXELS_JS,[base64.b64encode(focused).decode(),base64.b64encode(blurred).decode(),[left,top],state["rects"],offset,int(width)])
     short=[f'{x["side"]} side {x["share"]:.1%}'+(f' (line {x["fragment"]+1})' if len(state["rects"])>1 else '') for x in painted["sides"] if x["share"]<0.97]
     short+=[f'{x["corner"]} corner {x["changed"]}/{x["of"]} px' for x in painted["corners"] if x["changed"]<x["of"]]
