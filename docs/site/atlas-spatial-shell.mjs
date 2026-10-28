@@ -44,7 +44,7 @@ export function installSpatialAtlas({root,onChange}) {
   }
   function schedule(){if(!frame&&!disposed)frame=requestAnimationFrame(sync);}
   async function activate(){failureMessage='';active=true;const ticket=++generation;lastSignature='';status.textContent='Loading optional 3D renderer…';display();
-    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142'),import('./atlas-spatial.mjs?site-release=51162684675faa743673966321e285a5b533743b5e7b84005f0b4055dbdd5761')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
+    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5'),import('./atlas-spatial.mjs?site-release=51162684675faa743673966321e285a5b533743b5e7b84005f0b4055dbdd5761')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
     catch(error){if(ticket===generation&&!disposed)fail(`3D unavailable: ${error.message}.`);}
   }
   function deactivate(){generation++;active=false;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;lastSignature='';display();status.textContent='3D paused. Graph and List retain the selected claim and source snapshot.';}
@@ -59,7 +59,7 @@ export function installSpatialAtlas({root,onChange}) {
   listen(window,'pagehide',()=>{deactivate();});listen(window,'pageshow',()=>restore(location.href));
   function restore(url){const params=new URL(url,location.href).searchParams;focused=params.get('atlas-space-focus')==='dependencies';const wants=params.get('atlas-space')==='3d';if(wants&&!active)activate();else if(!wants&&active)deactivate();else schedule();}
   function decorateURL(url){if(active)url.searchParams.set('atlas-space','3d');else url.searchParams.delete('atlas-space');if(active&&focused)url.searchParams.set('atlas-space-focus','dependencies');else url.searchParams.delete('atlas-space-focus');return url;}
-  import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142').then(m=>m.currentSnapshot).then(snapshot=>{if(!disposed){data=snapshot;schedule();}});
+  import('./current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5').then(m=>m.currentSnapshot).then(snapshot=>{if(!disposed){data=snapshot;schedule();}});
   display();restore(location.href);
   return {restore,decorateURL,dispose(){disposed=true;deactivate();cancelAnimationFrame(frame);observer.disconnect();visibility.disconnect();cleanup.forEach(fn=>fn());}};
 }

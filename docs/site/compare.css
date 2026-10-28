@@ -26,7 +26,7 @@
   font: inherit;
 }
 #compare-form button,
-#pagination button {
+.comparison-pagination button {
   padding: 11px 18px;
   border: 1px solid var(--ul-edge);
   border-radius: 6px;
@@ -36,7 +36,7 @@
   cursor: pointer;
 }
 #compare-form button:disabled,
-#pagination button:disabled {
+.comparison-pagination button:disabled {
   opacity: 0.6;
   cursor: default;
 }
@@ -110,13 +110,13 @@
   cursor: pointer;
   padding: 10px 0;
 }
-#pagination {
+.comparison-pagination {
   display: flex;
   gap: 16px;
   align-items: center;
   flex-wrap: wrap;
 }
-#pagination[hidden] {
+.comparison-pagination[hidden] {
   display: none;
 }
 @media (max-width: 650px) {
@@ -138,7 +138,11 @@
 }
 @media print {
   #compare-form,
-  #pagination {
+  .comparison-pagination {
     display: none;
   }
 }
+
+.compare-source-load { margin: 2rem 0 0; color: var(--ul-muted); font-size: .875rem; }
+.compare-source-load button { min-height: 44px; }
+.compare-source-load [hidden] { display: none; }
