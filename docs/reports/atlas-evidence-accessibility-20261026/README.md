@@ -233,3 +233,30 @@ inventory marks partial/manual/untested items explicitly, including separate
 200percent resize and nondrag single-pointer orbit qualification. No APT/cache
 denial was retried or routed elsewhere. Original failures, late/unknown closeouts,
 all mathematical records and other contributors' work remain preserved.
+
+## Public-shop checkout follow-up, 28 October
+
+Native `7ccff822` passed architecture, formal, landing and required `verify`
+checks in run40739937051. Its separate browser-smoke job also passed. The
+required public-shop job122998486520 was cancelled after299seconds while
+downloading full history; every subsequent control was skipped. This matches
+the five-minute job ceiling, but the retained log does not identify the
+cancellation actor or explicitly establish its cause. These actual results
+remain separate from the earlier attempts.
+
+Local `54da141a` changes only that job limit from5 to15minutes and adds a
+ten-minute checkout limit. Even at maximum checkout, five minutes remain for
+the original mandatory controls. Full history, action pins, nonpersistent
+credentials, commands, checks, permissions and the distinct browser-smoke job
+remain identical. The existing architecture budget is unchanged.
+[Source and semantic evidence](public-shop-checkout-phase.json) records the
+observed failure, exact disjoint-hunk coordination and preservation checks.
+Existing controls pass93tests in each normal and optimized Python3.11 mode;
+the canonical asset-release check passes. A new native run must establish the
+new source's result.
+
+Automatic Codex review reached its usage limit. Repository policy excludes
+workflow changes from the standing manual-review route, so integration also
+requires a case-specific owner decision for PR680 after all current checks
+and separate engineering review. No review retry, check rerun, Ready toggle,
+protection change or mathematical-status promotion is authorized by this report.

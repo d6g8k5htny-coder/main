@@ -103,3 +103,21 @@ Parse both YAML documents, verify exactly those two semantic budget differences,
 run existing required-formal controls in normal/optimized modes, obtain separate
 source-bound review and verified original/candidate custody, then qualify the
 actual next hosted run. No old failed check is rerun or reclassified.
+
+## Additional bounded public-shop checkout exception
+
+At native7cc, architecture/formal/landing/verify and browser-smoke succeeded,
+but requiredpublic-shop cancelled after299seconds in full-history checkout,
+consistent with its five-minute job ceiling, before any control ran. The log
+does not identify the cancellation actor or explicitly establish its cause. Scope680/6476854917 and disjoint-hunk
+notice597/6476854612 were read back before editing. Only public-shop.yml
+jobs.public-shop ceiling5→15 and checkout ceiling10 change; browser-smoke,
+including PR597's distinct setup-python hunk, remains unchanged. Preserve all
+full-history, pinned actions, credentials, permissions, checks and scripts.
+Verify exact parsed semantic differences, existing normal/optimized controls,
+asset release, separate source-bound engineering review and independently
+verified private original/candidate custody before native source amendment.
+Actual new-head CI qualification remains necessary; no old result transfers.
+The usage-limit manual route excludes workflows: obtain a case-specific owner
+decision for exact PR680 as the final missing approval after checks are ready.
+No automatic-review retry, rerun, Ready toggle, security-policy edit or bypass.

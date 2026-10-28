@@ -1,0 +1,124 @@
+{
+  "source": "54da141a29a11572a3faab1c231a3ce8cc96db7e",
+  "tree": "47b2d45353952f005175603be88942185f8a7343",
+  "parent": "1d0a348756bc21515e8f8565407227b726b1b26e",
+  "native_preimage": {
+    "head": "7ccff822bfccb9f11c7cb50787b7d17ed123cfcd",
+    "tree": "7aad2d7f702787019313ce473aca152229e0bbc5",
+    "tested_merge": "927dd0a21483d1e6de641fb25401ae74f242b8c1",
+    "public_shop_run": 40739937176,
+    "public_shop_job": 122998486520,
+    "public_shop_conclusion": "cancelled",
+    "failure": "Cancelled during full-history checkout after299seconds, consistent with the five-minute job ceiling; the retained log does not identify the cancellation actor or explicitly attribute its cause. All mandatory controls skipped; no application failure inferred.",
+    "browser_smoke_job": 122998485995,
+    "browser_smoke_conclusion": "success",
+    "workspace_run": 40739937051,
+    "architecture_job": 122998485926,
+    "architecture_conclusion": "success",
+    "landing_job": 123005053009,
+    "landing_conclusion": "success",
+    "verify_job": 123005188381,
+    "verify_conclusion": "success",
+    "formal_job": 122998485541,
+    "formal_conclusion": "success"
+  },
+  "scope_claim": "680/6476854917",
+  "foreign_exact_hunk_notice": "597/6476854612",
+  "foreign_source": "PR597b47633986e8a494d1dca57f2bd70f2ef340088de changes setup-python only in the distinct browser-smoke job, preserved unchanged.",
+  "change": "Only public-shop job ceiling5\u219215minutes and new checkout ceiling10minutes. Preserve the original five-minute allowance for controls after maximum checkout. Full history, pinned action, credentials, permissions, every command/check and the entire browser-smoke job unchanged.",
+  "static_semantic_verification": {
+    "observed_at": "2026-10-28T18:15:08.467918+00:00",
+    "parser": "PyYAML6.0.3",
+    "parent": "1d0a348756bc21515e8f8565407227b726b1b26e",
+    "original_bytes": 21111,
+    "original_sha256": "f5ae750b8803761a6dc9ebd0fc1a46bc5d5272306d3006f635beb7e14749e8c4",
+    "candidate_bytes": 21217,
+    "candidate_sha256": "63bd9484d71a6ebeb6d8d4091d9e27b324d0ead34029195a137e4211f2bfaa9a",
+    "semantic_differences": [
+      {
+        "path": "/jobs/public-shop/steps/0/timeout-minutes",
+        "before": null,
+        "after": 10
+      },
+      {
+        "path": "/jobs/public-shop/timeout-minutes",
+        "before": 5,
+        "after": 15
+      }
+    ],
+    "all_other_fields_identical": true,
+    "browser_smoke_identical": true,
+    "full_history_preserved": true,
+    "checkout_action_unchanged": true,
+    "credentials_not_persisted": true,
+    "remaining_control_allowance_minutes": 5,
+    "qualification": "Static semantic preservation only; actual next hosted checkout and mandatory controls must execute on the new native head."
+  },
+  "production_and_mathematics": "No production reader, evidence, mathematical record or source-admission tool changes in this phase. Previous qualified UI executions remain bound to8edf, not re-executed or rebound to this CI-only change.",
+  "review_requirement": "The automatic current-head Codex review failed on usage quota. This PR now changes workflows, which are excluded from the standing manual-review route. A case-specific owner decision for this exact PR is still required after current checks and separate engineering review; no retry, Ready toggle, substitute account/model or gate bypass.",
+  "hosted_qualification": "The new public-shop checkout budget has not executed at report authoring. Current-head required checks, exact source identity and review must be qualified separately in the PR. Integration, deployment and public replay remain pending; previous results do not transfer.",
+  "scientific_effect": "NONE",
+  "existing_controls": [
+    {
+      "name": "normal",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_public_shop_data",
+        "tests.test_site_asset_release",
+        "tests.test_public_shop_check_identity_control",
+        "tests.test_required_formal_check"
+      ],
+      "started_at": "2026-10-28T18:15:08.870053+00:00",
+      "exit": 0,
+      "log": "publicshop-budget-normal.log",
+      "log_identity": {
+        "bytes": 247,
+        "sha256": "cfd74f30d04990c077509ce1d5e35793fa4c2bb96c7fbdbb10ec043d96877c93"
+      },
+      "tests": 93
+    },
+    {
+      "name": "optimized",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "tests.test_public_shop_data",
+        "tests.test_site_asset_release",
+        "tests.test_public_shop_check_identity_control",
+        "tests.test_required_formal_check"
+      ],
+      "started_at": "2026-10-28T18:15:23.521476+00:00",
+      "exit": 0,
+      "log": "publicshop-budget-optimized.log",
+      "log_identity": {
+        "bytes": 247,
+        "sha256": "64b9678064334df538f8ac7be09fe90e6abe7cb721828741703ab651d5b384ff"
+      },
+      "tests": 93
+    },
+    {
+      "name": "asset",
+      "command": [
+        "python3",
+        "-B",
+        "tools/site_asset_release.py",
+        "--check"
+      ],
+      "started_at": "2026-10-28T18:16:02.407817+00:00",
+      "exit": 0,
+      "log": "publicshop-budget-asset.log",
+      "log_identity": {
+        "bytes": 65,
+        "sha256": "fdd1104af84841da8d91fbc5570674a4b028b54429540834472a1e1294c142cc"
+      }
+    }
+  ]
+}
