@@ -20,6 +20,8 @@ export function installSpatialAtlas({root,onChange}) {
   const instructions=make('p','Drag to orbit · Shift-drag or right-drag to pan · scroll or buttons to zoom. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, Home reset. Layout distance is not proof strength.');
   const legend=make('p','Arrows point from dependent to dependency. Solid: required; dashed: context. Exact recorded relationship types appear below.');
   const disclosure=make('details'),summary=make('summary','Accessible nodes and recorded relationships'),nodes=make('ul'),relations=make('ul');disclosure.open=true;disclosure.append(summary,nodes,relations);section.append(host,instructions,legend,disclosure);
+  nodes.setAttribute('aria-label','Displayed nodes');
+  relations.tabIndex=0;relations.setAttribute('aria-label','Recorded directed relationships, scrollable');
   for(const element of [stage,list,host])element.setAttribute('aria-describedby',((element.getAttribute('aria-describedby')||'')+' atlas-space-status').trim());
   let failureMessage='',active=false,focused=false,data=null,renderer=null,generation=0,lastSignature='',frame=0,disposed=false,intersecting=true;
   const cleanup=[];const listen=(n,t,f)=>{n.addEventListener(t,f);cleanup.push(()=>n.removeEventListener(t,f));};
