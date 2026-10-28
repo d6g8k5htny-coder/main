@@ -32,6 +32,53 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Row 311 lobe numerical-consumer membership (2026-10-26)
+
+345 ledger rows / 1348 vertices / 345 hyperedges. Sourced containers remain
+219 (126 missing); implemented 297 (48 missing), including 30 placeholder-only;
+bound units 14. This child proposal is stacked on frozen #659 head
+`b5931e6b30b220c8263f27bc891f178e7928cf57`; it does not expand that candidate.
+
+Existing row 311 gains only `experiments/zeta_fold_exploration/dbn/lobe_identity.py`,
+explicitly named by [zeta README §4 item 4](https://github.com/d6g8k5htny-coder/main/blob/b5931e6b30b220c8263f27bc891f178e7928cf57/experiments/zeta_fold_exploration/README.md#L571).
+The README is 111858 bytes, blob `cf3cf4fd164216e2cad9418b2350d23ce1468776`,
+SHA-256 `2e08a7d91dcb1c7f17e593a953046f3bf3eaf15ef9fbe96284c53f945d264be2`;
+the program is 869 bytes, blob `023541dddbcd224d38df12fa2031487194cfa1c9`,
+SHA-256 `3ae66f0ed35026f0d74561c98df360b90118a0163daa430cac69a095e48799d5`.
+Both identities are unchanged at Main `336b6f8927f37e2a8d727c6bea845f874c52d8f5`.
+
+This is a declared numerical check at t=0 between the first two scaled zeta
+zeros, using `indep_ht.py`. It prints two rounded values without an equality
+assertion or outward/tail error certificate. The existing
+[source-bound evidence](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6425650646)
+preserves #652's distinct frozen source, driver declaration and historical
+job/output identities. No replay artifact is added as a theorem or blanket
+implementation member, and no receipt is rebound to the whole current README.
+
+All 1347 prior vertices and 345 ordered edges remain; only row 311 gains this
+implementation membership. The other 344 raw rows and all source, node, lane,
+bound, status and Drive cells are unchanged. No direct Bridge/C46/C47-to-program
+edge is inferred; aggregate co-membership does not mean every program proves
+every source statement. The theta companion and wider zeta inventory remain
+separately scoped. No zeta program, mathematical replay or Lean ran, and no
+general identity, persistence exponent, RH result or scientific acceptance is
+established by this addition.
+
+## Gap counts after canonical primary-source membership (2026-10-26)
+345 ledger rows / 1347 vertices / 345 hyperedges. Sourced containers 219
+(126 missing); implemented 297 (48 missing), including 30 placeholder-only.
+Bound units 14; graph-node counts and qualifications are unchanged.
+
+Ten omitted primary source paths join eight existing Math- containers. Only
+rows 124, 143 and 181 gain source presence. All prior members and implementation,
+node, bound, status and Drive cells remain, including the rows-318/345 landing
+recheck. This reuses #638's source-document evidence for those three rows;
+it does not adopt the full 83-row classification or claim its review complete.
+The [implementation/evidence plan](../../docs/superpowers/plans/2026-10-26-canonical-source-membership.md)
+retains exact source pins, two historical commit aliases and bounded consumer
+roles. The tail README's LOW-P15-T-SOURCE indirection remains. No mathematical
+program or Lean ran, and source presence is not proof-to-code verification.
+
 ## Gap counts after the Math- landing recheck (2026-10-26)
 345 ledger rows / 1337 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
 of which 30 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.

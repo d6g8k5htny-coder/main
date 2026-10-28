@@ -1,4 +1,4 @@
-import {installSpatialAtlas} from './atlas-spatial-shell.mjs?site-release=dbd841649f10dfbc4d2446521bba88396c532ed7a9b9df36866709af32d4ee2f';
+import {installSpatialAtlas} from './atlas-spatial-shell.mjs?site-release=07e971632041b39f800c21c8f4e5ec02a51065ad0857e6ba91ec889a43faac05';
 // Presentation only: this module never fetches, admits or classifies source data.
 export function viewForViewport(search,parsedView,narrow){
   const requested=new URLSearchParams(search).get('atlas-view');
@@ -40,7 +40,7 @@ export function createAtlasShell({root,inspector,diagnostics,media,location,hist
     const selected=mode==='diagnostics'?1:0;
     for(let i=0;i<buttons.length;i++){buttons[i].setAttribute('aria-selected',String(i===selected));buttons[i].tabIndex=i===selected?0:-1;panels[i].hidden=i!==selected;}
   }
-  function focusReading(){(mode==='diagnostics'?panels[1]:inspector).focus({preventScroll:true});if(media.matches)reader.scrollIntoView({block:'start',behavior:'auto'});}
+  function focusReading(){const target=mode==='diagnostics'?panels[1]:inspector;target.focus({preventScroll:true});if(media.matches)reader.scrollIntoView({block:'start',behavior:'auto'});else{const heading=target.querySelector?.('h3,h4')||target,bounds=heading.getBoundingClientRect?.(),height=doc.defaultView?.innerHeight;if(bounds&&height&&(bounds.top<0||bounds.bottom>height))heading.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});}}
   function focusBrowse(){open.focus({preventScroll:true});open.scrollIntoView({block:'center',inline:'nearest',behavior:'auto'});}
   function activate(next){if(mode===next)return;mode=next;apply();onChange();}
   function selectNode(){mode='evidence';apply();}

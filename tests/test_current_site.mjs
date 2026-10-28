@@ -142,7 +142,7 @@ test('atlas offset equation search and exact metadata filters survive URL state'
 // Exercise the real atlas controller, model and shell. This small Node DOM
 // implements only their DOM/event boundary, not browser layout, tabbing or AT.
 async function atlasController(search='',data=fixture()) {
- const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs'),summary=await import('../docs/site/atlas-claim-summary.mjs');
+ const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs'),summary=await import('../docs/site/atlas-claim-summary.mjs'),relationships=await import('../docs/site/atlas-relationships.mjs');
  const source=await readFile(new URL('../docs/site/atlas.mjs',import.meta.url),'utf8');
  const controls=await readFile(new URL('../docs/site/atlas-controls.mjs',import.meta.url),'utf8');
  class Element extends EventTarget {
@@ -185,7 +185,7 @@ async function atlasController(search='',data=fixture()) {
  const location=new URL('https://example.test/main/site/dependencies.html'+search),entries=[location.href];let cursor=0;
  const history={replaceState(state,title,url){location.href=new URL(url,location.href).href;entries[cursor]=location.href;},pushState(state,title,url){location.href=new URL(url,location.href).href;entries.splice(++cursor);entries.push(location.href);},back(){if(cursor>0){location.href=entries[--cursor];window.dispatchEvent(new Event('popstate'));}},forward(){if(cursor+1<entries.length){location.href=entries[++cursor];window.dispatchEvent(new Event('popstate'));}}};
  const saved=Object.getOwnPropertyDescriptor(globalThis,'document');globalThis.document=doc;
- const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,setTimeout,clearTimeout,Option:function(text,value){const option=doc.createElement('option');option.text=text;option.value=value;return option;},matchMedia:()=>media,fetch:async()=>({ok:false})};
+ const bindings={...m,...shell,...summary,...relationships,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,setTimeout,clearTimeout,Option:function(text,value){const option=doc.createElement('option');option.text=text;option.value=value;return option;},matchMedia:()=>media,fetch:async()=>({ok:false})};
  Object.defineProperty(bindings,'location',{get:()=>location});
  try{
   // Imports use the actual modules above; awaiting the real start lifecycle
