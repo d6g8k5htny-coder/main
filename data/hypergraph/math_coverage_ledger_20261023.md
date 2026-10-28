@@ -5,11 +5,45 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
-- Units: **345**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 1 post-cut landing (row 345). The 344-row snapshots described below are retained as history.
-- Have a proof or lemma source file in the repo: **219**. No source file: **126**.
-- Have an implementation (code or refs): **297**. Missing an implementation: **48**.
+- Units: **346**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 2 post-cut landed containers (rows345/346). The earlier344/345-row snapshots described below are retained as history.
+- Have a proof or lemma source file in the repo: **220**. No source file: **126**.
+- Have an implementation (code or refs): **298**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
+
+## Landed source-derivative container, 28 October 2026
+
+Row346 adds one previously omitted **container**, not18new theorem units:
+`frontiers/source_derivative_gaussian_20261025`, frozen at Math-
+`4a0d51bbd06f0d9ac731a1d1df38f25999797135`, folder tree
+`aa776f39937e40b7aff96471aa097e7a566d8a9a`. Its landed source includes
+18top-level Lean modules,18`SOURCE_*.md` mathematical contracts, README,
+SCOPE and FIELD_CONDITIONING:39source members and18declared Lean implementation
+members. Full per-file identities and the existing scoped reviews are in
+[the source plan](../../docs/superpowers/plans/2026-10-28-source-derivative-membership.md).
+
+Math-#513 landed as `180d6406b0a51b268a152241a70bde6a1b39a142` on26October
+04:45:03UTC; the current frozen folder is byte-identical to its18-module packet.
+The earlier512/513-open-at-cut paragraph below remains historical, verbatim.
+This dated addition does not rewrite that observation or incorporate later
+Draft#514 material. Row345's separate#512 source/implementation expansion
+remains a bounded accounting gap outside this entry.
+
+The row is `LANDED Math-#513`, node—/boundN/`orphan`/Drive0, matching
+existing landed inventory conventions. No Drive name-match was performed for
+this row. INPUT_BINDING's23declared input pins remain in the source packet:
+12smooth-source inputs toward existing118 at e75cb81e and11sibling determinant
+inputs toward existing345 at16f81b9/receipt95e50247. No new logical GRAPH edge,
+source applicability, copied-input member, review authority or predicate follows.
+
+All prior345rawrows/cells,1350vertices and345orderededges remain exact.
+One new row supplies39source/18implementation vertices plus one unit, record
+and lane:1410vertices/346edges. Source220/126 and implemented298/48 are
+container counts; placeholder30, bound14 and all graph-node predicates remain.
+The existing count tests change only their literal completeness expectations.
+No mathematical program, Lean/kernel, gate, replay or scientific review ran.
+Source identity and attributed prior scoped reviews are not theorem acceptance.
+Scientific effectNONE; broader retroactive source/implementation accountingOPEN.
 
 ## Declared consumer membership supplement, 28 October 2026
 
@@ -610,3 +644,4 @@ OBL OPEN; source accounting only, NOT A RESULT.
 | 343 | R22 tip 67818d30 | Math- | `companions/cap_i4_spectral_assembly_20261006` | R22-companion | CapI4SpectralAssembly.lean; Contract.lean | (per census: lean+replay+test; unverified) | — | N | unmerged_branch | 0 |
 | 344 | R21 tip 93a19170 | Math- | `companions/cap_i4_chamber_bridge_20261006` | R21-companion | CapI4ChamberBridge.lean; Contract.lean | (R21 tip) | — | N | unmerged_branch | 0 |
 | 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py | — | N | orphan | 0 |
+| 346 | Math-#513 | Math- | `frontiers/source_derivative_gaussian_20261025` | LANDED Math-#513 | ConfluentIntegralIdentities.lean; ContactJetCovariance.lean; FIELD_CONDITIONING.md; GaussianRegressionLimits.lean; GaussianWeightedMajorants.lean; README.md; SCOPE.md; SOURCE_CONDITIONAL_MAJORANT.md; SOURCE_CONFLUENT_INTEGRALS.md; SOURCE_CONFLUENT_LIMITS.md; SOURCE_CONFLUENT_PINS.md; SOURCE_CONTACT_ENDPOINT_PARAMETERS.md; SOURCE_CONTACT_GRAM.md; SOURCE_CONTACT_SCHUR.md; SOURCE_CONTACT_SOURCE.md; SOURCE_CONTRACT.md; SOURCE_COVARIANCE_CONTINUITY.md; SOURCE_ENDPOINT_ESTIMATES.md; SOURCE_ENDPOINT_PARAMETERS.md; SOURCE_ENDPOINT_REGRESSION.md; SOURCE_GAUSSIAN_MAJORANTS.md; SOURCE_PHYSICAL_ENDPOINT_KERNEL.md; SOURCE_REGRESSION_LIMITS.md; SOURCE_SMOOTH_CONDITIONAL.md; SOURCE_SMOOTH_PALM.md; SourceConditionalMajorant.lean; SourceConfluentLimits.lean; SourceConfluentPins.lean; SourceContactCovariance.lean; SourceContactEndpointParameters.lean; SourceContactSchur.lean; SourceDerivativeContinuity.lean; SourceDerivativeGaussian.lean; SourceEndpointEstimates.lean; SourceEndpointParameters.lean; SourceEndpointRegression.lean; SourcePhysicalEndpointKernel.lean; SourceSmoothConditionalKernel.lean; SourceSmoothPalm.lean | frontiers/source_derivative_gaussian_20261025/ConfluentIntegralIdentities.lean; frontiers/source_derivative_gaussian_20261025/ContactJetCovariance.lean; frontiers/source_derivative_gaussian_20261025/GaussianRegressionLimits.lean; frontiers/source_derivative_gaussian_20261025/GaussianWeightedMajorants.lean; frontiers/source_derivative_gaussian_20261025/SourceConditionalMajorant.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentLimits.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentPins.lean; frontiers/source_derivative_gaussian_20261025/SourceContactCovariance.lean; frontiers/source_derivative_gaussian_20261025/SourceContactEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceContactSchur.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeContinuity.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeGaussian.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointEstimates.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointRegression.lean; frontiers/source_derivative_gaussian_20261025/SourcePhysicalEndpointKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothConditionalKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothPalm.lean | — | N | orphan | 0 |

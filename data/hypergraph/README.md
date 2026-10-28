@@ -32,6 +32,51 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Landed source-derivative container (2026-10-28)
+
+346ledger rows /1410vertices /346ordered hyperedges; source220/126,
+implemented298/48, placeholder-only30 and bound14. The earlier snapshot counts
+below retain their actual source cuts. New row346 records one landed Math-
+container, `frontiers/source_derivative_gaussian_20261025`, at exact Math
+`4a0d51bbd06f0d9ac731a1d1df38f25999797135`, folder tree
+`aa776f39937e40b7aff96471aa097e7a566d8a9a`. It does not create18theorem units.
+
+Bounded membership is39top-level mathematical sources:18Lean modules,
+18`SOURCE_*.md` contracts and README/SCOPE/FIELD_CONDITIONING; the18Lean
+files also have implementation roles. This deliberately excludes copied
+inputs, manifests/catalogs, raw evidence/tooling and active unmerged#514.
+The [plan's complete source table](../../docs/superpowers/plans/2026-10-28-source-derivative-membership.md#frozen-source-identities)
+pins every included Git blob/byte identity. All39bodies were read inertly and
+rehashed; author-side readers inspected Lean text, without executing it or
+claiming mathematical proof/source applicability review.
+
+Math-#513's [actual landed release](https://github.com/d6g8k5htny-coder/Math-/pull/513#issuecomment-6408484663)
+binds merge180d6406 and the same18-module folder. Its four-module
+[AnthropicClaude01Cz scoped review](https://github.com/d6g8k5htny-coder/Math-/pull/513#issuecomment-6405469445)
+stays bound to37f8f01d; #512's fourteen-module reviews keep their original
+cuts. Source weighting is not a geometric Palm identification, and the
+derivative-tail object is the stated Fourier majorant. The source README's
+old pending-review text is preserved as historical source; current native
+review chronology is attributed separately, with no scientific-status effect.
+
+INPUT_BINDING retains23declared dependencies:12smooth-source files at
+e75cb81e toward row118 and11determinant files at16f81b9 toward row345
+under receipt95e50247. No logical GRAPH edge or dependency applicability is
+adjudicated here. The historical512/513-open-at-cut paragraph remains exact;
+row345's later512expansion remains separately unaccounted. No Drive match
+was performed for the new row.
+
+The frozen comparison parent remains released #676 source1ab5b6ab/treeffbb;
+all345parent rows,1350vertices and345orderededges stay exact. #676 actually
+landed28October11:43:50UTC as Main `b95366c6651cb9c048a885cff61de8836da3c5b2`
+and its branch was deleted. This initial source-only Draft targets Main, retaining
+source parent1ab without author rebase or current-Main composition. Do not merge
+into or recreate #676's branch. A separate eligible integrator must qualify
+actual-current-Main composition and all current gates.
+No mathematical program/checker/gate/Lean/kernel/replay/CI request ran.
+Source/implementation membership supplies no theorem or parent acceptance;
+scientific effectNONE and broader corpus accountingOPEN.
+
 ## Declared consumer memberships (2026-10-28)
 
 345 ledger rows / 1350 vertices / 345 hyperedges. Source 219/126,
