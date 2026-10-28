@@ -11,6 +11,22 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
 
+## Declared consumer membership supplement, 28 October 2026
+
+Existing rows 57/62 gain their declared E3/far-elder direct replay wrappers; row 311
+gains the README-named theta numerical companion. No existing trigger/dependency
+member is replaced. Exact source cuts, provenance and numerical limits are in
+[the index qualification](README.md#declared-consumer-memberships-2026-10-28)
+and [the implementation plan](../../docs/superpowers/plans/2026-10-28-row311-theta-consumer.md).
+
+Only these three implementation cells change. All 342 other raw rows and all
+source/node/lane/bound/status/Drive cells remain exact. All 1348 prior vertices
+and 345 ordered hyperedges remain; the E3 wrapper vertex is reused. The two new
+vertices are the far-elder wrapper and theta program. Source 219/126,
+implementation-container 297/48, 30 placeholder-only and 14 bound counts remain.
+No mathematical program, replay, workflow or Lean ran; this is declared
+consumer bookkeeping, not proof-to-code applicability or scientific acceptance.
+
 ## Row 311 lobe numerical-consumer membership, 26 October 2026
 
 Only existing row 311's implementation cell gains
@@ -305,12 +321,12 @@ OBL OPEN; source accounting only, NOT A RESULT.
 | 54 | main#527 | Math- | `frontiers/elder_lower_all_d_20260929` | GB-8l | PROOF.md | frontiers/elder_lower_all_d_20260929/lower_all_d_check.py; .github/workflows/elder-lower-all-d.yml | — | N | orphan | 0 |
 | 55 | main#527 | Math- | `frontiers/elder_partner_extremes_20260930` | GB-8l | PROOF.md | frontiers/elder_partner_extremes_20260930/elder.py; frontiers/elder_partner_extremes_20260930/test_elder.py | — | N | orphan | 0 |
 | 56 | main#527 | Math- | `frontiers/elder_selected_extremes_20260930` | GB-8m | NONAUTHOR_REVIEW.md; PROOF.md | MISSING | — | N | orphan | 0 |
-| 57 | main#527 | Math- | `frontiers/elder_third_order_20261001` | GB-8l | PROOF.md | frontiers/elder_third_order_20261001/e3_check.py; .github/workflows/c2-torus-transfer.yml | — | N | orphan | 0 |
+| 57 | main#527 | Math- | `frontiers/elder_third_order_20261001` | GB-8l | PROOF.md | frontiers/elder_third_order_20261001/e3_check.py; .github/workflows/c2-torus-transfer.yml; .github/workflows/elder-third-order.yml | — | N | orphan | 0 |
 | 58 | main#527 | Math- | `frontiers/em_intermediate_elder_20261006` | GB-8b | EM/AUTHOR_READ_COMPLETE_AND_CLAIM.md; EM/CLAIM.md; EM/PROOF.md | frontiers/em_intermediate_elder_20261006/EM/author_controls.py; frontiers/em_intermediate_elder_20261006/replay.py | — | N | orphan | 0 |
 | 59 | main#527 | Math- | `frontiers/equal_height_mass_value_20261001` | GB-8n | MISSING | frontiers/equal_height_mass_value_20261001/equal_height_mass.py; frontiers/equal_height_mass_value_20261001/gamma_explore.py | — | N | orphan | 0 |
 | 60 | main#527 | Math- | `frontiers/extreme_cluster_sampling_20260930` | GB-8s | PROOF.md | frontiers/extreme_cluster_sampling_20260930/extremes.py; frontiers/extreme_cluster_sampling_20260930/ratio_law.py | — | N | orphan | 0 |
 | 61 | main#527 | Math- | `frontiers/far_elder_flat_ridge_20260930` | GB-8l | C89_V1_1_PROOF.md; C89_V1_1_REVIEW.md; C89_V1_PROOF.md | frontiers/far_elder_flat_ridge_20260930/c89_replay.py; frontiers/far_elder_flat_ridge_20260930/c89_reviewer_controls.py | — | N | orphan | 0 |
-| 62 | main#527 | Math- | `frontiers/far_elder_rate_20260930` | GB-8l | ERRATUM_20261004.md; PROOF.md | frontiers/far_elder_rate_20260930/far_elder_check.py; .github/workflows/elder-third-order.yml | — | N | orphan | 0 |
+| 62 | main#527 | Math- | `frontiers/far_elder_rate_20260930` | GB-8l | ERRATUM_20261004.md; PROOF.md | frontiers/far_elder_rate_20260930/far_elder_check.py; .github/workflows/elder-third-order.yml; .github/workflows/far-elder-rate.yml | — | N | orphan | 0 |
 | 63 | main#527 | Math- | `frontiers/far_sector_lifetime_refinement_20261022` | GB-8g | PROOF.md; REVIEW.md | MISSING | — | N | orphan | 0 |
 | 64 | main#527 | Math- | `frontiers/finite_l_d2_coefficient_20261018` | GB-8e | PROOF.md; REVIEW.md | frontiers/finite_l_d2_coefficient_20261018/coefficient.py; frontiers/finite_l_d2_coefficient_20261018/contract.py | — | N | orphan | 0 |
 | 65 | main#527 | Math- | `frontiers/fixed_r_inverse_lifetime_20260930` | GB-8e | PROOF.md | frontiers/fixed_r_inverse_lifetime_20260930/inverse.py; frontiers/fixed_r_inverse_lifetime_20260930/test_inverse.py | — | N | orphan | 0 |
@@ -559,7 +575,7 @@ OBL OPEN; source accounting only, NOT A RESULT.
 | 308 | main#527 | main | `experiments/reactor_v0` | GB-8r | MISSING | experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py | — | N | orphan | 0 |
 | 309 | main#527 | main | `experiments/semantic_memory` | GB-8r | MISSING | experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml | — | N | orphan | 0 |
 | 310 | main#527 | main | `experiments/universality` | GB-8r | experiments/universality/AMPLITUDE_MIXTURE_FALSIFIER.md; experiments/universality/PROTOCOL.md; experiments/universality/README.md; experiments/universality/VALIDATION.md; experiments/universality/finite_candidate_lifetime/PROOF.md; experiments/universality/finite_candidate_lifetime/REVIEW.md; experiments/universality/finite_contact_genericity/PROOF.md; experiments/universality/finite_contact_genericity/REVIEW.md; experiments/universality/finite_elder_transfer/PROOF.md; experiments/universality/finite_elder_transfer/REVIEW.md; experiments/universality/finite_fold_chart/PROOF.md; experiments/universality/finite_fold_chart/REVIEW.md; experiments/universality/finite_gaussian_contact/PROOF.md; experiments/universality/finite_gaussian_contact/REVIEW.md; experiments/universality/finite_h0_lifetime/PROOF.md; experiments/universality/finite_h0_lifetime/REVIEW.md; experiments/universality/finite_weighted_fold_window/PROOF.md; experiments/universality/finite_weighted_fold_window/REVIEW.md; experiments/universality/fold_structural_universality/PROOF.md; experiments/universality/fold_structural_universality/REVIEW.md; experiments/universality/higher_homology_fold/PROOF.md; experiments/universality/higher_homology_fold/REVIEW.md; experiments/universality/iid_short_bar_process/PROOF.md; experiments/universality/iid_short_bar_process/REVIEW.md; experiments/universality/periodized_gaussian_h0/PROOF.md; experiments/universality/periodized_gaussian_h0/REVIEW.md; experiments/universality/spectral_gaussian_admission/PROOF.md; experiments/universality/spectral_gaussian_admission/REVIEW.md | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
-| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py; experiments/zeta_fold_exploration/dbn/lobe_identity.py | — | N | orphan | 0 |
+| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py; experiments/zeta_fold_exploration/dbn/lobe_identity.py; experiments/zeta_fold_exploration/theta/project_theta_checks.py | — | N | orphan | 0 |
 | 312 | main#527 | main | `formal/UniversalLaw` | GB-8p | main:formal/sources/side24_v1/PROOF.md; main:formal/sources/side24_v1/ENCLOSURE.json | formal/UniversalLaw/Side24/Ledger.lean; formal/UniversalLaw/Side24/ConeMoments.lean; formal/UniversalLaw/Side24/Endpoints.lean | — | N | orphan | 0 |
 | 313 | main#527 | main | `formal/UniversalLaw.lean` | GB-8p | MISSING | formal/UniversalLaw.lean; main:formal/manifest.json | — | N | orphan | 0 |
 | 314 | #538 | Math- | `frontiers/critical_ridge_20261020` | PENDING_OPEN_PR #491,#496,#497 | execution/author/PROOF.md; project/CriticalRidge.lean; c299_hosted_verify.py | (in PR head) | — | N | unmerged | 0 |
