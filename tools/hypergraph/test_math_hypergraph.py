@@ -19,9 +19,9 @@ def built():
 def test_counts(built):
     hg, G = built
     g = mh.summary(mh.gaps(hg, G))
-    assert g["units"] == 344 and hg.num_e == 344
-    assert (g["sourced"], g["no_source"]) == (215, 129)
-    assert (g["implemented"], g["no_impl"]) == (296, 48)
+    assert g["units"] == 345 and hg.num_e == 345
+    assert (g["sourced"], g["no_source"]) == (219, 126)
+    assert (g["implemented"], g["no_impl"]) == (297, 48)
     assert g["impl_placeholder_only"] == 30
     assert g["bound_units"] == 14
     assert g["graph_nodes"] == 49 and g["unbound_nodes_per_527"] == 28
@@ -31,9 +31,9 @@ def test_counts(built):
 
 def test_ledger_header_matches_table():
     text = mh.LEDGER.read_text()
-    assert "**215**" in text and "**129**" in text
+    assert "**219**" in text and "**126**" in text
     missing = sum(1 for r in mh.parse_ledger() if r["src"].upper().startswith("MISSING"))
-    assert missing == 129
+    assert missing == 126
 
 
 def test_every_edge_fail_closed(built):
@@ -79,7 +79,7 @@ def test_shared_impl(built):
 
 def test_cli(capsys):
     assert mh.main(["gaps"]) == 0
-    assert json.loads(capsys.readouterr().out)["sourced"] == 215
+    assert json.loads(capsys.readouterr().out)["sourced"] == 219
     assert mh.main(["validate"]) == 0
     capsys.readouterr()
     assert mh.main(["reach", "main:node:nope"]) == 2
@@ -112,4 +112,4 @@ def test_export_bundle_roundtrip(tmp_path):
     m = json.loads((b / "MANIFEST.json").read_text())
     assert m["files"]["math_hypergraph.json"] == mh._sha(b / "math_hypergraph.json")
     hg = mh.load_json(b / "math_hypergraph.json")
-    assert hg.num_e == 344
+    assert hg.num_e == 345

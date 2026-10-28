@@ -1,0 +1,86 @@
+[
+  {
+    "command": "python -B -m unittest discover -s tests -p test_public_shop_data.py",
+    "exit": 0,
+    "seconds": 0.1643470439958037,
+    "log": "00.log"
+  },
+  {
+    "command": "python -B -m unittest tests.test_site_asset_release",
+    "exit": 0,
+    "seconds": 14.532243189998553,
+    "log": "01.log"
+  },
+  {
+    "command": "node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs",
+    "exit": 0,
+    "seconds": 1.9868855359964073,
+    "log": "02.log"
+  },
+  {
+    "command": "python -B -S -m unittest discover -s tests -p test_reader_links.py -v",
+    "exit": 0,
+    "seconds": 2.574714374000905,
+    "log": "03.log"
+  },
+  {
+    "command": "python -B -m unittest discover -s tests -p test_museum_data.py",
+    "exit": 0,
+    "seconds": 0.215294196998002,
+    "log": "04.log"
+  },
+  {
+    "command": "python -B tools/museum_check.py",
+    "exit": 0,
+    "seconds": 1.6732458080005017,
+    "log": "05.log"
+  },
+  {
+    "command": "node --test tests/test_museum_geometry.mjs",
+    "exit": 0,
+    "seconds": 0.1167729579974548,
+    "log": "06.log"
+  },
+  {
+    "command": "python -B -E -S tests/test_public_shop_check_identity_control.py -v",
+    "exit": 0,
+    "seconds": 0.16446129699761514,
+    "log": "07.log"
+  },
+  {
+    "command": "python -B -E -O -S tests/test_public_shop_check_identity_control.py -v",
+    "exit": 0,
+    "seconds": 0.41485637000005227,
+    "log": "08.log"
+  },
+  {
+    "command": "python -B tools/public_shop_check.py",
+    "exit": 0,
+    "seconds": 1.1169846929988125,
+    "log": "09.log"
+  },
+  {
+    "command": "python -B -S -m unittest tests.test_current_site_data tests.test_current_site_build",
+    "exit": 0,
+    "seconds": 11.717518445999303,
+    "log": "10.log"
+  },
+  {
+    "command": "node --test tests/test_current_site.mjs tests/test_atlas_reader_experience.mjs",
+    "exit": 0,
+    "seconds": 1.1721184739944874,
+    "log": "11.log"
+  },
+  {
+    "command": "python -B -S -m unittest discover -s tests -p test_required_formal_check.py -v",
+    "exit": 0,
+    "seconds": 0.2684125320010935,
+    "log": "12.log"
+  },
+  {
+    "command": "python -B -O -S -m unittest discover -s tests -p test_required_formal_check.py -v",
+    "exit": 0,
+    "seconds": 0.5678895629971521,
+    "log": "13.log"
+  }
+]

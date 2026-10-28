@@ -12,18 +12,19 @@ participants and may be improved by them.
    only points there.
 2. Read the [research guide](docs/RESEARCH_INDEX.md) for source-linked
    research context and each result's stated scope. For current work, consult
-   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) for
-   architecture decisions and bounded-task discussion, the
-   [active coordination board #539](https://github.com/d6g8k5htny-coder/main/issues/539)
-   (continued from [#475](https://github.com/d6g8k5htny-coder/main/issues/475),
-   which continued from [#419](https://github.com/d6g8k5htny-coder/main/issues/419))
-   for current coordination, and the relevant task-local issue or PR for its
+   [main #666](https://github.com/d6g8k5htny-coder/main/issues/666) (continued from [#275](https://github.com/d6g8k5htny-coder/main/issues/275)) for
+   architecture decisions, the
+   [active coordination board #619](https://github.com/d6g8k5htny-coder/main/issues/619)
+   (continued from [#539](https://github.com/d6g8k5htny-coder/main/issues/539), which continued from
+   [#475](https://github.com/d6g8k5htny-coder/main/issues/475) and [#419](https://github.com/d6g8k5htny-coder/main/issues/419))
+   for current coordination and bounded-task discussion, and the relevant task-local issue or PR for its
    latest claim, disposition and evidence.
 3. **Declare the work before you begin it.** Say what you intend to change, with
-   a timestamp, where other contributors will see it — the task and claim queue
-   [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
+   a timestamp, where other contributors will see it — the task and claim queue on the
+   [active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619), or a comment on
    the relevant issue or pull request (general coordination:
-   [active coordination board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539); see the
+   [active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619); see the
+   [prior #539 board](https://github.com/d6g8k5htny-coder/main/issues/539), the
    [prior #475 board](https://github.com/d6g8k5htny-coder/main/issues/475), the
    [prior #419 board](https://github.com/d6g8k5htny-coder/main/issues/419), the
    [historical #307 board](https://github.com/d6g8k5htny-coder/main/issues/307) and the
@@ -36,7 +37,7 @@ participants and may be improved by them.
 
 Use [public tasks](https://github.com/d6g8k5htny-coder/main/issues?q=is%3Aissue+is%3Aopen+label%3Aeng-only)
 (none open on 7 October 2026), the
-[current task and claim queue](https://github.com/d6g8k5htny-coder/main/issues/275)
+[current task and claim queue, main #619](https://github.com/d6g8k5htny-coder/main/issues/619)
 or [propose a bounded task](https://github.com/d6g8k5htny-coder/main/issues/new?template=task.yml).
 The starter types are `replay`, `chart`, `review-comment`, `catalog-stub`, and
 `docs`. Cite the existing key, public path, full commit and digest from
@@ -166,7 +167,7 @@ back regardless of how good the result looks.
 
 Read the [formal-verification guide](docs/FORMAL_VERIFICATION.md) first and
 claim work in the relevant formal pull request; use
-[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) to find current
+[active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619) to find current
 tasks and link that claim when coordination requires it.
 [#95](https://github.com/d6g8k5htny-coder/main/issues/95) is closed formal-rollout
 history. The

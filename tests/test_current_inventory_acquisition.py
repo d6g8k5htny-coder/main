@@ -87,16 +87,16 @@ class InventoryPresentation(unittest.TestCase):
     def test_predecessor_live_output_stays_byte_exact_for_both_style_orders(self):
         expected = json.loads((ROOT / "tests/fixtures/current_inventory_legacy_live_hashes.json").read_text())
         for style in (True, False):
-            pages = self.history.render_live_current_v2(self.data, self.meta, annotations=False, style_first=style)
+            pages = self.history.render_live_current_v2(self.data, self.meta, annotations=False, style_first=style, readable_status=False)
             self.assertEqual({k: hashlib.sha256(v).hexdigest() for k, v in pages.items()}, expected[str(style).lower()])
 
     def test_pre_resume_annotated_live_output_stays_byte_exact_for_both_style_orders(self):
         # Hashes from main 1e16211d, the annotated presentation published before the Resume block.
         expected = json.loads((ROOT / "tests/fixtures/current_live_pre_resume_hashes.json").read_text())
         for style in (True, False):
-            pages = self.history.render_live_current_v2(self.data, self.meta, style_first=style, resume=False)
+            pages = self.history.render_live_current_v2(self.data, self.meta, style_first=style, resume=False, readable_status=False)
             self.assertEqual({k: hashlib.sha256(v).hexdigest() for k, v in pages.items()}, expected[str(style).lower()])
-            current = self.history.render_live_current_v2(self.data, self.meta, style_first=style)
+            current = self.history.render_live_current_v2(self.data, self.meta, style_first=style, readable_status=False)
             self.assertNotEqual(current["nodes/n.html"], pages["nodes/n.html"])
             self.assertEqual(current["nodes/index.html"], pages["nodes/index.html"])
 

@@ -8,15 +8,17 @@
   <title>Mathematics · Universal Law</title>
   <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
   <link rel="stylesheet" href="style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1">
-  <link rel="stylesheet" href="brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3">
+  <link rel="stylesheet" href="brand.css?site-release=96e1ca8ff6109b837d640a00de6ca352265bbb74ad5dc83db63944b71e8d3473">
   <link rel="stylesheet" href="dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6">
   <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
   <script type="module" src="dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79"></script>
 <link rel="stylesheet" href="current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207">
-<link rel="stylesheet" href="atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49">
-<link rel="stylesheet" href="atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f">
-<script type="module" src="current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142"></script>
-<script type="module" src="atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f"></script>
+<link rel="stylesheet" href="atlas-layout.css?site-release=fae685ade99816159a8aaa31a6593126bc582125250c7d44dc67f995ca704102">
+<link rel="stylesheet" href="atlas-spatial.css?site-release=38e1c62152e61330e2aa63ad06db214a1bcecb7c046121680de9cafa9c28bf33">
+<script type="module" src="current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5"></script>
+<script type="module" src="atlas.mjs?site-release=163d66ee8a9f91ddef7670d8200a1a219e6340fef8a3c99e3e3cc4e673e82540"></script>
+<link rel="stylesheet" href="reader-jump.css?site-release=409f00c674f36b362faa759f76c7c6a788aacd59ff0d4074a58d70fed6af42e0">
+<script type="module" src="reader-jump.mjs?site-release=5e35f52ed3b301d525819ca755b19adb7d22f114873c22e3966fba29580a16f3"></script>
 </head>
 <body class="dependency-page atlas-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -25,6 +27,7 @@
   <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html">Library</a><a href="dependencies.html#current-atlas">Mathematics</a></nav>
 </header>
 <nav class="reader-tools" aria-label="Research tools"><span class="reader-tools-label" aria-hidden="true">Research tools</span><a href="reproduce.html">Reproduce</a><a href="cite.html">Cite</a></nav>
+<details class="reader-jump"><summary>Go to</summary><nav aria-label="Go to a page or tool"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#library-current">Search current sources</a><a href="workspace.html#reading-list">Reading list</a><a href="dependencies.html#current-atlas">Mathematics atlas</a><a href="compare.html">Compare snapshots</a><a href="cite.html#reference-builder">Cite a source</a><a href="reproduce.html">Reproduce</a></nav></details>
 <main id="main-content" tabindex="-1">
   <section id="current-atlas" class="atlas" aria-labelledby="atlas-heading" tabindex="-1">
     <div class="atlas-intro">
@@ -32,6 +35,20 @@
       <h1 id="atlas-heading">Mathematical atlas</h1>
       <p class="intro">Find a claim. Follow its dependencies. Read the sources.</p>
     </div>
+    <details id="atlas-foundations" class="atlas-foundations">
+      <summary>Start here: the mathematical ideas</summary>
+      <h2>A landscape, a threshold, a lifetime</h2>
+      <p>Imagine a landscape whose height varies from place to place. Move a horizontal waterline through it and watch regions appear and join. This picture is a starting point for reading the research; each source specifies its own mathematical setting.</p>
+      <dl>
+        <dt>Random landscape</dt><dd>A function assigns a value, like height, to each location. In a random landscape the function is chosen according to a probability model. A picture of one landscape is one example, not a statement about every possible landscape.</dd>
+        <dt>Threshold and component</dt><dd>A threshold selects locations above or below a chosen value. A connected component is a piece joined together within that selected region. Read the source to see which direction its threshold moves.</dd>
+        <dt>Persistence and lifetime</dt><dd>Persistence tracks features as the threshold changes. A component can appear and later merge with another; the two threshold values describe its birth and death in the source's convention. Its lifetime measures their separation. This is about threshold values, which need not be elapsed time.</dd>
+        <dt>Hypotheses and scope</dt><dd>Hypotheses are the conditions a claim assumes. Scope says which objects or situations it covers. Read these before applying a result to another landscape or scale.</dd>
+      </dl>
+      <h3>Read a claim in three steps</h3>
+      <ol><li>Choose a claim and read its recorded scope and source.</li><li>Follow its recorded relationships. An arrow points from the claim that depends on something to its dependency. Required and context relationships keep their recorded meanings; position and distance do not measure proof strength.</li><li>Inspect evidence separately: source acquisition, mathematical review, kernel checking, statement alignment and scientific acceptance answer different questions. Missing evidence remains unknown.</li></ol>
+      <p><a href="explore.html">Try the teaching models</a> · <a href="research.html">Read the research introduction</a></p>
+    </details>
     <div role="status" aria-live="polite"><p id="atlas-status" class="atlas-observation">Loading the current pinned graph…</p></div>
     <p id="atlas-error" class="atlas-error" role="alert" hidden></p>
     <div class="atlas-layout">
@@ -69,6 +86,11 @@
     </div>
     <p class="atlas-scope-note">This is a partial neighborhood of the indexed graph. Source metadata is not acquired proof content or mathematical acceptance.</p>
     <p class="atlas-source-actions"><a id="atlas-share" href="#current-atlas">Share this source snapshot and selection</a> · <a href="nodes/index.html">Static node index and evidence pages</a></p>
+    <details id="atlas-snapshot-details" class="atlas-snapshot-details" hidden>
+      <summary>Source snapshot and reproducibility</summary>
+      <p id="atlas-snapshot-record"></p>
+      <ul id="atlas-snapshot-pins"></ul>
+    </details>
     <details class="atlas-reading-guide"><summary>Source coverage and how to read the graph</summary>
       <p id="atlas-coverage"></p>
       <p>Expand a neighborhood to follow more recorded relationships. Displayed nodes are this page's window; loaded nodes are the neighborhood or search matches; the indexed total is the complete admitted graph. These are navigation counts, not proof completeness.</p>
@@ -78,7 +100,8 @@
       <p class="eyebrow">A separate reading collection</p><h2>Read an equation in its source</h2>
       <p>Exact acquired excerpts retain their surrounding proof scope. No equation-to-node logical association is recorded.</p>
       <label for="equation-search">Find equation text or source</label><input id="equation-search" type="search" disabled>
-      <div role="status"><p id="equation-count"></p></div>
+      <p id="equation-count"></p>
+      <div role="status" aria-atomic="true"><p id="equation-announcement" class="atlas-announcement"></p></div>
       <label for="equation-select">Exact acquired equation excerpt</label><select id="equation-select" disabled></select>
       <div class="atlas-toolbar"><button id="equation-previous" type="button" disabled>Previous excerpt</button><button id="equation-next" type="button" disabled>Next excerpt</button></div><div id="equation-content"></div>
     </div>
@@ -90,7 +113,7 @@
 <!-- CURRENT-SITE:START -->
 <section id="current-research" class="current-research current-research-compact" data-current-digest="560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f" data-current-bytes="962639">
 <h2>Source observation</h2>
-<p class="current-state" role="status">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>
+<div role="status"><p class="current-state">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>
 <details class="current-source-details"><summary>Sources and scope</summary>
 <p><a href="https://github.com/d6g8k5htny-coder/main/tree/b7deb198722582df191006e4f47238f92e6e543d">main <code>b7deb198722582df191006e4f47238f92e6e543d</code></a> · <a href="https://github.com/d6g8k5htny-coder/Math-/tree/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde">Math- <code>dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde</code></a></p>
 <p><a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/STATUS.md">Current status source</a> · <a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/docs/RESEARCH_INDEX.md">Current research guide</a> · <a href="https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/PROOF_INDEX.md">Current proof index</a></p>
@@ -111,14 +134,14 @@
 <button class="current-more" type="button" hidden>Show more files</button>
 <noscript><p>Use the <a href="nodes/index.html#sources">complete static source inventory</a>.</p></noscript>
 </details>
-<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26329623 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
+<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26330173 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
 </details>
 </section>
 <!-- CURRENT-SITE:END -->
 
   <div class="atlas-archive-notices" aria-label="Preserved viewer status">
     <p class="eyebrow">Preserved viewer status</p>
-    <p id="load-status" class="muted" role="status" aria-live="polite">Loading the local source snapshot…</p>
+    <div role="status" aria-live="polite"><p id="load-status" class="muted">Loading the local source snapshot…</p></div>
     <p id="filter-error" class="error" role="alert" hidden></p>
     <p id="selection-error" class="error" role="alert" hidden></p>
   </div>
