@@ -1,0 +1,86 @@
+name: Rebuild source-bound 367 classifications
+'on':
+  push:
+    branches:
+      - cbz/regenerate-367-classifications-20261029
+    paths:
+      - '.github/workflows/cbz-regenerate-367.yml'
+      - 'cbz/reconstruction-367/regenerate.py'
+      - 'cbz/reconstruction-367/test_regenerate.py'
+      - 'cbz/reconstruction-367/mutations.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  reconstruct:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.11.16'
+      - name: Check builder controls and intended mutants in both Python modes
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/cbz-reconstruction"
+          python -B -S cbz/reconstruction-367/mutations.py 2>&1 | tee "$RUNNER_TEMP/cbz-reconstruction/selftest.log"
+      - name: Checkout published main proof evidence
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/main
+          ref: 82d9e480a51b946b3e74525ccf32139129d37d28
+          path: federation/main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Checkout observed Math source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: 9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966
+          path: federation/Math-
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Build classification and perform independent inventory roundtrip
+        run: |
+          set -euo pipefail
+          python -B -S cbz/reconstruction-367/regenerate.py --root "$GITHUB_WORKSPACE/federation" --output "$RUNNER_TEMP/cbz-reconstruction/classifications.json" 2>&1 | tee "$RUNNER_TEMP/cbz-reconstruction/builder.log"
+          python -B -S federation/main/tools/cbz_inventory.py generate --root "$GITHUB_WORKSPACE/federation" --repositories main Math- --classifications "$RUNNER_TEMP/cbz-reconstruction/classifications.json" --output "$RUNNER_TEMP/cbz-reconstruction/inventory.json" 2>&1 | tee "$RUNNER_TEMP/cbz-reconstruction/generate.log"
+          python -B -S federation/main/tools/cbz_inventory.py verify --root "$GITHUB_WORKSPACE/federation" --repositories main Math- --manifest "$RUNNER_TEMP/cbz-reconstruction/inventory.json" 2>&1 | tee "$RUNNER_TEMP/cbz-reconstruction/verify.log"
+      - name: Publish only verified reconstruction to this isolated branch
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/cbz-reconstruction/classifications.json" cbz/reconstruction-367/classifications.json
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+          evidence=pathlib.Path(os.environ['RUNNER_TEMP'])/'cbz-reconstruction'
+          rows=json.loads((evidence/'classifications.json').read_bytes())['obligations']
+          verification=json.loads((evidence/'verify.log').read_bytes())
+          if len(rows)!=367 or not verification.get('inventory_verified') or verification.get('cbz_green') is not False:
+              raise SystemExit('unexpected classification or verification result')
+          report={'source_commit':os.environ['GITHUB_SHA'],'main_source':'82d9e480a51b946b3e74525ccf32139129d37d28',
+                  'math_source':'9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966','count':367,
+                  'classification_sha256':hashlib.sha256((evidence/'classifications.json').read_bytes()).hexdigest(),
+                  'selftest_log_sha256':hashlib.sha256((evidence/'selftest.log').read_bytes()).hexdigest(),
+                  'generate_log_sha256':hashlib.sha256((evidence/'generate.log').read_bytes()).hexdigest(),
+                  'verify_log_sha256':hashlib.sha256((evidence/'verify.log').read_bytes()).hexdigest(),
+                  'verification':verification,'scope':'Source and evidence binding only; no fresh kernel replay, semantic completeness, or CBZ-0 certification.'}
+          (root/'cbz/reconstruction-367/observed-result.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+          PY
+          git config user.name "CBZ verification bot"
+          git config user.email "cbz-verification@example.invalid"
+          git add cbz/reconstruction-367/classifications.json cbz/reconstruction-367/observed-result.json
+          git diff --cached --quiet && exit 1
+          git commit -m "Record observed 367-declaration classification binding"
+          git push origin HEAD:refs/heads/cbz/regenerate-367-classifications-20261029
+      - name: Preserve raw results, including failed attempts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-reconstruction-367-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cbz-reconstruction
+          if-no-files-found: error
+          retention-days: 90
