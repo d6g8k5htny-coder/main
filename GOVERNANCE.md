@@ -193,3 +193,7 @@ The bounded Lean lexical scanner (`tools/cbz/layer_a_scan.py`) and Python floati
 ### Mutation-grader qualification limit
 
 Source inspection found that both the lexical and A3 mutation graders accept any nonzero exit and an expected test failure even when foreign failures are present; neither requires the specific bypass reason. Their historical 66 and 23 mutant outcomes do not by themselves establish auditor soundness. Test-first repairs and fresh reason-bound controls are pending, so G0 and federation-wide G1 remain unqualified.
+
+### Historical main regression skip observation
+
+The archived [one-shot workflow](cbz/evidence/main-regression-skip-observation/workflow.yml.txt) downloaded the two specified hosted artifacts, checked their GitHub-reported ZIP digests and the original log digests, and listed the skipped test lines. The actual positive observation, exact source/run and limitations are in [result.json](cbz/evidence/main-regression-skip-observation/result.json). It is a historical diagnostic, not a Layer A auditor or a full G5 certificate; it has no dedicated adversarial test suite and must not be promoted as a certifier without one. Maintenance owner: none. To reproduce while the original GitHub artifacts remain available, run the exact archived workflow with `actions: read` or apply its listed hash and unzip commands to those exact artifact IDs.
