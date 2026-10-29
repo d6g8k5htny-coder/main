@@ -28,3 +28,7 @@ Math8151 inventory:4,019 tracked files,162 Lean,182 workflows,286 exact workflow
 | G11 | Tool tests/registry | Complete reviewed census admission and register all mission changes |
 
 Disjoint source repairs are coordinated in main#684. Missing tooling is a build task, not an owner dependency. Unsupported API errors were preserved with successful inventory fallbacks. No unexecuted job is green.
+
+### Historical Math graph coverage
+
+The retained Math graph at commit `8151f592918a845bf19eb8eafaf8444540a32734` has 49 nodes and 55 edges. Its complete records and edges match the preserved contribution exactly. In the current 307-row catalog, 35 node IDs occur literally and 14 do not; this is a text observation, not evidence of equivalent semantic coverage. Sixteen source groups and seven alignment gaps also need source-specific reconciliation. The original graph's historical review labels do not certify kernel closure. [Graph source](cbz/quarantine/current-math-graph-source.json) and [coverage observations](cbz/quarantine/math-graph-coverage-observations.json) record the exact cut and limits.
