@@ -175,3 +175,7 @@ At main commit `1e2be44c69e08e47472041ac329e1b27f7dec793`, #704 delivered histor
 ### Auditor and Node candidate handoff
 
 The auditor repair remains on branch `cbz/auditor-grader-a8-20261029`, observed head `78bbd4b388b86ddd9bc886b42f87e1b79e295b1f`; main #707's current Node candidate head is `9651b9c8f86fae3a696ceeb836a4e3c6c17a11a2`. Their new source and tests have not been qualified by a completed current-head run. A delegated repair turn was automatically stopped because its content was flagged for possible cybersecurity risk. Preserve its previous evidence and do not infer a passing gate or completed repair.
+
+### Unavailable local numerical and classification work
+
+The execution environment is currently unavailable. A previously observed local commit `4d416a851ecb1d474141bbfc60173927949124ce` contained a prepared 27-record numerical mapping and a 367-record source-classification update; its push did not complete, and the commit is not available through the examined public GitHub refs. The published `cbz/classifications.json` contains 94 records. The 367 literal declaration records and their published evidence remain available separately. Neither the 27 numerical records nor the local classification file has been recovered; restore the execution environment and preserve those exact bytes, or independently regenerate and verify a new mapping from published source evidence. No claim of permanent loss or completed numerical disposition is made.
