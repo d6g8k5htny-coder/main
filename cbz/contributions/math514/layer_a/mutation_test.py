@@ -21,6 +21,9 @@ HERE=Path(__file__).resolve().parent
 
 # Each change weakens a claimed auditor rule, rather than planting a bad proof fixture.
 MUTATIONS=[
+ ('restore-metadata-generic-numeral-swallowing', 'source_checks.py', "        elif c.isdigit():\n            # Preserve the canonical numeral boundary: valid Lean permits a\n            # numeral immediately before a declaration keyword (0theorem).\n            # Keep spelling/location for literal-hypothesis checks; no numeric\n            # evaluation or independent numeral grammar is introduced here.\n            match = canonical_numeral_spelling.match(text, i)\n            end = match.end() if match is not None else i + 1\n            tokens.append(Token(text[i:end], line, column)); advance(end)\n        elif c.isalpha() or c == '_':", "        elif c.isalpha() or c == '_' or c.isdigit():"),
+ ('discard-metadata-numeral-tokens', 'source_checks.py', 'tokens.append(Token(text[i:end], line, column)); advance(end)', 'advance(end)'),
+ ('overshoot-metadata-numeral-boundary', 'source_checks.py', 'tokens.append(Token(text[i:end], line, column)); advance(end)', 'tokens.append(Token(text[i:end], line, column)); advance(min(end + 1, n))'),
  ('restore-generic-numeral-swallowing','canonical_lean.py',"match = _NUMERAL.match(text, i)\n            advance(match.end() - i if match else 1)","while i < n and (text[i].isalnum() or text[i] in '._'):\n                advance(1)"),
  ('discard-nested-string-code-holes','canonical_lean.py',"yield from _brace_segments(text, content_start, i - 1, start[0], start[1] + 1)","pass"),
  ('discard-canonical-lexical-errors','source_checks.py',"for line, column, kind in dict.fromkeys(lexical_errors):","for line, column, kind in []:"),

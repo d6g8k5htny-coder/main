@@ -3,7 +3,9 @@ import ast
 from dataclasses import dataclass
 import re
 
-from canonical_lean import lex_tokens as canonical_identifier_tokens, _CHAR_LIT as canonical_character_literal
+from canonical_lean import (lex_tokens as canonical_identifier_tokens,
+                            _CHAR_LIT as canonical_character_literal,
+                            _NUMERAL as canonical_numeral_spelling)
 
 
 @dataclass(frozen=True)
@@ -93,7 +95,15 @@ def lean_tokens(text):
                 advance(match.end())
             else:
                 error('unsupported or unterminated character literal'); advance(i + 1)
-        elif c.isalpha() or c == '_' or c.isdigit():
+        elif c.isdigit():
+            # Preserve the canonical numeral boundary: valid Lean permits a
+            # numeral immediately before a declaration keyword (0theorem).
+            # Keep spelling/location for literal-hypothesis checks; no numeric
+            # evaluation or independent numeral grammar is introduced here.
+            match = canonical_numeral_spelling.match(text, i)
+            end = match.end() if match is not None else i + 1
+            tokens.append(Token(text[i:end], line, column)); advance(end)
+        elif c.isalpha() or c == '_':
             j = i + 1
             while j < n and (text[j].isalnum() or text[j] in "_'!?" or (text[j] == '.' and j + 1 < n and (text[j + 1].isalpha() or text[j + 1] == '_'))):
                 j += 1

@@ -1,0 +1,127 @@
+{
+  "type": "independent_scoped_source_review",
+  "reviewed_at": "2026-10-29T20:57:27.468472+00:00",
+  "verdict": "CLEAR",
+  "findings": [],
+  "scope": "exact three changed runtime/test files; seven new metadata controls; mode-bound affected receipts and three new guard mutants; no execution rerun by reviewer",
+  "source_sha256": {
+    "source_checks.py": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "mutation_test.py": "e0cc3d77716e143dd374f2a23fc28923b8590e5dffed83e20733cd329553ddeb",
+    "tests/test_auditor.py": "d28d370108b5466f510e540c2e673de2f96e1286aa9d44212728b0c2a8bd7b3c",
+    "tests/test_mutation_runner.py": "9190916dea425ab71aad73acbb70b4100890592f2a462375cb3a922ff62a1ff3"
+  },
+  "resolved_review_finding": {
+    "issue": "new class originally followed direct unittest.main guard",
+    "resolution": "unchanged guard moved to module end",
+    "proof": "evidence/registration-move-applicability.json plus successful direct-entry seven-control log",
+    "methods_unchanged": true
+  },
+  "source_observations": [
+    "Only lean_tokens function changes in source_checks.py: canonical numeral spelling reuse splits leading numeral from following identifier without evaluating it; exact spelling/location remain",
+    "The canonical lexer, auditor, Python checking functions, contradiction logic and mutation-runner functions are byte- or AST-unchanged",
+    "All 72 predecessor auditor test method bodies unchanged; seven new methods exercise adjacent theorem/lemma/example, actual manifest coverage/contradiction, locations, literals/identifiers and integer-equality candidates",
+    "Original57 mutation tuples remain unchanged with unique replacement anchors; exactly3metadata mutation tuples added",
+    "The27 unaffected auditor methods exercise Python-only or metadata/filesystem/JSON/CLI branches outside changed Lean numeral lexer; unchanged15grader methods remain reusable",
+    "Prior19+38 scanner kill observations remain separately version-bound and reusable: added numeral branch preserves their previously exercised helper/hazard/import/contradiction routes; no57rerun claimed"
+  ],
+  "observed_evidence": {
+    "normal": {
+      "baseline_method_count": 52,
+      "baseline_receipt_sha256": "c8d550bf753f3cd311d14f6410d0db8d5a0981d6d3614523434a6d6dbc339ae3",
+      "mutants": [
+        {
+          "name": "restore-metadata-generic-numeral-swallowing",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 34,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "205f36d36ec9b171a9b4253bdeefa9b7bb15dcbb2fdc367ed395ac3aeb31502d",
+          "log_sha256": "b80300c0128ac748a631f80f4ef7f34e2ef5e28914e1b0f4a2d9225c1ac15bca"
+        },
+        {
+          "name": "discard-metadata-numeral-tokens",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 3,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "8d6e08c9c42285e890dc6142ceb423c82ab0f3a346cc72dd60a9fb233940fecb",
+          "log_sha256": "69365dfcad2c249353e4d770f0e7d40e0961ae3c7d915c2597ca95c1886d2ab1"
+        },
+        {
+          "name": "overshoot-metadata-numeral-boundary",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 36,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "1b33eb9f8ecd49587cb234003509edca22fda6d03fc60896528636cf8a0ad810",
+          "log_sha256": "cf7838bb630202cd030edf178ec43a28111dc896e1d1f1664dade9696e04657c"
+        }
+      ]
+    },
+    "optimized": {
+      "baseline_method_count": 52,
+      "baseline_receipt_sha256": "6621a3c6de1090cfb67617d86e564a69d24ba7d192b684904aec17e7ba73cc3e",
+      "mutants": [
+        {
+          "name": "restore-metadata-generic-numeral-swallowing",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 34,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "205f36d36ec9b171a9b4253bdeefa9b7bb15dcbb2fdc367ed395ac3aeb31502d",
+          "log_sha256": "e2a0378ac06e15a5ee2d6bbba247ea786ac6bfccdcabe33d97a8ca5289d931bd"
+        },
+        {
+          "name": "discard-metadata-numeral-tokens",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 3,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "8d6e08c9c42285e890dc6142ceb423c82ab0f3a346cc72dd60a9fb233940fecb",
+          "log_sha256": "21207ae8451303d4ef6cae513e26d9b1868bd0db27d5ee4fa81608ac485a1dd6"
+        },
+        {
+          "name": "overshoot-metadata-numeral-boundary",
+          "outcome": "KILLED",
+          "tests_run": 52,
+          "assertion_failures": 36,
+          "errors": 0,
+          "original_sha256": "1cba64bb503b8e9245b0bc504678ed71823cde6e629a6a53dbe8f19c6eb33aec",
+          "mutated_sha256": "1b33eb9f8ecd49587cb234003509edca22fda6d03fc60896528636cf8a0ad810",
+          "log_sha256": "92bfd97c9e487465707cc1d2d4955acc54cbd3471dd27b8a97153db0a11a94c1"
+        }
+      ]
+    }
+  },
+  "reuse": {
+    "current_methods": 94,
+    "fresh_affected_predecessor": 45,
+    "fresh_new": 7,
+    "reused_unaffected": 42,
+    "current_mutations": 60,
+    "fresh_new_mutations": 3,
+    "predecessor_mutations_reused": 57,
+    "fresh_whole_suite": false,
+    "fresh_whole_mutation_run": false
+  },
+  "preserved_failures": [
+    "original numeral-adjacency7controls/34assertion-failure RED",
+    "initial test-only position22/28 corrected to actual20/26 with priorlog retained",
+    "outer orchestration sorted-ID admission failure preserved, successful52rawreceipts reused withoutrerun"
+  ],
+  "limits": [
+    "Actual repository G1 remains NOT_RUN; final exact scope/manifest controller-owned",
+    "Not a Lean parser, elaborator or semantic SAT solver",
+    "Hexadecimal maximal munch is canonical; arbitrarysuffixes beginninga-f are not claimed valid command boundaries",
+    "Changed metadata may require affected retained finding/vacuity manifest rows refresh",
+    "No hostedCI, Lean compiler/kernel or mathematical rerun performed by this review",
+    "Existing source-bound verification and provider/process requirements remain separate"
+  ]
+}
