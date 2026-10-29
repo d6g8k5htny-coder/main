@@ -1,0 +1,37 @@
+name: cbz-cold-start-node
+on:
+  push:
+    branches: [cbz/cold-start-node-20261029]
+    paths:
+      - 'tools/cbz_node_regression.py'
+      - 'tools/cbz_node_mutations.py'
+      - 'tests/test_cbz_node_regression.py'
+      - '.github/workflows/cbz-cold-start-node.yml'
+  pull_request:
+    paths:
+      - 'tools/cbz_node_regression.py'
+      - 'tools/cbz_node_mutations.py'
+      - 'tests/test_cbz_node_regression.py'
+      - '.github/workflows/cbz-cold-start-node.yml'
+permissions:
+  contents: read
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        optimize: ['0', '1']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Prepared Node runner controls
+        env:
+          PYTHONOPTIMIZE: ${{ matrix.optimize }}
+        run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
