@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-29T20:05:46.592691+00:00",
+  "local_head": "f8cb7c4e69acf06ded094f6f9518652dd0df09bd",
+  "tree": "0597c783adf59b8df8302a00380bfc76d220e572",
+  "parents": [
+    "a4601c6f4e0a2426a8f347f376e47f45bb26441a",
+    "c93cec70223281492709ff74ca84fed5dc6e40e8"
+  ],
+  "expected_tests_per_mode": 13,
+  "runs": [
+    {
+      "label": "normal",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-S",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_atlas_spatial_admission",
+        "tests.test_atlas_hosted_browser_contract",
+        "tests.test_current_site_browser_contract",
+        "tests.test_atlas_preservation_contract",
+        "-v"
+      ],
+      "exit_observed": 0,
+      "log_sha256": "e2d0b55106246aa1bab5418bcbd7b242dd8613fef572117f6325dbbbe7fc6466"
+    },
+    {
+      "label": "optimized",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-S",
+        "-B",
+        "-O",
+        "-m",
+        "unittest",
+        "tests.test_atlas_spatial_admission",
+        "tests.test_atlas_hosted_browser_contract",
+        "tests.test_current_site_browser_contract",
+        "tests.test_atlas_preservation_contract",
+        "-v"
+      ],
+      "exit_observed": 0,
+      "log_sha256": "6d184200a6fc194f28ae3ee000cc1a79ed7b79ec38deea09aff8ed3b8e901b65"
+    }
+  ],
+  "source_files": {
+    "tools/atlas_spatial_admission.py": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+    "tools/current_site_browser_check.py": "ced49ece18704510b8e4e70936fc04fd43f471cb6973d1fd0dccc37791b863a2"
+  },
+  "scope": "local focused composition controls only; no native CI/deployment or kernel claim; historical browser evidence retains original source binding"
+}

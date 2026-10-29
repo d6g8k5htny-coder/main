@@ -56,8 +56,8 @@ Visual inspection found a readable selected label and directed arrows in the bou
 Run from a coherent generated checkout:
 
 ```sh
-python3.11 -B -S -m unittest tests.test_atlas_hosted_browser_contract tests.test_atlas_spatial_admission tests.test_current_site_browser_contract -v
-python3.11 -B -O -S -m unittest tests.test_atlas_hosted_browser_contract tests.test_atlas_spatial_admission tests.test_current_site_browser_contract -v
+python3.11 -B -S -m unittest tests.test_atlas_hosted_browser_contract tests.test_atlas_spatial_admission tests.test_current_site_browser_contract tests.test_atlas_preservation_contract -v
+python3.11 -B -O -S -m unittest tests.test_atlas_hosted_browser_contract tests.test_atlas_spatial_admission tests.test_current_site_browser_contract tests.test_atlas_preservation_contract -v
 python3 -B tools/current_site_browser_check.py --browser /path/to/chromium --output NEW_DIRECTORY
 python3 -B tools/site_asset_release.py
 python3 -B tools/site_asset_release.py --check
@@ -76,3 +76,8 @@ At submitted head `11cc83c4da34ddda66eba1e5193862ff2f805e16`, the native browser
 ## Geometry admission strengthened after peer counterexample
 
 [Bounded review](geometry-strengthening/review-FINDINGS.md) found that the first helper reselected Graph before checking geometry, triggering a render that masked a removed failure-time reflow callback. The independent full45 entry reproduced that false admission:45/45 passed on the no-reflow mutation. The fixed helper inspects an already visible Graph without selecting it again, and explicitly records separate mobile reader-to-Browse and List-to-Graph actions. New source-bound runs: correct45/45/exit0, no-reflow42/45/exit1 with the three expected visible-Graph overlap failures, E1 focus43/45/exit1, and blockedThree43/45/exit1. All13 focused controls pass normally and optimized. [Exact new results/source/driver identities](geometry-strengthening/RESULTS.json) and the raw reports preserve the earlier false admission without relabelling it. The original performance samples above belong to the first helper; they are not rebound to this strengthened source. Production UI/source assets are unchanged. Corrected-head native CI remains a separate required observation.
+
+
+## Current Main composition
+
+The current-base composition at `f4ff12fb7865aeda588f76dbe684a10d03bc26c5` has tree `0597c783adf59b8df8302a00380bfc76d220e572` and includes Main `c93cec70223281492709ff74ca84fed5dc6e40e8`. The helper and runner hashes remain unchanged. [Fresh13-test normal/optimized receipts](current-base-c93/RESULT.json) bind the matching local source tree; this section and the complete four-module commands above are a subsequent documentation-only change. Native checks and deployment require their own exact-source observation. Original successful/failed browser reports and performance samples retain their historical source bindings.
