@@ -9,7 +9,7 @@ export function createSpatialRenderer({host,onPick,onFailure}) {
   const canvas=renderer.domElement;canvas.tabIndex=0;canvas.setAttribute('role','img');canvas.setAttribute('aria-label','3D dependency graph. Arrow keys orbit, Shift and arrows pan, plus and minus zoom, Home resets. Use the node list to select with a keyboard.');
   const labels=document.createElement('div');labels.className='atlas-space-labels';host.append(labels);
   const group=new THREE.Group();scene.add(group);const ray=new THREE.Raycaster(),pointer=new THREE.Vector2();
-  let meshes=[],labelNodes=[],radius=32,fittedRadius=32,theta=.12,phi=1.1,target=new THREE.Vector3(),paused=false,disposed=false,frame=0,drag=null,draws=0;
+  let meshes=[],labelNodes=[],radius=32,fittedRadius=32,theta=.12,phi=1.1,target=new THREE.Vector3(),paused=false,disposed=false,frame=0,drag=null,draws=0,displayedSignature=null;
   const cleanup=[];
   function listen(node,type,fn,options){node.addEventListener(type,fn,options);cleanup.push(()=>node.removeEventListener(type,fn,options));}
   function clear(){for(const child of [...group.children]){child.geometry?.dispose();if(Array.isArray(child.material))child.material.forEach(m=>m.dispose());else child.material?.dispose();group.remove(child);}meshes=[];labelNodes=[];labels.replaceChildren();}
@@ -31,7 +31,7 @@ export function createSpatialRenderer({host,onPick,onFailure}) {
   function reset(){target.set(0,0,0);theta=.12;phi=1.1;radius=fittedRadius;schedule();}
   function zoom(factor){radius=THREE.MathUtils.clamp(radius*factor,5,500);schedule();}
   function pan(x,y){const right=new THREE.Vector3().setFromMatrixColumn(camera.matrix,0),up=new THREE.Vector3().setFromMatrixColumn(camera.matrix,1);target.addScaledVector(right,-x*radius*.0015).addScaledVector(up,y*radius*.0015);}
-  function update(view,selected){clear();const bounds=new THREE.Box3();
+  function update(view,selected){const signature=JSON.stringify([...new Set(view.ids)].sort()),changed=signature!==displayedSignature;clear();const bounds=new THREE.Box3();
     for(const id of view.ids){const position=new THREE.Vector3(...view.positions[id]);bounds.expandByPoint(position);const mesh=new THREE.Mesh(new THREE.SphereGeometry(id===selected?.5:.33,12,8),new THREE.MeshBasicMaterial({color:id===selected?0xf4c76b:0x72bded}));mesh.position.copy(position);mesh.userData.id=id;group.add(mesh);meshes.push(mesh);
       const label=document.createElement('button');label.type='button';label.textContent=id;label.tabIndex=-1;label.setAttribute('aria-hidden','true');label.className=id===selected?'selected':'';label.addEventListener('click',()=>onPick(id));labels.append(label);labelNodes.push({node:label,position,selected:id===selected});}
     labelNodes.sort((a,b)=>Number(b.selected)-Number(a.selected));
@@ -39,7 +39,7 @@ export function createSpatialRenderer({host,onPick,onFailure}) {
       const geometry=new THREE.BufferGeometry().setFromPoints([start,end]);const material=edge.required?new THREE.LineBasicMaterial({color:0x91b9db}):new THREE.LineDashedMaterial({color:0x91b9db,dashSize:.25,gapSize:.2});const line=new THREE.Line(geometry,material);line.computeLineDistances();group.add(line);
       const cone=new THREE.Mesh(new THREE.ConeGeometry(.14,.45,7),new THREE.MeshBasicMaterial({color:0x91b9db}));cone.position.copy(end).addScaledVector(direction,-.22);cone.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction);group.add(cone);}
     fittedRadius=bounds.isEmpty()?32:Math.max(22,bounds.getSize(new THREE.Vector3()).length()*1.1);
-    if(!host.dataset.ready)radius=fittedRadius;
+    if(changed){displayedSignature=signature;reset();}
     host.dataset.nodes=String(view.ids.length);host.dataset.edges=String(view.edges.length);schedule();
   }
   listen(canvas,'pointerdown',e=>{if(e.button!==0&&e.button!==2)return;drag={x:e.clientX,y:e.clientY,startX:e.clientX,startY:e.clientY,pan:e.shiftKey||e.button===2};canvas.setPointerCapture(e.pointerId);});

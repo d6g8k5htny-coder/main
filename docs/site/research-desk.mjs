@@ -3,6 +3,7 @@ import {currentSnapshot} from './current.mjs?site-release=27f990a4758c48ff2f4aa5
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=547418ff3547b671266d1e46bf8d33f1f3eedf83571f6a0bb69ca9d7786ffaf3';
 import {readingListCitationHref} from './reading-list-citation.mjs?site-release=02153e8e3acb70abca98685f5b274c0472eea6450ed2e9c3fc3125a7b0196968';
 import {startLibrarySourceSearch} from './library-source-search.mjs?site-release=0f7fa4196362a427e070fc49f58f8a2935840e9d797358cb9d325e5db44ee612';
+import {startLibraryDiscovery} from './library-discovery.mjs?site-release=d3923565256aa274b8540ca2f7d6094e2d488fe5cdf15bbba13c74315dd3643f';
 
 export function sourceLinkKey(href) {
   try{
@@ -215,7 +216,8 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   attachCatalog();
   snapshot.then(data=>{
     if(!data)return;
-    startLibrarySourceSearch(doc,win);
+    const sourceTools=startLibrarySourceSearch(doc,win);
+    startLibraryDiscovery(doc,win,data,()=>sourceTools?.update());
     currentData=data;
     for(const source of data.sources){
       try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceLinkKey(sourceHref(entry)),entry);}catch{}

@@ -154,6 +154,29 @@ Focused checks: `node --test tests/test_reading_list_citation.mjs` and
 `python3 -B tools/reading_list_citation_browser_check.py --browser PATH --output
 browser-evidence/reading-list-citation` (optional pinned browser packages).
 
+## Current-first Library discovery
+
+Home's Library card opens the current collection. After that observation verifies,
+the existing search moves ahead of its provenance disclosure. **File paths** keeps
+the original repository/path matching, append50 results, source identities, saving
+and citation behavior. **Acquired text** searches only the included excerpts and
+source paths, appends ten previews at a time and links exact source lines. It does
+not fetch complete documents or infer mathematical or graph connections. The
+dated catalog and all source/status disclosures remain available.
+
+The collection is presentation state in `library-collection=text`; existing
+`source-q` bookmarks and saved file searches keep their meaning. Excerpt searches
+have share links; they are not silently stored as file searches. A failed source
+admission installs no new search. No-script users retain the static inventory.
+
+Focused checks: `node --test tests/test_library_discovery.mjs` and
+`python3 -B tools/library_discovery_browser_check.py --output
+browser-evidence/library-discovery`. `--site PATH` selects one already admitted
+local site, while `--origin URL` replays an independently identified publication.
+The driver records actual geometry, literal text, file/text paging, keyboard and
+source-link behavior; these are engineering checks, not mathematical acceptance
+or a spoken-AT/full-WCAG certificate.
+
 ## Reading without losing your place
 
 Research adds small question/map/source links to each of its seven dated readings
