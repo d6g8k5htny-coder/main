@@ -4,39 +4,17 @@ on:
     branches: [cbz/cold-start-node-20261029]
     paths:
       - 'tools/cbz_node_regression.py'
-      - 'tools/cbz_node_mutations.py'
       - 'tests/test_cbz_node_regression.py'
       - '.github/workflows/cbz-cold-start-node.yml'
   pull_request:
     paths:
       - 'tools/cbz_node_regression.py'
-      - 'tools/cbz_node_mutations.py'
       - 'tests/test_cbz_node_regression.py'
       - '.github/workflows/cbz-cold-start-node.yml'
 permissions:
   contents: read
 jobs:
-  controls:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    strategy:
-      fail-fast: false
-      matrix:
-        optimize: ['0', '1']
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-          fetch-depth: 1
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
-        with:
-          python-version: '3.11'
-      - name: Prepared Node runner controls
-        env:
-          PYTHONOPTIMIZE: ${{ matrix.optimize }}
-        run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
-
-  prepared:
+  controls-and-prepared:
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
@@ -47,16 +25,22 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.11'
+      - name: Ordinary controls and intended source/harness mutations
+        run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+      - name: Optimized controls and intended source/harness mutations
+        if: always()
+        run: python -B -O -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
       - name: Fetch immutable historical fixture objects
+        if: always()
         run: |
           git clone --no-checkout https://github.com/d6g8k5htny-coder/Math-.git "$RUNNER_TEMP/Math-"
           git clone --no-checkout https://github.com/d6g8k5htny-coder/query-.git "$RUNNER_TEMP/query-"
-      - name: Every tracked Node test with verified fixtures
+      - name: Every tracked mjs test with verified fixtures
+        if: always()
         env:
           NODE_OPTIONS: --require=/definitely-missing-cbz-node-preload.cjs
           NODE_PATH: /untrusted/cbz-node-path
-        run: |
-          python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
+        run: python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
       - name: Print actual result for independent readback
         if: always()
         run: |
