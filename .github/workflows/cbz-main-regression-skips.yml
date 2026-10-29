@@ -24,7 +24,7 @@ jobs:
           printf '%s  %s\n' 61f0a7304e26427d6eb41eb00afa825cfa87f9ea15ce6bb18ab40acd7f88c3c7 "$RUNNER_TEMP/optimized.zip" | sha256sum --check
           unzip -p "$RUNNER_TEMP/normal.zip" main-full-normal.log > "$RUNNER_TEMP/normal.log"
           unzip -p "$RUNNER_TEMP/optimized.zip" main-full-optimized.log > "$RUNNER_TEMP/optimized.log"
-          printf '%s  %s\n' 78eaea4473a576b6d060937b08a8cbd95391ba1bfb9513e4b9fd5eca836e "$RUNNER_TEMP/normal.log" | sha256sum --check
+          printf '%s  %s\n' 78eaea4473a576b6d060937b08a8cbd95391ba1bfb9513e8f5a95160c791e88a "$RUNNER_TEMP/normal.log" | sha256sum --check
           printf '%s  %s\n' 117c2cfa37103338ec940f38bb7f9d8c603b2eefc0da07718b4c9bfd5eca836e "$RUNNER_TEMP/optimized.log" | sha256sum --check
           grep -E '\.\.\. skipped ' "$RUNNER_TEMP/normal.log" > "$RUNNER_TEMP/normal-skips.txt"
           grep -E '\.\.\. skipped ' "$RUNNER_TEMP/optimized.log" > "$RUNNER_TEMP/optimized-skips.txt"
