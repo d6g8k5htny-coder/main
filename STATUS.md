@@ -4,7 +4,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 
 ## Current baseline
 
-**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 18:26 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
+**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 18:42 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
 
 | Gate | Actual component observation | Final result |
 |---|---|---|
@@ -19,11 +19,13 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 | G8 | Canonical surfaces being reconciled to observed evidence | Not qualified |
 | G9 | Historical fixture fetch preconditions identified | Final clone/tag test not run |
 | G10 |158 fully contained branches pruned and absences read back; distinct deliveries remain | Not passed |
-| G11 | Census tool: 58 tests per mode and four source mutations passed; RF312 effective map checked against actual Git blobs | Final federation admission not qualified |
+| G11 | Census: 75 tests and nine source mutants per mode. Replay helper: 31 tests and three Python mutants per mode, plus actual Lean guard controls/mutations | Final federation admission not qualified |
 
 ## What is closed and verified
 
-94 literal formal declarations are CLOSED at their exact kernel-checked source cuts; no stronger model or parent claim is closed. [PROOF_INDEX.md](PROOF_INDEX.md) records the admission boundary. The main arithmetic execution is bound to `c3377cc8c0fb35844dc7613976d6e746fdc05600`; Math core source is `8151f592918a845bf19eb8eafaf8444540a32734`. They concern literal formal statements only, not a constructed Gaussian/Palm model or a concrete coefficient/enclosure identification.
+367 literal declaration records are CLOSED in their exact kernel-checked package contexts: main arithmetic31, Math core63, specification78, smooth-source116, C29713 and determinant66. [PROOF_INDEX.md](PROOF_INDEX.md) and its exact signature/source/axiom records preserve every binder and hypothesis. Main source is `c3377cc8c0fb35844dc7613976d6e746fdc05600`; Math core/additional source is `8151f592918a845bf19eb8eafaf8444540a32734`; determinant source is `74565f013575b7b05ecfc4034cd5d638ee355353`. Package and source path are part of identity: determinant reuses 13 names from the separate core. These counts are not independent discoveries. No broader Gaussian/Palm construction, coefficient/enclosure identification or parent theorem is closed by these records.
+
+Actual additional empty-kernel replays covered specification901 owned/65,210 dependencies, smooth222/55,236, C297131/38,531 and determinant157/58,421. Per-theorem axiom/type reports and actual adverse controls passed. The replay helper and its generated Lean audit have self-tests and source mutations. See the exact commands in [additional reproduction](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md) and [determinant reproduction](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md). Defining any of the remaining specification Props does not assert it is universally true. Model satisfiability/premise discharge is not inferred.
 
 Completed engineering changes:
 
@@ -35,7 +37,9 @@ Completed engineering changes:
 
 ## Quarantine boundary
 
-The strict CLOSED domain contains only the 94 literal declarations in PROOF_INDEX.md. Conventional prose, finite numerical controls, loose Lean packages and historical ACCEPT labels remain outside it. The final per-source terminal index is still being assembled; its absence is not represented as a completed quarantine.
+The strict CLOSED domain contains only the 367 context-bound literal records. [The adopted catalog](cbz/quarantine/catalog.json) and [readable boundaries](cbz/quarantine/BOUNDARIES.md) give all §11 fields for 184 listed QUARANTINED obligations: source/model applications, conventional arguments, the archived trial suite and five real-record coverage gaps. They have no ongoing owner or maintenance. Remaining numerical-package mapping is being reconciled, so complete federation obligation coverage is not yet claimed.
+
+The boundaries preserve actual smooth/Fourier constructions but withhold unconstructed critical-point/bar measures, Morse/Palm/Kac–Rice/once-counting/elder-pairing bridges, global small-bar converses, concrete coefficient identification and unproved source-to-model alignment. Conditional geometry keeps its regular/interior/Morse premises. Conventional quartic/cusp/fold arguments remain source-bound prose. Historical float-based WP/THM023 verifiers are approximate diagnostics, with no mathematical bound certified by them; Q-3010/Q-3011 preserve the exact decertification and finite-grid limits. Main PR336/340/429 source is retained at annotated tags `cbz-quarantine-q-8336`, `cbz-quarantine-q-8340`, `cbz-quarantine-q-8429`. Quarantined unproved assertions do not supply proof dependencies to CLOSED declarations.
 
 Known residue: determinant compiled inventory/private support is not yet qualified; Cap auditor repairs remain in progress; main receipt attempt/source-custody repair is not yet integrated. Archived trial tests reproduced 87 failures per mode under write/network isolation. Original sources/failures are retained. Disjoint repairs/dispositions are coordinated in [main#684](https://github.com/d6g8k5htny-coder/main/issues/684), with main#619 the active board. No human or old family-review approval is required.
 
@@ -79,6 +83,16 @@ python3.11 -B -S tools/cbz_inventory.py verify --root /workspace/cbz --manifest 
 ```
 
 It binds tracked/index file union, commits, actual bytes and classification fields. It cannot authenticate kernel execution, decide semantic completeness or grant CBZ green. [TOOLING.md](TOOLING.md) lists scope; [INVENTORY.md](INVENTORY.md) lists discovery/gaps.
+
+Replay-helper self-verification, from `cbz/evidence/kernel/additional/replay-tool`:
+
+```bash
+python3.11 -B -S -m unittest -v test_replay_tool.py
+python3.11 -B -O -S -m unittest -v test_replay_tool.py
+python3.11 -B -S run_mutations.py --output /new/replay-tool-verification
+```
+
+Its [README](cbz/evidence/kernel/additional/replay-tool/README.md) supplies the exact installed-Lean/collector arguments for actual Lean controls and six generated-auditor mutations in both Python modes. Supplied transcript text does not authenticate an execution. Historical PR/citation tools are self-verified with the exact ordinary/optimized commands in their [README](cbz/evidence/stale-pr-dispositions/README.md): 44 focused tests and 49 intended source/harness mutant kills per mode. Their recommendations impose no staging/approval rules and describe a recorded historical cut, not current PR state.
 
 ## Decisions and invariants
 

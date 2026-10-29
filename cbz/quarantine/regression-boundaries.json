@@ -1,0 +1,1531 @@
+{
+  "analysis_is_not_a_certifier": true,
+  "evidence_files_sha256": {
+    "/workspace/cbz/discovery/record-coverage/assessment.json": "811c5e0e59bd5bbdd072953d918fc1afa4f8a981e80b16505b1be64fb96b342d",
+    "/workspace/cbz/discovery/record-coverage/source-drift.json": "3ba21eaef19bedc4455ef2216c6ba578b93299163dc004bd20928583b5bb13b5",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest-fresh/optimized/isolation-proof.json": "faa5d9c1098e346394851f6bf25a180574663bd70b8ee6934c4bb1d4f7360dfc",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest-fresh/optimized/result.json": "bb7e64d84a984af0881d5b11dd922316b7ee3dcc58565c3c63780d5b82f39694",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest-fresh/optimized/stdout.log": "d814370b5b76f9426e8a943a8f51f5fa5c800f2717d8f6d19da221286717a493",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest/normal/isolation-proof.json": "57462e66c2c6b003574fdfff1191249f923d0bea2303bcb1adf28935009ffa0d",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest/normal/result.json": "dfc0db23347b4babbec9aa08db9cb8d8167b6b7da412ef35a5418322a83b179f",
+    "/workspace/cbz/discovery/regression/trial/hermetic-full-pytest/normal/stdout.log": "7944c09d5c207a1dea2233c07d1e429c68946941de7601b5a1ed831742af7fc3"
+  },
+  "main_real_record_coverage": {
+    "assessment_evidence": "/workspace/cbz/discovery/record-coverage/assessment.json",
+    "normal": {
+      "exercised": 34,
+      "exit": 0,
+      "skipped": 5,
+      "tests": 39
+    },
+    "optimized": {
+      "exercised": 34,
+      "exit": 0,
+      "skipped": 5,
+      "tests": 39
+    },
+    "source_commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+    "source_drift_evidence": "/workspace/cbz/discovery/record-coverage/source-drift.json",
+    "source_sha256": {
+      "architecture/node-status.schema.json": "b82f1aee34097071bc47def5e3d371a3ced2df1332fb29779fe1d56e38676e45",
+      "records/node_status/eng.d0-packet-allowlist-fix.json": "8a5bfbc046147c5bf4a95e8ff912abcdef5f61761583e5654a7327772c72d3b3",
+      "records/node_status/eng.hard-gate.json": "0030f9903b68935581241fc1188f4a630399e857209e00023a441bd23f79a72b",
+      "records/node_status/math.lifetime-remainder.json": "5b53d7e717969dced722e080290e500ba0b3cccc1c53779d3e6a7cddd8f406ad",
+      "records/node_status/math.side24-coefficient.json": "0cc919fde0c9f57cdaab45d10c6eec8fc7d8d417bc33bafcd00cc53c7b6b2be7",
+      "tests/test_living_project_validation.py": "71a1fcba1dd118d91326289cd788bca1c8a1fe673ffd267eab0790974ea73190",
+      "tools/node_status_refresh.py": "5b55ddd6d415a51677f4e5faec1c0319fd6eb41a323127072eaacabaa3b9009a",
+      "tools/validate_node_status.py": "9ccadda867e00617b42177e8aee067c64bd6e52fbc79ec8fddc82653dfbc6375"
+    }
+  },
+  "quarantines": [
+    {
+      "attempted": [
+        "Complete normal and optimized pytest from separate byte-identical 6171-file source copies; all original assertions retained.",
+        "Credential environment removed, durable token discovery disabled, Git config disabled, outbound network absent, all 12 original federation clones bind-mounted read-only.",
+        "Earlier unconstrained/partial/optimized-reused-fixture attempts preserved separately; final comparison uses only the fresh normal and fresh optimized runs.",
+        "Read-only failure-block reconciliation: all 87 nodeids and failing assertion strings agree between modes; seven explicit observation groups cover every failure once."
+      ],
+      "blocking_reason": "Six distinct historical fixture-pin assertions and three README assertions conflict with retained source bytes; other claims require live authenticated/current remote observations or runtime assumptions absent in the recorded isolation. These facts do not logically imply a green historical suite. No mathematical proof obligation is being replaced by an engineering result.",
+      "exact_boundary": "At the immutable archived source cut, unchanged full pytest in fresh credential-free network-disabled namespaces produced 1355 passed, 87 failed, 1 skipped in each Python mode; all 87 failure nodeids and failed assertion texts match. No all-green suite, successful live write/clone, current remote tip, or recovered BATCH538 historical receipt is claimed. The 1355 passes establish only the executed assertions in this restricted environment.",
+      "id": "Q-9001",
+      "isolation": "The GitHub repository is already archived (read-only metadata observation 2026-10-29). Retain source and red tests at the immutable commit and keep them outside any CLOSED proof admission. Any deliberate replay uses the documented credential-free network-disabled scratch namespace; never import a trial success as a mathematical certificate. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "archived repository and safe historical execution observed; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A5 and A7: unchanged observed failing tests and missing historical artifact must remain visible; no mathematical theorem or bound is certified by these engineering results.",
+      "location": {
+        "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
+        "failed_nodeids_reference": "trial_failures",
+        "paths": [
+          "tests/test_intent.py",
+          "README.md",
+          "scripts/",
+          "portable/"
+        ],
+        "repository": "trial",
+        "skipped_nodeids": [
+          "tests/test_intent.py::test_batch538_tip_sync_watch_keep_prior_parent_pin"
+        ]
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-TRIAL-REGRESSION-001",
+      "resumption_cost": "Rough engineering estimate:1\u20133 engineer-days to replace live remote dependencies with semantically faithful explicit fixtures and reconcile authentic historical contradictions, followed by approximately20minutes for two full restricted replays at the observed runtime. This estimate is not a closure guarantee and grants no mathematical result.",
+      "title": "Archived trial regression and historical live-write orchestration"
+    },
+    {
+      "attempted": [
+        "Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.",
+        "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.",
+        "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."
+      ],
+      "blocking_reason": "No authentic evidence-bearing production record exists in the source cut. Creating an invented evidence/assignment URL would not establish the missing observation.",
+      "exact_boundary": "No real record has evidence_url, released_url, or resolution_url. The synthetic URL/fault checks are exercised; URL pattern checks on genuine production evidence are not.",
+      "id": "Q-9002",
+      "isolation": "Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "truthful explicit skips already present; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.",
+      "location": {
+        "commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+        "line": 401,
+        "path": "tests/test_living_project_validation.py",
+        "records": "records/node_status/*.json",
+        "repository": "main",
+        "schema": "architecture/node-status.schema.json",
+        "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern"
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-MAIN-RECORD-001",
+      "resumption_cost": "Rough engineering estimate:0.5\u20131 engineer-day after authentic admissible source evidence exists. Admit one authentic graph-valid production record containing actual evidence, then execute the unchanged method.",
+      "title": "Real-record evidence URL coverage"
+    },
+    {
+      "attempted": [
+        "Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.",
+        "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.",
+        "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."
+      ],
+      "blocking_reason": "No authentic owner/release lifecycle record exists at this cut; a synthetic owner cannot certify a real assignment or release.",
+      "exact_boundary": "All four real records have owner:null. Synthetic owner/fault checks are exercised; owner identity, assignment evidence and release-URL consistency on genuine records are not.",
+      "id": "Q-9003",
+      "isolation": "Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "truthful explicit skips already present; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.",
+      "location": {
+        "commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+        "line": 413,
+        "path": "tests/test_living_project_validation.py",
+        "records": "records/node_status/*.json",
+        "repository": "main",
+        "schema": "architecture/node-status.schema.json",
+        "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency"
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-MAIN-RECORD-002",
+      "resumption_cost": "Rough engineering estimate:0.5\u20131 engineer-day after authentic admissible source evidence exists. Admit a real graph-valid owner assignment/release with genuine evidence and execute the unchanged method.",
+      "title": "Real-record owner/release coverage"
+    },
+    {
+      "attempted": [
+        "Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.",
+        "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.",
+        "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."
+      ],
+      "blocking_reason": "The production schema rejects depends_on (observed unexpected fields). The proposed optional dependency validator has no logically admissible production instance under v0.",
+      "exact_boundary": "No production record has depends_on. Interface v0 rejects that key; synthetic dependency checks do not establish an admitted real-record dependency graph.",
+      "id": "Q-9004",
+      "isolation": "Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "truthful explicit skips already present; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.",
+      "location": {
+        "commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+        "line": 436,
+        "path": "tests/test_living_project_validation.py",
+        "records": "records/node_status/*.json",
+        "repository": "main",
+        "schema": "architecture/node-status.schema.json",
+        "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present"
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-MAIN-RECORD-003",
+      "resumption_cost": "Rough engineering estimate:1\u20132 engineer-days for an optional schema/graph extension and its adverse tests, after authentic records exist. Deliberately design, test, mutation-check and admit a schema/graph extension with authentic dependency data, then execute the unchanged method; no extension is needed for current v0.",
+      "title": "Proposed real-record dependency coverage"
+    },
+    {
+      "attempted": [
+        "Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.",
+        "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.",
+        "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."
+      ],
+      "blocking_reason": "The production schema rejects artifacts (observed unexpected fields). There is no admissible production artifact citation under interface v0.",
+      "exact_boundary": "No production record has artifacts. Interface v0 rejects that key; synthetic path checks do not establish artifact resolution for admitted real records.",
+      "id": "Q-9005",
+      "isolation": "Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "truthful explicit skips already present; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.",
+      "location": {
+        "commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+        "line": 445,
+        "path": "tests/test_living_project_validation.py",
+        "records": "records/node_status/*.json",
+        "repository": "main",
+        "schema": "architecture/node-status.schema.json",
+        "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present"
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-MAIN-RECORD-004",
+      "resumption_cost": "Rough engineering estimate:1\u20132 engineer-days for an optional schema/graph extension and its adverse tests, after authentic records exist. Deliberately design/test/admit an interface extension with authentic artifact citations, then execute the unchanged method; no extension is needed for current v0.",
+      "title": "Proposed real-record artifact coverage"
+    },
+    {
+      "attempted": [
+        "Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.",
+        "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.",
+        "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."
+      ],
+      "blocking_reason": "The current source state is not entailed by historical source pins or a mutable discussion URL. The source-refresh CLI is report-only and exits0 on stale/unknown, so its completion cannot certify freshness.",
+      "exact_boundary": "All four records say fresh, but the method unconditionally skips after listing them; no live-source freshness comparison is executed. A local Git comparison found all cited blobs unchanged at Math8151 except eng.hard-gate cited directory tree715449bbe16b471f68c4913d08e72baac903582b versus132725157175a85dbbd5a1cfc2c668fc7b518283; repository HEAD equality differs for every historical pin. One lifetime source is a mutable comment not observed by local Git.",
+      "id": "Q-9006",
+      "isolation": "Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.",
+      "isolation_status": "truthful explicit skips already present; canonical quarantine admission is a proposal for root integration",
+      "layer_a_status": "A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.",
+      "location": {
+        "commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+        "line": 453,
+        "path": "tests/test_living_project_validation.py",
+        "records": "records/node_status/*.json",
+        "repository": "main",
+        "schema": "architecture/node-status.schema.json",
+        "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"
+      },
+      "maintenance": "zero",
+      "owner": "none",
+      "provisional_semantic_id": "Q-MAIN-RECORD-005",
+      "resumption_cost": "Rough engineering estimate:1\u20132 engineer-days for an explicit freshness contract, tested fail-closed source comparison and truthful record reconciliation. Define an explicit honest path-vs-repository freshness contract, compare immutable actual current source bytes and fetch mutable discussion evidence when required, reject stale/unknown in a tested gate, reconcile genuine record observations and run the method. Never relabel missing evidence as passed.",
+      "title": "Real-record current-source freshness"
+    }
+  ],
+  "schema": "cbz-regression-quarantine-proposal-v1",
+  "terminal_admission": "PROPOSED: root canonical admission required; this artifact does not make G5 green or grant CBZ-0.",
+  "trial": {
+    "critical_source_sha256": {
+      "README.md": "75c9d8b376d8f76f12aea50201c0a896d19c3aad5a375932e65bb35b28844102",
+      "portable/AI_AGENT_ACCESS_INVENTORY.json": "6e21b87866c036762ccac8590a97960210efced7b0ef883b369e8bf9126bd5ec",
+      "portable/path-c-applied-bundle/VERIFY.json": "1728cc12bcc433370dc99a2c36b4e50fb863fc54687e22e86a20ab8f17f574a7",
+      "scripts/pack_portable.sh": "869f7c7178269851b744ca2223ba47afaa51e02a2a86803fae7f5d0caf43b001",
+      "scripts/when_writable_land.py": "b06b004ce03851138dc7fe36244853233bfdb065a3e2a910bdea82d74054ec8f",
+      "scripts/write_path_c_status.py": "de0376a43b4c5f9a184b745d6ad30da869fe8a62ee584297aa32ed702159a3de",
+      "tests/test_intent.py": "adce0d52032a8b7b77df3025b6dd4c35fbb0edc3a9dae097011d252d051365fe"
+    },
+    "failed_ids_and_assertion_texts_equal": true,
+    "groups": [
+      {
+        "count": 59,
+        "id": "T1",
+        "observation_boundary": "The isolated execution returned missing live tip/tip_match or a derived state; it cannot validate a live remote observation. This is an environmental observation boundary, not proof of a source algorithm defect.",
+        "title": "Unavailable live-tip/state assertion"
+      },
+      {
+        "count": 16,
+        "id": "T2",
+        "observation_boundary": "The failing command/log requires GitHub clone, live tip fetch, ls-remote or an API-to-raw fallback while the recorded namespace has no external interface/routes. Source correctness after network admission is not established.",
+        "title": "Direct network or network-fallback command failure"
+      },
+      {
+        "count": 3,
+        "id": "T3",
+        "observation_boundary": "Unchanged tests require exact historical README strings absent from the archived current README; this is a reproducible source/fixture mismatch independent of transport.",
+        "title": "Archived README text drift"
+      },
+      {
+        "count": 1,
+        "id": "T4",
+        "observation_boundary": "The recorded harness intentionally sets PATH_C_IGNORE_FILE_TOKENS=1 to prevent durable credential discovery. The archived test expects discovery of its fake token file; the observed false return is not evidence that permitted production token discovery is defective.",
+        "title": "Token-discovery isolation mismatch"
+      },
+      {
+        "count": 1,
+        "id": "T5",
+        "observation_boundary": "The test chmods a parent to 0555 and expects it unwritable. The user namespace runs as namespace root; the selected output remains under that parent rather than TMPDIR. The observed fixture assumption fails; behavior as an ordinary unprivileged UID is not observed.",
+        "title": "Writable-parent privilege fixture mismatch"
+      },
+      {
+        "count": 6,
+        "id": "T6",
+        "observation_boundary": "Archived fixtures carry mutually different historical SHA values and tests require their equality/prefix. This is a reproducible fixture inconsistency; no live update or invented receipt is used to replace the historical bytes.",
+        "title": "Conflicting historical fixture pins"
+      },
+      {
+        "count": 1,
+        "id": "T7",
+        "observation_boundary": "The test requires IDLE_PATH_C_DONE, while the unchanged status result is PATH_C_LANDED. The log establishes the mismatch; a source defect vs derivative unavailable-live-tip classification is not inferred.",
+        "title": "Archived idle-state mismatch"
+      }
+    ],
+    "mode_outcomes": {
+      "normal": {
+        "exit": 1,
+        "failed": 87,
+        "passed": 1355,
+        "skipped": 1
+      },
+      "optimized": {
+        "exit": 1,
+        "failed": 87,
+        "passed": 1355,
+        "skipped": 1
+      }
+    },
+    "single_skip": {
+      "absent_path": "portable/BATCH538_TIP_SYNC_IDLE.json",
+      "nodeid": "tests/test_intent.py::test_batch538_tip_sync_watch_keep_prior_parent_pin",
+      "reason": "BATCH538_TIP_SYNC_IDLE.json never landed (tip_sync/tip_eng race)",
+      "source_line": 56178
+    },
+    "source_commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
+    "source_count": 6171,
+    "source_sha256": "75b85eb0425290f6375d71e583216e75a01c205cb9f6aa86b3a1b1fd38740a00"
+  },
+  "trial_failures": [
+    {
+      "failed_assertion": "assert \"**Not**\" in text",
+      "failure_source": "tests/test_intent.py:287",
+      "group": "T3",
+      "nodeid": "tests/test_intent.py::test_readme_states_sandbox_boundary",
+      "normal_failure_block_sha256": "ab24cc0252327bc975cd2fcfb2038a8b225b6dcc71534075af308739f868947d",
+      "observed_error_tail": [
+        "E       AssertionError: assert '**Not**' in '# Integration Lab\\n\\nEngineering, portability, and adversarial integration workspace for the Universal Law research f...ize status, or premise discharge on the research program.\\n- A green test in `trial` is not a certificate in `main`.\\n'"
+      ],
+      "optimized_failure_block_sha256": "ab24cc0252327bc975cd2fcfb2038a8b225b6dcc71534075af308739f868947d"
+    },
+    {
+      "failed_assertion": "assert dry.returncode == 0, dry.stderr + dry.stdout",
+      "failure_source": "tests/test_intent.py:915",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_owner_one_liners_and_probe_main_write",
+      "normal_failure_block_sha256": "f3ec9f11848c3ae4f961fbe278686e016e139692226c4851dc9cb7a36df19204",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"would_align\": false",
+        "E         }",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/restore_main_face.sh...', stderr='owner_land_path_b: ERROR: dry-run certainty failed (exit=2). Patch may not would-align against live tip.\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "45b4073a9efe7d4d56047631068558bdefcf84f636161e24303c1586968f25b0"
+    },
+    {
+      "failed_assertion": "assert result.returncode == 0, result.stderr + result.stdout",
+      "failure_source": "tests/test_intent.py:1056",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_path_c_dry_run_post_aligned_keep_hardening",
+      "normal_failure_block_sha256": "a4edacc14b209fea9d949bc9de71121d2543e0cfefb0c43aae61d70814a393d3",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['/workspace/cbz/discovery/regression/runtime312/bin/python-direct', '/workspace/cbz/discovery/r...root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",\\n  \"write_required_to_land\": true\\n}\\n', stderr='').returncode"
+      ],
+      "optimized_failure_block_sha256": "6c49c5d2572f54e9d3b564b48af0c2e5562e2aab7b2c8c31d0d461e23ab0d8c7"
+    },
+    {
+      "failed_assertion": "assert dry.returncode == 0, dry.stderr + dry.stdout",
+      "failure_source": "tests/test_intent.py:2530",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch137_owner_path_c_oneshot_and_relaunch_doc",
+      "normal_failure_block_sha256": "a3252eec16f12959c5309babbb2b9e93273a91986bcf16f164e8faa37bc9fd6c",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/owner_land_path_c.sh...d\": true\\n}\\n', stderr='owner_land_path_c: ERROR: path_c_dry_run transport/missing inputs (exit=2). See JSON above.\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "10685a0c5b90b789661b3563ece36ea106dac591243c9d1ecb20429102262933"
+    },
+    {
+      "failed_assertion": "assert present is True and path == str(tok)",
+      "failure_source": "tests/test_intent.py:2638",
+      "group": "T4",
+      "nodeid": "tests/test_intent.py::test_batch140_when_writable_repository_dispatch_on_token_file",
+      "normal_failure_block_sha256": "d4b7cc5a627f14a8cb6322e83466281e76f40b51c551605f7fc1c05acb32b537",
+      "observed_error_tail": [
+        "E           assert (False is True)"
+      ],
+      "optimized_failure_block_sha256": "d4b7cc5a627f14a8cb6322e83466281e76f40b51c551605f7fc1c05acb32b537"
+    },
+    {
+      "failed_assertion": "assert dry_land.returncode == 0, dry_land.stderr + dry_land.stdout",
+      "failure_source": "tests/test_intent.py:3024",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch153_base_tip_parse_and_from_bundle_dry_run",
+      "normal_failure_block_sha256": "918fd652e7ffe150dba8e8a26f8545cbb406a3452e0a3e052f4d78985e17232f",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/owner_land_path_c.sh...d\": true\\n}\\n', stderr='owner_land_path_c: ERROR: path_c_dry_run transport/missing inputs (exit=2). See JSON above.\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "a7c21daef32d7d817e2cc8cedc938b73cb012d3bf2c04045c3a91af852b9d920"
+    },
+    {
+      "failed_assertion": "assert already_on_tip, fb_out",
+      "failure_source": "tests/test_intent.py:3481",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch169_git_bundle_path_c",
+      "normal_failure_block_sha256": "423a962051b2ef401d44ac3a9236873573d164eb1205e6291c4e74e74a272079",
+      "observed_error_tail": [
+        "E             fatal: unable to access 'https://github.com/d6g8k5htny-coder/main.git/': Could not resolve host: github.com",
+        "E             Cloning into '/tmp/owner-path-c-from-bundle-dry.TYSCEG/main'...",
+        "E             fatal: unable to access 'https://github.com/d6g8k5htny-coder/main.git/': Could not resolve host: github.com",
+        "E             owner_land_path_c: ERROR: clone failed (exit=2 transport).",
+        "E             ",
+        "E           assert False"
+      ],
+      "optimized_failure_block_sha256": "d0c4074577d132b3be6267851c5a690179aa737000b5604aa1a35975fcd360a5"
+    },
+    {
+      "failed_assertion": "assert dry.returncode == 0, dry.stdout + dry.stderr",
+      "failure_source": "tests/test_intent.py:3986",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch173_refresh_path_c_bundle",
+      "normal_failure_block_sha256": "9263fd106c3450d8e2e504b4180b36465c1488ff5de63ff162c0509e9b0c90f0",
+      "observed_error_tail": [
+        "E         refresh_path_c_bundle: tip fetch curl transport failed (will try fallbacks)",
+        "E         curl: (6) Could not resolve host: api.github.com",
+        "E         refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundle.sh', '...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "fc87374425f1f0665f194cf60d03d1fb8ff29e5f2b1672daada63b358b1233fb"
+    },
+    {
+      "failed_assertion": "assert dry.returncode == 0, dry.stdout + dry.stderr",
+      "failure_source": "tests/test_intent.py:4059",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch176_refresh_ci_tip_drift",
+      "normal_failure_block_sha256": "b02351a1e4508febd963cd2e617dd5a9a90bcf39467fbee72aad2df08734c3b7",
+      "observed_error_tail": [
+        "E         refresh_path_c_bundle: tip fetch curl transport failed (will try fallbacks)",
+        "E         curl: (6) Could not resolve host: api.github.com",
+        "E         refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundle.sh', '...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "eacbfd1391c0a7d8c573d1b531d62a4d0a9e282617717e611805c88201d4f202"
+    },
+    {
+      "failed_assertion": "assert _living_tip(data.get(\"tip\")) or (",
+      "failure_source": "tests/test_intent.py:4344",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch180_path_c_status_json_schema",
+      "normal_failure_block_sha256": "b18b2a47a477d7fdfbaf4f4fdf95aea409fc9c42407088ab23737831f911de1a",
+      "observed_error_tail": [
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953e76f740>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953e76f740> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get",
+        "E        +  and   False = isinstance(None, str)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953e76f740>('tip_full')",
+        "E        +      where <built-in method get of dict object at 0x7f953e76f740> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "3490a8135fa81d05837ef2bbd92416fbd0b3b2d651fe437edafc87a32644c92d"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:4519",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch183_ci_tip_drift_auth_renew",
+      "normal_failure_block_sha256": "ba01f5b4b1b349ab28dd84a1ad164c270fe6d2c9fe59ec0e447854d99be9aa6a",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f956afa5580>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f956afa5580> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "b95e003e15fed0b9fe359d0fe0863814bddfe245044a7d6e8f2f3ef4f17fe3fa"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:4596",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch185_auth_renew_research_audit_bundle",
+      "normal_failure_block_sha256": "9e6d88f8e056aef2569a8a460eec539e4dbdaf1cf9e96b10f3d3d8ed006f488c",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c7f2900>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c7f2900> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "92af024ea34e32965caa6c77dbd39609a45223d7a97be1e419b71ee6dae4a585"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:4684",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch188_align_watch_auth_renew_idle",
+      "normal_failure_block_sha256": "eaeda62e23d091ce607e40b9052440e7db0e5c729436d885d8015747f16749e5",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f9540dafbc0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f9540dafbc0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "709c8f99e18b8d063f221cb25cddee8f32498a98f29a407b32baf0412cf90322"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:4772",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch190_deeper_hunt_auth_renew",
+      "normal_failure_block_sha256": "f09bee9a8c6509898cda43881a50cc7370e59a468b3673d56f1b2a04389c3734",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953cbbaa40>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953cbbaa40> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "8f7ee31b0fb0139003f4af94d9d67508c154ddc6e084c12d7bc5bf3c8b399fd7"
+    },
+    {
+      "failed_assertion": "assert \"Path C \u2014 land engineering fixes on main\" in readme",
+      "failure_source": "tests/test_intent.py:4844",
+      "group": "T3",
+      "nodeid": "tests/test_intent.py::test_batch192_readme_path_c_face",
+      "normal_failure_block_sha256": "120dd0f170cbbbe8b8dfa03dce22c696b69df00d4bc6f4c28ecbfa8cea6f67fc",
+      "observed_error_tail": [
+        "E       AssertionError: assert 'Path C \u2014 land engineering fixes on main' in '# Integration Lab\\n\\nEngineering, portability, and adversarial integration workspace for the Universal Law research f...ize status, or premise discharge on the research program.\\n- A green test in `trial` is not a certificate in `main`.\\n'"
+      ],
+      "optimized_failure_block_sha256": "120dd0f170cbbbe8b8dfa03dce22c696b69df00d4bc6f4c28ecbfa8cea6f67fc"
+    },
+    {
+      "failed_assertion": "assert \"Path C \u2014 land engineering fixes on main\" in readme",
+      "failure_source": "tests/test_intent.py:4928",
+      "group": "T3",
+      "nodeid": "tests/test_intent.py::test_batch194_readme_link_only_device_code",
+      "normal_failure_block_sha256": "fb00089213e2f048d1a936863ee52911ef2f263176f749d6d5cec8de2f9f7a75",
+      "observed_error_tail": [
+        "E       AssertionError: assert 'Path C \u2014 land engineering fixes on main' in '# Integration Lab\\n\\nEngineering, portability, and adversarial integration workspace for the Universal Law research f...ize status, or premise discharge on the research program.\\n- A green test in `trial` is not a certificate in `main`.\\n'"
+      ],
+      "optimized_failure_block_sha256": "fb00089213e2f048d1a936863ee52911ef2f263176f749d6d5cec8de2f9f7a75"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5043",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch195_path_c_status_watch_wire",
+      "normal_failure_block_sha256": "3256985bb24dac58213687e68612cef8370738c41f5b3fbd12d194ea2139adf3",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953ee02880>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953ee02880> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "0e0db1a8ae172655d9e47c67e434be9257cd6006d82a399a686c2c339c306ead"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5166",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch199_path_c_bundle_pack_release",
+      "normal_failure_block_sha256": "85b39d1ec40f9d2f4a7550b4cdb6ae9d73826ea24bbe1f4da1985809103a9736",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a4623d00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a4623d00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "1bc2ce8d5c29a569a30c96d6809a1e4404c52e32826c018b86eebf9cb2dee1ab"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5308",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch202_ci_sanity_tip_refresh",
+      "normal_failure_block_sha256": "dfae57b7551ebcf1ce55af7eb04433cea1260cca3422472e0eb6b58903aede65",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95415aea40>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95415aea40> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "a5055750737b900cf9c26d6fbbb3d4c5d2e502d251d92c99cdec024747c9900c"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5529",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch219_repos_connect_all",
+      "normal_failure_block_sha256": "c7cbd94e1cf90680c46242eba780d2819681812637b69d36be9cf8548d6ceaaf",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953eab7680>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953eab7680> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "a20a5f1f2e5b821f6c76931f49bc25837e60564fd9510270bfeb8d21280b6589"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5624",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch223_multi_agent_access",
+      "normal_failure_block_sha256": "aef5e9214866addb7b8f857e580de463f1730a2506b752ec44d0476187f481b6",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a700bac0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a700bac0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "d74bf9e974fe3130e474be74d61cd98f058210d39b80d954ff1cabe7819ce475"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5727",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch224_sandbox_eight_repos",
+      "normal_failure_block_sha256": "af3e5e560887e5277bc01d01ec7e26df022d0f40d7d540cfc33c87fba2d57188",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a8b5a700>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a8b5a700> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "0957f93ac817ef669278174fdb1a50a09460b329ca4aa082f79e997a6ae75bda"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:5782",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch227_path_b_transport_retry",
+      "normal_failure_block_sha256": "c6163712e352353e0ae651ec42088cc67657200e328414e10eec5ec7d6da4c97",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a8af47c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a8af47c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "6ce6ff4232ebc4277a6c52688da06de9cccd6de69c76f852b610af897a678279"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:5813",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch230_path_c_landed",
+      "normal_failure_block_sha256": "63f4a251c1b9ed0a489b00accbad261b533949bd3a2479fb18945a43c6deb77d",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f953e3a4040>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f953e3a4040> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "fe2d03f53e7d35fc974376870373e3205526915bec77a64baddc1138c522d2aa"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:5919",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch232_path_c_status_write_state_clobber",
+      "normal_failure_block_sha256": "624171f2a467ed617915867169748b1437e2c23bfc350c978122423266cabcbb",
+      "observed_error_tail": [
+        "E           AssertionError: assert None is True",
+        "E            +  where None = <built-in method get of dict object at 0x7f953eceffc0>('tip_match')",
+        "E            +    where <built-in method get of dict object at 0x7f953eceffc0> = {'tip': None, 'tip_full': None, 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "9fe8592cc536e648a080e80fc9363e9bc7db10c1985f9e8c870938eb6fcfea45"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:6005",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch233_guard_tip_sha_clobber",
+      "normal_failure_block_sha256": "183da96ffd3441c36278f896ccadd56b96236abe90d806bf53ab9a8592efc40f",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f95a8c0f9c0>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f95a8c0f9c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "661ad2306627fe358ce68c2d31cd41f19da8bc0086fd83ed523f7d14e7f74996"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:6102",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch236_sibling_agent_access",
+      "normal_failure_block_sha256": "d5574dac89f3ce969806ff2d9d83ecd1526af3c775430164861aeee34013cd75",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f95a6927200>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f95a6927200> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "23ff21ab69c80897679ef7c130dcdfc3ac21b559818f242e4a292073c4b6f011"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:6173",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch238_merge70_wait69_followon_gate",
+      "normal_failure_block_sha256": "be7009ef94ce61d2987d4f8e1b2a01c2c67bab56e087c0a0f12a72a0a2c7ef18",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c7f9240>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c7f9240> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "a62e989d93dfa8fe33121c44f75a9443a2f0203e3cfb42d9a82bc0b74e542251"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:6245",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch239_0019_future_delta_gate",
+      "normal_failure_block_sha256": "33519a16cd5b8f0e37a5b64e4e3b5857bfb1572407790a173aab93da1bbc632f",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a77a3500>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a77a3500> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "77f9ed99e4ba639ffb122e0a58f5653b8082d66368869a7672a0979f9f27db81"
+    },
+    {
+      "failed_assertion": "assert status.get(\"idle_status\") == \"IDLE_PATH_C_DONE\"",
+      "failure_source": "tests/test_intent.py:6878",
+      "group": "T7",
+      "nodeid": "tests/test_intent.py::test_batch246_assert_path_c_idle_catch_0020",
+      "normal_failure_block_sha256": "5b56f593e360a5831b18c23974bdbce54fd3a0d1ef13de93e31afcb63fd0b9d5",
+      "observed_error_tail": [
+        "E       AssertionError: assert 'PATH_C_LANDED' == 'IDLE_PATH_C_DONE'",
+        "E         ",
+        "E         - IDLE_PATH_C_DONE",
+        "E         + PATH_C_LANDED"
+      ],
+      "optimized_failure_block_sha256": "5b56f593e360a5831b18c23974bdbce54fd3a0d1ef13de93e31afcb63fd0b9d5"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:7142",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch248_workspace_landing_ci_path_split",
+      "normal_failure_block_sha256": "86dc4ad5419be4d15936b033e4e5183b1d8ce42801775580bebb5404f737bf39",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f95a89d7500>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f95a89d7500> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "14fa85bb435caff49821fd024729f0375f17cfc332e9298d6f7f093af918b815"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:7228",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch249_inventable_tip_observe_and_path_c_refresh",
+      "normal_failure_block_sha256": "2c9f9c81f8e0b6f4d986c8733381eff3885d41c55c528d1a87afbac064180eb4",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f95a6c91100>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f95a6c91100> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "fc14c7ea72d4d818f2c98d54a5dd5c9d24d1dc1e607c498433a0fb5c77a49ced"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:7322",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch250_verify_keep_prior_honesty_and_path_c_noop",
+      "normal_failure_block_sha256": "ca35d5dd821f9d0eb4439cd0334733993bd79107167efbab4a4999a35d0e8b53",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f953c7fcbc0>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f953c7fcbc0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "5a5c00261c09c1d76db530b0a08a966384f9152f9285fa52ae1d046c78068b8c"
+    },
+    {
+      "failed_assertion": "assert out_line.startswith(str(tmp_fallback)), out_line",
+      "failure_source": "tests/test_intent.py:7459",
+      "group": "T5",
+      "nodeid": "tests/test_intent.py::test_batch251_pack_portable_default_out_writable_fallback",
+      "normal_failure_block_sha256": "90b9ae56adcd36633483d0812939715e5f48220ec62c4fb83737f0b1241a9bfb",
+      "observed_error_tail": [
+        "E               AssertionError: /tmp/pack251-root-iwpbw5g7/trial-portable-main-fixes.tgz",
+        "E               assert False",
+        "E                +  where False = <built-in method startswith of str object at 0x7f95a1e6d5a0>('/tmp/pack251-fallback-v8lysjmm')",
+        "E                +    where <built-in method startswith of str object at 0x7f95a1e6d5a0> = '/tmp/pack251-root-iwpbw5g7/trial-portable-main-fixes.tgz'.startswith",
+        "E                +    and   '/tmp/pack251-fallback-v8lysjmm' = str(PosixPath('/tmp/pack251-fallback-v8lysjmm'))"
+      ],
+      "optimized_failure_block_sha256": "27786e0557bfafb7e5ce2ea523dcacd6e420b71d20e3c0da68593ccf3213e1c5"
+    },
+    {
+      "failed_assertion": "assert wrap.returncode == 0, wrap.stderr + wrap.stdout",
+      "failure_source": "tests/test_intent.py:7703",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch253_when_writable_token_install_and_land_dry_run_idle",
+      "normal_failure_block_sha256": "5bfd84b1d99dabb82352c9e70c25f12fee610d7d7be552d6b8796f4d2421fd81",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/owner_land_path_c.sh...d\": true\\n}\\n', stderr='owner_land_path_c: ERROR: path_c_dry_run transport/missing inputs (exit=2). See JSON above.\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "d309e3aafad7ce12cf05659bb0818cd28b3ef46aea9111cb849d1b0504cfedda"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:7844",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch254_probe_ref_collision_422_false_transport",
+      "normal_failure_block_sha256": "a79eb3b84ba9632ea365ee4505f06418a9a86946f4fc1acfd21d3c423f5a7003",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6b0c840>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6b0c840> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "663e8def214771d2923e2a5ba2db6a766e33eae06d6ce998f7934e941450b892"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:7996",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch256_aligned_drift_restore_race_and_audit_rate_limit",
+      "normal_failure_block_sha256": "452e02982ad47a69bb4d5596ec61ce4903f8139bdb7960540f17160c1d8dff85",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a77bbc40>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a77bbc40> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "e8fecc8a850af268e3be3044ea831a56051380cd068a4b5670768d34fd47ed48"
+    },
+    {
+      "failed_assertion": "assert proc.returncode == 0, out",
+      "failure_source": "tests/test_intent.py:8050",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch257_tip_fetch_rate_limit_and_print_owner_unblock_writable",
+      "normal_failure_block_sha256": "f63605357bfd772dc1b7981f343546c0a95d64ac71c2d4be06bac9748a739c5e",
+      "observed_error_tail": [
+        "E           AssertionError: refresh_path_c_bundle: fetching live tip d6g8k5htny-coder/main@chatgpt/drive-github-hardening-20260919",
+        "E             refresh_path_c_bundle: tip fetch HTTP 403: API rate limit exceeded for 9.9.9.9 (will try fallbacks)",
+        "E             refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E             ",
+        "E           assert 1 == 0",
+        "E            +  where 1 = CompletedProcess(args=['/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundle.sh', '...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "aaab899d80f6e178b745cbb30a98e16cdf32079c43ef92fced9e2dae82c62cb2"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8228",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch255_republish_living_path_c_release_assets",
+      "normal_failure_block_sha256": "f81e61e00f2243e3dc69b9597ff30abc2137f2887364a00c910aa67613cd5652",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a7da6dc0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a7da6dc0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "fbfdd4b34191e0ca0f796d4816ab8be13dbd8da996e1206c674be2387989469e"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8375",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch258_wait_until_aligned_transport_timeout_flake",
+      "normal_failure_block_sha256": "2753a13d110e9c74983b8fffe2023e914ba70760f4160a802d6da2fcab3ea251",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f954ab3d180>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f954ab3d180> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "335caaf4ffeeab13144b20d8e7f119ee3713cb621e6015d3b9d656779524b456"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8473",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch259_grant_check_dual_vector_sandbox_durable",
+      "normal_failure_block_sha256": "83eaab3b2d41fb8ece37c3cb60ffc9c2f9d08c2043467a6f80f56f9ade94a086",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953cb7f980>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953cb7f980> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "806bce4f4029018be1ccf26a5ac990da8d69ce4d3f93b324e9f7bb7625c046b0"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8575",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch260_republish_living_pack_stale_post_255",
+      "normal_failure_block_sha256": "36522a424e4f02293701bb2f3b082e4df6f8fd66c2e0d0c3a1eb5cd15bf2f9e3",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953e41cd00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953e41cd00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "5b0e6c065d264dd2ecaaa9b5f89788aa4b2d8a031aa2bc38b2085008352f15b4"
+    },
+    {
+      "failed_assertion": "assert result.returncode == 0, result.stderr + result.stdout",
+      "failure_source": "tests/test_intent.py:8604",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch261_path_c_dry_run_idle_when_already_on_tip",
+      "normal_failure_block_sha256": "95ac620859a04a74f7d29fdd65b98cc2cdced29f1948cff0ec16be78b4a611d5",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['/workspace/cbz/discovery/regression/runtime312/bin/python-direct', '/workspace/cbz/discovery/r...root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",\\n  \"write_required_to_land\": true\\n}\\n', stderr='').returncode"
+      ],
+      "optimized_failure_block_sha256": "daa38bb18c3bb279bbf0f344224e2e507b5dc28aa65942862a2cbdcb9f9afe70"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8783",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch262_probe_file_token_discovery",
+      "normal_failure_block_sha256": "b8668fee39d6fde9415ead4d02b3be625962b787e48f9e603c62be4d8880403d",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953e4201c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953e4201c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "c3fd1f7dc81fc96faf9a7a6f09e62feb6fc9a6df79cbfcb46b43596f27e79781"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:8962",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch263_research_guard_nopacket_shape_stripped",
+      "normal_failure_block_sha256": "2b52fe5f877e4406d49470225c5dac3cbc6ac5ceb282a31e6d9fa85757730d81",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953cbbe380>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953cbbe380> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "e5ff9fc15e0f1ebe057e0fa041eaf4a89584667ee5c81a357f79c370b3db68b7"
+    },
+    {
+      "failed_assertion": "assert result.returncode == 0, result.stderr + result.stdout",
+      "failure_source": "tests/test_intent.py:8989",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch264_path_b_dryrun_already_aligned_idle",
+      "normal_failure_block_sha256": "33567a931c303458cf675675374d89e127d73ae7af7b61de5e5707c775fe57ec",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"would_align\": false",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['python3', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/path_b_dry_run.py...n  \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",\\n  \"would_align\": false\\n}\\n', stderr='').returncode"
+      ],
+      "optimized_failure_block_sha256": "22395e7c3f592f37f653ecb83a2702a26499d38bf7505624c8fd693ec4d4213f"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:9197",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch265_live_ignore_ci_isolate_github_token",
+      "normal_failure_block_sha256": "42febfbb4173b858cb13f7a248e61353b19ccd5ca7337a24b9be22a3538f60ba",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95432f41c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95432f41c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "954d2d3686c853021b8d79dbeb6d968f1397715620c0448732cd676cc3b5d4ba"
+    },
+    {
+      "failed_assertion": "assert result.returncode == 0, result.stderr + result.stdout",
+      "failure_source": "tests/test_intent.py:9217",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch266_path_c_dry_run_write_required_when_idle",
+      "normal_failure_block_sha256": "643744e1a922c276d20a009564a5027f46def3b0d9a2bab720e7e1d5a4040b66",
+      "observed_error_tail": [
+        "E           \"trial_root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",",
+        "E           \"write_required_to_land\": true",
+        "E         }",
+        "E         ",
+        "E       assert 2 == 0",
+        "E        +  where 2 = CompletedProcess(args=['python3', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/path_c_dry_run.py...root\": \"/workspace/cbz/discovery/regression/trial-hermetic-source\",\\n  \"write_required_to_land\": true\\n}\\n', stderr='').returncode"
+      ],
+      "optimized_failure_block_sha256": "b3039567e9dde128eb117765bbf928068096cc85e61acdf15b968fdcc5e8e7a0"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:9490",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch267_when_writable_dual_daemon_status_race",
+      "normal_failure_block_sha256": "0de974ef04a5ed320a2795301e10b0d12ef9536f852ba80adb56c952c8300f42",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f9544475340>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f9544475340> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "070b9f724af74dc8ed27eb042e9359bc252c7c461f05820d08b265fa5f0e4b9f"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:9630",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch268_pack_living_tag_validate_before_write",
+      "normal_failure_block_sha256": "1b3ecd93b61db0e2661c0809612929dd09a5ad7209f974c9f7d57a1238795833",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6aa5680>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6aa5680> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "338e2046c6efd3f2f880688abb6a2003e94d90d042ace27298c56ed23424eb6a"
+    },
+    {
+      "failed_assertion": "assert proc.returncode == 0, (proc.stderr or \"\") + (proc.stdout or \"\")",
+      "failure_source": "tests/test_intent.py:9700",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch269_verify_batch_release_align",
+      "normal_failure_block_sha256": "be4c4edd0b9aac291eed30c4a3a1ae3cb24a038bfc696cc2beb9754f9bac3dc9",
+      "observed_error_tail": [
+        "E         refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E         refresh_path_c_bundle: fetching live tip d6g8k5htny-coder/main@chatgpt/drive-github-hardening-20260919",
+        "E         refresh_path_c_bundle: tip fetch curl transport failed (will try fallbacks)",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundl...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "035e6f95564c3400e75789d5229c313164a05da35361a3c2ce1c8ddb0c162a54"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:9946",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch270_when_writable_once_pid_liveness",
+      "normal_failure_block_sha256": "308bbce9fc85442fcf5799b5e9496e52ae6676661fdab793cd02ff32aaaf5f53",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6dd1c00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6dd1c00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "31cf549197d5c13439a076aa2b780cc3c0c508344f9ffc210635296a28a4d84f"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10081",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch271_probe_w3_dryrun_path_b_false_positive",
+      "normal_failure_block_sha256": "bf9cd213167588f7f847f91c49f61f9b3ea4b804ee2b9cdbf8c3f96fa9f12f92",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953ea20340>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953ea20340> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "337d25a2111fb269403c47f077ad8140016856293655f877db51632ba478fd3e"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10187",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch272_ci_land_workflows_path_c_idle_contract",
+      "normal_failure_block_sha256": "18e777cae4db1993150366431326c53cb7a1ee237999eb27ad0038a36b12b922",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c945980>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c945980> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "d3368a693a21d16525ce15498a2b31bbeba11d8b630a495edb2bcac903b3a77f"
+    },
+    {
+      "failed_assertion": "assert proc.returncode == 0, (proc.stderr or \"\") + (proc.stdout or \"\")",
+      "failure_source": "tests/test_intent.py:10321",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch273_apply_verify_honesty_keep_prior",
+      "normal_failure_block_sha256": "e7e7766dc2c0856e02620356573b570d8de6b885983ff10577ce9af543c962dc",
+      "observed_error_tail": [
+        "E         refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E         refresh_path_c_bundle: fetching live tip d6g8k5htny-coder/main@chatgpt/drive-github-hardening-20260919",
+        "E         refresh_path_c_bundle: tip fetch curl transport failed (will try fallbacks)",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundl...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "e58e7c2d6f7b0636ddd0fcf267e2a4b3abed2ad7be31aaedbdb617257bae4efd"
+    },
+    {
+      "failed_assertion": "assert proc.returncode == 0, (proc.stderr or \"\") + (proc.stdout or \"\")",
+      "failure_source": "tests/test_intent.py:10440",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch275_manifest_verified_batch_release_align",
+      "normal_failure_block_sha256": "dd2b7c3c9a2582f7a5a0ff3a70aee1f797010f63a719a1521982094e8b63f1f6",
+      "observed_error_tail": [
+        "E         refresh_path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry",
+        "E         refresh_path_c_bundle: fetching live tip d6g8k5htny-coder/main@chatgpt/drive-github-hardening-20260919",
+        "E         refresh_path_c_bundle: tip fetch curl transport failed (will try fallbacks)",
+        "E         ",
+        "E       assert 1 == 0",
+        "E        +  where 1 = CompletedProcess(args=['bash', '/workspace/cbz/discovery/regression/trial-hermetic-source/scripts/refresh_path_c_bundl...path_c_bundle: ERROR: tip fetch failed (curl/gh/ls-remote); last HTTP may be rate-limit \u2014 set GITHUB_TOKEN or retry\\n').returncode"
+      ],
+      "optimized_failure_block_sha256": "cbf7ab08668eb11c2915ec98fd12b15219a4c9ed9e77f484d2ddbae529d481fe"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10605",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch276_republish_living_tag_post_pack",
+      "normal_failure_block_sha256": "07eeabd521c4647898306890f311a7803869ad456201a8506bfad462de115dc7",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f954510e400>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f954510e400> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "1c3c1aa459aa42d823297ce5ddeb5489cb48b6ec59bd71aa23827ce11698ebed"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10729",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch277_owner_verify_release_first",
+      "normal_failure_block_sha256": "ac435b5d39054fe0e1e92ff72576b8c0ac79b8faf437cacdaa5b98cec74e2150",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6c7ac00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6c7ac00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "532f8709b9d3ee1d11169467516df220c6bb21fdd5b01b93fc8b89de68de5895"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10855",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch278_pack_portable_help_not_out",
+      "normal_failure_block_sha256": "036a3a2210f8407372732df8ac4f488ae44dcb3f72a0f697be546f6a5f271264",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f9542987bc0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f9542987bc0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "02c0f33e3a8ce76441aa4b7f7550ebe4a2dcd10bb706f5cb5ca1e72b5c8a20be"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:10969",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch279_republish_canonical_basename",
+      "normal_failure_block_sha256": "3fb2bcb2cbe263846ca258cc0a76a84235f92e11e00df902ef68c6273d737b1d",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c9bd5c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c9bd5c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "0bd1dc8721b9f77d52496abc04b34193b81aecac62cedde20eb621b8f2febb00"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11042",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch280_probe_w2_contents_ref_first",
+      "normal_failure_block_sha256": "da01f38371eed8def14b610ace766e71e9c665965a67fbe2efceb49761dd4d31",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a69f1380>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a69f1380> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "6ea8a3709d0b18b5b83a57084b1236897db0491707be38055b327f9f5fa8e703"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11114",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch281_grant_durable_ls_remote_auth",
+      "normal_failure_block_sha256": "623f9ff3b51cdab27ac7c6f3356f68a43d2411ab061958fbdb0cff35b278957a",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a7ea8f00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a7ea8f00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "eee13ddf3efe76c8d23b2039e381bdb3de1d9ba457b9e4062bdea4959b38f1f8"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11208",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch282_pack_portable_includes_owner_grant",
+      "normal_failure_block_sha256": "a0222fc3e5fb586937df1d53647e8c5b1e31c71f08cbf03666487bc4c1545343",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6abd040>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6abd040> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "ed7daf29fc8ddf166f1e0400edae04e2c529dfb5841ecde0748807db931e37a7"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11304",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch283_republish_tip_stale_living_release",
+      "normal_failure_block_sha256": "8d4890d6d0ea4d2e9aaa218abea2bd65cd02094716f8ee8ef974aaba3d7204ce",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c9e2940>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c9e2940> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "7adac0f357006e66cb987668fb4eddfe172ca725fec4692c5123d848a6e97eea"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11439",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch285_grant_install_403_json_false_missing",
+      "normal_failure_block_sha256": "a3b9ff55bba5a78a34445743eb3fc9e85415279fb402c5ca49ab6f83e310abbf",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a51c1e00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a51c1e00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "18f048801f5d305187dc2032052c63778064440c5ec267294dd2096b0a2beddc"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11587",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch286_grant_list_script_stale_refresh_durable",
+      "normal_failure_block_sha256": "c7d82b661ce5ba0243b279a516ab30a3c47f9a905538b5bdf5413877e0287014",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a5077740>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a5077740> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "6dde8246e70638fc9b030291450f4f4a382d89ddd87a9d8512f3d9bf1cfee55e"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11699",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch287_probe_install_repositories_list",
+      "normal_failure_block_sha256": "32f235b8dc50272c41d36909b96c94ddea472c2af49cf0d8c216c8ee8fa0b0cb",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c7de8c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c7de8c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "e50a52e8f1a64ed5b29426ed949fa3011d71a12109ba92c7d7fc009abdfbc521"
+    },
+    {
+      "failed_assertion": "assert _living_tip(str(verify.get(\"prior_base_tip_sha\", \"\"))) or str(",
+      "failure_source": "tests/test_intent.py:11830",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch289_tip_sync_after_main_83",
+      "normal_failure_block_sha256": "2a115d2996ee66ea3d14cc02c7f1efef37157ffc37f20ccf69a86b4f29837dec",
+      "observed_error_tail": [
+        "E        +        where <built-in method get of dict object at 0x7f95a6e1e840> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get",
+        "E        +  and   False = <built-in method startswith of str object at 0x7f953c8de1f0>('7d13a88')",
+        "E        +    where <built-in method startswith of str object at 0x7f953c8de1f0> = '9ce5c66f2fd541f6987ef7ab98730f8d929b980f'.startswith",
+        "E        +      where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = str('9ce5c66f2fd541f6987ef7ab98730f8d929b980f')",
+        "E        +        where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = <built-in method get of dict object at 0x7f95a6e1e840>('prior_base_tip_sha', '')",
+        "E        +          where <built-in method get of dict object at 0x7f95a6e1e840> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "b0810cc5ffa0bcbcf7eb2799f665cfd216a2aa4d820eb238d0110f4f579f6b58"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11919",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch290_permanent_watch_idle",
+      "normal_failure_block_sha256": "cef08e8960f57652258870d27fc029dfeda6d3f9c37505ef4d0deb5f1002d42a",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f954655b480>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f954655b480> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "a8f3edbde6f049f6c171cff14da02b0d235f9b8f1f96c2bf3ed4a2a77ddced45"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:11980",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch291_idle_deep",
+      "normal_failure_block_sha256": "66d90c4e5860f765879b8848eec5870f3845c56c38e0b39b8b0768512df30e10",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953c96e140>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953c96e140> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "334bdf98aa45feb0d1a6547aa05da3775ac48c18823a7022ec6ac52534f9b9ec"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12048",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch293_research_audit_idle",
+      "normal_failure_block_sha256": "c38c32e21669cf6badc99c69a44d8e0807359a7f0c471be918ad1161e41e9f50",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a79215c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a79215c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "6f803368d2ba9ad38fa90fd40a5df8b1aca9624e8784bfadfd32822ab263d7d7"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12109",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch294_permanent_watch_idle",
+      "normal_failure_block_sha256": "0850bbe99444a9867a3c0c5c9408ef2dc1c19290c9e1c36bbf4bd21957e16a03",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953fd1b1c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953fd1b1c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "0960f99306a8c03d4520b52d50e31dc640d3d00df98c8eeab327828c85a50f4e"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12177",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch296_permanent_watch_idle",
+      "normal_failure_block_sha256": "ca1ca96a8d7ff691b8fa14faa10170e8c1a2082c6e5190b60271ecf8768bc2b5",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a5121dc0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a5121dc0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "2aa10c01e85dc4a10d33f1ce56a49db717646c16755ad0c9672b514b58eefdd7"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12267",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch304_permanent_watch_idle",
+      "normal_failure_block_sha256": "58114ba843441f5cb4435b22f1eeb3f2940a5b437071910a3cf3993214282ec3",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953e421500>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953e421500> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "f51d3c7addaf21c9d607280b5beb0205b3797db30cba592323d387c3b9118f4a"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12352",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch299_permanent_watch_idle",
+      "normal_failure_block_sha256": "5c5a1c860fbb81007e2e081bdbd1b97177e2380d2e58a5509392a8771894e575",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95415a1a00>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95415a1a00> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "4fe944fc549009d1c7b057217184f8077a3b12d8973595e47d0b3487490aff5a"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12409",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch303_align_repos_multi_agent_dual_vector",
+      "normal_failure_block_sha256": "f54efcfd34120ba212f938f2496faa722a577375f2e3acaf4c3250c2a4434c52",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95a6ad2000>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95a6ad2000> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "dbf75f247e553d517769e92c19b5ee2836f25196e3539254a067bb7fbf0e7ed3"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12489",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch298_permanent_watch_idle",
+      "normal_failure_block_sha256": "d1c52510039f990248499b7cb5123714e09820e71b43a9afd7c5b44ee6bb9b2d",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f954013a880>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f954013a880> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "5c1401ad5866e7e599b1f12c51ce4ba540538476c59d69b87d92d4b1bbdbef08"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:12588",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch297_permanent_watch_idle",
+      "normal_failure_block_sha256": "167a1572889e18f67eb664ed2be5ece92c1092fad6b58b1e3aab312dc7280cad",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f954af96280>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f954af96280> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "6cde49baad552a4e79c26d271fdace070fe091413488544a0cf1cb46c3e98d0a"
+    },
+    {
+      "failed_assertion": "assert _living_tip(str(verify.get(\"prior_base_tip_sha\", \"\"))) or str(",
+      "failure_source": "tests/test_intent.py:12688",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch305_tip_sync_after_main_85",
+      "normal_failure_block_sha256": "c07b043faef32fe96e0baca14389037b8ddfbc9cdcc1ff3ecc467f7e6e9863a3",
+      "observed_error_tail": [
+        "E        +        where <built-in method get of dict object at 0x7f95a80796c0> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get",
+        "E        +  and   False = <built-in method startswith of str object at 0x7f95a1f46f70>('02cfbfd')",
+        "E        +    where <built-in method startswith of str object at 0x7f95a1f46f70> = '9ce5c66f2fd541f6987ef7ab98730f8d929b980f'.startswith",
+        "E        +      where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = str('9ce5c66f2fd541f6987ef7ab98730f8d929b980f')",
+        "E        +        where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = <built-in method get of dict object at 0x7f95a80796c0>('prior_base_tip_sha', '')",
+        "E        +          where <built-in method get of dict object at 0x7f95a80796c0> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "cd8400dcd6616d241af24b8a66d419ae75064cf3c9c658f43a4fdd30fd9a07f5"
+    },
+    {
+      "failed_assertion": "assert _living_tip(str(verify.get(\"prior_base_tip_sha\", \"\"))) or str(",
+      "failure_source": "tests/test_intent.py:12805",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch317_tip_sync_after_main_89",
+      "normal_failure_block_sha256": "4f024dde1d61fb32bcdd8ae5e1a0aff9050ed2669f9970a2fa12ea25dff2dd4d",
+      "observed_error_tail": [
+        "E        +        where <built-in method get of dict object at 0x7f95a79f5e40> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get",
+        "E        +  and   False = <built-in method startswith of str object at 0x7f953e9da190>('0adeb65')",
+        "E        +    where <built-in method startswith of str object at 0x7f953e9da190> = '9ce5c66f2fd541f6987ef7ab98730f8d929b980f'.startswith",
+        "E        +      where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = str('9ce5c66f2fd541f6987ef7ab98730f8d929b980f')",
+        "E        +        where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = <built-in method get of dict object at 0x7f95a79f5e40>('prior_base_tip_sha', '')",
+        "E        +          where <built-in method get of dict object at 0x7f95a79f5e40> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "4402a460f76c9ab22628350535c332a1783ee5e4db8f1aeee0f4da14550cb403"
+    },
+    {
+      "failed_assertion": "assert _living_tip(str(verify.get(\"prior_base_tip_sha\", \"\"))) or str(",
+      "failure_source": "tests/test_intent.py:13359",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch332_tip_sync_after_main_97",
+      "normal_failure_block_sha256": "02974b5ed87d9742f60783b4a3b1aaf55f0c552fad6b7595b7ffbc78d9c2a1f0",
+      "observed_error_tail": [
+        "E        +        where <built-in method get of dict object at 0x7f95a688fbc0> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get",
+        "E        +  and   False = <built-in method startswith of str object at 0x7f953e9db990>('077464e')",
+        "E        +    where <built-in method startswith of str object at 0x7f953e9db990> = '9ce5c66f2fd541f6987ef7ab98730f8d929b980f'.startswith",
+        "E        +      where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = str('9ce5c66f2fd541f6987ef7ab98730f8d929b980f')",
+        "E        +        where '9ce5c66f2fd541f6987ef7ab98730f8d929b980f' = <built-in method get of dict object at 0x7f95a688fbc0>('prior_base_tip_sha', '')",
+        "E        +          where <built-in method get of dict object at 0x7f95a688fbc0> = {'batch': '241', 'refresh_batch': 861, 'generated_at_utc': '2026-09-27T23:50:49Z', 'base_tip_sha': '9458b903f57f47f34d0398531c9c977d413bad57', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "b786d5ad1716959aab06e3aaa149d51fc826c1ac9c6885d59cf385f65b30a8a3"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:13487",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch335_tip_sync_after_main_99_100",
+      "normal_failure_block_sha256": "3fea5625e463fa68c980aae36464b3ada74dd4c24d9514ad0bbe71702ee5c464",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f953f173e80>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f953f173e80> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "330da7eebdb1d728c5dd34d64d321c3c2af41b785e5d866074b08057efb282a8"
+    },
+    {
+      "failed_assertion": "assert _living_tip(status.get(\"tip\"))",
+      "failure_source": "tests/test_intent.py:13816",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch337_tip_sync_after_main_101_107_102",
+      "normal_failure_block_sha256": "9bbc2312590507c1592eba87fac47d777667fa176e08270ef955ec976048ca42",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = _living_tip(None)",
+        "E        +    where None = <built-in method get of dict object at 0x7f95493986c0>('tip')",
+        "E        +      where <built-in method get of dict object at 0x7f95493986c0> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "3b1ed4edc313eee23b74b0463610c1a6c10e6680c0fbc2720b9f34e05ab5661f"
+    },
+    {
+      "failed_assertion": "assert status.get(\"tip_match\") is True",
+      "failure_source": "tests/test_intent.py:14108",
+      "group": "T1",
+      "nodeid": "tests/test_intent.py::test_batch340_wake_land_verify",
+      "normal_failure_block_sha256": "93d08e3dd3b7669351af827ff3eccfc78b28d76a41723f07728df848d470f6e2",
+      "observed_error_tail": [
+        "E       AssertionError: assert None is True",
+        "E        +  where None = <built-in method get of dict object at 0x7f95a8a82f40>('tip_match')",
+        "E        +    where <built-in method get of dict object at 0x7f95a8a82f40> = {'apply_all_check': 'skipped_redundant', 'base_tip': '9458b90', 'base_tip_full': '9458b903f57f47f34d0398531c9c977d413bad57', 'device_auth': None, ...}.get"
+      ],
+      "optimized_failure_block_sha256": "edf41725b181c275951c868dd7ac9a36b4697263426194eca8f7087dfa16cc2d"
+    },
+    {
+      "failed_assertion": "assert code in (0, 1)",
+      "failure_source": "tests/test_intent.py:14169",
+      "group": "T2",
+      "nodeid": "tests/test_intent.py::test_batch340_audit_rate_limit_raw_fallback",
+      "normal_failure_block_sha256": "376df01bbfe19bcbb344b6cbf8c438fd6c33d12491a814962a4ea25c219ac081",
+      "observed_error_tail": [
+        "E       assert 2 in (0, 1)"
+      ],
+      "optimized_failure_block_sha256": "376df01bbfe19bcbb344b6cbf8c438fd6c33d12491a814962a4ea25c219ac081"
+    },
+    {
+      "failed_assertion": "assert trial.get(\"tip_sha\") == repair.get(\"trial_tip_after\")",
+      "failure_source": "tests/test_intent.py:75263",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch858_tip_or_eng_parent_pin_repair",
+      "normal_failure_block_sha256": "d3fe0252822737dce47d3f19356d3ef91d4a6fc066f3ba231f2151b9714f1521",
+      "observed_error_tail": [
+        "E       AssertionError: assert 'ffaa1b70e9ef...5a212769e9eea' == '8351cf46c7e9...809030de0401e'",
+        "E         ",
+        "E         - 8351cf46c7e92e4f4f8376a923e809030de0401e",
+        "E         + ffaa1b70e9eff576d7c0e30bee65a212769e9eea"
+      ],
+      "optimized_failure_block_sha256": "d3fe0252822737dce47d3f19356d3ef91d4a6fc066f3ba231f2151b9714f1521"
+    },
+    {
+      "failed_assertion": "assert str(trial.get(\"tip_sha\") or \"\").startswith(\"43cccac9\")",
+      "failure_source": "tests/test_intent.py:75371",
+      "group": "T6",
+      "nodeid": "tests/test_intent.py::test_batch860_tip_or_eng_tip_drift_idle_unfreeze",
+      "normal_failure_block_sha256": "5f7c48f666a3d549f93e78ce8aa7e9414bbabe385cdef005b87dcd759376bfc3",
+      "observed_error_tail": [
+        "E       AssertionError: assert False",
+        "E        +  where False = <built-in method startswith of str object at 0x7f953e9d9b90>('43cccac9')",
+        "E        +    where <built-in method startswith of str object at 0x7f953e9d9b90> = 'ffaa1b70e9eff576d7c0e30bee65a212769e9eea'.startswith",
+        "E        +      where 'ffaa1b70e9eff576d7c0e30bee65a212769e9eea' = str(('ffaa1b70e9eff576d7c0e30bee65a212769e9eea'))",
+        "E        +        where 'ffaa1b70e9eff576d7c0e30bee65a212769e9eea' = <built-in method get of dict object at 0x7f95a6a5c400>('tip_sha')",
+        "E        +          where <built-in method get of dict object at 0x7f95a6a5c400> = {'name': 'd6g8k5htny-coder/trial', 'push': True, 'admin': True, 'default_branch': 'main', ...}.get"
+      ],
+      "optimized_failure_block_sha256": "cf88124ec7b024cdd03b0acf7dc3ff8019bea1b18ca017ed39eac9653865bc66"
+    }
+  ]
+}

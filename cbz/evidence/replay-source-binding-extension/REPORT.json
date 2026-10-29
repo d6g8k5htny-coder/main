@@ -1,0 +1,80 @@
+{
+  "schema": "CBZ-EXPLICIT-KERNEL-REPLAY-BINDING-EVIDENCE-v1",
+  "observed_utc": "2026-10-29T18:37:13.753091+00:00",
+  "commit": "3a499d91f1d64660c53a681280bdb3ffe0ab51b0",
+  "parent": "a8eacdd9db9f40cdef1dd7ee833af843d5a9947c",
+  "changed_sources": {
+    "tools/cbz_inventory.py": "52ae807720203081725127ea96f933882fcb9a44c4ff5c97915bc3314817ffc9",
+    "tests/test_cbz_inventory.py": "f63695a6a7575c7c67f27eb3c46612d04a340baaee47da2405691ab90b2d4d3c"
+  },
+  "tests": {
+    "original58_test_bodies_unchanged": true,
+    "normal_methods": 75,
+    "optimized_methods": 75,
+    "skips": 0,
+    "failures": 0,
+    "red_format_methods": 10,
+    "red_intended_assertion_failures": 13,
+    "review_finding_red_assertions": 1,
+    "review_finding": "Reject explicitly historical normalized receipt; manifest/raw already requiredcurrent"
+  },
+  "mutations": {
+    "threshold": "100%",
+    "old_census_per_mode": 2,
+    "RF312_per_mode": 2,
+    "explicit_replay_per_mode": 5,
+    "total_per_mode": 9,
+    "intended_named_assertion_failures_only": true
+  },
+  "actual_fixture": {
+    "source_root": "/workspace/cbz/discovery/census-extension/actual-repos",
+    "main": "eadb1d64a1537b0d3860925d72fddd5528d7be1e",
+    "Math": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "proofs": 207,
+    "files": 127,
+    "raw_evidence": 74,
+    "fixture_only": true,
+    "generate_exit": 0,
+    "original_verify_exit": 0,
+    "postreview_verify_exit": 0,
+    "tracked_entries": 7290,
+    "inventory_sha256": "df2a02abcdbf41e0e71eb28806ee6e0f6aad6b270b3048516494081c951f6bcc",
+    "snapshot": {
+      "head": "eadb1d64a1537b0d3860925d72fddd5528d7be1e",
+      "prerequisite": "63df78d488146413f2dfb48419bfe3e33423be49",
+      "bundle_sha256": "ea761e494a11d5faa1ef357165bdc700f69a7a6917d1b6f84af3bf1e9d64b019",
+      "bundle_bytes": 763112,
+      "verified": true,
+      "recover_command": "git fetch /workspace/cbz/discovery/census-extension/actual207-evidence-fixture.bundle HEAD; git checkout FETCH_HEAD",
+      "intent": "Preserve actual evidence fixture before removing only owned disposable clones; canonical source clones unchanged",
+      "disposable_clones_removed": true,
+      "canonical_source_clones_unchanged": true
+    }
+  },
+  "source_manifest_sha256": "0cbf8365c511700f551bf8c97c0f76796399458011cb151f6e009096587f7821",
+  "new_normalized_observation_receipt_sha256": "7355c01097c8e13e1866122948232a29804ac1f0ea4ec6c2dec1bccb038906f4",
+  "evidence_authentication": false,
+  "mathematical_semantic_completeness": false,
+  "cbz_green": false,
+  "scope": "Structural source/target/raw-artifact binding only. Actual kernel execution remains separately observed and retained; original package receipts are unchanged opaque evidence.",
+  "hashes": {
+    "replay-red-focused-on-rffix.log": "a3e4e92b798eaf3ea8b603628ed016dc92506c0576ae342d84e3db09d9272c86",
+    "replay-green-focused.log": "41f4417d99b526210af613770f62a42895715013c2c9f409b41d3b3b6ae83193",
+    "replay-extra-focused.log": "e9141477258ac44dc6bdfbd55efddc5229c32e6e06db09937e176f0284eff752",
+    "replay-final-normal.log": "882942fef54efe195f77cebba2e361fc41cd806cb041d118d74777ab04f4c64f",
+    "replay-final-optimized.log": "25186b26ffa83a8d528938b39681fd450dae1736010947f9b7947134f9c6e3c4",
+    "replay-review-receipt-scope-red.log": "8853b33b635fff268b484bf57e6bd0282cef60b53638236be0e9b9241f73335c",
+    "replay-review-receipt-scope-green.log": "80f929d562e52c93041f9184a3099e0c69f61c8aa765d3547f30167b55fa61d9",
+    "replay-postreview-final-normal.log": "755c45bd6f2fa17cd3a0685ca4a216892db4f6f2bf434908dfa5519c3d3506c7",
+    "replay-postreview-final-optimized.log": "ba6ece31f54879097d470bc45663040ea63e77817c65e1b1115e73aa9254a376",
+    "actual207-generate.log": "57eea99010077dd9f6036fa130636433edf760d2dabcd14e477541b334bf8e86",
+    "actual207-verify.log": "ad9b09c904ca20c6efad68615d1801ed6a8481ac8b0793afb2a25cef44835a78",
+    "actual207-postreview-verify.log": "ad9b09c904ca20c6efad68615d1801ed6a8481ac8b0793afb2a25cef44835a78",
+    "actual207-classifications.json": "3b8149ab1c1450cc214bd62ee80bd286818289b393665d0f807e3c68bbdf8d62",
+    "actual207-inventory.json": "df2a02abcdbf41e0e71eb28806ee6e0f6aad6b270b3048516494081c951f6bcc",
+    "actual207-source-cuts.json": "f2e49629763a43e40b3ec9a9ee5ca495f86ff08a579ab0ad1da70d0841ec0309",
+    "actual207-fixture-snapshot.json": "c005bb8f7c2b11afa5c49a5e2c54ceae647b52ba59388be4aea3fdbe29d6d2bc",
+    "actual207-fixture-bundle-verify.log": "ec6cefed27778283f7f93fdae111f8c5e9b5630371e8d2ef0748ca411cdd94a9",
+    "actual207-evidence-fixture.bundle": "ea761e494a11d5faa1ef357165bdc700f69a7a6917d1b6f84af3bf1e9d64b019"
+  }
+}

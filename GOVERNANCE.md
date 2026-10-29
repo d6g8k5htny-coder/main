@@ -107,8 +107,8 @@ CBZ-0.
   `docs/cbz/INVENTORY_TOOL_PLAN.md`. Generate/verify a complete offline
   tracked/index-source census and immutable declaration/evidence bindings.
   Run `python3.11 -B -S -m unittest discover -s tests -p
-  test_cbz_inventory.py -v`, then repeat with `-O`. Observed 58/58 each mode,
-  including four source mutations killed by intended assertions. The RF312
+  test_cbz_inventory.py -v`, then repeat with `-O`. Observed 75/75 each mode,
+  including nine source mutations killed by intended assertions. The RF312
   base-plus-overlay effective map has exact checked-tree coverage and each
   regular Git blob's declared SHA256 is verified. Actual 94-binding capture
   and verify passed with all 45 effective RF312 files checked. The earlier
@@ -116,6 +116,25 @@ CBZ-0.
   re-reviewed. Owner:none, self-contained. This is **not** a Layer A semantic
   certifier or kernel-run authenticator; its output explicitly grants neither
   semantic completeness nor CBZ green. Criteria1,3,8,11.
+- **Bounded proof-closure replay (2026-10-29):**
+  `cbz/evidence/kernel/additional/replay-tool/replay_tool.py` and its README,
+  tests, Python mutation runner and actual Lean self-test runner. The frozen
+  determinant evidence contains the same self-contained tool version.
+  Generates the pinned official-kernel trust-zero replay and checks transcript
+  consistency; supplied text is not execution authentication. Exact commands
+  are in the README and both package HOW_TO_REPLAY.md guides. Observed 31 tests
+  and three Python validator mutants per mode; actual Lean positive/six adverse
+  controls/six generated-auditor mutants passed in both modes. Owner none,
+  self-contained; criteria 3,6,9,11. Approved axioms remain exactly the three
+  immutable names above. Raw receipts are retained unchanged.
+- **PR/citation evidence tools (2026-10-29):**
+  `cbz/evidence/stale-pr-dispositions/{pr_evidence,mutation_check}.py` and
+  adjacent `main-obligation-census/build_census.py`. Exact commands and scope
+  are in their README/REGISTRY_ADDENDUM. Observed 35+9 tests and 49 intended
+  source/harness mutant kills per Python mode; actual network acquisition and
+  26-head historical regeneration passed. They do not certify mathematics,
+  independence or actual PR disposition. Obsolete staging text is historical.
+  Owner none, self-contained; criteria 2,3,10,11,12.
 - Existing core compiled auditors, fixture launchers and recovery commands
   are catalogued in `TOOLING.md`. A scope-limited or historical success is
   never promoted to a federation certificate.
@@ -151,3 +170,16 @@ for elegance.
   assertion failure, not import/syntax/launch failure; stale mutation anchors
   fail. Retain positive harness controls and original RED evidence. Scope:
   mission certifiers and their declared mutation campaigns.
+- **B-012 (2026-10-29):** Literal theorem identity includes repository,
+  checked source cut, package/source path and declaration. Identical names in
+  isolated kernel packages are not conflated. A new normalized observation
+  receipt may index actual raw runs, but never rewrites old receipts or claims
+  authentication. The explicit replay census format binds every source file,
+  target/path, axiom list and raw artifact at immutable current bindings.
+  Rationale: reproducible context and evidence without self-hash cycles.
+- **B-013 (2026-10-29):** A quarantine covers the exact missing mathematical
+  application/assertion, not the universal truth of vocabulary definitions.
+  Historical tests and all original failures remain visible. Trial is dormant;
+  five unsupported real-record methods remain unexercised. No active regression
+  claim may disguise those observations as a green historical full suite.
+  Rationale: terminal boundaries preserve facts rather than fabricate data.

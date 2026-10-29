@@ -19,7 +19,7 @@ Math8151 inventory:4,019 tracked files,162 Lean,182 workflows,286 exact workflow
 | G1 | Compiled inventory/full source census | Exact terminal classification and semantic boundaries; no lexical substitution |
 | G2 | Transitive closure/literal116 reports | Bind fresh final evidence and admitted successors |
 | G3/G4 | Pinned Lean/lake/leanchecker | Finish all controls with tested thread limit2; preserve OOM failure |
-| G5 | Existing root/auxiliary/fixture suites | Complete Math/isolated trial; resolve10 main skip coverage cases; rerun final admitted source |
+| G5 | Existing root/auxiliary/fixture suites | Math and isolated trial observed; trial87failures/1skip per mode retained dormant, five main real-record gaps explicit; rerun final admitted source |
 | G6 | Core controls/downstream24/replica24 | Final explicit inventory/threshold/rejection reasons |
 | G7 | Workspace local/network manifests | Reconcile historical snapshot roles versus live pins |
 | G8 | Exact evidence/canonical docs | Final source/data/doc consistency |
