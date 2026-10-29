@@ -1,0 +1,71 @@
+{
+  "exit_observed": 0,
+  "passed": true,
+  "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+  "driver_sha256": "8b1cd3cb308d271e8befc368f382e36c645b9aa756b9846075297864304bc2a0",
+  "raw_sha256": "0c4b40f6a113d9fbfd33c15696a1443f852ca8da39dfcdcac77978b3714764eb",
+  "cases": [
+    {
+      "case": "valid-filter-name",
+      "name": "audit",
+      "marker_written": false,
+      "native_status_control_marker": true,
+      "cli_marker_written": false,
+      "complete": true
+    },
+    {
+      "case": "valid-filter-name",
+      "name": "eq=name",
+      "marker_written": false,
+      "native_status_control_marker": true,
+      "cli_marker_written": false,
+      "complete": true
+    },
+    {
+      "case": "valid-filter-name",
+      "name": "eq==name",
+      "marker_written": false,
+      "native_status_control_marker": true,
+      "cli_marker_written": false,
+      "complete": true
+    },
+    {
+      "case": "valid-filter-name",
+      "name": "has.dot",
+      "marker_written": false,
+      "native_status_control_marker": true,
+      "cli_marker_written": false,
+      "complete": true
+    },
+    {
+      "case": "valid-filter-name",
+      "name": "hyphen-name",
+      "marker_written": false,
+      "native_status_control_marker": true,
+      "cli_marker_written": false,
+      "complete": true
+    },
+    {
+      "case": "ordinary-HEAD-and-objects",
+      "nested_discovered": true,
+      "nested_discovered_after_removing_asset_HEAD": true,
+      "counter_control_complete": true,
+      "complete": true
+    },
+    {
+      "case": "path-query-redaction",
+      "original_names": [
+        "untracked?token=first",
+        "untracked?token=second",
+        "line\nbreak\t\udcff"
+      ],
+      "observed_paths": [
+        "line\nbreak\t\udcff",
+        "untracked?token=first",
+        "untracked?token=second"
+      ],
+      "complete": true
+    }
+  ],
+  "fixtures_remaining": 0
+}

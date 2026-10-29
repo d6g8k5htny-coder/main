@@ -1,0 +1,63 @@
+# Legacy Atlas source disposition against public Main c93cec70
+
+**#399 is partially superseded, with substantial route/relationship bounds and Reset behavior still absent. #501's published acquisition/coherence delta remains absent in full. Neither PR can be described as entirely present on Main.** This is a source-disposition payload for Root's existing serial queue, not a merge, closure, approval or takeover.
+
+Actual performer: OpenAI / GPT-6 / Codex, non-author of these two PRs, with prior Atlas/formal/source-diagnostic exposure. Same-family review, organizational-independence credit 0; scientific effect NONE. No scientific correctness, alignment, acceptance or global gate determination is attempted.
+
+The public native Main ref was read at pickup and again before delivery: `c93cec70223281492709ff74ca84fed5dc6e40e8`, tree `ccb5b5a357fdf1e96dc105eef8bee918cd09f23b`. All comparisons below bind that commit, not the shared worktree's older HEAD or a proposed composition.
+
+| PR | Exact head | Exact native base | Full inventory | Substantive / release-query-only paths |
+|---|---|---|---:|---:|
+| #399 | `7c610fe5c1b82ba6541f660a8607ddf94f5b8216` | `f16b947fec8bcada0fed1cbe0d9600a590ee19d7` | 177 | 4 / 173 |
+| #501 | `64aa716ce399c240ef8afb6ec79a236c7040abbf` | `0acbc2ffe0f9edbd53cbe9aee466ccbe070b7e36` | 78 | 58 / 20 |
+
+Native complete changed-file inventories and per-file patches match the exact Git base→head path inventories. [SOURCE-BINDING.json](SOURCE-BINDING.json) records commit/tree/blob/byte/SHA256 identities and file presence. `source/` preserves public before/after/current files; `semantic-patches/` contains only substantive base→head differences. This preserves the reviewed source payload, not a full-history recovery archive.
+
+Release exclusions are established by executing the unchanged pinned Main release helper's `transform(text, suffix, without_release)` over recognized live URL spans. [RELEASE-NORMALIZATION.json](RELEASE-NORMALIZATION.json) records all 255 path observations and normalized hashes. The 173 and 20 exclusions mean equality of each PR's base/head **after that specific normalization**. They are not raw byte-equality claims and do not mean current Main's complete file bodies equal the old branches. No old release values should be transplanted onto Main.
+
+## #399: present filters; missing compact route and relation bounds
+
+All ten literal substantive unified hunks are split into 21 behavior units in [HUNK-DISPOSITIONS.json](HUNK-DISPOSITIONS.json). This avoids calling a mixed hunk wholly delivered.
+
+| Substantive behavior | Current disposition and evidence |
+|---|---|
+| Conjunctive classification/kind/layer filters in Graph and List, across search and neighborhood | **PRESENT.** Current `atlas.mjs:96` passes all three filters to both branches. `current-model.mjs:209–214` applies them to the complete candidate set. Current controller tests at `test_current_site.mjs:237–274` cover Graph/List, complete paging/count annotation, Share/reload/history and refused pins. Four focused tests freshly passed. |
+| Filter values in Share/history; collapse retaining filters and selection | **PRESENT.** `atlas.mjs:59,104,117`; focused test `:256–269` confirms search, selection, reload and Back/Forward persistence. No old-source identity is inferred. |
+| Filter-count wording and route disclosure preservation | **SUPERSEDED in presentation/lifecycle.** Current count wording uses `Active exact metadata filters: kind: candidate` (`atlas.mjs:97`) rather than old `kind=candidate`. Same-node disclosures are restored by ID, with changed/refused-node reset (`atlas.mjs:63,80–83`; existing test `:226`). Preserve this current behavior. |
+| Reset clears classification/kind/layer | **ABSENT.** Current `atlas.mjs:104` clears search/offset and calls `shell.reset()`; it does not clear those state fields. `atlas-shell.mjs:79` changes layout mode only. Current filter support therefore does not discharge the old Reset obligation. |
+| Additional filter-only/complete-inspector explanation and explicit `No nodes match` announcement | **ABSENT as the added text.** Current `atlas.mjs:97` shows active constraints and zero counts but lacks those added messages. Existing empty/refusal rendering must not be mistaken for the exact old announcement. |
+| Scalar-only reach cache; immutable adjacency index; compact BFS/predecessor/depth/prefix cache | **ABSENT.** `atlas.mjs:25` still caches full `downstreamReach` objects. `current-model.mjs:218–249` rescans edges and retains complete reachable-ID/path arrays. Fresh model probe confirms the four new scalar/window APIs are absent. |
+| Safe `atlas-route-page` state, Share/reload/history restoration and selection/Collapse/Reset page resets | **ABSENT.** `current-model.mjs:259–266` has no routePage; `atlas.mjs:59–60,104,117` has no route-page machinery. Probe of page333367 returns no routePage field. |
+| Exact 150-occurrence route windows, prefix totals, direct middle/last access, continuation and incoming boundary edges | **ABSENT.** `atlas.mjs:80` renders full `requiredDependencyPaths`; no compact route API, pager or segment window is installed. Retention of the old full-output API contract is baseline behavior, not the new compact implementation. |
+| 150-row direct-neighbor windows and keyboard page controls | **ABSENT.** Relationship presentation is separately **SUPERSEDED** by current Depends on/Used by cards and disclosures. `atlas-relationships.mjs:7–9,19–32` still maps every matching edge without paging. The newer names/cards do not discharge the missing bound. |
+| Six added Node cases and added browser controls | The conjunctive-filter assertion role is **SUPERSEDED** by the current four controller tests. The other five Node additions for route-page/concatenation/chain/fanout/index reuse are **ABSENT**. The browser's new route/relation guards, metadata-filter roundtrip case and 10,000-node/50,000-edge cases are **ABSENT**; `current_site_browser_check.py:601` retains only the preexisting synthetic-large-render-window baseline. Current Node filters do not establish those browser or performance results. |
+
+Suggested canonical disposition: **PARTIAL_SUPERSESSION_WITH_RETAINED_UNLANDED_OBLIGATIONS**. Preserve the exact four-file old source and historical results; carry forward a precise missing-behavior list. An eventual bounded adoption would reconcile the route/bounds/Reset hunks with current shell, relationship presentation, disclosure/focus/source-refusal behavior. Replacing old complete files would erase later work. This diagnostic does not start that implementation.
+
+## #501: public H5 is not the private current composition
+
+All 58 substantive literal hunks are individually listed in the machine payload. Fifty-five are added paths absent from the current tree. The remaining three files—`current-model.mjs`, `test_current_observation_coherence.mjs`, and `current_site_browser_check.py`—equal #501's base under the specified release-query normalization. Their added substantive delta has not landed.
+
+| Public H5 component | Current disposition and evidence |
+|---|---|
+| Abortable response-body reading, bounded streaming/cancellation and one caller budget | **ABSENT.** Current `current-model.mjs:66–80` still reads `arrayBuffer()` and has no added `abortable`/`readBytes` protocol. |
+| Strict 16KiB metadata, duplicate/escaped-key rejection, admitted metadata schemas, 16MiB identity bound and calendar validation | **ABSENT.** The added `readMetadata` path is not in the current implementation. |
+| Two existing integrity attempts followed by one metadata/successor pair, exact digest/bytes verification and observation-time join | **ABSENT.** Current code stops after `current.json` and the page-digest keyed retry. A fresh probe validates H5's frozen old/new fixtures, then demonstrates that an old document receiving the newer valid payload refuses after exactly two requests with no metadata request. This confirms the concrete unlanded behavior without weakening admission. |
+| Coherence assertions requiring the metadata/four-request sequence | **ABSENT.** Current tests `test_current_observation_coherence.mjs:30–40` still assert two requests. Current browser `:283–315` does not route or bind metadata and allows one–two requests for persistent refusal. The two case names already exist; #501 changes their assertion bodies. |
+| New `test_current_site_transition.mjs`, synthetic old/new/corrupt/metadata/freezes, merge-source guard and guard tests | **ABSENT on Main**, preserved in public H5. These are real delivered source, not proof of current execution or current-profile coverage. |
+| Capture-regression/launcher/supervisor, rewrite-observation helper and their fixed child/shadow/ledger fixtures | **ABSENT on Main**, preserved under their exact original paths. Source headers explicitly describe Source-only/NOT_RUN or provisional scope; later native comments report separate bounded synthetic executions. Neither constitutes the future current-profile implementation. |
+| Two investigative workflow additions | **ABSENT on Main and historical execution envelopes.** The transition workflow opens `SOURCE-FROZEN R1 DRAFT`, binds a fixed candidate freeze (`:171–188`) and retains pending composition/runtime channels. The rewrite workflow binds that freeze and literal producer/guard hashes (`:37,54–72`). Their candidate freeze names base0ac and three exact production blobs. They are not ready-made current-Main workflows. Preserve their source/history; do not silently reintroduce them as current evidence. |
+
+The public author record [501/6470313254](https://github.com/d6g8k5htny-coder/main/pull/501#issuecomment-6470313254) explicitly distinguishes private uncommitted tree `b8ade5113e3e83534c6b3aaf25761a6950285e74` on b953, with the two old workflows omitted, from published H5 `64aa716c`. That private composition was unavailable to this review and is **NOT REVIEWED**. Its reported checks, later plan-only review, 11/78 synthetic foundations and 4-control/15-specimen observation are not rebound to Mainc93 or declared one combined run.
+
+The same public record/PR body leaves current Task1 construction, current-profile collector/schema/controls, V2 consumer/fixtures/recorder, independent supervisor, full169-member browser/transport qualification, current generated/served applicability and spoken-AT evidence outstanding. They are **not delivered in this public head as that current-profile work**. This does not assert whether additional private Source later exists. Do not label all that scope complete from the acquisition fix, similarly named historical supervisor, plan review or CI.
+
+Suggested canonical disposition: **UNLANDED_ACQUISITION_CORE_WITH_SEPARATE_HISTORICAL_HARNESS_AND_UNDELIVERED_CURRENT_PROFILE_SCOPE**. Preserve H5 and its original evidence. Root can separately decide narrow current-source acquisition/coherence adoption and disposition the old investigative envelopes, retaining exact future-scope obligations rather than converting them into a new review gate.
+
+## Actual checks, ownership and release
+
+I read current #684 and PR claim/discussion records before comparison and again read #684 before delivery. No duplicate active source-disposition owner was found. #399's actual integrator release is [6177366070](https://github.com/d6g8k5htny-coder/main/pull/399#issuecomment-6177366070), read back at6177376455; its source-author release6175592018 is separate. No foreign role is released here. #501's private-source boundary remains as its author recorded it.
+
+Personal execution was limited to source/hash/inventory/normalization checks, **four existing current filter-controller tests (4 PASS, zero failures/skips, exit0)**, and the bounded synthetic model probe (exit0). The first isolated test launch lacked a top-level fixture from an imported test module and exited1 before the selected tests ran; its original log is retained. After copying that exact c93 fixture without altering test source, the four selected tests passed. No full suite, browser, old scale benchmark, CI replay, artifact access or mathematical test was run.
+
+No worktree/index/source/ref/PR was changed. One expressly permitted public object fetch was needed because501's head was missing locally; it used the existing `/workspace/main` metadata with `--no-write-fetch-head --no-tags --no-recurse-submodules` and disabled automatic maintenance, with no new clone or branch update. All evidence writes are under this task directory. Canonical governance/closure/integration remains Root's B-003 queue. This finite read-only task is complete and only its own scope is released.

@@ -1,0 +1,18 @@
+test_remote_redaction_preserves_all_filesystem_identity_fields (census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields) ... FAIL
+
+======================================================================
+FAIL: test_remote_redaction_preserves_all_filesystem_identity_fields (census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<string>", line 83, in tracked
+AssertionError: '/tmp/tmp5pq8iti5/workspace/root?token=[REDACTED]' != '/tmp/tmp5pq8iti5/workspace/root?token=root-value'
+- /tmp/tmp5pq8iti5/workspace/root?token=[REDACTED]
+?                                       ^^^^^^^^^^
++ /tmp/tmp5pq8iti5/workspace/root?token=root-value
+?                                       ^^^^^^^^^^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.119s
+
+FAILED (failures=1)
