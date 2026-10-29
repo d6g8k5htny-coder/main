@@ -73,6 +73,118 @@ class NodeRunnerTests(unittest.TestCase):
             else:
                 os.environ["GIT_DIR"] = before
 
+    def test_loaded_sources_must_belong_to_selected_main(self):
+        self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+                        "loaded helper identity guard is missing")
+        with self.assertRaisesRegex(ValueError, "loaded source"):
+            self.module.assert_loaded_sources(self.repo)
+
+    def test_loaded_source_and_imported_helper_cannot_drift(self):
+        self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+                        "loaded helper identity guard is missing")
+        tools = self.repo / "tools"
+        tools.mkdir()
+        (tools / "cbz_node_regression.py").write_bytes(SOURCE.read_bytes())
+        (tools / "museum_data.py").write_bytes((ROOT / "tools/museum_data.py").read_bytes())
+        for name in ("cbz_node_regression.py", "museum_data.py"):
+            script = (
+                "import sys\nfrom pathlib import Path\n"
+                "sys.path.insert(0, sys.argv[1])\n"
+                "import cbz_node_regression as recorder\n"
+                "root=Path(sys.argv[1]).parent\n"
+                "recorder.assert_loaded_sources(root)\n"
+                "print('CONTROL_IMPORT_PASS')\n"
+                "path=Path(sys.argv[1])/sys.argv[2]\n"
+                "path.write_bytes(path.read_bytes()+b'\\n# changed after import\\n')\n"
+                "try:\n recorder.assert_loaded_sources(root)\n"
+                "except ValueError:\n print('EXPECTED_SOURCE_REJECTION')\n"
+                "else:\n raise AssertionError('changed loaded source was accepted')\n")
+            result = subprocess.run(
+                [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
+                 "-c", script, str(tools), name],
+                capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("CONTROL_IMPORT_PASS", result.stdout)
+            self.assertIn("EXPECTED_SOURCE_REJECTION", result.stdout)
+
+    def test_tracked_source_symlink_cannot_bind_an_external_dependency(self):
+        external = self.directory / "outside.txt"
+        external.write_text("unbound external source\n")
+        (self.repo / "dependency").symlink_to(external)
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "unsupported tracked Git entry"):
+            self.module.source_snapshot(self.repo)
+
+    def test_selected_node_test_symlink_is_rejected(self):
+        (self.repo / "tests").mkdir()
+        external = self.directory / "outside.mjs"
+        external.write_text("/* external test code */")
+        (self.repo / "tests/external.mjs").symlink_to(external)
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "regular.*Node"):
+            self.module.node_command(self.repo, "node")
+
+    def make_fixtures(self):
+        output = self.directory / "finite-fixtures"
+        paths = {"shop/Math-/data.txt": b"original\n",
+                 "museum/verified-inputs.json": b"{}\n"}
+        expected = {}
+        for relative, raw in paths.items():
+            path = output / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(raw)
+            expected[relative] = dict(bytes=len(raw),
+                                      sha256=hashlib.sha256(raw).hexdigest())
+        return output, expected
+
+    def test_child_fixture_mutation_is_a_failed_postflight(self):
+        self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+                        "fixture postflight guard is missing")
+        self.assertIsNotNone(shutil.which("node"), "Node is required for this suite")
+        output, expected = self.make_fixtures()
+        self.module.verify_fixture_tree(output, expected)
+        (self.repo / "tests").mkdir()
+        (self.repo / "tests/mutate.mjs").write_text(
+            "import test from 'node:test'; import fs from 'node:fs';"
+            "test('mutation',()=>fs.writeFileSync("
+            "process.env.SHOP_MATH_FIXTURE+'/data.txt','mutated\\n'));")
+        self.commit()
+        environment = dict(os.environ, SHOP_MATH_FIXTURE=str(output / "shop/Math-"))
+        path = self.directory / "mutation.tap"
+        with path.open("wb") as log:
+            with self.assertRaisesRegex(ValueError, "fixture"):
+                self.module.execute_node(
+                    self.repo, self.module.node_command(self.repo, "node"),
+                    environment, log, output, expected)
+        self.assertEqual(self.module.tap_summary(path.read_text())["pass"], 1)
+        self.assertEqual((output / "shop/Math-/data.txt").read_bytes(), b"mutated\n")
+
+    def test_fixture_file_directory_and_type_set_is_exact(self):
+        self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+                        "fixture postflight guard is missing")
+        output, expected = self.make_fixtures()
+        self.module.verify_fixture_tree(output, expected)
+        path = output / "shop/Math-/data.txt"
+        path.unlink()
+        with self.assertRaisesRegex(ValueError, "fixture"):
+            self.module.verify_fixture_tree(output, expected)
+        path.write_bytes(b"original\n")
+        extra = output / "shop/extra.txt"
+        extra.write_text("new input")
+        with self.assertRaisesRegex(ValueError, "fixture"):
+            self.module.verify_fixture_tree(output, expected)
+        extra.unlink()
+        extra.mkdir()
+        with self.assertRaisesRegex(ValueError, "fixture"):
+            self.module.verify_fixture_tree(output, expected)
+        extra.rmdir()
+        path.unlink()
+        external = self.directory / "outside-fixture"
+        external.write_bytes(b"original\n")
+        path.symlink_to(external)
+        with self.assertRaisesRegex(ValueError, "fixture"):
+            self.module.verify_fixture_tree(output, expected)
+
     def test_reads_immutable_blob_instead_of_dirty_working_copy(self):
         (self.repo / "data.txt").write_bytes(b"changed")
         self.assertEqual(self.module.read_pinned(self.roots, self.descriptor()),
@@ -304,6 +416,11 @@ class MutationHarnessTests(unittest.TestCase):
     def test_no_tests_cannot_kill(self):
         result = self.result()
         result.stderr = result.stderr.replace("Ran 1 test", "Ran 0 tests")
+        self.assertFalse(assertion_kill(result, "test_expected"))
+
+    def test_import_trace_inside_assertion_cannot_kill(self):
+        result = self.result()
+        result.stderr += "\nImportError: child module could not load\n"
         self.assertFalse(assertion_kill(result, "test_expected"))
 
     def test_launch_failure_cannot_kill(self):
