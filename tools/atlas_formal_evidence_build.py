@@ -15,10 +15,10 @@ import zipfile
 
 if __package__:
     from .formal_gate_check import safe_path
-    from .required_formal_check import bind_receipt, strict_json
+    from .required_formal_check import strict_json
 else:
     from formal_gate_check import safe_path
-    from required_formal_check import bind_receipt, strict_json
+    from required_formal_check import strict_json
 
 CLAIM = 'math.side24-coefficient'
 TARGET = 'UniversalLaw.Side24.pairing_sum_six'
@@ -42,6 +42,28 @@ def blob(raw):
 def require(condition, message):
     if not condition:
         raise ValueError(message)
+
+
+def bind_historical_receipt(receipt, manifest, artifact):
+    """Reproduce only the fixed Atlas binding; never bind live CI evidence.
+
+    The original archive and receipt predate workflow_run_attempt. Their immutable
+    identities establish which historical binding is being reproduced, rather
+    than inferring an attempt from an absent field or the caller's environment.
+    """
+    require(not receipt.is_symlink() and not manifest.is_symlink(), 'symlinked evidence')
+    require(digest(artifact) == ARTIFACT, 'historical artifact identity differs')
+    require(digest(manifest.read_bytes()) == MANIFEST, 'historical manifest identity differs')
+    raw = receipt.read_bytes()
+    require(digest(raw) == RECEIPT, 'historical receipt identity differs')
+    record = strict_json(raw.decode())
+    for name, expected in record['logs'].items():
+        require(re.fullmatch(r'[A-Za-z0-9_-]+\.log', name), 'unsafe receipt log')
+        log = receipt.parent/name
+        require(not log.is_symlink(), 'symlinked log')
+        require(digest(log.read_bytes()) == expected, 'log hash mismatch: '+name)
+    return {'checked_commit': COMMIT, 'repository': 'd6g8k5htny-coder/main',
+            'run_id': '40246431034', 'run_attempt': '1', 'receipt_sha256': RECEIPT}
 
 
 def historical_source_identity(root, expected_digest=MANIFEST):
@@ -110,9 +132,7 @@ def build_connection(root, snapshot, proof, artifact):
         for name in receipt['logs']:
             require(re.fullmatch(r'[A-Za-z0-9_-]+\.log', name), 'unsafe receipt log')
             (folder/name).write_bytes(archive.read('receipt/'+name))
-        env = {'GITHUB_REPOSITORY': 'd6g8k5htny-coder/main', 'GITHUB_SHA': COMMIT,
-               'GITHUB_RUN_ID': '40246431034', 'GITHUB_RUN_ATTEMPT': '1'}
-        binding = bind_receipt(folder/'receipt.json', root/'formal/manifest.json', env, COMMIT)
+        binding = bind_historical_receipt(folder/'receipt.json', root/'formal/manifest.json', artifact)
         require(binding == strict_json(archive.read('receipt/required-check-binding.json').decode()),
                 'original required-check binding differs')
         require(binding['receipt_sha256'] == RECEIPT, 'original receipt identity differs')
