@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "scope": "3 new lazy-body safeguard source mutants in each mode; no original lifecycle or production mutant replay",
+  "distinct_mutations": 3,
+  "executions": 6,
+  "ok": true,
+  "results": [
+    {
+      "name": "drop-pristine-lazy-shape-rejection",
+      "mode": "normal",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "2a15fa19732ff0b025cbfcc5ce29a2085e62de902988af96a17cd433d511b938",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    },
+    {
+      "name": "drop-lazy-return-rejection",
+      "mode": "normal",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "11cb00a9617ecc1e086a5e8b146a2179c1486474b3c7d1e8f17c7307bb1c4f3a",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    },
+    {
+      "name": "ignore-decorator-lazy-shape-links",
+      "mode": "normal",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "91a96761a6d5f66143c0f14bdf0bf56f9765d2f8cb0de88074d27d8e2204748d",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    },
+    {
+      "name": "drop-pristine-lazy-shape-rejection",
+      "mode": "optimized",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "2a15fa19732ff0b025cbfcc5ce29a2085e62de902988af96a17cd433d511b938",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    },
+    {
+      "name": "drop-lazy-return-rejection",
+      "mode": "optimized",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "11cb00a9617ecc1e086a5e8b146a2179c1486474b3c7d1e8f17c7307bb1c4f3a",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    },
+    {
+      "name": "ignore-decorator-lazy-shape-links",
+      "mode": "optimized",
+      "test": "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "original_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "mutated_sha256": "91a96761a6d5f66143c0f14bdf0bf56f9765d2f8cb0de88074d27d8e2204748d",
+      "guard_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028"
+    }
+  ]
+}

@@ -179,5 +179,113 @@ class MutationHarnessTests(unittest.TestCase):
             self.assertEqual(mutations.classify(receipt, exit_code), 'ERROR')
 
 
+class LazyBodyHarnessTests(unittest.TestCase):
+    """A call returning suspended work must never establish complete test execution."""
+
+    def run_lazy_fixture(self, methods, definitions='', listing=False):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'tests').mkdir()
+            shutil.copy2(ROOT / 'run_tests.py', root / 'run_tests.py')
+            events = root / 'events'
+            source = ('import unittest, functools\nfrom pathlib import Path\n'
+                      'def record(label):\n    with Path(' + repr(str(events)) + ').open("a") as out: out.write(label + "\\n")\n'
+                      + textwrap.dedent(definitions) + '\nclass Case(unittest.TestCase):\n'
+                      + textwrap.indent(textwrap.dedent(methods), '    '))
+            (root / 'tests/fixture.py').write_text(source)
+            output = root / 'result.json'
+            command = [sys.executable, '-B', '-S', str(root / 'run_tests.py'),
+                       '--output', str(output), '--test', 'fixture.Case']
+            if listing:
+                command.append('--list')
+            p = subprocess.run(command, capture_output=True, text=True, timeout=10)
+            self.assertTrue(output.is_file(), p.stderr)
+            value = json.loads(output.read_text())
+            observed = events.read_text().splitlines() if events.exists() else []
+            return mutations.classify(value, p.returncode), value, observed, p.stderr
+
+    def test_ordinary_synchronous_body_positives_remain_supported(self):
+        survived, value, events, _ = self.run_lazy_fixture("def test_one(self): record('ordinary')")
+        self.assertEqual(survived, 'SURVIVED', value)
+        self.assertEqual(events, ['ordinary'])
+        killed, value, events, _ = self.run_lazy_fixture("def test_one(self):\n    record('assertion')\n    self.fail('real body assertion')")
+        self.assertEqual(killed, 'KILLED', value)
+        self.assertEqual(events, ['assertion'])
+
+    def test_declared_lazy_method_shapes_refuse_mixed_population_before_execution(self):
+        for lazy in ("def test_a_lazy(self):\n    record('lazy advanced')\n    yield None",
+                     "async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None",
+                     "async def test_a_lazy(self): record('lazy advanced')"):
+            with self.subTest(shape=lazy):
+                methods = lazy + "\ndef test_b_assertion(self):\n    record('ordinary assertion')\n    self.fail('body assertion')"
+                outcome, value, events, _ = self.run_lazy_fixture(methods)
+                self.assertEqual(outcome, 'ERROR', value)
+                self.assertEqual(events, [], value)
+                self.assertTrue(value['invalid_population'], value)
+                _, population, events, _ = self.run_lazy_fixture(methods, listing=True)
+                self.assertTrue(population['invalid_population'], population)
+                self.assertEqual(events, [])
+
+    def test_wrapped_lazy_method_shapes_refuse_before_execution(self):
+        definitions = '''
+            def wrap(method):
+                @functools.wraps(method)
+                def wrapper(*args, **kwargs):
+                    record('decorator executed')
+                    return method(*args, **kwargs)
+                return wrapper
+        '''
+        for lazy in ("def test_a_lazy(self):\n    record('lazy advanced')\n    yield None",
+                     "async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None",
+                     "async def test_a_lazy(self): record('lazy advanced')"):
+            with self.subTest(shape=lazy):
+                outcome, value, events, _ = self.run_lazy_fixture('@wrap\n' + lazy + "\ndef test_b_assertion(self): self.fail('body')", definitions)
+                self.assertEqual(outcome, 'ERROR', value)
+                self.assertEqual(events, [], value)
+
+    def test_sync_lazy_returns_refuse_without_advancing_suspended_work(self):
+        definitions = '''
+            def generator():
+                record('generator advanced')
+                yield None
+            async def coroutine(): record('coroutine advanced')
+            async def async_generator():
+                record('async generator advanced')
+                yield None
+            class Awaitable:
+                def __await__(self):
+                    record('custom awaitable advanced')
+                    yield None
+        '''
+        for expression in ('generator()', 'coroutine()', 'async_generator()', 'Awaitable()'):
+            with self.subTest(expression=expression):
+                methods = "def test_a_return(self):\n    record('outer method')\n    return " + expression + "\ndef test_b_assertion(self):\n    record('ordinary assertion')\n    self.fail('body')"
+                outcome, value, events, stderr = self.run_lazy_fixture(methods, definitions)
+                self.assertEqual(outcome, 'ERROR', value)
+                self.assertEqual(events, ['outer method', 'ordinary assertion'], value)
+                self.assertTrue(value['invalid_population'], value)
+                self.assertNotIn('was never awaited', stderr)
+
+    def test_decorator_without_wrapped_metadata_cannot_hide_lazy_return(self):
+        definitions = '''
+            def hide(method):
+                def wrapper(*args, **kwargs):
+                    record('decorator executed')
+                    return method(*args, **kwargs)
+                return wrapper
+        '''
+        outcome, value, events, _ = self.run_lazy_fixture("@hide\ndef test_a_lazy(self):\n    record('lazy advanced')\n    yield None\ndef test_b_assertion(self):\n    record('ordinary assertion')\n    self.fail('body')", definitions)
+        self.assertEqual(outcome, 'ERROR', value)
+        self.assertEqual(events, ['decorator executed', 'ordinary assertion'], value)
+
+    def test_all_non_none_returns_refuse_without_iterating_custom_objects(self):
+        definitions = "class DeferredIterable:\n    def __iter__(self):\n        record('unknown iterable advanced')\n        yield None"
+        for expression in ('False', '0', '[]', 'DeferredIterable()'):
+            with self.subTest(expression=expression):
+                outcome, value, events, _ = self.run_lazy_fixture("def test_a_return(self):\n    record('outer method')\n    return " + expression + "\ndef test_b_assertion(self):\n    record('ordinary assertion')\n    self.fail('body')", definitions)
+                self.assertEqual(outcome, 'ERROR', value)
+                self.assertEqual(events, ['outer method', 'ordinary assertion'], value)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

@@ -1,0 +1,61 @@
+{
+  "schema_version": 2,
+  "component": "kernel_replay",
+  "published_parent": "7b50d2b4c433a8f3b5442925e1ac9ff664880166",
+  "changed_files": {
+    "run_tests.py": {
+      "baseline_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+      "changed_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3"
+    },
+    "tests/test_mutation_harness.py": {
+      "baseline_sha256": "9887371525049cbc9685fadfd02531b1171507ad3c2c8373947c37875b3783e6",
+      "changed_sha256": "05a4a2f4c803315f80a3fcb2bb16f0d5d6df19c874c118152c257544880de114"
+    }
+  },
+  "unchanged_classifier_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+  "supported_body_policy": "ordinary synchronous Python function/bound-method selected bodies must return None; every decorator __wrapped__ link must have the supported non-generator/non-coroutine/non-async-generator shape; every non-None return is rejected without bool/equality/iteration/awaiting or advancement. Only native unstarted coroutine close is used for disposal.",
+  "fresh_method_ids": [
+    "test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported",
+    "test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution",
+    "test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work",
+    "test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return",
+    "test_mutation_harness.LazyBodyHarnessTests.test_all_non_none_returns_refuse_without_iterating_custom_objects"
+  ],
+  "fresh_modes": [
+    "normal",
+    "optimized with PYTHONOPTIMIZE=1 inherited by child fixtures"
+  ],
+  "reused_harness_method_ids": [
+    "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+    "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+    "test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_selected_method_invoked_from_lifecycle_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_clean_identity_survives",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_errors_skips_and_expected_failures_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_body_scoped_subtest_assertions_kill_without_changing_parent_population",
+    "test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion",
+    "test_mutation_harness.MutationHarnessTests.test_lifecycle_subtests_and_subtest_errors_are_errors",
+    "test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error",
+    "test_mutation_harness.MutationHarnessTests.test_population_listing_does_not_execute_fixtures_or_bodies",
+    "test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed",
+    "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+  ],
+  "current_harness_method_count": 20,
+  "unchanged_wrapper_and_real_method_count": 40,
+  "current_composed_method_total": 60,
+  "fresh_source_guard_mutants": {
+    "initial_type_only_generation_distinct": 3,
+    "initial_type_only_generation_executions": 6,
+    "final_none_return_guard_distinct": 1,
+    "final_none_return_guard_executions": 2,
+    "current_safeguard_themes": 3,
+    "unchanged_pristine_shape_and_decorator_guard_evidence_reused": true,
+    "note": "Runtime return guard was refreshed after the owner tightened type-only rejection to all non-None returns; earlier full receipts retained as earlier source generation."
+  },
+  "reused_original_kernel_source_mutants": 25,
+  "fresh_original_suite_or_lean_or_production_mutation_replay": false,
+  "evidence_reuse_rationale": "Static direct-method AST extraction proves all original54 kernel and83 layer methods ordinary synchronous with no valued return/suspension. Existing14 kernel lifecycle controls,40 production methods,10 prior lifecycle safeguards and25 production source-mutant kills retain applicable ordinary-None-body evidence. Classifier/production/Lean/tests outside new harness remain unchanged. No broad replay.",
+  "test_guard_relocation": "Moved existing unittest.main() guard below appended new class; discovery/module-import test semantics unchanged."
+}
