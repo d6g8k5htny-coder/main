@@ -197,3 +197,5 @@ All three D2 companion jobs at the historical Math #537 tested merge completed s
 ### Math main advanced
 
 Math [#492](https://github.com/d6g8k5htny-coder/Math-/pull/492) merged at `9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966` after six exact-head checks completed successfully. Its four changed paths concern the elder-cusp engineering verdict protocol; this does not promote an informal mathematical result. Candidate integrations and the workspace's current pins must be reconciled with this newer Math main before final verification. The previous `95eb` observations remain historical source cuts.
+
+A [later non-atomic observation](cbz/evidence/public-default-heads-20261029.json) records the default-branch heads of all ten identified public repositories, with main, Math and workspace re-read at that cut. Two private infrastructure repositories, local worktrees and final pin consistency remain outside this observation. It is not a final baseline vector.

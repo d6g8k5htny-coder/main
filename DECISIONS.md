@@ -119,3 +119,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 21:42:03 UTC] [phase3] [layerC] Record the three actual D2 companion job successes at the historical Math #537 tested merge, including the one skipped broad-suite method per mode in each applicable job. Do not transfer results to later source or claim artifact verification or final G5. Reversible:yes. Evidence: cbz/evidence/math537-d2-companion-observation.json.
 
 [2026-10-29 21:43:44 UTC] [phase2] [layerC] Record the independently observed Math #492 merge and six successful head checks, with the new main commit and engineering-only scope. Reconcile candidate source bases and workspace pins later at frozen heads; do not infer CBZ or a parent theorem. Reversible:yes. Evidence: Math- PR #492 and STATUS.md.
+
+[2026-10-29 21:45:18 UTC] [phase1] [layerC] Re-read the default-branch refs of ten public repositories and repeat main/Math/workspace refs, preserving the observation's non-atomic nature and explicit two-private-repository/local-state gap. Do not infer clean Git or final pin consistency. Reversible:yes. Evidence: cbz/evidence/public-default-heads-20261029.json.
