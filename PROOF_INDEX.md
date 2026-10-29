@@ -727,3 +727,7 @@ These five historical source/model interfaces are quarantined at their stated sc
 ### Numerical evidence awaiting full packet recovery
 
 The historical axis-envelope point certificate has a [source-bound precision limitation](cbz/quarantine/axis-envelope-precision-observation.md). This does not establish either side of the intended inequality. The full locally prepared Q-5026 boundary and the numerical mapping remain unavailable at this observation cut and are not reconstructed from partial information.
+
+### Q-1045: conditional upper-interface countermodel
+
+[Source-level argument](cbz/quarantine/lifetime-pair-law-countermodel.md): the constant-zero pair law satisfies the interface probability bounds but violates the original uniform upper predicate for any supplied positive-L field, elder interface and frame. The argument is not a kernel receipt or a counterexample to the intended geometric law; Q-1045 remains QUARANTINED.

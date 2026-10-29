@@ -1,4 +1,4 @@
-# A conditional countermodel to universal pair-law conclusions
+# Conditional countermodels to universal pair-law conclusions
 
 This is a source-level mathematical argument, not yet a kernel-verified
 declaration. It concerns the precise abstract definitions in
@@ -11,6 +11,28 @@ Fix \(L>0\), objects \(G:\mathrm{GaussianFieldInterface}(2,L)\) and
 \(I:\mathrm{SuperlevelBarInterface}(2,L)\), and an orthonormal frame \(R\).
 The argument is conditional on these objects: it does not construct the
 elder interface or claim that all its hypotheses are satisfiable.
+
+## Constant zero: the upper predicate can fail
+
+Define \(p(r,b,k,R')=0\) for every input. This satisfies the two
+probability fields of `PairLawInterface`. For \(B=[0,0]\), \(K=[1,1]\),
+suppose `ParentUniformSelectionA` held with \(r_*>0\) and \(C\).
+Put
+\[
+ r=\min\!\left\{r_*/2,\ \frac1{2(|C|+1)},\ 1\right\}.
+\]
+Then \(0<r\le r_*\), and the predicate, evaluated at \(b=0,k=1,R\),
+requires \(1\le Cr^3\). But \(r\le1\), so
+\[
+ Cr^3\le |C|r^3\le |C|r
+ \le \frac{|C|}{2(|C|+1)}<\frac12,
+\]
+a contradiction. This is a conditional counterexample to universal
+validity over all interface inhabitants, with the same supplied-object
+caveat as above. It is not a counterexample to the intended geometric law
+and is not a kernel receipt.
+
+## Constant one: the upper predicate holds but the lower rate fails
 
 Define \(p(r,b,k,R')=1\) for every input. This is a
 `PairLawInterface` over the given \(G,I\), since \(0\le 1\le 1\).
