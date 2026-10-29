@@ -18,30 +18,64 @@
     "prepare": "python3 kernel_replay.py prepare --lean ABS_LEAN --lean-path ABS_OLEAN_ROOT --module NAME=ABS_SOURCE --output MANIFEST.json",
     "run": "python3 kernel_replay.py run MANIFEST.json --memory-mib 16384 --timeout-seconds 600 --output REPORT.json",
     "g0": "python3 run_tests.py --output evidence/g0-tests.json",
-    "mutations": "python3 mutations.py --output evidence/g0-mutations.json"
+    "mutations": "python3 mutations.py --output evidence/g0-mutations.json",
+    "g0_resource": "python3 run_tests.py --output evidence/g0-wrapper-current.json --test test_kernel_replay.WrapperTests --test test_mutation_harness.MutationHarnessTests",
+    "mutations_resource": "python3 mutations.py --group wrapper --output evidence/g0-wrapper-mutations-current.json"
   },
   "self_verification": {
-    "status": "PASS",
-    "applicable_tests": 27,
+    "status": "PASS_RESOURCE_BOUNDARY_G0",
+    "generation": "resource-boundary-v2",
+    "fresh_distinct_tests": 32,
+    "new_resource_tests": 14,
+    "fresh_test_invocations": 33,
+    "single_full_suite_claim": false,
     "test_evidence": [
-      "evidence/g0-tests.json",
-      "evidence/g0-additional-tests.json",
-      "evidence/g0-applicable-tests.json"
+      "evidence/g0-resource-wrapper-tests.json",
+      "evidence/g0-resource-additional-tests.json",
+      "evidence/g0-resource-preexec-test.json",
+      "evidence/g0-resource-applicable.json"
     ],
+    "reused_unchanged_real_lean_tests": 9,
     "mutations": {
-      "planned": 16,
-      "executed": 16,
-      "killed": 16,
-      "threshold": 1,
-      "evidence": "evidence/g0-mutations.json"
-    }
+      "fresh_planned": 19,
+      "fresh_executed": 19,
+      "fresh_killed": 19,
+      "new_resource_cases": 9,
+      "original_wrapper_cases": 10,
+      "reused_unchanged_real_cases": 6,
+      "memory_oracle_refresh": "evidence/g0-resource-memory-mutant-refresh.json",
+      "evidence": "evidence/g0-resource-mutations.json",
+      "threshold": 1
+    },
+    "prior_generation": {
+      "production_wrapper_sha256": "416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293",
+      "verification": {
+        "status": "PASS",
+        "applicable_tests": 27,
+        "test_evidence": [
+          "evidence/g0-tests.json",
+          "evidence/g0-additional-tests.json",
+          "evidence/g0-applicable-tests.json"
+        ],
+        "mutations": {
+          "planned": 16,
+          "executed": 16,
+          "killed": 16,
+          "threshold": 1,
+          "evidence": "evidence/g0-mutations.json"
+        }
+      }
+    },
+    "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately."
   },
   "limits_and_boundaries": [
     "RLIMIT_AS bounds virtual address space, not RSS; enclosing cgroup physical limit remains separate. Fixture cap8192MiB; no assertion every project module fits.",
     "Only explicit nonempty module list; caller independently establishes full owned-module inventory and dependency evidence.",
     "Installed sysroot import precedence; no symlinked search roots/artifact components/module files/parts.",
     "G3 independently binds source to compiled output. G2 remains NOT_ASSESSED by replay.",
-    "Unsafe and partial exclusions are upstream behavior."
+    "Unsafe and partial exclusions are upstream behavior.",
+    "Resource bounds reject bool, huge/nonfinite timeouts and unrepresentable/inherited-hard-limit memory caps before spawn; see SPEC.md.",
+    "Explicit Popen lifecycle normalizes spawn/wait resource exceptions. Kill/reap wait is bounded to one second; unreaped PID is reported ERROR and stops later modules. OS-uninterruptible processes cannot be promised forced termination."
   ],
   "quarantined_test_data": [
     {
@@ -60,13 +94,16 @@
   "ledger_payload": {
     "phase": 2,
     "layer": "B",
-    "action": "Add exact-module serial resource-bounded adapter to installed LeanChecker; test/mutate failure propagation, bindings, import trust and real malformed proof bodies.",
+    "action": "Repair exact-module adapter resource argument boundaries and explicit bounded child cleanup; preserve replay, bindings, exact coverage and G2 separation.",
     "rationale": "Upstream prefix expansion launches concurrent per-module tasks with no CLI jobs flag. The original OOM is historical; canonical947 records a later successful same-source complete Math core gate with two threads. This adapter supplies exact serial scheduling, input binding and finite adversarial controls independently.",
     "reversibility": "New isolated contribution files only; no mathematical source, branch, Git, remote or canonical-surface mutation by this task.",
     "evidence": [
       "evidence/g0-applicable-tests.json",
       "evidence/g0-mutations.json",
-      "tool-report.json"
+      "tool-report.json",
+      "RESOURCE_FIX.md",
+      "resource-fix-report.json",
+      "evidence/g0-resource-applicable.json"
     ]
   },
   "publication": {
@@ -93,6 +130,16 @@
     "project_proof_replayed_for_this_correction": false,
     "adapter_production_code_or_tests_changed": false,
     "adapter_27_tests_16_mutants_reused": true,
-    "federation_CBZ_claim": false
+    "federation_CBZ_claim": false,
+    "record_context": "Historical documentation-only correction at cd3a0021; adapter-unchanged/reused-27-16 fields describe that cut. The later resource-boundary source change has separate self_verification evidence above."
+  },
+  "resource_repair_review": {
+    "finding": "https://github.com/d6g8k5htny-coder/main/pull/696#discussion_r4416529549",
+    "status": "PASS_SAME_PROVIDER_ENGINEERING_REVIEW",
+    "prior_published_head": "cd3a0021a16437567ceda8c9a0f0525677042de2",
+    "project_math_replayed": false,
+    "report": "resource-postfix-review.md",
+    "sha256": "660d37c8e5c3374d8fee867182042c12d2fc863f2a0f63198e4b01b0c8ced8b2",
+    "provider_distinct_scientific_review": "NOT_ASSESSED_BY_THIS_ENGINEERING_REVIEW"
   }
 }

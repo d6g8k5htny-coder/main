@@ -13,9 +13,15 @@ import signal
 import subprocess
 import sys
 import time
+import threading
 
 ROOT = Path(__file__).resolve().parent
 SCHEMA = 'cbz-kernel-replay/v1'
+# Linux poll uses signed-int milliseconds. Floor before passing seconds to any
+# platform wait, and also respect CPython's documented blocking-time ceiling.
+MAX_TIMEOUT_SECONDS = min(int(threading.TIMEOUT_MAX), ((1 << 31) - 1) // 1000)
+CLEANUP_TIMEOUT_SECONDS = 1.0
+PROCESS_ERRORS = (OSError, subprocess.SubprocessError, OverflowError, ValueError)
 MODULE = re.compile(r"[A-Za-z_][A-Za-z0-9_']*(?:\.[A-Za-z_][A-Za-z0-9_']*)*\Z")
 
 
@@ -180,6 +186,37 @@ def limits(memory_mib):
     return apply
 
 
+def cleanup_child(p):
+    """Kill the process group and reap without an implicit/unbounded wait."""
+    cleanup = {'pid': p.pid, 'reaped': False, 'timeout_seconds': CLEANUP_TIMEOUT_SECONDS,
+               'errors': []}
+    try:
+        os.killpg(p.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass  # Child/group may have exited immediately before the signal.
+    except PROCESS_ERRORS as e:
+        cleanup['errors'].append(f'group kill {type(e).__name__}: {e}')
+        try:
+            p.kill()
+        except ProcessLookupError:
+            pass
+        except PROCESS_ERRORS as e:
+            cleanup['errors'].append(f'child kill {type(e).__name__}: {e}')
+    returncode = None
+    try:
+        returncode = p.wait(timeout=CLEANUP_TIMEOUT_SECONDS)
+    except PROCESS_ERRORS as e:
+        cleanup['errors'].append(f'reap {type(e).__name__}: {e}')
+        # poll is nonblocking and can still reap an already-exited child if a
+        # platform wait rejected its timeout argument.
+        try:
+            returncode = p.poll()
+        except PROCESS_ERRORS as e:
+            cleanup['errors'].append(f'poll {type(e).__name__}: {e}')
+    cleanup['reaped'] = returncode is not None
+    return returncode, cleanup
+
+
 def run_one(m, entry, memory_mib, timeout_seconds):
     env = os.environ.copy()
     # Pin the imported checker and Lean/Lake support to the installed sysroot.
@@ -198,18 +235,28 @@ def run_one(m, entry, memory_mib, timeout_seconds):
     # orchestrator's memory. Only a bounded tail is included in JSON evidence.
     import tempfile
     with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+        p = None
         try:
-            with subprocess.Popen(cmd, cwd=ROOT, env=env, stdout=stdout, stderr=stderr,
-                                  start_new_session=True, preexec_fn=limits(memory_mib)) as p:
-                result['pid'] = p.pid
-                try:
-                    result['returncode'] = p.wait(timeout=timeout_seconds)
-                except subprocess.TimeoutExpired:
-                    os.killpg(p.pid, signal.SIGKILL)
-                    result['returncode'] = p.wait()
-                    result['status'] = 'TIMEOUT'
-        except OSError as e:
-            result['error'] = str(e)
+            # A Popen context manager calls wait() without a timeout on exit.
+            # Keep ownership explicit so every abnormal wait has bounded cleanup.
+            p = subprocess.Popen(cmd, cwd=ROOT, env=env, stdout=stdout, stderr=stderr,
+                                 start_new_session=True, preexec_fn=limits(memory_mib))
+            result['pid'] = p.pid
+            try:
+                result['returncode'] = p.wait(timeout=timeout_seconds)
+                result['status'] = 'FINISHED'
+            except subprocess.TimeoutExpired:
+                result['status'] = 'TIMEOUT'
+            except PROCESS_ERRORS as e:
+                result['error'] = f'wait {type(e).__name__}: {e}'
+        except PROCESS_ERRORS as e:
+            result['error'] = f'spawn {type(e).__name__}: {e}'
+        if p is not None and result['status'] != 'FINISHED':
+            result['returncode'], result['cleanup'] = cleanup_child(p)
+            if not result['cleanup']['reaped']:
+                result['status'] = 'ERROR'
+                detail = f'child PID {p.pid} not reaped within {CLEANUP_TIMEOUT_SECONDS} seconds'
+                result['error'] = (result.get('error', '') + '; ' + detail).lstrip('; ')
         for key, stream in (('stdout', stdout), ('stderr', stderr)):
             stream.seek(0, os.SEEK_END)
             size = stream.tell()
@@ -217,7 +264,7 @@ def run_one(m, entry, memory_mib, timeout_seconds):
             result[key] = stream.read().decode('utf-8', errors='replace')
             result[key + '_bytes'] = size
     marker = 'CBZ_KERNEL_REPLAY_OK ' + entry['name']
-    if result['status'] != 'TIMEOUT':
+    if result['status'] == 'FINISHED':
         result['ok'] = result['returncode'] == 0 and result['stdout'].splitlines().count(marker) == 1
         result['status'] = 'PASS' if result['ok'] else 'FAIL'
     result['ended'] = now()
@@ -230,21 +277,38 @@ def run_manifest(m, memory_mib, timeout_seconds):
               'results': [], 'completed_count': 0, 'expected_count': 0, 'manifest': m,
               'g2_status': 'NOT_ASSESSED', 'full_cbz': False}
     try:
-        if not isinstance(memory_mib, int) or memory_mib < 64:
-            raise ValueError('memory_mib must be an integer >= 64')
-        if not isinstance(timeout_seconds, (int, float)) or not math.isfinite(timeout_seconds) or timeout_seconds <= 0:
-            raise ValueError('timeout_seconds must be finite and positive')
+        # RLIMIT_AS is inherited; a child cannot raise a finite hard limit.
+        # sys.maxsize is a conservative signed platform-integer byte ceiling,
+        # below Linux rlim_t's unsigned sentinel/range. Never silently clamp.
+        hard_memory = resource.getrlimit(resource.RLIMIT_AS)[1]
+        memory_bytes_max = sys.maxsize
+        if hard_memory != resource.RLIM_INFINITY:
+            memory_bytes_max = min(memory_bytes_max, hard_memory)
+        memory_mib_max = memory_bytes_max // (1024 * 1024)
+        report['resource_limits'] = {'memory_mib_max': memory_mib_max,
+                                     'timeout_seconds_max': MAX_TIMEOUT_SECONDS,
+                                     'cleanup_timeout_seconds': CLEANUP_TIMEOUT_SECONDS}
+        if type(memory_mib) is not int or not 64 <= memory_mib <= memory_mib_max:
+            raise ValueError(f'memory_mib must be an integer in [64, {memory_mib_max}]')
+        # Compare the upper bound before float conversion: math.isfinite(10**400)
+        # itself overflows. Bool is not a resource quantity despite being an int.
+        if (type(timeout_seconds) not in (int, float)
+                or not 0 < timeout_seconds <= MAX_TIMEOUT_SECONDS
+                or not math.isfinite(timeout_seconds)):
+            raise ValueError(f'timeout_seconds must be finite and in (0, {MAX_TIMEOUT_SECONDS}]')
         validate_manifest(m)
         report['expected_count'] = len(m['expected_modules'])
         for entry in m['modules']:
             validate_manifest(m)
             report['results'].append(run_one(m, entry, memory_mib, timeout_seconds))
+            if report['results'][-1].get('cleanup', {}).get('reaped') is False:
+                break  # Do not start another process while an earlier PID remains unreaped.
         validate_manifest(m)
         report['completed_count'] = sum(x['ok'] for x in report['results'])
         report['ok'] = (report['completed_count'] == report['expected_count']
                         and len(report['results']) == report['expected_count']
                         and [r['module'] for r in report['results']] == m['expected_modules'])
-    except (ValueError, TypeError, KeyError, OSError) as e:
+    except (ValueError, TypeError, KeyError, OSError, subprocess.SubprocessError, OverflowError) as e:
         report['error'] = f'{type(e).__name__}: {e}'
     report['ended'] = now()
     return report
@@ -297,7 +361,7 @@ def main(argv=None):
         report = run_manifest(m, args.memory_mib, args.timeout_seconds)
         emit(report, args.output)
         return 0 if report['ok'] else 1
-    except (ValueError, TypeError, KeyError, OSError) as e:
+    except (ValueError, TypeError, KeyError, OSError, subprocess.SubprocessError, OverflowError) as e:
         print(f'kernel replay ERROR: {e}', file=sys.stderr)
         return 2
 

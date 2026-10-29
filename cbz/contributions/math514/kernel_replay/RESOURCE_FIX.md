@@ -1,0 +1,19 @@
+# Resource-boundary repair
+
+The P2 finding on [PR 696](https://github.com/d6g8k5htny-coder/main/pull/696#discussion_r4416529549) applied to the published cd3a0021 wrapper: arbitrary memory integers could fail in preexec, large finite waits could overflow, and implicit process cleanup could wait without a bound. This repair validates quantities before spawn, normalizes subprocess resource errors, and owns cleanup explicitly.
+
+Memory is an integer from 64 MiB to the smaller of the signed platform byte ceiling and a finite inherited hard RLIMIT_AS, converted down to MiB. Timeout is an int/float greater than zero and at most min(floor(threading.TIMEOUT_MAX), 2147483) seconds; the second limit is the signed 32-bit poll-millisecond range rounded down. Bool, huge integers and nonfinite values fail before a child starts. No value is silently clamped.
+
+Timeout or abnormal wait kills the process group, attempts direct child signaling when group signaling fails, then waits at most one second to reap and may poll without blocking. A normal killable child is reaped before continuing. An unreaped PID produces ERROR and stops later modules. The report retains PID and diagnostics because finite cleanup cannot force an OS-uninterruptible child to exit. ERROR stays non-green even if cleanup observes exit zero plus a valid marker.
+
+Fresh evidence is split across `evidence/g0-resource-wrapper-tests.json` (30 tests), `g0-resource-additional-tests.json` (2 tests, including one strengthened existing memory test), and `g0-resource-preexec-test.json` (1 actual preexec failure): **32 distinct fresh tests, 33 invocations, 14 new resource tests**. The additional CLI test verifies oversized bounds yield exit 1 and an emitted non-green report. The memory oracle checks actual soft/hard RLIMIT_AS in the parent; it does not depend on a child Python assertion.
+
+`evidence/g0-resource-mutations.json` records **19/19 current-source assertion kills**: ten original wrapper cases plus nine new resource cases. Only the memory-limit mutant was refreshed after its test oracle changed, in `g0-resource-memory-mutant-refresh.json`. Errors, skips and timeouts do not count as kills. The original sixteen cases remain defined.
+
+The original 27-test/16-mutation generation remains in its existing receipts, with its exact changed source bytes preserved under `evidence/resource-baseline/`. Those receipts are not relabeled as new runs. Nine unchanged real-Lean tests and six unchanged real-driver/import-trust mutant receipts are reused: driver, fixture code, normal command/cwd/env, path/part checks and checker precedence are unchanged. `evidence/g0-resource-applicable.json` records the exact IDs and source hashes. The composition yields 41 distinct applicable tests and 25 distinct mutation cases, not a single fresh run of either total.
+
+Clean RED probes first demonstrated 18 assertion failures in ten tests and five in two further tests against the original wrapper. An earlier probe with two test-indexing errors is retained as failed development evidence. No real Lean fixture was compiled/replayed and no project math gate was repeated. Mathematical completion and provider-distinct process review remain separate obligations.
+
+The canonical Math-core gate already passed on source8151 with two threads at canonical947; see [STATUS_CORRECTION.md](STATUS_CORRECTION.md). The initial OOM is historical failed-run evidence. G2, full-project coverage and full CBZ remain separate.
+
+Current wrapper SHA-256: `27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce`. Prior wrapper SHA-256: `416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293`. [Focused engineering review](resource-postfix-review.md) passed with no blocking findings. It is a separate same-provider review; provider-distinct scientific review and hosted checks remain separate process obligations.
