@@ -267,10 +267,9 @@ class CustodySourceMutationTests(unittest.TestCase):
                 fixtures.SyntheticControls('test_changed_checked_head_after_execution_refuses_receipt'),
             ])
         baseline_suite = controls()
-        expected_count = baseline_suite.countTestCases()
-        baseline = unittest.TextTestRunner(stream=io.StringIO()).run(baseline_suite)
-        self.assertTrue(baseline.wasSuccessful(), 'unmutated custody controls must pass')
-        self.assertFalse(baseline.skipped)
+        expected_ids = mutation_contract.policy_test_ids(baseline_suite)
+        baseline = mutation_contract.run_policy_controls(baseline_suite)
+        mutation_contract.require_policy_control(baseline, expected_ids)
         try:
             for label, (replacements, expected_failures) in mutations.items():
                 with self.subTest(mutation=label):
@@ -283,8 +282,8 @@ class CustodySourceMutationTests(unittest.TestCase):
                     exec(compile(mutated, original.__file__, 'exec'), module.__dict__)
                     globals()['gate'] = module
                     with mock.patch.object(fixtures, 'gate', module):
-                        result = unittest.TextTestRunner(stream=io.StringIO()).run(controls())
-                    mutation_contract.require_policy_mutation_kill(result, expected_count, expected_failures)
+                        result = mutation_contract.run_policy_controls(controls())
+                    mutation_contract.require_policy_mutation_kill(result, expected_ids, expected_failures)
         finally:
             globals()['gate'] = original
 
