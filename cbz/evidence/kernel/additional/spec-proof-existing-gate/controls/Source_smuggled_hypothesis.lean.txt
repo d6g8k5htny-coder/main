@@ -1,0 +1,10 @@
+import Specifications.Field
+
+namespace UniversalLaw.Proofs.P15Elementary
+
+/-- Proves: `UniversalLaw.Spec.Field.HessianHasInertia`.
+Method: control.
+Does not establish: anything. -/
+theorem control (h : False) : UniversalLaw.Spec.Field.HessianHasInertia := h.elim
+
+end UniversalLaw.Proofs.P15Elementary

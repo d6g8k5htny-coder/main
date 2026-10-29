@@ -2,7 +2,9 @@
 
 This engineering runner closes an execution-coverage gap for two existing UI
 regressions. It does not certify mathematics, all regression coverage, or CBZ-0.
-Actual browser execution on this contribution is pending hosted qualification.
+Actual browser execution passed on the corrected historical source documented below.
+A later composition requires its own hosted qualification; historical success is
+not transferred to an untested tree.
 
 ## Scope and execution
 
@@ -17,8 +19,8 @@ Both tests explicitly enable Chromium's sandbox and choose the explicit
 No UI assertion or bound is changed. The first hosted PR #702 attempt at source
 `625bfc89975efa1fd725076bc2b0961af2768279` failed: focus selected Chromium and
 reported “No usable sandbox”; reader passed with packaged Chrome. That failure
-is not erased by this launcher correction. Corrected actual browser execution
-remains pending hosted qualification; no local denied launch was retried.
+is not erased by this launcher correction. Corrected actual browser execution passed in both modes on the source below;
+no local denied launch was retried.
 
 The existing public-shop `browser-smoke` job supplies the hash-pinned
 `tests/browser-requirements.txt` dependencies and packaged Chrome. No permission,
@@ -72,7 +74,8 @@ facts into their current versions rather than restoring the historical STATUS:
   zero-skip execution of two Atlas UI regressions; criterion: G5 execution coverage
   and G11 documented tooling; usage/self-verification: exact commands above;
   maintenance owner: none, self-contained; verification: 17 runner controls (32 combined browser-contract controls) and 6
-  runner-source mutants per mode locally passed in the fresh recovery checkout; actual hosted browser result remains pending.
+  runner-source mutants per mode locally passed in the fresh recovery checkout; actual hosted execution passed on the historical corrected tree below,
+  with new composition qualification still pending.
 - STATUS, How to verify: run both control commands, then both real runner commands
   in the existing pinned browser-smoke environment; report the original result
   JSON/logs and checked source identity. This does not close five separate
@@ -81,3 +84,28 @@ facts into their current versions rather than restoring the historical STATUS:
   exit zero after skipping required browser methods. Preserve all UI assertions,
   source history, original failure logs and supported browser sandbox. No new UI
   functionality, mathematical claim or final baseline promotion is introduced.
+
+## Retained hosted execution evidence
+
+The original failed run 40936994120 and corrected run 40950918974 are retained
+in [the evidence manifest](evidence/atlas-browser-20261029/manifest.json).
+Both downloaded artifact ZIPs were independently hashed against their recorded
+SHA-256 identities before extracting these text records. Screenshot member hashes
+are retained in the manifest; screenshots themselves remain in the hosted ZIPs.
+
+Corrected source `c0205ca9e8683b2847008f712582e183f723e186` was tested through
+merge `8bd88e5952e4a67ff394e1cab3c272e7ace2f961`, tree
+`c9e3a5656fc95feef3bd360af3ea393846afd1e8`, in browser-smoke job
+123718493908. Its normal and optimized result records each contain exactly two
+successful expected method IDs, zero errors, failures or skips, and optimize flags
+0 and 1 respectively. Both used `/opt/google/chrome/google-chrome`, version
+156.0.8078.47, with the existing sandbox-enabled tests.
+
+Corrected artifact 12931733641 has SHA-256
+`2bcd2bd3ceec0641c56f52bab6159e141e825a10042d9276bd716e7f12c1df36`.
+Original artifact 12924209403 has SHA-256
+`e6ac7e329f63c55dc1188f6dddeacfb3a72b1f60a2327dcaac657cdaee0b3f8a`.
+The original focus failure remains in its result and stderr records. These are
+engineering observations only, not mathematical evidence or final G5 completion.
+The later composition onto Main `1e2be44c69e08e47472041ac329e1b27f7dec793`
+preserves this evidence as historical; it still needs a new hosted execution.
