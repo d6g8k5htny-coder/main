@@ -1,0 +1,82 @@
+{
+  "observed": "2026-10-29T19:49:23.249507+00:00",
+  "source_sha256": {
+    "tools/cbz_mutation.py": "1d441950e37a087ad97306d575892cb1b9723c04a3db1cc45a56a28a51798231",
+    "tools/cbz_audit.py": "e1c42fa2377415cd201133c985890dbc2658099c8cb754228141642395e217ba",
+    "tests/test_cbz_mutation_lifecycle.py": "4a1c6f2eca6062427dabb318e75bb1463f8a8a923818332fccc49a9775006128",
+    "cbz/evidence/website-foundation-20261029/verification/ref_controls.py": "32ef032feeb14a976543ac12fc8f9d60491a26d0a8bffc2d63b8f99dd921f82c",
+    "cbz/evidence/website-foundation-20261029/verification/baseline_controls.py": "fbf2720300bbcbaee8db6a6476cbdf2ab49b57cd3528a156a3ad01eef43f83ef"
+  },
+  "source_unchanged": true,
+  "runs": [
+    {
+      "mode": "normal",
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_mutation_lifecycle.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "f52baf86eb6d3d41364b305298db6ce8132ec3481e5183dcc9795de32d7725b5"
+    },
+    {
+      "mode": "normal",
+      "label": "deferred-probe",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "/workspace/cbz0/release/mutation-review/reviewer_async_probe.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "9c43d55004a1acb0584c6578f3daa4b44dec48a1b5bbb56ad39246dea2222705",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "mode": "optimized",
+      "label": "lifecycle",
+      "argv": [
+        "python",
+        "-B",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_mutation_lifecycle.py",
+        "-v"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "355bc381300eb20ca546d30efa43c8a28e83055b439b72834e139504199994c8"
+    },
+    {
+      "mode": "optimized",
+      "label": "deferred-probe",
+      "argv": [
+        "python",
+        "-B",
+        "-O",
+        "-S",
+        "/workspace/cbz0/release/mutation-review/reviewer_async_probe.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "e74e1f83e64ec38f58e9880f77a7d23efe7cb4d453e11c55d8ccdac0405e7762",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Finite lifecycle/source review; no mathematical or full-suite certification"
+}

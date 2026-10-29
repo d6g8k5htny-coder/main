@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "audit_history": {
+      "type": "array"
+    },
+    "corrections": {
+      "type": "array"
+    },
+    "imports": {
+      "type": "array"
+    },
+    "local_evidence": {
+      "type": "array"
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "obligations": {
+      "items": {
+        "required": [
+          "id",
+          "conclusion",
+          "premises",
+          "side_conditions",
+          "external_theorem_imports",
+          "source_corrections",
+          "proof_bundle",
+          "local_evidence_refs",
+          "full_theorem_certificate_refs",
+          "checker",
+          "status",
+          "fingerprint"
+        ],
+        "type": "object"
+      },
+      "minItems": 104,
+      "type": "array"
+    },
+    "records": {
+      "items": {
+        "properties": {
+          "import_status": {
+            "enum": [
+              "unvalidated",
+              "metadata_validated",
+              "scope_validated",
+              "independently_certified"
+            ]
+          },
+          "project_acceptance": {
+            "enum": [
+              "primary",
+              "supporting",
+              "reviewed",
+              "refuted",
+              "conjecture",
+              "candidate",
+              "excluded"
+            ]
+          },
+          "proof_obligation_status": {
+            "enum": [
+              "none",
+              "bundle_only",
+              "side_conditions_open",
+              "certificate_attached",
+              "checker_passed",
+              "independently_reproduced"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "scope",
+          "project_acceptance",
+          "proof_obligation_status",
+          "import_status",
+          "theorem_certificate_status"
+        ],
+        "type": "object"
+      },
+      "minItems": 104,
+      "type": "array"
+    },
+    "schema_version": {
+      "const": "UL-obligation-certificate-v15.0"
+    }
+  },
+  "required": [
+    "schema_version",
+    "metadata",
+    "records",
+    "obligations",
+    "imports",
+    "corrections",
+    "local_evidence",
+    "audit_history"
+  ],
+  "title": "Universal Law v15 obligations (informational machine readable schema)",
+  "type": "object"
+}

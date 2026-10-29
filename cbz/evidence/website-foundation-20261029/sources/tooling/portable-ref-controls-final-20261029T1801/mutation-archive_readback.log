@@ -1,0 +1,17 @@
+test_actual_tag_fetch_rejects_forged_advertised_readback (cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback) ... FAIL
+
+======================================================================
+FAIL: test_actual_tag_fetch_rejects_forged_advertised_readback (cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_refs.py", line 238, in test_actual_tag_fetch_rejects_forged_advertised_readback
+    self.assertEqual(git(self.remote, 'rev-parse', 'refs/heads/unmerged', check=False), self.tip)
+AssertionError: 'refs/heads/unmerged' != 'db025d6088604f10bb8db3e91d62672a3d13df6c'
+- refs/heads/unmerged
++ db025d6088604f10bb8db3e91d62672a3d13df6c
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.273s
+
+FAILED (failures=1)

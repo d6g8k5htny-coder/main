@@ -1,0 +1,22 @@
+{
+  "source_sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
+  "scope": "one finite source-guard mutation, not complete validator fault model or theorem certification",
+  "rows": [
+    {
+      "label": "unmutated",
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "log": "runTest (__main__.Guard.runTest) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n"
+    },
+    {
+      "label": "missing_all_main_guard",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skips": 0,
+      "log": "runTest (__main__.Guard.runTest) ... FAIL\n\n======================================================================\nFAIL: runTest (__main__.Guard.runTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz0/canonical-docs/metadata-source-mutation.py\", line 15, in runTest\n    with self.assertRaises(AssertionError):m.validate(index,False)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: AssertionError not raised\n\n----------------------------------------------------------------------\nRan 1 test in 0.015s\n\nFAILED (failures=1)\n"
+    }
+  ]
+}

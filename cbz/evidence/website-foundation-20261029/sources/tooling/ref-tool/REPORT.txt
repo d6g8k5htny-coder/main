@@ -1,0 +1,122 @@
+CBZ refs tool handoff — 2026-10-29 — engineering scope only
+
+Owned source files (new; no staging/commits/source Git mutations by this agent):
+  /workspace/universal-law/website-repair-20261028/tools/cbz_refs.py
+  /workspace/universal-law/website-repair-20261028/tests/test_cbz_refs.py
+
+Root owns all real remote writes and cleanup ordering. This agent used disposable
+local bare fixtures exclusively. No federation network calls, writes, deletions,
+source index/worktree changes, or hosting-setting changes were performed.
+
+Operational sequence (REMOTE is an explicit URL or absolute filesystem path,
+not a configured remote alias; OUT must not exist; choose a fresh pre-cbz tag).
+Run from /workspace/universal-law/website-repair-20261028:
+
+  python -B -S tools/cbz_refs.py snapshot --remote "$REMOTE" --output "$OUT" --archive-tag "$TAG" --protected-ref refs/heads/PROTECTED --active-ref refs/heads/ACTIVE
+  python -B -S tools/cbz_refs.py snapshot --remote "$REMOTE" --output "$OUT" --archive-tag "$TAG" --protected-ref refs/heads/PROTECTED --active-ref refs/heads/ACTIVE --execute
+  python -B -S tools/cbz_refs.py verify --snapshot "$OUT"
+  python -B -S tools/cbz_refs.py publish --snapshot "$OUT"
+  python -B -S tools/cbz_refs.py publish --snapshot "$OUT" --execute
+  python -B -S tools/cbz_refs.py prune --snapshot "$OUT"
+  python -B -S tools/cbz_refs.py prune --snapshot "$OUT" --execute
+
+Omit PROTECTED/ACTIVE flags only where inventory actually finds none. Repeat each
+flag for every known protected or actively changing branch. Default is always
+excluded. The caller supplies the COMPLETE protected/active inventory; this tool
+does not inspect GitHub protection/ruleset/PR APIs. Hosting protections remain
+fully enforced. Use root's serial writer after repairs/PR disposition stabilize.
+
+Default snapshot/publish/prune invocation emits JSON and performs no persistent
+source or remote mutation. --execute is explicit. Snapshot writes only NEW OUT
+using a temporary sibling then rename. Failed creation removes partial output.
+Archive source index uses a separate GIT_INDEX_FILE. No source checkout/index is
+opened. Snapshot rejects a default source tree already using reserved .cbz path.
+
+OUT/manifest.json is exact canonical original advertised heads/tags object IDs,
+peeled annotated-tag IDs, symbolic default branch, remote endpoint and frozen
+protection/activity policy. The exact same bytes are embedded in archive commit
+at .cbz/refs-manifest.json. OUT/receipt.json binds manifest SHA-256, archive commit
+and archive tree. OUT/repository.git is a standalone full bare object archive.
+The archive commit uses the original default source tree plus that manifest;
+its parents are exactly all unique original branch tips. Completed archive has
+NO original branch refs; detached HEAD and one pre-cbz archive tag retain all
+original branch work. Original tag refs remain locally to preserve exact tag
+objects and tag-only work. Tool never deletes original remote tags.
+
+Verification checks canonical bytes/hash, commit and tree identities, exact
+manifest membership, exact unique parent membership, all original objects,
+peeled-tag identities, all original branch-tip reachability and full Git fsck.
+A fresh independent bare fetch of the actual remote archive tag, its commit
+bytes and object closure occurs after publication and before any branch delete;
+it occurs again after delete. Local receipts/ls-remote alone do not authorize
+deletion. Publish adds the archive tag with expected-absent lease. Prune uses
+one --atomic push and explicit expected-old SHA leases for EVERY deleted head.
+It performs fresh complete in-scope state checks before and immediately before
+push, and exact final-state readback. Server rejection cannot partially apply
+an atomic delete transaction. A failed command never returns successful cleanup.
+
+Recover a branch (operator chooses a NEW branch name; this command is only an
+example and was not run against any real archive):
+  git -C "$OUT/repository.git" show ORIGINAL_SHA:path/to/file
+  git -C "$OUT/repository.git" branch recovered-branch ORIGINAL_SHA
+Exact original names/SHA values are in both manifest copies. The archive tag's
+parents retain every ancestor/content object of every original branch tip.
+
+Verification actually observed:
+  python -B -S -m unittest discover -s tests -p test_cbz_refs.py -v
+  python -B -O -S -m unittest discover -s tests -p test_cbz_refs.py -v
+  python -B -S /workspace/cbz0/ref-tool/controls.py
+  python -B -S /workspace/cbz0/ref-tool/controls.py --mutations-only
+Detailed logs/JSON in this directory, latest source hashes in registry.json.
+Root owns one joint full Main G5 run after tool/governance freeze; no duplicate
+full project suite was run by this agent.
+
+Focused suite: 22 tests, normal and optimized passing. Includes unmerged content
+recovery after branch-ref removal/reflog expiration/GC, duplicate tips, original
+annotated-tag IDs, preservation of dirty source index/worktree/untracked bytes,
+no residual original archive heads, no-execute CLI JSON, old-ref mismatch, new
+unexpected refs, moved symbolic default, changed branch after final preflight
+(CAS lease), actual fresh tag fetch versus forged advertised state, fetch-race
+partial-output cleanup, server hook rejection atomicity, final readback refusal,
+manifest/receipt/local-tag tamper guards, ref validation and subprocess scaling.
+
+Declared mutation control scope: six named engineering safety mutations, all
+six detected by focused tests: full-state guard, expected-old leases, default
+exclusion, atomic push, actual archive readback, receipt manifest-hash check.
+Initial run detected 5/6; a redundant embedded-manifest check masked the receipt
+hash test gap. Preserved mutations-initial.json; added dedicated receipt-only
+hash corruption test and observed 6/6. This does not certify all possible tool
+faults or Layer A. Controls and initial/final logs are retained, not rewritten
+as a historically green first pass.
+
+Scale fixture: 2,215 DISTINCT original branch tips, exactly 2,215 archive parents;
+2,214 branches deleted atomically; default retained; content recovered; all own
+fixture repos removed after observation. Latest scale.json contains actual time
+and bytes. Initial per-ref subprocess version passed but took ~126 seconds;
+batched validation/reachability version passed in ~8 seconds combined. Synthetic
+snapshot ~728 KB uses a tiny common payload, so it is NOT a production size
+estimate. Production disk is one standalone copy of all reachable head/tag
+Git objects, plus at most one independent remote readback copy at a time and
+small manifest/tree/index overhead. Rough peak ~2x snapshot objects. A read-only
+local Main object-directory sample was 36 MB; its objects may omit other remote
+heads. Do not infer federation archive size from this sample. Disk availability
+was ~1.7 GiB when sampled; root must budget alongside Mathlib.
+
+Limits and nonclaims:
+* Scope is advertised refs/heads/* and refs/tags/*, symbolic HEAD and peeled tags.
+  Hidden refs, refs/pull/*, GitHub PR objects, stashes, working-copy-only changes,
+  artifacts outside Git and tag disposition/quarantine indexing are root's other
+  phases. No claim that this alone preserves those inputs or completes G10.
+* CLI requires stdlib Python 3 plus Git supporting atomic push, exact leases and
+  --no-write-fetch-head. Actual server atomic support is mandatory; no fallback.
+* No server-wide lock: an unrelated concurrent change can occur after preflight;
+  exact final comparison rejects it, and standalone local archive remains intact.
+  A rejected final check may follow an already-applied atomic deletion; inspect
+  fresh remote state and recover from the archive instead of claiming success.
+* Existing local snapshots are immutable to the workflow: changed refs/default
+  require a new snapshot/tag. Prune is deliberately not silently idempotent;
+  a second execution after a completed prune rejects the changed original state.
+* The archive manifest is not signed and cannot establish authenticity against
+  coordinated malicious rewriting of archive objects, tag, manifest and receipt.
+* No tool assertion certifies mathematics, axioms, kernel acceptance, Layer A,
+  complete federation hygiene, PR closure or CBZ-0. Scope is tested Git safety.

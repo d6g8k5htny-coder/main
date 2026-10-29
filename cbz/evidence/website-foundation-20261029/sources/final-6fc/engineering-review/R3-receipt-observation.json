@@ -1,0 +1,52 @@
+{
+  "observed_utc": "2026-10-29T17:58:49.831247+00:00",
+  "receipt_sha256": "b7c14c0131fd77faf6c14c7eb80ba33bd796499943e3fd718e6077f12ec1ab6c",
+  "checked_commit": "a7f602241f759285190d8deebfefb017a6167ee8",
+  "audit_input_sha256": {
+    "tools/CBZNonvacuity.lean": "b9f29f231bb41ff6ffc896230c5c23b358cf2527ebd33a576d3c6d96a0ded49f",
+    "tools/cbz_lean_check.py": "a0c4b544da423a741e8d8a4590fe28878c8f77b19b35c786e61a4e6948d6796d",
+    "tools/formal_gate_check.py": "1125e435429f0a7391d6b076c99f1198bf862376276f6c00c91b5ea4f6a88ec5"
+  },
+  "version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "self_tests": {
+    "false_premise": "EXPECTED_REJECTION",
+    "honest": "EXPECTED_ACCEPTANCE",
+    "missing_module": "EXPECTED_REJECTION",
+    "native": "EXPECTED_REJECTION",
+    "sorry": "EXPECTED_REJECTION",
+    "unused_axiom": "EXPECTED_REJECTION",
+    "weakened_witness_types": "REJECTED_BY_EXACT_TYPE_CENSUS_AND_LEAN_ASCRIPTION"
+  },
+  "proofs": 31,
+  "constants": 45,
+  "audit_constants": 4,
+  "witness_type_contract": {
+    "CBZNonvacuity.dimensions_both": "(2:Nat) \u2208 [2,3] \u2227 (3:Nat) \u2208 [2,3]",
+    "CBZNonvacuity.dimensions_inhabited": "\u2203 d : Nat, d \u2208 [2,3]",
+    "CBZNonvacuity.pairing_all_seven": "(0:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (1:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (2:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (3:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (4:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (5:Nat) \u2208 [0,1,2,3,4,5,6] \u2227 (6:Nat) \u2208 [0,1,2,3,4,5,6]",
+    "CBZNonvacuity.pairing_domain_inhabited": "\u2203 q : Nat, q \u2208 [0,1,2,3,4,5,6]"
+  },
+  "fresh_kernel": "PASS",
+  "live_log_match": {
+    "all-declarations-and-witnesses.log": true,
+    "auditor-module-census.log": true,
+    "false_premise-audit.log": true,
+    "false_premise-compile.log": true,
+    "fresh-kernel.log": true,
+    "honest-audit.log": true,
+    "honest-compile.log": true,
+    "missing-module.log": true,
+    "native-audit.log": true,
+    "native-compile.log": true,
+    "sorry-audit.log": true,
+    "sorry-compile.log": true,
+    "unused_axiom-audit.log": true,
+    "unused_axiom-compile.log": true,
+    "weakened-witness-audit.log": true,
+    "weakened-witness-compile.log": true,
+    "weakened-witness-contract.log": true,
+    "witness-kernel.log": true,
+    "witness-type-contract.log": true
+  },
+  "baseline_receipt_matches": true
+}

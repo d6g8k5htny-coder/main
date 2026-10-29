@@ -1,0 +1,66 @@
+../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py:634: DeprecationWarning: It is deprecated to return a value that is not None from a test case (<function MutationLifecycleTests.test_async_generator_named_body_is_explicitly_unsupported.<locals>.Fixture.test_body at 0x7f49fcb0b2e0>)
+  self._callTestMethod(testMethod)
+F/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/async_case.py:91: RuntimeWarning: coroutine 'MutationLifecycleTests.test_async_named_body_is_explicitly_unsupported.<locals>.Fixture.test_body' was never awaited
+  if self._callMaybeAsync(method) is not None:
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/async_case.py:132: DeprecationWarning: It is deprecated to return a value that is not None from a test case (<function MutationLifecycleTests.test_async_named_body_is_explicitly_unsupported.<locals>.Fixture.test_body at 0x7f49fc751120>)
+  return super().run(result)
+F........../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py:634: DeprecationWarning: It is deprecated to return a value that is not None from a test case (<function MutationLifecycleTests.test_generator_named_body_is_explicitly_unsupported.<locals>.Fixture.test_body at 0x7f49fc7b77e0>)
+  self._callTestMethod(testMethod)
+F....../opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py:634: DeprecationWarning: It is deprecated to return a value that is not None from a test case (<function MutationLifecycleTests.test_sync_body_returning_coroutine_is_refused_and_closed.<locals>.Fixture.test_body at 0x7f49fc62afc0>)
+  self._callTestMethod(testMethod)
+F/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py:16: RuntimeWarning: coroutine 'MutationLifecycleTests.test_sync_body_returning_coroutine_is_refused_and_closed.<locals>.hidden' was never awaited
+  obj=importlib.util.module_from_spec(spec);spec.loader.exec_module(obj);return obj
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py:634: DeprecationWarning: It is deprecated to return a value that is not None from a test case (<function MutationLifecycleTests.test_sync_body_returning_generator_is_refused.<locals>.Fixture.test_body at 0x7f49fc7b6fc0>)
+  self._callTestMethod(testMethod)
+F..
+======================================================================
+FAIL: test_async_generator_named_body_is_explicitly_unsupported (__main__.MutationLifecycleTests.test_async_generator_named_body_is_explicitly_unsupported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 129, in test_async_generator_named_body_is_explicitly_unsupported
+    self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_async_named_body_is_explicitly_unsupported (__main__.MutationLifecycleTests.test_async_named_body_is_explicitly_unsupported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 114, in test_async_named_body_is_explicitly_unsupported
+    self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_generator_named_body_is_explicitly_unsupported (__main__.MutationLifecycleTests.test_generator_named_body_is_explicitly_unsupported)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 122, in test_generator_named_body_is_explicitly_unsupported
+    self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_sync_body_returning_coroutine_is_refused_and_closed (__main__.MutationLifecycleTests.test_sync_body_returning_coroutine_is_refused_and_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 139, in test_sync_body_returning_coroutine_is_refused_and_closed
+    self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_sync_body_returning_generator_is_refused (__main__.MutationLifecycleTests.test_sync_body_returning_generator_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 148, in test_sync_body_returning_generator_is_refused
+    self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.622s
+
+FAILED (failures=5)

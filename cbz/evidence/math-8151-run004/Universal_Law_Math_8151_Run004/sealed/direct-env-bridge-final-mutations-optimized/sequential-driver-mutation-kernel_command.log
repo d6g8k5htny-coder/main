@@ -1,0 +1,21 @@
+test_exact_module_name_validation_and_source (math_driver_mutation_tests.DriverGuardTests.test_exact_module_name_validation_and_source) ... FAIL
+
+======================================================================
+FAIL: test_exact_module_name_validation_and_source (math_driver_mutation_tests.DriverGuardTests.test_exact_module_name_validation_and_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz0/lean-foundation/test_math_sequential_driver.py", line 279, in test_exact_module_name_validation_and_source
+    self.assertEqual(calls, [['lake', 'env', 'lean', str(self.out / 'exact.lean')]])
+AssertionError: Lists differ: [['lake', 'env', 'leanchecker', 'Root.A']] != [['lake', 'env', 'lean', '/tmp/cbz-math-driver-test-htv_nasr/exact.lean']]
+
+First differing element 0:
+['lake', 'env', 'leanchecker', 'Root.A']
+['lake', 'env', 'lean', '/tmp/cbz-math-driver-test-htv_nasr/exact.lean']
+
+- [['lake', 'env', 'leanchecker', 'Root.A']]
++ [['lake', 'env', 'lean', '/tmp/cbz-math-driver-test-htv_nasr/exact.lean']]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

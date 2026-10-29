@@ -3,9 +3,13 @@
 
 Settled rule: source_rev is sources[0].rev, the primary source. For a pinned
 blob or tree on d6g8k5htny-coder/main or Math-, that rev is the 40-hex sha in
-the URL. The moving-ref sha is never written into the record. If that moving
-ref has moved past source_rev, status is stale. If it cannot be resolved,
-status is unknown and refresh_error says why.
+the URL. The moving-ref sha is never written into the record. Compare the
+pinned and current Git object identities at that path, resolving the current
+default-branch commit before reading its tree. An unchanged blob or directory
+stays fresh even if its snapshot pin is later than its last path-changing
+commit. If either object cannot be resolved, status is unknown and refresh_error
+says why. This is operational GitHub metadata comparison, not proof review or
+authenticated custody of complete mathematical source bytes.
 
 #495 is adding the other three forms this tool already accepts: an updated_at
 rev (UTC Z string) for an issue, pull, or comment URL on main or Math-; an
@@ -19,8 +23,8 @@ only, never scientific validity. scientific_effect stays "NONE". Owner identity
 is never inferred.
 
 Rules:
-  - no source moved past its recorded rev   -> "fresh"
-  - any source moved past its recorded rev  -> "stale"
+  - unchanged Git objects / no newer discussion -> "fresh"
+  - changed Git object / newer discussion        -> "stale"
   - any source unreachable / not a valid rev -> "unknown" (never "fresh")
 Precedence: unknown > stale > fresh.
 
@@ -38,8 +42,7 @@ import re
 import sys
 import urllib.request
 from pathlib import Path
-from typing import Callable
-from urllib.parse import quote
+from typing import Callable, NamedTuple
 
 SCHEMA_VERSION = 0
 STATUSES = ("fresh", "stale", "unknown")
@@ -69,6 +72,18 @@ class SourceError(Exception):
     """A source could not be resolved to a current revision."""
 
 
+class GitSourceState(NamedTuple):
+    """One transient, URL-bound comparison; it never replaces a recorded pin."""
+
+    url: str
+    pinned_revision: str
+    current_revision: str
+    pinned_type: str
+    pinned_sha: str
+    current_type: str
+    current_sha: str
+
+
 def _utc_now() -> str:
     return _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -89,7 +104,7 @@ def _api_get(path: str) -> object:
         req.add_header("Authorization", "Bearer " + token)
     try:
         with urllib.request.urlopen(req, timeout=20) as resp:
-            return json.load(resp)
+            return json.load(resp, object_pairs_hook=_unique_pairs)
     except Exception as exc:  # network, HTTP, JSON
         raise SourceError(f"{type(exc).__name__}: {exc}") from exc
 
@@ -114,23 +129,70 @@ def _recorded_ok(kind: str | None, match: re.Match[str] | None, recorded: object
     return False
 
 
-def github_fetch(url: str) -> str:
-    """Return the current moving-ref sha, or a discussion object's updated_at.
+def _git_sha(value: object) -> str:
+    if not isinstance(value, str) or not _SHA.fullmatch(value):
+        raise SourceError("Git object or commit identity is not a 40-hex sha")
+    return value
 
-    Neither value is written into the record. Callers compare it with the
-    recorded rev and keep sources[0].rev as source_rev.
+
+def _git_object(repo: str, root: str, path: str, trees: dict) -> tuple[str, str]:
+    """Walk only the requested fixed tree path, never a moving branch alias."""
+    parts = path.split("/")
+    if any(not part or part in (".", "..") for part in parts):
+        raise SourceError("source path is not a canonical relative Git path")
+    tree_sha = root
+    for index, part in enumerate(parts):
+        if tree_sha not in trees:
+            data = _api_get(f"/repos/d6g8k5htny-coder/{repo}/git/trees/{tree_sha}")
+            if (not isinstance(data, dict) or data.get("sha") != tree_sha
+                    or data.get("truncated") is not False or not isinstance(data.get("tree"), list)):
+                raise SourceError("Git tree is missing, mismatched or truncated")
+            trees[tree_sha] = data["tree"]
+        rows = trees[tree_sha]
+        if any(not isinstance(row, dict) or not isinstance(row.get("path"), str) for row in rows):
+            raise SourceError("Git tree contains an invalid entry")
+        matches = [row for row in rows if row["path"] == part]
+        if len(matches) != 1:
+            raise SourceError("Git source path is absent or ambiguous")
+        entry = matches[0]
+        kind, mode, sha = entry.get("type"), entry.get("mode"), _git_sha(entry.get("sha"))
+        if (kind, mode) not in (("tree", "040000"), ("blob", "100644"), ("blob", "100755")):
+            raise SourceError("unsupported Git source type or mode")
+        if index == len(parts) - 1:
+            return kind, sha
+        if kind != "tree":
+            raise SourceError("Git source path crosses a non-directory")
+        tree_sha = sha
+    raise SourceError("empty Git source path")
+
+
+def github_fetch(url: str) -> str | GitSourceState:
+    """Return pinned/current Git object evidence, or discussion updated_at.
+
+    The current default-branch commit is resolved once per Git observation.
+    Neither it nor object identities replace sources[0].rev/source_rev.
     """
     kind, match = _classify(url)
     if kind == "sha" and match is not None:
-        repo, path = match.group(1), match.group(4)
-        query = f"/repos/d6g8k5htny-coder/{repo}/commits?path={quote(path, safe='/')}&per_page=1"
-        commits = _api_get(query)
-        if not isinstance(commits, list) or not commits or not isinstance(commits[0], dict):
-            raise SourceError(f"no commits for path: {url}")
-        sha = commits[0].get("sha")
-        if not isinstance(sha, str) or not _SHA.fullmatch(sha):
-            raise SourceError(f"{url}: moving ref is not a 40-hex sha")
-        return sha
+        repo, pinned, path = match.group(1), match.group(3), match.group(4)
+        base = f"/repos/d6g8k5htny-coder/{repo}"
+        commits = _api_get(base + "/commits?per_page=1")
+        if not isinstance(commits, list) or len(commits) != 1 or not isinstance(commits[0], dict):
+            raise SourceError(f"no default-branch commit: {url}")
+        current = _git_sha(commits[0].get("sha"))
+        commit = commits[0].get("commit")
+        if not isinstance(commit, dict) or not isinstance(commit.get("tree"), dict):
+            raise SourceError("current commit has no Git tree")
+        current_root = _git_sha(commit["tree"].get("sha"))
+        original = _api_get(base + "/git/commits/" + pinned)
+        if (not isinstance(original, dict) or original.get("sha") != pinned
+                or not isinstance(original.get("tree"), dict)):
+            raise SourceError("pinned commit is absent or mismatched")
+        pinned_root = _git_sha(original["tree"].get("sha"))
+        trees: dict = {}
+        pinned_object = _git_object(repo, pinned_root, path, trees)
+        current_object = _git_object(repo, current_root, path, trees)
+        return GitSourceState(url, pinned, current, *pinned_object, *current_object)
     if kind == "time" and match is not None:
         repo, disc_kind, number, comment_id = match.group(1), match.group(2), match.group(3), match.group(4)
         if comment_id:
@@ -279,14 +341,28 @@ def refresh_record(record: dict, fetch: Fetcher, now: str | None = None,
         except Exception as exc:  # any fetch failure is unknown, never fresh
             errors.append(f"{url}: {exc}")
             continue
-        current = _current(fetched)
         if kind == "sha":
+            if isinstance(fetched, GitSourceState):
+                if (fetched.url != url or fetched.pinned_revision != recorded
+                        or fetched.pinned_type != match.group(2)
+                        or fetched.current_type not in ("blob", "tree")
+                        or any(not isinstance(value, str) or not _SHA.fullmatch(value)
+                               for value in (fetched.current_revision, fetched.pinned_sha, fetched.current_sha))):
+                    errors.append(f"{url}: Git observation does not match its pinned source")
+                    continue
+                if (fetched.pinned_type, fetched.pinned_sha) != (fetched.current_type, fetched.current_sha):
+                    changed = True
+                continue
+            # Compatibility for existing injected revision-only fetchers. The
+            # production GitHub fetcher above uses bound object observations.
+            current = _current(fetched)
             if not isinstance(current, str) or not _SHA.fullmatch(current):
                 errors.append(f"{url}: moving ref is not a 40-hex sha")
                 continue
             if current != recorded:
                 changed = True
         else:
+            current = _current(fetched)
             current_z = _as_z(current)
             if not _UTC.fullmatch(current_z):
                 errors.append(f"{url}: updated_at is not a UTC Z timestamp")

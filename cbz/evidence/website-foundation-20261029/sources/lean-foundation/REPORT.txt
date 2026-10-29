@@ -1,0 +1,145 @@
+Lean/kernel foundation report — OpenAI/Codex — 2026-10-29
+
+Deliverable outcome
+
+Main's31 literal arithmetic theorem statements have actual pinned build, kernel,
+axiom, negative-control and finite-domain nonvacuity evidence. They do not close
+an analytic parent, identify a Gaussian moment, or enclose a SIDE24 coefficient.
+The portable command is:
+  python -B -S tools/cbz_lean_check.py
+with the pinned Lean bin directory on PATH. Its source inputs are NEW files
+  tools/cbz_lean_check.py
+  tools/CBZNonvacuity.lean
+  tests/test_cbz_lean_check.py
+No original Lean statement, manifest, source scope, dependency pin, or failing
+test was changed. The17 original Main formal files remain byte-identical.
+No Git refs, commits, PRs or remote settings were written by this worker.
+
+Actual Main evidence
+
+Initial source commit4ef1867175dbe1072a54a02e95f80c4e2c70a4ff; all17 formal files
+were compared to their actual Git objects. Manifest SHA256:
+38eefbfdd84658cd0f6e18bd7d714458a7522b1021f73b1075e7972a63b9bcb0.
+The initial exact preserved-copy existing-gate execution passed31 target axiom
+reports (all empty),10 intended rejection controls and normal named-module
+replay. The stronger --fresh replay passed; its earlier150s timeout is retained.
+
+Latest portable end-to-end observed receipt checked_commit:
+f20cc54d4d136e854608853372249882eb4c949f.
+Actual result:45 project constants plus4 witness/auditor constants,31 original ConstantInfo.thmInfo proofs,6/6 real
+census/premise controls,4 witness axiom reports,named witness recheck and full
+--fresh UniversalLaw empty-environment replay all pass. The preserved receipt
+is portable-main-receipt.json; the repository-native receipt is
+formal/.lake/cbz-evidence/receipt.json. The new audit files are bound by exact
+hashes. They were untracked at this run; rerun the final portable command after
+the integration commit for the final current-commit record.
+
+The29 theorem rows without proposition binders are distinguished from the two
+finite-domain conditional rows:
+- UniversalLaw.Side24.pairing_sum_le_six: q in [0,1,2,3,4,5,6].
+- UniversalLaw.Side24.exponent_bounds: d in [2,3].
+Explicit witnesses for every admissible value and both existential domains were
+compiled and kernel-rechecked. Their only transitive axioms are propext and
+Quot.sound. No custom axiom was introduced.
+MAIN_PROOF_INDEX.json records exact statements,modules,source hashes and premise
+boundaries. Definitions and statement-only Props are not promoted to proofs.
+
+The pinned LeanChecker source establishes that a normal module argument selects
+its entire module-name prefix. Thus the existing UniversalLaw call already
+covers all four project modules; there is no established empty-root flaw.
+--fresh additionally replays imported and project constants into a new kernel
+environment. This is Lean's own kernel,not a separately implemented verifier.
+
+Portable audit controls / tests
+
+The14 protocol unit tests passed normal andoptimized Python. Initial missing-
+feature red output is preserved. Actual six controls compile honest,unused
+custom axiom,sorry,native computation,False-premise and missing-module cases.
+The False-premise theorem passes Lean's axiom check but the premise gate refuses
+its promotion. This explicitly demonstrates why an empty axiom list alone does
+not prove hypothesis satisfiability. The existing Main gate49 tests were also rerun with the pinned bin on PATH:
+all49 pass in each normal/optimized mode with no skips. Earlier PATH-dependent skips remain preserved in their
+original logs, and the runtime phase is independently observed in the portable
+command. This worker does not
+claim the entire repository regression is100%; Root owns that final run.
+
+Current Math source / gates
+
+Current proper Git clone:
+/workspace/cbz0/repos/Math-
+commit8151f592918a845bf19eb8eafaf8444540a32734.
+All162 Lean files are hash-inventoried and originals preserved. The older Oct23
+snapshot has88 Lean files; all previous88 are unchanged,74 sources are added in
+the current tree. Current63-target scalar pilot source gate passes with effective
+manifest+overlay digest:
+481653d73d00f64bf06fefbf24be994f60ebe5c54f826abf899461f6e6937066.
+Its244 selftests pass in each normal/optimized mode. The current strict statement
+and proof source gates pass with23/23 source objects verified in Git history and
+CLEAN worktree.143 Prop definitions specify statements; the78 proof-packet
+proofs are distinct. No current Math kernel execution is inferred from them.
+
+Additional observed source gates: cap152 targets and38 selftests; determinant
+source gate and78 selftests; four torus/d2 companion source gates; lifetime
+strict static evidence validator and its mutation controls all pass at their
+explicit source/static scope. These results are not Lean executions.
+
+Do not erase actual current mathematical progress: the C291 literal
+GaussianFieldInterface constructor is present and its historical raw evidence
+passes static source binding. Current derivative/endpoint/whole-carrier sources
+also contain actual lower-normalizer and weighted-law constructions,with saved
+182-target endpoint and109-declaration field-conditioning ledgers. This worker
+has not rerun those packages. Historical evidence is preserved with its original
+OpenAI/source-exposed attribution. No new organizationally independent review,
+human approval,or parent acceptance is inferred or required as an invented gate.
+
+Toolchain / Math execution attempts
+
+Observed Lean4.34.1 commit5045d0056413266e57c625dcd7c365b10e377c52;
+Lake5.0.0-src+5045d00. Existing installation initially omitted headers/static
+libraries and could not compile the official cache executable. The existing
+580432872-byte pinned release archive was SHA256-verified:
+47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4.
+Only missing include files and28 native library/object files (420819322 bytes)
+were added. Every restored file was compared byte-for-byte by SHA256 against
+its archive member. Existing executables were unchanged; lean/lake/leanchecker/LeanChecker.olean and the233708536-byte shared kernel library additionally match their pinned archive members byte-for-byte. Official cache now
+compiles. All9 installed dependency Git revisions match the lock and are clean;
+mathlib is d13f23b723b8a846827a245b89c10fc7d3f11612.
+
+Ordinary Math build initially reached286 dependency modules,then was stopped
+for official cache strategy. Six official cache invocations are preserved (two native-toolchain failures and four progressing download attempts);
+resource monitors stop only their task-owned process group,with an observed
+inert-fixture termination selftest. Cache is still incomplete at the latest
+recorded pause (~439 of8908 packed entries remaining;some in-flight decompression may also remain),and the shared1400MiB reserve
+was reached. No Math project build,kernel or axiom pass is claimed. Partial
+cache is reusable. Further safe duplicate-space recovery can unblock the last
+cache entries; packed temporary caches may only be removed after actual unpack
+and content verification plus a reacquisition manifest.
+
+Unmet boundaries / minimal repairs
+
+QUARANTINE_BOUNDARIES.json gives16 exact source/hash runtime/semantic boundaries
+covering all162 current Math Lean files,owner:none. This is explicit current
+closure residue; it neither retracts historical kernel evidence nor calls source
+theorems false because a current run lacks resources. No failed test is removed
+or disabled. Main's closed dependency-free formal package imports none of these
+Math sources,so its31 literal closures are isolated from the residue.
+
+STATEMENT_ALIGNMENT_GAPS.json gives seven exact declaration/path/hash boundaries:
+Main arithmetic versus analytic claims; unconstrained PairLawInterface p;
+RN law/Palm/count binding; exact coefficient enclosures; existing actual-field
+witness versus Morse/bar/density parents; current whole-carrier progress versus
+geometric critical-point-process Palm identification; and regular/interior level
+geometry versus boundary critical points/full bar correspondence. Follow those
+concrete repair obligations without weakening original statements or bounds.
+
+TOOL_REGISTRY.json records reusable commands,tool hashes,selftests,official
+pinned tool versions and each demonstrated scope. Source token scans are
+inventory only; no lexical scan,primitive arithmetic success,static validator,
+hash,green test or merged source is substituted for a missing source theorem.
+
+Latest runtime handoff: proper current Math clone remains CLEAN. Its ignored
+formal/.lake/packages is linked to the preserved pinned cache. Once cache retrieval
+completes,run LEAN_NUM_THREADS=2 and pinned PATH with:
+  python -B -S /workspace/cbz0/repos/Math-/formal/gate.py --execute
+The source-only readiness gate on this proper clone passes. No actual Math
+project execution is claimed by that readiness check.

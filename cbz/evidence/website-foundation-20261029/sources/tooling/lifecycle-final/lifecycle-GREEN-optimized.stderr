@@ -1,0 +1,22 @@
+........F........F
+======================================================================
+FAIL: test_expected_failure_is_not_mutation_credit (__main__.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 80, in test_expected_failure_is_not_mutation_credit
+    report,_=self.run_case('expected_failure');self.assertFalse(report['body_kill']);self.assertFalse(report['baseline_success'])
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_unexpected_success_is_not_positive (__main__.MutationLifecycleTests.test_unexpected_success_is_not_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 82, in test_unexpected_success_is_not_positive
+    self.assertFalse(self.run_case('unexpected_success')[0]['baseline_success'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.038s
+
+FAILED (failures=2)

@@ -3,7 +3,7 @@ import {currentSnapshot} from './current.mjs?site-release=27f990a4758c48ff2f4aa5
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=547418ff3547b671266d1e46bf8d33f1f3eedf83571f6a0bb69ca9d7786ffaf3';
 import {readingListCitationHref} from './reading-list-citation.mjs?site-release=02153e8e3acb70abca98685f5b274c0472eea6450ed2e9c3fc3125a7b0196968';
 import {startLibrarySourceSearch} from './library-source-search.mjs?site-release=0f7fa4196362a427e070fc49f58f8a2935840e9d797358cb9d325e5db44ee612';
-import {startLibraryDiscovery} from './library-discovery.mjs?site-release=d3923565256aa274b8540ca2f7d6094e2d488fe5cdf15bbba13c74315dd3643f';
+import {startLibraryDiscovery} from './library-discovery.mjs?site-release=20c1e1d7a4c3f2b5a511ab83bf593b239ba5eaea428d1a4beb0ad9d4287b4e09';
 
 export function sourceLinkKey(href) {
   try{
@@ -216,12 +216,30 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   attachCatalog();
   snapshot.then(data=>{
     if(!data)return;
-    const sourceTools=startLibrarySourceSearch(doc,win);
-    startLibraryDiscovery(doc,win,data,()=>sourceTools?.update());
     currentData=data;
     for(const source of data.sources){
-      try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceLinkKey(sourceHref(entry)),entry);}catch{}
+      const pin={kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,savedAt:now()};
+      let key;try{key=sourceLinkKey(sourceHref(pin));}catch{continue;}
+      if(!key)continue;
+      // Count every safe pin before whole-file validation. Null keeps any
+      // duplicate ineligible, even identical rows or rejected whole metadata.
+      if(currentSources.has(key)){currentSources.set(key,null);continue;}
+      currentSources.set(key,null);
+      try{currentSources.set(key,validateEntry({...pin,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at}));}catch{}
     }
+    const sourceTools=startLibrarySourceSearch(doc,win);
+    startLibraryDiscovery(doc,win,data,()=>sourceTools?.update(),{
+      decorateSource(row,excerpt) {
+        // Match only the whole-file identity already validated above. Excerpt
+        // hashes describe the preview and never enter the saved source entry.
+        try{
+          const href=sourceHref({kind:'source',collection:'current',repository:excerpt.repository,commit:excerpt.commit,path:excerpt.path,savedAt:now()});
+          const source=currentSources.get(sourceLinkKey(href));
+          if(source)addSourceButton(row,source);
+        }catch{} // Unmatched or invalid excerpts have no fabricated save identity.
+      },
+      onResults:render
+    });
     currentButton.disabled=false;attachCurrent();
   }).catch(()=>{});
 

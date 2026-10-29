@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:research-flow:runtime:1",
+  "title": "Research Flow runtime journal",
+  "description": "Runtime overlay schema. Canonical mathematics retains schema.json. Semantic replay additionally validates transitions and mathematical bindings.",
+  "type": "object",
+  "required": [
+    "seq",
+    "when_utc",
+    "type",
+    "payload",
+    "prev_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "seq": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "when_utc": {
+      "type": "string"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 180
+    },
+    "type": {
+      "enum": [
+        "PROPOSAL_CREATED",
+        "PROPOSAL_APPROVED",
+        "PROPOSAL_REJECTED",
+        "JOB_QUEUED",
+        "JOB_LEASED",
+        "JOB_FINISHED",
+        "JOB_RETRY_SCHEDULED",
+        "JOB_ESCALATED",
+        "JOB_STALE",
+        "JOB_RESULT_REJECTED",
+        "CERTIFICATE_EVALUATED",
+        "CHECK_RUN",
+        "RESEARCH_CAPTURED",
+        "RESEARCH_CAPTURE_FAILED",
+        "RESEARCH_CAPTURE_RECOVERED"
+      ]
+    },
+    "payload": {
+      "type": "object"
+    },
+    "prev_hash": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_hash": {
+      "$ref": "#/$defs/sha256"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "workerProtocol": {
+      "$ref": "adapters/worker_protocol.schema.json"
+    },
+    "certificateCandidate": {
+      "$ref": "certificate_schema.json"
+    },
+    "workerState": {
+      "enum": [
+        "not_queued",
+        "queued",
+        "running",
+        "retry_wait",
+        "stale",
+        "blocked",
+        "failed",
+        "diagnostic_completed"
+      ]
+    }
+  }
+}

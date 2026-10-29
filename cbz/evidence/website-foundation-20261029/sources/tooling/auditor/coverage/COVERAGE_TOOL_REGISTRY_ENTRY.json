@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "name": "cbz-nine-gap-coverage-1",
+  "scope": "Finite bounded archive/notebook/NPY inventory and exact-byte preservation checks; historical/control/display classification; no total Layer A certification",
+  "files": [
+    {
+      "path": "coverage_companion.py",
+      "sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518"
+    },
+    {
+      "path": "test_coverage_companion.py",
+      "sha256": "744b429d553d044063cc3a3bb99d8979a017ccdabb16c1d1d0c5257a26f7e8e4"
+    },
+    {
+      "path": "coverage_selftest.py",
+      "sha256": "95dd8b7bc5290f4a23b21578a1c25c8322b5adf0eca19f9e3cb64d175afa3fc3"
+    },
+    {
+      "path": "coverage_boundary.py",
+      "sha256": "f757d7aad6baacba99f83364140bb1a1a891f927498d6819fdd1297186e6f4ed"
+    }
+  ],
+  "commands": {
+    "selftest": "python -B <evidence-dir>/coverage_selftest.py (cwd repository root)",
+    "inventory": "python -B <evidence-dir>/coverage_companion.py --root . --g1 <evidence-dir>/G1-main.json",
+    "boundary": "python -B <evidence-dir>/coverage_boundary.py ."
+  },
+  "verification": {
+    "tests_normal": 15,
+    "tests_optimized": 15,
+    "source_mutants_killed": 9,
+    "source_mutants_total": 9,
+    "threshold": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "receipt": "coverage-selftest.json"
+  },
+  "dependencies": [
+    "Python3 standard library",
+    "Git",
+    "tools/cbz_audit.py exact hash d18f74984b6a5d4c2834119b9ee804d6e71942f306a7801035acdb04f66a7d47"
+  ],
+  "boundary_assembler_qualification": "Read-only report assembly using tested exact-byte preservation helper and standard parsers. Emits observations, not a gate PASS. Linked baseline and audit-input mismatches remain explicit.",
+  "limits": {
+    "member_bytes": 67108864,
+    "members_per_archive": 4096,
+    "total_archive_bytes": 134217728
+  },
+  "scientific_effect": "NONE",
+  "residuals": [
+    "Current kernel receipt links are not coherent after concurrent regressions/auditor changes; final serial kernel rerun required.",
+    "Source-parent and historical statement alignment remain QUARANTINED.",
+    "Archived Python dynamic behavior is not executed or semantically verified."
+  ]
+}

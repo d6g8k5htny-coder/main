@@ -1,0 +1,30 @@
+{
+  "schema": "cbz.regression-skips.v1",
+  "scope": "Observed unexecuted tests, not manufactured PASS and not removed/disabled. Existing skip boundaries require canonical final G5 disposition.",
+  "source_commit": "6fc021839072d8c34f41e18e77b0f618c53baa15",
+  "skipped": [
+    "test_kernel_enforces_cpu_memory_and_process_limits (test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits) ... skipped 'requires hosted restricted container'",
+    "test_network_namespace_has_no_external_interface_or_route (test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route) ... skipped 'requires hosted restricted container'",
+    "test_nonroot_and_no_new_privileges (test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges) ... skipped 'requires hosted restricted container'",
+    "test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space (test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space) ... skipped 'requires hosted restricted container'",
+    "test_source_mount_is_read_only_and_environment_has_no_publishing_secret (test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret) ... skipped 'requires hosted restricted container'",
+    "test_525_composition (test_graph_binding_check.Composition525Test.test_525_composition) ... skipped '29b7d596 or Math- dbe6c0a1 unavailable'",
+    "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'",
+    "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'",
+    "test_real_records_evidence_id_pattern (test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... skipped 'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'",
+    "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'",
+    "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'",
+    "test_changed_byte_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden) ... skipped 'installed pytest required'",
+    "test_clean_root_run_prevents_package_bytecode (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode) ... skipped 'installed pytest required'",
+    "test_dirty_bytecode_is_preserved_and_rejected (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected) ... skipped 'installed pytest required'",
+    "test_discovery_keeps_neighbours_and_same_basename (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename) ... skipped 'installed pytest required'",
+    "test_empty_cache_directory_is_accepted (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted) ... skipped 'installed pytest required'",
+    "test_exclusion_is_exact (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact) ... skipped 'installed pytest required'",
+    "test_explicit_B_baseline_works (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works) ... skipped 'installed pytest required'",
+    "test_extra_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden) ... skipped 'installed pytest required'",
+    "test_missing_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden) ... skipped 'installed pytest required'",
+    "test_neighbour_failures_are_not_suppressed (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed) ... skipped 'installed pytest required'"
+  ],
+  "count": 21,
+  "gate": "G5 not represented as100% execution"
+}

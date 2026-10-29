@@ -1,0 +1,204 @@
+{
+  "observed_utc": "2026-10-29T20:02:02.801133+00:00",
+  "source_head": "9c09dc98a639341c8bfa088edefe011131016b41",
+  "working_overlay": "frozen mutation grader lifecycle fix plus its25 tests",
+  "exit_code": 0,
+  "total_tests": 1784,
+  "failures": 0,
+  "skipped": 23,
+  "unskipped_count": 1761,
+  "unittest_seconds": "344.746",
+  "wrapper_seconds": 345.5014981410004,
+  "inputs_before_after_and_current_equal": true,
+  "receipt": {
+    "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/python-with-lifecycle-fix/RESULT.json",
+    "sha256": "028b7f57801f0e0e0201bf827a169f3b4be7342244c81d5525dff66dbb4f8d00"
+  },
+  "original_skipped_cases": [
+    {
+      "test_method": "test_kernel_enforces_cpu_memory_and_process_limits",
+      "test_class": "test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits",
+      "reason_repr": "'requires hosted restricted container'",
+      "original_log_line": "test_kernel_enforces_cpu_memory_and_process_limits (test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits) ... skipped 'requires hosted restricted container'"
+    },
+    {
+      "test_method": "test_network_namespace_has_no_external_interface_or_route",
+      "test_class": "test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route",
+      "reason_repr": "'requires hosted restricted container'",
+      "original_log_line": "test_network_namespace_has_no_external_interface_or_route (test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route) ... skipped 'requires hosted restricted container'"
+    },
+    {
+      "test_method": "test_nonroot_and_no_new_privileges",
+      "test_class": "test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges",
+      "reason_repr": "'requires hosted restricted container'",
+      "original_log_line": "test_nonroot_and_no_new_privileges (test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges) ... skipped 'requires hosted restricted container'"
+    },
+    {
+      "test_method": "test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space",
+      "test_class": "test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space",
+      "reason_repr": "'requires hosted restricted container'",
+      "original_log_line": "test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space (test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space) ... skipped 'requires hosted restricted container'"
+    },
+    {
+      "test_method": "test_source_mount_is_read_only_and_environment_has_no_publishing_secret",
+      "test_class": "test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret",
+      "reason_repr": "'requires hosted restricted container'",
+      "original_log_line": "test_source_mount_is_read_only_and_environment_has_no_publishing_secret (test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret) ... skipped 'requires hosted restricted container'"
+    },
+    {
+      "test_method": "test_actual_clean_and_omitted_constants",
+      "test_class": "test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants",
+      "reason_repr": "'pinned Lean unavailable'",
+      "original_log_line": "test_actual_clean_and_omitted_constants (test_formal_compiled_inventory.PinnedLeanInventoryTests.test_actual_clean_and_omitted_constants) ... skipped 'pinned Lean unavailable'"
+    },
+    {
+      "test_method": "test_real_package_executes_with_receipt",
+      "test_class": "test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt",
+      "reason_repr": "'Lean toolchain not installed'",
+      "original_log_line": "test_real_package_executes_with_receipt (test_formal_gate.RepositoryControls.test_real_package_executes_with_receipt) ... skipped 'Lean toolchain not installed'"
+    },
+    {
+      "test_method": "test_525_composition",
+      "test_class": "test_graph_binding_check.Composition525Test.test_525_composition",
+      "reason_repr": "'29b7d596 or Math- dbe6c0a1 unavailable'",
+      "original_log_line": "test_525_composition (test_graph_binding_check.Composition525Test.test_525_composition) ... skipped '29b7d596 or Math- dbe6c0a1 unavailable'"
+    },
+    {
+      "test_method": "test_real_records_cited_artifacts_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present",
+      "reason_repr": "'no real record cites repo artifact paths; missing-artifact checks are not exercised'",
+      "original_log_line": "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'"
+    },
+    {
+      "test_method": "test_real_records_dependencies_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present",
+      "reason_repr": "'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'",
+      "original_log_line": "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'"
+    },
+    {
+      "test_method": "test_real_records_evidence_id_pattern",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+      "reason_repr": "'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'",
+      "original_log_line": "test_real_records_evidence_id_pattern (test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... skipped 'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'"
+    },
+    {
+      "test_method": "test_real_records_fresh_against_live_source_head",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head",
+      "reason_repr": "'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'",
+      "original_log_line": "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'"
+    },
+    {
+      "test_method": "test_real_records_owner_released_url_consistency",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency",
+      "reason_repr": "'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'",
+      "original_log_line": "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'"
+    },
+    {
+      "test_method": "test_changed_byte_is_not_hidden",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_changed_byte_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_changed_byte_is_not_hidden) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_clean_root_run_prevents_package_bytecode",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_clean_root_run_prevents_package_bytecode (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_clean_root_run_prevents_package_bytecode) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_dirty_bytecode_is_preserved_and_rejected",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_dirty_bytecode_is_preserved_and_rejected (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_dirty_bytecode_is_preserved_and_rejected) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_discovery_keeps_neighbours_and_same_basename",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_discovery_keeps_neighbours_and_same_basename (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_discovery_keeps_neighbours_and_same_basename) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_empty_cache_directory_is_accepted",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_empty_cache_directory_is_accepted (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_empty_cache_directory_is_accepted) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_exclusion_is_exact",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_exclusion_is_exact (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_exclusion_is_exact) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_explicit_B_baseline_works",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_explicit_B_baseline_works (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_explicit_B_baseline_works) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_extra_file_is_not_hidden",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_extra_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_extra_file_is_not_hidden) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_missing_file_is_not_hidden",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_missing_file_is_not_hidden (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_missing_file_is_not_hidden) ... skipped 'installed pytest required'"
+    },
+    {
+      "test_method": "test_neighbour_failures_are_not_suppressed",
+      "test_class": "test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed",
+      "reason_repr": "'installed pytest required'",
+      "original_log_line": "test_neighbour_failures_are_not_suppressed (test_pytest_bytecode_policy.PytestBytecodePolicyTests.test_neighbour_failures_are_not_suppressed) ... skipped 'installed pytest required'"
+    }
+  ],
+  "remaining_real_record_unexercised_cases": [
+    {
+      "test_method": "test_real_records_cited_artifacts_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present",
+      "reason_repr": "'no real record cites repo artifact paths; missing-artifact checks are not exercised'",
+      "original_log_line": "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'"
+    },
+    {
+      "test_method": "test_real_records_dependencies_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present",
+      "reason_repr": "'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'",
+      "original_log_line": "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'"
+    },
+    {
+      "test_method": "test_real_records_evidence_id_pattern",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+      "reason_repr": "'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'",
+      "original_log_line": "test_real_records_evidence_id_pattern (test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... skipped 'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'"
+    },
+    {
+      "test_method": "test_real_records_fresh_against_live_source_head",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head",
+      "reason_repr": "'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'",
+      "original_log_line": "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'"
+    },
+    {
+      "test_method": "test_real_records_owner_released_url_consistency",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency",
+      "reason_repr": "'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'",
+      "original_log_line": "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'"
+    }
+  ],
+  "supplemental_available_cases": {
+    "count": 18,
+    "groups": {
+      "installed_pytest": 10,
+      "restricted_container": 5,
+      "pinned_composition": 1,
+      "pinned_Lean": 2
+    },
+    "status": "COMPLETE_SEPARATE_RUNS;29ACTUALEXECUTIONS/18DISTINCTSKIPS; ORIGINAL23SKIPSUNCHANGED",
+    "receipt": {
+      "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/supplemental/RESULT.json",
+      "sha256": "a8c75bbe58e72a2431f9709044cb92f9a25c946a8980e3e4d705dd40fe5ab949"
+    }
+  },
+  "does_not_claim": "Nozero-skipfullsuitePASS; no1784mathematicaltheorems; noregistry/pin/federationclosureinferred."
+}

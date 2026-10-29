@@ -1,0 +1,27 @@
+{
+  "scope": "Independent actual Lean audit-stage and exact-type controls, not a repeated full wrapper/kernel run",
+  "cases": [
+    {
+      "case": "TrueOnly",
+      "compile_exit": 0,
+      "audit_exit": 0,
+      "census_accepted": false,
+      "census_error": "witness type contract changed: CBZNonvacuity.dimensions_inhabited",
+      "contract_exit": 1,
+      "contract_output": "/workspace/cbz0/review-tools/cbz-review-witness-fixed-45ivc3ef/ContractTrueOnly.lean:2:46: error: Type mismatch\n  CBZNonvacuity.pairing_domain_inhabited\nhas type\n  True\nbut is expected to have type\n  \u2203 q, q \u2208 [0, 1, 2, 3, 4, 5, 6]\n/workspace/cbz0/review-tools/cbz-review-witness-fixed-45ivc3ef/ContractTrueOnly.lean:3:209: error: Type mismatch\n  CBZNonvacuity.pairing_all_seven\nhas type\n  True\nbut is expected to have type\n  0 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227\n    1 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227\n      2 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227\n        3 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227 4 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227 5 \u2208 [0, 1, 2, 3, 4, 5, 6] \u2227 6 \u2208 [0, 1, 2, 3, 4, 5, 6]\n/workspace/cbz0/review-tools/cbz-review-witness-fixed-45ivc3ef/ContractTrueOnly.lean:4:36: error: Type mismatch\n  CBZNonvacuity.dimensions_inhabited\nhas type\n  True\nbut is expected to have type\n  \u2203 d, d \u2208 [2, 3]\n/workspace/cbz0/review-tools/cbz-review-witness-fixed-45ivc3ef/ContractTrueOnly.lean:5:49: error: Type mismatch\n  CBZNonvacuity.dimensions_both\nhas type\n  True\nbut is expected to have type\n  2 \u2208 [2, 3] \u2227 3 \u2208 [2, 3]\n"
+    },
+    {
+      "case": "ActualWitness",
+      "compile_exit": 0,
+      "audit_exit": 0,
+      "census_accepted": true,
+      "contract_exit": 0,
+      "contract_output": ""
+    }
+  ],
+  "source_sha256": {
+    "tools/cbz_lean_check.py": "a0c4b544da423a741e8d8a4590fe28878c8f77b19b35c786e61a4e6948d6796d",
+    "tools/CBZNonvacuity.lean": "b9f29f231bb41ff6ffc896230c5c23b358cf2527ebd33a576d3c6d96a0ded49f",
+    "tests/test_cbz_lean_check.py": "8642d2bb63acf3d9ab56c89dad4132449f6b9b964431ca14ce9cf52ed3eac3d6"
+  }
+}

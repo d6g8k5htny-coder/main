@@ -1,0 +1,37 @@
+import ElderInterval
+
+#print axioms TorusFiltration.elderActive
+#print axioms TorusFiltration.elderFiber
+#print axioms TorusFiltration.elderFiber_eq_zero
+#print axioms TorusFiltration.elderFiberMap
+#print axioms TorusFiltration.elderFiberMap_val
+#print axioms TorusFiltration.elderInterval
+#print axioms TorusFiltration.elderFiberLift
+#print axioms TorusFiltration.elderFiberLift_val
+#print axioms TorusFiltration.elder_control_birth
+#print axioms TorusFiltration.elder_control_death
+#print axioms TorusFiltration.ElderTrap
+#print axioms TorusFiltration.ElderTrap.maximum_mem
+#print axioms TorusFiltration.ElderTrap.older_mem
+#print axioms TorusFiltration.elder_clopen_path_iff
+#print axioms TorusFiltration.ElderTrap.componentInside
+#print axioms TorusFiltration.ElderTrap.componentInside_mk
+#print axioms TorusFiltration.elderDifference
+#print axioms TorusFiltration.elderDifference_map
+#print axioms TorusFiltration.elderDifference_map_dead
+#print axioms TorusFiltration.elderProjection
+#print axioms TorusFiltration.elderProjection_point
+#print axioms TorusFiltration.elderDifference_projection
+#print axioms TorusFiltration.elderSectionApp
+#print axioms TorusFiltration.elderRetractionApp
+#print axioms TorusFiltration.elderSectionApp_naturality
+#print axioms TorusFiltration.elderSection
+#print axioms TorusFiltration.elderProjection_naturality_active
+#print axioms TorusFiltration.elderProjection_prebirth
+#print axioms TorusFiltration.elderRetractionApp_naturality
+#print axioms TorusFiltration.elderRetraction
+#print axioms TorusFiltration.elderSection_retraction
+#print axioms TorusFiltration.elderKernelProjection
+#print axioms TorusFiltration.elderDirectSummand
+#print axioms TorusFiltration.elder_control_ordinary_point_survives
+#print axioms TorusFiltration.elderSection_retraction_assoc

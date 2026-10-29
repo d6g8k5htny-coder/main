@@ -1,0 +1,81 @@
+{
+  "tool": "tools/cbz_storage.py",
+  "purpose": "Reclaim exact duplicate immutable local regular-file storage by atomic hardlink replacement.",
+  "scope": "Only six old immutable toolchain roots in retained plan were applied. No active formal toolchain, .lake cache, archive, Git ref or source/proof/governance edit.",
+  "usage": [
+    "python tools/cbz_storage.py plan --root /absolute/immutable/root [--root ...] --output /new/plan.json",
+    "python tools/cbz_storage.py apply --plan /new/plan.json --sha256 RETAINED_PLAN_SHA256 --report /new/report.json",
+    "python tools/cbz_storage.py plan --archives-only --root /absolute/archive/root --output /new/archives-plan.json"
+  ],
+  "self_verification": "python -m unittest discover -s tests -p test_cbz_storage.py -v; python -O -m unittest discover -s tests -p test_cbz_storage.py -v",
+  "tests_observed": {
+    "before_apply": 8,
+    "final": 9,
+    "optimized_final": 9
+  },
+  "actual_apply": {
+    "applied": 13667,
+    "content_paths_modes_verified": true,
+    "free_before": 1331830784,
+    "free_after": 3928764416,
+    "actual_df_bytes_freed": 2596933632,
+    "plan_sha256": "a4a2e33551fe7f63e02f70ba83daa1073a5f9ae227ec91f7146bc729131d3189"
+  },
+  "snapshot": {
+    "path": "/workspace/cbz0/storage/toolchains-plan.json",
+    "sha256": "a4a2e33551fe7f63e02f70ba83daa1073a5f9ae227ec91f7146bc729131d3189",
+    "mode": "0444 before apply"
+  },
+  "idempotence": {
+    "plan_sha256": "6a3c5d988ec6a9b9931132384fb982416cbab272584e25332afcbc5303b84145",
+    "operations": 0,
+    "estimated_duplicate_bytes": 0
+  },
+  "preserved_verified": [
+    "all scanned paths",
+    "regular file SHA256 bytes",
+    "file/directory/symlink modes",
+    "uid/gid",
+    "symlink targets",
+    "same device eligibility"
+  ],
+  "semantics": "Immutable inputs only. File inode identity/link counts intentionally change; hardlinks share subsequent writes and inode metadata. Original per-path identities and timestamps retained in plan; distinct per-file mtime is not a preserved criterion.",
+  "recovery": "Every pathname and byte sequence still exists. To undo sharing, copy an individual path through a new temporary regular file and atomically replace it, restoring recorded mode/ownership/timestamps as appropriate; requires space for independent copies.",
+  "limitations": "Available-byte delta is observed filesystem-wide statvfs, so concurrent allocations can affect attribution. Checks establish storage behavior only; no mathematical/kernel certification.",
+  "roots": [
+    "/workspace/universal-law/v19/toolchains/lean-4.34.1-linux-x86_64",
+    "/workspace/universal-law/v20/toolchains/lean-4.34.1-linux-x86_64",
+    "/workspace/universal-law/v17-final/toolchains/lean-4.34.1-linux-x86_64",
+    "/workspace/universal-law/v19-independent-zip-v1h4kvw5/Universal_Law_v19_Research_Frontier/toolchains/lean-4.34.1-linux-x86_64",
+    "/workspace/universal-law/v19-independent-zip-s36el3i_/Universal_Law_v19_Research_Frontier/toolchains/lean-4.34.1-linux-x86_64",
+    "/workspace/universal-law/v20/local/foundation/Universal_Law_v19_Research_Frontier/toolchains/lean-4.34.1-linux-x86_64"
+  ],
+  "toolchain_apply_sources_sha256": {
+    "/workspace/universal-law/website-repair-20261028/tools/cbz_storage.py": "1e85a6b9671f2db7567311408df597f7dcbcccad3afc5f8d01ce9df8382298e2",
+    "/workspace/universal-law/website-repair-20261028/tests/test_cbz_storage.py": "1bcc77d99e8a7fbe7051111030a22c4740699895592c8f62bfdd3c45f506c71d"
+  },
+  "sources_sha256": {
+    "/workspace/universal-law/website-repair-20261028/tools/cbz_storage.py": "a0aee53dec348bf5bc40016b4956fae41b1a672a36942fcb9160398a399379ae",
+    "/workspace/universal-law/website-repair-20261028/tests/test_cbz_storage.py": "8fc7303a983fc626f3aa9a422451812db25e4cbe8ff2b3054b77274127afaefb"
+  },
+  "archive_extension": {
+    "selection": "--archives-only; selected regular archives >1MiB with suffix .zip/.tar/.tar.gz/.tgz/.tar.zst/.deb/.xz; excludes symlinks, .git/.lake, any path component containing cache",
+    "authorization": "Root concrete GO for exact plan SHA660ce0eebb527260de7c77080fab6e386079d21052e81f87a754c5a7904ff467,251 operations,487 selected archives; no broader scope.",
+    "tests": 10,
+    "optimized_tests": 10,
+    "actual_apply": {
+      "applied": 251,
+      "content_paths_modes_verified": true,
+      "free_before": 1443811328,
+      "free_after": 4732899328,
+      "actual_df_bytes_freed": 3289088000,
+      "plan_sha256": "660ce0eebb527260de7c77080fab6e386079d21052e81f87a754c5a7904ff467"
+    },
+    "idempotence": {
+      "plan_sha256": "a2c2252fe95be47c7a22e01c0c0a2d14f37b8baf38b8a54578c00683e25484c3",
+      "operations": 0,
+      "estimated_duplicate_bytes": 0
+    },
+    "post_apply": "Full selected-file inventory bytes/paths/modes/ownership and all replacement pair inode identities verified."
+  }
+}

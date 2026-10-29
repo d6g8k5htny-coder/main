@@ -1,0 +1,343 @@
+{
+  "canonical_dataset_sha256": "4cfae309b9da989ca6c95881f207c0a097a4dde836f45eacbe0e78d7faf9e4d7",
+  "claim": "Source-grounded explicit applicability assumptions; all five imports remain unvalidated.",
+  "entries": [
+    {
+      "all_conditions_satisfied": false,
+      "applies_to": [
+        "D1-KR-BOREL",
+        "D1-KR-KERNEL"
+      ],
+      "canonical_required_evidence": "Show jointly measurable and suitably continuous C²(X)-valued Gaussian versions, pin-covariance nonsingularity and the conditional kernel construction uniformly on separated compact pair domains.",
+      "canonical_scope_description": "Show jointly measurable and suitably continuous C²(X)-valued Gaussian versions, pin-covariance nonsingularity and the conditional kernel construction uniformly on separated compact pair domains.",
+      "formal_certification": "not_certified",
+      "id": "EXT-C2-KERNEL",
+      "import_status": "unvalidated",
+      "requirements": [
+        {
+          "id": "C2-VERSION",
+          "requirement": "Construct f as a random element of the separable C2(X) Banach space, with a smooth sample version for the exact fixed periodized covariance.",
+          "source_and_limit": "P Section2 uses sum sqrt(a_n)(1+|n|)^q<infinity; verify convergence and derivative norms.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "C2-NONSINGULAR",
+          "requirement": "Show gradient-pin covariance is jointly continuous and uniformly nonsingular on each fixed compact off-diagonal D.",
+          "source_and_limit": "P Section2 and E2 Section9.1; not uniform toward the diagonal.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "C2-REGRESSION",
+          "requirement": "Define R_t=f-Cov(f,G(t))Cov(G(t))^-1G(t) as an E-valued centered Gaussian residual independent of G(t), with mean m_(t,z).",
+          "source_and_limit": "E2 Section9.1; finite Gaussian algebra does not by itself prove E-valued continuity.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "C2-KERNEL",
+          "requirement": "Prove K(t,z,A)=P(m_(t,z)+R_t in A) is a jointly measurable regular conditional probability kernel on Borel(C2(X)); show continuous bounded-cylinder expectations in (t,z).",
+          "source_and_limit": "E2 Section9.1; track full C2 norms and exact conditional versions.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        }
+      ],
+      "source_inspection": "E2 Section9.1 compared to curated D1-KR-KERNEL. It specifies whole-field Gaussian regression rather than only finite cylinder distributions.",
+      "source_references": [
+        {
+          "sections": "E2 Section9.1",
+          "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+          "source_id": "SRC17-cc349002d9078e702727",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+        },
+        {
+          "sections": "P Sections2–4",
+          "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+          "source_id": "SRC17-b8b1883c765790665d66",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/82247833b5dd58e04291d55353b52938d73ec614/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+        }
+      ],
+      "title": "Conditional full-field C² Gaussian kernel",
+      "unresolved_obligation": "Complete an independent assumption-by-assumption mathematical validation and aligned proof/checker artifact where certification is claimed; acquired source bytes and text comparison do not discharge these requirements."
+    },
+    {
+      "all_conditions_satisfied": false,
+      "applies_to": [
+        "D1-KR-DOM",
+        "D1-KR-FAR",
+        "D2-R11-GAUSS",
+        "D2-R12-JOINT",
+        "D4-REG"
+      ],
+      "canonical_required_evidence": "Prove the Gaussian density, conditional moments and weighted marked count bounds uniformly over the named all-mark or separated domain, with no hidden dependence on gap or pin distance.",
+      "canonical_scope_description": "Prove the Gaussian density, conditional moments and weighted marked count bounds uniformly over the named all-mark or separated domain, with no hidden dependence on gap or pin distance.",
+      "formal_certification": "not_certified",
+      "id": "EXT-GAUSS-MOMENTS",
+      "import_status": "unvalidated",
+      "requirements": [
+        {
+          "id": "MOMENT-FOURIER",
+          "requirement": "Show summability of sqrt(a_n)(1+|n|)^q for all fixed derivative orders and control smooth-field global Cq suprema in finite Lp.",
+          "source_and_limit": "P Section2, D2 Section2; constants may depend on fixed d,L,p,q.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "MOMENT-CONTACT",
+          "requirement": "Verify the original and appended centered contact-jet covariances have a uniform gap over a small-r band and compact frame space.",
+          "source_and_limit": "D2 R2/R13; use independent symmetric Hessian coordinates and exclude duplicated jets.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "MOMENT-ALLTARGET",
+          "requirement": "Track conditional means and Cq moments with polynomial growth P=1+|b|+k and retain the full Gaussian pin density exp[-c(b^2+k^2)].",
+          "source_and_limit": "D2 R4/R5/R11; constants must be independent of b,k and r in the stated band.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "MOMENT-JOINT",
+          "requirement": "Establish joint density in (pins,A_M), independent Gaussian residual after regression, and all needed weighted C4 moments for the cap-loss integration.",
+          "source_and_limit": "D2 R13/R14/R15 and P Section4; eigenvalues within A_M are not independent.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "MOMENT-FAR",
+          "requirement": "For fixed separation r0>0 establish uniform nonsingularity of the original full-pin covariance and polynomial conditional determinant moments for all births.",
+          "source_and_limit": "P Section14; no shrinking-r0 or varying-d/L claim.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        }
+      ],
+      "source_inspection": "P Sections2–4/13–14 and D2 Sections2/4/5 compared to allmark and fixed-separated moment requirements. Source contains an analytic route; no automatic structural check establishes it.",
+      "source_references": [
+        {
+          "sections": "P Sections2–4/13",
+          "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+          "source_id": "SRC17-c3f1022f0f2547460be8",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+        },
+        {
+          "sections": "P Section14",
+          "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+          "source_id": "SRC17-c3f1022f0f2547460be8",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+        },
+        {
+          "sections": "D2 Sections2/4/5",
+          "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a",
+          "source_id": "SRC17-f14a2284a03eef501e77",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"
+        }
+      ],
+      "title": "Uniform Gaussian finite-jet and mark envelopes",
+      "unresolved_obligation": "Complete an independent assumption-by-assumption mathematical validation and aligned proof/checker artifact where certification is claimed; acquired source bytes and text comparison do not discharge these requirements."
+    },
+    {
+      "all_conditions_satisfied": false,
+      "applies_to": [
+        "D1-KR-BOREL",
+        "D4-KR",
+        "D5-ANN-R6"
+      ],
+      "canonical_required_evidence": "Read the complete Armentano–Azaïs–León v3 Theorems 2.2/7.1 and check every hypothesis against the exact smooth two-pin field, for continuous bounded weights before Borel extension.",
+      "canonical_scope_description": "Read the complete Armentano–Azaïs–León v3 Theorems 2.2/7.1 and check every hypothesis against the exact smooth two-pin field, for continuous bounded weights before Borel extension.",
+      "formal_certification": "not_certified",
+      "id": "EXT-KR-AAL",
+      "import_status": "unvalidated",
+      "primary_theorem_anchors": [
+        {
+          "excerpt": "Theorem 2.1 (Rice formula for the expectation). Let X : T → Rd be a random\nfield, T an open subset of RD , (D ≥ d).\n    Assume that:\n      (i) The sample paths of X(·) are a.s. C 1 ,\n     (ii) for each t ∈ T , X(t) admits a continuous density pX(t) (v), which is bounded\n          uniformly in v ∈ Rd and t in any compact subset of T .\n    (iii) For every v ∈ Rd , for every t ∈ T , the distribution of {X(s), s ∈ T }\n          conditional to X(t) = v is well defined as a probability and is continuous,\n          as a function of v, with respect to the C 1 topology.\nThen, for every Borel set B contained in T and for every level u, one has\n                                     Z\n                                                 \u000e        \u0001\n(2.7)         E (σD−d (Lu (B))) =          E ∆(t) X(t) = u pX(t) (u)dt.\n                                       B\nRemark 2. In full generality, the conditions of Theorem 2.1 can be “localized”: It\nis sufficient that they were true for X(t) in some neighborhood of the considered\nlevel u.\nRemark 3. The proof of Theorem 2.1 is partially based on the method of Azaı̈s-\nWschebor [7] and uses tools from integral geometry such as Crofton formula for",
+          "excerpt_sha256": "5467f231b690014ac82045db61cc6e9790c915808dde62847c5f242b496d02a8",
+          "line_end": 197,
+          "line_start": 179,
+          "source_id": "EXTSRC-AAL-2304.07424v3",
+          "source_sha256": "636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f",
+          "text_path": "upstream_sources/636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f.txt",
+          "text_sha256": "daa4b4918c7fe951a7bfd233dffaef101e58755e34009fa4593f9445bc9cd2c4",
+          "url": "https://arxiv.org/pdf/2304.07424v3"
+        },
+        {
+          "excerpt": "Theorem 2.2. Let X : T → Rd be a Gaussian random field, T an open subset of\nRD , (D ≥ d), and u ∈ Rd , satisfying the following:\n     (i) The sample paths of X(·) are a.s. C 1 ;\n    (ii) for each t ∈ T , X(t) has a positive definite variance-covariance matrix.\n  Then, (2.7) holds true. In addition, if B is compact, both sides of (2.7) are finite\nand, consequently, the measure B 7→ E (σD−d (Lu (B))) is Radon.\nRemark 6. Suppose that (ii) is not meet on T . Define\n                      T̃ := {t ∈ T : Var(X(t)) positive definite}.\nThen, (2.7) is valid for all Borel subset of T̃ .\nRemark 7. This theorem is a direct consequence of Theorem 2.1 once the conditional",
+          "excerpt_sha256": "54b7dbdac09816b38a1172e98e82e4372e3845104afd773183308025ef601594",
+          "line_end": 228,
+          "line_start": 219,
+          "source_id": "EXTSRC-AAL-2304.07424v3",
+          "source_sha256": "636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f",
+          "text_path": "upstream_sources/636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f.txt",
+          "text_sha256": "daa4b4918c7fe951a7bfd233dffaef101e58755e34009fa4593f9445bc9cd2c4",
+          "url": "https://arxiv.org/pdf/2304.07424v3"
+        },
+        {
+          "excerpt": "    a) g is lower semi-continuous as a function of t;\n    b) g is lower semi-continuous as a function of Z(·) for the weak convergence\n       of continuous functions;\n    c) For every v ∈ N , for every t ∈ T , the distribution of {Z(·)} conditional to\n       X(t) = v is well defined as a probability and is continuous, as a function of\n       v with respect the weak convergence of continuous functions.\n\nTheorem 7.1 (Expected integral on the level set). Let X : T → Rd be a random\nfield satisfying the hypotheses of Theorem 2.1. To each point t of the parametric\nspace, let us associate a weight g(t, Z(·)), where the function g satisfies a), b), c)\nthen use the Definition (7.1).\n                             Z\n                       \u0001                          \u000e        \u0001\n(7.2)       E Gu (X, B) =         E ∆(t)g(t, Z(·)) X(t) = u pX(t) (u)dt.\n                              B\n\n\nRemark 8. In the case X(·), Z(·) are jointly Gaussian, c) is always met.\n\nProof. Since the function g(·) is a monotone limit of a sequence of continuous func-\ntion, by a monotone convergence argument, we can assume that g(·) is a continuous\nfunction. Then the conditions above ensure the continuity of both sides of the for-\nmula (5.6).                                                                       \u0003\n",
+          "excerpt_sha256": "163136903a808c49f772b472b922b3e901220e17422275815fc685aaf821c684",
+          "line_end": 816,
+          "line_start": 793,
+          "source_id": "EXTSRC-AAL-2304.07424v3",
+          "source_sha256": "636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f",
+          "text_path": "upstream_sources/636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f.txt",
+          "text_sha256": "daa4b4918c7fe951a7bfd233dffaef101e58755e34009fa4593f9445bc9cd2c4",
+          "url": "https://arxiv.org/pdf/2304.07424v3"
+        }
+      ],
+      "requirements": [
+        {
+          "id": "AAL-GAUSSIAN",
+          "requirement": "G(x,y)=(grad f(x),grad f(y)) is Gaussian with a.s. C1 paths on an open chart neighbourhood of each compact ordered off-diagonal domain D; source Theorem2.2 assumes T open in R^D, D>=d.",
+          "source_and_limit": "P Section2; E2 Section9; chart localization must be justified.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-COVARIANCE",
+          "requirement": "Cov G(x,y) is positive definite at every distinct pair, with a uniform lower eigenvalue on the selected compact D. This is not a statement of uniformity as separation tends to zero.",
+          "source_and_limit": "P Section2 positive-spectrum point-jet argument; independently check exact field and pin coordinates.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-CONDITIONAL-C1",
+          "requirement": "Theorem7.1 refers to Theorem2.1, including a well-defined conditional field law continuous in the conditioning value in C1 topology; Gaussian regression supplies the claimed route.",
+          "source_and_limit": "Theorems2.1/2.2 and Remark7; EXT-C2-KERNEL remains unclosed.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-CONTINUOUS-WEIGHT",
+          "requirement": "Initial g is nonnegative and bounded continuous cylinder function of location and field/derivatives. Theorem7.1(a,b) requires lower semicontinuity; (c) requires conditional mark-law continuity.",
+          "source_and_limit": "Theorem7.1 p15; Remark8 gives joint Gaussian route for (c).",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-FINITE-MEASURES",
+          "requirement": "For bounded Borel elder/type marks establish finite mu,nu on D×C2(X), equality on the bounded continuous cylinder algebra, Borel generation and bounded-pointwise closure.",
+          "source_and_limit": "This is E2 Sections9.2–9.4, an additional argument; Theorem7.1 does not directly permit arbitrary Borel marks.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-MARK-TO-DENSITY",
+          "requirement": "Match ordered pair counting to the exact finite ordinary superlevel H0 convention; disintegrate height pins and include |det H_M det H_S| once.",
+          "source_and_limit": "E2 Section9.4, P Sections8/10 and EXT-MORSE-ELDER.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "AAL-EXHAUSTION",
+          "requirement": "Independently establish the unnormalized near-diagonal and allmark integrable majorants before removing compact separation and mark cutoffs.",
+          "source_and_limit": "EXT-KR-OFFDIAG and EXT-GAUSS-MOMENTS; no global probability floor.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        }
+      ],
+      "source_inspection": "Exact arXiv v3 PDF Theorems2.1,2.2,7.1 and Remarks7–8 read; E2 attribution compared and agrees at continuous-cylinder scope.",
+      "source_references": [
+        {
+          "sections": "E2 Sections9.1–9.4",
+          "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+          "source_id": "SRC17-cc349002d9078e702727",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+        },
+        {
+          "sections": "v3 Theorems2.1/2.2 PDFpp4–5; Theorem7.1 PDFp15",
+          "sha256": "636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f",
+          "source_id": "EXTSRC-AAL-2304.07424v3",
+          "url": "https://arxiv.org/pdf/2304.07424v3"
+        }
+      ],
+      "title": "Exact external marked Kac–Rice applicability",
+      "unresolved_obligation": "Complete an independent assumption-by-assumption mathematical validation and aligned proof/checker artifact where certification is claimed; acquired source bytes and text comparison do not discharge these requirements."
+    },
+    {
+      "all_conditions_satisfied": false,
+      "applies_to": [
+        "D1-KR-DOM"
+      ],
+      "canonical_required_evidence": "Confirm the marked Kac–Rice limit is valid on compact off-diagonal domains and the unnormalized Gaussian majorant covers the entire exhaustion without normalizing by a vanishing pin density.",
+      "canonical_scope_description": "Confirm the marked Kac–Rice limit is valid on compact off-diagonal domains and the unnormalized Gaussian majorant covers the entire exhaustion without normalizing by a vanishing pin density.",
+      "formal_certification": "not_certified",
+      "id": "EXT-KR-OFFDIAG",
+      "import_status": "unvalidated",
+      "requirements": [
+        {
+          "id": "OFFDIAG-COMPACT",
+          "requirement": "Apply the marked formula on an exhaustion by compact ordered pair domains with positive distance to the diagonal.",
+          "source_and_limit": "Each domain requires the applicable conditional kernel/marked theorem, then nonnegative monotone convergence.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "OFFDIAG-SPATIAL",
+          "requirement": "Prove the unnormalized near-pair location intensity is bounded by C r dr, integrable at zero.",
+          "source_and_limit": "P Section10; determinant/full-pin density factors must match the exact ordered convention.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "OFFDIAG-ALLMARK",
+          "requirement": "For r<=r0 prove a common polynomial-Gaussian H(b,k) with H(b,k)k^(-2/3) integrable on b in R,k>0; lifetime cutoff is k>=ell/r0^3.",
+          "source_and_limit": "P Section13 with EXT-GAUSS-MOMENTS; no division by a vanishing normalizer.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "OFFDIAG-LIMIT",
+          "requirement": "Justify dominated convergence at fixed b,k,u and bound separated pairs independently; compact-window selection rates do not extend automatically.",
+          "source_and_limit": "P Sections13–14; formal statement must preserve all quantifiers and exclusions.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        }
+      ],
+      "source_inspection": "P Sections10/13–14 and E2 last paragraph compared to curated D1-KR-DOM. The r dr integral and k^(-2/3) cutoff calculations are conditional on the source Gaussian envelopes.",
+      "source_references": [
+        {
+          "sections": "P Sections10/13",
+          "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+          "source_id": "SRC17-c3f1022f0f2547460be8",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+        },
+        {
+          "sections": "E2 Section9.4 final paragraph",
+          "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+          "source_id": "SRC17-cc349002d9078e702727",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+        }
+      ],
+      "title": "Off-diagonal exhaustion and integrable majorant",
+      "unresolved_obligation": "Complete an independent assumption-by-assumption mathematical validation and aligned proof/checker artifact where certification is claimed; acquired source bytes and text comparison do not discharge these requirements."
+    },
+    {
+      "all_conditions_satisfied": false,
+      "applies_to": [
+        "D1-ELDER-MEAS"
+      ],
+      "canonical_required_evidence": "Check Gaussian-field Morse/distinct critical-value hypotheses, separable C² setting, countable chart/path approximation, and the exact elder persistence convention.",
+      "canonical_scope_description": "Check Gaussian-field Morse/distinct critical-value hypotheses, separable C² setting, countable chart/path approximation, and the exact elder persistence convention.",
+      "formal_certification": "not_certified",
+      "id": "EXT-MORSE-ELDER",
+      "import_status": "unvalidated",
+      "requirements": [
+        {
+          "id": "ELDER-GENERICITY",
+          "requirement": "Prove almost-sure Morse nondegeneracy and distinct critical values, including under the exact two-pin conditional and tilted laws used by each theorem.",
+          "source_and_limit": "Positive finite-jet Fourier rank is a source argument; the pinned genericity specialization still requires independent proof.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "ELDER-COUNTABLE-PATHS",
+          "requirement": "Establish countable chart/rational polygonal approximations to strict superlevel connectivity on the compact torus and joint Borel dependence on location and C2 field.",
+          "source_and_limit": "P Section8; equal-level/essential-class cases and charts must use the exact convention.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        },
+        {
+          "id": "ELDER-PERSISTENCE",
+          "requirement": "Identify d_f(M)=f(S) with the finite ordinary superlevel H0 elder death partner under Morse/distinct values, with essential global maximum excluded.",
+          "source_and_limit": "P Section8 and E2 Section9.4; deterministic cap is sufficient, not a replacement definition of global pairing.",
+          "validation_state": "unresolved_independent_applicability_obligation"
+        }
+      ],
+      "source_inspection": "P Section8 and E2 Section9.4 compared. Global maximin elder mark remains a path-space event on the Morse/distinct-critical-value locus, not a Hessian type test.",
+      "source_references": [
+        {
+          "sections": "P Section8",
+          "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+          "source_id": "SRC17-c3f1022f0f2547460be8",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+        },
+        {
+          "sections": "E2 Section9.4",
+          "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+          "source_id": "SRC17-cc349002d9078e702727",
+          "url": "https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+        }
+      ],
+      "title": "Morse genericity and elder-mark measurability",
+      "unresolved_obligation": "Complete an independent assumption-by-assumption mathematical validation and aligned proof/checker artifact where certification is claimed; acquired source bytes and text comparison do not discharge these requirements."
+    }
+  ],
+  "schema_version": "UL-import-applicability-v17.1"
+}

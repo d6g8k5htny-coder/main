@@ -1,0 +1,64 @@
+{
+  "schema": "cbz.math-driver-tooling-addendum.v1",
+  "observed": "2026-10-29T19:06:02.122238+00:00",
+  "purpose": "Run unchanged pinned Mathgate under available memory without concurrent prefix-kernel processes or residentLake parent for Lean jobs.",
+  "source_identity": {
+    "observed": "2026-10-29T18:57:07.343109+00:00",
+    "files": {
+      "run_math_sequential_gate.py": "df54d63dabfb04becf256f77f4feb843e3d866837a17d92f8e47d1c547335712",
+      "OneModuleReplay.lean": "e61370531ad8e12837ca9ae9ec1f615208f9ec0b225967c9622be0ab81ddd43d",
+      "LeanChecker-pinned.lean": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae",
+      "test_math_sequential_driver.py": "285512c4dfa93cbe5c0f1e41d2caf9fce2b627838d95b1b066ad965815d50817",
+      "mutate_math_sequential_driver.py": "f73618b66d3782a7846b59afbbd2b421a110d071fe288b5b21516977e6265230"
+    },
+    "normal_and_optimized_tests": 21,
+    "normal_and_optimized_strict_mutants": 19,
+    "scope": "Sequential exact-module imported-environment kernel replay plus direct same-pinned-Lean launch under10 documented Lake fields; no Math source or gate predicate weakened",
+    "budget": "7GiB sampled groupRSS,900s eachcommand,LEAN_NUM_THREADS1",
+    "supporting_inventory_probe": "direct-env-probe/inventory-report-with-axiom-join.json",
+    "private_failure_files_excluded": "PRIVATE_TEST_FAILURES/"
+  },
+  "usage": "python -B -S /workspace/cbz0/lean-foundation/run_math_sequential_gate.py; exact pinned repos/runtime paths are declared in source and preflight records.",
+  "self_verified": {
+    "tests_per_mode": 21,
+    "strict_mutants_per_mode": 19,
+    "review": "driver-review/launch-review-REPORT.md",
+    "real_inventory_probe": "direct-env-probe/inventory-report-with-axiom-join.json"
+  },
+  "maintenance_owner": "none;private scoped execution recipe, canonical admission/porting is Root-owned",
+  "criterion_served": [
+    "G2",
+    "G3",
+    "G4",
+    "G6",
+    "G11"
+  ],
+  "not_claimed": [
+    "No source-model alignment",
+    "No nonvacuity/model existence proof",
+    "No fresh replay of imported Mathlib dependencies",
+    "No full/final Math result while attempt004 active"
+  ],
+  "operational_decisions": [
+    {
+      "layer": "B",
+      "action": "Separate pinned exact-module replay processes",
+      "reason": "Avoid prefix CLI concurrent Mathlib import environments; retain same exported pinned replayFromImports function."
+    },
+    {
+      "layer": "B",
+      "action": "Direct pinned Lean launcher under validated Lake fields",
+      "reason": "Actual unchanged116-declaration inventory exceeded sampled cap only with residentLake parent; direct launch passed6637MiB with all original axiom/bound joins."
+    },
+    {
+      "layer": "C",
+      "action": "Preserve failed worker receipts outside live evidence path and clean child groups on monitor error",
+      "reason": "Independent actual RED controls found misleading stale evidence/process leakage; fixes tested and reviewed."
+    },
+    {
+      "layer": "C",
+      "action": "Keep namespace-rendering RED output private and use minimal test fixture environment",
+      "reason": "Preserve failure truth without publishing inherited runtime metadata."
+    }
+  ]
+}

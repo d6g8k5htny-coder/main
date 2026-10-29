@@ -1,0 +1,23 @@
+test_server_rejection_is_atomic_and_never_silent_success (cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success) ... FAIL
+
+======================================================================
+FAIL: test_server_rejection_is_atomic_and_never_silent_success (cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tools/cbz_mutation.py", line 77, in part
+    try: return _original(*args,**kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '8a19[51 chars]ive\n2f850265b9e845094fcebaabd570ac3850bf1727 [269 chars]ture' != '8a19[51 chars]ive\n8a19bf0aaf26605f8779d7f4a51d5cd141063cad [332 chars]ture'
+  8a19bf0aaf26605f8779d7f4a51d5cd141063cad refs/heads/active
++ 8a19bf0aaf26605f8779d7f4a51d5cd141063cad refs/heads/duplicate
+  2f850265b9e845094fcebaabd570ac3850bf1727 refs/heads/main
+  8a19bf0aaf26605f8779d7f4a51d5cd141063cad refs/heads/protected
+  8a19bf0aaf26605f8779d7f4a51d5cd141063cad refs/heads/unmerged
+  a516c83da927552991c2a47f94c9fddc6347408e refs/tags/original-tag
+  9fd7110cdadf9595166a6d49909ba92196cf8948 refs/tags/pre-cbz-fixture
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.287s
+
+FAILED (failures=1)

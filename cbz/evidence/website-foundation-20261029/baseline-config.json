@@ -1,0 +1,165 @@
+{
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "cold_start": {
+    "commands": [
+      [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_baseline.py",
+        "inspect",
+        "--root",
+        "."
+      ],
+      [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_baseline.py",
+        "run",
+        "--root",
+        ".",
+        "--output",
+        "/tmp/cbz-baseline-run"
+      ],
+      [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_baseline.py",
+        "cold-start",
+        "--root",
+        "."
+      ]
+    ],
+    "required_answers": [
+      "Baseline state",
+      "Scientific boundaries",
+      "Cold-start commands",
+      "Evidence and invariants",
+      "Unmet criteria"
+    ],
+    "status": "cbz/evidence/website-foundation-20261029/STATUS.proposed.md"
+  },
+  "docs": [
+    "cbz/evidence/website-foundation-20261029/STATUS.proposed.md",
+    "cbz/evidence/website-foundation-20261029/PROOF_INDEX.proposed.md",
+    "cbz/evidence/website-foundation-20261029/GOVERNANCE.proposed.md",
+    "cbz/evidence/website-foundation-20261029/TOOLING.proposed.md",
+    "cbz/evidence/website-foundation-20261029/BASELINE.proposed.md",
+    "cbz/evidence/website-foundation-20261029/INVENTORY.proposed.md",
+    "cbz/evidence/website-foundation-20261029/DECISIONS.proposed.md"
+  ],
+  "external_gate_gaps": {
+    "G10": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G2": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G3": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G4": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G5": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G6": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G7": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G8": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution.",
+    "G9": "Canonical queue owns full gate execution/acceptance; no portable complete registered gate supplied in this contribution."
+  },
+  "gates": [
+    {
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_audit.py",
+        "selftest"
+      ],
+      "id": "G0",
+      "scope": "Finite static auditor adversarial selftest; no complete Layer A claim",
+      "sources": [
+        "tools/cbz_audit.py",
+        "tests/test_cbz_audit.py",
+        "tools/cbz_mutation.py",
+        "tests/test_cbz_mutation_lifecycle.py"
+      ],
+      "timeout_seconds": 60
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_audit.py",
+        "scan",
+        "--root",
+        "."
+      ],
+      "id": "G1",
+      "scope": "Finite static scan only; semantic/kernel/alignment gaps remain",
+      "sources": [
+        "tools/cbz_audit.py"
+      ],
+      "timeout_seconds": 120
+    },
+    {
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_*.py",
+        "-v"
+      ],
+      "id": "G11",
+      "memory_mb": 2048,
+      "scope": "Focused mission-tool engineering selftests only",
+      "sources": [
+        "tools/cbz_audit.py",
+        "tools/cbz_baseline.py",
+        "tools/cbz_lean_check.py",
+        "tools/cbz_refs.py",
+        "tools/cbz_storage.py",
+        "tests/test_cbz_audit.py",
+        "tests/test_cbz_baseline.py",
+        "tests/test_cbz_lean_check.py",
+        "tests/test_cbz_refs.py",
+        "tests/test_cbz_storage.py",
+        "tools/cbz_mutation.py",
+        "tests/test_cbz_mutation_lifecycle.py"
+      ],
+      "timeout_seconds": 300
+    }
+  ],
+  "limits": [
+    "Namespaced contribution only, not canonical status/governance.",
+    "No global CBZ-0/Layer A/theorem certification.",
+    "Gate PASS records actual command exit and exact source/log hashes only.",
+    "Output outside root required; no automatic full-regression duplication."
+  ],
+  "pins": [
+    {
+      "commit": "9c09dc98a639341c8bfa088edefe011131016b41",
+      "limits": "Snapshot object identity only; no independently verified consuming cross-repository manifest available.",
+      "name": "Main",
+      "object_path": "formal/lean-toolchain",
+      "repo": ".",
+      "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+    },
+    {
+      "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+      "limits": "Snapshot object identity only; no independently verified consuming cross-repository manifest available.",
+      "name": "Math-snapshot",
+      "object_path": "formal/lean-toolchain",
+      "repo": "../../cbz0/repos/Math-",
+      "sha256": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b"
+    }
+  ],
+  "proof_index": "cbz/evidence/website-foundation-20261029/proof-index.json",
+  "schema": "cbz.baseline.v1",
+  "tool_registry": "cbz/evidence/website-foundation-20261029/tool-registry.json"
+}

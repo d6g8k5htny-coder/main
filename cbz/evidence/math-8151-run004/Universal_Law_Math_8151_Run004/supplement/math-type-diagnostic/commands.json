@@ -1,0 +1,61 @@
+[
+  {
+    "args": [
+      "/workspace/research/audit/formal/toolchain/bin/lake",
+      "env",
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-c",
+      "import os,json;print(json.dumps({k:os.environ.get(k) for k in ('LAKE', 'LAKE_HOME', 'LEAN_SYSROOT', 'LEAN_AR', 'LEAN_CC', 'LEAN_PATH', 'LEAN_SRC_PATH', 'PATH', 'DYLD_LIBRARY_PATH', 'LD_LIBRARY_PATH')},sort_keys=True))"
+    ],
+    "executed_args": [
+      "/workspace/research/audit/formal/toolchain/bin/lake",
+      "env",
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-c",
+      "import os,json;print(json.dumps({k:os.environ.get(k) for k in ('LAKE', 'LAKE_HOME', 'LEAN_SYSROOT', 'LEAN_AR', 'LEAN_CC', 'LEAN_PATH', 'LEAN_SRC_PATH', 'PATH', 'DYLD_LIBRARY_PATH', 'LD_LIBRARY_PATH')},sort_keys=True))"
+    ],
+    "lake_environment": null,
+    "label": "typed-proof-diagnostic-lake-environment",
+    "cwd": "/workspace/cbz0/repos/Math-/formal",
+    "exit_code": 0,
+    "stop_reason": null,
+    "process_group_id": 227983,
+    "peak_group_rss_bytes": 855232512,
+    "elapsed_seconds": 1.3080118850011786,
+    "log": "/workspace/cbz0/lean-foundation/math-type-diagnostic/typed-proof-diagnostic-lake-environment.log",
+    "log_sha256": "22e1af312630adab4e37eb889b506c9e91b96d5026178a22fef45cfd84e593f9"
+  },
+  {
+    "args": [
+      "lake",
+      "env",
+      "lean",
+      "/workspace/cbz0/lean-foundation/MathProofInventory.lean"
+    ],
+    "executed_args": [
+      "/workspace/research/audit/formal/toolchain/bin/lean",
+      "/workspace/cbz0/lean-foundation/MathProofInventory.lean"
+    ],
+    "lake_environment": {
+      "DYLD_LIBRARY_PATH": null,
+      "LAKE": "/workspace/research/audit/formal/toolchain/bin/lake",
+      "LAKE_HOME": "/workspace/research/audit/formal/toolchain",
+      "LD_LIBRARY_PATH": "/workspace/research/audit/formal/toolchain/lib/lean:/workspace/research/audit/formal/toolchain/lib:/workspace/cbz0/repos/Math-/formal/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/plausible/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/LeanSearchClient/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/importGraph/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/aesop/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Qq/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/batteries/.lake/build/lib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Cli/.lake/build/lib",
+      "LEAN_AR": "/workspace/research/audit/formal/toolchain/bin/llvm-ar",
+      "LEAN_CC": null,
+      "LEAN_PATH": "/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Cli/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/batteries/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Qq/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/aesop/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/importGraph/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/plausible/.lake/build/lib/lean:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib/.lake/build/lib/lean:/workspace/cbz0/repos/Math-/formal/.lake/build/lib/lean:/workspace/research/audit/formal/toolchain/lib/lean",
+      "LEAN_SRC_PATH": "/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Cli:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Cli:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/batteries:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/batteries:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Qq:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Qq:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/aesop:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/aesop:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/importGraph:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/importGraph:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/LeanSearchClient:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/LeanSearchClient:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/plausible:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/plausible:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib:/workspace/cbz0/repos/Math-/formal:/workspace/research/audit/formal/toolchain/src/lean/lake",
+      "LEAN_SYSROOT": "/workspace/research/audit/formal/toolchain",
+      "PATH": "/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Cli/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/batteries/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/Qq/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/aesop/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/proofwidgets/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/importGraph/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/LeanSearchClient/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/plausible/.lake/build/bin:/workspace/cbz0/lean-foundation/math-preserved/formal/.lake/packages/mathlib/.lake/build/bin:/workspace/cbz0/repos/Math-/formal/.lake/build/bin:/workspace/research/audit/formal/toolchain/bin:/workspace/research/audit/formal/toolchain/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin:/opt/codex/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/fallback"
+    },
+    "label": "typed-proof-diagnostic",
+    "cwd": "/workspace/cbz0/repos/Math-/formal",
+    "exit_code": 0,
+    "stop_reason": null,
+    "process_group_id": 228038,
+    "peak_group_rss_bytes": 6730706944,
+    "elapsed_seconds": 10.145604179999282,
+    "log": "/workspace/cbz0/lean-foundation/math-type-diagnostic/typed-proof-diagnostic.log",
+    "log_sha256": "553e82c4f728a81bb6a21d8b6522fe2a38357c6ad54faf83751104d67dabf608"
+  }
+]

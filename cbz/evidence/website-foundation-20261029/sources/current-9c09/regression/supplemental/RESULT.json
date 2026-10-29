@@ -1,0 +1,74 @@
+{
+  "schema": "cbz.supplemental-current9c09.v1",
+  "status": "ALL_REQUESTED_AVAILABLE_SUPPLEMENTAL_CHECKS_OBSERVED_PASS",
+  "source_commit": "9c09dc98a639341c8bfa088edefe011131016b41",
+  "observed_utc": "2026-10-29T20:01:17Z",
+  "versions": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "pytest": "8.3.5",
+    "lean": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)"
+  },
+  "target_test_bytes_unchanged": true,
+  "test_sha256_after": {
+    "tests/test_pytest_bytecode_policy.py": "025e631470545010a9bb33e92a1e5f84c5313aa62c7c0e1ac71d980e595c3295",
+    "tests/test_graph_binding_check.py": "e151abf4eae86384305d17ddba07d16e31b2dc062786054e975488a5e65e2828",
+    "tests/test_formal_compiled_inventory.py": "f209cf72239b3068430b5652034a125495478805c9a083fcfeb12a4f51fd0062",
+    "tests/test_formal_gate.py": "304b84f6bf4af77c75f397307a32488ebe9554c9d9e436ddba49f3c4bcf54113",
+    "tests/test_architecture_sandbox.py": "6f9281005cf62b2d061f3a0381fa6c1b79999dbb5813758ae1f4fd0f870fbe78"
+  },
+  "formal_source_inputs_match_9c09": {
+    "formal/UniversalLaw/Side24/ConeMoments.lean": "2bcd4a83683188856bce010c3dcdec6904e45a6d73b50b9f3891e632ff58985c",
+    "formal/UniversalLaw/Side24/Endpoints.lean": "095102245297707316cfd7e244d5509f9b102fe5aa638b7acdbbcf9d3c9d52bd",
+    "formal/UniversalLaw/Side24/Ledger.lean": "ae4a14f3db8cf26668e55e2d2f80e0dcecb0703826b40396d91fb6e0d266d3f7",
+    "formal/UniversalLaw.lean": "cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e",
+    "formal/lake-manifest.json": "562d38ad95598486b2b592e6d072d5d3212735bfeb1cb6d8eb8ec04492522ba2",
+    "formal/lakefile.toml": "58f0fa6864cc03e9bcbef2d8c0404e9f3385a30a6124000454319367906cbe4a",
+    "formal/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "formal/manifest.json": "34767f4d89e0d1b5135a7425fc617a471238ea2a64da7e3ad78080490d31c914"
+  },
+  "supplemental_commands": 7,
+  "total_test_executions": 29,
+  "distinct_original_skips_exercised": 18,
+  "original_full_suite": {
+    "tests": 1784,
+    "failures": 0,
+    "skips": 23,
+    "receipt_unchanged": true,
+    "scope": "Original full-suite receipt retained with all23 skips; supplemental runs never rewrite that historical result"
+  },
+  "groups": {
+    "pytest_bytecode": {
+      "tests_per_mode": 10,
+      "normal": "PASS",
+      "optimized": "PASS"
+    },
+    "pinned_composition525": {
+      "tests_per_mode": 1,
+      "normal": "PASS",
+      "optimized": "PASS",
+      "historical_math_pin": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde"
+    },
+    "current_lean_integrations": {
+      "compiled_inventory_clean_and_five_admissions": "PASS",
+      "ordinary_package_gate_receipt": "PASS",
+      "execution": "sequential",
+      "new_shared_wrapper_receipt_claimed": false
+    },
+    "restricted_container": {
+      "tests": 5,
+      "status": "PASS",
+      "source_fixture_commit": "6fc021839072d8c34f41e18e77b0f618c53baa15",
+      "test_bytes_identical_to_current": true,
+      "scope": "Runtime controls only, not a current full-source image or kernel result"
+    }
+  },
+  "remaining_distinct_skips_unexercised": [
+    "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'",
+    "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'",
+    "test_real_records_evidence_id_pattern (test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... skipped 'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'",
+    "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'",
+    "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'"
+  ],
+  "ordinary_package_receipt_sha256": "a4bbb36c7cd4fe113dee4a01d1f12f6095508014437dc44e0be456737c6a9b2b",
+  "new_federation_or_kernel_wrapper_claim": false
+}

@@ -1,0 +1,144 @@
+{
+  "registry_scope": "CBZ Lean foundation artifacts and reused official gate;no new product cbz_lean_check.py was needed.",
+  "toolchain": {
+    "version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+    "archive_sha256": "47bf4bbd78f70c2e9670598ab7124d92b6efb7330ff33e5fbb4030f6fd72e4e4",
+    "executables_sha256": {
+      "/workspace/research/audit/formal/toolchain/bin/lean": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+      "/workspace/research/audit/formal/toolchain/bin/lake": "6f53827dab18010d6c690d14c8401cacabc1db958edb3552a877ed4cf1dd995d",
+      "/workspace/research/audit/formal/toolchain/bin/leanchecker": "ccef1bfe9bfeecea65137d94a69033c1a89f360711f50fa3178e7ba3e696fcbe"
+    },
+    "repair_verification": "toolchain-installation-repair-verification.json",
+    "runtime_archive_verification": "toolchain-runtime-archive-verification.json"
+  },
+  "entries": [
+    {
+      "name": "Existing Main formal gate",
+      "path": "/workspace/universal-law/website-repair-20261028/tools/formal_gate_check.py",
+      "sha256": "1125e435429f0a7391d6b076c99f1198bf862376276f6c00c91b5ea4f6a88ec5",
+      "purpose": "Source-bound pinned build, prefix kernel recheck,31 target transitive axiom reports,types and10 controls.",
+      "observed_verification": "Actual exact-source preserved-copy execution PASS;49 unit cases per normal/optimized mode,48 pass and1 optional runtime test skipped because initial PATH lacked lake. The runtime is separately fully observed in main-result.json. Additional actual49/49 normal unittest run with pinned bin on PATH passes with zero skips;earlier optional skip remains preserved. Final49/49 optimized unittest run also passes zero skips with pinned bin on PATH.",
+      "limits": "Formal arithmetic companions only; pending analytic/source alignment remains separate."
+    },
+    {
+      "name": "Preserved Main execution driver",
+      "path": "/workspace/cbz0/lean-foundation/run_main_existing_gate.py",
+      "sha256": "be3c18bec308ef23d89277932f3e96a03549b9f58140230eaab07371f5296d95",
+      "purpose": "Run unchanged existing Main gate in a byte-identical copy while reading authentic source commit.",
+      "observed_verification": "main-result.json success=true; original/copy hashes unchanged;17/17 formal files match exact Git object4ef1867. Precondition is optimization-safe.",
+      "limits": "Artifact runner uses explicit workspace paths; does not establish hosted CI or global repository checks."
+    },
+    {
+      "name": "All-project-constant Lean census",
+      "path": "/workspace/cbz0/lean-foundation/main-preserved/formal/.lake/formal-evidence/AllDeclarations.lean",
+      "sha256": "7067983d228468f919f8f68dd6d7603dfe0e0c4a4ca5ed1b52e79f97ebbd5101",
+      "purpose": "Read Lean ConstantInfo across the exact four project modules,collect every transitive axiom,require all requested modules.",
+      "observed_verification": "45 constants observed;all axioms empty;6/6 real controls pass normal andoptimized Python runners (test_main_census.py).",
+      "limits": "Not an automatic theorem-to-paper alignment or nonvacuity checker. The actual full --fresh kernel replay is separate evidence."
+    },
+    {
+      "name": "Census selftests",
+      "path": "/workspace/cbz0/lean-foundation/test_main_census.py",
+      "sha256": "d4728ead141c68d463e6bf1a45b206cd67da4df6968c876b38da1beab55943bf",
+      "purpose": "Compile actual honest,unused-custom-axiom,sorry,native,false-premise,missing-module controls.",
+      "observed_verification": "6/6 outcomes match in normal andoptimized execution; false-premise proof is intentionally accepted and reported as a limit.",
+      "limits": "Control sources are generated under ignored evidence package outputs,not product source.Optimization cannot remove rejection checks."
+    },
+    {
+      "name": "Actual theorem-kind/premise inventory",
+      "path": "/workspace/cbz0/lean-foundation/main-preserved/formal/.lake/formal-evidence/ProofInventory.lean",
+      "sha256": "ff63093614fedb48e596b158ada47238b4ede2a9c2cb5e175b0724adf4367800",
+      "purpose": "Select only ConstantInfo.thmInfo; print exact module,type,axioms and forallTelescope proposition binders.",
+      "observed_verification": "31 actual theorem rows;29 without Prop premises;2 finite-domain conditionals;4/4 actual classification controls pass normal/optimized.",
+      "limits": "Does not decide arbitrary premise consistency; generated auxiliaries in other packages require explicit separate interpretation."
+    },
+    {
+      "name": "Proof inventory selftests",
+      "path": "/workspace/cbz0/lean-foundation/test_proof_inventory.py",
+      "sha256": "f0d7ba4d44d1ed1b2fd47e4ad9a3aa5e094caf88fc9b710608f1b672f54a6ec7",
+      "purpose": "Prove actual Prop/data definitions are excluded and an explicit False-premise theorem is flagged conditional.",
+      "observed_verification": "4/4 real Lean fixture checks pass normal andoptimized Python;all fixture axiom lists empty.",
+      "limits": "Explicit False binder demonstration is not a decision procedure for unsatisfiable hypotheses."
+    },
+    {
+      "name": "Main finite-domain nonvacuity witnesses",
+      "path": "/workspace/cbz0/lean-foundation/main-preserved/formal/.lake/formal-evidence/Nonvacuity.lean",
+      "sha256": "30dc3c901e1cfebfebebe9537f803b79227336c1cf029884dd7bbfefbe0fa2c8",
+      "purpose": "Witness every admissible q in0..6 and each admissible dimension2,3.",
+      "observed_verification": "Pinned compile,#print axioms and named-module kernel replay PASS;only propext,Quot.sound.",
+      "limits": "Evidence-only witnesses;no original theorem statement changed or analytic application inferred."
+    },
+    {
+      "name": "Source inventory/preservation",
+      "path": "/workspace/cbz0/lean-foundation/inventory_sources.py",
+      "sha256": "fe2b592cc2cd72ea224c4f00287f9e6227c06f45afb326ea52effc2edadd5082",
+      "purpose": "Hash/copy Lean sources,record toolchain locks and lexical declaration headers/imports.",
+      "observed_verification": "Current roots:Main4,Math current162,older Math88;5 scanner controls pass normal/optimized,initial mistaken whitespace expectation preserved separately.",
+      "limits": "Lexical inventory is explicitly not a Lean parser,kernel audit,nonvacuity proof,or source-semantic alignment.Confirms only its demonstrated ordinary-string/comment cases."
+    },
+    {
+      "name": "Source inventory selftests",
+      "path": "/workspace/cbz0/lean-foundation/test_inventory_sources.py",
+      "sha256": "525eb604ae65ca8bec161f661b6e82a56495ac80eca3564fe5ae9ffc5e276167",
+      "purpose": "Exercise nested comments,line comments,escaped strings,line numbers and retained risk token.",
+      "observed_verification": "5/5 unittest controls PASS in both modes.",
+      "limits": "These finite controls do not certify all Lean lexical features."
+    },
+    {
+      "name": "Main worktree formal inventory",
+      "path": "/workspace/cbz0/lean-foundation/inventory_worktree_formal.py",
+      "sha256": "8b160edacdf2a35274ad819cb1485b01073d752d79c1d07a61a45e263376bf8f",
+      "purpose": "Read all registered Main worktree paths and hash formal Lean source bundles.",
+      "observed_verification": "27 rows matched git worktree list;5 present formal bundles identical;22 have no formal package.",
+      "limits": "No build of another branch and no assertion that absent directories are clean source packages."
+    },
+    {
+      "name": "Bounded official cache runner",
+      "path": "/workspace/cbz0/lean-foundation/run_cache_bounded.py",
+      "sha256": "e7b0d29abb2a947e99ec54884c58d15a8773db0caf3787eccfe5b8fc6788c138",
+      "purpose": "Retrieve official pinned mathlib cache;stop only its own subprocess group at1400MiB shared reserve or600s budget;preserve separate attempt logs.",
+      "observed_verification": "Task-owned inert process-group termination selftest PASS;observed reserve stop exit-15 saved in math-cache-resume-result.json.",
+      "limits": "Cache retrieval and cache trust do not prove any project theorem;the task is incomplete until actual gate succeeds."
+    },
+    {
+      "name": "Pinned LeanChecker implementation",
+      "path": "/workspace/cbz0/lean-foundation/LeanChecker-pinned.lean",
+      "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae",
+      "purpose": "Document exact upstream prefix selection and --fresh empty-environment replay semantics.",
+      "observed_verification": "Fetched at Lean commit5045d0056413266e57c625dcd7c365b10e377c52;normal all-four and full --fresh Main runs exit0.",
+      "limits": "LeanChecker explicitly uses Lean own kernel;not a separately implemented external theorem verifier."
+    },
+    {
+      "name": "PortableMainCBZLean",
+      "path": "tools/cbz_lean_check.py",
+      "sha256": "7b716e0507c0963510af5d276d1b900378df1cb630c5888551db3f939b333e75",
+      "purpose": "Cold-start wrapper over existing gate plus whole-module census,premise witnesses,6 actual Lean controls,and full --fresh kernel replay.",
+      "observed_verification": "Actual end-to-end portable command exit0;31 TheoremInfo proofs,45 constants,6/6 real controls,4 witness reports,and full --fresh kernel replay PASS.14 protocol tests pass each mode. Final actual rerun exit0 additionally audits all4 compiled witness/auditor declarations; no unused audit-module axiom can hide behind named witness reports.",
+      "limits": "Literal Main arithmetic only;not source-paper alignment or Math- closure."
+    },
+    {
+      "name": "PortableNonvacuityAndCensus",
+      "path": "tools/CBZNonvacuity.lean",
+      "sha256": "b9f29f231bb41ff6ffc896230c5c23b358cf2527ebd33a576d3c6d96a0ded49f",
+      "purpose": "Four finite-domain witnesses and exact-module Lean ConstantInfo census.",
+      "observed_verification": "Actual compile,census,witness axiom reports,named witness kernel,and6/6 actual controls PASS;all original45 constant axiom lists empty;witnesses only propext/Quot.sound.",
+      "limits": "Literal Main arithmetic only;not source-paper alignment or Math- closure."
+    },
+    {
+      "name": "PortableLeanGateSelftests",
+      "path": "tests/test_cbz_lean_check.py",
+      "sha256": "cabf2ba2f705b3b289482468f55de77e86a727a01f223ce47832ec8dd0ab5150",
+      "purpose": "Refuse forged counts,missing modules/targets,duplicate JSON/declarations,unused axioms,definition promotion and False/changed premises.",
+      "observed_verification": "14/14 tests pass normal andoptimized;red-feature failure preserved before implementation.",
+      "limits": "Literal Main arithmetic only;not source-paper alignment or Math- closure."
+    }
+  ],
+  "historical_one_off_scripts": [
+    "watch_math_budget.py",
+    "watch_math_cache_budget.py"
+  ],
+  "historical_script_scope": "Task-owned PID-tree watchers superseded by process-group cache runner; actual first reserve stop recorded,not a generalized process-management product.",
+  "provenance": "OpenAI/Codex,source-exposed;no human or provider-distinct review claimed.",
+  "portable_command": "python -B -S tools/cbz_lean_check.py (with pinned lake on PATH)",
+  "portable_receipt": "formal/.lake/cbz-evidence/receipt.json"
+}
