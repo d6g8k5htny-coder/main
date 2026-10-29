@@ -65,6 +65,7 @@ def bind_historical_receipt(receipt, manifest, artifact):
     return {'checked_commit': COMMIT, 'repository': 'd6g8k5htny-coder/main',
             'run_id': '40246431034', 'run_attempt': '1', 'receipt_sha256': RECEIPT}
 
+
 def historical_source_identity(root, expected_digest=MANIFEST):
     """Check exact frozen bytes only; never certify or execute historical code.
 
