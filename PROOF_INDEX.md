@@ -6,7 +6,7 @@
 
 Actual empty-kernel replays: specification901 owned/65,210 dependency closure; smooth222/55,236; C297131/38,531; determinant157/58,421. All indexed literal axiom reports are subsets of `propext`, `Classical.choice`, `Quot.sound`; real source/memory adverse controls passed. Closures overlap. Reproduction: [additional families](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md), [determinant](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md). The original package receipts and failures remain immutable; normalized receipts index observed execution rather than authenticate supplied text.
 
-**184 listed source/application/test obligations are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
+**200 listed source/application/test obligations are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
 
 Main/Math core literal rows:
 
@@ -576,9 +576,9 @@ Each exact statement, location, blocking mathematical boundary, attempts, isolat
 | Q-9005 | Proposed real-record artifact coverage | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9005) |
 | Q-9006 | Real-record current-source freshness | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9006) |
 
-## Additional archived boundaries awaiting catalog reconciliation
+## Additional adopted archived boundaries
 
-The 184-row catalog remains at its original cut. These 16 separately adopted, source-bound records are listed here; they have not yet been incorporated into the catalog. The Q-8429 correction supersedes the old catalog's erroneous source path and ambiguous factor.
+These 16 adopted, source-bound records are included in the 200-row catalog. The corrected Q-8429 source path and exact factor are incorporated in both the catalog and readable boundary.
 
 | ID | Statement | Status | Exact boundary |
 |---|---|---|---|

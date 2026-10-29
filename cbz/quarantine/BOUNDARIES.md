@@ -1,12 +1,12 @@
 # Adopted source-bound quarantines
 
-The following boundaries are terminal only at the listed source cuts. Historical source text is evidence, not governing procedural authority. No final semantic-completeness or CBZ claim is made.
+Terminal only at the listed source cuts. Historical source text is evidence, not governing procedural authority. The 200 rows cover the listed source claims; complete federation coverage is still being reconciled.
 
 ## Q-1001
 
 **SIDE24 coefficient enclosure c_{2,24}, c_{3,24} (SIDE24-COEFFICIENT-D23-20260924-v1), heading "Theorem" of coefficients/side24_v1/PROOF.md**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/side24-coefficient", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-proof/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/side24-coefficient","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-proof/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -18,7 +18,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -28,7 +28,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D2 Theorem R, bounded unrestricted short-lifetime remainder (LIFETIME-BOUNDED-REMAINDER-20260924-v1), heading "Theorem R"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lifetime-remainder", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-remainder/LIFETIME_REMAINDER.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lifetime-remainder","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-remainder/LIFETIME_REMAINDER.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -40,7 +40,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -50,7 +50,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D4 RN count interface (RN-COUNT-INTERFACE-20260924-v1; LANDING heading "Theorem N", the file carries displays (N1)-(N7))**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-count-interface", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-count-interface/RN_COUNT_INTERFACE.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-count-interface","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-count-interface/RN_COUNT_INTERFACE.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -62,7 +62,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -72,7 +72,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D4 Theorem A, fixed-remote mean measure (RN-FIXED-REMOTE-WINDOW-20260924-v1), heading "Theorem A"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-fixed-remote-window", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-fixed-remote-window","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -84,7 +84,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -94,7 +94,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 fixed-annulus height-window candidate (D5-FIXED-ANNULUS-STITCH-20260925-v1, PR22), heading "Candidate theorem"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-fixed-annulus-window", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-annulus-window/FIXED_ANNULUS_CANDIDATE.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/rn-fixed-annulus-window","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-annulus-window/FIXED_ANNULUS_CANDIDATE.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -106,7 +106,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -116,7 +116,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **P15 realized covers (P15-REALIZED-COVERS-20260924-v1; LANDING heading "Theorem P", the file carries Proposition P1 and Theorem P2 with displays (P1)-(P11))**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-realized-covers", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-realized-covers/P15_REALIZED_COVERS.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-realized-covers","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-realized-covers/P15_REALIZED_COVERS.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -128,7 +128,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -138,7 +138,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **P15 price boundary exact counterexample (P15-PRICE-BOUNDARY-20260924-v1), heading "Counterexample"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-price-boundary", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-boundary/P15_PRICE_BOUNDARY.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-price-boundary","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-boundary/P15_PRICE_BOUNDARY.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -150,7 +150,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -160,7 +160,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **P15 restricted transformed-price extension, Theorem T1 (P15-TRANSFORMED-PRICE-BUDGET-20260924-v1), heading "Theorem T1"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-price-budget-restricted", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-budget/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/price_budget_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-price-budget-restricted","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-budget/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/price_budget_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -172,7 +172,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -182,7 +182,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D6 Theorem F, P15 full transformed-price budget with sharp factor rho_star (P15-FULL-TRANSFORMED-PRICE-20260924-v1), heading "Theorem F"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-full-price", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/p15-full-price","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -194,7 +194,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -204,7 +204,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.uniform-matrix-cap-lifetime (D1 candidate, PROVED_REVIEWED, controlling false): parent UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1, Theorems A, B, C accepted at existential scope with the four reading-rule component nodes**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.uniform-matrix-cap-lifetime", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.uniform-matrix-cap-lifetime","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -216,7 +216,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -226,7 +226,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d1-component.marked-cylinder-cap (deterministic_support, PROVED_REVIEWED): MARKED-CYLINDER-CAP-20260924-v1 deterministic separating-cap theorem, sections 1-5 consumed**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d1-component.marked-cylinder-cap", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/marked-cylinder-cap/MARKED_CYLINDER_CAP_PROOF.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d1-component.marked-cylinder-cap","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/marked-cylinder-cap/MARKED_CYLINDER_CAP_PROOF.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -238,7 +238,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -248,7 +248,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.lifetime-remainder (D2 candidate, AUTHOR_SIDE_CANDIDATE, review_disposition ACCEPT by xAI/Grok, review_issue 67): Theorem R at its stated existential O(1)-remainder scope**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.lifetime-remainder", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-remainder/LIFETIME_REMAINDER.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.lifetime-remainder","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-remainder/LIFETIME_REMAINDER.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -260,7 +260,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -270,7 +270,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.side24-coefficient (D3 candidate, AUTHOR_SIDE_CANDIDATE, review_disposition ACCEPT by xAI/Grok, review_issue 65): coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.side24-coefficient", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-proof/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.side24-coefficient","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-proof/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -282,7 +282,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -292,7 +292,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.rn-count-interface (D4 candidate, AUTHOR_SIDE_CANDIDATE): probability-to-count interface; not an expected-count rate**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-count-interface", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-count-interface/RN_COUNT_INTERFACE.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-count-interface","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-count-interface/RN_COUNT_INTERFACE.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -304,7 +304,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -314,7 +314,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.rn-fixed-remote-window (D4 candidate, AUTHOR_SIDE_CANDIDATE, review_issue 76): cubic mean on fixed spatial exclusion and between-pin height window**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-fixed-remote-window", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-fixed-remote-window","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -326,7 +326,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -336,7 +336,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.fixed-remote (D4, COVERED_BY_CANDIDATE, fingerprint "dist>=rho and between-pin height"): covered by rn-fixed-remote-window candidate only**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.fixed-remote", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.fixed-remote","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -348,7 +348,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -358,7 +358,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.mesoscopic-scaled-annulus (D5, PROVED_REVIEWED at scope "D5-d with R >= B (covers the reviewed fixed annulus)", review_disposition ACCEPT_AT_STATED_SCOPE)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.mesoscopic-scaled-annulus", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.mesoscopic-scaled-annulus","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -370,7 +370,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -380,7 +380,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.pin-collision (D5, PROVED_REVIEWED at scope "D5-a, D5-b, D5-d", fingerprint "near +-e1/2 scaled pin sites")**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.pin-collision", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.pin-collision","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -392,7 +392,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -402,7 +402,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.intermediate-r-to-rho (D5, PROVED_REVIEWED at scope "D5-e (I3/I4, window I_r)", fingerprint "r<<|x|<<rho")**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.intermediate-r-to-rho", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.intermediate-r-to-rho","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -414,7 +414,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -424,7 +424,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.witness-collision (D5, OPEN_ACTIVE, review_disposition OPEN, catalog C6, fingerprint "eta->0 mutual witness separation"): the regional shrinking pin/witness-collision mechanism remains open; PROOF_INDEX open obligation**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.witness-collision", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.witness-collision","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -436,7 +436,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -446,7 +446,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.rn-mesoscopic-reduction (D5 candidate, AUTHOR_SIDE_REDUCTION, source external:Math-PR7): legacy author-side PR7 route (RN-MESOSCOPIC-ANNULUS-REDUCTION-20260925-v1), regionally superseded/nonblocking for the reviewed fixed-annulus subregion, unresolved outside it**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-mesoscopic-reduction", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-mesoscopic-reduction","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -458,7 +458,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -468,7 +468,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.p15-full-price (D6 candidate, AUTHOR_SIDE_CANDIDATE, review_issue 74; notes "review open" are stale relative to LANDING_CLAIMS REVIEWED_SCOPED, a non-controlling discrepancy recorded by the claims reader)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.p15-full-price", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.p15-full-price","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -480,7 +480,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -490,7 +490,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.p15-price-boundary (D6 candidate, REFUTED): unrestricted same-palette transformed-price extension is false**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.p15-price-boundary", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-boundary/P15_PRICE_BOUNDARY.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.p15-price-boundary","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-price-boundary/P15_PRICE_BOUNDARY.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -502,7 +502,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -512,7 +512,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.rn-fixed-annulus-window (D5 candidate, AUTHOR_SIDE_CANDIDATE, review_disposition ACCEPT by xAI/Grok, scientific_status_unchanged true): source-bound technical ACCEPT at the exact scoped theorem only**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-fixed-annulus-window", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-annulus-window/FIXED_ANNULUS_CANDIDATE.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-fixed-annulus-window","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-annulus-window/FIXED_ANNULUS_CANDIDATE.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -524,7 +524,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -534,7 +534,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH region math.rn-region.fixed-annulus-window (D5, COVERED_BY_CANDIDATE, review_disposition ACCEPT_AT_SCOPED_SOURCE): covered by math.rn-fixed-annulus-window only at its exact declared scope**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.fixed-annulus-window", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.rn-region.fixed-annulus-window","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -546,7 +546,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -556,7 +556,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH node math.d5-pin-neighborhood-first-moment (D5 candidate, PROVED_REVIEWED): D5-a..D5-f of RECONCILIATION.md section 2; existential constants; fixed T; compact marks with k >= k_- > 0; d = 2 (D5-RECONCILIATION-20260929-v2.1)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-pin-neighborhood-first-moment", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-pin-neighborhood-first-moment","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -568,7 +568,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -578,7 +578,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d5-component.punctured-pin-proof (proof, PROVED_REVIEWED, author_provider OpenAI): reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md (P2), not pinned here; review basis #111 (algebra ACCEPT, continuum HOLD) and the Anthropic continuum review (ACCEPT existential)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.punctured-pin-proof", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.punctured-pin-proof","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -590,7 +590,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -600,7 +600,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d5-component.collar-proof (proof, PROVED_REVIEWED, author_provider OpenAI): reviews/d5_local_collar_20260928/COLLAR_PROOF.md (C1), not pinned here**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.collar-proof", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.collar-proof","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -612,7 +612,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -622,7 +622,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d5-component.annulus-proof (proof, PROVED_REVIEWED, author_provider OpenAI; review basis xAI ACCEPT R1-R7): D5 all-height fixed-annulus bridge (D5-ALL-HEIGHT-ANNULUS-BRIDGE-20260925-v1, PR28); PROOF_INDEX reviewed scoped result**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.annulus-proof", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-annulus-bridge/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_annulus_bridge_20260925/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.annulus-proof","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-annulus-bridge/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/rn_annulus_bridge_20260925/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -634,7 +634,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -644,7 +644,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d5-component.intermediate-window-proof (proof, PROVED_REVIEWED, author_provider OpenAI): frontiers/intermediate_window_20260928/PROOF.md (OA-D5-INTERMEDIATE-WINDOW-20260928-v1, I3/I4/I5), not pinned here**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.intermediate-window-proof", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.intermediate-window-proof","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-reconciliation/RECONCILIATION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/d5_reconciliation_20260929/RECONCILIATION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -656,7 +656,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -666,7 +666,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **GRAPH reading-rule component math.d5-component.remote-window-proof (proof, PROVED_REVIEWED, author_provider OpenAI; review basis STATUS D4 main#76 external ACCEPT): the fixed-remote Theorem A consumed by the D5 tiling at rho = s_0**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.remote-window-proof", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/math.d5-component.remote-window-proof","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/rn-fixed-remote-window/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/remote_window_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -678,7 +678,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -688,7 +688,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D1 Theorem A (uniform selection candidate), parent UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1 display (1.1); PROOF_INDEX reviewed scoped result (STATUS.md ACCEPT, scoped; GRAPH node math.uniform-matrix-cap-lifetime)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-A", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-A","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -700,7 +700,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -710,7 +710,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D1 Theorem B (compact-mark density candidate), display (1.2) and the Section 11 coefficient c_{B,K}; PROOF_INDEX reviewed scoped result at existential scope**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-B", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-B","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -722,7 +722,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -732,7 +732,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D1 Theorem C (unrestricted finite-lifetime leading density candidate), display (1.3) and coefficient (15.2); PROOF_INDEX reviewed scoped result, leading term only**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-C", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D1-THM-C","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -744,7 +744,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -754,7 +754,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Planar direct elder-failure lower bound (E2), two-sided rate (E4) and compact-window density gap (E11) (frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md; PROOF_INDEX navigation refresh #116 C1; disposition line of the pinned bytes: AUTHOR-SIDE PROOF CANDIDATE; NONAUTHOR ANALYTIC REVIEW REQUIRED)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-ELDER-LOWER-DENSITY-GAP-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/elder-lower-density-gap/ELDER_LOWER_AND_DENSITY_GAP.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-ELDER-LOWER-DENSITY-GAP-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/elder-lower-density-gap/ELDER_LOWER_AND_DENSITY_GAP.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -766,7 +766,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -776,7 +776,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 two-scale addendum S6-S21 (D5-TWO-SCALE-20260925-v1, PR22; support dependency of rn-fixed-annulus-window; frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md, not pinned here); PROOF_INDEX reviewed scoped result**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/two-scale-s6-s21", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/two-scale-s6-s21","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -788,7 +788,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -798,7 +798,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Inner axial belt exponential conditional-gradient density bound (RN-INNER-AXIAL-DENSITY-20260925-v1, PR21; frontiers/axial_density_20260925/PROOF.md, not pinned here); PROOF_INDEX reviewed scoped result (density bound only)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/axial-density", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/axial_density_20260925/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/axial-density","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/axial_density_20260925/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -810,7 +810,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -820,7 +820,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Corrected fixed-transverse chart cubic conditional count bound (reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md, byte import of commit 32b80ee0; PR16; not pinned here); PROOF_INDEX reviewed scoped result**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/fixed-transverse-chart", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/fixed-transverse-chart","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -832,7 +832,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -842,7 +842,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 in every fixed dimension: Theorems P_d, C_d, I_d, G_d and Corollaries F_d, M_d (frontiers/d5_dimension_lift_20260929/PROOF.md, Math-#141); PROOF_INDEX reviewed scoped result (separate packet, not folded into the planar graph); erratum packet reviews/d5_dimension_lift_erratum_20261005 exists and was not read**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-DIMENSION-LIFT-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-dimension-lift/PROOF.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/d5_dimension_lift_20260929/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-DIMENSION-LIFT-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/d5-dimension-lift/PROOF.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/d5_dimension_lift_20260929/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -854,7 +854,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -864,7 +864,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 Fourier cutoff: Theorem F (count cap), Theorem W (window consequence), Proposition B (frontiers/c6_fourier_cutoff_20260929/PROOF.md, Math-#148); PROOF_INDEX reviewed scoped result; STATUS.md ACCEPT, scoped (C6 row)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-FOURIER-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-fourier-cutoff/PROOF.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_fourier_cutoff_20260929/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-FOURIER-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-fourier-cutoff/PROOF.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_fourier_cutoff_20260929/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -876,7 +876,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -886,7 +886,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 sharp Palm route: Theorem Q (factorial moments, every fixed dimension), Corollary Theta, Corollary P (frontiers/c6_palm_route_20260929/PROOF.md, Math-#145); PROOF_INDEX reviewed scoped result (separate packet, not folded; does not resolve math.rn-region.witness-collision)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-PALM-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-palm-route/PROOF.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_palm_route_20260929/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-PALM-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-palm-route/PROOF.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_palm_route_20260929/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -898,7 +898,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -908,7 +908,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 rare-cluster laws: Theorems O, C, S and the independent-replica limit (7.1), addendum (A1)-(A2) (frontiers/c6_rare_cluster_laws_20260929/PROOF.md, Math-#153); PROOF_INDEX reviewed scoped result (conditional packet; limiting cluster law unidentified)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-RARE-CLUSTER-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-rare-cluster/PROOF.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_rare_cluster_laws_20260929/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-RARE-CLUSTER-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/c6-rare-cluster/PROOF.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/c6_rare_cluster_laws_20260929/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -920,7 +920,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -930,7 +930,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Witness collisions in the fixed-remote height window: Theorems C-F and Corollary D (frontiers/remote_collision_20260928/PROOF.md, author Anthropic/Claude; P_eta reviewed ACCEPT in reviews/d5_offpin_second_moment_20260928, GRAPH component offpin-second-moment-review); consumed by the D5 reconciliation (D5-f lower bound via Corollary F-)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-REMOTE-COLLISION-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/remote-collision/PROOF.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/remote_collision_20260928/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-REMOTE-COLLISION-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/remote-collision/PROOF.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/remote_collision_20260928/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -942,7 +942,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -952,7 +952,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Correction to the cumulative transfer statement (D2), corrected cumulative theorem (reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md); PROOF_INDEX reviewed scoped result (this correction only; xAI ACCEPT in reviews/d2_cumulative_correction_20260925)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cumulative-transfer-correction", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/cumulative-transfer-correction/CUMULATIVE_TRANSFER_CORRECTION.md", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cumulative-transfer-correction","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/cumulative-transfer-correction/CUMULATIVE_TRANSFER_CORRECTION.md","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -964,7 +964,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -974,7 +974,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SIDE24 periodization first variation, P_3(L) = -L^2(10L^4-147L^2+315)/105, P_3(24) = -620813376/35 (#144): Math- frontiers/side24_periodization_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-SIDE24-PFV-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/side24_periodization_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-SIDE24-PFV-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/side24_periodization_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -986,7 +986,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -996,7 +996,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SIDE24 remainder |c_{d,24}/c_{d,ref} - 1 - P_d(24) e^{-288}| < 10^{-216} (#154): Math- coefficients/side24_remainder_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SIDE24-REMAINDER-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:coefficients/side24_remainder_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SIDE24-REMAINDER-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:coefficients/side24_remainder_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1008,7 +1008,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1018,7 +1018,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SIDE24 periodization remainder (#156): Math- frontiers/side24_periodization_remainder_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-SIDE24-PERIODIZATION-REMAINDER-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/side24_periodization_remainder_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-SIDE24-PERIODIZATION-REMAINDER-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/side24_periodization_remainder_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1030,7 +1030,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1040,7 +1040,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **contact angular tail (#35): Math- reviews/contact_angular_tail_20260925 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-CONTACT-ANGULAR-TAIL-20260925-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/contact_angular_tail_20260925"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-CONTACT-ANGULAR-TAIL-20260925-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/contact_angular_tail_20260925"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1052,7 +1052,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1062,7 +1062,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **pin micro covariance (#60): Math- reviews/pin_micro_covariance_20260926 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-PIN-MICRO-COV-20260926-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/pin_micro_covariance_20260926"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-PIN-MICRO-COV-20260926-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/pin_micro_covariance_20260926"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1074,7 +1074,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1084,7 +1084,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 microdisk (#82): Math- reviews/d5_microdisk_20260926 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-MICRODISK-20260926-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_microdisk_20260926"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-MICRODISK-20260926-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_microdisk_20260926"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1096,7 +1096,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1106,7 +1106,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 pin microdisk (#90): Math- reviews/d5_pin_microdisk_20260927 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D5-PIN-MICRODISK-20260927-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_pin_microdisk_20260927"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/D5-PIN-MICRODISK-20260927-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_pin_microdisk_20260927"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1118,7 +1118,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1128,7 +1128,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Bargmann-Fock six-pin Hessian certificate (+SCALAR) (#89): Math- certificates/bf_six_pin_hessian_20260926 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-BF-SIX-PIN-HESSIAN-20260926-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:certificates/bf_six_pin_hessian_20260926"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-BF-SIX-PIN-HESSIAN-20260926-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:certificates/bf_six_pin_hessian_20260926"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1140,7 +1140,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1150,7 +1150,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **contact kernel substitute (#80): Math- reviews/contact_kernel_substitute_20260926 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-CONTACT-KERNEL-SUBSTITUTE-20260926-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/contact_kernel_substitute_20260926"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-CONTACT-KERNEL-SUBSTITUTE-20260926-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/contact_kernel_substitute_20260926"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1162,7 +1162,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1172,7 +1172,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 short edge (#103): Math- reviews/d5_short_edge_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-SHORT-EDGE-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_short_edge_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-SHORT-EDGE-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_short_edge_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1184,7 +1184,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1194,7 +1194,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 pin disk, all directions (#104): Math- reviews/d5_pin_disk_all_directions_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-PIN-DISK-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_pin_disk_all_directions_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D5-PIN-DISK-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/d5_pin_disk_all_directions_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1206,7 +1206,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1216,7 +1216,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D5 remote singleton law (#115): Math- frontiers/remote_singleton_law_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-REMOTE-SINGLETON-LAW-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_singleton_law_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-D5-REMOTE-SINGLETON-LAW-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_singleton_law_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1228,7 +1228,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1238,7 +1238,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **remote height decoupling (#120): Math- frontiers/remote_height_decoupling_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-HEIGHT-DECOUPLING-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_height_decoupling_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-HEIGHT-DECOUPLING-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_height_decoupling_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1250,7 +1250,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1260,7 +1260,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **window multiplicity law, local (#116 C2; id abbreviated as listed by the navigation refresh): Math- frontiers/window_multiplicity_laws_20260928 (C2) at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-LOCAL", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-LOCAL","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1272,7 +1272,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1282,7 +1282,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **window multiplicity law, remote (#116 C3; id abbreviated as listed): Math- frontiers/window_multiplicity_laws_20260928 (C3) at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-REMOTE", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-REMOTE","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1294,7 +1294,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1304,7 +1304,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **window multiplicity law, distance (#116 C4; id abbreviated as listed): Math- frontiers/window_multiplicity_laws_20260928 (C4) at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-DISTANCE", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-DISTANCE","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1316,7 +1316,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1326,7 +1326,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **window multiplicity law, height (#116 C5; id abbreviated as listed): Math- frontiers/window_multiplicity_laws_20260928 (C5) at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-HEIGHT", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-WINDOW-MULTIPLICITY-HEIGHT","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/window_multiplicity_laws_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1338,7 +1338,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1348,7 +1348,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **remote inverse separation (#128): Math- frontiers/remote_inverse_separation_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-INVERSE-SEPARATION-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_inverse_separation_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-INVERSE-SEPARATION-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_inverse_separation_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1360,7 +1360,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1370,7 +1370,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder lower bound 1 - p_r >= c r^3 in every fixed d (#125): Math- frontiers/elder_dimension_lift_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-ELDER-DIMENSION-LIFT-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_dimension_lift_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-ELDER-DIMENSION-LIFT-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_dimension_lift_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1382,7 +1382,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1392,7 +1392,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder lower bound, all d (#149): Math- frontiers/elder_lower_all_d_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-ELDER-LOWER-ALL-D-20260929-v1.1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_lower_all_d_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-ELDER-LOWER-ALL-D-20260929-v1.1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_lower_all_d_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1404,7 +1404,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1414,7 +1414,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 factorial moment, Lemma M and cap Psi (#140, v1.3): Math- frontiers/c6_factorial_moment_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-FACTORIAL-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_factorial_moment_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-FACTORIAL-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_factorial_moment_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1426,7 +1426,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1436,7 +1436,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 sharpened (#142, v1.2): Math- frontiers/c6_sharpened_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-SHARPENED-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_sharpened_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C6-SHARPENED-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_sharpened_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1448,7 +1448,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1458,7 +1458,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 count cap boundary (#146): Math- frontiers/c6_count_cap_boundary_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-COUNT-CAP-BOUNDARY-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_count_cap_boundary_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C6-COUNT-CAP-BOUNDARY-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_count_cap_boundary_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1470,7 +1470,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1480,7 +1480,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **local cluster tightness (#161): Math- frontiers/local_cluster_tightness_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-LOCAL-CLUSTER-TIGHTNESS-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/local_cluster_tightness_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-LOCAL-CLUSTER-TIGHTNESS-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/local_cluster_tightness_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1492,7 +1492,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1502,7 +1502,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **remote mixed inverse (#132): Math- frontiers/remote_mixed_inverse_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-MIXED-INVERSE-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_mixed_inverse_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-REMOTE-MIXED-INVERSE-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remote_mixed_inverse_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1514,7 +1514,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1524,7 +1524,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Theorem U: the C7 unrestricted O(ell^{2/3}) rate is false (#133): Math- frontiers/unrestricted_selection_difference_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D1-UNRESTRICTED-DIFFERENCE-20260929-v3", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/unrestricted_selection_difference_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-D1-UNRESTRICTED-DIFFERENCE-20260929-v3","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/unrestricted_selection_difference_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1536,7 +1536,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1546,7 +1546,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C7 total bounded, Theorem K; read with ERRATUM_NORMALIZED_FORM.md and RATE_READING.md per the 2026-10-07 guidance (#150): Math- frontiers/c7_total_bounded_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C7-TOTAL-BOUNDED-20260929-v1.2", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c7_total_bounded_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/CL-C7-TOTAL-BOUNDED-20260929-v1.2","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c7_total_bounded_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1558,7 +1558,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1568,7 +1568,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C7 zero-gap limit, Theorem Z (#155): Math- frontiers/c7_zero_gap_limit_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C7-ZERO-GAP-LIMIT-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c7_zero_gap_limit_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-C7-ZERO-GAP-LIMIT-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c7_zero_gap_limit_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1580,7 +1580,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1590,7 +1590,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SARD-G robust charts (#135; STATUS.md ACCEPT, scoped, qualitative successor; A1/A6 original formulation remains AMEND): Math- frontiers/sard_g_robust_charts_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SARD-ROBUST-CHARTS-20260929-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_robust_charts_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SARD-ROBUST-CHARTS-20260929-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_robust_charts_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1602,7 +1602,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1612,7 +1612,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SARD-G A2 fixed frame (#137): Math- frontiers/sard_g_a2_parameter_20260929/v2/A2_FIXED_FRAME.md at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SARD-A2-FIXED-FRAME-20260929-v2", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_a2_parameter_20260929/v2/A2_FIXED_FRAME.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-SARD-A2-FIXED-FRAME-20260929-v2","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_a2_parameter_20260929/v2/A2_FIXED_FRAME.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1624,7 +1624,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1634,7 +1634,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SARD-G A2 regularity (reading rule #139 e947ade5): Math- frontiers/sard_g_a2_regularity_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:sard_g_a2_regularity_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_a2_regularity_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:sard_g_a2_regularity_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_a2_regularity_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1646,7 +1646,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1656,7 +1656,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **SARD-G pinned transfer (reading rule #139 e947ade5): Math- frontiers/sard_g_pinned_transfer_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:sard_g_pinned_transfer_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_pinned_transfer_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:sard_g_pinned_transfer_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/sard_g_pinned_transfer_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1668,7 +1668,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1678,7 +1678,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **P15 bipartite overlap (#118; prize reconnaissance, HOLD): Math- frontiers/p15_bipartite_overlap_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-P15-BIPARTITE-OVERLAP-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/p15_bipartite_overlap_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-P15-BIPARTITE-OVERLAP-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/p15_bipartite_overlap_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1690,7 +1690,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1700,7 +1700,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **P15 tail load (#122; prize reconnaissance, HOLD): Math- frontiers/p15_tail_load_20260928 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-P15-TAIL-LOAD-20260928-v1", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/p15_tail_load_20260928"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/OA-P15-TAIL-LOAD-20260928-v1","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/p15_tail_load_20260928"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1712,7 +1712,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1722,7 +1722,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar cubic cluster (#158 aa288385): Math- frontiers/planar_cubic_cluster_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_cubic_cluster_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_cubic_cluster_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_cubic_cluster_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_cubic_cluster_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1734,7 +1734,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1744,7 +1744,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 marked Fourier (#157 2479a7c2): Math- frontiers/c6_marked_fourier_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c6_marked_fourier_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_marked_fourier_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c6_marked_fourier_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_marked_fourier_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1756,7 +1756,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1766,7 +1766,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C6 cluster law (#159 98fdb549): Math- frontiers/c6_cluster_law_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c6_cluster_law_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_cluster_law_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c6_cluster_law_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c6_cluster_law_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1778,7 +1778,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1788,7 +1788,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **cluster exponential weight (#164 7d0c89a5): Math- frontiers/cluster_exponential_weight_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cluster_exponential_weight_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cluster_exponential_weight_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cluster_exponential_weight_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cluster_exponential_weight_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1800,7 +1800,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1810,7 +1810,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **spectral cluster closure (#162 358f2562): Math- frontiers/spectral_cluster_closure_20260929 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:spectral_cluster_closure_20260929", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/spectral_cluster_closure_20260929"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:spectral_cluster_closure_20260929","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/spectral_cluster_closure_20260929"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1822,7 +1822,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1832,7 +1832,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **lifetime moment boundary (#177 dda8991f): Math- frontiers/lifetime_moment_boundary_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:lifetime_moment_boundary_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/lifetime_moment_boundary_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:lifetime_moment_boundary_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/lifetime_moment_boundary_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1844,7 +1844,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1854,7 +1854,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **radial rate (#176 7ca3eb00): Math- frontiers/radial_rate_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:radial_rate_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/radial_rate_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:radial_rate_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/radial_rate_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1866,7 +1866,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1876,7 +1876,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **extreme cluster sampling (#169 f430fdec): Math- frontiers/extreme_cluster_sampling_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:extreme_cluster_sampling_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/extreme_cluster_sampling_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:extreme_cluster_sampling_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/extreme_cluster_sampling_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1888,7 +1888,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1898,7 +1898,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **fixed-r inverse lifetime (#182 2a10ed34): Math- frontiers/fixed_r_inverse_lifetime_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:fixed_r_inverse_lifetime_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/fixed_r_inverse_lifetime_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:fixed_r_inverse_lifetime_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/fixed_r_inverse_lifetime_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1910,7 +1910,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1920,7 +1920,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **local elder geometry (#170 fa2e9909): Math- frontiers/local_elder_geometry_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:local_elder_geometry_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/local_elder_geometry_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:local_elder_geometry_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/local_elder_geometry_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1932,7 +1932,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1942,7 +1942,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **concave fibre elder (#175 eb659bd3): Math- frontiers/concave_fibre_elder_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:concave_fibre_elder_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/concave_fibre_elder_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:concave_fibre_elder_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/concave_fibre_elder_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1954,7 +1954,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1964,7 +1964,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder partner extremes (#181 443212fb): Math- frontiers/elder_partner_extremes_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_partner_extremes_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_partner_extremes_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_partner_extremes_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_partner_extremes_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1976,7 +1976,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -1986,7 +1986,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **remainder vanishing (#191 95565474): Math- frontiers/remainder_vanishing_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:remainder_vanishing_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remainder_vanishing_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:remainder_vanishing_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remainder_vanishing_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -1998,7 +1998,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2008,7 +2008,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder selected extremes (#179 6e5f36d7): Math- frontiers/elder_selected_extremes_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_selected_extremes_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_selected_extremes_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_selected_extremes_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_selected_extremes_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2020,7 +2020,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2030,7 +2030,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **remainder rate (#198 124c37d9): Math- frontiers/remainder_rate_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:remainder_rate_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remainder_rate_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:remainder_rate_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/remainder_rate_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2042,7 +2042,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2052,7 +2052,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **far elder rate (#187 c2f1270d): Math- frontiers/far_elder_rate_20260930 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:far_elder_rate_20260930", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/far_elder_rate_20260930"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:far_elder_rate_20260930","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/far_elder_rate_20260930"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2064,7 +2064,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2074,7 +2074,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **short bar endpoint law (#221 f166ef52): Math- frontiers/short_bar_endpoint_law_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:short_bar_endpoint_law_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/short_bar_endpoint_law_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:short_bar_endpoint_law_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/short_bar_endpoint_law_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2086,7 +2086,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2096,7 +2096,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **C2 finite jet transfer (#232 7fe06b01): Math- frontiers/c2_finite_jet_transfer_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c2_finite_jet_transfer_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c2_finite_jet_transfer_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:c2_finite_jet_transfer_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/c2_finite_jet_transfer_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2108,7 +2108,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2118,7 +2118,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **cusp second order (#207 566b1a14): Math- frontiers/cusp_second_order_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cusp_second_order_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cusp_second_order_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cusp_second_order_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cusp_second_order_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2130,7 +2130,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2140,7 +2140,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **candidate third order (#218 fb6ee97b): Math- frontiers/candidate_third_order_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:candidate_third_order_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/candidate_third_order_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:candidate_third_order_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/candidate_third_order_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2152,7 +2152,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2162,7 +2162,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder third order (#220 0d797780): Math- frontiers/elder_third_order_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_third_order_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_third_order_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_third_order_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_third_order_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2174,7 +2174,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2184,7 +2184,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **third order rate (#229 6f74f7a7): Math- frontiers/third_order_rate_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:third_order_rate_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/third_order_rate_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:third_order_rate_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/third_order_rate_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2196,7 +2196,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2206,7 +2206,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **elder cusp parity (#240 7636cae5): Math- frontiers/elder_cusp_parity_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_cusp_parity_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_cusp_parity_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:elder_cusp_parity_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/elder_cusp_parity_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2218,7 +2218,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2228,7 +2228,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **separated fold multiplicity (#239 240a9bfa): Math- frontiers/separated_fold_multiplicity_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:separated_fold_multiplicity_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/separated_fold_multiplicity_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:separated_fold_multiplicity_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/separated_fold_multiplicity_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2240,7 +2240,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2250,7 +2250,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **subpin collision (#245 2d8616ef): Math- frontiers/subpin_collision_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:subpin_collision_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/subpin_collision_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:subpin_collision_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/subpin_collision_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2262,7 +2262,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2272,7 +2272,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **soft rejected pairs (#242 54c6759e): Math- frontiers/soft_rejected_pairs_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_rejected_pairs_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_rejected_pairs_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_rejected_pairs_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_rejected_pairs_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2284,7 +2284,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2294,7 +2294,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **soft fold limit (#243 fa8b0d21): Math- frontiers/soft_fold_limit_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_fold_limit_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_fold_limit_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_fold_limit_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_fold_limit_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2306,7 +2306,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2316,7 +2316,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **soft closed form (#244 07320089): Math- frontiers/soft_closed_form_20261002 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_closed_form_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_closed_form_20261002"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:soft_closed_form_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/soft_closed_form_20261002"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2328,7 +2328,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2338,7 +2338,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **cusp torus transfer (3 Oct supplement): Math- frontiers/cusp_torus_transfer_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cusp_torus_transfer_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cusp_torus_transfer_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:cusp_torus_transfer_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/cusp_torus_transfer_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2350,7 +2350,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2360,7 +2360,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **moving remote collision (3 Oct supplement): Math- frontiers/moving_remote_collision_20261003 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:moving_remote_collision_20261003", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/moving_remote_collision_20261003"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:moving_remote_collision_20261003","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/moving_remote_collision_20261003"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2372,7 +2372,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2382,7 +2382,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **ordinary short bar occurrence (3 Oct supplement): Math- frontiers/ordinary_short_bar_occurrence_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:ordinary_short_bar_occurrence_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/ordinary_short_bar_occurrence_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:ordinary_short_bar_occurrence_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/ordinary_short_bar_occurrence_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2394,7 +2394,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2404,7 +2404,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **replacement bar occurrence (3 Oct supplement): Math- frontiers/replacement_bar_occurrence_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:replacement_bar_occurrence_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/replacement_bar_occurrence_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:replacement_bar_occurrence_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/replacement_bar_occurrence_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2416,7 +2416,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2426,7 +2426,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **strict unique replacement coefficient (3 Oct supplement): Math- frontiers/strict_unique_replacement_coefficient_20261003 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:strict_unique_replacement_coefficient_20261003", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/strict_unique_replacement_coefficient_20261003"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:strict_unique_replacement_coefficient_20261003","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/strict_unique_replacement_coefficient_20261003"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2438,7 +2438,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2448,7 +2448,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **unique replacement bar intensity (3 Oct supplement): Math- frontiers/unique_replacement_bar_intensity_20261001 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:unique_replacement_bar_intensity_20261001", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/unique_replacement_bar_intensity_20261001"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:unique_replacement_bar_intensity_20261001","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/unique_replacement_bar_intensity_20261001"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2460,7 +2460,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2470,7 +2470,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar rejected endpoint margin A4 (3 Oct supplement, nested): Math- frontiers/planar_rejected_endpoint_margin_20261003/A4 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_rejected_endpoint_margin_20261003/A4", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_rejected_endpoint_margin_20261003/A4"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_rejected_endpoint_margin_20261003/A4","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_rejected_endpoint_margin_20261003/A4"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2482,7 +2482,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2492,7 +2492,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C91 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C91 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C91", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C91"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C91","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C91"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2504,7 +2504,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2514,7 +2514,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C92 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C92 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C92", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C92"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C92","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C92"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2526,7 +2526,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2536,7 +2536,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C93 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C93 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C93", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C93"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C93","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C93"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2548,7 +2548,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2558,7 +2558,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C94 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C94 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C94", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C94"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C94","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C94"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2570,7 +2570,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2580,7 +2580,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C95 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C95 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C95", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C95"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C95","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C95"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2592,7 +2592,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2602,7 +2602,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C96 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C96 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C96", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C96"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C96","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C96"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2614,7 +2614,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2624,7 +2624,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C97 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C97 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C97", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C97"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C97","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C97"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2636,7 +2636,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2646,7 +2646,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C98 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C98 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C98", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C98"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C98","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C98"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2658,7 +2658,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2668,7 +2668,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C99 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C99 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C99", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C99"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C99","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C99"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2680,7 +2680,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2690,7 +2690,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C101 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C101 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C101", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C101"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C101","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C101"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2702,7 +2702,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2712,7 +2712,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C102 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C102 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C102", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C102"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C102","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C102"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2724,7 +2724,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2734,7 +2734,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C103 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C103 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C103", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C103"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C103","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C103"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2746,7 +2746,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2756,7 +2756,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **planar soft layer chain C124 (3 Oct supplement, nested): Math- frontiers/planar_soft_layer_chain_20261003/C124 at 6c020d6a; listed by PROOF_INDEX (navigation refresh 26-29 Sep 2026 / 2 Oct reachability inventory / 3 Oct supplement); statement not extracted**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C124", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C124"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/packet:planar_soft_layer_chain_20261003/C124","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/planar_soft_layer_chain_20261003/C124"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2768,7 +2768,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2778,7 +2778,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **D0 historical RN-UNIF obligations recorded in GRAPH.json: hist.ENV-RESCOV, hist.ALLCELL-FDZ-Q4, hist.LOGQ-TAIL, hist.SYM-Fw-jet, hist.OBL-H5-JETMOD (OPEN_HISTORICAL), hist.CH-LIFT, hist.Piece-2-annulus (OPEN_ACTIVE), carriers hist.rnu_env.py / hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip / hist.allcell_fdz_enclosures.json (BLOCKED_ABSENT), hist.lemma_closed FALSE; PROOF_INDEX "Open obligations without a complete proof yet"**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/hist.D0-RN-UNIF-historical-predicates", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json", "d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/hist.D0-RN-UNIF-historical-predicates","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/downstream-graph/GRAPH.json","d6g8k5htny-coder/Math-@6c020d6a72936632f2055122e71a7818a4ff497e:frontiers/downstream_gate_20260925/GRAPH.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2790,7 +2790,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2800,7 +2800,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- companions/d2_moment_bridge_20261006 (Lean companion compiled against formal/ via `lake env lean --root`, same toolchain and Mathlib; NOT in formal/manifest.json): 2 definitions + 16 theorems (D2MomentBridge: Bochner moments, Delta = integral of the cubic residual squared, Delta = 0 iff a.e. X = 0 or X^2 = m4/m2, strictness from two atoms); author OpenAI GPT-6 Astra Pro, 2026-10-06**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_moment_bridge_20261006", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_moment_bridge_20261006"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_moment_bridge_20261006","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_moment_bridge_20261006"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2812,7 +2812,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2822,7 +2822,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- companions/d2_square_schur_20261006 (Lean companion compiled against formal/ via `lake env lean --root`, same toolchain and Mathlib; NOT in formal/manifest.json): 4 theorems (D2SquareSchur: weighted square identity and lower bound, upper-moment-free Schur lower bounds min(m4 - m2^2, 2 m2^2) and min(g0, 2 s0^2)) plus Contract.lean exact-type examples; author OpenAI GPT-6 Astra Pro, 2026-10-06**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_square_schur_20261006", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_square_schur_20261006"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_square_schur_20261006","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_square_schur_20261006"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2834,7 +2834,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2844,7 +2844,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- companions/d2_atom_integral_20261006 (Lean companion compiled against formal/ via `lake env lean --root`, same toolchain and Mathlib; NOT in formal/manifest.json): 6 theorems (D2AtomIntegral: two-event and two-radius integral lower bounds, second-moment, fourth-gap, residual-moment and Schur floors from radius masses) plus Contract.lean; author OpenAI GPT-6 Astra Pro, 2026-10-06**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_atom_integral_20261006", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_atom_integral_20261006"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-companion-d2_atom_integral_20261006","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:companions/d2_atom_integral_20261006"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2856,7 +2856,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2866,7 +2866,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- frontiers/cap_first_exit_lean_20261002 (CAP-FIRST-EXIT-LEAN-20261002-v1, v2.6 at commit 4013764): own lake package cap_first_exit, Lean v4.34.1 + Mathlib d13f23b7, CapFirstExit.lean 326607 B, 152 declarations (138 theorems, 13 defs, 1 structure CapHyp), sorry count 0, allowed axioms propext/Classical.choice/Quot.sound; MANIFEST mathematical_acceptance false, alignment_review NOT_CLAIMED; author Anthropic/Claude; pins_on_main: SP review (a653dbc7) and MARKED_CYLINDER_CAP_PROOF.md (0633aca3)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-frontier-cap_first_exit_lean_20261002", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/marked-cylinder-cap/MARKED_CYLINDER_CAP_PROOF.md", "d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-frontier-cap_first_exit_lean_20261002","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/marked-cylinder-cap/MARKED_CYLINDER_CAP_PROOF.md","d6g8k5htny-coder/Math-@c39164254ad1529ed49543743598d5dcb24bab98:imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2878,7 +2878,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2888,7 +2888,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- reviews/w3_side24_source_proposal_20261008/W3Scratch (D2SchurLinks.lean, Side24Law.lean, Side24Poisson.lean; about 101 declarations): unregistered, unreviewed, source-only proposal (option B of main#229 6050818585); NOT part of ResearchFormalCoreR1, NO lakefile, built by NO workflow; author Grok Bot agent 13, 2026-10-07; one Grok-Bot-on-Grok-Bot reader verdict (AMEND README/comments only), credit 0**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-w3scratch-side24-proposal", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/w3_side24_source_proposal_20261008/W3Scratch"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/lean:math-w3scratch-side24-proposal","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:reviews/w3_side24_source_proposal_20261008/W3Scratch"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -2900,7 +2900,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2922,7 +2922,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2944,7 +2944,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2966,7 +2966,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -2988,7 +2988,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3010,7 +3010,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3032,7 +3032,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3054,7 +3054,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3076,7 +3076,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3098,7 +3098,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3120,7 +3120,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3130,7 +3130,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- coefficients/side24_v1/coefficient.py (+ test_coefficient.py, ENCLOSURE.json): outward rational enclosure of the SIDE24 coefficient c_{d,24} of eq. (15.2), d = 2, 3, SCALE 10^80, EPS 10^-108, Stirling remainder (DLMF 5.11); object SIDE24-COEFFICIENT-D23-20260924-v1, scientific_acceptance false; byte-pinned into main formal/sources/side24_v1 at Math-@9d7b6802**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cert:math-side24_v1-coefficient.py", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-enclosure/ENCLOSURE.json", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/ENCLOSURE.json"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cert:math-side24_v1-coefficient.py","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/side24-enclosure/ENCLOSURE.json","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:coefficients/side24_v1/ENCLOSURE.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3142,7 +3142,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3152,7 +3152,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Math- frontiers/full_price_20260924/full_price.py (+ ASCII_3E_MINUS_2.md): exact Fraction procedure behind the rho_star enclosure (F3) and the Section 6 rational certificate chain; also frontiers/price_budget_20260924/price_budget.py and three_fronts_20260924/frontier_math.py (finite controls; prize reconnaissance, HOLD)**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cert:math-full_price-full_price.py", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md", "d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/REGISTER.json#claims/cert:math-full_price-full_price.py","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statements_20261010/sources/p15-full-price/PROOF.md","d6g8k5htny-coder/Math-@760340e921ac4ceda296b8118da936f1133e956e:frontiers/full_price_20260924/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3164,7 +3164,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Depends on the literal missing model/analytic/formalization content; source-specific historical next_step is retained as evidence only, with obsolete procedural holds removed from current authority. This is dormant until deliberately reopened.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3186,7 +3186,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3208,7 +3208,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3230,7 +3230,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3252,7 +3252,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3274,7 +3274,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3296,7 +3296,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3318,7 +3318,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3340,7 +3340,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3362,7 +3362,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3384,7 +3384,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3406,7 +3406,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3428,7 +3428,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3450,7 +3450,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3472,7 +3472,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3494,7 +3494,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3516,7 +3516,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3538,7 +3538,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3560,7 +3560,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3582,7 +3582,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3604,7 +3604,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: Formalize the exact stated claim and its actual-model dependencies, retaining all hypotheses and the source nonclaims; large for analytic/model claims, deliberately dormant.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3614,7 +3614,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Determinant successor all-constant qualification and parent applications**
 
-- **location**: ["d6g8k5htny-coder/Math-@74565f013575b7b05ecfc4034cd5d638ee355353:frontiers/determinant_moment_20261025/SCOPE.md", "d6g8k5htny-coder/Math-@74565f013575b7b05ecfc4034cd5d638ee355353:frontiers/determinant_moment_20261025/QUARANTINE.json"]
+- **location**: ["d6g8k5htny-coder/Math-@74565f013575b7b05ecfc4034cd5d638ee355353:frontiers/determinant_moment_20261025/SCOPE.md","d6g8k5htny-coder/Math-@74565f013575b7b05ecfc4034cd5d638ee355353:frontiers/determinant_moment_20261025/QUARANTINE.json"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3622,11 +3622,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The missing parent mathematics is the geometric Palm/critical-point and field-event identification, good-event coverage and the GT5/P0.2/lifetime/persistence joins. A generic endpoint theorem, however fully kernel checked, does not establish those actual geometric applications.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3636,7 +3636,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Actual Fourier endpoint estimates versus geometric Palm and bar applications**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/source_derivative_gaussian_20261025/SCOPE.md", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/source_derivative_gaussian_20261025/FIELD_CONDITIONING.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/source_derivative_gaussian_20261025/SCOPE.md","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/source_derivative_gaussian_20261025/FIELD_CONDITIONING.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3644,11 +3644,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The remaining missing mathematics is whole-field geometric Kac–Rice/Palm identification, Morse/elder/counting and the parent good-event/GT5 implications, not a finite-dimensional Gaussian parameter bound disguised as an assumed conclusion.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3666,11 +3666,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The smooth sample-carrier conclusion alone does not supply the geometric event/count/Palm and persistence correspondences required by lifetime applications. Exact literal module qualification is being completed separately; no theorem-false finding is made here.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3688,11 +3688,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: Actual source-field realization is insufficient for the missing Morse, Kac–Rice/Palm, measurable bar-counting and elder/persistence identification arguments. Historical source/kernel evidence is retained rather than converted into parent closure.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3702,7 +3702,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Compact Morse ordinary-H0 interval composition: conventional proof boundary**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/compact_morse_elder_adapter_20261018/README.md", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/compact_morse_elder_adapter_20261018/PROOF.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/compact_morse_elder_adapter_20261018/README.md","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/compact_morse_elder_adapter_20261018/PROOF.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3710,11 +3710,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: A literal formal proof of the local Morse/compact quotient/path-attainment composition and its ordinary-H0 consumer is absent; stochastic application additionally needs actual-law Morse admission and counting/measurability correspondences.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3724,7 +3724,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Regular closed-superlevel point basis versus critical boundary and full H0 adapter**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/regular_superlevel_geometry_20261020/README.md", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/regular_superlevel_geometry_20261020/SOURCE_SCOPE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/regular_superlevel_geometry_20261020/README.md","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:frontiers/regular_superlevel_geometry_20261020/SOURCE_SCOPE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3732,11 +3732,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The missing full application needs critical-boundary Morse geometry, quotient transport and ordinary-H0/bar counting/elder arguments. Literal consumer/kernel/axiom/adverse qualification is being completed separately and must be promoted only on actual evidence.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3754,11 +3754,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The bridge from this literal topological scaffolding to actual source-field finite bars needs independent geometric/Morse, canonical pairing, measurability and counting arguments. Literal theorem qualification alone would not discharge those model bridges.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3776,11 +3776,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The four conventional proofs are not kernel formalizations. Literal geometric scaffolding retains its analytic chart/torus/canonical Morse/stochastic/all-bar joins; no source-adoption or source-identity operation supplies the missing formal and actual-model correspondences.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3790,7 +3790,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Specification-interface parent claims and countermodels**
 
-- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statement_proofs_20261011/README.md", "d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statement_proofs_20261011/SCOPE.md"]
+- **location**: ["d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statement_proofs_20261011/README.md","d6g8k5htny-coder/Math-@8151f592918a845bf19eb8eafaf8444540a32734:specifications/lean_statement_proofs_20261011/SCOPE.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
@@ -3798,11 +3798,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: An actual source-law/interface identification and the missing counting/density/regularity hypotheses must be proved. Universal interface conclusions contradicted by admitted countermodels cannot be closed by proving harder arithmetic or by adding hidden premises; a genuinely new restricted theorem would need explicit scope rather than silently changing the present statement.
 
-- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Root has actual additional formal qualification in progress; this proposal awards no execution pass.
+- **attempted**: Exact preserved source scopes and named module statements were read; source bindings below preserve the actual claims. Existing historical executions/reviews remain evidence at their original scopes. Separately indexed literal kernel declarations have actual execution evidence; this quarantine awards no kernel pass to the missing source/model application.
 
 - **resumption_cost**: Formalization/actual-model bridges vary by package, from bounded literal execution qualification to substantial geometric/Palm/counting theory. Dormant until explicitly reopened; current bounded execution tasks are listed as closable rather than mathematically impossible.
 
-- **isolation**: The CLOSED proof domain is only Math-/formal/ResearchFormalCoreR1 and main/formal/UniversalLaw at their admitted cuts. Its literal import graph has no import of this region (see import-boundary.json). This record excludes mathematical promotion from this region; engineering/source navigation and diagnostic uses remain outside that mathematical admission. Root must adopt this catalog and the active/dormant verification contract before this proposal becomes a terminal quarantine.
+- **isolation**: The admitted proof domain is exactly the context-bound literal declarations in cbz/evidence/kernel/all-closed-declarations.json at their checked cuts. No unproved assertion in this region is admitted as a proof dependency. Interface definitions may occur in conditional theorem statements without constructing or assuming the quarantined model bridge. This row is adopted as dormant, owner none, maintenance zero; diagnostic/source navigation is not mathematical admission. import-boundary.json is historical evidence for the original two packages, not a current six-package import certificate.
 
 - **owner**: none
 
@@ -3856,11 +3856,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Fold isolation, near-diagonal counts and covariance obstruction (planar finite Fourier fields)**
 
-- **location**: main PR #429, head 16764aab8ce7b74327276ac4be619f2d3e4ed4af (refs/pull/429/head); 83 new files under experiments/universality/fold_isolation_diagonal/. If #429 is integrated, the location becomes that path on main.; durable archive tag cbz-quarantine-q-8429
+- **location**: ["d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/QUANTITATIVE_FOLD_ISOLATION_PROPOSAL.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/UNIFORM_LOCAL_NORM_DIAGONAL_PROPOSAL.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/JET_NONDEGENERACY_FACTORIZATION_OBSTRUCTION.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/FINITE_FOURIER_CRITICAL_COUNT_DIAGONAL_ROUTE.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/COALESCING_CONTACT_CALCULATION.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/README.md","d6g8k5htny-coder/main@16764aab8ce7b74327276ac4be619f2d3e4ed4af:experiments/universality/fold_isolation_diagonal/AUTHOR_ALIGNMENT_ADDENDUM.md"]
 
 - **layer_a_status**: A7: exact literal source/evidence only; no kernel closure or broader mathematical conclusion is admitted by this record. A1/A2/A3 are not certified by this documentation.
 
-- **exact_boundary**: Claimed and paper-reviewed, for planar finite Fourier Gaussian fields under the displayed normalization, physical twelfth moment, mark and radius assumptions: (1) arbitrary-angle fold isolation; (2) an almost-sure finite critical-point count; (3) for a growing family, ordered distinct short maximum-saddle candidates are bounded by "C16^4 K^8(1+L)^2 exp(-c/eta)" (verbatim from the PR body; read the bound and its constant from PROOF.md at this head); (4) these upper moments plus a uniform one-contact floor do not give a nonzero Poisson limit: epsilon = N^-12 gives an empty candidate limit, and positive-mean preservation needs a separate, possibly smaller existence diagonal. Not established: any kernel proof; anything beyond the displayed hypotheses.
+- **exact_boundary**: Claimed and paper-reviewed, for planar finite Fourier Gaussian fields under the displayed normalization, physical twelfth moment, mark and radius assumptions: (1) arbitrary-angle fold isolation; (2) an almost-sure finite critical-point count; (3) for a growing family, ordered distinct short maximum-saddle candidates are bounded by C*16^4*K^8*(1+L)^2*exp(-c/eta), as stated in UNIFORM_LOCAL_NORM_DIAGONAL_PROPOSAL.md equation (1); equation (22) records its Ccov in the stated context; (4) these upper moments plus a uniform one-contact floor do not give a nonzero Poisson limit: epsilon = N^-12 gives an empty candidate limit, and positive-mean preservation needs a separate, possibly smaller existence diagonal. Not established: any kernel proof; anything beyond the displayed hypotheses.
 
 - **blocking_reason**: The literal conventional mathematical argument has no admitted equivalent kernel formalization. Dependencies and any counterexample/numerical limits remain exactly those in the source. Closed stack bases, absent reviewers and old human approvals are not mathematical blockers and are not conditions of this quarantine.
 
@@ -3890,7 +3890,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: A deliberate reopening would need the correct analytic CS inequality, explicit validated truncation/roundoff and continuum quadrature remainder bounds using exact or directed interval reasoning, plus separate uniform-in-r/model-limit arguments. A bounded historical table/control-flow repair alone would not prove the mathematical certificate interpretation.
 
-- **isolation**: Historical approximate diagnostics only, excluded from all CLOSED kernel proof roots and every mathematical-bound certifier. Preserve script/report/custody bytes and citations with this explicit interpretation boundary. cov_exact.py cites the WP kernel pattern only for cross-checking and says its implementation is independently derived; that citation is not an admitted mathematical bound or logical kernel dependency. Root canonical STATUS/GOVERNANCE will record the quarantine; no ongoing owner/watch/maintenance is created.
+- **isolation**: Historical approximate diagnostics only, excluded from all CLOSED kernel proof roots and every mathematical-bound certifier. Preserve script/report/custody bytes and citations with this explicit interpretation boundary. cov_exact.py cites the WP kernel pattern only for cross-checking and says its implementation is independently derived; that citation is not an admitted mathematical bound or logical kernel dependency. The canonical index records this quarantine; no ongoing owner/watch/maintenance is created.
 
 - **owner**: none
 
@@ -3912,7 +3912,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **resumption_cost**: A deliberate reopening would need the correct analytic CS inequality, explicit validated truncation/roundoff and continuum quadrature remainder bounds using exact or directed interval reasoning, plus separate uniform-in-r/model-limit arguments. A bounded historical table/control-flow repair alone would not prove the mathematical certificate interpretation.
 
-- **isolation**: Historical approximate diagnostics only, excluded from all CLOSED kernel proof roots and every mathematical-bound certifier. Preserve script/report/custody bytes and citations with this explicit interpretation boundary. cov_exact.py cites the WP kernel pattern only for cross-checking and says its implementation is independently derived; that citation is not an admitted mathematical bound or logical kernel dependency. Root canonical STATUS/GOVERNANCE will record the quarantine; no ongoing owner/watch/maintenance is created.
+- **isolation**: Historical approximate diagnostics only, excluded from all CLOSED kernel proof roots and every mathematical-bound certifier. Preserve script/report/custody bytes and citations with this explicit interpretation boundary. cov_exact.py cites the WP kernel pattern only for cross-checking and says its implementation is independently derived; that citation is not an admitted mathematical bound or logical kernel dependency. The canonical index records this quarantine; no ongoing owner/watch/maintenance is created.
 
 - **owner**: none
 
@@ -3922,7 +3922,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Archived trial regression and historical live-write orchestration**
 
-- **location**: {"commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3", "failed_nodeids_reference": "trial_failures", "paths": ["tests/test_intent.py", "README.md", "scripts/", "portable/"], "repository": "trial", "skipped_nodeids": ["tests/test_intent.py::test_batch538_tip_sync_watch_keep_prior_parent_pin"]}
+- **location**: {"commit":"3738c859d519d2dbf1e388fe48fe0ae60c9487a3","failed_nodeids_reference":"trial_failures","paths":["tests/test_intent.py","README.md","scripts/","portable/"],"repository":"trial","skipped_nodeids":["tests/test_intent.py::test_batch538_tip_sync_watch_keep_prior_parent_pin"]}
 
 - **layer_a_status**: A5 and A7: unchanged observed failing tests and missing historical artifact must remain visible; no mathematical theorem or bound is certified by these engineering results.
 
@@ -3930,7 +3930,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: Six distinct historical fixture-pin assertions and three README assertions conflict with retained source bytes; other claims require live authenticated/current remote observations or runtime assumptions absent in the recorded isolation. These facts do not logically imply a green historical suite. No mathematical proof obligation is being replaced by an engineering result.
 
-- **attempted**: ["Complete normal and optimized pytest from separate byte-identical 6171-file source copies; all original assertions retained.", "Credential environment removed, durable token discovery disabled, Git config disabled, outbound network absent, all 12 original federation clones bind-mounted read-only.", "Earlier unconstrained/partial/optimized-reused-fixture attempts preserved separately; final comparison uses only the fresh normal and fresh optimized runs.", "Read-only failure-block reconciliation: all 87 nodeids and failing assertion strings agree between modes; seven explicit observation groups cover every failure once."]
+- **attempted**: ["Complete normal and optimized pytest from separate byte-identical 6171-file source copies; all original assertions retained.","Credential environment removed, durable token discovery disabled, Git config disabled, outbound network absent, all 12 original federation clones bind-mounted read-only.","Earlier unconstrained/partial/optimized-reused-fixture attempts preserved separately; final comparison uses only the fresh normal and fresh optimized runs.","Read-only failure-block reconciliation: all 87 nodeids and failing assertion strings agree between modes; seven explicit observation groups cover every failure once."]
 
 - **resumption_cost**: Rough engineering estimate:1–3 engineer-days to replace live remote dependencies with semantically faithful explicit fixtures and reconcile authentic historical contradictions, followed by approximately20minutes for two full restricted replays at the observed runtime. This estimate is not a closure guarantee and grants no mathematical result.
 
@@ -3944,7 +3944,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Real-record evidence URL coverage**
 
-- **location**: {"commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600", "line": 401, "path": "tests/test_living_project_validation.py", "records": "records/node_status/*.json", "repository": "main", "schema": "architecture/node-status.schema.json", "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern"}
+- **location**: {"commit":"c3377cc8c0fb35844dc7613976d6e746fdc05600","line":401,"path":"tests/test_living_project_validation.py","records":"records/node_status/*.json","repository":"main","schema":"architecture/node-status.schema.json","test":"tests.test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern"}
 
 - **layer_a_status**: A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.
 
@@ -3952,11 +3952,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: No authentic evidence-bearing production record exists in the source cut. Creating an invented evidence/assignment URL would not establish the missing observation.
 
-- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.", "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.", "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
+- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.","Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.","Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
 
 - **resumption_cost**: Rough engineering estimate:0.5–1 engineer-day after authentic admissible source evidence exists. Admit one authentic graph-valid production record containing actual evidence, then execute the unchanged method.
 
-- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.
+- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the admitted literal Lean declarations. The boundary is indexed as dormant.
 
 - **owner**: none
 
@@ -3966,7 +3966,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Real-record owner/release coverage**
 
-- **location**: {"commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600", "line": 413, "path": "tests/test_living_project_validation.py", "records": "records/node_status/*.json", "repository": "main", "schema": "architecture/node-status.schema.json", "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency"}
+- **location**: {"commit":"c3377cc8c0fb35844dc7613976d6e746fdc05600","line":413,"path":"tests/test_living_project_validation.py","records":"records/node_status/*.json","repository":"main","schema":"architecture/node-status.schema.json","test":"tests.test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency"}
 
 - **layer_a_status**: A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.
 
@@ -3974,11 +3974,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: No authentic owner/release lifecycle record exists at this cut; a synthetic owner cannot certify a real assignment or release.
 
-- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.", "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.", "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
+- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.","Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.","Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
 
 - **resumption_cost**: Rough engineering estimate:0.5–1 engineer-day after authentic admissible source evidence exists. Admit a real graph-valid owner assignment/release with genuine evidence and execute the unchanged method.
 
-- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.
+- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the admitted literal Lean declarations. The boundary is indexed as dormant.
 
 - **owner**: none
 
@@ -3988,7 +3988,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Proposed real-record dependency coverage**
 
-- **location**: {"commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600", "line": 436, "path": "tests/test_living_project_validation.py", "records": "records/node_status/*.json", "repository": "main", "schema": "architecture/node-status.schema.json", "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present"}
+- **location**: {"commit":"c3377cc8c0fb35844dc7613976d6e746fdc05600","line":436,"path":"tests/test_living_project_validation.py","records":"records/node_status/*.json","repository":"main","schema":"architecture/node-status.schema.json","test":"tests.test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present"}
 
 - **layer_a_status**: A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.
 
@@ -3996,11 +3996,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The production schema rejects depends_on (observed unexpected fields). The proposed optional dependency validator has no logically admissible production instance under v0.
 
-- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.", "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.", "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
+- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.","Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.","Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
 
 - **resumption_cost**: Rough engineering estimate:1–2 engineer-days for an optional schema/graph extension and its adverse tests, after authentic records exist. Deliberately design, test, mutation-check and admit a schema/graph extension with authentic dependency data, then execute the unchanged method; no extension is needed for current v0.
 
-- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.
+- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the admitted literal Lean declarations. The boundary is indexed as dormant.
 
 - **owner**: none
 
@@ -4010,7 +4010,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Proposed real-record artifact coverage**
 
-- **location**: {"commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600", "line": 445, "path": "tests/test_living_project_validation.py", "records": "records/node_status/*.json", "repository": "main", "schema": "architecture/node-status.schema.json", "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present"}
+- **location**: {"commit":"c3377cc8c0fb35844dc7613976d6e746fdc05600","line":445,"path":"tests/test_living_project_validation.py","records":"records/node_status/*.json","repository":"main","schema":"architecture/node-status.schema.json","test":"tests.test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present"}
 
 - **layer_a_status**: A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.
 
@@ -4018,11 +4018,11 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The production schema rejects artifacts (observed unexpected fields). There is no admissible production artifact citation under interface v0.
 
-- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.", "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.", "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
+- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.","Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.","Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
 
 - **resumption_cost**: Rough engineering estimate:1–2 engineer-days for an optional schema/graph extension and its adverse tests, after authentic records exist. Deliberately design/test/admit an interface extension with authentic artifact citations, then execute the unchanged method; no extension is needed for current v0.
 
-- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.
+- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the admitted literal Lean declarations. The boundary is indexed as dormant.
 
 - **owner**: none
 
@@ -4032,7 +4032,7 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 **Real-record current-source freshness**
 
-- **location**: {"commit": "c3377cc8c0fb35844dc7613976d6e746fdc05600", "line": 453, "path": "tests/test_living_project_validation.py", "records": "records/node_status/*.json", "repository": "main", "schema": "architecture/node-status.schema.json", "test": "tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"}
+- **location**: {"commit":"c3377cc8c0fb35844dc7613976d6e746fdc05600","line":453,"path":"tests/test_living_project_validation.py","records":"records/node_status/*.json","repository":"main","schema":"architecture/node-status.schema.json","test":"tests.test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head"}
 
 - **layer_a_status**: A7 and A8: an explicit skipped coverage path is not passed verification; no scientific validity or proof closure is inferred. A5 preserves the original tests.
 
@@ -4040,12 +4040,365 @@ The following boundaries are terminal only at the listed source cuts. Historical
 
 - **blocking_reason**: The current source state is not entailed by historical source pins or a mutable discussion URL. The source-refresh CLI is report-only and exits0 on stale/unknown, so its completion cannot certify freshness.
 
-- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.", "Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.", "Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
+- **attempted**: ["Unchanged39-method module run in normal and optimized modes:34 exercised,5 explicitly skipped per mode.","Read-only four-real-record and closed-production-schema assessment; depends_on/artifacts/new engineering node attempts rejected by actual v0 validator.","Actual local source-object/ancestor comparison retained in source-drift.json; no record or schema modified."]
 
 - **resumption_cost**: Rough engineering estimate:1–2 engineer-days for an explicit freshness contract, tested fail-closed source comparison and truthful record reconciliation. Define an explicit honest path-vs-repository freshness contract, compare immutable actual current source bytes and fetch mutable discussion evidence when required, reject stale/unknown in a tested gate, reconcile genuine record observations and run the method. Never relabel missing evidence as passed.
 
-- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the94 CLOSED declarations. Register this boundary in the canonical index before treating it as a terminal quarantine.
+- **isolation**: Retain the exact tests and records; exclude only the unsupported real-data claim from certified coverage, keep the explicit skip in every full test report. These engineering metadata checks have no Lean logical dependency into the admitted literal Lean declarations. The boundary is indexed as dormant.
 
 - **owner**: none
 
 - **maintenance**: zero
+
+## Q-9101
+
+**Two-vector encoder persistence experiment**
+
+- **location**: ["d6g8k5htny-coder/main@b3bc164f4608e783e4c987022931915f04fa5c2d:.github/workflows/semantic-runtime-preparation.yml","d6g8k5htny-coder/main@b3bc164f4608e783e4c987022931915f04fa5c2d:docs/plans/2026-10-08-semantic-memory-experiment.md","d6g8k5htny-coder/main@b3bc164f4608e783e4c987022931915f04fa5c2d:docs/plans/2026-10-08-semantic-runtime-preparation.md"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: The experiment covers exactly two 4096-dimensional vectors, fixed chunk_size16, database size≤4MiB, byte-identical reopen/query checks and original model/dependency pins. It proves no tokenizer parity, corpus retrieval/generation quality or default installation.
+
+- **blocking_reason**: No successful native persistence/reopen/query receipt exists at the preserved source; two returned vectors do not establish the requested storage behavior. The earlier allocation failure remains failed.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9102
+
+**Fresh SQLite contention experiment**
+
+- **location**: ["d6g8k5htny-coder/main@45ac889a26cfd8ac10ecdd9a46121100db0de7b7:.github/workflows/routing-sqlite-runtime-preparation.yml","d6g8k5htny-coder/main@45ac889a26cfd8ac10ecdd9a46121100db0de7b7:docs/plans/2026-10-08-routing-sqlite-runtime-preparation.md"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: The specified bounded experiment is8×16 contention rounds with one winning transaction and15 committedCAS0 outcomes per round; exact HostConfig/Config/resource restrictions remain. No routing, lease, budget or provider-delivery property is admitted.
+
+- **blocking_reason**: The original host evidence join failed and the new contender BEGIN-busy branch was unexercised; neither observation proves the full specified refusal/transaction contract.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9103
+
+**Pinned Ed25519 runtime preparation**
+
+- **location**: ["d6g8k5htny-coder/main@86fc0eed1b572e93e0db0c0f6b5b03936710064e:.github/workflows/lease-crypto-runtime-preparation.yml","d6g8k5htny-coder/main@86fc0eed1b572e93e0db0c0f6b5b03936710064e:docs/plans/2026-10-08-lease-crypto-runtime-preparation.md","d6g8k5htny-coder/main@86fc0eed1b572e93e0db0c0f6b5b03936710064e:docs/plans/2026-10-08-signed-lease-write-boundary-contract.md"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: The fixed public-key runtime/dependency inventory and installer/owned-file checks remain exactly as frozen. This record establishes no signed-lease implementation, cryptographic binding, native target delivery or product service.
+
+- **blocking_reason**: The preserved preparation stopped on its installed-file inventory and lacks an admitted complete positive runtime receipt; source corrections alone do not establish runtime behavior.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9104
+
+**Routing costs, expiry and storage-pressure controls**
+
+- **location**: ["d6g8k5htny-coder/main@04b65516bcd4858bf03493eebcba5cf6dbf54229:.github/workflows/architecture-routing-tests.yml","d6g8k5htny-coder/main@04b65516bcd4858bf03493eebcba5cf6dbf54229:architecture/routing_broker.py","d6g8k5htny-coder/main@04b65516bcd4858bf03493eebcba5cf6dbf54229:docs/plans/2026-10-08-tiered-routing-broker-contract.md","d6g8k5htny-coder/main@04b65516bcd4858bf03493eebcba5cf6dbf54229:tests/test_architecture_routing_broker.py","d6g8k5htny-coder/main@04b65516bcd4858bf03493eebcba5cf6dbf54229:tools/architecture_routing_broker.py"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: All42 source controls, clock-corrected expiry predicates, original80/84 outer and240/252 child outcomes, and exact resource bounds are retained. No full routing/storage/refusal correctness is admitted.
+
+- **blocking_reason**: The measured small writes/fsync succeeded after coarse pressure, so STORAGE_PRESSURE_NOT_CALIBRATED fired before broker invocation. The retained source does not establish the storage refusal claim; old failures cannot be recast as a passing product test.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9105
+
+**External signed-lease guard contract**
+
+- **location**: ["d6g8k5htny-coder/main@128ce837caac72a6864f28d63b76c6f8d94b9fe7:docs/plans/2026-10-09-lease-protocol-test-contract.md","d6g8k5htny-coder/main@128ce837caac72a6864f28d63b76c6f8d94b9fe7:tests/test_architecture_lease_protocol.py"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: All60 external signed-lease controls and89 baseline controls remain; cryptographic binding, durable fences, revisions, expiry, opaque refusal and delivery/recovery conclusions are not admitted.
+
+- **blocking_reason**: The source is a tests-only contract without the required lease implementation. The original image acquisition failure executed none of149 controls, so it proves neither their behavioral RED nor a signed-lease theorem.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9106
+
+**Restricted browser runtime preparation**
+
+- **location**: ["d6g8k5htny-coder/main@1ed9cdffb909c32ca15ca7b6f8d42bedcd172daa:.github/workflows/interface-reader-runtime-preparation.yml","d6g8k5htny-coder/main@1ed9cdffb909c32ca15ca7b6f8d42bedcd172daa:docs/plans/2026-10-09-interface-reader-contract.md","d6g8k5htny-coder/main@1ed9cdffb909c32ca15ca7b6f8d42bedcd172daa:docs/plans/2026-10-09-reader-runtime-preparation.md","d6g8k5htny-coder/main@1ed9cdffb909c32ca15ca7b6f8d42bedcd172daa:tools/interface_browser_check.py"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: The fixed offline Node/Astro/Chrome acquisition and one positive/29 negative control inventory remain. This archive supplies no qualified runtime-preparation, NR32/BR72 reader or renderer correctness.
+
+- **blocking_reason**: Actual hosted preparation ended SETUP_BLOCKED; the source diagnostic anchoring mismatch and absent inner execution/recovery evidence prevent the claimed preparation predicates from being established.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9107
+
+**Formal-regression collector scaffold**
+
+- **location**: ["d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:.github/workflows/formal-regression-controls.yml","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:architecture/formal_regression.py","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:docs/architecture/formal-regression-contract.json","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:docs/superpowers/plans/2026-10-18-formal-regression-collector-implementation.md","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:docs/superpowers/specs/2026-10-18-formal-regression-collector-design.md","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:tests/fixtures/formal_regression/control-plan.json","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:tests/fixtures/formal_regression/inventory-conformance.json","d6g8k5htny-coder/main@27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd:tests/test_formal_regression.py"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: All116 frozen control IDs, three source pins,13 inline Python bodies, synthetic fixture scope and original hosted failures remain. No authentic old/new statement correspondence or collector/kernel-correctness theorem is admitted.
+
+- **blocking_reason**: The five collector core functions are unimplemented in the recorded scaffold. Hosted observation/recovery/sealing failed; synthetic shape fixtures and source review cannot prove authentic formal regression behavior.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9108
+
+**Historical zeta replay venue**
+
+- **location**: ["d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/README.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/RESULT.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/diffs/results__dbn__indep_ht_c3435.out.diff","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/diffs/results__dbn__indep_ht_c910.out.diff","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/discrepancies.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/environment.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/jobs.jsonl","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/jobs.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/outputs.json","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/outputs.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/raw_samples.json","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/raw_samples.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/residuals.md","d6g8k5htny-coder/main@78976ae7d412427ac15d2ce01786ca1c24d6b066:reviews/zeta_fold_slice_c_r2_replay_20261020/summary.json"]
+
+- **layer_a_status**: A5/A7: retained historical failing or unexecuted engineering contracts; no passing test, runtime certification or mathematical theorem is inferred.
+
+- **exact_boundary**: The exact frozen59-command replay request and any recorded partial outputs remain source evidence. No complete R2 replay or mathematical/source alignment conclusion is admitted by this venue.
+
+- **blocking_reason**: A request stub and partial evidence do not establish complete execution of the specified replay. The CBZ component executions and repaired checker are separately indexed; no provider/quorum/owner-approval condition is retained as a blocker.
+
+- **attempted**: The exact source tree and historical native discussion are preserved. Original hosted outcomes are historical at their own checked cuts. Current disposition independently enumerates every changed path and Git blob; no new runtime execution is claimed.
+
+- **resumption_cost**: Deliberate reopening of this bounded experimental feature with its complete original test inventory and an actual implementation/runtime execution. No ongoing maintenance.
+
+- **isolation**: Unmerged historical engineering source, retained by exact commit and this source index. It is excluded from active mathematical admission and baseline certifiers. No source or failing test is deleted or disabled by closing its delivery PR. This is a dormant out-of-mission feature, not a current green gate.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9109
+
+**V20 worker liveness on transient I/O failures**
+
+- **location**: ["d6g8k5htny-coder/main@e8544abeaec7b9e83bf745398975aa7074ac81ce:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/engine/conductor.py","d6g8k5htny-coder/main@e8544abeaec7b9e83bf745398975aa7074ac81ce:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/formal_queue.py","d6g8k5htny-coder/main@e8544abeaec7b9e83bf745398975aa7074ac81ce:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/test_worker_liveness.py"]
+
+- **layer_a_status**: A5/A7: preserved historical carrier tests and source; no passing execution or mathematical claim is inferred.
+
+- **exact_boundary**: The frozen proposal guards idle recovery, snapshots and error-handler append against transient ENOSPC, EMFILE and EIO so worker threads are not silently lost. It targets a historical V20 carrier, not a current proof package.
+
+- **blocking_reason**: The recorded repair's source and tests do not establish an actual complete current-baseline worker-liveness execution, and the carrier is outside the mathematical baseline.
+
+- **attempted**: The exact source, tests, prior discussion, and all changed Git blob identities remain recoverable at the recorded commit. No new execution is claimed.
+
+- **resumption_cost**: Deliberate reopening and complete current-source execution of the preserved controls, including the unchanged original bounds. No ongoing maintenance.
+
+- **isolation**: Historical unmerged carrier source retained by commit ancestry and source index; excluded from admitted proof dependencies and active certification. Closing the delivery does not delete or disable source or tests.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9110
+
+**V20 exact journal-size admission**
+
+- **location**: ["d6g8k5htny-coder/main@5b5555089502aa77963a220bfbe0d4f156c4a62e:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/engine/conductor.py","d6g8k5htny-coder/main@5b5555089502aa77963a220bfbe0d4f156c4a62e:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/proof_conductor.py","d6g8k5htny-coder/main@5b5555089502aa77963a220bfbe0d4f156c4a62e:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/test_journal_size_bound.py"]
+
+- **layer_a_status**: A5/A7: preserved historical carrier tests and source; no passing execution or mathematical claim is inferred.
+
+- **exact_boundary**: The proposed bound measures canonical encoded event-envelope bytes plus LF inside the transaction; the prior repr(payload) estimate can omit envelope bytes or overestimate escapes. The original maximum byte bound is retained.
+
+- **blocking_reason**: Source-only evidence does not establish the complete serialized-size contract under all admitted carrier states; no runtime qualification is inferred.
+
+- **attempted**: The exact source, tests, prior discussion, and all changed Git blob identities remain recoverable at the recorded commit. No new execution is claimed.
+
+- **resumption_cost**: Deliberate reopening and complete current-source execution of the preserved controls, including the unchanged original bounds. No ongoing maintenance.
+
+- **isolation**: Historical unmerged carrier source retained by commit ancestry and source index; excluded from admitted proof dependencies and active certification. Closing the delivery does not delete or disable source or tests.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-9111
+
+**V20 LF-only journal framing**
+
+- **location**: ["d6g8k5htny-coder/main@3dcff2b86f3b2166f42fa67f53a4f5c86f2883a9:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/engine/conductor.py","d6g8k5htny-coder/main@3dcff2b86f3b2166f42fa67f53a4f5c86f2883a9:v20_planner_source_carrier/sources/Universal_Law_v19_Research_Frontier/test_proof_conductor.py"]
+
+- **layer_a_status**: A5/A7: preserved historical carrier tests and source; no passing execution or mathematical claim is inferred.
+
+- **exact_boundary**: The proposal frames journal records on LF bytes before decoding and retains the terminal-LF torn-tail guard; Unicode U+0085, U+2028 and U+2029 remain within canonical records.
+
+- **blocking_reason**: The recorded carrier proposal has not been adopted and qualified as a current-baseline journal implementation; source review alone does not establish its complete execution contract.
+
+- **attempted**: The exact source, tests, prior discussion, and all changed Git blob identities remain recoverable at the recorded commit. No new execution is claimed.
+
+- **resumption_cost**: Deliberate reopening and complete current-source execution of the preserved controls, including the unchanged original bounds. No ongoing maintenance.
+
+- **isolation**: Historical unmerged carrier source retained by commit ancestry and source index; excluded from admitted proof dependencies and active certification. Closing the delivery does not delete or disable source or tests.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-7522
+
+**Derive Gaussian lifetime exponential tails and sharp axial escape**
+
+- **location**: ["d6g8k5htny-coder/Math-@223293d9d26a7a4158026a4225523e8a683a8794:frontiers/gaussian_lifetime_exponential_tail_20261028","d6g8k5htny-coder/Math-@223293d9d26a7a4158026a4225523e8a683a8794:frontiers/sharp_axial_escape_20261026"]
+
+- **layer_a_status**: A7 exact admission boundary: conventional source proofs and finite exact controls are retained; no equivalent kernel/model closure is admitted. A6 every source domain/hypothesis remains explicit. No lowered bound or unsupported broader conclusion is introduced.
+
+- **exact_boundary**: The conventional deterministic axial theorem retains the SHARP STRICT threshold rH<24k (the former sufficient threshold was rH<=3k); equality at24 is excluded. At each fixed q>0 the finite-tail transfer requires only a weighted C4 moment at s>4q+3, not all-order moments, and the equality case is not supplied by these bounds. The source periodized-Gaussian law in fixed d>=2, compact birth/gap ranges with a positive gap floor, has a source-derived typed-determinant exponential-C4 estimate and a reconstructed full-normalizer floor, yielding C exp(-c/r^2) upper bounds for essentiality and fixed positive finite-lifetime moments. These are conventional proofs, not kernel-verified model bridges. No constants are numerically evaluated; no broader marked-law limit or parent closure is admitted.
+
+- **blocking_reason**: Formal derivation of the deterministic constrained Taylor inequality and weighted moment transfer, plus the actual Gaussian regression/exponential-majorant/full-normalizer identification; these analytical/model statements are not supplied by the finite rational controls.
+
+- **attempted**: Existing conventional derivations, exact finite author controls, their original saved outputs and technical critiques are retained at the bound source. This task independently bound all listed source files; it has not promoted historical review/CI to a kernel execution.
+
+- **resumption_cost**: Substantial formalization of the named analytic/probabilistic/global/model bridges using the existing literal source hypotheses; exact finite algebra may be reused. No ongoing attention until deliberate reopening.
+
+- **isolation**: The exact five Math source heads are parents of Math- archive commit 66a6dea19f2bf6cc2f5f88f5c35e474c970751c7 and are also preserved by the recorded annotated tags. Their unmerged mathematical code is not admitted as a dependency of the closed proof packages; this record admits no unproved model bridge. Owner none; maintenance zero.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-7523
+
+**Prove matching essential-event Gaussian scale on coordinate axes**
+
+- **location**: ["d6g8k5htny-coder/Math-@de872d97fa54eb11c0834b8f532543222900d165:frontiers/essential_gaussian_rate_20261028"]
+
+- **layer_a_status**: A7 exact admission boundary: conventional source proofs and finite exact controls are retained; no equivalent kernel/model closure is admitted. A6 every source domain/hypothesis remains explicit. No lowered bound or unsupported broader conclusion is introduced.
+
+- **exact_boundary**: For the specified periodized Gaussian field with fixed d>=2,L>0, compact births/gaps bounded away from zero, and COORDINATE-AXIS pin direction, preserve exp(-C/r^2)<=Q_r^W(essential)<=Cprime exp(-c/r^2). The lower construction is a genuine finite Fourier periodic template with exact pins, correct saddle type, unique global maximum, RKHS norm O(1/r), and stability on a fixed zero-pin C4 ball. This identifies only Theta(r^-2) logarithmic order and one-sided template cost, not the optimal coefficient. Arbitrary directions and noncompact marks are outside this row and are treated by successors, not silently asserted here. No kernel equivalent of the Gaussian/global argument is admitted.
+
+- **blocking_reason**: Formal global pin-preserving Fourier template, stability, actual Cameron-Martin Gaussian translation and determinant-normalizer comparison in the specified torus model.
+
+- **attempted**: Existing conventional derivations, exact finite author controls, their original saved outputs and technical critiques are retained at the bound source. This task independently bound all listed source files; it has not promoted historical review/CI to a kernel execution.
+
+- **resumption_cost**: Substantial formalization of the named analytic/probabilistic/global/model bridges using the existing literal source hypotheses; exact finite algebra may be reused. No ongoing attention until deliberate reopening.
+
+- **isolation**: The exact five Math source heads are parents of Math- archive commit 66a6dea19f2bf6cc2f5f88f5c35e474c970751c7 and are also preserved by the recorded annotated tags. Their unmerged mathematical code is not admitted as a dependency of the closed proof packages; this record admits no unproved model bridge. Owner none; maintenance zero.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-7524
+
+**Prove all-direction Gaussian rates and global critical-gap split**
+
+- **location**: ["d6g8k5htny-coder/Math-@5a30296bfc6c9c886d483c87e80e2eb2d9ea047d:frontiers/all_frame_gaussian_rates_20261028"]
+
+- **layer_a_status**: A7 exact admission boundary: conventional source proofs and finite exact controls are retained; no equivalent kernel/model closure is admitted. A6 every source domain/hypothesis remains explicit. No lowered bound or unsupported broader conclusion is introduced.
+
+- **exact_boundary**: For fixed centered stationary real Gaussian fields on a fixed cubic torus d>=2, even nonnegative spectrum positive on[-3,3]^d, and sum sqrt(a_n)(1+|n|)^4 finite: preserve all-direction matching exp(-Theta(r^-2)) essential and finite long-lifetime probabilities on compact positive-gap ranges; matching exp(-Theta(beta^2)) when beta=k/r>=a fixed sufficiently largeM; and, for each fixed tau>0 with k=tau*r then r->0, positive explicit essential/finite-remote contact limits and r^-3 E[X^q;finite,X>1]=Theta(r^(-4q-3)) for fixed q>0. Cube-four positivity supplies the stated conventional fixed-target Morse/distinct-value genericity and ordinary-H0 interpretation. No optimal exponential coefficient or joint small-tau asymptotic is claimed. No uniform inverse-square decay or uniform O(r^3) failure over ALL positive gaps is claimed; the positive essential critical limit refutes those extensions. The global Gaussian, geometric and H0 bridges are not kernel-admitted.
+
+- **blocking_reason**: Formal uniform lattice-frame pin right inverse, actual weighted Gaussian large-deviation bounds, global essential/finite-event identification, off-contact genericity and ordinary-H0 bridge at the exact spectral hypotheses.
+
+- **attempted**: Existing conventional derivations, exact finite author controls, their original saved outputs and technical critiques are retained at the bound source. This task independently bound all listed source files; it has not promoted historical review/CI to a kernel execution.
+
+- **resumption_cost**: Substantial formalization of the named analytic/probabilistic/global/model bridges using the existing literal source hypotheses; exact finite algebra may be reused. No ongoing attention until deliberate reopening.
+
+- **isolation**: The exact five Math source heads are parents of Math- archive commit 66a6dea19f2bf6cc2f5f88f5c35e474c970751c7 and are also preserved by the recorded annotated tags. Their unmerged mathematical code is not admitted as a dependency of the closed proof packages; this record admits no unproved model bridge. Owner none; maintenance zero.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-7525
+
+**Identify sharp essential action and tiny-gap square-root law**
+
+- **location**: ["d6g8k5htny-coder/Math-@fc5ecb67f4a9d6cfb1dec066499ca2daa1147b3b:frontiers/essential_sharp_asymptotics_20261028"]
+
+- **layer_a_status**: A7 exact admission boundary: conventional source proofs and finite exact controls are retained; no equivalent kernel/model closure is admitted. A6 every source domain/hypothesis remains explicit. No lowered bound or unsupported broader conclusion is introduced.
+
+- **exact_boundary**: At every fixed birth height, positive gapk and directionu in the predecessor C4/cube-three class: preserve r^2 log P_r(essential)->-I(k,u), the SAME constrained RKHS variational problem in SHARP_ACTION.md, I(k,u)=k^2 I(1,u), and independence of birth. Separately, under C6 summability and cube-four positivity, in the ORDER r->0 at fixed k=tau*r then tau->0, preserve p_E(tau)~C_E*sqrt(tau) with the exact positive finite contact-density integral in TINY_GAP.md. The quartic constraint, symmetry/recovery profiles, fifth-derivative window, soft-transverse-block weight and sextic/global criterion remain in the source. No probability prefactor, numerical value, joint(r,tau) limit, full-support premise or unproved marked law is added. No kernel proof of these variational/global limit claims is admitted.
+
+- **blocking_reason**: Formal shrinking-scale quartic constrained-RKHS large-deviation upper/lower recovery and actual contact-density/sextic/global asymptotics under the two distinct smoothness classes and ordered limits.
+
+- **attempted**: Existing conventional derivations, exact finite author controls, their original saved outputs and technical critiques are retained at the bound source. This task independently bound all listed source files; it has not promoted historical review/CI to a kernel execution.
+
+- **resumption_cost**: Substantial formalization of the named analytic/probabilistic/global/model bridges using the existing literal source hypotheses; exact finite algebra may be reused. No ongoing attention until deliberate reopening.
+
+- **isolation**: The exact five Math source heads are parents of Math- archive commit 66a6dea19f2bf6cc2f5f88f5c35e474c970751c7 and are also preserved by the recorded annotated tags. Their unmerged mathematical code is not admitted as a dependency of the closed proof packages; this record admits no unproved model bridge. Owner none; maintenance zero.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-7526
+
+**Complete finite-lifetime moment limits and match essential actions**
+
+- **location**: ["d6g8k5htny-coder/Math-@fdddc7e6b1fd584fa566beaccedd64d177104d10:frontiers/gaussian_lifetime_limit_completion_20261029"]
+
+- **layer_a_status**: A7 exact admission boundary: conventional source proofs and finite exact controls are retained; no equivalent kernel/model closure is admitted. A6 every source domain/hypothesis remains explicit. No lowered bound or unsupported broader conclusion is introduced.
+
+- **exact_boundary**: For the original periodized Gaussian at fixed dimension/torus, compact births/positive-gap ranges and all frames, preserve P_r(F_r,0<X_r<=t)<=C*r^3*t^(2/3) for0<t<=1 and small separation; for0<p<2/3 preserve r^-3 E[X_r^-p;F_r,finite]->integral lambda^-p dmu_fail and conditional normalization by the positive failure mass, USING the existing actual marked law. Together with the known mass/positive-moment inputs the finite-valued range is EVERY REAL q>-2/3. For q<=-2/3 the prelimit finite-failure moment is infinite at every fixed positive separation; no finite-valued extension is claimed. F_r means the prescribed saddle is not the actual elder partner, X_r=(b-d_f(M))/(k*r^3); essential infinite lifetimes are excluded. Separately in the preceding C4/cube-three class, first contact limit then tau->infinity gives tau^-2 log p_E(tau;b,u)->-I(1,u), compact-birth uniformity retained. Limits are not exchanged. No kernel version of the small-lifetime, uniform-integrability, marked-measure and action bridge is admitted.
+
+- **blocking_reason**: Formal actual small-lifetime all-sector bound, marked-measure uniform-integrability/conditional-moment transfer, divergence threshold, and identification of the same constrained action in the ordered large-ratio contact limit.
+
+- **attempted**: Existing conventional derivations, exact finite author controls, their original saved outputs and technical critiques are retained at the bound source. This task independently bound all listed source files; it has not promoted historical review/CI to a kernel execution.
+
+- **resumption_cost**: Substantial formalization of the named analytic/probabilistic/global/model bridges using the existing literal source hypotheses; exact finite algebra may be reused. No ongoing attention until deliberate reopening.
+
+- **isolation**: The exact five Math source heads are parents of Math- archive commit 66a6dea19f2bf6cc2f5f88f5c35e474c970751c7 and are also preserved by the recorded annotated tags. Their unmerged mathematical code is not admitted as a dependency of the closed proof packages; this record admits no unproved model bridge. Owner none; maintenance zero.
+
+- **owner**: none
+
+- **maintenance**: zero
+
