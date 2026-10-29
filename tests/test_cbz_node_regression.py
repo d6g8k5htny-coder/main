@@ -152,6 +152,27 @@ class NodeRunnerTests(unittest.TestCase):
             else:
                 os.environ["GIT_DIR"] = before
 
+    def test_poisoned_runner_bytecode_cannot_execute_in_test_loader(self):
+        tools = self.repo / "tools"
+        tools.mkdir()
+        runner_path = tools / "cbz_node_regression.py"
+        runner_path.write_bytes(SOURCE.read_bytes())
+        (tools / "museum_data.py").write_bytes((ROOT / "tools/museum_data.py").read_bytes())
+        stat = runner_path.stat()
+        suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+        cache = tools / "__pycache__" / ("cbz_node_regression." + sys.implementation.cache_tag + suffix + ".pyc")
+        cache.parent.mkdir()
+        forged = compile("POISON_RUNNER = True\n", str(runner_path), "exec")
+        cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+            forged, int(stat.st_mtime), stat.st_size))
+        old_source = SOURCE
+        try:
+            globals()["SOURCE"] = runner_path
+            module = runner()
+        finally:
+            globals()["SOURCE"] = old_source
+        self.assertFalse(getattr(module, "POISON_RUNNER", False))
+
     def test_poisoned_museum_bytecode_cannot_pass_source_binding(self):
         tools = self.repo / "tools"
         tools.mkdir()
