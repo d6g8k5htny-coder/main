@@ -35,3 +35,9 @@ The archived [one-shot workflow](cbz/evidence/main-regression-skip-observation/w
 ### Atlas browser regression runner
 
 `tools/run_atlas_browser_regressions.py` executes the two fixed Atlas UI test IDs with zero skips; [usage, ordinary/optimized self-tests and historical observations](docs/cbz/ATLAS_BROWSER_REGRESSIONS.md). Historical browser success at `c0205ca9` does not qualify the composed candidate. Owner: none, self-contained; criteria 5 and 11. This tool certifies no mathematics.
+
+### Historical source-cut diagnostic workflows
+
+The [sandbox artifact observer](cbz/evidence/main-regression-skip-observation/sandbox-observer-workflow.yml.txt) downloaded one recorded GitHub Actions ZIP, checked its SHA-256 and printed ten passing method lines; [result and limits](cbz/evidence/main-regression-skip-observation/sandbox-controls.json). Run its archived workflow with `actions: read` while the original artifact exists. It has no dedicated adversarial tests and is not an auditor or G5 certificate. Owner: none.
+
+Two one-shot source-cut tests are queued: [pytest-dependent controls](https://github.com/d6g8k5htny-coder/main/blob/ba4077c2b3101cd969319b342e30c11b725a5f87/.github/workflows/cbz-pytest-controls.yml) and [pinned graph-composition controls](https://github.com/d6g8k5htny-coder/main/blob/8b03af28ccfe3276b8a8957b108ba541f17953d4/.github/workflows/cbz-graph-composition.yml). Their exact workflows give dependencies and commands; no completed result, independent self-test or gate admission is asserted. They are engineering diagnostics, not mathematical certifiers. Owner: none.

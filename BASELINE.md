@@ -2,7 +2,7 @@
 
 **Partial Baseline checkpoint; not CBZ-0, not a terminal halt.** Original component observation cut 2026-10-29 18:42 UTC; catalog reconciled later on 2026-10-29; final gates not qualified together. STATUS.md records component outcomes. The declaration index contains367 context-bound literal records and307 adopted source-bound quarantine records (including 102 legacy application records and five external interfaces that may overlap); further numerical-package mapping is not yet complete.
 
-Pre-operation `pre-cbz-discovery-1` tags published in main,Math-,governance-,query-,meta-framework. Verified full-history recovery bundles local under `/workspace/cbz/backups/`:
+Pre-operation `pre-cbz-discovery-1` tags published in main,Math-,governance-,query-,meta-framework. Full-history recovery bundles were verified locally at an earlier observation cut under `/workspace/cbz/backups/`; the execution environment is now unavailable, so their present accessibility has not been rechecked:
 
 | Bundle | SHA256 |
 |---|---|
@@ -21,3 +21,5 @@ Initial public cuts/private aggregate scope: `cbz/evidence/initial-public-invent
 Lean4.34.1 release5045d0056413266e57c625dcd7c365b10e377c52; Mathlibd13f23b723b8a846827a245b89c10fc7d3f11612; transitive locks unchanged. Approved axioms exactly propext/Classical.choice/Quot.sound. Exact-computation runtimes observed Python3.11.16 and3.11.17; no float certification added. [All literal records](cbz/evidence/kernel/all-closed-declarations.json) retain exact package/source/axiom context and actual raw receipts. [Quarantine catalog](cbz/quarantine/catalog.json) retains all boundaries; published source tags for Q8336/Q8340/Q8429 were remotely peeled and verified.
 
 Final baseline tag, exact final federation cuts, common final gate transcript, complete federation coverage and fresh-clone acceptance do not yet exist. Their absence is explicit, not a fabricated receipt.
+
+Later integration: main #704 merged at `1e2be44c69e08e47472041ac329e1b27f7dec793`; its evidence-only replay documentation temporarily lacks four executable files on that main cut. ULW's historical network pin check passed but its current-tip check failed for main and Math at the recorded run. No final cross-repository vector or common gate pass exists. The unavailable local 27-item numerical mapping and 367-entry classification update remain unrecovered; the separate published 367 literal records remain available. See [STATUS.md](STATUS.md) for source-bound observations and pending candidate heads.
