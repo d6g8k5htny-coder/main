@@ -1,0 +1,21 @@
+{
+  "schema": "cbz.core-git-replacement-mutant-red.v1",
+  "observed_utc": "2026-10-29 21:55:15 UTC",
+  "repository": "Math-",
+  "tested_candidate": "c6ccc32c6854bd7153190e32c23cd60c31530097",
+  "job": 123743068065,
+  "mode": "optimized",
+  "suite_tests": 278,
+  "failures": 1,
+  "mutant": "git-replacement-refs",
+  "observed": "Selected mutant control returned exit 0 where the test required exit 1; the suite failed.",
+  "source_diagnosis": "The mutation changed GIT_NO_REPLACE_OBJECTS from '1' to '0', leaving the variable exported. Git documents that the protection is enabled by any value, so this mutation did not remove that defense.",
+  "git_documentation": "https://github.com/git/git/blob/v2.56.0/Documentation/git.adoc",
+  "artifact_id": 12935977077,
+  "artifact_native_zip_sha256": "8641832c4be7f00d9a41f7dcd8d8350357388f7f9aa2a8235c6a24b9a740302e",
+  "limitations": [
+    "The original RED is retained as an observed fact; the artifact ZIP has not independently been downloaded in this observation.",
+    "A mutation that removes the override and its intended control must be executed at the exact new source in both modes; this diagnosis is not a passing result.",
+    "No final G0, G6, kernel or federation claim follows."
+  ]
+}
