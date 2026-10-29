@@ -57,6 +57,7 @@ def bind_receipt(receipt: Path, manifest: Path, env: dict, git_head: str) -> dic
     for key, expected in [('checked_commit', ctx['checked_commit']),
                           ('repository', ctx['repository']),
                           ('workflow_run_id', ctx['run_id']),
+                          ('workflow_run_attempt', ctx['run_attempt']),
                           ('formalization_status', 'kernel-checked'),
                           ('scientific_effect', 'NONE')]:
         require(record.get(key) == expected, 'receipt mismatch: '+key)

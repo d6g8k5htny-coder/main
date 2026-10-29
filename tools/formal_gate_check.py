@@ -301,6 +301,7 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
                    package=m["package"], formalization_status="kernel-checked",
                    alignment_status="PENDING_INDEPENDENT_REVIEW", manifest_sha256=digest, checked_commit=head,
                    repository=os.environ.get("GITHUB_REPOSITORY"), workflow_run_id=os.environ.get("GITHUB_RUN_ID"),
+                   workflow_run_attempt=os.environ.get("GITHUB_RUN_ATTEMPT"),
                    lean_version=version, dependency_revisions=m["dependency_revisions"], axioms=axioms,
                    negative_controls=outcomes)
     receipt["logs"] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob("*.log"))}
