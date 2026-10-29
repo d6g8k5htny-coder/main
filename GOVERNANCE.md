@@ -116,3 +116,7 @@ Tool: .github/workflows/cbz-main-retire-superseded-runs.yml. Purpose: free hoste
 Observed run40953015483/job123725791435 on source f54d89d992c7cbe54d076bd2c0c9976a9cb78e07 passed 13 controls and completed with 56 recorded decisions: 45 other-PR retained, 5 current/terminal retained, 6 cancellation requests for superseded #704/#705. Artifact12933330018 ZIP SHA256 51792f109693e59a9101bb6b6ada3e358864aafc329637f5ff47127db923cef6. The request readback in RESULTS.json records actual state at 2026-10-29 20:56:36 UTC; a request is not treated as completed until independently observed.
 
 The fresh head/status observation and the subsequent cancellation POST are separate API operations. The cancel endpoint has no atomic expected-head precondition, so a concurrent PR ref change between them is not excluded. The recorded requests were stale at their final reads; this is not an absolute guarantee about a later concurrent ref update.
+
+### B-NODE-RUN-RETIREMENT — 2026-10-29 21:05:02 UTC
+
+The one-shot Node PR queue retirement workflow restricts itself to queued non-control runs for seven explicitly recorded obsolete PR heads. Its exact usage, 19 embedded policy/receipt checks, readback requirements and non-atomic race limitation are in cbz/evidence/node-run-retirement/README.md. Owner none; serves baseline criteria 1, 2 and 12 without assigning any mathematical/test pass. It is an adaptation of the registered main retirement workflow; actual execution is pending.

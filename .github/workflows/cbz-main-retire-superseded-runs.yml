@@ -1,7 +1,7 @@
-name: CBZ main scoped retirement of superseded runs
+name: CBZ Node queued superseded-run retirement
 on:
   push:
-    branches: [cbz/main-retire-superseded-20261029]
+    branches: [cbz/node-retire-queued-20261029]
     paths: ['.github/workflows/cbz-main-retire-superseded-runs.yml']
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
           from pathlib import Path
           repository=os.environ['GITHUB_REPOSITORY']
           prefix='repos/'+repository+'/'
-          active={'queued','in_progress','requested','pending','waiting'}
+          active={'queued','requested','pending','waiting'}
           hex40=re.compile('[0-9a-f]{40}')
           def stale(run,pr):
               return (run.get('event')=='pull_request' and run.get('status') in active
@@ -34,6 +34,7 @@ jobs:
               (base,current,True),
               (dict(base,event='push'),current,False),
               (dict(base,status='completed'),current,False),
+              (dict(base,status='in_progress'),current,False),
               (dict(base,head_sha='b'*40),current,False),
               (base,dict(current,state='closed'),False),
               (dict(base,head_sha=None),current,False),
@@ -105,14 +106,37 @@ jobs:
                   'race':'ALREADY_TERMINAL_AFTER_REFUSAL','failed':'CANCELLATION_FAILED'}[scenario]
               if not snapshots or snapshots[0][0]['action']!='CANCEL_REQUEST_IN_FLIGHT' or test_rows[0]['action']!=expected:
                   raise SystemExit('cancellation receipt self-test failed: '+scenario)
-          allowed_prs=frozenset((704,705))
-          for number,wanted in ((704,True),(705,True),(706,False)):
+          allowed_prs=frozenset((707,))
+          allowed_heads=frozenset((
+              'e77502daab6abd0efcfe158b079ac2efce4eb997',
+              '262036691d365ede742673ed421091dfbfdb2a72',
+              '05343dc2ce194823158eb96877e333aff439c335',
+              '69413c7c9878be8b49a27642531cc05c84f21d8a',
+              'f26e91b41ddf425c3d361282d0d3e9b99bb87ee1',
+              '3598f413da9be44263c2c6e853c7245012ee42f6',
+              'db7d4a9cef29f2927333b9979032200b144e29e7'))
+          allowed_workflows=frozenset(('Research navigation and public source checks',
+                                       'workspace-landing','public-shop'))
+          if ('8aa7d353d6864b6481df5508aaea7b73f185abdf' in allowed_heads
+              or 'f1f2c79c6ca7a99fdf954ad638509bdfc1c0f546' in allowed_heads):
+              raise SystemExit('protected pending source admitted')
+          def scoped(run):
+              return run.get('head_sha') in allowed_heads and run.get('name') in allowed_workflows
+          for candidate,wanted in (
+              ({'head_sha':'e77502daab6abd0efcfe158b079ac2efce4eb997','name':'public-shop'},True),
+              ({'head_sha':'8aa7d353d6864b6481df5508aaea7b73f185abdf','name':'public-shop'},False),
+              ({'head_sha':'f1f2c79c6ca7a99fdf954ad638509bdfc1c0f546','name':'public-shop'},False),
+              ({'head_sha':'e77502daab6abd0efcfe158b079ac2efce4eb997','name':'cbz-cold-start-node'},False),
+              ({'name':'public-shop'},False)):
+              if scoped(candidate)!=wanted:
+                  raise SystemExit('head/workflow scope self-test failed')
+          for number,wanted in ((707,True),(704,False),(705,False)):
               if (number in allowed_prs)!=wanted:
                   raise SystemExit('PR scope self-test failed')
           rows=[]
           report=dict(scope='SUPERSEDED_PR_RUN_ORCHESTRATION_ONLY_NO_TEST_OR_PROOF_CREDIT',
               source_commit=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],
-              policy_self_tests=len(controls)+6,enumerated_nonterminal_runs=None,
+              policy_self_tests=len(controls)+11,enumerated_nonterminal_runs=None,
               status='IN_PROGRESS',records=rows)
           persist(report)
           prs=pages('pulls?state=open',None)
@@ -135,6 +159,9 @@ jobs:
               if ids[0] not in allowed_prs:
                   rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_OUT_OF_SCOPE'))
                   continue
+              if not scoped(run):
+                  rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE'))
+                  continue
               pr=api('pulls/'+str(ids[0]))
               if not stale(run,pr):
                   rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_CURRENT_OR_TERMINAL'))
@@ -142,7 +169,7 @@ jobs:
               latest=api('actions/runs/'+str(run_id))
               # Fresh PR source and run state are re-read immediately before the POST.
               pr=api('pulls/'+str(ids[0]))
-              if not stale(latest,pr):
+              if not scoped(latest) or not stale(latest,pr):
                   rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_AFTER_RECHECK'))
                   continue
               cancel_one(api,run_id,latest,pr,rows,lambda: persist(report))
@@ -158,4 +185,4 @@ jobs:
           path: cbz-superseded-run-report.json
           if-no-files-found: error
 
-# Reobserve the source-bound retirement policy after the 2026-10-29 source updates.
+# Scope: queued non-control runs for seven exact obsolete #707 heads; preserve all in-progress/current/diagnostic runs.
