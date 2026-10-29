@@ -1,0 +1,30 @@
+{
+  "schema": "cbz.ulw.pin-check-observation.v1",
+  "observed_utc": "2026-10-29 21:36:02 UTC",
+  "workspace_pr": 31,
+  "workspace_pr_head": "0ec778db868d2aef9cb172402a67c7ffd6c4d1de",
+  "tested_merge": "3f552f55420eed3bd0efe9282695cad4c12db8b2",
+  "run": 40949547633,
+  "job": 123713717799,
+  "source_job_conclusion": "failure",
+  "historical_network_check": "PASS: 8 pins agreed with tree and .gitmodules; remote objects were checked",
+  "require_current_check": "FAIL: 2 of 8 pins differed from observed remote main tips",
+  "stale_at_run": [
+    {
+      "repository": "main",
+      "pin": "81acc060341e8a31cc4cd4f9523ef71fb6c06175",
+      "observed_tip": "c93cec70223281492709ff74ca84fed5dc6e40e8"
+    },
+    {
+      "repository": "Math-",
+      "pin": "8151f592918a845bf19eb8eafaf8444540a32734",
+      "observed_tip": "95eb8daaa02e89be1f816bc7f58eac812dd1b469"
+    }
+  ],
+  "main_tip_at_record": "1e2be44c69e08e47472041ac329e1b27f7dec793",
+  "limitations": [
+    "These are historical job outputs and a later separate main-ref observation; they are not an atomic federation snapshot.",
+    "Do not update final cross-repository pins until source heads are integrated and frozen; rerun every required current-pin check at the exact final heads.",
+    "Historical pin resolution does not prove current tip consistency or final G7."
+  ]
+}

@@ -163,3 +163,7 @@ The 14 historical graph nodes without literal catalog-ID mentions consist of thr
 The central literal-record JSON links the 63 Math core and 31 main arithmetic declarations to their pinned source and type logs; those 94 entries do not embed complete source headers or signatures. Pretty-printed logs can abbreviate terms, so the pinned source remains necessary to inspect the full literal statement. This is a documentation and evidence-link correction, not a change to the recorded proof outcomes.
 
 An actual test-first run against the historical grader/loader source (`9d52d680`) observed 15 assertion failures and no errors in each Python mode, including three poisoned-bytecode loader controls per mode. The raw job log is retained at [auditor A8 RED](cbz/evidence/auditor-grader-a8/red/9d52d68086f9-job123737390295.log). Later source-only loader and grader repairs are candidates awaiting fresh execution; this RED confirms defects and does not qualify G0.
+
+### Cross-repository pin discrepancy
+
+Universal-Law-Workspace [PR #31](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/31) actually passed its historical eight-pin network resolution but failed `--require-current`: at that run, the main and Math pins differed from their then-observed default-branch tips. Main has advanced since that run. [Exact run and hashes](cbz/evidence/ulw-pin-discrepancy-20261029.json). Freeze the final source heads, update the gitlinks and manifest together, and rerun the current-pin checks; G7 is not qualified.
