@@ -81,6 +81,7 @@ def verify(archive, manifest, source_root, expected_zip, expected_receipt, expec
             if e.flag_bits & 1:
                 raise ValueError("encrypted archive entry")
             files[e.filename]=e
+        member_hashes={name:digest(z.read(info)) for name,info in files.items() if not info.is_dir()}
         receipts=[name for name,e in files.items() if not e.is_dir() and
                   (name in {"receipt.json","receipt/receipt.json"} or name.endswith("/receipt/receipt.json"))]
         if len(receipts)!=1:
@@ -122,7 +123,7 @@ def verify(archive, manifest, source_root, expected_zip, expected_receipt, expec
             "manifest_sha256":expected_manifest,"checked_commit":checked_commit,
             "target_count":len(targets),"p15_count":len(p15),"p15_names":p15,"source_files":bound,
             "axioms":{name:axioms[name] for name in p15},
-            "log_count":len(observed),"logs":observed,
+            "log_count":len(observed),"logs":observed,"member_sha256":member_hashes,
             "elaborated_types_log":"elaborated-types.log"}
 
 def main():

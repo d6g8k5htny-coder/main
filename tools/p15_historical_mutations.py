@@ -37,7 +37,7 @@ def main():
             base=subprocess.run(command,cwd=root,capture_output=True,text=True,timeout=60)
             (args.output/(mode+"-baseline.log")).write_text(base.stdout+base.stderr)
             report["executions"].append({"mode":mode,"name":"baseline","exit":base.returncode})
-            if base.returncode or "Ran 15 tests" not in base.stderr or "OK" not in base.stderr or "skipped=" in base.stderr:
+            if base.returncode or "Ran 16 tests" not in base.stderr or "OK" not in base.stderr or "skipped=" in base.stderr:
                 raise RuntimeError("baseline incomplete")
             for name,old,new,method in cases:
                 if original.count(old)!=1:raise ValueError("mutation anchor not unique: "+name)

@@ -82,6 +82,12 @@ class HistoricalArtifactTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"receipt log SHA256 mismatch"):
             self.check()
 
+    def test_every_other_archive_member_is_hashed(self):
+        self.write_zip(extra=[("receipt/extra.lean",b"retained fixture")])
+        x=self.check()
+        self.assertEqual(x["member_sha256"]["receipt/extra.lean"],subject.digest(b"retained fixture"))
+        self.assertEqual(x["member_sha256"]["receipt/receipt.json"],self.receipt_hash)
+
     def test_wrong_commit_is_refused(self):
         with self.assertRaisesRegex(ValueError,"receipt source identity mismatch"):
             self.check(commit="b"*40)
