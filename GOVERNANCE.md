@@ -128,7 +128,7 @@ comments and literal strings are masked; unsupported syntax is reviewed.
 Optional output creates a new regular file outside the audited root and
 refuses overwriting earlier evidence or inputs.
 
-Verification: 36 real-CLI tests; tests/test_cbz_mutation_harness.py has 14
+Verification: 36 scanner regression tests; tests/test_cbz_mutation_harness.py has 14
 real-process controls. tests/run_scanner_mutations.py applies 39 source mutants
 to the scanner. Its declared threshold is 39/39 killed with a passing unchanged
 suite, valid CLI smoke, full case count, assertion failures and no harness/test
