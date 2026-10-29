@@ -38,12 +38,38 @@ written to a report. Public repositories alone are not the complete federation.
 For a new empty parent directory, the commands are:
 
 ~~~sh
+set -eu
+export GIT_TERMINAL_PROMPT=0
 export CBZ_ROOT=/absolute/new/federation
 export CBZ_EVIDENCE=/absolute/new/evidence
 mkdir -p "$CBZ_ROOT" "$CBZ_EVIDENCE"
 for repo in main Math- governance- Universal-Law-Workspace meta-framework query- google-drive trial sandbox d6g8k5htny-coder openclaw-custodian-validation research-hosted-qualification
 do
   git clone --no-checkout "https://github.com/d6g8k5htny-coder/$repo.git" "$CBZ_ROOT/$repo"
+done
+~~~
+
+
+For a published vector file, this checkout loop rejects aliases and malformed
+commit values before calling Git (it does not replace full vector verification):
+
+~~~sh
+export CBZ_VECTOR=/absolute/published/baseline-vector.json
+for repo in main Math- governance- Universal-Law-Workspace meta-framework query- google-drive trial sandbox d6g8k5htny-coder openclaw-custodian-validation research-hosted-qualification
+do
+  cbz_commit=$(python3.11 -B -S - "$CBZ_VECTOR" "$repo" <<'PY'
+import json, re, sys
+from pathlib import Path
+value = json.loads(Path(sys.argv[1]).read_text())
+if value.get("schema") != "cbz.federation-vector.v1":
+    raise ValueError("unsupported source vector")
+commit = value["repositories"][sys.argv[2]]
+if not isinstance(commit, str) or re.fullmatch(r"[0-9a-f]{40}", commit) is None:
+    raise ValueError("source vector must contain an immutable full commit")
+print(commit)
+PY
+)
+  git -C "$CBZ_ROOT/$repo" checkout --detach "$cbz_commit"
 done
 ~~~
 
@@ -106,9 +132,12 @@ python3.11 -B -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --qu
 The output directory must be new and outside all three source roots. The helper
 verifies every historical descriptor before writing that fixture set, creates
 separate shop/museum trees, and passes SHOP_MATH_FIXTURE, SHOP_QUERY_FIXTURE and
-MUSEUM_FIXTURE to every tracked tests/*.mjs file. It clears NODE_OPTIONS and
-NODE_PATH. It runs Node directly without a shell and retains node.tap plus
-result.json. Only a real zero exit and a complete TAP summary with tests=pass>0
+MUSEUM_FIXTURE to every tracked tests/*.mjs file. It clears NODE_OPTIONS, NODE_PATH and ambient Git redirects/configuration. It runs Node directly without a shell and retains node.tap plus
+result.json. The exact fixture/manifest regular-file and directory set and bytes
+are verified before and after execution. Imported museum_data.py and the
+recorder itself must match their loaded bytes and selected main root at both
+endpoints. All tracked main symlinks and Gitlinks are rejected; selected tests
+must be regular stage-zero Git entries. Only a real zero exit and a complete TAP summary with tests=pass>0
 and fail=cancelled=skipped=todo=0 produce PASS. Missing objects, changed bytes,
 ambiguous summaries, source/index changes and missing executables fail.
 
@@ -116,8 +145,8 @@ A RUNNING report is an incomplete attempt. File existence, a prior PASS, or a
 partial log is not success. Reusing an output directory is rejected so a new
 run cannot overwrite a retained failure. The helper checks all tracked main
 bytes and modes against HEAD before/after, including changes hidden by
-assume-unchanged, and binds unchanged HEAD. This is an endpoint check, not a
-claim against malicious simultaneous writers, untracked ignored dependencies,
+assume-unchanged, and binds unchanged HEAD. These are endpoint checks; changes restored between them are outside the
+claim. They do not certify malicious simultaneous writers, untracked ignored dependencies,
 a hostile Git/Node/Python runtime, or arbitrary supplied transcripts.
 
 ## Gate ownership and commands
@@ -134,7 +163,7 @@ the final vector, full declared domain and one observed final run.
 | G2/G3/G4 | main: python3.11 -B -S tools/formal_gate_check.py --run-lean; Math-: LEAN_NUM_THREADS=2 python3.11 -B -S formal/gate.py --execute | All declared closed packages, exact compiled inventories/types/axioms, no receipt-source substitution |
 | G5 | main: python3.11 -B -S -m unittest discover -s tests -v; repeat with -O; prepared Node command above; Math-: python3.11 -B -S -m unittest discover -s tests -v; repeat with -O | Full active federation suite and explicit dormant quarantine contract, optional/container coverage and all declared package suites |
 | G6 | G0 source mutations; main replay helper: cd cbz/evidence/kernel/additional/replay-tool then python3.11 -B -S run_mutations.py --output NEW_EXTERNAL; Math downstream and meta-framework: documented run_validation.py campaigns | Every declared mutation target/threshold, intended assertion failures only |
-| G7 | ULW finished tools/verify_federation_vector.py --root ROOT --vector EXTERNAL_VECTOR, then network mode --network | Final exact twelve-repository vector, eight child pins, nine Lean locks and required remote availability |
+| G7 | ULW candidate: python3.11 -B -S tools/verify_federation_vector.py --root ROOT --vector EXTERNAL_VECTOR, then repeat with --network | Final exact twelve-repository vector, eight child pins, nine Lean locks and required remote availability |
 | G8 | Source census below plus direct reconciliation of STATUS/PROOF_INDEX/GOVERNANCE/TOOLING/BASELINE to the final observed reports | No current single tool proves semantic truth of every status sentence; final reconciliation must be recorded |
 | G9 | New clones at published baseline tag/vector; read STATUS.md only, answer its eight entry-point questions, then execute the commands and retain all results | Final clone/tag test has not been performed by this guide |
 | G10 | Each clone: git status --porcelain=v1 --untracked-files=all; git stash list; git worktree list --porcelain; git branch -a; git tag; GitHub current open PR/ref enumeration | Fresh complete remote enumeration, recoverable retirement and actual absence readback |

@@ -45,10 +45,29 @@ jobs:
         if: always()
         run: |
           python -B -S - <<'PY'
-          import json, os
+          import hashlib, json, os
           from pathlib import Path
-          path = Path(os.environ["RUNNER_TEMP"]) / "cbz-node-result/result.json"
-          print("CBZ_NODE_RESULT_JSON " + json.dumps(json.loads(path.read_text()), sort_keys=True))
+          root = Path(os.environ["RUNNER_TEMP"]) / "cbz-node-result"
+          record = json.loads((root / "result.json").read_text())
+          print("CBZ_NODE_RESULT_JSON " + json.dumps(record, sort_keys=True))
+          raw = (root / "node.tap").read_bytes()
+          def verify_log(value):
+              if hashlib.sha256(value).hexdigest() != record["log_sha256"]:
+                  raise ValueError("Node transcript no longer matches executed report")
+          verify_log(raw)
+          try:
+              verify_log(raw + b"\0")
+          except ValueError:
+              print("CBZ_NODE_TRANSPORT_ADVERSE_PASS")
+          else:
+              raise SystemExit("modified transcript was admitted")
+          text = raw.decode("utf-8")
+          chunks = [text[i:i+4096] for i in range(0, len(text), 4096)]
+          print("CBZ_NODE_TAP_TOTAL " + str(len(chunks)))
+          print("CBZ_NODE_TAP_GIT_BLOB " + hashlib.sha1(
+              b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest())
+          for number, chunk in enumerate(chunks):
+              print("CBZ_NODE_TAP_JSON " + str(number) + " " + json.dumps(chunk))
           PY
       - name: Preserve actual result and transcript
         if: always()
