@@ -1,3 +1,11 @@
+## Current source update
+
+See [parent-binding-20261029](parent-binding-20261029/README.md) for the subsequent
+review-driven comment-parent and duplicate-JSON repair, current source hashes,
+110 methods/mode (five existing skips), and 22 intended mutation kills. The
+following original description and sibling receipts are historical predecessor
+evidence, not claims that the updated source was used for the old live observation.
+
 # Q-9006 bounded engineering repair — candidate, not closure
 
 Base Main c93cec70223281492709ff74ca84fed5dc6e40e8. No canonical B-003

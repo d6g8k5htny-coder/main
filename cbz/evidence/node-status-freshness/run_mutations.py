@@ -9,6 +9,8 @@ import tempfile
 
 ROOT=Path(__file__).resolve().parents[3]
 CASES=[
+ ('comment-parent', 'if value.get("issue_url") != parent:', 'if False:', 'test_comment_parent_binding'),
+ ('api-duplicate-json', 'return json.load(resp, object_pairs_hook=_unique_pairs)', 'return json.load(resp)', 'test_api_duplicate_json_members_rejected'),
  ('object-drift', 'before == after', 'True', 'test_changed_blob_is_stale'),
  ('mode-drift', 'before == after', 'before[2] == after[2]', 'test_mode_change_is_stale'),
  ('truncation', 'value.get("truncated") is not False', 'False', 'test_partial_tree_unknown'),

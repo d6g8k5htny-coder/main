@@ -1,5 +1,6 @@
 """Content freshness, not last-touch commit equality; transport is injected offline."""
 import copy
+import io
 import json
 import tempfile
 import unittest
@@ -90,7 +91,7 @@ class ContentTests(unittest.TestCase):
                              ({'id':12,'updated_at':'2026-10-23T00:00:00Z'},'stale'),
                              ({'id':13,'updated_at':'2026-10-22T00:00:00Z'},'unknown'),
                              ({'id':12,'updated_at':'2026-99-22T00:00:00Z'},'unknown')):
-            self.responses[key]=value
+            self.responses[key]=dict(value,issue_url="https://api.github.com/repos/d6g8k5htny-coder/main/issues/9")
             self.assertEqual(n.refresh_record(rec,self.observer())['status'],status)
     def test_strict_status_exit_and_report_only_bytes(self):
         for status in ('fresh','stale','unknown'):
@@ -106,7 +107,7 @@ class ContentTests(unittest.TestCase):
 
     def test_future_recorded_comment_unknown(self):
         url='https://github.com/d6g8k5htny-coder/main/issues/9#issuecomment-12'
-        self.responses['/repos/d6g8k5htny-coder/main/issues/comments/12']={'id':12,'updated_at':'2026-10-22T00:00:00Z'}
+        self.responses['/repos/d6g8k5htny-coder/main/issues/comments/12']={'id':12,'updated_at':'2026-10-22T00:00:00Z','issue_url':'https://api.github.com/repos/d6g8k5htny-coder/main/issues/9'}
         rec=record();rec['sources']=[dict(url=url,rev='2026-10-23T00:00:00Z')]
         self.assertEqual(n.refresh_record(rec,self.observer())['status'],'unknown')
     def test_strict_invalid_records_never_repaired_to_green(self):
@@ -142,3 +143,31 @@ class ContentTests(unittest.TestCase):
             obs=n.ContentObserver(drift)
             with patch.object(n,'ContentObserver',return_value=obs),patch('sys.stdout'):
                 self.assertEqual(n.main([tmp,'--check']),1)
+
+    def test_comment_parent_binding(self):
+        stamp = '2026-10-22T00:00:00Z'
+        for repo in ('main', 'Math-'):
+            parent = f'https://api.github.com/repos/d6g8k5htny-coder/{repo}/issues/9'
+            for form in ('issues', 'pull'):
+                url = f'https://github.com/d6g8k5htny-coder/{repo}/{form}/9#issuecomment-12'
+                rec = record()
+                rec['sources'] = [dict(url=url, rev=stamp)]
+                rec['source_rev'] = stamp
+                for candidate in (parent, None, '', parent + '/', parent + '?x=1',
+                                  parent.replace('/9', '/10'), parent.replace('/issues/', '/pulls/'),
+                                  parent.replace('/repos/', '/wrong/'), 9, {},
+                                  parent.replace('/'+repo+'/', '/other/')):
+                    with self.subTest(repo=repo, form=form, parent=candidate):
+                        value = dict(id=12, updated_at=stamp)
+                        if candidate is not None:
+                            value['issue_url'] = candidate
+                        out = n.refresh_record(rec, n.ContentObserver(lambda path: value))
+                        self.assertEqual(out['status'], 'fresh' if candidate == parent else 'unknown')
+                        if candidate != parent:
+                            self.assertIn('parent identity mismatch', out['refresh_error'])
+
+    def test_api_duplicate_json_members_rejected(self):
+        for raw in (b'{"id":13,"id":12}', b'{"tree":{"sha":"bad","sha":"good"}}'):
+            with self.subTest(raw=raw), patch.object(n.urllib.request, 'urlopen', return_value=io.BytesIO(raw)):
+                with self.assertRaisesRegex(n.SourceError, 'duplicate JSON key'):
+                    n._api_get('/repos/d6g8k5htny-coder/main/issues/comments/12')

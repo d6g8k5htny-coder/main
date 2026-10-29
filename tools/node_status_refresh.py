@@ -84,7 +84,7 @@ def _api_get(path: str) -> object:
         req.add_header("Authorization", "Bearer " + token)
     try:
         with urllib.request.urlopen(req, timeout=20) as resp:
-            return json.load(resp)
+            return json.load(resp, object_pairs_hook=_unique_pairs)
     except Exception as exc:  # network, HTTP, JSON
         raise SourceError(f"{type(exc).__name__}: {exc}") from exc
 
@@ -244,6 +244,10 @@ class ContentObserver:
             expected = int(comment or number)
             if value.get("id" if comment else "number") != expected:
                 raise SourceError("discussion response identity mismatch")
+            if comment:
+                parent = f"{API}/repos/d6g8k5htny-coder/{repo}/issues/{number}"
+                if value.get("issue_url") != parent:
+                    raise SourceError("discussion parent identity mismatch")
             updated = _as_z(value.get("updated_at"))
             if not _UTC.fullmatch(updated):
                 raise SourceError("invalid discussion timestamp")
