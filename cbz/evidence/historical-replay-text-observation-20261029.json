@@ -1,0 +1,367 @@
+{
+  "schema": "cbz-historical-replay-text-observation-v1",
+  "observed_at_utc": "2026-10-29 22:11:37 UTC",
+  "repository": "d6g8k5htny-coder/main",
+  "archival_commit": "82d9e480a51b946b3e74525ccf32139129d37d28",
+  "method": "Read GitHub repository file content and Git tree entries only; no tests or Lean programs rerun, no SHA-256 independently recomputed, no process or bytecode-cache authentication.",
+  "python_v2": {
+    "report_blob": "8f31c4f04365a0835175317e059cb98c8ef536f3",
+    "manifest_blob": "045fd92c05dd8ab99d21103b4e0815c2da6dd7f3",
+    "manifest_recorded_sha256": {
+      "validator": "b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3",
+      "tests": "a07eaab8b6fd40a911d313197fae688927ebb3e1d74644628e4888a7e6505fc0",
+      "runner": "4b3d72c125ac038f8b5662b3f5e3edb58d80a7d993addc3eb418bbbfe45050d6"
+    },
+    "report_attribution": "v2 REPORT records validator and test digests matching the manifest; it records no runner digest. v1 reports different validator and test digests.",
+    "logs": [
+      {
+        "case": "baseline",
+        "mode": "normal",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/baseline-normal.stderr",
+        "git_blob": "db3403689b2dbb91fa098dd89e3570adce6777b2",
+        "test_result_lines": 31,
+        "failures": [],
+        "errors": [],
+        "assertions": [],
+        "summary": [
+          "Ran 31 tests in 0.334s",
+          "OK"
+        ]
+      },
+      {
+        "case": "baseline",
+        "mode": "optimized",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/baseline-optimized.stderr",
+        "git_blob": "f74ad5694def2cc72879c761f6c285b4ef94723d",
+        "test_result_lines": 31,
+        "failures": [],
+        "errors": [],
+        "assertions": [],
+        "summary": [
+          "Ran 31 tests in 0.308s",
+          "OK"
+        ]
+      },
+      {
+        "case": "owned-names",
+        "mode": "normal",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/owned-names-normal.stderr",
+        "git_blob": "b464193746ff91021f0bb4f8283e4910ce2f0b38",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_wrong_owned_name (test_replay_tool.TranscriptTests.test_wrong_owned_name)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: \"owned names differ\" does not match \"module assignment differs from complete compiled census\""
+        ],
+        "summary": [
+          "Ran 31 tests in 0.333s",
+          "FAILED (failures=1)"
+        ]
+      },
+      {
+        "case": "owned-names",
+        "mode": "optimized",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/owned-names-optimized.stderr",
+        "git_blob": "cc96387773c0325cdf96eb0f182ee2bc7e43b61f",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_wrong_owned_name (test_replay_tool.TranscriptTests.test_wrong_owned_name)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: \"owned names differ\" does not match \"module assignment differs from complete compiled census\""
+        ],
+        "summary": [
+          "Ran 31 tests in 0.318s",
+          "FAILED (failures=1)"
+        ]
+      },
+      {
+        "case": "module-assignment",
+        "mode": "normal",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/module-assignment-normal.stderr",
+        "git_blob": "f29a2abe35715cc388436ba138a721f681b4fa6c",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_wrong_module_assignment (test_replay_tool.TranscriptTests.test_wrong_module_assignment)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: ValueError not raised"
+        ],
+        "summary": [
+          "Ran 31 tests in 0.415s",
+          "FAILED (failures=1)"
+        ]
+      },
+      {
+        "case": "module-assignment",
+        "mode": "optimized",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/module-assignment-optimized.stderr",
+        "git_blob": "a120b100c3377eabd0abce0afcea7552a307ff9a",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_wrong_module_assignment (test_replay_tool.TranscriptTests.test_wrong_module_assignment)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: ValueError not raised"
+        ],
+        "summary": [
+          "Ran 31 tests in 0.361s",
+          "FAILED (failures=1)"
+        ]
+      },
+      {
+        "case": "axioms",
+        "mode": "normal",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/axioms-normal.stderr",
+        "git_blob": "9509a3902a3cbf93637f6208d16c1cdcbadcb9cb",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_forbidden_axiom (test_replay_tool.TranscriptTests.test_forbidden_axiom)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: ValueError not raised"
+        ],
+        "summary": [
+          "Ran 31 tests in 0.337s",
+          "FAILED (failures=1)"
+        ]
+      },
+      {
+        "case": "axioms",
+        "mode": "optimized",
+        "path": "cbz/evidence/kernel/additional/replay-tool/verification-v2/axioms-optimized.stderr",
+        "git_blob": "5e4ffab10eed017e34aa4b1bba9f6c7acfd39d43",
+        "test_result_lines": 31,
+        "failures": [
+          "FAIL: test_forbidden_axiom (test_replay_tool.TranscriptTests.test_forbidden_axiom)"
+        ],
+        "errors": [],
+        "assertions": [
+          "AssertionError: ValueError not raised"
+        ],
+        "summary": [
+          "Ran 31 tests in 0.326s",
+          "FAILED (failures=1)"
+        ]
+      }
+    ],
+    "interpretation": "The owned-name failure is a diagnostic mismatch after the later module-assignment guard still rejected the altered census, not acceptance of malformed data. Other two recorded assertions state ValueError was not raised. These are archived text observations; they do not prove execution or overcome the source grader's zero-test baseline and failure-binding limitations."
+  },
+  "lean_v3": {
+    "files": [
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/REPORT.json",
+        "git_blob": "a3b6a365a44dcd90befb734509e6f60ed4ba7795"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-empty-selection.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-empty-selection.stdout",
+        "git_blob": "ca9c8ca74d1adca5e731e9edb822a047f77d3372"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-forbidden-axiom.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-forbidden-axiom.stdout",
+        "git_blob": "845ac2771011581b004513bd1e7cc44e7cf9a8dc"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-illtyped-value.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-illtyped-value.stdout",
+        "git_blob": "a7409804e6d9447f25d17a98d428ff92e5c35ff9"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-omitted-owned.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-omitted-owned.stdout",
+        "git_blob": "0c966f9b6602f2a8c9ccd58531e7958e9e185ef8"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-partial.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-partial.stdout",
+        "git_blob": "37ac3f5c75a6be361cfe9ea4d672ea71b3b8ac14"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-unsafe.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/control-unsafe.stdout",
+        "git_blob": "9beb2576a56050608e6eba583f7b80dba13cd497"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-bypass-kernel-replay.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-bypass-kernel-replay.stdout",
+        "git_blob": "28202a213ee34fe8d4f90876d6b5e31f2d9656a4"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-axiom-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-axiom-guard.stdout",
+        "git_blob": "44d1675baf15da88a08b9c86f9a5c8069a36d1b0"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-owned-presence.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-owned-presence.stdout",
+        "git_blob": "53ae3d80d6c2371248bad92c68c359cae9e14f46"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-partial-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-partial-guard.stdout",
+        "git_blob": "8d0c2fe05eab98aac79213e85f2ef931ede71a91"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-unsafe-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-remove-unsafe-guard.stdout",
+        "git_blob": "73d8065c8a61f1f2cad283a26b2f947ee4ba2e14"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-reuse-imported-environment.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-normal/mutant-reuse-imported-environment.stdout",
+        "git_blob": "a0c9796061bee27a4869e2ea5a437077de6fe343"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/REPORT.json",
+        "git_blob": "653ac4633ebc8aeab9f5995c7c8be2a963b63aba"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-empty-selection.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-empty-selection.stdout",
+        "git_blob": "1a53be64ac184b8aa22aa6b08572b8abf2dbaf3f"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-forbidden-axiom.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-forbidden-axiom.stdout",
+        "git_blob": "4d0805977297caef0a934f7bb3145706735891ca"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-illtyped-value.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-illtyped-value.stdout",
+        "git_blob": "1a71d1266f0ad72333223a0ed3612fc9b1172145"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-omitted-owned.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-omitted-owned.stdout",
+        "git_blob": "d7726f342347d0dc281e3bb09a08363a6f0412fd"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-partial.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-partial.stdout",
+        "git_blob": "837c047ead757be742d103c14cac6f4e5360e193"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-unsafe.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/control-unsafe.stdout",
+        "git_blob": "5626c236d2760654a94bc3d5454ee3df31813004"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-bypass-kernel-replay.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-bypass-kernel-replay.stdout",
+        "git_blob": "28202a213ee34fe8d4f90876d6b5e31f2d9656a4"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-axiom-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-axiom-guard.stdout",
+        "git_blob": "13af8954e15ef172e7749e286b7581cf8791ca59"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-owned-presence.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-owned-presence.stdout",
+        "git_blob": "44398986cc46712ce1cc8753ecad975255ceb50d"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-partial-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-partial-guard.stdout",
+        "git_blob": "ef13ddadf7e312413a136106bfd404d7a9bdf1b7"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-unsafe-guard.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-remove-unsafe-guard.stdout",
+        "git_blob": "739062ee1a96c3c018c851bffb8b8e21a8f72beb"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-reuse-imported-environment.stderr",
+        "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+      },
+      {
+        "path": "cbz/evidence/kernel/additional/replay-tool/lean-verification-v3-optimized/mutant-reuse-imported-environment.stdout",
+        "git_blob": "a0c9796061bee27a4869e2ea5a437077de6fe343"
+      }
+    ],
+    "manifest_recorded_selftest_sha256": "66ca23cc72f38c519050ef32c47cb4e6b91126f334702d6fdb7457e1a3f33833",
+    "v3_reports_recorded_selftest_sha256": "66ca23cc72f38c519050ef32c47cb4e6b91126f334702d6fdb7457e1a3f33833",
+    "final_normal_report_blob": "588e69f27d08cdb4b182e00616c32281030c6b4d",
+    "final_normal_recorded_selftest_sha256": "8ddd58c2f22b7650b4ca6ee5585c5702462c08cdc775be1cb248485e07612ed1",
+    "attribution": "v3 normal/optimized report selftest digests agree with the manifest's recorded digest; final-normal identifies different bytes and cannot be attributed to the delivered selftest. Matching recorded digests do not establish what was executed.",
+    "interpretation": "Archived paired controls contain intended diagnostics. Reports claim exit 0 for four mutants, whose stdout has a Lean-stage PASS marker: reuse has zero closure for two seeds; bypass shows a normal-looking PASS for the ill-typed fixture; removed owned-presence and axiom guards have unused-variable warnings, with the latter also reporting a forbidden axiom. Strict downstream transcript validation would reject reuse (closure less than owned), both warning-bearing outputs, and the forbidden axiom. They are not all end-to-end false acceptances. The unsafe and partial mutants report exit 1 and a missing-candidate error instead of the explicit safety diagnostic: diagnostic-regression observations, not false acceptance. Exit codes are recorded report claims, not independently observed. Temporary generated mutant Lean bytes were not preserved."
+  },
+  "conclusion": "Archival text readback provides limited evidence for the recorded cases. It is not a current rerun, source execution authentication, full Layer A auditor qualification, or a final G0/G6 pass."
+}
