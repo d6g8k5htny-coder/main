@@ -1,0 +1,45 @@
+import Init
+
+namespace CBZEmpiricalCoreControls
+
+theorem int_pos_neg : (5 : Int) / (-2) = -2 ∧ (5 : Int) % (-2) = 1 := by decide
+
+theorem int_neg_neg : (-5 : Int) / (-2) = 3 ∧ (-5 : Int) % (-2) = 1 := by decide
+
+theorem int_neg_pos : (-5 : Int) / 2 = -3 ∧ (-5 : Int) % 2 = 1 := by decide
+
+theorem int_pos_pos : (5 : Int) / 2 = 2 ∧ (5 : Int) % 2 = 1 := by decide
+
+theorem int_pos_zero : (5 : Int) / 0 = 0 ∧ (5 : Int) % 0 = 5 := by decide
+
+theorem int_neg_zero : (-5 : Int) / 0 = 0 ∧ (-5 : Int) % 0 = -5 := by decide
+
+theorem nat_sub_truncates : (1 : Nat) - 2 = 0 := by decide
+
+theorem int_sub_is_signed : (1 : Int) - 2 = -1 := by decide
+
+theorem nat_div_zero : (5 : Nat) / 0 = 0 := by decide
+
+theorem nat_mod_zero : (5 : Nat) % 0 = 5 := by decide
+
+theorem original_true_control : (58 : Nat) * 9 < 23 ^ 2 := by decide
+
+theorem nonstrict_true_control : (58 : Nat) * 9 ≤ 23 ^ 2 := by decide
+
+theorem false_inequality_is_false : ¬ ((58 : Nat) * 9 < 22 ^ 2) := by decide
+
+end CBZEmpiricalCoreControls
+
+#print axioms CBZEmpiricalCoreControls.int_pos_neg
+#print axioms CBZEmpiricalCoreControls.int_neg_neg
+#print axioms CBZEmpiricalCoreControls.int_neg_pos
+#print axioms CBZEmpiricalCoreControls.int_pos_pos
+#print axioms CBZEmpiricalCoreControls.int_pos_zero
+#print axioms CBZEmpiricalCoreControls.int_neg_zero
+#print axioms CBZEmpiricalCoreControls.nat_sub_truncates
+#print axioms CBZEmpiricalCoreControls.int_sub_is_signed
+#print axioms CBZEmpiricalCoreControls.nat_div_zero
+#print axioms CBZEmpiricalCoreControls.nat_mod_zero
+#print axioms CBZEmpiricalCoreControls.original_true_control
+#print axioms CBZEmpiricalCoreControls.nonstrict_true_control
+#print axioms CBZEmpiricalCoreControls.false_inequality_is_false

@@ -1,0 +1,89 @@
+{
+  "argv": [
+    "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+    "-DwarningAsError=true",
+    "-o",
+    "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/core-arithmetic-controls-v1/CoreArithmeticControls.olean",
+    "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/core-arithmetic-controls-v1/CoreArithmeticControls.lean"
+  ],
+  "end": "2026-10-29T23:46:41.856832+00:00",
+  "exit_code": 0,
+  "expected_controls": [
+    {
+      "name": "int_pos_neg",
+      "proposition": "(5 : Int) / (-2) = -2 \u2227 (5 : Int) % (-2) = 1"
+    },
+    {
+      "name": "int_neg_neg",
+      "proposition": "(-5 : Int) / (-2) = 3 \u2227 (-5 : Int) % (-2) = 1"
+    },
+    {
+      "name": "int_neg_pos",
+      "proposition": "(-5 : Int) / 2 = -3 \u2227 (-5 : Int) % 2 = 1"
+    },
+    {
+      "name": "int_pos_pos",
+      "proposition": "(5 : Int) / 2 = 2 \u2227 (5 : Int) % 2 = 1"
+    },
+    {
+      "name": "int_pos_zero",
+      "proposition": "(5 : Int) / 0 = 0 \u2227 (5 : Int) % 0 = 5"
+    },
+    {
+      "name": "int_neg_zero",
+      "proposition": "(-5 : Int) / 0 = 0 \u2227 (-5 : Int) % 0 = -5"
+    },
+    {
+      "name": "nat_sub_truncates",
+      "proposition": "(1 : Nat) - 2 = 0"
+    },
+    {
+      "name": "int_sub_is_signed",
+      "proposition": "(1 : Int) - 2 = -1"
+    },
+    {
+      "name": "nat_div_zero",
+      "proposition": "(5 : Nat) / 0 = 0"
+    },
+    {
+      "name": "nat_mod_zero",
+      "proposition": "(5 : Nat) % 0 = 5"
+    },
+    {
+      "name": "original_true_control",
+      "proposition": "(58 : Nat) * 9 < 23 ^ 2"
+    },
+    {
+      "name": "nonstrict_true_control",
+      "proposition": "(58 : Nat) * 9 \u2264 23 ^ 2"
+    },
+    {
+      "name": "false_inequality_is_false",
+      "proposition": "\u00ac ((58 : Nat) * 9 < 22 ^ 2)"
+    }
+  ],
+  "lean_executable_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+  "observed_no_axiom_controls": [
+    "int_pos_neg",
+    "int_neg_neg",
+    "int_neg_pos",
+    "int_pos_pos",
+    "int_pos_zero",
+    "int_neg_zero",
+    "nat_sub_truncates",
+    "int_sub_is_signed",
+    "nat_div_zero",
+    "nat_mod_zero",
+    "original_true_control",
+    "nonstrict_true_control",
+    "false_inequality_is_false"
+  ],
+  "olean_exists": true,
+  "runtime_version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)\n",
+  "scope": "Pinned Lean Core auditor golden controls only; no candidate fuzzer, randomized campaign, project CLOSED status or CBZ/G2-G4 final gate claimed",
+  "source_bytes": 1725,
+  "source_sha256": "123b4c0db32f3b0ac9b1faf5e6392143e431fd9c2ddcda55cf37966fb5aa5fb7",
+  "start": "2026-10-29T23:46:39.949942+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "4bb20134b7745f0642acf65eefa2b89a872b8bb44ecaf170e96ef884b2910611"
+}
