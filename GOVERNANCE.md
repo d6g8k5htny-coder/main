@@ -107,3 +107,9 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+## 2026-10-29T21:20:29.131Z — Public-intake enumeration tool
+
+Existing tool: `tools/public_intake_check.py`. Purpose: complete bounded intake/engineering routing for supported PR sizes. The trusted public-intake checker enumerates up to the documented GitHub API limit of3000 changed files,100 per page. It requires typed integer metadata, exact per-page and aggregate counts, unique validated paths and a matching final PR snapshot. The separate public-package cap remains50 files and all source/artifact admission checks remain unchanged. More than3000 files refuse. Initial/final snapshots do not establish atomicity or exclude an A-to-B-to-A head transition.
+
+Usage and verification: `python3 -B -S -m unittest discover -s tests -p test_public_intake.py -v` and the same command with `-O`. All85 original test bodies are preserved;97 controls pass in both modes, and the captured965-path input consumes all10 pages plus final readback. Independent review reproduced malformed-page refusal and records the pre-existing endpoint race limit. This is finite engineering qualification, not a Layer A, mathematical, full-regression or CBZ certificate. Maintenance: none beyond deliberate source/contract changes. Hosted execution of this revision must be observed after ordinary PR integration; no workflow or protection change is authorized by this result.
