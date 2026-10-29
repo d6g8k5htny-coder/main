@@ -4,11 +4,13 @@ on:
     branches: [cbz/cold-start-node-20261029]
     paths:
       - 'tools/cbz_node_regression.py'
+      - 'tools/cbz_node_controls.py'
       - 'tests/test_cbz_node_regression.py'
       - '.github/workflows/cbz-cold-start-node.yml'
   pull_request:
     paths:
       - 'tools/cbz_node_regression.py'
+      - 'tools/cbz_node_controls.py'
       - 'tests/test_cbz_node_regression.py'
       - '.github/workflows/cbz-cold-start-node.yml'
 permissions:
@@ -26,10 +28,10 @@ jobs:
         with:
           python-version: '3.11'
       - name: Ordinary controls and intended source/harness mutations
-        run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+        run: python -I -B -S tools/cbz_node_controls.py
       - name: Optimized controls and intended source/harness mutations
         if: always()
-        run: python -B -O -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+        run: python -I -B -O -S tools/cbz_node_controls.py
       - name: Fetch immutable historical fixture objects
         if: always()
         run: |
@@ -40,11 +42,11 @@ jobs:
         env:
           NODE_OPTIONS: --require=/definitely-missing-cbz-node-preload.cjs
           NODE_PATH: /untrusted/cbz-node-path
-        run: python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
+        run: python -I -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
       - name: Print actual result for independent readback
         if: always()
         run: |
-          python -B -S - <<'PY'
+          python -I -B -S - <<'PY'
           import hashlib, json, os
           from pathlib import Path
           root = Path(os.environ["RUNNER_TEMP"]) / "cbz-node-result"

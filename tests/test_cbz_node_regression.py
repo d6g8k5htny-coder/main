@@ -103,7 +103,7 @@ class NodeRunnerTests(unittest.TestCase):
                 return
             fixture = variables["output"] / "shop/Math-/data.txt"
             transcript = variables["path"]
-            if fixture.read_bytes() != b"mutated\n" or "# pass 1" not in transcript.read_text():
+            if fixture.read_bytes() != b"mutated\n" or not one_pass_tap(transcript.read_text()):
                 return
         self.mark_bypass(mutation)
 
@@ -237,7 +237,7 @@ class NodeRunnerTests(unittest.TestCase):
                 [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
                  "-c", script, str(tools), name],
                 capture_output=True, text=True, timeout=30)
-            if result.returncode != 0 and "CONTROL_IMPORT_PASS" in result.stdout and "changed loaded source was accepted" in result.stderr:
+            if loaded_bypass_observed(result):
                 self.mark_bypass("loaded-bytes")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("CONTROL_IMPORT_PASS", result.stdout)
@@ -522,6 +522,23 @@ class NodeRunnerTests(unittest.TestCase):
         self.assertEqual((output / "retained.txt").read_text(), "old failure")
 
 
+def one_pass_tap(text):
+    expected = {"tests": 1, "pass": 1, "fail": 0, "cancelled": 0, "skipped": 0, "todo": 0}
+    lines = text.splitlines()
+    for field, value in expected.items():
+        matching = [line for line in lines if line.startswith("# " + field)]
+        if matching != [f"# {field} {value}"]:
+            return False
+    return True
+
+
+def loaded_bypass_observed(result):
+    return (result.returncode == 1
+            and result.stdout.splitlines().count("CONTROL_IMPORT_PASS") == 1
+            and result.stderr.splitlines().count(
+                "AssertionError: changed loaded source was accepted") == 1)
+
+
 def assertion_kill(process, expected):
     text = process.stdout + process.stderr
     summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
@@ -529,7 +546,8 @@ def assertion_kill(process, expected):
         return False
     if process.returncode != 1 or not summary or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1)):
         return False
-    if not re.search(r"^Ran [1-9][0-9]* tests?", text, re.MULTILINE):
+    runs = re.findall(r"^Ran [^\n]*$", text, re.MULTILINE)
+    if len(runs) != 1 or not re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", runs[0]):
         return False
     failures = re.findall(r"^FAIL: (test_[a-zA-Z0-9_]+) \(", text, re.MULTILINE)
     count = int(re.match(r"failures=([0-9]+)", summary.group(1)).group(1))
@@ -720,35 +738,41 @@ class MutationHarnessTests(unittest.TestCase):
                 self.assertFalse(observer(candidate))
 
     def test_mutant_child_does_not_execute_poisoned_test_cache(self):
-        with tempfile.TemporaryDirectory(prefix="cbz-node-child-cache-") as directory:
-            root = Path(directory)
-            package = root / "tests"
-            package.mkdir()
-            (package / "__init__.py").write_text("")
-            source = package / "test_cbz_node_regression.py"
-            source.write_text("import unittest\nclass NodeRunnerTests(unittest.TestCase):\n def test_child(self): print('CBZ_CHILD_SOURCE')\n")
-            stat = source.stat()
-            suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
-            cache = package / "__pycache__" / ("test_cbz_node_regression." + sys.implementation.cache_tag + suffix + ".pyc")
-            cache.parent.mkdir()
-            poisoned = compile("print('CBZ_CHILD_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
-            cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
-                poisoned, int(stat.st_mtime), stat.st_size))
-            (root / "tools").mkdir()
-            (root / "tools/museum_data.py").write_text("")
-            target = root / "mutant.py"
-            target.write_text("")
-            original = ROOT
-            globals()["ROOT"] = root
-            try:
-                with patch.dict(os.environ):
-                    os.environ.pop("PYTHONPYCACHEPREFIX", None)
-                    result = SourceMutationTests("test_unmodified_copied_source_passes").invoke(target, "test_child")
-            finally:
-                globals()["ROOT"] = original
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
-            self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
+        for use_prefix in (False, True):
+            with self.subTest(inherited_prefix=use_prefix), tempfile.TemporaryDirectory(prefix="cbz-node-child-cache-") as directory:
+                root = Path(directory) / "workspace"
+                package = root / "tests"
+                package.mkdir(parents=True)
+                (package / "__init__.py").write_text("")
+                source = package / "test_cbz_node_regression.py"
+                source.write_text("import unittest\nclass NodeRunnerTests(unittest.TestCase):\n def test_child(self): print('CBZ_CHILD_SOURCE')\n")
+                stat = source.stat()
+                prefix = str(Path(directory) / "inherited") if use_prefix else None
+                with patch.object(sys, "pycache_prefix", prefix):
+                    cache = Path(importlib.util.cache_from_source(
+                        str(source), optimization=str(sys.flags.optimize) if sys.flags.optimize else ""))
+                cache.parent.mkdir(parents=True)
+                poisoned = compile("print('CBZ_CHILD_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
+                cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                    poisoned, int(stat.st_mtime), stat.st_size))
+                (root / "tools").mkdir()
+                (root / "tools/museum_data.py").write_text("")
+                target = root / "mutant.py"
+                target.write_text("")
+                original = ROOT
+                globals()["ROOT"] = root
+                try:
+                    with patch.dict(os.environ):
+                        if prefix is None:
+                            os.environ.pop("PYTHONPYCACHEPREFIX", None)
+                        else:
+                            os.environ["PYTHONPYCACHEPREFIX"] = prefix
+                        result = SourceMutationTests("test_unmodified_copied_source_passes").invoke(target, "test_child")
+                finally:
+                    globals()["ROOT"] = original
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
+                self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
     def test_outer_control_launcher_ignores_poisoned_test_cache(self):
         launcher = Path(os.environ.get("CBZ_NODE_CONTROL_LAUNCHER", ROOT / "tools/cbz_node_controls.py"))
@@ -888,15 +912,20 @@ class SourceMutationTests(unittest.TestCase):
 
     def invoke(self, path, name, receipt=None, nonce=None, mutation=None):
         path.with_name("museum_data.py").write_bytes((ROOT / "tools/museum_data.py").read_bytes())
-        environment = dict(os.environ, CBZ_NODE_RUNNER_SOURCE=str(path),
-                           PYTHONDONTWRITEBYTECODE="1")
+        environment = {key: value for key, value in os.environ.items()
+                       if not key.startswith("PYTHON")}
+        environment["CBZ_NODE_RUNNER_SOURCE"] = str(path)
         if receipt is not None:
             environment.update(CBZ_NODE_MUTANT_RECEIPT=str(receipt), CBZ_NODE_MUTANT_NONCE=nonce, CBZ_NODE_MUTANT_NAME=mutation)
-        return subprocess.run(
-            [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
-             "-m", "unittest", "-v",
-             "tests.test_cbz_node_regression.NodeRunnerTests" + ("." + name if name else "")],
-            cwd=ROOT, env=environment, capture_output=True, text=True, timeout=120)
+        target = "tests.test_cbz_node_regression.NodeRunnerTests" + ("." + name if name else "")
+        bootstrap = ("import sys, unittest\n"
+                     "sys.path.insert(0, sys.argv[1])\n"
+                     "unittest.main(module=None, argv=['unittest', '-v', sys.argv[2]])\n")
+        with tempfile.TemporaryDirectory(prefix="cbz-node-child-pycache-") as cache:
+            return subprocess.run(
+                [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                 "-X", f"pycache_prefix={cache}", "-c", bootstrap, str(ROOT), target],
+                cwd=ROOT, env=environment, capture_output=True, text=True, timeout=120)
 
     def test_unmodified_copied_source_passes(self):
         with tempfile.TemporaryDirectory(prefix="cbz-node-baseline-") as directory:
@@ -931,6 +960,16 @@ class SourceMutationTests(unittest.TestCase):
              "test_source_loader_ignores_poisoned_bytecode"),
             ("fixture-exit", 'if variables.get("observed_exit") != 0:', "if False:",
              "test_fixture_receipt_requires_successful_node_exit"),
+            ("selected-test-count",
+             'len(runs) != 1 or not re.fullmatch(r"Ran 1 test in [0-9]+(?:\.[0-9]+)?s", runs[0])',
+             "False", "test_selected_control_must_run_exactly_one_test"),
+            ("fixture-tap", "not one_pass_tap(transcript.read_text())", "False",
+             "test_fixture_receipt_rejects_ambiguous_or_incomplete_tap"),
+            ("loaded-exit", "result.returncode == 1", "result.returncode != 0",
+             "test_loaded_bytes_observation_requires_exact_failure"),
+            ("loaded-exact", 'result.stderr.splitlines().count(\n                "AssertionError: changed loaded source was accepted") == 1',
+             '"changed loaded source was accepted" in result.stderr',
+             "test_loaded_bytes_observation_requires_exact_failure"),
             ("count", "len(failures) == count", "True",
              "test_mismatched_failure_count_cannot_kill"),
             ("receipt", "receipt == required", "True",
@@ -964,6 +1003,63 @@ class SourceMutationTests(unittest.TestCase):
                         env=dict(os.environ), capture_output=True, text=True, timeout=120)
                     self.assertTrue(assertion_kill(result, expected),
                                     result.stdout + result.stderr)
+
+
+    def test_child_cache_guard_mutation_is_rejected(self):
+        full_source = Path(__file__).read_text()
+        prefix, suffix = full_source.split("\nclass SourceMutationTests", 1)
+        old = '"-X", f"pycache_prefix={cache}",'
+        before, after = suffix.split("\n    def test_child_cache_guard_mutation_is_rejected", 1)
+        self.assertEqual(before.count(old), 1)
+        with tempfile.TemporaryDirectory(prefix="cbz-node-child-mutant-") as directory:
+            test_path = Path(directory) / "test-child-mutant.py"
+            test_path.write_text(prefix + "\nclass SourceMutationTests" + before.replace(old, "", 1)
+                                 + "\n    def test_child_cache_guard_mutation_is_rejected" + after)
+            result = subprocess.run(
+                [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                 str(test_path), "MutationHarnessTests.test_mutant_child_does_not_execute_poisoned_test_cache", "-v"],
+                capture_output=True, text=True, timeout=120)
+            self.assertTrue(assertion_kill(result, "test_mutant_child_does_not_execute_poisoned_test_cache"),
+                            result.stdout + result.stderr)
+            self.assertIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
+            self.assertIn("RuntimeError: poison", result.stdout + result.stderr)
+
+    def test_outer_empty_guard_mutation_is_rejected(self):
+        launcher = ROOT / "tools/cbz_node_controls.py"
+        source = launcher.read_text()
+        old = 'not re.fullmatch(r"Ran [1-9][0-9]* tests? in [0-9]+(?:\.[0-9]+)?s", runs[0])'
+        self.assertEqual(source.count(old), 1)
+        with tempfile.TemporaryDirectory(prefix="cbz-node-empty-mutant-") as directory:
+            mutant = Path(directory) / "controls-mutant.py"
+            mutant.write_text(source.replace(old, "False", 1))
+            environment = dict(os.environ, CBZ_NODE_CONTROL_LAUNCHER=str(mutant))
+            result = subprocess.run(
+                [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                 str(Path(__file__).resolve()),
+                 "MutationHarnessTests.test_outer_control_launcher_refuses_empty_and_skipped_suites", "-v"],
+                env=environment, cwd=ROOT, capture_output=True, text=True, timeout=120)
+            self.assertTrue(assertion_kill(result, "test_outer_control_launcher_refuses_empty_and_skipped_suites"),
+                            result.stdout + result.stderr)
+            self.assertIn("Ran 0 tests", result.stdout + result.stderr)
+
+    def test_outer_cache_guard_mutation_is_rejected(self):
+        launcher = ROOT / "tools/cbz_node_controls.py"
+        source = launcher.read_text()
+        old = '"-X", f"pycache_prefix={cache}",'
+        self.assertEqual(source.count(old), 1)
+        with tempfile.TemporaryDirectory(prefix="cbz-node-outer-mutant-") as directory:
+            mutant = Path(directory) / "controls-mutant.py"
+            mutant.write_text(source.replace(old, "", 1))
+            environment = dict(os.environ, CBZ_NODE_CONTROL_LAUNCHER=str(mutant))
+            result = subprocess.run(
+                [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                 str(Path(__file__).resolve()),
+                 "MutationHarnessTests.test_outer_control_launcher_ignores_poisoned_test_cache", "-v"],
+                env=environment, cwd=ROOT, capture_output=True, text=True, timeout=120)
+            self.assertTrue(assertion_kill(result, "test_outer_control_launcher_ignores_poisoned_test_cache"),
+                            result.stdout + result.stderr)
+            self.assertIn("CBZ_OUTER_POISON", result.stdout + result.stderr)
+            self.assertIn("RuntimeError: poison", result.stdout + result.stderr)
 
 
 if __name__ == "__main__":

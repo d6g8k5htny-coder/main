@@ -218,3 +218,5 @@ regression contract must reconcile these recorded outcomes explicitly; this
 guide does not relabel a skipped test as a passed test or declare G5 green.
 
 The Node mutation harness is under additional A8 repair: its independently reviewed single-test count, fixture TAP receipt, and loaded-source receipt are not yet qualified. See cbz/evidence/cold-start-node/REGISTRY_ADDENDUM.md. Historical component runs do not certify the updated harness or the final gates.
+
+The candidate source-only Node control launcher is run with `python3.11 -I -B -S tools/cbz_node_controls.py` and `python3.11 -I -B -O -S tools/cbz_node_controls.py`. It requires a trusted selected source root, interpreter and standard library. It remains unadmitted and unverified until the candidate and its mutations are actually run; see the evidence addendum.
