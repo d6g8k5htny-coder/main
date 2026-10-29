@@ -1,0 +1,49 @@
+name: CBZ historical graph composition control
+on:
+  push:
+    branches: ["cbz/main-graph-composition-20261029"]
+permissions:
+  contents: read
+jobs:
+  composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde
+          path: math-input
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Run pinned composition controls in both modes
+        shell: bash
+        env:
+          GB_MATH_CHECKOUT: ${{ github.workspace }}/math-input
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD
+          git cat-file -e '29b7d5969e2cd707debb7449c69a71bbcd39cf63^{commit}'
+          git -C "$GB_MATH_CHECKOUT" rev-parse HEAD
+          test "$(git -C "$GB_MATH_CHECKOUT" rev-parse HEAD)" = dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde
+          for mode in normal optimized; do
+            args=(-B -S)
+            if [ "$mode" = optimized ]; then args+=(-O); fi
+            python3 "${args[@]}" -m unittest discover -s tests -p test_graph_binding_check.py -v 2>&1 | tee "$RUNNER_TEMP/graph-composition-$mode.log"
+            grep -E '^test_525_composition .* \.\.\. ok$' "$RUNNER_TEMP/graph-composition-$mode.log"
+            sha256sum "$RUNNER_TEMP/graph-composition-$mode.log"
+          done
+      - name: Retain output on every conclusion
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-graph-composition-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/graph-composition-*.log
+          if-no-files-found: error
