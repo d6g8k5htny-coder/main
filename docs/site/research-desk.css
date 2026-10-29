@@ -40,3 +40,22 @@
 @media(max-width:420px){#reading-list{padding:0 12px}#desk-count{display:block;margin:0}#desk-entries > li{grid-template-columns:minmax(0,1fr);gap:10px}.desk-remove{justify-self:start}.desk-tools{align-items:stretch}.desk-tools > *{max-width:100%}}
 @media print{.desk-tools,.desk-save-source,#desk-save-current,#desk-save-catalog,.desk-remove,#desk-status{display:none!important}#reading-list{background:white;border-color:#aaa}#desk-entries>li{display:block}}
 @media print{.library-source-tools{display:none}}
+
+/* Current discovery leads; unchanged provenance remains in its own disclosure. */
+.library-current-search {padding:0 1rem;margin:1rem 0;border:1px solid var(--ul-border);border-radius:var(--ul-radius-m);background:var(--ul-surface)}
+.library-current-search > summary {min-height:44px;padding:.75rem 0;font-weight:650}
+.library-search-controls {display:grid;grid-template-columns:minmax(9rem,1fr) minmax(0,3fr);align-items:end;gap:1rem;margin-block:.5rem}
+.library-search-controls label {min-width:0;margin:0}
+.library-search-controls :is(select,input) {width:100%;max-width:100%;margin:.35rem 0 0;font-size:1rem}
+#library-collection-note,#library-text-count {max-width:78ch;font-size:.875rem;color:var(--ul-muted)}
+#library-text-results {padding:0;list-style:none}
+#library-text-results > li {padding:1rem 0;border-top:1px solid var(--ul-border);overflow-wrap:anywhere}
+#library-text-results > li > a {display:inline-block;min-height:44px;align-content:center;font-weight:600}
+#library-text-results small {display:block;color:var(--ul-muted);font-size:.8125rem}
+#library-text-results pre {white-space:pre-wrap;overflow-wrap:anywhere;max-width:100%;font-size:.875rem}
+#library-text-results details {font-size:.8125rem}
+#library-text-results summary {min-height:44px;align-content:center}
+#library-text-more {min-height:44px}
+#library-file-results[hidden],#library-text-panel[hidden],#desk-save-current[hidden],#library-text-more[hidden] {display:none!important}
+@media(max-width:480px){.library-search-controls{grid-template-columns:minmax(0,1fr);gap:.5rem}.library-current-search{padding:0 .8rem}}
+@media print{.library-search-controls,.library-source-tools,#library-text-more{display:none}}

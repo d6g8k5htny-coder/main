@@ -1,6 +1,6 @@
 import {currentSnapshot,element,anchor} from './current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5';
 import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
-import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=3e0fefb85ff0513c15dace1de0fae4bfd6f456d6fa8d6ccb5976cca973fc54ef';
+import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=08528dff176fd0ea777a90a9c78332d510a843745e5c96b0830164437eb6bef5';
 import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=ac837d92886a5837be6e7b5844d02b1471e50e58c185d5fe399f539d9c7e0ad5';
 import {createRelationshipSections} from './atlas-relationships.mjs?site-release=a45607775d5c82c86420d6a93b1af9142a2e26ce385e14f298ce873e58d4d835';
 import {enableAtlasView,reconcileEquationOptions,createEquationAnnouncement} from './atlas-controls.mjs?site-release=58e7dd9a4fcfc326effc240080bbfac0cadd584908f84047b480fd9dcba522c7';
@@ -13,11 +13,11 @@ function resumeSection(view){const section=element('section',undefined,'resume-n
   section.append(heading,warning,element('p',`Snapshot identity: graph ${s.graph_repository} commit ${s.graph_commit} · ${s.graph_path} · SHA-256 ${s.graph_sha256} · main commit ${s.main_commit||RESUME_NOT_RECORDED}.`),element('h5','Recorded graph state'),fields(view.state),element('h5','Recorded review record'),element('p',view.review.label),view.review.fields.length?fields(view.review.fields):element('p',`Review metadata: ${RESUME_NOT_RECORDED}.`),element('h5','Operational task state'),fields(view.operational),element('h5','Continuation'));
   const task=view.continuation,p=element('p');if(task)p.append(anchor(task.label,task.url),`. ${task.meaning} Site-maintained pointer, not part of the graph snapshot; identified on ${task.identified_on} in `,anchor("the coordinator's activation record",task.identified_in),'. The linked comment is mutable; read it live before acting.');else p.textContent=view.continuation_text;section.append(p);return section;}
 // Published copy of records/node_status. A missing file leaves the snapshot-only projection.
-async function loadNodeStatus(){try{const response=await fetch('node-status.json',{cache:'no-store',credentials:'omit'});if(!response.ok)return null;const body=await response.json();return body&&typeof body==='object'&&!Array.isArray(body)?body:null;}catch{return null;}}
+async function loadNodeStatus(signal){try{const response=await fetch('node-status.json',{cache:'no-store',credentials:'omit',signal});if(!response.ok)return null;const body=await response.json();return body&&typeof body==='object'&&!Array.isArray(body)?body:null;}catch{return null;}}
 function linkRecord(label,value){const p=element('p');if(typeof value==='string'){try{const u=new URL(value);if(u.protocol==='https:'&&u.hostname==='github.com'&&!u.username&&!u.password&&!u.port){p.append(anchor(label,value));return p;}}catch{}}p.textContent=`${label}: ${value||'not recorded'}`;return p;}
 async function start() {
-  const nodeStatus=await loadNodeStatus();
   const root=byId('current-atlas');if(!root)return;
+  let nodeStatus=null,statusController,statusGeneration=0,statusActive=true,resumePending=false;
   const data=await currentSnapshot;
   if(!data){byId('atlas-status').textContent='Unavailable: current snapshot did not verify. Use the static source index and preserved snapshot below.';return;}
   const graph=data.graph.data;let state=readState(location.search,data);let selected=state.node,view=state.view,expanded=new Set([selected]),zoom=1,offset=state.offset||0;
@@ -26,6 +26,22 @@ async function start() {
   const recordedExpanded=new URLSearchParams(location.search).get('atlas-expanded');
   if(recordedExpanded){const ids=recordedExpanded.split(',');if(ids.length<=150&&ids.every(id=>hasNode(graph,id)))expanded=new Set(ids);}
   let trail=[];const query=byId('atlas-search');
+  // Optional operational records never hold up verified mathematical reading.
+  // Patch only the current resume section; retain a focused source link until
+  // focus leaves it, rather than replacing the inspector or writing history.
+  function patchOperationalResume(){
+    if(!statusActive||state.error||!hasNode(graph,selected))return;
+    const current=byId('atlas-inspector').querySelector('#atlas-resume');if(!current)return;
+    if(current.contains(document.activeElement)){resumePending=true;return;}
+    resumePending=false;current.replaceWith(resumeSection(resumeProjection(data,selected,Date.now(),nodeStatus)));
+  }
+  function requestNodeStatus(){
+    const generation=++statusGeneration;statusController?.abort();statusController=typeof AbortController==='function'?new AbortController():null;
+    loadNodeStatus(statusController?.signal).then(records=>{if(!statusActive||generation!==statusGeneration||records===nodeStatus)return;nodeStatus=records;patchOperationalResume();});
+  }
+  root.addEventListener('focusout',()=>{if(resumePending)queueMicrotask(patchOperationalResume);});
+  window.addEventListener('pagehide',()=>{statusActive=false;statusGeneration++;statusController?.abort();resumePending=false;});
+  window.addEventListener('pageshow',event=>{if(event.persisted){statusActive=true;requestNodeStatus();}});
   query.value=state.query;
   const error=byId('atlas-error');error.textContent=state.error||'';error.hidden=!state.error;
   byId('atlas-status').textContent=`Source snapshot · ${Object.keys(graph.nodes).length} nodes, ${graph.edges.length} recorded relationships. No scientific status inferred.`;
@@ -41,7 +57,7 @@ async function start() {
   function select(id,{push=true,focus=true}={}){if(!hasNode(graph,id))return;trail.push(selected);selected=id;expanded.add(id);offset=0;state.error=null;error.hidden=true;shell.selectNode();render();urlState(push);if(focus)shell.focusReading();}
   function nodeButton(id,{compact=false}={}){const n=graph.nodes[id];const b=element('button',id);b.type='button';b.setAttribute('aria-pressed',String(selected===id));b.append(element('small',`${n.kind} · ${n.classification}`));if(!compact){const r=reach(id);b.append(element('small',`Downstream nodes · all edges: ${r.allEdge} · required edges: ${r.requiredOnly}`));}b.addEventListener('click',()=>select(id));return b;}
   let inspectedNode,inspectedError;
-  function renderInspector(){const n=graph.nodes[selected];const panel=byId('atlas-inspector');const disclosures=new Map(inspectedNode===n&&inspectedError===state.error?[...panel.querySelectorAll('details')].map(detail=>[detail.id,detail.open]):[]);inspectedNode=n;inspectedError=state.error;panel.replaceChildren();if(!n||state.error){panel.append(element('p',state.error||'Select a node.'));return;}
+  function renderInspector(){const n=graph.nodes[selected];const panel=byId('atlas-inspector');const disclosures=new Map(inspectedNode===n&&inspectedError===state.error?[...panel.querySelectorAll('details')].map(detail=>[detail.id,detail.open]):[]);inspectedNode=n;inspectedError=state.error;resumePending=false;panel.replaceChildren();if(!n||state.error){panel.append(element('p',state.error||'Select a node.'));return;}
     panel.append(element('h3',selected),element('p',`Kind: ${n.kind} · Classification: ${n.classification} · ${n.layer||'layer not recorded'}`));
     panel.append(createClaimSummary(data,n,selected));
     const reviewDetails=element('details');reviewDetails.id='atlas-review-details';reviewDetails.append(element('summary','Review records and continuation'));
@@ -96,6 +112,6 @@ async function start() {
   for(const [id,step] of [['equation-next',1],['equation-previous',-1]])byId(id).addEventListener('click',()=>{eq.selectedIndex=Math.max(1,Math.min(eq.options.length-1,eq.selectedIndex+step));renderEquation();urlState();});
   eqSearch.addEventListener('input',()=>{equationOptions();renderEquation();urlState();});
   window.addEventListener('popstate',()=>{const restoreFocus=root.contains(document.activeElement);state=readState(location.search,data);selected=state.node;const requestedView=new URLSearchParams(location.search).get('atlas-view');viewPreference=['graph','list'].includes(requestedView)?requestedView:null;view=viewForViewport(location.search,state.view,mobile.matches);query.value=state.query;offset=state.offset||0;eqSearch.value=state.equationQuery||'';const ids=(new URLSearchParams(location.search).get('atlas-expanded')||selected).split(',');expanded=new Set(ids.filter(id=>hasNode(graph,id)).slice(0,150));error.textContent=state.error||'';error.hidden=!state.error;shell.restore(location.href);shell.updateLinks(location.href);equationOptions(state.equation);renderEquation();render();if(state.error)byId('atlas-share').href=location.href;else urlState(false,false);if(restoreFocus)shell.restore(location.href,{focus:true});});
-  renderEquation();render();urlState(false,false);
+  renderEquation();render();urlState(false,false);requestNodeStatus();
 }
 if(typeof document!=='undefined')start().catch(e=>{const s=byId('atlas-status');if(s)s.textContent=`Unavailable: ${e.message}. No current graph inferred.`;});
