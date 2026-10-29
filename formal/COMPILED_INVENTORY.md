@@ -27,6 +27,13 @@ private hidden admitted theorem, opaque admission, custom axiom, and native
 proof specimens. These are scoped tests, not a formal proof of Python/Lean
 implementation correctness.
 
+Each auditor mutant must run the complete unfiltered control population and
+produce exactly its declared assertion-failure identities, with zero test errors
+or skips. Startup errors, incomplete runs and unrelated failures are rejected.
+The unmutated controls must pass first; four additional contract tests exercise
+these rules. An outer `unittest -k` selection does not filter the internal mutant
+controls. The pinned threshold is seven of seven declared policy mutants.
+
 ## Admission contract
 
 After a fresh build and `leanchecker`, execution enumerates module tables in the
