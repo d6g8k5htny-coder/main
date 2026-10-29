@@ -24,6 +24,13 @@ rounding results and comparisons are:
   strictly greater than \(1/20\), because
   \(20\cdot7205759403792794-144115188075855872=8>0\).
 
+For both quantities the relative input discrepancy is greater than
+\(10^{-20}\): the exact comparisons are
+\(388792832\cdot10^{20}>16522\cdot295147905179352825856\)
+and \(8\cdot10^{20}>144115188075855872\). This compares the input
+rounding with the script's stated relative safety scale; it does not
+assert that its station-scalar intervals apply to those inputs.
+
 These are integer comparisons; they do not use floating-point arithmetic
 to certify a bound. The actual archived mpmath process was not rerun here,
 and a nondefault pre-initialized context would need separate examination.
