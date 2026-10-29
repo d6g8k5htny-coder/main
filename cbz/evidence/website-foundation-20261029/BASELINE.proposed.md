@@ -12,7 +12,7 @@ Known residue includes current Math execution/kernel limits (the pinned 8,908-en
 
 The exact R3 Main 31 slice has a sealed full execution PASS, 19 normal + 19 optimized wrapper tests, 7 actual controls and 4 exact witness contracts. This scoped observation is not a final G0–G11 federation run and does not change the all-INCOMPLETE joint markers.
 
-## Latest scoped verification at 6fc0218
+## Historical scoped verification at 6fc0218
 
 Completed code cut: `6fc021839072d8c34f41e18e77b0f618c53baa15`. Full Python discovery:1,673 tests, zero failures,21 explicit skips. A restarted earlier attempt has a preserved incomplete log. All763 Node tests executed and passed with zero skips after independent museum/shop pin checks. Supplemental normal/optimized runs execute the10 pytest-dependent tests and the pinned-composition case. These results do not turn skipped cases into a claimed100% full execution. Sandbox setup failures remain separately recorded.
 
@@ -21,3 +21,9 @@ A separate portable Lean run after regression exited0 at18:14:38UTC:31literal pr
 Joint G0–G11 remain INCOMPLETE. Complete Math gate/kernel, source-parent alignment, federation dispositions/pins/status and a real zero-context full cold start are not supplied by this scoped PASS. The separate Math attempt built AlgebraV2 but hit its resource guard on ProbabilityCompanionsV2; no complete Math pass is claimed.
 
 All five unmodified restricted-container controls subsequently executed and passed on the exact6fc git-archive source: UID65532, no-new-privileges, network-none, readonly source, 1GiB/128PID/2CPU limits and64MiB output quota. Setup failures/umask diagnosis remain visible. Thus16of21skipped broad-discovery cases have separate successful executions; five data-dependent real-record checks remain unexecuted. This remains a Partial Baseline contribution.
+
+## Current c643 scoped observation
+
+Current code cut `c643cefa0d1255f2f2b0d421a6ced79de746c117` merges Main22567. Its current wrapper passed31literal proofs/45project constants with the stronger compiled checker;119focused CBZ tests passed. The four mathematical Lean files are unchanged, but the formal manifest/checker hashes are current. The104-member seal is under sources/current-c643/kernel, manifest SHA25687101241268c75073cebb830e192a7134fd396f138fa144defcc6dcd2d5b0901. Full Python1673/Node763 observations below belong to6fc and are historical; current full regressions/native checks are not claimed. All joint gates remain INCOMPLETE. Eighteen negative fixture files retain their findings; one generated inventory source has five explicit interpolation coverage gaps.
+
+The current-c643 positive compiled artifacts (five `.olean` files,176,136bytes) are exact-hash bound through verified-objects/ARTIFACTS.json and the applicable CLOSED records. No rejected fixture object is included; binary lexical scanning is not claimed.

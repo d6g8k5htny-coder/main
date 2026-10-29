@@ -37,3 +37,9 @@ python -B cbz/evidence/website-foundation-20261029/verification/baseline_control
 The contribution identity checker is now portable from this checkout layout and uses explicit `require` guards, including under `python -O`. Run `python -B cbz/evidence/website-foundation-20261029/construction/verify_proposal.py` and the same command with `-O`. It verifies source fields/hashes and four finite negative metadata controls; it does not execute a kernel or establish complete scientific coverage.
 
 The additional `construction/test_verify_proposal_guard.py` runs a copied unmutated positive harness and one weakened source-guard mutant; the mutant must fail exactly one assertion with no harness error or skip. Both Python modes were observed passing this finite source-mutation control. It is not a complete fault model.
+
+## Current c643 scoped observation
+
+Current code cut `c643cefa0d1255f2f2b0d421a6ced79de746c117` merges Main22567. Its current wrapper passed31literal proofs/45project constants with the stronger compiled checker;119focused CBZ tests passed. The four mathematical Lean files are unchanged, but the formal manifest/checker hashes are current. The104-member seal is under sources/current-c643/kernel, manifest SHA25687101241268c75073cebb830e192a7134fd396f138fa144defcc6dcd2d5b0901. Full Python1673/Node763 observations below belong to6fc and are historical; current full regressions/native checks are not claimed. All joint gates remain INCOMPLETE. Eighteen negative fixture files retain their findings; one generated inventory source has five explicit interpolation coverage gaps.
+
+The current-c643 positive compiled artifacts (five `.olean` files,176,136bytes) are exact-hash bound through verified-objects/ARTIFACTS.json and the applicable CLOSED records. No rejected fixture object is included; binary lexical scanning is not claimed.

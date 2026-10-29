@@ -1,0 +1,510 @@
+{
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "scientific_status_authority": false,
+  "package": "side24-arithmetic-skeleton",
+  "package_root": "formal",
+  "root_module": "UniversalLaw",
+  "formalization_status": "proved",
+  "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+  "meaning": "Evidence sidecar for the main-side Lean package, following the Math- formal lane contract (docs/FORMAL_VERIFICATION.md; historical formal-ladder work item #95, retained in coordination.work_item as provenance rather than current pickup routing). `proved` here means proof text supplied and bound by hash; `kernel-checked` is reported only by the receipt of a trusted --run-lean execution at an exact commit. Alignment is a separate pending/accepted/stale dimension. Nothing in this file is a scientific register entry or changes any ACCEPT/AMEND disposition.",
+  "coordination": {
+    "guide": "docs/FORMAL_VERIFICATION.md",
+    "work_item": "https://github.com/d6g8k5htny-coder/main/issues/95",
+    "math_pilot": "https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal",
+    "rollout_record": "docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md",
+    "work_offer_addressed": "Numerical formalizer, first step only: the exact arithmetic skeleton of the SIDE24 note. The coefficient definition and the proof-producing enclosure pipeline are NOT supplied."
+  },
+  "author": {
+    "provider": "Anthropic",
+    "family": "Claude",
+    "agent": "Cursor cloud agent, 2026-09-27"
+  },
+  "lean_toolchain": "leanprover/lean4:v4.34.1",
+  "dependency_revisions": {},
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "files": {
+    "formal/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "formal/lakefile.toml": "58f0fa6864cc03e9bcbef2d8c0404e9f3385a30a6124000454319367906cbe4a",
+    "formal/lake-manifest.json": "562d38ad95598486b2b592e6d072d5d3212735bfeb1cb6d8eb8ec04492522ba2",
+    "formal/UniversalLaw.lean": "cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e",
+    "formal/UniversalLaw/Side24/Ledger.lean": "ae4a14f3db8cf26668e55e2d2f80e0dcecb0703826b40396d91fb6e0d266d3f7",
+    "formal/UniversalLaw/Side24/ConeMoments.lean": "2bcd4a83683188856bce010c3dcdec6904e45a6d73b50b9f3891e632ff58985c",
+    "formal/UniversalLaw/Side24/Endpoints.lean": "095102245297707316cfd7e244d5509f9b102fe5aa638b7acdbbcf9d3c9d52bd",
+    "formal/sources/side24_v1/PROOF.md": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+    "formal/sources/side24_v1/ENCLOSURE.json": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
+    "formal/SCOPE.md": "fd06700628b1fbc81c5cfe3786aaa455032375bcb879914f068a66b726802a17",
+    "formal/GLOSSARY.md": "342d4efb374fea31c39e51f8f6bcdbc50d7fb5fea1fd393eda21afff92c62fb8",
+    "formal/README.md": "8cc24be73afee43522612bf8877f93d7c4a27098874c71f2c58ebb8acf949a04",
+    "formal/REVIEW_LANE.md": "54d32104aa012e917ef40b73fa3a40228d023249b339cf30fe4bdb7dcbfed414",
+    "formal/reviews/TEMPLATE_alignment_review.json": "e722e928ca43c16981e063d8eb1c91e9bf8c683241d9dcf156400a419e72feb3",
+    "formal/reviews/README.md": "333ca71e7c676cee89e5d01cd61999c21bb0584e41d6bdacb18afa410109f95d",
+    "tools/formal_gate_check.py": "818c658e0e21397c19e2305cf6e12d79dcfb57f4ee7505843462dd6da31e996b",
+    "tests/test_formal_gate.py": "1b701f97f30042abe2f6e796e7695727ff7e5f5a49ef038d50398a2b9695720a",
+    "tests/test_formal_negative_diagnostics.py": "3847f5382966e39e951e54d8558387227540cff775d96eb33ce3d6396f52107d",
+    "tools/formal_compiled_inventory.py": "094ae0294bfa10f6af5a797cc7939909ab0094194c2b01b468b33e0d3aac1bab",
+    "tests/test_formal_compiled_inventory.py": "f209cf72239b3068430b5652034a125495478805c9a083fcfeb12a4f51fd0062",
+    "formal/COMPILED_INVENTORY.md": "1496ab2501276ed463b8cca27efcd25b9b380317d8f4de5883af6836c19b2ef1",
+    ".github/workflows/formal-verification.yml": "b1d54513c2fad747f56ccda9519b8e625e031165d4ef234624b5a427295fbaa9",
+    "tests/test_formal_workflow_shell.py": "0c316bd2c971b18ebef1df128365fefeb6bc1006c842e700060cbfd7b607d13f"
+  },
+  "unbound_files": [
+    "formal/manifest.json",
+    "formal/ALIGNMENT.md"
+  ],
+  "sources": [
+    {
+      "id": "side24-proof",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+      "path": "coefficients/side24_v1/PROOF.md",
+      "bytes": 10272,
+      "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+      "local_copy": "formal/sources/side24_v1/PROOF.md"
+    },
+    {
+      "id": "side24-enclosure",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+      "path": "coefficients/side24_v1/ENCLOSURE.json",
+      "bytes": 1090,
+      "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
+      "local_copy": "formal/sources/side24_v1/ENCLOSURE.json"
+    }
+  ],
+  "source_modules": [
+    "UniversalLaw/Side24/Ledger.lean",
+    "UniversalLaw/Side24/ConeMoments.lean",
+    "UniversalLaw/Side24/Endpoints.lean"
+  ],
+  "targets": [
+    {
+      "name": "UniversalLaw.Side24.pairing_sum_six",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Product-rule pairing count at q=6 equals 76",
+      "source": "side24-proof",
+      "informal_anchor": "The coefficient sum for q=6 is\n1+15+45+15=76",
+      "does_not_claim": "the derivative bound 76|x|^6 e^(-|x|^2/2) itself"
+    },
+    {
+      "name": "UniversalLaw.Side24.pairing_sum_le_six",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Pairing counts for q<=6 are at most 76",
+      "source": "side24-proof",
+      "informal_anchor": "it bounds the smaller orders as well",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.pairing_terms_six",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Individual pairing terms 1, 15, 45, 15",
+      "source": "side24-proof",
+      "informal_anchor": "1+15+45+15=76",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.sixth_moment_double_factorial",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Double factorial 5!! = 15",
+      "source": "side24-proof",
+      "informal_anchor": "At zero, every such\ncontraction has absolute value at most15.",
+      "does_not_claim": "that Gaussian derivative contractions at zero are bounded by 15"
+    },
+    {
+      "name": "UniversalLaw.Side24.lattice_shell_constant",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Shell constants 27·27 = 729 and 729·2 = 1458",
+      "source": "side24-proof",
+      "informal_anchor": "<=729 sum_{j>=1} j^9 e^(-288j^2)\n      <=1458 e^(-288).",
+      "does_not_claim": "the lattice-point count or the geometric tail sum"
+    },
+    {
+      "name": "UniversalLaw.Side24.geometric_ratio_constants",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Ratio constants 2^9 = 512 and 288·3 = 864",
+      "source": "side24-proof",
+      "informal_anchor": "successive terms have ratio at most512e^(-864)<1/2",
+      "does_not_claim": "that the ratio is below 1/2"
+    },
+    {
+      "name": "UniversalLaw.Side24.period_exponent",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Period-24 exponent 24^2/2 = 288",
+      "source": "side24-proof",
+      "informal_anchor": "sum_{n!=0} |n|^6 e^(-288|n|^2)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.image_constant_value",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Image constant 1458·(76·24^6+15) = 21175738586478",
+      "source": "side24-proof",
+      "informal_anchor": "E := 1458*(76*24^6+15)*10^(-125)\n        = 21175738586478 *10^(-125).",
+      "does_not_claim": "the inequality |D^q K_24(0)-D^q K_infty(0)| < E"
+    },
+    {
+      "name": "UniversalLaw.Side24.exp_taylor_partial_sum_gt_ten",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Degree-20 Taylor partial sum of exp(288/125) exceeds 10",
+      "source": "side24-proof",
+      "informal_anchor": "The code proves e^(288/125)>10 using the positive rational Taylor sum through20",
+      "does_not_claim": "that the partial sum is below exp(288/125) (positivity of the omitted terms is analysis)"
+    },
+    {
+      "name": "UniversalLaw.Side24.covariance_relative_bound",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "60E < 10^(-108) as the integer inequality 60·21175738586478 < 10^17",
+      "source": "side24-proof",
+      "informal_anchor": "epsilon=10^(-108),   since60E<epsilon.",
+      "does_not_claim": "the spectral-norm bound 20E or C_ref >= I/3"
+    },
+    {
+      "name": "UniversalLaw.Side24.odd_block_eigenvalues",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Odd block trace 16 and determinant 6 = 8^2 - 58",
+      "source": "side24-proof",
+      "informal_anchor": "[[1,-3],[-3,15]], whose eigenvalues are8 +/- sqrt(58)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.odd_block_shifted_minors",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Shifted odd block minors 2/3 and 7/9 (scaled by 3: 2 and 7)",
+      "source": "side24-proof",
+      "informal_anchor": "subtract I/3 and use first principal minor2/3 and determinant7/9",
+      "does_not_claim": "Sylvester's criterion"
+    },
+    {
+      "name": "UniversalLaw.Side24.smaller_eigenvalue_exceeds_third",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "8 - sqrt(58) > 1/3 via 23^2 > 58·9",
+      "source": "side24-proof",
+      "informal_anchor": "Its smaller eigenvalue exceeds\n1/3",
+      "does_not_claim": "monotonicity of the square root"
+    },
+    {
+      "name": "UniversalLaw.Side24.exponent_bounds",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Exponent inequalities a+2b<14 and 2a+b<13 for d=2,3 (in sixths)",
+      "source": "side24-proof",
+      "informal_anchor": "For d=2,3, a+2b<14 and2a+b<13.",
+      "does_not_claim": "the log/exp estimates that follow"
+    },
+    {
+      "name": "UniversalLaw.Side24.exponent_values",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "Exact a, b values for d=2,3",
+      "source": "side24-proof",
+      "informal_anchor": "a=m+2/3+n/2,  b=d+n/2.",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.ratio_constant_ordering",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "13 <= 32 and 28 <= 32",
+      "source": "side24-proof",
+      "informal_anchor": "ratio between1-13epsilon and\n1+28epsilon, hence safely between1-32epsilon and1+32epsilon",
+      "does_not_claim": "the elementary log/exp bounds"
+    },
+    {
+      "name": "UniversalLaw.Side24.density_comparison_below_reported",
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "title": "32·10^(-108) < 10^(-106)",
+      "source": "side24-proof",
+      "informal_anchor": "|c_d,24/c_d,ref -1| < 10^(-106), d=2,3.",
+      "does_not_claim": "the multiplicative density comparison"
+    },
+    {
+      "name": "UniversalLaw.Side24.conditional_third_derivative_variance",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "Conditional variance tau^2 = 15 - 9 = 6",
+      "source": "side24-proof",
+      "informal_anchor": "Var(t)=15,  Cov(t,G)=(-3,0,...,0)",
+      "does_not_claim": "the Gaussian conditioning formula or the covariance derivatives"
+    },
+    {
+      "name": "UniversalLaw.Side24.transverse_covariance_entries_thirds",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "Transverse covariance entries 8/3, 1, 2/3 from the delta formula",
+      "source": "side24-proof",
+      "informal_anchor": "Cov(A_ij,A_kl | V=0)\n      = (2/3)delta_ij delta_kl + delta_ik delta_jl + delta_il delta_jk.",
+      "does_not_claim": "the delta formula itself"
+    },
+    {
+      "name": "UniversalLaw.Side24.cone_moment_m1_thirds",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "D_1 = 4/3 is half of 8/3",
+      "source": "side24-proof",
+      "informal_anchor": "D_1=E[A^2 1{A<0}]=4/3.",
+      "does_not_claim": "centred Gaussian symmetry"
+    },
+    {
+      "name": "UniversalLaw.Side24.trace_and_traceless_variances",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "Var(s) = 5/3, Var(x) = Var(y) = 1, Cov(s,x) = 0 from the 2x2 covariance entries",
+      "source": "side24-proof",
+      "informal_anchor": "Var(s)=5/3 and Var(x)=Var(y)=1.",
+      "does_not_claim": "independence beyond zero covariance, which is Gaussian"
+    },
+    {
+      "name": "UniversalLaw.Side24.fourth_moment_of_trace",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "E s^4 = 3·(5/3)^2 = 25/3",
+      "source": "side24-proof",
+      "informal_anchor": "E s^2=5/3, E s^4=25/3",
+      "does_not_claim": "the Gaussian fourth-moment identity"
+    },
+    {
+      "name": "UniversalLaw.Side24.exponential_moment_of_trace",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "1 + 5/3 = 8/3 behind E exp(-s^2/2) = sqrt(3/8)",
+      "source": "side24-proof",
+      "informal_anchor": "E exp(-s^2/2)=sqrt(3/8)",
+      "does_not_claim": "the Gaussian exponential-moment identity"
+    },
+    {
+      "name": "UniversalLaw.Side24.cone_moment_m2_algebra",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "D_2 algebra: rational part 29/6 and 4·sqrt(3/8) = sqrt(6)",
+      "source": "side24-proof",
+      "informal_anchor": "D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]\n        = 29/6-sqrt(6).",
+      "does_not_claim": "the integral identity or the Rayleigh cone integration"
+    },
+    {
+      "name": "UniversalLaw.Side24.cube_root_simplification",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "6^2·2 = 3·24 behind 6^(2/3)/24^(1/3) = (3/2)^(1/3)",
+      "source": "side24-proof",
+      "informal_anchor": "simplifying 6^(2/3)/24^(1/3)=(3/2)^(1/3)",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.pin_determinant_and_joint_dimension",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "det diag(3,1,..,1) = 3 and joint dimensions 6, 10",
+      "source": "side24-proof",
+      "informal_anchor": "Its dimension is at most10.",
+      "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+    },
+    {
+      "name": "UniversalLaw.Side24.hessian_block_eigenvalues",
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "title": "Hessian block eigenvalues 4, 5, 2 exceed 1/3",
+      "source": "side24-proof",
+      "informal_anchor": "The reference Hessian block has eigenvalues d+2 on trace and2 on traceless matrices",
+      "does_not_claim": "the spectral decomposition"
+    },
+    {
+      "name": "UniversalLaw.Side24.d2_endpoints_adjacent",
+      "module": "UniversalLaw/Side24/Endpoints.lean",
+      "title": "Published d=2 endpoints are adjacent 20-digit decimals",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"2\": {\n      \"lower\": \"0.07340691930603427103\",\n      \"upper\": \"0.07340691930603427104\"",
+      "does_not_claim": "that c_2,24 lies between them"
+    },
+    {
+      "name": "UniversalLaw.Side24.d3_endpoints_adjacent",
+      "module": "UniversalLaw/Side24/Endpoints.lean",
+      "title": "Published d=3 endpoints are adjacent 20-digit decimals",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"3\": {\n      \"lower\": \"0.04177593184059834334\",\n      \"upper\": \"0.04177593184059834335\"",
+      "does_not_claim": "that c_3,24 lies between them"
+    },
+    {
+      "name": "UniversalLaw.Side24.d3_below_d2",
+      "module": "UniversalLaw/Side24/Endpoints.lean",
+      "title": "Published d=3 interval lies below the d=2 interval",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"dimensions\": {\n    \"2\": {\n      \"lower\": \"0.07340691930603427103\",\n      \"upper\": \"0.07340691930603427104\"\n    },\n    \"3\": {\n      \"lower\": \"0.04177593184059834334\",\n      \"upper\": \"0.04177593184059834335\"",
+      "does_not_claim": "anything about the true coefficients; the ordering d3 upper < d2 lower is a derived artifact-consistency check of the displayed endpoints"
+    },
+    {
+      "name": "UniversalLaw.Side24.endpoints_in_unit_tenth",
+      "module": "UniversalLaw/Side24/Endpoints.lean",
+      "title": "Published endpoints lie in (0, 1/10)",
+      "source": "side24-enclosure",
+      "informal_anchor": "\"dimensions\": {\n    \"2\": {\n      \"lower\": \"0.07340691930603427103\",\n      \"upper\": \"0.07340691930603427104\"\n    },\n    \"3\": {\n      \"lower\": \"0.04177593184059834334\",\n      \"upper\": \"0.04177593184059834335\"",
+      "does_not_claim": "anything about the true coefficients; the range (0, 1/10) is a derived artifact-consistency check of the displayed endpoints"
+    }
+  ],
+  "negative_controls": {
+    "false_exponent_bound_d3": {
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "replace": "sixB d < 78",
+      "with": "sixB d < 77",
+      "expected_diagnostic": "126:2: error: Tactic `decide` proved that the proposition\n  ∀ (d : Nat), d ∈ [2, 3] → sixA d + 2 * sixB d < 84 ∧ 2 * sixA d + sixB d < 77\nis false\n"
+    },
+    "false_covariance_bound": {
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "replace": "60 * imageConstant < 10 ^ 17",
+      "with": "60 * imageConstant < 10 ^ 15",
+      "expected_diagnostic": "97:57: error: Tactic `decide` proved that the proposition\n  2 * 10 * 3 = 60 ∧ 60 * imageConstant < 10 ^ 15\nis false\n"
+    },
+    "false_exp_partial_sum": {
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "replace": "10 * (125 ^ 20 * fact 20) < expTaylorNumerator",
+      "with": "11 * (125 ^ 20 * fact 20) < expTaylorNumerator",
+      "expected_diagnostic": "90:57: error: Tactic `decide` proved that the proposition\n  11 * (125 ^ 20 * fact 20) < expTaylorNumerator\nis false\n"
+    },
+    "wrong_image_constant": {
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "replace": "theorem image_constant_value : imageConstant = 21175738586478",
+      "with": "theorem image_constant_value : imageConstant = 21175738586479",
+      "expected_diagnostic": "75:68: error: Tactic `decide` proved that the proposition\n  imageConstant = 21175738586479\nis false\n"
+    },
+    "false_eigenvalue_third": {
+      "module": "UniversalLaw/Side24/Ledger.lean",
+      "replace": "58 * 9 < 23 ^ 2",
+      "with": "58 * 9 < 22 ^ 2",
+      "expected_diagnostic": "114:65: error: Tactic `decide` proved that the proposition\n  58 * 9 < 22 ^ 2\nis false\n"
+    },
+    "false_trace_variance": {
+      "module": "UniversalLaw/Side24/ConeMoments.lean",
+      "replace": "20 * 3 = 5 * 12",
+      "with": "20 * 3 = 6 * 12",
+      "expected_diagnostic": "51:28: error: Tactic `decide` proved that the proposition\n  8 + 8 + 2 * 2 = 20 ∧ 20 * 3 = 6 * 12 ∧ 8 + 8 - 2 * 2 = 12 ∧ 12 = 1 * 12 ∧ 8 - 8 = 0\nis false\n"
+    },
+    "false_endpoint_adjacency": {
+      "module": "UniversalLaw/Side24/Endpoints.lean",
+      "replace": "d2Upper = d2Lower + 1",
+      "with": "d2Upper = d2Lower + 2",
+      "expected_diagnostic": "31:80: error: Tactic `decide` proved that the proposition\n  d2Lower < d2Upper ∧ d2Upper = d2Lower + 2\nis false\n"
+    }
+  },
+  "compiled_inventory": [
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d2Lower"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d2Upper"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d3Lower"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d3Upper"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._f"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._sunfold"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._unsafe_rec"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact.match_1"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.imageConstant"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.pairingSum"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixA"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixB"
+    ]
+  ],
+  "codegen_inventory": [
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixB._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixA._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator._closed_1"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator._closed_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0._closed_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.pairingSum._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.pairingSum.spec_0._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.pairingSum.spec_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._boxed"
+    ]
+  ]
+}

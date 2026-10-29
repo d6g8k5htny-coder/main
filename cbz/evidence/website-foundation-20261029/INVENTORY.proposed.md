@@ -11,3 +11,7 @@ Coordinating Root subsequently reported another canonical Root queue (#684/#685)
 <!-- cbz-gates: {"G0":"INCOMPLETE","G1":"INCOMPLETE","G2":"INCOMPLETE","G3":"INCOMPLETE","G4":"INCOMPLETE","G5":"INCOMPLETE","G6":"INCOMPLETE","G7":"INCOMPLETE","G8":"INCOMPLETE","G9":"INCOMPLETE","G10":"INCOMPLETE","G11":"INCOMPLETE"} -->
 
 R3 evidence adds 94 sealed source/log/receipt records, including the matching formal-gate baseline receipt, and 13 coverage companion files. The earlier source/remote interval snapshots retain their dates and do not become current federation receipts.
+
+## Current c643 scoped observation
+
+Current code cut `c643cefa0d1255f2f2b0d421a6ced79de746c117` merges Main22567. Its current wrapper passed31literal proofs/45project constants with the stronger compiled checker;119focused CBZ tests passed. The four mathematical Lean files are unchanged, but the formal manifest/checker hashes are current. The104-member seal is under sources/current-c643/kernel, manifest SHA25687101241268c75073cebb830e192a7134fd396f138fa144defcc6dcd2d5b0901. Full Python1673/Node763 observations below belong to6fc and are historical; current full regressions/native checks are not claimed. All joint gates remain INCOMPLETE. Eighteen negative fixture files retain their findings; one generated inventory source has five explicit interpolation coverage gaps.
