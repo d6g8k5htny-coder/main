@@ -197,3 +197,7 @@ Source inspection found that both the lexical and A3 mutation graders accept any
 ### Historical main regression skip observation
 
 The archived [one-shot workflow](cbz/evidence/main-regression-skip-observation/workflow.yml.txt) downloaded the two specified hosted artifacts, checked their GitHub-reported ZIP digests and the original log digests, and listed the skipped test lines. The actual positive observation, exact source/run and limitations are in [result.json](cbz/evidence/main-regression-skip-observation/result.json). It is a historical diagnostic, not a Layer A auditor or a full G5 certificate; it has no dedicated adversarial test suite and must not be promoted as a certifier without one. Maintenance owner: none. To reproduce while the original GitHub artifacts remain available, run the exact archived workflow with `actions: read` or apply its listed hash and unzip commands to those exact artifact IDs.
+
+### Atlas browser regression runner
+
+`tools/run_atlas_browser_regressions.py` runs exactly two existing browser methods with zero skips in the pinned sandboxed browser environment. [Usage and self-verification](docs/cbz/ATLAS_BROWSER_REGRESSIONS.md) records source tests, historical actual runs, mutations and limits. It is an engineering test aid, not a mathematical auditor; current composed-head verification remains pending. Owner: none; criteria 5 and 11.

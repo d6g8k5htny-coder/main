@@ -139,3 +139,7 @@ A candidate Lean proof on [Math branch `cbz/lifetime-pair-law-countermodel-20261
 ### Main evidence delivery integration
 
 Main [#704](https://github.com/d6g8k5htny-coder/main/pull/704) merged at `1e2be44c69e08e47472041ac329e1b27f7dec793`. The candidate preserves its delivery metadata and full history. At this comparison cut, 375 changed evidence paths matched exactly by Git blob and mode; the candidate's `.gitattributes` retained all main rules plus one exact preserved-log rule. This is a tree comparison, not a final gate. [Evidence](cbz/evidence/main704-reconciliation-20261029.json).
+
+### Atlas browser controls in the composed candidate
+
+The candidate incorporates [main #702](https://github.com/d6g8k5htny-coder/main/pull/702), including its fixed-ID runner, unchanged UI assertions and sandboxed browser workflow. Its previous hosted run at `c0205ca9e8683b2847008f712582e183f723e186` observed both browser tests passing in normal and optimized modes without skips; it does not qualify this new composed source. The separate #690 admission delivery remains open and its changes are not implied by this integration. [Exact commands and scope](docs/cbz/ATLAS_BROWSER_REGRESSIONS.md). After installing the existing pinned browser requirements, run both `python -B tools/run_atlas_browser_regressions.py --output NEW_NORMAL_DIR` and `python -B -O tools/run_atlas_browser_regressions.py --output NEW_OPTIMIZED_DIR`; self-tests use `python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v` and the same command with `-O`.
