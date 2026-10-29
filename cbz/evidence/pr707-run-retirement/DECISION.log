@@ -1,3 +1,5 @@
 [2026-10-29 21:26:21 UTC] [phase3] [layerC] In response to the cold-start lane, adapt observed main run-retirement policy to PR707 only, seven explicitly named source heads and queued runs only. Protect the specified prior current and diagnostic heads regardless of subsequent PR movement; retain completed, in-progress and ambiguous runs. Keep final-head/status reread and persistent action record; non-atomic API race is documented. Fresh hosted execution pending. Reversible: yes. Evidence: cbz/evidence/pr707-run-retirement/README.md.
 
 [2026-10-29 21:39:59 UTC] [phase3] [layerC] Observe actual PR707 scoped-retirement run and independently read back each requested run. Preserve nonterminal request states honestly; no proof credit. Reversible: yes. Evidence: cbz/evidence/pr707-run-retirement/RESULTS.json.
+
+[2026-10-29 21:57 UTC] Independent GitHub API readback observed all four requested runs completed/cancelled: 40951302511, 40951498622, 40951811420, and 40952898523. Initial queued readbacks are retained above and in RESULTS.json. The read-to-POST race remains; no test or proof credit is inferred.
