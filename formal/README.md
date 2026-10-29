@@ -66,7 +66,12 @@ enclosure pipeline are not supplied.
 Toolchain (once, ~200 MB, no Mathlib cache needed):
 
 ```sh
-curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --default-toolchain none
+# Linux x86_64, matching the hosted runner:
+curl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o /tmp/elan-v4.2.4.tar.gz
+echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan-v4.2.4.tar.gz' | sha256sum -c -
+install_dir=$(mktemp -d)
+tar -xzf /tmp/elan-v4.2.4.tar.gz -C "$install_dir"
+"$install_dir/elan-init" -y --default-toolchain none
 export PATH="$HOME/.elan/bin:$PATH"
 ```
 
@@ -86,7 +91,23 @@ elaborated-type capture, and the executable negative controls: seven
 tightened-or-wrong statements written into a scratch copy of the Lean text
 (each must be rejected by Lean), plus `sorry`, an indirectly imported custom
 axiom, and `native_decide` (each must be rejected by the axiom gate). It then
-re-runs the source check to confirm the manifest digest did not move, and only
+requires each false-theorem control to return exactly exit 1, empty stderr and
+its complete manifest-bound Lean diagnostic (including generated path, location
+and proposition). Each axiom control must return exactly exit 0, empty stderr
+and its complete expected report; the actual axiom auditor must then reject the
+specific forbidden axiom. Generic crashes, resource failures, truncated reports
+and extra diagnostics are not successful rejection evidence. The diagnostic
+regressions in `tests/test_formal_negative_diagnostics.py` include a permissive
+axiom-auditor mutation and are mandatory bound controls.
+
+Before a new execution attempt, any prior evidence directory is moved intact
+under `.lake/formal-evidence-history/attempt-*/formal-evidence`; a failed execution
+cannot leave its predecessor's receipt at the current receipt path. This applies
+to attempts entering `execute`, including missing-tool and version-preflight
+failures. A source-only failure before execution does not perform this archive;
+consumers must still validate current source hashes and the actual command result.
+
+After execution, the gate re-runs the source check to confirm the manifest digest did not move, and only
 then writes the receipt. Locally the whole run takes about five seconds.
 
 Maintenance (these write): `--refresh-hashes` after editing any bound file,
@@ -142,3 +163,25 @@ verify `coefficient.py`. It does not make AI-authored Lean text independent;
 the author label stays until a distinct reviewer's record validates. It is not
 a second scientific-status database and adds no status vocabulary beyond the
 lane's.
+
+### Complete compiled inventory
+
+`--run-lean` additionally checks every kernel constant in the formal package,
+including unused/private/generated declarations, against reviewed manifest
+bindings and an all-constant axiom closure. It separately binds Lean's IR-only
+codegen names. See [COMPILED_INVENTORY.md](COMPILED_INVENTORY.md) for exact scope,
+provenance, test commands, negative specimens, and receipt fields. Source-only
+success is not evidence of this compiled check.
+
+The required formal workflow runs `tests.test_formal_gate`,
+`tests.test_formal_negative_diagnostics` and `tests.test_formal_compiled_inventory`
+in both interpreter modes **after** the pinned Lean installation and **before**
+the dedicated final kernel run and receipt binding. The workflow
+and its shell/coverage regression are mandatory manifest-bound control files;
+the regression refuses omission of either binding. Permissions, actions and
+shell failure propagation remain unchanged.
+
+Hosted elan provisioning uses the explicit official v4.2.4 Linux x86_64 archive
+with SHA256 `42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63`,
+checked before extraction/execution, rather than a bootstrap script that resolves
+`latest`. The Lean toolchain remains pinned by `formal/lean-toolchain`.

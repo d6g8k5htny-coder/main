@@ -5,7 +5,7 @@ import json
 import tempfile
 import unittest
 
-from tools.atlas_formal_evidence_build import build_connection
+from tools.atlas_formal_evidence_build import build_connection, historical_source_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAIM = 'math.side24-coefficient'
@@ -60,6 +60,26 @@ class FormalConnectionAssembly(unittest.TestCase):
 
     def build(self):
         return build_connection(self.root, self.snapshot, self.proof, self.artifact)
+
+    def test_identity_reader_cannot_opt_into_an_unknown_manifest(self):
+        with self.assertRaisesRegex(ValueError, 'unsupported historical manifest profile'):
+            historical_source_identity(self.root, '0' * 64)
+
+    def test_identity_reader_refuses_unbound_historical_package_files(self):
+        path = self.root/'formal/Unregistered.lean'
+        path.write_text('def unregistered : Nat := 1\n')
+        with self.assertRaisesRegex(ValueError, 'unbound historical package file'):
+            historical_source_identity(self.root)
+
+    def test_identity_reader_refuses_symlink_to_exact_bound_bytes(self):
+        path = self.root/'tools/formal_gate_check.py'
+        original = path.read_bytes()
+        outside = self.root/'frozen-control.txt'
+        outside.write_bytes(original)
+        path.unlink()
+        path.symlink_to(outside)
+        with self.assertRaises(ValueError):
+            historical_source_identity(self.root)
 
     def test_live_manifest_drift_is_refused_before_historical_evidence_is_rebound(self):
         with self.assertRaisesRegex(ValueError, 'formal manifest changed'):

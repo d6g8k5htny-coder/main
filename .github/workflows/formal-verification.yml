@@ -61,23 +61,25 @@ jobs:
         run: python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v
       - name: Source-only identity gate (no Lean yet; fails closed before any download)
         run: python -B -S tools/formal_gate_check.py
-      - name: Install elan (pinned release script, digest checked) and the pinned toolchain
+      - name: Install elan (pinned release archive, digest checked) and the pinned toolchain
         run: |
           set -euo pipefail
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/v4.2.4/elan-init.sh -o /tmp/elan-init.sh
-          echo 'a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  /tmp/elan-init.sh' | sha256sum -c -
-          sh /tmp/elan-init.sh -y --default-toolchain none
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o /tmp/elan-v4.2.4.tar.gz
+          echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan-v4.2.4.tar.gz' | sha256sum -c -
+          install_dir=$(mktemp -d)
+          tar -xzf /tmp/elan-v4.2.4.tar.gz -C "$install_dir"
+          "$install_dir/elan-init" -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
           "$HOME/.elan/bin/elan" toolchain install "$(cat formal/lean-toolchain)"
+      - name: Gate controls in both interpreter modes
+        run: |
+          python -B -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory -v 2>&1 | tee /tmp/tests-normal.log
+          python -B -O -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory -v 2>&1 | tee /tmp/tests-optimized.log
       - name: Kernel lane — build, leanchecker, axiom audit, negative controls, receipt
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
         run: python -B -S tools/formal_gate_check.py --run-lean | tee /tmp/run-lean.log
-      - name: Gate controls in both interpreter modes
-        run: |
-          python -B -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-normal.log
-          python -B -O -S -m unittest tests.test_formal_gate -v 2>&1 | tee /tmp/tests-optimized.log
       - name: Bind current-run receipt to required check
         id: required-binding
         run: python3 -B -S tools/required_formal_check.py receipt
