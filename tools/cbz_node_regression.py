@@ -10,6 +10,7 @@ import base64
 import hashlib
 import json
 import os
+import platform
 from pathlib import Path, PurePosixPath
 import re
 import subprocess
@@ -266,7 +267,9 @@ def run(main_root, math_root, query_root, output, node="node"):
     output.mkdir(parents=True, exist_ok=False)
     record = dict(schema="cbz.node-regression.v1", status="RUNNING",
                   started_utc=datetime.now(timezone.utc).isoformat(),
-                  mathematical_certification=False, final_cbz_certification=False)
+                  mathematical_certification=False, final_cbz_certification=False,
+                  runtime=dict(python=sys.version, implementation=sys.implementation.name,
+                               platform=sys.platform, machine=platform.machine()))
     report = output / "result.json"
     write_report(report, record)
     log = output / "node.tap"
