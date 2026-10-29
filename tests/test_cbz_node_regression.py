@@ -509,6 +509,7 @@ class SourceMutationTests(unittest.TestCase):
                     path = Path(directory) / (name + ".py")
                     path.write_text(source.replace(old, new))
                     result = self.invoke(path, expected)
+                    print("CBZ_MUTANT_DIAGNOSTIC " + json.dumps({"name": name, "stdout": result.stdout, "stderr": result.stderr}), flush=True)
                     self.assertTrue(assertion_kill(result, expected),
                                     name + "\n" + result.stdout + result.stderr)
 
