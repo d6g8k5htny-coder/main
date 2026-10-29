@@ -535,7 +535,43 @@
   ],
   "pending": {
     "runner_bytecode_test_first": "observed RED in both Python modes at the above tested merge",
-    "repaired_combined_source": "not yet executed",
+    "repaired_combined_source": "observed PASS at tested merge e01ab09f9a198009de74a0fb1f017c96f5e85b7d; fresh exact final head gates still pending",
     "final_federation_gates": "not qualified"
+  },
+  "combined_repair_observation": {
+    "pull_head": "8aa7d353d6864b6481df5508aaea7b73f185abdf",
+    "tested_commit": "e01ab09f9a198009de74a0fb1f017c96f5e85b7d",
+    "tested_parents": [
+      "c93cec70223281492709ff74ca84fed5dc6e40e8",
+      "8aa7d353d6864b6481df5508aaea7b73f185abdf"
+    ],
+    "run_id": 40953580427,
+    "job_id": 123727766200,
+    "tests_per_mode": 51,
+    "source_mutations": 22,
+    "harness_mutations": 11,
+    "prepared_node": {
+      "summary": {
+        "cancelled": 0,
+        "fail": 0,
+        "pass": 764,
+        "skipped": 0,
+        "tests": 764,
+        "todo": 0
+      },
+      "node_exit": 0,
+      "sha256": "4da55b5959ffba1c920db90eff091d04dbafcff4fac91bbe6f460b65dee781fb",
+      "git_blob": "2327ca95a56afdf4d7efd46ec469f26a53c15953",
+      "artifact_id": 12933401209,
+      "artifact_zip_sha256": "cc9c97e2d0326d5226be953ddc0bdbbd69e8a11d4b91b3bc90aef93c79d7fa75",
+      "downloaded_zip_rechecked": false
+    },
+    "verified_source_blobs": {
+      "tools/cbz_node_regression.py": "0d22fd66d26f5f558323dc05e34ea824b882437d",
+      "tests/test_cbz_node_regression.py": "8cd83568f864aed491912d071d53faca6af19f16",
+      "tools/museum_data.py": "9fad2bbf96409fbb2f390b038be4d9294b906ced",
+      ".github/workflows/cbz-cold-start-node.yml": "97db5e598e60d649bf38663fbc6689dbfde5dcda"
+    },
+    "global_certification": false
   }
 }
