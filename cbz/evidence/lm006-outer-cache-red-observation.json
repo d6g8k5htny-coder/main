@@ -1,0 +1,27 @@
+{
+  "schema": "cbz.lm006.outer-cache-adverse-observation.v1",
+  "observed_utc": "2026-10-29 21:53:29 UTC",
+  "repository": "Math-",
+  "candidate_under_test": "f4aea2532e7981a8780339d9a8f552f5602b4f53",
+  "run": 40958098698,
+  "jobs": [
+    {
+      "id": 123743415862,
+      "mode": "normal",
+      "selected_test": "test_outer_discovery_ignores_a_valid_poisoned_cache",
+      "result": "FAIL: one outer assertion after synthetic poisoned test module failed"
+    },
+    {
+      "id": 123743415494,
+      "mode": "optimized",
+      "selected_test": "test_outer_discovery_ignores_a_valid_poisoned_cache",
+      "result": "FAIL: one outer assertion after synthetic poisoned test module failed"
+    }
+  ],
+  "repair_candidate": "1f9c9a3b1737e3ecb5d425c32f8e0f1474147087",
+  "limitations": [
+    "The observed tests used a synthetic valid cached test module, not a claim of a production incident.",
+    "The repaired source and tests remain pending current-head hosted execution; do not infer a pass.",
+    "This observation does not establish kernel, numerical bound or federation gate results."
+  ]
+}
