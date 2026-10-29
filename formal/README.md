@@ -86,7 +86,23 @@ elaborated-type capture, and the executable negative controls: seven
 tightened-or-wrong statements written into a scratch copy of the Lean text
 (each must be rejected by Lean), plus `sorry`, an indirectly imported custom
 axiom, and `native_decide` (each must be rejected by the axiom gate). It then
-re-runs the source check to confirm the manifest digest did not move, and only
+requires each false-theorem control to return exactly exit 1, empty stderr and
+its complete manifest-bound Lean diagnostic (including generated path, location
+and proposition). Each axiom control must return exactly exit 0, empty stderr
+and its complete expected report; the actual axiom auditor must then reject the
+specific forbidden axiom. Generic crashes, resource failures, truncated reports
+and extra diagnostics are not successful rejection evidence. The diagnostic
+regressions in `tests/test_formal_negative_diagnostics.py` include a permissive
+axiom-auditor mutation and are mandatory bound controls.
+
+Before a new execution attempt, any prior evidence directory is moved intact
+under `.lake/formal-evidence-history/attempt-*/formal-evidence`; a failed execution
+cannot leave its predecessor's receipt at the current receipt path. This applies
+to attempts entering `execute`, including missing-tool and version-preflight
+failures. A source-only failure before execution does not perform this archive;
+consumers must still validate current source hashes and the actual command result.
+
+After execution, the gate re-runs the source check to confirm the manifest digest did not move, and only
 then writes the receipt. Locally the whole run takes about five seconds.
 
 Maintenance (these write): `--refresh-hashes` after editing any bound file,

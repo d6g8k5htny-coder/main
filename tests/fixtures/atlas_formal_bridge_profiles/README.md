@@ -15,3 +15,15 @@ REVIEW_LANE54d32104aa012e917ef40b73fa3a40228d023249b339cf30fe4bdb7dcbfed414.
 
 Only exact known profiles are accepted. Fixture custody is not new kernel
 execution, semantic alignment or scientific acceptance.
+
+The two `formal_gate_check.py.txt` and `test_formal_gate.py.txt` inputs preserve
+control bytes from Main `4ef1867175dbe1072a54a02e95f80c4e2c70a4ff`, matching both
+8228/a22f manifests exactly. Tests copy these as inert source data instead of
+assuming today's validator bytes still match a historical manifest. They are
+never imported or executed. `historical_source_identity` in
+`tools/atlas_formal_evidence_build.py` recognizes only the three fixed historical
+manifest digests and checks all their bound file bytes, refusing unknown profiles,
+symlinks and unbound package files. This is identity reconstruction, not current
+source-gate certification or renewed kernel verification. Run its tests with
+`python -B -S -m unittest tests.test_atlas_formal_evidence_build tests.test_atlas_formal_source_bridge -v`
+(and repeat with `-O`); existing hash-mutation cases are retained.

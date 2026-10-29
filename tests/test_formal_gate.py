@@ -57,9 +57,10 @@ class SyntheticControls(unittest.TestCase):
             self.write("pkg/" + name, name + "\n")
         self.write("tools/formal_gate_check.py", "# bound control copy\n")
         self.write("tests/test_formal_gate.py", "# bound control copy\n")
+        self.write("tests/test_formal_negative_diagnostics.py", "# bound control copy\n")
         self.bound = ["pkg/lean-toolchain", "pkg/lakefile.toml", "pkg/lake-manifest.json", "pkg/Demo.lean",
                       "pkg/Demo/Basic.lean", "pkg/sources/SOURCE.md", "pkg/SCOPE.md", "pkg/GLOSSARY.md",
-                      "pkg/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py"]
+                      "pkg/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py", "tests/test_formal_negative_diagnostics.py"]
         self.manifest = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
             "package": "demo", "package_root": "pkg", "root_module": "Demo",
@@ -76,7 +77,7 @@ class SyntheticControls(unittest.TestCase):
                 {"name": "Demo.tight", "module": "Demo/Basic.lean", "title": "tight", "source": "src",
                  "informal_anchor": "77 < 78", "does_not_claim": "anything else"},
             ],
-            "negative_controls": {"tight": {"module": "Demo/Basic.lean", "replace": "77 < 78", "with": "77 < 77"}},
+            "negative_controls": {"tight": {"module": "Demo/Basic.lean", "replace": "77 < 78", "with": "77 < 77", "expected_diagnostic": "6:30: error: Tactic `decide` proved that the proposition\n  77 < 77\nis false\n"}},
         }
         self.refresh()
         self.audit = self.root / "audit.txt"
@@ -398,9 +399,14 @@ class SyntheticControls(unittest.TestCase):
             if name == "Types.lean":
                 return subprocess.CompletedProcess(command, 0, "synthetic elaborated types\n")
             if name == "tight.lean":
-                return subprocess.CompletedProcess(command, 1, "is false\n")
+                return subprocess.CompletedProcess(command, 1, str(command[3]) + ":6:30: error: Tactic `decide` proved that the proposition\n  77 < 77\nis false\n", "")
             if name in {"sorry.lean", "custom_imported.lean", "native.lean"}:
-                return subprocess.CompletedProcess(command, 0, "'injected' depends on axioms: [sorryAx]\n")
+                reports = {
+                    "sorry.lean": str(command[3]) + ":2:8: warning: declaration uses `sorry`\n'injected' depends on axioms: [sorryAx]\n",
+                    "custom_imported.lean": "'injected' depends on axioms: [hiddenPremise]\n",
+                    "native.lean": "'injected' depends on axioms: [injected._native.native_decide.ax_1_1]\n",
+                }
+                return subprocess.CompletedProcess(command, 0, reports[name], "")
             self.fail("unexpected synthetic process: " + repr(command))
 
         with mock.patch.object(gate, "lake_binary", return_value="/synthetic/lake"), \
@@ -436,7 +442,8 @@ class SyntheticControls(unittest.TestCase):
         self.assertEqual(set(receipt["logs"]), {
             "preflight-version.log", "version.log", "build.log", "leanchecker.log",
             "axioms.log", "elaborated-types.log", "tight.log", "sorry.log",
-            "custom_imported.log", "native.log"})
+            "custom_imported.log", "native.log", "tight-stderr.log", "sorry-stderr.log",
+            "custom_imported-stderr.log", "native-stderr.log"})
         for name, digest in receipt["logs"].items():
             self.assertEqual(digest, sha((out / name).read_bytes()), name)
 
