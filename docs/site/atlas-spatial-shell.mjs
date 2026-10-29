@@ -31,7 +31,10 @@ export function installSpatialAtlas({root,onChange}) {
   const refused=()=>!get('atlas-error').hidden||!inspector.querySelector('h3');
   const shown=()=>root.getAttribute('data-atlas-panel')!=='diagnostics'&&!(matchMedia('(max-width:720px)').matches&&root.getAttribute('data-atlas-panel')!=='browse');
   function pick(id){buttons().find(button=>nodeID(button)===id)?.click();}
-  function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();status.textContent=message+' Use Graph or List to continue.';}
+  function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();
+    // Hidden graph cards measure zero height. Remeasure after restoring the
+    // fallback, without adding history or changing the selected source.
+    onChange({write:false});status.textContent=message+' Use Graph or List to continue.';}
   function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);list.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
   function sync(){frame=0;if(disposed)return;
     if(refused()){nodes.replaceChildren();relations.replaceChildren();lastSignature='';status.textContent='Source-bound bookmark refused; no current result count or formal evidence substituted.';if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');else display();return;}
