@@ -177,8 +177,18 @@ def _activate(page, row, expect):
 
 
 def _restore_geometry_and_pick(page, row, data, width, expect):
+    before_view = page.locator('#atlas-view').input_value()
+    before_panel = page.locator('#current-atlas').get_attribute('data-atlas-panel')
     _browse(page, width, expect)
-    page.locator('#atlas-view').select_option('graph')
+    # A redundant change event repairs Graph layout and would mask a missing
+    # failure-time reflow. Inspect already-visible Graph without that action.
+    selected_graph = before_view != 'graph'
+    if selected_graph:
+        page.locator('#atlas-view').select_option('graph')
+    row['observations']['graph_recovery_route'] = {
+        'view_before': before_view,
+        'browse_navigation': width <= 720 and before_panel != 'browse',
+        'graph_selection_dispatched': selected_graph}
     expect(page.locator('#atlas-stage')).to_be_visible()
     geometry = page.evaluate(_GEOMETRY)
     _require(len(geometry['cards']) >= 2, 'Useful fallback requires at least two admitted graph cards')
