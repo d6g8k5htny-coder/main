@@ -2,7 +2,23 @@ name: CBZ source instrument self-tests
 'on':
   push:
     branches: [main]
+    paths:
+      - '**/*.lean'
+      - 'cbz-source-manifest.json'
+      - 'tools/cbz_source_audit.py'
+      - 'tests/test_cbz_source_audit.py'
+      - 'tests/test_cbz_mutation_harness.py'
+      - 'tests/run_scanner_mutations.py'
+      - '.github/workflows/cbz-source-auditor.yml'
   pull_request:
+    paths:
+      - '**/*.lean'
+      - 'cbz-source-manifest.json'
+      - 'tools/cbz_source_audit.py'
+      - 'tests/test_cbz_source_audit.py'
+      - 'tests/test_cbz_mutation_harness.py'
+      - 'tests/run_scanner_mutations.py'
+      - '.github/workflows/cbz-source-auditor.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,8 +42,10 @@ jobs:
       - name: Instrument and harness regression controls
         run: |
           set -euo pipefail
-          python -B -S -m unittest discover -s tests -p 'test_cbz_*.py' -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-normal.log"
-          python -B -O -S -m unittest discover -s tests -p 'test_cbz_*.py' -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-optimized.log"
+          python -B -S -m unittest discover -s tests -p test_cbz_source_audit.py -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-normal.log"
+          python -B -S -m unittest discover -s tests -p test_cbz_mutation_harness.py -v 2>&1 | tee -a "$RUNNER_TEMP/cbz-evidence/tests-normal.log"
+          python -B -O -S -m unittest discover -s tests -p test_cbz_source_audit.py -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-optimized.log"
+          python -B -O -S -m unittest discover -s tests -p test_cbz_mutation_harness.py -v 2>&1 | tee -a "$RUNNER_TEMP/cbz-evidence/tests-optimized.log"
       - name: Actual scanner mutation controls
         run: |
           set -euo pipefail

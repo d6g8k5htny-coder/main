@@ -128,13 +128,20 @@ comments and literal strings are masked; unsupported syntax is reviewed.
 Optional output creates a new regular file outside the audited root and
 refuses overwriting earlier evidence or inputs.
 
-Verification: 36 scanner regression tests; tests/test_cbz_mutation_harness.py has 14
-real-process controls. tests/run_scanner_mutations.py applies 39 source mutants
-to the scanner. Its declared threshold is 39/39 killed with a passing unchanged
+Review triggers include direct `sorryAx`, compiler-trust primitives
+`ofReduceBool`, `ofReduceNat`, `trustCompiler`, `skipKernelTC` and
+`addDeclWithoutChecking`, plus `+native` and record-field `native :=` forms
+across whitespace and comments. Compound-form evidence points to the actual
+`native` identifier bytes and records the matched `review_form`. Ordinary
+identifiers and literal data do not become compiler options by spelling alone.
+
+Verification: 39 scanner regression tests; tests/test_cbz_mutation_harness.py has 14
+real-process controls. tests/run_scanner_mutations.py applies 47 source mutants
+to the scanner. Its declared threshold is 47/47 killed with a passing unchanged
 suite, valid CLI smoke, full case count, assertion failures and no harness/test
 errors or skips. Startup crashes and invalid JSON are not successful rejection
-evidence. The original 37/39 cut remains historical evidence; the final local
-cut reached 39/39 after fixing uncovered tests and output/resource defects.
+evidence. Historical 37/39 and 39/39 cuts remain preserved; the current local
+cut reached 47/47 after adding the stronger trust-bypass review triggers.
 
 Limits: no grammar/elaboration/kernel proof, complete dependency audit,
 semantic bound/nonvacuity proof, historical deletion comparison, concurrent

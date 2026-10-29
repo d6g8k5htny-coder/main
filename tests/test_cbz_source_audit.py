@@ -90,7 +90,8 @@ class SourceAuditTests(unittest.TestCase):
     def test_every_prohibited_token_detector_has_independent_evidence(self):
         for token in ("sorry", "admit", "axiom", "native_decide", "unsafe",
                       "Float", "Float32", "run_tac", "run_elab", "eval_expr",
-                      "implemented_by", "extern"):
+                      "implemented_by", "extern", "sorryAx", "ofReduceBool",
+                      "ofReduceNat", "trustCompiler", "skipKernelTC", "addDeclWithoutChecking"):
             with self.subTest(token=token):
                 report = self.audit_source("-- preceding line\n" + token + "\n")
                 self.assertEqual(report["aggregate_status"], "REVIEW_REQUIRED")
@@ -99,6 +100,48 @@ class SourceAuditTests(unittest.TestCase):
                 self.assertEqual(hit[0]["line"], 2)
                 self.assertEqual(hit[0]["column"], 1)
                 self.assertEqual(hit[0]["source_line"], token)
+
+    def test_native_option_forms_are_reviewed_across_whitespace_and_comments(self):
+        cases = (
+            ("+native", "example : True := by decide +native\n"),
+            ("+native", "example : True := by decide + native\n"),
+            ("+native", "example : True := by decide +\n  native\n"),
+            ("+native", "example : True := by decide + /- outer /- nested -/ -/ native\n"),
+            ("native:=", "example : True := by decide (config := {native := true})\n"),
+            ("native:=", "example : True := by decide (config := {native/- note -/:=true})\n"),
+            ("native:=", "example : True := by decide (config := {native -- note\n := true})\n"),
+            ("native:=", "example : True := by decide (config := {other := false, native := true})\n"),
+        )
+        for form, source in cases:
+            with self.subTest(form=form, source=source):
+                report = self.audit_source(source)
+                self.assertEqual(report["aggregate_status"], "REVIEW_REQUIRED")
+                hits = [f for f in report["findings"] if f.get("review_form") == form]
+                self.assertEqual(len(hits), 1, report)
+                self.assertEqual(hits[0]["token"], "native")
+                self.assertEqual(hits[0]["code"], "UNCERTIFIED_EXECUTION")
+
+    def test_native_form_evidence_points_to_the_actual_identifier_bytes(self):
+        for source, form, position in (
+            ("-- α\n+native\n", "+native", (2, 2, 7, 6)),
+            ("-- α\n{ native /- note -/ := true }\n", "native:=", (2, 3, 8, 6)),
+        ):
+            with self.subTest(form=form):
+                report = self.audit_source(source)
+                hits = [f for f in report["findings"] if f.get("review_form") == form]
+                self.assertEqual(len(hits), 1, report)
+                hit = hits[0]
+                self.assertEqual((hit["line"], hit["column"], hit["byte_offset"], hit["byte_length"]), position)
+                self.assertEqual(source.encode("utf-8")[hit["byte_offset"]:hit["byte_offset"] + hit["byte_length"]], b"native")
+
+    def test_native_identifiers_and_literal_data_are_not_compiler_options(self):
+        source = ('def native := 1\ndef native_option := 2\ndef native! := 3\n'
+                  'def value := Foo.native\n'
+                  'def data := "+native {native := true}"\n'
+                  '-- +native {native := true}\n/- +native {native := true} -/\n')
+        report = self.audit_source(source)
+        self.assertEqual(report["errors"], [])
+        self.assertEqual(report["findings"], [])
 
     def test_extensible_syntax_is_reviewed_instead_of_silently_skipped(self):
         for token in ("macro", "macro_rules", "syntax", "elab", "elab_rules",

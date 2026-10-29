@@ -30,8 +30,14 @@ MAX_FINDINGS = 10000
 REVIEW_TOKENS = {
     "sorry": ("PROHIBITED_TOKEN", "Logical placeholder requires review."),
     "admit": ("PROHIBITED_TOKEN", "Logical placeholder requires review."),
+    "sorryAx": ("PROHIBITED_TOKEN", "Direct placeholder axiom use requires review."),
     "axiom": ("PROHIBITED_TOKEN", "Axiom declaration requires provenance and verification."),
     "native_decide": ("UNCERTIFIED_EXECUTION", "Native evaluation is not certified by this scanner."),
+    "ofReduceBool": ("UNCERTIFIED_EXECUTION", "Compiler-trust reduction requires separate evidence."),
+    "ofReduceNat": ("UNCERTIFIED_EXECUTION", "Compiler-trust reduction requires separate evidence."),
+    "trustCompiler": ("UNCERTIFIED_EXECUTION", "Compiler trust requires separate evidence."),
+    "skipKernelTC": ("UNCERTIFIED_EXECUTION", "Kernel-check bypass requires separate evidence."),
+    "addDeclWithoutChecking": ("UNCERTIFIED_EXECUTION", "Unchecked declaration admission requires separate evidence."),
     "unsafe": ("UNSAFE_DECLARATION", "Unsafe declaration or use requires review."),
     "Float": ("FLOAT_USE", "Floating point cannot certify a bound in this audit."),
     "Float32": ("FLOAT_USE", "Floating point cannot certify a bound in this audit."),
@@ -317,6 +323,7 @@ class Lexer:
         self.i, self.line, self.column, self.byte_offset = 0, 1, 1, 0
         self.lines = text.split("\n")
         self.findings = []
+        self.previous_code = None
 
     def advance(self, end):
         for char in self.text[self.i:end]:
@@ -337,10 +344,10 @@ class Lexer:
             "source_line_start_column": start + 1, "source_line_truncated": len(line) > 1024,
         }
 
-    def finding(self, code, token, detail):
+    def finding(self, code, token, detail, **context):
         if len(self.findings) >= MAX_FINDINGS:
             self.fail("Finding count limit exceeded.", code="RESOURCE_LIMIT")
-        self.findings.append({"code": code, "detail": detail, **self.evidence(token)})
+        self.findings.append({"code": code, "detail": detail, **self.evidence(token), **context})
 
     def fail(self, detail, code="LEXICAL_ERROR"):
         raise AuditFailure(code, self.path, detail, line=self.line,
@@ -421,6 +428,39 @@ class Lexer:
             self.fail("Character literal must contain exactly one character or escape.")
         self.advance(self.i + 1)
 
+    def following_code_text(self, start):
+        """Peek through trivia without moving or changing source evidence positions."""
+        text, end = self.text, len(self.text)
+        while start < end:
+            if text[start] in " \t\r\n":
+                start += 1
+            elif text.startswith("--", start):
+                close = text.find("\n", start + 2)
+                start = end if close == -1 else close
+            elif text.startswith("/-", start):
+                depth, start = 1, start + 2
+                while start < end and depth:
+                    if text.startswith("/-", start):
+                        depth, start = depth + 1, start + 2
+                    elif text.startswith("-/", start):
+                        depth, start = depth - 1, start + 2
+                    else:
+                        start += 1
+                if depth:
+                    return ""  # The main lexer will refuse this unterminated comment.
+            else:
+                return text[start:start + 2]
+        return ""
+
+    def native_review_form(self, token, end):
+        if token != "native":
+            return None
+        if self.previous_code == "+":
+            return "+native"
+        if self.previous_code in ("{", ",") and self.following_code_text(end) == ":=":
+            return "native:="
+        return None
+
     def scan(self):
         while self.i < len(self.text):
             char = self.text[self.i]
@@ -433,10 +473,13 @@ class Lexer:
                 self.block_comment()
             elif char == '"':
                 self.string()
+                self.previous_code = "literal"
             elif char == "r" and self.raw_string():
+                self.previous_code = "literal"
                 continue
             elif char == "'":
                 self.character()
+                self.previous_code = "literal"
             elif char == "«":
                 end = self.text.find("»", self.i + 1)
                 if end == -1:
@@ -444,6 +487,7 @@ class Lexer:
                 self.finding("QUOTED_IDENTIFIER", self.text[self.i:end + 1],
                              "Quoted identifier is preserved and requires separate name resolution.")
                 self.advance(end + 1)
+                self.previous_code = "quoted_identifier"
             elif identifier_start(char):
                 end = self.i + 1
                 while end < len(self.text) and identifier_rest(self.text[end]):
@@ -455,16 +499,23 @@ class Lexer:
                 if token in REVIEW_TOKENS:
                     code, detail = REVIEW_TOKENS[token]
                     self.finding(code, token, detail)
+                native_form = self.native_review_form(token, end)
+                if native_form is not None:
+                    self.finding("UNCERTIFIED_EXECUTION", token,
+                                 "Native compiler option requires separate evidence.", review_form=native_form)
                 if not token.isascii():
                     self.finding("UNSUPPORTED_SYNTAX", token,
                                  "Unicode identifier syntax requires Lean parsing; token is preserved.")
                 self.advance(end)
+                self.previous_code = token
             elif char.isascii() and (char.isdigit() or char in "()[]{}.,:;=+-*/<>|&!%^~?@"):
                 self.advance(self.i + 1)
+                self.previous_code = char
             else:
                 self.finding("UNSUPPORTED_SYNTAX", char,
                              "Unknown, quotation, antiquotation or command syntax requires review.")
                 self.advance(self.i + 1)
+                self.previous_code = char
         return self.findings
 
 

@@ -11,7 +11,7 @@ approval, freeze and review-family routing rules are superseded.
 
 ## What is closed and what is quarantined
 
-The source-inventory instrument has 50 passing regression methods and a 39/39
+The source-inventory instrument has 53 passing regression methods and a 47/47
 scanner mutation cut; that is G0 instrument evidence only. Its reports always
 leave G1 and CBZ-0 NOT_ESTABLISHED. The Main formal inventory has 31 arithmetic
 targets; use actual pinned kernel receipts for their execution scope, never

@@ -64,6 +64,15 @@ def suppress_finding(tree, code):
     method.body[:0] = ast.parse(f"if code == {code!r}:\n    return").body
 
 
+def disable_native_form(tree, form):
+    targets = [node for node in ast.walk(function(tree, "native_review_form"))
+               if isinstance(node, ast.Return) and isinstance(node.value, ast.Constant)
+               and node.value.value == form]
+    if len(targets) != 1:
+        raise RuntimeError("Native review-form mutation anchor is missing or ambiguous: " + form)
+    targets[0].value = ast.Constant(None)
+
+
 def omit_missing_file(tree):
     target = [node for node in ast.walk(tree) if isinstance(node, ast.If)
               and ast.unparse(node.test) == "path not in discovered"]
@@ -321,12 +330,15 @@ def main(argv=None):
 
     mutants = []
     for token in ("sorry", "admit", "axiom", "native_decide", "unsafe", "Float", "Float32",
+                  "sorryAx", "ofReduceBool", "ofReduceNat", "trustCompiler", "skipKernelTC", "addDeclWithoutChecking",
                   "run_tac", "run_elab", "eval_expr", "implemented_by", "extern", "macro",
                   "macro_rules", "syntax", "elab", "elab_rules", "declare_syntax_cat",
                   "initialize", "builtin_initialize"):
         mutants.append(("disable_token_" + token, lambda tree, token=token: disable_token(tree, token)))
     for code in ("QUOTED_IDENTIFIER", "STRING_INTERPOLATION", "UNSUPPORTED_SYNTAX", "UNSUPPORTED_ESCAPE"):
         mutants.append(("suppress_" + code.lower(), lambda tree, code=code: suppress_finding(tree, code)))
+    for name, form in (("disable_plus_native_form", "+native"), ("disable_native_assignment_form", "native:=")):
+        mutants.append((name, lambda tree, form=form: disable_native_form(tree, form)))
     mutants.extend([
         ("skip_missing_file", omit_missing_file),
         ("disable_hash_check", disable_hash_check),

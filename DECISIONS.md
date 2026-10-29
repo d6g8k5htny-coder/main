@@ -49,3 +49,22 @@ Append-only. Historical source outcomes remain in their original records.
   reinstate the superseded approval ceremony or weaken the routing test.
 
 - 2026-10-29 · Phase 2 · Layer C · Reconcile against live Main 81acc060341e8a31cc4cd4f9523ef71fb6c06175; preserve its canonical governance and agent entry byte-for-byte, append this instrument registry and retain both decision histories. No source proof, navigation workflow or required-check rule is changed.
+- 2026-10-29 · Phase 2 · Layer B · Consolidate lexical tooling around the
+  bounded source instrument. Add the stronger trust-bypass/native review
+  triggers from the pinned alternatives, retain their provenance and adverse
+  observations in cbz/evidence/source-instrument-selection.json, and qualify
+  the union with 39 scanner plus 14 harness methods and 47/47 killed mutants.
+  Alternatives are not declared integrated or superseded by this candidate.
+- 2026-10-29 · Phase 2 · Layer B · Scope this new, nonrequired mutation
+  workflow to its Lean inputs, implementation, manifest, controls and own
+  workflow, retaining manual dispatch. Its first hosted run retained 451456
+  artifact bytes. Navigation Option A stays byte-identical and continues full
+  normal discovery on every eligible event. No required context or protection
+  setting is changed; no saved-run count or monetary saving is asserted.
+- 2026-10-29 · Phase 2 · Layer C · Execute all 46 Node test files with four
+  exact public-shop inputs and 34 exact museum inputs: 763 pass, zero skips.
+  Preserve the initial missing-fixture failure and intermediate skip logs.
+  No Node test, product source, assertion or mathematical bound was changed.
+- 2026-10-29 · Phase 2 · Layer C · Preserve concurrent Main 27c89b05bd2503c580b692f57146d608a7f0f668,
+  its zeta-manifest source repair and all 14 additional tests during composition.
+  Fresh hosted qualification will bind the resulting revised PR head.
