@@ -1,0 +1,65 @@
+{
+  "certificate": "LPW_CONSTANT v4 (OFFICIAL SUCCESSOR; levers 1+2+4 discharged)",
+  "statement": "1 - q(r, 6/5) >= c r^3 for all 0 < r <= r_0",
+  "headline": {
+    "c_3sig_lower": "2.22e-10",
+    "c_exact29": "2.2291086664054236617851686509e-10",
+    "c_power_floor": "1e-10",
+    "c_exact_fraction": "394827584594841472652359498125/1771235249968883322980290175117427736576",
+    "r0": "1/2278031360",
+    "delta": "14587/2621440",
+    "eps_total": "57/640",
+    "remainder_share_8Kr0": "1/32768",
+    "m_density_floor": "9/10000",
+    "W1": "597/128",
+    "W2": "2596849/204800",
+    "W_floor": "1550318853/26214400",
+    "B3_rat": "2082000000000",
+    "K_rat": "8690",
+    "S3_upper": "554.3913563",
+    "S4_upper": "2041.8327332",
+    "C_Z": "3.66282864761194",
+    "C_Z_note": "H3-certified uniform ceiling E[G_r] <= 3.66282864761194 on (0, 0.0025] (H3_BAND_CEIL.md body cfe8a3a4...); consumed exactly, never rounded down; r_0 in cell"
+  },
+  "changes_from_v3": {
+    "normalizer_carrier": {
+      "old": "C_Z = 4 B_3 = 8328000000000 (v1 crude uniform cap; v3 F-LEVER4 flagged)",
+      "new": "C_Z = U = 3.66282864761194 (H3_BAND_CEIL cell (0, 0.0025] certified ceiling)",
+      "direction": "Palm denominator of the LOWER bound needs Z_r <= U r^2 (ceiling); H3 certifies E[G_r] = Z_r/r^2 <= U on (0, 0.0025]; r_0 = 4.39e-10 in cell",
+      "certified_effect": "c: 9.8040863135804911886149013570e-23 -> 2.2291086664054236617851686509e-10 (x2.273652633308e12)",
+      "consistency": "band floor 2.30659559567154 < U < rung hi 4.58745858936; U <= 4 cap; U <= 4 B_3"
+    }
+  },
+  "carried_from_v3": "levers 1+2 certified inputs (m = 9/10000, eps' = 57/640 split, delta = 14587/2621440, weight floor 59.13997), B_3, K, amplitude majorant, invariants (a)(b)(c), rounding checker, exact rational coefficient, r_0",
+  "findings": [
+    "F-S4",
+    "F-C29",
+    "F-LEVER4 discharged by H3_BAND_CEIL",
+    "F-DELTA1256"
+  ],
+  "carriers": {
+    "v1_script": "e258322cfbb71dbb8665c2d0c0517399dca5ca5913e9ddf70eb7247ba74d3035",
+    "v1_receipt": "6332afe0f313dc5dc856f623a513fbfed987be883ac4dcdc4c6d6151732520ee",
+    "v1_report": "289d9f40e725bd51e2405d9de88b3afd428a338f76a709d6d882f1c395f50b22",
+    "v1_transcript": "d0cb92595bad7e1b7266e1a9043a54caff380ed075e8f4e358b0ae04146c573f",
+    "v1_review": "940057a57f18488fa3e76bf235020d1ef984480357bbfb61fa830f1c84d95743",
+    "v2_script": "ca654e39ab817a8c85d609cb0775fb0f27ef0e8b54255d65cce6bed1c130e125",
+    "v2_report": "a469c456b76654d641dfe96301e929c8ff3d01c0eb109a2b3e2d3208cd61ef62",
+    "h1_receipt": "49e23661da379e5cf0822a41296974669c56e208e56fd43e81479ff5b103a94a",
+    "h3_rung": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+    "h3_band": "7a40e2675232244bc63fcab2304b4b9cd3cd59a5c4965a3be5e65db7436fcfc2",
+    "v3_script": "4a015174d369eabc16c60f2c6f2aade2feee113ed60c5d0b8d505624e9b02a8c",
+    "v3_receipt": "60549daf559e92935cfdd849bff7fea9070eae61c618c6a72651690182b221f5",
+    "v3_report": "76016d7bfe755a1b6c09be40393a46632e9b92711d744817a8f0a35fe9331b63",
+    "v3_errata": "6a7e95be5e3a4abae26ce737c48662bec930d76dca818daba26aef4d6b76029c",
+    "h3_ceil": "18e109bc2e7a186c307f689f940ad476d69fc543e828081e0e706de2c578800d",
+    "h3_ceil_script": "b97c5428a20e5dd33f3e53653d20447f1e27515dcc7dc7a7c2004ebe30029452",
+    "h3_ceil_trans": "26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00",
+    "h3_ceil_rcpt": "ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264"
+  },
+  "carrier_body_hashes": {
+    "h3_band": "281477c39412840bc9ca56a256884f3ddd5f0ae4283f90a017162676771382a7",
+    "h3_ceil": "cfe8a3a49e3281dfdc4ef5d925ae622b4f7aeea3d0462baae61b87dae699ede2"
+  },
+  "discipline": "exact rational final coefficient; published <= exact; invariants (a)(b)(c) + rounding checker; 17 fail-closed mutation families both modes; byte-identical output; CANNOT-VERIFY (exit 2) separate from FAIL (exit 1)"
+}

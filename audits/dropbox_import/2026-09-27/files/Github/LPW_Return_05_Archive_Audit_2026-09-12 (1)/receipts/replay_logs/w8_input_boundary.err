@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/mnt/data/lpw_return05_work/replays/w8/W8_lambda/verify_lambda_grid_v3.py", line 1185, in <module>
+    main()
+    ~~~~^^
+  File "/mnt/data/lpw_return05_work/replays/w8/W8_lambda/verify_lambda_grid_v3.py", line 1109, in main
+    script_hash = input_integrity()
+  File "/mnt/data/lpw_return05_work/replays/w8/W8_lambda/verify_lambda_grid_v3.py", line 834, in input_integrity
+    h = hashlib.sha256(open(SWEEP_JSON, 'rb').read()).hexdigest()
+                       ~~~~^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/agents/upload/c027 sweep core40.json'

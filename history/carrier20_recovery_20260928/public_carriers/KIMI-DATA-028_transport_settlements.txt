@@ -1,0 +1,78 @@
+KIMI-DATA-028 — TRANSPORT SETTLEMENTS (AO48-WO-063 Task 6)
+KIMI line — data report
+2026-08-05
+
+Inputs
+  work order : AO48-WO-063, sha256 e699bf44b7b84fca88faa2b509c1686ea9f8e500aee0dbe618c859b5ec5ad2e2
+  prior      : KIMI-DATA-025 (Task 0 intake inventory), KIMI-AUD-024 (LB-6),
+               KIMI_EXPORT_2026-08-03 bundle, KIMI_EXPORT_2026-08-04_LB bundle
+
+====================================================================
+(a) ORPHANED PRE-UPDATE THM BODY sha256 40596829 — RULING: UNRECOVERABLE
+====================================================================
+The body sha256 4059682963ed561bdc3f97fd505420974a16c560234ed961961e453106fda5ae
+that KIMI-AUD-024 cites for KIMI-THM-023 is the FIRST hashed body of the LB-5
+assembly, superseded in-session by the anchor-text correction and the LB-1 final
+update. Sweep evidence (KIMI-DATA-025, Task 0): the body is ABSENT as a file in
+the entire uploaded 577-file corpus and in the research tree (grep-verified).
+Reconstruction attempt completed with byte-exact negative result: the three-body
+lineage is now fully documented —
+  40596829… : the orphaned pre-update body (LOST; existed only as the first
+              in-session hashed body; never exported, never landed Drive-side).
+  fedcc4b67a792efd5d43496b9a6f26c3412a0e863aac038f3e2aa37654ded3a7
+            : the KIMI_EXPORT_2026-08-04_LB bundle's KIMI-THM-023.md body.
+              PROVEN byte-exact to be the CURRENT body ba3974c0… with em-dashes
+              AND en-dashes folded to hyphens (the export build's ASCII fold):
+              fold(ba3974c0 body, {U+2014, U+2013} -> '-') == fedcc4b6 body,
+              sha256-verified. The bundle therefore carries the CURRENT content,
+              not the orphan.
+  ba3974c02b20dca87d0eaf9fe21d2e574a30d2c12fc4f6b3eb61c8841f73a5fc
+            : the current live body (reports/KIMI-THM-023_lb5_assembly.txt),
+              the body at HOLD per the GP mirror and GP-LB-STAT-001.
+Ruling: 40596829… is declared UNRECOVERABLE. KIMI-AUD-024's citation is formally
+re-pointed to ba3974c0…. The theorem content AUD-024 consumed (lower bound
+c = 0.9144·(1−O(r^3)) and the channel ledger) is identical in the successor
+body; the supersession was editorial-plus-update, not a change of claim.
+
+====================================================================
+(b) EXACT C022_Observed_Update.json — RECOVERED (Task 0, restated on the record)
+====================================================================
+Recovered in-corpus at exact declared hash:
+  sha256 9bc0647b885931ba4dc862bedfb879f9bd12c4cd6d39f51c6e98e54c7f75d5cb,
+  9,435 bytes, upload file "C022 Observed Update.json". Hash-verified in
+  KIMI-DATA-025. LB-3 availability is therefore 9/9 exact objects.
+
+====================================================================
+(c) CANONICALITY RULING — 08-03 BUNDLE TWO-HEX-LINE CONVENTION
+====================================================================
+On the record: NO corrected re-cut of the 2026-08-03 export bundle exists, and
+none will be cut. The as-shipped bundle (KIMI_EXPORT_2026-08-03, 25/25 concat
+self-test frames, Drive-resident sha256 e7948595… per the WO state of record;
+local zip sha256 b8a8815…, 97,560 B) STANDS CANONICAL AS SHIPPED, with its
+two-hex-line convention (the recomputed hex line followed by the stale original
+hex line after the body-hash marker, in the affected report files) recorded as
+a documented convention deviation, not a content defect: every affected body's
+content hash is recoverable from the FIRST hex line after the marker, and the
+recomputation is consistent. The one-hex-line convention was adopted from the
+2026-08-04 addenda onward (with DEFECT NOTEs in their READMEs), and the
+corrected builds of KIMI-AUD-020/021 were landed separately 2026-08-04
+(operator record: IDs 1ZHHN44sPpDQC0cD8JCzcKKoM6fKiOtxs / 1xpRO3J9MASR-Yg6dhv-rv-dyTprHgL6d).
+
+====================================================================
+(d) M2-CLASS NATIVES HELD IN-SESSION
+====================================================================
+  S2-DER-010 : held as PDF only (S2-DER-010-v1.0 — … .pdf, uploads). No
+               text/plain native exists in-session. Nothing to export.
+  LS-DER-031 : held as PDF only (LS-DER-031-v1.0 — … .pdf, uploads). No
+               text/plain native exists in-session. Nothing to export.
+  LS-DER-030 : text native HELD (upload pasted-text file
+               user_pasted_clipboard_long_content_as_file_LS-DER-030-v1.0_—_EXPLICIT_FIXED-WINDOW_16.txt);
+               a byte-exact copy ships in KIMI_EXPORT_2026-08-05 with its
+               sha256 in the manifest.
+  LS-DER-026 / LS-DER-027 (DATA-015/017 REQUEST-UPLOAD class) : NOT held.
+
+No status or Boolean claims are made in this report. HOLD language stands until
+AO48/GP reconciliation.
+
+SHA-256 of this report body (text after this line is excluded):
+83d79a945eb8bb6e84ff91eea31b11a2f4e6d074d2c36aa9e90f3813bb52925b

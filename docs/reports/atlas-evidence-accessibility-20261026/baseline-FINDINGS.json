@@ -1,0 +1,91 @@
+{
+  "target": "F973 only",
+  "definite_ids": [
+    "F1",
+    "F2"
+  ],
+  "findings": [
+    {
+      "id": "F1",
+      "classification": "CONFIRMED_PRODUCT_DEFECT",
+      "priority": "P2",
+      "criterion": "2.5.8",
+      "title": "Wrapped footer links overlap and misdirect visible-text clicks",
+      "product_paths": [
+        "docs/site/brand.css:133"
+      ],
+      "selector": "footer p a",
+      "observed": "320/390 CSSpx, light/dark:43.796875px target rectangles stacked23.796875px apart overlap20px. Clicking two pixels above the bottom of visible Universal Law text dispatches Library.1200px geometry has no overlap.",
+      "cause": "display:inline-block; padding:10px 2px; margin:-10px 0 expands hit boxes without reserving line spacing.",
+      "recommendation": "Remove the collision while retaining separated targets; validate real hit destinations and target spacing at320/390/light/dark. Auditor makes no product edit.",
+      "evidence": [
+        "../manual-01/MANUAL.json",
+        "../deep-01/DEEP.json",
+        "run-07-20261028/graph-390-light-axe.json"
+      ],
+      "qualification": "axe reports effective23.8px target size/spacing under24px. Manually reproduced navigation defect independently of that threshold. These are styled navigation links, not an ordinary prose-link size exception."
+    },
+    {
+      "id": "F2",
+      "classification": "CONFIRMED_INVALID_ARIA_WITH_AUTOMATED_WCAG_FINDING",
+      "priority": "P2",
+      "criterion": "4.1.2",
+      "title": "Focus-enabled graph viewport has a label without a valid named role in source failure",
+      "product_paths": [
+        "docs/site/dependencies.html"
+      ],
+      "selector": "#atlas-stage",
+      "observed": "Intentional local current.json fetch failure leaves tabindex=0 div with aria-label and no valid role; axe aria-prohibited-attr reports a violation.",
+      "recommendation": "Give the intended scroll viewport an appropriate valid named role and retain its source-failure boundary. Review separately labelled generic toolbar/status containers; their normal-state results are incomplete, not proven speech failures.",
+      "evidence": [
+        "run-07-20261028/fetch-failure-320-dark-axe.json",
+        "run-07-20261028/fetch-failure-320-dark-unavailable.png"
+      ],
+      "qualification": "An invalid ARIA structure and automated criterion finding, not an observed screen-reader speech failure. This test intentionally aborts current.json; it is not the missing-capture-assets incident."
+    },
+    {
+      "id": "A1",
+      "classification": "BEST_PRACTICE_ADVISORY",
+      "criterion": "1.3.1/2.4.6 (not established as a definite AA failure)",
+      "title": "Selected inspector H3 follows H1 when foundations disclosure is closed",
+      "product_paths": [
+        "docs/site/dependencies.html"
+      ],
+      "recommendation": "An H2 such as Explore claims and evidence before the workbench supplies the missing hierarchy while retaining every #atlas-inspector h3 API. Prefer visible text; a visually hidden implementation must remain in the accessibility tree. No generic visually-hidden utility was found in the inspected baseline styles.",
+      "evidence": [
+        "run-07-20261028/reader-1200-dark-axe.json"
+      ],
+      "qualification": "axe heading-order has best-practice tags only; do not promote it into a definite WCAG AA failure."
+    },
+    {
+      "id": "A2",
+      "classification": "AUTOMATED_WARNING_WITH_TESTED_BROWSER_COUNTEREVIDENCE",
+      "criterion": "2.1.1",
+      "title": "3D relationship scroll list depends on browser implicit focus behavior",
+      "product_paths": [
+        "docs/site/atlas-spatial-shell.mjs"
+      ],
+      "recommendation": "Explicit named keyboard-scroll semantics can make the intended interaction portable. Other browser/AT qualification remains necessary.",
+      "evidence": [
+        "run-07-20261028/3d-390-light-axe.json",
+        "../deep-01/DEEP.json"
+      ],
+      "qualification": "axe flags scrollable-region-focusable at390px, but real Chromium154 Tab focuses the UL and ArrowDown scrolls0\u219240px at320/390 in both themes. UA visible outline is present. Not a demonstrated keyboard failure in this browser."
+    },
+    {
+      "id": "A3",
+      "classification": "NEEDS_HUMAN_OR_ADDITIONAL_RENDERED_ASSESSMENT",
+      "criterion": "1.4.3/1.4.11/4.1.2",
+      "title": "Unresolved automated contrast and generic-role coverage",
+      "product_paths": [
+        "docs/site/dependencies.html"
+      ],
+      "evidence": [
+        "run-07-20261028/REPORT.json",
+        "../contrast-computed.json"
+      ],
+      "qualification": "Normal labelled generic containers remain axe incomplete. Pseudo-element/overlap contrast nodes remain incomplete;28 representative solid computed-color samples range6.28\u201317.27 and exceed4.5, but do not settle every painted pixel, graph edge, pseudo element or other AT implementation."
+    }
+  ],
+  "source_edits_by_auditor": false
+}

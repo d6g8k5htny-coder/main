@@ -1,0 +1,53 @@
+# MPV3_MANIFEST — AUTHORITY, INTEGRITY, SUPERSESSION
+### Regenerated per release. This file is the root of authority for the bundle.
+
+**Release:** MPV3 4.0.0 · **Class:** GOVERNED PROGRAM · **Date:** 2026-08-12
+**Release hash** (SHA-256 over the canonical hash listing below): `d3f6afe0b3b7257d24e0fee3206386353cdc7140c858f85c5f9db5ad227c0328`
+
+**Semantic delta vs 3.4.0:** ADOPTION. By operator instruction ("Release 4.0"), MPV3_MASTER.md (CONSTITUTIO OPERIS, Edition 1.0, SHA-256 cfbd546c3084fcd8531c1183df5299ab07f259bcc5ab48a5550b911059fd80a6) becomes the governing core beside the kernel. Authority re-tiered per its Part V deletion ledger: the full LINGUA demotes from daily mandate to reference standard (twelve words and six marks remain mandatory); the ten-component evidence vector collapses to four axes (F, I, X, A); session ceremony collapses to the one-line open and two-line close; VECTURA retired with honors to archive/ (its salvage — metamorphic and counterfactual checks as adopted instruments; PARTITIO UMBRAE as doctrine — lives in MASTER Part V.4); method-novelty hunting closed as a program goal (Article 7). MPV3_RATIO_LEDGER.md opened per Article 1, with this release-cut honestly logged as META and the debt of three object sessions standing. First act under this release, per MASTER L5: an object session — the flagship's first provenance-separated attack, or the COS-O2 mock-audit reading — at the operator's pointing.
+
+## Authority
+GOVERNING CORE binds. STATE CARRIERS are the record; prose yields to them. REFERENCE STANDARD is consulted for frozen artifacts, capsules, exports, and discovery doctrine, and is not mandatory in daily sessions. Files not in this manifest — including everything under archive/ — carry no authority. Lexemes yield to expansions; expressions compare by CANON; an operator instruction overrides any default (Article 15), logged as an O-move.
+
+## Supersession
+4.0.0 supersedes 3.4.0 (release hash `caf28b251d1ab40b66f395f9807544c16264226a665602b707edacc56560fa90`); the full 3.x and Master Prompt chain is preserved verbatim in archive/MPV3_MANIFEST_r3.4.0.md per K9 — nothing deleted, authority withdrawn.
+
+## File integrity
+
+| Tier | File | Bytes | SHA-256 |
+|---|---|---|---|
+| GOVERNING CORE | MPV3_MASTER.md | 35527 | `cfbd546c3084fcd8531c1183df5299ab07f259bcc5ab48a5550b911059fd80a6` |
+| GOVERNING CORE | MPV3_KERNEL.md | 11392 | `fb1dee90aed55d8a7a67737cf460236cfe49703c67382f6c4043d4fe45c8272c` |
+| STATE CARRIERS | MPV3_LEDGER.md | 7864 | `3035d290ca0e14e4e3f75e35f7a8db8f8fb2c7816c7f9c30c610e2c408b1885e` |
+| STATE CARRIERS | MPV3_OBLIGATIONS.md | 5165 | `adaaaec3ca956accd0a4b50d19fea1c059513ee9b73064a69ccccdf081739f1f` |
+| STATE CARRIERS | MPV3_DOMAIN_Q0.md | 5344 | `a5d7ee596ec0f6c839a6f84f7efca329d527b5684df81f4e8707585a54d5f93e` |
+| STATE CARRIERS | MPV3_DOMAIN_COSMO.md | 4650 | `08dc1b2b70121b3da1d7777635a232809179eeab139b75705de39957e11a7229` |
+| STATE CARRIERS | MPV3_DOMAIN_SPECULATIVE.md | 5204 | `fc47f502c2545c48c48501bcca75d3c6b8243246ab6779bb5922bf3eaba4f65e` |
+| STATE CARRIERS | MPV3_FAILURES.md | 5200 | `09d4f5194bc09ee4289f8dd5de93646ab0e2451718f58eabdeed19cc0e588017` |
+| STATE CARRIERS | MPV3_RATIO_LEDGER.md | 366 | `8da6a1922b9433c6e96dc932bdc387217850940b67962270e3c0515600858880` |
+| REFERENCE STANDARD | MPV3_START_HERE.md | 1338 | `96b347ac1c3d1824944624f682914b446a48e6a19f1d32d0b7bd47ae8a916938` |
+| REFERENCE STANDARD | MPV3_LINGUA.md | 50517 | `5ee48d2e00cb12b9355e50955da3208bbf738ca9d6a8ce6945090139d5aa6a55` |
+| REFERENCE STANDARD | MPV3_SCHEMA.md | 10972 | `4d5c060d59a8ef0a08a127534e9581e8fcd857feecd2ca0ce60114b1229c1eb5` |
+| REFERENCE STANDARD | MPV3_SESSION.md | 6579 | `56cd918157df02ad969e91d6044dc8c0a2b00263789e8ca7f3c9560c542d0cd5` |
+| REFERENCE STANDARD | MPV3_TORSIO_PROPOSAL.md | 18928 | `081a0c20dec6402ad86ac59ad719f520e60f95f042b316671547f5b2795cf715` |
+
+## Canonical hash listing (release-hash preimage)
+```
+cfbd546c3084fcd8531c1183df5299ab07f259bcc5ab48a5550b911059fd80a6    35527  MPV3_MASTER.md
+fb1dee90aed55d8a7a67737cf460236cfe49703c67382f6c4043d4fe45c8272c    11392  MPV3_KERNEL.md
+3035d290ca0e14e4e3f75e35f7a8db8f8fb2c7816c7f9c30c610e2c408b1885e     7864  MPV3_LEDGER.md
+adaaaec3ca956accd0a4b50d19fea1c059513ee9b73064a69ccccdf081739f1f     5165  MPV3_OBLIGATIONS.md
+a5d7ee596ec0f6c839a6f84f7efca329d527b5684df81f4e8707585a54d5f93e     5344  MPV3_DOMAIN_Q0.md
+08dc1b2b70121b3da1d7777635a232809179eeab139b75705de39957e11a7229     4650  MPV3_DOMAIN_COSMO.md
+fc47f502c2545c48c48501bcca75d3c6b8243246ab6779bb5922bf3eaba4f65e     5204  MPV3_DOMAIN_SPECULATIVE.md
+09d4f5194bc09ee4289f8dd5de93646ab0e2451718f58eabdeed19cc0e588017     5200  MPV3_FAILURES.md
+8da6a1922b9433c6e96dc932bdc387217850940b67962270e3c0515600858880      366  MPV3_RATIO_LEDGER.md
+96b347ac1c3d1824944624f682914b446a48e6a19f1d32d0b7bd47ae8a916938     1338  MPV3_START_HERE.md
+5ee48d2e00cb12b9355e50955da3208bbf738ca9d6a8ce6945090139d5aa6a55    50517  MPV3_LINGUA.md
+4d5c060d59a8ef0a08a127534e9581e8fcd857feecd2ca0ce60114b1229c1eb5    10972  MPV3_SCHEMA.md
+56cd918157df02ad969e91d6044dc8c0a2b00263789e8ca7f3c9560c542d0cd5     6579  MPV3_SESSION.md
+081a0c20dec6402ad86ac59ad719f520e60f95f042b316671547f5b2795cf715    18928  MPV3_TORSIO_PROPOSAL.md
+```
+
+## Scope of the hashes
+Byte identity and authority only — a hash proves which text governs, never that the text is true. Environment fingerprints for computational artifacts live with their execution receipts, not here.

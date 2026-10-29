@@ -1,0 +1,11 @@
+# Implementation plan — reader exports and navigation
+
+1. [x] Read current source/owner instructions and contenders; claim bounded new scope on388/6405524426 and619/6405528300. Preserve and independently verify preimages in Drive1ERdrmFaXWTcPyNNTJ-MVbS0SjAq0Kgx7 (213files; SHA1b159585529b948ce92fb0da7e5f6482d422792b2bc2073f65211667cab576c3).
+2. [x] One helper implements PNG utility, Explore wiring and focused Node/browser controls in declared paths; keep existing serializers unchanged. Establish refusal/stale controls failing before implementation and passing after.
+3. [x] Root implements independent Research navigation and maintained board routes. Preserve pinned-source body hashes, native history and disclosure behavior. Add focused meaningful browser controls.
+4. [x] A disjoint helper adds saved-source→existingCitebuilder handoff under388/6405620826; literal known identity only, refusal preserved, pure/browser controls.
+5. [x] Add20new pure controls to existing public-shop Node command (388/6405733792), existingworkflowprivatelyarchived1JgtksSCwsN-31aZY6wTlXbzOLGmXt-NP/SHA c1a8ea8c520b6a52cec801e4773d8998d00d16048059a66eaa130fa62e562a2e independentlydownloadverified. Compose and inspect actual desktop/mobile/light/dark/keyboard/noJS/print outputs; fix findings. Stage new assets, regenerate canonical release closure and run prescribed current site checks.
+6. [ ] Separate nonauthor engineering review on exact source, correct findings, freeze candidate, publish PR. Current automatic review/hosted checks and nonauthor protected integration remain required.
+7. [ ] Verify actual merged publication; add working download/evidence with setup, exact identities and SHAmanifest to private Drive. Independently download/verify; retain all prior versions. Report implemented behavior and explicit remaining service/formal/device/scale gaps.
+
+Separate engineering review of9e08 found one MinorM1. Root6c073 unique-target fix passed targeted review with no new findings; original report and fix report preserved. Product bytes are frozen for hosted review/integration; current CI, protected merge/publication and Drive download verification remain separate final gates.

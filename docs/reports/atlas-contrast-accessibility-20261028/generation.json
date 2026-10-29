@@ -1,0 +1,277 @@
+{
+  "source": "b43b74388161f624ce7c684542232e97d90bb0b1",
+  "input_observation": "79bdde89a3daf7eaf5d4481961eb87433dd002d5",
+  "payload_sha256": "8a3595667134e0b196ad957277a572d34be6f39a3eebf0741faed55830f2e989",
+  "registry_sha256": "0a54c24b2ae529e16e378814c0b2764aa04eae783928ea1aee93a1efe616e76d",
+  "driver_sha256": "18d2526c74bf40f15f4cd6e81b92da121bd381dfac99634767ed824ad5a6c510",
+  "commands": [
+    {
+      "label": "first-build",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_build.py",
+        "--payload",
+        "/workspace/scratch/atlas-contrast-accessibility-20261028/at-input-79bd/current.json",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 9.281264928999008
+    },
+    {
+      "label": "first-history-before-keys",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_history.py",
+        "publish",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 5.63474586999655
+    },
+    {
+      "label": "first-stage",
+      "command": [
+        "git",
+        "add",
+        "-A",
+        "--",
+        "docs/site",
+        "docs/public-math"
+      ],
+      "exit": 0,
+      "seconds": 0.3365271639995626
+    },
+    {
+      "label": "first-release",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/site_asset_release.py"
+      ],
+      "exit": 0,
+      "seconds": 3.7954262490020483
+    },
+    {
+      "label": "first-history-final",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_history.py",
+        "publish",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 5.713296138004807
+    },
+    {
+      "label": "first-release-check",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/site_asset_release.py",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 3.754481037001824
+    },
+    {
+      "label": "second-build",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_build.py",
+        "--payload",
+        "/workspace/scratch/atlas-contrast-accessibility-20261028/at-input-79bd/current.json",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 10.386592583003221
+    },
+    {
+      "label": "second-history-before-keys",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_history.py",
+        "publish",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 5.811376951001876
+    },
+    {
+      "label": "second-stage",
+      "command": [
+        "git",
+        "add",
+        "-A",
+        "--",
+        "docs/site",
+        "docs/public-math"
+      ],
+      "exit": 0,
+      "seconds": 0.1445145620018593
+    },
+    {
+      "label": "second-release",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/site_asset_release.py"
+      ],
+      "exit": 0,
+      "seconds": 3.297894137002004
+    },
+    {
+      "label": "second-history-final",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/current_site_history.py",
+        "publish",
+        "--site",
+        "docs/site"
+      ],
+      "exit": 0,
+      "seconds": 5.868652206998377
+    },
+    {
+      "label": "second-release-check",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+        "-B",
+        "-S",
+        "tools/site_asset_release.py",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 3.4275022389992955
+    }
+  ],
+  "downloads": [
+    {
+      "path": "snapshots/index.json",
+      "bytes": 183538,
+      "sha256": "0a54c24b2ae529e16e378814c0b2764aa04eae783928ea1aee93a1efe616e76d",
+      "source": "frozen verified original observation"
+    },
+    {
+      "path": "current-meta.json",
+      "bytes": 322,
+      "sha256": "64da034218aac74c0e44a4f28e42b84757557f033e70edf00e34d1c5847edae5",
+      "source": "frozen verified original observation"
+    },
+    {
+      "path": "snapshots/7c583e28878d2bf2c94bf37325820bd5eb1e7f3f557e8a78dd27881a27f6548c/archive.zip",
+      "bytes": 436587,
+      "sha256": "9f8542fd934649ffbda1a154e01576673b91f3bdb40495bb097a52a97eebcd34",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/38ac44c585feb2f9a480d8e54ad1a7fe56ad35aff19e2eab929861ea81974644/archive.zip",
+      "bytes": 436654,
+      "sha256": "497d72cd31401891042fcfa8f75eb9b121a90cf2771bb3d6df43c18974829a57",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/2bdd1d2d3d72f4ce18d7c2151ca95c00a66b41cd90de581f5fe38277d97ec048/archive.zip",
+      "bytes": 164783,
+      "sha256": "961a96e8838ead4cf8b7eef300d84e812b4a9bb590f2e770060fcd8dbe7867da",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/e524a7c1926cec6e0e0e019e93c50b95726dc04b7d421c0b909e61f1555e5e2a/archive.zip",
+      "bytes": 164836,
+      "sha256": "b88ee600e18b866cdf7b5bd2f1cee64529adfb8bb70f2b7a8457d851315c8816",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/5d4506715d43d1b5242b9ff625ca372cac3af170c4c8fa55b47b29942f8ecad8/archive.zip",
+      "bytes": 164909,
+      "sha256": "668476fb82fa39b7d1f78099c6807a9b41277444bb7677a3cb4bc6b83bdd9f79",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/14271bee9c38d638f083826f973c9ee1849ed0836c4a14245f67d2385c964bca/archive.zip",
+      "bytes": 164762,
+      "sha256": "878890d431cfb44b7473af0626319926cff070acd80de7a035e915c2795f28d4",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/bf4ee389cfcc2b8b302b33e68d252428f05dd1b1c3771f2b4393481f44b28d9e/archive.zip",
+      "bytes": 164782,
+      "sha256": "802d77187d3cd2c790e58a3278bcd9033f050d677182fefe7ae4e45eec9bae98",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/56c60396b425018da1286e951493bba0717788505f889f96f22802662c450ed4/archive.zip",
+      "bytes": 164802,
+      "sha256": "cc36338cd3a825ec3b189d5aa0e51df3d43f909fc7c0c03d2f1bb4040f178e29",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/b4618613c41a267e7181c157769b350176effce98a44275c9d55d27e2b40f12a/archive.zip",
+      "bytes": 164937,
+      "sha256": "22da330c062fdf41d8c18808586e2bdb0758b14d94bac767e594824fca4bef25",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/fccfde1380ab36d6710e8492fd84f0c606e9c0412c5b0425c138652436ba5968/archive.zip",
+      "bytes": 164926,
+      "sha256": "a0ea6e67b7f0e32bcbbd3f1e2e0b984fe10820f3a067d8a9b1d9790365f5d14d",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/eee261a6e4c075dfc5318a6b6daaa9b42e482d8b7f6ad9cc43a9d1e4e9d13fc5/archive.zip",
+      "bytes": 164774,
+      "sha256": "65231d52531834abfd0c0db71ed18e416b5922afe2c3ec54f800265d3f2cbd35",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/178c744f726d5f44f6941779406102e888888a2d77dc4ddee07e5bb3bc5d2b22/archive.zip",
+      "bytes": 164747,
+      "sha256": "7d596d5040cc08a70f977b46d17768b4af377e5c7b2bf5a623cb38117841ed17",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "snapshots/098d91b7357f86c110f7edaa07d8e50aa15c003d1fe53dd32c17aee7f578b8de/archive.zip",
+      "bytes": 164946,
+      "sha256": "39b60a52a5177afbde80acfbf4e5b813337c6697a9e070ccd925c5d4c41224bc",
+      "source": "immutable original public archive"
+    },
+    {
+      "path": "current.json",
+      "bytes": 1923440,
+      "sha256": "8a3595667134e0b196ad957277a572d34be6f39a3eebf0741faed55830f2e989",
+      "source": "frozen verified original observation"
+    }
+  ],
+  "scientific_effect": "NONE",
+  "boundary": "Local two-pass generation/equality at fixed admitted public79bd payload, not a CI artifact download or new source acquisition.",
+  "restore": {
+    "bootstrap": false,
+    "snapshots": 13,
+    "scientific_effect": "NONE"
+  },
+  "two_pass_docs_equal": true,
+  "docs_files": 1698,
+  "docs_bytes": 56453760,
+  "passed": true,
+  "finished_at": "2026-10-29T00:23:17.535465+00:00"
+}

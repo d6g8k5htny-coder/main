@@ -1,0 +1,53 @@
+{
+ "cycle": "C022 (proof-obligation closure)",
+ "date": "2026-07-09",
+ "snapshot_sha256": "c8fe1ed1f93c6c1a81874002b84f06881a6c2fb84ffde85bd2a9cb718755cf4a",
+ "headline": "OBL-LB-ARCH -- the single load-bearing proof item -- is CLOSED at derived-and-verified grade (two cited-standard steps flagged inline): Lambda(y*) > 0 by five mp certificates with 38-61-order margins at BOTH rungs, and AO(y*) > 0 by an explicit RKHS barrier g0 whose nine pins are exact, whose Morse structure was censused completely (six criticals, two independent boundedness certificates), whose separatrix connection was flow-verified to machine terminals (branch- -> M exactly, branch+ -> E* at f = 1.676 exactly, monotone value profile), and whose FROZEN-PIN RIGIDITY (every conditional-ensemble field keeps criticals at M, S, y* with exact values b, b-ell, b-ell/2) makes the persistence radius MACROSCOPIC: eps0 ~ 0.008, not ell-scale. The support step needs no density lemma: z0 = g0 - m9 is a Cameron-Martin point by construction (Bogachev 3.6.1). Combined with Lemma FD's certified far ceiling (P(beta-far) <= 12.41 r^3 at the d0 = 0.3 split, rung-independent), the r^3 EXPONENT is now pinned two-sided at proof-adjacent grade: positivity below, explicit O(r^3) envelope above, sharp constant C* = 0.96 +- 0.05 measured. OBL-FAR-DECAY far-field core, OBL-BETA-FAR fixed-radius core, OBL-R0-UNIF, and OBL-LB-RESTATE are also discharged; the moderate-zone r-uniform sharpening of the beta ceiling is re-registered with precise scope.",
+
+ "certificates": {
+  "protocol": "mpmath dps 60, eigsy, PASS iff lambda_min > 10^3 x residual; typed-set interior point (H_M, H_S, H_Y) = ((-1.5,0,-1.6),(1.2,0,-1.4),(1.0,0,-1.2)), ball 0.2, strict margins (2.40, 3.10, 1.68, 1.20)",
+  "r0.05 @ y* = (-0.063, 0.012)": {"C1_grad_marginal": [1.156e-06, "10^60.8"], "C2_needle": ["s_t = 0.0676 ell", "Pwin = 1.000000"], "C3_hess6": [2.603e-10, "10^52.0"], "C4_hess9": [1.948e-13, "10^51.6"], "C5_gram9": [1.321e-12, "10^48.5"], "C6_gram18": [9.727e-21, "10^40.1"]},
+  "r0.025 @ y* = (-0.030, 0.007)": {"C1": [8.939e-08, "10^60.8"], "C2": ["s_t = 0.0864 ell", "Pwin = 0.999999"], "C3": [4.068e-12, "10^51.4"], "C4": [3.095e-14, "10^51.6"], "C5": [3.333e-14, "10^46.9"], "C6": [3.728e-23, "10^37.7"]},
+  "verdict": "ALL PASS at both rungs -- Lambda(y*) > 0 certified"
+ },
+
+ "barrier": {
+  "construction": "g0 = nine-pin minimal-norm RKHS interpolant (bump footprints subtracted exactly in the mp solve) + elder bump c_E = 0.9 at x_E = (-0.492, 0.147) [r=0.05] / (-0.438, 0.170) [r=0.025]; pins exact by construction; ||g0||_H = 3.4294 / 3.070; max|w| = 4.96e5 / 5.36e6 -> float128 eval error ~5e-14 / 5e-13",
+  "construction_kill": "the 15/18-pin variant (Hessian pins included) REJECTED-AS-BUILT: max|w| = 1.27e14 destroyed evaluability at window precision and its natural y*-Hessian was max-typed; recorded as a construction dead end (not a registry kill); the 9-pin route is the construction of record",
+  "morse_verification_r0.05": "complete census on [-2.4,2.4]x[-1.2,1.6]: exactly 6 criticals: E* (-1.16755, 0.859248) f=1.676208 max (min|eig| 1.974); +x artifact max (1.3437, 0.6480) f=1.938; M f=1.200000 max (det +0.0196, min|eig| 0.0299); y* f=1.199990 saddle (det -0.0345, eig (+0.0467, -0.7379), unstable dir (-0.919, 0.393)); S f=1.199979 saddle (det -0.0449); far min f=-0.564. ALL THREE PINNED POINTS NATURALLY TYPED -- no shaping bumps needed",
+  "boundedness": "two independent certificates: (i) decay envelope |g0| <= Sigma|w| (d+2)^2 e^{-d^2/2} < 1.19 for hull-dist >= 6.0 (Sigma|w| = 1.023e6); (ii) float128 annulus grid [-7,7]^2 minus window: max g0 = 0.8650, Lipschitz-corrected <= 0.9086 < 1.19. {g0 >= 1.19} bbox = [-1.88, 2.19] x [-0.17, 1.56], strictly interior",
+  "connection": "branch- -> M exactly (f = 1.200000, |grad| = 9e-16); branch+ -> E* exactly (f = 1.676208, |grad| = 1e-14); value profile monotone, crosses the 1.31 capture level at (-0.536, 0.356); {g0 >= 1.30} has exactly 2 components (E*'s, +x's), disjoint by Morse theory (no saddle above 1.19998), crossing clearance to the +x component = 0.986",
+  "margins": "min|grad g0| on {g0 >= 1.19} minus six 0.05-balls = 0.00802; ||g0||_C2(K) = 2.82; frozen-pin rigidity: (h, grad h) = 0 at M, S, y* for every conditional-ensemble field -> exact values forever, ball self-protection (no new criticals inside pinned balls for eps < lambda_min: 0.0299/0.0666/0.0467), typing preserved for eps < 0.026 -> eps0 ~ 0.008 MACROSCOPIC",
+  "replication_r0.025": "same topology: 6 criticals (E* at (-1.007, 1.034) f = 1.7693; +x max f = 1.614), naturally typed (det margins 0.0036-0.0082), both terminals verified (branch+ -> E*, branch- -> M); softer margins eps0 ~ 0.003; full margin scan not repeated (optional per freeze)",
+  "incident": "the first r=0.025 replication run FAILED-AS-RUN: the module-global ell was not patched, so the S pin targeted b - ell(0.05) (f-err -1.82e-5 = exactly the ell discrepancy, giant artifact structure +-15). Root-caused, fixed (B.ell = ell2), re-run clean. Recorded as an instrument-patch incident, closed same-session",
+  "support_step": "z0 = g0 - m9 is in the conditional Cameron-Martin space BY CONSTRUCTION (both terms in H; z0 has zero 9-pins); P(||Z - z0||_C2(K) < eps0) > 0 by Gaussian small-ball positivity at CM points (Bogachev Thm 3.6.1) -- no density lemma needed for the event; C2(K)-density of the BF RKHS (polynomials x Gaussian + pin correction) recorded for the full-support remark"
+ },
+
+ "lemma_FD": {
+  "exact_tables": "19-row certified pointwise band-critical intensity bound c(d), d in [0.05, 6.0], both rungs, mp dps 50, max over 3 directions; rung-agreement < 0.5% at every d >= 0.3 (pair is pointlike -> physical r-uniformity of the far field)",
+  "dual_weights": "||G6^{-1} v||_1 = 6.556e4 (r=0.05) / 5.183e5 (r=0.025); envelope useful only from d ~ 6 -- the exact table carries [0.05, 6], the envelope the tail",
+  "band_intensity_constant": "E[|det H| | f=b, grad=0] = 2.41290 exact (GH 80^3); C_b = 0.07457 per unit area per unit level; crude ceiling saturates at 0.1236 (x1.66 Cauchy-Schwarz inflation, recorded)",
+  "far_ceiling": "P(beta-far) <= C(d0) r^3 with C(0.3) = 12.41 (rung-independent, rigorous for all r <= 0.05); C(2r) = 84.2 (r=0.05) / 334.9 (r=0.025) per-rung; the moderate zone (2r, d0) is NOT r-uniform as-written (crude Hessian bound ~ d^-4; true near mass is Lambda-scale ~6 ell, two orders below) -- the r-uniform sharpening is the re-scoped residual",
+  "three_piece_cover": "d <= 2r: C020 rigidity (8e-42) + corridor KR (2.6e-8); (2r, d0): per-rung table rows incl. seam rows c(0.05), c(0.07) at r=0.025; d >= d0: the rung-independent ceiling. No gap at r=0.05 (2r = d0 = 0.10)",
+  "gamma_LOC_corollary": "far-field stabilization certified: all one-point conditional quantities within 2.2% of unconditional at d >= 3, < 1e-4 by d = 5, enveloped beyond 6; tube-local part remains architecture (unchanged scope)",
+  "sandwich": "the rigorous two-sided exponent statement: 0 < c(r,b) <= (1-q)/r^3 <= 0.96 + 12.41 + eps ~ 13.4 at the anchor rungs -- Theta(r^3) with exponent proof-adjacent, constant measured"
+ },
+
+ "obligations": {
+  "closed": [
+   "OBL-LB-ARCH -> derived-and-verified-CLOSED (two cited-standard steps flagged: Bogachev 3.6.1 small-ball; Morse-Smale basin continuity). THE load-bearing item. Lemma_LB_ARCH_Package.md",
+   "OBL-FAR-DECAY (far-field core) -> discharged derived-and-verified; tube-local part remains architecture (scope unchanged). Lemma_FD_Package.md",
+   "OBL-BETA-FAR (fixed-radius far core) -> discharged derived-and-verified; moderate-zone r-uniform sharpening re-registered with precise scope (see new). Lemma_FD_Package.md",
+   "OBL-R0-UNIF -> discharged (bookkeeping): continuity + compactness + universal-interpolation off the analytic null set; mp anchors 9.73e-21 / 3.73e-23. R0UNIF_and_LBRestate.md Part A",
+   "OBL-LB-RESTATE -> discharged: Lemma LB scoped supersede-in-scope to moderate-r phenomenology; asymptotic chain of custody = LB0 -> R0 -> LB-ARCH -> FD. Part B"
+  ],
+  "new": [
+   "OBL-BETA-MODZONE (successor to OBL-BETA-FAR residual, precisely scoped): replace the Cauchy-Schwarz Hessian ceiling on d in (2r, d0) by the near-fold |det H| suppression to obtain an r-uniform moderate-zone bound; per-rung numbers already rigorous",
+   "OBL-LB-RATE (optional): rigorous sharp lower rate via the C012/C013 exact limit objects; NOT required for Theta(r^3)"
+  ],
+  "carried": ["OBL-NEEDLE-TREND (non-load-bearing)", "OBL-LOOP-LOCATE (bookkeeping)", "OBL-LBB-1", "OBL-C019-2", "gamma-LOC tube-local architecture (inside Lemma UB0 scope)"],
+  "program_state": "Theorem A: measurement-complete (C021) + lower-side positivity CLOSED at derived grade + rigorous O(r^3) upper envelope (C022). Remaining to full proof grade: OBL-BETA-MODZONE, the basin-continuity formalization if referee-demanded, gamma-LOC tube-local, and manuscript unification. Theorem B: unaffected, its ledger stands as of C015."
+ },
+
+ "artifacts": ["C022_ProofObligations_snapshot.json + C022_freeze_hash.txt", "c022_certs_r05.json", "c022_certs_r025.json", "c022_cert18_r0.05.json", "c022_cert18_r0.025.json", "c022_barrier.py", "c022_barrier_census.json", "c022_barrier_extended.json", "c022_barrier_flow.json", "c022_barrier_margins.json", "c022_barrier_global.json", "c022_barrier_r025.json", "c022_fd.json", "Lemma_LB_ARCH_Package.md", "Lemma_FD_Package.md", "R0UNIF_and_LBRestate.md"]
+}

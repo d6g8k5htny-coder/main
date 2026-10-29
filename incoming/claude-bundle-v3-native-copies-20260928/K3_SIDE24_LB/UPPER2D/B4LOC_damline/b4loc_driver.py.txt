@@ -1,0 +1,632 @@
+#!/usr/bin/env python3
+# b4loc_driver.py -- the B4 dam-line certificate driver (STAGE E, validity
+# premise of Theorem (2) v2.2; artifact B4LOC-R1-20260914-v1.0).
+#
+# THE CERTIFICATE (B4LOC_DAMLINE.md): with q(xi) = S + r*xi*(-1,0) the axial
+# corridor from S (xi=0) to M (xi=1), xi0 = 1/4,
+#   B4  subset  E1 uu E2   (pathwise event inclusion, C0; mirrored in the
+#   discrete model in D6), where
+#   E1 = {exists zeta in (0,xi0]: f_xx(q(zeta)) <= 0}   (curvature zone:
+#        f(q(xi))-s = (r*xi)^2 * int_0^1 (1-t) f_xx(q(t xi)) dt)
+#   E2 = {exists xi in [xi0,1]: f(q(xi)) <= s}          (value corridor)
+# Each zone's Q_r-probability is bounded by Borell-Tsirelson with Dudley's
+# entropy bound:
+#   Q(sup Y >= m) <= exp(-(m - D)^2 / (2 sb^2)),   m > D,
+# with
+#   margin m   : certified lower bound on the CONDITIONED-MEAN profile
+#                (pointwise exact on a grid + inter-grid control by the
+#                pin-likelihood bound |E[g|pins]| <= Lp * sqrt(Var g),
+#                Lp^2 = p^T A^-1 p, Cauchy-Schwarz in the pin inner product);
+#   sb^2       : certified upper bound on sup Var_Q(Y) by the VARIATIONAL
+#                principle Var(g|P) <= Var(g - a^T P) for any deterministic
+#                a, with a = the cubic-Hermite pin interpolant -- explicit
+#                UNCONDITIONAL covariances, no inversion-laden global bounds;
+#   D = 2*sqrt(2)*J: Dudley entropy bound (van Handel APC550 Thm 5.12 form)
+#                with J = L*T*sqrt(pi)/4 for a 1D interval of length T and
+#                Lipschitz metric d^2 <= L^2 (dx)^2 (variational again);
+#   RN factor  : P_r(F) <= C_RN * sqrt(Q_r(F)), C_RN = 3.47, consumed from
+#                H4-RN (H4_CLOSURE.md body a67d50b9..., theorem-grade).
+# Result per rung: P_r(B4) <= C_RN*sqrt(Q1+Q2) = exp(-Theta(1/r^2)) = o(r^3).
+#
+# Fail-closed: ck() -> SystemExit(1); no bare asserts (python -O safe);
+# deterministic (fixed grids, mpmath dps=100, no randomness, no wall clock);
+# normal and -O transcripts byte-identical (guarded by b4loc_falsifier.py).
+
+import hashlib
+import os
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+H2 = os.path.join(HERE, '..', 'H2_foundations')
+B1DIR = os.path.join(HERE, '..', 'B1_taxonomy')
+sys.path.insert(0, os.path.abspath(H2))
+sys.path.insert(0, os.path.abspath(B1DIR))
+
+_EXPECT = {
+    'cov_exact.py': 'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783',
+}
+
+
+def ck(cond, msg):
+    if not cond:
+        print("B4LOC-DRIVER FAIL-CLOSED FIRING:", msg)
+        raise SystemExit(1)
+
+
+def _sha256(path):
+    with open(path, 'rb') as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
+
+
+for _name, _h in sorted(_EXPECT.items()):
+    _p = os.path.join(H2, _name)
+    ck(os.path.exists(_p), "missing shared library %s" % _p)
+    ck(_sha256(_p) == _h, "hash mismatch for %s (freeze-before-consume)" % _name)
+
+import cov_exact as ce          # sets mpmath dps=100 on import
+ce.configure(dps=100)
+import mpmath
+from mpmath import mp, mpf
+
+B = mpf(6) / 5
+XI0 = mpf('0.25')               # zone boundary (curvature zone (0,XI0], value [XI0,1])
+C_RN = mpf('3.47')              # H4-RN's certified RN factor (theorem grade)
+SQRT2 = mpmath.sqrt(2)
+DUDLEY_C = 2 * SQRT2            # Dudley constant (van Handel APC550 Thm 5.12)
+JCONST = mpmath.sqrt(mp.pi) / 4  # int_0^1 sqrt(ln(1/u)) du / 2 = sqrt(pi)/4
+
+IDX = {'f': (0, 0), 'fx': (1, 0), 'fy': (0, 1), 'fxx': (2, 0), 'fxy': (1, 1),
+       'fyy': (0, 2), 'fxxx': (3, 0), 'fxxy': (2, 1), 'fxyy': (1, 2),
+       'fyyy': (0, 3), 'fxxxx': (4, 0), 'fxxxy': (3, 1), 'fxxyy': (2, 2),
+       'fxyyy': (1, 3), 'fyyyy': (0, 4), 'fxxxxx': (5, 0),
+       'fxxxxxx': (6, 0), 'fxxxxxxx': (7, 0), 'fxxxxxxxx': (8, 0),
+       'fxxxxxxxxx': (9, 0), 'fxxxxxxxxxx': (10, 0), 'fxxxxxxxxxxx': (11, 0)}
+JET6 = ['f', 'fx', 'fy', 'fxx', 'fxy', 'fyy']
+
+DIG = []
+
+
+def emit(line):
+    print(line)
+    DIG.append(line)
+
+
+def ns(x, n=6):
+    return mpmath.nstr(x, n)
+
+
+# ---------------------------------------------------------------------------
+# memoized 1D kernel (all corridor covariances are axial: cov = K1(n1,d)K1(n2,0))
+# ---------------------------------------------------------------------------
+_K1CACHE = {}
+
+
+def k1m(n, d):
+    key = (n, mpmath.nstr(d, 30))
+    if key not in _K1CACHE:
+        _K1CACHE[key] = ce.k1(n, d)
+    return _K1CACHE[key]
+
+
+def covm(a, b, dx, dy):
+    v = k1m(a[0] + b[0], dx) * k1m(a[1] + b[1], dy)
+    if (b[0] + b[1]) % 2 == 1:
+        v = -v
+    return v
+
+
+# ---------------------------------------------------------------------------
+# absolute 1D spectral moments (global covariance suprema), certified tails
+# ---------------------------------------------------------------------------
+def abs_moment(n):
+    h = mp.pi / 12
+    J = int(mp.ceil(30 / h)) + 1
+    tot = mpf(0)
+    z1 = mpf(0)
+    for j in range(-J, J + 1):
+        k = j * h
+        w = mpmath.exp(-k**2 / 2)
+        tot += (abs(k)**n) * w
+        z1 += w
+    tail = ce.spectral_tail_1d(n) if n <= 8 else _tail9(n)
+    return tot / z1 + tail
+
+
+def _tail9(n):
+    # same geometric-series bound as ce.spectral_tail_1d, for n > 8
+    h = mp.pi / 12
+    J = int(mp.ceil(30 / h)) + 1
+    J0 = J + 1
+    k0 = J0 * h
+    rho = mpmath.exp(-(2 * J0 + 1) * h * h / 2) * (1 + mpf(1) / J0)**n
+    ck(rho < 1, "spectral tail ratio rho >= 1 for n=%d" % n)
+    t0 = mpmath.exp(-k0**2 / 2) * k0**n
+    return 2 * t0 / (1 - rho)
+
+
+# ---------------------------------------------------------------------------
+# Hermite weights along the corridor (in xi; d/dxi = -r d/dx)
+# ---------------------------------------------------------------------------
+def hwts(xi):
+    t = xi
+    return (2*t**3 - 3*t**2 + 1, t**3 - 2*t**2 + t,
+            -2*t**3 + 3*t**2, t**3 - t**2)
+
+
+def hwts_d(xi):
+    t = xi
+    return (6*t**2 - 6*t, 3*t**2 - 4*t + 1, -6*t**2 + 6*t, 3*t**2 - 2*t)
+
+
+def hwts_dd(xi):
+    t = xi
+    return (12*t - 6, 6*t - 4, -12*t + 6, 6*t - 2)
+
+
+class Kit6:
+    """The 6-pin law Q_r (axial pins); pointwise certified moments."""
+    def __init__(self, r):
+        self.r = r = mpf(r)
+        self.ell = r**3 / 6
+        self.s = B - self.ell
+        self.M = (-r / 2, mpf(0))
+        self.S = (r / 2, mpf(0))
+        A = mp.zeros(6, 6)
+        for a_, pa in enumerate([self.M, self.S]):
+            for b_, pb in enumerate([self.M, self.S]):
+                for ia in range(3):
+                    for ib in range(3):
+                        A[3*a_+ia, 3*b_+ib] = covm(IDX[JET6[ia]], IDX[JET6[ib]],
+                                                   pa[0]-pb[0], pa[1]-pb[1])
+        self.A = A
+        self.Ainv = A ** -1
+        Ires = A * self.Ainv - mp.eye(6)
+        self.pinres = max(abs(Ires[i, j]) for i in range(6) for j in range(6))
+        ck(self.pinres < mpf('1e-40'),
+           "pin inversion residual %s" % ns(self.pinres, 3))
+        self.pv = mp.matrix([B, 0, 0, self.s, 0, 0])
+        self.Lp2 = (self.pv.T * self.Ainv * self.pv)[0, 0]
+        self.Lp = mpmath.sqrt(self.Lp2)
+
+    def q(self, xi):
+        return (self.r / 2 - self.r * xi, mpf(0))
+
+    def cross(self, x, names):
+        Bm = mp.zeros(6, len(names))
+        for j, P in enumerate([self.M, self.S]):
+            for k in range(3):
+                for i, dn in enumerate(names):
+                    Bm[3*j+k, i] = covm(IDX[JET6[k]], IDX[dn],
+                                        P[0]-x[0], P[1]-x[1])
+        return Bm
+
+    def law(self, x, names):
+        Bm = self.cross(x, names)
+        C = mp.zeros(len(names), len(names))
+        for i, di in enumerate(names):
+            for j, dj in enumerate(names):
+                C[i, j] = covm(IDX[di], IDX[dj], mpf(0), mpf(0))
+        BmA = Bm.T * self.Ainv
+        return BmA * self.pv, C - BmA * Bm
+
+    # -- explicit (unconditional) Hermite-error functionals on the corridor --
+    def spec(self, xi, name):
+        """Term list (point, jet, weight) of the explicit functional:
+        E_k = d^k/dxi^k [(f-H)(q(xi))]  (H the cubic pin-Hermite);
+        C_k = E_{k+2}/r^2               (curvature-zone scalings)."""
+        r = self.r
+        h = hwts(xi)
+        hd = hwts_d(xi)
+        hdd = hwts_dd(xi)
+        hddd = (mpf(12), mpf(6), mpf(-12), mpf(6))
+        if name == 'E0':
+            return [(self.q(xi), 'f', mpf(1)), (self.S, 'f', -h[0]),
+                    (self.S, 'fx', r * h[1]), (self.M, 'f', -h[2]),
+                    (self.M, 'fx', r * h[3])]
+        if name == 'E1':
+            return [(self.q(xi), 'fx', -r), (self.S, 'f', -hd[0]),
+                    (self.S, 'fx', r * hd[1]), (self.M, 'f', -hd[2]),
+                    (self.M, 'fx', r * hd[3])]
+        if name == 'E2':
+            return [(self.q(xi), 'fxx', r**2), (self.S, 'f', -hdd[0]),
+                    (self.S, 'fx', r * hdd[1]), (self.M, 'f', -hdd[2]),
+                    (self.M, 'fx', r * hdd[3])]
+        if name == 'E3':
+            return [(self.q(xi), 'fxxx', -r**3), (self.S, 'f', -hddd[0]),
+                    (self.S, 'fx', r * hddd[1]), (self.M, 'f', -hddd[2]),
+                    (self.M, 'fx', r * hddd[3])]
+        if name[0] == 'E' and 4 <= int(name[1:]) <= 11:
+            k = int(name[1:])
+            return [(self.q(xi), 'f' + 'x' * k, (-r)**k)]
+        if name[0] == 'C':
+            k = int(name[1])
+            return [(p, d, w / r**2) for (p, d, w) in self.spec(xi, 'E%d' % (k + 2))]
+        ck(False, "unknown spec %s" % name)
+
+    def paircov(self, ta, tb):
+        """Cov(spec A, spec B) -- unconditional, exact (total order <= 8)."""
+        v = mpf(0)
+        for (pa, da, wa) in ta:
+            for (pb, db, wb) in tb:
+                v += wa * wb * covm(IDX[da], IDX[db], pa[0]-pb[0], pa[1]-pb[1])
+        return v
+
+    def pcap(self, ta, tb):
+        """|Cov(ta, tb)| bound: exact if within the order cap, else the
+        crude spectral-product bound (always an upper bound)."""
+        mo = max(IDX[da][0] + IDX[da][1] + IDX[db][0] + IDX[db][1]
+                 for (pa, da, wa) in ta for (pb, db, wb) in tb)
+        if mo <= 8:
+            return self.paircov(ta, tb)
+        return mpmath.sqrt(self.crudeW_terms(ta) * self.crudeW_terms(tb))
+
+    def crudeW_terms(self, terms):
+        tot = mpf(0)
+        for (pa, da, wa) in terms:
+            ia = IDX[da]
+            for (pb, db, wb) in terms:
+                ib = IDX[db]
+                tot += abs(wa * wb) * ah_g[ia[0] + ib[0]] * ah_g[ia[1] + ib[1]]
+        return tot
+
+    def crudeW(self, xi, name, ah=None):
+        """Crude global sup of Var(spec) via |weight| sups and absolute
+        spectral moments (valid at every xi)."""
+        return self.crudeW_terms(self.spec(xi, name))
+
+
+def grid_sup4(vals, d1, d2, d3, G4, g):
+    """Certified sup of a smooth function on a uniform grid: pointwise value
+    vals, derivatives d1..d3 (mixed exact/crude-upper); global |4th
+    derivative| bound G4 (crude); spacing g.
+    sup <= max(vals + g|d1| + g^2/2 |d2| + g^3/6 |d3|) + g^4 G4/24."""
+    return max(v + g * abs(a) + g**2 * abs(b2) / 2 + g**3 * abs(c) / 6
+               for v, a, b2, c in zip(vals, d1, d2, d3)) + g**4 * G4 / 24
+
+
+# derivative coefficients of Var(F): d^n/dxi^n Var(F) = sum_{i+j=n} c^{(n)}_{ij}
+# Cov(F_i, F_j); the c coefficients from the Leibniz recursion (symmetric):
+VDER = [
+    [(0, 0, 1)],
+    [(0, 1, 2)],
+    [(1, 1, 2), (0, 2, 2)],
+    [(0, 3, 2), (1, 2, 6)],
+    [(0, 4, 2), (1, 3, 8), (2, 2, 6)],
+    [(0, 5, 2), (1, 4, 10), (2, 3, 20)],
+    [(0, 6, 2), (1, 5, 12), (2, 4, 30), (3, 3, 20)],
+    [(0, 7, 2), (1, 6, 14), (2, 5, 42), (3, 4, 70)],
+    [(0, 8, 2), (1, 7, 16), (2, 6, 56), (3, 5, 112), (4, 4, 70)],
+]
+
+
+def varsup(kit, base, xis, g):
+    """Certified sup of Var(F(xi)) over the continuum grid (spacing g),
+    F = spec(base), F_k = spec(base+k).  Uses the pointwise-exact Taylor
+    chain through order 8 (all covariances within the order-8 cap, with
+    pcap's crude fallback for isolated over-cap pairs) and a crude global
+    9th-derivative remainder bound at the g^9/9! level."""
+    b0, k0 = base[0], int(base[1])
+    terms = [[kit.spec(xi, '%s%d' % (b0, k0 + i)) for i in range(10)]
+             for xi in xis]
+    C = [[[kit.pcap(t[i], t[j]) if i <= j else None
+           for j in range(9)] for i in range(9)] for t in terms]
+
+    def cij(pt, i, j):
+        a, b = (i, j) if i <= j else (j, i)
+        return C[pt][a][b]
+
+    ders = []
+    for n in range(9):
+        ders.append([sum(cf * cij(pt, i, j) for (i, j, cf) in VDER[n])
+                     for pt in range(len(xis))])
+    # crude global 9th-derivative remainder bound (coefficient sums of the
+    # Leibniz chain are 2^n; every term bounded by sqrt(W_i W_j))
+    W = [max(kit.crudeW_terms(t[i]) for t in terms) for i in range(10)]
+    G9 = mpf(512) * max(mpmath.sqrt(W[i] * W[9 - i]) for i in range(10))
+    sup = max(sum(g**n * abs(ders[n][pt]) / mpmath.factorial(n)
+                  for n in range(9)) for pt in range(len(xis))) \
+        + g**9 * G9 / mpmath.factorial(9)
+    return sup
+
+
+def rung(r, scales, gates=True):
+    sc_m, sc_s, sc_d, sc_rn = scales
+    kit = Kit6(r)
+    emit("  r=%s: pin inversion residual %s; Lp^2 = p^T A^-1 p = %s (the"
+         " pin-likelihood statistic)" % (ns(r, 6), ns(kit.pinres, 2),
+         ns(kit.Lp2, 6)))
+    a2, a4, a6, a8 = (ce.moment_a(1), ce.moment_a(2), ce.moment_a(3),
+                      ce.moment_a(4))
+    global ah_g
+    ah_g = ah = {n: abs_moment(n) for n in range(23)}
+    # global mean-derivative bounds via the pin-likelihood statistic
+    U1 = kit.Lp * mpmath.sqrt(a2)      # |E[f_x|pins]|
+    U3 = kit.Lp * mpmath.sqrt(a6)      # |E[f_xxx|pins]|
+    U4 = kit.Lp * mpmath.sqrt(a8)      # |E[f_xxxx|pins]|
+
+    # ---- Z1: curvature zone (0, XI0] -------------------------------------
+    N1 = 49
+    g1 = XI0 / (N1 - 1)
+    h2g, h3g = [], []
+    xis1 = []
+    for i in range(N1):
+        z = g1 * i
+        xis1.append(z)
+        mu, cov = kit.law(kit.q(z), ['fxx', 'fxxx'])
+        h2g.append(mu[0])
+        h3g.append(abs(mu[1]))
+    # certified inf of the mean curvature over the zone (pointwise (h2,h3)
+    # plus the global 4th-derivative bound via the pin-likelihood statistic)
+    h_min = min(h2g[i] - g1 * r * h3g[i] for i in range(N1)) \
+        - g1**2 * r**2 * U4 / 2
+    sb1 = mpmath.sqrt(varsup(kit, 'C0', xis1, g1))
+    L1 = mpmath.sqrt(varsup(kit, 'C1', xis1, g1))
+    D1 = DUDLEY_C * L1 * XI0 * JCONST
+    m1 = sc_m * h_min
+    sb1s, D1s = sc_s * sb1, sc_d * D1
+    kap1 = (m1 - D1s) / sb1s
+    ck(kap1 > 0, "Z1 margin swallowed by entropy: kap1=%s" % ns(kap1, 4))
+    Q1 = mpmath.exp(-kap1**2 / 2)
+    emit("  Z1 curvature zone (0,%s]: h_min=%s (~%s*r), sd_bar=%s (~%s*r^2),"
+         " L1=%s, D1=%s, kap1=%s -> Q1<=exp(-%s)"
+         % (ns(XI0, 3), ns(h_min, 5), ns(h_min / r, 4), ns(sb1, 4),
+            ns(sb1 / r**2, 4), ns(L1, 3), ns(D1, 3), ns(kap1, 5),
+            ns(kap1**2 / 2, 5)))
+
+    # ---- Z2: value corridor [XI0, 1] -------------------------------------
+    N2 = 121
+    g2 = (1 - XI0) / (N2 - 1)
+    ug, upg = [], []
+    xis2 = []
+    for i in range(N2):
+        x = XI0 + g2 * i
+        xis2.append(x)
+        mu, cov = kit.law(kit.q(x), ['f', 'fx'])
+        ug.append(mu[0] - kit.s)
+        upg.append(abs(-r * mu[1]))          # |d/dxi (mu-s)|, pointwise exact
+    # certified continuum inf: pointwise (u, u') + global 2nd-derivative bound
+    U2 = r**2 * kit.Lp * mpmath.sqrt(a4)     # |u''| = r^2|E[f_xx|pins]|
+    u_star = min(ug[i] - g2 * upg[i] for i in range(N2)) - g2**2 * U2 / 2
+    sb2 = mpmath.sqrt(varsup(kit, 'E0', xis2, g2))
+    L2 = mpmath.sqrt(varsup(kit, 'E1', xis2, g2))
+    D2 = DUDLEY_C * L2 * (1 - XI0) * JCONST
+    m2 = sc_m * u_star
+    sb2s, D2s = sc_s * sb2, sc_d * D2
+    kap2 = (m2 - D2s) / sb2s
+    ck(kap2 > 0, "Z2 margin swallowed by entropy: kap2=%s" % ns(kap2, 4))
+    Q2 = mpmath.exp(-kap2**2 / 2)
+    emit("  Z2 value corridor [%s,1]: u_*=%s (~%s*ell), sd_bar=%s (~%s*ell),"
+         " L2=%s, D2=%s, kap2=%s -> Q2<=exp(-%s)"
+         % (ns(XI0, 3), ns(u_star, 5), ns(u_star / kit.ell, 4), ns(sb2, 4),
+            ns(sb2 / kit.ell, 4), ns(L2, 3), ns(D2, 3), ns(kap2, 5),
+            ns(kap2**2 / 2, 5)))
+
+    # ---- assembly ----------------------------------------------------------
+    Q = Q1 + Q2
+    crn = C_RN * sc_rn
+    ck(crn <= C_RN, "consumed RN factor drifted above H4-RN's certified"
+         " C_RN = 3.47 (mutation M3 fires)")
+    Pb = crn * mpmath.sqrt(Q)
+    emit("  assembly: Q1+Q2 = %s;  P_r(B4) <= C_RN*sqrt(Q1+Q2) = %s   vs"
+         " r^3 = %s   (ratio %s)"
+         % (ns(Q, 3), ns(Pb, 3), ns(r**3, 3), ns(Pb / r**3, 3)))
+    if gates:
+        ck(Pb <= r**3, "certificate bound fails the o(r^3) gate at r=%s"
+           % ns(r, 4))
+    return dict(r=r, kap1=kap1, kap2=kap2, Pb=Pb, h_min=h_min, u_star=u_star,
+                sb1=sb1, sb2=sb2, D1=D1, D2=D2, Q1=Q1, Q2=Q2)
+
+
+def mirror():
+    """D6: the event inclusion mirrored in B1's frozen PL model:
+    a clear lattice corridor (interior vertices all above key(S)) implies
+    NOT B4; equivalently every B4 pair's corridor is cut."""
+    import b1_falsifier as B1F
+    b1h = _sha256(os.path.join(B1DIR, 'b1_falsifier.py'))
+    ck(b1h == '818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185',
+       "b1_falsifier drift (freeze-before-consume)")
+    N, RING = B1F.N, B1F.RING
+
+    def hexpath(f, Sv, Mv):
+        mi, mj = divmod(Mv, N)
+        # start: the higher neighbor of Sv closest (hex-greedy) to Mv
+        def dist(v):
+            vi, vj = divmod(v, N)
+            di = (vi - mi + N // 2) % N - N // 2
+            dj = (vj - mj + N // 2) % N - N // 2
+            # hex distance for RING = [(1,0),(1,1),(0,1),(-1,0),(-1,-1),(0,-1)]
+            if di * dj >= 0:
+                return abs(di) + abs(dj)
+            return max(abs(di), abs(dj))
+        kS = f.key(Sv)
+        cand = [w for w in RING[Sv] if f.key(w) > kS]
+        if not cand:
+            return None
+        cur = min(cand, key=lambda w: (dist(w), w))
+        path = [cur]
+        seen = {Sv, cur}
+        while cur != Mv and len(path) < 4 * N:
+            nxt = [w for w in RING[cur] if w not in seen and dist(w) < dist(cur)]
+            if not nxt:
+                nxt = [w for w in RING[cur] if w not in seen]
+                if not nxt:
+                    return None
+            cur = min(nxt, key=lambda w: (dist(w), w))
+            path.append(cur)
+            seen.add(cur)
+        return path if cur == Mv else None
+
+    nB4, nclear, nviol, nopath = 0, 0, 0, 0
+    nB4ens, nB4syn = 0, 0
+    catclear = {}
+
+    def b4_synthetics():
+        """Two carved close-pair B4 witnesses (the frozen ensemble contains
+        no close B4 pair): a low wall cuts the M-ward corridor."""
+        N_ = B1F.N
+        out = []
+
+        def build(tag, Mv_ij, Sv_ij, arms, wall):
+            f = B1F.base_field(tag)
+            c = B1F.carve
+            c(f, *Mv_ij, 10.0)   # Mv, isolated
+            c(f, *Sv_ij, 6.0)    # Sv
+            for (ij, h, top_ij, top_h) in arms:
+                c(f, *ij, h)
+                c(f, *top_ij, top_h)
+            for ij in wall:
+                c(f, *ij, 3.0)   # low wall cutting the M-ward corridor
+            return f, Mv_ij[0] * N_ + Mv_ij[1], Sv_ij[0] * N_ + Sv_ij[1]
+
+        out.append(build("R1-B4a", (10, 10), (10, 13),
+                         [((10, 12), 7.0, (11, 12), 8.0),
+                          ((9, 13), 7.0, (8, 13), 9.0)],
+                         [(10, 11), (9, 11), (11, 11), (9, 12), (11, 13),
+                          (10, 14), (9, 14), (11, 14)]))
+        out.append(build("R1-B4b", (20, 20), (20, 23),
+                         [((20, 22), 7.0, (21, 22), 8.5),
+                          ((19, 23), 7.0, (18, 24), 9.5)],
+                         [(20, 21), (19, 21), (21, 21), (19, 22), (21, 23),
+                          (20, 24), (19, 24), (21, 24), (18, 23), (19, 25)]))
+        return out
+    for seed in range(40):
+        f = B1F.fourier_field(1000 + seed, "ens-%d" % seed,
+                              ridge=(seed % 3 == 0))
+        dpf, dlf = B1F.persistence(f)
+        maxima = [v for v in range(B1F.V) if B1F.is_local_max(f, v)]
+        saddles = [v for v in range(B1F.V) if not B1F.is_local_max(f, v)
+                   and len(B1F.upper_link_clusters(f, v)) >= 2]
+        for Mv in sorted(maxima):
+            for Sv in sorted(saddles):
+                if not f.gt(Mv, Sv) or B1F.cheb(Mv, Sv) > 4:
+                    continue
+                outcome, category = B1F.classify_pair(f, Mv, Sv, dpf, dlf)
+                path = hexpath(f, Sv, Mv)
+                if path is None:
+                    nopath += 1
+                    continue
+                clear = all(f.key(w) > f.key(Sv) for w in path)
+                if clear:
+                    nclear += 1
+                    cl = category if category is not None else 'success'
+                    catclear[cl] = catclear.get(cl, 0) + 1
+                    ck(category != 'B4',
+                       "field %s pair (%d,%d): clear corridor but category B4"
+                       " -- the event inclusion is violated" % (f.tag, Mv, Sv))
+                if category == 'B4':
+                    nB4 += 1
+                    nB4ens += 1
+                    ck(not clear,
+                       "field %s pair (%d,%d): B4 corridor NOT cut"
+                       % (f.tag, Mv, Sv))
+    for f, Mv, Sv, expected in B1F.synthetic_fields():
+        dpf, dlf = B1F.persistence(f)
+        outcome, category = B1F.classify_pair(f, Mv, Sv, dpf, dlf)
+        if expected == 'success':
+            ck(outcome == 'success', "synthetic %s outcome drift" % f.tag)
+        else:
+            ck(outcome == 'failure' and category == expected,
+               "synthetic %s category drift" % f.tag)
+        path = hexpath(f, Sv, Mv)
+        if path is None:
+            nopath += 1
+            continue
+        clear = all(f.key(w) > f.key(Sv) for w in path)
+        if clear:
+            nclear += 1
+            ck(category != 'B4', "synthetic %s: clear corridor but B4" % f.tag)
+        if category == 'B4':
+            nB4 += 1
+            nB4syn += 1
+            ck(not clear, "synthetic %s: B4 corridor NOT cut" % f.tag)
+    for f, Mv, Sv in b4_synthetics():
+        dpf, dlf = B1F.persistence(f)
+        outcome, category = B1F.classify_pair(f, Mv, Sv, dpf, dlf)
+        ck(outcome == 'failure' and category == 'B4',
+           "carved %s not a B4 pair (outcome %s, category %s)"
+           % (f.tag, outcome, category))
+        path = hexpath(f, Sv, Mv)
+        ck(path is not None, "carved %s: no greedy hex path" % f.tag)
+        clear = all(f.key(w) > f.key(Sv) for w in path)
+        nB4 += 1
+        nB4syn += 1
+        ck(not clear, "carved %s: B4 corridor NOT cut" % f.tag)
+    emit("  D6 discrete mirror (event inclusion): %d B4 pairs audited"
+         " (%d ensemble + %d synthetic), every B4 corridor CUT (0"
+         " violations); %d pairs with a clear corridor (categories %s),"
+         " none B4; %d pairs with no greedy hex path"
+         % (nB4, nB4ens, nB4syn, nclear,
+            {k: v for k, v in sorted(catclear.items())}, nopath))
+    ck(nB4 >= 3, "mirror evidence too thin: only %d B4 pairs" % nB4)
+    return nB4, nclear
+
+
+def main():
+    scales = (mpf(1), mpf(1), mpf(1), mpf(1))
+    mut = None
+    rungs = ['0.05', '0.025', '0.0125']
+    args = sys.argv[1:]
+    if '--mut' in args:
+        mut = args[args.index('--mut') + 1]
+    if '--rungs' in args:
+        rungs = args[args.index('--rungs') + 1].split(',')
+    if mut == 'weaken-margin':
+        scales = (mpf('0.5'), mpf(1), mpf(1), mpf(1))
+    elif mut == 'widen-tube':
+        scales = (mpf(1), mpf(2), mpf(2), mpf(1))
+    elif mut == 'rn':
+        scales = (mpf(1), mpf(1), mpf(1), mpf(2))
+    ck(mut in (None, 'weaken-margin', 'widen-tube', 'rn'),
+       "unknown mutation %s" % mut)
+    emit("B4 dam-line certificate driver (artifact B4LOC-R1-20260914-v1.0)%s"
+         % ("  [MUTATION: %s]" % mut if mut else ""))
+    emit("D0 library: cov_exact hash-pinned; K1(0)=%s; two-impl spot check:"
+         % ns(ce.k1(0, 0), 3))
+    v1, v2 = ce.k1(2, mpf('0.37'), impl='spectral'), ce.k1(2, mpf('0.37'),
+                                                          impl='image')
+    ck(abs(v1 - v2) < mpf('1e-60'), "two-impl k1 drift: %s" % ns(abs(v1 - v2), 2))
+    emit("  k1(2,0.37) spectral vs image agree to %s" % ns(abs(v1 - v2), 2))
+    res = []
+    for rs in rungs:
+        emit("rung r=%s:" % rs)
+        res.append(rung(mpf(rs), scales, gates=True))
+    if mut is None and len(res) >= 2:
+        emit("kappa ladders (scale-invariance display, certified moments):")
+        for key in ('kap1', 'kap2'):
+            vals = [x[key] for x in res]
+            ratios = [vals[i] / vals[i + 1] for i in range(len(vals) - 1)]
+            emit("  %s: %s  | successive halving ratios %s (doubling per"
+                 " halving = Theta(1/r))" %
+                 (key, [ns(v, 5) for v in vals], [ns(q, 4) for q in ratios]))
+            for q in ratios:
+                ck(abs(q - mpf('0.5')) < mpf('0.075'),
+                   "%s ladder off the 1/r law: ratio %s (halving the rung"
+                   " must double kappa)" % (key, ns(q, 4)))
+        k1r = [x['kap1'] * x['r'] for x in res]
+        k2r = [x['kap2'] * x['r'] for x in res]
+        emit("  kap1*r = %s; kap2*r = %s (r-independent = the certified"
+             " margin exponent coefficient)" %
+             ([ns(v, 4) for v in k1r], [ns(v, 4) for v in k2r]))
+        for v in k1r:
+            ck(mpf('0.4') < v < mpf('0.65'), "kap1*r out of certified"
+               " window: %s (mutation M1/M2 fires)" % ns(v, 4))
+        for v in k2r:
+            ck(mpf('0.6') < v < mpf('1.6'), "kap2*r out of certified window:"
+               " %s (mutation M1/M2 fires)" % ns(v, 4))
+        cef = [-(x['r']**2) * mpmath.log(x['Pb']) for x in res]
+        emit("  effective exponents c_eff = -r^2 ln P_bound = %s"
+             % [ns(v, 4) for v in cef])
+        for v in cef:
+            ck(mpf('0.04') < v < mpf('1.2'),
+               "effective exponent out of window: %s" % ns(v, 4))
+    if mut is None:
+        emit("D6 discrete mirror of the event inclusion (B1's frozen PL"
+             " model):")
+        mirror()
+    digest = hashlib.sha256("\n".join(DIG).encode()).hexdigest()
+    print("B4LOC-DRIVER DIGEST", digest)
+    print("B4LOC-DRIVER: ALL CHECKS PASS (fail-closed, deterministic)")
+
+
+if __name__ == '__main__':
+    main()

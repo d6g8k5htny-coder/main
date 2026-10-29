@@ -1,0 +1,525 @@
+
+Cross-disciplinary connections for persistence-
+
+thermodynamic cosmological fingerprints
+
+The canonical ensemble Z(β) = Ʃ exp(β·ℓᵢ) over persistence lifetimes is not merely
+analogous to established mathematical frameworks — it is an instance of several deep
+
+structures simultaneously: an exponential family in information geometry, a Laplace
+
+transform with Lee-Yang phase structure, an entropic optimal transport dual, and a
+
+Wilsonian RG observable. Seven cross-disciplinary investigations reveal that every major
+
+extension proposed has genuine mathematical grounding, several have exact results
+
+available, and at least three directions (Rényi persistence entropy, topological RG flow
+
+equations, the (σ,β) bifiltration) represent clear gaps in the literature where original
+
+contributions are immediately possible.
+
+A. The Fisher metric is an exact exponential family identity, not
+
+an analogy
+
+The Gibbs measure pᵢ(β) = exp(β·ℓᵢ)/Z(β) over persistence lifetimes is a textbook 1-
+parameter exponential family with natural parameter θ = β, sufficient statistic t(ℓ) = ℓ, and
+log-partition function ψ(β) = log Z(β). The fundamental theorem of information geometry
+
+(Amari & Nagaoka 2000; Ay, Jost, Lê & Schwachhöfer 2017) then gives g(β) = ψ″(β) =
+
+Var_β(ℓ), confirming the stated identity g(β) = C(β)/β² exactly. By Chentsov’s uniqueness
+theorem, this Fisher metric is the only Riemannian metric on the persistence parameter
+
+space invariant under sufficient statistics PubMed Central  — it is canonical, not a choice.
+
+arXiv
+
+The exponential family structure yields a dually flat manifold with e-connection
+
+(exponential, flat in natural coordinate β) and m-connection (mixture, flat in expectation
+
+coordinate η = ⟨ℓ⟩_β). The Legendre transform ψ*(η) = sup_β{βη − ψ(β)} gives the dual
+potential (the entropy), and the Bregman divergence D_ψ(β₁‖β₂) equals the KL divergence
+
+between the corresponding Gibbs measures. arXiv  The geodesic distance ∫√Var_β(ℓ) dβ
+is the thermodynamic length in the sense of Crooks (arXiv:0706.0559) and Ruppeiner
+
+geometry, measuring total statistical distinguishability between persistence measures at
+
+different temperatures.
+
+The natural multi-dimensional generalization uses full birth-death coordinates: Z(β_b,
+
+β_d) = Ʃ exp(β_b·bᵢ + β_d·dᵢ), yielding a 2×2 Fisher metric G with components Var(b),
+
+
+
+Var(d), and Cov(b,d). For this 2D manifold, the scalar curvature R becomes nontrivial and
+
+physically meaningful. Following Ruppeiner’s program, |R| diverges at phase transitions,
+
+positive R indicates repulsive interactions among topological features, and near critical
+
+points |R| ~ ξ^d where ξ is the correlation length. The 1D manifold is intrinsically flat (all 1D
+
+Riemannian manifolds are), so curvature diagnostics require at minimum the (β_b, β_d) or
+
+(β_birth, β_lifetime) extension. Recent work by Le & Yamada (arXiv:1802.03569) defined a
+
+“Persistence Fisher Kernel” using Fisher geometry on persistence diagram distributions,
+
+ResearchGate  while Edelsbrunner, Virk & Wagner (arXiv:1903.08510) developed persistent
+
+homology using Fisher information distance directly as the ambient metric. arXiv  Biagetti,
+
+Cole & Shiu (arXiv:2403.13985) applied Fisher matrix analysis to persistence-based
+
+cosmological parameter estimation, achieving 13–50% tighter constraints than joint
+
+power spectrum + bispectrum. arXiv
+
+B. Baez’s theorem gives the exact Rényi–free energy bridge
+
+No published paper defines Rényi or Tsallis persistent entropy. This is a confirmed gap
+
+in the literature. Standard persistent entropy (Chintakunta et al. 2015; Scikit-tda  Atienza,
+
+Gonzalez-Diaz & Rucco, arXiv:1701.07857; arXiv  Atienza et al. arXiv:1803.08304) uses
+
+exclusively Shannon entropy on normalized lifetimes pᵢ = ℓᵢ/L. ScienceDirect  The stability of
+Shannon persistent entropy under Wasserstein perturbations is proven, ScienceDirect +2  but
+
+no stability analysis exists for Rényi generalizations.
+
+The most important theoretical connection is Baez’s theorem (Entropy 24:706, 2022;
+
+arXiv:1102.2098): for the canonical ensemble with energies Eᵢ = −ℓᵢ, the Rényi entropy of
+order q equals minus the Jackson q-derivative of the free energy:
+
+S_q(β) = (1/(1−q)) log(Z(qβ)/Z(β)^q)
+
+This provides the natural two-parameter family indexed by (β, q) where β controls energy-
+
+scale weighting and q controls moment-order sensitivity. At q = 1, one recovers Shannon
+
+entropy at each β. The physical interpretation is precise: S_q measures the maximum work
+
+extractable when the system temperature is suddenly divided by q and it relaxes to new
+
+equilibrium. The (β, q) plane forms a diagnostic surface where the Rényi profile’s slope
+
+between q = 0 and q = 1 directly quantifies evenness — if two fields’ profiles cross, their
+
+diversity ordering is ambiguous, which Shannon entropy alone cannot detect.
+
+The ecological framework of Hill numbers (Hill 1973; Jost 2006, 2010; Chao & Jost 2015)
+
+provides mature theory for interpreting the q-profile. The natural Rényi generalization of
+
+Pielou evenness is J_q = H_q/log(n) = log(Ʃpᵢ^q)/((1−q)log(n)), preserving [0,1]
+normalization. Different q values sweep from counting all topological features equally (q →
+
+0) to being dominated by the single most persistent feature (q → ∞). Jost (2010)
+
+
+
+recommends the Hill evenness ratio E_{1,0} = exp(H)/n as superior to Pielou’s J.
+
+For the Tsallis q-exponential replacement Z_q(β) = Ʃ exp_q(β·ℓᵢ) with exp_q(x) = [1+
+(1−q)x]^{1/(1−q)}: Wikipedia  when q < 1, the q-exponential has compact support providing
+
+a natural UV cutoff on lifetime contributions; when q > 1, power-law (fat) tails emerge,
+
+modeling scale-free topological structure. The Rényi spectrum H_q is mathematically
+
+equivalent to the generalized dimension spectrum D_q used in multifractal analysis,
+
+arXiv  connecting the (β, q) framework to multiscale self-similarity in cosmic topology.
+
+C. Phase transitions require the thermodynamic limit but have a
+
+clear mechanism
+
+For finite n persistence points, Z(β) = Ʃ exp(β·ℓᵢ) is an entire function — analytic
+everywhere for real β. The heat capacity peaks are therefore crossovers, not genuine
+
+singularities. This is the standard finite-size argument from statistical mechanics. MIT  A
+
+genuine phase transition requires the thermodynamic limit n → ∞, naturally achieved as
+
+the random field volume V → ∞.
+
+The mechanism for a genuine transition is concrete. Hiraoka, Shirai & Trinh (Ann. Appl.
+
+Probab. 28:2740, 2018) proved that for stationary point processes, persistence diagrams
+
+satisfy a strong law of large numbers Springer  — the persistence measure converges to a
+
+deterministic limit µ as V → ∞. Project Euclid  The limiting free energy density f(β) = lim (1/V)
+
+log Z_V(β) becomes the log-moment generating function of the limiting persistence lifetime
+
+distribution ρ(ℓ). If ρ(ℓ) has power-law tails ρ(ℓ) ~ ℓ^{−α} (expected for gravitationally
+evolved fields due to hierarchical merging), then Z(β) = ∫ exp(βℓ)ρ(ℓ)dℓ converges only for β
+< α, making β = α a genuine phase transition* where the partition function diverges.
+
+Lee-Yang zeros analysis supports this picture. For finite n, Z(β) in the complex β-plane has
+
+zeros at quasi-periodic imaginary spacing Physics LibreTexts  ~2π/(nΔℓ_eff). As n → ∞, this
+spacing vanishes and zeros accumulate on the line Re(β) = β*, approaching the real axis to
+
+produce a genuine singularity. Wikipedia  The density of zeros near the real axis determines
+
+the transition order. Unicamp
+
+Cole, Loges & Shiu (Phys. Rev. B 104:104426, 2021; arXiv:2009.14231) defined
+
+“persistence critical exponents” for phase transitions in Ising and XY models, showing
+
+they relate to conventional critical exponents. The three-regime structure of random
+
+geometric complexes identified by Yogeshwaran, Subag & Adler (Probab. Theory Relat.
+
+Fields 167:107, 2017) — subcritical (dust), critical/thermodynamic (rich topology, percolation
+
+threshold), supercritical (connectivity) arXiv  — maps directly to the C(β) behavior, with
+
+β* corresponding to the boundary between topological regimes. Donato et al. (Phys. Rev. E
+
+
+
+93:052138, 2016) showed that persistence distributions change qualitatively across phase
+
+transitions in XY and φ⁴ models, arXiv  while a 2025 paper (arXiv:2602.09058) rigorously
+
+proves that Shannon persistent entropy exhibits asymptotically non-vanishing gaps across
+
+phase boundaries. arXiv
+
+D. Free energy F(β) is structurally the entropic optimal
+
+transport dual
+
+The p-Wasserstein distance between persistence diagrams is formally an optimal partial
+
+transport problem ResearchGate  (Divol & Lacombe, J. Appl. Comput. Topol. 5:1, 2021;
+
+arXiv:1901.03048), where the diagonal acts as a mass reservoir arXiv  Springer  —
+
+analogous to a particle reservoir in the grand canonical ensemble. Bubenik & Elchesen
+
+(Comput. Geom. 105:101882, 2022; arXiv:1912.02563) proved that W₁ on persistence
+
+diagrams satisfies Kantorovich-Rubinstein duality and that persistence diagrams form the
+
+universal p-subadditive commutative metric monoid. NSF PAGES  ScienceDirect
+
+The connection to the thermodynamic formalism is structural and precise. The free energy
+
+F(β) = −(1/β) ln Ʃ exp(β·ℓᵢ) is the softmin functional, which is identically the value function
+of the entropic optimal transport dual with regularization ε = 1/β and cost c = −ℓ. As β → ∞
+(zero temperature), F(β) → −max(ℓᵢ), recovering the bottleneck-like metric; at finite β, the
+Gibbs reweighting provides the soft version, exactly paralleling the entropic regularization
+
+limit. The parameter β interpolates between maximum-lifetime selection (β → ∞,
+
+bottleneck) and uniform weighting (β → 0, entropy), mirroring how ε in entropic OT
+
+interpolates between sharp transport and maximum entropy.
+
+The Gibbs measure πᵢ(β) = exp(β·ℓᵢ)/Z(β) is a single-marginal Sinkhorn scaling — the
+diagonal of the Gibbs kernel normalization performed in each Sinkhorn iteration. Lacombe,
+
+Cuturi & Oudot (NeurIPS 2018; arXiv:1805.08331) directly reformulated persistence diagram
+
+metrics as OT problems and applied Sinkhorn iterations for scalable computation of
+
+Wasserstein barycenters of persistence diagrams. NeurIPS  arXiv
+
+For cosmological applications, Tsizh et al. (MNRAS 522:2697, 2023) used W₁ between
+
+persistence diagrams as a cosmological discriminant for σ₈. Oxford Academic  Wang &
+
+Chen (arXiv:2412.03806, 2024) published the first paper on Wasserstein gradient flows in
+
+persistence diagram space, using the JKO scheme adapted to PD space for topological
+
+optimization. arXiv  arXiv  This provides the mechanism for studying how Z(β) evolves
+
+under Wasserstein gradient flow, connecting the thermodynamic formalism to dynamical
+
+optimal transport.
+
+
+
+E. No exact persistence lifetime distribution exists, but the
+
+pairing problem is constrained
+
+The Feldbrugge-Pranav symmetry (arXiv:1908.01619) states that for D-dimensional
+
+Gaussian random fields, β_k(ν) = β_{D−1−k}(−ν): the Betti number of superlevel sets at
+
+threshold ν equals the complementary Betti number of sublevel sets at −ν. arXiv
+
+Perimeterinstitute  This symmetry extends to persistence diagrams, implying that the
+
+superlevel H₀ persistence diagram (peaks) is statistically the mirror image of the sublevel H₀
+
+diagram (troughs) under ν → −ν. arXiv  Since Pielou evenness depends only on the lifetime
+
+distribution, E[J₀] = E[J₁] for Gaussian fields, confirming the Gaussian null E[ΔJ] = 0 with
+
+fluctuations governed by the CLT.
+
+However, no exact closed-form distribution exists for persistence lifetimes ℓ = death −
+birth of H₀ persistence in Gaussian random fields. The persistence pairing is non-local (it
+
+depends on the Morse-Smale complex connectivity, not just individual critical point
+
+statistics), Oxford Academic  and Pranav et al. (MNRAS 485:4167, 2019) explicitly note that
+
+“there is no indication that an analytical description for Betti numbers and other homological
+
+concepts is feasible” along the lines of the Gaussian Kinematic Formula. Oxford Academic
+
+arXiv  Feldbrugge et al. developed path-integral/graph-theoretic integral expressions
+
+for Betti numbers that achieve excellent numerical agreement, but these are approximate,
+
+not exact. arXiv +2
+
+BBKS (Bardeen, Bond, Kaiser, Szalay 1986) constrains the picture significantly: for
+
+superlevel H₀ persistence, birth values are maxima values with exact distribution n_pk(ν)
+
+from BBKS, and the total number n of H₀ persistence pairs equals the number of maxima —
+
+meaning n in J = H/log(n) is directly given by BBKS peak counts. The death values
+
+(saddle points) require the joint distribution of (maximum height, connecting saddle height),
+
+which remains only partially characterized.
+
+The Dirichlet baseline J_base(n) = 1 − 1/(2n·log(n)) lacks a Morse-theoretic derivation.
+
+It likely represents the expected evenness of a maximally random Morse function, but this
+
+has not been proven. A major recent advance is the Bobrowski-Skraba universal law (Sci.
+
+Rep. 13:12274, 2023; arXiv:2406.05553, 2024): normalized persistence diagrams from
+
+random point clouds obey a universal left-skewed Gumbel distribution for log(death/birth)
+
+ratios, independent of the underlying point process. Extending this universality to scalar
+
+field sublevel/superlevel filtrations would provide the null distribution needed for analytical
+
+predictions of J₀ and J₁. Kanazawa & Hiraoka (J. Appl. Comput. Topol. 8:1649, 2024) proved
+
+LLN and large deviation principles for cubical persistence diagrams ScienceDirect  Springer
+
+— the natural setting for gridded random fields — though explicit limiting distributions
+
+remain unknown. arXiv
+
+
+
+F. Persistent entropy and ecological Shannon diversity are
+
+mathematically identical operations
+
+The cosmological framework’s J₀ and J₁ are persistent entropies normalized by log(n) —
+
+the identical mathematical operation to Pielou’s ecological evenness index applied to
+
+species abundance distributions instead of persistence lifetime distributions. Both compute
+
+H = −Ʃpᵢ log pᵢ on a distribution of feature “sizes” (abundances vs. lifetimes), both normalize
+by log(n) to obtain [0,1] evenness, and both are sensitive to dominance by a few large
+
+features.
+
+The most direct topological analogue to ΔJ comes from Angulo et al. (Nature Ecol. Evol.
+
+5:1091, 2021), who used homology theory on species coexistence hypergraphs to identify
+
+“coexistence holes” — topological discontinuities where assembly and disassembly
+
+processes have different homological structure. PubMed  Nature  Assembly holes
+
+(adding species triggers breakdown) and disassembly holes (removing species causes
+
+cascades) have different frequencies and dimensions, creating a structural asymmetry
+
+directly paralleling J₀ ≠ J₁. NSF PAGES
+
+The “topological second law” (monotonic ΔJ decrease under structure formation) has a
+
+genuine thermodynamic parallel in Odum’s successional theory (1969) augmented by the
+
+Maximum Entropy Production Principle. Skene (Ecol. Modelling 250:287, 2013) showed
+
+succession follows MEPP with entropy production following a logistic curve toward climax.
+
+Annila & Salthe (BioSystems, 2010) cast succession explicitly through the second law:
+
+systems evolve to maximize energy dispersal, creating increasingly structured
+
+configurations. The directionality is analogous — both gravitational structure formation and
+
+ecological succession are irreversible self-organizing processes with monotonically evolving
+
+topological signatures.
+
+Landscape ecology’s threshold-based habitat patch framework is operationally identical
+
+to superlevel persistence without the mathematical formalization. Varying a tree-cover
+
+threshold to define habitat patches is exactly a superlevel filtration. Sena et al. (2021)
+
+explicitly applied H₀ persistence to MODIS satellite NDVI data ScienceDirect  — the same
+
+mathematical operation as the cosmological framework applied to vegetation density rather
+
+than matter density. The rasterdiv  R package (Rocchini et al. 2021) computes Pielou’s J
+
+on raster satellite imagery, making it a direct computational parallel. Pielou’s J remains
+
+widely used in ecology but faces criticism (Alroy 2025 argues evenness indices are “overly
+
+sensitive to dominant species”); the Hill numbers framework is now preferred, reinforcing
+
+the case for Rényi generalization. ADS
+
+
+
+G. Gaussian smoothing is Wilsonian RG — exactly, not by
+
+analogy
+
+The smoothed field X̃(σ,p) = exp(−σ²p²)φ̃(p) is identical to applying a Gaussian UV regulator
+
+with cutoff Λ = 1/σ. The smoothing flow ∂X/∂τ = ∇²X (with τ = σ²/2) is the heat equation, and
+
+Sonoda & Suzuki (PTEP 2019; arXiv:1901.05169) proved that correlation functions of
+
+diffused fields with respect to the bare action exactly equal those of bare fields with respect
+
+to the Wilsonian effective action Oxford Academic  at cutoff Λ² = 1/2τ. Rosten (Phys. Rept.
+
+511:177, 2012) showed that the Polchinski exact RG equation in the local potential
+
+approximation reduces to the heat equation arXiv  ScienceDirect  for free fields;
+
+University of Cambridge  Rabambi (arXiv:2406.12523, 2024) confirmed this explicitly for both
+
+bosonic and fermionic cases. arXiv  This is not an analogy — it is a mathematical identity
+
+for Gaussian fields.
+
+Persistence has been used as a phase transition diagnostic in lattice gauge theory,
+
+though not yet formally as an RG flow observable. Sale & Lucini (Phys. Rev. D 107:034501,
+
+2023; arXiv:2211.16273) used persistent homology to detect center vortices in SU(2)
+
+configurations, extracting the critical coupling β_c and critical exponent ν via finite-size
+
+scaling of persistence diagrams. arXiv  APS Journals  Spitz et al. (Phys. Rev. D 107:034506,
+
+2023; arXiv:2208.03955) applied persistence to cooled (smoothed) lattice configurations
+
+— the closest existing study of persistence under RG-like transformations — finding that
+
+cooling reveals instanton-dyons obscured by UV fluctuations. APS Journals
+
+No published flow equations exist for Betti numbers or persistence diagrams under
+
+functional RG. The Euler characteristic has a known flow (its expectation is given by the
+
+GKF as a Hermite polynomial in the threshold, with amplitude depending on spectral
+
+moments that evolve under smoothing), but it is power-spectrum-independent — a
+
+universality property. Oxford Academic  arXiv  Betti numbers are power-spectrum-sensitive
+
+HAL  arXiv  (Pranav 2021; arXiv:2109.08721), carrying non-universal information.
+
+arXiv +2  The Bobrowski-Skraba universality (arXiv:2406.05553) for persistence ratios may
+
+be the topological analogue of a universality class, but the connection to RG fixed points is
+
+unexplored.
+
+The (σ, β) parameter space defines a 2D flow where σ controls Wilsonian coarse-graining
+
+and β controls thermal weighting of persistence lifetimes. The function β*(σ) — the locus of
+
+C(β) peaks at each smoothing scale — traces a crossover line in this space analogous to a
+
+critical line in a phase diagram. The RG flow of the persistence partition function is ∂(ln Z)/
+
+∂σ = β Ʃᵢ (∂ℓᵢ/∂σ)(exp(βℓᵢ)/Z), where features killed by smoothing contribute negatively and
+enhanced features contribute positively. This 2D (σ, β) bifiltration has not been studied
+
+anywhere — it represents a novel contribution combining multiparameter persistence theory
+
+with exact RG formalism.
+
+
+
+Conclusion: a hierarchy of testable extensions with decreasing
+
+speculative content
+
+Three findings carry the force of mathematical identity rather than analogy. The Fisher
+
+metric g(β) = Var(ℓ) is an exact consequence of exponential family structure, inheriting all of
+Amari’s dually flat geometry, Chentsov uniqueness, PubMed Central  and Ruppeiner
+
+thermodynamic interpretation. arXiv  Baez’s theorem S_q = log(Z(qβ)/Z(β)^q)/(1−q)
+
+provides the exact Rényi–free energy bridge, making the (β, q) diagnostic surface a well-
+
+defined mathematical object. And the Sonoda-Suzuki gradient flow correspondence makes
+
+Gaussian smoothing literally identical to Wilsonian RG Oxford Academic  for free fields.
+
+Three directions have strong but incomplete theoretical grounding. Phase transitions in Z(β)
+
+require the thermodynamic limit n → ∞, but the Hiraoka-Shirai-Trinh convergence theorem
+
+Project Euclid  plus expected power-law tails in gravitationally evolved ρ(ℓ) provide a
+concrete mechanism for genuine singularities at β* — testable by computing Lee-Yang
+
+zeros from N-body simulation persistence data. The optimal transport duality is
+
+structural (F(β) is the softmin/entropic dual), though a full Kantorovich-dual formulation
+
+relating F(β) to a Wasserstein distance between specific measures remains to be
+
+constructed. Tlacombe  The Morse-theoretic derivation of the Dirichlet baseline and exact
+
+predictions for J₀, J₁ remain open problems, but BBKS constrains n and the Bobrowski-
+
+Skraba universality provides a promising null distribution.
+
+The most immediately actionable extension is the Rényi persistent entropy J_q — confirmed
+
+as a gap in the literature, with exact machinery available from both Baez’s theorem and the
+
+Hill numbers framework, and stability analysis templates from Atienza et al.’s Shannon case.
+
+ScienceDirect  arXiv  The most speculative but highest-ceiling direction is the (σ, β) RG
+
+bifiltration, where establishing flow equations for persistence-based observables under
+
+exact RG would connect topological data analysis to quantum field theory in a
+
+fundamentally new way.
+
+

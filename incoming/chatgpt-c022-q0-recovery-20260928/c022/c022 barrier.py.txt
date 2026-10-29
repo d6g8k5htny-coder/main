@@ -1,0 +1,153 @@
+# c022_barrier.py -- C022 S3: explicit RKHS barrier g0 for the AO-positivity step.
+# g0 = 15-pin minimal-norm interpolant (2-jets at M and S, 1-jet01 at y*) + elder bump,
+# coefficients solved in mp; evaluation in float128 via Hermite formulas (abs err ~1e-7,
+# adequate against ell = 2.08e-5 margins); census float128 + mp polish of candidates.
+import numpy as np, json, sys, time
+from mpmath import mp, mpf, matrix as mpM
+import mpmath
+import c019_flow as C
+mp.dps = 60
+t0 = time.time()
+LD = np.longdouble
+
+b = 1.2; r = 0.05; ell = r**3/6
+M = (-0.025, 0.0); S = (0.025, 0.0); Y = (-0.063, 0.012)
+XE = (-0.492, 0.147)
+J2 = [(0,0),(1,0),(0,1),(2,0),(1,1),(0,2)]
+FUN = [(a, M) for a in J2[:3]] + [(a, S) for a in J2[:3]] + [(a, Y) for a in J2[:3]]
+# shaping bumps: (amplitude, center) -- elder + typing shapers; footprints subtracted in build()
+BUMPS = [(0.9, (-0.492, 0.147))]
+
+# ---- Hermite tables for D^alpha e^{-t^2/2} = (-1)^|a| He_a(t) e^{-t^2/2} ----
+def He(n, t):
+    if n == 0: return np.ones_like(t)
+    if n == 1: return t
+    if n == 2: return t*t-1
+    if n == 3: return t**3-3*t
+    if n == 4: return t**4-6*t*t+3
+    if n == 5: return t**5-10*t**3+15*t
+    raise ValueError
+
+def dK(bx, by, ax, ay, x, y, zx, zy):
+    """D^{(bx,by)}_x D^{(ax,ay)}_z K(x,z), K = exp(-|x-z|^2/2), vectorized in x."""
+    ux = x - zx; uy = y - zy
+    n1 = ax + bx; n2 = ay + by
+    sgn = (-1)**(ax+ay) * (-1)**(n1+n2)
+    return sgn * He(n1, ux)*He(n2, uy)*np.exp(-(ux*ux+uy*uy)/2)
+
+def dK_mp(ba, aa, xp, zp):
+    (bx, by), (ax, ay) = ba, aa
+    ux = mpf(xp[0])-mpf(zp[0]); uy = mpf(xp[1])-mpf(zp[1])
+    def He1(n, t):
+        return [mpf(1), t, t*t-1, t**3-3*t, t**4-6*t*t+3, t**5-10*t**3+15*t][n]
+    n1, n2 = ax+bx, ay+by
+    return (-1)**(ax+ay) * (-1)**(n1+n2) * He1(n1, ux)*He1(n2, uy)*mp.e**(-(ux*ux+uy*uy)/2)
+
+def build(vstar, bumps):
+    """Solve the 9 pin conditions (targets minus all bump footprints) in mp."""
+    tg = [b, 0, 0, b-ell, 0, 0, vstar, 0, 0]
+    n = len(FUN)
+    G = mpM(n, n)
+    for i, (ai, xi) in enumerate(FUN):
+        for j, (aj, xj) in enumerate(FUN):
+            G[i, j] = C.cov_mp(ai, xi, aj, xj)
+    tvec = mpM(n, 1)
+    for i, (ai, xi) in enumerate(FUN):
+        acc = mpf(tg[i])
+        for (cb, zb) in bumps:
+            acc -= mpf(cb)*dK_mp(ai, (0,0), xi, zb)
+        tvec[i, 0] = acc
+    w = mp.lu_solve(G, tvec)
+    return [w[i, 0] for i in range(n)], G
+
+class G0:
+    def __init__(self, w, bumps):
+        self.w = np.array([LD(mp.nstr(x, 25)) for x in w])
+        self.bumps = [(LD(cb), (LD(zb[0]), LD(zb[1]))) for (cb, zb) in bumps]
+    def jets(self, x, y, order=2):
+        x = np.asarray(x, dtype=LD); y = np.asarray(y, dtype=LD)
+        outs = {}
+        for (bx, by) in ([(0,0),(1,0),(0,1)] + ([(2,0),(1,1),(0,2)] if order >= 2 else [])):
+            acc = np.zeros_like(x)
+            for wi, (ai, zi) in zip(self.w, FUN):
+                acc = acc + wi*dK(bx, by, ai[0], ai[1], x, y, LD(zi[0]), LD(zi[1]))
+            for (cb, zb) in self.bumps:
+                acc = acc + cb*dK(bx, by, 0, 0, x, y, zb[0], zb[1])
+            outs[(bx, by)] = acc
+        return outs
+
+def census(g, x0=-1.05, x1=0.55, y0=-0.45, y1=0.55, step=0.02):
+    xs = np.arange(x0, x1, step); ys = np.arange(y0, y1, step)
+    Xg, Yg = np.meshgrid(xs, ys)
+    P = np.stack([Xg.ravel(), Yg.ravel()], 1).astype(LD)
+    for _ in range(30):
+        j = g.jets(P[:, 0], P[:, 1])
+        gx, gy = j[(1,0)], j[(0,1)]
+        hxx, hxy, hyy = j[(2,0)], j[(1,1)], j[(0,2)]
+        det = hxx*hyy - hxy*hxy
+        det = np.where(np.abs(det) < 1e-14, 1e-14, det)
+        dx = ( hyy*gx - hxy*gy)/det
+        dy = (-hxy*gx + hxx*gy)/det
+        n = np.hypot(dx.astype(float), dy.astype(float))
+        sc = np.where(n > 0.05, 0.05/np.maximum(n, 1e-30), 1.0)
+        P[:, 0] -= dx*sc; P[:, 1] -= dy*sc
+    j = g.jets(P[:, 0], P[:, 1])
+    gn = np.hypot(j[(1,0)].astype(float), j[(0,1)].astype(float))
+    ok = (gn < 1e-9) & (P[:, 0] > x0) & (P[:, 0] < x1) & (P[:, 1] > y0) & (P[:, 1] < y1)
+    cand = P[ok]
+    uniq = []
+    for p in cand:
+        if not any(np.hypot(float(p[0]-q[0]), float(p[1]-q[1])) < 1e-4 for q in uniq):
+            uniq.append(p)
+    rows = []
+    for p in uniq:
+        j = g.jets(np.array([p[0]]), np.array([p[1]]))
+        f = float(j[(0,0)][0]); hxx = float(j[(2,0)][0]); hxy = float(j[(1,1)][0]); hyy = float(j[(0,2)][0])
+        det = hxx*hyy - hxy*hxy; tr = hxx + hyy
+        typ = 'max' if (det > 0 and tr < 0) else ('min' if det > 0 else 'saddle')
+        rows.append(dict(x=float(p[0]), y=float(p[1]), f=f, det=det, tr=tr, type=typ))
+    return rows
+
+def flow(g, p0, d0, h=0.004, cap=20000):
+    p = np.array(p0, dtype=LD) + LD(0.002)*np.array(d0, dtype=LD)
+    for it in range(cap):
+        j = g.jets(np.array([p[0]]), np.array([p[1]]))
+        gx = float(j[(1,0)][0]); gy = float(j[(0,1)][0])
+        gn = np.hypot(gx, gy)
+        if gn < 1e-7:
+            jj = g.jets(np.array([p[0]]), np.array([p[1]]))
+            det = float(jj[(2,0)][0]*jj[(0,2)][0]-jj[(1,1)][0]**2); tr = float(jj[(2,0)][0]+jj[(0,2)][0])
+            return dict(term=[float(p[0]), float(p[1])], f=float(jj[(0,0)][0]),
+                        typ='max' if (det > 0 and tr < 0) else 'other', steps=it)
+        d1 = np.array([gx, gy])/gn
+        pm = p + LD(h/2)*d1.astype(LD)
+        jm = g.jets(np.array([pm[0]]), np.array([pm[1]]))
+        gmx = float(jm[(1,0)][0]); gmy = float(jm[(0,1)][0]); gmn = max(np.hypot(gmx, gmy), 1e-30)
+        p = p + LD(h)*np.array([gmx/gmn, gmy/gmn], dtype=LD)
+        if abs(float(p[0])) > 2.5 or abs(float(p[1])) > 2.5:
+            return dict(term=[float(p[0]), float(p[1])], f=None, typ='esc', steps=it)
+    return dict(term=[float(p[0]), float(p[1])], f=None, typ='cap', steps=cap)
+
+if __name__ == '__main__':
+    vstar = b - ell/2
+    import ast
+    bumps = ast.literal_eval(sys.argv[1]) if len(sys.argv) > 1 else BUMPS
+    w, G = build(vstar, bumps)
+    wn = max(abs(float(x)) for x in w)
+    print('bumps: %s' % str(bumps), flush=True)
+    print('coefficients solved: max|w| = %.3e  (float128 eval abs-err scale ~ %.1e)' % (wn, wn*1e-19), flush=True)
+    g = G0(w, bumps)
+    # pin verification in float128
+    for nm, p, tv in [('M', M, b), ('S', S, b-ell), ('Y*', Y, vstar)]:
+        j = g.jets(np.array([p[0]]), np.array([p[1]]))
+        print('%s: f-err %.2e  |grad| %.2e  H=(%.3f, %.3f, %.3f)' % (
+            nm, float(j[(0,0)][0])-tv, np.hypot(float(j[(1,0)][0]), float(j[(0,1)][0])),
+            float(j[(2,0)][0]), float(j[(1,1)][0]), float(j[(0,2)][0])), flush=True)
+    print('census... (%.0fs)' % (time.time()-t0), flush=True)
+    rows = census(g)
+    rows.sort(key=lambda r: -r['f'])
+    for rr in rows:
+        print('  crit (%.4f, %.4f)  f=%.6f  %s  det=%.3f tr=%.3f' % (
+            rr['x'], rr['y'], rr['f'], rr['type'], rr['det'], rr['tr']), flush=True)
+    json.dump(dict(w_max=wn, census=rows), open('c022_barrier_census.json', 'w'), indent=1)
+    print('(%.0fs)' % (time.time()-t0))

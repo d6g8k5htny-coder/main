@@ -1,0 +1,204 @@
+{
+  "prior_head": "f24a48af0fb68747c8cea37ba441ba0dbf4631c9",
+  "scope": "Two reader navigation test-driver HTTPS route guards and this source/report receipt. Product site bytes unchanged.",
+  "cause": "Playwright glob https://** does not match full URL paths; its intended offsite refusal was ineffective. Initial own-origin-block diagnosis was disproved and corrected.",
+  "fix": "Match https://**/*; fallback for requests beneath selected origin prefix, abort other matched HTTPS requests.",
+  "red": {
+    "source": "synthetic HTTPS browser fixtures from exact local bytes, no TLS/public-custody claim",
+    "requests": 73,
+    "probes": [
+      {
+        "external_fixture_served": true,
+        "error": null
+      }
+    ]
+  },
+  "green_https": {
+    "navigation": {
+      "cases": [
+        {
+          "case": "persistent-keyboard-1440-light",
+          "passed": true
+        },
+        {
+          "case": "persistent-keyboard-1440-dark",
+          "passed": true
+        },
+        {
+          "case": "persistent-keyboard-390-light",
+          "passed": true
+        },
+        {
+          "case": "persistent-keyboard-390-dark",
+          "passed": true
+        },
+        {
+          "case": "persistent-keyboard-320-dark",
+          "passed": true
+        },
+        {
+          "case": "focus-yield-light-scripted",
+          "passed": true
+        },
+        {
+          "case": "focus-yield-dark-scripted",
+          "passed": true
+        },
+        {
+          "case": "focus-yield-light-native-no-js",
+          "passed": true
+        },
+        {
+          "case": "focus-yield-dark-native-no-js",
+          "passed": true
+        },
+        {
+          "case": "native-no-js-and-script-free-formal",
+          "passed": true
+        }
+      ],
+      "page_errors": [],
+      "limits": "Headless Chromium/Linux, emulated widths; no physical/Safari/spoken AT/full WCAG claim.",
+      "browser": "154.0.8037.57",
+      "passed": 10,
+      "failed": 0
+    },
+    "routing": {
+      "source": "synthetic HTTPS browser fixtures from exact local bytes, no TLS/public-custody claim",
+      "requests": 451,
+      "probes": [
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        },
+        {
+          "external_fixture_served": false,
+          "error": "Page.goto: net::ERR_FAILED at https://excluded-reader.invalid/probe"
+        }
+      ]
+    }
+  },
+  "green_loopback": {
+    "cases": [
+      {
+        "case": "persistent-keyboard-1440-light",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-1440-dark",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-390-light",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-390-dark",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-320-dark",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-light-scripted",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-dark-scripted",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-light-native-no-js",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-dark-native-no-js",
+        "passed": true
+      },
+      {
+        "case": "native-no-js-and-script-free-formal",
+        "passed": true
+      }
+    ],
+    "page_errors": [],
+    "limits": "Headless Chromium/Linux, emulated widths; no physical/Safari/spoken AT/full WCAG claim.",
+    "browser": "154.0.8037.57",
+    "passed": 10,
+    "failed": 0
+  },
+  "limits": "Synthetic HTTPS browser fixtures from exact local bytes; no TLS/network/public-byte/source-authentication claim. Seven offsite probes in scripted contexts. Initial ModuleNotFoundError and invalid-tunnel fixture attempts were setup failures, not mathematical or product RED. All retained.",
+  "artifacts": [
+    {
+      "path": "check_https_origin.py",
+      "bytes": 2353,
+      "sha256": "c07795985978f93fcfd509d09acb6e769418b5c8714a664276d7dfebe425a81c"
+    },
+    {
+      "path": "red.log",
+      "bytes": 725,
+      "sha256": "fcfea166cce957721bfb6ce37e2004707e891bc49abe951a91e8d45587c231a8"
+    },
+    {
+      "path": "red-cases.log",
+      "bytes": 75,
+      "sha256": "7db7b885d7bbe3efda10de777ebc6f4f896b9848567093150a5b388c98c9321e"
+    },
+    {
+      "path": "red-accessible-origin.log",
+      "bytes": 75,
+      "sha256": "7db7b885d7bbe3efda10de777ebc6f4f896b9848567093150a5b388c98c9321e"
+    },
+    {
+      "path": "red-external.log",
+      "bytes": 1476,
+      "sha256": "fab69945d70ab59089c52ea216c3dd49e9a94b55193b659bbf69a5288ed468f3"
+    },
+    {
+      "path": "red-external/fixture-custody.json",
+      "bytes": 211,
+      "sha256": "e2463b98d216a904c0068864604aa34189ae1b5ad88d35439e558c8a5a029aa4"
+    },
+    {
+      "path": "green.log",
+      "bytes": 75,
+      "sha256": "09c079ed2d0a696cea15e91f1800feb10b2d693c88715c4ab97021af40f048ec"
+    },
+    {
+      "path": "green/report.json",
+      "bytes": 1014,
+      "sha256": "b312709e80743d4135e08ed972ba38efb24259db8c532976103d3feb2d6638a3"
+    },
+    {
+      "path": "green/fixture-custody.json",
+      "bytes": 1106,
+      "sha256": "3b4ec41a3e464dc567a327b1e5fc77f9d20c7e30d369d1793bcaab5ce2a3b669"
+    },
+    {
+      "path": "green-loopback/report.json",
+      "bytes": 1014,
+      "sha256": "b312709e80743d4135e08ed972ba38efb24259db8c532976103d3feb2d6638a3"
+    }
+  ],
+  "scientific_effect": "NONE"
+}

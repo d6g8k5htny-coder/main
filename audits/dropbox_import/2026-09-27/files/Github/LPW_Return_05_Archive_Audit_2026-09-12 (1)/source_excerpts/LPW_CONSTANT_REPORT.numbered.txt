@@ -1,0 +1,225 @@
+0001 | # LPW_CONSTANT: certified explicit constant and radius for LPW-CAND-20260912
+0002 | 
+0003 | **Record:** LPW-CONSTANT-20260912-v1.0
+0004 | **Role:** constant evaluation layer on top of the endorsed existential proof
+0005 | (Kimi verdict APPROVE, six interfaces PASS WITHIN SCOPE), executed under the
+0006 | acceptance contract `03_CONSTANT_CERTIFICATE_CONTRACT.md`
+0007 | (LPW_Review_Reconciliation_2026-09-12).
+0008 | **Result may be tiny; validity, not attractiveness, is the goal (contract §5/§7).**
+0009 | 
+0010 | ## 1. Certified headline
+0011 | 
+0012 | For the exact two-dimensional side-24 six-pin typed maximum-saddle pair-Palm law
+0013 | of the pinned candidate (full-file sha256
+0014 | `cf58f72eb0399c626160c143b50f674ff3bd5c449225211edd6fd378a374e1a5`),
+0015 | 
+0016 |     1 - q(r, 6/5)  >=  c r^3      for all 0 < r <= r_0,
+0017 | 
+0018 | with the CERTIFIED explicit pair
+0019 | 
+0020 |     c   >=  260 / (3790446482793 * 2^40 * 10^21)  =  6.239e-44  >=  10^(-44)  > 0
+0021 |     r_0  =  1 / 2414592  =  1 / (256 * 9432)      ~  4.14149e-7              > 0
+0022 | 
+0023 | tighter machine estimates (not load-bearing): c ~ 1.04556e-43, m ~ 1.676e-21.
+0024 | The positivity of c is demonstrated by exact rational arithmetic and outward
+0025 | power-of-ten enclosures, not by displayed decimals (contract §5): the chain is
+0026 | m >= 10^(-21)  =>  c = 260 m delta^4 / B_3 >= 260 * 10^(-21) / (B3_rat * 2^40),
+0027 | B3_rat = 3790446482793 an integer upper bound, delta^4 = 2^(-40) exact.
+0028 | 
+0029 | Final arithmetic (contract §5): K = max(1, 2 B_4) <= K_rat = 9432,
+0030 | C_Z = 4 B_3 <= 15161785931172, r_0 = min(R, 1, 1/(256 K)) = 1/(256 K_rat)
+0031 | (rounded downward; 1/(256 K_rat) <= R = 1e-5 so the K-term binds).
+0032 | Hard checks with exact rationals: 16 delta + 8 K r_0 = 3/64 <= 3/64 < 1/16,
+0033 | path clearance 103/3840 > 0, exponent ledger 1 + 4 - 2 = 3, weight base
+0034 | (81/16)(1673/128) >= 65, 65*16 = 1040 = 4*260, thin-box volume 32 delta^4 r.
+0035 | 
+0036 | ## 2. Exact objects (contract §1)
+0037 | 
+0038 | - Field: normalized periodized side-24 2D covariance. Spectral form used here:
+0039 |   frequencies k in (pi/12) Z^2, weight exp(-|k|^2/2), Z-normalized,
+0040 |   Cov(f(z1), f(z2)) = (1/Z) sum_k w(k) cos(k.(z1 - z2)).  Identity with the
+0041 |   candidate's real-space k_24(x) k_24(y) is Poisson summation: |Z - 288/pi| =
+0042 |   8.96e-59 (bound 1.0e-45), and the a_2/a_4/a_6 spectral vs real-space
+0043 |   derivative forms agree to 1e-130 at 150 dps (falsifier F3).
+0044 | - Conditioning: six-pin continuous Gaussian regression version, Hermite
+0045 |   combinations U_r -> U_0 = (f, f_x, f_y, f_xx/2, f_xy, f_xxx/6);
+0046 |   J = (f_yy, f_xxy/2, f_xyy/2, f_yyy/6); b = 6/5; u_r = (b - r^3/12, -r^2/4,
+0047 |   0, 0, 0, 1/3); delta = 1/1024; epsilon = 1/16 (unchanged).
+0048 | - Norms: ||f||_{C^k} = max_{|alpha|<=k} sup_T^2 |d^alpha f| (candidate §4
+0049 |   convention); M_3 = max(1, ||f||_{C^3}); M_4 = max_{|alpha|=4} sup |d^alpha f|
+0050 |   (R3 addendum confirms the full C^4 norm as dominating auxiliary).
+0051 | - CHANGED compact set (contract item 1; stated explicitly per contract §5 of
+0052 |   the endpoint supplement): for the certified radius R = 1/100000,
+0053 | 
+0054 |       JBOX(R) = [-(10 + 2 delta) R, 0] x [2 - delta, 2 + delta]
+0055 |                 x [-delta, delta]^2 ,
+0056 | 
+0057 |   which contains every thin box E_r = {|q/(2r)+5|<=delta, |A-2|<=delta,
+0058 |   |B|<=delta, |D3|<=delta} for 0 < r <= R (exact rational containment, checked).
+0059 |   ALL dependent bounds (density floor m, B_4, conditional means M) are computed
+0060 |   on this set, not on the candidate's larger K_J.
+0061 | 
+0062 | ## 3. Method per contract
+0063 | 
+0064 | **(2) Exact finite-torus moments.** a_{2m} = ME[2m] = (1/Z1) sum_n e^{-a n^2}
+0065 | (h n)^{2m}, h = pi/12, a = pi^2/288, computed at 60 dps on |n| <= 70 with
+0066 | certified geometric tails (p = 0..12, e.g. p=0: 1.9e-75, p=12: 3.24e-60) and a
+0067 | blanket rounding allowance ROUND = 1e-45 per quantity.  Never planar rationals:
+0068 | 1 - a_2 = 9.65254179896e-123 > 0 certified at 150 dps (both the spectral and
+0069 | the supplement's 576-sum forms), so a_2 < 1 exactly; planar deviation of a_4,
+0070 | a_6 likewise < 1e-100 certified. Endpoint identities verified in the exact
+0071 | moments: Cov(J|U_0) = diag(a_4 - a_2^2, a_2(a_4-a_2^2)/4, a_2(a_4-a_2^2)/4,
+0072 | (a_6 - a_4^2/a_2)/36) and E[J|U_0=u_0] = (-a_2 b, 0, 0, 0), max deviation
+0073 | 1.6e-61.
+0074 | 
+0075 | **(3) Radius by interval modulus (no sampled rungs).** Every covariance entry
+0076 | of the ten-jet Gamma_r is an exact 1D spectral sum,
+0077 | Cov_ij(r) = ME[B] (1/Z1) sum_n w1 k1^A g_i(k1 r/2) g_j(k1 r/2), with explicit
+0078 | Hermite profiles g_i (smooth at r = 0; cross-validated against the candidate's
+0079 | displayed T_r matrix route with correct sine moments: agreement <= 2.1e-56 at
+0080 | r = 0.5, 0.25, 0.1, 0.025, falsifier F1).  Analytic profile derivative bounds
+0081 | |g_i| <= pb_i, |g_i'| <= pb1_i (proved by |sin theta| <= |theta| and
+0082 | |int_0^theta t sin t dt| <= min(theta^2/2, |theta|^3/3); grid-sanity-checked in
+0083 | F4) give, for r in [0, R]:
+0084 | 
+0085 |     ||d Gamma_r/dr||_F <= L_1 = 19.071156   =>
+0086 |     ||Gamma_r - Gamma_0||_F <= L_1 R = 1.90712e-4.
+0087 | 
+0088 | Endpoint floor of record (supplement §3, author-side PROVED via ten exact
+0089 | Sylvester minors of Gflat - (1/8) I plus the < 1e-102 periodic correction;
+0090 | minors independently reproduced with exact rational arithmetic in falsifier
+0091 | F2): lambda_min(Gamma_0) > 31/250 = 0.124.  This engine's independent eigfloor
+0092 | (0.126553449667289 - 3.19e-60 Frobenius residual - 5.29e-44 tails) is
+0093 | consistent and stronger; the record value is used in the chain.  Hence, for
+0094 | all r in [0, R]:
+0095 | 
+0096 |     lambda_min(Gamma_r) >= lam = 31/250 - L_1 R = 0.123809288439 > 0,
+0097 | 
+0098 | inherited by the six-pin block (Cauchy interlacing) and by the Schur
+0099 | complement S_r (S^{-1} = (Gamma^{-1})_{JJ}), i.e. lambda_min(S_r) >= lam and
+0100 | lambda_min(GU_r) >= lam.  r_G := R = 1e-5 is thereby certified.
+0101 | 
+0102 | **(4) Density floor (contract boxed formula).** On JBOX(R): R_J = sup |j| =
+0103 | 2.000977042; conditional means sup_{[0,R]} |mu_r| <= M = 1.222575834 (exact
+0104 | |mu_0| = a_2 b plus interval correction through L_GU, L_GX, lam); Lambda =
+0105 | 3.000... (Gershgorin upper bound on lambda_max(Cov J) >= lambda_max(S_r),
+0106 | S_r Loewner-below the r-independent Cov J).  Then for every r in [0, R] and
+0107 | j in JBOX(R),
+0108 | 
+0109 |     p_{J|U}(j | u_r) >= m = (2 pi)^-2 Lambda^-2 exp(-(R_J + M)^2 / (2 lam))
+0110 |     exponent <= 41.96491748  =>  m ~ 1.676e-21,  certified floor m >= 10^(-21)
+0111 | 
+0112 | ((2 pi)^-2 > 1/40 exactly; log10 enclosures outward; N_m = 21 exact).
+0113 | Cross-check: m <= 1.2832e-3, the review's thin-box center diagnostic, OK.
+0114 | 
+0115 | **(5) B_3, B_4 (contract §4 regression-operator bounds; residual never assumed
+0116 | stationary).**  A_k = sup_{r,x,|alpha|<=k} ||d^alpha C_r(x)||_2 *
+0117 | sup_r ||Gamma_r^{-1}||_2 <= sqrt(M_{2k} tr_sup) / lam with exact moments
+0118 | M_6 = 15, M_8 = 105 and trace sups from the same interval modulus:
+0119 | A_3 = 71.10596 (six-pin), A_4 = 262.81357 (ten-jet).  Global field moments
+0120 | through the spectral majorant ||f||_{C^p} <= sum_k sqrt(w_k/Z)(1+|k|)^p
+0121 | (|xi_k|+|eta_k|) with full certified Fourier tails: S_3 = 554.3913563 (+/-
+0122 | 4.07e-32), S_4 = 2041.832733 (+/- 1.11e-30), E zeta = 2 sqrt(2/pi),
+0123 | E zeta^4 = 12 + 16/pi:
+0124 | 
+0125 |     E||f||_{C^3}^4 <= mu_4 S_3^4 = 1.6146672e12,   E||f||_{C^4} <= mu_1 S_4 = 3258.2936,
+0126 | 
+0127 |     B_3 <= [1 + (E||f||_{C^3}^4)^{1/4} + A_3((sup E||U_r||^4)^{1/4} + sup|u_r|)]^4
+0128 |          <= 3.790446483e12  <= B3_rat = 3790446482793,
+0129 |     B_4 <= E||f||_{C^4} + A_4(sup E||V10_r|| + sup||(u_r, j)||)
+0130 |          <= 4715.749569,   K <= K_rat = 9432,
+0131 | 
+0132 | using E||U_r||^4 = (tr GU)^2 + 2||GU||_F^2 <= 38.23... (Isserlis) and
+0133 | sup||(u_r, j)|| <= 2.3701308 on [0,R] x JBOX(R).
+0134 | 
+0135 | **(6) Final arithmetic:** §1 above.  c > 0 and r_0 > 0 are exact-rational
+0136 | statements.
+0137 | 
+0138 | ## 4. Remainder ledger (every certified number carries an interval/rational error)
+0139 | 
+0140 | | item | value used | error treatment |
+0141 | |---|---|---|
+0142 | | 1D spectral tails p=0..12 | 1.9e-75 .. 3.24e-60 | exact geometric ratio bound, ratio < 1/2 checked |
+0143 | | rounding allowance ROUND | 1e-45 | 60-dps mpf eps 2^-199 ~ 1.2e-60; magnitudes <= 1e6, <= 1e5 ops |
+0144 | | moments a_{2m} | ME[2m] +/- (tail/Z1 share + ROUND) | upward in all upper bounds |
+0145 | | Poisson/normalization | |Z - 288/pi| = 8.96e-59 | <= 2*tail + ROUND, checked |
+0146 | | a_2 deviation | 9.65254179896e-123 | 150-dps, both forms, 0 < dev < 1e-100 checked |
+0147 | | endpoint eigfloor of record | 31/250 | author-side proved; here: eig residual 3.19e-60 + entry tails 5.29e-44 consistency |
+0148 | | interval modulus L_1 | 19.071156 | analytic pb/pb1 bounds + moment tails + ROUND, upward |
+0149 | | lam (uniform on [0,R]) | 0.123809288439 | = 31/250 - L_1 R - ROUND |
+0150 | | diag/trace/Frobenius sups | entry |Gamma_ij(0)| + C1_ij R + ROUND | upward |
+0151 | | M (mean sup) | 1.222575834 | exact |mu_0| + interval correction terms, upward |
+0152 | | R_J | 2.000977042 | exact sqrt + ROUND, upward |
+0153 | | Lambda | 3.0(+allowances) | Gershgorin on exact moments, upward |
+0154 | | density exponent | <= 41.96491748 | (R_J+M)^2/(2 lam) + ROUND, upward |
+0155 | | m | >= 10^(-21) | log10 enclosures outward; (2 pi)^-2 > 1/40 exact; estimate 1.676e-21 |
+0156 | | S_3, S_4 | 554.3913563, 2041.832733 | + certified 2D shell tails 4.07e-32 / 1.11e-30 + ROUND, upward |
+0157 | | mu_1, mu_4 | 2 sqrt(2/pi), 12 + 16/pi | + ROUND, upward |
+0158 | | B_3, B_4 | <= 3.790446483e12, <= 4715.749569 | all ingredients upward; integer ceilings B3_rat, K_rat |
+0159 | | K, C_Z | <= 9432, <= 15161785931172 | integer outward enclosures |
+0160 | | r_0 | 1/2414592 | exact rational, rounded downward (K_rat >= K) |
+0161 | | c | >= 6.239e-44 >= 10^(-44) | exact Fraction c_lo = 260/(B3_rat 2^40 10^21); power-of-ten floor by integer comparison |
+0162 | | hard checks | 16d + 8 K r_0 = 3/64; 103/3840 > 0; 1+4-2 = 3 | exact Fractions |
+0163 | 
+0164 | ## 5. Executable falsifier
+0165 | 
+0166 | `falsify.py` (exits nonzero on any failure):
+0167 | - F1: covariance engine cross-check, profile route vs the candidate's displayed
+0168 |   T_r Hermite-matrix route with correct sine moments, four rungs (<= 2.1e-56).
+0169 | - F2: exact rational recomputation of the ten leading principal minors of
+0170 |   Gflat - (1/8) I (matches supplement §3: 7/8, 49/64, ..., 203/1073741824) and
+0171 |   the correction-chain arithmetic 1/8 - 1e-102 > 31/250.
+0172 | - F3: a_2 deviation positive, both forms; a_4 = k_24^{(4)}(0),
+0173 |   a_6 = -k_24^{(6)}(0) Poisson identities at 150 dps.
+0174 | - F4: analytic profile bounds |g_i| <= pb_i, |g_i'| <= pb1_i sanity-checked on
+0175 |   theta in [-10, 10].
+0176 | - F5: planar endpoint density diagnostics (supplement §5): 1.121261590e-3 at
+0177 |   (0,2,0,0); 1.282523307e-3 at q = -1/4; planar K_J corner min 5.9833432e-14.
+0178 | - F6: final assembly re-derived from the transcript's certified integers with
+0179 |   exact rationals (c_lo, r_0, hard check).
+0180 | - F7: mutation suite — each defect is rejected with nonzero exit in both modes:
+0181 |   `eigenfloor_up` (upward-rounded eigenfloor 0.126553449817289 rejected),
+0182 |   `hessian_power` (r^3 in place of r^4), `box_width` (16 delta^4 in place of
+0183 |   32 delta^4 r), `planar_moments` (1 - a_2 = 0).
+0184 | - F8: transcript byte-identity (normal vs -O).
+0185 | 
+0186 | Both `lpw_constant.py` and `falsify.py` run under `python` and `python -O`
+0187 | with byte-identical program output (sha256 pairs in RECEIPT.json); run
+0188 | metadata/hashes live in RECEIPT.json, not in program output.  ck() is
+0189 | fail-closed (SystemExit nonzero); no bare asserts; no randomness; no wall
+0190 | clock.
+0191 | 
+0192 | ## 6. Disambiguation notes (not load-bearing for c, r_0)
+0193 | 
+0194 | - RB's part2 rung script zeroes odd-|alpha+beta| covariance pairs; pairs with
+0195 |   odd x-order are sine sums and are nonzero for pin separation t != 0.  Their
+0196 |   endpoint (t = 0) is exact; their rung table carries O(r) entry errors (e.g.
+0197 |   Var(U_6) off by ~8/r^4), which do not affect the endorsed proof or this
+0198 |   certificate: the T_r route with correct sine moments agrees with the profile
+0199 |   route to <= 2.1e-56 (F1), and the profile route reproduces every reference
+0200 |   value (endpoint Schur diag, conditional mean, lambda_min(Gamma_0) =
+0201 |   0.126553449667289, center density 1.2832254e-3 vs RB's 1.2831682e-3, the
+0202 |   4.5e-5 relative gap being precisely the omitted sine terms).
+0203 | - The 1.28e-3 figures are point densities, not floors; the certified m is an
+0204 |   inf over JBOX(R) x [0, R] by the contract's boxed formula.
+0205 | - If a sum-convention C^3 norm were intended instead of the candidate's
+0206 |   max-convention (§4), the field-moment bounds gain a factor 10 (number of
+0207 |   multi-indices |alpha| <= 3); all checks would still pass with the same code
+0208 |   path (constants degrade; positivity unchanged).
+0209 | 
+0210 | ## 7. Scope boundary
+0211 | 
+0212 | This is a constant certificate for the endorsed LPW lower bound only: not a
+0213 | matching 2D upper theorem, not a limiting-coefficient evaluation, not W8's
+0214 | Lambda floor, not WP closure, not P0.1.  The single-rung W8 failure does not
+0215 | enter this construction.  Mathematical positivity of (c, r_0) is reported
+0216 | separately from any usefulness for numerical experiments (contract §6).
+0217 | 
+0218 | ## 8. Deliverables (manifest: MANIFEST.sha256)
+0219 | 
+0220 | `lpw_constant.py` (certifier), `falsify.py` (executable falsifier),
+0221 | `out_normal.txt` / `out_O.txt` (byte-identical transcripts),
+0222 | `falsify_normal.txt` / `falsify_O.txt`, `RECEIPT.json` (environment,
+0223 | dependency versions, input and output hashes), `MANIFEST.sha256`,
+0224 | this report.  Input hashes: candidate cf58f72e...e1a5 (verified); contract
+0225 | 617cee2b...afb5a; endpoint supplement 650b4bca...26d8f.

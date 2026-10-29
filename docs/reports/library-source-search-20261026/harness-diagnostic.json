@@ -1,0 +1,24 @@
+{
+  "cause": "Playwright frame URL cache lagged synchronous renderer replaceState; expected URL was captured too early in driver, not lost browser state.",
+  "observations": [
+    {
+      "stage": "before-back",
+      "width": 390,
+      "scheme": "light",
+      "client_url": "http://127.0.0.1:36945/site/workspace.html?keep=literal%23note&source-q=coefficients#reading-list",
+      "renderer_url": "http://127.0.0.1:36945/site/workspace.html?keep=literal%23note&source-q=zz-no-source-20261026#reading-list"
+    },
+    {
+      "stage": "before-back",
+      "width": 320,
+      "scheme": "light",
+      "client_url": "http://127.0.0.1:36945/site/workspace.html?keep=literal%23note&source-q=coefficients#reading-list",
+      "renderer_url": "http://127.0.0.1:36945/site/workspace.html?keep=literal%23note&source-q=zz-no-source-20261026#reading-list"
+    }
+  ],
+  "repair": "Capture expected location.href in renderer and wait for URL equality after native traversal. Product source unchanged.",
+  "original_candidates": [
+    "candidate/report.json",
+    "history-diagnostic/report.json"
+  ]
+}
