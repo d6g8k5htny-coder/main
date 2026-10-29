@@ -63,9 +63,18 @@ def main():
     old = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else {}
     files = committed_files()
     if args.check:
-        want = {f["path"]: f for f in old.get("committed_files", [])}
+        want = {}
+        duplicates = set()
+        for f in old.get("committed_files", []):
+            if f["path"] in want:
+                duplicates.add(f["path"])
+            want[f["path"]] = f
         have = {f["path"]: f for f in files}
         bad = sorted(set(want) ^ set(have)) + sorted(k for k in want.keys() & have.keys() if want[k] != have[k])
+        bad.extend("duplicate committed path: " + path for path in sorted(duplicates))
+        total = old.get("committed_total_bytes")
+        if type(total) is not int or total != sum(f["bytes"] for f in files):
+            bad.append("committed_total_bytes")
         for k in bad:
             print("MISMATCH", k)
         print("ok" if not bad else f"{len(bad)} mismatches")
