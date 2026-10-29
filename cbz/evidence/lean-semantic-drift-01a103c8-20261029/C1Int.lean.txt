@@ -1,0 +1,8 @@
+import Init
+namespace KernelDrift
+variable (x : Int)
+theorem t : x = x := rfl
+end KernelDrift
+set_option pp.explicit true in
+#check @KernelDrift.t
+#print axioms KernelDrift.t

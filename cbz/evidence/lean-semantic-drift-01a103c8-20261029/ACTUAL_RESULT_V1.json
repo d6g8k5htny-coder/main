@@ -1,0 +1,165 @@
+{
+  "checkout_head_after": "00e5c50d070c246fda4560d7420ad34244201487",
+  "checkout_head_before": "00e5c50d070c246fda4560d7420ad34244201487",
+  "end": "2026-10-29T23:56:57.930799+00:00",
+  "findings": {
+    "all_axiom_reports_empty": true,
+    "all_exit_zero": true,
+    "all_oleans_exist": true,
+    "all_stderr_empty": true,
+    "c1_compiler_statements_differ": true,
+    "c1_interfaces_equal": true,
+    "c3_interfaces_equal": true,
+    "c3_reduced_values_differ": true,
+    "production_unchanged": true
+  },
+  "lean_executable": "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+  "lean_executable_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+  "parser_module_sha256": "ce9a2a462bc38f3bf29b0f4aad6054d39733290b4ac59ed29aa5a02acff7a761",
+  "production_after": {
+    "tools/cbz_drift/crawl.py": "737d1307bf76bd4fab24dffc50952de22f450e6dbc4f85780e53d330f0346600",
+    "tools/cbz_drift/lean_decls.py": "ce9a2a462bc38f3bf29b0f4aad6054d39733290b4ac59ed29aa5a02acff7a761"
+  },
+  "production_before": {
+    "tools/cbz_drift/crawl.py": "737d1307bf76bd4fab24dffc50952de22f450e6dbc4f85780e53d330f0346600",
+    "tools/cbz_drift/lean_decls.py": "ce9a2a462bc38f3bf29b0f4aad6054d39733290b4ac59ed29aa5a02acff7a761"
+  },
+  "runs": {
+    "C1Int": {
+      "argv": [
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-DwarningAsError=true",
+        "-o",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C1Int.olean",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C1Int.lean"
+      ],
+      "cwd": "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1",
+      "declarations": [
+        {
+          "header": ": x = x",
+          "interface": ": x = x",
+          "kind": "theorem",
+          "line": 4,
+          "modifiers": [],
+          "name": "KernelDrift.t",
+          "private": false,
+          "unit": ""
+        }
+      ],
+      "end": "2026-10-29T23:56:57.346923+00:00",
+      "exit_code": 0,
+      "olean_exists": true,
+      "olean_sha256": "ef34a760f0d426daaaeb106a08f585da0728dd651f226de17af19bed03490780",
+      "source_bytes": 175,
+      "source_sha256": "9712e352e644c9445991b811baba2176a501c15e35748c53741f980cff583fc0",
+      "start": "2026-10-29T23:56:57.026995+00:00",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "KernelDrift.t : \u2200 (x : Int), @Eq Int x x\n'KernelDrift.t' does not depend on any axioms\n",
+      "stdout_sha256": "3feed08bc168c6dab62cec7a5c64c3d7a54bec979e95977e20a2d69819a8815d"
+    },
+    "C1Nat": {
+      "argv": [
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-DwarningAsError=true",
+        "-o",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C1Nat.olean",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C1Nat.lean"
+      ],
+      "cwd": "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1",
+      "declarations": [
+        {
+          "header": ": x = x",
+          "interface": ": x = x",
+          "kind": "theorem",
+          "line": 4,
+          "modifiers": [],
+          "name": "KernelDrift.t",
+          "private": false,
+          "unit": ""
+        }
+      ],
+      "end": "2026-10-29T23:56:57.026349+00:00",
+      "exit_code": 0,
+      "olean_exists": true,
+      "olean_sha256": "b221079b7dc759f3e59e994d1b4404791fabf71e845f9f3fdc5c75eff083c31d",
+      "source_bytes": 175,
+      "source_sha256": "69c7ee5d823b305c08dd0c376ef5e9930439d7f30950a1911e79f141b77c99bc",
+      "start": "2026-10-29T23:56:55.178231+00:00",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "KernelDrift.t : \u2200 (x : Nat), @Eq Nat x x\n'KernelDrift.t' does not depend on any axioms\n",
+      "stdout_sha256": "c0143b868cea1a6e63e790e5a6b1ca69e44a67b5ce9eafaeef0ee06109b70409"
+    },
+    "C3One": {
+      "argv": [
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-DwarningAsError=true",
+        "-o",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C3One.olean",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C3One.lean"
+      ],
+      "cwd": "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1",
+      "declarations": [
+        {
+          "header": ": Nat",
+          "interface": ": Nat := by",
+          "kind": "def",
+          "line": 3,
+          "modifiers": [],
+          "name": "KernelDrift.f",
+          "private": false,
+          "unit": ""
+        }
+      ],
+      "end": "2026-10-29T23:56:57.658971+00:00",
+      "exit_code": 0,
+      "olean_exists": true,
+      "olean_sha256": "05194763435b160102ad8615c4e951e69bcdc8248573af4ec0bb1cd6b6c7bb27",
+      "source_bytes": 160,
+      "source_sha256": "6d04ed9b675496bb14de7f473dba4342d173fcba610f0359494cfd5c04275753",
+      "start": "2026-10-29T23:56:57.347429+00:00",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "1\n'KernelDrift.f' does not depend on any axioms\n",
+      "stdout_sha256": "457e394a3813b355a0fc661e4db8c0703941dc7ceeb204baa8d96c9c377b3303"
+    },
+    "C3Two": {
+      "argv": [
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/runtime/unpacked-v4.34.1/lean-4.34.1-darwin_aarch64/bin/lean",
+        "-DwarningAsError=true",
+        "-o",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C3Two.olean",
+        "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1/C3Two.lean"
+      ],
+      "cwd": "/Users/dylanroy/Library/Application Support/Codex-Project-Work/cbz-intent-adversarial-20261029/evidence/lean-semantic-drift-kernel-controls-v1",
+      "declarations": [
+        {
+          "header": ": Nat",
+          "interface": ": Nat := by",
+          "kind": "def",
+          "line": 3,
+          "modifiers": [],
+          "name": "KernelDrift.f",
+          "private": false,
+          "unit": ""
+        }
+      ],
+      "end": "2026-10-29T23:56:57.930626+00:00",
+      "exit_code": 0,
+      "olean_exists": true,
+      "olean_sha256": "6ec7d28307802ecb372d7f65194c619beb21e22163e54a6d7f3ff76a6a1b415b",
+      "source_bytes": 160,
+      "source_sha256": "69a1e5deb8aeb0aafd9d9a8d20f27cc8169d6d6a96f7b7cbbf637f79b011636b",
+      "start": "2026-10-29T23:56:57.660440+00:00",
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "2\n'KernelDrift.f' does not depend on any axioms\n",
+      "stdout_sha256": "67582dc63a6295b9507306706d8fadcc72c04e544197fffc644ca116dc611e41"
+    }
+  },
+  "runtime_version": "Lean (version 4.34.1, arm64-apple-darwin24.6.0, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)\n",
+  "schema_version": 1,
+  "scope": "Pinned Lean Core corroboration of existing PR712 C1 and C3 lexical counterexamples only; not full semantic coverage, fuzzer acceptance, closure or final CBZ-0",
+  "start": "2026-10-29T23:56:54.938642+00:00"
+}

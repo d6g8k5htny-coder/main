@@ -1,0 +1,8 @@
+import Init
+namespace KernelDrift
+def f : Nat := by
+  set_option maxRecDepth 100 in
+  exact 2
+end KernelDrift
+#reduce KernelDrift.f
+#print axioms KernelDrift.f
