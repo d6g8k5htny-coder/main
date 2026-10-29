@@ -734,7 +734,7 @@ The historical axis-envelope point certificate has a [source-bound precision lim
 
 ### Additional exact conditional pair-law declarations
 
-These two declarations are kernel-verified at the linked Math branch commit and remain outside the historical 367-record JSON and its source-classification mapping. The supplied field, elder interface and frame are not constructed by this proof; the intended source-model application remains quarantined. [Exact source and run evidence](cbz/evidence/lifetime-countermodel/observation.json).
+These two declarations are kernel-verified at the linked Math branch commit and remain outside the historical 367-record JSON and its source-classification mapping. The supplied field, elder interface and frame are not constructed by this proof; the intended source-model application remains quarantined. In K-PAIR-001 the upper predicate is an implication and is vacuous when its positive-L or valid-window antecedents fail. The existence of an elder-interface inhabitant is not established for either declaration. [Exact source and run evidence](cbz/evidence/lifetime-countermodel/observation.json).
 
 | ID | Statement | Status | Source | Evidence |
 |---|---|---|---|---|
