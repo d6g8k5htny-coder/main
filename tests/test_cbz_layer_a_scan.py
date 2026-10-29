@@ -100,9 +100,69 @@ class IgnoresNonCode(unittest.TestCase):
         self.assertEqual(tokens("theorem h' : True := trivial\n"), [])
         self.assertEqual(tokens('def native := 3\ndef x := native\n'), [])
 
-    def test_unterminated_constructs_do_not_crash(self):
-        self.assertEqual(tokens('/- never closed sorry'), [])
-        self.assertEqual(tokens('def s := "never closed sorry'), [])
+    def test_name_literals_are_flagged_in_the_safe_direction(self):
+        # `sorry is a Name literal (data), but the lexer treats it as code: a false
+        # positive, never a false negative.
+        self.assertEqual(tokens('def n := `sorry\n'), ['sorry'])
+
+
+class FailsClosed(unittest.TestCase):
+    def test_unterminated_string_raises(self):
+        with self.assertRaises(scan.LexError):
+            scan.scan_text('def s := "open\ntheorem t : False := sorry\n')
+
+    def test_unterminated_block_comment_raises(self):
+        with self.assertRaises(scan.LexError):
+            scan.scan_text('/- open\ntheorem t : False := sorry\n')
+
+    def test_unterminated_raw_string_raises(self):
+        # Without raw-string handling this would lex as a closed plain string.
+        with self.assertRaises(scan.LexError):
+            scan.scan_text('def s := r#"has " quote\ntheorem t : False := trivial\n')
+
+    def test_unterminated_interpolated_string_raises(self):
+        with self.assertRaises(scan.LexError):
+            scan.scan_text('def s := s!"a {f x\n')
+
+
+class ReviewerFalseNegatives(unittest.TestCase):
+    """The six cases 014K reported on #687 (review 5701985906), each now caught."""
+
+    def test_interpolated_hole_is_code(self):
+        self.assertEqual(tokens('def s := s!"value {sorry}"\n'), ['sorry'])
+        self.assertEqual(tokens('def s := m!"{f (sorry)}"\n'), ['sorry'])
+        self.assertEqual(tokens('def s := f!"x {admit} y"\n'), ['admit'])
+
+    def test_interpolated_hole_with_nested_string(self):
+        # A plain-string lexer would end at the inner quote and miss this sorry.
+        self.assertEqual(tokens('def s := s!"a {g "x" sorry} b"\n'), ['sorry'])
+
+    def test_interpolated_nested_braces_and_escapes(self):
+        self.assertEqual(tokens('def s := s!"a {f {x := 1}} \\{sorry} b"\n'), [])
+        self.assertEqual(tokens('def s := s!"a {f {x := sorry}} b"\n'), ['sorry'])
+        # The hole stays open past an inner closing brace; a non-nesting lexer misses this.
+        self.assertEqual(tokens('def s := s!"a {f {x := 1} sorry} b"\n'), ['sorry'])
+
+    def test_plain_string_braces_are_scanned(self):
+        # throwError and similar macros interpolate plain-looking literals.
+        self.assertEqual(tokens('def e := throwError "bad {sorry}"\n'), ['sorry'])
+        self.assertEqual(tokens('def e := throwError "axiom {ax} in {name}"\n'), [])
+        self.assertEqual(tokens('def s := "a lone { brace"\ntheorem t : True := trivial\n'), [])
+
+    def test_skip_kernel_tc(self):
+        self.assertEqual(tokens('set_option debug.skipKernelTC true\n'), ['skipKernelTC'])
+
+    def test_of_reduce_nat_and_trust_compiler(self):
+        self.assertEqual(tokens('theorem t : True := Lean.ofReduceNat f g h\n'), ['ofReduceNat'])
+        self.assertEqual(tokens('theorem t : True := Lean.trustCompiler\n'), ['trustCompiler'])
+
+    def test_add_decl_without_checking(self):
+        self.assertEqual(tokens('def x := Environment.addDeclWithoutChecking\n'), ['addDeclWithoutChecking'])
+
+    def test_native_config_field(self):
+        self.assertEqual(tokens('example : P := by decide (config := { native := true })\n'), ['native:='])
+        self.assertEqual(tokens('example : P := by decide (config := {kernel := false, native := true})\n'),
+                         ['native:='])
 
 
 class ScansTreesWithoutSilentSkips(unittest.TestCase):
@@ -167,6 +227,11 @@ class CommandLine(unittest.TestCase):
     def test_error_exits_one(self):
         code, _ = self._run({'A.lean': b'\xff'})
         self.assertEqual(code, 1)
+
+    def test_unterminated_construct_is_an_error_exit(self):
+        code, out = self._run({'A.lean': b'def s := "open\ntheorem t : False := sorry\n'})
+        self.assertEqual(code, 1)
+        self.assertEqual(len(out['errors']), 1)
 
     def test_allowed_axiom_is_reported_but_not_blocking(self):
         code, out = self._run({'A.lean': b'axiom ok : True\n'}, '--allow-axiom', 'A.lean:1')

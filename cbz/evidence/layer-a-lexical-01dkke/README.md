@@ -4,7 +4,17 @@ Anthropic Claude Opus 5.5, Claude Code session `session_01DKKe26v3CSgdYch8kiJLt9
 
 ## What the scanner establishes, and what it does not (B-006)
 
-`tools/cbz_layer_a_scan.py` reports each **source-level** occurrence of `sorry`, `admit`, `sorryAx`, `axiom`, `native_decide`, `decide +native` and `ofReduceBool` that lies outside comments, string literals and character literals, in every `*.lean` file under the given roots. It skips only `.git/` and `.lake/`, which hold dependencies and build output, not repository sources.
+`tools/cbz_layer_a_scan.py` reports each **source-level** occurrence in code of the following tokens, in every `*.lean` file under the given roots:
+- `sorry`, `admit`, `sorryAx`, `axiom`;
+- `native_decide`, `decide +native`, and the config field `native := …`;
+- `ofReduceBool`, `ofReduceNat`, `trustCompiler`;
+- `skipKernelTC`, `addDeclWithoutChecking`.
+
+"Code" means outside comments, plain string data and character literals. Interpolated strings (`s!`, `m!`, `f!`) are lexed recursively: each `{…}` hole is code. Balanced `{…}` segments of any other string are also scanned; a false positive there is in the safe direction. Name literals such as `` `sorry `` are flagged, which is also the safe direction.
+
+**It fails closed.** An unterminated string, raw string, interpolated string or block comment is an error, with a nonzero exit, never a silent swallow. The scanner skips only `.git/` and `.lake/`, which hold dependencies and build output, not repository sources.
+
+These rules were hardened after 014K's review ([#687 review 5701985906](https://github.com/d6g8k5htny-coder/main/pull/687#pullrequestreview-5701985906)), which found six false negatives and the fail-open behaviour by running its own inputs through the scanner. Each case is now a test with a mutant.
 
 - **It does not establish kernel closure, an axiom set, or the absence of placeholders produced by elaboration.** A macro can expand to `sorry`, and a failed elaboration produces `sorryAx`; the scanner cannot see either.
 - Gate G2, `#print axioms` on the compiled environment, and the compiled-environment auditor that Root selected (Math- `formal/gate.py`) remain the authority for those properties.
@@ -22,13 +32,22 @@ Anthropic Claude Opus 5.5, Claude Code session `session_01DKKe26v3CSgdYch8kiJLt9
 
 **Cross-check.** A raw `grep -E '\b(sorry|admit|sorryAx|axiom|native_decide|ofReduceBool)\b|\+native'` over the same trees finds 23 lines. On reading each one, all 23 are inside doc comments or block comments (for example "No `sorry`, no `native_decide`…") or string literals (`throwError "forbidden transitive axiom {ax} …"`). None is code.
 
-**Open PRs.** The Lean files each open PR changes are scanned too. At 17:16:52Z, 67 open PRs in these six repositories changed 2,237 Lean files between them, with 0 hits. The per-PR data is in `../federation-inventory-01dkke/INVENTORY.json`.
+**Open PRs.** The Lean files each open PR changes are scanned too. At 17:27:22Z, with the hardened scanner, 73 open PRs in these six repositories changed 2,237 Lean files between them, with **0 hits and 0 errors**. The per-PR data is in `../federation-inventory-01dkke/INVENTORY.json`.
+
+The hardened rules also add **no new hit and no lexer error** on the 166 default-branch files. So the stricter, fail-closed lexer handles every real file it was given.
 
 ## Gate G0: the auditor's own verification
 
 `MUTATION_G0.json` comes from `tools/cbz_scanner_mutation_check.py`.
-- The unmutated scanner passes `tests/test_cbz_layer_a_scan.py`, 23 tests.
-- 21 mutants each disable one behaviour: comment, nesting, string, raw-string or char-literal handling; each token; dotted-name splitting; recursion; `.lake` exclusion; error reporting; the exit status; the scope of the allow-list. **All 21 are killed.**
+- The unmutated scanner passes `tests/test_cbz_layer_a_scan.py`, 36 tests.
+- 34 mutants each disable one behaviour:
+  - comment, nesting, plain-string, raw-string or char-literal handling;
+  - interpolation, nested holes, or the brace scan of plain strings;
+  - each fail-closed raise, or the recording of the error;
+  - each of the 12 tokens, the `+native` and `native :=` forms, or the field-position guard for `native :=`;
+  - dotted-name splitting, recursion, `.lake` exclusion, error reporting, the exit status, or the scope of the allow-list.
+
+  **All 34 are killed.** One mutant, which disabled nesting inside holes, first survived. The harness thereby exposed a missing test, and that test was added.
 - A mutation whose target text no longer occurs exactly once counts as a failure. So the list cannot go stale silently. `tests/test_cbz_scanner_mutation_check.py` checks that the harness fails closed on a stale mutation and on a surviving one.
 
 ## Reproduce

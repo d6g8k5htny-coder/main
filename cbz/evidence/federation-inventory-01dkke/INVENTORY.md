@@ -2,25 +2,25 @@
 
 **Scope: PARTIAL — 6 of the 12 repositories accessible to the federation (DB642, #684/6503460941). Not inventoried here: three archived repositories, two private infrastructure repositories and the public profile repository; google-drive was unreachable from this session. Excluded repositories are not counted as zero.**
 
-Generated 2026-10-29T17:16:52+00:00 by `tools/cbz_inventory.py`. Observations only; this file certifies nothing.
+Generated 2026-10-29T17:27:22+00:00 by `tools/cbz_inventory.py`. Observations only; this file certifies nothing.
 Regenerate with the command in this directory's README.md.
 
 ## Repositories
 
 | Repo | Default head | Files | Lean | Workflows | Remote branches (unmerged) | Tags | Open PRs (draft) | Layer A hits (default tree) |
 |---|---|---:|---:|---:|---|---:|---|---|
-| main | `81acc060` | 2826 | 4 | 30 | 233 (230) | 6 | 40 (39) | 0 hits, 0 errors, 4 Lean files |
-| Math- | `8151f592` | 4019 | 162 | 182 | 110 (105) | 1 | 26 (25) | 0 hits, 0 errors, 162 Lean files |
-| governance- | `e396002a` | 42 | 0 | 1 | 6 (5) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
+| main | `81acc060` | 2826 | 4 | 30 | 236 (233) | 6 | 43 (41) | 0 hits, 0 errors, 4 Lean files |
+| Math- | `8151f592` | 4019 | 162 | 182 | 112 (107) | 1 | 28 (25) | 0 hits, 0 errors, 162 Lean files |
+| governance- | `1b62ca2f` | 47 | 0 | 1 | 6 (5) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
 | meta-framework | `0f5894f8` | 473 | 0 | 2 | 7 (6) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
 | query- | `fb4c457b` | 55 | 0 | 2 | 16 (15) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
-| Universal-Law-Workspace | `a4b01682` | 39 | 0 | 2 | 7 (6) | 0 | 1 (0) | 0 hits, 0 errors, 0 Lean files |
+| Universal-Law-Workspace | `a4b01682` | 39 | 0 | 2 | 8 (7) | 0 | 2 (1) | 0 hits, 0 errors, 0 Lean files |
 
 ## Default-branch checks
 
-- **main** `81acc060`: 8 check runs, 2 not success/skipped: architecture / research-architecture=in_progress, build=in_progress
+- **main** `81acc060`: 11 check runs, 0 not success/skipped
 - **Math-** `8151f592`: 7 check runs, 0 not success/skipped
-- **governance-** `e396002a`: 2 check runs, 0 not success/skipped
+- **governance-** `1b62ca2f`: 2 check runs, 0 not success/skipped
 - **meta-framework** `0f5894f8`: 0 check runs, 0 not success/skipped
 - **query-** `fb4c457b`: 1 check runs, 0 not success/skipped
 - **Universal-Law-Workspace** `a4b01682`: 2 check runs, 1 not success/skipped: verify-pins=failure
@@ -69,6 +69,9 @@ Regenerate with the command in this directory's README.md.
 | main | #664 | yes | 2026-10-28 | 0 | 0 | Draft weighted-cusp field comparison: exact prediction and retained ob |
 | main | #674 | yes | 2026-10-27 | 0 | 0 | Draft scientific candidate: V22 generic sector two-height O(r^5) band  |
 | main | #687 | yes | 2026-10-29 | 0 | 0 | cbz: verified Layer A lexical scanner, mutation self-test, federation  |
+| main | #689 | yes | 2026-10-29 | 0 | 0 | fix: authenticate formal rejection evidence and preserve historical so |
+| main | #690 | no | 2026-10-29 | 0 | 0 | Require actual Atlas 3D rendering, picking and focused recovery in hos |
+| main | #691 | yes | 2026-10-29 | 0 | 0 | Record disposition evidence for main's stale open PRs (CBZ-0, #684) |
 | Math- | #370 | yes | 2026-10-14 | 0 | 0 | Soft-fold replay: authenticate full failure messages and ordered contr |
 | Math- | #372 | yes | 2026-10-23 | 0 | 0 | LM006 coefficient: halve enclosure width with exact zero-cell pruning |
 | Math- | #379 | yes | 2026-10-15 | 0 | 0 | Third-order replay: authenticate complete mutant reports and exact con |
@@ -95,7 +98,10 @@ Regenerate with the command in this directory's README.md.
 | Math- | #525 | yes | 2026-10-29 | 0 | 0 | Identify sharp essential action and tiny-gap square-root law |
 | Math- | #526 | yes | 2026-10-29 | 0 | 0 | Complete finite-lifetime moment limits and match essential actions |
 | Math- | #527 | yes | 2026-10-29 | 0 | 0 | Add a mutation-tested Layer A scan for every tracked Lean file (CBZ-0  |
-| Universal-Law-Workspace | #29 | no | 2026-10-29 | 0 | 0 | cbz: cross-repository Layer A lexical scanner and Phase 1 ref evidence |
+| Math- | #528 | no | 2026-10-29 | 0 | 0 | Require compiled determinant admission and quarantine unqualified evid |
+| Math- | #529 | no | 2026-10-29 | 0 | 0 | CBZ-0 Phase 2 evidence: dispositions for all 26 open Math- PRs and 110 |
+| Universal-Law-Workspace | #29 | no | 2026-10-29 | 0 | 0 | cbz: cross-repository Layer A scanner, A3 float census and Phase 1 evi |
+| Universal-Law-Workspace | #30 | yes | 2026-10-29 | 0 | 0 | Bind canonical control inputs to their pinned source commits |
 
 ## Status surfaces present on the default branch
 
@@ -103,14 +109,14 @@ Regenerate with the command in this directory's README.md.
 |---|---|---|---|---|---|---|---|---|
 | main | yes | no | yes | no | no | yes | no | yes |
 | Math- | no | yes | no | no | no | no | no | yes |
-| governance- | no | no | no | no | no | no | no | yes |
+| governance- | yes | no | yes | yes | no | yes | no | yes |
 | meta-framework | no | no | no | no | no | no | no | yes |
 | query- | no | no | no | no | no | no | no | yes |
 | Universal-Law-Workspace | yes | no | yes | no | yes | yes | yes | yes |
 
 ## Local hygiene (this inventory host)
 
-- **main**: worktrees 19, stashes 0, dirty entries 0
+- **main**: worktrees 2, stashes 0, dirty entries 0
 - **Math-**: worktrees 1, stashes 0, dirty entries 0
 - **governance-**: worktrees 1, stashes 0, dirty entries 0
 - **meta-framework**: worktrees 1, stashes 0, dirty entries 0
