@@ -6,7 +6,7 @@
 
 Actual empty-kernel replays: specification901 owned/65,210 dependency closure; smooth222/55,236; C297131/38,531; determinant157/58,421. All indexed literal axiom reports are subsets of `propext`, `Classical.choice`, `Quot.sound`; real source/memory adverse controls passed. Closures overlap. Reproduction: [additional families](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md), [determinant](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md). The original package receipts and failures remain immutable; normalized receipts index observed execution rather than authenticate supplied text.
 
-**200 listed source/application/test obligations are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
+**302 listed source/application/test records are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
 
 Main/Math core literal rows:
 
@@ -578,7 +578,7 @@ Each exact statement, location, blocking mathematical boundary, attempts, isolat
 
 ## Additional adopted archived boundaries
 
-These 16 adopted, source-bound records are included in the 200-row catalog. The corrected Q-8429 source path and exact factor are incorporated in both the catalog and readable boundary.
+These 16 adopted, source-bound records are included in the 302-row catalog. The corrected Q-8429 source path and exact factor are incorporated in both the catalog and readable boundary.
 
 | ID | Statement | Status | Exact boundary |
 |---|---|---|---|
@@ -598,3 +598,112 @@ These 16 adopted, source-bound records are included in the 200-row catalog. The 
 | Q-7524 | Prove all-direction Gaussian rates and global critical-gap split | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
 | Q-7525 | Identify sharp essential action and tiny-gap square-root law | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
 | Q-7526 | Complete finite-lifetime moment limits and match essential actions | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
+
+## Legacy V20 application records
+
+These 102 source-specific application records preserve the dataset's literal statement, scope and obligation. The two definition-only records are support, not theorem obligations. Primary-source links were not authenticated by the original dataset; overlap with other entries has not been resolved and these rows are not independent mathematical discoveries.
+
+| ID | Statement | Status | Exact boundary |
+|---|---|---|---|
+| Q-10001 | Legacy V20 C6-01: Moment consequence | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10001) |
+| Q-10002 | Legacy V20 C6-F: Theorem F | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10002) |
+| Q-10003 | Legacy V20 C6-PALM-Q: Theorem Q + corollaries | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10003) |
+| Q-10004 | Legacy V20 C6-RARE-CPOISSON: Theorem C | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10004) |
+| Q-10005 | Legacy V20 C6-RARE-POISSON: Theorem O | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10005) |
+| Q-10006 | Legacy V20 C6-RARE-REPLICAS: Conditional theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10006) |
+| Q-10007 | Legacy V20 C6-W: Theorem W | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10007) |
+| Q-10008 | Legacy V20 D1-03: Lemma / proof ingredient | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10008) |
+| Q-10009 | Legacy V20 D1-04: Proof ingredient | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10009) |
+| Q-10010 | Legacy V20 D1-A: Theorem A | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10010) |
+| Q-10011 | Legacy V20 D1-B: Theorem B | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10011) |
+| Q-10012 | Legacy V20 D1-C: Theorem C | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10012) |
+| Q-10013 | Legacy V20 D1-CAP-ELDER: reviewed deterministic cap-to-elder interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10013) |
+| Q-10014 | Legacy V20 D1-CAP-HERMITE: reviewed deterministic cap interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10014) |
+| Q-10015 | Legacy V20 D1-CAP-MATRIX: reviewed deterministic matrix envelope | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10015) |
+| Q-10016 | Legacy V20 D1-CAP-RIDGE: reviewed deterministic cap interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10016) |
+| Q-10017 | Legacy V20 D1-COR-CUMULATIVE: Corollary | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10017) |
+| Q-10018 | Legacy V20 D1-CORR-CONG: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10018) |
+| Q-10019 | Legacy V20 D1-CORR-SCOPE: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10019) |
+| Q-10020 | Legacy V20 D1-ELDER-MEAS: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10020) |
+| Q-10021 | Legacy V20 D1-EQ-COMPACT: Equation | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10021) |
+| Q-10022 | Legacy V20 D1-EQ-GLOBAL: Equation | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10022) |
+| Q-10023 | Legacy V20 D1-KR-BOREL: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10023) |
+| Q-10024 | Legacy V20 D1-KR-DOM: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10024) |
+| Q-10025 | Legacy V20 D1-KR-FAR: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10025) |
+| Q-10026 | Legacy V20 D1-KR-JACOB: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10026) |
+| Q-10027 | Legacy V20 D1-KR-KERNEL: Reviewed scoped proof interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10027) |
+| Q-10028 | Legacy V20 D1-LOWER-DIM: Reviewed theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10028) |
+| Q-10029 | Legacy V20 D2-CUMULATIVE-CORRECTION: Corrected reviewed theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10029) |
+| Q-10030 | Legacy V20 D2-LEM-R31: Lemma R3.1 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10030) |
+| Q-10031 | Legacy V20 D2-LEM-R32: Lemma R3.2 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10031) |
+| Q-10032 | Legacy V20 D2-OBS: Supporting identity | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10032) |
+| Q-10033 | Legacy V20 D2-R: Theorem R | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10033) |
+| Q-10034 | Legacy V20 D2-R11-GAUSS: R2–R5 supporting estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10034) |
+| Q-10035 | Legacy V20 D2-R11-INTENSITY: R8–R11 supporting estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10035) |
+| Q-10036 | Legacy V20 D2-R12-JOINT: R13 supporting estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10036) |
+| Q-10037 | Legacy V20 D2-R12-SOFT: R14–R15 supporting estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10037) |
+| Q-10038 | Legacy V20 D2-R12-TAILS: R12 supporting estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10038) |
+| Q-10039 | Legacy V20 D3-01: Certified enclosure | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10039) |
+| Q-10040 | Legacy V20 D3-02: Certified enclosure | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10040) |
+| Q-10041 | Legacy V20 D3-03: Lemma / coefficient identity | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10041) |
+| Q-10042 | Legacy V20 D3-04: Certified comparison | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10042) |
+| Q-10043 | Legacy V20 D3-C3: Reviewed coefficient interface C3 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10043) |
+| Q-10044 | Legacy V20 D3-C4: Reviewed coefficient interface C4 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10044) |
+| Q-10045 | Legacy V20 D3-C5: Reviewed coefficient interface C5 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10045) |
+| Q-10046 | Legacy V20 D4-01: Corollary | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10046) |
+| Q-10047 | Legacy V20 D4-A: Theorem A | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10047) |
+| Q-10048 | Legacy V20 D4-COLLISION: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10048) |
+| Q-10049 | Legacy V20 D4-DET: Lemma / reviewer interface 2 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10049) |
+| Q-10050 | Legacy V20 D4-JET: Lemma / reviewer interface 1 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10050) |
+| Q-10051 | Legacy V20 D4-KERNEL: Proposition / reviewer interface 4 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10051) |
+| Q-10052 | Legacy V20 D4-KR: Proposition / reviewer interface 2 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10052) |
+| Q-10053 | Legacy V20 D4-NUM: Proposition / reviewer interface 2 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10053) |
+| Q-10054 | Legacy V20 D4-REG: Lemma / reviewer interface 1 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10054) |
+| Q-10055 | Legacy V20 D4-REMOTE-PAIR: Factorial bound | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10055) |
+| Q-10056 | Legacy V20 D4-SELECT: Corollary / reviewer interface 6 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10056) |
+| Q-10057 | Legacy V20 D4-TUPLE: Proposition / reviewer interface 5 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10057) |
+| Q-10058 | Legacy V20 D4-Z: Lemma / reviewer interface 3 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10058) |
+| Q-10059 | Legacy V20 D5-ANN-R1: Accepted interface R1 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10059) |
+| Q-10060 | Legacy V20 D5-ANN-R2: Accepted interface R2 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10060) |
+| Q-10061 | Legacy V20 D5-ANN-R3: Accepted interface R3 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10061) |
+| Q-10062 | Legacy V20 D5-ANN-R4: Accepted interface R4 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10062) |
+| Q-10063 | Legacy V20 D5-ANN-R5: Accepted interface R5 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10063) |
+| Q-10064 | Legacy V20 D5-ANN-R6: Accepted interface R6 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10064) |
+| Q-10065 | Legacy V20 D5-ANN-R7: Accepted interface R7 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10065) |
+| Q-10066 | Legacy V20 D5-ANNULUS-ALLHEIGHT: Reviewed theorem interface | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10066) |
+| Q-10067 | Legacy V20 D5-C: Reviewed estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10067) |
+| Q-10068 | Legacy V20 D5-FIXED-ANNULUS-WINDOW: Reviewed local theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10068) |
+| Q-10069 | Legacy V20 D5-G: Reviewed estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10069) |
+| Q-10070 | Legacy V20 D5-I: Reviewed estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10070) |
+| Q-10071 | Legacy V20 D5-INNER-DENSITY: Reviewed sublemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10071) |
+| Q-10072 | Legacy V20 D5-M: Reviewed estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10072) |
+| Q-10073 | Legacy V20 D5-P: Reviewed estimate | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10073) |
+| Q-10074 | Legacy V20 D5-TWOSCALE-S6S21: Reviewed interface packet | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10074) |
+| Q-10075 | Legacy V20 D5d-C: Theorem C_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10075) |
+| Q-10076 | Legacy V20 D5d-F: Corollary F_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10076) |
+| Q-10077 | Legacy V20 D5d-G: Theorem G_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10077) |
+| Q-10078 | Legacy V20 D5d-I: Theorem I_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10078) |
+| Q-10079 | Legacy V20 D5d-L: Lemma D1 | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10079) |
+| Q-10080 | Legacy V20 D5d-M: Corollary M_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10080) |
+| Q-10081 | Legacy V20 D5d-P: Theorem P_d | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10081) |
+| Q-10082 | Legacy V20 H0-ADAPTER: Conditional theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10082) |
+| Q-10083 | Legacy V20 H0-IID: Conditional theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10083) |
+| Q-10084 | Legacy V20 H0-STRUCT: Conditional theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10084) |
+| Q-10085 | Legacy V20 NUM-BIN-EXACT: Conditional lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10085) |
+| Q-10086 | Legacy V20 NUM-BIN-SPECTRAL: Conditional theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10086) |
+| Q-10087 | Legacy V20 P15-01: Sharp constant | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10087) |
+| Q-10088 | Legacy V20 P15-E1: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10088) |
+| Q-10089 | Legacy V20 P15-E2: Lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10089) |
+| Q-10090 | Legacy V20 P15-E3: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10090) |
+| Q-10091 | Legacy V20 P15-F: Theorem F | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10091) |
+| Q-10092 | Legacy V20 P15-L: Lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10092) |
+| Q-10093 | Legacy V20 P15-O1: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10093) |
+| Q-10094 | Legacy V20 P15-O2: Corollary | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10094) |
+| Q-10095 | Legacy V20 P15-O3: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10095) |
+| Q-10096 | Legacy V20 P15-SHARP: Supporting proposition | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10096) |
+| Q-10097 | Legacy V20 P15-STRUCT: Supporting proposition | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10097) |
+| Q-10098 | Legacy V20 P15-T1: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10098) |
+| Q-10099 | Legacy V20 P15-T2: Theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10099) |
+| Q-10100 | Legacy V20 P15-T3: Lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10100) |
+| Q-10101 | Legacy V20 P15-TAIL: Supporting lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10101) |
+| Q-10102 | Legacy V20 SG-01: Qualitative theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10102) |
