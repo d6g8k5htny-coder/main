@@ -39,6 +39,48 @@ class FormalWorkflowShellTests(unittest.TestCase):
         self.assertNotIn('paths:', parent)
         self.assertIn('python -B -S -m unittest discover -s tests -p test_formal_workflow_shell.py -v', self.text)
 
+    def test_required_lane_runs_all_auditor_controls_after_lean_install(self):
+        install = self.text.index('- name: Install elan')
+        controls = self.text.index('- name: Gate controls in both interpreter modes')
+        kernel = self.text.index('- name: Kernel lane')
+        binding = self.text.index('- name: Bind current-run receipt')
+        self.assertLess(install, controls)
+        self.assertLess(controls, kernel)
+        self.assertLess(kernel, binding)
+        body = self.text[controls:self.text.index('- name: Bind current-run receipt', controls)]
+        modules = 'tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory'
+        self.assertIn('python -B -S -m unittest ' + modules + ' -v 2>&1 | tee /tmp/tests-normal.log', body)
+        self.assertIn('python -B -O -S -m unittest ' + modules + ' -v 2>&1 | tee /tmp/tests-optimized.log', body)
+
+    def test_workflow_and_its_regression_are_mandatory_source_bound_controls(self):
+        import json
+        from tools.formal_gate_check import source_check
+        root = WORKFLOW.parents[2]
+        for omitted in ['.github/workflows/formal-verification.yml', 'tests/test_formal_workflow_shell.py']:
+            with tempfile.TemporaryDirectory() as folder:
+                target = Path(folder)
+                manifest = json.loads((root/'formal/manifest.json').read_text())
+                for name in [*manifest['files'], *manifest['unbound_files']]:
+                    path = target/name
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_bytes((root/name).read_bytes())
+                manifest['files'].pop(omitted, None)
+                (target/'formal/manifest.json').write_text(json.dumps(manifest))
+                with self.subTest(omitted=omitted), self.assertRaisesRegex(ValueError, 'unbound formal workflow'):
+                    source_check(target)
+
+    def test_installer_uses_exact_official_release_archive_and_digest(self):
+        start = self.text.index('- name: Install elan')
+        end = self.text.index('- name: Gate controls', start)
+        installer = self.text[start:end]
+        self.assertIn('https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz', installer)
+        self.assertIn("echo '42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan-v4.2.4.tar.gz' | sha256sum -c -", installer)
+        self.assertNotIn('/latest', installer)
+        self.assertNotIn('elan-init.sh', installer)
+        self.assertLess(installer.index('sha256sum -c -'), installer.index('tar -xzf'))
+        self.assertIn('"$install_dir/elan-init" -y --default-toolchain none', installer)
+        self.assertIn('elan" toolchain install "$(cat formal/lean-toolchain)"', installer)
+
     def run_probe(self, pipefail):
         body = probe_body(self.text)
         with tempfile.TemporaryDirectory() as tmp:
