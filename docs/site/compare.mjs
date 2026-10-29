@@ -6,6 +6,7 @@ import {
 } from "./compare-model.mjs?site-release=4036fca2cd4519e4d09f2e19ffd38e64b3b2e6ce1ef20840dc52a9941d77d946";
 import { sourceURL } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
 const $ = (id) => document.getElementById(id);
+const pagerIDs = ["", "-top"];
 let publication,
   generation = 0,
   pages = [],
@@ -19,7 +20,12 @@ function clear() {
   page = 0;
   $("comparison-summary").replaceChildren();
   $("comparison-results").replaceChildren();
-  $("pagination").hidden = true;
+  for (const suffix of pagerIDs) {
+    $("pagination" + suffix).hidden = true;
+    $("previous" + suffix).disabled = true;
+    $("next" + suffix).disabled = true;
+    $("page-status" + suffix).textContent = "";
+  }
   $("share").removeAttribute("href");
 }
 function element(tag, text) {
@@ -95,11 +101,14 @@ function drawPage() {
   }
   if (!pages.length)
     list.append(element("p", "No record differences in these categories."));
-  $("page-status").textContent =
-    `${pages.length ? start + 1 : 0}–${Math.min(start + 20, pages.length)} of ${pages.length} differences`;
-  $("previous").disabled = page === 0;
-  $("next").disabled = start + 20 >= pages.length;
-  $("pagination").hidden = pages.length === 0;
+  const range = `${pages.length ? start + 1 : 0}–${Math.min(start + 20, pages.length)} of ${pages.length} differences`;
+  for (const suffix of pagerIDs) {
+    $("page-status" + suffix).textContent = range;
+    $("previous" + suffix).disabled = page === 0;
+    $("next" + suffix).disabled = start + 20 >= pages.length;
+    $("pagination" + suffix).hidden = pages.length === 0;
+  }
+  $("compare-category-status").textContent = `Showing ${range}.`;
 }
 function render(result, choices, before, after) {
   const summary = $("comparison-summary");
@@ -111,19 +120,23 @@ function render(result, choices, before, after) {
     ),
   );
   const counts = [
-    ["Node records", result.nodes],
-    ["Complete edge records (multiplicity)", result.edges],
-    ["Source commit pins", result.pins],
-    ["Source blob / byte identities", result.content],
-    ["Other / all shared source record fields", result.sourceRecords],
-    ["Added inventory identities", result.addedSources],
-    ["Removed inventory identities", result.removedSources],
-    ["Included excerpt records", result.excerpts],
-    ["Reference identity records", result.references],
+    ["nodes", "Node records", result.nodes],
+    ["edges", "Complete edge records (multiplicity)", result.edges],
+    ["pins", "Source commit pins", result.pins],
+    ["content", "Source blob / byte identities", result.content],
+    [
+      "sourceRecords",
+      "Other / all shared source record fields",
+      result.sourceRecords,
+    ],
+    ["addedSources", "Added inventory identities", result.addedSources],
+    ["removedSources", "Removed inventory identities", result.removedSources],
+    ["excerpts", "Included excerpt records", result.excerpts],
+    ["references", "Reference identity records", result.references],
   ];
   const dl = document.createElement("dl");
   dl.className = "comparison-counts";
-  for (const [label, rows] of counts) {
+  for (const [, label, rows] of counts) {
     dl.append(element("dt", label), element("dd", String(rows.length)));
   }
   summary.append(dl);
@@ -144,11 +157,39 @@ function render(result, choices, before, after) {
     exact.append(a);
   });
   summary.append(exact);
-  pages = counts.flatMap(([kind, rows]) =>
-    rows.map((change) => ({ kind, change })),
+  const filter = element("p", "");
+  const label = element("label", "Difference category ");
+  const select = document.createElement("select");
+  select.id = "compare-category";
+  select.setAttribute("aria-describedby", "compare-category-status");
+  const all = element(
+    "option",
+    `All categories (${counts.reduce((total, [, , rows]) => total + rows.length, 0)})`,
   );
-  page = 0;
-  drawPage();
+  all.value = "all";
+  select.append(all);
+  for (const [key, name, rows] of counts) {
+    const option = element("option", `${name} (${rows.length})`);
+    option.value = key;
+    select.append(option);
+  }
+  label.append(select);
+  filter.append(label);
+  const count = element("p", "");
+  count.id = "compare-category-status";
+  count.setAttribute("role", "status");
+  count.setAttribute("aria-live", "polite");
+  count.setAttribute("aria-atomic", "true");
+  summary.append(filter, count);
+  function changeCategory() {
+    pages = counts
+      .filter(([key]) => select.value === "all" || select.value === key)
+      .flatMap(([, kind, rows]) => rows.map((change) => ({ kind, change })));
+    page = 0;
+    drawPage();
+  }
+  select.addEventListener("change", changeCategory);
+  changeCategory();
 }
 async function compare(push = false) {
   const token = ++generation;
@@ -246,16 +287,18 @@ for (const id of ["from", "to"])
     );
   });
 $("retry").addEventListener("click", initialize);
-$("previous").addEventListener("click", () => {
-  page--;
-  drawPage();
-  $("results-heading").focus();
-});
-$("next").addEventListener("click", () => {
-  page++;
-  drawPage();
-  $("results-heading").focus();
-});
+for (const suffix of pagerIDs) {
+  $("previous" + suffix).addEventListener("click", () => {
+    page--;
+    drawPage();
+    $("results-heading").focus();
+  });
+  $("next" + suffix).addEventListener("click", () => {
+    page++;
+    drawPage();
+    $("results-heading").focus();
+  });
+}
 window.addEventListener("popstate", () => {
   if (!publication) {
     initialize();

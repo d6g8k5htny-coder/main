@@ -1,0 +1,18 @@
+test_complete_multiset_and_actual_streams (__main__.EvidenceControls.test_complete_multiset_and_actual_streams) ... ok
+test_explicit_hash_recovery_preserves_and_reports_inconsistent_capture (__main__.EvidenceControls.test_explicit_hash_recovery_preserves_and_reports_inconsistent_capture) ... ERROR
+test_timing_mask_does_not_hide_residual_or_value_change (__main__.EvidenceControls.test_timing_mask_does_not_hide_residual_or_value_change) ... ok
+test_wrong_recorded_environment_refused (__main__.EvidenceControls.test_wrong_recorded_environment_refused) ... ok
+
+======================================================================
+ERROR: test_explicit_hash_recovery_preserves_and_reports_inconsistent_capture (__main__.EvidenceControls.test_explicit_hash_recovery_preserves_and_reports_inconsistent_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/57388d5ddbb4/ul-main/reviews/zeta_fold_slice_c_openai_20261026/scripts/test_evidence_controls.py", line 82, in test_explicit_hash_recovery_preserves_and_reports_inconsistent_capture
+    report = build.validate_jobs(expected,expected,p,"python",p,{"job0":str(recovered)})
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: validate_jobs() takes 5 positional arguments but 6 were given
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.017s
+
+FAILED (errors=1)

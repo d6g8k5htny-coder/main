@@ -19,6 +19,14 @@ The front and technical layers use the same existing evidence. No second scienti
 
 ## Current source publication
 
+The sticky Research tools strip's **Go to** disclosure keeps Research, current-source search, the reading
+list, Mathematics, Compare and citation/reproduction tools reachable during long
+reading sessions. Its ordinary links work without JavaScript; Formal remains
+script-free. Other current pages add Escape/outside dismissal without trapping
+focus. It is navigation, not a proof search or an activity indicator. Print hides
+the control. Focused checks: `node --test tests/test_reader_jump.mjs` and
+`python3 -B tools/reader_jump_browser_check.py --output browser-evidence/reader-jump`.
+
 `tools/current_site_data.py` resolves public main and Math- commits once, verifies their complete Git trees and the seven acquired source files, and extracts exact indented proof displays. Other inventory rows bind paths and Git blobs; their document bytes are not downloaded. The page calls equation blocks excerpts and keeps their surrounding proof scope available by pinned line links. `tools/current_site_build.py` renders one payload offline into marked current sections and static node pages. Formal remains script-free. Research preserves its dated reading cuts and their source pins, with a separately identified current observation. Generated Research pages use the existing `current.mjs` module to verify the advertised local `current.json` observation and progressively update its clock-derived freshness label (`current`, `stale` or `clock disagreement`); the same observation becomes stale after two hours. The module checks freshness each minute and on page/visibility events; it does not poll for a new observation or refresh editorial reading cuts. Generated current navigation, the observation timestamp and source pins remain readable without JavaScript. Current observations and original dated reading cuts have separate identities.
 
 "Resume this node" appears in the atlas inspector and on each current static node page. Both come from `resumeProjection` in `current-model.mjs`; `tools/current_site_history.py` keeps a Python copy, and `tests/test_current_site_resume.mjs` checks that the two agree on every node. The block names the snapshot's graph commit, path, SHA-256 and observation time, and warns readers to refresh from the live record before any ownership- or head-dependent action. Recorded `review_*` fields are labelled as review records, not as the current task, an owner or completion. Next action, missing input, owner evidence and retained stop read "not recorded in this snapshot" on the snapshot-only projection, because the graph records none of them. The atlas inspector also passes `node-status.json`, the published copy of `records/node_status`, into that same projection. Static node pages stay on the snapshot-only call. An owner object is shown only when `evidence_url` matches the shared comment pattern; `released_url`, when present, stays on that object and the atlas says released. The panel shows the recorded status and `observed_at`, and says stale when `observed_at` is more than 24 hours before the render clock. Status is freshness of that view, not scientific validity, and `scientific_effect` stays NONE. A bare `review_issue` number names no repository, so it is not linked. Continuation links come only from the small site-maintained `RESUME_TASK_RECORDS` table of explicitly identified operational pointers; they are not graph metadata, scientific acceptance or source-binding admission. Archived snapshot pages are unchanged.
@@ -36,7 +44,20 @@ The Atlas inspector leads with the selected record's literal scope (or a separat
 
 An additional focused browser check is `python3 -B tools/atlas_claim_summary_browser_check.py --output browser-evidence/atlas-claim-summary` (packaged Chromium at `/usr/bin/chromium`, or `--browser PATH`). `--observe` records baseline failures without claiming acceptance. Real Orca speech evidence is version- and source-specific; DOM/AX checks alone do not certify spoken output.
 
+The selected claim's **Depends on** and **Used by** cards retain every recorded edge. Required/context labels stay visible; **Recorded relationship** discloses the literal type, dependent → dependency direction and existing downstream counts. Keyboard selection brings an offscreen desktop heading into view while retaining the existing mobile reading route. `node --test tests/test_atlas_relationships.mjs` checks directed/parallel edges and unknown IDs; `python3 -B tools/atlas_relationships_browser_check.py --site docs/site --output browser-evidence/atlas-relationships` checks real keyboard/disclosure/history/visibility and narrow layouts against one admitted observation. `--observe` retains baseline failures; `--base-url URL` replays the same checks on the public origin after source identity verification. No new source mapping, status authority, dependency or spoken-AT qualification is introduced.
+
 ## Verify the reader experience
+
+Compare has synchronized page controls before and after its results. It verifies
+its comparison metadata, registry and selected bytes immediately. Its separate
+source inventory stays pinned and unverified until Sources and scope is opened
+or a source deep link requests it, then uses the existing unchanged verifier.
+This avoids a redundant initial current-payload transfer; it does not share or
+weaken admission. Source-tool loading failures keep an explicit reload retry and
+all static source links. Focused checks: `node --test tests/test_compare_source_panel.mjs`
+and `python3 -B tools/compare_experience_browser_check.py --output
+browser-evidence/compare-experience`; the existing snapshot comparison checks retain
+their byte/registry/refusal coverage after explicitly opening that separate panel.
 
 Persistent source-status reading: `python3 -B -S -m unittest tests.test_current_site_persistent_status` checks current paragraph semantics, exact previous live-page restoration, frozen historical renderer identities and refusal of altered source text or pins. `python3 -B tools/persistent_status_browser_check.py --site docs/site --output browser-evidence/persistent-status` exercises desktop/phone themes, source disclosures, static/no-JavaScript reading and verification failure. Use an admitted matching HTML/payload/meta observation; `--observe` records baseline failures. Actual speech and its platform limits are reported separately in `docs/reports/atlas-persistent-status-20261026`; these browser checks do not certify speech or full accessibility. No production dependency was added.
 
@@ -105,6 +126,16 @@ so its results are not frozen. The dated catalog remains a separate collection.
 These tools appear only after the current snapshot verifies and add no source
 acquisition, mathematical review or storage schema.
 
+**Show more files** retains the current source rows, open acquisition identities
+and source-save controls while appending the next 50 matches. Keyboard activation
+focuses the first newly revealed source, including the final partial batch;
+programmatic loading does not steal focus from another control. Changing or
+restoring a query resets the result window. Focused regression:
+`python3 -B tools/source_list_continuity_browser_check.py --output
+browser-evidence/source-list-continuity`. This uses the real included admitted
+observation, or `--origin URL` for a separately recorded served observation;
+browser DOM checks do not establish source authentication or spoken accessibility.
+
 Focused checks: `node --test tests/test_library_source_search.mjs` and
 `python3 -B tools/library_source_search_browser_check.py --output
 browser-evidence/library-source-search` (optional installed Playwright/Chromium;
@@ -122,6 +153,29 @@ searches are not source citations. Back returns to the same browser-local list.
 Focused checks: `node --test tests/test_reading_list_citation.mjs` and
 `python3 -B tools/reading_list_citation_browser_check.py --browser PATH --output
 browser-evidence/reading-list-citation` (optional pinned browser packages).
+
+## Current-first Library discovery
+
+Home's Library card opens the current collection. After that observation verifies,
+the existing search moves ahead of its provenance disclosure. **File paths** keeps
+the original repository/path matching, append50 results, source identities, saving
+and citation behavior. **Acquired text** searches only the included excerpts and
+source paths, appends ten previews at a time and links exact source lines. It does
+not fetch complete documents or infer mathematical or graph connections. The
+dated catalog and all source/status disclosures remain available.
+
+The collection is presentation state in `library-collection=text`; existing
+`source-q` bookmarks and saved file searches keep their meaning. Excerpt searches
+have share links; they are not silently stored as file searches. A failed source
+admission installs no new search. No-script users retain the static inventory.
+
+Focused checks: `node --test tests/test_library_discovery.mjs` and
+`python3 -B tools/library_discovery_browser_check.py --output
+browser-evidence/library-discovery`. `--site PATH` selects one already admitted
+local site, while `--origin URL` replays an independently identified publication.
+The driver records actual geometry, literal text, file/text paging, keyboard and
+source-link behavior; these are engineering checks, not mathematical acceptance
+or a spoken-AT/full-WCAG certificate.
 
 ## Reading without losing your place
 
@@ -400,12 +454,15 @@ source blob/size/fingerprint and formal manifest identity match the pinned
 evidence. This is a source-document connection, not coefficient or parent proof
 coverage. Its actual package review is REJECTED (AMEND); the chosen row ALIGNED
 does not override the existing all-31-target acceptance contract. Other claims,
-changed sources and older observations with another manifest remain unmapped.
+changed sources and unrecognized manifest identities remain unmapped. The two
+explicit current-source bridges described below connect only to the historical
+artifact; they do not transfer its execution or alignment to a new manifest.
 Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.
 No Lean source, source admission, scientific status or renderer dependency changes.
 
-Reproduce the offline data with python -B tools/atlas_formal_evidence_build.py
---snapshot EXACT_CURRENT_JSON (add --check to compare). It reuses the existing
+Reproduce the historical offline data with python -B tools/atlas_formal_evidence_build.py
+--root HISTORICAL_SOURCE_PROJECTION --snapshot EXACT_HISTORICAL_JSON (add --check
+to compare). Its current-root manifest refusal is intentional. It reuses the existing
 formal source and receipt/log validators; it makes no network call or new Lean
 execution. The pinned original artifact is an input, not an authority for arbitrary
 caller receipts. Execute the focused browser observer with --site GENERATED_SITE
@@ -414,3 +471,55 @@ observation deliberately has a stale manifest and is not the positive fixture.
 Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
 and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
 The browser observer records served-file identities separately from its own driver.
+
+Current-source continuity is reproduced with
+`python -B tools/atlas_formal_source_bridge.py --snapshot QUALIFIED_CURRENT_JSON --check`.
+Manifest8228 has15identical formal files and two changed verification-control
+hashes. Corrected manifesta22f has13identical formal files, two changed control
+hashes, two documentation hashes and two other target annotations. Both full
+manifest hashes are explicitly pinned; all Lean modules, dependencies, selected
+declaration, scope and proof document must match the historical artifact.
+The original3b39receipt, PENDING manifest alignment and REJECTED31-target review
+retain their historical scope. The old two adverse endpoint findings are not a
+verdict on the corrected current package. Unknown manifests still fail closed.
+Existing derivation records cannot be overwritten by another observation.
+
+The exact qualified public observation and reproduction instructions are in
+`docs/reports/atlas-evidence-accessibility-20261026`; its compressed JSON is data,
+not executable proof evidence. The small generated whitelist is a native module;
+no production library or new status authority is added. The inspector's native
+guide explains declarations, assumptions, kernel checking and alignment.
+
+Focused checks: `python -B -m unittest tests.test_atlas_formal_source_bridge` and
+its `-O` equivalent; `node --test tests/test_atlas_formal_source_bridge.mjs`;
+`python -B tools/atlas_source_bridge_browser_check.py --site MATCHED_SITE --output NEW_DIRECTORY`;
+and `python -B tools/atlas_accessibility_regression.py --site MATCHED_SITE --output NEW_DIRECTORY`.
+The latter records actual footer hit targets/clicks, narrow themes, named regions,
+headings, real3D relationship-list keyboard scrolling and source-fetch failure.
+The separate pinned development-only axe audit documents scoped WCAG2.2AA
+coverage and human/AT limitations. It is not a full conformance certificate.
+
+### Reader Go to and visible focus
+
+The native Go to disclosure on the eleven current reader pages shares the existing
+Research tools strip. The strip stays at the top while scrolling, so its closed
+launcher no longer covers source text in the lower corner. It remains available
+while another field has focus. Scripted opening aligns the strip before showing
+the bounded, scrollable menu; native links and script-free Formal retain ordinary
+keyboard/page scrolling without JavaScript. Anchor clearance keeps destinations
+below the strip. Repeating a same-page link opens collapsed disclosure ancestors
+before native navigation, without writing history or redirecting focus. Modified,
+download, new-tab and nonlocal actions keep their native behavior.
+
+Compare's labelled Difference category selector reaches the existing record
+categories directly. All categories remains the default; selecting a category
+resets the twenty-row page view and announces its displayed count. Exact records,
+edge multiplicity, source-pair links, acquisition and refusal rules are unchanged.
+Empty categories remain explicit. New or refused comparisons clear the selector.
+
+`python3 -B tools/website_navigation_browser_check.py --output NEW_DIRECTORY`
+checks passive text visibility, repeated fragment activation and short-viewport
+keyboard access. `--observe` retains failing baselines. Checkout hashes in that
+driver describe local files only; public-code identity needs a separate byte proof.
+Current automated qualification covers Chromium/Linux emulation, not every browser,
+physical device, spoken assistive technology or full WCAG conformance.

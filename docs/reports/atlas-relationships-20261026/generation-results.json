@@ -1,0 +1,61 @@
+[
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_build.py",
+      "--payload",
+      "/workspace/scratch/atlas-refinement-20261026/public-before/site/current.json"
+    ],
+    "exit": 0,
+    "seconds": 5.615585456005647
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_history.py",
+      "publish"
+    ],
+    "exit": 0,
+    "seconds": 3.4975636769959237
+  },
+  {
+    "command": [
+      "git",
+      "add",
+      "docs/site/atlas-relationships.mjs"
+    ],
+    "exit": 0,
+    "seconds": 0.005444426002213731
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/site_asset_release.py"
+    ],
+    "exit": 0,
+    "seconds": 2.0804780979960924
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_history.py",
+      "publish"
+    ],
+    "exit": 0,
+    "seconds": 3.4754969729983713
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/site_asset_release.py",
+      "--check"
+    ],
+    "exit": 0,
+    "seconds": 2.044474917012849
+  }
+]

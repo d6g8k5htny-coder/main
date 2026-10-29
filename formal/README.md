@@ -117,8 +117,8 @@ tree. See the rollout record for the coordination items.
 
 ## Coordination
 
-Find current tasks in [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and coordinate with
-other contributors on [main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+Find current tasks and coordinate with other contributors on the
+[active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619); architecture questions go to [main #666](https://github.com/d6g8k5htny-coder/main/issues/666).
 The pickup itself belongs in the relevant current pull request or work discussion.
 
 - [docs/FORMAL_VERIFICATION.md](../docs/FORMAL_VERIFICATION.md) — lane contract

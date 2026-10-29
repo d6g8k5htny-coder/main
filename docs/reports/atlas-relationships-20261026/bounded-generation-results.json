@@ -1,0 +1,47 @@
+[
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_build.py",
+      "--payload",
+      "/workspace/scratch/atlas-refinement-20261026/preimage/git-source/docs/site/current.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_history.py",
+      "publish"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/site_asset_release.py"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/current_site_history.py",
+      "publish"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/site_asset_release.py",
+      "--check"
+    ],
+    "exit": 0
+  }
+]

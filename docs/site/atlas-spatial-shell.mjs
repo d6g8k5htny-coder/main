@@ -20,6 +20,8 @@ export function installSpatialAtlas({root,onChange}) {
   const instructions=make('p','Drag to orbit · Shift-drag or right-drag to pan · scroll or buttons to zoom. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, Home reset. Layout distance is not proof strength.');
   const legend=make('p','Arrows point from dependent to dependency. Solid: required; dashed: context. Exact recorded relationship types appear below.');
   const disclosure=make('details'),summary=make('summary','Accessible nodes and recorded relationships'),nodes=make('ul'),relations=make('ul');disclosure.open=true;disclosure.append(summary,nodes,relations);section.append(host,instructions,legend,disclosure);
+  nodes.setAttribute('aria-label','Displayed nodes');
+  relations.tabIndex=0;relations.setAttribute('aria-label','Recorded directed relationships, scrollable');
   for(const element of [stage,list,host])element.setAttribute('aria-describedby',((element.getAttribute('aria-describedby')||'')+' atlas-space-status').trim());
   let failureMessage='',active=false,focused=false,data=null,renderer=null,generation=0,lastSignature='',frame=0,disposed=false,intersecting=true;
   const cleanup=[];const listen=(n,t,f)=>{n.addEventListener(t,f);cleanup.push(()=>n.removeEventListener(t,f));};
@@ -29,7 +31,10 @@ export function installSpatialAtlas({root,onChange}) {
   const refused=()=>!get('atlas-error').hidden||!inspector.querySelector('h3');
   const shown=()=>root.getAttribute('data-atlas-panel')!=='diagnostics'&&!(matchMedia('(max-width:720px)').matches&&root.getAttribute('data-atlas-panel')!=='browse');
   function pick(id){buttons().find(button=>nodeID(button)===id)?.click();}
-  function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();status.textContent=message+' Use Graph or List to continue.';}
+  function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();
+    // Hidden graph cards measure zero height. Remeasure after restoring the
+    // fallback, keeping the inspector, focus, source and history intact.
+    onChange({write:false,graphOnly:true});status.textContent=message+' Use Graph or List to continue.';}
   function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);list.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
   function sync(){frame=0;if(disposed)return;
     if(refused()){nodes.replaceChildren();relations.replaceChildren();lastSignature='';status.textContent='Source-bound bookmark refused; no current result count or formal evidence substituted.';if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');else display();return;}
@@ -44,7 +49,7 @@ export function installSpatialAtlas({root,onChange}) {
   }
   function schedule(){if(!frame&&!disposed)frame=requestAnimationFrame(sync);}
   async function activate(){failureMessage='';active=true;const ticket=++generation;lastSignature='';status.textContent='Loading optional 3D renderer…';display();
-    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142'),import('./atlas-spatial.mjs?site-release=51162684675faa743673966321e285a5b533743b5e7b84005f0b4055dbdd5761')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
+    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5'),import('./atlas-spatial.mjs?site-release=93a2035d59ca963df2099d61bcfa1ba499bc82c8a4d21b383f28cea264a84d5b')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
     catch(error){if(ticket===generation&&!disposed)fail(`3D unavailable: ${error.message}.`);}
   }
   function deactivate(){generation++;active=false;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;lastSignature='';display();status.textContent='3D paused. Graph and List retain the selected claim and source snapshot.';}
@@ -59,7 +64,7 @@ export function installSpatialAtlas({root,onChange}) {
   listen(window,'pagehide',()=>{deactivate();});listen(window,'pageshow',()=>restore(location.href));
   function restore(url){const params=new URL(url,location.href).searchParams;focused=params.get('atlas-space-focus')==='dependencies';const wants=params.get('atlas-space')==='3d';if(wants&&!active)activate();else if(!wants&&active)deactivate();else schedule();}
   function decorateURL(url){if(active)url.searchParams.set('atlas-space','3d');else url.searchParams.delete('atlas-space');if(active&&focused)url.searchParams.set('atlas-space-focus','dependencies');else url.searchParams.delete('atlas-space-focus');return url;}
-  import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142').then(m=>m.currentSnapshot).then(snapshot=>{if(!disposed){data=snapshot;schedule();}});
+  import('./current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5').then(m=>m.currentSnapshot).then(snapshot=>{if(!disposed){data=snapshot;schedule();}});
   display();restore(location.href);
   return {restore,decorateURL,dispose(){disposed=true;deactivate();cancelAnimationFrame(frame);observer.disconnect();visibility.disconnect();cleanup.forEach(fn=>fn());}};
 }

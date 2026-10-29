@@ -1,4 +1,4 @@
-import {revealReaderFragment} from './reader-shell.mjs?site-release=0d65593d8fa0d22fc5138ba2410c1b40e980845b04260e7b57e5b38e41e93520';
+import {revealReaderFragment} from './reader-shell.mjs?site-release=1807a8b9c16f5c2dbe8a6e77d0d195dc69602870ee01cbb0dc2fcb2fbc335add';
 
 // Reading aids only. The dated HTML, source pins and scientific scope stay intact.
 const READINGS = Object.freeze([

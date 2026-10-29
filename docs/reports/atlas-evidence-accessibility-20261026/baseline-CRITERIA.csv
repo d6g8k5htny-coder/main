@@ -1,0 +1,56 @@
+criterion,name,level,status,scope_or_limit,evidence
+1.1.1,Non-text Content,A,PARTIAL,Canvas named and49nodes/55relationships available in text alternative; semantic equivalence of all visual information needs specialist assessment.,deep-01/DEEP.json; keyboard-02/KEYBOARD.json
+1.2.1,Audio-only and Video-only Prerecorded,A,NOT_APPLICABLE_TO_TESTED_PAGE,No audio/video player in the tested Atlas page; not a whole-site claim.,Frozen dependencies.html
+1.2.2,Captions Prerecorded,A,NOT_APPLICABLE_TO_TESTED_PAGE,No audio/video player in the tested Atlas page; not a whole-site claim.,Frozen dependencies.html
+1.2.3,Audio Description or Media Alternative,A,NOT_APPLICABLE_TO_TESTED_PAGE,No audio/video player in the tested Atlas page; not a whole-site claim.,Frozen dependencies.html
+1.2.4,Captions Live,AA,NOT_APPLICABLE_TO_TESTED_PAGE,No audio/video player in the tested Atlas page; not a whole-site claim.,Frozen dependencies.html
+1.2.5,Audio Description Prerecorded,AA,NOT_APPLICABLE_TO_TESTED_PAGE,No audio/video player in the tested Atlas page; not a whole-site claim.,Frozen dependencies.html
+1.3.1,Info and Relationships,A,PARTIAL,Native labels/disclosures/landmarks and unique IDs checked; generic-role and heading hierarchy advisories remain.,REPORT.json; F2; A1; A3
+1.3.2,Meaningful Sequence,A,NEEDS_HUMAN,Literal source/card order and written directions inspected; broader meaningful reading and instruction interpretation not independently certified.,Source/inspector AX snapshots
+1.3.3,Sensory Characteristics,A,NEEDS_HUMAN,Literal source/card order and written directions inspected; broader meaningful reading and instruction interpretation not independently certified.,Source/inspector AX snapshots
+1.3.4,Orientation,AA,NOT_ASSESSED,Portrait widths and desktop tested; no full orientation-lock/physical-device assessment.,Scope limit
+1.3.5,Identify Input Purpose,AA,NOT_APPLICABLE_TO_TESTED_PAGE,No personal-data input in the audited controls.,Frozen Atlas controls
+1.4.1,Use of Color,A,PARTIAL,Required/context and scientific classifications retain literal text and documented line differences; color is not the sole recorded label. Complete visual semantics not certified.,Screenshots; text alternatives
+1.4.2,Audio Control,A,NOT_APPLICABLE_TO_TESTED_PAGE,No automatically playing audio.,Frozen Atlas page
+1.4.3,Contrast Minimum,AA,PARTIAL,axe and28 representative computed-color samples checked; pseudo/overlap nodes remain incomplete.,contrast-computed.json; A3
+1.4.4,Resize Text,AA,NOT_ASSESSED,320/390 reflow and spacing are not a separate200percent text-resize qualification.,Scope limit
+1.4.5,Images of Text,AA,NEEDS_HUMAN,DOM labels and canvas/text alternatives inspected; no complete image-of-text necessity review.,Canvas/AX screenshots
+1.4.10,Reflow,AA,OBSERVED_CHECKS_PASS,No horizontal document overflow in320/390 reader/text-spacing cases.2D graph is a bounded panning diagram; internal diagram scrolling is distinguished from page overflow.,REPORT.json manual geometry
+1.4.11,Non-text Contrast,AA,PARTIAL,Selected keyboard rings visually inspected; painted graph edges and all boundaries not exhaustively contrast-certified.,Focus screenshots; A3
+1.4.12,Text Spacing,AA,OBSERVED_CHECKS_PASS,"320/390 both themes with line-height1.5,letter-spacing.12em,word-spacing.16em and paragraph margin2em; visible source/selection/focus and page width preserved.",spacing-reader cases/screenshots
+1.4.13,Content on Hover or Focus,AA,PARTIAL,Native Go-to open/Tab/Escape and disclosures tested; exhaustive hover content inventory not performed.,manual-01/MANUAL.json
+2.1.1,Keyboard,A,OBSERVED_CHECKS_PASS_WITH_PORTABILITY_LIMIT,"Native controls, tabs/disclosures,3D orbit and selection work; 3D scroll-list axe warning countered by real Chromium Tab/scroll. Other browsers/AT not established.",REPORT.json; deep-01; keyboard-02; A2
+2.1.2,No Keyboard Trap,A,OBSERVED_CHECKS_PASS,Tab leaves canvas; Go-to Escape closes/returns focus; tabs and source flows exercised. Not every linked destination.,REPORT.json; manual-01
+2.1.4,Character Key Shortcuts,A,PARTIAL,Canvas arrow/zoom/reset keys apply while focused; no comprehensive shortcut review of all modules.,Canvas keyboard checks
+2.2.1,Timing Adjustable,A,NOT_ASSESSED,Source freshness and announcement debounce observed; all time-dependent interactions not audited.,Scope limit
+2.2.2,Pause Stop Hide,A,PARTIAL,Reduced-motion contexts and on-demand3D renderer used. No sustained motion/flashing certification or pixel-frequency analysis.,Environment; renderer checks
+2.3.1,Three Flashes or Below Threshold,A,PARTIAL,Reduced-motion contexts and on-demand3D renderer used. No sustained motion/flashing certification or pixel-frequency analysis.,Environment; renderer checks
+2.4.1,Bypass Blocks,A,OBSERVED_CHECKS_PASS,Skip-link Enter reaches main; title/main/IDs present; selection→inspector→source order and native menu/tab flows checked.,REPORT.json; manual-01; keyboard-02
+2.4.2,Page Titled,A,OBSERVED_CHECKS_PASS,Skip-link Enter reaches main; title/main/IDs present; selection→inspector→source order and native menu/tab flows checked.,REPORT.json; manual-01; keyboard-02
+2.4.3,Focus Order,A,OBSERVED_CHECKS_PASS,Skip-link Enter reaches main; title/main/IDs present; selection→inspector→source order and native menu/tab flows checked.,REPORT.json; manual-01; keyboard-02
+2.4.4,Link Purpose in Context,A,PARTIAL,Visible literal source references and labelled navigation inspected. Other-page/static-index destination availability outside this capture not qualified.,AX snapshots/screenshots
+2.4.5,Multiple Ways,AA,NOT_ASSESSED,Single Atlas page scope does not establish navigation alternatives throughout the site.,Scope limit
+2.4.6,Headings and Labels,AA,PARTIAL,Control labels checked; heading-order advisory and content comprehension remain.,A1; axe reports
+2.4.7,Focus Visible,AA,OBSERVED_CHECKS_PASS,Source/disclosure/canvas rings visually read and measured; 3D canvas3px and scroll-list UA outline; sampled targets unobscured. Not all possible focus/zoom states.,Keyboard/focus screenshots and measurements
+2.4.11,Focus Not Obscured Minimum,AA,OBSERVED_CHECKS_PASS,Source/disclosure/canvas rings visually read and measured; 3D canvas3px and scroll-list UA outline; sampled targets unobscured. Not all possible focus/zoom states.,Keyboard/focus screenshots and measurements
+2.5.1,Pointer Gestures,A,NOT_ASSESSED,Real footer clicks captured; complete drag/pan/cancel/multipointer alternatives not qualified.,Scope limit
+2.5.2,Pointer Cancellation,A,NOT_ASSESSED,Real footer clicks captured; complete drag/pan/cancel/multipointer alternatives not qualified.,Scope limit
+2.5.3,Label in Name,A,PARTIAL,Visible controls and axe label checks inspected; no exhaustive dictation/voice-control assessment.,axe passes; AX snapshots
+2.5.4,Motion Actuation,A,NOT_APPLICABLE_TO_TESTED_PAGE,No device-motion actuation used.,Frozen Atlas controls
+2.5.7,Dragging Movements,AA,NEEDS_HUMAN,Keyboard orbit is not by itself a single-pointer nondrag alternative. Assess orbit/pan pointer alternatives or applicable essential/UA exception separately.,Scope limit; 3D instructions
+2.5.8,Target Size Minimum,AA,FAIL_CONFIRMED,Footer wrapped targets overlap and misdirect visible-text clicks at320/390 both themes.,F1; deep-01/DEEP.json
+3.1.1,Language of Page,A,OBSERVED_CHECKS_PASS,HTML language en checked.,REPORT.json
+3.1.2,Language of Parts,AA,NOT_ASSESSED,Detailed language-of-parts/math pronunciation assessment requires further reading/AT work.,Scope limit
+3.2.1,On Focus,A,OBSERVED_CHECKS_PASS,Tab arrows focus before activation; explicit Enter/Space selects; typed searches update counts without navigation. Sampled flows only.,REPORT.json; manual-01
+3.2.2,On Input,A,OBSERVED_CHECKS_PASS,Tab arrows focus before activation; explicit Enter/Space selects; typed searches update counts without navigation. Sampled flows only.,REPORT.json; manual-01
+3.2.3,Consistent Navigation,AA,NOT_ASSESSED,One page and linked destinations not a complete site consistency/help audit.,Scope limit
+3.2.4,Consistent Identification,AA,NOT_ASSESSED,One page and linked destinations not a complete site consistency/help audit.,Scope limit
+3.2.6,Consistent Help,A,NOT_ASSESSED,One page and linked destinations not a complete site consistency/help audit.,Scope limit
+3.3.1,Error Identification,A,PARTIAL,Source refusal/fetch/WebGL recovery labels/status and input labels checked; no full user-error/task-understanding study.,Refused/fetch/WebGL cases
+3.3.2,Labels or Instructions,A,PARTIAL,Source refusal/fetch/WebGL recovery labels/status and input labels checked; no full user-error/task-understanding study.,Refused/fetch/WebGL cases
+3.3.3,Error Suggestion,AA,PARTIAL,Source refusal/fetch/WebGL recovery labels/status and input labels checked; no full user-error/task-understanding study.,Refused/fetch/WebGL cases
+3.3.4,Error Prevention Legal Financial Data,AA,NOT_APPLICABLE_TO_TESTED_PAGE,"No legal/financial submission, repeated data-entry workflow or authentication in this page scope.",Scope limit
+3.3.7,Redundant Entry,A,NOT_APPLICABLE_TO_TESTED_PAGE,"No legal/financial submission, repeated data-entry workflow or authentication in this page scope.",Scope limit
+3.3.8,Accessible Authentication Minimum,AA,NOT_APPLICABLE_TO_TESTED_PAGE,"No legal/financial submission, repeated data-entry workflow or authentication in this page scope.",Scope limit
+4.1.2,Name Role Value,A,FAIL_INVALID_ARIA_IN_TESTED_FAILURE_STATE,Source-failure viewport invalid named generic structure; normal generic-container incomplete warnings qualified separately.,F2; A3
+4.1.3,Status Messages,AA,OBSERVED_DOM_CHECKS_PASS_NOT_SPEECH,Search count has live equivalent; equation message arrives after500ms quiet period; source/refusal/WebGL status semantics checked. DOM evidence does not establish actual AT speech.,REPORT.json live message records

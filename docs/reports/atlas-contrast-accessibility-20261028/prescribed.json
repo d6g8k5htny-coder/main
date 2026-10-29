@@ -1,0 +1,216 @@
+{
+  "source": "b43b74388161f624ce7c684542232e97d90bb0b1",
+  "tree": "f42d1100d4f129025aff01be727239e7af0379db",
+  "observed_at": "2026-10-29T00:16:19.405303+00:00",
+  "groups": [
+    {
+      "group": "asset-release-check",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "tools/site_asset_release.py",
+        "--check"
+      ],
+      "exit": 0,
+      "seconds": 2.4238126540003577
+    },
+    {
+      "group": "public-data",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_public_shop_data.py"
+      ],
+      "exit": 0,
+      "seconds": 0.28620737500023097
+    },
+    {
+      "group": "asset-controls",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-m",
+        "unittest",
+        "tests.test_site_asset_release"
+      ],
+      "exit": 0,
+      "seconds": 16.526570818998152
+    },
+    {
+      "group": "prescribed-node",
+      "command": [
+        "node",
+        "--test",
+        "tests/test_public_shop_frontend.mjs",
+        "tests/test_explore_models.mjs",
+        "tests/test_curvature_export.mjs",
+        "tests/test_teaching_export.mjs",
+        "tests/test_pin_export.mjs",
+        "tests/test_palette_export.mjs",
+        "tests/test_figure_png.mjs",
+        "tests/test_reading_list_citation.mjs",
+        "tests/test_reader_navigation.mjs",
+        "tests/test_source_reference.mjs",
+        "tests/test_measurement_model.mjs",
+        "tests/test_dependency_viewer.mjs",
+        "tests/test_museum_frontend.mjs",
+        "tests/test_workspace_navigation.mjs"
+      ],
+      "exit": 0,
+      "seconds": 1.7920295040021301
+    },
+    {
+      "group": "reader-links",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_reader_links.py",
+        "-v"
+      ],
+      "exit": 0,
+      "seconds": 2.6510418959951494
+    },
+    {
+      "group": "museum-data",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_museum_data.py"
+      ],
+      "exit": 0,
+      "seconds": 0.22490219300379977
+    },
+    {
+      "group": "museum-producer",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "tools/museum_check.py"
+      ],
+      "exit": 0,
+      "seconds": 1.7665432410067297
+    },
+    {
+      "group": "museum-node",
+      "command": [
+        "node",
+        "--test",
+        "tests/test_museum_geometry.mjs"
+      ],
+      "exit": 0,
+      "seconds": 0.11879187099839328
+    },
+    {
+      "group": "identity-normal",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-E",
+        "-S",
+        "tests/test_public_shop_check_identity_control.py",
+        "-v"
+      ],
+      "exit": 0,
+      "seconds": 0.19472813599713845
+    },
+    {
+      "group": "identity-optimized",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-E",
+        "-O",
+        "-S",
+        "tests/test_public_shop_check_identity_control.py",
+        "-v"
+      ],
+      "exit": 0,
+      "seconds": 0.3404863320029108
+    },
+    {
+      "group": "public-shop",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "tools/public_shop_check.py"
+      ],
+      "exit": 0,
+      "seconds": 1.2608379800003604
+    },
+    {
+      "group": "required-formal-optimized",
+      "command": [
+        "/home/agent/.local/bin/python3.11",
+        "-B",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_required_formal_check.py",
+        "-v"
+      ],
+      "exit": 0,
+      "seconds": 0.292993397997634
+    },
+    {
+      "group": "remaining-node-inventory",
+      "command": [
+        "node",
+        "--test",
+        "tests/test_atlas_controls.mjs",
+        "tests/test_atlas_formal_evidence.mjs",
+        "tests/test_atlas_formal_source_bridge.mjs",
+        "tests/test_atlas_reader_experience.mjs",
+        "tests/test_atlas_relationships.mjs",
+        "tests/test_atlas_spatial.mjs",
+        "tests/test_atlas_spatial_labels.mjs",
+        "tests/test_brand_identity.mjs",
+        "tests/test_catalog_query.mjs",
+        "tests/test_compare_categories.mjs",
+        "tests/test_compare_source_panel.mjs",
+        "tests/test_current_inventory_acquisition.mjs",
+        "tests/test_current_observation_coherence.mjs",
+        "tests/test_current_site.mjs",
+        "tests/test_current_site_resume.mjs",
+        "tests/test_current_site_shell.mjs",
+        "tests/test_library_source_search.mjs",
+        "tests/test_museum_conditionals.mjs",
+        "tests/test_museum_conditionals_cli.mjs",
+        "tests/test_museum_conditionals_paths.mjs",
+        "tests/test_museum_conditionals_startup.mjs",
+        "tests/test_museum_identity.mjs",
+        "tests/test_node_status_atlas.mjs",
+        "tests/test_reader_experience.mjs",
+        "tests/test_reader_jump.mjs",
+        "tests/test_research_desk.mjs",
+        "tests/test_snapshot_compare.mjs",
+        "tests/test_source_quote.mjs"
+      ],
+      "exit": 0,
+      "seconds": 4.255224831002124
+    }
+  ]
+}

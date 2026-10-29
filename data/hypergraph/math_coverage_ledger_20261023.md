@@ -5,11 +5,120 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
-- Units: **345**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 1 post-cut landing (row 345). The 344-row snapshots described below are retained as history.
-- Have a proof or lemma source file in the repo: **216**. No source file: **129**.
-- Have an implementation (code or refs): **297**. Missing an implementation: **48**.
+- Units: **346**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 2 post-cut landed containers (rows345/346). The earlier344/345-row snapshots described below are retained as history.
+- Have a proof or lemma source file in the repo: **220**. No source file: **126**.
+- Have an implementation (code or refs): **298**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
+
+## Determinant post-511 membership supplement, 28 October 2026
+
+Existing row345 appends exactly17 mathematical source paths and10 Lean
+implementation paths introduced by the landed Math-#512 extension. All old
+four Lean source members, those four implementation members and gate.py remain.
+The same container retains recordMath-#511/laneLANDEDMath-#511, node—/boundN/
+orphan/Drive0; no earlier member or historical snapshot is replaced.
+
+At frozen Math `4a0d51bbd06f0d9ac731a1d1df38f25999797135`, folder
+`frontiers/determinant_moment_20261025` is tree
+`ac09223bce4bd307ad9ccc8b781526c5a26d1a09`; the old#511 tree is
+`8a6d93e67be8b233a4f35251188112ab3f44014a`. The17 new paths are ten
+added Lean modules and seven added SOURCE contracts, literally listed by the
+current manifest. Exact body sizes/Git blobs and exclusions are in
+[the source plan](../../docs/superpowers/plans/2026-10-28-determinant-membership.md).
+
+The already-indexed root import changed from dfe972cb to current770dec72;
+its new dependency closure is not covered merely by the original#511 receipt.
+Modified README/SCOPE/manifest and old unchanged SOURCE_MAP are pinned context,
+not new members. Old proof-module bodies remain unchanged. Native Anthropic
+review6403917675 covers the ten new modules at16f81b9, with disclosed source/
+execution limits; no scientific review or acceptance is reissued here.
+
+The row346INPUT_BINDING declares11determinant inputs at16f81b9: one old
+DeterminantMoment plus these ten new modules. Their literal custody relation is
+retained without logical GRAPH edges or new mathematical applicability claims.
+Copied inputs, raw evidence/tooling and later#514 remain excluded. Older text
+that this supplement was still a gap remains its actual historical snapshot.
+
+All other345rawrows, all1410oldvertexmetadata and346edge identities/non-role
+fields remain exact. Only345source/implementation roles expand. The27new typed
+vertices yield1437; units346/source220/126/implemented298/48/placeholder30/
+bound14 and every graph predicate stay unchanged. No test change is needed.
+No source program, Lean/kernel, gate/checker/replay or CI request ran.
+Scientific effectNONE; broader mathematical artifact accounting remainsOPEN.
+
+## Landed source-derivative container, 28 October 2026
+
+Row346 adds one previously omitted **container**, not18new theorem units:
+`frontiers/source_derivative_gaussian_20261025`, frozen at Math-
+`4a0d51bbd06f0d9ac731a1d1df38f25999797135`, folder tree
+`aa776f39937e40b7aff96471aa097e7a566d8a9a`. Its landed source includes
+18top-level Lean modules,18`SOURCE_*.md` mathematical contracts, README,
+SCOPE and FIELD_CONDITIONING:39source members and18declared Lean implementation
+members. Full per-file identities and the existing scoped reviews are in
+[the source plan](../../docs/superpowers/plans/2026-10-28-source-derivative-membership.md).
+
+Math-#513 landed as `180d6406b0a51b268a152241a70bde6a1b39a142` on26October
+04:45:03UTC; the current frozen folder is byte-identical to its18-module packet.
+The earlier512/513-open-at-cut paragraph below remains historical, verbatim.
+This dated addition does not rewrite that observation or incorporate later
+Draft#514 material. Row345's separate#512 source/implementation expansion
+remains a bounded accounting gap outside this entry.
+
+The row is `LANDED Math-#513`, node—/boundN/`orphan`/Drive0, matching
+existing landed inventory conventions. No Drive name-match was performed for
+this row. INPUT_BINDING's23declared input pins remain in the source packet:
+12smooth-source inputs toward existing118 at e75cb81e and11sibling determinant
+inputs toward existing345 at16f81b9/receipt95e50247. No new logical GRAPH edge,
+source applicability, copied-input member, review authority or predicate follows.
+
+All prior345rawrows/cells,1350vertices and345orderededges remain exact.
+One new row supplies39source/18implementation vertices plus one unit, record
+and lane:1410vertices/346edges. Source220/126 and implemented298/48 are
+container counts; placeholder30, bound14 and all graph-node predicates remain.
+The existing count tests change only their literal completeness expectations.
+No mathematical program, Lean/kernel, gate, replay or scientific review ran.
+Source identity and attributed prior scoped reviews are not theorem acceptance.
+Scientific effectNONE; broader retroactive source/implementation accountingOPEN.
+
+## Declared consumer membership supplement, 28 October 2026
+
+Existing rows 57/62 gain their declared E3/far-elder direct replay wrappers; row 311
+gains the README-named theta numerical companion. No existing trigger/dependency
+member is replaced. Exact source cuts, provenance and numerical limits are in
+[the index qualification](README.md#declared-consumer-memberships-2026-10-28)
+and [the implementation plan](../../docs/superpowers/plans/2026-10-28-row311-theta-consumer.md).
+
+Only these three implementation cells change. All 342 other raw rows and all
+source/node/lane/bound/status/Drive cells remain exact. All 1348 prior vertices
+and 345 ordered hyperedges remain; the E3 wrapper vertex is reused. The two new
+vertices are the far-elder wrapper and theta program. Source 219/126,
+implementation-container 297/48, 30 placeholder-only and 14 bound counts remain.
+No mathematical program, replay, workflow or Lean ran; this is declared
+consumer bookkeeping, not proof-to-code applicability or scientific acceptance.
+
+## Row 311 lobe numerical-consumer membership, 26 October 2026
+
+Only existing row 311's implementation cell gains
+`experiments/zeta_fold_exploration/dbn/lobe_identity.py`, explicitly named by
+zeta README §4 item 4 (lines 571–575). At parent #659 head
+`b5931e6b30b220c8263f27bc891f178e7928cf57`, the program is 869 bytes,
+blob `023541dddbcd224d38df12fa2031487194cfa1c9`, SHA-256
+`3ae66f0ed35026f0d74561c98df360b90118a0163daa430cac69a095e48799d5`.
+The exact README/source identities and distinct #652 historical provenance are
+retained in [the index qualification](README.md#row-311-lobe-numerical-consumer-membership-2026-10-26)
+and [the source-bound record](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6425650646).
+
+This is one declared numerical control at t=0 between the first two scaled
+zeta zeros, not a certified quadrature or proof of a general identity. No new
+direct Bridge/C46/C47-to-program relationship is asserted. Existing source
+memberships and all node/lane/bound/status/Drive cells remain; the other 344
+raw rows are exact. One new implementation vertex yields 1348, with 345 rows
+and ordered hyperedges, source 219/126, implementation 297/48, 30 placeholder-only
+and 14 bound units unchanged. The separate child is stacked on frozen #659;
+that parent's candidate, historical counts and source-only review are not
+expanded. No source program/replay/Lean execution, new theorem unit, scientific
+status or original-review change follows. Complete corpus accounting stays open.
 
 ## Main source-membership supplement, 24 October 2026
 
@@ -186,6 +295,43 @@ not consumed as acceptance here. Counts after this recheck: 345 ledger rows, 133
 30 are placeholder-only; bound 14. All 343 other raw rows are unchanged. Source
 presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A RESULT.
 
+## Canonical primary-source membership, 26 October 2026
+
+The frozen [33-URL source index](https://github.com/d6g8k5htny-coder/main/blob/7c18562242f63804abd24921be8dbfda89cc6b68/custody/claude-01cz-20261025/dependency_index/SOURCE_RESOLUTION_33.json)
+for 104 already-accounted records exposed ten omitted primary source paths in
+existing rows 84, 105, 124, 143, 151, 181, 247 and 257. This amendment appends
+those paths without replacing prior members, creating theorem units or adding
+implementation links. Exact historical pins, byte identities, alias handling
+and bounded consumer qualifications are recorded in the
+[implementation/evidence plan](../../docs/superpowers/plans/2026-10-26-canonical-source-membership.md).
+All canonical source bytes retain their verified identities at Math-
+`f0f90857dcf7586e5195fcb05c0058657fba4003`; the frozen index is not rewritten.
+
+Claude S's [#638](https://github.com/d6g8k5htny-coder/main/pull/638), exact head
+`52f4e50fa5dcab3fbdba0ce769911992632d2a93`, already records the source documents
+for rows 124, 143 and 181. Those identities and limits are reused; its 129-row
+audit is not repeated or adopted wholesale, and its author/reviewer roles are
+not transferred. Its row-257 verifier carrier remains custody-only evidence.
+
+Only rows 124, 143 and 181 change from MISSING source to source present.
+Source-presence counts become 219 / 126; the 345-row denominator is unchanged.
+All 1337 prior vertices/roles remain, ten source vertices yield 1347, and all
+345 ordered hyperedges remain. The other 337 raw rows and every implementation,
+node, bound, status and Drive cell are unchanged, including the separate
+rows-318/345 landing recheck above. Implemented/missing stays 297 / 48, with
+30 placeholder-only containers and 14 bound units.
+
+Existing code co-membership is not full-theorem coverage. Row 143's analytic
+correction has no identified direct computational consumer; row 247's assembled
+reading rule keeps implementation MISSING and does not duplicate row 108's
+bounded transfer controls. Other programs retain finite-algebra, bookkeeping,
+numerical-control or source-custody limits. The tail-load README remains an
+indirect pointer to the already-indexed PROOF, not a byte alias; its
+LOW-P15-T-SOURCE qualification is retained. Historical review outcomes,
+scientific acceptance and open proof obligations do not change. No mathematical
+program, simulation, certificate or Lean execution is supplied. Credit 0;
+OBL OPEN; source accounting only, NOT A RESULT.
+
 ## Ledger
 | # | source | repo | unit | lane | proof/lemma files (sample) | impl | graph node | bound | status | drive hits |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -245,12 +391,12 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 54 | main#527 | Math- | `frontiers/elder_lower_all_d_20260929` | GB-8l | PROOF.md | frontiers/elder_lower_all_d_20260929/lower_all_d_check.py; .github/workflows/elder-lower-all-d.yml | — | N | orphan | 0 |
 | 55 | main#527 | Math- | `frontiers/elder_partner_extremes_20260930` | GB-8l | PROOF.md | frontiers/elder_partner_extremes_20260930/elder.py; frontiers/elder_partner_extremes_20260930/test_elder.py | — | N | orphan | 0 |
 | 56 | main#527 | Math- | `frontiers/elder_selected_extremes_20260930` | GB-8m | NONAUTHOR_REVIEW.md; PROOF.md | MISSING | — | N | orphan | 0 |
-| 57 | main#527 | Math- | `frontiers/elder_third_order_20261001` | GB-8l | PROOF.md | frontiers/elder_third_order_20261001/e3_check.py; .github/workflows/c2-torus-transfer.yml | — | N | orphan | 0 |
+| 57 | main#527 | Math- | `frontiers/elder_third_order_20261001` | GB-8l | PROOF.md | frontiers/elder_third_order_20261001/e3_check.py; .github/workflows/c2-torus-transfer.yml; .github/workflows/elder-third-order.yml | — | N | orphan | 0 |
 | 58 | main#527 | Math- | `frontiers/em_intermediate_elder_20261006` | GB-8b | EM/AUTHOR_READ_COMPLETE_AND_CLAIM.md; EM/CLAIM.md; EM/PROOF.md | frontiers/em_intermediate_elder_20261006/EM/author_controls.py; frontiers/em_intermediate_elder_20261006/replay.py | — | N | orphan | 0 |
 | 59 | main#527 | Math- | `frontiers/equal_height_mass_value_20261001` | GB-8n | MISSING | frontiers/equal_height_mass_value_20261001/equal_height_mass.py; frontiers/equal_height_mass_value_20261001/gamma_explore.py | — | N | orphan | 0 |
 | 60 | main#527 | Math- | `frontiers/extreme_cluster_sampling_20260930` | GB-8s | PROOF.md | frontiers/extreme_cluster_sampling_20260930/extremes.py; frontiers/extreme_cluster_sampling_20260930/ratio_law.py | — | N | orphan | 0 |
 | 61 | main#527 | Math- | `frontiers/far_elder_flat_ridge_20260930` | GB-8l | C89_V1_1_PROOF.md; C89_V1_1_REVIEW.md; C89_V1_PROOF.md | frontiers/far_elder_flat_ridge_20260930/c89_replay.py; frontiers/far_elder_flat_ridge_20260930/c89_reviewer_controls.py | — | N | orphan | 0 |
-| 62 | main#527 | Math- | `frontiers/far_elder_rate_20260930` | GB-8l | ERRATUM_20261004.md; PROOF.md | frontiers/far_elder_rate_20260930/far_elder_check.py; .github/workflows/elder-third-order.yml | — | N | orphan | 0 |
+| 62 | main#527 | Math- | `frontiers/far_elder_rate_20260930` | GB-8l | ERRATUM_20261004.md; PROOF.md | frontiers/far_elder_rate_20260930/far_elder_check.py; .github/workflows/elder-third-order.yml; .github/workflows/far-elder-rate.yml | — | N | orphan | 0 |
 | 63 | main#527 | Math- | `frontiers/far_sector_lifetime_refinement_20261022` | GB-8g | PROOF.md; REVIEW.md | MISSING | — | N | orphan | 0 |
 | 64 | main#527 | Math- | `frontiers/finite_l_d2_coefficient_20261018` | GB-8e | PROOF.md; REVIEW.md | frontiers/finite_l_d2_coefficient_20261018/coefficient.py; frontiers/finite_l_d2_coefficient_20261018/contract.py | — | N | orphan | 0 |
 | 65 | main#527 | Math- | `frontiers/fixed_r_inverse_lifetime_20260930` | GB-8e | PROOF.md | frontiers/fixed_r_inverse_lifetime_20260930/inverse.py; frontiers/fixed_r_inverse_lifetime_20260930/test_inverse.py | — | N | orphan | 0 |
@@ -272,7 +418,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 81 | main#527 | Math- | `frontiers/ordinary_short_bar_occurrence_20261001` | GB-8s | PROOF.md | frontiers/ordinary_short_bar_occurrence_20261001/check.py; frontiers/ordinary_short_bar_occurrence_20261001/test_check.py | — | N | orphan | 0 |
 | 82 | main#527 | Math- | `frontiers/ordinary_short_bar_occurrence_all_d_20261001` | GB-8s | MISSING | frontiers/ordinary_short_bar_occurrence_all_d_20261001/check.py; frontiers/ordinary_short_bar_occurrence_all_d_20261001/test_check.py | — | N | orphan | 0 |
 | 83 | main#527 | Math- | `frontiers/original_finite_l_gaussian_binding_20261017` | GB-8w | PROOF.md; REVIEW.md; focused-tensor-normalization/FOCUSED_TENSOR_NORMALIZATION_REVIEW.md | MISSING | — | N | orphan | 0 |
-| 84 | main#527 | Math- | `frontiers/p15_bipartite_overlap_20260928` | GB-8s | PROOF.md | frontiers/p15_bipartite_overlap_20260928/overlap.py; frontiers/p15_bipartite_overlap_20260928/run_validation.py | — | N | orphan | 0 |
+| 84 | main#527 | Math- | `frontiers/p15_bipartite_overlap_20260928` | GB-8s | PROOF.md; EVEN_CAPACITY_EXTENSION.md | frontiers/p15_bipartite_overlap_20260928/overlap.py; frontiers/p15_bipartite_overlap_20260928/run_validation.py | — | N | orphan | 0 |
 | 85 | main#527 | Math- | `frontiers/p15_tail_load_20260928` | GB-8s | PROOF.md | frontiers/p15_tail_load_20260928/certificate.py; frontiers/p15_tail_load_20260928/test_certificate.py | — | N | orphan | 0 |
 | 86 | main#527 | Math- | `frontiers/planar_compact_k_chain_20261006` | GB-8n | A4_1/CLAIM.md; A4_1/ERRATUM_E1.md; A4_1/PROOF.md | frontiers/planar_compact_k_chain_20261006/A4_1/author_controls.py; frontiers/planar_compact_k_chain_20261006/A4_2/author_controls.py | — | N | orphan | 0 |
 | 87 | main#527 | Math- | `frontiers/planar_cubic_cluster_20260929` | GB-8n | PROOF.md | frontiers/planar_cubic_cluster_20260929/cubic.py; frontiers/planar_cubic_cluster_20260929/test_cubic.py | — | N | orphan | 0 |
@@ -293,7 +439,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 102 | main#527 | Math- | `frontiers/replacement_bar_occurrence_20261001` | GB-8s | PROOF.md; sources/c50/PROOF.md | frontiers/replacement_bar_occurrence_20261001/check_exact.py; frontiers/replacement_bar_occurrence_20261001/test_exact.py | — | N | orphan | 0 |
 | 103 | main#527 | Math- | `frontiers/rn_annulus_bridge_20260925` | GB-7/graph | PROOF.md | frontiers/rn_annulus_bridge_20260925/annulus_bridge.py; frontiers/rn_annulus_bridge_20260925/run_validation.py | math.d5-component.annulus-proof | Y | bound | 0 |
 | 104 | main#527 | Math- | `frontiers/rn_mesoscopic_20260925` | GB-8d | PROOF.md | MISSING | — | N | orphan | 0 |
-| 105 | main#527 | Math- | `frontiers/rn_thin_tube_20260925` | GB-7/graph | PROOF.md | frontiers/rn_thin_tube_20260925/annulus.py; frontiers/rn_thin_tube_20260925/replay_two_scale.py | math.rn-fixed-annulus-window | N | unbound | 0 |
+| 105 | main#527 | Math- | `frontiers/rn_thin_tube_20260925` | GB-7/graph | PROOF.md; FIXED_ANNULUS_CANDIDATE.md; TWO_SCALE_ADDENDUM.md | frontiers/rn_thin_tube_20260925/annulus.py; frontiers/rn_thin_tube_20260925/replay_two_scale.py | math.rn-fixed-annulus-window | N | unbound | 0 |
 | 106 | main#527 | Math- | `frontiers/sard_g_a2_parameter_20260929` | GB-8n | PROOF.md | frontiers/sard_g_a2_parameter_20260929/check.py; frontiers/sard_g_a2_parameter_20260929/v2/a2.py | — | N | orphan | 0 |
 | 107 | main#527 | Math- | `frontiers/sard_g_a2_regularity_20260929` | GB-8n | PROOF.md | frontiers/sard_g_a2_regularity_20260929/a2_check.py; .github/workflows/sard-g-a2-regularity.yml | — | N | orphan | 0 |
 | 108 | main#527 | Math- | `frontiers/sard_g_pinned_transfer_20260929` | GB-8c | PROOF.md | frontiers/sard_g_pinned_transfer_20260929/transfer_check.py; .github/workflows/sard-g-pinned-transfer.yml | — | N | orphan | 0 |
@@ -312,7 +458,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 121 | main#527 | Math- | `frontiers/subpin_collision_20261002` | GB-8t | PROOF.md | frontiers/subpin_collision_20261002/controls.py | — | N | orphan | 0 |
 | 122 | main#527 | Math- | `frontiers/third_order_coefficient_20261001` | GB-8i | MISSING | frontiers/third_order_coefficient_20261001/c2_check.py; .github/workflows/candidate-parity-rate.yml | — | N | orphan | 0 |
 | 123 | main#527 | Math- | `frontiers/third_order_rate_20261001` | GB-8o | PROOF.md | frontiers/third_order_rate_20261001/r37_check.py; .github/workflows/candidate-parity-rate.yml | — | N | orphan | 0 |
-| 124 | main#527 | Math- | `frontiers/three_fronts_20260924` | GB-7/graph | MISSING | frontiers/three_fronts_20260924/frontier_math.py; frontiers/three_fronts_20260924/run_validation.py | math.lifetime-remainder, math.p15-price-boundary, math.rn-count-interface | N | unbound | 0 |
+| 124 | main#527 | Math- | `frontiers/three_fronts_20260924` | GB-7/graph | LIFETIME_REMAINDER.md; P15_REALIZED_COVERS.md | frontiers/three_fronts_20260924/frontier_math.py; frontiers/three_fronts_20260924/run_validation.py | math.lifetime-remainder, math.p15-price-boundary, math.rn-count-interface | N | unbound | 0 |
 | 125 | main#527 | Math- | `frontiers/tl_soft_layer_20261006` | GB-8o | TL/AUTHOR_ROUND_NOTE_AND_CLAIM.md; TL/CLAIM.md; TL/PROOF.md | frontiers/tl_soft_layer_20261006/TL/author_controls.py; frontiers/tl_soft_layer_20261006/replay.py | — | N | orphan | 0 |
 | 126 | main#527 | Math- | `frontiers/ts_small_kappa_20261006` | GB-8o | TS/AUTHOR_READ_COMPLETE_AND_CLAIM.md; TS/CLAIM.md; TS/PROOF.md | frontiers/ts_small_kappa_20261006/TS/author_controls.py; frontiers/ts_small_kappa_20261006/replay.py | — | N | orphan | 0 |
 | 127 | main#527 | Math- | `frontiers/two_scale_cluster_geometry_20260929` | GB-8t | REVIEW_RECORD.json; REVIEW_RECORD.md | frontiers/two_scale_cluster_geometry_20260929/geometry.py; frontiers/two_scale_cluster_geometry_20260929/test_custody.py | — | N | orphan | 0 |
@@ -331,7 +477,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 140 | main#527 | Math- | `reviews/c7_total_protocol_20261006` | GB-8m | MISSING | MISSING | — | N | orphan | 0 |
 | 141 | main#527 | Math- | `reviews/candidates_pending_20260928` | GB-8u | MISSING | .github/workflows/c6-witness-collision-reconciliation.yml | — | N | orphan | 0 |
 | 142 | main#527 | Math- | `reviews/cap_i4_d3_spectral_adapter_20261005` | GB-8i | PROOF.md | reviews/cap_i4_d3_spectral_adapter_20261005/algebra.py; reviews/cap_i4_d3_spectral_adapter_20261005/replay.py | — | N | orphan | 0 |
-| 143 | main#527 | Math- | `reviews/collision_mechanism_20260925` | GB-8u | MISSING | reviews/collision_mechanism_20260925/exact_checks.py; .github/workflows/collision-mechanism-checks.yml | — | N | orphan | 0 |
+| 143 | main#527 | Math- | `reviews/collision_mechanism_20260925` | GB-8u | CUMULATIVE_TRANSFER_CORRECTION.md | reviews/collision_mechanism_20260925/exact_checks.py; .github/workflows/collision-mechanism-checks.yml | — | N | orphan | 0 |
 | 144 | main#527 | Math- | `reviews/contact_angular_tail_20260925` | GB-8u | MISSING | reviews/contact_angular_tail_20260925/angular_contact.py; reviews/contact_angular_tail_20260925/diagnostic.py | — | N | orphan | 0 |
 | 145 | main#527 | Math- | `reviews/contact_kernel_substitute_20260926` | GB-8u | MISSING | reviews/contact_kernel_substitute_20260926/verify_substitute.py | — | N | orphan | 0 |
 | 146 | main#527 | Math- | `reviews/contact_kernel_tail_20260925` | GB-8u | MISSING | reviews/contact_kernel_tail_20260925/contact_tools.py; reviews/contact_kernel_tail_20260925/run_validation.py | — | N | orphan | 0 |
@@ -339,7 +485,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 148 | main#527 | Math- | `reviews/d0_custody_audit_20260926` | GB-7/graph | MISSING | main:architecture/graph-artifact-bindings.v2.json | regional.fixed-annulus.high-jet-route | Y | bound | 0 |
 | 149 | main#527 | Math- | `reviews/d1_cap_elder_partner_second_pass_claude_20260930` | GB-8f | REVIEW.md | reviews/d1_cap_elder_partner_second_pass_claude_20260930/cap_maximin_check.py; .github/workflows/cap-first-exit-lean.yml | — | N | orphan | 0 |
 | 150 | main#527 | Math- | `reviews/d1_cde_full_depth_claude_20260929` | GB-8f | REVIEW.md | reviews/d1_cde_full_depth_claude_20260929/cde_review_check.py; .github/workflows/d1-cde-fulldepth-review.yml | — | N | orphan | 0 |
-| 151 | main#527 | Math- | `reviews/d1_chain_reconciliation_20260928` | GB-7/graph | RECOVERED_REVIEWS.json | reviews/d1_chain_reconciliation_20260928/reconciliation_check.py; .github/workflows/c8-lifetime-difference-constant.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.d1-component.reconciliation-record, math.d1-component.section9-replacement-v1_1, math.uniform-matrix-cap-lifetime | Y | bound | 0 |
+| 151 | main#527 | Math- | `reviews/d1_chain_reconciliation_20260928` | GB-7/graph | RECOVERED_REVIEWS.json; RECONCILIATION.md | reviews/d1_chain_reconciliation_20260928/reconciliation_check.py; .github/workflows/c8-lifetime-difference-constant.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.d1-component.reconciliation-record, math.d1-component.section9-replacement-v1_1, math.uniform-matrix-cap-lifetime | Y | bound | 0 |
 | 152 | main#527 | Math- | `reviews/d1_elder_lower_claude_20260928` | GB-8f | REVIEW.md | reviews/d1_elder_lower_claude_20260928/elder_lower_exact_check.py; .github/workflows/elder-lower-review.yml | — | N | orphan | 0 |
 | 153 | main#527 | Math- | `reviews/d1_external_audit_20260930` | GB-8f | MISSING | reviews/d1_external_audit_20260930/cap_audit.py; reviews/d1_external_audit_20260930/test_cap_audit.py | — | N | orphan | 0 |
 | 154 | main#527 | Math- | `reviews/d1_section9_borel_grok_lucas_20260928` | GB-8g | REVIEW.md | MISSING | — | N | orphan | 0 |
@@ -369,7 +515,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 178 | main#527 | Math- | `reviews/d5_pin_neighborhood_20260926` | GB-8c | REVIEW.md | reviews/d5_pin_neighborhood_20260926/check_pin_chart.py; main:tests/test_museum_data.py | — | N | orphan | 0 |
 | 179 | main#527 | Math- | `reviews/d5_punctured_pin_continuum_claude_20260929` | GB-7/graph | REVIEW.md | reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-component.punctured-pin-continuum-check, math.d5-component.punctured-pin-continuum-review | Y | bound | 0 |
 | 180 | main#527 | Math- | `reviews/d5_punctured_pin_nonauthor_20260928` | GB-7/graph | REVIEW.md | reviews/d5_punctured_pin_nonauthor_20260928/punctured_pin_check.py; main:architecture/graph-artifact-bindings.v2.json | math.d5-component.punctured-pin-review-111 | Y | bound | 0 |
-| 181 | main#527 | Math- | `reviews/d5_reconciliation_20260929` | GB-7/graph | MISSING | reviews/d5_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-pin-neighborhood-first-moment, math.rn-region.intermediate-r-to-rho, math.rn-region.mesoscopic-scaled-annulus, math.rn-region.pin-collision, math.rn-region.witness-collision | Y | bound | 0 |
+| 181 | main#527 | Math- | `reviews/d5_reconciliation_20260929` | GB-7/graph | RECONCILIATION.md | reviews/d5_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-pin-neighborhood-first-moment, math.rn-region.intermediate-r-to-rho, math.rn-region.mesoscopic-scaled-annulus, math.rn-region.pin-collision, math.rn-region.witness-collision | Y | bound | 0 |
 | 182 | main#527 | Math- | `reviews/d5_remote_collision_grok_20260928` | GB-8c | REVIEW.md | .github/workflows/c6-witness-collision-reconciliation.yml | — | N | orphan | 0 |
 | 183 | main#527 | Math- | `reviews/d5_short_edge_20260928` | GB-8c | MISSING | reviews/d5_short_edge_20260928/finite_controls.py | — | N | orphan | 0 |
 | 184 | main#527 | Math- | `reviews/direct_import_trigger_coverage_20261006` | GB-8w | MISSING | MISSING | — | N | orphan | 0 |
@@ -435,7 +581,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 244 | main#527 | Math- | `reviews/remote_pair_law_claude_20260928` | GB-8d | REVIEW.md | reviews/remote_pair_law_claude_20260928/remote_pair_review_check.py; .github/workflows/remote-pair-law-review.yml | — | N | orphan | 0 |
 | 245 | main#527 | Math- | `reviews/replacement_20260925_pr19_pr21` | GB-8w | REVIEW.md; TWO_SCALE_REVIEW.md | reviews/replacement_20260925_pr19_pr21/check_interfaces.py; reviews/replacement_20260925_pr19_pr21/check_two_scale.py | — | N | orphan | 0 |
 | 246 | main#527 | Math- | `reviews/retrofit_20261006` | GB-8w | CONTRACT.md; CONTRACT_EXAMPLE.json | main:tests/test_reader_links.py | — | N | orphan | 0 |
-| 247 | main#527 | Math- | `reviews/sard_closure_integration_20260929` | GB-8o | HARPER_REVIEW_RECORD.md; TRANSFER_REVIEW.md | MISSING | — | N | orphan | 0 |
+| 247 | main#527 | Math- | `reviews/sard_closure_integration_20260929` | GB-8o | HARPER_REVIEW_RECORD.md; TRANSFER_REVIEW.md; READING_RULE.md | MISSING | — | N | orphan | 0 |
 | 248 | main#527 | Math- | `reviews/sard_g_a2_fixed_frame_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_a2_fixed_frame_claude_20260929/a2ff_review_check.py; .github/workflows/sard-g-a2-fixed-frame-review.yml | — | N | orphan | 0 |
 | 249 | main#527 | Math- | `reviews/sard_g_r1r2_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_r1r2_claude_20260929/r1r2_review_check.py; .github/workflows/sard-g-r1r2-review.yml | — | N | orphan | 0 |
 | 250 | main#527 | Math- | `reviews/sard_g_r3r4_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_r3r4_claude_20260929/r3r4_review_check.py; .github/workflows/sard-g-r3r4-review.yml | — | N | orphan | 0 |
@@ -445,7 +591,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 254 | main#527 | Math- | `reviews/weight_perturbation_new7_20261005` | GB-8x | REVIEW.md | MISSING | — | N | orphan | 0 |
 | 255 | main#527 | Math- | `imports/gp_data_114_embedded_20260930` | GB-8t | MISSING | imports/gp_data_114_embedded_20260930/GP-DATA-114-v1.0_uniform_q_degree4_interval.py; imports/gp_data_114_embedded_20260930/inert_decoder.py | — | N | orphan | 0 |
 | 256 | main#527 | Math- | `imports/hardening_ebedb780` | GB-8t | MISSING | imports/hardening_ebedb780/verify.py; .github/workflows/hardening-proof-custody.yml | — | N | orphan | 0 |
-| 257 | main#527 | Math- | `imports/lifetime_parent_20260925` | GB-7/graph | ERRATUM_CONGRUENCE.md; ERRATUM_POINTER.md; MARKED_CYLINDER_CAP_PROOF.md | imports/lifetime_parent_20260925/verify.py; .github/workflows/c6-fourier-cutoff.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.uniform-matrix-cap-lifetime | N | unbound | 0 |
+| 257 | main#527 | Math- | `imports/lifetime_parent_20260925` | GB-7/graph | ERRATUM_CONGRUENCE.md; ERRATUM_POINTER.md; MARKED_CYLINDER_CAP_PROOF.md; UNIFORM_MATRIX_CAP_AND_LIFETIME.md | imports/lifetime_parent_20260925/verify.py; .github/workflows/c6-fourier-cutoff.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.uniform-matrix-cap-lifetime | N | unbound | 0 |
 | 258 | main#527 | Math- | `imports/transverse_contact_library_20260927` | GB-8t | companions/COLLISION_TRANSFER_THEOREM.md | imports/transverse_contact_library_20260927/companions/diagnostic_kernel.py; imports/transverse_contact_library_20260927/companions/exact_checks.py | — | N | orphan | 0 |
 | 259 | main#527 | Math- | `imports/upper2d_h5_ledgers_20260926` | GB-8t | REVIEW.md | imports/upper2d_h5_ledgers_20260926/verify.py; .github/workflows/h5-rim-contract.yml | — | N | orphan | 0 |
 | 260 | main#527 | Math- | `imports/upper2d_stage_e_20260926` | GB-8t | REVIEW.md | imports/upper2d_stage_e_20260926/raw/B1_taxonomy/b1_falsifier.py; imports/upper2d_stage_e_20260926/raw/C1_alpha_intensity/c1_grid.py | — | N | orphan | 0 |
@@ -499,7 +645,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 308 | main#527 | main | `experiments/reactor_v0` | GB-8r | MISSING | experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py | — | N | orphan | 0 |
 | 309 | main#527 | main | `experiments/semantic_memory` | GB-8r | MISSING | experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml | — | N | orphan | 0 |
 | 310 | main#527 | main | `experiments/universality` | GB-8r | experiments/universality/AMPLITUDE_MIXTURE_FALSIFIER.md; experiments/universality/PROTOCOL.md; experiments/universality/README.md; experiments/universality/VALIDATION.md; experiments/universality/finite_candidate_lifetime/PROOF.md; experiments/universality/finite_candidate_lifetime/REVIEW.md; experiments/universality/finite_contact_genericity/PROOF.md; experiments/universality/finite_contact_genericity/REVIEW.md; experiments/universality/finite_elder_transfer/PROOF.md; experiments/universality/finite_elder_transfer/REVIEW.md; experiments/universality/finite_fold_chart/PROOF.md; experiments/universality/finite_fold_chart/REVIEW.md; experiments/universality/finite_gaussian_contact/PROOF.md; experiments/universality/finite_gaussian_contact/REVIEW.md; experiments/universality/finite_h0_lifetime/PROOF.md; experiments/universality/finite_h0_lifetime/REVIEW.md; experiments/universality/finite_weighted_fold_window/PROOF.md; experiments/universality/finite_weighted_fold_window/REVIEW.md; experiments/universality/fold_structural_universality/PROOF.md; experiments/universality/fold_structural_universality/REVIEW.md; experiments/universality/higher_homology_fold/PROOF.md; experiments/universality/higher_homology_fold/REVIEW.md; experiments/universality/iid_short_bar_process/PROOF.md; experiments/universality/iid_short_bar_process/REVIEW.md; experiments/universality/periodized_gaussian_h0/PROOF.md; experiments/universality/periodized_gaussian_h0/REVIEW.md; experiments/universality/spectral_gaussian_admission/PROOF.md; experiments/universality/spectral_gaussian_admission/REVIEW.md | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
-| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py | — | N | orphan | 0 |
+| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py; experiments/zeta_fold_exploration/dbn/lobe_identity.py; experiments/zeta_fold_exploration/theta/project_theta_checks.py | — | N | orphan | 0 |
 | 312 | main#527 | main | `formal/UniversalLaw` | GB-8p | main:formal/sources/side24_v1/PROOF.md; main:formal/sources/side24_v1/ENCLOSURE.json | formal/UniversalLaw/Side24/Ledger.lean; formal/UniversalLaw/Side24/ConeMoments.lean; formal/UniversalLaw/Side24/Endpoints.lean | — | N | orphan | 0 |
 | 313 | main#527 | main | `formal/UniversalLaw.lean` | GB-8p | MISSING | formal/UniversalLaw.lean; main:formal/manifest.json | — | N | orphan | 0 |
 | 314 | #538 | Math- | `frontiers/critical_ridge_20261020` | PENDING_OPEN_PR #491,#496,#497 | execution/author/PROOF.md; project/CriticalRidge.lean; c299_hosted_verify.py | (in PR head) | — | N | unmerged | 0 |
@@ -533,4 +679,5 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 342 | R22 tip 67818d30 | Math- | `companions/cap_i4_residual_law_20261006` | R22-companion | CapI4ResidualLaw.lean; README.md | replay.py; test_contract.py | — | N | unmerged_branch | 0 |
 | 343 | R22 tip 67818d30 | Math- | `companions/cap_i4_spectral_assembly_20261006` | R22-companion | CapI4SpectralAssembly.lean; Contract.lean | (per census: lean+replay+test; unverified) | — | N | unmerged_branch | 0 |
 | 344 | R21 tip 93a19170 | Math- | `companions/cap_i4_chamber_bridge_20261006` | R21-companion | CapI4ChamberBridge.lean; Contract.lean | (R21 tip) | — | N | unmerged_branch | 0 |
-| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py | — | N | orphan | 0 |
+| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; ResearchFormalCoreR1/EndpointGaussianMoments.lean; ResearchFormalCoreR1/EndpointNormalizerBridge.lean; ResearchFormalCoreR1/GaussianCoupling.lean; ResearchFormalCoreR1/GaussianJetMoments.lean; ResearchFormalCoreR1/GaussianNormalizer.lean; ResearchFormalCoreR1/GaussianNormalizerLimit.lean; ResearchFormalCoreR1/GaussianRegressionKernel.lean; ResearchFormalCoreR1/GaussianScalarMoments.lean; ResearchFormalCoreR1/NormalizerFloor.lean; ResearchFormalCoreR1/PalmReweighting.lean; SOURCE_ENDPOINT_NORMALIZER_BRIDGE.md; SOURCE_GAUSSIAN_COUPLING.md; SOURCE_GAUSSIAN_MOMENTS.md; SOURCE_GAUSSIAN_NORMALIZER.md; SOURCE_GAUSSIAN_NORMALIZER_LIMIT.md; SOURCE_PALM_REWEIGHTING.md; SOURCE_REGRESSION_KERNEL.md | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/EndpointGaussianMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/EndpointNormalizerBridge.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianCoupling.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianJetMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianNormalizer.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianNormalizerLimit.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianRegressionKernel.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianScalarMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/NormalizerFloor.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/PalmReweighting.lean | — | N | orphan | 0 |
+| 346 | Math-#513 | Math- | `frontiers/source_derivative_gaussian_20261025` | LANDED Math-#513 | ConfluentIntegralIdentities.lean; ContactJetCovariance.lean; FIELD_CONDITIONING.md; GaussianRegressionLimits.lean; GaussianWeightedMajorants.lean; README.md; SCOPE.md; SOURCE_CONDITIONAL_MAJORANT.md; SOURCE_CONFLUENT_INTEGRALS.md; SOURCE_CONFLUENT_LIMITS.md; SOURCE_CONFLUENT_PINS.md; SOURCE_CONTACT_ENDPOINT_PARAMETERS.md; SOURCE_CONTACT_GRAM.md; SOURCE_CONTACT_SCHUR.md; SOURCE_CONTACT_SOURCE.md; SOURCE_CONTRACT.md; SOURCE_COVARIANCE_CONTINUITY.md; SOURCE_ENDPOINT_ESTIMATES.md; SOURCE_ENDPOINT_PARAMETERS.md; SOURCE_ENDPOINT_REGRESSION.md; SOURCE_GAUSSIAN_MAJORANTS.md; SOURCE_PHYSICAL_ENDPOINT_KERNEL.md; SOURCE_REGRESSION_LIMITS.md; SOURCE_SMOOTH_CONDITIONAL.md; SOURCE_SMOOTH_PALM.md; SourceConditionalMajorant.lean; SourceConfluentLimits.lean; SourceConfluentPins.lean; SourceContactCovariance.lean; SourceContactEndpointParameters.lean; SourceContactSchur.lean; SourceDerivativeContinuity.lean; SourceDerivativeGaussian.lean; SourceEndpointEstimates.lean; SourceEndpointParameters.lean; SourceEndpointRegression.lean; SourcePhysicalEndpointKernel.lean; SourceSmoothConditionalKernel.lean; SourceSmoothPalm.lean | frontiers/source_derivative_gaussian_20261025/ConfluentIntegralIdentities.lean; frontiers/source_derivative_gaussian_20261025/ContactJetCovariance.lean; frontiers/source_derivative_gaussian_20261025/GaussianRegressionLimits.lean; frontiers/source_derivative_gaussian_20261025/GaussianWeightedMajorants.lean; frontiers/source_derivative_gaussian_20261025/SourceConditionalMajorant.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentLimits.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentPins.lean; frontiers/source_derivative_gaussian_20261025/SourceContactCovariance.lean; frontiers/source_derivative_gaussian_20261025/SourceContactEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceContactSchur.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeContinuity.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeGaussian.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointEstimates.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointRegression.lean; frontiers/source_derivative_gaussian_20261025/SourcePhysicalEndpointKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothConditionalKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothPalm.lean | — | N | orphan | 0 |
