@@ -6,15 +6,18 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
 def load(path, name):
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    path = Path(path)
+    raw = path.read_bytes()
+    mod = types.ModuleType(name)
+    mod.__file__ = str(path)
+    exec(compile(raw, str(path), "exec"), mod.__dict__)
     return mod
 
 
@@ -61,6 +64,22 @@ class GraderAdverseTests(unittest.TestCase):
 
 
 class SourceLoaderAdverseTests(unittest.TestCase):
+    def test_adverse_loader_ignores_poisoned_bytecode(self):
+        self.assertIsNone(sys.pycache_prefix, "control requires the default cache location")
+        with tempfile.TemporaryDirectory(prefix="cbz-a8-loader-control-") as directory:
+            path = Path(directory) / "probe.py"
+            path.write_text("GOOD_SOURCE = True\n")
+            stat = path.stat()
+            suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+            cache = path.parent / "__pycache__" / ("probe." + sys.implementation.cache_tag + suffix + ".pyc")
+            cache.parent.mkdir()
+            poisoned = compile("POISON_EXECUTED = True\n", str(path), "exec")
+            cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                poisoned, int(stat.st_mtime), stat.st_size))
+            probe = load(path, "target")
+            self.assertTrue(getattr(probe, "GOOD_SOURCE", False))
+            self.assertFalse(getattr(probe, "POISON_EXECUTED", False))
+
     def test_poisoned_cached_bytecode_does_not_execute(self):
         sources = [
             ("lexer", ROOT / "tools/cbz/layer_a_scan.py"),
