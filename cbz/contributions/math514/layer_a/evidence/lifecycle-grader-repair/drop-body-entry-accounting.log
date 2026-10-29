@@ -1,0 +1,20 @@
+test_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives) ... FAIL
+
+======================================================================
+FAIL: test_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 194, in body
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/cbz-layer-lifecycle-control-7fmmx9aw/tests/test_mutation_runner.py", line 61, in test_body_assertion_kills_and_identity_survives
+    self.assertEqual(passed['outcome'],'SURVIVED',passed)
+AssertionError: 'ERROR' != 'SURVIVED'
+- ERROR
++ SURVIVED
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'ERROR', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': [], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp0y5ihp49/logs/fixture.log', 'log_sha256': 'c8197fbd8cb083e8802892806bc1fc4b8d28a2b00eac033daae03fd440b16de2'}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.071s
+
+FAILED (failures=1)

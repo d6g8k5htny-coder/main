@@ -26,7 +26,7 @@ What it certifies, exactly:
   identifier, not the keyword, and is not flagged.
 
 Fail-closed: a string, block comment, raw string, interpolated string or
-``«`` name left unterminated at end of file is reported as an ``error``
+``«`` name or character literal left unterminated is reported as an ``error``
 finding, which fails the run like a violation, because the rest of the
 file cannot be lexed reliably.
 
@@ -40,7 +40,9 @@ What it does NOT certify:
 Lexing follows Lean 4: ``--`` line comments; nested ``/- -/`` block comments
 (including ``/--`` and ``/-!``); ``"..."`` strings with backslash escapes;
 interpolated strings (``s!"..{code}.."``, ``m!``, ``f!``) whose ``{}``
-regions are lexed as code; raw strings ``r"..."`` / ``r#"..."#``; char
+regions are lexed as code, including layout after the prefix; balanced brace
+regions in ordinary-looking strings are conservatively scanned too (macros
+may interpolate them); raw strings ``r"..."`` / ``r#"..."#``; char
 literals; and ``«...»`` escaped identifiers.
 
 Standard library only. No floating point is used in any decision.
@@ -52,6 +54,12 @@ Options:
   --json FILE     write all findings as JSON
   --fail-on CTX   comma list of contexts whose violations fail the run
                   (default: production). Use "all" for every context.
+Git mode scans regular owned blobs only: symlinks/gitlinks are rejected
+until explicitly resolved and scanned by a separate pin-aware admission.
+Filesystem mode rejects symlinks/missing roots, scans all directories except
+.git (including .lake); prefer Git mode for repository-source inventories.
+Use --fail-on all for the federation Layer A gate: context names are reporting
+labels, not authorization to hide historical/control violations.
 Exit status: 0 = no failing violation, 1 = failing violation, 2 = usage/IO.
 """
 from __future__ import annotations
@@ -62,7 +70,6 @@ import os
 import re
 import subprocess
 import sys
-import unicodedata
 
 VIOLATION_EXACT = {
     "sorry": "A1",
@@ -95,9 +102,12 @@ INTERP_PREFIXES = {"s!", "m!", "f!"}
 # ``decide +native`` and ``native := true`` select compiler evaluation, i.e.
 # ofReduceBool. ``native`` after a ``+`` is flagged even with a space between
 # (safe direction: ``x + native`` is a false positive, never a miss).
-_NATIVE_TRUE = re.compile(r"\s*:=\s*true(?![A-Za-z0-9_'!?])")
+_NATIVE_TRUE = re.compile(r"\s*:=\s*true(?![\w'!?])")
 _EXCLUDED_LETTERS = {"λ", "Π", "Σ"}
-_CHAR_LIT = re.compile(r"'(?:\\(?:u\{[0-9a-fA-F]+\}|x[0-9a-fA-F]{2}|.)|[^\\'\n])'")
+_CHAR_LIT = re.compile(r"'(?:\\(?:u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2}|[\\\"'rnt])|[^\\'\n])'")
+# Pinned Lean4.34.1 Parser/Basic.lean:831-918. This recognizes spelling,
+# never evaluates a numeral or makes a floating-point decision.
+_NUMERAL = re.compile(r"(?:0[bB][01_]+|0[oO][0-7_]+|0[xX][0-9a-fA-F_]+|[0-9][0-9_]*(?:\.(?!\.)[0-9_]*)?(?:[eE][+-]?[0-9][0-9_]*)?)")
 
 
 def _is_letter(ch: str) -> bool:
@@ -105,19 +115,18 @@ def _is_letter(ch: str) -> bool:
         return False
     if ch.isascii():
         return ch.isalpha()
-    cat = unicodedata.category(ch)
-    if cat.startswith("L"):
-        return True
     o = ord(ch)
     # Letter-like symbols and Greek/Coptic, as Lean's isLetterLike.
     return (0x3B1 <= o <= 0x3C9 and o != 0x3BB) or (0x391 <= o <= 0x3A9 and o not in (0x3A0, 0x3A3)) \
         or 0x3CA <= o <= 0x3FB or 0x1F00 <= o <= 0x1FFE or 0x2100 <= o <= 0x214F \
-        or 0x1D49C <= o <= 0x1D59F
+        or 0x1D49C <= o <= 0x1D59F \
+        or (0x00C0 <= o <= 0x00FF and o not in (0x00D7, 0x00F7)) \
+        or 0x0100 <= o <= 0x017F
 
 
 def _is_subscript(ch: str) -> bool:
     o = ord(ch)
-    return 0x2080 <= o <= 0x2089 or 0x2090 <= o <= 0x209C or 0x1D62 <= o <= 0x1D6A
+    return 0x2080 <= o <= 0x2089 or 0x2090 <= o <= 0x209C or 0x1D62 <= o <= 0x1D6A or o == 0x2C7C
 
 
 def _id_start(ch: str) -> bool:
@@ -125,17 +134,87 @@ def _id_start(ch: str) -> bool:
 
 
 def _id_rest(ch: str) -> bool:
-    return ch == "_" or ch == "'" or ch == "!" or ch == "?" or ch.isdigit() \
+    return ch == "_" or ch == "'" or ch == "!" or ch == "?" or '0' <= ch <= '9' \
         or _is_letter(ch) or _is_subscript(ch)
 
 
-def lex_tokens(text: str, errors: list | None = None):
-    """Yield (name, line, col, line_start, plus_before, follow) per code identifier.
+def _code_follow(text: str, start: int) -> str:
+    """Remove layout from a native-option suffix, without a lookahead limit.
+
+    Only the first assignment value is needed. Nested comments are layout;
+    an unfinished comment cannot manufacture a successful match.
+    """
+    out = []
+    i = start
+    while i < len(text) and len(out) < 8:
+        if text.startswith('--', i):
+            end = text.find('\n', i)
+            i = len(text) if end < 0 else end
+        elif text.startswith('/-', i):
+            depth = 1
+            i += 2
+            while i < len(text) and depth:
+                if text.startswith('/-', i):
+                    depth += 1
+                    i += 2
+                elif text.startswith('-/', i):
+                    depth -= 1
+                    i += 2
+                else:
+                    i += 1
+            if depth:
+                return ''
+        elif text[i].isspace():
+            i += 1
+        else:
+            out.append(text[i])
+            i += 1
+    return ''.join(out)
+
+
+def _native_assignment(follow: str) -> bool:
+    """A native config field is unsafe unless its complete value is false.
+
+    Eight non-layout characters cover ':=false' and its following delimiter.
+    Merely starting with false is insufficient (false || true is unsafe).
+    Other expressions are deliberately conservative findings, never evaluated.
+    """
+    return (follow.startswith(':=') and
+            not (len(follow) >= 8 and follow[2:7] == 'false' and follow[7] in '},'))
+
+
+def _brace_segments(text: str, start: int, end: int, line: int, col: int):
+    """Secondary conservative code-hole interpretation; primary cursor stays put.
+
+    The same lexer reads a possible hole through nested strings/comments and
+    stops at its matching brace. It may extend past the first quote of the
+    primary ordinary-string interpretation: Lean macros can interpolate that
+    string and permit quoted terms inside its hole. Ambiguous ordinary brace
+    data can add findings, but cannot suppress primary-code findings.
+    """
+    i = start
+    while i < end:
+        if text[i] == '\\':
+            i += 2
+            continue
+        if text[i] == '{':
+            prefix = text[start:i + 1]
+            base_line = line + prefix.count('\n')
+            base_col = (len(prefix.rsplit('\n', 1)[-1]) + 1 if '\n' in prefix
+                        else col + len(prefix))
+            for name, ln, cl, first, plus, follow, field in lex_tokens(text[i + 1:], _until_brace=True):
+                yield name, base_line + ln - 1, (base_col + cl - 1 if ln == 1 else cl), first, plus, follow, field
+        i += 1
+
+
+def lex_tokens(text: str, errors: list | None = None, *, _until_brace: bool = False):
+    """Yield (name, line, col, line_start, plus_before, follow, field_before).
 
     ``name`` is the full dotted identifier text; an escaped ``«...»``
     component becomes ``\x00`` plus its text (inner dots as ``\x01``), so it
     matches constant names but never a keyword. ``plus_before`` says the
-    identifier follows a ``+`` on its line; ``follow`` is the text after it.
+    identifier follows a ``+`` across layout; ``follow`` is a normalized
+    assignment-value prefix after it.
     Unterminated constructs are appended to ``errors`` as (line, col, kind).
 
     Modes are kept on an explicit stack: a ``code`` frame (with a brace
@@ -147,7 +226,8 @@ def lex_tokens(text: str, errors: list | None = None):
     line = 1
     col = 1
     line_has_token = False
-    stack: list[list] = [["code", None]]
+    last_code_char = ''
+    stack: list[list] = [["code", 0 if _until_brace else None]]
     if errors is None:
         errors = []
 
@@ -227,13 +307,23 @@ def lex_tokens(text: str, errors: list | None = None):
         if frame[1] is not None and c == "}":
             advance(1)
             if frame[1] == 0:
+                if len(stack) == 1:
+                    return
                 stack.pop()          # back to the interpolated string body
             else:
                 frame[1] -= 1
             continue
         if c == '"':
+            if last_code_char in INTERP_PREFIXES:
+                start = (line, col)
+                advance(1)
+                stack.append(["istr", start[0], start[1]])
+                line_has_token = True
+                last_code_char = '"'
+                continue
             start = (line, col)
             advance(1)
+            content_start = i
             closed = False
             while i < n:
                 cc = text[i]
@@ -246,12 +336,22 @@ def lex_tokens(text: str, errors: list | None = None):
                     break
             if not closed:
                 errors.append(start + ("unterminated_string",))
+            else:
+                yield from _brace_segments(text, content_start, i - 1, start[0], start[1] + 1)
             line_has_token = True
+            last_code_char = '"'
             continue
         if c == "'":
             m = _CHAR_LIT.match(text, i)
-            advance(m.end() - i if m else 1)
+            # Apostrophes also occur in Mathlib image/tSum/preimage notation.
+            prime_notation = (text.startswith("''", i) or
+                              (i > 0 and not text[i - 1].isspace()
+                               and text[i - 1] not in '=([{,;:'))
+            if m is None and not prime_notation:
+                errors.append((line, col, 'unterminated_char'))
+            advance(m.end() - i if m else (2 if text.startswith("''", i) else 1))
             line_has_token = True
+            last_code_char = "'"
             continue
         if c == "«":
             start_line, start_col, start_first = line, col, not line_has_token
@@ -265,7 +365,10 @@ def lex_tokens(text: str, errors: list | None = None):
             parts = ["\x00" + inner.replace(".", "\x01")]
             read_ident_tail(parts)
             line_has_token = True
-            yield ".".join(parts), start_line, start_col, start_first, False, text[i:i + 40]
+            plus = last_code_char == '+'
+            field = last_code_char in ('{', ',', 'with')
+            last_code_char = 'identifier'
+            yield ".".join(parts), start_line, start_col, start_first, plus, _code_follow(text, i), field
             continue
         if _id_start(c):
             start_line, start_col, start_first = line, col, not line_has_token
@@ -285,27 +388,33 @@ def lex_tokens(text: str, errors: list | None = None):
                     end = n if end < 0 else end + len(close)
                     advance(end - i)
                     line_has_token = True
+                    last_code_char = '"'
                     continue
             if word in INTERP_PREFIXES and i < n and text[i] == '"':
                 advance(1)
                 stack.append(["istr", start_line, start_col])
                 line_has_token = True
+                last_code_char = '"'
                 continue
             parts = [word]
             read_ident_tail(parts)
             line_has_token = True
-            k = s - 1
-            while k >= 0 and text[k] in " \t":
-                k -= 1
-            yield ".".join(parts), start_line, start_col, start_first, k >= 0 and text[k] == "+", text[i:i + 40]
+            plus = last_code_char == '+'
+            field = last_code_char in ('{', ',', 'with')
+            last_code_char = word
+            yield ".".join(parts), start_line, start_col, start_first, plus, _code_follow(text, i), field
             continue
         if c.isdigit():
-            while i < n and (text[i].isalnum() or text[i] in "._"):
-                advance(1)
+            # A numeral can abut a command keyword in valid Lean (0axiom).
+            # Never swallow alphabetic code as part of a numeric token.
+            match = _NUMERAL.match(text, i)
+            advance(match.end() - i if match else 1)
             line_has_token = True
+            last_code_char = 'number'
             continue
         if not c.isspace():
             line_has_token = True
+            last_code_char = c
         advance(1)
     for frame in stack:
         if frame[0] == "istr":
@@ -313,8 +422,10 @@ def lex_tokens(text: str, errors: list | None = None):
             break
 
 
-def classify_token(name: str, line_start: bool, plus_before: bool = False, follow: str = ""):
+def classify_token(name: str, line_start: bool, plus_before: bool = False, follow: str = "", field_before: bool = False):
     """Return (kind, layer, severity) or None."""
+    if name == '\x00native':
+        name = 'native'
     last = name.split(".")[-1]
     if last.startswith("\x00"):
         # escaped component: the same constant name, never a keyword
@@ -324,7 +435,7 @@ def classify_token(name: str, line_start: bool, plus_before: bool = False, follo
         if last in REVIEW_COMPONENT:
             return last, REVIEW_COMPONENT[last], "review"
         return None
-    if name == "native" and (plus_before or _NATIVE_TRUE.match(follow)):
+    if name == "native" and (plus_before or _NATIVE_TRUE.match(follow) or (field_before and _native_assignment(follow))):
         return "native", "A2", "violation"
     if "." not in name:
         if name in VIOLATION_EXACT:
@@ -358,9 +469,11 @@ def scan_text(text: str, path: str, blob: str | None = None) -> list[dict]:
     ctx = context_of(path)
     errors: list = []
     found = []
-    for name, ln, cl, first, plus, follow in lex_tokens(text, errors):
-        r = classify_token(name, first, plus, follow)
-        if r is not None:
+    seen = set()
+    for name, ln, cl, first, plus, follow, field in lex_tokens(text, errors):
+        r = classify_token(name, first, plus, follow, field)
+        if r is not None and (ln, cl, name, r) not in seen:
+            seen.add((ln, cl, name, r))
             found.append((ln, cl, name.replace("\x00", "«").replace("\x01", "."), r))
     for ln, cl, kind in errors:
         found.append((ln, cl, "", (kind, "A", "error")))
@@ -374,13 +487,24 @@ def scan_text(text: str, path: str, blob: str | None = None) -> list[dict]:
 
 
 def iter_fs(paths):
+    def walk_error(exc):
+        raise exc
     for p in paths:
+        if not os.path.exists(p):
+            raise OSError(f"source path does not exist: {p}")
+        if os.path.islink(p):
+            raise OSError(f"source symlink requires explicit target admission: {p}")
         if os.path.isdir(p):
-            for root, dirs, files in os.walk(p):
+            for root, dirs, files in os.walk(p, onerror=walk_error):
                 dirs[:] = sorted(d for d in dirs if d != ".git")
+                for d in dirs:
+                    if os.path.islink(os.path.join(root, d)):
+                        raise OSError(f"source directory symlink requires explicit target admission: {d}")
                 for fn in sorted(files):
                     if fn.endswith(".lean"):
                         full = os.path.join(root, fn)
+                        if os.path.islink(full):
+                            raise OSError(f"source symlink requires explicit target admission: {full}")
                         yield os.path.relpath(full, p), full
         elif p.endswith(".lean"):
             yield p, p
@@ -388,7 +512,11 @@ def iter_fs(paths):
 
 def git_lean_blobs(repo: str, rev: str):
     env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
-    ls = subprocess.run(["git", "-C", repo, "ls-tree", "-r", "-z", rev],
+    env.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_SYSTEM=os.devnull,
+               GIT_NO_REPLACE_OBJECTS="1", GIT_NO_LAZY_FETCH="1",
+               GIT_TERMINAL_PROMPT="0")
+    cmd = ["git", "--no-replace-objects", "-C", repo]
+    ls = subprocess.run(cmd + ["ls-tree", "-r", "-z", rev],
                         check=True, capture_output=True, env=env).stdout
     entries = []
     for rec in ls.split(b"\0"):
@@ -396,24 +524,41 @@ def git_lean_blobs(repo: str, rev: str):
             continue
         meta, path = rec.split(b"\t", 1)
         mode, typ, sha = meta.split()
-        p = path.decode("utf-8", "surrogateescape")
+        p = path.decode("utf-8", "strict")
+        if typ == b"commit":
+            raise OSError(f"gitlink requires a separately pinned scan: {p}")
         if typ == b"blob" and p.endswith(".lean"):
+            if mode not in (b"100644", b"100755"):
+                raise OSError(f"nonregular source blob requires explicit admission: {p}")
             entries.append((p, sha.decode()))
     if not entries:
         return
-    proc = subprocess.Popen(["git", "-C", repo, "cat-file", "--batch"],
-                            stdin=subprocess.PIPE, stdout=subprocess.PIPE, env=env)
+    proc = subprocess.Popen(cmd + ["cat-file", "--batch"],
+                            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
     try:
         for p, sha in entries:
             proc.stdin.write(sha.encode() + b"\n")
             proc.stdin.flush()
             header = proc.stdout.readline().split()
+            if len(header) != 3 or header[0] != sha.encode() or header[1] != b"blob" or not header[2].isdigit():
+                raise OSError(f"invalid git blob header: {p}")
             size = int(header[2])
             data = proc.stdout.read(size)
-            proc.stdout.read(1)
+            trailer = proc.stdout.read(1)
+            if len(data) != size or trailer != b"\n":
+                raise OSError(f"truncated git blob: {p}")
             yield p, sha, data
-    finally:
         proc.stdin.close()
+        code = proc.wait()
+        if code != 0:
+            raise OSError(f"git cat-file failed with exit {code}")
+    finally:
+        if proc.poll() is None:
+            proc.terminate()
+        if not proc.stdin.closed:
+            proc.stdin.close()
+        proc.stdout.close()
+        proc.stderr.close()
         proc.wait()
 
 
@@ -450,7 +595,7 @@ def main(argv=None) -> int:
                 undecodable.append(rel)
                 continue
             findings += scan_text(text, rel)
-    except (OSError, subprocess.CalledProcessError) as exc:
+    except (OSError, UnicodeDecodeError, subprocess.CalledProcessError) as exc:
         print(f"layer_a_scan: error: {exc}", file=sys.stderr)
         return 2
     fail_ctx = None if args.fail_on == "all" else set(args.fail_on.split(","))
