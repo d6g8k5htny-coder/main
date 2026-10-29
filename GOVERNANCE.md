@@ -107,3 +107,40 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+### Historical bounded replay helper and delivery workflow
+
+The two evidence packages contain byte-identical historical copies of
+`replay_tool.py`, `test_replay_tool.py`, `run_mutations.py`, and
+`run_lean_selftest.py`. They generate and check a bounded Lean replay and
+exercise finite controls; they are not a federation-wide Layer A auditor.
+The original manifests, historical reports and metadata are immutable evidence.
+The delivered source is restored from composite source commit
+`82d9e480a51b946b3e74525ccf32139129d37d28`. Historical Python and Lean v3
+reports are distinct from a fresh current-head run. The v3 reports identify
+the delivered Lean self-test source; the separate final-normal report identifies
+a different self-test source and must not be attributed to these bytes.
+
+The historical mutation grader accepts a named failure plus an unrelated
+assertion or another error, and a zero-test baseline; its Python loader may
+read pre-existing bytecode even under `-B`. The Lean self-test's textual
+diagnostics have similarly limited binding. These are source-review findings
+with executable counterexample tests provided, not a claim that those tests
+have passed at the current head. The helper is not admitted as a sound G0
+certifier. See `TOOLING.md` for commands and scope. The hosted workflow uses a
+fresh private bytecode prefix for historical runs and preserves raw outputs;
+this reduces cache exposure on a trusted runner but does not fix the tool.
+
+### Proposed source-only mutation qualification
+
+`cbz/replay-qualification/replay_mutations_strict.py` is a separately
+checksummed candidate repair for the historical Python mutation grader. It
+pins the historical source and test hashes, compiles their bytes directly,
+records the adapted test-loader hash and structured per-test results, requires
+31 distinct matching test identities, and binds each sole failure to its
+guard-specific assertion. Its accompanying tests exercise classifier mutations,
+wrong assertions, foreign errors and poisoned target/test bytecode. It does not
+repair the separate historical actual-Lean self-test. Both candidate and tests
+are pending current-head execution; they are not yet admitted as a certifier.
+Trust remains in Python, the standard library, process/OS, and filesystem; a
+transient source replacement between reads is not ruled out.
