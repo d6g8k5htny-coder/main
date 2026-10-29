@@ -1,0 +1,545 @@
+{
+  "schema_version": 1,
+  "published_parent": "7b50d2b4c433a8f3b5442925e1ac9ff664880166",
+  "scope": "Hashes and copying/composition origins for staged artifact payloads. This index and PUBLICATION.json are bound by the outer overlay manifest and native commit tree, avoiding recursive self-hashes.",
+  "artifacts": [
+    {
+      "path": "LAZY_BODY_FIX.md",
+      "sha256": "bfc30f9bca470fb5146d900759cceb3bfc6e5715442f91876adeb3cbf318c53e",
+      "bytes": 1970,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/REPORT.md",
+            "sha256": "848e0712aa1905bd89034d8cc5cc57ebd4812864e8c3053193ad950f61778595"
+          }
+        ],
+        "role": "portable component report"
+      }
+    },
+    {
+      "path": "README.md",
+      "sha256": "11d33b55820e85213708a9e429dbbffa67f9cdbe06cb7f8920ee35899b44e7ad",
+      "bytes": 11400,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/README.md",
+            "sha256": "b156fcdd8faf960999c20d7078d79a3cb535c8655db9742268c99f394ee62166"
+          }
+        ],
+        "role": "current composed counts and supported profile"
+      }
+    },
+    {
+      "path": "REGISTRY.json",
+      "sha256": "94fb19a0cf04443873c99d620895df9e3d0a1c9b044bdb8535cb5adec1e4d936",
+      "bytes": 12981,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/REGISTRY.json",
+            "sha256": "a611413890032fa60e7b2218314181cd970eaa5b76a86df44d01fc1c316b8297"
+          },
+          {
+            "path": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-delivery.json",
+            "sha256": "11fea899c7caa3065c8c1ca269cbf2ece6cc38e24cbd2da710646080c297d882"
+          }
+        ],
+        "role": "updated registry with historical generations retained"
+      }
+    },
+    {
+      "path": "SPEC.md",
+      "sha256": "bbae2e56db3bb72bf329e760c8226386894e51e5b60423b6975f3dae9e90b2c2",
+      "bytes": 6309,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/SPEC.md",
+            "sha256": "61d57843fdc637603821f5e2722fba8b0bc67686ab247f29c0d125b5583642a6"
+          }
+        ],
+        "role": "explicit supported body/return contract"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/DOC_ADDITIONS.md",
+      "sha256": "849e7e531990352e431fc1d2878d6c27c8e0512899717e7805a210961de1be94",
+      "bytes": 1988,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/DOC_ADDITIONS.md",
+        "source_sha256": "849e7e531990352e431fc1d2878d6c27c8e0512899717e7805a210961de1be94",
+        "role": "isolated delivery report/policy recommendation"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/EVIDENCE_PATH_MAP.json",
+      "sha256": "41899274439c844df971b53c5e2362ab5478de97bce36db6489997b2ac55f805",
+      "bytes": 6094,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/independent-lazy-body-review.json",
+            "sha256": "8e6c0de322cb2296d2ac9bf472bcb29c3fcdfaa941541539e1fc467d5a47c933"
+          }
+        ],
+        "role": "portable aliases; no historical receipt rewritten"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/REPORT.md",
+      "sha256": "848e0712aa1905bd89034d8cc5cc57ebd4812864e8c3053193ad950f61778595",
+      "bytes": 5226,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/REPORT.md",
+        "source_sha256": "848e0712aa1905bd89034d8cc5cc57ebd4812864e8c3053193ad950f61778595",
+        "role": "isolated delivery report/policy recommendation"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/baseline/mutations.py",
+      "sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+      "bytes": 15771,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/baseline/kernel_replay/mutations.py",
+        "source_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+        "role": "published predecessor grader source"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/baseline/run_tests.py",
+      "sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+      "bytes": 9931,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/baseline/kernel_replay/run_tests.py",
+        "source_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+        "role": "published predecessor grader source"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/baseline/tests/test_mutation_harness.py",
+      "sha256": "9887371525049cbc9685fadfd02531b1171507ad3c2c8373947c37875b3783e6",
+      "bytes": 11723,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/baseline/kernel_replay/tests/test_mutation_harness.py",
+        "source_sha256": "9887371525049cbc9685fadfd02531b1171507ad3c2c8373947c37875b3783e6",
+        "role": "published predecessor grader source"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/current-composed-receipt.json",
+      "sha256": "449ce944cd40757b5a49653a79c1e5ca5e1b02fc6fdf9ea1404adf1f2ed4f51d",
+      "bytes": 3507,
+      "origin": {
+        "kind": "composed",
+        "inputs": [
+          {
+            "path": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-delivery.json",
+            "sha256": "11fea899c7caa3065c8c1ca269cbf2ece6cc38e24cbd2da710646080c297d882"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/REGISTRY.json",
+            "sha256": "a611413890032fa60e7b2218314181cd970eaa5b76a86df44d01fc1c316b8297"
+          }
+        ],
+        "role": "composed current receipt; never labeled a fresh whole-suite run"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/baseline-sha256.json",
+      "sha256": "c3df58f59289f4631542eafe3dae9c0d21df99f2c2882bed2a0d870d936618a2",
+      "bytes": 530,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/baseline-sha256.json",
+        "source_sha256": "c3df58f59289f4631542eafe3dae9c0d21df99f2c2882bed2a0d870d936618a2",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/independent-lazy-body-review.json",
+      "sha256": "8e6c0de322cb2296d2ac9bf472bcb29c3fcdfaa941541539e1fc467d5a47c933",
+      "bytes": 6613,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/independent-lazy-body-review.json",
+        "source_sha256": "8e6c0de322cb2296d2ac9bf472bcb29c3fcdfaa941541539e1fc467d5a47c933",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-delivery.json",
+      "sha256": "11fea899c7caa3065c8c1ca269cbf2ece6cc38e24cbd2da710646080c297d882",
+      "bytes": 4719,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-delivery.json",
+        "source_sha256": "11fea899c7caa3065c8c1ca269cbf2ece6cc38e24cbd2da710646080c297d882",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-controls-green.log",
+      "sha256": "da1bb41469fd4cd94d35f1f2d43d8af100b892960fbb1a6ad1f791c361a62432",
+      "bytes": 988,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-controls-green.log",
+        "source_sha256": "da1bb41469fd4cd94d35f1f2d43d8af100b892960fbb1a6ad1f791c361a62432",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-controls-optimized-green.log",
+      "sha256": "93f81b1d99ea70780edd1174a1a9139e6c7f3111476aa7d242f5d302cadaa17c",
+      "bytes": 988,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-controls-optimized-green.log",
+        "source_sha256": "93f81b1d99ea70780edd1174a1a9139e6c7f3111476aa7d242f5d302cadaa17c",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-controls-red.log",
+      "sha256": "1951bebd0b87067104b4fe3cb0e8c0f306ab0a6e1073e237af86332ff268cca8",
+      "bytes": 26678,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-controls-red.log",
+        "source_sha256": "1951bebd0b87067104b4fe3cb0e8c0f306ab0a6e1073e237af86332ff268cca8",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants.log",
+      "sha256": "0405bd5d8c485b047b7c8fbfcad325d7bad8838cac651a12fc60b6ffbed3127a",
+      "bytes": 291,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants.log",
+        "source_sha256": "0405bd5d8c485b047b7c8fbfcad325d7bad8838cac651a12fc60b6ffbed3127a",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/guard_run_tests.py",
+      "sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+      "bytes": 10557,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/guard_run_tests.py",
+        "source_sha256": "3180aa60b3793736a9312537856d97cfd534842b2758d324d8b0c30282fca028",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/normal-drop-lazy-return-rejection.json",
+      "sha256": "4c75b2c284a9edbb5f630f1fbbbb2293136ef966331e3d22307eb02a41085631",
+      "bytes": 13207,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/normal-drop-lazy-return-rejection.json",
+        "source_sha256": "4c75b2c284a9edbb5f630f1fbbbb2293136ef966331e3d22307eb02a41085631",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/normal-drop-pristine-lazy-shape-rejection.json",
+      "sha256": "80dfe0c201d2657856b4ed2abffee66281771f9742ce9de5771a3c1bef3535a0",
+      "bytes": 11584,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/normal-drop-pristine-lazy-shape-rejection.json",
+        "source_sha256": "80dfe0c201d2657856b4ed2abffee66281771f9742ce9de5771a3c1bef3535a0",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/normal-ignore-decorator-lazy-shape-links.json",
+      "sha256": "44d415ab7ac37be454d05c12cec6295a0534001f7a32a830d37a2db455bb7814",
+      "bytes": 10959,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/normal-ignore-decorator-lazy-shape-links.json",
+        "source_sha256": "44d415ab7ac37be454d05c12cec6295a0534001f7a32a830d37a2db455bb7814",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/optimized-drop-lazy-return-rejection.json",
+      "sha256": "e070d7f6d55d3aa529ed79583c629377ee9623af69f0680e9a03781d0a15aa06",
+      "bytes": 13210,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/optimized-drop-lazy-return-rejection.json",
+        "source_sha256": "e070d7f6d55d3aa529ed79583c629377ee9623af69f0680e9a03781d0a15aa06",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/optimized-drop-pristine-lazy-shape-rejection.json",
+      "sha256": "652a371b954e50d7e01cf345f64bb0852584a89923a2760a169326ce1510ba53",
+      "bytes": 11587,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/optimized-drop-pristine-lazy-shape-rejection.json",
+        "source_sha256": "652a371b954e50d7e01cf345f64bb0852584a89923a2760a169326ce1510ba53",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/optimized-ignore-decorator-lazy-shape-links.json",
+      "sha256": "1cbf59d063d01ba486d40c231753a5d6ac6c7a782b024afb79ce2bb940b883c5",
+      "bytes": 10962,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/optimized-ignore-decorator-lazy-shape-links.json",
+        "source_sha256": "1cbf59d063d01ba486d40c231753a5d6ac6c7a782b024afb79ce2bb940b883c5",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-lazy-guard-mutants/summary.json",
+      "sha256": "17fc02e15f25ec9cb027bd01a8162e29515e391df1468555c542cf116ccf52b9",
+      "bytes": 3439,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-lazy-guard-mutants/summary.json",
+        "source_sha256": "17fc02e15f25ec9cb027bd01a8162e29515e391df1468555c542cf116ccf52b9",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-mixed-generator-red.json",
+      "sha256": "4c1a65899f1c5b88cd57758aed2450104325d3a9aa3171ad253b406b3b8ccb3f",
+      "bytes": 2036,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-mixed-generator-red.json",
+        "source_sha256": "4c1a65899f1c5b88cd57758aed2450104325d3a9aa3171ad253b406b3b8ccb3f",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-profile-controls-green.log",
+      "sha256": "0a2db29755b11f1bfd6a442bcedead8ea641e077dd4b5e25d475183d1b8e1c78",
+      "bytes": 1172,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-profile-controls-green.log",
+        "source_sha256": "0a2db29755b11f1bfd6a442bcedead8ea641e077dd4b5e25d475183d1b8e1c78",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-profile-controls-optimized-green.log",
+      "sha256": "6268639df35d6220ff5ccede714b65e3c53eb04889a994dd0746bd71fc724829",
+      "bytes": 1172,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-profile-controls-optimized-green.log",
+        "source_sha256": "6268639df35d6220ff5ccede714b65e3c53eb04889a994dd0746bd71fc724829",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant.log",
+      "sha256": "91a124aae2c77dcb8286902b5afcc045536c6086b48381a04a19e236278e7c05",
+      "bytes": 95,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-guard-mutant.log",
+        "source_sha256": "91a124aae2c77dcb8286902b5afcc045536c6086b48381a04a19e236278e7c05",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant/guard_run_tests.py",
+      "sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "bytes": 10420,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-guard-mutant/guard_run_tests.py",
+        "source_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant/normal-drop-non-none-return-rejection.json",
+      "sha256": "01e76fe7102f0a2d38b321f1138590958192cd856bfc8c27bb2ebe4a2379a2f0",
+      "bytes": 13286,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-guard-mutant/normal-drop-non-none-return-rejection.json",
+        "source_sha256": "01e76fe7102f0a2d38b321f1138590958192cd856bfc8c27bb2ebe4a2379a2f0",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant/optimized-drop-non-none-return-rejection.json",
+      "sha256": "034f846c1035aa2c80fa3bb633d2f49bfbc42de62024ce0cfbe2da9efa0483a5",
+      "bytes": 13289,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-guard-mutant/optimized-drop-non-none-return-rejection.json",
+        "source_sha256": "034f846c1035aa2c80fa3bb633d2f49bfbc42de62024ce0cfbe2da9efa0483a5",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-guard-mutant/summary.json",
+      "sha256": "65df0fae1366a05d94c0302ff2491ec5ef2f09d9b3d2dac525da36b15a51a19f",
+      "bytes": 1303,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-guard-mutant/summary.json",
+        "source_sha256": "65df0fae1366a05d94c0302ff2491ec5ef2f09d9b3d2dac525da36b15a51a19f",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/kernel-none-return-profile-red.log",
+      "sha256": "edf2e042a7489afd6b14b2c6e92b4b66939292a157298a1a9e7148e90a656683",
+      "bytes": 9508,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/kernel-none-return-profile-red.log",
+        "source_sha256": "edf2e042a7489afd6b14b2c6e92b4b66939292a157298a1a9e7148e90a656683",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/original-method-shape-applicability.json",
+      "sha256": "16a4c32a9856e83df1e78b35930d5638f146504f1ec1ba95fbac78381072727a",
+      "bytes": 31066,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/original-method-shape-applicability.json",
+        "source_sha256": "16a4c32a9856e83df1e78b35930d5638f146504f1ec1ba95fbac78381072727a",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/run_kernel_lazy_guard_mutants.py",
+      "sha256": "a8d893661a9c8f608c7ce34ac271b29d91135dcc5d179e3b9c107e40422630be",
+      "bytes": 4115,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/run_kernel_lazy_guard_mutants.py",
+        "source_sha256": "a8d893661a9c8f608c7ce34ac271b29d91135dcc5d179e3b9c107e40422630be",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/evidence/run_kernel_none_return_guard_mutant.py",
+      "sha256": "587c79325b4bbf67f93568d3b8cc09029fdc481e873e93c61862d6f89281d521",
+      "bytes": 4287,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/evidence/run_kernel_none_return_guard_mutant.py",
+        "source_sha256": "587c79325b4bbf67f93568d3b8cc09029fdc481e873e93c61862d6f89281d521",
+        "role": "fresh or explicitly retained source-generation evidence"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/kernel-lazy-body.patch",
+      "sha256": "1773d4177ab064ea861c07856cc7401744487ceb945c0d553f20c94ec4f1fb0e",
+      "bytes": 11176,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/kernel-lazy-body.patch",
+        "source_sha256": "1773d4177ab064ea861c07856cc7401744487ceb945c0d553f20c94ec4f1fb0e",
+        "role": "minimal successor or cumulative historical patch"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/kernel-lifecycle-and-lazy-cumulative.patch",
+      "sha256": "f6638476a3fdc9593006a3c9e84f765bf25e9f54b362c0bf964c621c30a93f6e",
+      "bytes": 38061,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/kernel-lifecycle-and-lazy-cumulative.patch",
+        "source_sha256": "f6638476a3fdc9593006a3c9e84f765bf25e9f54b362c0bf964c621c30a93f6e",
+        "role": "minimal successor or cumulative historical patch"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/published-parent/PUBLICATION.json",
+      "sha256": "2b7ebcff1daaf2e205fa7ce620d90a7ea6e59573a749c8c2d2765ec4edf911b4",
+      "bytes": 31359,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/tools/kernel_replay/PUBLICATION.json",
+        "source_sha256": "2b7ebcff1daaf2e205fa7ce620d90a7ea6e59573a749c8c2d2765ec4edf911b4",
+        "role": "published predecessor metadata at 7b50d2b4c433a8f3b5442925e1ac9ff664880166"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/published-parent/README.md",
+      "sha256": "b156fcdd8faf960999c20d7078d79a3cb535c8655db9742268c99f394ee62166",
+      "bytes": 10484,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/tools/kernel_replay/README.md",
+        "source_sha256": "b156fcdd8faf960999c20d7078d79a3cb535c8655db9742268c99f394ee62166",
+        "role": "published predecessor metadata at 7b50d2b4c433a8f3b5442925e1ac9ff664880166"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/published-parent/REGISTRY.json",
+      "sha256": "a611413890032fa60e7b2218314181cd970eaa5b76a86df44d01fc1c316b8297",
+      "bytes": 9663,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/tools/kernel_replay/REGISTRY.json",
+        "source_sha256": "a611413890032fa60e7b2218314181cd970eaa5b76a86df44d01fc1c316b8297",
+        "role": "published predecessor metadata at 7b50d2b4c433a8f3b5442925e1ac9ff664880166"
+      }
+    },
+    {
+      "path": "evidence/lazy-body/published-parent/SPEC.md",
+      "sha256": "61d57843fdc637603821f5e2722fba8b0bc67686ab247f29c0d125b5583642a6",
+      "bytes": 5379,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/tools/kernel_replay/SPEC.md",
+        "source_sha256": "61d57843fdc637603821f5e2722fba8b0bc67686ab247f29c0d125b5583642a6",
+        "role": "published predecessor metadata at 7b50d2b4c433a8f3b5442925e1ac9ff664880166"
+      }
+    },
+    {
+      "path": "run_tests.py",
+      "sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "bytes": 10420,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/changed/kernel_replay/run_tests.py",
+        "source_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+        "role": "frozen reviewed successor runtime/test"
+      }
+    },
+    {
+      "path": "tests/test_mutation_harness.py",
+      "sha256": "05a4a2f4c803315f80a3fcb2bb16f0d5d6df19c874c118152c257544880de114",
+      "bytes": 18361,
+      "origin": {
+        "kind": "copied",
+        "source": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/changed/kernel_replay/tests/test_mutation_harness.py",
+        "source_sha256": "05a4a2f4c803315f80a3fcb2bb16f0d5d6df19c874c118152c257544880de114",
+        "role": "frozen reviewed successor runtime/test"
+      }
+    }
+  ]
+}
