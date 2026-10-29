@@ -1,0 +1,78 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp6hfrbple/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp6hfrbple/tests",
+    "--output",
+    "/tmp/tmp6hfrbple/receipt.json",
+    "--test",
+    "test_auditor.C"
+  ],
+  "events": [
+    "first",
+    "second"
+  ],
+  "exit_code": 1,
+  "fixture_sha256": "a166255cce446592142d8a7763b536ae0100f0123a587e3f7ae7e3f8aabae473",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp6hfrbple/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\"); self.fail(\"body\")\n def test_second(self): record(\"second\")\n",
+  "label": "named-assertion",
+  "optimize": 1,
+  "outcome": "KILLED",
+  "receipt": {
+    "assertion_events": [
+      {
+        "id": "test_auditor.C.test_first",
+        "source": "direct"
+      }
+    ],
+    "assertion_failures": 1,
+    "body_assertion_ids": [
+      "test_auditor.C.test_first"
+    ],
+    "body_entered_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "body_finished_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [
+      {
+        "id": "test_auditor.C.test_first",
+        "kind": "assertion",
+        "phase": "body"
+      }
+    ],
+    "finished_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_first (test_auditor.C.test_first) ... FAIL\ntest_second (test_auditor.C.test_second) ... ok\n\n======================================================================\nFAIL: test_first (test_auditor.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmp6hfrbple/mutation_test.py\", line 424, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 2,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_first (test_auditor.C.test_first) ... FAIL\ntest_second (test_auditor.C.test_second) ... ok\n\n======================================================================\nFAIL: test_first (test_auditor.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmp6hfrbple/mutation_test.py\", line 424, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n"
+}

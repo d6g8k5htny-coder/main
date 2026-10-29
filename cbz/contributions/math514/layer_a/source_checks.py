@@ -305,10 +305,11 @@ def check_python(text, mathematical=True):
             findings.append(finding('PY_REBIND', 'protected arithmetic parameter: ' + node.arg, line))
         if isinstance(node, ast.Constant) and isinstance(node.value, (float, complex)):
             findings.append(finding('PY_INEXACT', 'float/complex literal forbidden in mathematical program', line))
-        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+        if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Div):
             findings.append(finding('PY_INEXACT', '/ may produce float; use Fraction(n,d)', line))
-        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Pow):
-            if not (isinstance(node.right, ast.Constant) and type(node.right.value) is int and node.right.value >= 0):
+        if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Pow):
+            exponent = node.right if isinstance(node, ast.BinOp) else node.value
+            if not (isinstance(exponent, ast.Constant) and type(exponent.value) is int and exponent.value >= 0):
                 findings.append(finding('PY_INEXACT', '** requires nonnegative integer literal exponent', line))
         if isinstance(node, ast.Import):
             findings.append(finding('PY_IMPORT_GAP', 'only from fractions import Fraction [as alias] is in the exact profile', line))

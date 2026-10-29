@@ -133,8 +133,11 @@ class LifecycleHarnessRules(unittest.TestCase):
         source='import unittest\nimport source_checks\nclass C(unittest.TestCase):\n def test_one(self): pass\n def test_two(self): self.fail("wrong population")\ndef load_tests(loader, tests, pattern):\n return unittest.TestSuite([C("test_one" if source_checks.fixture_source else "test_two")])\n'
         result=self.run_fixture(source,lambda s:s.replace('fixture_source = True','fixture_source = False'))
         self.assertEqual(result['outcome'],'ERROR',result)
-        self.assertEqual(result['expected_ids'],['test_auditor.C.test_one'])
-        self.assertEqual(result['tests']['selected_ids'],['test_auditor.C.test_two'])
+        # Canonical declarations are frozen before the unsupported hook.
+        # Both declared bodies remain required; the hook is never evaluated.
+        self.assertEqual(result['expected_ids'],['test_auditor.C.test_one','test_auditor.C.test_two'])
+        self.assertEqual(result['pristine_population']['invalid_population'],['unsupported module load_tests hook: test_auditor'])
+        self.assertEqual(result['tests'],{})
 
     def test_missing_forged_or_noninteger_receipts_fail_closed(self):
         import copy
@@ -261,6 +264,175 @@ class LazyBodyHarnessRules(unittest.TestCase):
                 self.assertTrue(record['ordinary_sentinel_executed'],record)
                 self.assertTrue(record['receipt']['tests']['invalid_population'],record)
 
+
+import os
+import shutil
+import subprocess
+
+class IdentityHarnessRules(unittest.TestCase):
+    """Real ordinary-body controls for loader and in-process identity binding."""
+
+    def run_identity_fixture(self, label, source, selectors=()):
+        import hashlib
+        with tempfile.TemporaryDirectory() as temporary:
+            root=Path(temporary);(root/'tests').mkdir()
+            runner=root/'mutation_test.py'
+            shutil.copy2(HERE/'mutation_test.py',runner)
+            events=root/'events'
+            header=('import unittest\nfrom pathlib import Path\n'
+                    +'def record(label):\n with Path('+repr(str(events))+').open("a") as out: out.write(label+"\\n")\n')
+            fixture=root/'tests'/'test_auditor.py'
+            fixture.write_text(header+source)
+            output=root/'receipt.json'
+            command=[sys.executable,'-B','-S',str(runner),*['--internal-test-runner','--test-root',str(root/'tests')],'--output',str(output)]
+            for selector in selectors:command.extend(['--test',selector])
+            p=subprocess.run(command,capture_output=True,text=True,timeout=15)
+            self.assertTrue(output.exists(),p.stderr)
+            value=json.loads(output.read_text())
+            outcome=mutation_test.classify_test_result(value,p.returncode)
+            observed=events.read_text().splitlines() if events.exists() else []
+            record={'label':label,'optimize':sys.flags.optimize,'fixture_source':header+source,
+                    'fixture_sha256':hashlib.sha256(fixture.read_bytes()).hexdigest(),
+                    'command':command,'exit_code':p.returncode,'outcome':outcome,
+                    'events':observed,'receipt':value,'stdout':p.stdout,'stderr':p.stderr}
+            destination=os.environ.get('CBZ_IDENTITY_CONTROL_EVIDENCE')
+            if destination:
+                out=Path(destination);out.mkdir(parents=True,exist_ok=True)
+                (out/(label+'.json')).write_text(json.dumps(record,sort_keys=True,indent=2)+'\n')
+            return outcome,value,observed
+
+    def test_module_alias_subclass_and_population_hooks_refused_before_execution(self):
+        base=('class C(unittest.TestCase):\n'
+              +' def test_first(self): record("first")\n'
+              +' def test_second(self):\n  record("second")\n  self.fail("retained second body")\n')
+        hooks=[('alias','def load_tests(loader, tests, pattern):\n record("hook")\n C.test_second=C.test_first\n return tests\n'),
+               ('alias-assertion','def load_tests(loader, tests, pattern):\n record("hook")\n C.test_second=C.test_first\n return tests\n'),
+               ('subclass','def load_tests(loader, tests, pattern):\n record("hook")\n def replacement(self): record("replacement")\n R=type("C",(C,),{"test_first":replacement,"test_second":replacement,"__module__":__name__,"__qualname__":"C"})\n globals()["C"]=R\n return loader.loadTestsFromTestCase(R)\n'),
+               ('omission','def load_tests(loader, tests, pattern):\n record("hook")\n return unittest.TestSuite([C("test_first")])\n')]
+        for label,hook in hooks:
+            with self.subTest(shape=label):
+                source=base+hook
+                if label=='alias-assertion':source=source.replace('def test_first(self): record("first")','def test_first(self):\n  record("first")\n  self.fail("first body assertion")')
+                outcome,value,events=self.run_identity_fixture('hook-'+label,source)
+                self.assertEqual(outcome,'ERROR',value)
+                self.assertEqual(events,[],value)
+                self.assertTrue(value['invalid_population'],value)
+
+        source=('class Hidden(unittest.TestCase):\n def test_hidden(self):\n  record("hidden")\n  self.fail("hidden body retained")\n'
+                +'class Visible(unittest.TestCase):\n def test_visible(self): record("visible")\n'
+                +'def __dir__():\n record("module-dir")\n return ["Visible"]\n')
+        outcome,value,events=self.run_identity_fixture('module-dir-cannot-hide',source)
+        self.assertEqual(outcome,'KILLED',value)
+        self.assertEqual(events,['hidden','visible'],value)
+        self.assertEqual(len(value['selected_ids']),2,value)
+
+    def test_named_class_and_method_selection_preserve_exact_population(self):
+        source='class C(unittest.TestCase):\n def test_first(self): record("first")\n def test_second(self): record("second")\n'
+        for label,selectors,wanted in [('class',('test_auditor.C',),['first','second']),
+                                        ('method',('test_auditor.C.test_second',),['second'])]:
+            with self.subTest(selector=label):
+                outcome,value,events=self.run_identity_fixture('named-'+label,source,selectors)
+                self.assertEqual(outcome,'SURVIVED',value)
+                self.assertEqual(events,wanted,value)
+        outcome,value,events=self.run_identity_fixture('named-assertion',source.replace('record("first")','record("first"); self.fail("body")'),('test_auditor.C',))
+        self.assertEqual(outcome,'KILLED',value)
+        self.assertEqual(events,['first','second'],value)
+
+    def test_callable_factory_selector_is_refused_before_factory_or_body(self):
+        source=('class C(unittest.TestCase):\n def test_one(self): record("body")\n'
+                +'def factory():\n record("factory")\n return unittest.TestSuite([C("test_one")])\n')
+        outcome,value,events=self.run_identity_fixture('callable-factory',source,('test_auditor.factory',))
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,[],value)
+        self.assertTrue(value['invalid_population'],value)
+
+        proxy_source=('class C(unittest.TestCase):\n def test_one(self): record("body")\n'
+                      +'class Proxy:\n def __getattr__(self,name):\n  record("proxy")\n  return C\nproxy=Proxy()\n')
+        outcome,value,events=self.run_identity_fixture('selector-proxy',proxy_source,('test_auditor.proxy.C.test_one',))
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,[],value)
+        self.assertTrue(value['invalid_population'],value)
+        constructor_fixtures=[
+            ('init','class C(unittest.TestCase):\n def __init__(self,*a,**k):\n  record("constructor")\n  super().__init__(*a,**k)\n  type(self).test_second=type(self).test_first\n def test_first(self): record("first")\n def test_second(self):\n  record("second")\n  self.fail("retained second body")\n'),
+            ('new','class C(unittest.TestCase):\n def __new__(cls,*a,**k):\n  record("constructor")\n  return super().__new__(cls)\n def test_one(self): record("body")\n'),
+            ('metaclass','class Meta(type):\n def __call__(cls,*a,**k):\n  record("metaclass")\n  return super().__call__(*a,**k)\nclass C(unittest.TestCase,metaclass=Meta):\n def test_one(self): record("body")\n'),
+            ('getattribute','class C(unittest.TestCase):\n def __getattribute__(self,name):\n  record("attribute")\n  return super().__getattribute__(name)\n def test_one(self): record("body")\n'),
+            ('setattr','class C(unittest.TestCase):\n def __setattr__(self,name,value):\n  record("attribute")\n  return super().__setattr__(name,value)\n def test_one(self): record("body")\n'),
+        ]
+        constructor_fixtures.append(('descriptor','class Descriptor:\n def __init__(self,original): self.original=original\n def __get__(self,instance,owner):\n  record("descriptor")\n  owner.test_second=owner.test_first\n  return owner.test_first\nclass C(unittest.TestCase):\n def test_first(self): record("first")\n def test_second(self):\n  record("second")\n  self.fail("retained second body")\n test_second=Descriptor(test_second)\n'))
+        for kind in ('staticmethod','classmethod'):
+            constructor_fixtures.append(('descriptor-'+kind,'class Alias('+kind+'):\n def __get__(self,instance,owner):\n  record("descriptor-subclass")\n  owner.test_second=owner.test_first\n  return owner.test_first.__get__(instance,owner)\nclass C(unittest.TestCase):\n def test_first(self): record("first")\n def test_second(self):\n  record("second")\n  self.fail("retained second body")\n test_second=Alias(test_second)\n'))
+        constructor_fixtures.append(('special-descriptor','class InitDescriptor:\n def __get__(self,instance,owner):\n  record("special-descriptor")\n  owner.__init__=unittest.TestCase.__init__\n  return owner.__init__.__get__(instance,owner)\nclass C(unittest.TestCase):\n __init__=InitDescriptor()\n def test_one(self): record("body")\n'))
+        for label,source in constructor_fixtures:
+            for selection in [(),('test_auditor.C',),('test_auditor.C.'+('test_first' if label=='init' else 'test_second' if label.startswith('descriptor') else 'test_one'),)]:
+                with self.subTest(constructor=label,selector=selection):
+                    outcome,value,events=self.run_identity_fixture('construction-'+label+'-'+str(len(selection))+'-'+('method' if selection and selection[0].count('.')==2 else 'class'),source,selection)
+                    self.assertEqual(outcome,'ERROR',value)
+                    self.assertEqual(events,[],value)
+                    self.assertTrue(value['invalid_population'],value)
+
+        helper_source=('class Alias(staticmethod):\n def __get__(self,instance,owner):\n  record("helper-descriptor")\n  return owner.test_one.__get__(instance,owner)\n'
+                       +'class C(unittest.TestCase):\n def test_one(self): record("test")\n def helper(self):\n  record("retained-helper")\n  self.fail("original helper body")\n helper=Alias(helper)\n')
+        outcome,value,events=self.run_identity_fixture('selector-helper-descriptor',helper_source,('test_auditor.C.helper',))
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,[],value)
+        self.assertTrue(value['invalid_population'],value)
+
+    def test_class_fixture_function_and_code_substitutions_are_refused(self):
+        base=('def replacement(self): record("replacement")\n'
+              +'class C(unittest.TestCase):\n'
+              +' @classmethod\n def setUpClass(cls):\n  record("class-setup")\n  CHANGE\n'
+              +' def test_one(self):\n  record("original")\n  self.fail("original body retained")\n')
+        for label,change in [('function','cls.test_one=replacement'),('code','cls.test_one.__code__=replacement.__code__'),
+                             ('same-code-function','cls.test_one=__import__("types").FunctionType(cls.test_one.__code__,cls.test_one.__globals__)')]:
+            with self.subTest(change=label):
+                outcome,value,events=self.run_identity_fixture('class-fixture-'+label,base.replace('CHANGE',change))
+                self.assertEqual(outcome,'ERROR',value)
+                self.assertEqual(events,['class-setup'],value)
+                self.assertTrue(value['invalid_population'],value)
+
+        source=('class C(unittest.TestCase):\n'
+                +' def setUp(self):\n  record("setup")\n  self.__class__=type("C",(type(self),),{"__module__":__name__,"__qualname__":"C"})\n'
+                +' def test_one(self):\n  record("original")\n  self.fail("original body retained")\n')
+        outcome,value,events=self.run_identity_fixture('instance-class-change',source)
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,['setup'],value)
+        self.assertTrue(value['invalid_population'],value)
+
+    def test_postload_substitution_refused_before_any_fixture(self):
+        spec=importlib.util.spec_from_file_location('identity_runtime_probe',HERE/'mutation_test.py')
+        runtime=importlib.util.module_from_spec(spec);spec.loader.exec_module(runtime)
+        events=[]
+        class Case(unittest.TestCase):
+            @classmethod
+            def setUpClass(cls):events.append('class-setup')
+            def setUp(self):events.append('setup')
+            def test_one(self):events.append('original')
+        loader=runtime.IdentityLoader();suite=loader.loadTestsFromTestCase(Case)
+        def replacement(self):events.append('replacement')
+        Case.test_one=replacement
+        value=runtime.execute_test_suite(suite,loader.bindings,loader.invalid)
+        self.assertTrue(value['invalid_population'],value)
+        self.assertEqual(events,[],value)
+        self.assertEqual(value['tests_run'],0,value)
+
+    def test_custom_testcase_run_is_refused_before_execution(self):
+        source=('class C(unittest.TestCase):\n'
+                +' def run(self,result=None):\n  record("custom-run")\n  return super().run(result)\n'
+                +' def test_one(self): record("body")\n')
+        outcome,value,events=self.run_identity_fixture('custom-run',source,('test_auditor.C',))
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,[],value)
+        self.assertTrue(value['invalid_population'],value)
+
+    def test_identity_change_during_body_is_not_a_clean_kill(self):
+        source=('class C(unittest.TestCase):\n'
+                +' def test_first(self):\n  record("first")\n  type(self).test_second=type(self).test_first\n'
+                +' def test_second(self):\n  record("second")\n  self.fail("retained second body")\n')
+        outcome,value,events=self.run_identity_fixture('during-body-change',source)
+        self.assertEqual(outcome,'ERROR',value)
+        self.assertEqual(events,['first'],value)
+        self.assertTrue(value['invalid_population'],value)
 
 if __name__=='__main__':
     unittest.main()

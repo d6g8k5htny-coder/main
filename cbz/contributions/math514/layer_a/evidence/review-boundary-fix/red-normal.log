@@ -1,0 +1,103 @@
+test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) ... 
+  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\nx /= 2') ... FAIL
+  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\nx /= 1') ... FAIL
+test_augmented_exact_controls_and_engineering_profile_remain_valid (test_auditor.ReviewBoundaryRules.test_augmented_exact_controls_and_engineering_profile_remain_valid) ... ok
+test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) ... 
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1') ... FAIL
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n') ... FAIL
+  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True') ... FAIL
+test_es_module_text_wrapper_is_still_unsupported_source (test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source) ... FAIL
+test_es_modules_cannot_be_reclassified_as_data_or_documentation (test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation) ... FAIL
+test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) ... 
+  test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) (flag=None) ... FAIL
+test_math_from_import_candidate_cannot_acquire_engineering_values (test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values) ... FAIL
+test_math_import_package_prefix_requires_mathematical_scope (test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope) ... FAIL
+
+======================================================================
+FAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\nx /= 2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 791, in test_augmented_division_cannot_certify_float_results
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\nx /= 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 791, in test_augmented_division_cannot_certify_float_results
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 797, in test_augmented_power_requires_nonnegative_integer_literal
+    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+AssertionError: 'PY_INEXACT' not found in set()
+
+======================================================================
+FAIL: test_es_module_text_wrapper_is_still_unsupported_source (test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py", line 282, in dispatch
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'SOURCE_CLASSIFICATION' not found in set()
+
+======================================================================
+FAIL: test_es_modules_cannot_be_reclassified_as_data_or_documentation (test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py", line 282, in dispatch
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'SOURCE_CLASSIFICATION' not found in set()
+
+======================================================================
+FAIL: test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) (flag=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py", line 822, in test_explicit_null_or_invalid_status_flag_cannot_disable_checks
+    self.assertIn('STATUS_EVIDENCE', self.codes())
+AssertionError: 'STATUS_EVIDENCE' not found in set()
+
+======================================================================
+FAIL: test_math_from_import_candidate_cannot_acquire_engineering_values (test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py", line 282, in dispatch
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'MATH_DEPENDENCY_GAP' not found in set()
+
+======================================================================
+FAIL: test_math_import_package_prefix_requires_mathematical_scope (test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py", line 282, in dispatch
+    return _original(*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'MATH_DEPENDENCY_GAP' not found in {'PY_IMPORT_GAP'}
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.008s
+
+FAILED (failures=10)

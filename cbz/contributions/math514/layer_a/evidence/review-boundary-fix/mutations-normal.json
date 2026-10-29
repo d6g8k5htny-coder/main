@@ -1,0 +1,904 @@
+{
+  "mode": "normal",
+  "optimized_child_environment": false,
+  "new_definitions": 7,
+  "adapted_existing_definitions": 3,
+  "results": [
+    {
+      "name": "restore-augmented-division-gap",
+      "file": "source_checks.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 2,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results",
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results",
+            "source": "subtest"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results",
+            "source": "subtest"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 2,
+        "subtest_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results",
+            "phase": "body",
+            "outcome": "assertion"
+          }
+        ],
+        "failure_events": [],
+        "tests_run": 1,
+        "assertion_failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) ... \n  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\\nx /= 2') ... FAIL\n  test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\\nx /= 1') ... FAIL\n\n======================================================================\nFAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 1\\nx /= 2')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-4fo1zz1y/tests/test_auditor.py\", line 791, in test_augmented_division_cannot_certify_float_results\n    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})\nAssertionError: 'PY_INEXACT' not found in set()\n\n======================================================================\nFAIL: test_augmented_division_cannot_certify_float_results (test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results) (source='x = 0\\nx /= 1')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-4fo1zz1y/tests/test_auditor.py\", line 791, in test_augmented_division_cannot_certify_float_results\n    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})\nAssertionError: 'PY_INEXACT' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=2)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "mutated_sha256": "4f1ae444469f9a95c179ea23ca87b22d9f026095ece3c216602ec3006b1d0a4d",
+      "log": "../evidence/mutations-normal/restore-augmented-division-gap.log",
+      "log_sha256": "ec364ee318316d73108103d95682fc84160407a7b503564200b0a7fe3c455455"
+    },
+    {
+      "name": "restore-augmented-power-gap",
+      "file": "source_checks.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 3,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "source": "subtest"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "source": "subtest"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "source": "subtest"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 4,
+        "subtest_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal",
+            "phase": "body",
+            "outcome": "success"
+          }
+        ],
+        "failure_events": [],
+        "tests_run": 1,
+        "assertion_failures": 3,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) ... \n  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1') ... FAIL\n  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n') ... FAIL\n  test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True') ... FAIL\n\n======================================================================\nFAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='-1')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-xogj1xen/tests/test_auditor.py\", line 797, in test_augmented_power_requires_nonnegative_integer_literal\n    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})\nAssertionError: 'PY_INEXACT' not found in set()\n\n======================================================================\nFAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-xogj1xen/tests/test_auditor.py\", line 797, in test_augmented_power_requires_nonnegative_integer_literal\n    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})\nAssertionError: 'PY_INEXACT' not found in set()\n\n======================================================================\nFAIL: test_augmented_power_requires_nonnegative_integer_literal (test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal) (exponent='True')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-xogj1xen/tests/test_auditor.py\", line 797, in test_augmented_power_requires_nonnegative_integer_literal\n    self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})\nAssertionError: 'PY_INEXACT' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=3)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "mutated_sha256": "672aa01dd78d60caf9d5dcb977225a30ab6ef3e8ad77932a60f21ec291188748",
+      "log": "../evidence/mutations-normal/restore-augmented-power-gap.log",
+      "log_sha256": "319b4b87af7de7ff6c8e304be0a69decc6fd4f84e148e5a8eee7bcd0d9fd77ef"
+    },
+    {
+      "name": "restore-python-candidate-nonmath-gap",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values",
+            "source": "direct"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 0,
+        "subtest_events": [],
+        "failure_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values",
+            "phase": "body",
+            "kind": "assertion"
+          }
+        ],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_math_from_import_candidate_cannot_acquire_engineering_values (test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values) ... FAIL\n\n======================================================================\nFAIL: test_math_from_import_candidate_cannot_acquire_engineering_values (test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 289, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'MATH_DEPENDENCY_GAP' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.002s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "8d93ccc53b9bf1a4de213e0565876cb29f892553d5e557db038a9ff0198b0f23",
+      "log": "../evidence/mutations-normal/restore-python-candidate-nonmath-gap.log",
+      "log_sha256": "3681f46dc965deeef1889e9da5c5ef2926a4b23961c41368bedee822e3221d80"
+    },
+    {
+      "name": "restore-python-prefix-nonmath-gap",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope",
+            "source": "direct"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 0,
+        "subtest_events": [],
+        "failure_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope",
+            "phase": "body",
+            "kind": "assertion"
+          }
+        ],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_math_import_package_prefix_requires_mathematical_scope (test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope) ... FAIL\n\n======================================================================\nFAIL: test_math_import_package_prefix_requires_mathematical_scope (test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 289, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'MATH_DEPENDENCY_GAP' not found in {'PY_IMPORT_GAP'}\n\n----------------------------------------------------------------------\nRan 1 test in 0.003s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "f46b76305d4c62b88686a96cecdb7a48e3ade0c0bd479c2db2b113ed68bef782",
+      "log": "../evidence/mutations-normal/restore-python-prefix-nonmath-gap.log",
+      "log_sha256": "61715bd3274f49d172e2577ed14fdc1ff1707a498b16425a6e8a61afda7ec0b1"
+    },
+    {
+      "name": "restore-null-status-evidence-skip",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "source": "subtest"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 6,
+        "subtest_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks",
+            "phase": "body",
+            "outcome": "success"
+          }
+        ],
+        "failure_events": [],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) ... \n  test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) (flag=None) ... FAIL\n\n======================================================================\nFAIL: test_explicit_null_or_invalid_status_flag_cannot_disable_checks (test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks) (flag=None)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-1mrc1yzh/tests/test_auditor.py\", line 822, in test_explicit_null_or_invalid_status_flag_cannot_disable_checks\n    self.assertIn('STATUS_EVIDENCE', self.codes())\nAssertionError: 'STATUS_EVIDENCE' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.002s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "9db61dc89438708abb5da63124fb09c5aad676121525161a2dfed2601399a2ba",
+      "log": "../evidence/mutations-normal/restore-null-status-evidence-skip.log",
+      "log_sha256": "7fb616fcce1724e535e07e1955adbe30dcb427126918e55589e467e0ca342d33"
+    },
+    {
+      "name": "restore-es-module-extension-gap",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation",
+            "source": "direct"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 0,
+        "subtest_events": [],
+        "failure_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation",
+            "phase": "body",
+            "kind": "assertion"
+          }
+        ],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_es_modules_cannot_be_reclassified_as_data_or_documentation (test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation) ... FAIL\n\n======================================================================\nFAIL: test_es_modules_cannot_be_reclassified_as_data_or_documentation (test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 289, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'SOURCE_CLASSIFICATION' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "29bbfc603d4ddc1b6959d17600063524ec1f0cff552dc84874e83cd9acdaed2d",
+      "log": "../evidence/mutations-normal/restore-es-module-extension-gap.log",
+      "log_sha256": "13b1fe2226e312be3cac54d858b59fab7ff666efc5c3495fc641bd09ff90796c"
+    },
+    {
+      "name": "restore-es-module-text-wrapper-gap",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "started_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source",
+            "source": "direct"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 0,
+        "subtest_events": [],
+        "failure_events": [
+          {
+            "id": "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source",
+            "phase": "body",
+            "kind": "assertion"
+          }
+        ],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_es_module_text_wrapper_is_still_unsupported_source (test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source) ... FAIL\n\n======================================================================\nFAIL: test_es_module_text_wrapper_is_still_unsupported_source (test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 289, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'SOURCE_CLASSIFICATION' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "ad36fd7c51fbb4b8e30a944b3aecbb2aeb7095b2715b006cab3e8891a0f75128",
+      "log": "../evidence/mutations-normal/restore-es-module-text-wrapper-gap.log",
+      "log_sha256": "179a0a93eb0eedbec67a933ac255528fa9c0c83ac739dc9947d400269ddcef8a"
+    },
+    {
+      "name": "allow-python-division",
+      "file": "source_checks.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "started_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "finished_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_entered_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_finished_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "source": "subtest"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 15,
+        "subtest_events": [
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          }
+        ],
+        "failure_events": [],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) ... \n  test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2') ... FAIL\n\n======================================================================\nFAIL: test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-cmm80ttu/tests/test_auditor.py\", line 173, in test_every_inexact_python_route_is_rejected\n    self.assertIn(code, self.python_codes(text))\nAssertionError: 'PY_INEXACT' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "mutated_sha256": "35b7eeae3b99fb74c980e1eb070246aaefabbb3abaf5fc7218512d8a36ffc3f3",
+      "log": "../evidence/mutations-normal/allow-python-division.log",
+      "log_sha256": "1c810a1f97295a9d52da99843bda1da01c5c27d4585ca75449d266ad6a2e37d9"
+    },
+    {
+      "name": "allow-negative-dynamic-powers",
+      "file": "source_checks.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 2,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "started_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "finished_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_entered_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_finished_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "source": "subtest"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "source": "subtest"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 15,
+        "subtest_events": [
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "assertion"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          },
+          {
+            "id": "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected",
+            "phase": "body",
+            "outcome": "success"
+          }
+        ],
+        "failure_events": [],
+        "tests_run": 1,
+        "assertion_failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) ... \n  test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**-1') ... FAIL\n  test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**n') ... FAIL\n\n======================================================================\nFAIL: test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**-1')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-kvnoeiqd/tests/test_auditor.py\", line 173, in test_every_inexact_python_route_is_rejected\n    self.assertIn(code, self.python_codes(text))\nAssertionError: 'PY_INEXACT' not found in set()\n\n======================================================================\nFAIL: test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**n')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/cbz-layer-a-mutant-kvnoeiqd/tests/test_auditor.py\", line 173, in test_every_inexact_python_route_is_rejected\n    self.assertIn(code, self.python_codes(text))\nAssertionError: 'PY_INEXACT' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.002s\n\nFAILED (failures=2)\n"
+      },
+      "expected_ids": [
+        "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.SourceRules.test_every_inexact_python_route_is_rejected"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "mutated_sha256": "0a08500508d2ee8a643b8b3e03e82ef783170564fda93bd48a206233e3f46ca5",
+      "log": "../evidence/mutations-normal/allow-negative-dynamic-powers.log",
+      "log_sha256": "b192bd30136dd0cb7aa4e938a580a2fb34bba93f9050a05a493cae299afb2b9e"
+    },
+    {
+      "name": "skip-status-evidence",
+      "file": "auditor.py",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 1,
+      "assertion_failures": 1,
+      "errors": 0,
+      "tests": {
+        "receipt_schema": "cbz-unittest-lifecycle-v1",
+        "selected_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "started_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "finished_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "body_entered_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "body_finished_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "body_assertion_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "assertion_events": [
+          {
+            "id": "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration",
+            "source": "direct"
+          }
+        ],
+        "invalid_population": [],
+        "lifecycle_failures": 0,
+        "subtests": 0,
+        "subtest_events": [],
+        "failure_events": [
+          {
+            "id": "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration",
+            "phase": "body",
+            "kind": "assertion"
+          }
+        ],
+        "tests_run": 1,
+        "assertion_failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "successful": false,
+        "log": "test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration) ... FAIL\n\n======================================================================\nFAIL: test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py\", line 289, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'STATUS_EVIDENCE' not found in set()\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n"
+      },
+      "expected_ids": [
+        "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+      ],
+      "pristine_population": {
+        "receipt_schema": "cbz-unittest-population-v1",
+        "selected_ids": [
+          "test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration"
+        ],
+        "invalid_population": []
+      },
+      "original_sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "mutated_sha256": "dbbb90a3fccb53cb0ccfffd1a27368faae20db77d2191855be9c25cff777447e",
+      "log": "../evidence/mutations-normal/skip-status-evidence.log",
+      "log_sha256": "46deb7861b56bfd8f62bc0da547a7bbef2e600547c00a7de307a110dc1e01a19"
+    }
+  ],
+  "passed": true
+}

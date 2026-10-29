@@ -1,0 +1,47 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpepsreftl/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpepsreftl/tests",
+    "--output",
+    "/tmp/tmpepsreftl/receipt.json"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "0c80c0166e97d59ac92dfb6f142d8cc43365da37858c6ea2e607e5a9f4ab02d9",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpepsreftl/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass InitDescriptor:\n def __get__(self,instance,owner):\n  record(\"special-descriptor\")\n  owner.__init__=unittest.TestCase.__init__\n  return owner.__init__.__get__(instance,owner)\nclass C(unittest.TestCase):\n __init__=InitDescriptor()\n def test_one(self): record(\"body\")\n",
+  "label": "construction-special-descriptor-0-class",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

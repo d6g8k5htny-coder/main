@@ -1,0 +1,47 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp07vtpr7j/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp07vtpr7j/tests",
+    "--output",
+    "/tmp/tmp07vtpr7j/receipt.json"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "eed1a8ca684040fe2a4a63ea5fc1218834840e79925b59d4fef14ecacc4f4e10",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp07vtpr7j/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def __new__(cls,*a,**k):\n  record(\"constructor\")\n  return super().__new__(cls)\n def test_one(self): record(\"body\")\n",
+  "label": "construction-new-0-class",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

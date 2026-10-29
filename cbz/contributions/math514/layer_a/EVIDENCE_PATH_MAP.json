@@ -1,8 +1,8 @@
 {
   "current_composed_admission": {
-    "receipt": "evidence/declaration-numeric/current-composed-admission.json",
-    "sha256": "678b710139a3c94ad2f885ac92f0296dc46a17c8a2ebca7d2c89b89ed0df8706",
-    "origin_map": "evidence/declaration-numeric/ORIGIN_PATH_MAP.json",
+    "receipt": "evidence/final-review-identity/current-composed-admission.json",
+    "sha256": "0a5f28306f618405aeb57c8e344dab1a3bad62f305d95f7ccaada9588448a07d",
+    "source_bindings_status": "FINAL_ROOT_COMPOSITION_BOUND",
     "raw_receipts_unchanged": true
   },
   "execution_root": "/workspace/cbz-0/tools/layer_a",
@@ -2945,5 +2945,35 @@
     "raw_receipts_unchanged": true,
     "receipt": "evidence/composed-admission.json",
     "sha256": "2dace92015ee5d777d403282971f67281f267f7fca71c88659c57678f693a5ac"
+  },
+  "numeric_predecessor_composed_admission": {
+    "receipt": "evidence/declaration-numeric/current-composed-admission.json",
+    "sha256": "678b710139a3c94ad2f885ac92f0296dc46a17c8a2ebca7d2c89b89ed0df8706",
+    "origin_map": "evidence/declaration-numeric/ORIGIN_PATH_MAP.json",
+    "raw_receipts_unchanged": true
+  },
+  "combined_successor_origin_prefix_aliases": [
+    {
+      "raw_origin_prefix": "/workspace/cbz-0/delivery/auditor-review-closure/evidence/",
+      "relative_publication_prefix": "evidence/review-boundary-fix/",
+      "rule": "Preserve raw paths and receipts; prefix translation only."
+    },
+    {
+      "raw_origin_prefix": "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/",
+      "relative_publication_prefix": "evidence/grader-identity-fix/",
+      "rule": "Preserve raw paths and receipts; evidence/grader-identity-fix/ALIASES.json and its shared source/evidence binding records supply exact aliases."
+    }
+  ],
+  "combined_component_entrypoints": {
+    "review_boundary": "evidence/review-boundary-fix/FINAL_SOURCES.json",
+    "review_boundary_applicability": "evidence/review-boundary-fix/APPLICABILITY.json",
+    "identity": "evidence/grader-identity-fix/CURRENT_COMPOSED_ADMISSION.json",
+    "identity_origin_aliases": "evidence/grader-identity-fix/ALIASES.json",
+    "composition": "evidence/final-review-identity/SOURCE_COMPOSITION.json"
+  },
+  "versioned_component_source_aliases": {
+    "path": "evidence/component-source-snapshots/ALIASES.json",
+    "sha256": "10cc19534376cbdf2259392c7fcdcdc146b5d553d19d56f800c99ac2fee2289b",
+    "precedence": "For raw component source paths, resolve the exact path AND expected SHA256 through this map before broad/path-only historical aliases. Refuse mismatches or ambiguous generations; never alias an old component source to byte-different current runtime."
   }
 }
