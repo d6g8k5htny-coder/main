@@ -15,7 +15,7 @@ The full unmutated positive suites and each exact mutant/control must be separat
 
 ## Witness diagnostic collector
 
-The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The bounded implementation is present but unqualified: the test-first and candidate hosted runs are queued. Run its controls in both Python modes and record actual results before relying on its output.
+The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The bounded implementation is present but unqualified: the candidate hosted run is queued; the original collector test-first run was subsequently observed failing. Run its controls in both Python modes and record actual results before relying on its output.
 
 ## Observed adverse results and source-byte repair
 
@@ -37,6 +37,8 @@ python3.11 -I -B -O -S tests/test_auditor_mutant_diagnostics.py -v
 python3.11 -I -B -S tools/cbz/auditor_mutant_diagnostics.py --root ROOT --scope both --output NEW_EXTERNAL.json
 ~~~
 
-The collector has meaningful adverse controls and source mutations, but no candidate test has yet been observed. Test-first and candidate runs are queued. Do not treat the collector as qualified, adopt its observed failures as their own witnesses, or claim a passing gate. Independently review every guard-specific observation before modifying a grader. Owner none.
+The collector has meaningful adverse controls and source mutations, but no candidate test has yet been observed. The original collector test-first run is observed RED; the candidate run remains queued. Do not treat the collector as qualified, adopt its observed failures as their own witnesses, or claim a passing gate. Independently review every guard-specific observation before modifying a grader. Owner none.
 
 Test-first head `9d52d68086f98d20a8b7b000a1d00b9e8b0c878d`, hosted run 40956363103/job 123737390295, actually ran seven controls per Python mode and produced 15 assertion failures and zero errors in each, including the three `CBZ_BYTES_MATCH`/`CBZ_POISONED` loader exploits. Its decoded job log is retained in `red/9d52d68086f9-job123737390295.log`. This confirms the old graders' and loaders' failures at that exact head; it does not verify a successor.
+
+Collector test-first head `b1d80c1c62134c23f948d22ee451f5de1910de9b`, hosted run 40956746044/job 123738691733, actually ran six test methods per mode with six assertion failures and zero errors in each because the specified collector did not exist. The decoded original job log is retained in `red/b1d80c1c6213-diagnostic-job123738691733.log`. This is a test-first observation only, not verification of the later implementation.

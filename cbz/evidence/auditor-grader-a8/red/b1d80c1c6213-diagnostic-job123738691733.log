@@ -1,0 +1,389 @@
+﻿2026-10-29T21:33:33.5726527Z Current runner version: '2.338.0'
+2026-10-29T21:33:33.5758580Z ##[group]Runner Image Provisioner
+2026-10-29T21:33:33.5760014Z Hosted Compute Agent
+2026-10-29T21:33:33.5761069Z Version: 20261021.618
+2026-10-29T21:33:33.5762212Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T21:33:33.5763570Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T21:33:33.5764840Z Worker ID: {59bce0cb-e0bf-43d9-bfcf-5eee4b37d76a}
+2026-10-29T21:33:33.5766084Z Region: westus
+2026-10-29T21:33:33.5767448Z Cloud: Azure
+2026-10-29T21:33:33.5768369Z ##[endgroup]
+2026-10-29T21:33:33.5770325Z ##[group]Operating System
+2026-10-29T21:33:33.5771138Z Ubuntu
+2026-10-29T21:33:33.5771666Z 26.04.1
+2026-10-29T21:33:33.5772219Z LTS
+2026-10-29T21:33:33.5772796Z ##[endgroup]
+2026-10-29T21:33:33.5773330Z ##[group]Runner Image
+2026-10-29T21:33:33.5774032Z Image: ubuntu-26.04
+2026-10-29T21:33:33.5774611Z Version: 20261025.179.1
+2026-10-29T21:33:33.5776010Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-29T21:33:33.5778513Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-29T21:33:33.5780740Z ##[endgroup]
+2026-10-29T21:33:33.5782475Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T21:33:33.5786169Z Contents: read
+2026-10-29T21:33:33.5787343Z Metadata: read
+2026-10-29T21:33:33.5788291Z ##[endgroup]
+2026-10-29T21:33:33.5792654Z Secret source: Actions
+2026-10-29T21:33:33.5794633Z Cache mode: write
+2026-10-29T21:33:33.5796015Z Prepare workflow directory
+2026-10-29T21:33:33.6489331Z Prepare all required actions
+2026-10-29T21:33:33.6552829Z Getting action download info
+2026-10-29T21:33:34.0427157Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-29T21:33:34.1559569Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-29T21:33:34.2183953Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-29T21:33:34.3899722Z Complete job name: diagnostic-controls
+2026-10-29T21:33:34.4889670Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-29T21:33:34.4890817Z with:
+2026-10-29T21:33:34.4891279Z   persist-credentials: false
+2026-10-29T21:33:34.4891832Z   repository: d6g8k5htny-coder/main
+2026-10-29T21:33:34.4896337Z   token: ***
+2026-10-29T21:33:34.4896782Z   ssh-strict: true
+2026-10-29T21:33:34.4897464Z   ssh-user: git
+2026-10-29T21:33:34.4897892Z   clean: true
+2026-10-29T21:33:34.4898352Z   sparse-checkout-cone-mode: true
+2026-10-29T21:33:34.4899004Z   fetch-depth: 1
+2026-10-29T21:33:34.4899505Z   fetch-tags: false
+2026-10-29T21:33:34.4899970Z   show-progress: true
+2026-10-29T21:33:34.4900430Z   lfs: false
+2026-10-29T21:33:34.4900856Z   submodules: false
+2026-10-29T21:33:34.4901317Z   set-safe-directory: true
+2026-10-29T21:33:34.4901836Z   allow-unsafe-pr-checkout: false
+2026-10-29T21:33:34.4902682Z ##[endgroup]
+2026-10-29T21:33:34.7756659Z Syncing repository: d6g8k5htny-coder/main
+2026-10-29T21:33:34.7759192Z ##[group]Getting Git version info
+2026-10-29T21:33:34.7760200Z Working directory is '/home/runner/work/main/main'
+2026-10-29T21:33:34.7761308Z [command]/usr/bin/git version
+2026-10-29T21:33:34.7798472Z git version 2.56.0
+2026-10-29T21:33:34.7821968Z ##[endgroup]
+2026-10-29T21:33:34.7844508Z Temporarily overriding HOME='/home/runner/work/_temp/916e2ddc-aeb1-4654-a358-b9a7b44b9499' before making global git config changes
+2026-10-29T21:33:34.7847727Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T21:33:34.7853060Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T21:33:34.7939172Z Deleting the contents of '/home/runner/work/main/main'
+2026-10-29T21:33:34.7942664Z ##[group]Determining repository object format
+2026-10-29T21:33:34.7944268Z ##[endgroup]
+2026-10-29T21:33:34.7946056Z ##[group]Initializing the repository
+2026-10-29T21:33:34.7949285Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-10-29T21:33:34.8067322Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T21:33:34.8069345Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T21:33:34.8071582Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T21:33:34.8073194Z hint: call:
+2026-10-29T21:33:34.8074178Z hint:
+2026-10-29T21:33:34.8075305Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T21:33:34.8076760Z hint:
+2026-10-29T21:33:34.8078241Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T21:33:34.8080101Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T21:33:34.8081634Z hint:
+2026-10-29T21:33:34.8082510Z hint: 	git branch -m <name>
+2026-10-29T21:33:34.8083499Z hint:
+2026-10-29T21:33:34.8084777Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T21:33:34.8087421Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-10-29T21:33:34.8094909Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-10-29T21:33:34.8154193Z ##[endgroup]
+2026-10-29T21:33:34.8155990Z ##[group]Disabling automatic garbage collection
+2026-10-29T21:33:34.8157822Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T21:33:34.8200453Z ##[endgroup]
+2026-10-29T21:33:34.8202124Z ##[group]Setting up auth
+2026-10-29T21:33:34.8203080Z Removing SSH command configuration
+2026-10-29T21:33:34.8204822Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:34.8247113Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:34.8739729Z Removing HTTP extra header
+2026-10-29T21:33:34.8745630Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:34.8782042Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:34.9075599Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:34.9079471Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:34.9122645Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:34.9412216Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T21:33:34.9455155Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:34.9491771Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:34.9531200Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:34.9567370Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:34.9598377Z ##[endgroup]
+2026-10-29T21:33:34.9600282Z ##[group]Fetching the repository
+2026-10-29T21:33:34.9606402Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b1d80c1c62134c23f948d22ee451f5de1910de9b:refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.2985826Z From https://github.com/d6g8k5htny-coder/main
+2026-10-29T21:33:37.2988812Z  * [new ref]         b1d80c1c62134c23f948d22ee451f5de1910de9b -> origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.2999225Z [command]/usr/bin/git branch --list --remote origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.3030620Z   origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.3043349Z [command]/usr/bin/git rev-parse refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.3070525Z b1d80c1c62134c23f948d22ee451f5de1910de9b
+2026-10-29T21:33:37.3082634Z ##[endgroup]
+2026-10-29T21:33:37.3083994Z ##[group]Determining the checkout info
+2026-10-29T21:33:37.3085529Z ##[endgroup]
+2026-10-29T21:33:37.3088469Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T21:33:37.3143556Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T21:33:37.3181720Z ##[group]Checking out the ref
+2026-10-29T21:33:37.3187211Z [command]/usr/bin/git checkout --progress --force -B cbz/auditor-grader-a8-20261029 refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:37.7028638Z Switched to a new branch 'cbz/auditor-grader-a8-20261029'
+2026-10-29T21:33:37.7038599Z branch 'cbz/auditor-grader-a8-20261029' set up to track 'origin/cbz/auditor-grader-a8-20261029'.
+2026-10-29T21:33:37.7054313Z ##[endgroup]
+2026-10-29T21:33:37.7106017Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T21:33:37.7135300Z b1d80c1c62134c23f948d22ee451f5de1910de9b
+2026-10-29T21:33:37.7146623Z ##[group]Removing auth
+2026-10-29T21:33:37.7147563Z Removing SSH command configuration
+2026-10-29T21:33:37.7151955Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:37.7187883Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:37.7492541Z Removing HTTP extra header
+2026-10-29T21:33:37.7496415Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:37.7535712Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:37.7893067Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:37.7895744Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:37.7927210Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T21:33:37.7928337Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T21:33:37.7929450Z includeif.gitdir:/github/workspace/.git.path
+2026-10-29T21:33:37.7930509Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T21:33:37.7938099Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T21:33:37.7963752Z /home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:37.7974208Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-5fb6c84f\-e614\-4da3\-8e19\-37d04da411c1\.config
+2026-10-29T21:33:37.8398218Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T21:33:37.8433351Z /home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:37.8443878Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-5fb6c84f\-e614\-4da3\-8e19\-37d04da411c1\.config
+2026-10-29T21:33:37.8865767Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-29T21:33:37.8886758Z /github/runner_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:37.8896439Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-5fb6c84f\-e614\-4da3\-8e19\-37d04da411c1\.config
+2026-10-29T21:33:37.8931946Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T21:33:37.8956452Z /github/runner_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config
+2026-10-29T21:33:37.8968514Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-5fb6c84f\-e614\-4da3\-8e19\-37d04da411c1\.config
+2026-10-29T21:33:37.9305289Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:37.9662956Z Removing credentials config '/home/runner/work/_temp/git-credentials-5fb6c84f-e614-4da3-8e19-37d04da411c1.config'
+2026-10-29T21:33:37.9670718Z ##[endgroup]
+2026-10-29T21:33:38.0014117Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-29T21:33:38.0014605Z with:
+2026-10-29T21:33:38.0014866Z   python-version: 3.11
+2026-10-29T21:33:38.0015136Z   check-latest: false
+2026-10-29T21:33:38.0018165Z   token: ***
+2026-10-29T21:33:38.0018436Z   update-environment: true
+2026-10-29T21:33:38.0018732Z   allow-prereleases: false
+2026-10-29T21:33:38.0019010Z   freethreaded: false
+2026-10-29T21:33:38.0019269Z ##[endgroup]
+2026-10-29T21:33:38.1346068Z ##[group]Installed versions
+2026-10-29T21:33:38.1450747Z Successfully set up CPython (3.11.17)
+2026-10-29T21:33:38.1451774Z ##[endgroup]
+2026-10-29T21:33:38.1614276Z ##[group]Run set -o pipefail
+2026-10-29T21:33:38.1614766Z [36;1mset -o pipefail[0m
+2026-10-29T21:33:38.1615423Z [36;1mpython -B -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-normal.log"[0m
+2026-10-29T21:33:38.1677257Z shell: /usr/bin/bash -e {0}
+2026-10-29T21:33:38.1677681Z env:
+2026-10-29T21:33:38.1678032Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.1678568Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:38.1679050Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.1679485Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.1679922Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.1680360Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:38.1680731Z ##[endgroup]
+2026-10-29T21:33:38.3951530Z test_actual_nonzero_child_and_both_streams_are_preserved (test_auditor_mutant_diagnostics.DiagnosticsTests.test_actual_nonzero_child_and_both_streams_are_preserved) ... FAIL
+2026-10-29T21:33:38.3959300Z test_control_resolution_requires_one_exact_test (test_auditor_mutant_diagnostics.DiagnosticsTests.test_control_resolution_requires_one_exact_test) ... FAIL
+2026-10-29T21:33:38.3961779Z test_launch_failure_is_recorded_not_a_mutation_kill (test_auditor_mutant_diagnostics.DiagnosticsTests.test_launch_failure_is_recorded_not_a_mutation_kill) ... FAIL
+2026-10-29T21:33:38.3964261Z test_literal_registry_preserves_every_mutant_and_target (test_auditor_mutant_diagnostics.DiagnosticsTests.test_literal_registry_preserves_every_mutant_and_target) ... FAIL
+2026-10-29T21:33:38.3966699Z test_mutation_requires_exactly_one_source_anchor (test_auditor_mutant_diagnostics.DiagnosticsTests.test_mutation_requires_exactly_one_source_anchor) ... FAIL
+2026-10-29T21:33:38.3969489Z test_registry_refuses_nonliteral_duplicate_and_unmapped_cases (test_auditor_mutant_diagnostics.DiagnosticsTests.test_registry_refuses_nonliteral_duplicate_and_unmapped_cases) ... FAIL
+2026-10-29T21:33:38.3977582Z 
+2026-10-29T21:33:38.3978440Z ======================================================================
+2026-10-29T21:33:38.3980080Z FAIL: test_actual_nonzero_child_and_both_streams_are_preserved (test_auditor_mutant_diagnostics.DiagnosticsTests.test_actual_nonzero_child_and_both_streams_are_preserved)
+2026-10-29T21:33:38.3982166Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.3983191Z Traceback (most recent call last):
+2026-10-29T21:33:38.3991003Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 67, in test_actual_nonzero_child_and_both_streams_are_preserved
+2026-10-29T21:33:38.3991865Z     mod = self.diagnostic()
+2026-10-29T21:33:38.3992218Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.3992803Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.3993501Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.3994260Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.3994821Z 
+2026-10-29T21:33:38.3995079Z ======================================================================
+2026-10-29T21:33:38.3995930Z FAIL: test_control_resolution_requires_one_exact_test (test_auditor_mutant_diagnostics.DiagnosticsTests.test_control_resolution_requires_one_exact_test)
+2026-10-29T21:33:38.3996705Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.3997561Z Traceback (most recent call last):
+2026-10-29T21:33:38.3998677Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 47, in test_control_resolution_requires_one_exact_test
+2026-10-29T21:33:38.3999758Z     mod = self.diagnostic()
+2026-10-29T21:33:38.4000259Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.4001490Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.4002576Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.4003536Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.4004148Z 
+2026-10-29T21:33:38.4004434Z ======================================================================
+2026-10-29T21:33:38.4005473Z FAIL: test_launch_failure_is_recorded_not_a_mutation_kill (test_auditor_mutant_diagnostics.DiagnosticsTests.test_launch_failure_is_recorded_not_a_mutation_kill)
+2026-10-29T21:33:38.4006292Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.4006718Z Traceback (most recent call last):
+2026-10-29T21:33:38.4007826Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 80, in test_launch_failure_is_recorded_not_a_mutation_kill
+2026-10-29T21:33:38.4008540Z     mod = self.diagnostic()
+2026-10-29T21:33:38.4008855Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.4009393Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.4010048Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.4010624Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.4010956Z 
+2026-10-29T21:33:38.4011106Z ======================================================================
+2026-10-29T21:33:38.4011923Z FAIL: test_literal_registry_preserves_every_mutant_and_target (test_auditor_mutant_diagnostics.DiagnosticsTests.test_literal_registry_preserves_every_mutant_and_target)
+2026-10-29T21:33:38.4012758Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.4013158Z Traceback (most recent call last):
+2026-10-29T21:33:38.4013866Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 24, in test_literal_registry_preserves_every_mutant_and_target
+2026-10-29T21:33:38.4014550Z     mod = self.diagnostic()
+2026-10-29T21:33:38.4014853Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.4015361Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.4016225Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.4016792Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.4017407Z 
+2026-10-29T21:33:38.4017577Z ======================================================================
+2026-10-29T21:33:38.4018350Z FAIL: test_mutation_requires_exactly_one_source_anchor (test_auditor_mutant_diagnostics.DiagnosticsTests.test_mutation_requires_exactly_one_source_anchor)
+2026-10-29T21:33:38.4019129Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.4019529Z Traceback (most recent call last):
+2026-10-29T21:33:38.4020271Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 60, in test_mutation_requires_exactly_one_source_anchor
+2026-10-29T21:33:38.4021024Z     mod = self.diagnostic()
+2026-10-29T21:33:38.4021474Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.4022080Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.4022747Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.4023299Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.4023631Z 
+2026-10-29T21:33:38.4023779Z ======================================================================
+2026-10-29T21:33:38.4024698Z FAIL: test_registry_refuses_nonliteral_duplicate_and_unmapped_cases (test_auditor_mutant_diagnostics.DiagnosticsTests.test_registry_refuses_nonliteral_duplicate_and_unmapped_cases)
+2026-10-29T21:33:38.4025587Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.4026186Z Traceback (most recent call last):
+2026-10-29T21:33:38.4027271Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 35, in test_registry_refuses_nonliteral_duplicate_and_unmapped_cases
+2026-10-29T21:33:38.4028014Z     mod = self.diagnostic()
+2026-10-29T21:33:38.4028324Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:38.4028855Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:38.4029501Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:38.4030076Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:38.4030406Z 
+2026-10-29T21:33:38.4030592Z ----------------------------------------------------------------------
+2026-10-29T21:33:38.4030983Z Ran 6 tests in 0.002s
+2026-10-29T21:33:38.4031156Z 
+2026-10-29T21:33:38.4031283Z FAILED (failures=6)
+2026-10-29T21:33:38.4074397Z ##[error]Process completed with exit code 1.
+2026-10-29T21:33:38.4130306Z ##[group]Run set -o pipefail
+2026-10-29T21:33:38.4130688Z [36;1mset -o pipefail[0m
+2026-10-29T21:33:38.4131304Z [36;1mpython -B -O -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-optimized.log"[0m
+2026-10-29T21:33:38.4162594Z shell: /usr/bin/bash -e {0}
+2026-10-29T21:33:38.4162887Z env:
+2026-10-29T21:33:38.4163202Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.4163700Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:38.4164184Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.4164611Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.4165043Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:38.4165472Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:38.4165838Z ##[endgroup]
+2026-10-29T21:33:40.0420598Z test_actual_nonzero_child_and_both_streams_are_preserved (test_auditor_mutant_diagnostics.DiagnosticsTests.test_actual_nonzero_child_and_both_streams_are_preserved) ... FAIL
+2026-10-29T21:33:40.0422870Z test_control_resolution_requires_one_exact_test (test_auditor_mutant_diagnostics.DiagnosticsTests.test_control_resolution_requires_one_exact_test) ... FAIL
+2026-10-29T21:33:40.0429614Z test_launch_failure_is_recorded_not_a_mutation_kill (test_auditor_mutant_diagnostics.DiagnosticsTests.test_launch_failure_is_recorded_not_a_mutation_kill) ... FAIL
+2026-10-29T21:33:40.0431912Z test_literal_registry_preserves_every_mutant_and_target (test_auditor_mutant_diagnostics.DiagnosticsTests.test_literal_registry_preserves_every_mutant_and_target) ... FAIL
+2026-10-29T21:33:40.0434183Z test_mutation_requires_exactly_one_source_anchor (test_auditor_mutant_diagnostics.DiagnosticsTests.test_mutation_requires_exactly_one_source_anchor) ... FAIL
+2026-10-29T21:33:40.0436373Z test_registry_refuses_nonliteral_duplicate_and_unmapped_cases (test_auditor_mutant_diagnostics.DiagnosticsTests.test_registry_refuses_nonliteral_duplicate_and_unmapped_cases) ... FAIL
+2026-10-29T21:33:40.0437779Z 
+2026-10-29T21:33:40.0437973Z ======================================================================
+2026-10-29T21:33:40.0439187Z FAIL: test_actual_nonzero_child_and_both_streams_are_preserved (test_auditor_mutant_diagnostics.DiagnosticsTests.test_actual_nonzero_child_and_both_streams_are_preserved)
+2026-10-29T21:33:40.0440478Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0441047Z Traceback (most recent call last):
+2026-10-29T21:33:40.0442224Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 67, in test_actual_nonzero_child_and_both_streams_are_preserved
+2026-10-29T21:33:40.0443255Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0443618Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0444369Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0445315Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0446092Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0446564Z 
+2026-10-29T21:33:40.0446748Z ======================================================================
+2026-10-29T21:33:40.0448121Z FAIL: test_control_resolution_requires_one_exact_test (test_auditor_mutant_diagnostics.DiagnosticsTests.test_control_resolution_requires_one_exact_test)
+2026-10-29T21:33:40.0449259Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0449795Z Traceback (most recent call last):
+2026-10-29T21:33:40.0450821Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 47, in test_control_resolution_requires_one_exact_test
+2026-10-29T21:33:40.0451936Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0452350Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0453472Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0454595Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0455511Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0456101Z 
+2026-10-29T21:33:40.0456351Z ======================================================================
+2026-10-29T21:33:40.0457838Z FAIL: test_launch_failure_is_recorded_not_a_mutation_kill (test_auditor_mutant_diagnostics.DiagnosticsTests.test_launch_failure_is_recorded_not_a_mutation_kill)
+2026-10-29T21:33:40.0459153Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0459728Z Traceback (most recent call last):
+2026-10-29T21:33:40.0460727Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 80, in test_launch_failure_is_recorded_not_a_mutation_kill
+2026-10-29T21:33:40.0461801Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0462240Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0463000Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0464109Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0465033Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0465843Z 
+2026-10-29T21:33:40.0466052Z ======================================================================
+2026-10-29T21:33:40.0467729Z FAIL: test_literal_registry_preserves_every_mutant_and_target (test_auditor_mutant_diagnostics.DiagnosticsTests.test_literal_registry_preserves_every_mutant_and_target)
+2026-10-29T21:33:40.0469173Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0469734Z Traceback (most recent call last):
+2026-10-29T21:33:40.0470934Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 24, in test_literal_registry_preserves_every_mutant_and_target
+2026-10-29T21:33:40.0472071Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0472484Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0473281Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0474185Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0475076Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0475699Z 
+2026-10-29T21:33:40.0475879Z ======================================================================
+2026-10-29T21:33:40.0477297Z FAIL: test_mutation_requires_exactly_one_source_anchor (test_auditor_mutant_diagnostics.DiagnosticsTests.test_mutation_requires_exactly_one_source_anchor)
+2026-10-29T21:33:40.0478653Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0479392Z Traceback (most recent call last):
+2026-10-29T21:33:40.0480383Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 60, in test_mutation_requires_exactly_one_source_anchor
+2026-10-29T21:33:40.0481326Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0481709Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0482466Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0483468Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0484310Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0484801Z 
+2026-10-29T21:33:40.0484988Z ======================================================================
+2026-10-29T21:33:40.0486313Z FAIL: test_registry_refuses_nonliteral_duplicate_and_unmapped_cases (test_auditor_mutant_diagnostics.DiagnosticsTests.test_registry_refuses_nonliteral_duplicate_and_unmapped_cases)
+2026-10-29T21:33:40.0487916Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0488735Z Traceback (most recent call last):
+2026-10-29T21:33:40.0489922Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 35, in test_registry_refuses_nonliteral_duplicate_and_unmapped_cases
+2026-10-29T21:33:40.0491011Z     mod = self.diagnostic()
+2026-10-29T21:33:40.0491386Z           ^^^^^^^^^^^^^^^^^
+2026-10-29T21:33:40.0492138Z   File "/home/runner/work/main/main/tests/test_auditor_mutant_diagnostics.py", line 17, in diagnostic
+2026-10-29T21:33:40.0493144Z     self.assertTrue(TOOL.is_file(), "mutation diagnostic source is required")
+2026-10-29T21:33:40.0493991Z AssertionError: False is not true : mutation diagnostic source is required
+2026-10-29T21:33:40.0494505Z 
+2026-10-29T21:33:40.0494751Z ----------------------------------------------------------------------
+2026-10-29T21:33:40.0495286Z Ran 6 tests in 0.002s
+2026-10-29T21:33:40.0495507Z 
+2026-10-29T21:33:40.0495650Z FAILED (failures=6)
+2026-10-29T21:33:40.0547783Z ##[error]Process completed with exit code 1.
+2026-10-29T21:33:40.0649258Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-29T21:33:40.0649717Z with:
+2026-10-29T21:33:40.0649956Z   name: cbz-diagnostic-controls-40956746044-1
+2026-10-29T21:33:40.0650445Z   path: /home/runner/work/_temp/diag-normal.log
+/home/runner/work/_temp/diag-optimized.log
+
+2026-10-29T21:33:40.0651159Z   if-no-files-found: error
+2026-10-29T21:33:40.0651400Z   compression-level: 6
+2026-10-29T21:33:40.0651614Z   overwrite: false
+2026-10-29T21:33:40.0651828Z   include-hidden-files: false
+2026-10-29T21:33:40.0652060Z   archive: true
+2026-10-29T21:33:40.0652250Z env:
+2026-10-29T21:33:40.0652500Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:40.0652928Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:40.0653352Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:40.0653736Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:40.0654156Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:40.0654539Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:40.0654856Z ##[endgroup]
+2026-10-29T21:33:40.2234726Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T21:33:40.2237634Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-10-29T21:33:40.2238646Z With the provided path, there will be 2 files uploaded
+2026-10-29T21:33:40.2242581Z Artifact name is valid!
+2026-10-29T21:33:40.2243045Z Root directory input is valid!
+2026-10-29T21:33:40.6040813Z Uploading artifact: cbz-diagnostic-controls-40956746044-1.zip
+2026-10-29T21:33:40.6083517Z Beginning upload of artifact content to blob storage
+2026-10-29T21:33:40.9324901Z Uploaded bytes 1426
+2026-10-29T21:33:41.0122736Z Finished uploading artifact content to blob storage!
+2026-10-29T21:33:41.0124491Z SHA256 digest of uploaded artifact is f1c9955882dfad361668d11e89adaa19870d04b577b1820640c5f7ac1d40af6e
+2026-10-29T21:33:41.0125479Z Finalizing artifact upload
+2026-10-29T21:33:41.6181834Z Artifact cbz-diagnostic-controls-40956746044-1 successfully finalized. Artifact ID 12934153861
+2026-10-29T21:33:41.6184118Z Artifact cbz-diagnostic-controls-40956746044-1 has been successfully uploaded! Final size is 1426 bytes. Artifact ID is 12934153861
+2026-10-29T21:33:41.6187105Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/40956746044/artifacts/12934153861
+2026-10-29T21:33:41.6416631Z Post job cleanup.
+2026-10-29T21:33:41.7332299Z [command]/usr/bin/git version
+2026-10-29T21:33:41.7380150Z git version 2.56.0
+2026-10-29T21:33:41.7420383Z Temporarily overriding HOME='/home/runner/work/_temp/1ef21b6f-648a-4219-8680-c5c8ae9dddcd' before making global git config changes
+2026-10-29T21:33:41.7421532Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T21:33:41.7427248Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T21:33:41.7469405Z Removing SSH command configuration
+2026-10-29T21:33:41.7476821Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:41.7521751Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:41.7840043Z Removing HTTP extra header
+2026-10-29T21:33:41.7846824Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:41.7892299Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:41.8208181Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:41.8215195Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:41.8250501Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:41.8707895Z Cleaning up orphan processes
