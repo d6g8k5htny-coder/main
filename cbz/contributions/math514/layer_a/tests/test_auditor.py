@@ -686,5 +686,87 @@ class ManifestRules(unittest.TestCase):
         self.assertEqual(p.returncode,2)
 
 
+
+
+class NumericDeclarationRules(unittest.TestCase):
+    """Numerals cannot suppress declaration/vacuity metadata (A6/A7)."""
+
+    def manifest_entry(self, source, vacuity):
+        directory = tempfile.TemporaryDirectory()
+        self.addCleanup(directory.cleanup)
+        root = Path(directory.name)
+        data = source.encode('utf-8')
+        (root / 'Closed.lean').write_bytes(data)
+        return {'schema_version': 1,
+                'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'],
+                'roots': [{'id': 'r', 'path': str(root), 'tree_id': 'b' * 40,
+                           'tracked_files': ['Closed.lean'],
+                           'files': {'Closed.lean': {'kind': 'project_lean',
+                                     'sha256': sha(data), 'module': 'lean:Closed',
+                                     'vacuity': vacuity}}}],
+                'module_map': {'lean:Closed': 'r:Closed.lean'}}
+
+    def test_numeric_spellings_preserve_adjacent_named_declarations(self):
+        spellings = ['0', '1_000', '0b0', '0B1', '0o0', '0O7',
+                     '0x0a', '0XAB', '1e1', '1E-1', '1.0E+1', '1.0', '1.']
+        for numeral in spellings:
+            for keyword in ['theorem', 'lemma']:
+                source = 'def n := ' + numeral + keyword + ' hidden (h : False) : True := False.elim h'
+                with self.subTest(numeral=numeral, keyword=keyword):
+                    result = source_checks.check_lean(source)
+                    self.assertEqual([x['key'] for x in result['declarations']], ['hidden@1'])
+                    self.assertEqual(result['declarations'][0]['contradictions'],
+                                     ['explicit false hypothesis: False'])
+
+    def test_numeric_spellings_preserve_adjacent_anonymous_examples(self):
+        # Hexadecimal maximal munch would consume the 'e' in example.
+        for numeral in ['0', '0b0', '0o0', '1e1', '1.0E+1']:
+            with self.subTest(numeral=numeral):
+                declarations = source_checks.check_lean(
+                    'def n := ' + numeral + 'example (h : False) : True := False.elim h')['declarations']
+                self.assertEqual([x['key'] for x in declarations], ['example@1'])
+                self.assertEqual(declarations[0]['contradictions'], ['explicit false hypothesis: False'])
+
+    def test_numeric_adjacency_reaches_actual_manifest_vacuity_coverage(self):
+        source = 'def n := 0theorem hidden (h : False) : True := False.elim h'
+        report = auditor.audit(self.manifest_entry(source, {}))
+        self.assertEqual(report['result'], 'FAIL', report)
+        self.assertIn('VACUITY_COVERAGE', {f['code'] for f in report['findings']})
+
+    def test_numeric_adjacency_cannot_mask_false_hypothesis_annotations(self):
+        source = 'def n := 0theorem hidden (h : False) : True := False.elim h'
+        annotations = {'hidden@1': {'status': 'conditional', 'premises': ['False'], 'reason': 'test boundary'}}
+        report = auditor.audit(self.manifest_entry(source, annotations))
+        self.assertIn('VACUITY_CONTRADICTION', {f['code'] for f in report['findings']})
+        report = auditor.audit(self.manifest_entry(
+            source, {'hidden@1': {'status': 'vacuous', 'reason': 'explicit False hypothesis'}}))
+        self.assertEqual(report['result'], 'STATIC_PASS', report)
+        self.assertEqual(len(report['vacuity_observations']), 1)
+
+    def test_numeral_metadata_preserves_spelling_and_locations(self):
+        source = 'def a := 0b10\n/- gap\n nested -/ def b := 1.0E+1theorem t : True := True.intro'
+        tokens, gaps = source_checks.lean_tokens(source)
+        self.assertEqual(gaps, [])
+        self.assertEqual([(t.text, t.line, t.column) for t in tokens if t.text in {'0b10', '1.0E+1', 'theorem'}],
+                         [('0b10', 1, 9), ('1.0E+1', 3, 20), ('theorem', 3, 26)])
+
+    def test_identifier_literal_and_character_boundaries_remain_intact(self):
+        source = 'def name1 := 1\ndef ns.name2\' := 2\ndef «name3» := "0theorem hidden"\ndef c := \'1\'\ntheorem t2\' : True := True.intro'
+        result = source_checks.check_lean(source)
+        self.assertEqual(result['findings'], [])
+        self.assertEqual([x['key'] for x in result['declarations']], ["t2'@5"])
+        words = [t.text for t in source_checks.lean_tokens(source)[0]]
+        self.assertIn('name1', words)
+        self.assertIn("ns.name2'", words)
+        self.assertIn('name3', words)
+        self.assertEqual(words.count('<literal>'), 2)
+
+    def test_numeric_hypothesis_tokens_keep_exact_literal_contradictions(self):
+        declarations = source_checks.check_lean(
+            'theorem literalConflict (h : 1 = 2) : True := True.intro')['declarations']
+        self.assertEqual(declarations[0]['hypotheses'], ['1 = 2'])
+        self.assertEqual(declarations[0]['contradictions'], ['incompatible literal equality candidate: 1 = 2'])
+
+
 if __name__=='__main__':
     unittest.main()
