@@ -1,5 +1,7 @@
 """The runner must execute source mutants, and cannot infer a kill from broken syntax."""
 import importlib.util
+import json
+import os
 from pathlib import Path
 import sys
 import tempfile
@@ -168,6 +170,96 @@ class LifecycleHarnessRules(unittest.TestCase):
                 forged=copy.deepcopy(subtest);forged['subtest_events']=[replacement]
                 self.assertEqual(mutation_test.classify_test_result(forged,1),'ERROR')
         self.assertEqual(mutation_test.classify_test_result({'tests_run':1,'assertion_failures':1,'errors':0},1),'ERROR')
+
+
+class LazyBodyHarnessRules(unittest.TestCase):
+    """Lazy call creation cannot satisfy synchronous selected-body execution."""
+
+    def run_lazy_fixture(self,label,body):
+        with tempfile.TemporaryDirectory() as temporary:
+            sentinel=Path(temporary)/'lazy-executed'
+            ordinary=Path(temporary)/'ordinary-executed'
+            source=('from pathlib import Path\nimport unittest\nimport functools\n'
+                    +'sentinel=Path('+repr(str(sentinel))+')\n'
+                    +'ordinary=Path('+repr(str(ordinary))+')\n'+body)
+            value=LifecycleHarnessRules.run_fixture(self,source)
+            record={'label':label,'optimize':sys.flags.optimize,'fixture_source':source,
+                    'lazy_sentinel_executed':sentinel.exists(),
+                    'ordinary_sentinel_executed':ordinary.exists(),'receipt':value}
+            destination=os.environ.get('CBZ_LAZY_CONTROL_EVIDENCE')
+            if destination:
+                out=Path(destination);out.mkdir(parents=True,exist_ok=True)
+                (out/(label+'.json')).write_text(json.dumps(record,sort_keys=True,indent=2)+'\n')
+            return record
+
+    def test_sync_bodies_require_none_and_refuse_other_returns_without_iteration(self):
+        passed=self.run_lazy_fixture('ordinary-pass','class C(unittest.TestCase):\n def test_one(self): pass\n')
+        self.assertEqual(passed['receipt']['outcome'],'SURVIVED',passed)
+        killed=self.run_lazy_fixture('ordinary-none-kill',
+            'class C(unittest.TestCase):\n def test_a_return(self): return None\n'
+            ' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+        self.assertEqual(killed['receipt']['outcome'],'KILLED',killed)
+        for label,expression in [('zero','0'),('false','False'),('empty-string',"''"),('scalar','7')]:
+            with self.subTest(value=label):
+                record=self.run_lazy_fixture('return-'+label,'class C(unittest.TestCase):\n'
+                    +' def test_a_return(self): return '+expression+'\n'
+                    +' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+                self.assertEqual(record['receipt']['outcome'],'ERROR',record)
+                self.assertFalse(record['lazy_sentinel_executed'],record)
+                self.assertTrue(record['ordinary_sentinel_executed'],record)
+        unknown=self.run_lazy_fixture('ordinary-unknown-iterable',
+            'class UnknownIterable:\n def __iter__(self):\n  sentinel.write_text("iterated")\n  yield 1\n'
+            'class C(unittest.TestCase):\n def test_a_return(self): return UnknownIterable()\n'
+            ' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+        self.assertEqual(unknown['receipt']['outcome'],'ERROR',unknown)
+        self.assertFalse(unknown['lazy_sentinel_executed'],unknown)
+        self.assertTrue(unknown['ordinary_sentinel_executed'],unknown)
+
+    def test_mixed_lazy_function_shapes_are_refused_before_any_body(self):
+        methods=[('generator',' def test_a_lazy(self):\n  sentinel.write_text("generator")\n  yield 1\n'),
+                 ('coroutine',' async def test_a_lazy(self):\n  sentinel.write_text("coroutine")\n'),
+                 ('async-generator',' async def test_a_lazy(self):\n  sentinel.write_text("asyncgen")\n  yield 1\n')]
+        for label,method in methods:
+            with self.subTest(shape=label):
+                record=self.run_lazy_fixture('method-'+label,'class C(unittest.TestCase):\n'+method+
+                    ' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+                self.assertEqual(record['receipt']['outcome'],'ERROR',record)
+                self.assertFalse(record['lazy_sentinel_executed'],record)
+                self.assertFalse(record['ordinary_sentinel_executed'],record)
+                self.assertEqual(record['receipt']['pristine_population']['invalid_population'],['test_auditor.C.test_a_lazy'])
+
+    def test_wraps_decorated_lazy_functions_are_refused_at_population(self):
+        decorator=('def transparent(fn):\n @functools.wraps(fn)\n def wrapper(*args,**kwargs):\n'
+                   '  sentinel.write_text("wrapper executed")\n  return fn(*args,**kwargs)\n return wrapper\n'
+                   'def lazy_middle(fn):\n @functools.wraps(fn)\n def wrapper(*args,**kwargs):\n'
+                   '  sentinel.write_text("middle executed")\n  yield fn(*args,**kwargs)\n return wrapper\n')
+        methods=[('generator',' def test_a_lazy(self):\n  yield 1\n'),
+                 ('coroutine',' async def test_a_lazy(self):\n  return None\n'),
+                 ('async-generator',' async def test_a_lazy(self):\n  yield 1\n'),
+                 ('lazy-middle',' @lazy_middle\n def test_a_lazy(self): pass\n')]
+        for label,method in methods:
+            with self.subTest(shape=label):
+                record=self.run_lazy_fixture('wrapped-'+label,decorator+'class C(unittest.TestCase):\n @transparent\n'+method+
+                    ' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+                self.assertEqual(record['receipt']['outcome'],'ERROR',record)
+                self.assertFalse(record['lazy_sentinel_executed'],record)
+                self.assertFalse(record['ordinary_sentinel_executed'],record)
+                self.assertEqual(record['receipt']['pristine_population']['invalid_population'],['test_auditor.C.test_a_lazy'])
+
+    def test_sync_lazy_returns_are_rejected_without_advancing_objects(self):
+        returns=[('generator','def make_lazy():\n sentinel.write_text("generator")\n yield 1\n','make_lazy()'),
+                 ('coroutine','async def make_lazy():\n sentinel.write_text("coroutine")\n','make_lazy()'),
+                 ('async-generator','async def make_lazy():\n sentinel.write_text("asyncgen")\n yield 1\n','make_lazy()'),
+                 ('custom-awaitable','class CustomAwaitable:\n def __await__(self):\n  sentinel.write_text("awaited")\n  yield 1\n def close(self): sentinel.write_text("custom close")\n','CustomAwaitable()')]
+        for label,definitions,expression in returns:
+            with self.subTest(shape=label):
+                record=self.run_lazy_fixture('return-'+label,definitions+'class C(unittest.TestCase):\n'
+                    +' def test_a_lazy(self): return '+expression+'\n'
+                    +' def test_b_assertion(self):\n  ordinary.write_text("body")\n  self.fail("ordinary body assertion")\n')
+                self.assertEqual(record['receipt']['outcome'],'ERROR',record)
+                self.assertFalse(record['lazy_sentinel_executed'],record)
+                self.assertTrue(record['ordinary_sentinel_executed'],record)
+                self.assertTrue(record['receipt']['tests']['invalid_population'],record)
 
 
 if __name__=='__main__':
