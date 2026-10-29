@@ -1,0 +1,69 @@
+FFFFF
+======================================================================
+FAIL: test_pinned_lean_identifier_character_domain (tests.test_cbz_auditor_hardening.LexicalUnion.test_pinned_lean_identifier_character_domain) (prefix='Ж')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 96, in test_pinned_lean_identifier_character_domain
+    with self.subTest(prefix=prefix): self.assertEqual(kinds(prefix+'sorry'),['sorry'])
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+======================================================================
+FAIL: test_pinned_lean_identifier_character_domain (tests.test_cbz_auditor_hardening.LexicalUnion.test_pinned_lean_identifier_character_domain) (prefix='ᵀ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 96, in test_pinned_lean_identifier_character_domain
+    with self.subTest(prefix=prefix): self.assertEqual(kinds(prefix+'sorry'),['sorry'])
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+======================================================================
+FAIL: test_pinned_lean_identifier_character_domain (tests.test_cbz_auditor_hardening.LexicalUnion.test_pinned_lean_identifier_character_domain) (prefix='𝛂')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 96, in test_pinned_lean_identifier_character_domain
+    with self.subTest(prefix=prefix): self.assertEqual(kinds(prefix+'sorry'),['sorry'])
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sorry']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sorry'
+
+- []
++ ['sorry']
+
+======================================================================
+FAIL: test_unsupported_character_escape_is_error (tests.test_cbz_auditor_hardening.LexicalUnion.test_unsupported_character_escape_is_error) (src="def c := '\\q'")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 103, in test_unsupported_character_escape_is_error
+    self.assertTrue([f for f in S.scan_text(src,'M.lean') if f['severity']=='error'])
+AssertionError: [] is not true
+
+======================================================================
+FAIL: test_unsupported_character_escape_is_error (tests.test_cbz_auditor_hardening.LexicalUnion.test_unsupported_character_escape_is_error) (src="def c := '\\u{41}'")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 103, in test_unsupported_character_escape_is_error
+    self.assertTrue([f for f in S.scan_text(src,'M.lean') if f['severity']=='error'])
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+FAILED (failures=5)
