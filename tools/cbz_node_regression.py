@@ -229,7 +229,7 @@ def run(main_root, math_root, query_root, output, node="node"):
             MUSEUM_FIXTURE=str(manifest),
         )
         command = node_command(main_root, node)
-        record["node_version"] = subprocess.check_output([node, "--version"], text=True).strip()
+        record["node_version"] = subprocess.check_output([node, "--version"], env=environment, text=True).strip()
         record["command"] = command
         record["fixture_environment"] = {
             key: environment[key]

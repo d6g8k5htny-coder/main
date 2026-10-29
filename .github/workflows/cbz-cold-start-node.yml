@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.11'
@@ -52,6 +52,9 @@ jobs:
           git clone --no-checkout https://github.com/d6g8k5htny-coder/Math-.git "$RUNNER_TEMP/Math-"
           git clone --no-checkout https://github.com/d6g8k5htny-coder/query-.git "$RUNNER_TEMP/query-"
       - name: Every tracked Node test with verified fixtures
+        env:
+          NODE_OPTIONS: --require=/definitely-missing-cbz-node-preload.cjs
+          NODE_PATH: /untrusted/cbz-node-path
         run: |
           python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
       - name: Print actual result for independent readback
@@ -61,7 +64,7 @@ jobs:
           import json, os
           from pathlib import Path
           path = Path(os.environ["RUNNER_TEMP"]) / "cbz-node-result/result.json"
-          print("CBZ_NODE_RESULT_JSON " + path.read_text().strip())
+          print("CBZ_NODE_RESULT_JSON " + json.dumps(json.loads(path.read_text()), sort_keys=True))
           PY
       - name: Preserve actual result and transcript
         if: always()

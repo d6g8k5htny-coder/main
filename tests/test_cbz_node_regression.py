@@ -58,6 +58,21 @@ class NodeRunnerTests(unittest.TestCase):
                     blob=hashlib.sha1(b"blob " + str(len(raw)).encode()
                                       + b"\0" + raw).hexdigest())
 
+    def test_ambient_git_redirect_cannot_select_another_object_database(self):
+        before = os.environ.get("GIT_DIR")
+        os.environ["GIT_DIR"] = str(self.directory / "absent.git")
+        try:
+            try:
+                raw = self.module.read_pinned(self.roots, self.descriptor())
+            except ValueError as error:
+                self.fail("ambient Git redirection affected pinned read: " + str(error))
+            self.assertEqual(raw, b"exact input\n")
+        finally:
+            if before is None:
+                os.environ.pop("GIT_DIR", None)
+            else:
+                os.environ["GIT_DIR"] = before
+
     def test_reads_immutable_blob_instead_of_dirty_working_copy(self):
         (self.repo / "data.txt").write_bytes(b"changed")
         self.assertEqual(self.module.read_pinned(self.roots, self.descriptor()),
@@ -298,6 +313,8 @@ class MutationHarnessTests(unittest.TestCase):
 
 class SourceMutationTests(unittest.TestCase):
     MUTATIONS = [
+        ("ambient-git", 'if not key.startswith("GIT_")', "if True",
+         "test_ambient_git_redirect_cannot_select_another_object_database"),
         ("length", "len(raw) != length or ", "",
          "test_all_byte_identities_are_required"),
         ("sha256", "hashlib.sha256(raw).hexdigest() != digest", "False",
