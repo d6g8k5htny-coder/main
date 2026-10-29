@@ -116,3 +116,5 @@ values, conditionals, operators after false, variables and applications are
 reported without evaluation. Ordinary `def native := 1` stays an identifier
 definition. Actual Lean accepted `native := (true)` and emitted a fresh native
 decision axiom; the regression first failed on all21 expression/context cases.
+
+An actual test-first run against the historical grader/loader source (`9d52d680`) observed 15 assertion failures and no errors in each Python mode, including three poisoned-bytecode loader controls per mode. The raw job log is retained at [auditor A8 RED](cbz/evidence/auditor-grader-a8/red/9d52d68086f9-job123737390295.log). Later source-only loader and grader repairs are candidates awaiting fresh execution; this RED confirms defects and does not qualify G0.
