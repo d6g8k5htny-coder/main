@@ -601,7 +601,7 @@ These 16 adopted, source-bound records are included in the 302-row catalog. The 
 
 ## Legacy V20 application records
 
-These 102 source-specific application records preserve the dataset's literal statement, scope and obligation. The two definition-only records are support, not theorem obligations. Primary-source links were not authenticated by the original dataset; overlap with other entries has not been resolved and these rows are not independent mathematical discoveries.
+These 102 source-specific application records preserve the dataset's literal statement, scope and obligation. The two definition-only records are support, not theorem obligations. The original dataset did not authenticate its primary-source links. All 33 distinct pinned source blobs have since been read and matched to their tree-reported byte counts; no author-provided expected digest or source-statement alignment is established. Overlap with other entries has not been resolved and these rows are not independent mathematical discoveries.
 
 | ID | Statement | Status | Exact boundary |
 |---|---|---|---|
