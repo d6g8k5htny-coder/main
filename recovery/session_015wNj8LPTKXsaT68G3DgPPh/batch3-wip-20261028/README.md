@@ -16,3 +16,16 @@ container restart cannot erase it again. Nothing here is reviewed or delivered.
 - `scripts/`: the characterization, contract-merge, rebuild and replay scripts.
 
 Scientific effect NONE. Credit 0.
+
+## 29 October: the finished commit (not pushed)
+
+- `batch3_257f9f7d.patch` (`git format-patch`): commit `257f9f7d32842506079b4a960c13397ec3c82d11`,
+  tree `a3dfcb6ba7721a2ef151adce6acc674c4000b2ab`, parent Math- `8dca89cf` (Math-#520's head).
+  Apply with `git am` on `8dca89cf`. Six files: the two workflows, the helper, the reference
+  file, the test file and `reviews/c8_check_mode_wrappers_batch3_20261027/SCOPE.md`.
+- `runB/`: characterization run B, byte-identical to `runA` on all 18 children; the reference
+  file built from runs A and B is SHA-256 `be7415ca…`.
+- Tests on that tree (CPython 3.11.17): 15/15 in both modes for each new family and for all
+  five. RED against `8dca89cf`: 29 (theorem-A) and 44 (torus) false acceptances per mode.
+- Not pushed to Math-: the push of branch `claude/determined-bardeen-mrqy4y-c8-wrappers-b3` was
+  stopped by the session's permission classifier at about 17:00Z, and is left for Dylan to decide.
