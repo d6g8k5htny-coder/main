@@ -1,0 +1,224 @@
+﻿2026-10-29T21:07:23.0099587Z Current runner version: '2.338.0'
+2026-10-29T21:07:23.0130424Z ##[group]Runner Image Provisioner
+2026-10-29T21:07:23.0131431Z Hosted Compute Agent
+2026-10-29T21:07:23.0132360Z Version: 20261021.618
+2026-10-29T21:07:23.0133277Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T21:07:23.0134019Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T21:07:23.0134823Z Worker ID: {24f0e52a-518a-48ad-be9a-0af60b5bdad4}
+2026-10-29T21:07:23.0135626Z Region: centralus
+2026-10-29T21:07:23.0136217Z Cloud: Azure
+2026-10-29T21:07:23.0136925Z ##[endgroup]
+2026-10-29T21:07:23.0138870Z ##[group]Operating System
+2026-10-29T21:07:23.0139751Z Ubuntu
+2026-10-29T21:07:23.0140362Z 24.04.5
+2026-10-29T21:07:23.0140889Z LTS
+2026-10-29T21:07:23.0141504Z ##[endgroup]
+2026-10-29T21:07:23.0142425Z ##[group]Runner Image
+2026-10-29T21:07:23.0143573Z Image: ubuntu-24.04-arm
+2026-10-29T21:07:23.0144362Z Version: 20261025.165.1
+2026-10-29T21:07:23.0145760Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24-arm64/20261025.165/images/ubuntu/Ubuntu2404-Arm64-Readme.md
+2026-10-29T21:07:23.0147525Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24-arm64%2F20261025.165
+2026-10-29T21:07:23.0148505Z ##[endgroup]
+2026-10-29T21:07:23.0149978Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T21:07:23.0153223Z Actions: write
+2026-10-29T21:07:23.0154101Z Contents: read
+2026-10-29T21:07:23.0154664Z Metadata: read
+2026-10-29T21:07:23.0155362Z ##[endgroup]
+2026-10-29T21:07:23.0158131Z Secret source: Actions
+2026-10-29T21:07:23.0159317Z Cache mode: write
+2026-10-29T21:07:23.0160552Z Prepare workflow directory
+2026-10-29T21:07:23.0579134Z Prepare all required actions
+2026-10-29T21:07:23.0633303Z Getting action download info
+2026-10-29T21:07:23.3268724Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-29T21:07:23.5351730Z Complete job name: retire-superseded
+2026-10-29T21:07:23.6326119Z ##[group]Run python3 -B -S - <<'PYRETIRE'
+2026-10-29T21:07:23.6328532Z [36;1mpython3 -B -S - <<'PYRETIRE'[0m
+2026-10-29T21:07:23.6329493Z [36;1mimport json,os,re,subprocess[0m
+2026-10-29T21:07:23.6330286Z [36;1mfrom pathlib import Path[0m
+2026-10-29T21:07:23.6331082Z [36;1mrepository=os.environ['GITHUB_REPOSITORY'][0m
+2026-10-29T21:07:23.6331967Z [36;1mprefix='repos/'+repository+'/'[0m
+2026-10-29T21:07:23.6333172Z [36;1mactive={'queued','requested','pending','waiting'}[0m
+2026-10-29T21:07:23.6334157Z [36;1mhex40=re.compile('[0-9a-f]{40}')[0m
+2026-10-29T21:07:23.6334863Z [36;1mdef stale(run,pr):[0m
+2026-10-29T21:07:23.6335810Z [36;1m    return (run.get('event')=='pull_request' and run.get('status') in active[0m
+2026-10-29T21:07:23.6336908Z [36;1m        and pr.get('state')=='open' and isinstance(run.get('head_sha'),str)[0m
+2026-10-29T21:07:23.6337858Z [36;1m        and isinstance(pr.get('head',{}).get('sha'),str)[0m
+2026-10-29T21:07:23.6339195Z [36;1m        and bool(hex40.fullmatch(run['head_sha'])) and bool(hex40.fullmatch(pr['head']['sha']))[0m
+2026-10-29T21:07:23.6340319Z [36;1m        and run['head_sha']!=pr['head']['sha'])[0m
+2026-10-29T21:07:23.6341430Z [36;1mbase={'event':'pull_request','status':'queued','head_sha':'a'*40}[0m
+2026-10-29T21:07:23.6342575Z [36;1mcurrent={'state':'open','head':{'sha':'b'*40}}[0m
+2026-10-29T21:07:23.6343427Z [36;1mcontrols=[[0m
+2026-10-29T21:07:23.6344091Z [36;1m    (base,current,True),[0m
+2026-10-29T21:07:23.6344824Z [36;1m    (dict(base,event='push'),current,False),[0m
+2026-10-29T21:07:23.6345780Z [36;1m    (dict(base,status='completed'),current,False),[0m
+2026-10-29T21:07:23.6346705Z [36;1m    (dict(base,status='in_progress'),current,False),[0m
+2026-10-29T21:07:23.6347707Z [36;1m    (dict(base,head_sha='b'*40),current,False),[0m
+2026-10-29T21:07:23.6348632Z [36;1m    (base,dict(current,state='closed'),False),[0m
+2026-10-29T21:07:23.6349473Z [36;1m    (dict(base,head_sha=None),current,False),[0m
+2026-10-29T21:07:23.6350366Z [36;1m    (base,{'state':'open','head':{}},False)][0m
+2026-10-29T21:07:23.6351629Z [36;1mfor run,pr,wanted in controls:[0m
+2026-10-29T21:07:23.6352803Z [36;1m    if stale(run,pr)!=wanted:[0m
+2026-10-29T21:07:23.6353913Z [36;1m        raise SystemExit('cancellation policy self-test failed')[0m
+2026-10-29T21:07:23.6354822Z [36;1mdef api(path,post=False):[0m
+2026-10-29T21:07:23.6355817Z [36;1m    command=['gh','api',prefix+path]+(['--method','POST'] if post else [])[0m
+2026-10-29T21:07:23.6357347Z [36;1m    result=subprocess.run(command,capture_output=True,check=True)[0m
+2026-10-29T21:07:23.6358483Z [36;1m    return json.loads(result.stdout) if result.stdout.strip() else None[0m
+2026-10-29T21:07:23.6359535Z [36;1mdef pages(path,key):[0m
+2026-10-29T21:07:23.6360476Z [36;1m    rows=[][0m
+2026-10-29T21:07:23.6361250Z [36;1m    for page in range(1,1001):[0m
+2026-10-29T21:07:23.6362424Z [36;1m        result=api(path+('&' if '?' in path else '?')+'per_page=100&page='+str(page))[0m
+2026-10-29T21:07:23.6363436Z [36;1m        batch=result[key] if key else result[0m
+2026-10-29T21:07:23.6364356Z [36;1m        if not isinstance(batch,list):[0m
+2026-10-29T21:07:23.6365334Z [36;1m            raise SystemExit('unexpected API pagination shape')[0m
+2026-10-29T21:07:23.6366228Z [36;1m        rows.extend(batch)[0m
+2026-10-29T21:07:23.6367351Z [36;1m        if len(batch)<100:[0m
+2026-10-29T21:07:23.6368082Z [36;1m            return rows[0m
+2026-10-29T21:07:23.6369196Z [36;1m    raise SystemExit('pagination bound exhausted without complete enumeration')[0m
+2026-10-29T21:07:23.6370152Z [36;1mdef persist(report):[0m
+2026-10-29T21:07:23.6370992Z [36;1m    target=Path('cbz-superseded-run-report.json')[0m
+2026-10-29T21:07:23.6371909Z [36;1m    temporary=target.with_name(target.name+'.tmp')[0m
+2026-10-29T21:07:23.6373156Z [36;1m    temporary.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')[0m
+2026-10-29T21:07:23.6374202Z [36;1m    temporary.replace(target)[0m
+2026-10-29T21:07:23.6375456Z [36;1mdef cancel_one(api_call,run_id,latest,pr,records,save):[0m
+2026-10-29T21:07:23.6376677Z [36;1m    row=dict(run_id=run_id,pr=pr['number'],old_head=latest['head_sha'],[0m
+2026-10-29T21:07:23.6377771Z [36;1m        current_head=pr['head']['sha'],action='CANCEL_REQUEST_IN_FLIGHT')[0m
+2026-10-29T21:07:23.6378703Z [36;1m    records.append(row)[0m
+2026-10-29T21:07:23.6379430Z [36;1m    save()[0m
+2026-10-29T21:07:23.6380012Z [36;1m    try:[0m
+2026-10-29T21:07:23.6380734Z [36;1m        api_call('actions/runs/'+str(run_id)+'/cancel',post=True)[0m
+2026-10-29T21:07:23.6381723Z [36;1m    except subprocess.CalledProcessError:[0m
+2026-10-29T21:07:23.6382932Z [36;1m        observed=api_call('actions/runs/'+str(run_id))[0m
+2026-10-29T21:07:23.6383968Z [36;1m        row.update(observed_status=observed['status'],[0m
+2026-10-29T21:07:23.6384880Z [36;1m            observed_conclusion=observed.get('conclusion'))[0m
+2026-10-29T21:07:23.6385746Z [36;1m        if observed['status']=='completed':[0m
+2026-10-29T21:07:23.6386680Z [36;1m            row['action']='ALREADY_TERMINAL_AFTER_REFUSAL'[0m
+2026-10-29T21:07:23.6387490Z [36;1m            save()[0m
+2026-10-29T21:07:23.6388836Z [36;1m            return[0m
+2026-10-29T21:07:23.6389591Z [36;1m        row['action']='CANCELLATION_FAILED'[0m
+2026-10-29T21:07:23.6390323Z [36;1m        save()[0m
+2026-10-29T21:07:23.6391056Z [36;1m        raise[0m
+2026-10-29T21:07:23.6391770Z [36;1m    observed=api_call('actions/runs/'+str(run_id))[0m
+2026-10-29T21:07:23.6393260Z [36;1m    row.update(action='CANCELLATION_REQUESTED',observed_status=observed['status'],[0m
+2026-10-29T21:07:23.6394333Z [36;1m        observed_conclusion=observed.get('conclusion'))[0m
+2026-10-29T21:07:23.6395094Z [36;1m    save()[0m
+2026-10-29T21:07:23.6395959Z [36;1mfor scenario in ('requested','race','failed'):[0m
+2026-10-29T21:07:23.6396817Z [36;1m    snapshots=[][0m
+2026-10-29T21:07:23.6397500Z [36;1m    test_rows=[][0m
+2026-10-29T21:07:23.6398213Z [36;1m    def fake_api(path,post=False):[0m
+2026-10-29T21:07:23.6399465Z [36;1m        if post and scenario!='requested':[0m
+2026-10-29T21:07:23.6400570Z [36;1m            raise subprocess.CalledProcessError(1,['gh','api','cancel'])[0m
+2026-10-29T21:07:23.6401678Z [36;1m        return {'status':'completed' if scenario=='race' else 'in_progress',[0m
+2026-10-29T21:07:23.6403140Z [36;1m                'conclusion':'success' if scenario=='race' else None}[0m
+2026-10-29T21:07:23.6404078Z [36;1m    try:[0m
+2026-10-29T21:07:23.6404786Z [36;1m        cancel_one(fake_api,17,{'head_sha':'a'*40},[0m
+2026-10-29T21:07:23.6405804Z [36;1m            {'number':42,'head':{'sha':'b'*40}},test_rows,[0m
+2026-10-29T21:07:23.6406809Z [36;1m            lambda: snapshots.append([dict(row) for row in test_rows]))[0m
+2026-10-29T21:07:23.6407745Z [36;1m    except subprocess.CalledProcessError:[0m
+2026-10-29T21:07:23.6408622Z [36;1m        if scenario!='failed':[0m
+2026-10-29T21:07:23.6409325Z [36;1m            raise[0m
+2026-10-29T21:07:23.6410026Z [36;1m    else:[0m
+2026-10-29T21:07:23.6410738Z [36;1m        if scenario=='failed':[0m
+2026-10-29T21:07:23.6411654Z [36;1m            raise SystemExit('failed cancellation did not fail closed')[0m
+2026-10-29T21:07:23.6412962Z [36;1m    expected={'requested':'CANCELLATION_REQUESTED',[0m
+2026-10-29T21:07:23.6414034Z [36;1m        'race':'ALREADY_TERMINAL_AFTER_REFUSAL','failed':'CANCELLATION_FAILED'}[scenario][0m
+2026-10-29T21:07:23.6415431Z [36;1m    if not snapshots or snapshots[0][0]['action']!='CANCEL_REQUEST_IN_FLIGHT' or test_rows[0]['action']!=expected:[0m
+2026-10-29T21:07:23.6416721Z [36;1m        raise SystemExit('cancellation receipt self-test failed: '+scenario)[0m
+2026-10-29T21:07:23.6417670Z [36;1mallowed_prs=frozenset((707,))[0m
+2026-10-29T21:07:23.6418520Z [36;1mallowed_heads=frozenset(([0m
+2026-10-29T21:07:23.6419287Z [36;1m    'e77502daab6abd0efcfe158b079ac2efce4eb997',[0m
+2026-10-29T21:07:23.6420552Z [36;1m    '262036691d365ede742673ed421091dfbfdb2a72',[0m
+2026-10-29T21:07:23.6422849Z [36;1m    '05343dc2ce194823158eb96877e333aff439c335',[0m
+2026-10-29T21:07:23.6423892Z [36;1m    '69413c7c9878be8b49a27642531cc05c84f21d8a',[0m
+2026-10-29T21:07:23.6424983Z [36;1m    'f26e91b41ddf425c3d361282d0d3e9b99bb87ee1',[0m
+2026-10-29T21:07:23.6425871Z [36;1m    '3598f413da9be44263c2c6e853c7245012ee42f6',[0m
+2026-10-29T21:07:23.6426997Z [36;1m    'db7d4a9cef29f2927333b9979032200b144e29e7'))[0m
+2026-10-29T21:07:23.6428060Z [36;1mallowed_workflows=frozenset(('Research navigation and public source checks',[0m
+2026-10-29T21:07:23.6429099Z [36;1m                             'workspace-landing','public-shop'))[0m
+2026-10-29T21:07:23.6430102Z [36;1mif ('8aa7d353d6864b6481df5508aaea7b73f185abdf' in allowed_heads[0m
+2026-10-29T21:07:23.6431161Z [36;1m    or 'f1f2c79c6ca7a99fdf954ad638509bdfc1c0f546' in allowed_heads):[0m
+2026-10-29T21:07:23.6432509Z [36;1m    raise SystemExit('protected pending source admitted')[0m
+2026-10-29T21:07:23.6433385Z [36;1mdef scoped(run):[0m
+2026-10-29T21:07:23.6434300Z [36;1m    return run.get('head_sha') in allowed_heads and run.get('name') in allowed_workflows[0m
+2026-10-29T21:07:23.6435354Z [36;1mfor candidate,wanted in ([0m
+2026-10-29T21:07:23.6436366Z [36;1m    ({'head_sha':'e77502daab6abd0efcfe158b079ac2efce4eb997','name':'public-shop'},True),[0m
+2026-10-29T21:07:23.6437581Z [36;1m    ({'head_sha':'8aa7d353d6864b6481df5508aaea7b73f185abdf','name':'public-shop'},False),[0m
+2026-10-29T21:07:23.6438983Z [36;1m    ({'head_sha':'f1f2c79c6ca7a99fdf954ad638509bdfc1c0f546','name':'public-shop'},False),[0m
+2026-10-29T21:07:23.6440259Z [36;1m    ({'head_sha':'e77502daab6abd0efcfe158b079ac2efce4eb997','name':'cbz-cold-start-node'},False),[0m
+2026-10-29T21:07:23.6441395Z [36;1m    ({'name':'public-shop'},False)):[0m
+2026-10-29T21:07:23.6442446Z [36;1m    if scoped(candidate)!=wanted:[0m
+2026-10-29T21:07:23.6443358Z [36;1m        raise SystemExit('head/workflow scope self-test failed')[0m
+2026-10-29T21:07:23.6444424Z [36;1mfor number,wanted in ((707,True),(704,False),(705,False)):[0m
+2026-10-29T21:07:23.6445637Z [36;1m    if (number in allowed_prs)!=wanted:[0m
+2026-10-29T21:07:23.6446649Z [36;1m        raise SystemExit('PR scope self-test failed')[0m
+2026-10-29T21:07:23.6447411Z [36;1mrows=[][0m
+2026-10-29T21:07:23.6448241Z [36;1mreport=dict(scope='SUPERSEDED_PR_RUN_ORCHESTRATION_ONLY_NO_TEST_OR_PROOF_CREDIT',[0m
+2026-10-29T21:07:23.6449526Z [36;1m    source_commit=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],[0m
+2026-10-29T21:07:23.6450616Z [36;1m    policy_self_tests=len(controls)+11,enumerated_nonterminal_runs=None,[0m
+2026-10-29T21:07:23.6451645Z [36;1m    status='IN_PROGRESS',records=rows)[0m
+2026-10-29T21:07:23.6452691Z [36;1mpersist(report)[0m
+2026-10-29T21:07:23.6453437Z [36;1mprs=pages('pulls?state=open',None)[0m
+2026-10-29T21:07:23.6454229Z [36;1mruns={}[0m
+2026-10-29T21:07:23.6454836Z [36;1mfor status in sorted(active):[0m
+2026-10-29T21:07:23.6455765Z [36;1m    for run in pages('actions/runs?status='+status,'workflow_runs'):[0m
+2026-10-29T21:07:23.6456685Z [36;1m        runs[run['id']]=run[0m
+2026-10-29T21:07:23.6457441Z [36;1mreport['enumerated_nonterminal_runs']=len(runs)[0m
+2026-10-29T21:07:23.6458301Z [36;1mpersist(report)[0m
+2026-10-29T21:07:23.6458994Z [36;1mfor run_id,run in sorted(runs.items()):[0m
+2026-10-29T21:07:23.6460080Z [36;1m    if str(run_id)==os.environ['GITHUB_RUN_ID'] or run.get('event')!='pull_request':[0m
+2026-10-29T21:07:23.6460978Z [36;1m        continue[0m
+2026-10-29T21:07:23.6461738Z [36;1m    ids=[p.get('number') for p in run.get('pull_requests',[])][0m
+2026-10-29T21:07:23.6463062Z [36;1m    if not ids:[0m
+2026-10-29T21:07:23.6463882Z [36;1m        ids=[p['number'] for p in prs if p['head']['ref']==run.get('head_branch')[0m
+2026-10-29T21:07:23.6464943Z [36;1m             and p['head']['repo']['full_name']==repository][0m
+2026-10-29T21:07:23.6466037Z [36;1m    if len(ids)!=1 or type(ids[0]) is not int:[0m
+2026-10-29T21:07:23.6467362Z [36;1m        rows.append(dict(run_id=run_id,action='RETAINED_UNROUTED_OR_MULTIPLE_PR'))[0m
+2026-10-29T21:07:23.6468505Z [36;1m        continue[0m
+2026-10-29T21:07:23.6469178Z [36;1m    if ids[0] not in allowed_prs:[0m
+2026-10-29T21:07:23.6470200Z [36;1m        rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_OUT_OF_SCOPE'))[0m
+2026-10-29T21:07:23.6471392Z [36;1m        continue[0m
+2026-10-29T21:07:23.6472259Z [36;1m    if not scoped(run):[0m
+2026-10-29T21:07:23.6473339Z [36;1m        rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE'))[0m
+2026-10-29T21:07:23.6474372Z [36;1m        continue[0m
+2026-10-29T21:07:23.6475057Z [36;1m    pr=api('pulls/'+str(ids[0]))[0m
+2026-10-29T21:07:23.6475892Z [36;1m    if not stale(run,pr):[0m
+2026-10-29T21:07:23.6476869Z [36;1m        rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_CURRENT_OR_TERMINAL'))[0m
+2026-10-29T21:07:23.6477903Z [36;1m        continue[0m
+2026-10-29T21:07:23.6478678Z [36;1m    latest=api('actions/runs/'+str(run_id))[0m
+2026-10-29T21:07:23.6479676Z [36;1m    # Fresh PR source and run state are re-read immediately before the POST.[0m
+2026-10-29T21:07:23.6480746Z [36;1m    pr=api('pulls/'+str(ids[0]))[0m
+2026-10-29T21:07:23.6481574Z [36;1m    if not scoped(latest) or not stale(latest,pr):[0m
+2026-10-29T21:07:23.6482876Z [36;1m        rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_AFTER_RECHECK'))[0m
+2026-10-29T21:07:23.6483804Z [36;1m        continue[0m
+2026-10-29T21:07:23.6484650Z [36;1m    cancel_one(api,run_id,latest,pr,rows,lambda: persist(report))[0m
+2026-10-29T21:07:23.6485603Z [36;1mreport['status']='COMPLETE'[0m
+2026-10-29T21:07:23.6486286Z [36;1mpersist(report)[0m
+2026-10-29T21:07:23.6486955Z [36;1mprint(json.dumps(report,sort_keys=True))[0m
+2026-10-29T21:07:23.6487851Z [36;1mPYRETIRE[0m
+2026-10-29T21:07:23.6674922Z shell: /usr/bin/bash -e {0}
+2026-10-29T21:07:23.6676294Z env:
+2026-10-29T21:07:23.6681165Z   GH_TOKEN: ***
+2026-10-29T21:07:23.6681845Z ##[endgroup]
+2026-10-29T21:07:36.0752826Z {"enumerated_nonterminal_runs": 52, "policy_self_tests": 19, "records": [{"action": "RETAINED_OUT_OF_SCOPE", "pr": 696, "run_id": 40950403116}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 697, "run_id": 40950465043}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 706, "run_id": 40951015303}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40951127539}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 704, "run_id": 40951249587}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 703, "run_id": 40951609878}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 708, "run_id": 40951777834}, {"action": "CANCELLATION_REQUESTED", "current_head": "dc49a747f7ae1fa34ec3087afc6585453498c1e0", "observed_conclusion": null, "observed_status": "queued", "old_head": "69413c7c9878be8b49a27642531cc05c84f21d8a", "pr": 707, "run_id": 40951811569}, {"action": "CANCELLATION_REQUESTED", "current_head": "dc49a747f7ae1fa34ec3087afc6585453498c1e0", "observed_conclusion": null, "observed_status": "queued", "old_head": "f26e91b41ddf425c3d361282d0d3e9b99bb87ee1", "pr": 707, "run_id": 40952898808}, {"action": "CANCELLATION_REQUESTED", "current_head": "dc49a747f7ae1fa34ec3087afc6585453498c1e0", "observed_conclusion": null, "observed_status": "queued", "old_head": "3598f413da9be44263c2c6e853c7245012ee42f6", "pr": 707, "run_id": 40953041663}, {"action": "CANCELLATION_REQUESTED", "current_head": "dc49a747f7ae1fa34ec3087afc6585453498c1e0", "observed_conclusion": null, "observed_status": "queued", "old_head": "3598f413da9be44263c2c6e853c7245012ee42f6", "pr": 707, "run_id": 40953041955}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40953580411}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40953580483}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954071498}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954071542}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954071732}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 697, "run_id": 40954431936}, {"action": "RETAINED_OUT_OF_SCOPE", "pr": 697, "run_id": 40954432127}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954958333}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954958354}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954958414}, {"action": "RETAINED_HEAD_OR_WORKFLOW_OUTSIDE_SCOPE", "pr": 707, "run_id": 40954958533}], "run_id": "40954706379", "scope": "SUPERSEDED_PR_RUN_ORCHESTRATION_ONLY_NO_TEST_OR_PROOF_CREDIT", "source_commit": "cb5593d0d52de16dd0b7076b0deda24d2a47cfec", "status": "COMPLETE"}
+2026-10-29T21:07:36.1053699Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-29T21:07:36.1054627Z with:
+2026-10-29T21:07:36.1055159Z   name: cbz-superseded-runs-40954706379-1
+2026-10-29T21:07:36.1055682Z   path: cbz-superseded-run-report.json
+2026-10-29T21:07:36.1056224Z   if-no-files-found: error
+2026-10-29T21:07:36.1056703Z   compression-level: 6
+2026-10-29T21:07:36.1057094Z   overwrite: false
+2026-10-29T21:07:36.1057672Z   include-hidden-files: false
+2026-10-29T21:07:36.1058070Z   archive: true
+2026-10-29T21:07:36.1058537Z ##[endgroup]
+2026-10-29T21:07:36.2322664Z With the provided path, there will be 1 file uploaded
+2026-10-29T21:07:36.2326302Z Artifact name is valid!
+2026-10-29T21:07:36.2326923Z Root directory input is valid!
+2026-10-29T21:07:36.5297201Z Uploading artifact: cbz-superseded-runs-40954706379-1.zip
+2026-10-29T21:07:36.5330102Z Beginning upload of artifact content to blob storage
+2026-10-29T21:07:36.6784326Z Uploaded bytes 822
+2026-10-29T21:07:36.7174535Z Finished uploading artifact content to blob storage!
+2026-10-29T21:07:36.7177276Z SHA256 digest of uploaded artifact is 401fd584f1993b967ca2d427c38387a8a7e80c7c9d041be875a4b4b9d4a2f620
+2026-10-29T21:07:36.7180880Z Finalizing artifact upload
+2026-10-29T21:07:37.2258178Z Artifact cbz-superseded-runs-40954706379-1 successfully finalized. Artifact ID 12933581831
+2026-10-29T21:07:37.2259748Z Artifact cbz-superseded-runs-40954706379-1 has been successfully uploaded! Final size is 822 bytes. Artifact ID is 12933581831
+2026-10-29T21:07:37.2260954Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/40954706379/artifacts/12933581831
+2026-10-29T21:07:37.2449311Z Cleaning up orphan processes
