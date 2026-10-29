@@ -61,7 +61,7 @@
     "phase": 2,
     "layer": "B",
     "action": "Add exact-module serial resource-bounded adapter to installed LeanChecker; test/mutate failure propagation, bindings, import trust and real malformed proof bodies.",
-    "rationale": "Upstream prefix expansion launches concurrent per-module tasks and has no jobs flag; Root685 Math core exit137 OOM remains actual non-green evidence.",
+    "rationale": "Upstream prefix expansion launches concurrent per-module tasks with no CLI jobs flag. The original OOM is historical; canonical947 records a later successful same-source complete Math core gate with two threads. This adapter supplies exact serial scheduling, input binding and finite adversarial controls independently.",
     "reversibility": "New isolated contribution files only; no mathematical source, branch, Git, remote or canonical-surface mutation by this task.",
     "evidence": [
       "evidence/g0-applicable-tests.json",
@@ -81,5 +81,18 @@
       "evidence/RuntimeDiagnostic.lean"
     ],
     "mapping_file": "PUBLICATION.json"
+  },
+  "canonical_math_core_resolution": {
+    "observed_by_this_window_utc": "2026-10-29T18:50:42.767390+00:00",
+    "source_commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "canonical_handoff_cut": "94747663830ca6645ea27c8820058168c08cf170",
+    "status_source": "https://github.com/d6g8k5htny-coder/main/blob/94747663830ca6645ea27c8820058168c08cf170/STATUS.md",
+    "receipt_source": "https://github.com/d6g8k5htny-coder/main/blob/94747663830ca6645ea27c8820058168c08cf170/cbz/evidence/kernel/math-core/receipt.json",
+    "reported_resource_configuration": "LEAN_NUM_THREADS=2",
+    "component_scope": "Math core:116 owned constants,63 public theorem targets,26853 dependency closure; onlypropext/Classical.choice/Quot.sound; fullcomponentgate/adversecontrols recorded",
+    "project_proof_replayed_for_this_correction": false,
+    "adapter_production_code_or_tests_changed": false,
+    "adapter_27_tests_16_mutants_reused": true,
+    "federation_CBZ_claim": false
   }
 }
