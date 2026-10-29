@@ -88,6 +88,14 @@ class NodeRunnerTests(unittest.TestCase):
             return
         if mutation == "duplicate-summary" and (variables.get("field") != "tests" or variables.get("text", "").count("# tests ") != 2):
             return
+        if mutation == "skip-summary":
+            text = variables["path"].read_text()
+            if "# tests 1" not in text or "# skipped 1" not in text:
+                return
+        if mutation == "skip-inputs":
+            fixture = variables["output"] / "main/data.txt"
+            if not fixture.is_file() or fixture.read_bytes() != b"exact input\n":
+                return
         if mutation in ("fixture-domain", "fixture-postflight"):
             fixture = variables["output"] / "shop/Math-/data.txt"
             transcript = variables["path"]
@@ -133,7 +141,7 @@ class NodeRunnerTests(unittest.TestCase):
             try:
                 raw = self.module.read_pinned(self.roots, self.descriptor())
             except ValueError as error:
-                if "Git command failed" in str(error):
+                if str(error).startswith("Git command failed: ls-tree -z "):
                     self.mark_bypass("ambient-git")
                 self.fail("ambient Git redirection affected pinned read: " + str(error))
             self.assertEqual(raw, b"exact input\n")
@@ -439,7 +447,8 @@ class NodeRunnerTests(unittest.TestCase):
         result = self.module.run(
             self.repo, self.directory / "Math-", self.directory / "query-",
             self.directory / "report")
-        if result["status"] == "PASS" and not result["mathematical_certification"] and not result["final_cbz_certification"]:
+        if (result["status"] == "PASS" and result.get("error") == "loaded source root identity mismatch"
+                and not result["mathematical_certification"] and not result["final_cbz_certification"]):
             self.mark_bypass("false-green-report")
         self.assertEqual(result["status"], "FAIL")
         self.assertFalse(result["mathematical_certification"])
