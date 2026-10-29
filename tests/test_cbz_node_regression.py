@@ -751,7 +751,7 @@ class MutationHarnessTests(unittest.TestCase):
             self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
     def test_outer_control_launcher_ignores_poisoned_test_cache(self):
-        launcher = ROOT / "tools/cbz_node_controls.py"
+        launcher = Path(os.environ.get("CBZ_NODE_CONTROL_LAUNCHER", ROOT / "tools/cbz_node_controls.py"))
         self.assertTrue(launcher.is_file(), "source-only control launcher is required")
         with tempfile.TemporaryDirectory(prefix="cbz-node-outer-cache-") as directory:
             root = Path(directory) / "workspace"
@@ -785,6 +785,25 @@ class MutationHarnessTests(unittest.TestCase):
                     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                     self.assertIn("CBZ_OUTER_SOURCE", result.stdout)
                     self.assertNotIn("CBZ_OUTER_POISON", result.stdout + result.stderr)
+
+    def test_outer_control_launcher_refuses_empty_and_skipped_suites(self):
+        launcher = Path(os.environ.get("CBZ_NODE_CONTROL_LAUNCHER", ROOT / "tools/cbz_node_controls.py"))
+        self.assertTrue(launcher.is_file(), "source-only control launcher is required")
+        with tempfile.TemporaryDirectory(prefix="cbz-node-empty-controls-") as directory:
+            root = Path(directory)
+            package = root / "tests"
+            package.mkdir()
+            (package / "__init__.py").write_text("")
+            source = package / "test_cbz_node_regression.py"
+            examples = ("", "import unittest\n@unittest.skip('not exercised')\nclass TestSkipped(unittest.TestCase):\n def test_skipped(self): pass\n")
+            for text in examples:
+                with self.subTest(source=text):
+                    source.write_text(text)
+                    result = subprocess.run(
+                        [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                         str(launcher), "--root", str(root)],
+                        capture_output=True, text=True, timeout=30)
+                    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_source_loader_ignores_poisoned_bytecode(self):
         self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
