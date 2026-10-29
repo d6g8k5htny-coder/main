@@ -23,3 +23,5 @@ Lean4.34.1 release5045d0056413266e57c625dcd7c365b10e377c52; Mathlibd13f23b723b8a
 Final baseline tag, exact final federation cuts, common final gate transcript, complete federation coverage and fresh-clone acceptance do not yet exist. Their absence is explicit, not a fabricated receipt.
 
 Later integration: main #704 merged at `1e2be44c69e08e47472041ac329e1b27f7dec793`; its evidence-only replay documentation temporarily lacks four executable files on that main cut. ULW's historical network pin check passed but its current-tip check failed for main and Math at the recorded run. No final cross-repository vector or common gate pass exists. The unavailable local 27-item numerical mapping and 367-entry classification update remain unrecovered; the separate published 367 literal records remain available. See [STATUS.md](STATUS.md) for source-bound observations and pending candidate heads.
+
+Math main subsequently advanced to `9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966` by merging #492; the exact-head six check results were observed successful. This is a separate later observation, not a final synchronized federation pin or a new mathematical closure.

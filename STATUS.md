@@ -193,3 +193,7 @@ Source-cut pytest-dependent and pinned graph-composition diagnostic workflows ar
 The [P15 target observation](cbz/evidence/historical-p15-target-observation.json) preserves all 28 historical empty-axiom output lines and their exact source Git blobs; a literal-name comparison found no overlap with the 367-record index. This is source-cut evidence, not artifact authentication or new CLOSED admission.
 
 All three D2 companion jobs at the historical Math #537 tested merge completed successfully. Two broad companion suites each ran 1,066 tests per mode with one declared skip per mode; their artifacts have not been independently downloaded here. These results do not qualify the newer custody/grader candidate or complete G5. [Job observations](cbz/evidence/math537-d2-companion-observation.json).
+
+### Math main advanced
+
+Math [#492](https://github.com/d6g8k5htny-coder/Math-/pull/492) merged at `9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966` after six exact-head checks completed successfully. Its four changed paths concern the elder-cusp engineering verdict protocol; this does not promote an informal mathematical result. Candidate integrations and the workspace's current pins must be reconciled with this newer Math main before final verification. The previous `95eb` observations remain historical source cuts.
