@@ -2,6 +2,7 @@
 import ast
 import importlib.util
 import io
+import inspect
 import json
 import tempfile
 import types
@@ -19,6 +20,107 @@ def load_runner():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+
+# Finite trusted-unittest assertion helpers. File names and formatted tracebacks
+# are never authority for an oracle failure; actual code identities are used.
+_ASSERTION_CODES = frozenset(
+    value.__code__ for cls in (unittest.TestCase, unittest.case._AssertRaisesContext, unittest.case._AssertRaisesBaseContext, unittest.case._BaseTestCaseContext)
+    for name, value in vars(cls).items()
+    if callable(value) and hasattr(value, '__code__')
+    and (name.startswith('assert') or name in
+         ('fail', '_baseAssertEqual', '_formatMessage', '__exit__', '_raiseFailure'))
+)
+
+
+def run_oracle_controls(case_type, methods):
+    """Run frozen synchronous bodies and capture origin before unittest formats it."""
+    expected = [case_type(method).id() for method in methods]
+    if not expected or len(set(expected)) != len(expected):
+        raise ValueError('nonempty unique oracle inventory required')
+    states = {}
+    class OriginResult(unittest.TextTestResult):
+        def __init__(self, *args):
+            super().__init__(*args)
+            self.started = []
+            self.stopped = []
+            self.origins = []
+            self.successful = []
+        def startTest(self, test):
+            self.started.append(test.id())
+            super().startTest(test)
+        def stopTest(self, test):
+            self.stopped.append(test.id())
+            super().stopTest(test)
+        def addSuccess(self, test):
+            self.successful.append(test.id())
+            super().addSuccess(test)
+        def capture(self, test, err):
+            state = states.get(test.id(), {})
+            codes = []
+            tb = err[2]
+            while tb is not None:
+                codes.append(tb.tb_frame.f_code)
+                tb = tb.tb_next
+            body = state.get('code')
+            positions = [i for i, code in enumerate(codes) if code is body]
+            valid = (type(err[1]) is AssertionError and state.get('entered') == 1
+                     and state.get('phase') in ('body', 'body-exited')
+                     and len(positions) == 1
+                     and all(code in _ASSERTION_CODES for code in codes[positions[0]+1:]))
+            self.origins.append((test.id(), valid))
+        def addFailure(self, test, err):
+            self.capture(test, err)
+            super().addFailure(test, err)
+        def addSubTest(self, test, subtest, err):
+            if err is not None:
+                self.capture(test, err)
+            super().addSubTest(test, subtest, err)
+    cases = []
+    for method in methods:
+        case = case_type(method)
+        selected = getattr(case, method)
+        code = getattr(selected, '__code__', None)
+        if code is None or inspect.iscoroutinefunction(selected) or inspect.isgeneratorfunction(selected) or inspect.isasyncgenfunction(selected):
+            raise ValueError('only synchronous oracle bodies are admitted')
+        state = dict(code=code, entered=0, phase='initial')
+        states[case.id()] = state
+        for attr, phase in (('_callSetUp', 'setup'), ('_callTearDown', 'teardown'), ('_callCleanup', 'cleanup')):
+            original = getattr(case, attr)
+            def call(*args, _original=original, _phase=phase, _state=state, **kwargs):
+                _state['phase'] = _phase
+                return _original(*args, **kwargs)
+            setattr(case, attr, call)
+        original = case._callTestMethod
+        def body_call(method, _original=original, _state=state):
+            if getattr(method, '__code__', None) is not _state['code']:
+                raise RuntimeError('oracle body changed')
+            _state['entered'] += 1
+            _state['phase'] = 'body'
+            try:
+                returned = method()
+                if returned is not None:
+                    if inspect.iscoroutine(returned) or inspect.isgenerator(returned):
+                        returned.close()
+                    raise RuntimeError('oracle body returned a deferred or unsupported value')
+                return None
+            finally:
+                _state['phase'] = 'body-exited'
+        case._callTestMethod = body_call
+        cases.append(case)
+    result = unittest.TextTestRunner(stream=io.StringIO(), resultclass=OriginResult).run(unittest.TestSuite(cases))
+    complete = (result.testsRun == len(expected) and result.started == expected
+                and result.stopped == expected and all(s['entered'] == 1 for s in states.values())
+                and not result.errors and not result.skipped and not result.expectedFailures
+                and not result.unexpectedSuccesses)
+    accounted = set(result.successful) | {identity for identity, unused in result.origins}
+    complete = (complete and accounted == set(expected)
+                and len(result.successful) == len(set(result.successful))
+                and not (set(result.successful) & {identity for identity, unused in result.origins}))
+    result.oracle_baseline = complete and result.wasSuccessful() and not result.origins
+    result.oracle_killed = complete and bool(result.failures) and bool(result.origins) and all(v for _, v in result.origins)
+    return result
 
 
 class AtlasBrowserRunnerControls(unittest.TestCase):
@@ -149,9 +251,11 @@ class AtlasBrowserRunnerControls(unittest.TestCase):
                 spec = importlib.util.spec_from_file_location('mutant_' + name, path)
                 mutant = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(mutant)
+                baseline = run_oracle_controls(type(self), (method,))
+                self.assertTrue(baseline.oracle_baseline, name)
                 with mock.patch(__name__ + '.load_runner', return_value=mutant):
-                    result = unittest.TextTestRunner(stream=io.StringIO()).run(
-                        unittest.TestSuite([type(self)(method)]))
+                    result = run_oracle_controls(type(self), (method,))
+                self.assertTrue(result.oracle_killed, name)
                 self.assertGreater(len(result.failures), 0, name)
                 self.assertEqual(result.errors, [], name)
                 self.assertEqual(result.skipped, [], name)
@@ -229,5 +333,134 @@ class AtlasBrowserRunnerControls(unittest.TestCase):
         self.assertIn('if: always()', source)
 
 
-if __name__ == '__main__':
+class OracleOriginControls(unittest.TestCase):
+    def observe(self, body, **attributes):
+        cls = type('FrozenOracle', (unittest.TestCase,), dict(test_body=body, **attributes))
+        return run_oracle_controls(cls, ('test_body',))
+
+    def test_genuine_baseline_and_assertion_origins(self):
+        def positive(case): case.assertEqual(1, 1)
+        def failure(case): case.assertEqual(1, 2)
+        def subtest(case):
+            with case.subTest(value=1): case.assertFalse(True)
+        def context(case):
+            with case.assertRaises(ValueError): pass
+        self.assertTrue(self.observe(positive).oracle_baseline)
+        for body in (failure, subtest, context):
+            with self.subTest(body=body.__name__):
+                result = self.observe(body)
+                self.assertTrue(result.oracle_killed)
+                self.assertFalse(result.oracle_baseline)
+
+    def test_fixture_assertions_cannot_kill(self):
+        def positive(case): pass
+        def failure(case): case.fail('actual body')
+        def fixture(case): case.fail('fixture')
+        for attr in ('setUp', 'tearDown'):
+            for body in (positive, failure):
+                with self.subTest(attr=attr, body=body.__name__):
+                    result = self.observe(body, **{attr: fixture})
+                    self.assertFalse(result.oracle_killed)
+                    self.assertFalse(result.oracle_baseline)
+
+    def test_later_phase_calling_selected_body_cannot_kill(self):
+        def body(case): case.fail('selected body')
+        def later(case): case.test_body()
+        self.assertFalse(self.observe(body, tearDown=later).oracle_killed)
+        def setup(case): case.addCleanup(case.test_body)
+        self.assertFalse(self.observe(body, setUp=setup).oracle_killed)
+
+    def test_cleanup_assertions_cannot_kill(self):
+        def cleanup(): raise AssertionError('cleanup')
+        def body(case):
+            case.addCleanup(cleanup)
+            case.fail('body')
+        self.assertFalse(self.observe(body).oracle_killed)
+
+    def test_subject_helper_callback_assertions_cannot_kill(self):
+        def subject(): raise AssertionError('subject')
+        def subject_body(case): subject()
+        def helper(case): case.fail('helper')
+        def helper_body(case): case.helper()
+        def callback_body(case):
+            callback = lambda: (_ for _ in ()).throw(AssertionError('callback'))
+            callback()
+        for body in (subject_body, helper_body, callback_body):
+            with self.subTest(body=body.__name__):
+                self.assertFalse(self.observe(body, helper=helper).oracle_killed)
+
+    def test_forged_unittest_filename_is_not_authority(self):
+        namespace = {}
+        exec(compile("def forged(): raise AssertionError('forged')", unittest.case.__file__, 'exec'), namespace)
+        def body(case): namespace['forged']()
+        self.assertFalse(self.observe(body).oracle_killed)
+
+    def test_setup_calling_body_does_not_count_as_execution(self):
+        def body(case): case.fail('called from setup')
+        def setup(case): case.test_body()
+        self.assertFalse(self.observe(body, setUp=setup).oracle_killed)
+
+    def test_error_skip_expected_failure_refused(self):
+        def error(case): raise RuntimeError('error')
+        def skip(case): case.skipTest('skip')
+        @unittest.expectedFailure
+        def expected(case): case.fail('expected')
+        @unittest.expectedFailure
+        def unexpected(case): pass
+        for body in (error, skip, expected, unexpected):
+            with self.subTest(body=body.__name__):
+                result = self.observe(body)
+                self.assertFalse(result.oracle_killed)
+                self.assertFalse(result.oracle_baseline)
+
+    def test_deferred_bodies_refused(self):
+        async def coroutine(case): pass
+        def generator(case): yield 1
+        async def async_generator(case): yield 1
+        for body in (coroutine, generator, async_generator):
+            with self.subTest(body=body.__name__), self.assertRaisesRegex(ValueError, 'synchronous'):
+                self.observe(body)
+
+    def test_synchronous_returning_deferred_or_value_refused(self):
+        async def deferred(): pass
+        def coroutine(case): return deferred()
+        def generator(case): return iter((1,))
+        def value(case): return 7
+        for body in (coroutine, generator, value):
+            with self.subTest(body=body.__name__):
+                result = self.observe(body)
+                self.assertFalse(result.oracle_baseline)
+                self.assertFalse(result.oracle_killed)
+
+    def test_empty_duplicate_population_refused(self):
+        cls = type('FrozenOracle', (unittest.TestCase,), {'test_body': lambda case: None})
+        for methods in ((), ('test_body', 'test_body')):
+            with self.subTest(methods=methods), self.assertRaisesRegex(ValueError, 'inventory'):
+                run_oracle_controls(cls, methods)
+
+    def test_repeated_body_execution_refused(self):
+        def body(case): case.fail('body')
+        def run(case, result):
+            result.startTest(case)
+            for unused in range(2):
+                try: case._callTestMethod(case.test_body)
+                except AssertionError:
+                    import sys
+                    result.addFailure(case, sys.exc_info())
+            result.stopTest(case)
+        self.assertFalse(self.observe(body, run=run).oracle_killed)
+
+    def test_missing_or_duplicate_terminal_success_refused(self):
+        def body(case): pass
+        for count in (0, 2):
+            def run(case, result):
+                result.startTest(case)
+                case._callTestMethod(case.test_body)
+                for unused in range(count): result.addSuccess(case)
+                result.stopTest(case)
+            with self.subTest(count=count):
+                self.assertFalse(self.observe(body, run=run).oracle_baseline)
+
+
+if __name__ == "__main__":
     unittest.main()

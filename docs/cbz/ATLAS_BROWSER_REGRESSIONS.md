@@ -54,7 +54,7 @@ python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v
 python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner -v
 ```
 
-Seventeen controls run without launching a browser. They cover inventory, actual
+Thirty controls run without launching a browser. The original seventeen are retained; thirteen additional controls qualify the mutation grader’s lifecycle and assertion-origin checks. They cover inventory, actual
 unittest success/failure/error/subtest/skip/expected-failure/unexpected-success,
 missing execution, report/exit consistency, source drift, old-output retention,
 explicit sandbox parameters, workflow wiring, ten launcher-selection cases and
@@ -73,7 +73,7 @@ facts into their current versions rather than restoring the historical STATUS:
 - GOVERNANCE/TOOLING: `tools/run_atlas_browser_regressions.py`; purpose: fixed-ID,
   zero-skip execution of two Atlas UI regressions; criterion: G5 execution coverage
   and G11 documented tooling; usage/self-verification: exact commands above;
-  maintenance owner: none, self-contained; verification: 17 runner controls (32 combined browser-contract controls) and 6
+  maintenance owner: none, self-contained; historical verification: 17 runner controls (32 combined browser-contract controls) and 6
   runner-source mutants per mode locally passed in the fresh recovery checkout; actual hosted execution passed on the historical corrected tree below,
   with new composition qualification still pending.
 - STATUS, How to verify: run both control commands, then both real runner commands
@@ -109,3 +109,41 @@ The original focus failure remains in its result and stderr records. These are
 engineering observations only, not mathematical evidence or final G5 completion.
 The later composition onto Main `1e2be44c69e08e47472041ac329e1b27f7dec793`
 preserves this evidence as historical; it still needs a new hosted execution.
+
+
+## 2026-10-29 assertion-origin amendment
+
+At parent tree `6786ec405cef50e0fef73c7fcd9ca3945c555230`, the six-mutant
+meta-test accepted setup-only AssertionErrors as kills. An independent normal and
+optimized reproduction is retained in `evidence/browser-origin-20261029/`.
+This demonstrates a future-use grading defect; it does not establish that any
+historical finite kill or actual browser result was false.
+
+The test-only grader now captures actual exception/code identity before unittest
+formats/clears traceback data. Admission requires the selected synchronous body
+exactly once, the complete terminal population, no fixture/error/skip/expected
+failure, and only the selected body plus explicitly trusted unittest assertion
+helper code on the escaping failure path. Subject, helper, callback, forged-file,
+setup, teardown and cleanup assertions are refused. Deferred/non-None body returns
+and missing/duplicate terminal success events are refused. Each production-source
+mutant first runs its unmodified designated baseline. All original assertions,
+production runner/browser sources, workflow bytes and sandbox policy are unchanged.
+
+Current scoped controls: 30 methods per mode, or 45 when combined with the two
+existing browser-contract modules; six original production mutants per mode.
+Six additional grader safeguard mutations are checked by an unchanged trusted
+copy of the repaired raw-origin classifier, not by their own mutated classifier:
+
+```
+python -B docs/cbz/evidence/browser-origin-20261029/check_grader_mutations.py
+python -B -O docs/cbz/evidence/browser-origin-20261029/check_grader_mutations.py
+```
+
+The deferred-body mutation deliberately removes both static and runtime refusal;
+its unawaited-coroutine warning is retained in stderr as an adverse observation,
+not accepted as a kill. The required kill is a genuine self-test assertion.
+These are finite engineering controls in a trusted interpreter with frozen tests;
+this is not hostile-process containment or an exhaustive proof of unittest.
+New composed-tree full regression/actual-browser execution remains pending.
+Canonical tooling registration should include this amendment and its self-tests,
+not relabel historical source receipts as current-source qualification.
