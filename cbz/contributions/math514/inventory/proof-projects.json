@@ -1,0 +1,868 @@
+{
+  "schema_version": 1,
+  "kind": "PUBLIC_SAFE_CONTRIBUTION_INVENTORY_HANDOFF_NOT_A_REGISTRY",
+  "canonical_integration_owner": "main#684/#685 single writer",
+  "original_observation_cut_utc": "2026-10-29T17:05:21.411546+00:00",
+  "original_scope": "Five local Math worktrees plus one Main checkout; actual source reads with indexed-relative-path/content deduplication. No local worktree paths, branch metadata or raw private records copied here.",
+  "current_status_overlay": "Contribution STATUS plus packaged stage67 CLOSURE/PROOF_INDEX; includes registered build observed2026-10-29T17:33:58.953065Z. No fresh census or checks.",
+  "evidence_reuse_rule": "Completed applicable verification remains reusable under unchanged assumptions/dependencies. New agent/session/handoff alone never warrants rechecking. Final federation protocol obligations are separate from exact-scope mathematical evidence.",
+  "original_candidate_counts": {
+    "lean_unique": 1976,
+    "lean_occurrences": 2842,
+    "lean_declaration_candidates": 39853,
+    "python_float_mathematical_files": 807,
+    "python_float_candidate_lines": 10703,
+    "status_surface_unique": 2745,
+    "conventional_claim_document_unique": 2763,
+    "conventional_claim_candidate_lines": 25818,
+    "pin_reference_files": 2217,
+    "pin_reference_lines": 83309,
+    "project_config_unique": 13,
+    "project_config_occurrences": 46
+  },
+  "project_root_count": {
+    "unique_Math_project_paths": 8,
+    "Main_core_project_paths": 1,
+    "actual_occurrences_at_cut": 41,
+    "historical_config_copies_at_cut": 5,
+    "config_variants_at_cut": 13
+  },
+  "projects": [
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "formal",
+      "config": "formal/lakefile.toml",
+      "package_name": "universal_law_formal",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "ResearchFormalCoreR1"
+      ],
+      "role": "ResearchFormalCoreR1 scalar companions; registered targets do not alone establish ALL-declaration coverage.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S formal/gate.py",
+          "execute": "python -B -S formal/gate.py --execute",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF"
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "formal"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "specifications/lean_statements_20261010",
+      "config": "specifications/lean_statements_20261010/lakefile.toml",
+      "package_name": "universal_law_specifications",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "Specifications"
+      ],
+      "role": "Definitions, interface structures and registered Prop specifications; not theorem closure by definition.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S specifications/lean_statements_20261010/check.py",
+          "execute": "python -B -S specifications/lean_statements_20261010/check.py --execute",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF"
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "specifications/lean_statements_20261010"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "specifications/lean_statement_proofs_20261011",
+      "config": "specifications/lean_statement_proofs_20261011/lakefile.toml",
+      "package_name": "universal_law_specification_proofs",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        },
+        {
+          "name": "universal_law_specifications",
+          "path": "../lean_statements_20261010"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "SpecificationProofs"
+      ],
+      "role": "Theorems of exact sibling specification Props; historical source records describe78 checked theorems, not proof of every registered Prop.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S specifications/lean_statement_proofs_20261011/check.py",
+          "execute": "python -B -S specifications/lean_statement_proofs_20261011/check.py --execute",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF"
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "specifications/lean_statement_proofs_20261011"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/cap_first_exit_lean_20261002",
+      "config": "frontiers/cap_first_exit_lean_20261002/lakefile.toml",
+      "package_name": "cap_first_exit",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "CapFirstExit"
+      ],
+      "role": "Cap/first-exit Lean package.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S frontiers/cap_first_exit_lean_20261002/gate.py",
+          "execute": "python -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF"
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/cap_first_exit_lean_20261002"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/source_smooth_realization_20261011",
+      "config": "frontiers/source_smooth_realization_20261011/lakefile.toml",
+      "package_name": "source_smooth_realization",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "SourceSmoothControls"
+      ],
+      "role": "Actual smooth Gaussian source realization and source carrier.",
+      "existing_drivers": [],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_smooth_realization_20261011"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED",
+      "workflow_pointer": ".github/workflows/source-smooth-realization.yml",
+      "coverage_gap": "Historical workflow is scoped and includes superseded ceremony; no short consolidated federation driver mapped."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/source_lifetime_realization_20261017",
+      "config": "frontiers/source_lifetime_realization_20261017/lakefile.toml",
+      "package_name": "source_lifetime_realization",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "C291Inputs",
+        "SourceLifetimeControls",
+        "SourceLifetimeAxiomAudit"
+      ],
+      "role": "Literal source field/geometry and Lifetime interface bridge.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S frontiers/source_lifetime_realization_20261017/validate_static.py",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF",
+          "boundary": "Static mappings/identity validation; not kernel verification."
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_lifetime_realization_20261017"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/determinant_moment_20261025",
+      "config": "frontiers/determinant_moment_20261025/lakefile.toml",
+      "package_name": "universal_law_formal",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "ResearchFormalCoreR1"
+      ],
+      "role": "Determinant/moment package; shares package name with formal but is a distinct root.",
+      "existing_drivers": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "source_only": "python -B -S frontiers/determinant_moment_20261025/gate.py",
+          "execute": "python -B -S frontiers/determinant_moment_20261025/gate.py --execute",
+          "state": "DISCOVERED_NOT_RUN_IN_HANDOFF"
+        }
+      ],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/determinant_moment_20261025"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/source_derivative_gaussian_20261025",
+      "config": "frontiers/source_derivative_gaussian_20261025/lakefile.toml",
+      "package_name": "source_derivative_gaussian",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [
+        {
+          "name": "mathlib",
+          "git": "https://github.com/leanprover-community/mathlib4.git",
+          "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+        }
+      ],
+      "observed_default_targets_at_original_cut": [
+        "SourceDerivativeGaussian",
+        "ContactJetCovariance",
+        "SourceContactCovariance",
+        "SourceConfluentPins",
+        "SourceContactSchur",
+        "SourceDerivativeContinuity",
+        "ConfluentIntegralIdentities",
+        "SourceEndpointRegression",
+        "GaussianRegressionLimits",
+        "SourceEndpointParameters",
+        "SourceContactEndpointParameters",
+        "SourceConfluentLimits",
+        "SourcePhysicalEndpointKernel",
+        "SourceEndpointEstimates",
+        "SourceSmoothConditionalKernel",
+        "SourceSmoothPalm",
+        "GaussianWeightedMajorants",
+        "SourceConditionalMajorant",
+        "SourcePinCurvatureBounds",
+        "ScalarProductCurvatureBound",
+        "SourceCurvatureDecomposition",
+        "SourceWeightedCurvatureBound",
+        "SourcePinPreservingQuartic",
+        "SourceSmoothTopology",
+        "SourceRawPinConditioning",
+        "SourceQuarticCaptureAlgebra",
+        "SourceMorseIncidence",
+        "SourceSmoothParameterSpace",
+        "SourceLifetimePairFiniteness",
+        "SourceCompactTargetMoments",
+        "AdaptiveFoldScalarBarrier",
+        "AdaptiveFoldTransverseRidge",
+        "AdaptiveFoldBoundaryPath",
+        "SourceAdaptiveFoldChart",
+        "SourceAdaptiveFoldEstimates",
+        "SourceActualFoldDeath",
+        "SourceActualFoldTorus",
+        "SourceActualFoldH0",
+        "SourceFoldWeightedProbability",
+        "SourceGapPinCurvature",
+        "SourceAllTargetCurvatureResidual",
+        "SourceGapWeightedNumerator",
+        "SourceCompactGapNormalizer",
+        "SourceCompactFoldWeightedProbability",
+        "SourceActualFoldCandidate",
+        "SourceFinitePinKernel",
+        "SourceFiniteTrig",
+        "SourceRemoteJetWitness",
+        "SourceRemoteJetGaussian",
+        "SourceEndpointHessianWitness",
+        "SourceH0OlderClearance",
+        "SourceEndpointHessianGaussian",
+        "SourceTwoRemoteFirstJetWitness",
+        "SourceIntrinsicH0Interface",
+        "SourceTwoRemoteFirstJetGaussian",
+        "SourceIntrinsicH0WeightedProbability",
+        "SourceRawPinFreeCoordinates",
+        "SourceFramedConfluentCovariance",
+        "SourceGapConditionalMorseDistinct",
+        "SourceActualMorseLocalModel",
+        "SourceActualTorusSuperlevelLocalBasis",
+        "SourceActualTorusRegularSlab",
+        "SourceActualFiniteSuperlevelComponents",
+        "SourceActualQuotientSaddleCollar",
+        "SourceActualSaddleUppercuts",
+        "SourceActualRegularLocalCollar"
+      ],
+      "role": "Source derivative/conditioning/topology development, including exactly scoped stage67 contribution.",
+      "existing_drivers": [],
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_derivative_gaussian_20261025"
+        },
+        "command": "lake build",
+        "provenance": "Generic existing Lake build command recorded in math-tooling G3; config supplies root/targets. No execution in this handoff."
+      },
+      "final_federation_gate_status": "NOT_ESTABLISHED",
+      "current_stage67_registration": {
+        "target": "SourceActualLowerSeparation",
+        "status": "RECORDED_BUILD_EXIT0",
+        "end_utc": "2026-10-29T17:33:58.953065Z",
+        "evidence": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/evidence/registered-lake-build/receipt.json",
+        "qualification": "Adds stage67 to original66 target cut; no fresh census/rebuild undertaken here."
+      }
+    },
+    {
+      "repository": "d6g8k5htny-coder/main",
+      "path": "formal",
+      "config": "formal/lakefile.toml",
+      "package_name": "UniversalLaw",
+      "toolchain": "leanprover/lean4:v4.34.1",
+      "requirements": [],
+      "observed_default_targets_at_original_cut": [
+        "UniversalLaw"
+      ],
+      "role": "Lean-core-only UniversalLaw pilot. Empty dependency manifest; no Mathlib dependency.",
+      "build_recipe": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/main",
+          "path": "formal"
+        },
+        "command": "lake build",
+        "provenance": "Recorded generic Lake command with observed config root; not executed here."
+      },
+      "coverage_gap": "Main-specific gate/selftest/kernel command not mapped by the Math tooling inventory. Canonical writer must bind actual main driver and all-declaration scope.",
+      "final_federation_gate_status": "NOT_ESTABLISHED"
+    }
+  ],
+  "historical_metadata_boundary": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "path": "frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-ten-module/published-package-metadata/lakefile.toml",
+    "role": "Historical ten-module metadata copy in each Math checkout; not a ninth active mathematical project.",
+    "execution": "NOT_RUN"
+  },
+  "non_lake_sources_and_drivers": [
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "companions/torus_filtration_20261011/replay.sh",
+      "state": "DISCOVERED_NOT_RUN",
+      "coverage_boundary": "No local lakefile. Explicit staged external Specifications.Field build and LEAN_PATH; generated controls and kernel modes require exact driver inventory.",
+      "runtime_root": "formal/ lake environment; companion root + generated .lake spec/input/output dirs",
+      "recorded_command": {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "."
+        },
+        "command": "bash companions/torus_filtration_20261011/replay.sh",
+        "provenance": ".github/workflows/torus-filtration.yml:48",
+        "state": "DECLARED_NOT_RUN_IN_HANDOFF"
+      }
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/regular_superlevel_geometry_20261020/c297_hosted_verify.py",
+      "state": "DISCOVERED_NOT_RUN",
+      "coverage_boundary": "Driver/input/evidence mapping remains a scoped coverage obligation.",
+      "runtime_root": "formal/ pinned dependencies; explicit project/ and negative-project/ modules, isolated object/evidence directory"
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "companions/d2_square_schur_20261006/replay.sh",
+      "state": "NEEDS_DRIVER_AUDIT",
+      "coverage_boundary": "Driver/input/evidence mapping remains a scoped coverage obligation."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "companions/d2_atom_integral_20261006/replay.sh",
+      "state": "NEEDS_DRIVER_AUDIT",
+      "coverage_boundary": "Driver/input/evidence mapping remains a scoped coverage obligation."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "companions/d2_moment_bridge_20261006/replay.sh",
+      "state": "NEEDS_DRIVER_AUDIT",
+      "coverage_boundary": "Driver/input/evidence mapping remains a scoped coverage obligation."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/asymmetric_elder_bridge_20261017",
+      "state": "NEEDS_DRIVER_AND_HISTORICAL_RECEIPT_MAPPING",
+      "coverage_boundary": "Driver/input/evidence mapping remains a scoped coverage obligation."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "frontiers/compact_morse_elder_adapter_20261018",
+      "state": "NEEDS_DRIVER_AND_INPUT_SOURCE_MAPPING",
+      "coverage_boundary": "Retained inputs/ source copies, not automatically independent build roots."
+    },
+    {
+      "repository": "d6g8k5htny-coder/Math-",
+      "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch",
+      "state": "NEEDS_DRIVER_MAPPING",
+      "coverage_boundary": "Retained review scratch Lean source; not an independent Lake project or automatically CLOSED production code."
+    }
+  ],
+  "stage67": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "module_path": "frontiers/source_derivative_gaussian_20261025/SourceActualLowerSeparation.lean",
+    "proof_index": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/PROOF_INDEX.md",
+    "closure": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/CLOSURE.json",
+    "status": "CLOSED_CONDITIONAL_KERNEL_THEOREM",
+    "public_target": "I4SourceActualLowerSeparation.actualSource_closedSuperlevel_componentInclusion_locally_injective",
+    "statement_boundary": "Positive original period/sample, literal global IsMorseDistinct and fixed c imply one delta>0 and injectivity of the same actual closed-superlevel component inclusion for every b in CLOSED[c-delta,c], with s=-c,t=-b. No actual fixture/nonvacuity witness or unconditional/Parent application is claimed.",
+    "owned_constants": {
+      "total": 5,
+      "public_Prop": 1,
+      "private_theorems": 4,
+      "owned_data_or_generated_remainder": 0
+    },
+    "approved_axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "source_identity": {
+      "bytes": 14899,
+      "sha256_reused": "e72ed4f92e7867dc210b771e6afb4548cfad679e8b38795110fa6fd76a15e121"
+    },
+    "object_identity": {
+      "bytes": 409960,
+      "sha256_reused": "c001bad5446351036112f0c78b264fd3ffc423dc7df7fc09f9431bdbdcac43cc",
+      "committed_or_promoted": false
+    },
+    "observed_kernel": {
+      "start_utc": "2026-10-29T16:47:24.817525Z",
+      "end_utc": "2026-10-29T16:47:29.785445Z",
+      "entry_end_utc": "2026-10-29T16:47:29.806374Z",
+      "exit": 0,
+      "streams": "empty"
+    },
+    "evidence": [
+      "frontiers/source_derivative_gaussian_20261025/cbz/stage67/evidence/production006-strict/receipt.json",
+      "frontiers/source_derivative_gaussian_20261025/cbz/stage67/evidence/production-inventory002/receipt.json",
+      "frontiers/source_derivative_gaussian_20261025/cbz/stage67/evidence/production-final-kernel001/receipt.json",
+      "frontiers/source_derivative_gaussian_20261025/cbz/stage67/evidence/registered-lake-build/receipt.json"
+    ],
+    "reproduction_recipes": [
+      {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_derivative_gaussian_20261025"
+        },
+        "command": "lake build SourceActualLowerSeparation",
+        "boundary": "Exact package reproduction recipe from stage67 PROOF_INDEX; existing evidence is reused, no rerun requested."
+      },
+      {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_derivative_gaussian_20261025"
+        },
+        "command": "lake env lean -DwarningAsError=true cbz/stage67/evidence/Inventory.lean",
+        "boundary": "Exact package reproduction recipe from stage67 PROOF_INDEX; existing evidence is reused, no rerun requested."
+      },
+      {
+        "cwd": {
+          "repository": "d6g8k5htny-coder/Math-",
+          "path": "frontiers/source_derivative_gaussian_20261025"
+        },
+        "command": "lake env leanchecker SourceActualLowerSeparation",
+        "boundary": "Exact package reproduction recipe from stage67 PROOF_INDEX; existing evidence is reused, no rerun requested."
+      }
+    ],
+    "ordinary_quarantine": {
+      "id": "Q-MATH-SDGA-67-ORDINARY",
+      "status": "QUARANTINED",
+      "definition": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/quarantine/Q-MATH-SDGA-67-ORDINARY/QUARANTINE.json",
+      "failed_source": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/quarantine/Q-MATH-SDGA-67-ORDINARY/ActualLowerSeparationControls.lean",
+      "failed_receipt": "frontiers/source_derivative_gaussian_20261025/cbz/stage67/quarantine/Q-MATH-SDGA-67-ORDINARY/ordinary002-strict/receipt.json",
+      "boundary": "Attempted private finite-source normalization failed strict. No universal critical classification/inertia/eight-height/parity/torusDist/global-hm proof; same-delta positives, collision, mutation/negation and False-control qualification are absent. No ordinary object or production dependency.",
+      "resumption_cost": "Previously recorded6\u201312 producer hours plus2\u20134 control hours; estimate only, no new work authorized by this handoff."
+    },
+    "final_cbz_gate_claim": false
+  },
+  "claim_categories": [
+    {
+      "kind": "CONVENTIONAL_PROSE",
+      "examples": [
+        "frontiers/source_derivative_gaussian_20261025/geometric-palm-evidence/application/APPLICATION_PROOF.md",
+        "frontiers/source_derivative_gaussian_20261025/capture-application/PROOF.md",
+        "frontiers/source_derivative_gaussian_20261025/actual-adaptive-elder-application/PROOF.md"
+      ],
+      "boundary": "Retain conventional mathematics and exact prior reviews. Full geometric Campbell/area/Kac\u2013Rice, selected flow/elder once-counting/density and Parent application claims require an explicit formalization quarantine until their exact statement has kernel evidence. Older disclaimers can be superseded in particular subscopes; no wholesale re-review is implied."
+    },
+    {
+      "kind": "DEFINITIONS_AND_INTERFACES",
+      "examples": [
+        "specifications/lean_statements_20261010/REGISTER.json"
+      ],
+      "boundary": "def : Prop and interface structures are specifications/vocabulary, not axioms or proofs. The original structured register has171 claim rows;10 landing rows are separately retained. Underdetermined universal statements, predicates and genuinely proved theorems need distinct exact dispositions. Do not add desired conclusions as assumptions or weaken bounds."
+    },
+    {
+      "kind": "EXACT_CERTIFICATE_VS_FLOAT_BOUND",
+      "examples": [
+        "coefficients/side24_v1/PROOF.md",
+        "frontiers/cusp_coefficient_certified_20261001/certificate.py",
+        "frontiers/c2_exact_20261001/certificate.py"
+      ],
+      "boundary": "Exact rational-grid/symbolic evidence is distinct from binary64-certifying outputs and diagnostic floats. Source-explicit binary64 enclosure pipelines require isolation from mathematical certification under A3; source token matches alone are not violation verdicts or numerical-bound decisions."
+    },
+    {
+      "kind": "ARCHIVE_FAILURE_CONTROL",
+      "boundary": "Original inventory retained1752 archive/evidence/incoming Lean groups. Preserve failed sources/controls and prove isolation from CLOSED imports; do not delete for green."
+    }
+  ],
+  "gates": [
+    {
+      "gate": "G0",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Current contribution STATUS records an earlier56/56 selftest and39/39 checker-source mutants killed, followed by reported escaped-name/native-option defects under investigation. Changed-tool coverage/admission and federation-wide auditor selftests remain unresolved; the old run stays exact-scope evidence.",
+      "historically_discovered_commands": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python3 -m unittest discover -s formal/tests -v",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python3 -O -m unittest discover -s formal/tests -v",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statements_20261010/test_check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -O -S specifications/lean_statements_20261010/test_check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statements_20261010/test_check.py LeanHelpers",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statement_proofs_20261011/test_check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -O -S specifications/lean_statement_proofs_20261011/test_check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statement_proofs_20261011/test_check.py LeanHelpers",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        }
+      ],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G1",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "No complete repository/federation Layer-A run is recorded. Lexical inventories do not establish absence, soundness or G1 green. Cover embedded/generated source, archives, dependencies and actual CLOSED/quarantine isolation with an admitted auditor.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G2",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Map every CLOSED declaration, including private/data/generated constants, to owning module and approved transitive axioms. Stage67 ALL5/std3 evidence is reusable; registered target lists do not prove whole-federation coverage.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G3",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Cover all eight Math roots, Main core and non-Lake staged companions under one final source/pin binding. Stage67 registered build exit0 covers changed registration only, not final federation G3.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G4",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Stage67 proper own-module replay is completed evidence. Federation all-CLOSED module census and bounded exact-module replay remain to be admitted; current STATUS describes a separate wrapper still being verified. Skip escapes/prefix assumptions cannot supply missing replay.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G5",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Map all retained suites/frontier and companion tests to actual execution. Existing scoped passes remain reusable; final coherent full-regression run not established.",
+      "historically_discovered_commands": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S -m unittest discover -s tests -v",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -O -S -m unittest discover -s tests -v",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        }
+      ],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G6",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Map semantic and auditor mutation obligations to actual tools/scopes; preserve failure evidence. Historical scoped mutation passes do not establish final federation threshold.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G7",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Resolve installed dependencies and cross-repository pins at final inputs. Config-declared Lean/Mathlib pins and source-ID strings are discovery evidence, not resolved remote consistency.",
+      "historically_discovered_commands": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S formal/gate.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S frontiers/determinant_moment_20261025/gate.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S frontiers/cap_first_exit_lean_20261002/gate.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statements_20261010/check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S specifications/lean_statement_proofs_20261011/check.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S imports/hardening_ebedb780/verify.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python3 -B -S tools/required_formal_check.py receipt",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        }
+      ],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G8",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Canonical single writer must reconcile exact dispositions, evidence and status surfaces. Dated availability labels, specified Props and conventional review acceptance cannot be silently promoted to kernel CLOSED.",
+      "historically_discovered_commands": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S tools/landing_claims_check.py --verify-issues",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python3 -B -S tools/required_formal_check.py aggregate",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        },
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "python -B -S tools/check_proof_reachability.py",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        }
+      ],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G9",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "No final tagged cache-free cold-start acceptance is recorded. Canonical STATUS must supply exact usable commands; no guessed runner is proposed here.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G10",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Canonical writer owns full branch/PR/worktree/stash/tag cleanliness and integration. Original local census is an observation cut, not a current or final clean-Git claim.",
+      "historically_discovered_commands": [],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    },
+    {
+      "gate": "G11",
+      "state": "FINAL_FEDERATION_GATE_NOT_ESTABLISHED",
+      "unmet_scope": "Canonical admission/documentation/self-verification and resource/version coverage for every mission tool remain required. This handoff is an inventory contribution, not a new tool registry.",
+      "historically_discovered_commands": [
+        {
+          "cwd": {
+            "repository": "d6g8k5htny-coder/Math-",
+            "path": "."
+          },
+          "command": "lake env lean --version",
+          "state": "RECORDED_CAPABILITY_NOT_EXECUTED_IN_HANDOFF"
+        }
+      ],
+      "command_boundary": "Package-local historical commands only; not an instruction to rerun unchanged evidence. Legacy external-review/quorum ceremony is superseded. Final commands belong to the canonical writer."
+    }
+  ],
+  "limitations": [
+    "Lexical discovery scripts were unverified/noncertifying. Regex counts do not prove absence, soundness, complete coverage or G1 green.",
+    "Original inventories excluded .git/.lake/generated/cache bodies; Mathlib proof bodies were not audited. Dependencies and generated/embedded controls need separate admitted coverage.",
+    "All file/declaration/token/claim/pin exact locations remain in the private initial inventory already held by canonical writer; this bounded handoff does not republish it.",
+    "Original tooling notes that stage67 kernel was pending and that nine configs meant nine active projects are stale: current evidence closes stage67 conditionally, and one config is historical metadata.",
+    "No source, build, test, kernel, digest, Git/remote mutation, external post or new research was performed while preparing this handoff."
+  ]
+}

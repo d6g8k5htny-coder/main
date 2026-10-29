@@ -1,0 +1,85 @@
+{
+  "id": "cbz-kernel-exact-replay-v1",
+  "status": "COMPLETE_SCOPED_TOOL_REGISTRY_PAYLOAD",
+  "owner": "CBZ tooling / canonical writer integration",
+  "purpose": "Bounded serial exact-module scheduling of installed LeanChecker.replayFromImports, with target source/artifact bindings and fail-closed coverage/error handling.",
+  "associated_criteria": [
+    "G0 auditor self-test/mutations",
+    "G4 scoped kernel replay",
+    "G11 complete documented tooling"
+  ],
+  "gates_not_claimed": [
+    "G2 all-declaration approved-axiom audit",
+    "complete project G4 coverage",
+    "CBZ-0"
+  ],
+  "commands": {
+    "help": "python3 kernel_replay.py help",
+    "prepare": "python3 kernel_replay.py prepare --lean ABS_LEAN --lean-path ABS_OLEAN_ROOT --module NAME=ABS_SOURCE --output MANIFEST.json",
+    "run": "python3 kernel_replay.py run MANIFEST.json --memory-mib 16384 --timeout-seconds 600 --output REPORT.json",
+    "g0": "python3 run_tests.py --output evidence/g0-tests.json",
+    "mutations": "python3 mutations.py --output evidence/g0-mutations.json"
+  },
+  "self_verification": {
+    "status": "PASS",
+    "applicable_tests": 27,
+    "test_evidence": [
+      "evidence/g0-tests.json",
+      "evidence/g0-additional-tests.json",
+      "evidence/g0-applicable-tests.json"
+    ],
+    "mutations": {
+      "planned": 16,
+      "executed": 16,
+      "killed": 16,
+      "threshold": 1,
+      "evidence": "evidence/g0-mutations.json"
+    }
+  },
+  "limits_and_boundaries": [
+    "RLIMIT_AS bounds virtual address space, not RSS; enclosing cgroup physical limit remains separate. Fixture cap8192MiB; no assertion every project module fits.",
+    "Only explicit nonempty module list; caller independently establishes full owned-module inventory and dependency evidence.",
+    "Installed sysroot import precedence; no symlinked search roots/artifact components/module files/parts.",
+    "G3 independently binds source to compiled output. G2 remains NOT_ASSESSED by replay.",
+    "Unsafe and partial exclusions are upstream behavior."
+  ],
+  "quarantined_test_data": [
+    {
+      "path": "tests/fixtures/BadPublic.lean",
+      "boundary": "Intentional self-referential theorem inserted with fixture-local skipKernelTC; only negative tests, never closed code."
+    },
+    {
+      "path": "tests/fixtures/BadPrivate.lean",
+      "boundary": "Same intentional malformed body with genuine private visibility; only negative tests."
+    },
+    {
+      "path": "tests/fixtures/UnapprovedAxiom.lean",
+      "boundary": "Explicit unapproved false axiom; kernel pass is expected while independent fixture axiom policy rejects."
+    }
+  ],
+  "ledger_payload": {
+    "phase": 2,
+    "layer": "B",
+    "action": "Add exact-module serial resource-bounded adapter to installed LeanChecker; test/mutate failure propagation, bindings, import trust and real malformed proof bodies.",
+    "rationale": "Upstream prefix expansion launches concurrent per-module tasks and has no jobs flag; Root685 Math core exit137 OOM remains actual non-green evidence.",
+    "reversibility": "New isolated contribution files only; no mathematical source, branch, Git, remote or canonical-surface mutation by this task.",
+    "evidence": [
+      "evidence/g0-applicable-tests.json",
+      "evidence/g0-mutations.json",
+      "tool-report.json"
+    ]
+  },
+  "publication": {
+    "source_root": "/workspace/cbz-0/tools/kernel_replay",
+    "destination_root": "cbz/contributions/math514/kernel_replay",
+    "excluded": [
+      "**/__pycache__/**",
+      "**/*.pyc",
+      "evidence/compiled-fixtures/**",
+      "evidence/tmp*/**",
+      "evidence/mutant-*/**",
+      "evidence/RuntimeDiagnostic.lean"
+    ],
+    "mapping_file": "PUBLICATION.json"
+  }
+}
