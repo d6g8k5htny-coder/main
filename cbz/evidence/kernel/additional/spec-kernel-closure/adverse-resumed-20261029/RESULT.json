@@ -1,0 +1,98 @@
+{
+  "controls": {
+    "illtyped-owned-value": {
+      "intent": "The actual owned theorem ConstantInfo.value is ill-typed; Nat.zero and its complete dependencies are present.",
+      "program_sha256": "d8a446136719e68a62aa2c3f40f3e610d97349bdc9d28f6a90577cfb3168d616",
+      "status": "REJECTED_FOR_INTENDED_REASON"
+    },
+    "missing-external-prop": {
+      "intent": "A needed external registered Prop constant is absent from the empty-kernel replay map.",
+      "program_sha256": "08300b507f8c682e3501785c39cf14b789ef16edd1694ab1c71d84526fb4f04f",
+      "status": "REJECTED_FOR_INTENDED_REASON"
+    },
+    "missing-owned-leaf": {
+      "intent": "A checked runtime leaf is omitted from selected while expected owned seeds remain unchanged; the post-replay presence guard must reject.",
+      "program_sha256": "52c621e7cc6747aacca8cc6a13a3c423a51c1fad3ec6a04c5a537076d2a19dca",
+      "status": "REJECTED_FOR_INTENDED_REASON"
+    }
+  },
+  "generator_metadata_sha256": "3de8be53f99314ff3308058e55557d607312faeaa0602da12357141fe1908827",
+  "phase_results": [
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "/workspace/cbz/discovery/additional-formal/spec-kernel-closure/controls/CBZKernelClosureControlIlltypedOwnedValue.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/specifications/lean_statement_proofs_20261011",
+      "duration_seconds": 153.031134,
+      "exit_code": 1,
+      "finished_at": "2026-10-29T18:10:35.420183+00:00",
+      "name": "illtyped-owned-value",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:08:02.389451+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 103067,
+      "stdout_sha256": "92bd87522e9bb9648b4480dff2a2290c1deec029dbedad8654a4f19e81d7bd9a",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "/workspace/cbz/discovery/additional-formal/spec-kernel-closure/controls/CBZKernelClosureControlMissingExternalProp.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/specifications/lean_statement_proofs_20261011",
+      "duration_seconds": 149.688363,
+      "exit_code": 1,
+      "finished_at": "2026-10-29T18:13:05.129392+00:00",
+      "name": "missing-external-prop",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:10:35.441243+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 103002,
+      "stdout_sha256": "c9cadef50667dd60d24c54109313bb83dd3ff9e3ba6e07733029e36517d06b64",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "/workspace/cbz/discovery/additional-formal/spec-kernel-closure/controls/CBZKernelClosureControlMissingOwnedLeaf.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/specifications/lean_statement_proofs_20261011",
+      "duration_seconds": 184.00911,
+      "exit_code": 1,
+      "finished_at": "2026-10-29T18:16:09.156917+00:00",
+      "name": "missing-owned-leaf",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:13:05.147948+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 103354,
+      "stdout_sha256": "914f4beaa05768600a031046f3323e8109767a4d6dfb1cffa5df301462edaa05",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    }
+  ],
+  "status": "ALL_THREE_ACTUAL_ADVERSE_CONTROLS_PASS"
+}
