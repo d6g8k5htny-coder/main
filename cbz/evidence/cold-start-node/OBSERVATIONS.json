@@ -463,5 +463,69 @@
       "downloaded_zip_rechecked": false
     },
     "global_certification": false
+  },
+  "matcher_repair_observation": {
+    "pull_head": "db7d4a9cef29f2927333b9979032200b144e29e7",
+    "tested_commit": "fc874d3d6da55276180937bae8e239ab395570f8",
+    "run_id": 40951498618,
+    "job_id": 123720501776,
+    "tests_per_python_mode": 47,
+    "source_mutations": 21,
+    "harness_mutations": 9,
+    "prepared_node": {
+      "tests": 764,
+      "pass": 764,
+      "fail": 0,
+      "skip": 0,
+      "exit": 0,
+      "log_sha256": "380c35cb9c274ec44a63d373eb635b886cc2ab3c1f29258a707873da86255066",
+      "git_blob": "d73c8c6dc9ccb53ab39c629a3f14231a4f5bf071"
+    },
+    "scope": "Precedes subsequent fixture-exit and source-loader repairs."
+  },
+  "adverse_observations": [
+    {
+      "pull_head": "262036691d365ede742673ed421091dfbfdb2a72",
+      "tested_commit": "5101de24c9df9daa92f86404d6f756e5ab1b1c1b",
+      "run_id": 40951233906,
+      "job_id": 123719584746,
+      "tests_per_mode": 46,
+      "assertion_failures_per_mode": 5,
+      "errors": 0
+    },
+    {
+      "pull_head": "05343dc2ce194823158eb96877e333aff439c335",
+      "tested_commit": "b9c51cc179a4818bb593c8ef09495fc09dc5aa4a",
+      "run_id": 40951302609,
+      "job_id": 123719817779,
+      "tests_per_mode": 47,
+      "assertion_failures_per_mode": 6,
+      "errors": 0
+    },
+    {
+      "pull_head": "69413c7c9878be8b49a27642531cc05c84f21d8a",
+      "tested_commit": "9166f9b0bec547e76908147bc71ab8aa3e8242df",
+      "run_id": 40951811637,
+      "job_id": 123721597515,
+      "tests_per_mode": 48,
+      "assertion_failures_per_mode": 1,
+      "errors": 0,
+      "reason": "fixture receipt accepted a nonzero Node exit"
+    },
+    {
+      "pull_head": "f26e91b41ddf425c3d361282d0d3e9b99bb87ee1",
+      "tested_commit": "92f974eb9d5a044338d04d26c250a4bcfbae105c",
+      "run_id": 40952898593,
+      "job_id": 123725380356,
+      "tests_per_mode": 49,
+      "assertion_failures_per_mode": 3,
+      "errors": 0,
+      "reason": "legitimate source bytes accompanied execution of poisoned museum bytecode"
+    }
+  ],
+  "pending": {
+    "runner_bytecode_test_first": "old-source hosted run 40953041841 pending",
+    "repaired_combined_source": "not yet executed",
+    "final_federation_gates": "not qualified"
   }
 }

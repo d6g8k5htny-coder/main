@@ -15,16 +15,21 @@ from pathlib import Path, PurePosixPath
 import re
 import subprocess
 import sys
+import types
 from datetime import datetime, timezone
 from urllib.parse import quote
 
-import museum_data
+_MUSEUM_PATH = Path(__file__).resolve().with_name("museum_data.py")
+_MUSEUM_SOURCE = _MUSEUM_PATH.read_bytes()
+museum_data = types.ModuleType("_cbz_museum_data")
+museum_data.__file__ = str(_MUSEUM_PATH)
+exec(compile(_MUSEUM_SOURCE, str(_MUSEUM_PATH), "exec"), museum_data.__dict__)
 
 ROOT = Path(__file__).resolve().parents[1]
 _LOADED_SOURCE = Path(__file__).read_bytes()
 _LOADED_SOURCES = {
     Path(__file__).resolve(): _LOADED_SOURCE,
-    Path(museum_data.__file__).resolve(): Path(museum_data.__file__).read_bytes(),
+    _MUSEUM_PATH: _MUSEUM_SOURCE,
 }
 _REPOSITORIES = {
     "d6g8k5htny-coder/main",

@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,9 +24,9 @@ def runner():
     if not SOURCE.is_file():
         raise AssertionError("prepared Node runner is missing")
     sys.path.insert(0, str(ROOT / "tools"))
-    spec = importlib.util.spec_from_file_location("cbz_node_regression_tested", SOURCE)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    module = types.ModuleType("cbz_node_regression_tested")
+    module.__file__ = str(SOURCE)
+    exec(compile(SOURCE.read_bytes(), str(SOURCE), "exec"), module.__dict__)
     return module
 
 
@@ -98,6 +99,8 @@ class NodeRunnerTests(unittest.TestCase):
             if not fixture.is_file() or fixture.read_bytes() != b"exact input\n":
                 return
         if mutation in ("fixture-domain", "fixture-postflight"):
+            if variables.get("observed_exit") != 0:
+                return
             fixture = variables["output"] / "shop/Math-/data.txt"
             transcript = variables["path"]
             if fixture.read_bytes() != b"mutated\n" or "# pass 1" not in transcript.read_text():
@@ -153,6 +156,7 @@ class NodeRunnerTests(unittest.TestCase):
                 os.environ["GIT_DIR"] = before
 
     def test_poisoned_runner_bytecode_cannot_execute_in_test_loader(self):
+        self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
         tools = self.repo / "tools"
         tools.mkdir()
         runner_path = tools / "cbz_node_regression.py"
@@ -285,7 +289,7 @@ class NodeRunnerTests(unittest.TestCase):
         path = self.directory / "mutation.tap"
         with path.open("wb") as log:
             with self.assertRaisesRegex(ValueError, "fixture") as failure:
-                self.module.execute_node(
+                observed_exit = self.module.execute_node(
                     self.repo, self.module.node_command(self.repo, "node"),
                     environment, log, output, expected)
         self.assertEqual(failure.exception.exit_code, 0)
@@ -662,6 +666,27 @@ class MutationHarnessTests(unittest.TestCase):
                 case.observe_missing_rejection("fixture", inputs)
                 self.assertTrue(receipt.exists(), mutation)
 
+    def test_source_loader_ignores_poisoned_bytecode(self):
+        self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
+        with tempfile.TemporaryDirectory(prefix="cbz-loader-control-") as directory:
+            path = Path(directory) / "probe.py"
+            path.write_text("GOOD_SOURCE = True\n")
+            stat = path.stat()
+            suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+            cache = path.parent / "__pycache__" / ("probe." + sys.implementation.cache_tag + suffix + ".pyc")
+            cache.parent.mkdir()
+            forged = compile("POISON_RUNNER = True\n", str(path), "exec")
+            cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                forged, int(stat.st_mtime), stat.st_size))
+            old_source = SOURCE
+            try:
+                globals()["SOURCE"] = path
+                module = runner()
+            finally:
+                globals()["SOURCE"] = old_source
+            self.assertFalse(getattr(module, "POISON_RUNNER", False))
+            self.assertTrue(getattr(module, "GOOD_SOURCE", False))
+
     def test_launch_failure_cannot_kill(self):
         result = subprocess.CompletedProcess([], 1, "", "SyntaxError: broken module")
         self.assertFalse(assertion_kill(result, "test_expected"))
@@ -669,6 +694,8 @@ class MutationHarnessTests(unittest.TestCase):
 
 class SourceMutationTests(unittest.TestCase):
     MUTATIONS = [
+        ("museum-bytecode", "_MUSEUM_PATH = Path(__file__).resolve().with_name(\"museum_data.py\")\n_MUSEUM_SOURCE = _MUSEUM_PATH.read_bytes()\nmuseum_data = types.ModuleType(\"_cbz_museum_data\")\nmuseum_data.__file__ = str(_MUSEUM_PATH)\nexec(compile(_MUSEUM_SOURCE, str(_MUSEUM_PATH), \"exec\"), museum_data.__dict__)\n", "import museum_data\n_MUSEUM_PATH = Path(museum_data.__file__).resolve()\n_MUSEUM_SOURCE = _MUSEUM_PATH.read_bytes()\n",
+         "test_poisoned_museum_bytecode_cannot_pass_source_binding"),
         ("loaded-root", "set(_LOADED_SOURCES) != expected", "False",
          "test_loaded_sources_must_belong_to_selected_main"),
         ("loaded-bytes", "path.read_bytes() != raw", "False",
@@ -721,6 +748,7 @@ class SourceMutationTests(unittest.TestCase):
     ]
 
     def invoke(self, path, name, receipt=None, nonce=None, mutation=None):
+        path.with_name("museum_data.py").write_bytes((ROOT / "tools/museum_data.py").read_bytes())
         environment = dict(os.environ, CBZ_NODE_RUNNER_SOURCE=str(path),
                            PYTHONDONTWRITEBYTECODE="1")
         if receipt is not None:
@@ -760,6 +788,10 @@ class SourceMutationTests(unittest.TestCase):
         full_source = Path(__file__).read_text()
         source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
+            ("runner-loader", "    module = types.ModuleType(\"cbz_node_regression_tested\")\n    module.__file__ = str(SOURCE)\n    exec(compile(SOURCE.read_bytes(), str(SOURCE), \"exec\"), module.__dict__)\n", "    spec = importlib.util.spec_from_file_location(\"cbz_node_regression_tested\", SOURCE)\n    module = importlib.util.module_from_spec(spec)\n    spec.loader.exec_module(module)\n",
+             "test_source_loader_ignores_poisoned_bytecode"),
+            ("fixture-exit", 'if variables.get("observed_exit") != 0:', "if False:",
+             "test_fixture_receipt_requires_successful_node_exit"),
             ("count", "len(failures) == count", "True",
              "test_mismatched_failure_count_cannot_kill"),
             ("receipt", "receipt == required", "True",
