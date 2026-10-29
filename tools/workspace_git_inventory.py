@@ -63,10 +63,15 @@ class Git:
         self.max_bytes = max_command_bytes
         self.errors = []
         self.commands = 0
+        self.metadata_cache = {}
+        self.configuration_complete = True
         self.env = os.environ.copy()
         for name in ['GIT_DIR', 'GIT_WORK_TREE', 'GIT_COMMON_DIR', 'GIT_INDEX_FILE',
                      'GIT_OBJECT_DIRECTORY', 'GIT_ALTERNATE_OBJECT_DIRECTORIES', 'GIT_NAMESPACE']:
             self.env.pop(name, None)
+        for name in list(self.env):
+            if name in ('GIT_CONFIG_COUNT', 'GIT_CONFIG_PARAMETERS') or name.startswith(('GIT_CONFIG_KEY_', 'GIT_CONFIG_VALUE_')):
+                self.env.pop(name)
         self.env.update(GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0', GIT_NO_LAZY_FETCH='1')
         self.base = ['core.fsmonitor=false', 'core.untrackedCache=false',
                      'core.hooksPath=/dev/null', 'maintenance.auto=false', 'gc.auto=0',
@@ -75,25 +80,35 @@ class Git:
                       for name in ['http', 'https', 'ssh', 'git', 'file', 'ext']]
 
     def error(self, kind, path, operation, **detail):
-        self.errors.append({'kind': kind, 'path': str(path), 'operation': operation, **detail})
+        diagnostics = {key: _redact(value) if key in ('message', 'stderr') else value
+                       for key, value in detail.items()}
+        self.errors.append({'kind': kind, 'path': str(path), 'operation': _redact(operation), **diagnostics})
 
     def expired(self):
         return time.monotonic() >= self.deadline
 
-    def run(self, cwd, *args, allowed=(0,), settings=()):
+    def run(self, cwd, *args, allowed=(0,), settings=(), expected_stderr_on=()):
         operation = ' '.join(args[:3])
         remaining = self.deadline - time.monotonic()
         if remaining <= 0:
             self.error('deadline', cwd, operation)
             return None
         command = [self.executable, '--no-optional-locks']
-        for setting in [*self.base, *settings]:
-            command += ['-c', setting]
+        # All override values here are fixed strings without '='. Split at the
+        # LAST separator, then transport key/value separately (Git >= 2.31).
+        # This also propagates intact through Git's recursive submodule status.
+        environment = self.env.copy()
+        overrides = [*self.base, *settings]
+        environment['GIT_CONFIG_COUNT'] = str(len(overrides))
+        for number, setting in enumerate(overrides):
+            key, _, value = setting.rpartition('=')
+            environment['GIT_CONFIG_KEY_' + str(number)] = key
+            environment['GIT_CONFIG_VALUE_' + str(number)] = value
         command += ['-C', str(cwd), *args]
         self.commands += 1
         try:
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                       env=self.env, start_new_session=True)
+                                       env=environment, start_new_session=True)
         except OSError as exc:
             self.error('spawn', cwd, operation, message=str(exc))
             return None
@@ -142,11 +157,31 @@ class Git:
         if failure:
             self.error(failure, cwd, operation, stderr=_text(err), output_bytes=len(out))
             return None
-        if code not in allowed or err:
+        if code not in allowed or (err and code not in expected_stderr_on):
             self.error('git_error' if code not in allowed else 'git_stderr', cwd, operation,
                        returncode=code, stderr=_text(err))
             return None
         return code, out
+
+
+def _is_git_metadata(directory, git):
+    try:
+        directory = Path(directory).resolve()
+    except (OSError, RuntimeError) as exc:
+        git.error('filesystem', directory, 'metadata validation', message=str(exc))
+        return False
+    if directory not in git.metadata_cache:
+        if not ((directory / 'HEAD').is_file() and
+                ((directory / 'objects').is_dir() or (directory / 'commondir').is_file())):
+            git.metadata_cache[directory] = False
+            return False
+        # --resolve-git-dir validates THIS candidate, without ancestor discovery.
+        # Exit 128 is an expected negative probe, not permission to prune it.
+        result = git.run(directory, 'rev-parse', '--resolve-git-dir', str(directory),
+                         allowed=(0, 128), expected_stderr_on=(128,))
+        exact = result is not None and result[0] == 0 and Path(_line(result[1])).resolve() == directory
+        git.metadata_cache[directory] = exact
+    return git.metadata_cache[directory]
 
 
 def _discover(root, git):
@@ -168,8 +203,8 @@ def _discover(root, git):
             visited.add(identity)
             if os.path.lexists(directory / '.git'):
                 roots.add(str(directory.resolve()))
-            # Bare stores (and metadata aliases) have no .git child.
-            if (directory / 'HEAD').is_file() and (directory / 'objects').is_dir():
+            # Prune only exact, validated Git metadata, including bare stores.
+            if _is_git_metadata(directory, git):
                 roots.add(str(directory.resolve()))
                 skipped_metadata.append(str(directory))
                 continue
@@ -178,7 +213,7 @@ def _discover(root, git):
                     if git.expired():
                         git.error('deadline', directory, 'recursive discovery')
                         break
-                    if entry.name == '.git':
+                    if entry.name == '.git' and _is_git_metadata(Path(entry.path), git):
                         skipped_metadata.append(entry.path)
                         continue
                     try:
@@ -189,9 +224,7 @@ def _discover(root, git):
                                       'directory': is_directory, 'exists': target.exists()}
                             symlinks.append(record)
                             if is_directory:
-                                if any(parent.name == '.git' or
-                                       ((parent / 'HEAD').is_file() and (parent / 'objects').is_dir())
-                                       for parent in target.parents):
+                                if any(_is_git_metadata(parent, git) for parent in target.parents):
                                     record['not_followed'] = 'Git metadata internals'
                                     skipped_metadata.append(str(target))
                                 elif target.is_relative_to(root):
@@ -234,6 +267,7 @@ def _settings_and_remotes(git, cwd):
     settings = []
     remotes = {}
     if names is None:
+        git.configuration_complete = False
         return settings, []
     for raw in names[1].split(b'\0'):
         if not raw:
@@ -291,7 +325,7 @@ def _registered_worktrees(git, cwd, settings):
             if not field:
                 continue
             key, _, value = field.partition(b' ')
-            row[_text(key)] = _text(value) if value else True
+            row[_text(key)] = (_redact(_text(value)) if key in (b'locked', b'prunable') else _text(value)) if value else True
         if 'worktree' not in row:
             git.error('parse', cwd, 'worktree list', message='Missing worktree path')
         else:
@@ -300,6 +334,19 @@ def _registered_worktrees(git, cwd, settings):
 
 
 def _status(git, path, settings):
+    if not git.configuration_complete:
+        git.error('unsafe_configuration', path, 'status', message='Filter configuration discovery failed; status refused')
+        return None
+    # Fail closed if this Git does not honor separate config key/value transport,
+    # including keys with '='. Inspect final effective values before any status.
+    checks = ['core.fsmonitor=false', *(s for s in settings if s.startswith('filter.'))]
+    for setting in dict.fromkeys(checks):
+        key, _, expected = setting.rpartition('=')
+        result = git.run(path, 'config', '--null', '--get-all', key, allowed=(0, 1), settings=settings)
+        if (result is None or result[0] != 0 or not result[1].endswith(b'\0') or
+                result[1].split(b'\0')[-2] != os.fsencode(expected)):
+            git.error('unsafe_configuration', path, 'status', message='Configuration suppression could not be verified; status refused')
+            return None
     result = git.run(path, 'status', '--porcelain=v1', '-z', '--untracked-files=all',
                      '--ignore-submodules=none', settings=settings)
     if result is None:
@@ -367,12 +414,12 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
     report = {'schema_version': 1, 'started_at': _now(), 'root': str(root),
         'purpose': 'Observed Git census only; not a clean-state or mathematical certification',
         'non_atomic_observations': True, 'complete': False, 'errors': reader.errors,
-        'policy': {'walk_exclusions': ['Git metadata internals only; node_modules is searched'],
+        'policy': {'walk_exclusions': ['Validated exact Git metadata internals only; node_modules is searched'],
                    'symlinks': 'Follow internal directory targets once by device/inode; record all links; external directory targets are uncovered/incomplete',
                    'paths': 'NUL Git records; filesystem surrogateescape; JSON ensure_ascii=true',
                    'read_only': 'Optional locks, hooks, filters, maintenance and lazy network fetch disabled; no Git mutation commands',
                    'status': 'porcelain v1 -z --untracked-files=all; Git ignore rules still apply',
-                   'url_redaction': 'userinfo and known credential query values redacted'},
+                   'url_redaction': 'Remote URLs and diagnostic values only; filesystem identities preserved'},
         'limits': {'git_timeout_seconds': command_timeout, 'total_timeout_seconds': total_timeout,
                    'max_command_bytes': max_command_bytes}, 'stores': [], 'worktrees': []}
     roots, links, skipped, directory_count = _discover(root, reader)
@@ -464,7 +511,7 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
             reader.error('changed_during_observation', path, 'HEAD identity')
     report['stores'] = [stores[path][0] for path in sorted(stores)]
     report.update(finished_at=_now(), git_commands=reader.commands, complete=not reader.errors)
-    return _redact(report)
+    return report
 
 
 def main():

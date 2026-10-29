@@ -1,0 +1,535 @@
+{
+  "schema_version": 1,
+  "purpose": "Git census self-tests only; no mathematical certification or Git cleanliness claim",
+  "started_at": "2026-10-29T20:37:01.097590+00:00",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "python_executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+  "sources": {
+    "collector": {
+      "path": "/workspace/cbz-workspace-git-hygiene-20261029/tools/workspace_git_inventory.py",
+      "sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "bytes": 27119
+    },
+    "tests": {
+      "path": "/workspace/cbz-workspace-git-hygiene-20261029/tests/test_workspace_git_inventory.py",
+      "sha256": "b3d94e36111154fd255193c118d87128e39aca2aea1dcd8f5cc2f72837743844",
+      "bytes": 17972
+    },
+    "runner": {
+      "path": "/workspace/cbz-workspace-git-hygiene-20261029/tools/workspace_git_inventory_mutations.py",
+      "sha256": "918f434fb793259fc977ced8a3ce972e0ba3cefe4d1007d1d90bcddc1a59ea5f",
+      "bytes": 18930
+    }
+  },
+  "baseline": {
+    "test": "entire suite",
+    "log": "baseline.log",
+    "metrics": "baseline.json",
+    "timeout_seconds": 60,
+    "returncode": 0,
+    "tests_run": 14,
+    "successful": true,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "optimization": 0,
+    "unsupported_bodies": 0,
+    "body_calls": 14,
+    "designated_body_calls": 0,
+    "body_failures": 0,
+    "subtests": 0,
+    "fixture_issues": 0,
+    "expected_tests": [
+      "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "census_tests.InventoryTests.test_submodule_bare_store_shallow_and_internal_symlink",
+      "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "census_tests.InventoryTests.test_cli_private_output_and_nonzero_incomplete",
+      "census_tests.InventoryTests.test_hanging_git_is_killed_and_reported",
+      "census_tests.InventoryTests.test_closed_streams_do_not_leave_a_hanging_child",
+      "census_tests.InventoryTests.test_rename_arbitrary_path_bytes_and_symlink_cycle",
+      "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+      "census_tests.InventoryTests.test_output_limit_and_total_deadline_are_explicit",
+      "census_tests.InventoryTests.test_metadata_directory_alias_does_not_escape_git_exclusion",
+      "census_tests.InventoryTests.test_unborn_and_detached_heads_are_observations_not_errors",
+      "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+    ],
+    "loaded_tests": [
+      "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "census_tests.InventoryTests.test_cli_private_output_and_nonzero_incomplete",
+      "census_tests.InventoryTests.test_closed_streams_do_not_leave_a_hanging_child",
+      "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "census_tests.InventoryTests.test_hanging_git_is_killed_and_reported",
+      "census_tests.InventoryTests.test_metadata_directory_alias_does_not_escape_git_exclusion",
+      "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "census_tests.InventoryTests.test_output_limit_and_total_deadline_are_explicit",
+      "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields",
+      "census_tests.InventoryTests.test_rename_arbitrary_path_bytes_and_symlink_cycle",
+      "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+      "census_tests.InventoryTests.test_submodule_bare_store_shallow_and_internal_symlink",
+      "census_tests.InventoryTests.test_unborn_and_detached_heads_are_observations_not_errors"
+    ],
+    "started_tests": [
+      "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "census_tests.InventoryTests.test_cli_private_output_and_nonzero_incomplete",
+      "census_tests.InventoryTests.test_closed_streams_do_not_leave_a_hanging_child",
+      "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "census_tests.InventoryTests.test_hanging_git_is_killed_and_reported",
+      "census_tests.InventoryTests.test_metadata_directory_alias_does_not_escape_git_exclusion",
+      "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "census_tests.InventoryTests.test_output_limit_and_total_deadline_are_explicit",
+      "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields",
+      "census_tests.InventoryTests.test_rename_arbitrary_path_bytes_and_symlink_cycle",
+      "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+      "census_tests.InventoryTests.test_submodule_bare_store_shallow_and_internal_symlink",
+      "census_tests.InventoryTests.test_unborn_and_detached_heads_are_observations_not_errors"
+    ],
+    "body_started_tests": [
+      "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "census_tests.InventoryTests.test_cli_private_output_and_nonzero_incomplete",
+      "census_tests.InventoryTests.test_closed_streams_do_not_leave_a_hanging_child",
+      "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "census_tests.InventoryTests.test_hanging_git_is_killed_and_reported",
+      "census_tests.InventoryTests.test_metadata_directory_alias_does_not_escape_git_exclusion",
+      "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "census_tests.InventoryTests.test_output_limit_and_total_deadline_are_explicit",
+      "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields",
+      "census_tests.InventoryTests.test_rename_arbitrary_path_bytes_and_symlink_cycle",
+      "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+      "census_tests.InventoryTests.test_submodule_bare_store_shallow_and_internal_symlink",
+      "census_tests.InventoryTests.test_unborn_and_detached_heads_are_observations_not_errors"
+    ],
+    "body_completed_tests": [
+      "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "census_tests.InventoryTests.test_cli_private_output_and_nonzero_incomplete",
+      "census_tests.InventoryTests.test_closed_streams_do_not_leave_a_hanging_child",
+      "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "census_tests.InventoryTests.test_hanging_git_is_killed_and_reported",
+      "census_tests.InventoryTests.test_metadata_directory_alias_does_not_escape_git_exclusion",
+      "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "census_tests.InventoryTests.test_output_limit_and_total_deadline_are_explicit",
+      "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields",
+      "census_tests.InventoryTests.test_rename_arbitrary_path_bytes_and_symlink_cycle",
+      "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+      "census_tests.InventoryTests.test_submodule_bare_store_shallow_and_internal_symlink",
+      "census_tests.InventoryTests.test_unborn_and_detached_heads_are_observations_not_errors"
+    ],
+    "loaded_population_valid": true,
+    "execution_population_valid": true,
+    "population_valid": true,
+    "issues": [],
+    "passed": true
+  },
+  "mutations": [
+    {
+      "test": "test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "log": "exclude-node-modules.log",
+      "metrics": "exclude-node-modules.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "exclude-node-modules",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "f560150342ce90b929af82d91915fb234795c0483f6125f72f2042a0f7f6e495",
+      "replacement": {
+        "old": "if entry.name == '.git' and _is_git_metadata(Path(entry.path), git):",
+        "new": "if entry.name == 'node_modules' or (entry.name == '.git' and _is_git_metadata(Path(entry.path), git)):"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_nested_linked_state_refs_stash_and_redacted_remotes",
+      "log": "disable-redaction.log",
+      "metrics": "disable-redaction.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_nested_linked_state_refs_stash_and_redacted_remotes",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "disable-redaction",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "96de2ee56ba150d36ef0e4e733ff7d99add85cfeaf831ad29eed105601e22740",
+      "replacement": {
+        "old": "def _redact(value):\n",
+        "new": "def _redact(value):\n    return value\n"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_status_does_not_execute_configured_clean_filter",
+      "log": "execute-clean-filter.log",
+      "metrics": "execute-clean-filter.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "execute-clean-filter",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "cda6093a4baf09a1e2b5ba20123396fdc0cea9a38422c8ea61b6f429b56e93a4",
+      "replacement": {
+        "old": "settings += [prefix + '.clean=', prefix + '.process=', prefix + '.required=false']",
+        "new": "settings += []"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_broken_marker_and_external_directory_boundary_are_not_silent",
+      "log": "false-complete.log",
+      "metrics": "false-complete.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_broken_marker_and_external_directory_boundary_are_not_silent",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "false-complete",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "716375e9f7099967219e48708beb7e1572b63e3915b5aee55c6b2b1e4347dd3a",
+      "replacement": {
+        "old": "complete=not reader.errors",
+        "new": "complete=True"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+      "log": "ambiguous-filter-key.log",
+      "metrics": "ambiguous-filter-key.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "ambiguous-filter-key",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "d7a4d5157bd9429eedd59f346a6664459120653921e2886e9b01daf7341c8e4b",
+      "replacement": {
+        "old": "key, _, value = setting.rpartition('=')",
+        "new": "key, _, value = setting.partition('=')"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+      "log": "unvalidated-metadata.log",
+      "metrics": "unvalidated-metadata.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_ordinary_head_objects_assets_do_not_hide_nested_repositories",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "unvalidated-metadata",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "2c6177f5f94e62b129a4f3fbd06049f618498df2693e1e50cbb1fc8bbf8d9a13",
+      "replacement": {
+        "old": "exact = result is not None and result[0] == 0 and Path(_line(result[1])).resolve() == directory",
+        "new": "exact = True"
+      },
+      "detected_by_assertion": true
+    },
+    {
+      "test": "test_remote_redaction_preserves_all_filesystem_identity_fields",
+      "log": "redact-path-identities.log",
+      "metrics": "redact-path-identities.json",
+      "timeout_seconds": 20,
+      "returncode": 1,
+      "tests_run": 1,
+      "successful": false,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "optimization": 0,
+      "unsupported_bodies": 0,
+      "body_calls": 1,
+      "designated_body_calls": 1,
+      "body_failures": 1,
+      "subtests": 0,
+      "fixture_issues": 0,
+      "expected_tests": [
+        "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+      ],
+      "loaded_tests": [
+        "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+      ],
+      "started_tests": [
+        "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+      ],
+      "body_started_tests": [
+        "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+      ],
+      "body_completed_tests": [
+        "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields"
+      ],
+      "loaded_population_valid": true,
+      "execution_population_valid": true,
+      "population_valid": true,
+      "issues": [
+        {
+          "test": "census_tests.InventoryTests.test_remote_redaction_preserves_all_filesystem_identity_fields",
+          "kind": "failure",
+          "phase": "test_body",
+          "origin_in_test_body": true,
+          "escaping_assertion": true,
+          "designated": true
+        }
+      ],
+      "mutation": "redact-path-identities",
+      "source_sha256": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+      "mutant_sha256": "5862cb449eba24b181b30e0a2f0fc02f57e3fd63547f5ee85864d6652f96cf56",
+      "replacement": {
+        "old": "    return report\n",
+        "new": "    return _redact(report)\n"
+      },
+      "detected_by_assertion": true
+    }
+  ],
+  "errors": [],
+  "complete": true,
+  "all_detected": true,
+  "finished_at": "2026-10-29T20:37:13.584267+00:00"
+}

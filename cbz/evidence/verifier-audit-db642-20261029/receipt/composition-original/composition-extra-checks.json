@@ -1,0 +1,51 @@
+[
+  {
+    "argv": [
+      "python3",
+      "-B",
+      "-S",
+      "tools/formal_gate_check.py"
+    ],
+    "returncode": 0,
+    "stdout": "SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): 1c7aebd2e289cee0d9f82e15052d355efaaef642ff0cb5c47332435adfea75ea\n{\"alignment_status\": \"PENDING_INDEPENDENT_REVIEW\", \"formalization_status\": \"proved\", \"package\": \"side24-arithmetic-skeleton\", \"sources\": 2, \"targets\": 31}\n",
+    "stderr": "",
+    "log": "composition-normal-source-check.log"
+  },
+  {
+    "argv": [
+      "python3",
+      "-B",
+      "-O",
+      "-S",
+      "tools/formal_gate_check.py"
+    ],
+    "returncode": 0,
+    "stdout": "SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): 1c7aebd2e289cee0d9f82e15052d355efaaef642ff0cb5c47332435adfea75ea\n{\"alignment_status\": \"PENDING_INDEPENDENT_REVIEW\", \"formalization_status\": \"proved\", \"package\": \"side24-arithmetic-skeleton\", \"sources\": 2, \"targets\": 31}\n",
+    "stderr": "",
+    "log": "composition-optimized-source-check.log"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "5aa6fbac"
+    ],
+    "returncode": 0,
+    "log": "composition-diff-check-5aa6fbac.log"
+  },
+  {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "4da34569"
+    ],
+    "returncode": 2,
+    "log": "composition-diff-check-4da34569.log"
+  },
+  {
+    "prior_evidence_files_unchanged": 30,
+    "append_only_ledger": true
+  }
+]

@@ -3,9 +3,12 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shlex
+import shutil
 import signal
 import stat
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -77,6 +80,7 @@ class InventoryTests(unittest.TestCase):
 
     def test_broken_marker_and_external_directory_boundary_are_not_silent(self):
         self.repo('good');broken=self.root/'broken';broken.mkdir();(broken/'.git').write_text('gitdir: /does/not/exist\n')
+        cycle=self.root/'cyclic-marker';cycle.mkdir();(cycle/'.git').symlink_to(cycle/'.git')
         external=Path(self.temp.name)/'outside';external.mkdir();(self.root/'external').symlink_to(external,target_is_directory=True)
         d=self.census();self.assertFalse(d['complete']);self.assertTrue(d['errors'])
         self.assertTrue(any(e['kind']=='external_directory_symlink'for e in d['errors']))
@@ -148,6 +152,93 @@ class InventoryTests(unittest.TestCase):
         by={w['path']:w for w in d['worktrees']}
         self.assertTrue(by[str(empty)]['unborn']);self.assertIsNone(by[str(empty)]['head'])
         self.assertTrue(by[str(repo)]['detached']);self.assertIsNone(by[str(repo)]['branch'])
+
+    def test_equals_filter_keys_are_suppressed_in_direct_and_recursive_status(self):
+        source=self.repo('source');parent=self.repo('parent')
+        self.git(parent,'-c','protocol.file.allow=always','submodule','add','-q',str(source),'module')
+        child=parent/'module';markers=[]
+        for number,(repo,name) in enumerate([(parent,'eq=name'),(child,'eq==name')]):
+            marker=Path(self.temp.name)/('FILTER-'+str(number));markers.append(marker)
+            script=Path(self.temp.name)/('filter-'+str(number)+'.py')
+            script.write_text('import pathlib,sys\npathlib.Path('+repr(str(marker))+').write_text("executed")\nsys.stdout.buffer.write(sys.stdin.buffer.read())\n')
+            self.git(repo,'config','filter.'+name+'.clean',shlex.quote(sys.executable)+' '+shlex.quote(str(script)))
+            self.git(repo,'config','filter.'+name+'.required','true')
+            (repo/'.gitattributes').write_text('tracked filter='+name+'\n')
+            self.assertEqual(self.git(repo,'check-attr','-z','filter','--','tracked').split(b'\0')[2],name.encode())
+            (repo/'tracked').write_text('changed\n')
+        # Native parent status exercises both its own and recursive child filter.
+        self.git(parent,'status','--porcelain=v1','-z','--ignore-submodules=none')
+        self.assertTrue(all(p.exists()for p in markers),'Native recursive positive control did not run both filters')
+        for p in markers:p.unlink()
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertFalse(any(p.exists()for p in markers),'Collector executed an equals-named filter')
+        out=Path(self.temp.name)/'equals-cli.json'
+        result=subprocess.run([sys.executable,'-S','-B',str(TOOL),'--root',str(self.root),'--output',str(out)],capture_output=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(json.loads(out.read_bytes())['complete'])
+        self.assertFalse(any(p.exists()for p in markers),'CLI executed an equals-named filter')
+        # A failed filter-key census must refuse status, without an unsafe fallback.
+        status_marker=Path(self.temp.name)/'STATUS-RAN';wrapper=Path(self.temp.name)/'git-config-failure'
+        native=shutil.which('git')
+        wrapper.write_text('#!/usr/bin/env python3\nimport os,pathlib,sys\na=sys.argv[1:]\nif "config" in a and "--name-only" in a:sys.exit(7)\nif "status" in a:pathlib.Path('+repr(str(status_marker))+').write_text("unsafe")\nos.execv('+repr(native)+',['+repr(native)+',*a])\n')
+        wrapper.chmod(0o700)
+        rejected=self.census(git=str(wrapper));self.assertFalse(rejected['complete'])
+        self.assertTrue(any(e['kind']=='unsafe_configuration'for e in rejected['errors']))
+        self.assertFalse(status_marker.exists());self.assertFalse(any(p.exists()for p in markers))
+        # Simulate a Git implementation that ignores the separate config transport.
+        ignored=Path(self.temp.name)/'git-ignores-config-environment'
+        ignored.write_text('#!/usr/bin/env python3\nimport os,pathlib,sys\na=sys.argv[1:]\nif "status" in a:pathlib.Path('+repr(str(status_marker))+').write_text("unsafe")\nfor key in list(os.environ):\n if key=="GIT_CONFIG_COUNT" or key.startswith(("GIT_CONFIG_KEY_","GIT_CONFIG_VALUE_")):os.environ.pop(key)\nos.execv('+repr(native)+',['+repr(native)+',*a])\n')
+        ignored.chmod(0o700)
+        unsupported=self.census(git=str(ignored));self.assertFalse(unsupported['complete'])
+        self.assertTrue(any(e['kind']=='unsafe_configuration'for e in unsupported['errors']))
+        self.assertFalse(status_marker.exists());self.assertFalse(any(p.exists()for p in markers))
+
+    def test_ordinary_head_objects_assets_do_not_hide_nested_repositories(self):
+        outer=self.repo('outer');assets=outer/'assets';assets.mkdir()
+        (assets/'HEAD').write_text('ordinary asset, not Git metadata\n');(assets/'objects').mkdir()
+        nested=self.repo('outer/assets/nested');deep=self.repo('outer/assets/objects/deep')
+        alias=self.root/'objects-alias';alias.symlink_to(assets/'objects',target_is_directory=True)
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertTrue({str(outer),str(nested),str(deep)}.issubset(d['discovered_roots']))
+        self.assertNotIn(str(assets),d['discovered_roots'])
+        self.assertTrue({str(nested),str(deep)}.issubset({w['path']for w in d['worktrees']}))
+        self.assertNotIn('not_followed',next(s for s in d['symlinks']if s['path']==str(alias)))
+        out=Path(self.temp.name)/'assets-cli.json'
+        result=subprocess.run([sys.executable,'-S','-B',str(TOOL),'--root',str(self.root),'--output',str(out)],capture_output=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue({str(nested),str(deep)}.issubset(json.loads(out.read_bytes())['discovered_roots']))
+
+    def test_remote_redaction_preserves_all_filesystem_identity_fields(self):
+        self.root=self.root/'root?token=root-value';self.root.mkdir()
+        repo=self.repo('repo?token=first');second=self.repo('repo?token=second')
+        names=['untracked?token=first','untracked?token=second','line\nname\t'+os.fsdecode(b'\xff')]
+        for name in names:(repo/name).write_text('fixture\n')
+        self.git(repo,'remote','add','origin','https://private-user:private-password@example.invalid/repo?token=remote-secret')
+        linked=self.root/'linked?token=worktree';self.git(repo,'worktree','add','-qb','linked',str(linked))
+        alias=self.root/'alias?token=link';alias.symlink_to(repo,target_is_directory=True)
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertEqual(d['root'],str(self.root))
+        self.assertTrue({str(repo),str(second),str(linked)}.issubset(d['discovered_roots']))
+        work=next(w for w in d['worktrees']if w['path']==str(repo))
+        self.assertEqual({r['path']for r in work['status']},set(names))
+        self.assertEqual(work['git_dir'],str(repo/'.git'));self.assertEqual(work['common_store'],str(repo/'.git'))
+        store=next(s for s in d['stores']if s['path']==str(repo/'.git'))
+        self.assertTrue({str(repo),str(linked)}.issubset({r['worktree']for r in store['registered_worktrees']}))
+        link=next(s for s in d['symlinks']if s['path']==str(alias));self.assertEqual(link['target'],str(repo))
+        raw=json.dumps(d);self.assertNotIn('private-password',raw);self.assertNotIn('remote-secret',raw)
+        self.assertNotIn('private-user',raw);self.assertIn('REDACTED',raw)
+        out=Path(self.temp.name)/'paths-cli.json'
+        result=subprocess.run([sys.executable,'-S','-B',str(TOOL),'--root',str(self.root),'--output',str(out)],capture_output=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        cli=json.loads(out.read_bytes());self.assertEqual(cli['root'],str(self.root))
+        self.assertEqual(next(w for w in cli['worktrees']if w['path']==str(repo))['status'],work['status'])
+        bad=self.root/'bad?token=error-secret';bad.mkdir();(bad/'.git').write_text('invalid\n')
+        external=Path(self.temp.name)/'outside?token=external-value';external.mkdir()
+        (self.root/'external?token=link').symlink_to(external,target_is_directory=True)
+        incomplete=self.census();self.assertFalse(incomplete['complete'])
+        error=next(e for e in incomplete['errors']if e['path']==str(bad))
+        self.assertNotIn('error-secret',error['stderr']);self.assertIn('REDACTED',error['stderr'])
+        self.assertEqual(next(e for e in incomplete['errors']if e['kind']=='external_directory_symlink')['target'],str(external))
 
 
 if __name__=='__main__':unittest.main()

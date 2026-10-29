@@ -34,7 +34,14 @@ class SourceBridgeCLI(unittest.TestCase):
         if self.profile=='a22f':paths += ['docs/site/evidence/side24-main-3b39/source-bridge-8228.json']
         for relative in set(paths):
             target=self.root/relative;target.parent.mkdir(parents=True,exist_ok=True)
-            shutil.copyfile(ROOT/relative,target)
+            if relative in {'tools/formal_gate_check.py','tests/test_formal_gate.py'}:
+                # Frozen profiles retain their exact old controls as literal data;
+                # the current validator runs, never these historical Python bytes.
+                source=profile_root/(Path(relative).name+'.txt')
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),manifest['files'][relative])
+            else:
+                source=ROOT/relative
+            shutil.copyfile(source,target)
         (self.root/'formal/manifest.json').write_bytes(manifest_raw)
         for name in ['README.md','REVIEW_LANE.md']:
             source=(ROOT/'tests/fixtures/atlas_formal_build_3b39'/(name+'.txt')

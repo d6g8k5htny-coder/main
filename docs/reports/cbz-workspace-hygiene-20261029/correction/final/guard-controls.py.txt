@@ -1,0 +1,68 @@
+"""Three finite mutations of the companion guards, separate from its seven source mutants."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+os.umask(0o077)
+root = Path(sys.argv[1]).resolve()
+output = Path(sys.argv[2]).resolve()
+output.mkdir(mode=0o700)
+runner = 'tools/workspace_git_inventory_mutations.py'
+original = (root / runner).read_text()
+cases = [
+    ('population', ["                              baseline.get('population_valid') is True and\n",
+                    "                        row.get('population_valid') is True and\n"],
+     'test_loader_cannot_replace_population_with_duplicate_method'),
+    ('escaping-assertion', [" and issue['escaping_assertion']"],
+     'test_callback_without_escaping_assertion_cannot_kill'),
+    ('subtests', ["                              baseline.get('subtests') == 0 and\n",
+                  "                        row.get('subtests') == 0 and\n"],
+     'test_native_and_foreign_subtest_reports_are_unsupported'),
+    ('pristine-class', [], 'test_loader_cannot_rebind_pristine_class_identity'),
+    ('pristine-method', [], 'test_loader_cannot_alias_expected_methods_to_one_body'),
+]
+rows = []
+with tempfile.TemporaryDirectory(prefix='inventory-guard-mutations-') as temporary:
+    for name, removals, selected in cases:
+        fixture = Path(temporary) / name
+        for rel in [runner, 'tools/workspace_git_inventory.py', 'tests/test_workspace_git_inventory.py',
+                    'tests/test_workspace_git_inventory_mutations.py']:
+            destination = fixture / rel
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(root / rel, destination)
+        text = original
+        for target in removals:
+            if text.count(target) != 1:
+                raise RuntimeError('Nonunique guard mutation: ' + name)
+            text = text.replace(target, '')
+        if name == 'pristine-class':
+            if text.count('records = {}') != 1:
+                raise RuntimeError('Nonunique class-capture mutation')
+            text = text.replace('records = {}', 'inventory_class = module.InventoryTests\nrecords = {}')
+        if name == 'pristine-method':
+            target = 'return function is expected and expected is not None and function.__code__ is pristine_codes[case._testMethodName]'
+            if text.count(target) != 1:
+                raise RuntimeError('Nonunique method-capture mutation')
+            text = text.replace(target, 'return True')
+        (fixture / runner).write_text(text)
+        (output / (name + '-runner.py')).write_text(text)
+        command = [sys.executable, '-S', '-B', '-m', 'unittest', 'discover', '-s', str(fixture / 'tests'),
+                   '-p', 'test_workspace_git_inventory_mutations.py', '-k', selected, '-v']
+        trial = subprocess.run(command, cwd=fixture, capture_output=True, timeout=180)
+        raw = trial.stdout + trial.stderr
+        (output / (name + '.log')).write_bytes(raw)
+        detected = trial.returncode == 1 and b'FAILED (failures=1)' in raw
+        rows.append({'guard': name, 'test': selected, 'returncode': trial.returncode,
+                     'detected_by_assertion': detected, 'removed': removals,
+                     'mutant_sha256': hashlib.sha256(text.encode()).hexdigest()})
+report = {'sources': {str(root / rel): hashlib.sha256((root / rel).read_bytes()).hexdigest()
+                      for rel in [runner, 'tests/test_workspace_git_inventory_mutations.py']},
+          'guards': rows, 'all_detected': len(rows) == 5 and all(r['detected_by_assertion'] for r in rows)}
+(output / 'results.json').write_text(json.dumps(report, indent=2) + '\n')
+print(json.dumps({'guard_mutations': len(rows), 'all_detected': report['all_detected']}))
+raise SystemExit(0 if report['all_detected'] else 1)

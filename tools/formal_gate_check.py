@@ -42,6 +42,13 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
+
+if __package__:
+    from . import formal_compiled_inventory as compiled
+else:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import formal_compiled_inventory as compiled
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = "formal/manifest.json"
@@ -115,6 +122,10 @@ def strip_lean_comments(text: str) -> str:
     return "".join(out)
 
 
+class ForbiddenAxiomError(ValueError):
+    """A complete axiom report contains an explicitly forbidden axiom."""
+
+
 def audit_axioms(text: str, targets: list) -> dict:
     require(isinstance(targets, list) and targets and len(set(targets)) == len(targets), "empty or duplicate target list")
     records = {}
@@ -123,7 +134,8 @@ def audit_axioms(text: str, targets: list) -> dict:
         require(name in targets and name not in records, "unexpected or duplicate axiom target: " + name)
         axioms = [] if raw is None or not raw.strip() else [a.strip() for a in raw.split(",")]
         require(all(re.fullmatch(NAME, a) for a in axioms), "malformed axiom name")
-        require(set(axioms) <= ALLOWED, "forbidden transitive axiom: " + repr(sorted(set(axioms) - ALLOWED)))
+        if not set(axioms) <= ALLOWED:
+            raise ForbiddenAxiomError("forbidden transitive axiom: " + repr(sorted(set(axioms) - ALLOWED)))
         records[name] = sorted(set(axioms))
     require(not AXIOM_LINE.sub("", text).strip(), "unrecognized audit output")
     require(set(records) == set(targets), "missing target axiom report")
@@ -151,7 +163,7 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
         require(sha(safe_path(root, name).read_bytes()) == digest, "source hash mismatch: " + name)
     required = {f"{pkg_rel}/lean-toolchain", f"{pkg_rel}/lakefile.toml", f"{pkg_rel}/lake-manifest.json",
                 f"{pkg_rel}/{m['root_module']}.lean", f"{pkg_rel}/SCOPE.md", f"{pkg_rel}/GLOSSARY.md",
-                f"{pkg_rel}/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py"}
+                f"{pkg_rel}/README.md", f"{pkg_rel}/COMPILED_INVENTORY.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py", "tests/test_formal_negative_diagnostics.py", "tools/formal_compiled_inventory.py", "tests/test_formal_compiled_inventory.py"}
     require(required <= set(files), "unbound control or scope file: " + repr(sorted(required - set(files))))
     require((pkg / "lean-toolchain").read_text(encoding="utf-8").strip() == TOOLCHAIN, "wrong Lean toolchain file")
     lock = load_json((pkg / "lake-manifest.json").read_text(encoding="utf-8"))
@@ -211,6 +223,32 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
         rel = p.relative_to(root).as_posix()
         if p.is_file() and BUILD_DIR not in p.relative_to(pkg).parts and rel not in files:
             require(rel in set(m.get("unbound_files", [])), "file in package not bound or declared unbound: " + rel)
+    controls = m.get("negative_controls")
+    require(isinstance(controls, dict) and controls, "missing negative control inventory")
+    for label, spec in controls.items():
+        require(isinstance(label, str) and re.fullmatch(r"[a-z][a-z0-9_]*", label)
+                and label not in {"sorry", "custom_imported", "native"}, "invalid negative control label")
+        require(isinstance(spec, dict) and set(spec) == {"module", "replace", "with", "expected_diagnostic"},
+                "negative control contract fields differ: " + label)
+        require(spec["module"] in modules, "unregistered negative control module: " + label)
+        require(isinstance(spec["replace"], str) and spec["replace"]
+                and isinstance(spec["with"], str) and spec["with"] != spec["replace"],
+                "invalid negative control mutation: " + label)
+        require((pkg / spec["module"]).read_text(encoding="utf-8").count(spec["replace"]) == 1,
+                "negative control text must occur exactly once: " + label)
+        require(isinstance(spec["expected_diagnostic"], str) and re.fullmatch(
+            r"[1-9][0-9]*:[1-9][0-9]*: error: Tactic `decide` proved that the proposition\n  [^\r\n]+\nis false\n",
+            spec["expected_diagnostic"]) is not None,
+            "invalid negative control diagnostic contract: " + label)
+    if manifest_rel == MANIFEST:
+        require({'.github/workflows/formal-verification.yml', 'tests/test_formal_workflow_shell.py'} <= set(files),
+                'unbound formal workflow or regression control')
+        require(m["package"] == "side24-arithmetic-skeleton" and set(controls) == {
+            "false_exponent_bound_d3", "false_covariance_bound", "false_exp_partial_sum",
+            "wrong_image_constant", "false_eigenvalue_third", "false_trace_variance",
+            "false_endpoint_adjacency"}, "incomplete main negative control inventory")
+    compiled.bound_inventory(m.get("compiled_inventory"), target_names, [p[:-5].replace("/", ".") for p in modules])
+    compiled.bound_codegen(m.get("codegen_inventory"), [p[:-5].replace("/", ".") for p in modules])
     return m, sha(raw), pkg
 
 
@@ -233,9 +271,19 @@ def check_lean_version(text: str) -> str:
     return version
 
 
-def run(command, label, out: Path, cwd: Path, env, expect_success=True):
-    result = subprocess.run(command, cwd=cwd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=900, env=env)
+def run(command, label, out: Path, cwd: Path, env, expect_success=True, expected_stdout=None):
+    # Negative-control transcripts keep channels separate: an infrastructure
+    # failure on stderr must never count as mathematical rejection.
+    result = subprocess.run(command, cwd=cwd, text=True, stdout=subprocess.PIPE,
+                            stderr=subprocess.PIPE if expected_stdout is not None else subprocess.STDOUT,
+                            timeout=900, env=env)
     (out / (label + ".log")).write_text(result.stdout, encoding="utf-8")
+    if expected_stdout is not None:
+        (out / (label + "-stderr.log")).write_text(result.stderr or "", encoding="utf-8")
+        require(result.returncode == (0 if expect_success else 1),
+                "negative control unexpected exit status: " + label)
+        require(result.stderr == "", "negative control stderr is not empty: " + label)
+        require(result.stdout == expected_stdout, "negative control diagnostic mismatch: " + label)
     print(label + ": exit " + str(result.returncode), flush=True)
     require((result.returncode == 0) == expect_success, "unexpected process outcome: " + label + "\n" + result.stdout[-6000:])
     return result.stdout
@@ -247,7 +295,7 @@ def negative_controls(m: dict, pkg: Path) -> dict:
     cases = {}
     for label, spec in m.get("negative_controls", {}).items():
         module_text = (pkg / spec["module"]).read_text(encoding="utf-8")
-        require(spec["replace"] in module_text, "negative control text not found: " + label)
+        require(module_text.count(spec["replace"]) == 1, "negative control text must occur exactly once: " + label)
         cases[label] = (module_text.replace(spec["replace"], spec["with"]), False, None)
     cases["sorry"] = (root_import + "theorem injected : False := by sorry\n#print axioms injected\n", True, "injected")
     cases["custom_imported"] = (root_import + "axiom hiddenPremise : False\ntheorem middle : False := hiddenPremise\n"
@@ -257,12 +305,22 @@ def negative_controls(m: dict, pkg: Path) -> dict:
 
 
 def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
+    out = pkg / BUILD_DIR / "formal-evidence"
+    require(not (pkg / BUILD_DIR).is_symlink() and not (pkg / BUILD_DIR / "build").is_symlink()
+            and not out.is_symlink(), "symlink build directory")
+    if out.exists():
+        # Retain the entire prior attempt, keeping its receipt/log bindings
+        # intact. A failed rerun must not leave old success at the current path.
+        history = pkg / BUILD_DIR / "formal-evidence-history"
+        require(not history.is_symlink(), "symlink evidence history")
+        require(not any(p.is_symlink() for p in out.rglob("*")), "symlink prior evidence")
+        history.mkdir(parents=True, exist_ok=True)
+        archive = Path(tempfile.mkdtemp(prefix="attempt-", dir=history)) / "formal-evidence"
+        out.rename(archive)
+    out.mkdir(parents=True, exist_ok=True)
     lake = lake_binary()
     require(lake is not None, "lake not found on PATH or in ~/.elan/bin")
     env = dict(os.environ, PATH=f"{Path(lake).parent}{os.pathsep}{os.environ.get('PATH', '')}")
-    out = pkg / BUILD_DIR / "formal-evidence"
-    out.mkdir(parents=True, exist_ok=True)
-    require(not (pkg / BUILD_DIR).is_symlink() and not (pkg / BUILD_DIR / "build").is_symlink(), "symlink build directory")
     check_lean_version(run([lake, "env", "lean", "--version"], "preflight-version", out, pkg, env))
     if (pkg / BUILD_DIR / "build").exists():
         shutil.rmtree(pkg / BUILD_DIR / "build")
@@ -272,6 +330,14 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
     audit = out / "Audit.lean"
     audit.write_text("import " + m["root_module"] + "\n" + "\n".join("#print axioms " + n for n in targets) + "\n", encoding="utf-8")
     axioms = audit_axioms(run([lake, "env", "lean", str(audit)], "axioms", out, pkg, env), targets)
+    inventory_path = out / "Inventory.lean"
+    inventory_path.write_text(compiled.inventory_source(package=m["root_module"]), encoding="utf-8")
+    modules = [p[:-5].replace("/", ".") for p in m["source_modules"]]
+    inventory = compiled.audit_inventory(
+        run([lake, "env", "lean", str(inventory_path)], "compiled-inventory", out, pkg, env),
+        targets, modules, reported_axioms=axioms,
+        bound=compiled.bound_inventory(m["compiled_inventory"], targets, modules), package=m["root_module"],
+        codegen=compiled.bound_codegen(m["codegen_inventory"], modules))
     types = out / "Types.lean"
     types.write_text("import " + m["root_module"] + "\nset_option pp.explicit true\n" + "\n".join("#check " + n for n in targets) + "\n", encoding="utf-8")
     run([lake, "env", "lean", str(types)], "elaborated-types", out, pkg, env)
@@ -279,18 +345,27 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
     for label, (source, succeeds, target) in negative_controls(m, pkg).items():
         path = out / (label + ".lean")
         path.write_text(source, encoding="utf-8")
-        log = run([lake, "env", "lean", str(path)], label, out, pkg, env, succeeds)
         if target:
-            matches = list(AXIOM_LINE.finditer(log))
-            require(matches, "negative control missing axiom report: " + label)
+            # Exact observations from pinned Lean 4.34.1, including the sole
+            # expected warning. Do not treat parser failure as axiom rejection.
+            expected = {
+                "sorry": (str(path) + ":2:8: warning: declaration uses `sorry`\n"
+                          "'injected' depends on axioms: [sorryAx]\n"),
+                "custom_imported": "'injected' depends on axioms: [hiddenPremise]\n",
+                "native": "'injected' depends on axioms: [injected._native.native_decide.ax_1_1]\n",
+            }[label]
+        else:
+            expected = str(path) + ":" + m["negative_controls"][label]["expected_diagnostic"]
+        run([lake, "env", "lean", str(path)], label, out, pkg, env, succeeds, expected)
+        if target:
+            report = expected.split("\n", 1)[1] if label == "sorry" else expected
             try:
-                audit_axioms("\n".join(x.group() for x in matches), [target])
-            except ValueError:
+                audit_axioms(report, [target])
+            except ForbiddenAxiomError:
                 outcomes[label] = "REJECTED_BY_AXIOM_GATE"
             else:
-                raise ValueError("negative control escaped: " + label)
+                raise ValueError("negative control escaped axiom auditor: " + label)
         else:
-            require("is false" in log or "unsolved goals" in log or "failed" in log, "negative control did not fail on its proof goal: " + label)
             outcomes[label] = "REJECTED_BY_LEAN"
     _, after, _ = source_check(root)
     require(after == digest, "manifest changed during execution")
@@ -301,8 +376,9 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
                    package=m["package"], formalization_status="kernel-checked",
                    alignment_status="PENDING_INDEPENDENT_REVIEW", manifest_sha256=digest, checked_commit=head,
                    repository=os.environ.get("GITHUB_REPOSITORY"), workflow_run_id=os.environ.get("GITHUB_RUN_ID"),
+                   workflow_run_attempt=os.environ.get("GITHUB_RUN_ATTEMPT"),
                    lean_version=version, dependency_revisions=m["dependency_revisions"], axioms=axioms,
-                   negative_controls=outcomes)
+                   negative_controls=outcomes, compiled_inventory=inventory)
     receipt["logs"] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob("*.log"))}
     (out / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return receipt
