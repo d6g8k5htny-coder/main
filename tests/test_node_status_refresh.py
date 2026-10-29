@@ -1,5 +1,6 @@
 """Offline tests for tools/node_status_refresh.py (LANES-20261022 Lane 3). No network."""
 import copy
+import io
 import json
 import shutil
 import sys
@@ -407,23 +408,15 @@ class RefreshTests(unittest.TestCase):
                         self.assertEqual(path.read_bytes(), before)
                         self.assertEqual(calls, [])
 
-    def test_github_fetch_uses_moving_ref_for_pinned_url(self):
+    def test_github_fetch_preserves_discussion_timestamp_endpoints(self):
         seen = []
 
         def fake(path):
             seen.append(path)
-            if "/commits?" in path:
-                return [{"sha": "ab" * 20, "commit": {"committer": {"date": "2026-10-22T18:00:00+00:00"}}}]
             return {"updated_at": "2026-10-22T17:30:25+00:00"}
 
         nsr._api_get = fake
         pin = "1" * 40
-        url = "https://github.com/d6g8k5htny-coder/Math-/blob/" + pin + "/frontiers/downstream_gate_20260925/GRAPH.json"
-        self.assertEqual(nsr.github_fetch(url), "ab" * 20)
-        self.assertEqual(len(seen), 1)
-        self.assertIn("/repos/d6g8k5htny-coder/Math-/commits?", seen[0])
-        self.assertNotIn("sha=", seen[0])
-        self.assertNotIn(pin, seen[0])
         self.assertEqual(nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/issues/475"), "2026-10-22T17:30:25Z")
         self.assertIn("/repos/d6g8k5htny-coder/main/issues/475", seen[-1])
         self.assertEqual(nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/pull/495"), "2026-10-22T17:30:25Z")
@@ -436,6 +429,195 @@ class RefreshTests(unittest.TestCase):
             nsr.github_fetch("https://example.org/x")
         with self.assertRaises(nsr.SourceError):
             nsr.github_fetch("https://github.com/example/repo/blob/" + pin + "/a.md")
+
+
+class GitObjectFreshnessTests(unittest.TestCase):
+    """Exercise the real refresher with fixed, hand-derived GitHub API objects."""
+
+    pin, tip, older = "1" * 40, "2" * 40, "9" * 40
+    pin_tree, tip_tree = "3" * 40, "4" * 40
+    pin_dir, tip_dir = "5" * 40, "6" * 40
+    blob, other_blob = "7" * 40, "8" * 40
+
+    def source_record(self, kind="blob", path="docs/proof.md"):
+        url = f"https://github.com/d6g8k5htny-coder/Math-/{kind}/{self.pin}/{path}"
+        rec = load("fresh.json")
+        rec["sources"] = [{"url": url, "rev": self.pin}]
+        rec["source_rev"] = self.pin
+        return rec
+
+    def api(self, changed=False):
+        base = "/repos/d6g8k5htny-coder/Math-"
+        def tree(sha, rows):
+            return {"sha": sha, "tree": rows, "truncated": False}
+        def entry(path, kind, sha, mode):
+            return {"path": path, "type": kind, "sha": sha, "mode": mode}
+        directory = self.tip_dir if changed else self.pin_dir
+        responses = {
+            base + "/commits?per_page=1": [{"sha": self.tip, "commit": {"tree": {"sha": self.tip_tree}}}],
+            base + "/git/commits/" + self.pin: {"sha": self.pin, "tree": {"sha": self.pin_tree}},
+            base + "/git/trees/" + self.pin_tree: tree(self.pin_tree, [entry("docs", "tree", self.pin_dir, "040000")]),
+            base + "/git/trees/" + self.tip_tree: tree(self.tip_tree, [entry("docs", "tree", directory, "040000")]),
+            base + "/git/trees/" + self.pin_dir: tree(self.pin_dir, [entry("proof.md", "blob", self.blob, "100644")]),
+            base + "/git/trees/" + self.tip_dir: tree(self.tip_dir, [entry("proof.md", "blob", self.other_blob, "100644")]),
+            # What the old implementation asks: older path-modification commit,
+            # even though the referenced object is identical at pin and tip.
+            base + "/commits?path=docs/proof.md&per_page=1": [{"sha": self.older}],
+            base + "/commits?path=docs&per_page=1": [{"sha": self.older}],
+        }
+        seen = []
+        def fetch(path):
+            seen.append(path)
+            if path not in responses:
+                raise nsr.SourceError("unexpected or unavailable API path: " + path)
+            return copy.deepcopy(responses[path])
+        return base, responses, seen, fetch
+
+    def refresh(self, rec, api):
+        original = copy.deepcopy(rec)
+        with patch.object(nsr, "_api_get", api):
+            result = nsr.refresh_record(rec, nsr.github_fetch, NOW)
+        self.assertEqual(rec, original)
+        self.assertEqual(result["source_rev"], self.pin)
+        self.assertEqual(result["sources"], original["sources"])
+        self.assertEqual(result["scientific_effect"], "NONE")
+        return result
+
+    def test_snapshot_after_last_path_edit_is_fresh_for_same_blob(self):
+        _, _, seen, api = self.api()
+        out = self.refresh(self.source_record(), api)
+        self.assertEqual(out["status"], "fresh")
+        self.assertIsNone(out["refresh_error"])
+        self.assertNotIn(self.tip, json.dumps(out))
+        self.assertEqual(sum(path.endswith("/commits?per_page=1") for path in seen), 1)
+
+    def test_unchanged_directory_uses_tree_identity(self):
+        _, _, _, api = self.api()
+        self.assertEqual(self.refresh(self.source_record("tree", "docs"), api)["status"], "fresh")
+
+    def test_changed_blob_or_directory_is_stale(self):
+        for kind, path in [("blob", "docs/proof.md"), ("tree", "docs")]:
+            with self.subTest(kind=kind):
+                _, _, _, api = self.api(changed=True)
+                self.assertEqual(self.refresh(self.source_record(kind, path), api)["status"], "stale")
+
+    def test_unavailable_or_untrustworthy_object_is_unknown(self):
+        base = "/repos/d6g8k5htny-coder/Math-"
+        tip_tree_path = base + "/git/trees/" + self.tip_tree
+        cases = [
+            (tip_tree_path, None),
+            (tip_tree_path, {"sha": self.tip_tree, "tree": [], "truncated": True}),
+            (tip_tree_path, {"sha": self.tip_tree, "tree": [], "truncated": False}),
+            (base + "/git/commits/" + self.pin, {"sha": self.tip, "tree": {"sha": self.pin_tree}}),
+            (base + "/commits?per_page=1", [{"sha": "bad", "commit": {"tree": {"sha": self.tip_tree}}}]),
+        ]
+        for key, value in cases:
+            with self.subTest(key=key, value=value):
+                _, responses, _, api = self.api()
+                responses[key] = value
+                out = self.refresh(self.source_record(), api)
+                self.assertEqual(out["status"], "unknown")
+                self.assertTrue(out["refresh_error"])
+
+    def test_duplicate_or_unsupported_target_is_unknown(self):
+        for mode, kind, duplicate in [("040000", "tree", True), ("160000", "commit", False), ("120000", "blob", False)]:
+            with self.subTest(mode=mode, duplicate=duplicate):
+                base, responses, _, api = self.api()
+                row = responses[base + "/git/trees/" + self.tip_tree]["tree"][0]
+                row.update(mode=mode, type=kind)
+                if duplicate:
+                    responses[base + "/git/trees/" + self.tip_tree]["tree"].append(copy.deepcopy(row))
+                out = self.refresh(self.source_record(), api)
+                self.assertEqual(out["status"], "unknown")
+                self.assertTrue(out["refresh_error"])
+
+    def test_object_type_change_is_stale_even_when_sha_text_matches(self):
+        base, responses, _, api = self.api(changed=True)
+        target = responses[base + "/git/trees/" + self.tip_dir]["tree"][0]
+        target.update(type="tree", mode="040000", sha=self.blob)
+        self.assertEqual(self.refresh(self.source_record(), api)["status"], "stale")
+
+    def test_observation_must_bind_exact_url_pin_type_and_valid_hashes(self):
+        rec = self.source_record()
+        _, _, _, api = self.api()
+        with patch.object(nsr, "_api_get", api):
+            observation = nsr.github_fetch(rec["sources"][0]["url"])
+        self.assertEqual(observation.current_revision, self.tip)
+        for mutation in [
+            {"url": rec["sources"][0]["url"] + "-other"},
+            {"pinned_revision": self.tip}, {"pinned_type": "tree"},
+            {"current_revision": "bad"}, {"pinned_sha": "bad"},
+            {"current_sha": "bad"}, {"current_type": "commit"},
+        ]:
+            with self.subTest(mutation=mutation):
+                changed = observation._replace(**mutation)
+                out = nsr.refresh_record(rec, lambda url: changed, NOW)
+                self.assertEqual(out["status"], "unknown")
+                self.assertTrue(out["refresh_error"])
+
+    def test_url_kind_must_match_the_pinned_object(self):
+        _, _, _, api = self.api()
+        out = self.refresh(self.source_record("tree", "docs/proof.md"), api)
+        self.assertEqual(out["status"], "unknown")
+
+    def test_source_path_cannot_cross_a_file_or_use_dot_segments(self):
+        for path in ["docs/proof.md/nested", "docs/../proof.md", "docs//proof.md"]:
+            with self.subTest(path=path):
+                _, _, _, api = self.api()
+                self.assertEqual(self.refresh(self.source_record(path=path), api)["status"], "unknown")
+
+    def test_report_only_keeps_entire_original_record_bytes(self):
+        _, _, _, api = self.api()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "source.json"
+            path.write_text(json.dumps(self.source_record()) + "\n")
+            before = path.read_bytes()
+            with patch.object(nsr, "_api_get", api):
+                report = nsr.refresh_dir(Path(tmp), nsr.github_fetch, False, NOW)
+            self.assertEqual(report[0]["status"], "fresh")
+            self.assertEqual(path.read_bytes(), before)
+
+    def test_raw_api_duplicate_object_keys_are_unknown(self):
+        base, responses, _, _ = self.api()
+        current = base + "/git/trees/" + self.tip_tree
+        raw = json.dumps(responses[current])
+        rows = json.dumps(responses[current]["tree"])
+        variants = [
+            '{"sha":"' + self.tip_tree + '","tree":[],"tree":' + rows + ',"truncated":false}',
+            raw.replace('"sha": "' + self.pin_dir + '"',
+                        '"sha":"' + self.tip_dir + '","sha":"' + self.pin_dir + '"'),
+            raw.replace('"truncated": false', '"truncated": true,"truncated": false'),
+        ]
+        for ambiguous in variants:
+            with self.subTest(response=ambiguous):
+                wires = {path: json.dumps(value).encode() for path, value in responses.items()}
+                wires[current] = ambiguous.encode()
+                def opening(request, timeout):
+                    return io.BytesIO(wires[request.full_url.removeprefix(nsr.API)])
+                with patch.object(nsr.urllib.request, "urlopen", opening):
+                    out = nsr.refresh_record(self.source_record(), nsr.github_fetch, NOW)
+                self.assertEqual(out["status"], "unknown")
+                self.assertIn("duplicate JSON key", out["refresh_error"])
+
+    def test_raw_api_valid_object_controls(self):
+        for changed, expected in [(False, "fresh"), (True, "stale")]:
+            with self.subTest(changed=changed):
+                _, responses, _, _ = self.api(changed=changed)
+                wires = {path: json.dumps(value).encode() for path, value in responses.items()}
+                def opening(request, timeout):
+                    return io.BytesIO(wires[request.full_url.removeprefix(nsr.API)])
+                with patch.object(nsr.urllib.request, "urlopen", opening):
+                    out = nsr.refresh_record(self.source_record(), nsr.github_fetch, NOW)
+                self.assertEqual(out["status"], expected)
+                self.assertIsNone(out["refresh_error"])
+
+    def test_raw_discussion_duplicate_timestamp_is_unknown(self):
+        rec = load("issue.json")
+        raw = b'{"updated_at":"2026-10-23T17:00:00Z","updated_at":"2026-10-22T17:00:00Z"}'
+        with patch.object(nsr.urllib.request, "urlopen", lambda request, timeout: io.BytesIO(raw)):
+            out = nsr.refresh_record(rec, nsr.github_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertIn("duplicate JSON key", out["refresh_error"])
 
 
 # FU-3: bounded complete comment listings, using only synthetic API pages.

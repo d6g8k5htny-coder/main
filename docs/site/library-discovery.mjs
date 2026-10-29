@@ -16,7 +16,7 @@ export function excerptSourceHref(excerpt) {
   return url+(first===last?`#L${first}`:`#L${first}-L${last}`);
 }
 
-export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
+export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{},options={}) {
   if(!doc.getElementById('research-desk')||doc.getElementById('library-collection')||!Array.isArray(data?.equations))return null;
   const section=doc.getElementById('current-research'),input=section?.querySelector('.current-search');
   const search=input?.closest('details'),label=input?.closest('label');
@@ -59,9 +59,11 @@ export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
       const preview=make('pre',excerpt.text.length>280?excerpt.text.slice(0,280)+'…':excerpt.text);row.append(preview);
       const identity=make('details');identity.append(make('summary','Excerpt identity'));
       identity.append(make('p','Commit: '+excerpt.commit),make('p','Excerpt SHA-256: '+excerpt.sha256));row.append(identity);
+      options.decorateSource?.(row,excerpt);
       return row;
     });
     if(append)list.append(...rows);else list.replaceChildren(...rows);
+    options.onResults?.();
     renderedQuery=input.value;renderedCount=offset+found.equations.length;
     count.textContent=`${found.matches} matching excerpts of ${found.total} acquired excerpts · ${renderedCount} shown. ${found.matches?'':'No acquired excerpt matches this query.'}`;
     more.hidden=renderedCount>=found.matches;
