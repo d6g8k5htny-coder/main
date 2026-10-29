@@ -326,15 +326,26 @@ class Lexer:
         self.lines = text.split("\n")
         self.findings = []
         self.previous_code = None
+        self.brace_depth = 0
+        self.line_has_code = False
 
     def advance(self, end):
         for char in self.text[self.i:end]:
             self.byte_offset += len(char.encode("utf-8"))
             if char == "\n":
                 self.line, self.column = self.line + 1, 1
+                self.line_has_code = False
             else:
                 self.column += 1
         self.i = end
+
+    def mark_code(self, token):
+        self.previous_code = token
+        self.line_has_code = True
+        if token == "{":
+            self.brace_depth += 1
+        elif token == "}":
+            self.brace_depth = max(0, self.brace_depth - 1)
 
     def evidence(self, token):
         line = self.lines[self.line - 1].removesuffix("\r")
@@ -459,7 +470,8 @@ class Lexer:
             return None
         if self.previous_code == "+":
             return "+native"
-        if self.previous_code in ("{", ",", "with") and self.following_code_text(end) == ":=":
+        layout_field = self.brace_depth > 0 and not self.line_has_code
+        if (self.previous_code in ("{", ",", "with") or layout_field) and self.following_code_text(end) == ":=":
             return "native:="
         return None
 
@@ -475,13 +487,13 @@ class Lexer:
                 self.block_comment()
             elif char == '"':
                 self.string()
-                self.previous_code = "literal"
+                self.mark_code("literal")
             elif char == "r" and self.raw_string():
-                self.previous_code = "literal"
+                self.mark_code("literal")
                 continue
             elif char == "'":
                 self.character()
-                self.previous_code = "literal"
+                self.mark_code("literal")
             elif char == "«":
                 end = self.text.find("»", self.i + 1)
                 if end == -1:
@@ -489,7 +501,7 @@ class Lexer:
                 self.finding("QUOTED_IDENTIFIER", self.text[self.i:end + 1],
                              "Quoted identifier is preserved and requires separate name resolution.")
                 self.advance(end + 1)
-                self.previous_code = "quoted_identifier"
+                self.mark_code("quoted_identifier")
             elif identifier_start(char):
                 end = self.i + 1
                 while end < len(self.text) and identifier_rest(self.text[end]):
@@ -509,15 +521,15 @@ class Lexer:
                     self.finding("UNSUPPORTED_SYNTAX", token,
                                  "Unicode identifier syntax requires Lean parsing; token is preserved.")
                 self.advance(end)
-                self.previous_code = token
+                self.mark_code(token)
             elif char.isascii() and (char.isdigit() or char in "()[]{}.,:;=+-*/<>|&!%^~?@"):
                 self.advance(self.i + 1)
-                self.previous_code = char
+                self.mark_code(char)
             else:
                 self.finding("UNSUPPORTED_SYNTAX", char,
                              "Unknown, quotation, antiquotation or command syntax requires review.")
                 self.advance(self.i + 1)
-                self.previous_code = char
+                self.mark_code(char)
         return self.findings
 
 

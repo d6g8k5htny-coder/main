@@ -182,10 +182,30 @@ class SourceAuditTests(unittest.TestCase):
                 self.assertEqual((hits[0]["token"], hits[0]["code"]),
                                  ("native", "UNCERTIFIED_EXECUTION"))
 
+    def test_comma_free_native_record_fields_are_reviewed(self):
+        for source in (
+            "example : True := by\n  decide (config := {\n    kernel := false\n    native := true\n  })\n",
+            "example : True := by\n  decide (config := {\n    kernel := false -- field\n    /- nested /- note -/ -/ native /- value -/ := true\n  })\n",
+            "example : True := by\r\n  decide (config := {\r\n    kernel := false\r\n    native := true\r\n  })\r\n",
+            "example : True := by\n  decide (config := { {} with\n    kernel := false\n    native := true\n  })\n",
+        ):
+            with self.subTest(source=source):
+                report = self.audit_source(source)
+                self.assertEqual(report["aggregate_status"], "REVIEW_REQUIRED")
+                hits = [f for f in report["findings"] if f.get("review_form") == "native:="]
+                self.assertEqual(len(hits), 1, report)
+                self.assertEqual((hits[0]["token"], hits[0]["code"]),
+                                 ("native", "UNCERTIFIED_EXECUTION"))
+                offset = hits[0]["byte_offset"]
+                self.assertEqual(source.encode("utf-8")[offset:offset + hits[0]["byte_length"]], b"native")
+
     def test_native_identifiers_and_literal_data_are_not_compiler_options(self):
         source = ('def native := 1\ndef native_option := 2\ndef native! := 3\n'
                   'def value := Foo.native\n'
                   'def data := "+native {native := true}"\n'
+                  'def multiline := r#"{\n native := true\n}"#\n'
+                  'def\n  native := 4\n'
+                  '-- {\n/- { native := true } -/\n'
                   '-- +native {native := true}\n/- +native {native := true} -/\n')
         report = self.audit_source(source)
         self.assertEqual(report["errors"], [])

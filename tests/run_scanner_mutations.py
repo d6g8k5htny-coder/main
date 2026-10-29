@@ -85,6 +85,15 @@ def ignore_native_record_updates(tree):
                        if not isinstance(value, ast.Constant) or value.value != "with"]
 
 
+def ignore_native_record_layout(tree):
+    targets = [node for node in ast.walk(function(tree, "native_review_form"))
+               if isinstance(node, ast.Assign)
+               and any(isinstance(target, ast.Name) and target.id == "layout_field" for target in node.targets)]
+    if len(targets) != 1:
+        raise RuntimeError("Native record-layout mutation anchor is missing or ambiguous.")
+    targets[0].value = ast.Constant(False)
+
+
 def allow_double_slash_anchor(tree):
     targets = [node for node in ast.walk(function(tree, "absolute_input_path"))
                if isinstance(node, ast.If) and ast.unparse(node.test) == "path.anchor == '//'"]
@@ -393,6 +402,7 @@ def main(argv=None):
     for name, form in (("disable_plus_native_form", "+native"), ("disable_native_assignment_form", "native:=")):
         mutants.append((name, lambda tree, form=form: disable_native_form(tree, form)))
     mutants.extend([
+        ("ignore_native_record_layout", ignore_native_record_layout),
         ("ignore_native_record_updates", ignore_native_record_updates),
         ("allow_double_slash_anchor", allow_double_slash_anchor),
         ("invent_root_to_allow_output", invent_root_to_allow_output),

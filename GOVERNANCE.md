@@ -134,17 +134,20 @@ Review triggers include direct `sorryAx`, compiler-trust primitives
 `ofReduceBool`, `ofReduceNat`, `trustCompiler`, `skipKernelTC` and
 `addDeclWithoutChecking`, plus `+native` and record-field `native :=` forms,
 including record updates after `with`, across whitespace and comments.
+An assignment to `native` as the first code on a line inside lexical braces
+also requests review, covering comma-free record-field layout. This conservative
+trigger preserves literal/comment masking and does not claim to parse records.
 Compound-form evidence points to the actual
 `native` identifier bytes and records the matched `review_form`. Ordinary
 identifiers and literal data do not become compiler options by spelling alone.
 
-Verification: 42 scanner regression tests; tests/test_cbz_mutation_harness.py has 16
-real-process controls. tests/run_scanner_mutations.py applies 50 source mutants
-to the scanner. Its declared threshold is 50/50 killed with a passing unchanged
+Verification: 43 scanner regression tests; tests/test_cbz_mutation_harness.py has 16
+real-process controls. tests/run_scanner_mutations.py applies 51 source mutants
+to the scanner. Its declared threshold is 51/51 killed with a passing unchanged
 suite, valid CLI smoke, healthy JSON execution throughout the suite, full case
 count, assertion failures and no harness/test errors or skips. Input-dependent
 crashes, invalid JSON and timeouts are not successful rejection evidence even
-after a healthy benign smoke. Earlier 37/39, 39/39 and 47/47 cuts remain preserved.
+after a healthy benign smoke. Earlier 37/39, 39/39, 47/47 and 50/50 cuts remain preserved.
 The exploratory 49/50 repair cut is retained as unqualified evidence; its
 missing-artifact test error did not count as a kill. The strengthened assertions
 and final source seal are registered in cbz/evidence/source-instrument-selection.json.

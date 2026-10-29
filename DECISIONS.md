@@ -85,6 +85,28 @@ Append-only. Historical source outcomes remain in their original records.
   scanner tests `0facbe01b9e2c69928dce1973206bf4fbbd7b962cfbf8a7c2bed38999d1a2250`;
   mutation runner `8ac245bec4c5fafe4c54bbeb51e447783d871570153ac7d5b1e70280e7c8eab5`;
   harness tests `588190d7ec55d8d6dcd4e7d2bed290bd3d3593f133d1bcecbbc018d89dcfabe4`.
+- 2026-10-29 · Phase 2 · Layer B · Repair native review finding
+  PRRT_kwDOQpeC2s6xuZcD at reviewed head
+  67c58ce23b26f54814b1727a848e2ec090219a8f: comma-free newline-separated
+  record fields could hide `native := true` after `kernel := false` from the
+  bounded lexical trigger. The pinned fixture
+  `7559cc5c662a07cba512c688d568330589165d6675b2a7a1be5c57cf8fc0dfe7`
+  was accepted by actual Lean 4.34.1 and missed by the prior scanner; a separate
+  axiom probe observed its generated native-decide axiom. Conservatively review
+  native assignments as first code on a line inside lexical braces, preserving
+  comment/literal masks. Four CLI regression cases failed before the repair.
+  Now 59 methods pass normally and with optimization; the unchanged 43-method
+  baseline and all 51 mutants have healthy CLI execution, zero errors/skips,
+  and 51/51 genuine assertion kills. Preserve the prior 58-method/50-mutant
+  qualification and its raw receipt unchanged. This lexical repair supplies no
+  semantic or full G1 proof; G1 and CBZ-0 remain NOT_ESTABLISHED. Exact fixture,
+  runtime observations and qualification are in cbz/evidence/source-instrument-selection.json.
+  Frozen SHA-256 bindings: scanner
+  `827c5d582d889ec4b8c5d36ceb9d89de7d79cccfe0736d633ab9eb7b40db0e05`;
+  scanner tests `4f138b59b8d767e4d1e169b7031f1924f7b8e50ebb0353895c205f4aaf46c1c4`;
+  runner `7c06fd16fd9a34d9e37b6470971cb415d30a0624d69d531f6357507b83397033`.
+  Harness test bytes remain at
+  `588190d7ec55d8d6dcd4e7d2bed290bd3d3593f133d1bcecbbc018d89dcfabe4`.
 
 - 2026-10-29 · Phase 2 · Layer C · Compose the repaired source instrument on
   current Main c93cec70223281492709ff74ca84fed5dc6e40e8, preserving the
@@ -94,3 +116,5 @@ Append-only. Historical source outcomes remain in their original records.
   complete base-relative changed-path set match; fresh hosted checks bind
   the resulting head. Existing nine green checks at f9b800dc are historical
   and do not qualify the four subsequent repairs.
+
+- 2026-10-29 · Phase2 · LayerC · Resolve four original PR694 review threads only after fixes were published at67c58ce23b26f54814b1727a848e2ec090219a8f and58tests/50mutants observed. Missing-root JSON refusal, all-invocation CLI health, record-update native fields and alternate POSIX path anchors are repaired. Fifth comma-free layout finding is independently reproduced with actual Lean and fixed in this successor; previous run evidence stays historical. No review/protection bypass or person-directed comment.
