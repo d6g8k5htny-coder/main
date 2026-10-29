@@ -1,0 +1,15 @@
+{
+  "schema": "cbz.determinant-source-current-tree-observation.v1",
+  "observed_utc": "2026-10-29 21:51:49 UTC",
+  "historical_receipt": "cbz/evidence/kernel/determinant/receipt.json",
+  "historical_checked_commit": "74565f013575b7b05ecfc4034cd5d638ee355353",
+  "observed_math_main": "9f8dbb4d18b9f3ebd9ffac6b0caa42df9f343966",
+  "receipt_source_paths": 17,
+  "missing_or_different_git_blobs": 0,
+  "method": "Compared each source_sha256 key's Git blob at the checked-commit tree with the same path in observed current Math main; required blob type. Re-read Math main immediately before recording.",
+  "limitations": [
+    "This is an ad hoc source-tree identity observation, not a general verified auditor or a final gate.",
+    "It does not independently recompute the receipt's SHA-256 values, authenticate the historical execution, inspect compiled objects, rerun Lean or prove model hypotheses.",
+    "Other package paths or later candidate custody changes are not covered."
+  ]
+}
