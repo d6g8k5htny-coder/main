@@ -23,7 +23,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 
 ## What is closed and verified
 
-367 literal declaration records are CLOSED in their exact kernel-checked package contexts: main arithmetic31, Math core63, specification78, smooth-source116, C29713 and determinant66. [PROOF_INDEX.md](PROOF_INDEX.md) and its exact signature/source/axiom records preserve every binder and hypothesis. Main source is `c3377cc8c0fb35844dc7613976d6e746fdc05600`; Math core/additional source is `8151f592918a845bf19eb8eafaf8444540a32734`; determinant source is `74565f013575b7b05ecfc4034cd5d638ee355353`. Package and source path are part of identity: determinant reuses 13 names from the separate core. These counts are not independent discoveries. No broader Gaussian/Palm construction, coefficient/enclosure identification or parent theorem is closed by these records.
+The historical 367 literal declaration records are CLOSED in their exact kernel-checked package contexts (two later conditional pair-law declarations are separately indexed below): main arithmetic31, Math core63, specification78, smooth-source116, C29713 and determinant66. [PROOF_INDEX.md](PROOF_INDEX.md) and its exact signature/source/axiom records preserve every binder and hypothesis. Main source is `c3377cc8c0fb35844dc7613976d6e746fdc05600`; Math core/additional source is `8151f592918a845bf19eb8eafaf8444540a32734`; determinant source is `74565f013575b7b05ecfc4034cd5d638ee355353`. Package and source path are part of identity: determinant reuses 13 names from the separate core. These counts are not independent discoveries. No broader Gaussian/Palm construction, coefficient/enclosure identification or parent theorem is closed by these records.
 
 Actual additional empty-kernel replays covered specification901 owned/65,210 dependencies, smooth222/55,236, C297131/38,531 and determinant157/58,421. Per-theorem axiom/type reports and actual adverse controls passed. The replay helper and its generated Lean audit have self-tests and source mutations. See the exact commands in [additional reproduction](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md) and [determinant reproduction](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md). Defining any of the remaining specification Props does not assert it is universally true. Model satisfiability/premise discharge is not inferred.
 
@@ -132,9 +132,9 @@ The two Lean-dependent methods skipped by broad unittest discovery were separate
 
 The five restricted-container methods skipped by broad discovery were separately observed passing in both modes in the composed architecture job. A later diagnostic downloaded the original artifact, verified its ZIP SHA-256, and printed each of the ten passing test lines. The original broad run still has 25 skips per mode; no full G5 pass follows. [Evidence](cbz/evidence/main-regression-skip-observation/sandbox-controls.json), [observer workflow](cbz/evidence/main-regression-skip-observation/sandbox-observer-workflow.yml.txt).
 
-### Pending conditional pair-law countermodel
+### Kernel-verified conditional pair-law countermodel
 
-A candidate Lean proof on [Math branch `cbz/lifetime-pair-law-countermodel-20261029`](https://github.com/d6g8k5htny-coder/Math-/tree/cbz/lifetime-pair-law-countermodel-20261029), initial head `5a470bfd739aba22e32b91587d5dfc031a7de3fc`, tests the existing interface with constant probability one. Its proposed result is conditional on supplied field, elder-interface and frame objects; it would not identify that artificial law with the geometric elder event or establish existence of those objects. Hosted run [40957238766](https://github.com/d6g8k5htny-coder/Math-/actions/runs/40957238766) is queued. The candidate is not CLOSED, kernel-verified, or included in the 367 declaration records.
+At Math branch commit `5a470bfd739aba22e32b91587d5dfc031a7de3fc`, hosted [run 40957238766](https://github.com/d6g8k5htny-coder/Math-/actions/runs/40957238766) built the pinned specification, compiled the constant-one proof and passed `leanchecker`. Both declared theorems report only `propext`, `Classical.choice` and `Quot.sound`. They retain supplied field, elder-interface and frame hypotheses; they do not identify the artificial law with the geometric event or construct an elder interface. The two [separately indexed CLOSED declarations](cbz/evidence/lifetime-countermodel/observation.json) are additional to the historical 367 records and are not yet merged to Math main. The artifact ZIP has not independently been downloaded.
 
 ### Main evidence delivery integration
 
@@ -148,7 +148,7 @@ The candidate incorporates [main #702](https://github.com/d6g8k5htny-coder/main/
 
 Five lifetime-related quarantine rows previously said their abstract predicates hold for every interface inhabitant. That was an incorrect universal assertion: these are predicates on supplied objects, and the source itself warns that the pair-law interface permits counterexamples. The original full wording is retained in the catalog alongside the corrected boundary. A separately recorded Gaussian-field constructor is not an elder/pair-law binding. [Correction evidence](cbz/quarantine/lifetime-predicate-wording-correction.json). No parent theorem is promoted.
 
-A source-level [conditional constant-law countermodel](cbz/quarantine/lifetime-pair-law-countermodel.md) explains why the abstract pair-law interface does not imply the planar lower rate even when its upper predicate holds. The field, elder interface and frame remain supplied hypotheses; the manuscript is not a kernel receipt and Q-1048 remains quarantined.
+The [conditional constant-law countermodel](cbz/quarantine/lifetime-pair-law-countermodel.md) now has the separate kernel evidence above; its field, elder interface and frame remain supplied hypotheses, and Q-1048 remains quarantined.
 
 ### Archived axis-envelope precision observation
 

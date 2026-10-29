@@ -1,7 +1,8 @@
 # Conditional countermodels to universal pair-law conclusions
 
-This is a source-level mathematical argument, not yet a kernel-verified
-declaration. It concerns the precise abstract definitions in
+The constant-zero argument below is source-level and has not been kernel-verified.
+The two constant-one declarations were compiled and kernel-rechecked at the
+recorded branch cut; they retain the supplied-interface hypotheses. It concerns the precise abstract definitions in
 [`Specifications/Lifetime.lean`](https://github.com/d6g8k5htny-coder/Math-/blob/8151f592918a845bf19eb8eafaf8444540a32734/specifications/lean_statements_20261010/Specifications/Lifetime.lean)
 (Git blob `f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a`), especially
 `PairLawInterface`, `ParentUniformSelectionA` and
@@ -60,8 +61,10 @@ has been made. Nor does it establish an unconditional inhabitant of the
 elder interface. The intended mathematical bridge remains quarantined as
 Q-1048; Q-1011 and Q-1045 retain the related upper-interface boundaries.
 
-A separate Lean candidate at Math branch
-`cbz/lifetime-pair-law-countermodel-20261029` initial commit
-`5a470bfd739aba22e32b91587d5dfc031a7de3fc` attempts to formalize the
-same conditional result. Its hosted run `40957238766` was queued at
-this record's creation; no build, axiom audit or kernel recheck is asserted.
+The separate Lean source at Math branch commit
+`5a470bfd739aba22e32b91587d5dfc031a7de3fc` formalizes the constant-one
+result. Hosted run `40957238766` built the specification and source, printed
+only the three approved axioms for each theorem, and ran `leanchecker`
+successfully. [Source-bound observation](../evidence/lifetime-countermodel/observation.json).
+The artifact ZIP has not independently been downloaded; the source has not yet
+been merged to current Math main.

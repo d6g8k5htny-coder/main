@@ -1,6 +1,6 @@
 # Literal proof and quarantine index
 
-**367 literal formal declaration records are CLOSED in their exact package contexts.** This is not CBZ-0. No parent model, prose argument, source alignment or premise discharge is promoted. A theorem keeps every binder/hypothesis in its elaborated type; defining a Prop does not assert its universal truth. Satisfiability of unconstructed model premises remains outside these literal records.
+**369 literal formal declaration records are CLOSED at their exact source/package cuts: 367 historical records and two separately indexed conditional pair-law results.** This is not CBZ-0. No parent model, prose argument, source alignment or premise discharge is promoted. A theorem keeps every binder/hypothesis in its elaborated type; defining a Prop does not assert its universal truth. Satisfiability of unconstructed model premises remains outside these literal records.
 
 [All literal records and source/axiom/evidence bindings](cbz/evidence/kernel/all-closed-declarations.json). The central records for the 63 Math core and 31 main arithmetic declarations link their source and pretty-printed type logs rather than embedding full signatures or source headers. Of the other 273 embedded printed signatures, 45 visibly contain the abbreviation `⋯`; a printed signature is not necessarily an unabridged expression. Consult the pinned source for the literal statement. Core Math63 and main31 retain their original records and fresh execution evidence. Additional families are specification78, source-smooth116, C29713 and determinant66. The determinant packet reuses 13 names from the separate formal core: source cut, package and path are part of identity. These counts are declaration records, not independent discoveries.
 
@@ -722,7 +722,7 @@ These five historical source/model interfaces are quarantined at their stated sc
 
 ### Q-1048: conditional interface countermodel
 
-[Source-level argument](cbz/quarantine/lifetime-pair-law-countermodel.md): for any supplied positive-L field, elder interface and frame, the allowed constant-one pair law satisfies the original upper predicate and violates the positive E4 lower rate. This is not a kernel-verified declaration or an intended-model counterexample; Q-1048 remains QUARANTINED and existence of the supplied elder interface is not established here.
+[Argument and kernel evidence](cbz/quarantine/lifetime-pair-law-countermodel.md): for any supplied positive-L field, elder interface and frame, the allowed constant-one pair law satisfies the original upper predicate and violates the positive E4 lower rate. The two exact conditional declarations below passed Lean and leanchecker at their recorded branch source. This is not an intended-model counterexample; Q-1048 remains QUARANTINED and existence of the supplied elder interface is not established here.
 
 ### Numerical evidence awaiting full packet recovery
 
@@ -731,3 +731,12 @@ The historical axis-envelope point certificate has a [source-bound precision lim
 ### Q-1045: conditional upper-interface countermodel
 
 [Source-level argument](cbz/quarantine/lifetime-pair-law-countermodel.md): the constant-zero pair law satisfies the interface probability bounds but violates the original uniform upper predicate for any supplied positive-L field, elder interface and frame. The argument is not a kernel receipt or a counterexample to the intended geometric law; Q-1045 remains QUARANTINED.
+
+### Additional exact conditional pair-law declarations
+
+These two declarations are kernel-verified at the linked Math branch commit and remain outside the historical 367-record JSON and its source-classification mapping. The supplied field, elder interface and frame are not constructed by this proof; the intended source-model application remains quarantined. [Exact source and run evidence](cbz/evidence/lifetime-countermodel/observation.json).
+
+| ID | Statement | Status | Source | Evidence |
+|---|---|---|---|---|
+| K-PAIR-001 | Constant-one pair-law satisfies the literal upper predicate, including all its original antecedents. | CLOSED | [source](https://github.com/d6g8k5htny-coder/Math-/blob/5a470bfd739aba22e32b91587d5dfc031a7de3fc/specifications/lean_statements_20261010/CounterexampleE4.lean#L19) | [hosted build, axiom report and leanchecker](cbz/evidence/lifetime-countermodel/observation.json) |
+| K-PAIR-002 | For supplied interfaces, positive L and a frame, the same law violates the literal two-sided E4 predicate on [0,0] and [1,1]. | CLOSED | [source](https://github.com/d6g8k5htny-coder/Math-/blob/5a470bfd739aba22e32b91587d5dfc031a7de3fc/specifications/lean_statements_20261010/CounterexampleE4.lean#L27) | [hosted build, axiom report and leanchecker](cbz/evidence/lifetime-countermodel/observation.json) |

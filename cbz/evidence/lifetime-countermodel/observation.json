@@ -1,0 +1,83 @@
+{
+  "schema": "cbz.lifetime-countermodel.kernel-observation.v1",
+  "observed_utc": "2026-10-29 21:47:25 UTC",
+  "source_commit": "5a470bfd739aba22e32b91587d5dfc031a7de3fc",
+  "repository": "Math-",
+  "source_git_blob": "3b7712e41e8a6b0569c31c549a83857d9fe2ada6",
+  "source_sha256": "812ba30d02f16a69abdcb8b23d28fa4a8fe68e3a016911d7f08e98ebe04cdfc7",
+  "source_copy": "cbz/evidence/lifetime-countermodel/CounterexampleE4.lean.txt",
+  "imported_lifetime_git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+  "lean_version": "4.34.1 release 5045d0056413266e57c625dcd7c365b10e377c52",
+  "mathlib_revision": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+  "run": 40957238766,
+  "job": 123740377857,
+  "job_conclusion": "success",
+  "commands": [
+    "lake build Specifications.Lifetime",
+    "lake env lean -o .lake/build/lib/lean/CounterexampleE4.olean CounterexampleE4.lean",
+    "lake env leanchecker CounterexampleE4"
+  ],
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "axiom_log_lines": [
+    "2026-10-29T21:44:54.7672659Z ✔ [8924/8924] Built Specifications.Lifetime (5.5s)",
+    "2026-10-29T21:44:59.6592963Z 'CBZ.LifetimePairLawCountermodel.oneLaw_upper' depends on axioms: [propext, Classical.choice, Quot.sound]",
+    "2026-10-29T21:44:59.6593868Z 'CBZ.LifetimePairLawCountermodel.oneLaw_refutes_twoSided' depends on axioms: [propext, Classical.choice, Quot.sound]",
+    "2026-10-29T21:45:08.5804005Z 812ba30d02f16a69abdcb8b23d28fa4a8fe68e3a016911d7f08e98ebe04cdfc7  CounterexampleE4.lean",
+    "2026-10-29T21:45:08.5804677Z e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  /home/runner/work/_temp/cbz-countermodel-kernel.log",
+    "2026-10-29T21:45:08.5805337Z 17e51f6039a6dd272c7a9b74320a8b999c1275f415726183eec62d22c79096ae  /home/runner/work/_temp/cbz-countermodel-lean.log"
+  ],
+  "lean_log_sha256": "17e51f6039a6dd272c7a9b74320a8b999c1275f415726183eec62d22c79096ae",
+  "kernel_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "artifact_id": 12936365078,
+  "artifact_zip_sha256": "d2cebfee006c1fdb924c49dec0d9a80c745579335953b989a3225eae5b9a166d",
+  "declarations": [
+    {
+      "id": "K-PAIR-001",
+      "declaration": "CBZ.LifetimePairLawCountermodel.oneLaw_upper",
+      "status": "CLOSED",
+      "line": 19,
+      "statement": "For supplied field and elder interfaces, the constant-one pair-law satisfies the literal ParentUniformSelectionA predicate for every supplied pair of windows.",
+      "vacuity_boundary": "The predicate has explicit dimension, positive-L and valid-window antecedents; invalid inputs make that implication vacuous. No inhabitance of the supplied elder interface or intended geometric probability is established.",
+      "repository": "Math-",
+      "source_commit": "5a470bfd739aba22e32b91587d5dfc031a7de3fc",
+      "path": "specifications/lean_statements_20261010/CounterexampleE4.lean",
+      "source_git_blob": "3b7712e41e8a6b0569c31c549a83857d9fe2ada6",
+      "source_sha256": "812ba30d02f16a69abdcb8b23d28fa4a8fe68e3a016911d7f08e98ebe04cdfc7",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "evidence": "cbz/evidence/lifetime-countermodel/observation.json"
+    },
+    {
+      "id": "K-PAIR-002",
+      "declaration": "CBZ.LifetimePairLawCountermodel.oneLaw_refutes_twoSided",
+      "status": "CLOSED",
+      "line": 27,
+      "statement": "For supplied field and elder interfaces, positive L and an orthonormal frame, the constant-one pair-law fails the literal PlanarTwoSidedRateE4 predicate on the singleton windows [0,0] and [1,1].",
+      "vacuity_boundary": "G, I, positive L and R remain explicit hypotheses; existence of a suitable elder-interface inhabitant is not established. The artificial law is not identified with the intended geometric event.",
+      "repository": "Math-",
+      "source_commit": "5a470bfd739aba22e32b91587d5dfc031a7de3fc",
+      "path": "specifications/lean_statements_20261010/CounterexampleE4.lean",
+      "source_git_blob": "3b7712e41e8a6b0569c31c549a83857d9fe2ada6",
+      "source_sha256": "812ba30d02f16a69abdcb8b23d28fa4a8fe68e3a016911d7f08e98ebe04cdfc7",
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "evidence": "cbz/evidence/lifetime-countermodel/observation.json"
+    }
+  ],
+  "limitations": [
+    "GitHub native job log and artifact metadata were observed; the ZIP has not independently been downloaded or its member hashes checked.",
+    "The result is tied to the exact source branch and its Lean/Mathlib package. It has not been rerun on or merged into the current Math main.",
+    "No witness for the elder interface or identification of the artificial law with the intended geometric probability is established.",
+    "This is a scoped build, checker and two-declaration axiom observation, not a federation-wide G2, G3, G4 or CBZ-0 pass."
+  ]
+}

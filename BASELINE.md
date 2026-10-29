@@ -1,6 +1,6 @@
 # Baseline snapshot record
 
-**Partial Baseline checkpoint; not CBZ-0, not a terminal halt.** Original component observation cut 2026-10-29 18:42 UTC; catalog reconciled later on 2026-10-29; final gates not qualified together. STATUS.md records component outcomes. The declaration index contains367 context-bound literal records and307 adopted source-bound quarantine records (including 102 legacy application records and five external interfaces that may overlap); further numerical-package mapping is not yet complete.
+**Partial Baseline checkpoint; not CBZ-0, not a terminal halt.** Original component observation cut 2026-10-29 18:42 UTC; catalog reconciled later on 2026-10-29; final gates not qualified together. STATUS.md records component outcomes. The declaration index contains367 historical context-bound literal records, two later conditional pair-law declarations verified at their separate branch cut, and307 adopted source-bound quarantine records (including 102 legacy application records and five external interfaces that may overlap); further numerical-package mapping is not yet complete.
 
 Pre-operation `pre-cbz-discovery-1` tags published in main,Math-,governance-,query-,meta-framework. Full-history recovery bundles were verified locally at an earlier observation cut under `/workspace/cbz/backups/`; the execution environment is now unavailable, so their present accessibility has not been rechecked:
 
