@@ -1,0 +1,51 @@
+name: CBZ historical pytest-dependent controls
+on:
+  push:
+    branches: ["cbz/main-pytest-controls-20261029"]
+permissions:
+  contents: read
+jobs:
+  pytest-controls:
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Install and record optional pytest dependency
+        run: |
+          set -euo pipefail
+          python3 -m pip install 'pytest==8.3.5'
+          python3 -m pip freeze
+          git rev-parse HEAD
+      - name: Run the ten retained skipped controls
+        shell: bash
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          export ASI_BYTECODE_EVIDENCE_DIR="$RUNNER_TEMP/pytest-control-$MODE"
+          args=(-B)
+          if [ "$MODE" = optimized ]; then args+=(-O); fi
+          python3 "${args[@]}" -m unittest discover -s tests -p 'test_pytest_bytecode_policy.py' -v 2>&1 | tee "$RUNNER_TEMP/pytest-control-$MODE.log"
+          sha256sum "$RUNNER_TEMP/pytest-control-$MODE.log"
+          grep -Fx 'Ran 10 tests' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null && exit 1 || true
+          grep -E '^Ran 10 tests in ' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null
+          grep -Fx 'OK' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null
+          if grep -E ' \.\.\. skipped ' "$RUNNER_TEMP/pytest-control-$MODE.log"; then exit 1; fi
+      - name: Preserve test and child evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-pytest-controls-${{ matrix.mode }}
+          path: |
+            ${{ runner.temp }}/pytest-control-${{ matrix.mode }}.log
+            ${{ runner.temp }}/pytest-control-${{ matrix.mode }}/
+          if-no-files-found: error
