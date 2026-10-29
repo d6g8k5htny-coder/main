@@ -20,7 +20,7 @@ for mode in ([],["-O"]):
     base=[sys.executable,"-B","-S",*mode]
     normal=subprocess.run(base+[str(root/"test_regenerate.py"),"-v"],capture_output=True,text=True)
     if (normal.returncode != 0 or
-        re.search(r"^Ran 11 tests in ", normal.stderr, re.M) is None or
+        re.search(r"^Ran 14 tests in ", normal.stderr, re.M) is None or
         re.search(r"^OK$", normal.stderr, re.M) is None):
         raise SystemExit("baseline failed: "+normal.stdout+normal.stderr)
     for name,old,new,method in cases:

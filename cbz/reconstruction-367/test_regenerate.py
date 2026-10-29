@@ -60,6 +60,19 @@ class FamilyValidation(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"literal axiom mismatch"):
             self.validate()
 
+class LiteralIndexBinding(unittest.TestCase):
+    def setUp(self):
+        self.row={"repository":"Math-","source_commit":"a"*40,"path":"Proof.lean","source_sha256":"b"*64}
+        self.source={"repository":"Math-","commit":"a"*40,"path":"Proof.lean","sha256":"b"*64,"git_object":"c"*40}
+    def test_original_literal_schema_without_git_object(self):
+        self.assertTrue(subject.matches_literal(self.source,self.row))
+    def test_declared_git_object_must_match(self):
+        self.row["git_object"]="d"*40
+        self.assertFalse(subject.matches_literal(self.source,self.row))
+    def test_literal_path_drift_refused(self):
+        self.row["path"]="Other.lean"
+        self.assertFalse(subject.matches_literal(self.source,self.row))
+
 class GitBinding(unittest.TestCase):
     def setUp(self):
         self.temporary=tempfile.TemporaryDirectory()

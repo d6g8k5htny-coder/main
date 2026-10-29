@@ -81,6 +81,13 @@ def validate_family(entries, manifest, receipt, count, commit):
                set(axioms) <= APPROVED and row["axioms"] == axioms,
                "literal axiom mismatch: " + row["id"])
 
+def matches_literal(source, row):
+    return (source["repository"] == row["repository"] and
+            source["commit"] == row["source_commit"] and
+            source["path"] == row["path"] and
+            source["sha256"] == row["source_sha256"] and
+            ("git_object" not in row or source["git_object"] == row["git_object"]))
+
 def build(root):
     main, math = root / "main", root / "Math-"
     demand(git(main, "rev-parse", "HEAD").decode().strip() == MAIN, "wrong main source")
@@ -95,9 +102,7 @@ def build(root):
         demand(entry["status"]=="CLOSED" and entry["kernel_evidence"]["targets"]==[row["declaration"]],
                "original literal target mismatch")
         source=entry["source_bindings"]
-        demand(len(source)==1 and source[0]["repository"]==row["repository"] and
-               source[0]["commit"]==row["source_commit"] and source[0]["path"]==row["path"] and
-               source[0]["sha256"]==row["source_sha256"] and source[0]["git_object"]==row["git_object"],
+        demand(len(source)==1 and matches_literal(source[0],row),
                "original literal source mismatch")
         if entry["id"].startswith("K-MAIN-"):
             entry["kernel_evidence"]["manifest"]["scope"]="historical"
@@ -136,9 +141,7 @@ def build(root):
         row=expected[entry["id"]]
         source=entry["source_bindings"][0]
         demand(entry["kernel_evidence"]["targets"]==[row["declaration"]] and
-               source["repository"]==row["repository"] and source["commit"]==row["source_commit"] and
-               source["path"]==row["path"] and source["git_object"]==row["git_object"] and
-               source["sha256"]==row["source_sha256"], "combined literal binding mismatch: "+row["id"])
+               matches_literal(source,row), "combined literal binding mismatch: "+row["id"])
     return {"obligations":result}
 
 def main():
