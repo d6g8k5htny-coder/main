@@ -719,3 +719,7 @@ These five historical source/model interfaces are quarantined at their stated sc
 | Q-10105 | Legacy V20 external interface EXT-KR-AAL: Exact external marked Kac–Rice applicability | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10105) |
 | Q-10106 | Legacy V20 external interface EXT-KR-OFFDIAG: Off-diagonal exhaustion and integrable majorant | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10106) |
 | Q-10107 | Legacy V20 external interface EXT-MORSE-ELDER: Morse genericity and elder-mark measurability | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10107) |
+
+### Q-1048: conditional interface countermodel
+
+[Source-level argument](cbz/quarantine/lifetime-pair-law-countermodel.md): for any supplied positive-L field, elder interface and frame, the allowed constant-one pair law satisfies the original upper predicate and violates the positive E4 lower rate. This is not a kernel-verified declaration or an intended-model counterexample; Q-1048 remains QUARANTINED and existence of the supplied elder interface is not established here.

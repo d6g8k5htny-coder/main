@@ -147,3 +147,5 @@ The candidate incorporates [main #702](https://github.com/d6g8k5htny-coder/main/
 ### Correction to lifetime-interface boundary wording
 
 Five lifetime-related quarantine rows previously said their abstract predicates hold for every interface inhabitant. That was an incorrect universal assertion: these are predicates on supplied objects, and the source itself warns that the pair-law interface permits counterexamples. The original full wording is retained in the catalog alongside the corrected boundary. A separately recorded Gaussian-field constructor is not an elder/pair-law binding. [Correction evidence](cbz/quarantine/lifetime-predicate-wording-correction.json). No parent theorem is promoted.
+
+A source-level [conditional constant-law countermodel](cbz/quarantine/lifetime-pair-law-countermodel.md) explains why the abstract pair-law interface does not imply the planar lower rate even when its upper predicate holds. The field, elder interface and frame remain supplied hypotheses; the manuscript is not a kernel receipt and Q-1048 remains quarantined.
