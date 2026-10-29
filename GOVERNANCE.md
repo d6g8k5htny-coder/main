@@ -107,3 +107,51 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+
+## Registered source inventory instrument
+
+
+### cbz_source_audit
+
+Path: tools/cbz_source_audit.py. Purpose: reconcile a hash-pinned local .lean
+inventory and flag bounded lexical hazards without silently dropping sources.
+It is an inventory/review tool, not a full Layer A certifier. Every report
+leaves G1 and CBZ-0 NOT_ESTABLISHED.
+
+Run: python -B -S tools/cbz_source_audit.py --manifest cbz-source-manifest.json
+
+Manifest paths and SHA-256 values pin every Lean source in the selected local
+root. Symlinks, unreadable/missing files, malformed UTF-8, unlisted Lean sources,
+hash mismatches and resource-limit failures are explicit refusals. Nested Lean
+comments and literal strings are masked; unsupported syntax is reviewed.
+Optional output creates a new regular file outside the audited root and
+refuses overwriting earlier evidence or inputs.
+
+Verification: 36 real-CLI tests; tests/test_cbz_mutation_harness.py has 14
+real-process controls. tests/run_scanner_mutations.py applies 39 source mutants
+to the scanner. Its declared threshold is 39/39 killed with a passing unchanged
+suite, valid CLI smoke, full case count, assertion failures and no harness/test
+errors or skips. Startup crashes and invalid JSON are not successful rejection
+evidence. The original 37/39 cut remains historical evidence; the final local
+cut reached 39/39 after fixing uncovered tests and output/resource defects.
+
+Limits: no grammar/elaboration/kernel proof, complete dependency audit,
+semantic bound/nonvacuity proof, historical deletion comparison, concurrent
+snapshot atomicity or status-truth certification. These require their actual
+independent evidence. A clear lexical scan cannot make G1 green.
+
+### formal_gate_check
+
+Existing tool: tools/formal_gate_check.py.
+Source-only mode checks the SIDE24 arithmetic manifest and exact source bytes.
+With --run-lean it requires pinned Lean, fresh build, leanchecker, target axiom
+audit and actual negative controls. Its scope is the registered 31 arithmetic
+targets, not an analytic coefficient theorem or all federation mathematics.
+
+## Ownership and maintenance
+
+Tools are standard-library Python except documented Lean execution.
+Maintenance is self-contained; any subsequent edit repeats the relevant
+tests and updates this registry. No future reserved reviewer, human approval
+queue or background monitor is installed here.

@@ -1,3 +1,56 @@
+# CBZ execution state — 29 October 2026
+
+Universal Law is consolidating its research federation under the owner's
+Crystalline Baseline Protocol. CBZ-0 is NOT ESTABLISHED; discovery and closure
+are active. No final G0-G11 same-run pass or new theorem closure is claimed.
+
+Current implementation: [INVENTORY.md](INVENTORY.md).
+[Governance](GOVERNANCE.md), [tools](TOOLING.md) and the append-only
+[decision ledger](DECISIONS.md) govern consolidation. Conflicting legacy
+approval, freeze and review-family routing rules are superseded.
+
+## What is closed and what is quarantined
+
+The source-inventory instrument has 50 passing regression methods and a 39/39
+scanner mutation cut; that is G0 instrument evidence only. Its reports always
+leave G1 and CBZ-0 NOT_ESTABLISHED. The Main formal inventory has 31 arithmetic
+targets; use actual pinned kernel receipts for their execution scope, never
+the historical ACCEPT rows below as a CBZ closure certificate.
+The federation proof/quarantine index is not yet complete. The Math binary64
+coefficient packet has active A3-quarantine implementation work; no finished
+remote quarantine is inferred from this progress note.
+
+## How to verify
+
+From the repository root with Python 3.11 or newer:
+
+    python -B -S -m unittest discover -s tests -p 'test_cbz_*.py' -v
+    python -B -S tests/run_scanner_mutations.py --evidence-dir /tmp/NEW-CBZ-CUT
+    python -B -S tools/cbz_source_audit.py --manifest cbz-source-manifest.json
+    python -B -S tools/formal_gate_check.py
+    python -B -S tools/formal_gate_check.py --run-lean
+    python -B -S -m unittest discover -s tests -p 'test_*.py' -v
+
+The scanner returns 1(review) or 2(not established/refused); it never returns a
+full Layer A PASS. --run-lean needs exact Lean 4.34.1 and performs real builds,
+leanchecker, axioms and controls. The baseline full Python run completed 1541
+methods with 36 environment skips, not a 100 percent executed final matrix.
+Cross-repo consistency, complete branch/PR disposition, status reconciliation
+and cold-start G9 remain unfinished; these commands do not establish them.
+
+## Invariants
+
+No placeholders, unverified axioms, floating-point bound certificates,
+weakened bounds/tests, hidden vacuity, false status or unsound auditors.
+Preserve exact source, counterexamples and quarantine boundaries. Record only
+observed results. Source links, reviews and plots are not kernel closure.
+
+## Historical status snapshot — not CBZ closure
+
+The following original snapshot is retained as historical source evidence.
+Its ACCEPT/AMEND vocabulary records prior scoped review; it is not a current
+CBZ CLOSED/QUARANTINED index and grants no new kernel or baseline status.
+
 # Scientific status snapshot
 
 **Snapshot date:** 2026-09-29  
