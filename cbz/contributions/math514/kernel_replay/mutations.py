@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -13,14 +14,71 @@ import tempfile
 ROOT = Path(__file__).resolve().parent
 
 
-def classify(value, code):
-    if (code not in (0, 1) or not value.get('tests_run') or value.get('errors')
-            or value.get('skipped') or value.get('expected_failures')
-            or value.get('unexpected_successes')):
+def classify(value, code, expected_selection=None, expected_ids=None):
+    """Grade only trusted runner receipts; legacy/log-only summaries fail closed.
+
+    This validates accounting, not an adversarial author's fabricated JSON. The
+    receipt must come from the runner subprocess whose source is custody-bound.
+    """
+    if (not isinstance(value, dict) or type(code) is not int or code not in (0, 1)
+            or value.get('receipt_schema') != 'cbz-unittest-lifecycle-v1'
+            or type(value.get('successful')) is not bool):
         return 'ERROR'
-    if code == 1 and value.get('assertion_failures', 0) > 0 and not value.get('successful'):
+    counts = ('tests_run', 'assertion_failures', 'errors', 'skipped',
+              'expected_failures', 'unexpected_successes', 'lifecycle_failures', 'subtests')
+    if any(type(value.get(key)) is not int or value[key] < 0 for key in counts):
+        return 'ERROR'
+    if any(value[key] for key in ('errors', 'skipped', 'expected_failures',
+                                  'unexpected_successes', 'lifecycle_failures')):
+        return 'ERROR'
+    if value.get('invalid_population') != []:
+        return 'ERROR'
+    selection = value.get('selection')
+    if (not isinstance(selection, list) or not selection
+            or any(not isinstance(item, str) or not item for item in selection)
+            or expected_selection is not None and selection != expected_selection):
+        return 'ERROR'
+    keys = ('selected_ids', 'started_ids', 'finished_ids', 'body_entered_ids',
+            'body_finished_ids', 'body_assertion_ids')
+    for key in keys:
+        ids = value.get(key)
+        if (not isinstance(ids, list) or any(not isinstance(item, str) or not re.fullmatch(r'(?:[A-Za-z_]\w*\.){2,}[A-Za-z_]\w*', item)
+                                                   or item.startswith('unittest.loader.') for item in ids)
+                or key != 'body_assertion_ids' and len(ids) != len(set(ids))):
+            return 'ERROR'
+    selected = value['selected_ids']
+    if (expected_ids is not None and selected != expected_ids
+            or any(not any(selector == 'discover:test_*.py' or identity == selector
+                           or identity.startswith(selector + '.') for selector in selection)
+                   for identity in selected)):
+        return 'ERROR'
+    if (not selected or value['tests_run'] != len(selected)
+            or any(value[key] != selected for key in keys[1:5])
+            or any(item not in selected for item in value['body_assertion_ids'])
+            or value['assertion_failures'] != len(value['body_assertion_ids'])):
+        return 'ERROR'
+    events = value.get('subtest_events')
+    assertions = value.get('assertion_events')
+    if not isinstance(events, list) or not isinstance(assertions, list) or value['subtests'] != len(events):
+        return 'ERROR'
+    for event in events:
+        if (not isinstance(event, dict) or set(event) != {'parent_id', 'phase', 'outcome'}
+                or event['parent_id'] not in selected or event['phase'] != 'body'
+                or event['outcome'] not in ('success', 'assertion')):
+            return 'ERROR'
+    for event in assertions:
+        if (not isinstance(event, dict) or set(event) != {'parent_id', 'origin'}
+                or event['parent_id'] not in selected or event['origin'] not in ('body', 'subtest')):
+            return 'ERROR'
+    direct = [event['parent_id'] for event in assertions if event['origin'] == 'body']
+    if (len(set(direct)) != len(direct)
+            or value['body_assertion_ids'] != [event['parent_id'] for event in assertions]
+            or [event['parent_id'] for event in assertions if event['origin'] == 'subtest'] !=
+               [event['parent_id'] for event in events if event['outcome'] == 'assertion']):
+        return 'ERROR'
+    if code == 1 and value['assertion_failures'] > 0 and value['successful'] is False:
         return 'KILLED'
-    if code == 0 and value.get('successful') and value.get('assertion_failures') == 0:
+    if code == 0 and value['successful'] is True and value['assertion_failures'] == 0:
         return 'SURVIVED'
     return 'ERROR'
 
@@ -136,7 +194,18 @@ def run_mutations(output, only=None, group='all'):
     evidence = ROOT / ('evidence/mutations' if group == 'all' else 'evidence/resource-mutations')
     evidence.mkdir(parents=True, exist_ok=True)
     results = []
+    populations = {}
     for name, filename, old, new, test in plan:
+        if test not in populations:
+            population_path = evidence / ('population-' + str(len(populations)) + '.json')
+            listed = subprocess.run([sys.executable, '-B', '-S', str(ROOT / 'run_tests.py'),
+                                     '--output', str(population_path), '--test', test, '--list'],
+                                    capture_output=True, text=True, timeout=15)
+            population = json.loads(population_path.read_text()) if population_path.exists() else {}
+            if (listed.returncode != 0 or population.get('invalid_population') != []
+                    or not population.get('selected_ids') or population.get('selection') != [test]):
+                raise ValueError('cannot bind unchanged selected test population: ' + test)
+            populations[test] = population['selected_ids']
         with tempfile.TemporaryDirectory(dir=ROOT / 'evidence', prefix='mutant-') as d:
             work = Path(d) / 'kernel_replay'
             shutil.copytree(ROOT, work, ignore=shutil.ignore_patterns('evidence', '__pycache__', '*.pyc'))
@@ -153,7 +222,8 @@ def run_mutations(output, only=None, group='all'):
                 p = subprocess.run(command, capture_output=True, text=True, timeout=90)
                 value = json.loads(result_path.read_text()) if result_path.exists() else {}
                 record = {'name': name, 'file': filename, 'test': test,
-                          'outcome': classify(value, p.returncode), 'returncode': p.returncode,
+                          'outcome': classify(value, p.returncode, [test], populations[test]), 'returncode': p.returncode,
+                          'expected_selected_ids': populations[test],
                           'original_sha256': digest(original.encode()),
                           'mutated_sha256': digest(changed.encode()), 'tests': value,
                           'stdout': p.stdout, 'stderr': p.stderr}
