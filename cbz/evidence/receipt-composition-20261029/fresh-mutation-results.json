@@ -1,0 +1,112 @@
+[
+  {
+    "name": "normal-baseline",
+    "command": [
+      "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-k",
+      "receipt_attempt",
+      "-v"
+    ],
+    "exit": 0,
+    "reason_bound_valid": true,
+    "log_sha256": "ae0331ae230c3d3239c52e08f17faf7f6096608ec30a78279daf3330b324544b",
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 3 tests in 0.002s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "name": "normal-mutant",
+    "command": [
+      "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-k",
+      "receipt_attempt",
+      "-v"
+    ],
+    "exit": 1,
+    "reason_bound_valid": true,
+    "log_sha256": "4bda93bbd484795686e3cdf88bdc1a2d0dfecad2001336d958e3f9fd23be7032",
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 3 tests in 0.004s",
+      "",
+      "FAILED (failures=11)"
+    ]
+  },
+  {
+    "name": "optimized-baseline",
+    "command": [
+      "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-S",
+      "-O",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-k",
+      "receipt_attempt",
+      "-v"
+    ],
+    "exit": 0,
+    "reason_bound_valid": true,
+    "log_sha256": "ae0331ae230c3d3239c52e08f17faf7f6096608ec30a78279daf3330b324544b",
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 3 tests in 0.002s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-mutant",
+    "command": [
+      "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-S",
+      "-O",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-k",
+      "receipt_attempt",
+      "-v"
+    ],
+    "exit": 1,
+    "reason_bound_valid": true,
+    "log_sha256": "124e3afebf0d2678d17107554e42fd94639bbc37addedf32101f36cda42f0ca4",
+    "summary": [
+      "----------------------------------------------------------------------",
+      "Ran 3 tests in 0.007s",
+      "",
+      "FAILED (failures=11)"
+    ]
+  }
+]
