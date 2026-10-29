@@ -13,7 +13,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 | G2 | Literal axiom reports for 116 Math core constants passed; three approved axioms only | Not qualified |
 | G3 | Fresh main arithmetic and complete Math core builds passed | Not qualified |
 | G4 | Fresh main recheck and complete Math gate passed with LEAN_NUM_THREADS=2 | Not qualified |
-| G5 | Main composed-source run: 1,801 tests per mode, 25 skips each; two Lean-dependent methods passed separately at the recorded equal-tree source cut | Not qualified |
+| G5 | Main composed-source run: 1,801 tests per mode, 25 skips each; two Lean-dependent and five restricted-container methods passed separately at the recorded equal-tree source cut | Not qualified |
 | G6 | Downstream: 24/24 and replica: 24/24 semantic mutants detected per mode | Not qualified |
 | G7 | Workspace local/network historical-pin checks passed their existing contract | Current federation consistency not qualified |
 | G8 | Canonical surfaces being reconciled to observed evidence | Not qualified |
@@ -129,3 +129,5 @@ The retained Math graph at commit `8151f592918a845bf19eb8eafaf8444540a32734` has
 Both modes skipped the same 25 tests: five require a restricted container, two require a browser, two require Lean, one requires pinned cross-repository composition inputs, ten require pytest, and five require real-record fields or live freshness not present in the data. The five real-record boundaries remain Q-9002–Q-9006. Other historical separately run controls retain their original source and environment cuts; current-cut replacement coverage is not inferred merely from those older results. [Exact tests, reasons and artifact verification](cbz/evidence/main-regression-skip-observation/result.json) are recorded. Full G5 remains unqualified.
 
 The two Lean-dependent methods skipped by broad unittest discovery were separately observed passing in both Python modes in the composed formal job: `test_actual_clean_and_omitted_constants` and `test_real_package_executes_with_receipt`. The tested PR merge has the exact same source tree as the composed candidate; the broad regression's successor adds only its workflow. This supplements the skip record without changing the full-suite result or establishing complete G5 coverage. [Evidence](cbz/evidence/main-regression-skip-observation/lean-controls.json).
+
+The five restricted-container methods skipped by broad discovery were separately observed passing in both modes in the composed architecture job. A later diagnostic downloaded the original artifact, verified its ZIP SHA-256, and printed each of the ten passing test lines. The original broad run still has 25 skips per mode; no full G5 pass follows. [Evidence](cbz/evidence/main-regression-skip-observation/sandbox-controls.json), [observer workflow](cbz/evidence/main-regression-skip-observation/sandbox-observer-workflow.yml.txt).

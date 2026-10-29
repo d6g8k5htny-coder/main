@@ -1,0 +1,32 @@
+{
+  "schema": "cbz.main.sandbox-controls.observation.v1",
+  "observed_utc": "2026-10-29T21:19:09Z",
+  "architecture_run": 40949297646,
+  "architecture_job": 123712837499,
+  "tested_merge_commit": "9d26353840ce54d1e5e1c65031381157206d64cb",
+  "tested_merge_tree": "6ec8c8805991edb119bdef35b5e458140f42b79c",
+  "composed_head": "82d9e480a51b946b3e74525ccf32139129d37d28",
+  "artifact_id": 12930593803,
+  "artifact_zip_sha256": "98bfe64ead2b0be836dd0852d714c5a4dde06bf135f4f77a71199ea122ea03c2",
+  "inspector_branch_head": "7650a928fdf453d242966b6ed70b6dda1e8bd02d",
+  "inspector_run": 40956376580,
+  "inspector_job": 123737437919,
+  "inspector_result": "success",
+  "observed_test_lines": [
+    "2026-10-29T21:19:09.6541426Z tests-normal.log: test_kernel_enforces_cpu_memory_and_process_limits (test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits) ... ok",
+    "2026-10-29T21:19:09.6543980Z tests-normal.log: test_network_namespace_has_no_external_interface_or_route (test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route) ... ok",
+    "2026-10-29T21:19:09.6546233Z tests-normal.log: test_nonroot_and_no_new_privileges (test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges) ... ok",
+    "2026-10-29T21:19:09.6548776Z tests-normal.log: test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space (test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space) ... ok",
+    "2026-10-29T21:19:09.6551358Z tests-normal.log: test_source_mount_is_read_only_and_environment_has_no_publishing_secret (test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret) ... ok",
+    "2026-10-29T21:19:09.6553926Z tests-optimized.log: test_kernel_enforces_cpu_memory_and_process_limits (test_architecture_sandbox.ArchitectureSandbox.test_kernel_enforces_cpu_memory_and_process_limits) ... ok",
+    "2026-10-29T21:19:09.6556733Z tests-optimized.log: test_network_namespace_has_no_external_interface_or_route (test_architecture_sandbox.ArchitectureSandbox.test_network_namespace_has_no_external_interface_or_route) ... ok",
+    "2026-10-29T21:19:09.6559308Z tests-optimized.log: test_nonroot_and_no_new_privileges (test_architecture_sandbox.ArchitectureSandbox.test_nonroot_and_no_new_privileges) ... ok",
+    "2026-10-29T21:19:09.6561624Z tests-optimized.log: test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space (test_architecture_sandbox.ArchitectureSandbox.test_output_quota_stops_disk_exhaustion_and_cleanup_recovers_space) ... ok",
+    "2026-10-29T21:19:09.6564204Z tests-optimized.log: test_source_mount_is_read_only_and_environment_has_no_publishing_secret (test_architecture_sandbox.ArchitectureSandbox.test_source_mount_is_read_only_and_environment_has_no_publishing_secret) ... ok"
+  ],
+  "limitations": [
+    "The one-shot observer is diagnostic and has no dedicated adversarial self-test; it is not a Layer A certifier.",
+    "The original broad unittest run retains 25 skips per mode, and this observation does not establish full G5.",
+    "The tested architecture merge and composed head have the same source tree. The broad regression successor added only its workflow; no current-final-head claim is made."
+  ]
+}
