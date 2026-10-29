@@ -566,7 +566,7 @@ Each exact statement, location, blocking mathematical boundary, attempts, isolat
 | Q-3009 | Specification-interface parent claims and countermodels | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-3009) |
 | Q-8336 | Stationary quartic H0 law with explicit sampling weights | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-8336) |
 | Q-8340 | Smooth cusp population bars and fold-edge dominance | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-8340) |
-| Q-8429 | Fold isolation, near-diagonal counts and covariance obstruction (planar finite Fourier fields) | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-8429) |
+| Q-8429 | Fold isolation, near-diagonal counts and covariance obstruction (planar finite Fourier fields) | QUARANTINED | [corrected source boundary](cbz/quarantine/Q8429-native-source-correction.json) |
 | Q-3010 | Historical WP witness calculation: certificate interpretation quarantined | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-3010) |
 | Q-3011 | Historical THM-023 v1.1 assembly: float certification interpretation quarantined | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-3011) |
 | Q-9001 | Archived trial regression and historical live-write orchestration | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9001) |
@@ -575,3 +575,26 @@ Each exact statement, location, blocking mathematical boundary, attempts, isolat
 | Q-9004 | Proposed real-record dependency coverage | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9004) |
 | Q-9005 | Proposed real-record artifact coverage | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9005) |
 | Q-9006 | Real-record current-source freshness | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-9006) |
+
+## Additional archived boundaries awaiting catalog reconciliation
+
+The 184-row catalog remains at its original cut. These 16 separately adopted, source-bound records are listed here; they have not yet been incorporated into the catalog. The Q-8429 correction supersedes the old catalog's erroneous source path and ambiguous factor.
+
+| ID | Statement | Status | Exact boundary |
+|---|---|---|---|
+| Q-9101 | Two-vector encoder persistence experiment | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9102 | Fresh SQLite contention experiment | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9103 | Pinned Ed25519 runtime preparation | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9104 | Routing costs, expiry and storage-pressure controls | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9105 | External signed-lease guard contract | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9106 | Restricted browser runtime preparation | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9107 | Formal-regression collector scaffold | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9108 | Historical zeta replay venue | QUARANTINED | [source-bound record](cbz/quarantine/runtime-archive-dispositions.json) |
+| Q-9109 | V20 worker liveness on transient I/O failures | QUARANTINED | [source-bound record](cbz/quarantine/carrier-archive-dispositions.json) |
+| Q-9110 | V20 exact journal-size admission | QUARANTINED | [source-bound record](cbz/quarantine/carrier-archive-dispositions.json) |
+| Q-9111 | V20 LF-only journal framing | QUARANTINED | [source-bound record](cbz/quarantine/carrier-archive-dispositions.json) |
+| Q-7522 | Derive Gaussian lifetime exponential tails and sharp axial escape | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
+| Q-7523 | Prove matching essential-event Gaussian scale on coordinate axes | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
+| Q-7524 | Prove all-direction Gaussian rates and global critical-gap split | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
+| Q-7525 | Identify sharp essential action and tiny-gap square-root law | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |
+| Q-7526 | Complete finite-lifetime moment limits and match essential actions | QUARANTINED | [source-bound record](cbz/quarantine/paper-522-526-native-archive.json) |

@@ -1,0 +1,33 @@
+{
+  "schema": "cbz.alignment-correction.v1",
+  "observed_utc": "2026-10-29 20:37:16 UTC",
+  "pr": 630,
+  "review_head": "a228f4410141549462260ba5ea426b7d08c358c1",
+  "review_source": [
+    {
+      "path": "audits/formal_alignment/20261026_grok_bot_agent_3.json",
+      "git_blob": "27c280d9547cc620c717c6741b37cb0fdbf45ee8"
+    },
+    {
+      "path": "audits/formal_alignment/20261026_grok_bot_agent_3.md",
+      "git_blob": "1138420c83d34ffdc7b36a2e556a186526aa4b6a"
+    }
+  ],
+  "review_boundary": "Historical review found two incorrect informal anchors, not invalid Lean arithmetic. The independent review itself is preserved in commit ancestry.",
+  "current_source": "c93cec70223281492709ff74ca84fed5dc6e40e8",
+  "exact_checks": {
+    "both_anchors_verbatim": true,
+    "d3_upper_below_d2_lower": true,
+    "positive_d3_lower": true,
+    "d2_upper_below_one_tenth": true,
+    "raw_scales": {
+      "2lower": "0.07340691930603427103",
+      "2upper": "0.07340691930603427104",
+      "3lower": "0.04177593184059834334",
+      "3upper": "0.04177593184059834335"
+    }
+  },
+  "method": "Exact verbatim anchor comparison and integer arithmetic on the displayed fixed-20-decimal endpoints; no floating-point arithmetic.",
+  "status": "CLOSED for the two reported anchor correspondences; true coefficient enclosure and analytical/model application remain separately quarantined.",
+  "decision": "[2026-10-29 20:37:16 UTC] [phase2] [layerC] Close historical main630 correspondence findings after current manifest anchors match exact enclosure bytes and fixed-scale integer inequalities; preserve rejected review and source history as a commit parent. No broader coefficient enclosure or new kernel run is claimed. Reversible:yes."
+}

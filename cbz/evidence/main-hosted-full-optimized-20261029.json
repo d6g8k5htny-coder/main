@@ -1,0 +1,27 @@
+{
+  "schema": "cbz.main-full-regression.observation.v1",
+  "observed_utc": "2026-10-29 20:46:15 UTC",
+  "tested_commit": "ecdda1ed26c3a198c2b59ba2c269f763c60194a9",
+  "tested_parent_source": "82d9e480a51b946b3e74525ccf32139129d37d28",
+  "tested_tree_delta": [
+    {
+      "path": ".github/workflows/cbz-composed-main-regression.yml",
+      "git_blob": "ca065a25fb3118bc452ad5679642153d8b9bcbe0"
+    }
+  ],
+  "run": 40949857362,
+  "job": 123714780696,
+  "mode": "optimized",
+  "python": "3.11.16",
+  "command": "python3 -B -S -O -m unittest discover -s tests -p test_*.py -v",
+  "exit": 0,
+  "tests_run": 1801,
+  "skipped": 25,
+  "failures": 0,
+  "errors": 0,
+  "log_sha256": "117c2cfa37103338ec940f38bb7f9d8c603b2eefc0da07718b4c9bfd5eca836e",
+  "artifact_id": 12930494074,
+  "artifact_digest": "sha256:61f0a7304e26427d6eb41eb00afa825cfa87f9ea15ce6bb18ab40acd7f88c3c7",
+  "qualification": "Observed from the completed hosted job and artifact metadata. Artifact payload has not been independently downloaded; 25 skips and remaining federation suites prevent a full G5 pass. Normal mode was still in progress when this observation was recorded.",
+  "decision": "[2026-10-29 20:46:15 UTC] [phase3] [layerC] Record actual optimized main regression observation on the tested workflow-only successor of the composed candidate. Retain 25 skips and independently unverified artifact payload; no full G5 or CBZ-0 claim. Reversible:yes."
+}
