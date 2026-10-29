@@ -1,0 +1,229 @@
+{
+  "started_at": "2026-10-29T01:03:54.126186+00:00",
+  "driver_sha256": "7abd99767a6acb456c29be3e92210d13a2ce2d507c344639a304fba9a9055959",
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser": "/usr/bin/chromium",
+    "sandbox": true,
+    "renderer": "SwiftShader software WebGL",
+    "reduced_motion": "reduce",
+    "physical_device": false,
+    "browser_version": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "name": "inspector-focus-context-loss",
+      "width": 1200,
+      "theme": "dark",
+      "failure": "context",
+      "view": "graph",
+      "inspector_focus": true,
+      "checks": [
+        {
+          "name": "original visible graph has no overlaps",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "actual renderer produced a canvas and frames",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "metadata summary has real keyboard focus before context loss",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "failure preserves the original focused inspector element",
+          "passed": false,
+          "detail": null
+        },
+        {
+          "name": "metadata disclosure remains open after failure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "next Tab continues into metadata rather than restarting the inspector",
+          "passed": false,
+          "detail": {
+            "tag": "A",
+            "withinMetadata": false
+          }
+        },
+        {
+          "name": "one activation history entry without a failure entry",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "source observation retained",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "failed renderer released",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "restored graph has no overlapping cards",
+          "passed": true,
+          "detail": []
+        },
+        {
+          "name": "metadata point hits its own claim",
+          "passed": true,
+          "detail": {
+            "x": 490.59375,
+            "y": 509.3125,
+            "hit": "math.d1-component.congruence-erratum"
+          }
+        },
+        {
+          "name": "real mouse click selects the intended exact claim",
+          "passed": true,
+          "detail": "math.d1-component.congruence-erratum"
+        },
+        {
+          "name": "no uncaught page errors",
+          "passed": true,
+          "detail": []
+        }
+      ],
+      "page_errors": [],
+      "passed": false,
+      "before_geometry": {
+        "cards": [
+          {
+            "id": "math.uniform-matrix-cap-lifetime",
+            "x": 85.59375,
+            "y": 878.71875,
+            "width": 230,
+            "height": 156.796875
+          },
+          {
+            "id": "math.lifetime-remainder",
+            "x": 375.59375,
+            "y": 878.71875,
+            "width": 230,
+            "height": 151.359375
+          },
+          {
+            "id": "math.side24-coefficient",
+            "x": 375.59375,
+            "y": 1053.71875,
+            "width": 230,
+            "height": 151.359375
+          },
+          {
+            "id": "math.d1-component.congruence-erratum",
+            "x": 375.59375,
+            "y": 1228.71875,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.section9-replacement-v1_1",
+            "x": 375.59375,
+            "y": 1458.71875,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.marked-cylinder-cap",
+            "x": 375.59375,
+            "y": 1688.71875,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.reconciliation-record",
+            "x": 375.59375,
+            "y": 1918.71875,
+            "width": 230,
+            "height": 205.734375
+          }
+        ],
+        "overlaps": []
+      },
+      "focus_after_tab": {
+        "tag": "A",
+        "withinMetadata": false
+      },
+      "restoration_observed_ms": 382.03094100026647,
+      "failure_url": "http://127.0.0.1:42943/dependencies.html?atlas-node=math.uniform-matrix-cap-lifetime&atlas-view=graph&snapshot=8151f592918a845bf19eb8eafaf8444540a32734&main-snapshot=79bdde89a3daf7eaf5d4481961eb87433dd002d5&atlas-expanded=math.uniform-matrix-cap-lifetime&atlas-space=3d#current-atlas",
+      "after_geometry": {
+        "cards": [
+          {
+            "id": "math.uniform-matrix-cap-lifetime",
+            "x": 85.59375,
+            "y": 516.515625,
+            "width": 230,
+            "height": 156.796875
+          },
+          {
+            "id": "math.lifetime-remainder",
+            "x": 375.59375,
+            "y": 516.515625,
+            "width": 230,
+            "height": 151.359375
+          },
+          {
+            "id": "math.side24-coefficient",
+            "x": 375.59375,
+            "y": 691.515625,
+            "width": 230,
+            "height": 151.359375
+          },
+          {
+            "id": "math.d1-component.congruence-erratum",
+            "x": 375.59375,
+            "y": 866.515625,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.section9-replacement-v1_1",
+            "x": 375.59375,
+            "y": 1096.515625,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.marked-cylinder-cap",
+            "x": 375.59375,
+            "y": 1326.515625,
+            "width": 230,
+            "height": 205.734375
+          },
+          {
+            "id": "math.d1-component.reconciliation-record",
+            "x": 375.59375,
+            "y": 1556.515625,
+            "width": 230,
+            "height": 205.734375
+          }
+        ],
+        "overlaps": []
+      },
+      "metadata_pointer": {
+        "x": 490.59375,
+        "y": 509.3125,
+        "hit": "math.d1-component.congruence-erratum"
+      },
+      "actual_selected_after_mouse": "math.d1-component.congruence-erratum"
+    }
+  ],
+  "limits": [
+    "No human audition, physical touch/GPU or full WCAG certification.",
+    "Dataset and exact product/input identities must accompany this report."
+  ],
+  "input": {
+    "payload_bytes": 1923440,
+    "payload_sha256": "8a3595667134e0b196ad957277a572d34be6f39a3eebf0741faed55830f2e989"
+  },
+  "finished_at": "2026-10-29T01:03:56.325898+00:00",
+  "passed": false
+}
