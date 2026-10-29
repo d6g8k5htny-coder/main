@@ -1,0 +1,382 @@
+﻿2026-10-29T19:58:25.3523244Z Current runner version: '2.338.0'
+2026-10-29T19:58:25.3555362Z ##[group]Runner Image Provisioner
+2026-10-29T19:58:25.3556391Z Hosted Compute Agent
+2026-10-29T19:58:25.3557123Z Version: 20261021.618
+2026-10-29T19:58:25.3557778Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T19:58:25.3558975Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T19:58:25.3559702Z Worker ID: {7d026ffb-1601-468e-9b86-cf37faa96848}
+2026-10-29T19:58:25.3560436Z Region: centralus
+2026-10-29T19:58:25.3561081Z Cloud: Azure
+2026-10-29T19:58:25.3561659Z ##[endgroup]
+2026-10-29T19:58:25.3563360Z ##[group]Operating System
+2026-10-29T19:58:25.3564031Z Ubuntu
+2026-10-29T19:58:25.3564967Z 24.04.5
+2026-10-29T19:58:25.3565599Z LTS
+2026-10-29T19:58:25.3566152Z ##[endgroup]
+2026-10-29T19:58:25.3566780Z ##[group]Runner Image
+2026-10-29T19:58:25.3567417Z Image: ubuntu-24.04
+2026-10-29T19:58:25.3568028Z Version: 20261025.353.1
+2026-10-29T19:58:25.3569403Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-29T19:58:25.3571065Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-29T19:58:25.3572074Z ##[endgroup]
+2026-10-29T19:58:25.3573581Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T19:58:25.3576672Z Contents: read
+2026-10-29T19:58:25.3577755Z Metadata: read
+2026-10-29T19:58:25.3578886Z ##[endgroup]
+2026-10-29T19:58:25.3582015Z Secret source: Actions
+2026-10-29T19:58:25.3583688Z Cache mode: write
+2026-10-29T19:58:25.3585854Z Prepare workflow directory
+2026-10-29T19:58:25.3966147Z Prepare all required actions
+2026-10-29T19:58:25.4016944Z Getting action download info
+2026-10-29T19:58:25.6553176Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-29T19:58:25.8211117Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-29T19:58:26.0705769Z Complete job name: controls (1)
+2026-10-29T19:58:26.1578397Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-29T19:58:26.1579473Z with:
+2026-10-29T19:58:26.1579942Z   persist-credentials: false
+2026-10-29T19:58:26.1580477Z   fetch-depth: 1
+2026-10-29T19:58:26.1580959Z   repository: d6g8k5htny-coder/main
+2026-10-29T19:58:26.1585171Z   token: ***
+2026-10-29T19:58:26.1585630Z   ssh-strict: true
+2026-10-29T19:58:26.1586085Z   ssh-user: git
+2026-10-29T19:58:26.1586526Z   clean: true
+2026-10-29T19:58:26.1586984Z   sparse-checkout-cone-mode: true
+2026-10-29T19:58:26.1587523Z   fetch-tags: false
+2026-10-29T19:58:26.1587976Z   show-progress: true
+2026-10-29T19:58:26.1588438Z   lfs: false
+2026-10-29T19:58:26.1588858Z   submodules: false
+2026-10-29T19:58:26.1589332Z   set-safe-directory: true
+2026-10-29T19:58:26.1589851Z   allow-unsafe-pr-checkout: false
+2026-10-29T19:58:26.1590662Z ##[endgroup]
+2026-10-29T19:58:26.4778591Z Syncing repository: d6g8k5htny-coder/main
+2026-10-29T19:58:26.4780911Z ##[group]Getting Git version info
+2026-10-29T19:58:26.4781619Z Working directory is '/home/runner/work/main/main'
+2026-10-29T19:58:26.4782628Z [command]/usr/bin/git version
+2026-10-29T19:58:26.4904458Z git version 2.56.0
+2026-10-29T19:58:26.4931156Z ##[endgroup]
+2026-10-29T19:58:26.4943598Z Temporarily overriding HOME='/home/runner/work/_temp/e7fd340c-e849-4451-8d90-c40973794aca' before making global git config changes
+2026-10-29T19:58:26.4946145Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T19:58:26.4950808Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T19:58:26.5042029Z Deleting the contents of '/home/runner/work/main/main'
+2026-10-29T19:58:26.5046351Z ##[group]Determining repository object format
+2026-10-29T19:58:26.5047884Z ##[endgroup]
+2026-10-29T19:58:26.5049124Z ##[group]Initializing the repository
+2026-10-29T19:58:26.5053050Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-10-29T19:58:26.5195520Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T19:58:26.5197166Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T19:58:26.5198273Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T19:58:26.5199136Z hint: call:
+2026-10-29T19:58:26.5199584Z hint:
+2026-10-29T19:58:26.5200163Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T19:58:26.5200869Z hint:
+2026-10-29T19:58:26.5201521Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T19:58:26.5202602Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T19:58:26.5203462Z hint:
+2026-10-29T19:58:26.5203932Z hint: 	git branch -m <name>
+2026-10-29T19:58:26.5204745Z hint:
+2026-10-29T19:58:26.5205448Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T19:58:26.5220362Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-10-29T19:58:26.5230973Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-10-29T19:58:26.5288979Z ##[endgroup]
+2026-10-29T19:58:26.5290371Z ##[group]Disabling automatic garbage collection
+2026-10-29T19:58:26.5293286Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T19:58:26.5396179Z ##[endgroup]
+2026-10-29T19:58:26.5398120Z ##[group]Setting up auth
+2026-10-29T19:58:26.5399354Z Removing SSH command configuration
+2026-10-29T19:58:26.5401058Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:58:26.5420314Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:58:26.5865384Z Removing HTTP extra header
+2026-10-29T19:58:26.5871349Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:58:26.5919336Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:58:26.6170070Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:58:26.6181436Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:58:26.6228132Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:58:26.6475189Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T19:58:26.6523982Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:26.6568399Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:26.6612322Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:26.6656285Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:26.6697085Z ##[endgroup]
+2026-10-29T19:58:26.6698346Z ##[group]Fetching the repository
+2026-10-29T19:58:26.6703198Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +6ee0918527dbc63edfdbc7601f0f8f4dfb20771f:refs/remotes/origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.4976757Z From https://github.com/d6g8k5htny-coder/main
+2026-10-29T19:58:28.4979202Z  * [new ref]         6ee0918527dbc63edfdbc7601f0f8f4dfb20771f -> origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.4985490Z [command]/usr/bin/git branch --list --remote origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.5024745Z   origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.5033950Z [command]/usr/bin/git rev-parse refs/remotes/origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.5083389Z 6ee0918527dbc63edfdbc7601f0f8f4dfb20771f
+2026-10-29T19:58:28.5090431Z ##[endgroup]
+2026-10-29T19:58:28.5091772Z ##[group]Determining the checkout info
+2026-10-29T19:58:28.5098752Z ##[endgroup]
+2026-10-29T19:58:28.5100355Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T19:58:28.5180947Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T19:58:28.5233330Z ##[group]Checking out the ref
+2026-10-29T19:58:28.5242704Z [command]/usr/bin/git checkout --progress --force -B cbz/cold-start-node-20261029 refs/remotes/origin/cbz/cold-start-node-20261029
+2026-10-29T19:58:28.9684653Z Switched to a new branch 'cbz/cold-start-node-20261029'
+2026-10-29T19:58:28.9705171Z branch 'cbz/cold-start-node-20261029' set up to track 'origin/cbz/cold-start-node-20261029'.
+2026-10-29T19:58:28.9727432Z ##[endgroup]
+2026-10-29T19:58:28.9791048Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T19:58:28.9830994Z 6ee0918527dbc63edfdbc7601f0f8f4dfb20771f
+2026-10-29T19:58:28.9842300Z ##[group]Removing auth
+2026-10-29T19:58:28.9842958Z Removing SSH command configuration
+2026-10-29T19:58:28.9847540Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:58:28.9892332Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:58:29.0318836Z Removing HTTP extra header
+2026-10-29T19:58:29.0320783Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:58:29.0384297Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:58:29.0719342Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:58:29.0721232Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:58:29.0752970Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T19:58:29.0754546Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T19:58:29.0762975Z includeif.gitdir:/github/workspace/.git.path
+2026-10-29T19:58:29.0764965Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T19:58:29.0767878Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T19:58:29.0813851Z /home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:29.0876472Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-05e13687\-105a\-403a\-9c5b\-d5af706960bb\.config
+2026-10-29T19:58:29.0903852Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T19:58:29.0940473Z /home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:29.0950326Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-05e13687\-105a\-403a\-9c5b\-d5af706960bb\.config
+2026-10-29T19:58:29.0999927Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-29T19:58:29.1036550Z /github/runner_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:29.1045763Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-05e13687\-105a\-403a\-9c5b\-d5af706960bb\.config
+2026-10-29T19:58:29.1093099Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T19:58:29.1129742Z /github/runner_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config
+2026-10-29T19:58:29.1139379Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-05e13687\-105a\-403a\-9c5b\-d5af706960bb\.config
+2026-10-29T19:58:29.1189822Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:58:29.1453184Z Removing credentials config '/home/runner/work/_temp/git-credentials-05e13687-105a-403a-9c5b-d5af706960bb.config'
+2026-10-29T19:58:29.1463328Z ##[endgroup]
+2026-10-29T19:58:29.1748038Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-29T19:58:29.1748618Z with:
+2026-10-29T19:58:29.1748913Z   python-version: 3.11
+2026-10-29T19:58:29.1749234Z   check-latest: false
+2026-10-29T19:58:29.1752210Z   token: ***
+2026-10-29T19:58:29.1752520Z   update-environment: true
+2026-10-29T19:58:29.1752871Z   allow-prereleases: false
+2026-10-29T19:58:29.1753194Z   freethreaded: false
+2026-10-29T19:58:29.1753489Z ##[endgroup]
+2026-10-29T19:58:29.3083142Z ##[group]Installed versions
+2026-10-29T19:58:29.3193558Z Successfully set up CPython (3.11.17)
+2026-10-29T19:58:29.3196084Z ##[endgroup]
+2026-10-29T19:58:29.3572423Z ##[group]Run python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+2026-10-29T19:58:29.3573847Z [36;1mpython -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v[0m
+2026-10-29T19:58:29.3639253Z shell: /usr/bin/bash -e {0}
+2026-10-29T19:58:29.3639899Z env:
+2026-10-29T19:58:29.3640540Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:58:29.3641524Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T19:58:29.3642526Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:58:29.3643422Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:58:29.3644557Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:58:29.3645493Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T19:58:29.3646270Z   PYTHONOPTIMIZE: 1
+2026-10-29T19:58:29.3646801Z ##[endgroup]
+2026-10-29T19:58:31.3785250Z test_errors_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_errors_cannot_kill) ... ok
+2026-10-29T19:58:31.3787041Z test_foreign_assertion_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_foreign_assertion_cannot_kill) ... ok
+2026-10-29T19:58:31.3795295Z test_import_trace_inside_assertion_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_import_trace_inside_assertion_cannot_kill) ... FAIL
+2026-10-29T19:58:31.3797131Z test_intended_assertion_counts (test_cbz_node_regression.MutationHarnessTests.test_intended_assertion_counts) ... ok
+2026-10-29T19:58:31.3798770Z test_launch_failure_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_launch_failure_cannot_kill) ... ok
+2026-10-29T19:58:31.3800255Z test_no_tests_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_no_tests_cannot_kill) ... ok
+2026-10-29T19:58:31.3801739Z test_success_exit_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_success_exit_cannot_kill) ... ok
+2026-10-29T19:58:32.1859108Z test_all_byte_identities_are_required (test_cbz_node_regression.NodeRunnerTests.test_all_byte_identities_are_required) ... ok
+2026-10-29T19:58:32.2088645Z test_ambient_git_redirect_cannot_select_another_object_database (test_cbz_node_regression.NodeRunnerTests.test_ambient_git_redirect_cannot_select_another_object_database) ... ok
+2026-10-29T19:58:32.2272629Z test_child_fixture_mutation_is_a_failed_postflight (test_cbz_node_regression.NodeRunnerTests.test_child_fixture_mutation_is_a_failed_postflight) ... FAIL
+2026-10-29T19:58:32.2542191Z test_clean_snapshot_binds_head (test_cbz_node_regression.NodeRunnerTests.test_clean_snapshot_binds_head) ... ok
+2026-10-29T19:58:32.2723992Z test_duplicate_config_keys_refuse (test_cbz_node_regression.NodeRunnerTests.test_duplicate_config_keys_refuse) ... ok
+2026-10-29T19:58:32.2911652Z test_existing_output_is_never_overwritten (test_cbz_node_regression.NodeRunnerTests.test_existing_output_is_never_overwritten) ... ok
+2026-10-29T19:58:32.3080177Z test_fixture_file_directory_and_type_set_is_exact (test_cbz_node_regression.NodeRunnerTests.test_fixture_file_directory_and_type_set_is_exact) ... FAIL
+2026-10-29T19:58:32.3284494Z test_invalid_descriptor_domains_refuse (test_cbz_node_regression.NodeRunnerTests.test_invalid_descriptor_domains_refuse) ... ok
+2026-10-29T19:58:32.3511331Z test_loaded_source_and_imported_helper_cannot_drift (test_cbz_node_regression.NodeRunnerTests.test_loaded_source_and_imported_helper_cannot_drift) ... FAIL
+2026-10-29T19:58:32.3696691Z test_loaded_sources_must_belong_to_selected_main (test_cbz_node_regression.NodeRunnerTests.test_loaded_sources_must_belong_to_selected_main) ... FAIL
+2026-10-29T19:58:32.3962105Z test_materialization_checks_every_input_before_writing (test_cbz_node_regression.NodeRunnerTests.test_materialization_checks_every_input_before_writing) ... ok
+2026-10-29T19:58:32.4189304Z test_materialization_preserves_exact_bytes (test_cbz_node_regression.NodeRunnerTests.test_materialization_preserves_exact_bytes) ... ok
+2026-10-29T19:58:32.4379200Z test_missing_executable_is_an_execution_error (test_cbz_node_regression.NodeRunnerTests.test_missing_executable_is_an_execution_error) ... ok
+2026-10-29T19:58:32.4580445Z test_missing_historical_object_does_not_fall_back_to_worktree (test_cbz_node_regression.NodeRunnerTests.test_missing_historical_object_does_not_fall_back_to_worktree) ... ok
+2026-10-29T19:58:32.4862525Z test_node_command_enumerates_every_tracked_test (test_cbz_node_regression.NodeRunnerTests.test_node_command_enumerates_every_tracked_test) ... ok
+2026-10-29T19:58:32.5054857Z test_output_in_any_source_root_refuses (test_cbz_node_regression.NodeRunnerTests.test_output_in_any_source_root_refuses) ... ok
+2026-10-29T19:58:32.5318603Z test_preflight_failure_produces_fail_report (test_cbz_node_regression.NodeRunnerTests.test_preflight_failure_produces_fail_report) ... ok
+2026-10-29T19:58:32.5538336Z test_reads_immutable_blob_instead_of_dirty_working_copy (test_cbz_node_regression.NodeRunnerTests.test_reads_immutable_blob_instead_of_dirty_working_copy) ... ok
+2026-10-29T19:58:32.8827554Z test_real_node_skips_are_not_a_green_suite (test_cbz_node_regression.NodeRunnerTests.test_real_node_skips_are_not_a_green_suite) ... ok
+2026-10-29T19:58:32.9028071Z test_report_is_atomic_and_keeps_running_distinct_from_pass (test_cbz_node_regression.NodeRunnerTests.test_report_is_atomic_and_keeps_running_distinct_from_pass) ... ok
+2026-10-29T19:58:32.9291574Z test_selected_node_test_symlink_is_rejected (test_cbz_node_regression.NodeRunnerTests.test_selected_node_test_symlink_is_rejected) ... FAIL
+2026-10-29T19:58:32.9625557Z test_snapshot_detects_assume_unchanged_source_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_assume_unchanged_source_changes) ... ok
+2026-10-29T19:58:32.9920428Z test_snapshot_detects_hidden_executable_mode_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_hidden_executable_mode_changes) ... ok
+2026-10-29T19:58:33.0236996Z test_snapshot_detects_index_and_untracked_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_index_and_untracked_changes) ... ok
+2026-10-29T19:58:33.0694168Z test_subprocess_exit_and_output_are_preserved (test_cbz_node_regression.NodeRunnerTests.test_subprocess_exit_and_output_are_preserved) ... ok
+2026-10-29T19:58:33.0998024Z test_symlink_is_not_admitted_as_a_regular_fixture (test_cbz_node_regression.NodeRunnerTests.test_symlink_is_not_admitted_as_a_regular_fixture) ... ok
+2026-10-29T19:58:33.1194055Z test_tap_missing_or_duplicate_fields_refuse (test_cbz_node_regression.NodeRunnerTests.test_tap_missing_or_duplicate_fields_refuse) ... ok
+2026-10-29T19:58:33.1384267Z test_tap_requires_nonzero_complete_all_passed_summary (test_cbz_node_regression.NodeRunnerTests.test_tap_requires_nonzero_complete_all_passed_summary) ... ok
+2026-10-29T19:58:33.1710823Z test_tracked_source_symlink_cannot_bind_an_external_dependency (test_cbz_node_regression.NodeRunnerTests.test_tracked_source_symlink_cannot_bind_an_external_dependency) ... FAIL
+2026-10-29T19:58:33.1919115Z test_url_alias_is_rejected (test_cbz_node_regression.NodeRunnerTests.test_url_alias_is_rejected) ... ok
+2026-10-29T19:58:33.2125299Z test_zero_tracked_node_tests_refuses (test_cbz_node_regression.NodeRunnerTests.test_zero_tracked_node_tests_refuses) ... ok
+2026-10-29T19:58:39.6130522Z test_every_source_mutation_has_its_intended_assertion (test_cbz_node_regression.SourceMutationTests.test_every_source_mutation_has_its_intended_assertion) ... ok
+2026-10-29T19:58:40.4551383Z test_harness_mutations_are_rejected_by_named_controls (test_cbz_node_regression.SourceMutationTests.test_harness_mutations_are_rejected_by_named_controls) ... ok
+2026-10-29T19:58:41.6872242Z test_unmodified_copied_source_passes (test_cbz_node_regression.SourceMutationTests.test_unmodified_copied_source_passes) ... FAIL
+2026-10-29T19:58:41.6873113Z 
+2026-10-29T19:58:41.6873261Z ======================================================================
+2026-10-29T19:58:41.6874272Z FAIL: test_import_trace_inside_assertion_cannot_kill (test_cbz_node_regression.MutationHarnessTests.test_import_trace_inside_assertion_cannot_kill)
+2026-10-29T19:58:41.6875280Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6875648Z Traceback (most recent call last):
+2026-10-29T19:58:41.6881307Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 424, in test_import_trace_inside_assertion_cannot_kill
+2026-10-29T19:58:41.6882041Z     self.assertFalse(assertion_kill(result, "test_expected"))
+2026-10-29T19:58:41.6882418Z AssertionError: True is not false
+2026-10-29T19:58:41.6882590Z 
+2026-10-29T19:58:41.6882710Z ======================================================================
+2026-10-29T19:58:41.6883407Z FAIL: test_child_fixture_mutation_is_a_failed_postflight (test_cbz_node_regression.NodeRunnerTests.test_child_fixture_mutation_is_a_failed_postflight)
+2026-10-29T19:58:41.6895263Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6915241Z Traceback (most recent call last):
+2026-10-29T19:58:41.6916360Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 141, in test_child_fixture_mutation_is_a_failed_postflight
+2026-10-29T19:58:41.6917241Z     self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+2026-10-29T19:58:41.6918043Z AssertionError: False is not true : fixture postflight guard is missing
+2026-10-29T19:58:41.6918548Z 
+2026-10-29T19:58:41.6918738Z ======================================================================
+2026-10-29T19:58:41.6919897Z FAIL: test_fixture_file_directory_and_type_set_is_exact (test_cbz_node_regression.NodeRunnerTests.test_fixture_file_directory_and_type_set_is_exact)
+2026-10-29T19:58:41.6921123Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6921692Z Traceback (most recent call last):
+2026-10-29T19:58:41.6922583Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 163, in test_fixture_file_directory_and_type_set_is_exact
+2026-10-29T19:58:41.6923282Z     self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+2026-10-29T19:58:41.6923738Z AssertionError: False is not true : fixture postflight guard is missing
+2026-10-29T19:58:41.6924028Z 
+2026-10-29T19:58:41.6924143Z ======================================================================
+2026-10-29T19:58:41.6925177Z FAIL: test_loaded_source_and_imported_helper_cannot_drift (test_cbz_node_regression.NodeRunnerTests.test_loaded_source_and_imported_helper_cannot_drift)
+2026-10-29T19:58:41.6926132Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6926469Z Traceback (most recent call last):
+2026-10-29T19:58:41.6927120Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 83, in test_loaded_source_and_imported_helper_cannot_drift
+2026-10-29T19:58:41.6927794Z     self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+2026-10-29T19:58:41.6928273Z AssertionError: False is not true : loaded helper identity guard is missing
+2026-10-29T19:58:41.6928573Z 
+2026-10-29T19:58:41.6928699Z ======================================================================
+2026-10-29T19:58:41.6929359Z FAIL: test_loaded_sources_must_belong_to_selected_main (test_cbz_node_regression.NodeRunnerTests.test_loaded_sources_must_belong_to_selected_main)
+2026-10-29T19:58:41.6930033Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6930365Z Traceback (most recent call last):
+2026-10-29T19:58:41.6930983Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 77, in test_loaded_sources_must_belong_to_selected_main
+2026-10-29T19:58:41.6931637Z     self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+2026-10-29T19:58:41.6932103Z AssertionError: False is not true : loaded helper identity guard is missing
+2026-10-29T19:58:41.6932403Z 
+2026-10-29T19:58:41.6932512Z ======================================================================
+2026-10-29T19:58:41.6933256Z FAIL: test_selected_node_test_symlink_is_rejected (test_cbz_node_regression.NodeRunnerTests.test_selected_node_test_symlink_is_rejected)
+2026-10-29T19:58:41.6933905Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6934233Z Traceback (most recent call last):
+2026-10-29T19:58:41.6935105Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 124, in test_selected_node_test_symlink_is_rejected
+2026-10-29T19:58:41.6935741Z     with self.assertRaisesRegex(ValueError, "regular.*Node"):
+2026-10-29T19:58:41.6936103Z AssertionError: ValueError not raised
+2026-10-29T19:58:41.6936285Z 
+2026-10-29T19:58:41.6936388Z ======================================================================
+2026-10-29T19:58:41.6937135Z FAIL: test_tracked_source_symlink_cannot_bind_an_external_dependency (test_cbz_node_regression.NodeRunnerTests.test_tracked_source_symlink_cannot_bind_an_external_dependency)
+2026-10-29T19:58:41.6937925Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6938260Z Traceback (most recent call last):
+2026-10-29T19:58:41.6938923Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 115, in test_tracked_source_symlink_cannot_bind_an_external_dependency
+2026-10-29T19:58:41.6939668Z     with self.assertRaisesRegex(ValueError, "unsupported tracked Git entry"):
+2026-10-29T19:58:41.6940082Z AssertionError: ValueError not raised
+2026-10-29T19:58:41.6940263Z 
+2026-10-29T19:58:41.6940367Z ======================================================================
+2026-10-29T19:58:41.6940971Z FAIL: test_unmodified_copied_source_passes (test_cbz_node_regression.SourceMutationTests.test_unmodified_copied_source_passes)
+2026-10-29T19:58:41.6941589Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6941914Z Traceback (most recent call last):
+2026-10-29T19:58:41.6942496Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 481, in test_unmodified_copied_source_passes
+2026-10-29T19:58:41.6943143Z     self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+2026-10-29T19:58:41.6943907Z AssertionError: 1 != 0 : test_all_byte_identities_are_required (tests.test_cbz_node_regression.NodeRunnerTests.test_all_byte_identities_are_required) ... ok
+2026-10-29T19:58:41.6945407Z test_ambient_git_redirect_cannot_select_another_object_database (tests.test_cbz_node_regression.NodeRunnerTests.test_ambient_git_redirect_cannot_select_another_object_database) ... ok
+2026-10-29T19:58:41.6946855Z test_child_fixture_mutation_is_a_failed_postflight (tests.test_cbz_node_regression.NodeRunnerTests.test_child_fixture_mutation_is_a_failed_postflight) ... FAIL
+2026-10-29T19:58:41.6947802Z test_clean_snapshot_binds_head (tests.test_cbz_node_regression.NodeRunnerTests.test_clean_snapshot_binds_head) ... ok
+2026-10-29T19:58:41.6948625Z test_duplicate_config_keys_refuse (tests.test_cbz_node_regression.NodeRunnerTests.test_duplicate_config_keys_refuse) ... ok
+2026-10-29T19:58:41.6949528Z test_existing_output_is_never_overwritten (tests.test_cbz_node_regression.NodeRunnerTests.test_existing_output_is_never_overwritten) ... ok
+2026-10-29T19:58:41.6950530Z test_fixture_file_directory_and_type_set_is_exact (tests.test_cbz_node_regression.NodeRunnerTests.test_fixture_file_directory_and_type_set_is_exact) ... FAIL
+2026-10-29T19:58:41.6951513Z test_invalid_descriptor_domains_refuse (tests.test_cbz_node_regression.NodeRunnerTests.test_invalid_descriptor_domains_refuse) ... ok
+2026-10-29T19:58:41.6952521Z test_loaded_source_and_imported_helper_cannot_drift (tests.test_cbz_node_regression.NodeRunnerTests.test_loaded_source_and_imported_helper_cannot_drift) ... FAIL
+2026-10-29T19:58:41.6953601Z test_loaded_sources_must_belong_to_selected_main (tests.test_cbz_node_regression.NodeRunnerTests.test_loaded_sources_must_belong_to_selected_main) ... FAIL
+2026-10-29T19:58:41.6955034Z test_materialization_checks_every_input_before_writing (tests.test_cbz_node_regression.NodeRunnerTests.test_materialization_checks_every_input_before_writing) ... ok
+2026-10-29T19:58:41.6956237Z test_materialization_preserves_exact_bytes (tests.test_cbz_node_regression.NodeRunnerTests.test_materialization_preserves_exact_bytes) ... ok
+2026-10-29T19:58:41.6957245Z test_missing_executable_is_an_execution_error (tests.test_cbz_node_regression.NodeRunnerTests.test_missing_executable_is_an_execution_error) ... ok
+2026-10-29T19:58:41.6958344Z test_missing_historical_object_does_not_fall_back_to_worktree (tests.test_cbz_node_regression.NodeRunnerTests.test_missing_historical_object_does_not_fall_back_to_worktree) ... ok
+2026-10-29T19:58:41.6959467Z test_node_command_enumerates_every_tracked_test (tests.test_cbz_node_regression.NodeRunnerTests.test_node_command_enumerates_every_tracked_test) ... ok
+2026-10-29T19:58:41.6960425Z test_output_in_any_source_root_refuses (tests.test_cbz_node_regression.NodeRunnerTests.test_output_in_any_source_root_refuses) ... ok
+2026-10-29T19:58:41.6961368Z test_preflight_failure_produces_fail_report (tests.test_cbz_node_regression.NodeRunnerTests.test_preflight_failure_produces_fail_report) ... ok
+2026-10-29T19:58:41.6962432Z test_reads_immutable_blob_instead_of_dirty_working_copy (tests.test_cbz_node_regression.NodeRunnerTests.test_reads_immutable_blob_instead_of_dirty_working_copy) ... ok
+2026-10-29T19:58:41.6963467Z test_real_node_skips_are_not_a_green_suite (tests.test_cbz_node_regression.NodeRunnerTests.test_real_node_skips_are_not_a_green_suite) ... ok
+2026-10-29T19:58:41.6964739Z test_report_is_atomic_and_keeps_running_distinct_from_pass (tests.test_cbz_node_regression.NodeRunnerTests.test_report_is_atomic_and_keeps_running_distinct_from_pass) ... ok
+2026-10-29T19:58:41.6965824Z test_selected_node_test_symlink_is_rejected (tests.test_cbz_node_regression.NodeRunnerTests.test_selected_node_test_symlink_is_rejected) ... FAIL
+2026-10-29T19:58:41.6966867Z test_snapshot_detects_assume_unchanged_source_changes (tests.test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_assume_unchanged_source_changes) ... ok
+2026-10-29T19:58:41.6967976Z test_snapshot_detects_hidden_executable_mode_changes (tests.test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_hidden_executable_mode_changes) ... ok
+2026-10-29T19:58:41.6969063Z test_snapshot_detects_index_and_untracked_changes (tests.test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_index_and_untracked_changes) ... ok
+2026-10-29T19:58:41.6970115Z test_subprocess_exit_and_output_are_preserved (tests.test_cbz_node_regression.NodeRunnerTests.test_subprocess_exit_and_output_are_preserved) ... ok
+2026-10-29T19:58:41.6971273Z test_symlink_is_not_admitted_as_a_regular_fixture (tests.test_cbz_node_regression.NodeRunnerTests.test_symlink_is_not_admitted_as_a_regular_fixture) ... ok
+2026-10-29T19:58:41.6972274Z test_tap_missing_or_duplicate_fields_refuse (tests.test_cbz_node_regression.NodeRunnerTests.test_tap_missing_or_duplicate_fields_refuse) ... ok
+2026-10-29T19:58:41.6973309Z test_tap_requires_nonzero_complete_all_passed_summary (tests.test_cbz_node_regression.NodeRunnerTests.test_tap_requires_nonzero_complete_all_passed_summary) ... ok
+2026-10-29T19:58:41.6974752Z test_tracked_source_symlink_cannot_bind_an_external_dependency (tests.test_cbz_node_regression.NodeRunnerTests.test_tracked_source_symlink_cannot_bind_an_external_dependency) ... FAIL
+2026-10-29T19:58:41.6975760Z test_url_alias_is_rejected (tests.test_cbz_node_regression.NodeRunnerTests.test_url_alias_is_rejected) ... ok
+2026-10-29T19:58:41.6976557Z test_zero_tracked_node_tests_refuses (tests.test_cbz_node_regression.NodeRunnerTests.test_zero_tracked_node_tests_refuses) ... ok
+2026-10-29T19:58:41.6977053Z 
+2026-10-29T19:58:41.6977167Z ======================================================================
+2026-10-29T19:58:41.6977859Z FAIL: test_child_fixture_mutation_is_a_failed_postflight (tests.test_cbz_node_regression.NodeRunnerTests.test_child_fixture_mutation_is_a_failed_postflight)
+2026-10-29T19:58:41.6978575Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6979096Z Traceback (most recent call last):
+2026-10-29T19:58:41.6979766Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 141, in test_child_fixture_mutation_is_a_failed_postflight
+2026-10-29T19:58:41.6980427Z     self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+2026-10-29T19:58:41.6980878Z AssertionError: False is not true : fixture postflight guard is missing
+2026-10-29T19:58:41.6981174Z 
+2026-10-29T19:58:41.6981281Z ======================================================================
+2026-10-29T19:58:41.6981967Z FAIL: test_fixture_file_directory_and_type_set_is_exact (tests.test_cbz_node_regression.NodeRunnerTests.test_fixture_file_directory_and_type_set_is_exact)
+2026-10-29T19:58:41.6982680Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6983009Z Traceback (most recent call last):
+2026-10-29T19:58:41.6983614Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 163, in test_fixture_file_directory_and_type_set_is_exact
+2026-10-29T19:58:41.6984260Z     self.assertTrue(hasattr(self.module, "verify_fixture_tree"),
+2026-10-29T19:58:41.6984892Z AssertionError: False is not true : fixture postflight guard is missing
+2026-10-29T19:58:41.6985183Z 
+2026-10-29T19:58:41.6985290Z ======================================================================
+2026-10-29T19:58:41.6985984Z FAIL: test_loaded_source_and_imported_helper_cannot_drift (tests.test_cbz_node_regression.NodeRunnerTests.test_loaded_source_and_imported_helper_cannot_drift)
+2026-10-29T19:58:41.6986702Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6987027Z Traceback (most recent call last):
+2026-10-29T19:58:41.6987635Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 83, in test_loaded_source_and_imported_helper_cannot_drift
+2026-10-29T19:58:41.6988279Z     self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+2026-10-29T19:58:41.6988739Z AssertionError: False is not true : loaded helper identity guard is missing
+2026-10-29T19:58:41.6989045Z 
+2026-10-29T19:58:41.6989148Z ======================================================================
+2026-10-29T19:58:41.6989822Z FAIL: test_loaded_sources_must_belong_to_selected_main (tests.test_cbz_node_regression.NodeRunnerTests.test_loaded_sources_must_belong_to_selected_main)
+2026-10-29T19:58:41.6990515Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6990836Z Traceback (most recent call last):
+2026-10-29T19:58:41.6991552Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 77, in test_loaded_sources_must_belong_to_selected_main
+2026-10-29T19:58:41.6992303Z     self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
+2026-10-29T19:58:41.6992898Z AssertionError: False is not true : loaded helper identity guard is missing
+2026-10-29T19:58:41.6993203Z 
+2026-10-29T19:58:41.6993313Z ======================================================================
+2026-10-29T19:58:41.6993957Z FAIL: test_selected_node_test_symlink_is_rejected (tests.test_cbz_node_regression.NodeRunnerTests.test_selected_node_test_symlink_is_rejected)
+2026-10-29T19:58:41.6994898Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6995249Z Traceback (most recent call last):
+2026-10-29T19:58:41.6995838Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 124, in test_selected_node_test_symlink_is_rejected
+2026-10-29T19:58:41.6996466Z     with self.assertRaisesRegex(ValueError, "regular.*Node"):
+2026-10-29T19:58:41.6996822Z AssertionError: ValueError not raised
+2026-10-29T19:58:41.6997007Z 
+2026-10-29T19:58:41.6997121Z ======================================================================
+2026-10-29T19:58:41.6997906Z FAIL: test_tracked_source_symlink_cannot_bind_an_external_dependency (tests.test_cbz_node_regression.NodeRunnerTests.test_tracked_source_symlink_cannot_bind_an_external_dependency)
+2026-10-29T19:58:41.6998852Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.6999203Z Traceback (most recent call last):
+2026-10-29T19:58:41.6999885Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 115, in test_tracked_source_symlink_cannot_bind_an_external_dependency
+2026-10-29T19:58:41.7001015Z     with self.assertRaisesRegex(ValueError, "unsupported tracked Git entry"):
+2026-10-29T19:58:41.7001441Z AssertionError: ValueError not raised
+2026-10-29T19:58:41.7001617Z 
+2026-10-29T19:58:41.7001769Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.7002092Z Ran 31 tests in 0.936s
+2026-10-29T19:58:41.7002223Z 
+2026-10-29T19:58:41.7002311Z FAILED (failures=6)
+2026-10-29T19:58:41.7002441Z 
+2026-10-29T19:58:41.7002445Z 
+2026-10-29T19:58:41.7002579Z ----------------------------------------------------------------------
+2026-10-29T19:58:41.7002894Z Ran 41 tests in 10.309s
+2026-10-29T19:58:41.7003032Z 
+2026-10-29T19:58:41.7003198Z FAILED (failures=8)
+2026-10-29T19:58:41.7039043Z ##[error]Process completed with exit code 1.
+2026-10-29T19:58:41.7196433Z Post job cleanup.
+2026-10-29T19:58:41.8104991Z [command]/usr/bin/git version
+2026-10-29T19:58:41.8153585Z git version 2.56.0
+2026-10-29T19:58:41.8197215Z Temporarily overriding HOME='/home/runner/work/_temp/4d093a0a-8556-4a94-86ff-166a560a1832' before making global git config changes
+2026-10-29T19:58:41.8198215Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T19:58:41.8203421Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T19:58:41.8241812Z Removing SSH command configuration
+2026-10-29T19:58:41.8249607Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:58:41.8309320Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:58:41.8583963Z Removing HTTP extra header
+2026-10-29T19:58:41.8590372Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:58:41.8635123Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:58:41.8916388Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:58:41.8923248Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:58:41.8975502Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:58:41.9378621Z Cleaning up orphan processes

@@ -21,12 +21,26 @@ import museum_data
 
 ROOT = Path(__file__).resolve().parents[1]
 _LOADED_SOURCE = Path(__file__).read_bytes()
+_LOADED_SOURCES = {
+    Path(__file__).resolve(): _LOADED_SOURCE,
+    Path(museum_data.__file__).resolve(): Path(museum_data.__file__).read_bytes(),
+}
 _REPOSITORIES = {
     "d6g8k5htny-coder/main",
     "d6g8k5htny-coder/Math-",
     "d6g8k5htny-coder/query-",
 }
 _SUMMARY_FIELDS = ("tests", "pass", "fail", "cancelled", "skipped", "todo")
+
+
+def assert_loaded_sources(main_root):
+    expected = {main_root.resolve() / "tools/cbz_node_regression.py",
+                main_root.resolve() / "tools/museum_data.py"}
+    if set(_LOADED_SOURCES) != expected:
+        raise ValueError("loaded source root identity mismatch")
+    for path, raw in _LOADED_SOURCES.items():
+        if path.is_symlink() or path.read_bytes() != raw:
+            raise ValueError("loaded source bytes changed")
 
 
 def git_env():
@@ -139,10 +153,6 @@ def source_snapshot(root):
             executable = bool(path.stat().st_mode & 0o111)
             if executable != (mode == b"100755"):
                 raise ValueError("main tracked executable mode changed")
-        elif mode == b"120000" and kind == b"blob":
-            if not path.is_symlink():
-                raise ValueError("main tracked symlink changed type")
-            raw = os.fsencode(os.readlink(path))
         else:
             raise ValueError("main contains an unsupported tracked Git entry")
         actual = hashlib.sha1(
@@ -167,16 +177,72 @@ def tap_summary(text):
 
 
 def node_command(root, node):
-    paths = git(root, "ls-files", "-z", "--", "tests/*.mjs").split(b"\0")
-    paths = [os.fsdecode(path) for path in paths if path]
+    entries = git(root, "ls-files", "--stage", "-z", "--", "tests/*.mjs")
+    paths = []
+    for entry in entries.split(b"\0"):
+        if not entry:
+            continue
+        metadata, path = entry.split(b"\t", 1)
+        mode, oid, stage = metadata.split()
+        if mode not in (b"100644", b"100755") or stage != b"0":
+            raise ValueError("regular stage-zero Node test files are required")
+        paths.append(os.fsdecode(path))
     if not paths:
         raise ValueError("no tracked Node tests")
     return [node, "--test", "--test-reporter=tap", *sorted(paths)]
 
 
-def execute_node(root, command, environment, log):
+def verify_fixture_tree(output, expected):
+    """Require the exact regular fixture/manifest file and directory domain."""
+    expected_dirs = {"shop", "museum"}
+    for relative in expected:
+        path = PurePosixPath(relative)
+        if (path.is_absolute() or path.parts[0] not in expected_dirs
+                or any(part in ("", ".", "..") for part in relative.split("/"))):
+            raise ValueError("invalid fixture expectation")
+        expected_dirs.update(str(parent) for parent in path.parents
+                             if str(parent) != ".")
+    def walk_error(error):
+        raise error
+
+    actual_files = {}
+    actual_dirs = set()
+    for label in ("shop", "museum"):
+        root = output / label
+        if root.is_symlink() or not root.is_dir():
+            raise ValueError("fixture root missing or changed type")
+        for directory, directories, files in os.walk(root, followlinks=False, onerror=walk_error):
+            parent = Path(directory)
+            actual_dirs.add(parent.relative_to(output).as_posix())
+            for name in directories:
+                actual_dirs.add((parent / name).relative_to(output).as_posix())
+                if (parent / name).is_symlink():
+                    raise ValueError("fixture directory is a symlink")
+            for name in files:
+                path = parent / name
+                if path.is_symlink() or not path.is_file():
+                    raise ValueError("fixture file missing or changed type")
+                raw = path.read_bytes()
+                actual_files[path.relative_to(output).as_posix()] = dict(
+                    bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+    if actual_files != expected or actual_dirs != expected_dirs:
+        raise ValueError("fixture set or bytes changed")
+
+
+class FixturePostflightError(ValueError):
+    def __init__(self, error, exit_code):
+        super().__init__(str(error))
+        self.exit_code = exit_code
+
+
+def execute_node(root, command, environment, log, fixture_root, expected_fixtures):
+    verify_fixture_tree(fixture_root, expected_fixtures)
     process = subprocess.run(command, cwd=root, env=environment,
                              stdout=log, stderr=subprocess.STDOUT)
+    try:
+        verify_fixture_tree(fixture_root, expected_fixtures)
+    except (OSError, ValueError) as error:
+        raise FixturePostflightError(error, process.returncode) from error
     return process.returncode
 
 
@@ -203,7 +269,9 @@ def run(main_root, math_root, query_root, output, node="node"):
                   mathematical_certification=False, final_cbz_certification=False)
     report = output / "result.json"
     write_report(report, record)
+    log = output / "node.tap"
     try:
+        assert_loaded_sources(main_root)
         record["source_before"] = source_snapshot(main_root)
         config = json.loads((main_root / "docs/site/config.json").read_bytes(),
                             object_pairs_hook=no_duplicates)
@@ -217,11 +285,25 @@ def run(main_root, math_root, query_root, output, node="node"):
             for descriptor, raw in museum
         }
         manifest = output / "museum/verified-inputs.json"
-        manifest.write_text(json.dumps(mapping, sort_keys=True) + "\n")
+        manifest_raw = (json.dumps(mapping, sort_keys=True) + "\n").encode("utf-8")
+        manifest.write_bytes(manifest_raw)
+        expected_fixtures = {}
+        for label, verified in (("shop", shop_verified), ("museum", museum)):
+            for descriptor, raw in verified:
+                repository = descriptor["repository"].rsplit("/", 1)[1]
+                relative = label + "/" + repository + "/" + descriptor["path"]
+                expected_fixtures[relative] = dict(
+                    bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
+        expected_fixtures["museum/verified-inputs.json"] = dict(
+            bytes=len(manifest_raw), sha256=hashlib.sha256(manifest_raw).hexdigest())
+        verify_fixture_tree(output, expected_fixtures)
+        record["fixture_files"] = len(expected_fixtures)
+        record["fixture_tree_sha256"] = hashlib.sha256(json.dumps(
+            expected_fixtures, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         museum_data.check_export(
             main_root / "docs/site/museum.json",
             museum_data.build(output / "museum/main", output / "museum/Math-"))
-        environment = {key: value for key, value in os.environ.items()
+        environment = {key: value for key, value in git_env().items()
                        if key not in ("NODE_OPTIONS", "NODE_PATH")}
         environment.update(
             SHOP_MATH_FIXTURE=str(output / "shop/Math-"),
@@ -244,10 +326,11 @@ def run(main_root, math_root, query_root, output, node="node"):
                                         sha256=hashlib.sha256(raw).hexdigest())
                                    for d, raw in museum]
         write_report(report, record)
-        log = output / "node.tap"
         with log.open("wb") as stream:
-            record["node_exit"] = execute_node(main_root, command, environment, stream)
+            record["node_exit"] = execute_node(
+                main_root, command, environment, stream, output, expected_fixtures)
         record["log_sha256"] = hashlib.sha256(log.read_bytes()).hexdigest()
+        assert_loaded_sources(main_root)
         record["source_after"] = source_snapshot(main_root)
         if record["source_after"] != record["source_before"]:
             raise ValueError("main HEAD changed during Node execution")
@@ -258,6 +341,10 @@ def run(main_root, math_root, query_root, output, node="node"):
     except Exception as error:
         record["status"] = "FAIL"
         record["error"] = str(error)
+        if isinstance(error, FixturePostflightError):
+            record["node_exit"] = error.exit_code
+        if log.is_file():
+            record["log_sha256"] = hashlib.sha256(log.read_bytes()).hexdigest()
     finally:
         record["finished_utc"] = datetime.now(timezone.utc).isoformat()
         write_report(report, record)

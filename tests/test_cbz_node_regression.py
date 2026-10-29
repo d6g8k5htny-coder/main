@@ -152,10 +152,11 @@ class NodeRunnerTests(unittest.TestCase):
         environment = dict(os.environ, SHOP_MATH_FIXTURE=str(output / "shop/Math-"))
         path = self.directory / "mutation.tap"
         with path.open("wb") as log:
-            with self.assertRaisesRegex(ValueError, "fixture"):
+            with self.assertRaisesRegex(ValueError, "fixture") as failure:
                 self.module.execute_node(
                     self.repo, self.module.node_command(self.repo, "node"),
                     environment, log, output, expected)
+        self.assertEqual(failure.exception.exit_code, 0)
         self.assertEqual(self.module.tap_summary(path.read_text())["pass"], 1)
         self.assertEqual((output / "shop/Math-/data.txt").read_bytes(), b"mutated\n")
 
@@ -319,7 +320,7 @@ class NodeRunnerTests(unittest.TestCase):
             code = self.module.execute_node(
                 self.repo, [sys.executable, "-c",
                             "print('real stdout'); raise SystemExit(7)"],
-                dict(os.environ), log)
+                dict(os.environ), log, *self.make_fixtures())
         self.assertEqual(code, 7)
         self.assertEqual(log_path.read_text(), "real stdout\n")
 
@@ -328,7 +329,7 @@ class NodeRunnerTests(unittest.TestCase):
             with self.assertRaises(FileNotFoundError):
                 self.module.execute_node(
                     self.repo, [str(self.directory / "absent")],
-                    dict(os.environ), log)
+                    dict(os.environ), log, *self.make_fixtures())
 
     def test_real_node_skips_are_not_a_green_suite(self):
         self.assertIsNotNone(shutil.which("node"), "Node is required for this suite")
@@ -340,7 +341,7 @@ class NodeRunnerTests(unittest.TestCase):
         with path.open("wb") as log:
             code = self.module.execute_node(
                 self.repo, self.module.node_command(self.repo, "node"),
-                dict(os.environ), log)
+                dict(os.environ), log, *self.make_fixtures())
         self.assertEqual(code, 0)
         with self.assertRaisesRegex(ValueError, "skipped/todo"):
             self.module.tap_summary(path.read_text())
@@ -383,6 +384,8 @@ class NodeRunnerTests(unittest.TestCase):
 def assertion_kill(process, expected):
     text = process.stdout + process.stderr
     summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
+    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):
+        return False
     if process.returncode == 0 or not summary or "errors=" in summary.group(1):
         return False
     if not re.search(r"^Ran [1-9][0-9]* tests?", text, re.MULTILINE):
@@ -430,6 +433,23 @@ class MutationHarnessTests(unittest.TestCase):
 
 class SourceMutationTests(unittest.TestCase):
     MUTATIONS = [
+        ("loaded-root", "set(_LOADED_SOURCES) != expected", "False",
+         "test_loaded_sources_must_belong_to_selected_main"),
+        ("loaded-bytes", "path.read_bytes() != raw", "False",
+         "test_loaded_source_and_imported_helper_cannot_drift"),
+        ("selected-symlink", 'mode not in (b"100644", b"100755") or stage != b"0"',
+         "False", "test_selected_node_test_symlink_is_rejected"),
+        ("external-source-symlink",
+         '        else:\n            raise ValueError("main contains an unsupported tracked Git entry")',
+         '        elif mode == b"120000" and kind == b"blob":\n            raw = os.fsencode(os.readlink(path))\n        else:\n            raise ValueError("main contains an unsupported tracked Git entry")',
+         "test_tracked_source_symlink_cannot_bind_an_external_dependency"),
+        ("fixture-domain", "if actual_files != expected or actual_dirs != expected_dirs:",
+         "if False:", "test_child_fixture_mutation_is_a_failed_postflight"),
+        ("fixture-postflight",
+         "    try:\n        verify_fixture_tree(fixture_root, expected_fixtures)\n    except (OSError, ValueError) as error:\n        raise FixturePostflightError(error, process.returncode) from error\n    return process.returncode",
+         "    return process.returncode",
+         "test_child_fixture_mutation_is_a_failed_postflight"),
+
         ("ambient-git", 'if not key.startswith("GIT_")', "if True",
          "test_ambient_git_redirect_cannot_select_another_object_database"),
         ("length", "len(raw) != length or ", "",
@@ -438,7 +458,7 @@ class SourceMutationTests(unittest.TestCase):
          "test_all_byte_identities_are_required"),
         ("declared-blob", "(blob is not None and actual_blob != blob)", "False",
          "test_all_byte_identities_are_required"),
-        ("regular-blob", 'mode not in (b"100644", b"100755")', "False",
+        ("regular-blob", 'mode not in (b"100644", b"100755") or kind != b"blob"', 'False or kind != b"blob"',
          "test_symlink_is_not_admitted_as_a_regular_fixture"),
         ("url", 'descriptor["url"] != expected_url', "False",
          "test_url_alias_is_rejected"),
@@ -496,6 +516,10 @@ class SourceMutationTests(unittest.TestCase):
         full_source = Path(__file__).read_text()
         source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
+            ("import",
+             '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
+             "", "test_import_trace_inside_assertion_cannot_kill"),
+
             ("exit", "process.returncode == 0 or not summary", "not summary",
              "test_success_exit_cannot_kill"),
             ("errors", ' or "errors=" in summary.group(1)', "",
