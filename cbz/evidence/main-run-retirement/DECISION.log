@@ -1,3 +1,5 @@
 [2026-10-29 20:53:27 UTC] [phase3] [layerC] Adapt the observed Math superseded-run retirement mechanism to current main PRs704/705 only, after 10 controls and an actual complete Math run passed. Add three allowlist controls, preserve in-flight/terminal-race records and fresh source/status rereads; no current-head or ambiguous run may be cancelled. New main execution pending. Reversible: yes. Evidence: cbz/evidence/main-run-retirement/README.md.
 
 [2026-10-29 20:56:36 UTC] [phase3] [layerC] Observe the scoped main cancellation-run report and independently re-read all six requested run states. No out-of-scope cancellation request appears in the report. This is operational evidence only. Reversible: yes. Evidence: cbz/evidence/main-run-retirement/RESULTS.json.
+
+[2026-10-29 20:57:09 UTC] [phase3] [layerA] Qualify the cancellation policy truthfully: fresh read and POST are not atomic, and concurrent ref movement between them is not ruled out. The run report records the final read and requested action, not a lock. Reversible: yes. Evidence: RESULTS.json.
