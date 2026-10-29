@@ -14,7 +14,7 @@ except ImportError:
     sync_playwright = None
 
 ROOT = Path(__file__).resolve().parents[1]
-CHROMIUM = shutil.which("chromium") or shutil.which("google-chrome")
+CHROMIUM = os.environ.get("ATLAS_BROWSER_EXECUTABLE") or shutil.which("google-chrome") or shutil.which("chromium")
 
 
 @unittest.skipUnless(sync_playwright and CHROMIUM,

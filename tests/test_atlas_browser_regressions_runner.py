@@ -4,6 +4,8 @@ import importlib.util
 import io
 import json
 import tempfile
+import types
+import hashlib
 from unittest import mock
 from pathlib import Path
 import unittest
@@ -163,6 +165,60 @@ class AtlasBrowserRunnerControls(unittest.TestCase):
             values = {item.arg: item.value for item in launches[0].keywords}
             self.assertIn('chromium_sandbox', values)
             self.assertIs(values['chromium_sandbox'].value, True)
+
+    def browser_selection(self, filename, attribute, override, available):
+        tree = ast.parse((ROOT / 'tests' / filename).read_text())
+        assignments = [node for node in tree.body if isinstance(node, ast.Assign)
+                       and any(isinstance(target, ast.Name) and target.id == attribute
+                               for target in node.targets)]
+        self.assertEqual(len(assignments), 1)
+        launches = [node for node in ast.walk(tree) if isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Attribute) and node.func.attr == 'launch']
+        executable = next(item.value for item in launches[0].keywords
+                          if item.arg == 'executable_path')
+        self.assertEqual(ast.dump(executable), ast.dump(ast.Name(id=attribute, ctx=ast.Load())))
+        environment = {} if override is None else {'ATLAS_BROWSER_EXECUTABLE': override}
+        return eval(compile(ast.Expression(assignments[0].value), filename, 'eval'), {
+            'os': types.SimpleNamespace(environ=environment),
+            'shutil': types.SimpleNamespace(which=available.get)})
+
+    def test_both_tests_select_override_then_chrome_then_chromium(self):
+        cases = (
+            ('/explicit/browser', {'google-chrome': '/chrome', 'chromium': '/chromium'}, '/explicit/browser'),
+            (None, {'google-chrome': '/chrome', 'chromium': '/chromium'}, '/chrome'),
+            ('', {'google-chrome': '/chrome', 'chromium': '/chromium'}, '/chrome'),
+            (None, {'chromium': '/chromium'}, '/chromium'),
+            (None, {}, None),
+        )
+        for filename, attribute in (('test_atlas_focus_geometry.py', 'CHROMIUM'),
+                                    ('test_atlas_reader_scroll.py', 'BROWSER')):
+            for override, available, expected in cases:
+                with self.subTest(filename=filename, override=override, available=available):
+                    self.assertEqual(self.browser_selection(filename, attribute, override, available), expected)
+
+    def test_runtime_identity_records_each_test_selected_launcher(self):
+        # Version probing is stubbed: no real executable or browser is launched.
+        with tempfile.TemporaryDirectory() as temp:
+            modules = {}
+            expected = []
+            for filename, attribute in (('test_atlas_focus_geometry.py', 'CHROMIUM'),
+                                        ('test_atlas_reader_scroll.py', 'BROWSER')):
+                launcher = Path(temp) / filename
+                launcher.write_bytes(filename.encode())
+                selected = self.browser_selection(filename, attribute, str(launcher), {})
+                self.assertEqual(selected, str(launcher))
+                name = 'tests.' + filename.removesuffix('.py')
+                modules[name] = types.SimpleNamespace(**{attribute: selected})
+                expected.append({'module': name, 'path': str(launcher.resolve()),
+                                 'version': 'controlled version',
+                                 'sha256': hashlib.sha256(launcher.read_bytes()).hexdigest()})
+            with mock.patch.dict(self.runner.sys.modules, modules), \
+                    mock.patch.object(self.runner.subprocess, 'check_output', return_value='controlled version\n') as probe, \
+                    mock.patch.object(self.runner.importlib.metadata, 'version', return_value='controlled playwright'):
+                result = self.runner.runtime_identity()
+            self.assertEqual(result['browsers'], expected)
+            self.assertEqual(probe.call_args_list, [mock.call([item['path'], '--version'], text=True,
+                             stderr=self.runner.subprocess.STDOUT, timeout=15) for item in expected])
 
     def test_workflow_runs_both_modes_and_retains_evidence(self):
         source = (ROOT / '.github/workflows/public-shop.yml').read_text()

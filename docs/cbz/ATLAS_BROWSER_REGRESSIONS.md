@@ -11,8 +11,14 @@ long-reader-selection method IDs declared in `EXPECTED_IDS`. It refuses an empty
 duplicate, missing, extra or renamed inventory. Success requires exactly two
 successful methods, no failures/errors/skips, no expected failures/unexpected
 successes, and unchanged clean tracked source identity before/after execution.
-The focus test now explicitly enables Chromium's sandbox, matching the reader
-test and existing hosted browser policy. No UI assertion or bound is changed.
+Both tests explicitly enable Chromium's sandbox and choose the explicit
+`ATLAS_BROWSER_EXECUTABLE` override first, then packaged `google-chrome`, then
+`chromium`. This matches the existing reader selection and hosted browser policy.
+No UI assertion or bound is changed. The first hosted PR #702 attempt at source
+`625bfc89975efa1fd725076bc2b0961af2768279` failed: focus selected Chromium and
+reported “No usable sandbox”; reader passed with packaged Chrome. That failure
+is not erased by this launcher correction. Corrected actual browser execution
+remains pending hosted qualification; no local denied launch was retried.
 
 The existing public-shop `browser-smoke` job supplies the hash-pinned
 `tests/browser-requirements.txt` dependencies and packaged Chrome. No permission,
@@ -46,10 +52,12 @@ python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v
 python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner -v
 ```
 
-Fifteen controls run without launching a browser. They cover inventory, actual
+Seventeen controls run without launching a browser. They cover inventory, actual
 unittest success/failure/error/subtest/skip/expected-failure/unexpected-success,
 missing execution, report/exit consistency, source drift, old-output retention,
-explicit sandbox parameters and workflow wiring. Six actual runner-source mutants
+explicit sandbox parameters, workflow wiring, ten launcher-selection cases and
+runner identity correspondence to each selected test launcher. Identity controls
+stub version probing and never launch a browser. Six actual runner-source mutants
 must fail their designated assertions with zero errors or skips: bypass inventory,
 force green, ignore source drift, overwrite old evidence, return wrong exit and
 retain a success report after exception. The unchanged control must pass. Finite
@@ -63,8 +71,8 @@ facts into their current versions rather than restoring the historical STATUS:
 - GOVERNANCE/TOOLING: `tools/run_atlas_browser_regressions.py`; purpose: fixed-ID,
   zero-skip execution of two Atlas UI regressions; criterion: G5 execution coverage
   and G11 documented tooling; usage/self-verification: exact commands above;
-  maintenance owner: none, self-contained; verification: 15 controls and 6 source
-  mutants per mode locally passed; actual hosted browser result remains pending.
+  maintenance owner: none, self-contained; verification: 17 runner controls (32 combined browser-contract controls) and 6
+  runner-source mutants per mode locally passed in the fresh recovery checkout; actual hosted browser result remains pending.
 - STATUS, How to verify: run both control commands, then both real runner commands
   in the existing pinned browser-smoke environment; report the original result
   JSON/logs and checked source identity. This does not close five separate
