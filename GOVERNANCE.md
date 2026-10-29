@@ -223,3 +223,5 @@ The proposed [current-base pair-law workflow](https://github.com/d6g8k5htny-code
 ### Replay-helper mutation-grader qualification limit
 
 Source review found that the historical bounded replay helper's Python mutant classifier accepts a named failure plus an `AssertionError` appearing anywhere in the same failing transcript, without excluding other failures/errors or binding the assertion to the selected guard. Its test loader can also read existing bytecode. These are source-level findings, not a newly executed adverse test. The old mutation counts do not establish auditor soundness; targeted controls and any fix are pending. The historical Lean executions and literal source/axiom records remain preserved at their stated cuts. [Exact source review](cbz/evidence/replay-helper-grader-source-review.json).
+
+The same source review found that the historical replay mutation runner's baseline condition does not check a nonzero test count, and that the separate Lean self-test normally imports the helper. A zero-test baseline and stale-bytecode path therefore need actual adverse controls; these are not claimed as executed failures yet.

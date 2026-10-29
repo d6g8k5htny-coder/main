@@ -19,5 +19,7 @@
     "No new Python test, mutation campaign or fixed-source result was executed in this observation.",
     "A literal Lean theorem must retain its exact source, hypotheses, axiom and execution evidence; a replay parser supplied with text does not itself authenticate a process.",
     "Final G0/G1/G6 and full federation closure remain unqualified."
-  ]
+  ],
+  "additional_source_finding": "The baseline predicate accepts exit 0 and the marker newline-OK-newline without checking the test count, so a zero-test unittest run can satisfy it. The separate Lean self-test uses a normal import of replay_tool, which also may consume valid stale bytecode; -B only prevents writing bytecode.",
+  "logical_baseline_counterexample": "A hypothetical exit-0 unittest stderr containing 'Ran 0 tests in 0.000s\\n\\nOK\\n' satisfies the source predicate. This is a source-condition evaluation, not an observed Python execution."
 }
