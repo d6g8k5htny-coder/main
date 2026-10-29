@@ -1,0 +1,1996 @@
+@I4Foundation.coordinate_measurePreserving : ∀ {ι : Type u_1} (i : ι),
+  @MeasureTheory.MeasurePreserving (ι → Real) Real (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+    Real.measurableSpace (fun ω => ω i) (I4Foundation.coefficientLaw ι)
+    (ProbabilityTheory.gaussianReal (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@OfNat.ofNat NNReal (nat_lit 1) (@One.toOfNat1 NNReal NNReal.instOne)))
+@I4Foundation.coordinate_marginal : ∀ {ι : Type u_1} (i : ι),
+  @Eq (@MeasureTheory.Measure Real Real.measurableSpace)
+    (@MeasureTheory.Measure.map (ι → Real) Real (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+      Real.measurableSpace (fun ω => ω i) (I4Foundation.coefficientLaw ι))
+    (ProbabilityTheory.gaussianReal (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@OfNat.ofNat NNReal (nat_lit 1) (@One.toOfNat1 NNReal NNReal.instOne)))
+I4Foundation.coordinates_independent : ∀ (ι : Type u_1),
+  @ProbabilityTheory.iIndepFun (ι → Real) ι (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+    (fun i => Real) (fun x => Real.measurableSpace) (fun i ω => ω i) (I4Foundation.coefficientLaw ι)
+@I4Foundation.coordinate_memLp : ∀ {ι : Type u_1} (i : ι) (p : ENNReal),
+  @Ne ENNReal p (@Top.top ENNReal ENNReal.instTop) →
+    @MeasureTheory.MemLp (ι → Real) Real (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (fun ω => ω i) p (I4Foundation.coefficientLaw ι)
+@I4Foundation.coordinate_integrable : ∀ {ι : Type u_1} (i : ι),
+  @MeasureTheory.Integrable Real
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@SeminormedAddGroup.toContinuousENorm Real
+      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+    (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace) (fun ω => ω i)
+    (I4Foundation.coefficientLaw ι)
+@I4Foundation.coordinate_abs_integrable : ∀ {ι : Type u_1} (i : ι),
+  @MeasureTheory.Integrable Real
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@SeminormedAddGroup.toContinuousENorm Real
+      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+    (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+    (fun ω => @abs Real Real.lattice Real.instAddGroup (ω i)) (I4Foundation.coefficientLaw ι)
+@I4Foundation.weighted_abs_summable_ae : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  (∀ (i : ι), @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) (a i)) →
+    @Summable Real ι Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+        (SummationFilter.unconditional ι) →
+      @Filter.Eventually (ι → Real)
+        (fun ω =>
+          @Summable Real ι Real.instAddCommMonoid
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (fun i =>
+              @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (a i)
+                (@abs Real Real.lattice Real.instAddGroup (ω i)))
+            (SummationFilter.unconditional ι))
+        (@MeasureTheory.ae (ι → Real)
+          (@MeasureTheory.Measure (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace))
+          (@MeasureTheory.Measure.instFunLike (ι → Real)
+            (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace))
+          ⋯ (I4Foundation.coefficientLaw ι))
+@I4Foundation.scalarSeries_measurable : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  @Measurable (ι → Real) Real (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace) Real.measurableSpace
+    (@I4Foundation.scalarSeries ι a)
+@I4Foundation.scalarSeries_hasSum_ae : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  @Summable Real ι Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+      (SummationFilter.unconditional ι) →
+    @Filter.Eventually (ι → Real)
+      (fun ω =>
+        @HasSum Real ι Real.instAddCommMonoid
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (fun i => @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (a i) (ω i))
+          (@I4Foundation.scalarSeries ι a ω) (SummationFilter.unconditional ι))
+      (@MeasureTheory.ae (ι → Real)
+        (@MeasureTheory.Measure (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (ι → Real)
+          (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Foundation.coefficientLaw ι))
+@I4Weights.summable_decay_pow : ∀ {a : Real},
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a →
+    ∀ (n : Nat),
+      @Summable Real Int Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (fun k =>
+          @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Weights.decay a k)
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@abs Real Real.lattice Real.instAddGroup (@Int.cast Real Real.instIntCast k)) n))
+        (SummationFilter.unconditional Int)
+@I4Weights.coordinateBound_summable : ∀ {a c : Real},
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a →
+    @Summable Real Int Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Weights.coordinateBound a c) (SummationFilter.unconditional Int)
+@I4Weights.finite_product_summable : ∀ {f : Int → Real},
+  @Summable Real Int Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) f
+      (SummationFilter.unconditional Int) →
+    (∀ (k : Int), @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) (f k)) →
+      ∀ (d : Nat),
+        @Summable Real (Fin d → Int) Real.instAddCommMonoid
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (fun k => ∏ i, f (k i)) (SummationFilter.unconditional (Fin d → Int))
+@I4Weights.productBound_summable : ∀ {a c : Real},
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a →
+    ∀ (d : Nat),
+      @Summable Real (Fin d → Int) Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (I4Weights.productBound d a c) (SummationFilter.unconditional (Fin d → Int))
+I4Weights.productDecay_eq_exp : ∀ (d : Nat) (a : Real) (k : Fin d → Int),
+  @Eq Real (I4Weights.productDecay d a k)
+    (Real.exp
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (@Neg.neg Real Real.instNeg a)
+        (∑ i,
+          @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+            (@Int.cast Real Real.instIntCast (k i)) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+I4Weights.frequency_l1_le_product : ∀ (d : Nat) (v : Fin d → Real),
+  (∀ (i : Fin d), @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) (v i)) →
+    @LE.le Real Real.instLE
+      (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) (∑ i, v i))
+      (∏ i,
+        @HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) (v i))
+@I4Weights.sourceA_pos : ∀ {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) (I4Weights.sourceA L)
+I4Weights.sourceWeight_eq_physical : ∀ (d : Nat) (L : Real) (k : Fin d → Int),
+  @Eq Real (I4Weights.sourceWeight d L k)
+    (Real.exp
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@Neg.neg Real Real.instNeg
+          (∑ i,
+            @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Weights.sourceC L)
+                (@Int.cast Real Real.instIntCast (k i)))
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))))
+I4Weights.sourceWeight_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Summable Real (Fin d → Int) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Weights.sourceWeight d L) (SummationFilter.unconditional (Fin d → Int))
+I4Weights.sourceZ_pos : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) (I4Weights.sourceZ d L)
+I4Weights.pairedBound_eq_amplitude : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (k : Fin d → Int),
+      @Eq Real (I4Weights.pairedBound d L k)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+                (I4Weights.sourceWeight d L k))
+              (I4Weights.sourceZ d L)).sqrt
+          (∏ i,
+            @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+                (@abs Real Real.lattice Real.instAddGroup
+                  (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Weights.sourceC L)
+                    (@Int.cast Real Real.instIntCast (k i)))))
+              (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))))
+I4Weights.pairedBound_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Summable Real (Fin d → Int) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Weights.pairedBound d L) (SummationFilter.unconditional (Fin d → Int))
+I4Weights.pairedBound_subtype_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (S : Set (Fin d → Int)),
+      @Summable Real (@Set.Elem (Fin d → Int) S) Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (fun k =>
+          I4Weights.pairedBound d L
+            (@Subtype.val (Fin d → Int)
+              (fun x => @Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int)) S x) k))
+        (SummationFilter.unconditional (@Set.Elem (Fin d → Int) S))
+I4Source.modeMajorant_nonneg : ∀ (d : Nat) (L : Real) (m : I4Source.SourceMode d),
+  @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (I4Source.modeMajorant d L m)
+I4Source.modeMajorant_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Summable Real (I4Source.SourceMode d) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Source.modeMajorant d L) (SummationFilter.unconditional (I4Source.SourceMode d))
+I4Source.modeCoefficient_bound : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (m : I4Source.SourceMode d) (x : Fin d → Real),
+      @LE.le Real Real.instLE (@abs Real Real.lattice Real.instAddGroup (I4Source.modeCoefficient d L m x))
+        (I4Source.modeMajorant d L m)
+I4Source.sourceField_eval_measurable : ∀ (d : Nat) (L : Real) (x : Fin d → Real),
+  @Measurable (I4Source.SourceMode d → Real) Real
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) Real.measurableSpace
+    fun ω => I4Source.sourceField d L ω x
+I4Source.sourceMajorant_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @Summable Real (I4Source.SourceMode d) Real.instAddCommMonoid
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (fun m =>
+            @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeMajorant d L m)
+              (@abs Real Real.lattice Real.instAddGroup (ω m)))
+          (SummationFilter.unconditional (I4Source.SourceMode d)))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4Source.sourceAbs_uniform_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @HasSumUniformly Real (Fin d → Real) (I4Source.SourceMode d) Real.instAddCommMonoid
+          (fun m x =>
+            @abs Real Real.lattice Real.instAddGroup
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeCoefficient d L m x) (ω m)))
+          (fun x =>
+            @tsum Real (I4Source.SourceMode d) Real.instAddCommMonoid
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (fun m =>
+                @abs Real Real.lattice Real.instAddGroup
+                  (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeCoefficient d L m x) (ω m)))
+              (SummationFilter.unconditional (I4Source.SourceMode d)))
+          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4Source.sourceField_uniform_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @HasSumUniformly Real (Fin d → Real) (I4Source.SourceMode d) Real.instAddCommMonoid
+          (fun m x => @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeCoefficient d L m x) (ω m))
+          (I4Source.sourceField d L ω) (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4Source.sourceField_continuous_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @Continuous (Fin d → Real) Real
+          (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+            @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (I4Source.sourceField d L ω))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4C4.phaseCLM_apply : ∀ (d : Nat) (L : Real) (k : Fin d → Int) (x : Fin d → Real),
+  @Eq Real
+    (@DFunLike.coe
+      (@ContinuousLinearMap Real Real Real.semiring Real.semiring
+        (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) Real
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        Real.instAddCommMonoid
+        (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+          (@Semiring.toModule Real Real.semiring))
+        (@Semiring.toModule Real Real.semiring))
+      (Fin d → Real) (fun x => Real)
+      (@ContinuousLinearMap.funLike Real Real Real.semiring Real.semiring
+        (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) Real
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        Real.instAddCommMonoid
+        (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+          (@Semiring.toModule Real Real.semiring))
+        (@Semiring.toModule Real Real.semiring))
+      (I4C4.phaseCLM d L k) x)
+    (I4Source.phase d L k x)
+I4C4.phaseCLM_norm_le : ∀ (d : Nat) (L : Real) (k : Fin d → Int),
+  @LE.le Real Real.instLE
+    (@norm
+      (@ContinuousLinearMap Real Real Real.semiring Real.semiring
+        (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) Real
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        Real.instAddCommMonoid
+        (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+          (@Semiring.toModule Real Real.semiring))
+        (@Semiring.toModule Real Real.semiring))
+      (@ContinuousLinearMap.hasOpNorm Real Real (Fin d → Real) Real
+        (@Pi.seminormedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+          @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)))
+      (I4C4.phaseCLM d L k))
+    (∑ i,
+      @abs Real Real.lattice Real.instAddGroup
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Weights.sourceC L)
+          (@Int.cast Real Real.instIntCast (k i))))
+I4C4.modeCoefficient_iteratedFDeriv_bound : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (m : I4Source.SourceMode d) (j : Nat),
+      @LE.le Nat instLENat j (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))) →
+        ∀ (x : Fin d → Real),
+          @LE.le Real Real.instLE
+            (@norm
+              (@ContinuousMultilinearMap Real (Fin j) (fun _i => Fin d → Real) Real
+                (@CommSemiring.toSemiring Real
+                  (@Semifield.toCommSemiring Real
+                    (@Field.toSemifield Real
+                      (@NormedField.toField Real
+                        (@NontriviallyNormedField.toNormedField Real
+                          (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))))))
+                (fun i =>
+                  @AddCommGroup.toAddCommMonoid (Fin d → Real)
+                    (@NormedAddCommGroup.toAddCommGroup (Fin d → Real)
+                      (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+                        Real.normedAddCommGroup)))
+                (@AddCommGroup.toAddCommMonoid Real (@NormedAddCommGroup.toAddCommGroup Real Real.normedAddCommGroup))
+                (fun i =>
+                  @NormedSpace.toModule Real (Fin d → Real)
+                    (@NontriviallyNormedField.toNormedField Real
+                      (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+                      (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup))
+                    (@Pi.normedSpace Real
+                      (@NontriviallyNormedField.toNormedField Real
+                        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                      (Fin d) (fun a => Real) (Fin.fintype d)
+                      (fun i =>
+                        @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                      fun i =>
+                      @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+                (@NormedSpace.toModule Real Real
+                  (@NontriviallyNormedField.toNormedField Real
+                    (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                  (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                    (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+                (fun i =>
+                  @UniformSpace.toTopologicalSpace (Fin d → Real)
+                    (@PseudoMetricSpace.toUniformSpace (Fin d → Real)
+                      (@SeminormedAddCommGroup.toPseudoMetricSpace (Fin d → Real)
+                        (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+                          (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+                            Real.normedAddCommGroup)))))
+                (@UniformSpace.toTopologicalSpace Real
+                  (@PseudoMetricSpace.toUniformSpace Real
+                    (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+                      (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)))))
+              (@ContinuousMultilinearMap.hasOpNorm' Real (Fin j) (Fin d → Real) Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+                (@Pi.seminormedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+                  @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                    (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                      (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                        (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@Pi.normedSpace Real
+                  (@NontriviallyNormedField.toNormedField Real
+                    (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                  (Fin d) (fun a => Real) (Fin.fintype d)
+                  (fun i =>
+                    @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                  fun i =>
+                  @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                    (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                    (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                  (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                    (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                      (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                        (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                  (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                (Fin.fintype j))
+              (@iteratedFDeriv Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+                (Fin d → Real)
+                (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+                (@Pi.normedSpace Real
+                  (@NontriviallyNormedField.toNormedField Real
+                    (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                  (Fin d) (fun a => Real) (Fin.fintype d)
+                  (fun i =>
+                    @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                  fun i =>
+                  @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                    (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                    (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                Real Real.normedAddCommGroup
+                (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                  (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                j (I4Source.modeCoefficient d L m) x))
+            (I4Source.modeMajorant d L m)
+I4C4.sourceField_contDiff_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+          (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+          (@Pi.normedSpace Real
+            (@NontriviallyNormedField.toNormedField Real
+              (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+            (Fin d) (fun a => Real) (Fin.fintype d)
+            (fun i =>
+              @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            fun i =>
+            @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          (@OfNat.ofNat (WithTop ENat) (nat_lit 4)
+            (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 4) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+          (I4Source.sourceField d L ω))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4C4.sourceField_contDiff_affine_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        ∀
+          (T :
+            @ContinuousLinearMap Real Real Real.semiring Real.semiring
+              (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+              (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) (Fin d → Real)
+              (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid)
+              (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                (@Semiring.toModule Real Real.semiring))
+              (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                (@Semiring.toModule Real Real.semiring)))
+          (a : Fin d → Real),
+          @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (@OfNat.ofNat (WithTop ENat) (nat_lit 4)
+              (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 4) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+            fun x =>
+            I4Source.sourceField d L ω
+              (@HAdd.hAdd (Fin d → Real) (Fin d → Real) (Fin d → Real)
+                (@instHAdd (Fin d → Real) (@Pi.instAdd (Fin d) (fun a => Real) fun i => Real.instAdd)) a
+                (@DFunLike.coe
+                  (@ContinuousLinearMap Real Real Real.semiring Real.semiring
+                    (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+                    (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) (Fin d → Real)
+                    (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid)
+                    (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                      (@Semiring.toModule Real Real.semiring))
+                    (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                      (@Semiring.toModule Real Real.semiring)))
+                  (Fin d → Real) (fun x => Fin d → Real)
+                  (@ContinuousLinearMap.funLike Real Real Real.semiring Real.semiring
+                    (@RingHom.id Real (@Semiring.toNonAssocSemiring Real Real.semiring)) (Fin d → Real)
+                    (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid) (Fin d → Real)
+                    (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@Pi.addCommMonoid (Fin d) (fun a => Real) fun i => Real.instAddCommMonoid)
+                    (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                      (@Semiring.toModule Real Real.semiring))
+                    (@Pi.Function.module (Fin d) Real Real Real.semiring Real.instAddCommMonoid
+                      (@Semiring.toModule Real Real.semiring)))
+                  T x)))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+@I4SourceGaussian.scalarSeries_map_gaussian : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  @Summable Real ι Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+      (SummationFilter.unconditional ι) →
+    @Eq (@MeasureTheory.Measure Real Real.measurableSpace)
+      (@MeasureTheory.Measure.map (ι → Real) Real (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+        Real.measurableSpace (@I4Foundation.scalarSeries ι a) (I4Foundation.coefficientLaw ι))
+      (ProbabilityTheory.gaussianReal (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+        (@tsum Real ι Real.instAddCommMonoid
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (fun i =>
+              @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                (a i) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+            (SummationFilter.unconditional ι)).toNNReal)
+@I4SourceGaussian.scalarSeries_integral_zero : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  @Summable Real ι Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+      (SummationFilter.unconditional ι) →
+    @Eq Real
+      (@MeasureTheory.integral (ι → Real) Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace) (I4Foundation.coefficientLaw ι) fun ω =>
+        @I4Foundation.scalarSeries ι a ω)
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+@I4SourceGaussian.scalarSeries_variance : ∀ {ι : Type u_1} [Countable ι] (a : ι → Real),
+  @Summable Real ι Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+      (SummationFilter.unconditional ι) →
+    @Eq Real
+      (@ProbabilityTheory.variance (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+        (@I4Foundation.scalarSeries ι a) (I4Foundation.coefficientLaw ι))
+      (@tsum Real ι Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (fun i =>
+          @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (a i)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (SummationFilter.unconditional ι))
+I4SourceGaussian.source_linearCombination_hasGaussianLaw : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (n : Nat) (x : Fin n → Fin d → Real) (c : Fin n → Real),
+      @ProbabilityTheory.HasGaussianLaw (I4Source.SourceMode d → Real) Real
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        Real.instAddCommMonoid (@Semiring.toModule Real Real.semiring) Real.measurableSpace
+        (fun ω => ∑ j, @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (c j) (I4Source.sourceField d L ω (x j)))
+        (I4Source.sourceLaw d)
+I4SourceGaussian.source_finiteVector_hasGaussianLaw : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (n : Nat) (x : Fin n → Fin d → Real),
+      @ProbabilityTheory.HasGaussianLaw (I4Source.SourceMode d → Real) (Fin n → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+        (@Pi.topologicalSpace (Fin n) (fun j => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.addCommMonoid (Fin n) (fun j => Real) fun i => Real.instAddCommMonoid)
+        (@Pi.Function.module (Fin n) Real Real Real.semiring Real.instAddCommMonoid
+          (@Semiring.toModule Real Real.semiring))
+        (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+        (fun ω j => I4Source.sourceField d L ω (x j)) (I4Source.sourceLaw d)
+I4SourceGaussian.sourceField_isGaussianProcess : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @ProbabilityTheory.IsGaussianProcess (I4Source.SourceMode d → Real) Real (Fin d → Real)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) Real.measurableSpace
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      Real.instAddCommMonoid (@Semiring.toModule Real Real.semiring) (fun x ω => I4Source.sourceField d L ω x)
+      (I4Source.sourceLaw d)
+I4Lattice.halfLattice_ne_zero : ∀ (d : Nat) {k : Fin d → Int},
+  @Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int)) (I4Source.halfLattice d) k →
+    @Ne (Fin d → Int) k
+      (@OfNat.ofNat (Fin d → Int) (nat_lit 0)
+        (@Zero.toOfNat0 (Fin d → Int)
+          (@Pi.instZero (Fin d) (fun a => Int) fun i =>
+            @MulZeroClass.toZero Int (@instMulZeroClassOfSemiring Int Int.instSemiring))))
+I4Lattice.halfLattice_partition : ∀ (d : Nat) {k : Fin d → Int},
+  @Ne (Fin d → Int) k
+      (@OfNat.ofNat (Fin d → Int) (nat_lit 0)
+        (@Zero.toOfNat0 (Fin d → Int)
+          (@Pi.instZero (Fin d) (fun a => Int) fun i =>
+            @MulZeroClass.toZero Int (@instMulZeroClassOfSemiring Int Int.instSemiring)))) →
+    And
+      (Or
+        (@Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int)) (I4Source.halfLattice d)
+          k)
+        (@Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int)) (I4Source.halfLattice d)
+          (@Neg.neg (Fin d → Int) (@Pi.instNeg (Fin d) (fun a => Int) fun i => Int.instNegInt) k)))
+      (Not
+        (And
+          (@Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int))
+            (I4Source.halfLattice d) k)
+          (@Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int))
+            (I4Source.halfLattice d)
+            (@Neg.neg (Fin d → Int) (@Pi.instNeg (Fin d) (fun a => Int) fun i => Int.instNegInt) k))))
+I4Lattice.sourceWeight_neg : ∀ (d : Nat) (L : Real) (k : Fin d → Int),
+  @Eq Real
+    (I4Weights.sourceWeight d L (@Neg.neg (Fin d → Int) (@Pi.instNeg (Fin d) (fun a => Int) fun i => Int.instNegInt) k))
+    (I4Weights.sourceWeight d L k)
+I4Lattice.phase_lattice_shift : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (k n : Fin d → Int) (x : Fin d → Real),
+      @Eq Real
+        (I4Source.phase d L k fun i =>
+          @HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) (x i)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) L (@Int.cast Real Real.instIntCast (n i))))
+        (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) (I4Source.phase d L k x)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@Int.cast Real Real.instIntCast (∑ i, @HMul.hMul Int Int Int (@instHMul Int Int.instMul) (k i) (n i)))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) Real.pi)))
+I4Lattice.modeCoefficient_lattice_shift : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (m : I4Source.SourceMode d) (n : Fin d → Int) (x : Fin d → Real),
+      @Eq Real
+        (I4Source.modeCoefficient d L m fun i =>
+          @HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) (x i)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) L (@Int.cast Real Real.instIntCast (n i))))
+        (I4Source.modeCoefficient d L m x)
+I4Lattice.sourceField_lattice_shift : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4Source.SourceMode d → Real) (n : Fin d → Int) (x : Fin d → Real),
+      @Eq Real
+        (I4Source.sourceField d L ω fun i =>
+          @HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) (x i)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) L (@Int.cast Real Real.instIntCast (n i))))
+        (I4Source.sourceField d L ω x)
+I4Lattice.pairedCoefficient_kernel : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (k : @Set.Elem (Fin d → Int) (I4Source.halfLattice d)) (x y : Fin d → Real),
+      @Eq Real
+        (∑ b,
+          @HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (I4Source.modeCoefficient d L
+              (@some (Prod (@Set.Elem (Fin d → Int) (I4Source.halfLattice d)) Bool)
+                (@Prod.mk (@Set.Elem (Fin d → Int) (I4Source.halfLattice d)) Bool k b))
+              x)
+            (I4Source.modeCoefficient d L
+              (@some (Prod (@Set.Elem (Fin d → Int) (I4Source.halfLattice d)) Bool)
+                (@Prod.mk (@Set.Elem (Fin d → Int) (I4Source.halfLattice d)) Bool k b))
+              y))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+              (I4Weights.sourceWeight d L
+                (@Subtype.val (Fin d → Int)
+                  (fun x =>
+                    @Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int))
+                      (I4Source.halfLattice d) x)
+                  k)))
+            (I4Weights.sourceZ d L))
+          (Real.cos
+            (I4Source.phase d L
+              (@Subtype.val (Fin d → Int)
+                (fun x =>
+                  @Membership.mem (Fin d → Int) (Set (Fin d → Int)) (@Set.instMembership (Fin d → Int))
+                    (I4Source.halfLattice d) x)
+                k)
+              (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+                (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub)) x y))))
+I4Lattice.latticeFrequency_bijective : ∀ (d : Nat),
+  @Function.Bijective (I4Source.SourceMode d) (Fin d → Int) (I4Lattice.latticeFrequency d)
+I4Kernel.modeProduct_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x y : Fin d → Real),
+      @Summable Real (I4Source.SourceMode d) Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (fun m =>
+          @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeCoefficient d L m x)
+            (I4Source.modeCoefficient d L m y))
+        (SummationFilter.unconditional (I4Source.SourceMode d))
+I4Kernel.spectralKernel_summable : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (z : Fin d → Real),
+      @Summable Real (Fin d → Int) Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (fun k =>
+          @HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+              (I4Weights.sourceWeight d L k) (I4Weights.sourceZ d L))
+            (Real.cos (I4Source.phase d L k z)))
+        (SummationFilter.unconditional (Fin d → Int))
+I4Kernel.coefficientKernel_eq_fullLattice : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x y : Fin d → Real),
+      @Eq Real
+        (@tsum Real (I4Source.SourceMode d) Real.instAddCommMonoid
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (fun m =>
+            @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Source.modeCoefficient d L m x)
+              (I4Source.modeCoefficient d L m y))
+          (SummationFilter.unconditional (I4Source.SourceMode d)))
+        (I4Kernel.sourceSpectralKernel d L
+          (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+            (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub)) x y))
+I4Kernel.spectralKernel_zero : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Eq Real
+      (I4Kernel.sourceSpectralKernel d L
+        (@OfNat.ofNat (Fin d → Real) (nat_lit 0)
+          (@Zero.toOfNat0 (Fin d → Real) (@Pi.instZero (Fin d) (fun a => Real) fun i => Real.instZero))))
+      (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+@I4SourceCovariance.scalarSeries_covariance : ∀ {ι : Type u_1} [Countable ι] (a b : ι → Real),
+  @Summable Real ι Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) a
+      (SummationFilter.unconditional ι) →
+    @Summable Real ι Real.instAddCommMonoid
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) b
+        (SummationFilter.unconditional ι) →
+      @Eq Real
+        (@ProbabilityTheory.covariance (ι → Real) (@MeasurableSpace.pi ι (fun a => Real) fun a => Real.measurableSpace)
+          (@I4Foundation.scalarSeries ι a) (@I4Foundation.scalarSeries ι b) (I4Foundation.coefficientLaw ι))
+        (@tsum Real ι Real.instAddCommMonoid
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (fun i => @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (a i) (b i))
+          (SummationFilter.unconditional ι))
+I4SourceCovariance.sourceField_integral_zero : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x : Fin d → Real),
+      @Eq Real
+        (@MeasureTheory.integral (I4Source.SourceMode d → Real) Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          (I4Source.sourceLaw d) fun ω => I4Source.sourceField d L ω x)
+        (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+I4SourceCovariance.sourceField_covariance : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x y : Fin d → Real),
+      @Eq Real
+        (@ProbabilityTheory.covariance (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          (fun ω => I4Source.sourceField d L ω x) (fun ω => I4Source.sourceField d L ω y) (I4Source.sourceLaw d))
+        (I4Kernel.sourceSpectralKernel d L
+          (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+            (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub)) x y))
+I4SourceCovariance.sourceField_variance_one : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x : Fin d → Real),
+      @Eq Real
+        (@ProbabilityTheory.variance (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          (fun ω => I4Source.sourceField d L ω x) (I4Source.sourceLaw d))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+I4Torus.torusProjection_measurable : ∀ (d : Nat) (L : Real),
+  @Measurable (Fin d → Real) (I4Torus.SourceTorus d L)
+    (@MeasurableSpace.pi (Fin d) (fun a => Real) fun a => Real.measurableSpace)
+    (@MeasurableSpace.pi (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun a =>
+      @QuotientAddGroup.measurableSpace Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) Real.measurableSpace
+        (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+    (I4Torus.torusProjection d L)
+I4Torus.torusRepresentative_measurable : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @Measurable (I4Torus.SourceTorus d L) (Fin d → Real)
+    (@MeasurableSpace.pi (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun a =>
+      @QuotientAddGroup.measurableSpace Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) Real.measurableSpace
+        (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+    (@MeasurableSpace.pi (Fin d) (fun a => Real) fun a => Real.measurableSpace) (@I4Torus.torusRepresentative d L inst)
+I4Torus.torusProjection_representative : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (q : I4Torus.SourceTorus d L),
+  @Eq (I4Torus.SourceTorus d L) (I4Torus.torusProjection d L (@I4Torus.torusRepresentative d L inst q)) q
+I4Torus.sourceField_eq_of_torusProjection_eq : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4Source.SourceMode d → Real) (x y : Fin d → Real),
+      @Eq (I4Torus.SourceTorus d L) (I4Torus.torusProjection d L x) (I4Torus.torusProjection d L y) →
+        @Eq Real (I4Source.sourceField d L ω x) (I4Source.sourceField d L ω y)
+I4Torus.torusSourceField_pullback : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (ω : I4Source.SourceMode d → Real) (x : Fin d → Real),
+  @Eq Real (@I4Torus.torusSourceField d L inst ω (I4Torus.torusProjection d L x)) (I4Source.sourceField d L ω x)
+I4Torus.torusSourceField_eval_measurable : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (q : I4Torus.SourceTorus d L),
+  @Measurable (I4Source.SourceMode d → Real) Real
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) Real.measurableSpace
+    fun ω => @I4Torus.torusSourceField d L inst ω q
+I4Torus.torusSourceField_joint_measurable : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @Measurable (Prod (I4Source.SourceMode d → Real) (I4Torus.SourceTorus d L)) Real
+    (@Prod.instMeasurableSpace (I4Source.SourceMode d → Real) (I4Torus.SourceTorus d L)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+      (@MeasurableSpace.pi (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun a =>
+        @QuotientAddGroup.measurableSpace Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+          Real.measurableSpace (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L)))
+    Real.measurableSpace fun p =>
+    @I4Torus.torusSourceField d L inst (@Prod.fst (I4Source.SourceMode d → Real) (I4Torus.SourceTorus d L) p)
+      (@Prod.snd (I4Source.SourceMode d → Real) (I4Torus.SourceTorus d L) p)
+I4Torus.torusSourceField_finiteVector_hasGaussianLaw : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (n : Nat) (q : Fin n → I4Torus.SourceTorus d L),
+  @ProbabilityTheory.HasGaussianLaw (I4Source.SourceMode d → Real) (Fin n → Real)
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+    (@Pi.topologicalSpace (Fin n) (fun j => Real) fun i =>
+      @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@Pi.addCommMonoid (Fin n) (fun j => Real) fun i => Real.instAddCommMonoid)
+    (@Pi.Function.module (Fin n) Real Real Real.semiring Real.instAddCommMonoid (@Semiring.toModule Real Real.semiring))
+    (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+    (fun ω j => @I4Torus.torusSourceField d L inst ω (q j)) (I4Source.sourceLaw d)
+I4Torus.torusSourceField_isGaussianProcess : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @ProbabilityTheory.IsGaussianProcess (I4Source.SourceMode d → Real) Real (I4Torus.SourceTorus d L)
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) Real.measurableSpace
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    Real.instAddCommMonoid (@Semiring.toModule Real Real.semiring) (fun q ω => @I4Torus.torusSourceField d L inst ω q)
+    (I4Source.sourceLaw d)
+I4Torus.torusSourceField_covariance : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (q p : I4Torus.SourceTorus d L),
+  @Eq Real
+    (@ProbabilityTheory.covariance (I4Source.SourceMode d → Real)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+      (fun ω => @I4Torus.torusSourceField d L inst ω q) (fun ω => @I4Torus.torusSourceField d L inst ω p)
+      (I4Source.sourceLaw d))
+    (I4Kernel.sourceSpectralKernel d L
+      (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+        (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub))
+        (@I4Torus.torusRepresentative d L inst q) (@I4Torus.torusRepresentative d L inst p)))
+I4Torus.torusSourceField_covariance_pullback : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (x y : Fin d → Real),
+  @Eq Real
+    (@ProbabilityTheory.covariance (I4Source.SourceMode d → Real)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+      (fun ω => @I4Torus.torusSourceField d L inst ω (I4Torus.torusProjection d L x))
+      (fun ω => @I4Torus.torusSourceField d L inst ω (I4Torus.torusProjection d L y)) (I4Source.sourceLaw d))
+    (I4Kernel.sourceSpectralKernel d L
+      (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+        (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub)) x y))
+I4TorusC4.quotientChart_symm : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (a : Fin d → Real),
+  @Eq ((Fin d → Real) → I4Torus.SourceTorus d L)
+    (@OpenPartialHomeomorph.toFun' (Fin d → Real) (I4Torus.SourceTorus d L)
+      (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+        @QuotientAddGroup.instTopologicalSpace Real
+          (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+          (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+      (@OpenPartialHomeomorph.symm (I4Torus.SourceTorus d L) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+          @QuotientAddGroup.instTopologicalSpace Real
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+            (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@I4TorusC4.quotientChart d L inst a)))
+    (I4Torus.torusProjection d L)
+I4TorusC4.centered_chart_covers : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (q : I4Torus.SourceTorus d L),
+  @Membership.mem (I4Torus.SourceTorus d L) (Set (I4Torus.SourceTorus d L))
+    (@Set.instMembership (I4Torus.SourceTorus d L))
+    (@PartialEquiv.source (I4Torus.SourceTorus d L) (Fin d → Real)
+      (@PartialHomeomorph.toPartialEquiv (I4Torus.SourceTorus d L) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+          @QuotientAddGroup.instTopologicalSpace Real
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+            (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@OpenPartialHomeomorph.toPartialHomeomorph (I4Torus.SourceTorus d L) (Fin d → Real)
+          (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+            @QuotientAddGroup.instTopologicalSpace Real
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+              (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+          (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+            @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@I4TorusC4.quotientChart d L inst (@I4TorusC4.chartCenter d L inst q)))))
+    q
+I4TorusC4.chart_transition_contDiff : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (a b : Fin d → Real),
+  @ContDiffOn Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+    (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+    (@Pi.normedSpace Real
+      (@NontriviallyNormedField.toNormedField Real
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+      (Fin d) (fun a => Real) (Fin.fintype d)
+      (fun i =>
+        @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+      fun i =>
+      @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+    (Fin d → Real) (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+    (@Pi.normedSpace Real
+      (@NontriviallyNormedField.toNormedField Real
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+      (Fin d) (fun a => Real) (Fin.fintype d)
+      (fun i =>
+        @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+      fun i =>
+      @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+    (@WithTop.some ENat (@Top.top ENat instTopENat))
+    (@OpenPartialHomeomorph.toFun' (Fin d → Real) (Fin d → Real)
+      (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@OpenPartialHomeomorph.trans (Fin d → Real) (I4Torus.SourceTorus d L) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+          @QuotientAddGroup.instTopologicalSpace Real
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+            (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@OpenPartialHomeomorph.symm (I4Torus.SourceTorus d L) (Fin d → Real)
+          (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+            @QuotientAddGroup.instTopologicalSpace Real
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+              (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+          (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+            @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@I4TorusC4.quotientChart d L inst a))
+        (@I4TorusC4.quotientChart d L inst b)))
+    (@PartialEquiv.source (Fin d → Real) (Fin d → Real)
+      (@PartialHomeomorph.toPartialEquiv (Fin d → Real) (Fin d → Real)
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@OpenPartialHomeomorph.toPartialHomeomorph (Fin d → Real) (Fin d → Real)
+          (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+            @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+            @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+          (@OpenPartialHomeomorph.trans (Fin d → Real) (I4Torus.SourceTorus d L) (Fin d → Real)
+            (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+              @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+              @QuotientAddGroup.instTopologicalSpace Real
+                (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+                (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+            (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+              @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@OpenPartialHomeomorph.symm (I4Torus.SourceTorus d L) (Fin d → Real)
+              (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+                @QuotientAddGroup.instTopologicalSpace Real
+                  (@UniformSpace.toTopologicalSpace Real
+                    (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                  (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+                  (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+              (@Pi.topologicalSpace (Fin d) (fun a => Real) fun i =>
+                @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@I4TorusC4.quotientChart d L inst a))
+            (@I4TorusC4.quotientChart d L inst b)))))
+I4TorusC4.torus_isManifold : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @IsManifold Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+    (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+    (@Pi.normedSpace Real
+      (@NontriviallyNormedField.toNormedField Real
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+      (Fin d) (fun a => Real) (Fin.fintype d)
+      (fun i =>
+        @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+      fun i =>
+      @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+    (Fin d → Real)
+    (@UniformSpace.toTopologicalSpace (Fin d → Real)
+      (@PseudoMetricSpace.toUniformSpace (Fin d → Real)
+        (@SeminormedAddCommGroup.toPseudoMetricSpace (Fin d → Real)
+          (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)))))
+    (@modelWithCornersSelf Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+      (Fin d → Real) (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+      (@Pi.normedSpace Real
+        (@NontriviallyNormedField.toNormedField Real
+          (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+        (Fin d) (fun a => Real) (Fin.fintype d)
+        (fun i =>
+          @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        fun i =>
+        @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+    (@WithTop.some ENat (@Top.top ENat instTopENat)) (I4Torus.SourceTorus d L)
+    (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+      @QuotientAddGroup.instTopologicalSpace Real
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+        (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+    (@I4TorusC4.actualChartedSpace d L inst)
+I4TorusC4.torusSourceField_contMDiff_ae : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @Filter.Eventually (I4Source.SourceMode d → Real)
+    (fun sample =>
+      @ContMDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+        (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (Fin d → Real)
+        (@UniformSpace.toTopologicalSpace (Fin d → Real)
+          (@PseudoMetricSpace.toUniformSpace (Fin d → Real)
+            (@SeminormedAddCommGroup.toPseudoMetricSpace (Fin d → Real)
+              (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+                (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)))))
+        (@modelWithCornersSelf Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+          (Fin d → Real)
+          (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+          (@Pi.normedSpace Real
+            (@NontriviallyNormedField.toNormedField Real
+              (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+            (Fin d) (fun a => Real) (Fin.fintype d)
+            (fun i =>
+              @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            fun i =>
+            @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+        (I4Torus.SourceTorus d L)
+        (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+          @QuotientAddGroup.instTopologicalSpace Real
+            (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+            (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+            (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+        (@I4TorusC4.actualChartedSpace d L inst) Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup))))
+        (@modelWithCornersSelf Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) Real
+          Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+        Real (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@chartedSpaceSelf Real
+          (@UniformSpace.toTopologicalSpace Real
+            (@PseudoMetricSpace.toUniformSpace Real
+              (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+                (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)))))
+        (@OfNat.ofNat (WithTop ENat) (nat_lit 4)
+          (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 4) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+        (@I4Torus.torusSourceField d L inst sample))
+    (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+      (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      ⋯ (I4Source.sourceLaw d))
+I4TorusC4.torusSourceField_weakSuperlevel_closed_ae : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)],
+  @Filter.Eventually (I4Source.SourceMode d → Real)
+    (fun sample =>
+      ∀ (h : Real),
+        @IsClosed (I4Torus.SourceTorus d L)
+          (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+            @QuotientAddGroup.instTopologicalSpace Real
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+              (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+          (@Set.ofPred (I4Torus.SourceTorus d L) fun q =>
+            @LE.le Real Real.instLE h (@I4Torus.torusSourceField d L inst sample q)))
+    (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+      (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      ⋯ (I4Source.sourceLaw d))
+I4Smooth.orderCoordinateBound_summable : ∀ (n : Nat) {a c : Real},
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a →
+    @Summable Real Int Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Smooth.orderCoordinateBound n a c) (SummationFilter.unconditional Int)
+I4Smooth.orderProductBound_summable : ∀ (n d : Nat) {a c : Real},
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a →
+    @Summable Real (Fin d → Int) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Smooth.orderProductBound n d a c) (SummationFilter.unconditional (Fin d → Int))
+I4Smooth.orderPairedBound_summable : ∀ (n d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Summable Real (Fin d → Int) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Smooth.orderPairedBound n d L) (SummationFilter.unconditional (Fin d → Int))
+I4Smooth.orderPairedBound_eq_amplitude : ∀ (n d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (k : Fin d → Int),
+      @Eq Real (I4Smooth.orderPairedBound n d L k)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+                (I4Weights.sourceWeight d L k))
+              (I4Weights.sourceZ d L)).sqrt
+          (∏ i,
+            @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+                (@abs Real Real.lattice Real.instAddGroup
+                  (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (I4Weights.sourceC L)
+                    (@Int.cast Real Real.instIntCast (k i)))))
+              n))
+I4Smooth.orderModeBound_nonneg : ∀ (n d : Nat) (L : Real) (m : I4Source.SourceMode d),
+  @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (I4Smooth.orderModeBound n d L m)
+I4Smooth.orderModeBound_summable : ∀ (n d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Summable Real (I4Source.SourceMode d) Real.instAddCommMonoid
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (I4Smooth.orderModeBound n d L) (SummationFilter.unconditional (I4Source.SourceMode d))
+I4Smooth.orderModeBound_four : ∀ (d : Nat) (L : Real) (m : I4Source.SourceMode d),
+  @Eq Real (I4Smooth.orderModeBound (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))) d L m)
+    (I4Source.modeMajorant d L m)
+I4Smooth.modeCoefficient_iteratedFDeriv_order_bound : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (m : I4Source.SourceMode d) (j : Nat) (x : Fin d → Real),
+      @LE.le Real Real.instLE
+        (@norm
+          (@ContinuousMultilinearMap Real (Fin j) (fun _i => Fin d → Real) Real
+            (@CommSemiring.toSemiring Real
+              (@Semifield.toCommSemiring Real
+                (@Field.toSemifield Real
+                  (@NormedField.toField Real
+                    (@NontriviallyNormedField.toNormedField Real
+                      (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))))))
+            (fun i =>
+              @AddCommGroup.toAddCommMonoid (Fin d → Real)
+                (@NormedAddCommGroup.toAddCommGroup (Fin d → Real)
+                  (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)))
+            (@AddCommGroup.toAddCommMonoid Real (@NormedAddCommGroup.toAddCommGroup Real Real.normedAddCommGroup))
+            (fun i =>
+              @NormedSpace.toModule Real (Fin d → Real)
+                (@NontriviallyNormedField.toNormedField Real
+                  (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+                  (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup))
+                (@Pi.normedSpace Real
+                  (@NontriviallyNormedField.toNormedField Real
+                    (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+                  (Fin d) (fun a => Real) (Fin.fintype d)
+                  (fun i =>
+                    @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                  fun i =>
+                  @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                    (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                    (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+            (@NormedSpace.toModule Real Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+            (fun i =>
+              @UniformSpace.toTopologicalSpace (Fin d → Real)
+                (@PseudoMetricSpace.toUniformSpace (Fin d → Real)
+                  (@SeminormedAddCommGroup.toPseudoMetricSpace (Fin d → Real)
+                    (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+                      (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+                        Real.normedAddCommGroup)))))
+            (@UniformSpace.toTopologicalSpace Real
+              (@PseudoMetricSpace.toUniformSpace Real
+                (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+                  (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)))))
+          (@ContinuousMultilinearMap.hasOpNorm' Real (Fin j) (Fin d → Real) Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+            (@Pi.seminormedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i =>
+              @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (Fin.fintype j))
+          (@iteratedFDeriv Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+            (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            j (I4Source.modeCoefficient d L m) x))
+        (I4Smooth.orderModeBound j d L m)
+I4Smooth.goodSample_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real) (fun ω => I4Smooth.goodSample d L ω)
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4Smooth.sourceField_smooth_of_goodSample : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4Source.SourceMode d → Real),
+      I4Smooth.goodSample d L ω →
+        ∀ (n : Nat),
+          @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (@Nat.cast (WithTop ENat) (@WithTop.natCast ENat ENat.instNatCast) n) (I4Source.sourceField d L ω)
+I4Smooth.sourceField_smooth_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        ∀ (n : Nat),
+          @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (@Nat.cast (WithTop ENat) (@WithTop.natCast ENat ENat.instNatCast) n) (I4Source.sourceField d L ω))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4Smooth.goodSample_congr_cofinite : ∀ (d : Nat) (L : Real) (ω η : I4Source.SourceMode d → Real),
+  @Filter.EventuallyEq (I4Source.SourceMode d) Real (@Filter.cofinite (I4Source.SourceMode d)) ω η →
+    Iff (I4Smooth.goodSample d L ω) (I4Smooth.goodSample d L η)
+I4Smooth.goodSample_finite_change_iff : ∀ (d : Nat) (L : Real) (ω η : I4Source.SourceMode d → Real)
+  (s : Finset (I4Source.SourceMode d)),
+  (∀ m ∉ s, @Eq Real (ω m) (η m)) → Iff (I4Smooth.goodSample d L ω) (I4Smooth.goodSample d L η)
+I4SmoothCarrier.goodSet_measurable : ∀ (d : Nat) (L : Real),
+  @MeasurableSet (I4Source.SourceMode d → Real)
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+    (I4SmoothCarrier.goodSet d L)
+I4SmoothCarrier.goodSet_ae : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+          (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) ω)
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4SmoothCarrier.goodSet_measure_one : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Eq ENNReal
+      (@DFunLike.coe
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (Set (I4Source.SourceMode d → Real)) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (I4Source.sourceLaw d) (I4SmoothCarrier.goodSet d L))
+      (@OfNat.ofNat ENNReal (nat_lit 1) (@One.toOfNat1 ENNReal ENNReal.instOne))
+I4SmoothCarrier.sampleInclusion_measurable : ∀ (d : Nat) (L : Real),
+  @Measurable (I4SmoothCarrier.SmoothSample d L) (I4Source.SourceMode d → Real)
+    (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+      (fun x =>
+        @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+          (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+    (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+    (I4SmoothCarrier.sampleInclusion d L)
+I4SmoothCarrier.sampleInclusion_map : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Eq
+      (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) (I4Source.SourceMode d → Real)
+        (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+          (fun x =>
+            @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+              (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+        (I4SmoothCarrier.sampleInclusion d L) (I4SmoothCarrier.smoothLaw d L))
+      (I4Source.sourceLaw d)
+I4SmoothCarrier.sampleInclusion_measurePreserving : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @MeasureTheory.MeasurePreserving (I4SmoothCarrier.SmoothSample d L) (I4Source.SourceMode d → Real)
+      (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+        (fun x =>
+          @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+            (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+      (I4SmoothCarrier.sampleInclusion d L) (I4SmoothCarrier.smoothLaw d L) (I4Source.sourceLaw d)
+I4SmoothCarrier.smoothLaw_isProbabilityMeasure : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @MeasureTheory.IsProbabilityMeasure (I4SmoothCarrier.SmoothSample d L)
+      (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+        (fun x =>
+          @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+            (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (I4SmoothCarrier.smoothLaw d L)
+I4SmoothCarrier.observation_map_eq : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ {E : Type u_1} [inst : MeasurableSpace E] (X : (I4Source.SourceMode d → Real) → E),
+      @Measurable (I4Source.SourceMode d → Real) E
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) inst X →
+        @Eq (@MeasureTheory.Measure E inst)
+          (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) E
+            (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+              (fun x =>
+                @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                  (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+              (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+            inst (fun ω => X (I4SmoothCarrier.sampleInclusion d L ω)) (I4SmoothCarrier.smoothLaw d L))
+          (@MeasureTheory.Measure.map (I4Source.SourceMode d → Real) E
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) inst X
+            (I4Source.sourceLaw d))
+I4SmoothCarrier.coordinate_marginal : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (m : I4Source.SourceMode d),
+      @Eq (@MeasureTheory.Measure Real Real.measurableSpace)
+        (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) Real
+          (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+            (fun x =>
+              @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+          Real.measurableSpace (fun ω => I4SmoothCarrier.sampleInclusion d L ω m) (I4SmoothCarrier.smoothLaw d L))
+        (ProbabilityTheory.gaussianReal (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+          (@OfNat.ofNat NNReal (nat_lit 1) (@One.toOfNat1 NNReal NNReal.instOne)))
+I4SmoothCarrier.finiteCoordinate_map_eq : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (n : Nat) (m : Fin n → I4Source.SourceMode d),
+      @Eq
+        (@MeasureTheory.Measure (Fin n → Real)
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) (Fin n → Real)
+          (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+            (fun x =>
+              @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+          (fun ω j => I4SmoothCarrier.sampleInclusion d L ω (m j)) (I4SmoothCarrier.smoothLaw d L))
+        (@MeasureTheory.Measure.map (I4Source.SourceMode d → Real) (Fin n → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace) (fun ω j => ω (m j))
+          (I4Source.sourceLaw d))
+I4SmoothCarrier.smoothSourceField_contDiff : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4SmoothCarrier.SmoothSample d L) (n : Nat),
+      @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+        (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@Nat.cast (WithTop ENat) (@WithTop.natCast ENat ENat.instNatCast) n) (I4SmoothCarrier.smoothSourceField d L ω)
+I4SmoothCarrier.smoothSourceField_smooth : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4SmoothCarrier.SmoothSample d L),
+      @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+        (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@WithTop.some ENat (@Top.top ENat instTopENat)) (I4SmoothCarrier.smoothSourceField d L ω)
+I4SmoothCarrier.smoothSourceField_finiteVector_map_eq : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (n : Nat) (x : Fin n → Fin d → Real),
+      @Eq
+        (@MeasureTheory.Measure (Fin n → Real)
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) (Fin n → Real)
+          (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+            (fun x =>
+              @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+          (fun ω j => I4SmoothCarrier.smoothSourceField d L ω (x j)) (I4SmoothCarrier.smoothLaw d L))
+        (@MeasureTheory.Measure.map (I4Source.SourceMode d → Real) (Fin n → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+          (fun ω j => I4Source.sourceField d L ω (x j)) (I4Source.sourceLaw d))
+I4SmoothCarrier.smoothSourceField_finiteVector_hasGaussianLaw : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (n : Nat) (x : Fin n → Fin d → Real),
+      @ProbabilityTheory.HasGaussianLaw (I4SmoothCarrier.SmoothSample d L) (Fin n → Real)
+        (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+          (fun x =>
+            @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+              (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@Pi.topologicalSpace (Fin n) (fun j => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@Pi.addCommMonoid (Fin n) (fun j => Real) fun i => Real.instAddCommMonoid)
+        (@Pi.Function.module (Fin n) Real Real Real.semiring Real.instAddCommMonoid
+          (@Semiring.toModule Real Real.semiring))
+        (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+        (fun ω j => I4SmoothCarrier.smoothSourceField d L ω (x j)) (I4SmoothCarrier.smoothLaw d L)
+I4SmoothCarrier.covariance_comp_inclusion : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (X Y : (I4Source.SourceMode d → Real) → Real),
+      @Measurable (I4Source.SourceMode d → Real) Real
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+          Real.measurableSpace X →
+        @Measurable (I4Source.SourceMode d → Real) Real
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+            Real.measurableSpace Y →
+          @Eq Real
+            (@ProbabilityTheory.covariance (I4SmoothCarrier.SmoothSample d L)
+              (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+                (fun x =>
+                  @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                    (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+                (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+              (fun ω => X (I4SmoothCarrier.sampleInclusion d L ω)) (fun ω => Y (I4SmoothCarrier.sampleInclusion d L ω))
+              (I4SmoothCarrier.smoothLaw d L))
+            (@ProbabilityTheory.covariance (I4Source.SourceMode d → Real)
+              (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) X Y
+              (I4Source.sourceLaw d))
+I4SmoothCarrier.smoothSourceField_covariance : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x y : Fin d → Real),
+      @Eq Real
+        (@ProbabilityTheory.covariance (I4SmoothCarrier.SmoothSample d L)
+          (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+            (fun x =>
+              @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+          (fun ω => I4SmoothCarrier.smoothSourceField d L ω x) (fun ω => I4SmoothCarrier.smoothSourceField d L ω y)
+          (I4SmoothCarrier.smoothLaw d L))
+        (I4Kernel.sourceSpectralKernel d L
+          (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+            (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub)) x y))
+I4SmoothCarrier.smoothTorusSourceField_smooth : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (ω : I4SmoothCarrier.SmoothSample d L),
+  @ContMDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+    (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+    (@Pi.normedSpace Real
+      (@NontriviallyNormedField.toNormedField Real
+        (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+      (Fin d) (fun a => Real) (Fin.fintype d)
+      (fun i =>
+        @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+      fun i =>
+      @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+    (Fin d → Real)
+    (@UniformSpace.toTopologicalSpace (Fin d → Real)
+      (@PseudoMetricSpace.toUniformSpace (Fin d → Real)
+        (@SeminormedAddCommGroup.toPseudoMetricSpace (Fin d → Real)
+          (@NormedAddCommGroup.toSeminormedAddCommGroup (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)))))
+    (@modelWithCornersSelf Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField)
+      (Fin d → Real) (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+      (@Pi.normedSpace Real
+        (@NontriviallyNormedField.toNormedField Real
+          (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+        (Fin d) (fun a => Real) (Fin.fintype d)
+        (fun i =>
+          @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+        fun i =>
+        @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+    (I4Torus.SourceTorus d L)
+    (@Pi.topologicalSpace (Fin d) (fun a => @AddCircle Real Real.instAddCommGroup L) fun i =>
+      @QuotientAddGroup.instTopologicalSpace Real
+        (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@AddCommGroup.toAddGroup Real Real.instAddCommGroup)
+        (@AddSubgroup.zmultiples Real (@AddCommGroup.toAddGroup Real Real.instAddCommGroup) L))
+    (@I4TorusC4.actualChartedSpace d L inst) Real Real.normedAddCommGroup
+    (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+      (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+      (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+    Real
+    (@UniformSpace.toTopologicalSpace Real
+      (@PseudoMetricSpace.toUniformSpace Real
+        (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup))))
+    (@modelWithCornersSelf Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) Real
+      Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike)))
+    Real (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@chartedSpaceSelf Real
+      (@UniformSpace.toTopologicalSpace Real
+        (@PseudoMetricSpace.toUniformSpace Real
+          (@SeminormedAddCommGroup.toPseudoMetricSpace Real
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)))))
+    (@WithTop.some ENat (@Top.top ENat instTopENat)) (@I4SmoothCarrier.smoothTorusSourceField d L inst ω)
+I4SmoothCarrier.smoothTorusSourceField_finiteVector_hasGaussianLaw : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (n : Nat) (q : Fin n → I4Torus.SourceTorus d L),
+  @ProbabilityTheory.HasGaussianLaw (I4SmoothCarrier.SmoothSample d L) (Fin n → Real)
+    (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+      (fun x =>
+        @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+          (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+      (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+    (@Pi.topologicalSpace (Fin n) (fun j => Real) fun i =>
+      @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@Pi.addCommMonoid (Fin n) (fun j => Real) fun i => Real.instAddCommMonoid)
+    (@Pi.Function.module (Fin n) Real Real Real.semiring Real.instAddCommMonoid (@Semiring.toModule Real Real.semiring))
+    (@MeasurableSpace.pi (Fin n) (fun j => Real) fun a => Real.measurableSpace)
+    (fun ω j => @I4SmoothCarrier.smoothTorusSourceField d L inst ω (q j)) (I4SmoothCarrier.smoothLaw d L)
+I4SmoothCarrier.smoothTorusSourceField_covariance : ∀ (d : Nat) (L : Real)
+  [inst : Fact (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)]
+  (q p : I4Torus.SourceTorus d L),
+  @Eq Real
+    (@ProbabilityTheory.covariance (I4SmoothCarrier.SmoothSample d L)
+      (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+        (fun x =>
+          @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+            (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (fun ω => @I4SmoothCarrier.smoothTorusSourceField d L inst ω q)
+      (fun ω => @I4SmoothCarrier.smoothTorusSourceField d L inst ω p) (I4SmoothCarrier.smoothLaw d L))
+    (I4Kernel.sourceSpectralKernel d L
+      (@HSub.hSub (Fin d → Real) (Fin d → Real) (Fin d → Real)
+        (@instHSub (Fin d → Real) (@Pi.instSub (Fin d) (fun a => Real) fun i => Real.instSub))
+        (@I4Torus.torusRepresentative d L inst q) (@I4Torus.torusRepresentative d L inst p)))
+I4SmoothControls.old_four_does_not_fill_all_orders : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Filter.Eventually (I4Source.SourceMode d → Real)
+      (fun ω =>
+        ∀ (n : Nat),
+          @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+            (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+            (@Pi.normedSpace Real
+              (@NontriviallyNormedField.toNormedField Real
+                (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+              (Fin d) (fun a => Real) (Fin.fintype d)
+              (fun i =>
+                @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              fun i =>
+              @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+                (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            (@Nat.cast (WithTop ENat) (@WithTop.natCast ENat ENat.instNatCast) n) (I4Source.sourceField d L ω))
+      (@MeasureTheory.ae (I4Source.SourceMode d → Real)
+        (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasureTheory.Measure.instFunLike (I4Source.SourceMode d → Real)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        ⋯ (I4Source.sourceLaw d))
+I4SmoothControls.represented_sample_order_five : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4SmoothCarrier.SmoothSample d L),
+      @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+        (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@OfNat.ofNat (WithTop ENat) (nat_lit 5)
+          (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 5) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+        (I4SmoothCarrier.smoothSourceField d L ω)
+I4SmoothControls.represented_sample_order_thirtyseven : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4SmoothCarrier.SmoothSample d L),
+      @ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+        (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+        (@Pi.normedSpace Real
+          (@NontriviallyNormedField.toNormedField Real
+            (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+          (Fin d) (fun a => Real) (Fin.fintype d)
+          (fun i =>
+            @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+          fun i =>
+          @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        (@OfNat.ofNat (WithTop ENat) (nat_lit 37)
+          (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 37) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+        (I4SmoothCarrier.smoothSourceField d L ω)
+I4SmoothControls.one_carrier_for_both_orders : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (ω : I4SmoothCarrier.SmoothSample d L),
+      And
+        (@ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+          (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+          (@Pi.normedSpace Real
+            (@NontriviallyNormedField.toNormedField Real
+              (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+            (Fin d) (fun a => Real) (Fin.fintype d)
+            (fun i =>
+              @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            fun i =>
+            @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          (@OfNat.ofNat (WithTop ENat) (nat_lit 5)
+            (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 5) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+          (I4SmoothCarrier.smoothSourceField d L ω))
+        (@ContDiff Real (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField) (Fin d → Real)
+          (@Pi.normedAddCommGroup (Fin d) (fun a => Real) (Fin.fintype d) fun i => Real.normedAddCommGroup)
+          (@Pi.normedSpace Real
+            (@NontriviallyNormedField.toNormedField Real
+              (@DenselyNormedField.toNontriviallyNormedField Real Real.denselyNormedField))
+            (Fin d) (fun a => Real) (Fin.fintype d)
+            (fun i =>
+              @NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+            fun i =>
+            @InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                  (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                    (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          (@OfNat.ofNat (WithTop ENat) (nat_lit 37)
+            (@instOfNatAtLeastTwo (WithTop ENat) (nat_lit 37) (@WithTop.natCast ENat ENat.instNatCast) ⋯))
+          (I4SmoothCarrier.smoothSourceField d L ω))
+I4SmoothControls.literal_field_everywhere : ∀ (d : Nat) (L : Real) (ω : I4SmoothCarrier.SmoothSample d L)
+  (x : Fin d → Real),
+  @Eq Real (I4SmoothCarrier.smoothSourceField d L ω x)
+    (I4Source.sourceField d L (I4SmoothCarrier.sampleInclusion d L ω) x)
+I4SmoothControls.entire_coefficient_law_preserved : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @Eq
+      (@MeasureTheory.Measure (I4Source.SourceMode d → Real)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) (I4Source.SourceMode d → Real)
+        (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+          (fun x =>
+            @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+              (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace)
+        (I4SmoothCarrier.sampleInclusion d L) (I4SmoothCarrier.smoothLaw d L))
+      (I4Source.sourceLaw d)
+I4SmoothControls.arbitrary_observation_law_preserved : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ {E : Type u_1} [inst : MeasurableSpace E] (X : (I4Source.SourceMode d → Real) → E),
+      @Measurable (I4Source.SourceMode d → Real) E
+          (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) inst X →
+        @Eq (@MeasureTheory.Measure E inst)
+          (@MeasureTheory.Measure.map (I4SmoothCarrier.SmoothSample d L) E
+            (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+              (fun x =>
+                @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                  (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+              (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+            inst (fun ω => X (I4SmoothCarrier.sampleInclusion d L ω)) (I4SmoothCarrier.smoothLaw d L))
+          (@MeasureTheory.Measure.map (I4Source.SourceMode d → Real) E
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace) inst X
+            (I4Source.sourceLaw d))
+I4SmoothControls.finite_block_changes_preserve_carrier : ∀ (d : Nat) (L : Real) (ω η : I4Source.SourceMode d → Real)
+  (s : Finset (I4Source.SourceMode d)),
+  (∀ m ∉ s, @Eq Real (ω m) (η m)) → Iff (I4Smooth.goodSample d L ω) (I4Smooth.goodSample d L η)
+I4SmoothControls.field_variance_one : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    ∀ (x : Fin d → Real),
+      @Eq Real
+        (@ProbabilityTheory.covariance (I4SmoothCarrier.SmoothSample d L)
+          (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+            (fun x =>
+              @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+                (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+            (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+          (fun ω => I4SmoothCarrier.smoothSourceField d L ω x) (fun ω => I4SmoothCarrier.smoothSourceField d L ω x)
+          (I4SmoothCarrier.smoothLaw d L))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+I4SmoothControls.carrier_probability : ∀ (d : Nat) {L : Real},
+  @Ne Real L (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+    @MeasureTheory.IsProbabilityMeasure (I4SmoothCarrier.SmoothSample d L)
+      (@Subtype.instMeasurableSpace (I4Source.SourceMode d → Real)
+        (fun x =>
+          @Membership.mem (I4Source.SourceMode d → Real) (Set (I4Source.SourceMode d → Real))
+            (@Set.instMembership (I4Source.SourceMode d → Real)) (I4SmoothCarrier.goodSet d L) x)
+        (@MeasurableSpace.pi (I4Source.SourceMode d) (fun a => Real) fun a => Real.measurableSpace))
+      (I4SmoothCarrier.smoothLaw d L)
