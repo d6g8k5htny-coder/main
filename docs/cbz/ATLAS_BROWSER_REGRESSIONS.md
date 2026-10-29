@@ -147,3 +147,19 @@ this is not hostile-process containment or an exhaustive proof of unittest.
 New composed-tree full regression/actual-browser execution remains pending.
 Canonical tooling registration should include this amendment and its self-tests,
 not relabel historical source receipts as current-source qualification.
+
+
+## Exact code-object identity correction
+
+The subsequent reviewer found that Python CodeType objects can be structurally
+`==` despite distinct identities, including after `co_filename` replacement.
+At published parent `8d24c37ff52c012294d71bbcbf08bd24fae4e22a`, set membership
+through a frozenset used equality and admitted such a cloned assertion helper.
+The new clone regression first failed on that parent. Approved code references
+are now retained in a tuple and checked with explicit `is`, never equality or
+hash-set membership. All prior controls remain; current counts are31 module
+methods /46 combined methods per mode, plus seven grader safeguard mutants.
+Evidence is in `evidence/browser-code-identity-20261029/`. Earlier30/45-method
+logs and six-mutant observations remain historical at their original source.
+This closes the exact-provenance contract defect, not a mathematical proof gap;
+no evidence shows earlier actual finite kills or browser outputs were false.

@@ -25,7 +25,7 @@ def load_runner():
 
 # Finite trusted-unittest assertion helpers. File names and formatted tracebacks
 # are never authority for an oracle failure; actual code identities are used.
-_ASSERTION_CODES = frozenset(
+_ASSERTION_CODES = tuple(
     value.__code__ for cls in (unittest.TestCase, unittest.case._AssertRaisesContext, unittest.case._AssertRaisesBaseContext, unittest.case._BaseTestCaseContext)
     for name, value in vars(cls).items()
     if callable(value) and hasattr(value, '__code__')
@@ -68,7 +68,7 @@ def run_oracle_controls(case_type, methods):
             valid = (type(err[1]) is AssertionError and state.get('entered') == 1
                      and state.get('phase') in ('body', 'body-exited')
                      and len(positions) == 1
-                     and all(code in _ASSERTION_CODES for code in codes[positions[0]+1:]))
+                     and all(any(code is allowed for allowed in _ASSERTION_CODES) for code in codes[positions[0]+1:]))
             self.origins.append((test.id(), valid))
         def addFailure(self, test, err):
             self.capture(test, err)
@@ -388,6 +388,16 @@ class OracleOriginControls(unittest.TestCase):
         for body in (subject_body, helper_body, callback_body):
             with self.subTest(body=body.__name__):
                 self.assertFalse(self.observe(body, helper=helper).oracle_killed)
+
+    def test_cloned_approved_code_is_not_authorized_identity(self):
+        original = unittest.TestCase.fail
+        cloned_code = original.__code__.replace(co_filename='subject_fake.py')
+        self.assertIsNot(cloned_code, original.__code__)
+        self.assertEqual(cloned_code, original.__code__)
+        cloned = types.FunctionType(cloned_code, original.__globals__,
+                                    original.__name__, original.__defaults__)
+        def body(case): cloned(case, 'cloned subject code')
+        self.assertFalse(self.observe(body).oracle_killed)
 
     def test_forged_unittest_filename_is_not_authority(self):
         namespace = {}

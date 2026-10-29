@@ -6,7 +6,8 @@ def load(name,path):
  spec=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(spec);sys.modules[name]=m;spec.loader.exec_module(m);return m
 trusted=load('trusted_browser_origin',PATH);source=PATH.read_text();rows=[]
 cases=[
- ('origin_frames','and all(code in _ASSERTION_CODES for code in codes[positions[0]+1:])','and True','test_subject_helper_callback_assertions_cannot_kill'),
+ ('code_identity','any(code is allowed for allowed in _ASSERTION_CODES)','code in _ASSERTION_CODES','test_cloned_approved_code_is_not_authorized_identity'),
+ ('origin_frames','and all(any(code is allowed for allowed in _ASSERTION_CODES) for code in codes[positions[0]+1:])','and True','test_subject_helper_callback_assertions_cannot_kill'),
  ('phase',"and state.get('phase') in ('body', 'body-exited')",'and True','test_later_phase_calling_selected_body_cannot_kill'),
  ('origin_admission','and all(v for _, v in result.origins)','and True','test_subject_helper_callback_assertions_cannot_kill'),
  ('lazy_bodies',' or inspect.iscoroutinefunction(selected) or inspect.isgeneratorfunction(selected) or inspect.isasyncgenfunction(selected)','', 'test_deferred_bodies_refused'),
