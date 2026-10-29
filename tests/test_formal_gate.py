@@ -10,6 +10,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -454,6 +455,26 @@ class SyntheticControls(unittest.TestCase):
             "custom_imported-stderr.log", "native-stderr.log"})
         for name, digest in receipt["logs"].items():
             self.assertEqual(digest, sha((out / name).read_bytes()), name)
+
+    def test_producer_serializes_actual_nondefault_workflow_attempt(self):
+        hosted = {"GITHUB_REPOSITORY": "d6g8k5htny-coder/main",
+                  "GITHUB_RUN_ID": "123", "GITHUB_RUN_ATTEMPT": "7"}
+        with mock.patch.dict(os.environ, hosted):
+            receipt = self.runtime_probe([self.RUNTIME_RELEASE, self.RUNTIME_RELEASE])
+        stored = json.loads((self.runtime_state["out"] / "receipt.json").read_bytes())
+        for record in (receipt, stored):
+            self.assertEqual(record.get("workflow_run_attempt"), "7")
+            self.assertEqual(record["workflow_run_id"], "123")
+            self.assertEqual(record["repository"], "d6g8k5htny-coder/main")
+
+    def test_local_producer_has_null_hosted_identity(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            receipt = self.runtime_probe([self.RUNTIME_RELEASE, self.RUNTIME_RELEASE])
+        stored = json.loads((self.runtime_state["out"] / "receipt.json").read_bytes())
+        for record in (receipt, stored):
+            for key in ("repository", "workflow_run_id", "workflow_run_attempt"):
+                self.assertIn(key, record)
+                self.assertIsNone(record[key])
 
     def test_wrong_postflight_runtime_refuses_receipt_after_source_recheck(self):
         for version in self.WRONG_RUNTIMES:

@@ -1,0 +1,36 @@
+{
+  "mutation": "Removed only workflow_run_attempt equality from isolated binder copy",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "-S",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_required_formal_check.py",
+    "-k",
+    "receipt_attempt",
+    "-v"
+  ],
+  "cwd": "/workspace/scratch/db6428847655/cbz/implementation/receipt/mutation",
+  "exit_code": 1,
+  "summary": [
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value=None)",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value=2)",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value=True)",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value='0')",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value='02')",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value=' 2')",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value='2 ')",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value='2\\n')",
+    "FAIL: test_malformed_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_malformed_receipt_attempt_refused) (value='')",
+    "FAIL: test_missing_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_missing_receipt_attempt_refused)",
+    "FAIL: test_same_run_stale_receipt_attempt_refused (test_required_formal_check.RequiredCheckTests.test_same_run_stale_receipt_attempt_refused)",
+    "Ran 3 tests in 0.008s",
+    "FAILED (failures=11)"
+  ],
+  "killed": true
+}
