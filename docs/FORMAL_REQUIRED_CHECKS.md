@@ -26,6 +26,48 @@ PR-head evidence with base/head integration checks. Changing a base changes the
 tested merge; the existing strict rulesets handle revalidation. Manual diagnostic
 runs do not substitute for PR checks. This is not merge-queue configuration.
 
+## Per-phase execution custody
+
+The main formal workflow still executes the real gate three times: the initial
+CLI, the normal test suite's real-package control, and the optimized test suite's
+real-package control. Their raw outputs are retained separately under
+`formal-evidence/phases/{initial,normal,optimized}/raw`. The initial and normal
+directories are moved out of the shared producer path before the next execution;
+the optimized directory remains at `formal/.lake/formal-evidence` for the
+unchanged required-check binder. Its snapshot is copied after the binding step,
+including any binding file actually produced. The artifact's existing `receipt/`
+view comes from that verified optimized snapshot, never an earlier fallback.
+
+Each phase's `observation.json` records its native step outcome, producing
+commit/repository/run/attempt, source presence and complete file-size/SHA-256
+inventory. Optimized observations also record the actual binding-step outcome.
+These are custody records, not new gate receipts or status authorities. Receipt
+presence does not establish phase success: a suite may fail after its real gate
+has written a valid receipt. Skipped phases adopt no leftover canonical files.
+Partial failed output and a failed phase with no output are recorded as such.
+Any evidence already present before the first execution is preserved separately
+as `preexisting`; it receives no fresh execution credit.
+
+The standard-library helper refuses duplicate destinations, linked ancestors,
+symlinks, hard-linked files and special files, then verifies snapshot membership
+and bytes. Capture or verification failure fails the formal job. Always-run
+collection/upload preserves available evidence; job cancellation, timeout or
+upload failure may prevent full retention and must not be reported as complete.
+The gate writes a subprocess log only after that subprocess returns, so this
+change cannot supply a log that the gate never wrote. This is sequential custody
+inside an owned job workspace, not protection against a concurrent hostile writer.
+Outside this workflow, the gate's existing fixed-directory behavior is unchanged.
+
+The historical C225 initial log bytes were overwritten and remain unavailable.
+New runs produce new evidence; this change does not recover those bytes. Earlier
+phase records do not replace the final required receipt, independent statement
+alignment, source review, or scientific acceptance.
+
+Regression controls are `tests/test_formal_evidence_retention.py`, run normally
+and with `-O` before toolchain installation. Fixtures test custody and actual
+receipt binding without compiling Lean; hosted real gate/suite execution remains
+a separate required check. The existing shell failure controls remain in place.
+
 ## Current and future agents
 
 Coordinate in the current source-bound PR. The earlier discussion is in
