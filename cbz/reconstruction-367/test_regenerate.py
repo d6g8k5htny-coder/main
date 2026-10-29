@@ -7,9 +7,14 @@ import tempfile
 import unittest
 
 PATH=Path(__file__).resolve().with_name("regenerate.py")
-spec=importlib.util.spec_from_file_location("reconstruct", PATH)
-subject=importlib.util.module_from_spec(spec)
-spec.loader.exec_module(subject)
+def load_source(path):
+    spec=importlib.util.spec_from_file_location("reconstruct_fixture", path)
+    module=importlib.util.module_from_spec(spec)
+    data=path.read_bytes()
+    exec(compile(data, str(path), "exec", dont_inherit=True), module.__dict__)
+    return module
+
+subject=load_source(PATH)
 
 class FamilyValidation(unittest.TestCase):
     def setUp(self):
@@ -72,6 +77,19 @@ class LiteralIndexBinding(unittest.TestCase):
     def test_literal_path_drift_refused(self):
         self.row["path"]="Other.lean"
         self.assertFalse(subject.matches_literal(self.source,self.row))
+
+class SourceLoader(unittest.TestCase):
+    def test_poisoned_bytecode_does_not_replace_source(self):
+        from importlib._bootstrap_external import _code_to_timestamp_pyc
+        with tempfile.TemporaryDirectory() as temporary:
+            source=Path(temporary)/"fixture.py"
+            source.write_text("VALUE = 'SOURCE'\n")
+            info=source.stat()
+            cache=Path(importlib.util.cache_from_source(str(source)))
+            cache.parent.mkdir(parents=True)
+            poison=compile("VALUE = 'POISON'\n",str(source),"exec")
+            cache.write_bytes(_code_to_timestamp_pyc(poison,int(info.st_mtime),info.st_size))
+            self.assertEqual(load_source(source).VALUE,"SOURCE")
 
 class GitBinding(unittest.TestCase):
     def setUp(self):
