@@ -1,0 +1,411 @@
+{
+  "schema": "cbz.math-graph.unmentioned-nodes-observation.v1",
+  "observed_utc": "2026-10-29 21:32:59 UTC",
+  "graph_cut": "8151f592918a845bf19eb8eafaf8444540a32734",
+  "prior_observation": "cbz/quarantine/math-graph-coverage-observations.json",
+  "nodes": [
+    {
+      "id": "math.d1-component.congruence-erratum",
+      "source": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "kind": "reading_rule_component",
+      "component_role": "amendment",
+      "source_group": "math.uniform-matrix-cap-lifetime",
+      "graph_parent_edges": [
+        {
+          "from": "math.uniform-matrix-cap-lifetime",
+          "to": "math.d1-component.congruence-erratum",
+          "required": true,
+          "relation": "reads_with_congruence_erratum"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1011",
+        "Q-1045"
+      ],
+      "blob_observation": {
+        "id": "math.d1-component.congruence-erratum",
+        "path": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+        "blob": "213594d6ca6a86fb938110f4d166d9ce275a02d0",
+        "bytes": 1782
+      }
+    },
+    {
+      "id": "math.d1-component.section9-replacement-v1_1",
+      "source": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+      "kind": "reading_rule_component",
+      "component_role": "amendment",
+      "source_group": "math.uniform-matrix-cap-lifetime",
+      "graph_parent_edges": [
+        {
+          "from": "math.uniform-matrix-cap-lifetime",
+          "to": "math.d1-component.section9-replacement-v1_1",
+          "required": true,
+          "relation": "reads_section9_as_replaced_v1_1"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1011",
+        "Q-1045"
+      ],
+      "blob_observation": {
+        "id": "math.d1-component.section9-replacement-v1_1",
+        "path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+        "blob": "fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a",
+        "bytes": 9062
+      }
+    },
+    {
+      "id": "math.d1-component.reconciliation-record",
+      "source": "reviews/d1_chain_reconciliation_20260928/",
+      "kind": "reading_rule_component",
+      "component_role": "reading_rule_record",
+      "source_group": "math.uniform-matrix-cap-lifetime",
+      "graph_parent_edges": [
+        {
+          "from": "math.uniform-matrix-cap-lifetime",
+          "to": "math.d1-component.reconciliation-record",
+          "required": true,
+          "relation": "reads_with_reconciled_rule_W1_radius"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1011",
+        "Q-1045"
+      ],
+      "blob_observation": null
+    },
+    {
+      "id": "eng.main-pr87-crosswalk",
+      "source": "https://github.com/d6g8k5htny-coder/main/pull/87",
+      "kind": "engineering",
+      "component_role": null,
+      "source_group": null,
+      "graph_parent_edges": [],
+      "linked_parent_catalog_mentions": [],
+      "blob_observation": null
+    },
+    {
+      "id": "eng.d0-packet-allowlist-fix",
+      "source": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+      "kind": "engineering",
+      "component_role": null,
+      "source_group": null,
+      "graph_parent_edges": [
+        {
+          "from": "eng.main-pr87-crosswalk",
+          "to": "eng.d0-packet-allowlist-fix",
+          "required": true,
+          "relation": "ci_unblock_depends_on_allowlist_patch"
+        }
+      ],
+      "linked_parent_catalog_mentions": [],
+      "blob_observation": {
+        "id": "eng.d0-packet-allowlist-fix",
+        "path": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+        "blob": "f09b248b10d6a8f229bd21bb3a53a97ca16525f2",
+        "bytes": 3096
+      }
+    },
+    {
+      "id": "math.rn-selector-region-crosswalk",
+      "source": "frontiers/downstream_gate_20260925/SELECTOR_REGION.json",
+      "kind": "inventory",
+      "component_role": null,
+      "source_group": null,
+      "graph_parent_edges": [],
+      "linked_parent_catalog_mentions": [],
+      "blob_observation": {
+        "id": "math.rn-selector-region-crosswalk",
+        "path": "frontiers/downstream_gate_20260925/SELECTOR_REGION.json",
+        "blob": "ebffdb0969c7d3484f8fd1f4352ea290346f0318",
+        "bytes": 2753
+      }
+    },
+    {
+      "id": "math.d5-component.punctured-pin-review-111",
+      "source": "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.punctured-pin-review-111",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.pin-collision",
+          "to": "math.d5-component.punctured-pin-review-111",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.mesoscopic-scaled-annulus",
+          "to": "math.d5-component.punctured-pin-review-111",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1022",
+        "Q-1021"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.punctured-pin-review-111",
+        "path": "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md",
+        "blob": "c98cf3eefbf61f2ee3bbc1c8ef88f2218dd8b47a",
+        "bytes": 5534
+      }
+    },
+    {
+      "id": "math.d5-component.punctured-pin-continuum-review",
+      "source": "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.punctured-pin-continuum-review",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.pin-collision",
+          "to": "math.d5-component.punctured-pin-continuum-review",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.mesoscopic-scaled-annulus",
+          "to": "math.d5-component.punctured-pin-continuum-review",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1022",
+        "Q-1021"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.punctured-pin-continuum-review",
+        "path": "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md",
+        "blob": "4904e3d929d6dc7bc16b49eee85d7c3a21b6b484",
+        "bytes": 10501
+      }
+    },
+    {
+      "id": "math.d5-component.punctured-pin-continuum-check",
+      "source": "reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py",
+      "kind": "reading_rule_component",
+      "component_role": "review_checker",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.punctured-pin-continuum-check",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.pin-collision",
+          "to": "math.d5-component.punctured-pin-continuum-check",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.mesoscopic-scaled-annulus",
+          "to": "math.d5-component.punctured-pin-continuum-check",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1022",
+        "Q-1021"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.punctured-pin-continuum-check",
+        "path": "reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py",
+        "blob": "b0d6321f7e480d7ea855a2017532588d241f5d34",
+        "bytes": 10012
+      }
+    },
+    {
+      "id": "math.d5-component.collar-review",
+      "source": "reviews/d5_collar_count_20260928/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.collar-review",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.pin-collision",
+          "to": "math.d5-component.collar-review",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.mesoscopic-scaled-annulus",
+          "to": "math.d5-component.collar-review",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1022",
+        "Q-1021"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.collar-review",
+        "path": "reviews/d5_collar_count_20260928/REVIEW.md",
+        "blob": "6b1350fa88b3e217f9aac3c6bde7499639ebebe7",
+        "bytes": 1791
+      }
+    },
+    {
+      "id": "math.d5-component.annulus-review",
+      "source": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.annulus-review",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.mesoscopic-scaled-annulus",
+          "to": "math.d5-component.annulus-review",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1021"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.annulus-review",
+        "path": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+        "blob": "559d72242fdb7e4e3ac4a10d10641ae1da84f40e",
+        "bytes": 15925
+      }
+    },
+    {
+      "id": "math.d5-component.i5-review-xai",
+      "source": "reviews/d5_i5_planar_f_20260928/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.i5-review-xai",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.intermediate-r-to-rho",
+          "to": "math.d5-component.i5-review-xai",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1023"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.i5-review-xai",
+        "path": "reviews/d5_i5_planar_f_20260928/REVIEW.md",
+        "blob": "031c5364d1377e0f85ed62caadd8406fbbedc0ab",
+        "bytes": 3552
+      }
+    },
+    {
+      "id": "math.d5-component.i5-review-claude",
+      "source": "reviews/d5_intermediate_window_claude_20260928/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.d5-pin-neighborhood-first-moment",
+      "graph_parent_edges": [
+        {
+          "from": "math.d5-pin-neighborhood-first-moment",
+          "to": "math.d5-component.i5-review-claude",
+          "required": true,
+          "relation": "requires_evidence"
+        },
+        {
+          "from": "math.rn-region.intermediate-r-to-rho",
+          "to": "math.d5-component.i5-review-claude",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1031",
+        "Q-1023"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.i5-review-claude",
+        "path": "reviews/d5_intermediate_window_claude_20260928/REVIEW.md",
+        "blob": "100ce8ecc120fcf4e3e4e6b9b039c08632e2711c",
+        "bytes": 14710
+      }
+    },
+    {
+      "id": "math.d5-component.offpin-second-moment-review",
+      "source": "reviews/d5_offpin_second_moment_20260928/REVIEW.md",
+      "kind": "reading_rule_component",
+      "component_role": "review_record",
+      "source_group": "math.rn-region.witness-collision",
+      "graph_parent_edges": [
+        {
+          "from": "math.rn-region.witness-collision",
+          "to": "math.d5-component.offpin-second-moment-review",
+          "required": true,
+          "relation": "requires_evidence"
+        }
+      ],
+      "linked_parent_catalog_mentions": [
+        "Q-1024",
+        "Q-1054",
+        "Q-1056"
+      ],
+      "blob_observation": {
+        "id": "math.d5-component.offpin-second-moment-review",
+        "path": "reviews/d5_offpin_second_moment_20260928/REVIEW.md",
+        "blob": "62697c471d4299590d807ab64b03b0ebb0d4dd43",
+        "bytes": 1473
+      }
+    }
+  ],
+  "directory_tree": {
+    "path": "reviews/d1_chain_reconciliation_20260928",
+    "sha": "dacbb1ed2c6f61f22691fb81c5f3c93a75a6403e"
+  },
+  "external_pr87": {
+    "state": "closed",
+    "merged": false,
+    "head": "3d4969ab40d36a38ebf6ea1c3608035a706a7576"
+  },
+  "limitations": [
+    "Graph roles and edges identify historical reading-rule components, review records, an engineering checker and routing metadata; their source contents may carry additional mathematical statements that have not been exhaustively dispositioned.",
+    "Twelve complete UTF-8 blobs were read and their byte lengths matched the pinned Git tree; this does not independently verify source-stated SHA-256 fingerprints, mathematical validity, theorem coverage or kernel closure.",
+    "The directory tree SHA and PR state are separate observations, not semantic proof. PR state is current only at the observation cut.",
+    "The review checker was not run or qualified as a certifier. Linked Q IDs are literal parent-node mentions, not a proof of equivalent semantic coverage."
+  ]
+}
