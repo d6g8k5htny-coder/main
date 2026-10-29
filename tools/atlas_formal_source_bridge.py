@@ -12,12 +12,12 @@ from pathlib import Path
 import tempfile
 
 if __package__:
-    from .atlas_formal_evidence_build import build_connection, digest, blob, require
-    from .formal_gate_check import source_check, safe_path
+    from .atlas_formal_evidence_build import build_connection, digest, blob, require, historical_source_identity
+    from .formal_gate_check import safe_path
     from .required_formal_check import strict_json
 else:
-    from atlas_formal_evidence_build import build_connection, digest, blob, require
-    from formal_gate_check import source_check, safe_path
+    from atlas_formal_evidence_build import build_connection, digest, blob, require, historical_source_identity
+    from formal_gate_check import safe_path
     from required_formal_check import strict_json
 
 CURRENT_MANIFEST='1a09020f0706abd506824f54fca76df9daa533749350b9ab6b818e0bbe9ed744'
@@ -63,7 +63,7 @@ def build_bridge(root,snapshot):
         (CURRENT_MANIFEST,CURRENT_BLOB,17521,CURRENT_SOURCE))
     require(digest(raw)==manifest_sha and blob(raw)==manifest_blob and len(raw)==manifest_bytes,
             'unrecognized projection manifest; no bridge inferred')
-    current,_,_=source_check(root)
+    current,_,_=historical_source_identity(root, manifest_sha)
     manifests=[s for s in snapshot['sources'] if s['repository']=='d6g8k5htny-coder/main'
                and s['path']=='formal/manifest.json']
     require(len(manifests)==1 and manifests[0]['blob']==manifest_blob and manifests[0]['bytes']==manifest_bytes,
@@ -110,7 +110,7 @@ def build_bridge(root,snapshot):
             destination=historical/path;destination.parent.mkdir(parents=True,exist_ok=True)
             destination.write_bytes(read(root,path))
         # Current validator reads these old files only as literal hash-bound data.
-        source_check(historical)
+        historical_source_identity(historical)
         proof=read(root,'formal/sources/side24_v1/PROOF.md')
         artifact=read(root,EVIDENCE_DIR+'/verified-execution.zip')
         original=build_connection(historical,original_projection,proof,artifact)
