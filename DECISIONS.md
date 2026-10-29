@@ -157,3 +157,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 21:55:15 UTC] [phase3] [layerA] Record the actual278-test optimized core mutation RED and independently check Git's documented any-value semantics for GIT_NO_REPLACE_OBJECTS. Preserve the failure and require the revised genuine removal mutation and fresh both-mode controls; do not infer a pass. Reversible:yes. Evidence: cbz/evidence/math-core-git-replacement-mutant-red.json.
 
 [2026-10-29 21:55:40 UTC] [phase3] [layerC] Bind the pending zero-law source trial to its actual queued hosted run. No compilation, axiom or kernel pass is inferred. Reversible:yes. Evidence: STATUS.md and Math run40960912254.
+
+[2026-10-29 21:56:11 UTC] [phase3] [layerC] Compare the11 directly referenced source paths for94 historical core/arithmetic records between their checked trees and observed current default trees. Record exact Git-blob/mode identity only; other package inputs, current execution and final gates remain unqualified. Reversible:yes. Evidence: cbz/evidence/core-current-source-tree-observation.json.
