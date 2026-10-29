@@ -65,3 +65,31 @@ The receipt records compiled counts, closure size, axiom set, and transcript
 SHA-256; `compiled-inventory.log` is also in the receipt log digest map. The
 manifest binds helper, tests, gate, and this document. Prior receipt history is
 retained by the existing gate. No bound or failing test was removed or weakened.
+
+## Exact source-commit custody
+
+The receipt producer compares every manifest-bound input and declared unbound
+package file (including the manifest) with raw blobs and executable modes in
+one immutable Git HEAD before Lean runs and after the final source/version
+checks. The final check must use the same captured HEAD. Actual loaded producer
+and compiled-helper bytes are matched to the declared source copies. The
+manifest also binds the live receipt consumer, its tests and aggregate workflow.
+Git replacements, alternate repository/index environment variables and content
+filters cannot substitute another source tree. A mismatched package argument is
+rejected before filesystem writes; a valid-package source refusal archives prior
+receipt/logs before making any current success impossible. Unrelated repository
+edits and generated `.lake` outputs are outside the owned-input scope.
+
+Run `python3 -B -S -m unittest tests.test_formal_source_custody -v`, then repeat
+with `-O`. Real-Git controls exercise dirty/refreshed/staged/hidden source bytes,
+manifest metadata, missing inputs, executable modes, symlinks, repository roots,
+HEAD drift, replacement objects, loaded code and failed-rerun receipt handling.
+These checks establish pre/post endpoint custody in the trusted runner; they do
+not claim continuous atomic isolation from a malicious concurrent writer.
+
+The custody test module includes a declared nine-source-mutant inventory
+(threshold9/9), with complete unfiltered controls and exact named assertion
+failures under the shared strict mutation contract. It plants missing initial
+and final checks as well as blob/mode/HEAD/manifest/loaded-code/inventory/Git
+replacement defects. Startup failures, test errors, skips and unrelated failures
+are not kills. The module also checks the mandatory live-consumer/test bindings.
