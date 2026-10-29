@@ -1,0 +1,28 @@
+{
+  "schema": "cbz.foundation.main704-reconciliation.v1",
+  "observed_utc": "2026-10-29 21:24:27 UTC",
+  "base": "c93cec70223281492709ff74ca84fed5dc6e40e8",
+  "merged_main": "1e2be44c69e08e47472041ac329e1b27f7dec793",
+  "candidate_before": "ea2dcebefca14d3d78b0e83c67d1eb99364d990c",
+  "full_tree_counts": {
+    "base": 2930,
+    "main": 3307,
+    "stage": 3906,
+    "conflicts": 1,
+    "mainOnly": 1,
+    "stageOnly": 611,
+    "same": 375
+  },
+  "shared_changed_files_exact": 375,
+  "main_only": [
+    "cbz/evidence/additional-delivery-20261029.json"
+  ],
+  "conflict_resolution": {
+    "path": ".gitattributes",
+    "decision": "Candidate includes all main rules and one additional exact historical-log whitespace rule; preserve candidate bytes."
+  },
+  "limitations": [
+    "Tree comparison is exact Git blob/mode comparison; it does not certify semantics, clean git status or final gates.",
+    "A later #705 delivery and still-pending auditor fixes require their own integration and fresh verification."
+  ]
+}

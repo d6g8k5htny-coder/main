@@ -135,3 +135,7 @@ The five restricted-container methods skipped by broad discovery were separately
 ### Pending conditional pair-law countermodel
 
 A candidate Lean proof on [Math branch `cbz/lifetime-pair-law-countermodel-20261029`](https://github.com/d6g8k5htny-coder/Math-/tree/cbz/lifetime-pair-law-countermodel-20261029), initial head `5a470bfd739aba22e32b91587d5dfc031a7de3fc`, tests the existing interface with constant probability one. Its proposed result is conditional on supplied field, elder-interface and frame objects; it would not identify that artificial law with the geometric elder event or establish existence of those objects. Hosted run [40957238766](https://github.com/d6g8k5htny-coder/Math-/actions/runs/40957238766) is queued. The candidate is not CLOSED, kernel-verified, or included in the 367 declaration records.
+
+### Main evidence delivery integration
+
+Main [#704](https://github.com/d6g8k5htny-coder/main/pull/704) merged at `1e2be44c69e08e47472041ac329e1b27f7dec793`. The candidate preserves its delivery metadata and full history. At this comparison cut, 375 changed evidence paths matched exactly by Git blob and mode; the candidate's `.gitattributes` retained all main rules plus one exact preserved-log rule. This is a tree comparison, not a final gate. [Evidence](cbz/evidence/main704-reconciliation-20261029.json).
