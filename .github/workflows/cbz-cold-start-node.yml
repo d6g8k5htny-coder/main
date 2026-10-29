@@ -35,3 +35,29 @@ jobs:
         env:
           PYTHONOPTIMIZE: ${{ matrix.optimize }}
         run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+
+  prepared:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Fetch immutable historical fixture objects
+        run: |
+          git clone --no-checkout https://github.com/d6g8k5htny-coder/Math-.git "$RUNNER_TEMP/Math-"
+          git clone --no-checkout https://github.com/d6g8k5htny-coder/query-.git "$RUNNER_TEMP/query-"
+      - name: Every tracked Node test with verified fixtures
+        run: |
+          python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
+      - name: Preserve actual result and transcript
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-node-result
+          path: ${{ runner.temp }}/cbz-node-result
+          if-no-files-found: error

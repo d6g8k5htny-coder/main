@@ -4,6 +4,7 @@ import importlib.util
 import io
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -12,7 +13,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE = ROOT / "tools/cbz_node_regression.py"
+SOURCE = Path(os.environ.get("CBZ_NODE_RUNNER_SOURCE", ROOT / "tools/cbz_node_regression.py"))
 
 
 def runner():
@@ -166,7 +167,7 @@ class NodeRunnerTests(unittest.TestCase):
     def test_tap_requires_nonzero_complete_all_passed_summary(self):
         good = "# tests 3\n# pass 3\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n"
         self.assertEqual(self.module.tap_summary(good)["tests"], 3)
-        cases = [good.replace("# tests 3", "# tests 0"),
+        cases = [good.replace("# tests 3", "# tests 0").replace("# pass 3", "# pass 0"),
                  good.replace("# pass 3", "# pass 2")]
         for field in ("fail", "cancelled", "skipped", "todo"):
             cases.append(good.replace("# " + field + " 0", "# " + field + " 1"))
@@ -250,6 +251,133 @@ class NodeRunnerTests(unittest.TestCase):
             self.module.run(
                 self.repo, self.directory / "Math-", self.directory / "query-", output)
         self.assertEqual((output / "retained.txt").read_text(), "old failure")
+
+
+def assertion_kill(process, expected):
+    text = process.stdout + process.stderr
+    summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
+    if process.returncode == 0 or not summary or "errors=" in summary.group(1):
+        return False
+    if not re.search(r"^Ran [1-9][0-9]* tests?", text, re.MULTILINE):
+        return False
+    failures = re.findall(r"^FAIL: (test_[a-zA-Z0-9_]+) \(", text, re.MULTILINE)
+    return expected in failures
+
+
+class MutationHarnessTests(unittest.TestCase):
+    def result(self, code=1, expected="test_expected", summary="failures=1"):
+        return subprocess.CompletedProcess(
+            [], code, "",
+            "FAIL: " + expected + " (fixture.Contract)\n"
+            "AssertionError: intended mutation\nRan 1 test in 0.001s\n"
+            "FAILED (" + summary + ")\n")
+
+    def test_intended_assertion_counts(self):
+        self.assertTrue(assertion_kill(self.result(), "test_expected"))
+
+    def test_success_exit_cannot_kill(self):
+        self.assertFalse(assertion_kill(self.result(code=0), "test_expected"))
+
+    def test_errors_cannot_kill(self):
+        self.assertFalse(assertion_kill(
+            self.result(summary="failures=1, errors=1"), "test_expected"))
+
+    def test_foreign_assertion_cannot_kill(self):
+        self.assertFalse(assertion_kill(self.result(expected="test_foreign"),
+                                        "test_expected"))
+
+    def test_no_tests_cannot_kill(self):
+        result = self.result()
+        result.stderr = result.stderr.replace("Ran 1 test", "Ran 0 tests")
+        self.assertFalse(assertion_kill(result, "test_expected"))
+
+    def test_launch_failure_cannot_kill(self):
+        result = subprocess.CompletedProcess([], 1, "", "SyntaxError: broken module")
+        self.assertFalse(assertion_kill(result, "test_expected"))
+
+
+class SourceMutationTests(unittest.TestCase):
+    MUTATIONS = [
+        ("length", "len(raw) != length or ", "",
+         "test_all_byte_identities_are_required"),
+        ("sha256", "hashlib.sha256(raw).hexdigest() != digest", "False",
+         "test_all_byte_identities_are_required"),
+        ("declared-blob", "(blob is not None and actual_blob != blob)", "False",
+         "test_all_byte_identities_are_required"),
+        ("regular-blob", 'mode not in (b"100644", b"100755")', "False",
+         "test_symlink_is_not_admitted_as_a_regular_fixture"),
+        ("url", 'descriptor["url"] != expected_url', "False",
+         "test_url_alias_is_rejected"),
+        ("skip-inputs", "for descriptor in descriptors]", "for descriptor in descriptors[:1]]",
+         "test_materialization_checks_every_input_before_writing"),
+        ("hidden-bytes", 'if actual.encode("ascii") != oid:', "if False:",
+         "test_snapshot_detects_assume_unchanged_source_changes"),
+        ("hidden-mode", 'if executable != (mode == b"100755"):', "if False:",
+         "test_snapshot_detects_hidden_executable_mode_changes"),
+        ("zero-tests", 'values["tests"] > 0', 'values["tests"] >= 0',
+         "test_tap_requires_nonzero_complete_all_passed_summary"),
+        ("skip-summary", "_SUMMARY_FIELDS[2:]", "_SUMMARY_FIELDS[2:4]",
+         "test_real_node_skips_are_not_a_green_suite"),
+        ("duplicate-summary", "if len(matches) != 1:", "if not matches:",
+         "test_tap_missing_or_duplicate_fields_refuse"),
+        ("exit", "return process.returncode", "return 0",
+         "test_subprocess_exit_and_output_are_preserved"),
+        ("empty-discovery", "if not paths:", "if False:",
+         "test_zero_tracked_node_tests_refuses"),
+        ("false-green-report", 'record["status"] = "FAIL"', 'record["status"] = "PASS"',
+         "test_preflight_failure_produces_fail_report"),
+    ]
+
+    def invoke(self, path, name):
+        environment = dict(os.environ, CBZ_NODE_RUNNER_SOURCE=str(path),
+                           PYTHONDONTWRITEBYTECODE="1")
+        return subprocess.run(
+            [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
+             "-m", "unittest", "-v",
+             "tests.test_cbz_node_regression.NodeRunnerTests" + ("." + name if name else "")],
+            cwd=ROOT, env=environment, capture_output=True, text=True, timeout=120)
+
+    def test_unmodified_copied_source_passes(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-node-baseline-") as directory:
+            path = Path(directory) / "runner.py"
+            path.write_bytes(SOURCE.read_bytes())
+            result = self.invoke(path, None)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_every_source_mutation_has_its_intended_assertion(self):
+        source = SOURCE.read_text()
+        with tempfile.TemporaryDirectory(prefix="cbz-node-mutants-") as directory:
+            for name, old, new, expected in self.MUTATIONS:
+                with self.subTest(name=name):
+                    self.assertEqual(source.count(old), 1, "mutation anchor drift: " + name)
+                    path = Path(directory) / (name + ".py")
+                    path.write_text(source.replace(old, new))
+                    result = self.invoke(path, expected)
+                    self.assertTrue(assertion_kill(result, expected),
+                                    name + "\n" + result.stdout + result.stderr)
+
+    def test_harness_mutations_are_rejected_by_named_controls(self):
+        source = Path(__file__).read_text()
+        mutations = [
+            ("exit", "process.returncode == 0 or not summary", "not summary",
+             "test_success_exit_cannot_kill"),
+            ("errors", ' or "errors=" in summary.group(1)', "",
+             "test_errors_cannot_kill"),
+            ("foreign", "return expected in failures", "return bool(failures)",
+             "test_foreign_assertion_cannot_kill"),
+        ]
+        with tempfile.TemporaryDirectory(prefix="cbz-node-harness-mutants-") as directory:
+            for name, old, new, expected in mutations:
+                with self.subTest(name=name):
+                    self.assertEqual(source.count(old), 1, "harness anchor drift")
+                    path = Path(directory) / ("test-" + name + ".py")
+                    path.write_text(source.replace(old, new))
+                    result = subprocess.run(
+                        [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
+                         str(path), "MutationHarnessTests." + expected, "-v"],
+                        env=dict(os.environ), capture_output=True, text=True, timeout=120)
+                    self.assertTrue(assertion_kill(result, expected),
+                                    result.stdout + result.stderr)
 
 
 if __name__ == "__main__":
