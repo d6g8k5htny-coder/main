@@ -3,6 +3,8 @@
 
 This is test tooling. Production code has no test flags or detector toggles.
 Compilation failure, launch failure and timeout are harness errors, not kills.
+Every CLI invocation in the registered suite records execution health; a later
+input-dependent failure invalidates the cut even after a healthy benign smoke.
 """
 
 import argparse
@@ -71,6 +73,32 @@ def disable_native_form(tree, form):
     if len(targets) != 1:
         raise RuntimeError("Native review-form mutation anchor is missing or ambiguous: " + form)
     targets[0].value = ast.Constant(None)
+
+
+def ignore_native_record_updates(tree):
+    targets = [node for node in ast.walk(function(tree, "native_review_form"))
+               if isinstance(node, ast.Tuple)
+               and any(isinstance(value, ast.Constant) and value.value == "with" for value in node.elts)]
+    if len(targets) != 1:
+        raise RuntimeError("Native record-update mutation anchor is missing or ambiguous.")
+    targets[0].elts = [value for value in targets[0].elts
+                       if not isinstance(value, ast.Constant) or value.value != "with"]
+
+
+def allow_double_slash_anchor(tree):
+    targets = [node for node in ast.walk(function(tree, "absolute_input_path"))
+               if isinstance(node, ast.If) and ast.unparse(node.test) == "path.anchor == '//'"]
+    if len(targets) != 1:
+        raise RuntimeError("Double-slash refusal mutation anchor is missing or ambiguous.")
+    targets[0].test = ast.Constant(False)
+
+
+def invent_root_to_allow_output(tree):
+    targets = [node for node in ast.walk(function(tree, "write_output"))
+               if isinstance(node, ast.If) and ast.unparse(node.test) == "'root' not in report"]
+    if len(targets) != 1:
+        raise RuntimeError("Unknown-root output mutation anchor is missing or ambiguous.")
+    targets[0].body = ast.parse("report['root'] = '/__cbz_unverified_source_root__'").body
 
 
 def omit_missing_file(tree):
@@ -183,7 +211,7 @@ def python_command(arguments):
 def child_environment(target):
     environment = {key: value for key, value in os.environ.items()
                    if key not in {"PYTHONHOME", "PYTHONPATH", "PYTHONOPTIMIZE",
-                                  "PYTHONSTARTUP", "PYTHONINSPECT"}}
+                                  "PYTHONSTARTUP", "PYTHONINSPECT", "CBZ_AUDITOR_HEALTH_LOG"}}
     environment["CBZ_AUDITOR_SCRIPT"] = str(Path(target).resolve())
     environment["PYTHONDONTWRITEBYTECODE"] = "1"
     return environment
@@ -207,9 +235,16 @@ def test_target(target, log_name, evidence_dir, *, suite_root=ROOT, timeout=60):
     command = python_command(SUITE_ARGUMENTS)
     result = {"returncode": None, "tests_run": 0, "assertion_failures": 0,
               "test_errors": 0, "tests_skipped": 0, "failing_tests": [],
-              "suite_argv": command, "harness_error": None}
+              "suite_argv": command, "harness_error": None,
+              "cli_health": {"executions": 0, "failures": 0, "status": "NOT_OBSERVED"}}
+    Path(evidence_dir).mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(prefix="cli-health-", suffix=".jsonl", dir=evidence_dir,
+                                     delete=False) as health_file:
+        health_path = Path(health_file.name)
+    environment = child_environment(target)
+    environment["CBZ_AUDITOR_HEALTH_LOG"] = str(health_path)
     try:
-        completed = subprocess.run(command, cwd=suite_root, env=child_environment(target),
+        completed = subprocess.run(command, cwd=suite_root, env=environment,
                                    text=True, encoding="utf-8", capture_output=True, timeout=timeout)
     except subprocess.TimeoutExpired as error:
         result["harness_error"] = {"stage": "suite", "kind": "TIMEOUT"}
@@ -234,6 +269,22 @@ def test_target(target, log_name, evidence_dir, *, suite_root=ROOT, timeout=60):
     })
     if tests is None or summary is None:
         result["harness_error"] = {"stage": "suite", "kind": "INCOMPLETE_RESULT"}
+    health_bytes = health_path.read_bytes()
+    try:
+        events = [json.loads(line, parse_constant=reject_json_constant)
+                  for line in health_bytes.decode("utf-8").splitlines()]
+        if any(not isinstance(event, dict) or not isinstance(event.get("status"), str) for event in events):
+            raise ValueError("Invalid CLI health event.")
+        failures = [event for event in events if event["status"] != "VALID_JSON_REPORT"]
+        result["cli_health"] = {"executions": len(events), "failures": len(failures),
+                                "status": "UNHEALTHY" if failures else "HEALTHY" if events else "NOT_OBSERVED",
+                                "failure_events": failures}
+        if failures:
+            result["harness_error"] = {"stage": "suite_cli", "kind": "UNHEALTHY_EXECUTION"}
+    except (ValueError, UnicodeError, RecursionError):
+        result["harness_error"] = {"stage": "suite_cli", "kind": "INVALID_HEALTH_LOG"}
+    result["cli_health_log"] = {"log": str(health_path.resolve()),
+                                "log_sha256": hashlib.sha256(health_bytes).hexdigest()}
     return result
 
 
@@ -302,6 +353,7 @@ def evaluate_target(target, baseline_count, log_name, evidence_dir, *, suite_roo
     killed = (result["harness_error"] is None and result["returncode"] == 1
               and result["assertion_failures"] > 0 and result["test_errors"] == 0
               and result["tests_skipped"] == 0 and result["tests_run"] > 0
+              and result["cli_health"]["status"] == "HEALTHY"
               and result["tests_run"] == baseline_count)
     result["killed"] = killed
     result["result"] = ("HARNESS_ERROR" if result["harness_error"] else
@@ -325,7 +377,8 @@ def main(argv=None):
     parsed = ast.parse(original.decode("utf-8"))
     baseline = evaluate_target(SOURCE, None, "mutation-baseline.log", evidence_dir)
     if (baseline["harness_error"] or baseline["returncode"] != 0 or baseline["tests_run"] == 0
-            or baseline["assertion_failures"] or baseline["test_errors"] or baseline["tests_skipped"]):
+            or baseline["assertion_failures"] or baseline["test_errors"] or baseline["tests_skipped"]
+            or baseline["cli_health"]["status"] != "HEALTHY"):
         raise RuntimeError("Unmodified auditor suite/smoke did not pass: " + repr(baseline))
 
     mutants = []
@@ -340,6 +393,9 @@ def main(argv=None):
     for name, form in (("disable_plus_native_form", "+native"), ("disable_native_assignment_form", "native:=")):
         mutants.append((name, lambda tree, form=form: disable_native_form(tree, form)))
     mutants.extend([
+        ("ignore_native_record_updates", ignore_native_record_updates),
+        ("allow_double_slash_anchor", allow_double_slash_anchor),
+        ("invent_root_to_allow_output", invent_root_to_allow_output),
         ("skip_missing_file", omit_missing_file),
         ("disable_hash_check", disable_hash_check),
         ("fake_hash_identity_from_manifest", fake_hash_identity),
@@ -372,7 +428,7 @@ def main(argv=None):
             or Path(__file__).read_bytes() != original_runner):
         raise RuntimeError("Source, tests or runner changed during the mutation cut.")
     receipt = {
-        "schema_version": 2, "source": SOURCE.relative_to(ROOT).as_posix(),
+        "schema_version": 3, "source": SOURCE.relative_to(ROOT).as_posix(),
         "source_sha256": source_hash, "tests_sha256": hashlib.sha256(original_tests).hexdigest(),
         "runner_sha256": hashlib.sha256(original_runner).hexdigest(),
         "command": shlex.join(["python", "tests/run_scanner_mutations.py", "--evidence-dir", str(evidence_dir)]),

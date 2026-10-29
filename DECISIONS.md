@@ -68,3 +68,29 @@ Append-only. Historical source outcomes remain in their original records.
 - 2026-10-29 · Phase 2 · Layer C · Preserve concurrent Main 27c89b05bd2503c580b692f57146d608a7f0f668,
   its zeta-manifest source repair and all 14 additional tests during composition.
   Fresh hosted qualification will bind the resulting revised PR head.
+- 2026-10-29 · Phase 2 · Layer B · Repair four bounded source-instrument defects
+  reproduced by native review: preserve JSON refusal and create no report file
+  when the audited root is unknown; reject ambiguous POSIX `//` path anchors;
+  review record-update `with native :=` fields; record execution health for
+  every CLI invocation during mutation suites. Input-dependent crashes or
+  invalid JSON cannot become assertion kills after a healthy benign smoke.
+  Observe 58 methods passing normally and with optimization, and 50/50 genuine
+  assertion kills with a healthy 42-method baseline, zero harness/test errors
+  and zero skips. Retain the exploratory 49/50 cut without relabelling its one
+  missing-artifact test error as a kill; strengthen the artifact assertion and
+  qualify the final source separately. G1 and CBZ-0 remain NOT_ESTABLISHED.
+  Exact commands, controls and prior qualification are preserved in
+  cbz/evidence/source-instrument-selection.json. Frozen SHA-256 bindings:
+  scanner `c91da1c607a956cb64d39d8342b7d59722070d0aa5f2dfe54a5e049f3ec8fc9a`;
+  scanner tests `0facbe01b9e2c69928dce1973206bf4fbbd7b962cfbf8a7c2bed38999d1a2250`;
+  mutation runner `8ac245bec4c5fafe4c54bbeb51e447783d871570153ac7d5b1e70280e7c8eab5`;
+  harness tests `588190d7ec55d8d6dcd4e7d2bed290bd3d3593f133d1bcecbbc018d89dcfabe4`.
+
+- 2026-10-29 · Phase 2 · Layer C · Compose the repaired source instrument on
+  current Main c93cec70223281492709ff74ca84fed5dc6e40e8, preserving the
+  receipt-attempt hardening, its source-bound evidence and the novelty-memo
+  clarification. Native tree comparison confirms no Lean source change in
+  that base advance. Publish only after all twelve instrument blobs and the
+  complete base-relative changed-path set match; fresh hosted checks bind
+  the resulting head. Existing nine green checks at f9b800dc are historical
+  and do not qualify the four subsequent repairs.

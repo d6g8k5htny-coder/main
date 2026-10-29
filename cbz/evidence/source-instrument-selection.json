@@ -1,4 +1,57 @@
 {
+  "adversarial_execution_controls": {
+    "raw_receipt_sha256": "f02de3b4512cc27e6102abe7dc8dd19da7b63cbdb5cc62d841cb1f52856d69dd",
+    "results": {
+      "baseline": {
+        "assertion_failures": 0,
+        "cli_health": {
+          "executions": 120,
+          "failures": 0,
+          "status": "HEALTHY"
+        },
+        "killed": false,
+        "result": "NOT_KILLED",
+        "test_errors": 0,
+        "tests_run": 42
+      },
+      "conditional_invalid_json": {
+        "assertion_failures": 0,
+        "cli_health": {
+          "executions": 120,
+          "failures": 7,
+          "status": "UNHEALTHY"
+        },
+        "killed": false,
+        "result": "HARNESS_ERROR",
+        "test_errors": 7,
+        "tests_run": 42
+      },
+      "conditional_runtime_error": {
+        "assertion_failures": 0,
+        "cli_health": {
+          "executions": 120,
+          "failures": 7,
+          "status": "UNHEALTHY"
+        },
+        "killed": false,
+        "result": "HARNESS_ERROR",
+        "test_errors": 7,
+        "tests_run": 42
+      },
+      "semantic_false_clear_audit": {
+        "assertion_failures": 105,
+        "cli_health": {
+          "executions": 115,
+          "failures": 0,
+          "status": "HEALTHY"
+        },
+        "killed": true,
+        "result": "KILLED",
+        "test_errors": 0,
+        "tests_run": 42
+      }
+    }
+  },
   "alternative_probe_observations": {
     "axiom_waiver_without_provenance": {
       "main687": {
@@ -256,10 +309,518 @@
     }
   ],
   "current_source_binding": {
-    "runner_sha256": "2940b27dbf0947005b6525ad7d6a45b50d475cb6d198c58a7dcba371f0b52ed8",
-    "source_sha256": "48e43864860222aab893f76f60163c52fef634408298ec9c503cbfd8fb9971e1",
-    "tests_sha256": "473a1cf7212c1cb1e968c372934eb3b3c2d3926380e2227d1880554cd4cee30a"
+    "harness_tests_sha256": "588190d7ec55d8d6dcd4e7d2bed290bd3d3593f133d1bcecbbc018d89dcfabe4",
+    "runner_sha256": "8ac245bec4c5fafe4c54bbeb51e447783d871570153ac7d5b1e70280e7c8eab5",
+    "source_sha256": "c91da1c607a956cb64d39d8342b7d59722070d0aa5f2dfe54a5e049f3ec8fc9a",
+    "tests_sha256": "0facbe01b9e2c69928dce1973206bf4fbbd7b962cfbf8a7c2bed38999d1a2250"
   },
+  "exploratory_review_cut": {
+    "killed": 49,
+    "raw_receipt_sha256": "9ffd45ba3a891c2b8dec4586dd157bc7645d5a76235a6126f14e85d26480977c",
+    "runner_sha256": "8ac245bec4c5fafe4c54bbeb51e447783d871570153ac7d5b1e70280e7c8eab5",
+    "source_sha256": "c91da1c607a956cb64d39d8342b7d59722070d0aa5f2dfe54a5e049f3ec8fc9a",
+    "tested": 50,
+    "tests_sha256": "b5dd1a219582122a954d43e41d69852450d88f7d93287499f8519b38c35cb923",
+    "unqualified_reason": "Healthy false-clear mutant had one incidental missing-artifact test error; not a kill. Assertion strengthened before the final cut."
+  },
+  "historical_qualifications": [
+    {
+      "current_source_binding": {
+        "runner_sha256": "2940b27dbf0947005b6525ad7d6a45b50d475cb6d198c58a7dcba371f0b52ed8",
+        "source_sha256": "48e43864860222aab893f76f60163c52fef634408298ec9c503cbfd8fb9971e1",
+        "tests_sha256": "473a1cf7212c1cb1e968c372934eb3b3c2d3926380e2227d1880554cd4cee30a"
+      },
+      "mutants": [
+        {
+          "assertion_failures": 3,
+          "log_sha256": "2e84157ec8ac9968cdd4e06f0989e9f83a841c60481f174e541ed0631df39d86",
+          "name": "disable_token_sorry",
+          "result": "KILLED",
+          "source_sha256": "9cf874534d4491ee695644bc7d60935ec3277aa44e5cb79c6847b594b7213c45",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 2,
+          "log_sha256": "95812e17f43cff7103bdb963275bbbb47c3873774fd34af6a27de9b3622854ab",
+          "name": "disable_token_admit",
+          "result": "KILLED",
+          "source_sha256": "682e06066dac3ee6aa46e76ab679c3e2e9119c6cb778d1beb8b2440d7380d1cb",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "d425f8412c190c0bd492a9cc66d542325d8ef7c755e77141c1bb058c5d462bdb",
+          "name": "disable_token_axiom",
+          "result": "KILLED",
+          "source_sha256": "8dc5df579f2ee1f9eb44c56627f1e8e97d4cedf83aa8a07b83675642c322a57b",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "56c9810362a03c751660d4af3c92965e624e518c01f779336962a3b4ac436ba9",
+          "name": "disable_token_native_decide",
+          "result": "KILLED",
+          "source_sha256": "d58fc3f79f5d04bb0665606d9583ee7d29b42ecf5c1697879d74056f9f646cf7",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "a9da462a195303850c2cfcb188c04e89ed11ffb8b1c1f13c6cbcaad82bc57f26",
+          "name": "disable_token_unsafe",
+          "result": "KILLED",
+          "source_sha256": "60e117c7823f29189957c46851ed8bf58a0ea710def506f77e4cc700c398f634",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "f908efb5ab78b9f94914e15ea3cc7bf87ab5fce203f6f0917481e9954fd21c15",
+          "name": "disable_token_Float",
+          "result": "KILLED",
+          "source_sha256": "ee8c2e84c50fe4c738177c525c1c4357dc9f158b7598295926a215aa2e38d009",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "7b5617356a1384d2831b9f38407f81f6327e2ee5c37d6ba2dc6cbff3003d574c",
+          "name": "disable_token_Float32",
+          "result": "KILLED",
+          "source_sha256": "2991e014312c25ec241613fe665606311496b450be0a96022868c4ef1ded41a0",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "35edcfed4f05c4d9b629d08c1a8e4c9605e09330e814fd943c2ac2b9c0206670",
+          "name": "disable_token_sorryAx",
+          "result": "KILLED",
+          "source_sha256": "df04000a1f205796261c754e7b5154baf043afbb238f98b04a774d3e060943ca",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "18d69d5911bc83d44a8aae246d2fcc5d39243f56790cbed18e554fa589219451",
+          "name": "disable_token_ofReduceBool",
+          "result": "KILLED",
+          "source_sha256": "5483dd32caf34a18a43cc10adfc0c02c86ba9d023c3f6b8808f36aa665ca45ca",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "0e185ed2d64ddf0d14d5ed597d924cb32afc832b6b938a3db4c4b6f0dd38c298",
+          "name": "disable_token_ofReduceNat",
+          "result": "KILLED",
+          "source_sha256": "3a325b0c462f9c940253a6096eed0e37819c502720805aae793b7950d1722355",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "e97e67850808e85384fe7c1b0c16d79abbc0f9cee54a6d1cb29c5c4898fd53d2",
+          "name": "disable_token_trustCompiler",
+          "result": "KILLED",
+          "source_sha256": "cb11329352d96f7affd54a1120025e3f3070434576e7cb113c9a5f27db1583ce",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "55952df009a9a2a6cd61467177aee30d1e4bfe21557e93150ebb97e7212f4411",
+          "name": "disable_token_skipKernelTC",
+          "result": "KILLED",
+          "source_sha256": "e5d5431b4adcd3facb0d039ab5d64c0025bbc6dee75de2b1f9a885b738d790e2",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "e536425639a293736c6afa666bc92fb1a942d804fff3e4d9786214964a35fe5b",
+          "name": "disable_token_addDeclWithoutChecking",
+          "result": "KILLED",
+          "source_sha256": "3425915f1b5a391fd341908128685397174a42dcf249b5bd9567c95aee6245e5",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "5a620a2e83972a8a2ecf8122e621898f1a40f4b33390c0b2f002dc7b370d1433",
+          "name": "disable_token_run_tac",
+          "result": "KILLED",
+          "source_sha256": "1fafe6d04473739f71d1ca6af77cef700d9f1d938c540292b283ded233fe169d",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "e450a2919ef41f64fe544361ab9259ee0a9de4879d5ab3e76cd0abcd05a67550",
+          "name": "disable_token_run_elab",
+          "result": "KILLED",
+          "source_sha256": "519e8622349a0f76eac11d14229557d4d9b114e8566a97ae5c85002f34eb5bfc",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "8d975cc744817af87a73fab2fd09697d145b7984c365d86db96b7083fba79e05",
+          "name": "disable_token_eval_expr",
+          "result": "KILLED",
+          "source_sha256": "bc228c9a74d45d39c76a33f190926d9c91ca26e8507ac5585d80d198d8f35b9b",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "9f170f328aa2904d2c299d411e1836de0a887d4a0965917fcb17924e9f5b00f3",
+          "name": "disable_token_implemented_by",
+          "result": "KILLED",
+          "source_sha256": "2b043c4b737997eab24e5621ad491e87c0dbdae0a451c79796f9ba29724750de",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "6d01c42cf5daf49fcf57616e630b819fd32e14a0ddf6417269c5e542341bfd1a",
+          "name": "disable_token_extern",
+          "result": "KILLED",
+          "source_sha256": "78c38f2ea7600b662ee731975fbf6a3e69eb0da3d168af6596682fc86dbb6bbd",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "9b18f433f7d0e37ebd605373f48f7f529bb06cb55255844b21cd8abf34bd7504",
+          "name": "disable_token_macro",
+          "result": "KILLED",
+          "source_sha256": "cb9971b603dc41be82a5dbf38979fb0a1f6ab60bb192b5d5069358a30df575bc",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "cc2f90e5c5365fc2437654c0dfdb4cc1fdcd438e85ea3551af86d21fd931ca12",
+          "name": "disable_token_macro_rules",
+          "result": "KILLED",
+          "source_sha256": "8d62e602f863af99fc91bfe8901baaa410021100aa34683c8c073273c9550962",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "ebdadd792fd22e3fae49b7ac7508c659a296913b66e2e9f5a2bd718ac2d9ae9c",
+          "name": "disable_token_syntax",
+          "result": "KILLED",
+          "source_sha256": "5da5b8bed5d1ac4a81b78ac72aab079824885447ad8ed25f28a7a171c2e60ffe",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "74a8e33af80d9ce6882a9987979daf877f9da4b96979cb2509a904c2a470e8d0",
+          "name": "disable_token_elab",
+          "result": "KILLED",
+          "source_sha256": "27ca3330d7c2d96d7bda05c3ad7d54a8c10f7ebda8f81721db571412a8da0ac3",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "ce66e09034474be59be0bd8fce594d997be73f00f9bf791dfbc35be6d3ec0817",
+          "name": "disable_token_elab_rules",
+          "result": "KILLED",
+          "source_sha256": "e452cd6f53091b3d2cbc8bf96b1dbc4021c9bc6a0d320812c8f87f1771f7e57a",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "3dfd37bce8d1f2d40cd0e94f2981d337f8ee42d5c1754b64f39079ff0529fb3c",
+          "name": "disable_token_declare_syntax_cat",
+          "result": "KILLED",
+          "source_sha256": "058dcf472d24d9f9fe0feab1a9f1c305d570764e16447653db8d829757adfe9a",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "56191c8a3bdf6829804ba646cd7c8444deb8b890f94d93a3672b725533ac0c58",
+          "name": "disable_token_initialize",
+          "result": "KILLED",
+          "source_sha256": "78b8271778be8748d08b7f356c23a7153a4678e8e208f4f09a5a11b71dd73717",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "6a870e71d44fa90d28187f0787f10ce1741b1364f47a397a2a8d2534df442c79",
+          "name": "disable_token_builtin_initialize",
+          "result": "KILLED",
+          "source_sha256": "facb5011574a4657271c6b1d5daac515fa61daa2e0bf4a87f8a67c3759bd89e3",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "71e5a5e90d89564984970edabbf5493841fc9716a876a25a5b2401975a8cbf40",
+          "name": "suppress_quoted_identifier",
+          "result": "KILLED",
+          "source_sha256": "6d4b875488ed58e5ba470b7c2322d9aa3af31b4c07206aed082c774f9d9a6da8",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 3,
+          "log_sha256": "892d79323b04376292fc88a05f5d74a2e68dea48cb40f1e183bfea8312cde0ad",
+          "name": "suppress_string_interpolation",
+          "result": "KILLED",
+          "source_sha256": "4932acaf2478d28288382c8a1b2975f0cf0dc36f424858546e02a757ddf04c23",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 7,
+          "log_sha256": "72db70e83ce6b3e332aa89bdc13270eb9f5b37d2cbc0f0d3d0a25218e1d3cebe",
+          "name": "suppress_unsupported_syntax",
+          "result": "KILLED",
+          "source_sha256": "ac810264dae176fa21b9644b713b5e091f7d2f9766cf9d2190fa4cff2989431e",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "9893bd523b2b585fc78a8def59a79b09ecf8dfea7cf973cf4c7d2d87de898154",
+          "name": "suppress_unsupported_escape",
+          "result": "KILLED",
+          "source_sha256": "7659a9889a1e5ca6b6f8cb7c37e401d3031d464859483d73cd285e7ccc6a040f",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 5,
+          "log_sha256": "d55c7b35f9c46a22d2fe9aa3e59854b5bd1c3fc8c623817350e8a15b48e489ab",
+          "name": "disable_plus_native_form",
+          "result": "KILLED",
+          "source_sha256": "6c1fb2628ffabaec872aef6b44e35817811123422f2c683a61097878e06dfca8",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 5,
+          "log_sha256": "d5cd9e2db35649e19367f777aab7258846e0704b3afbc17dfb819b0fda8c8f35",
+          "name": "disable_native_assignment_form",
+          "result": "KILLED",
+          "source_sha256": "9d222638802db0f6d6506a785ce44eaf8e01b80f38af4625f947cabf15e22828",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "481948838ae3565c6b5e7b9d42605619fbe4ea10e0573e63261f7b1efc671892",
+          "name": "skip_missing_file",
+          "result": "KILLED",
+          "source_sha256": "a95c479088f0d903d3448d9cd200424b36e3124f5af95979fdee83bc8506fef8",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "cb235f0e1ec1b6a6e293b03eaf3f65d2f491098138d0b7df1d5a76f94c6c2bd0",
+          "name": "disable_hash_check",
+          "result": "KILLED",
+          "source_sha256": "fa2d26a4639fde754afc3e12b09c8d11658ec2cb3184a94909b9b69302ee80ad",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "e2c8b81790f6ed95332fb83749d073cf536c4f7e22cb19471e9374cd744b5ea9",
+          "name": "fake_hash_identity_from_manifest",
+          "result": "KILLED",
+          "source_sha256": "5515c3eb4dd45bfec31cfa1708169421c7b1a14427d13f3fed03a6dd713a3f68",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "d7d1c80109e8481cdbf5a15a5e0ce36ea4e7a0cb102c75013f7f53e83602c30f",
+          "name": "skip_unlisted_files",
+          "result": "KILLED",
+          "source_sha256": "e4cd0f7c298e39bcd898087e5b9607280133ccfaa0d6c9840576e85a32b59ebd",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "147c4cefcaffa394c0afcc470df174c994b07fa43440ca6de80a4676da6395b4",
+          "name": "ignore_permission_denial",
+          "result": "KILLED",
+          "source_sha256": "a98f5ab017cd151e9208029a3024b044b3da930027aea988e88e74f3527d92cc",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 4,
+          "log_sha256": "5944ee5b869b34ec411792bafdc11820a0d2b9b4b355c856c96dc48a7ff1e3bc",
+          "name": "disable_symlink_classification",
+          "result": "KILLED",
+          "source_sha256": "a2203a5487166eb5f40b6ee58eee3e19e8225ea8ccde02f0bcd003b7531d0e43",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 2,
+          "log_sha256": "33b5d16f05b2b13800b1e8ee5393a86289bd7047167603d28aa29696fc141608",
+          "name": "ignore_invalid_utf8",
+          "result": "KILLED",
+          "source_sha256": "8cea1e10f5837e7c97f8481d3f70bd481d35b934ea8a4deb7bed8b233d13d07d",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 2,
+          "log_sha256": "45126651dcfd4849ee3d40ab430e92cbf077542f64d69a8e45c94c4223d1ecef",
+          "name": "ignore_nested_comments",
+          "result": "KILLED",
+          "source_sha256": "b6f01cd8d20a81113f722f449be50ea18ee5e089523c8bca7b1ca5b18e3d7bb0",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 5,
+          "log_sha256": "a12119ac55fb564800a7149f85c944a67984d8fcf8227bdce7d50da90ff15762",
+          "name": "disable_string_mask",
+          "result": "KILLED",
+          "source_sha256": "b9b1bbc7da7616674db8a7c6f9414547c582ed41e9182471ecd3d2b82c359f01",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 3,
+          "log_sha256": "0421a5b5f461329c202b5fb68d61fd78eb52a25a093f875617fd7af5e8a1b888",
+          "name": "disable_character_mask",
+          "result": "KILLED",
+          "source_sha256": "ceb1aea44dd1ace695734e85325ce79eafddb7920a48c4fd5acd431dacd1e215",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 3,
+          "log_sha256": "6df4edd731f1066f615bb3eb318c064835e99abf69974e348a677df28afd3199",
+          "name": "disable_raw_string_mask",
+          "result": "KILLED",
+          "source_sha256": "1206c73cc28695f5a0d5cbaefe6dff21ded82f8791d0966cf1f48728c0831712",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "8e2ed776eb52ba3cd70660536aa425b61c53a1036a6907b3c410dc372c88c8c3",
+          "name": "omit_unestablished_semantic_coverage",
+          "result": "KILLED",
+          "source_sha256": "94873cbc3b1578d49217e1879d918127884856370dae1ebe1147273e3822741d",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 102,
+          "log_sha256": "63201f9c5296820e81dab043161e4141ac3a8d5cc5f61626a3d82d6a1264b3b9",
+          "name": "fake_unconditional_success",
+          "result": "KILLED",
+          "source_sha256": "3f6599d7ea36e6aeadaf52099772a9be08b523b413229df5ca054d448a4c2d96",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 102,
+          "log_sha256": "40c7538026df9554abf87282da67d5eb99191c36089b11ec9fabbfdadce1edae",
+          "name": "fake_unconditional_clear_audit",
+          "result": "KILLED",
+          "source_sha256": "dfc3ec1b92dced86ef6a552d754cf4cd863d30fe4a05e64de442a130b5a84806",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        },
+        {
+          "assertion_failures": 1,
+          "log_sha256": "411a976759046f6a2e176c0277851a8a7d3dc0e8a8bf595978b5088a07b65659",
+          "name": "ignore_duplicate_json_keys",
+          "result": "KILLED",
+          "source_sha256": "2fcf707da1a70f7c0b52fd71d8704664202a567e80ee08196475e87d16652bf0",
+          "test_errors": 0,
+          "tests_run": 39,
+          "tests_skipped": 0
+        }
+      ],
+      "mutation_cut": {
+        "declared_threshold": 47,
+        "harness_errors": 0,
+        "healthy_baseline_tests": 39,
+        "killed": 47,
+        "raw_receipt_sha256": "91891f0cfb69a15656454210b4277b4b73e24dcee863d8eb65be3654f63a8e91",
+        "skips": 0,
+        "test_errors": 0,
+        "tested": 47
+      },
+      "name": "trust-bypass-union-47",
+      "regression_methods": {
+        "harness": 14,
+        "normal_total": 53,
+        "optimized_total": 53,
+        "scanner": 39
+      }
+    }
+  ],
   "limitations": [
     "Alternative probe reports are observations at their pinned commits, not claims about later updates.",
     "No source instrument establishes imported axioms, compiled source closure, satisfiability, bound semantics or full G1.",
@@ -268,491 +829,835 @@
   "mutants": [
     {
       "assertion_failures": 3,
-      "log_sha256": "2e84157ec8ac9968cdd4e06f0989e9f83a841c60481f174e541ed0631df39d86",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "ade22a0de405180820dcfe8790d1a8ebc2518757c2fb93afa65fcff7c4edf209",
       "name": "disable_token_sorry",
       "result": "KILLED",
-      "source_sha256": "9cf874534d4491ee695644bc7d60935ec3277aa44e5cb79c6847b594b7213c45",
+      "source_sha256": "8cfbc0c335ab185464181efe3190453ccf7b441b991216873f4b26babefa6503",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 2,
-      "log_sha256": "95812e17f43cff7103bdb963275bbbb47c3873774fd34af6a27de9b3622854ab",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "a1aba573a63074354e05b41e75d9303c098195826c0a628ea0feebb661ca7c8f",
       "name": "disable_token_admit",
       "result": "KILLED",
-      "source_sha256": "682e06066dac3ee6aa46e76ab679c3e2e9119c6cb778d1beb8b2440d7380d1cb",
+      "source_sha256": "81909b59c096f30b396a2a6722ac1642417b650858c63d1e579e12200146df40",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "d425f8412c190c0bd492a9cc66d542325d8ef7c755e77141c1bb058c5d462bdb",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "004580e5a628d70ebfa394386e24a645b0536f57e65948bd6806688feb07fcac",
       "name": "disable_token_axiom",
       "result": "KILLED",
-      "source_sha256": "8dc5df579f2ee1f9eb44c56627f1e8e97d4cedf83aa8a07b83675642c322a57b",
+      "source_sha256": "f6ae906de7d056ee742c415ed994d36e24c213136df409eeb88d100c90a28562",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "56c9810362a03c751660d4af3c92965e624e518c01f779336962a3b4ac436ba9",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "d7f511fc8d1e25457770cf20ff2dadc64a1a06c4d674443b8788d002ddf744c2",
       "name": "disable_token_native_decide",
       "result": "KILLED",
-      "source_sha256": "d58fc3f79f5d04bb0665606d9583ee7d29b42ecf5c1697879d74056f9f646cf7",
+      "source_sha256": "36f0e59a28ed3d48f4ebae8fc6d1680615465be85b3352d1cb88018682cf5167",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "a9da462a195303850c2cfcb188c04e89ed11ffb8b1c1f13c6cbcaad82bc57f26",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "923686d8fb9a8176c63d356a5662c74a58d657123f1617084c49cc0f164187ca",
       "name": "disable_token_unsafe",
       "result": "KILLED",
-      "source_sha256": "60e117c7823f29189957c46851ed8bf58a0ea710def506f77e4cc700c398f634",
+      "source_sha256": "9da954cb3f326d204580d5b7b9f8345605502a51c5f83a4970e3d04805615f83",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "f908efb5ab78b9f94914e15ea3cc7bf87ab5fce203f6f0917481e9954fd21c15",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "6313715d21fade8a2500b8499746f2977e4da089420ae7479ef68e553f0c2043",
       "name": "disable_token_Float",
       "result": "KILLED",
-      "source_sha256": "ee8c2e84c50fe4c738177c525c1c4357dc9f158b7598295926a215aa2e38d009",
+      "source_sha256": "d487b07a6629313f1780c9f9d445a53d010a856ca720d6fe87429e6a50fed5c9",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "7b5617356a1384d2831b9f38407f81f6327e2ee5c37d6ba2dc6cbff3003d574c",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "e2f57c74437516605779e4d65bd9140308958a770b518a46f6bc43735fbd77b4",
       "name": "disable_token_Float32",
       "result": "KILLED",
-      "source_sha256": "2991e014312c25ec241613fe665606311496b450be0a96022868c4ef1ded41a0",
+      "source_sha256": "2739b32394286b1120007d9e707eedb161448960aeef656edeff887f40d91ea4",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "35edcfed4f05c4d9b629d08c1a8e4c9605e09330e814fd943c2ac2b9c0206670",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "0c930ae522c8179b65bbfe367e0c88f8b110e4f5b51bf3297f26c4c7cc5170e5",
       "name": "disable_token_sorryAx",
       "result": "KILLED",
-      "source_sha256": "df04000a1f205796261c754e7b5154baf043afbb238f98b04a774d3e060943ca",
+      "source_sha256": "a98e367d3830c03f7f988282029e0a2d212b2f6d526131a6c0838a8324053a0c",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "18d69d5911bc83d44a8aae246d2fcc5d39243f56790cbed18e554fa589219451",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "7fac057ff604aba41432b7cd6b615afb4071a55a43049ddf1f0d828dd10e4786",
       "name": "disable_token_ofReduceBool",
       "result": "KILLED",
-      "source_sha256": "5483dd32caf34a18a43cc10adfc0c02c86ba9d023c3f6b8808f36aa665ca45ca",
+      "source_sha256": "65261cc50808d31007d5b3cf72aadf76e0d6db8ea7e8f45de227de72cbecc80d",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "0e185ed2d64ddf0d14d5ed597d924cb32afc832b6b938a3db4c4b6f0dd38c298",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "f29f35f9f348899f8f531854fa3fbdd369cabfe3f0bfe1fde72f24cc694e585c",
       "name": "disable_token_ofReduceNat",
       "result": "KILLED",
-      "source_sha256": "3a325b0c462f9c940253a6096eed0e37819c502720805aae793b7950d1722355",
+      "source_sha256": "28170eae35bcb5851e3a9e60a6db08a7a0efd2c2fdcb5574a1f46e2a22d07cb7",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "e97e67850808e85384fe7c1b0c16d79abbc0f9cee54a6d1cb29c5c4898fd53d2",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "b4e19c723d7318f1f1757f992dcd545d40840dbd32c5c3342808aaf59624d86a",
       "name": "disable_token_trustCompiler",
       "result": "KILLED",
-      "source_sha256": "cb11329352d96f7affd54a1120025e3f3070434576e7cb113c9a5f27db1583ce",
+      "source_sha256": "70fc55ccceb99edf76b2e091f4981155d78f8574c753704aca01eb3f89bece38",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "55952df009a9a2a6cd61467177aee30d1e4bfe21557e93150ebb97e7212f4411",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "96e973c19d0b4246d6a6a688c447154681e2d3d40eae1fa19fbdd8c6ab7e081f",
       "name": "disable_token_skipKernelTC",
       "result": "KILLED",
-      "source_sha256": "e5d5431b4adcd3facb0d039ab5d64c0025bbc6dee75de2b1f9a885b738d790e2",
+      "source_sha256": "698837e6ccb9ec602961147cebe9043c1277626d22d5d1140fb7c5c54625169f",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "e536425639a293736c6afa666bc92fb1a942d804fff3e4d9786214964a35fe5b",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "322189102182414470c2d40898adea38f0b2813e60a2ae9e872270b74f1aaedd",
       "name": "disable_token_addDeclWithoutChecking",
       "result": "KILLED",
-      "source_sha256": "3425915f1b5a391fd341908128685397174a42dcf249b5bd9567c95aee6245e5",
+      "source_sha256": "2b2b987d4cbe80e37bd0ccc6a413d26e2139592d66c23b547dda4c09e43c7bf5",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "5a620a2e83972a8a2ecf8122e621898f1a40f4b33390c0b2f002dc7b370d1433",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "3364f20bd6cdea9d6c6a7d17f6f5761e859c32e78c1d9149ddc0c88e241e364c",
       "name": "disable_token_run_tac",
       "result": "KILLED",
-      "source_sha256": "1fafe6d04473739f71d1ca6af77cef700d9f1d938c540292b283ded233fe169d",
+      "source_sha256": "32e4a89fbadfa07d87eca0ceab443a7f55edc9b1dd7579f3348acb7be84b2a73",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "e450a2919ef41f64fe544361ab9259ee0a9de4879d5ab3e76cd0abcd05a67550",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "15b9dc60df144155666eac6eb861b6fae2f5b3b98d20b2fcdc9f1655511bfe93",
       "name": "disable_token_run_elab",
       "result": "KILLED",
-      "source_sha256": "519e8622349a0f76eac11d14229557d4d9b114e8566a97ae5c85002f34eb5bfc",
+      "source_sha256": "c39933284c46426274d6da4ccb4871a8289ebe69150e6b8c337d9e8ce3e1d94f",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "8d975cc744817af87a73fab2fd09697d145b7984c365d86db96b7083fba79e05",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c320216b7e890f3fd34042b8558cac7b56e2b66964889bb3953d4dbf78049326",
       "name": "disable_token_eval_expr",
       "result": "KILLED",
-      "source_sha256": "bc228c9a74d45d39c76a33f190926d9c91ca26e8507ac5585d80d198d8f35b9b",
+      "source_sha256": "6b79c61a18d90f503c90605503edacef763c417d65467358164f610a2572728e",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "9f170f328aa2904d2c299d411e1836de0a887d4a0965917fcb17924e9f5b00f3",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "3aff70494446352bc8de6b51bca9623c13e68059802913b4f202d346c4f9c9a7",
       "name": "disable_token_implemented_by",
       "result": "KILLED",
-      "source_sha256": "2b043c4b737997eab24e5621ad491e87c0dbdae0a451c79796f9ba29724750de",
+      "source_sha256": "1d1b4d8e564d193a4fae7884e6829033ca9d28d7668d71999d01ff61844984a9",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "6d01c42cf5daf49fcf57616e630b819fd32e14a0ddf6417269c5e542341bfd1a",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "87855c95a354dbea0ce98c3ce86e3e31ab72f2b0848ec613db98d8ee4c825756",
       "name": "disable_token_extern",
       "result": "KILLED",
-      "source_sha256": "78c38f2ea7600b662ee731975fbf6a3e69eb0da3d168af6596682fc86dbb6bbd",
+      "source_sha256": "89aec961a390cd6ab234359f86ef901dba451f00fd7c2a70dddf16b081a6f0cb",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "9b18f433f7d0e37ebd605373f48f7f529bb06cb55255844b21cd8abf34bd7504",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "045eb429aae435a886acc7010ffed692c7c47a842cfbed603cdb0467a1aa396d",
       "name": "disable_token_macro",
       "result": "KILLED",
-      "source_sha256": "cb9971b603dc41be82a5dbf38979fb0a1f6ab60bb192b5d5069358a30df575bc",
+      "source_sha256": "c1fe89162385a22e67c6f547902178d83e8a65d942cde787d303e7c61abcdf51",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "cc2f90e5c5365fc2437654c0dfdb4cc1fdcd438e85ea3551af86d21fd931ca12",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "afeb62d2d746b5f6497ea7cf5cb3c7f07f55cb79955f3d975580afd5c3f7871e",
       "name": "disable_token_macro_rules",
       "result": "KILLED",
-      "source_sha256": "8d62e602f863af99fc91bfe8901baaa410021100aa34683c8c073273c9550962",
+      "source_sha256": "a2234b1ccfbc0d65e946a9149be48f5646f038eab00f99b7bed791e1a76054fb",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "ebdadd792fd22e3fae49b7ac7508c659a296913b66e2e9f5a2bd718ac2d9ae9c",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "deed1bab91b0ddbef25f79ac7ba510371db29a7ffef7587deecfa725b1594926",
       "name": "disable_token_syntax",
       "result": "KILLED",
-      "source_sha256": "5da5b8bed5d1ac4a81b78ac72aab079824885447ad8ed25f28a7a171c2e60ffe",
+      "source_sha256": "f254be05c67d2a094ad32215459a95361f93363100cd08f6918940bcf5ab7385",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "74a8e33af80d9ce6882a9987979daf877f9da4b96979cb2509a904c2a470e8d0",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "f5cbc1945616dab59596f221099da154602d00c985174ff92f021b0eaf1e3c55",
       "name": "disable_token_elab",
       "result": "KILLED",
-      "source_sha256": "27ca3330d7c2d96d7bda05c3ad7d54a8c10f7ebda8f81721db571412a8da0ac3",
+      "source_sha256": "bb00763f43fcbecabd36aae55036172c8b631df66e7a07d37ed31d8a2bdde887",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "ce66e09034474be59be0bd8fce594d997be73f00f9bf791dfbc35be6d3ec0817",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "a668db625490eb9a1f1a2f8e65304929378fd1c39bdc0a4592665f961c8a5d1e",
       "name": "disable_token_elab_rules",
       "result": "KILLED",
-      "source_sha256": "e452cd6f53091b3d2cbc8bf96b1dbc4021c9bc6a0d320812c8f87f1771f7e57a",
+      "source_sha256": "07cd07fc6c3e853fcdafacfde5a597eb75c486577965f2ab821d284d3b4af535",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "3dfd37bce8d1f2d40cd0e94f2981d337f8ee42d5c1754b64f39079ff0529fb3c",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "6bd0d4b86557e507f6a3f987c8a8c13ac7741afa995ea51c8a14c28412cebfaf",
       "name": "disable_token_declare_syntax_cat",
       "result": "KILLED",
-      "source_sha256": "058dcf472d24d9f9fe0feab1a9f1c305d570764e16447653db8d829757adfe9a",
+      "source_sha256": "2113161a78923c6c2fb8e35e3b61b4dd393eee636badc20f0b015cfbc18b7d92",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "56191c8a3bdf6829804ba646cd7c8444deb8b890f94d93a3672b725533ac0c58",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "2a13486abc17a946dbc8a3649fde96387c44f19dbe88f9bcd1c57f1eb08bb5e6",
       "name": "disable_token_initialize",
       "result": "KILLED",
-      "source_sha256": "78b8271778be8748d08b7f356c23a7153a4678e8e208f4f09a5a11b71dd73717",
+      "source_sha256": "e4b93b1defa594479879cea3fc04e140eb7f70775abc6b0153f698d32adff8e0",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "6a870e71d44fa90d28187f0787f10ce1741b1364f47a397a2a8d2534df442c79",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c3032917639b06a403de6cf953c1aef96f20589f5afd8ae7b378ca4e47c8d088",
       "name": "disable_token_builtin_initialize",
       "result": "KILLED",
-      "source_sha256": "facb5011574a4657271c6b1d5daac515fa61daa2e0bf4a87f8a67c3759bd89e3",
+      "source_sha256": "e452b369c19006e2121710850d9c87a9a0a195fe00d61461e504445bb7b057fa",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "71e5a5e90d89564984970edabbf5493841fc9716a876a25a5b2401975a8cbf40",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "cc57acc5af22851ac718866a75c6a6b982b5bc4b8490c47bdabcbd2075d3ca16",
       "name": "suppress_quoted_identifier",
       "result": "KILLED",
-      "source_sha256": "6d4b875488ed58e5ba470b7c2322d9aa3af31b4c07206aed082c774f9d9a6da8",
+      "source_sha256": "77aa5a63420eebe86fda711f853174938f5262b4e0b72e9f119b3259bb8a45a0",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 3,
-      "log_sha256": "892d79323b04376292fc88a05f5d74a2e68dea48cb40f1e183bfea8312cde0ad",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "0c4c675ce9f60ee67d9e5d5aa7dbbc0c86bda88eccf6c2dc798680ca7a7d307f",
       "name": "suppress_string_interpolation",
       "result": "KILLED",
-      "source_sha256": "4932acaf2478d28288382c8a1b2975f0cf0dc36f424858546e02a757ddf04c23",
+      "source_sha256": "59284c72b2a5659ae15f4f6f910701350fc68b664c1df25bca46127110d6492a",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 7,
-      "log_sha256": "72db70e83ce6b3e332aa89bdc13270eb9f5b37d2cbc0f0d3d0a25218e1d3cebe",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "ee78aa3b991a7e7c3d0e71f7549096ac086553f05d0f3e57728efdc360a55bbc",
       "name": "suppress_unsupported_syntax",
       "result": "KILLED",
-      "source_sha256": "ac810264dae176fa21b9644b713b5e091f7d2f9766cf9d2190fa4cff2989431e",
+      "source_sha256": "4dd89c097d138980b1a1e4a4b323dfe3911826fa40338d0db595aa896cafa5f7",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "9893bd523b2b585fc78a8def59a79b09ecf8dfea7cf973cf4c7d2d87de898154",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "0a2f7a90cf19238a85e470e70c0c0ef48729917bd6865b56f378541897e90efd",
       "name": "suppress_unsupported_escape",
       "result": "KILLED",
-      "source_sha256": "7659a9889a1e5ca6b6f8cb7c37e401d3031d464859483d73cd285e7ccc6a040f",
+      "source_sha256": "d7b0e9187568f8777b6ab3c6f886b123afbdb91c16b5e9850581f3481feda9ec",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 5,
-      "log_sha256": "d55c7b35f9c46a22d2fe9aa3e59854b5bd1c3fc8c623817350e8a15b48e489ab",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "420a8560000fe97b58033ac3ac3d4172912f00cfbc78e1d5220681054abcb6ee",
       "name": "disable_plus_native_form",
       "result": "KILLED",
-      "source_sha256": "6c1fb2628ffabaec872aef6b44e35817811123422f2c683a61097878e06dfca8",
+      "source_sha256": "4ab38d4161b2625df43edbe0235c8d19bfa03b6a2ada083265e09911fb421a44",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
-      "assertion_failures": 5,
-      "log_sha256": "d5cd9e2db35649e19367f777aab7258846e0704b3afbc17dfb819b0fda8c8f35",
+      "assertion_failures": 9,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "48173eda0fbb3905d0f46c24ecbc369e81f5a704aa3528c80728837f83c04a25",
       "name": "disable_native_assignment_form",
       "result": "KILLED",
-      "source_sha256": "9d222638802db0f6d6506a785ce44eaf8e01b80f38af4625f947cabf15e22828",
+      "source_sha256": "6eaee2e5ba69c4cc114097a83786f6a4560ec4ae0159c97c9a0051bfe2e5d262",
       "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 1,
-      "log_sha256": "481948838ae3565c6b5e7b9d42605619fbe4ea10e0573e63261f7b1efc671892",
-      "name": "skip_missing_file",
-      "result": "KILLED",
-      "source_sha256": "a95c479088f0d903d3448d9cd200424b36e3124f5af95979fdee83bc8506fef8",
-      "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 1,
-      "log_sha256": "cb235f0e1ec1b6a6e293b03eaf3f65d2f491098138d0b7df1d5a76f94c6c2bd0",
-      "name": "disable_hash_check",
-      "result": "KILLED",
-      "source_sha256": "fa2d26a4639fde754afc3e12b09c8d11658ec2cb3184a94909b9b69302ee80ad",
-      "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 1,
-      "log_sha256": "e2c8b81790f6ed95332fb83749d073cf536c4f7e22cb19471e9374cd744b5ea9",
-      "name": "fake_hash_identity_from_manifest",
-      "result": "KILLED",
-      "source_sha256": "5515c3eb4dd45bfec31cfa1708169421c7b1a14427d13f3fed03a6dd713a3f68",
-      "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 1,
-      "log_sha256": "d7d1c80109e8481cdbf5a15a5e0ce36ea4e7a0cb102c75013f7f53e83602c30f",
-      "name": "skip_unlisted_files",
-      "result": "KILLED",
-      "source_sha256": "e4cd0f7c298e39bcd898087e5b9607280133ccfaa0d6c9840576e85a32b59ebd",
-      "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 1,
-      "log_sha256": "147c4cefcaffa394c0afcc470df174c994b07fa43440ca6de80a4676da6395b4",
-      "name": "ignore_permission_denial",
-      "result": "KILLED",
-      "source_sha256": "a98f5ab017cd151e9208029a3024b044b3da930027aea988e88e74f3527d92cc",
-      "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 4,
-      "log_sha256": "5944ee5b869b34ec411792bafdc11820a0d2b9b4b355c856c96dc48a7ff1e3bc",
-      "name": "disable_symlink_classification",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "d70117d0abe31d4c71887016bc2ff55eee1a0198206fec4c20cfe1f306afc452",
+      "name": "ignore_native_record_updates",
       "result": "KILLED",
-      "source_sha256": "a2203a5487166eb5f40b6ee58eee3e19e8225ea8ccde02f0bcd003b7531d0e43",
+      "source_sha256": "096c4d4a0556572218fb6ff46a709a372f195dfa852a8ed4f194a64ab8d7dd05",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 2,
-      "log_sha256": "33b5d16f05b2b13800b1e8ee5393a86289bd7047167603d28aa29696fc141608",
-      "name": "ignore_invalid_utf8",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "24f158a0054f19052669a0121ef0eeec78a15dd71b16b0aa9f7fb4700372af92",
+      "name": "allow_double_slash_anchor",
       "result": "KILLED",
-      "source_sha256": "8cea1e10f5837e7c97f8481d3f70bd481d35b934ea8a4deb7bed8b233d13d07d",
+      "source_sha256": "2c59f3cf955fe76da25e5b61f9072b4b22bf35773837bd1e70ee5d0201ed7ab9",
       "test_errors": 0,
-      "tests_run": 39,
-      "tests_skipped": 0
-    },
-    {
-      "assertion_failures": 2,
-      "log_sha256": "45126651dcfd4849ee3d40ab430e92cbf077542f64d69a8e45c94c4223d1ecef",
-      "name": "ignore_nested_comments",
-      "result": "KILLED",
-      "source_sha256": "b6f01cd8d20a81113f722f449be50ea18ee5e089523c8bca7b1ca5b18e3d7bb0",
-      "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 5,
-      "log_sha256": "a12119ac55fb564800a7149f85c944a67984d8fcf8227bdce7d50da90ff15762",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c0c26cfad0d1e7abb290f1d17f85bb0c7590c485964b03e9ff681b171fba1e47",
+      "name": "invent_root_to_allow_output",
+      "result": "KILLED",
+      "source_sha256": "464ba83ccd67cd50895d3f34943a9cf77ec1ec676813b67c8e32d09598a9a127",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 1,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c9f51ad3535dbd799e5f91f3e567595a5990d9b1780eaa7cf8609f6fed6b93d6",
+      "name": "skip_missing_file",
+      "result": "KILLED",
+      "source_sha256": "88f54e28b4a638d0e44c6d5747f35e213eace6b76b77f7048c8b5b7c972bff97",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 1,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "3248781b2d0ba7090e5a25afe737b27d38db0c1098d8a80f77eeefd07ab39eb5",
+      "name": "disable_hash_check",
+      "result": "KILLED",
+      "source_sha256": "83c19283bc0be88de2ccc064f7babacc5ce5c250b9aaa68546eea7a3a9a1b221",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 1,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c98af6c51fc6faaae238020f240791abfc526d363116062f7fe5f739be2a256b",
+      "name": "fake_hash_identity_from_manifest",
+      "result": "KILLED",
+      "source_sha256": "798e58e5e9ba89da606e719f122c1e66e193433b70d5f01e414045305094c0e9",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 1,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "1fbe5ac93537c492f25a47843532184b7760816df129b0cf0537dba2fdd299a3",
+      "name": "skip_unlisted_files",
+      "result": "KILLED",
+      "source_sha256": "671f2915a7d766bb2747e1ee7e23293acff3c22fe3e0e7e9cf635f3d1b0e6f46",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 1,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "95e8cf547a3e94b497f39686e9a3b5ca4ba8776b7aa2dcf50ade9dbd9336c05d",
+      "name": "ignore_permission_denial",
+      "result": "KILLED",
+      "source_sha256": "aada541b095f7520f7e4c5e70699fb5a02319901e1d7032460f9eeec79ff1f79",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 4,
+      "cli_health": {
+        "executions": 118,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "125c43c13d644c662f5bbe0299374470dcfd84918df01529debed2fd7be05815",
+      "name": "disable_symlink_classification",
+      "result": "KILLED",
+      "source_sha256": "4b27099fb3226ce07aba94672e8352a184bc8186cc9f9ae6adc523e2f217d9bc",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 3,
+      "cli_health": {
+        "executions": 119,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "bd5da3ec9fbea6313715e49c49fb8002cf4657727abe009f5c98f62f6ddf3f18",
+      "name": "ignore_invalid_utf8",
+      "result": "KILLED",
+      "source_sha256": "f5d9cd9081ebbb4c3e47d5940334e04d6fc38a279fef08aba95ff4d9d45ec81a",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 2,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "ae59e445b9b0dcf72306df02d9b3c8854c24bd75783de5284c11493fe47f02c5",
+      "name": "ignore_nested_comments",
+      "result": "KILLED",
+      "source_sha256": "35be158b4319af79832ca50ca10ee5ea977c1afb8821a18a9fa13f7fd21370e1",
+      "test_errors": 0,
+      "tests_run": 42,
+      "tests_skipped": 0
+    },
+    {
+      "assertion_failures": 5,
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "5dcbf720a5d6d7bb5077ccd71ff316ad9959f655e2f92ee7c81db94d4da1f3b2",
       "name": "disable_string_mask",
       "result": "KILLED",
-      "source_sha256": "b9b1bbc7da7616674db8a7c6f9414547c582ed41e9182471ecd3d2b82c359f01",
+      "source_sha256": "08837f13750f8c31715cf37afc993ef44c13d5c1f60f38a90b81fc5c09665fa5",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 3,
-      "log_sha256": "0421a5b5f461329c202b5fb68d61fd78eb52a25a093f875617fd7af5e8a1b888",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "f0f5d503f1ca574f815288081b1c99937b1499046dbcc97cd813a7582f9f64c3",
       "name": "disable_character_mask",
       "result": "KILLED",
-      "source_sha256": "ceb1aea44dd1ace695734e85325ce79eafddb7920a48c4fd5acd431dacd1e215",
+      "source_sha256": "e399bbc41b1789dd90cc3ac1655c33753ddf003f9c0247cd770637dd672caa81",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 3,
-      "log_sha256": "6df4edd731f1066f615bb3eb318c064835e99abf69974e348a677df28afd3199",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "9e06e203e81cbca3023123addb3a7f66977fe0381f55e0cf7135fd38895ec34d",
       "name": "disable_raw_string_mask",
       "result": "KILLED",
-      "source_sha256": "1206c73cc28695f5a0d5cbaefe6dff21ded82f8791d0966cf1f48728c0831712",
+      "source_sha256": "87bd2675a9636bcaa00868a9584538f9cc067188f52d1f4f4f1583443a0557bc",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "8e2ed776eb52ba3cd70660536aa425b61c53a1036a6907b3c410dc372c88c8c3",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "aa395306b2542a85d6cb1ed89eb188a550a312396d9809b9f1bd68182522470e",
       "name": "omit_unestablished_semantic_coverage",
       "result": "KILLED",
-      "source_sha256": "94873cbc3b1578d49217e1879d918127884856370dae1ebe1147273e3822741d",
+      "source_sha256": "7e661f2abe1807e7333ebf66dd090bbf80a94866808ec338037fa0d656bad788",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
-      "assertion_failures": 102,
-      "log_sha256": "63201f9c5296820e81dab043161e4141ac3a8d5cc5f61626a3d82d6a1264b3b9",
+      "assertion_failures": 113,
+      "cli_health": {
+        "executions": 113,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "c1cf5a3fb6a54e341cb4043e23ae9b5889c217a8692a24c92e51c1964a6d1aa8",
       "name": "fake_unconditional_success",
       "result": "KILLED",
-      "source_sha256": "3f6599d7ea36e6aeadaf52099772a9be08b523b413229df5ca054d448a4c2d96",
+      "source_sha256": "5b4784e4ab3eabda0f6be3f72943028ffafd6faa7501351b0a5b55b9b7febbfc",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
-      "assertion_failures": 102,
-      "log_sha256": "40c7538026df9554abf87282da67d5eb99191c36089b11ec9fabbfdadce1edae",
+      "assertion_failures": 105,
+      "cli_health": {
+        "executions": 115,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "802f167257ecc8f99e5fac4d2d3f96d55352d64836ed49d44e32069df2776400",
       "name": "fake_unconditional_clear_audit",
       "result": "KILLED",
-      "source_sha256": "dfc3ec1b92dced86ef6a552d754cf4cd863d30fe4a05e64de442a130b5a84806",
+      "source_sha256": "ac885a0b012c4dbc170b5dafccb62778072b9e544b8d06e089f3bb74b91c229f",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     },
     {
       "assertion_failures": 1,
-      "log_sha256": "411a976759046f6a2e176c0277851a8a7d3dc0e8a8bf595978b5088a07b65659",
+      "cli_health": {
+        "executions": 120,
+        "failure_events": [],
+        "failures": 0,
+        "status": "HEALTHY"
+      },
+      "log_sha256": "04cc2cb88c0aa7ef8656c4ab65a310bb3c99c5719e45ee191f98d679f05e0463",
       "name": "ignore_duplicate_json_keys",
       "result": "KILLED",
-      "source_sha256": "2fcf707da1a70f7c0b52fd71d8704664202a567e80ee08196475e87d16652bf0",
+      "source_sha256": "37b7316e91ab78e3ece132fa187ee84bf9a892471d22a89b980cbfc9e56d7857",
       "test_errors": 0,
-      "tests_run": 39,
+      "tests_run": 42,
       "tests_skipped": 0
     }
   ],
   "mutation_cut": {
-    "declared_threshold": 47,
+    "declared_threshold": 50,
     "harness_errors": 0,
-    "healthy_baseline_tests": 39,
-    "killed": 47,
-    "raw_receipt_sha256": "91891f0cfb69a15656454210b4277b4b73e24dcee863d8eb65be3654f63a8e91",
+    "healthy_baseline_cli_executions": 120,
+    "healthy_baseline_tests": 42,
+    "killed": 50,
+    "raw_receipt_sha256": "6a1e960e4e3d92cb259390351f6838f7227a66cea0abf3c86cddb6f384a463cb",
+    "runner_receipt_schema_version": 3,
     "skips": 0,
     "test_errors": 0,
-    "tested": 47
+    "tested": 50
   },
+  "qualification_commands": [
+    "python -B -S -m unittest discover -s tests -p 'test_cbz*.py' -v",
+    "python -B -S -O -m unittest discover -s tests -p 'test_cbz*.py' -v",
+    "python -B -S tests/run_scanner_mutations.py --evidence-dir /tmp/NEW-CBZ-CUT",
+    "python -B -S tools/cbz_source_audit.py --manifest cbz-source-manifest.json"
+  ],
   "regression_methods": {
-    "harness": 14,
-    "normal_total": 53,
-    "optimized_total": 53,
-    "scanner": 39
+    "harness": 16,
+    "normal_total": 58,
+    "optimized_total": 58,
+    "scanner": 42
   },
+  "review_repairs": [
+    "Unknown audited root preserves JSON refusal and authorizes no output creation.",
+    "Every suite CLI invocation records health; any crash, invalid JSON, stderr launch error or timeout excludes a kill after benign smoke.",
+    "Native record-field assignments after record-update with are reviewed across whitespace/comments.",
+    "Ambiguous POSIX double-slash anchors are rejected before filesystem traversal and containment decisions."
+  ],
   "schema_version": 1,
   "scope": "Finite inventory/refusal and mutation evidence; never full Layer A, kernel, semantic or CBZ-0 certification.",
   "selection": "Maintain cbz_source_audit as one canonical bounded source instrument. Preserve pinned alternative sources/evidence, and do not deploy duplicate certifying lexical gates."

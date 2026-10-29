@@ -1,5 +1,6 @@
 """Real-process controls for mutation-runner health and kill accounting."""
 
+import ast
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -27,13 +28,14 @@ class MutationHarnessTests(unittest.TestCase):
     def write_suite(self, body=None):
         if body is None:
             body = """
-                report = json.loads(subprocess.check_output(
-                    [sys.executable, os.environ['CBZ_AUDITOR_SCRIPT'],
-                     '--manifest', 'unused'], text=True))
+                report, run = cli_contract.execute_auditor(['--manifest', 'unused'])
                 self.assertEqual(report['aggregate_status'], 'NOT_ESTABLISHED')
             """
         code = (
-            "import json, os, subprocess, sys, time, unittest\n"
+            "import importlib.util, json, os, subprocess, sys, time, unittest\n"
+            "spec = importlib.util.spec_from_file_location('cbz_cli_contract', " + repr(str(harness.TESTS)) + ")\n"
+            "cli_contract = importlib.util.module_from_spec(spec)\n"
+            "spec.loader.exec_module(cli_contract)\n"
             "class AuditorContract(unittest.TestCase):\n"
             "    def test_gate_remains_blocked(self):\n"
             + textwrap.indent(textwrap.dedent(body).strip() + "\n", "        ")
@@ -152,6 +154,31 @@ class MutationHarnessTests(unittest.TestCase):
         self.assertEqual(result["result"], "NOT_KILLED", result)
         self.assertEqual(result["returncode"], 0)
         self.assertEqual(result["tests_run"], 1)
+
+    def input_dependent_mutant(self, body):
+        tree = ast.parse(harness.SOURCE.read_text(encoding="utf-8"))
+        methods = [node for node in ast.walk(tree)
+                   if isinstance(node, ast.FunctionDef) and node.name == "scan"]
+        self.assertEqual(len(methods), 1)
+        methods[0].body[:0] = ast.parse("if ' sorry' in self.text:\n" + textwrap.indent(body, "    ")).body
+        ast.fix_missing_locations(tree)
+        self.target.write_text(ast.unparse(tree) + "\n", encoding="utf-8")
+        count = unittest.defaultTestLoader.discover(
+            str(harness.ROOT / "tests"), pattern="test_cbz_source_audit.py").countTestCases()
+        return harness.evaluate_target(self.target, count, "control.log", self.evidence,
+                                       suite_root=harness.ROOT)
+
+    def test_input_dependent_cli_crash_is_not_an_assertion_kill(self):
+        result = self.input_dependent_mutant("raise RuntimeError('input-dependent CLI failure')\n")
+        self.assertEqual(result["smoke"]["status"], "VALID_JSON_REPORT", result)
+        self.assert_harness_error(result, "suite_cli")
+        self.assertGreater(result["cli_health"]["failures"], 0, result)
+
+    def test_input_dependent_invalid_json_is_not_an_assertion_kill(self):
+        result = self.input_dependent_mutant("print('not a JSON report')\nraise SystemExit(0)\n")
+        self.assertEqual(result["smoke"]["status"], "VALID_JSON_REPORT", result)
+        self.assert_harness_error(result, "suite_cli")
+        self.assertGreater(result["cli_health"]["failures"], 0, result)
 
 
 if __name__ == "__main__":

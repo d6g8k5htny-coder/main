@@ -126,22 +126,28 @@ root. Symlinks, unreadable/missing files, malformed UTF-8, unlisted Lean sources
 hash mismatches and resource-limit failures are explicit refusals. Nested Lean
 comments and literal strings are masked; unsupported syntax is reviewed.
 Optional output creates a new regular file outside the audited root and
-refuses overwriting earlier evidence or inputs.
+refuses overwriting earlier evidence or inputs. An unknown audited root
+preserves the JSON refusal and creates no output. Ambiguous POSIX `//` path
+anchors are refused before filesystem traversal or containment checks.
 
 Review triggers include direct `sorryAx`, compiler-trust primitives
 `ofReduceBool`, `ofReduceNat`, `trustCompiler`, `skipKernelTC` and
-`addDeclWithoutChecking`, plus `+native` and record-field `native :=` forms
-across whitespace and comments. Compound-form evidence points to the actual
+`addDeclWithoutChecking`, plus `+native` and record-field `native :=` forms,
+including record updates after `with`, across whitespace and comments.
+Compound-form evidence points to the actual
 `native` identifier bytes and records the matched `review_form`. Ordinary
 identifiers and literal data do not become compiler options by spelling alone.
 
-Verification: 39 scanner regression tests; tests/test_cbz_mutation_harness.py has 14
-real-process controls. tests/run_scanner_mutations.py applies 47 source mutants
-to the scanner. Its declared threshold is 47/47 killed with a passing unchanged
-suite, valid CLI smoke, full case count, assertion failures and no harness/test
-errors or skips. Startup crashes and invalid JSON are not successful rejection
-evidence. Historical 37/39 and 39/39 cuts remain preserved; the current local
-cut reached 47/47 after adding the stronger trust-bypass review triggers.
+Verification: 42 scanner regression tests; tests/test_cbz_mutation_harness.py has 16
+real-process controls. tests/run_scanner_mutations.py applies 50 source mutants
+to the scanner. Its declared threshold is 50/50 killed with a passing unchanged
+suite, valid CLI smoke, healthy JSON execution throughout the suite, full case
+count, assertion failures and no harness/test errors or skips. Input-dependent
+crashes, invalid JSON and timeouts are not successful rejection evidence even
+after a healthy benign smoke. Earlier 37/39, 39/39 and 47/47 cuts remain preserved.
+The exploratory 49/50 repair cut is retained as unqualified evidence; its
+missing-artifact test error did not count as a kill. The strengthened assertions
+and final source seal are registered in cbz/evidence/source-instrument-selection.json.
 
 Limits: no grammar/elaboration/kernel proof, complete dependency audit,
 semantic bound/nonvacuity proof, historical deletion comparison, concurrent

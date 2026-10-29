@@ -104,6 +104,8 @@ def check_entry(st, path, directory=False):
 
 def absolute_input_path(value):
     path = Path(value)
+    if path.anchor == "//":
+        raise AuditFailure("INVALID_PATH", value, "Ambiguous double-slash POSIX anchors are prohibited.")
     if ".." in path.parts:
         raise AuditFailure("INVALID_PATH", value, "Parent traversal in input paths is prohibited.")
     return path if path.is_absolute() else Path.cwd() / path
@@ -457,7 +459,7 @@ class Lexer:
             return None
         if self.previous_code == "+":
             return "+native"
-        if self.previous_code in ("{", ",") and self.following_code_text(end) == ":=":
+        if self.previous_code in ("{", ",", "with") and self.following_code_text(end) == ":=":
             return "native:="
         return None
 
@@ -609,6 +611,8 @@ def render_report(report):
 
 def write_output(path, report):
     """Create new evidence outside the source tree; never overwrite an input."""
+    if "root" not in report:
+        raise AuditFailure("OUTPUT_ERROR", path, "Report output requires a known audited source root.")
     path = absolute_input_path(path)
     if report["root"] is not None and path.is_relative_to(Path(report["root"])):
         raise AuditFailure("OUTPUT_ERROR", path, "Report output must be outside the audited source root.")

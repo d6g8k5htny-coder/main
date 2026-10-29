@@ -16,6 +16,46 @@ SCRIPT = Path(os.environ.get(
 ))
 
 
+class AuditorExecutionFailure(RuntimeError):
+    """An unhealthy CLI execution is not a behavioral assertion failure."""
+
+
+def execute_auditor(arguments, *, timeout=15):
+    """Check every CLI invocation and record health separately from its meaning."""
+    def record(status, **detail):
+        event = {"status": status, **detail}
+        destination = os.environ.get("CBZ_AUDITOR_HEALTH_LOG")
+        if destination:
+            with Path(destination).open("a", encoding="utf-8") as log:
+                log.write(json.dumps(event, sort_keys=True) + "\n")
+        return event
+
+    def unhealthy(status, detail):
+        record(status, detail=detail)
+        raise AuditorExecutionFailure(f"{status}: {detail}")
+
+    try:
+        run = subprocess.run([sys.executable, "-B", "-S", *(["-O"] * sys.flags.optimize),
+                              str(SCRIPT), *arguments],
+                             text=True, capture_output=True, timeout=timeout)
+    except (OSError, UnicodeError, subprocess.TimeoutExpired) as error:
+        unhealthy(type(error).__name__, str(error))
+    if run.stderr or run.returncode not in (0, 1, 2):
+        unhealthy("LAUNCH_ERROR", repr((run.returncode, run.stdout, run.stderr)))
+
+    def reject_constant(value):
+        raise ValueError("Nonfinite JSON constant: " + value)
+
+    try:
+        report = json.loads(run.stdout, parse_constant=reject_constant)
+    except (ValueError, RecursionError) as error:
+        unhealthy("INVALID_JSON", f"{error}: {run.stdout!r}")
+    if not isinstance(report, dict):
+        unhealthy("INVALID_JSON_OBJECT", repr(report))
+    record("VALID_JSON_REPORT", returncode=run.returncode)
+    return report, run
+
+
 class SourceAuditTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
@@ -47,16 +87,9 @@ class SourceAuditTests(unittest.TestCase):
 
     def run_audit(self, manifest=None, *arguments):
         self.assertTrue(SCRIPT.is_file(), "bounded auditor implementation is missing")
-        run = subprocess.run(
-            [sys.executable, str(SCRIPT), "--manifest", str(manifest or self.manifest), *arguments],
-            text=True, capture_output=True, timeout=15,
-        )
+        report, run = execute_auditor(["--manifest", str(manifest or self.manifest), *arguments])
         self.assertIn(run.returncode, (1, 2), (run.stdout, run.stderr))
         self.assertEqual(run.stderr, "")
-        try:
-            report = json.loads(run.stdout)
-        except json.JSONDecodeError:
-            self.fail(f"auditor did not return a JSON report: {run.stdout!r} {run.stderr!r}")
         self.assertIn(report["aggregate_status"], ("NOT_ESTABLISHED", "REVIEW_REQUIRED"))
         self.assertEqual(report["gate_claims"]["G1"], "NOT_ESTABLISHED")
         self.assertEqual(report["gate_claims"]["CBZ-0"], "NOT_ESTABLISHED")
@@ -133,6 +166,21 @@ class SourceAuditTests(unittest.TestCase):
                 hit = hits[0]
                 self.assertEqual((hit["line"], hit["column"], hit["byte_offset"], hit["byte_length"]), position)
                 self.assertEqual(source.encode("utf-8")[hit["byte_offset"]:hit["byte_offset"] + hit["byte_length"]], b"native")
+
+    def test_native_field_in_record_updates_is_reviewed(self):
+        for source in (
+            "example : True := by decide (config := { {} with native := true })\n",
+            "example : True := by decide (config := { config with\n native := true })\n",
+            "example : True := by decide (config := { config with /- note -/ native := true })\n",
+            "example : True := by decide (config := { config with native -- note\n := true })\n",
+        ):
+            with self.subTest(source=source):
+                report = self.audit_source(source)
+                self.assertEqual(report["aggregate_status"], "REVIEW_REQUIRED")
+                hits = [f for f in report["findings"] if f.get("review_form") == "native:="]
+                self.assertEqual(len(hits), 1, report)
+                self.assertEqual((hits[0]["token"], hits[0]["code"]),
+                                 ("native", "UNCERTIFIED_EXECUTION"))
 
     def test_native_identifiers_and_literal_data_are_not_compiler_options(self):
         source = ('def native := 1\ndef native_option := 2\ndef native! := 3\n'
@@ -360,15 +408,10 @@ class SourceAuditTests(unittest.TestCase):
         self.pin()
         output = self.base / "output.fifo"
         os.mkfifo(output)
-        try:
-            run = subprocess.run(
-                [sys.executable, str(SCRIPT), "--manifest", str(self.manifest),
-                 "--output", str(output)], text=True, capture_output=True, timeout=2,
-            )
-        except subprocess.TimeoutExpired:
-            self.fail("report output blocked on a FIFO")
+        report, run = execute_auditor(["--manifest", str(self.manifest),
+                                      "--output", str(output)], timeout=2)
         self.assertEqual(run.returncode, 2)
-        self.assertIn("OUTPUT_ERROR", [e["code"] for e in json.loads(run.stdout)["errors"]])
+        self.assertIn("OUTPUT_ERROR", [e["code"] for e in report["errors"]])
 
     def test_output_cannot_overwrite_manifest_source_or_previous_evidence(self):
         source = self.source("def x := 1\n")
@@ -398,6 +441,52 @@ class SourceAuditTests(unittest.TestCase):
         report, run = self.run_audit(None, "--output", str(alias / "receipt.json"))
         self.assertIn("OUTPUT_ERROR", [e["code"] for e in report["errors"]])
         self.assertFalse((target / "receipt.json").exists())
+
+    def test_output_with_unknown_root_preserves_json_refusal_and_creates_nothing(self):
+        cases = (("missing", None, "MISSING_FILE"),
+                 ("unreadable", b"{}", "UNREADABLE"),
+                 ("malformed", b"{", "INVALID_MANIFEST"),
+                 ("invalid-utf8", b"\xff", "INVALID_UTF8"))
+        for name, data, code in cases:
+            with self.subTest(case=name):
+                if self.manifest.exists():
+                    self.manifest.unlink()
+                if data is not None:
+                    self.manifest.write_bytes(data)
+                if name == "unreadable":
+                    self.manifest.chmod(0)
+                output = self.base / (name + "-report.json")
+                try:
+                    report, run = self.run_audit(None, "--output", str(output))
+                    self.assertEqual(run.returncode, 2)
+                    self.assert_error(code, report)
+                    self.assertIn("OUTPUT_ERROR", [e["code"] for e in report["errors"]])
+                    self.assertFalse(output.exists(), "an unknown source root cannot authorize a report path")
+                finally:
+                    if self.manifest.exists():
+                        self.manifest.chmod(0o600)
+
+    def test_double_slash_anchors_cannot_create_output_inside_audited_root(self):
+        source = self.source("def preserved := 1\n")
+        original = source.read_bytes()
+        for root_alias, output_alias in ((False, True), (True, False), (True, True)):
+            with self.subTest(root_alias=root_alias, output_alias=output_alias):
+                output = self.root / "Injected.lean"
+                document = self.pin(["Main.lean"])
+                if root_alias:
+                    document["root"] = "/" + str(self.root)
+                    self.manifest.write_text(json.dumps(document), encoding="utf-8")
+                output_argument = ("/" if output_alias else "") + str(output)
+                try:
+                    report, run = self.run_audit(None, "--output", output_argument)
+                    self.assertEqual(run.returncode, 2)
+                    self.assertIn("OUTPUT_ERROR", [e["code"] for e in report["errors"]])
+                    self.assertFalse(output.exists(), "a spelling alias must not mutate the input tree")
+                    self.assertEqual(source.read_bytes(), original)
+                    self.assertEqual(sorted(p.name for p in self.root.iterdir()), ["Main.lean"])
+                finally:
+                    if output.exists():
+                        output.unlink()
 
     def test_directory_limit_bounds_consumption_before_sorting_names(self):
         for index in range(8):
@@ -500,6 +589,7 @@ class SourceAuditTests(unittest.TestCase):
         self.pin()
         output = self.base / "report.json"
         report, run = self.run_audit(None, "--output", str(output))
+        self.assertTrue(output.is_file(), "a successful output request must retain a regular report")
         self.assertEqual(output.read_text(encoding="utf-8"), run.stdout)
         self.assertEqual(report["aggregate_status"], "REVIEW_REQUIRED")
 
