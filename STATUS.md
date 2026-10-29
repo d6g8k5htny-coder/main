@@ -222,7 +222,7 @@ A prior Math core custody mutation suite failed because its `git-replacement-ref
 
 The 94 historical Math-core and main-arithmetic declaration records directly reference 11 unique source paths; their Git blobs and regular-file modes match between each historical checked tree and the later observed default tree. This does not cover all package/dependency inputs or constitute a new Lean run. [Observation](cbz/evidence/core-current-source-tree-observation.json).
 
-Independent review of the evidence-only split found that four replay-tool files named by both determinant checksum manifests are absent from #705's original tree; the earlier #704 additional-evidence split has the same four-file gap. A repair is being prepared to include both exact file sets, retain the original manifests, register the helper and run the actual checksums and self-tests before integration. The original #705 head remains unqualified despite unrelated successful checks.
+Independent review found that #705's original tree and the earlier #704 additional-evidence split each omitted four files named in their checksum manifests. [The repair candidate](https://github.com/d6g8k5htny-coder/main/pull/705), observed at head `30184a6c7337099f910809116523112394e6504b`, contains both sets with the original four Git blob identities. Its workflows for all four manifests, historical tests, actual Lean controls, adverse examples, and the separate source-only Python mutation-grader candidate are queued. The proposed grader does not repair the separate Lean self-test limitation. No check has yet been observed passing for this head, and #705 remains unmerged; the canonical documents require reconciliation before integration.
 
 ### Replay-helper mutation-grader qualification limit
 
