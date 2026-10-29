@@ -102,8 +102,44 @@ CBZ-0.
 
 ## Tool registry
 
-No new certifying tool has yet been admitted by this mission. Existing tools
-are being inventoried against their actual tests and execution coverage.
-Mission tools must be finished, documented with exact usage and verification,
-and registered here and in `TOOLING.md` before final admission. Tools are a
-means to closure, never a reason to open a general infrastructure project.
+- **CBZ source census (2026-10-29):** `tools/cbz_inventory.py`, with
+  `tests/test_cbz_inventory.py` and exact usage/schema in
+  `docs/cbz/INVENTORY_TOOL_PLAN.md`. Generate/verify a complete offline
+  tracked/index-source census and immutable declaration/evidence bindings.
+  Run `python3.11 -B -S -m unittest discover -s tests -p
+  test_cbz_inventory.py -v`, then repeat with `-O`. Observed38/38 each mode,
+  including both source mutations killed; actual12-repository capture/verify
+  passed13,654 entries. Independent review findings were repaired and
+  re-reviewed. Owner:none, self-contained. This is **not** a Layer A semantic
+  certifier or kernel-run authenticator; its output explicitly grants neither
+  semantic completeness nor CBZ green. Criteria1,3,8,11.
+- Existing core compiled auditors, fixture launchers and recovery commands
+  are catalogued in `TOOLING.md`. A scope-limited or historical success is
+  never promoted to a federation certificate.
+
+Mission tools must be finished, documented and self-verified before admission.
+Tools serve closure; no general infrastructure project is authorized merely
+for elegance.
+
+## Additional statutes
+
+- **B-007 (2026-10-29):** Ref cleanup requires a verified recoverable snapshot,
+  positive ancestor evidence, exact SHA leases, exclusions for open-PR heads
+  and bases/protected/workflow refs, and observed readback. Rationale: avoid
+  deleting new work that arrives after a non-atomic inventory. Scope: ref
+  cleanup throughout the federation.
+- **B-008 (2026-10-29):** Use tested `LEAN_NUM_THREADS=2` for Math kernel
+  replay in this16GiB runtime. Preserve the original default-parallelism
+  exit137; never skip the recheck. Rationale: the same source and kernel
+  checks pass with bounded resource concurrency.
+- **B-009 (2026-10-29):** Immutable source bindings may name an ancestor
+  commit if actual current proof bytes remain identical. Explicit historical
+  quarantine bindings cannot discharge CLOSED proofs. Final inventory output
+  is external to scanned source trees; no file is expected to hash itself.
+  Rationale: exact identity without impossible self-reference.
+- **B-010 (2026-10-29):** Execute archived live-write probes only in a
+  clean, credential-free network-disabled scratch namespace; retain original
+  assertions and all failures. Mutating fixtures require separate fresh
+  normal/optimized source copies. No network or permission denial is bypassed.
+  Rationale: observe actual tests without granting old probes ambient write
+  authority.
