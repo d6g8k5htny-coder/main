@@ -1,0 +1,56 @@
+test_actual_complete_45_case_report_is_preserved (tests.test_atlas_preservation_contract.PreservationContractTests.test_actual_complete_45_case_report_is_preserved) ... ERROR
+test_checkout_digest_duplicate_json_and_nonfinite_refusals_stay_enforced (tests.test_atlas_preservation_contract.PreservationContractTests.test_checkout_digest_duplicate_json_and_nonfinite_refusals_stay_enforced) ... FAIL
+test_complete_failed_cases_remain_evidence_without_becoming_passes (tests.test_atlas_preservation_contract.PreservationContractTests.test_complete_failed_cases_remain_evidence_without_becoming_passes) ... ERROR
+test_missing_case_nonboolean_or_top_error_cannot_be_preserved_as_complete (tests.test_atlas_preservation_contract.PreservationContractTests.test_missing_case_nonboolean_or_top_error_cannot_be_preserved_as_complete) ... ok
+test_old_39_case_report_is_incomplete (tests.test_atlas_preservation_contract.PreservationContractTests.test_old_39_case_report_is_incomplete) ... FAIL
+
+======================================================================
+ERROR: test_actual_complete_45_case_report_is_preserved (tests.test_atlas_preservation_contract.PreservationContractTests.test_actual_complete_45_case_report_is_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 42, in test_actual_complete_45_case_report_is_preserved
+    result = self.observe(self.report)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 39, in observe
+    return self.ns['report_observation'](json.dumps(report).encode(), self.checkout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<workflow-report-validator>", line 238, in report_observation
+Hold: INCOMPLETE_REPORT
+
+======================================================================
+ERROR: test_complete_failed_cases_remain_evidence_without_becoming_passes (tests.test_atlas_preservation_contract.PreservationContractTests.test_complete_failed_cases_remain_evidence_without_becoming_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 59, in test_complete_failed_cases_remain_evidence_without_becoming_passes
+    result = self.observe(report)
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 39, in observe
+    return self.ns['report_observation'](json.dumps(report).encode(), self.checkout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<workflow-report-validator>", line 238, in report_observation
+Hold: INCOMPLETE_REPORT
+
+======================================================================
+FAIL: test_checkout_digest_duplicate_json_and_nonfinite_refusals_stay_enforced (tests.test_atlas_preservation_contract.PreservationContractTests.test_checkout_digest_duplicate_json_and_nonfinite_refusals_stay_enforced)
+----------------------------------------------------------------------
+Hold: INCOMPLETE_REPORT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 78, in test_checkout_digest_duplicate_json_and_nonfinite_refusals_stay_enforced
+    with self.assertRaisesRegex(self.ns['Hold'], '^REPORT_CHECKOUT_MISMATCH$'):
+AssertionError: "^REPORT_CHECKOUT_MISMATCH$" does not match "INCOMPLETE_REPORT"
+
+======================================================================
+FAIL: test_old_39_case_report_is_incomplete (tests.test_atlas_preservation_contract.PreservationContractTests.test_old_39_case_report_is_incomplete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_preservation_contract.py", line 50, in test_old_39_case_report_is_incomplete
+    with self.assertRaisesRegex(self.ns['Hold'], '^INCOMPLETE_REPORT$'):
+AssertionError: Hold not raised
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.045s
+
+FAILED (failures=2, errors=2)
