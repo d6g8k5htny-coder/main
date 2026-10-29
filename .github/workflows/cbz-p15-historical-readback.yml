@@ -3,6 +3,13 @@ name: CBZ P15 historical artifact readback
   push:
     branches:
       - cbz/p15-historical-readback-20261029
+  pull_request:
+    paths:
+      - '.github/workflows/cbz-p15-historical-readback.yml'
+      - 'tools/p15_historical_artifact.py'
+      - 'tools/p15_historical_mutations.py'
+      - 'tests/test_p15_historical_artifact.py'
+      - 'docs/cbz/P15_HISTORICAL_READBACK.md'
   workflow_dispatch:
 permissions:
   contents: read
