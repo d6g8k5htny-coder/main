@@ -23,7 +23,7 @@ Use fresh output directories outside the repository for the source-omission veri
 
 ## Observed local results
 
-Interpreter: CPython 3.12.14, normal and `-O`, with `-B -S`. The hosted formal workflow's CPython 3.11.16 environment is not established by these local runs.
+Interpreter: CPython 3.12.14, normal and `-O`, with `-B -S`. The hosted formal workflow requests Python 3.11; these local runs do not establish its runtime. The later actual CPython 3.11.17 hosted result is source-pinned in completion/README.md.
 
 - RED on the then-unmodified predicate: the new real setup/teardown/cleanup control produced three intended outer assertion failures (`AssertionError not raised`), exit1. Genuine intended-body and clean-control positives pass on the corrected source. Peer assistance then exposed additional fixture-call/dispatcher/callback traps in the initial uncommitted recorder: three added controls produced seven intended outer assertion failures, exit1, before their correction.
 - Changed modules, normal: 82 tests, 81 passes and one unavailable-Lean skip, exit0.
