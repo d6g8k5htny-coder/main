@@ -20,7 +20,9 @@ import urllib.error
 import urllib.request
 import zlib
 
-MAX_FILES = 500  # Below the API's 3000-file ceiling; pagination is mandatory.
+# GitHub documents at most 3000 PR files, with at most 100 per page.
+# Larger PRs cannot establish completeness through this endpoint and must refuse.
+MAX_FILES = 3000
 MAX_PACKAGE_FILES = 50
 MAX_FILE_BYTES = 262144
 MAX_PACKAGE_BYTES = 2097152
@@ -257,10 +259,13 @@ def snapshot(pr, repo):
 
 
 def changes(api, repo, number, count):
+    integer(count, 1, MAX_FILES, 'unsupported changed file count')
     rows = []
     for page in range(1, (count + 99)//100 + 1):
         batch = api.get(f'/repos/{repo}/pulls/{number}/files?per_page=100&page={page}')
         require(isinstance(batch, list), 'file listing unavailable')
+        require(len(batch) == min(100, count - (page - 1)*100),
+                'incomplete or oversized file listing page')
         rows.extend(batch)
     require(len(rows) == count, 'incomplete file listing')
     seen = set()

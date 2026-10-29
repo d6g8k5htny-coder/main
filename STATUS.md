@@ -59,3 +59,9 @@ The machine catalog at [`meta-framework/registry.json`](https://github.com/d6g8k
 ## Reading rule
 
 When a reviewed child result imports a parent that remains AMEND or open, keep those facts separate. “ACCEPT — scoped” never means “everything upstream and downstream is accepted.”
+
+## Public-intake tooling: how to verify
+
+This technical entry leaves the dated scientific snapshot above intact. The trusted public-intake checker enumerates up to the documented GitHub API limit of3000 changed files,100 per page. It requires typed integer metadata, exact per-page and aggregate counts, unique validated paths and a matching final PR snapshot. The separate public-package cap remains50 files and all source/artifact admission checks remain unchanged. More than3000 files refuse. Initial/final snapshots do not establish atomicity or exclude an A-to-B-to-A head transition.
+
+Run `python3 -B -S -m unittest discover -s tests -p test_public_intake.py -v` and the same command with `-O`. The candidate source SHA256 `27afbbe278183e30ef647211a884a0d0fb2c6cfa674e4f181cca96add350e57e` passed97 tests per mode with no skips, retaining all85 prior methods. The965-file native input replay and independent adverse controls passed. Hosted execution of this revision and full Main regression remain NOT_EVALUATED; no CBZ-0 or scientific promotion is claimed. Governance and the append-only decision ledger record this bounded change.
