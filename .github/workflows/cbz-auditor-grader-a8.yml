@@ -4,6 +4,8 @@ on:
     branches: [cbz/auditor-grader-a8-20261029]
     paths:
       - 'tests/test_cbz_mutation_grader_adverse.py'
+      - 'tests/test_auditor_mutant_diagnostics.py'
+      - 'tools/cbz/auditor_mutant_diagnostics.py'
       - 'tests/test_cbz_layer_a_scan_mutants.py'
       - 'tests/test_cbz_a3_float_census.py'
       - 'tests/test_cbz_layer_a_scan.py'
@@ -40,4 +42,33 @@ jobs:
           path: |
             ${{ runner.temp }}/a8-normal.log
             ${{ runner.temp }}/a8-optimized.log
+          if-no-files-found: error
+
+  diagnostic-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Diagnostic normal controls
+        run: |
+          set -o pipefail
+          python -B -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-normal.log"
+      - name: Diagnostic optimized controls
+        if: always()
+        run: |
+          set -o pipefail
+          python -B -O -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-optimized.log"
+      - name: Preserve diagnostic control outcomes
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-diagnostic-controls-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/diag-normal.log
+            ${{ runner.temp }}/diag-optimized.log
           if-no-files-found: error

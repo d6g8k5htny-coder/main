@@ -111,3 +111,5 @@ means to closure, never a reason to open a general infrastructure project.
 ### B-AUDITOR-A8-REPAIR — 2026-10-29 21:12:47 UTC
 
 The temporary `.github/workflows/cbz-auditor-grader-a8.yml` runs both Python modes of the named adverse controls against the preserved canonical scanner/A3 source. It is a diagnostic runner, not a Layer A or CBZ certificate. The test-first source and exact scope are described in `cbz/evidence/auditor-grader-a8/README.md`; its actual outcomes remain pending until observed. Owner none. After fixing the graders, preserve the original 66 lexical and 23 A3 mutations and separately test the repaired harnesses.
+
+The proposed bounded auditor-mutant diagnostic collector is a data collection tool, not a G0 or mathematical certifier. Its test-first controls and eventual exact usage are recorded in `cbz/evidence/auditor-grader-a8/README.md`. Its implementation and verification are currently pending; do not treat it as an admitted tool. Owner none.

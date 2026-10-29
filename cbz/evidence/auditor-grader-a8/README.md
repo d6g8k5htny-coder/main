@@ -12,3 +12,7 @@ python3.11 -B -O -S -m unittest discover -s tests -p test_cbz_mutation_grader_ad
 ~~~
 
 The full unmutated positive suites and each exact mutant/control must be separately qualified after the repair. Receipt observations are finite same-process controls and cannot isolate deliberately malicious code or a compromised runtime. Owner none.
+
+## Witness diagnostic collector
+
+The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The implementation is not yet present and the test-first execution is pending. After implementation, run its tests in both Python modes and record the actual result here and in GOVERNANCE.md before use.
