@@ -1,0 +1,529 @@
+﻿2026-10-29T21:33:04.4261009Z Current runner version: '2.338.0'
+2026-10-29T21:33:04.4298889Z ##[group]Runner Image Provisioner
+2026-10-29T21:33:04.4300256Z Hosted Compute Agent
+2026-10-29T21:33:04.4301270Z Version: 20261021.618
+2026-10-29T21:33:04.4302468Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T21:33:04.4303778Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T21:33:04.4305211Z Worker ID: {0170cdce-bbca-492d-88a6-4969048bd730}
+2026-10-29T21:33:04.4306748Z Region: eastus
+2026-10-29T21:33:04.4307806Z Cloud: Azure
+2026-10-29T21:33:04.4308877Z ##[endgroup]
+2026-10-29T21:33:04.4311238Z ##[group]Operating System
+2026-10-29T21:33:04.4312434Z Ubuntu
+2026-10-29T21:33:04.4314000Z 26.04.1
+2026-10-29T21:33:04.4315324Z LTS
+2026-10-29T21:33:04.4316331Z ##[endgroup]
+2026-10-29T21:33:04.4317342Z ##[group]Runner Image
+2026-10-29T21:33:04.4319021Z Image: ubuntu-26.04
+2026-10-29T21:33:04.4320113Z Version: 20261025.179.1
+2026-10-29T21:33:04.4322482Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-29T21:33:04.4326502Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-29T21:33:04.4328276Z ##[endgroup]
+2026-10-29T21:33:04.4330353Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T21:33:04.4333199Z Contents: read
+2026-10-29T21:33:04.4334253Z Metadata: read
+2026-10-29T21:33:04.4335519Z ##[endgroup]
+2026-10-29T21:33:04.4339362Z Secret source: Actions
+2026-10-29T21:33:04.4341098Z Cache mode: write
+2026-10-29T21:33:04.4342704Z Prepare workflow directory
+2026-10-29T21:33:04.4849303Z Prepare all required actions
+2026-10-29T21:33:04.4918224Z Getting action download info
+2026-10-29T21:33:04.6341674Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-29T21:33:04.7392515Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-29T21:33:04.7951191Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-29T21:33:04.9588325Z Complete job name: adverse-controls
+2026-10-29T21:33:05.0471774Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-29T21:33:05.0472895Z with:
+2026-10-29T21:33:05.0473341Z   persist-credentials: false
+2026-10-29T21:33:05.0473878Z   repository: d6g8k5htny-coder/main
+2026-10-29T21:33:05.0477810Z   token: ***
+2026-10-29T21:33:05.0478252Z   ssh-strict: true
+2026-10-29T21:33:05.0478689Z   ssh-user: git
+2026-10-29T21:33:05.0479153Z   clean: true
+2026-10-29T21:33:05.0479593Z   sparse-checkout-cone-mode: true
+2026-10-29T21:33:05.0480116Z   fetch-depth: 1
+2026-10-29T21:33:05.0480547Z   fetch-tags: false
+2026-10-29T21:33:05.0480988Z   show-progress: true
+2026-10-29T21:33:05.0481425Z   lfs: false
+2026-10-29T21:33:05.0481830Z   submodules: false
+2026-10-29T21:33:05.0482269Z   set-safe-directory: true
+2026-10-29T21:33:05.0482763Z   allow-unsafe-pr-checkout: false
+2026-10-29T21:33:05.0483557Z ##[endgroup]
+2026-10-29T21:33:05.3516163Z Syncing repository: d6g8k5htny-coder/main
+2026-10-29T21:33:05.3518226Z ##[group]Getting Git version info
+2026-10-29T21:33:05.3519560Z Working directory is '/home/runner/work/main/main'
+2026-10-29T21:33:05.3520973Z [command]/usr/bin/git version
+2026-10-29T21:33:05.3545276Z git version 2.56.0
+2026-10-29T21:33:05.3569631Z ##[endgroup]
+2026-10-29T21:33:05.3582510Z Temporarily overriding HOME='/home/runner/work/_temp/2b9f11cd-f09e-45f9-b5c7-81191d9225e6' before making global git config changes
+2026-10-29T21:33:05.3586093Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T21:33:05.3589277Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T21:33:05.3666974Z Deleting the contents of '/home/runner/work/main/main'
+2026-10-29T21:33:05.3670533Z ##[group]Determining repository object format
+2026-10-29T21:33:05.3672963Z ##[endgroup]
+2026-10-29T21:33:05.3676589Z ##[group]Initializing the repository
+2026-10-29T21:33:05.3678613Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-10-29T21:33:05.3825180Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T21:33:05.3827750Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T21:33:05.3829755Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T21:33:05.3831518Z hint: call:
+2026-10-29T21:33:05.3832355Z hint:
+2026-10-29T21:33:05.3833496Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T21:33:05.3835317Z hint:
+2026-10-29T21:33:05.3836873Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T21:33:05.3838901Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T21:33:05.3840791Z hint:
+2026-10-29T21:33:05.3841670Z hint: 	git branch -m <name>
+2026-10-29T21:33:05.3842623Z hint:
+2026-10-29T21:33:05.3844013Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T21:33:05.3846690Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-10-29T21:33:05.3860149Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-10-29T21:33:05.3926578Z ##[endgroup]
+2026-10-29T21:33:05.3928229Z ##[group]Disabling automatic garbage collection
+2026-10-29T21:33:05.3930141Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T21:33:05.3968850Z ##[endgroup]
+2026-10-29T21:33:05.3970429Z ##[group]Setting up auth
+2026-10-29T21:33:05.3971491Z Removing SSH command configuration
+2026-10-29T21:33:05.3975463Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:05.4016904Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:05.4604405Z Removing HTTP extra header
+2026-10-29T21:33:05.4610559Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:05.4657063Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:05.4966839Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:05.4968899Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:05.5007634Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:05.5312218Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T21:33:05.5358329Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:05.5394003Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:05.5446397Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:05.5477862Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:05.5508688Z ##[endgroup]
+2026-10-29T21:33:05.5509519Z ##[group]Fetching the repository
+2026-10-29T21:33:05.5514883Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9d52d68086f98d20a8b7b000a1d00b9e8b0c878d:refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.0501821Z From https://github.com/d6g8k5htny-coder/main
+2026-10-29T21:33:07.0505288Z  * [new ref]         9d52d68086f98d20a8b7b000a1d00b9e8b0c878d -> origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.0511285Z [command]/usr/bin/git branch --list --remote origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.0538664Z   origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.0547913Z [command]/usr/bin/git rev-parse refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.0571489Z 9d52d68086f98d20a8b7b000a1d00b9e8b0c878d
+2026-10-29T21:33:07.0576829Z ##[endgroup]
+2026-10-29T21:33:07.0578172Z ##[group]Determining the checkout info
+2026-10-29T21:33:07.0580008Z ##[endgroup]
+2026-10-29T21:33:07.0581407Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T21:33:07.0636258Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T21:33:07.0668322Z ##[group]Checking out the ref
+2026-10-29T21:33:07.0672764Z [command]/usr/bin/git checkout --progress --force -B cbz/auditor-grader-a8-20261029 refs/remotes/origin/cbz/auditor-grader-a8-20261029
+2026-10-29T21:33:07.4447137Z Switched to a new branch 'cbz/auditor-grader-a8-20261029'
+2026-10-29T21:33:07.4453255Z branch 'cbz/auditor-grader-a8-20261029' set up to track 'origin/cbz/auditor-grader-a8-20261029'.
+2026-10-29T21:33:07.4475749Z ##[endgroup]
+2026-10-29T21:33:07.4531585Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T21:33:07.4561435Z 9d52d68086f98d20a8b7b000a1d00b9e8b0c878d
+2026-10-29T21:33:07.4572141Z ##[group]Removing auth
+2026-10-29T21:33:07.4572648Z Removing SSH command configuration
+2026-10-29T21:33:07.4576291Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:07.4611253Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:07.4903159Z Removing HTTP extra header
+2026-10-29T21:33:07.4906259Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:07.4941407Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:07.5212406Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:07.5217613Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:07.5246188Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T21:33:07.5246821Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T21:33:07.5247300Z includeif.gitdir:/github/workspace/.git.path
+2026-10-29T21:33:07.5247715Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T21:33:07.5257148Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T21:33:07.5282206Z /home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:07.5293040Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-dd5a796c\-ad1a\-40c2\-970e\-887463349bd7\.config
+2026-10-29T21:33:07.5328566Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T21:33:07.5360277Z /home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:07.5369240Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-dd5a796c\-ad1a\-40c2\-970e\-887463349bd7\.config
+2026-10-29T21:33:07.5406294Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-29T21:33:07.5431208Z /github/runner_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:07.5441816Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-dd5a796c\-ad1a\-40c2\-970e\-887463349bd7\.config
+2026-10-29T21:33:07.5477876Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T21:33:07.5501470Z /github/runner_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config
+2026-10-29T21:33:07.5509481Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-dd5a796c\-ad1a\-40c2\-970e\-887463349bd7\.config
+2026-10-29T21:33:07.5543109Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:07.5814519Z Removing credentials config '/home/runner/work/_temp/git-credentials-dd5a796c-ad1a-40c2-970e-887463349bd7.config'
+2026-10-29T21:33:07.5824674Z ##[endgroup]
+2026-10-29T21:33:07.6161611Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-29T21:33:07.6162059Z with:
+2026-10-29T21:33:07.6162270Z   python-version: 3.11
+2026-10-29T21:33:07.6162504Z   check-latest: false
+2026-10-29T21:33:07.6164891Z   token: ***
+2026-10-29T21:33:07.6165318Z   update-environment: true
+2026-10-29T21:33:07.6165569Z   allow-prereleases: false
+2026-10-29T21:33:07.6165808Z   freethreaded: false
+2026-10-29T21:33:07.6166024Z ##[endgroup]
+2026-10-29T21:33:07.7383390Z ##[group]Installed versions
+2026-10-29T21:33:07.7492285Z Successfully set up CPython (3.11.17)
+2026-10-29T21:33:07.7493146Z ##[endgroup]
+2026-10-29T21:33:07.7681256Z ##[group]Run set -o pipefail
+2026-10-29T21:33:07.7681702Z [36;1mset -o pipefail[0m
+2026-10-29T21:33:07.7682307Z [36;1mpython -B -S -m unittest discover -s tests -p test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-normal.log"[0m
+2026-10-29T21:33:07.7730719Z shell: /usr/bin/bash -e {0}
+2026-10-29T21:33:07.7731161Z env:
+2026-10-29T21:33:07.7731590Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:07.7732322Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:07.7733055Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:07.7733697Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:07.7734341Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:07.7735288Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:07.7735862Z ##[endgroup]
+2026-10-29T21:33:07.9967122Z test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) ... 
+2026-10-29T21:33:07.9969566Z   test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:07.9971864Z   test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:07.9987373Z test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) ... 
+2026-10-29T21:33:07.9990360Z   test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:07.9993617Z   test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:07.9996483Z test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) ... 
+2026-10-29T21:33:07.9999116Z   test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:08.0001584Z   test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:08.0003924Z test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) ... 
+2026-10-29T21:33:08.0006186Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=1, skipped=1') ... FAIL
+2026-10-29T21:33:08.0008509Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=2') ... FAIL
+2026-10-29T21:33:08.0010816Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=1, skipped=1') ... FAIL
+2026-10-29T21:33:08.0012715Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=2') ... FAIL
+2026-10-29T21:33:08.0014465Z test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) ... 
+2026-10-29T21:33:08.0016482Z   test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:08.0018459Z   test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:08.0020029Z test_adverse_loader_ignores_poisoned_bytecode (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_adverse_loader_ignores_poisoned_bytecode) ... ok
+2026-10-29T21:33:08.0871058Z test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) ... 
+2026-10-29T21:33:08.0872376Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='lexer') ... FAIL
+2026-10-29T21:33:08.1680662Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='a3') ... FAIL
+2026-10-29T21:33:08.2544084Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='hardening') ... FAIL
+2026-10-29T21:33:08.2546822Z 
+2026-10-29T21:33:08.2547298Z ======================================================================
+2026-10-29T21:33:08.2548684Z FAIL: test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:08.2549958Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2550587Z Traceback (most recent call last):
+2026-10-29T21:33:08.2558230Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 41, in test_abnormal_exit_does_not_kill
+2026-10-29T21:33:08.2559489Z     self.assertFalse(grader.killed(self.sample(code=86), "test_expected"))
+2026-10-29T21:33:08.2560192Z AssertionError: True is not false
+2026-10-29T21:33:08.2560497Z 
+2026-10-29T21:33:08.2560915Z ======================================================================
+2026-10-29T21:33:08.2561665Z FAIL: test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:08.2562386Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2562746Z Traceback (most recent call last):
+2026-10-29T21:33:08.2563380Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 41, in test_abnormal_exit_does_not_kill
+2026-10-29T21:33:08.2564065Z     self.assertFalse(grader.killed(self.sample(code=86), "test_expected"))
+2026-10-29T21:33:08.2564464Z AssertionError: True is not false
+2026-10-29T21:33:08.2564653Z 
+2026-10-29T21:33:08.2564766Z ======================================================================
+2026-10-29T21:33:08.2566145Z FAIL: test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:08.2567120Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2567457Z Traceback (most recent call last):
+2026-10-29T21:33:08.2568193Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 58, in test_expected_assertion_without_specific_observation_does_not_kill
+2026-10-29T21:33:08.2568951Z     self.assertFalse(grader.killed(self.sample(), "test_expected"))
+2026-10-29T21:33:08.2569317Z AssertionError: True is not false
+2026-10-29T21:33:08.2569485Z 
+2026-10-29T21:33:08.2569604Z ======================================================================
+2026-10-29T21:33:08.2570736Z FAIL: test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:08.2571684Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2572027Z Traceback (most recent call last):
+2026-10-29T21:33:08.2572727Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 58, in test_expected_assertion_without_specific_observation_does_not_kill
+2026-10-29T21:33:08.2573489Z     self.assertFalse(grader.killed(self.sample(), "test_expected"))
+2026-10-29T21:33:08.2573856Z AssertionError: True is not false
+2026-10-29T21:33:08.2574026Z 
+2026-10-29T21:33:08.2574140Z ======================================================================
+2026-10-29T21:33:08.2574876Z FAIL: test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:08.2575890Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2576222Z Traceback (most recent call last):
+2026-10-29T21:33:08.2576838Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 47, in test_mixed_foreign_failure_does_not_kill
+2026-10-29T21:33:08.2577505Z     self.assertFalse(grader.killed(process, "test_expected"))
+2026-10-29T21:33:08.2577849Z AssertionError: True is not false
+2026-10-29T21:33:08.2578019Z 
+2026-10-29T21:33:08.2578130Z ======================================================================
+2026-10-29T21:33:08.2578854Z FAIL: test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:08.2579613Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2579951Z Traceback (most recent call last):
+2026-10-29T21:33:08.2580560Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 47, in test_mixed_foreign_failure_does_not_kill
+2026-10-29T21:33:08.2581206Z     self.assertFalse(grader.killed(process, "test_expected"))
+2026-10-29T21:33:08.2581737Z AssertionError: True is not false
+2026-10-29T21:33:08.2581905Z 
+2026-10-29T21:33:08.2582021Z ======================================================================
+2026-10-29T21:33:08.2582971Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=1, skipped=1')
+2026-10-29T21:33:08.2583967Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2584297Z Traceback (most recent call last):
+2026-10-29T21:33:08.2585178Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:08.2586012Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:08.2586440Z AssertionError: True is not false
+2026-10-29T21:33:08.2586607Z 
+2026-10-29T21:33:08.2586718Z ======================================================================
+2026-10-29T21:33:08.2587636Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=2')
+2026-10-29T21:33:08.2588560Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2588891Z Traceback (most recent call last):
+2026-10-29T21:33:08.2589544Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:08.2590450Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:08.2590876Z AssertionError: True is not false
+2026-10-29T21:33:08.2591044Z 
+2026-10-29T21:33:08.2591155Z ======================================================================
+2026-10-29T21:33:08.2592077Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=1, skipped=1')
+2026-10-29T21:33:08.2593034Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2593362Z Traceback (most recent call last):
+2026-10-29T21:33:08.2594014Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:08.2594757Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:08.2595490Z AssertionError: True is not false
+2026-10-29T21:33:08.2595689Z 
+2026-10-29T21:33:08.2595803Z ======================================================================
+2026-10-29T21:33:08.2596765Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=2')
+2026-10-29T21:33:08.2597688Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2598020Z Traceback (most recent call last):
+2026-10-29T21:33:08.2598674Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:08.2599417Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:08.2599833Z AssertionError: True is not false
+2026-10-29T21:33:08.2600044Z 
+2026-10-29T21:33:08.2600155Z ======================================================================
+2026-10-29T21:33:08.2600849Z FAIL: test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:08.2601565Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2601891Z Traceback (most recent call last):
+2026-10-29T21:33:08.2602658Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 63, in test_unnamed_target_does_not_kill
+2026-10-29T21:33:08.2603262Z     self.assertFalse(grader.killed(self.sample()))
+2026-10-29T21:33:08.2603569Z AssertionError: True is not false
+2026-10-29T21:33:08.2603741Z 
+2026-10-29T21:33:08.2603849Z ======================================================================
+2026-10-29T21:33:08.2604532Z FAIL: test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:08.2605772Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2606146Z Traceback (most recent call last):
+2026-10-29T21:33:08.2606763Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 63, in test_unnamed_target_does_not_kill
+2026-10-29T21:33:08.2607373Z     self.assertFalse(grader.killed(self.sample()))
+2026-10-29T21:33:08.2607702Z AssertionError: True is not false
+2026-10-29T21:33:08.2607871Z 
+2026-10-29T21:33:08.2607988Z ======================================================================
+2026-10-29T21:33:08.2608765Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='lexer')
+2026-10-29T21:33:08.2609562Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2609892Z Traceback (most recent call last):
+2026-10-29T21:33:08.2610522Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:08.2611322Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:08.2611785Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:08.2612112Z 
+2026-10-29T21:33:08.2612225Z ======================================================================
+2026-10-29T21:33:08.2613004Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='a3')
+2026-10-29T21:33:08.2613788Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2614127Z Traceback (most recent call last):
+2026-10-29T21:33:08.2614775Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:08.2615706Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:08.2616149Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:08.2616471Z 
+2026-10-29T21:33:08.2616585Z ======================================================================
+2026-10-29T21:33:08.2617380Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='hardening')
+2026-10-29T21:33:08.2618195Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2618529Z Traceback (most recent call last):
+2026-10-29T21:33:08.2619156Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:08.2619792Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:08.2620219Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:08.2620535Z 
+2026-10-29T21:33:08.2620677Z ----------------------------------------------------------------------
+2026-10-29T21:33:08.2621002Z Ran 7 tests in 0.270s
+2026-10-29T21:33:08.2621146Z 
+2026-10-29T21:33:08.2621232Z FAILED (failures=15)
+2026-10-29T21:33:08.2656713Z ##[error]Process completed with exit code 1.
+2026-10-29T21:33:08.2710277Z ##[group]Run set -o pipefail
+2026-10-29T21:33:08.2710612Z [36;1mset -o pipefail[0m
+2026-10-29T21:33:08.2711358Z [36;1mpython -B -O -S -m unittest discover -s tests -p test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-optimized.log"[0m
+2026-10-29T21:33:08.2741845Z shell: /usr/bin/bash -e {0}
+2026-10-29T21:33:08.2742100Z env:
+2026-10-29T21:33:08.2742365Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:08.2742823Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:08.2743281Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:08.2743669Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:08.2744062Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:08.2744447Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:08.2744766Z ##[endgroup]
+2026-10-29T21:33:09.9768430Z test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) ... 
+2026-10-29T21:33:09.9769911Z   test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:09.9771930Z   test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:09.9775398Z test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) ... 
+2026-10-29T21:33:09.9777663Z   test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:09.9780638Z   test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:09.9782640Z test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) ... 
+2026-10-29T21:33:09.9784528Z   test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:09.9786274Z   test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:09.9787428Z test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) ... 
+2026-10-29T21:33:09.9797005Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=1, skipped=1') ... FAIL
+2026-10-29T21:33:09.9798578Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=2') ... FAIL
+2026-10-29T21:33:09.9800098Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=1, skipped=1') ... FAIL
+2026-10-29T21:33:09.9801918Z   test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=2') ... FAIL
+2026-10-29T21:33:09.9803372Z test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) ... 
+2026-10-29T21:33:09.9804492Z   test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_lexer_grader') ... FAIL
+2026-10-29T21:33:09.9805906Z   test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_a3_grader') ... FAIL
+2026-10-29T21:33:09.9806987Z test_adverse_loader_ignores_poisoned_bytecode (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_adverse_loader_ignores_poisoned_bytecode) ... ok
+2026-10-29T21:33:10.2628325Z test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) ... 
+2026-10-29T21:33:10.2629608Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='lexer') ... FAIL
+2026-10-29T21:33:10.5424507Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='a3') ... FAIL
+2026-10-29T21:33:10.8244472Z   test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='hardening') ... FAIL
+2026-10-29T21:33:10.8246806Z 
+2026-10-29T21:33:10.8247039Z ======================================================================
+2026-10-29T21:33:10.8248150Z FAIL: test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:10.8249147Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8249728Z Traceback (most recent call last):
+2026-10-29T21:33:10.8251073Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 41, in test_abnormal_exit_does_not_kill
+2026-10-29T21:33:10.8252288Z     self.assertFalse(grader.killed(self.sample(code=86), "test_expected"))
+2026-10-29T21:33:10.8253238Z AssertionError: True is not false
+2026-10-29T21:33:10.8253640Z 
+2026-10-29T21:33:10.8253851Z ======================================================================
+2026-10-29T21:33:10.8255235Z FAIL: test_abnormal_exit_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_abnormal_exit_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:10.8256063Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8256407Z Traceback (most recent call last):
+2026-10-29T21:33:10.8257089Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 41, in test_abnormal_exit_does_not_kill
+2026-10-29T21:33:10.8257755Z     self.assertFalse(grader.killed(self.sample(code=86), "test_expected"))
+2026-10-29T21:33:10.8258150Z AssertionError: True is not false
+2026-10-29T21:33:10.8258328Z 
+2026-10-29T21:33:10.8258468Z ======================================================================
+2026-10-29T21:33:10.8259404Z FAIL: test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:10.8260346Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8260679Z Traceback (most recent call last):
+2026-10-29T21:33:10.8261375Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 58, in test_expected_assertion_without_specific_observation_does_not_kill
+2026-10-29T21:33:10.8262127Z     self.assertFalse(grader.killed(self.sample(), "test_expected"))
+2026-10-29T21:33:10.8262497Z AssertionError: True is not false
+2026-10-29T21:33:10.8262665Z 
+2026-10-29T21:33:10.8262771Z ======================================================================
+2026-10-29T21:33:10.8263927Z FAIL: test_expected_assertion_without_specific_observation_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_expected_assertion_without_specific_observation_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:10.8265427Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8265960Z Traceback (most recent call last):
+2026-10-29T21:33:10.8267103Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 58, in test_expected_assertion_without_specific_observation_does_not_kill
+2026-10-29T21:33:10.8268409Z     self.assertFalse(grader.killed(self.sample(), "test_expected"))
+2026-10-29T21:33:10.8269111Z AssertionError: True is not false
+2026-10-29T21:33:10.8269408Z 
+2026-10-29T21:33:10.8269591Z ======================================================================
+2026-10-29T21:33:10.8270890Z FAIL: test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:10.8272216Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8272786Z Traceback (most recent call last):
+2026-10-29T21:33:10.8273703Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 47, in test_mixed_foreign_failure_does_not_kill
+2026-10-29T21:33:10.8274357Z     self.assertFalse(grader.killed(process, "test_expected"))
+2026-10-29T21:33:10.8274703Z AssertionError: True is not false
+2026-10-29T21:33:10.8274871Z 
+2026-10-29T21:33:10.8275264Z ======================================================================
+2026-10-29T21:33:10.8276015Z FAIL: test_mixed_foreign_failure_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_mixed_foreign_failure_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:10.8276763Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8277100Z Traceback (most recent call last):
+2026-10-29T21:33:10.8277708Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 47, in test_mixed_foreign_failure_does_not_kill
+2026-10-29T21:33:10.8278359Z     self.assertFalse(grader.killed(process, "test_expected"))
+2026-10-29T21:33:10.8278700Z AssertionError: True is not false
+2026-10-29T21:33:10.8278867Z 
+2026-10-29T21:33:10.8278976Z ======================================================================
+2026-10-29T21:33:10.8279909Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=1, skipped=1')
+2026-10-29T21:33:10.8280889Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8281217Z Traceback (most recent call last):
+2026-10-29T21:33:10.8281876Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:10.8282645Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:10.8283082Z AssertionError: True is not false
+2026-10-29T21:33:10.8283252Z 
+2026-10-29T21:33:10.8283364Z ======================================================================
+2026-10-29T21:33:10.8284296Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_lexer_grader', summary='failures=2')
+2026-10-29T21:33:10.8285664Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8286014Z Traceback (most recent call last):
+2026-10-29T21:33:10.8286680Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:10.8287626Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:10.8288068Z AssertionError: True is not false
+2026-10-29T21:33:10.8288461Z 
+2026-10-29T21:33:10.8288569Z ======================================================================
+2026-10-29T21:33:10.8289498Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=1, skipped=1')
+2026-10-29T21:33:10.8290448Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8290778Z Traceback (most recent call last):
+2026-10-29T21:33:10.8291419Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:10.8292162Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:10.8292572Z AssertionError: True is not false
+2026-10-29T21:33:10.8292742Z 
+2026-10-29T21:33:10.8292850Z ======================================================================
+2026-10-29T21:33:10.8293745Z FAIL: test_skips_and_inconsistent_failure_counts_do_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_skips_and_inconsistent_failure_counts_do_not_kill) (grader='old_a3_grader', summary='failures=2')
+2026-10-29T21:33:10.8294653Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8295260Z Traceback (most recent call last):
+2026-10-29T21:33:10.8295993Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 53, in test_skips_and_inconsistent_failure_counts_do_not_kill
+2026-10-29T21:33:10.8296738Z     self.assertFalse(grader.killed(self.sample(summary=summary), "test_expected"))
+2026-10-29T21:33:10.8297155Z AssertionError: True is not false
+2026-10-29T21:33:10.8297322Z 
+2026-10-29T21:33:10.8297424Z ======================================================================
+2026-10-29T21:33:10.8298119Z FAIL: test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_lexer_grader')
+2026-10-29T21:33:10.8298836Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8299162Z Traceback (most recent call last):
+2026-10-29T21:33:10.8299742Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 63, in test_unnamed_target_does_not_kill
+2026-10-29T21:33:10.8300345Z     self.assertFalse(grader.killed(self.sample()))
+2026-10-29T21:33:10.8300651Z AssertionError: True is not false
+2026-10-29T21:33:10.8300818Z 
+2026-10-29T21:33:10.8300921Z ======================================================================
+2026-10-29T21:33:10.8301595Z FAIL: test_unnamed_target_does_not_kill (test_cbz_mutation_grader_adverse.GraderAdverseTests.test_unnamed_target_does_not_kill) (grader='old_a3_grader')
+2026-10-29T21:33:10.8302290Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8302632Z Traceback (most recent call last):
+2026-10-29T21:33:10.8303261Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 63, in test_unnamed_target_does_not_kill
+2026-10-29T21:33:10.8303863Z     self.assertFalse(grader.killed(self.sample()))
+2026-10-29T21:33:10.8304163Z AssertionError: True is not false
+2026-10-29T21:33:10.8304329Z 
+2026-10-29T21:33:10.8304433Z ======================================================================
+2026-10-29T21:33:10.8305450Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='lexer')
+2026-10-29T21:33:10.8306252Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8306578Z Traceback (most recent call last):
+2026-10-29T21:33:10.8307198Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:10.8308133Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:10.8308684Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:10.8309008Z 
+2026-10-29T21:33:10.8309120Z ======================================================================
+2026-10-29T21:33:10.8309870Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='a3')
+2026-10-29T21:33:10.8310649Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8310975Z Traceback (most recent call last):
+2026-10-29T21:33:10.8311588Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:10.8312211Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:10.8312644Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:10.8312952Z 
+2026-10-29T21:33:10.8313062Z ======================================================================
+2026-10-29T21:33:10.8313839Z FAIL: test_poisoned_cached_bytecode_does_not_execute (test_cbz_mutation_grader_adverse.SourceLoaderAdverseTests.test_poisoned_cached_bytecode_does_not_execute) (loader='hardening')
+2026-10-29T21:33:10.8314643Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8315273Z Traceback (most recent call last):
+2026-10-29T21:33:10.8315931Z   File "/home/runner/work/main/main/tests/test_cbz_mutation_grader_adverse.py", line 122, in test_poisoned_cached_bytecode_does_not_execute
+2026-10-29T21:33:10.8316557Z     self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
+2026-10-29T21:33:10.8316975Z AssertionError: 'CBZ_SOURCE_ONLY' not found in 'CBZ_BYTES_MATCH\nCBZ_POISONED\n'
+2026-10-29T21:33:10.8317283Z 
+2026-10-29T21:33:10.8317426Z ----------------------------------------------------------------------
+2026-10-29T21:33:10.8317752Z Ran 7 tests in 0.896s
+2026-10-29T21:33:10.8317888Z 
+2026-10-29T21:33:10.8317978Z FAILED (failures=15)
+2026-10-29T21:33:10.8360009Z ##[error]Process completed with exit code 1.
+2026-10-29T21:33:10.8448419Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-29T21:33:10.8448852Z with:
+2026-10-29T21:33:10.8449060Z   name: cbz-auditor-a8-40956363103-1
+2026-10-29T21:33:10.8449487Z   path: /home/runner/work/_temp/a8-normal.log
+/home/runner/work/_temp/a8-optimized.log
+
+2026-10-29T21:33:10.8449918Z   if-no-files-found: error
+2026-10-29T21:33:10.8450152Z   compression-level: 6
+2026-10-29T21:33:10.8450363Z   overwrite: false
+2026-10-29T21:33:10.8450572Z   include-hidden-files: false
+2026-10-29T21:33:10.8450804Z   archive: true
+2026-10-29T21:33:10.8450996Z env:
+2026-10-29T21:33:10.8451238Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:10.8451661Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T21:33:10.8452083Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:10.8452494Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:10.8452932Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T21:33:10.8453331Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T21:33:10.8453667Z ##[endgroup]
+2026-10-29T21:33:10.9988276Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T21:33:10.9990691Z The least common ancestor is /home/runner/work/_temp. This will be the root directory of the artifact
+2026-10-29T21:33:10.9991927Z With the provided path, there will be 2 files uploaded
+2026-10-29T21:33:10.9998771Z Artifact name is valid!
+2026-10-29T21:33:10.9999677Z Root directory input is valid!
+2026-10-29T21:33:11.2248108Z Uploading artifact: cbz-auditor-a8-40956363103-1.zip
+2026-10-29T21:33:11.2291208Z Beginning upload of artifact content to blob storage
+2026-10-29T21:33:11.3271074Z Uploaded bytes 1944
+2026-10-29T21:33:11.3427910Z Finished uploading artifact content to blob storage!
+2026-10-29T21:33:11.3429613Z SHA256 digest of uploaded artifact is 3585b52012a7771cc07db5b68b05a16ffcb99b46c02e4af87b9cc70378368dd8
+2026-10-29T21:33:11.3430555Z Finalizing artifact upload
+2026-10-29T21:33:11.7937861Z Artifact cbz-auditor-a8-40956363103-1 successfully finalized. Artifact ID 12934577473
+2026-10-29T21:33:11.7939224Z Artifact cbz-auditor-a8-40956363103-1 has been successfully uploaded! Final size is 1944 bytes. Artifact ID is 12934577473
+2026-10-29T21:33:11.7942680Z Artifact download URL: https://github.com/d6g8k5htny-coder/main/actions/runs/40956363103/artifacts/12934577473
+2026-10-29T21:33:11.8136835Z Post job cleanup.
+2026-10-29T21:33:11.9020405Z [command]/usr/bin/git version
+2026-10-29T21:33:11.9069826Z git version 2.56.0
+2026-10-29T21:33:11.9112389Z Temporarily overriding HOME='/home/runner/work/_temp/50074209-58de-4256-bc91-6dab1293d4d1' before making global git config changes
+2026-10-29T21:33:11.9114034Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T21:33:11.9118016Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T21:33:11.9152175Z Removing SSH command configuration
+2026-10-29T21:33:11.9159216Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T21:33:11.9199785Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T21:33:11.9513423Z Removing HTTP extra header
+2026-10-29T21:33:11.9516567Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T21:33:11.9559223Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T21:33:11.9873409Z Removing includeIf entries pointing to credentials config files
+2026-10-29T21:33:11.9880110Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T21:33:11.9913412Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T21:33:12.0356479Z Cleaning up orphan processes

@@ -38,3 +38,5 @@ python3.11 -I -B -S tools/cbz/auditor_mutant_diagnostics.py --root ROOT --scope 
 ~~~
 
 The collector has meaningful adverse controls and source mutations, but no candidate test has yet been observed. Test-first and candidate runs are queued. Do not treat the collector as qualified, adopt its observed failures as their own witnesses, or claim a passing gate. Independently review every guard-specific observation before modifying a grader. Owner none.
+
+Test-first head `9d52d68086f98d20a8b7b000a1d00b9e8b0c878d`, hosted run 40956363103/job 123737390295, actually ran seven controls per Python mode and produced 15 assertion failures and zero errors in each, including the three `CBZ_BYTES_MATCH`/`CBZ_POISONED` loader exploits. Its decoded job log is retained in `red/9d52d68086f9-job123737390295.log`. This confirms the old graders' and loaders' failures at that exact head; it does not verify a successor.
