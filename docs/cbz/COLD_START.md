@@ -216,3 +216,5 @@ exercised separately, including all five real restricted-container controls.
 The remaining five are precisely the quarantined coverage gaps above. A final
 regression contract must reconcile these recorded outcomes explicitly; this
 guide does not relabel a skipped test as a passed test or declare G5 green.
+
+The Node mutation harness is under additional A8 repair: its independently reviewed single-test count, fixture TAP receipt, and loaded-source receipt are not yet qualified. See cbz/evidence/cold-start-node/REGISTRY_ADDENDUM.md. Historical component runs do not certify the updated harness or the final gates.

@@ -666,6 +666,59 @@ class MutationHarnessTests(unittest.TestCase):
                 case.observe_missing_rejection("fixture", inputs)
                 self.assertTrue(receipt.exists(), mutation)
 
+    def test_selected_control_must_run_exactly_one_test(self):
+        for kind in ("two-tests", "duplicate-summary"):
+            with self.subTest(kind=kind):
+                result = self.result()
+                if kind == "two-tests":
+                    result.stderr = result.stderr.replace("Ran 1 test", "Ran 2 tests")
+                else:
+                    result.stderr += "Ran 1 test in 0.002s\n"
+                self.assertFalse(assertion_kill(result, "test_expected"))
+
+    def test_fixture_receipt_rejects_ambiguous_or_incomplete_tap(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-fixture-tap-control-") as directory:
+            root = Path(directory)
+            fixture = root / "shop/Math-/data.txt"
+            fixture.parent.mkdir(parents=True)
+            fixture.write_bytes(b"mutated\n")
+            transcript = root / "node.tap"
+            case = NodeRunnerTests("test_child_fixture_mutation_is_a_failed_postflight")
+            valid = "# tests 1\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n"
+            examples = ("# pass 10\n", "# pass 1\n",
+                        valid + "# pass 1\n",
+                        valid.replace("# fail 0\n", "# fail 1\n"),
+                        valid.replace("# skipped 0\n", "# skipped 1\n"),
+                        valid.replace("# cancelled 0\n", "# cancelled 1\n"),
+                        valid.replace("# pass 1\n", "# pass 10\n"))
+            for mutation in ("fixture-domain", "fixture-postflight"):
+                for index, value in enumerate(examples):
+                    with self.subTest(mutation=mutation, index=index):
+                        receipt = root / (mutation + str(index) + ".json")
+                        transcript.write_text(value)
+                        with patch.dict(os.environ, {"CBZ_NODE_MUTANT_NONCE": "fresh",
+                                                    "CBZ_NODE_MUTANT_RECEIPT": str(receipt),
+                                                    "CBZ_NODE_MUTANT_NAME": mutation}):
+                            case.observe_missing_rejection("fixture",
+                                {"output": root, "path": transcript, "observed_exit": 0})
+                        self.assertFalse(receipt.exists(), (mutation, value))
+
+    def test_loaded_bytes_observation_requires_exact_failure(self):
+        observer = globals().get("loaded_bypass_observed")
+        self.assertTrue(callable(observer), "loaded-source observation must be explicit and testable")
+        good = subprocess.CompletedProcess([], 1, "CONTROL_IMPORT_PASS\n",
+                                           "AssertionError: changed loaded source was accepted\n")
+        self.assertTrue(observer(good))
+        for candidate in (
+            subprocess.CompletedProcess([], 86, good.stdout, good.stderr),
+            subprocess.CompletedProcess([], 0, good.stdout, good.stderr),
+            subprocess.CompletedProcess([], 1, "CONTROL_IMPORT_PASS_EXTRA\n", good.stderr),
+            subprocess.CompletedProcess([], 1, good.stdout, "crash: changed loaded source was accepted\n"),
+            subprocess.CompletedProcess([], 1, good.stdout, good.stderr + good.stderr),
+        ):
+            with self.subTest(candidate=candidate):
+                self.assertFalse(observer(candidate))
+
     def test_source_loader_ignores_poisoned_bytecode(self):
         self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
         with tempfile.TemporaryDirectory(prefix="cbz-loader-control-") as directory:
