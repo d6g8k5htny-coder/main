@@ -316,7 +316,9 @@ class SourceMutationTests(unittest.TestCase):
          "test_snapshot_detects_hidden_executable_mode_changes"),
         ("zero-tests", 'values["tests"] > 0', 'values["tests"] >= 0',
          "test_tap_requires_nonzero_complete_all_passed_summary"),
-        ("skip-summary", "_SUMMARY_FIELDS[2:]", "_SUMMARY_FIELDS[2:4]",
+        ("skip-summary",
+         'values["pass"] == values["tests"]\n            and all(values[name] == 0 for name in _SUMMARY_FIELDS[2:])',
+         'values["pass"] <= values["tests"]\n            and all(values[name] == 0 for name in _SUMMARY_FIELDS[2:4])',
          "test_real_node_skips_are_not_a_green_suite"),
         ("duplicate-summary", "if len(matches) != 1:", "if not matches:",
          "test_tap_missing_or_duplicate_fields_refuse"),
@@ -357,7 +359,8 @@ class SourceMutationTests(unittest.TestCase):
                                     name + "\n" + result.stdout + result.stderr)
 
     def test_harness_mutations_are_rejected_by_named_controls(self):
-        source = Path(__file__).read_text()
+        full_source = Path(__file__).read_text()
+        source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
             ("exit", "process.returncode == 0 or not summary", "not summary",
              "test_success_exit_cannot_kill"),
@@ -371,7 +374,7 @@ class SourceMutationTests(unittest.TestCase):
                 with self.subTest(name=name):
                     self.assertEqual(source.count(old), 1, "harness anchor drift")
                     path = Path(directory) / ("test-" + name + ".py")
-                    path.write_text(source.replace(old, new))
+                    path.write_text(source.replace(old, new) + "\nclass SourceMutationTests" + suffix)
                     result = subprocess.run(
                         [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
                          str(path), "MutationHarnessTests." + expected, "-v"],
