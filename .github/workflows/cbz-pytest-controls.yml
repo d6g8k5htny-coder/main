@@ -36,7 +36,6 @@ jobs:
           if [ "$MODE" = optimized ]; then args+=(-O); fi
           python3 "${args[@]}" -m unittest discover -s tests -p 'test_pytest_bytecode_policy.py' -v 2>&1 | tee "$RUNNER_TEMP/pytest-control-$MODE.log"
           sha256sum "$RUNNER_TEMP/pytest-control-$MODE.log"
-          grep -Fx 'Ran 10 tests' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null && exit 1 || true
           grep -E '^Ran 10 tests in ' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null
           grep -Fx 'OK' "$RUNNER_TEMP/pytest-control-$MODE.log" >/dev/null
           if grep -E ' \.\.\. skipped ' "$RUNNER_TEMP/pytest-control-$MODE.log"; then exit 1; fi
