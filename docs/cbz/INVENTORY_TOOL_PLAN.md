@@ -151,3 +151,8 @@ the exact base/overlay composite digest is
 recorded 63-target core receipt; this is a byte-format observation, not an
 independent execution or authentication claim. The source census flags remain
 false. No final CBZ baseline success is inferred from these tool tests.
+
+
+### RF312 effective-map repair (2026-10-29)
+
+The scoped review exposed a valid-hex wrong-digest counterexample. The checker now resolves the base file map with overlay-wins replacement, requires exact checked formal-tree coverage except the two manifest inputs, and compares each effective regular Git blob SHA256 to its declared value. A valid current overlay may replace an older base digest. Seven new behavior methods first produced eight intended assertion failures; initial fixture errors are retained separately. All 50 original test bodies remain unchanged. The final suite passed 58 methods in each Python 3.11.16 mode, including four intended source-mutant kills per mode. Actual 94-binding generation and verification passed and checked all 45 effective formal files. See cbz/evidence/rf312-source-binding-repair/REPORT.json for exact source/log hashes. No semantic completeness, execution authenticity or final CBZ result is inferred.

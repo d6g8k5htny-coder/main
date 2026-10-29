@@ -4,7 +4,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 
 ## Current baseline
 
-**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 17:49 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
+**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 18:26 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
 
 | Gate | Actual component observation | Final result |
 |---|---|---|
@@ -19,7 +19,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 | G8 | Canonical surfaces being reconciled to observed evidence | Not qualified |
 | G9 | Historical fixture fetch preconditions identified | Final clone/tag test not run |
 | G10 |158 fully contained branches pruned and absences read back; distinct deliveries remain | Not passed |
-| G11 | Census tool: 50 tests per mode and both source mutations passed; independent review repaired/re-reviewed | Final federation admission not qualified |
+| G11 | Census tool: 58 tests per mode and four source mutations passed; RF312 effective map checked against actual Git blobs | Final federation admission not qualified |
 
 ## What is closed and verified
 
@@ -28,6 +28,7 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 Completed engineering changes:
 
 - main#685 governance/ledger merged at `81acc060341e8a31cc4cd4f9523ef71fb6c06175` after 8/8 exact-head checks passed.
+- main#693 manifest totals/duplicate-path repair merged at `27c89b05bd2503c580b692f57146d608a7f0f668` after 8/8 exact-head checks. Superseded draft #482 is closed; its source is preserved.
 - Five missing exact historical replica fixtures restored in meta-framework, integrated at `0f5894f81a5462c10ee5ec8f8109f466e712e47e`. Unchanged67 tests,24 mutations and77 central contracts pass per mode; no checker/test/bound relaxed.
 - Math recheck recovered from observed exit137/OOM using `LEAN_NUM_THREADS=2`; same source/checks passed. Original failure retained; the complete gate subsequently passed every admission control.
 - Verified full-history bundles before guarded cleanup. Removed main45,Math40,governance30,query6,meta37 contained branches; all 158 absences independently read back. Open-PR heads/bases, protected and workflow-used refs excluded.
@@ -36,7 +37,7 @@ Completed engineering changes:
 
 The strict CLOSED domain contains only the 94 literal declarations in PROOF_INDEX.md. Conventional prose, finite numerical controls, loose Lean packages and historical ACCEPT labels remain outside it. The final per-source terminal index is still being assembled; its absence is not represented as a completed quarantine.
 
-Known residue: non-core determinant/Cap auditors omit hidden declarations; main receipt producer/consumer lacks complete attempt binding; archived trial tests contain live write probes and need isolation. Original sources/failures are retained. Disjoint repairs/dispositions are coordinated in [main#684](https://github.com/d6g8k5htny-coder/main/issues/684), with main#619 the active board. No human or old family-review approval is required.
+Known residue: determinant compiled inventory/private support is not yet qualified; Cap auditor repairs remain in progress; main receipt attempt/source-custody repair is not yet integrated. Archived trial tests reproduced 87 failures per mode under write/network isolation. Original sources/failures are retained. Disjoint repairs/dispositions are coordinated in [main#684](https://github.com/d6g8k5htny-coder/main/issues/684), with main#619 the active board. No human or old family-review approval is required.
 
 ## Tools and how to verify
 

@@ -107,9 +107,12 @@ CBZ-0.
   `docs/cbz/INVENTORY_TOOL_PLAN.md`. Generate/verify a complete offline
   tracked/index-source census and immutable declaration/evidence bindings.
   Run `python3.11 -B -S -m unittest discover -s tests -p
-  test_cbz_inventory.py -v`, then repeat with `-O`. Observed50/50 each mode,
-  including both source mutations killed; actual12-repository capture/verify
-  passed13,654 entries. Independent review findings were repaired and
+  test_cbz_inventory.py -v`, then repeat with `-O`. Observed 58/58 each mode,
+  including four source mutations killed by intended assertions. The RF312
+  base-plus-overlay effective map has exact checked-tree coverage and each
+  regular Git blob's declared SHA256 is verified. Actual 94-binding capture
+  and verify passed with all 45 effective RF312 files checked. The earlier
+  12-repository capture/verify passed 13,654 entries. Review findings were repaired and
   re-reviewed. Owner:none, self-contained. This is **not** a Layer A semantic
   certifier or kernel-run authenticator; its output explicitly grants neither
   semantic completeness nor CBZ green. Criteria1,3,8,11.
