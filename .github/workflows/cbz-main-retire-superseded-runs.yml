@@ -1,0 +1,161 @@
+name: CBZ main scoped retirement of superseded runs
+on:
+  push:
+    branches: [cbz/main-retire-superseded-20261029]
+    paths: ['.github/workflows/cbz-main-retire-superseded-runs.yml']
+permissions:
+  contents: read
+  actions: write
+jobs:
+  retire-superseded:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 10
+    steps:
+      - name: Verify policy and retire only freshly confirmed obsolete PR runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 -B -S - <<'PYRETIRE'
+          import json,os,re,subprocess
+          from pathlib import Path
+          repository=os.environ['GITHUB_REPOSITORY']
+          prefix='repos/'+repository+'/'
+          active={'queued','in_progress','requested','pending','waiting'}
+          hex40=re.compile('[0-9a-f]{40}')
+          def stale(run,pr):
+              return (run.get('event')=='pull_request' and run.get('status') in active
+                  and pr.get('state')=='open' and isinstance(run.get('head_sha'),str)
+                  and isinstance(pr.get('head',{}).get('sha'),str)
+                  and bool(hex40.fullmatch(run['head_sha'])) and bool(hex40.fullmatch(pr['head']['sha']))
+                  and run['head_sha']!=pr['head']['sha'])
+          base={'event':'pull_request','status':'queued','head_sha':'a'*40}
+          current={'state':'open','head':{'sha':'b'*40}}
+          controls=[
+              (base,current,True),
+              (dict(base,event='push'),current,False),
+              (dict(base,status='completed'),current,False),
+              (dict(base,head_sha='b'*40),current,False),
+              (base,dict(current,state='closed'),False),
+              (dict(base,head_sha=None),current,False),
+              (base,{'state':'open','head':{}},False)]
+          for run,pr,wanted in controls:
+              if stale(run,pr)!=wanted:
+                  raise SystemExit('cancellation policy self-test failed')
+          def api(path,post=False):
+              command=['gh','api',prefix+path]+(['--method','POST'] if post else [])
+              result=subprocess.run(command,capture_output=True,check=True)
+              return json.loads(result.stdout) if result.stdout.strip() else None
+          def pages(path,key):
+              rows=[]
+              for page in range(1,1001):
+                  result=api(path+('&' if '?' in path else '?')+'per_page=100&page='+str(page))
+                  batch=result[key] if key else result
+                  if not isinstance(batch,list):
+                      raise SystemExit('unexpected API pagination shape')
+                  rows.extend(batch)
+                  if len(batch)<100:
+                      return rows
+              raise SystemExit('pagination bound exhausted without complete enumeration')
+          def persist(report):
+              target=Path('cbz-superseded-run-report.json')
+              temporary=target.with_name(target.name+'.tmp')
+              temporary.write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+              temporary.replace(target)
+          def cancel_one(api_call,run_id,latest,pr,records,save):
+              row=dict(run_id=run_id,pr=pr['number'],old_head=latest['head_sha'],
+                  current_head=pr['head']['sha'],action='CANCEL_REQUEST_IN_FLIGHT')
+              records.append(row)
+              save()
+              try:
+                  api_call('actions/runs/'+str(run_id)+'/cancel',post=True)
+              except subprocess.CalledProcessError:
+                  observed=api_call('actions/runs/'+str(run_id))
+                  row.update(observed_status=observed['status'],
+                      observed_conclusion=observed.get('conclusion'))
+                  if observed['status']=='completed':
+                      row['action']='ALREADY_TERMINAL_AFTER_REFUSAL'
+                      save()
+                      return
+                  row['action']='CANCELLATION_FAILED'
+                  save()
+                  raise
+              observed=api_call('actions/runs/'+str(run_id))
+              row.update(action='CANCELLATION_REQUESTED',observed_status=observed['status'],
+                  observed_conclusion=observed.get('conclusion'))
+              save()
+          for scenario in ('requested','race','failed'):
+              snapshots=[]
+              test_rows=[]
+              def fake_api(path,post=False):
+                  if post and scenario!='requested':
+                      raise subprocess.CalledProcessError(1,['gh','api','cancel'])
+                  return {'status':'completed' if scenario=='race' else 'in_progress',
+                          'conclusion':'success' if scenario=='race' else None}
+              try:
+                  cancel_one(fake_api,17,{'head_sha':'a'*40},
+                      {'number':42,'head':{'sha':'b'*40}},test_rows,
+                      lambda: snapshots.append([dict(row) for row in test_rows]))
+              except subprocess.CalledProcessError:
+                  if scenario!='failed':
+                      raise
+              else:
+                  if scenario=='failed':
+                      raise SystemExit('failed cancellation did not fail closed')
+              expected={'requested':'CANCELLATION_REQUESTED',
+                  'race':'ALREADY_TERMINAL_AFTER_REFUSAL','failed':'CANCELLATION_FAILED'}[scenario]
+              if not snapshots or snapshots[0][0]['action']!='CANCEL_REQUEST_IN_FLIGHT' or test_rows[0]['action']!=expected:
+                  raise SystemExit('cancellation receipt self-test failed: '+scenario)
+          allowed_prs=frozenset((704,705))
+          for number,wanted in ((704,True),(705,True),(706,False)):
+              if (number in allowed_prs)!=wanted:
+                  raise SystemExit('PR scope self-test failed')
+          rows=[]
+          report=dict(scope='SUPERSEDED_PR_RUN_ORCHESTRATION_ONLY_NO_TEST_OR_PROOF_CREDIT',
+              source_commit=os.environ['GITHUB_SHA'],run_id=os.environ['GITHUB_RUN_ID'],
+              policy_self_tests=len(controls)+6,enumerated_nonterminal_runs=None,
+              status='IN_PROGRESS',records=rows)
+          persist(report)
+          prs=pages('pulls?state=open',None)
+          runs={}
+          for status in sorted(active):
+              for run in pages('actions/runs?status='+status,'workflow_runs'):
+                  runs[run['id']]=run
+          report['enumerated_nonterminal_runs']=len(runs)
+          persist(report)
+          for run_id,run in sorted(runs.items()):
+              if str(run_id)==os.environ['GITHUB_RUN_ID'] or run.get('event')!='pull_request':
+                  continue
+              ids=[p.get('number') for p in run.get('pull_requests',[])]
+              if not ids:
+                  ids=[p['number'] for p in prs if p['head']['ref']==run.get('head_branch')
+                       and p['head']['repo']['full_name']==repository]
+              if len(ids)!=1 or type(ids[0]) is not int:
+                  rows.append(dict(run_id=run_id,action='RETAINED_UNROUTED_OR_MULTIPLE_PR'))
+                  continue
+              if ids[0] not in allowed_prs:
+                  rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_OUT_OF_SCOPE'))
+                  continue
+              pr=api('pulls/'+str(ids[0]))
+              if not stale(run,pr):
+                  rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_CURRENT_OR_TERMINAL'))
+                  continue
+              latest=api('actions/runs/'+str(run_id))
+              # Fresh PR source and run state are re-read immediately before the POST.
+              pr=api('pulls/'+str(ids[0]))
+              if not stale(latest,pr):
+                  rows.append(dict(run_id=run_id,pr=ids[0],action='RETAINED_AFTER_RECHECK'))
+                  continue
+              cancel_one(api,run_id,latest,pr,rows,lambda: persist(report))
+          report['status']='COMPLETE'
+          persist(report)
+          print(json.dumps(report,sort_keys=True))
+          PYRETIRE
+      - name: Preserve exact retirement decisions
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-superseded-runs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: cbz-superseded-run-report.json
+          if-no-files-found: error
+
+# Reobserve the source-bound retirement policy after the 2026-10-29 source updates.

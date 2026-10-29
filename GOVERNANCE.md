@@ -107,3 +107,8 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+
+### Main superseded-run retirement (scoped CBZ operation)
+
+Tool: .github/workflows/cbz-main-retire-superseded-runs.yml. Purpose: free hosted capacity by requesting cancellation only for superseded pull-request runs of main #704/#705 after fresh exact head and status checks; current, ambiguous, completed and other-PR runs are retained. Usage: push branch cbz/main-retire-superseded-20261029 with the workflow change. It writes an in-flight record before each request, records observations and retains partial outcomes on errors. Its 13 selection, scope and action-order controls run before requests. Math predecessor run 40951530009 actually passed 10 controls with a complete report; this adapted main execution remains pending. It does not certify a mathematical or regression result. Owner none; criteria 5, 9, 11.
