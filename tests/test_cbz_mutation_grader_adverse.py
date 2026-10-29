@@ -113,6 +113,43 @@ class SourceLoaderAdverseTests(unittest.TestCase):
                 self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
                 self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
+    def test_grader_children_ignore_inherited_poison_cache_prefix(self):
+        from unittest.mock import patch
+        for grader, module in (
+            (self.load_grader("tests/test_cbz_layer_a_scan_mutants.py", "prefix_lexer"),
+             "test_cbz_layer_a_scan"),
+            (self.load_grader("tests/test_cbz_a3_float_census.py", "prefix_a3"),
+             "test_cbz_a3_float_census"),
+        ):
+            with self.subTest(grader=grader.__name__), tempfile.TemporaryDirectory(prefix="cbz-a8-prefix-") as directory:
+                root = Path(directory) / "workspace"
+                package = root / "tests"
+                package.mkdir(parents=True)
+                (package / "__init__.py").write_text("")
+                source = package / (module + ".py")
+                source.write_text("import unittest\nclass TestFixture(unittest.TestCase):\n def test_source(self): print('CBZ_CHILD_SOURCE')\n")
+                (package / "test_cbz_auditor_hardening.py").write_text(
+                    "import unittest\nclass TestHardening(unittest.TestCase):\n def test_source(self): pass\n")
+                stat = source.stat()
+                inherited_cache = Path(directory) / "inherited-cache"
+                with patch.object(sys, "pycache_prefix", str(inherited_cache)):
+                    cache = Path(importlib.util.cache_from_source(
+                        str(source), optimization=str(sys.flags.optimize) if sys.flags.optimize else ""))
+                cache.parent.mkdir(parents=True)
+                poisoned = compile("print('CBZ_CHILD_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
+                cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                    poisoned, int(stat.st_mtime), stat.st_size))
+                original = grader.WORKSPACE
+                grader.WORKSPACE = str(root)
+                try:
+                    with patch.dict(os.environ, {"PYTHONPYCACHEPREFIX": str(inherited_cache)}):
+                        result = grader.run_suite(str(root / "irrelevant.py"))
+                finally:
+                    grader.WORKSPACE = original
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
+                self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
+
     @staticmethod
     def load_grader(path, name):
         return load(ROOT / path, name)

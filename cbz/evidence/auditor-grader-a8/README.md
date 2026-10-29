@@ -24,3 +24,5 @@ Hosted run 40956034512, job 123736264636, tested commit aacd2f904e850673e730fccd
 The three test loaders now compile one source-byte read directly, avoiding timestamp-cache selection for those tool loads. This change does not authenticate an already-loaded interpreter, test module, imported library, or child process. Fresh execution and source-mutation tests are required to qualify the repair; no such result is implied by this edit. The grader failures remain open.
 
 A new test-first control constructs timestamp/size-valid poisoned bytecode for the grader child’s own test-module import. The previous source-byte loader fix does not cover that import. This new adverse control has not yet been executed; no outcome is asserted.
+
+A second test-first control plants a timestamp-valid poisoned child test cache under an inherited `PYTHONPYCACHEPREFIX`. It exercises both graders. Execution and child isolation are pending; no RED or PASS is inferred.
