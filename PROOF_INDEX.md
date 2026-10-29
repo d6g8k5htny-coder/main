@@ -6,7 +6,7 @@
 
 Actual empty-kernel replays: specification901 owned/65,210 dependency closure; smooth222/55,236; C297131/38,531; determinant157/58,421. All indexed literal axiom reports are subsets of `propext`, `Classical.choice`, `Quot.sound`; real source/memory adverse controls passed. Closures overlap. Reproduction: [additional families](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md), [determinant](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md). The original package receipts and failures remain immutable; normalized receipts index observed execution rather than authenticate supplied text.
 
-**302 listed source/application/test records are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
+**307 listed source/application/test records are QUARANTINED** with exact §11 boundaries in [catalog.json](cbz/quarantine/catalog.json) and the readable [boundaries](cbz/quarantine/BOUNDARIES.md). They are dormant, owner none, maintenance zero. Conventional proofs/reviews retain their historical content. No quarantined unproved logical assertion is a proof dependency of a CLOSED theorem. Interface definitions used in conditional statements are not assumed proof witnesses. Numerical-package mapping is still being reconciled, so this index is not yet a certificate of complete federation coverage.
 
 Main/Math core literal rows:
 
@@ -578,7 +578,7 @@ Each exact statement, location, blocking mathematical boundary, attempts, isolat
 
 ## Additional adopted archived boundaries
 
-These 16 adopted, source-bound records are included in the 302-row catalog. The corrected Q-8429 source path and exact factor are incorporated in both the catalog and readable boundary.
+These 16 adopted, source-bound records are included in the 307-row catalog. The corrected Q-8429 source path and exact factor are incorporated in both the catalog and readable boundary.
 
 | ID | Statement | Status | Exact boundary |
 |---|---|---|---|
@@ -707,3 +707,15 @@ These 102 source-specific application records preserve the dataset's literal sta
 | Q-10100 | Legacy V20 P15-T3: Lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10100) |
 | Q-10101 | Legacy V20 P15-TAIL: Supporting lemma | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10101) |
 | Q-10102 | Legacy V20 SG-01: Qualitative theorem | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10102) |
+
+## Legacy V20 external interfaces
+
+These five historical source/model interfaces are quarantined at their stated scopes. Their source digest and theorem-hypothesis alignment were not certified by the original record; they are not kernel axioms and may overlap other application rows.
+
+| ID | Statement | Status | Exact boundary |
+|---|---|---|---|
+| Q-10103 | Legacy V20 external interface EXT-C2-KERNEL: Conditional full-field C² Gaussian kernel | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10103) |
+| Q-10104 | Legacy V20 external interface EXT-GAUSS-MOMENTS: Uniform Gaussian finite-jet and mark envelopes | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10104) |
+| Q-10105 | Legacy V20 external interface EXT-KR-AAL: Exact external marked Kac–Rice applicability | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10105) |
+| Q-10106 | Legacy V20 external interface EXT-KR-OFFDIAG: Off-diagonal exhaustion and integrable majorant | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10106) |
+| Q-10107 | Legacy V20 external interface EXT-MORSE-ELDER: Morse genericity and elder-mark measurability | QUARANTINED | [full boundary](cbz/quarantine/BOUNDARIES.md#q-10107) |

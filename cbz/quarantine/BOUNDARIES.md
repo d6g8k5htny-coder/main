@@ -1,6 +1,6 @@
 # Adopted source-bound quarantines
 
-Terminal only at the listed source cuts. Historical source text is evidence, not governing procedural authority. The 302 rows cover the listed source claims; complete federation coverage is still being reconciled.
+Terminal only at the listed source cuts. Historical source text is evidence, not governing procedural authority. The 307 rows cover the listed source claims; complete federation coverage is still being reconciled.
 
 ## Q-1001
 
@@ -6641,6 +6641,116 @@ Terminal only at the listed source cuts. Historical source text is evidence, not
 - **resumption_cost**: Case-specific: authenticate the primary source and formalize the exact source/model bridge and side conditions. Deliberately dormant until reopened.
 
 - **isolation**: The dataset and contribution index are retained as source data, and their source history is preserved by an archive commit. No unproved application is introduced as a dependency of an admitted literal theorem. Interface vocabulary may occur in conditional statements without assuming the application.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-10103
+
+**Legacy V20 external interface EXT-C2-KERNEL: Conditional full-field C² Gaussian kernel**
+
+- **location**: ["d6g8k5htny-coder/main@b7edd52d0f032d642016431688f736a8e44da153:cbz/evidence/website-foundation-20261029/sources/legacy-v20/engine/dataset.json#imports/EXT-C2-KERNEL","PROOF_ADVANCES_v12_MARKED_KR.md §V36"]
+
+- **layer_a_status**: A2/A7: this is a historical external applicability or source-model interface, not an axiom admitted into the kernel. The original record is unvalidated and carries no authenticated source digest.
+
+- **exact_boundary**: The original dataset states {"id":"EXT-C2-KERNEL","title":"Conditional full-field C² Gaussian kernel","scope":"Show jointly measurable and suitably continuous C²(X)-valued Gaussian versions, pin-covariance nonsingularity and the conditional kernel construction uniformly on separated compact pair domains.","requirement":"Show jointly measurable and suitably continuous C²(X)-valued Gaussian versions, pin-covariance nonsingularity and the conditional kernel construction uniformly on separated compact pair domains.","source_reference":"PROOF_ADVANCES_v12_MARKED_KR.md §V36","applies_to":["D1-KR-BOREL","D1-KR-KERNEL"],"import_status":"unvalidated"}. All source hypotheses and listed application scopes remain explicit; this entry may overlap application records and is not an independent discovery.
+
+- **blocking_reason**: The exact mathematical applicability, hypotheses and source-model bridges are not discharged by the retained historical record. This source-specific quarantine does not assert that another later proof is impossible.
+
+- **attempted**: Compared the complete five import entries in the contribution with the retained dataset; all fields matched. The original record states that the theorem/source match and source bytes have not been independently certified. No new mathematical or kernel execution is claimed.
+
+- **resumption_cost**: Case-specific exact theorem/hypothesis alignment and formal proof of the named model bridge; deliberately dormant until reopened.
+
+- **isolation**: The historical import is retained as dataset evidence only and is not injected as a kernel axiom or used as an unproved dependency of an admitted literal theorem.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-10104
+
+**Legacy V20 external interface EXT-GAUSS-MOMENTS: Uniform Gaussian finite-jet and mark envelopes**
+
+- **location**: ["d6g8k5htny-coder/main@b7edd52d0f032d642016431688f736a8e44da153:cbz/evidence/website-foundation-20261029/sources/legacy-v20/engine/dataset.json#imports/EXT-GAUSS-MOMENTS","PROOF_ADVANCES_v10_R11_R12.md; PROOF_ADVANCES_v12_MARKED_KR.md §§V39–V40"]
+
+- **layer_a_status**: A2/A7: this is a historical external applicability or source-model interface, not an axiom admitted into the kernel. The original record is unvalidated and carries no authenticated source digest.
+
+- **exact_boundary**: The original dataset states {"id":"EXT-GAUSS-MOMENTS","title":"Uniform Gaussian finite-jet and mark envelopes","scope":"Prove the Gaussian density, conditional moments and weighted marked count bounds uniformly over the named all-mark or separated domain, with no hidden dependence on gap or pin distance.","requirement":"Prove the Gaussian density, conditional moments and weighted marked count bounds uniformly over the named all-mark or separated domain, with no hidden dependence on gap or pin distance.","source_reference":"PROOF_ADVANCES_v10_R11_R12.md; PROOF_ADVANCES_v12_MARKED_KR.md §§V39–V40","applies_to":["D1-KR-DOM","D1-KR-FAR","D2-R11-GAUSS","D2-R12-JOINT","D4-REG"],"import_status":"unvalidated"}. All source hypotheses and listed application scopes remain explicit; this entry may overlap application records and is not an independent discovery.
+
+- **blocking_reason**: The exact mathematical applicability, hypotheses and source-model bridges are not discharged by the retained historical record. This source-specific quarantine does not assert that another later proof is impossible.
+
+- **attempted**: Compared the complete five import entries in the contribution with the retained dataset; all fields matched. The original record states that the theorem/source match and source bytes have not been independently certified. No new mathematical or kernel execution is claimed.
+
+- **resumption_cost**: Case-specific exact theorem/hypothesis alignment and formal proof of the named model bridge; deliberately dormant until reopened.
+
+- **isolation**: The historical import is retained as dataset evidence only and is not injected as a kernel axiom or used as an unproved dependency of an admitted literal theorem.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-10105
+
+**Legacy V20 external interface EXT-KR-AAL: Exact external marked Kac–Rice applicability**
+
+- **location**: ["d6g8k5htny-coder/main@b7edd52d0f032d642016431688f736a8e44da153:cbz/evidence/website-foundation-20261029/sources/legacy-v20/engine/dataset.json#imports/EXT-KR-AAL","PROOF_ADVANCES_v12_MARKED_KR.md §V37; source names external theorems but does not establish this audit of their full hypotheses"]
+
+- **layer_a_status**: A2/A7: this is a historical external applicability or source-model interface, not an axiom admitted into the kernel. The original record is unvalidated and carries no authenticated source digest.
+
+- **exact_boundary**: The original dataset states {"id":"EXT-KR-AAL","title":"Exact external marked Kac–Rice applicability","scope":"Read the complete Armentano–Azaïs–León v3 Theorems 2.2/7.1 and check every hypothesis against the exact smooth two-pin field, for continuous bounded weights before Borel extension.","requirement":"Read the complete Armentano–Azaïs–León v3 Theorems 2.2/7.1 and check every hypothesis against the exact smooth two-pin field, for continuous bounded weights before Borel extension.","source_reference":"PROOF_ADVANCES_v12_MARKED_KR.md §V37; source names external theorems but does not establish this audit of their full hypotheses","applies_to":["D1-KR-BOREL","D4-KR","D5-ANN-R6"],"import_status":"unvalidated"}. All source hypotheses and listed application scopes remain explicit; this entry may overlap application records and is not an independent discovery.
+
+- **blocking_reason**: The exact mathematical applicability, hypotheses and source-model bridges are not discharged by the retained historical record. This source-specific quarantine does not assert that another later proof is impossible.
+
+- **attempted**: Compared the complete five import entries in the contribution with the retained dataset; all fields matched. The original record states that the theorem/source match and source bytes have not been independently certified. No new mathematical or kernel execution is claimed.
+
+- **resumption_cost**: Case-specific exact theorem/hypothesis alignment and formal proof of the named model bridge; deliberately dormant until reopened.
+
+- **isolation**: The historical import is retained as dataset evidence only and is not injected as a kernel axiom or used as an unproved dependency of an admitted literal theorem.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-10106
+
+**Legacy V20 external interface EXT-KR-OFFDIAG: Off-diagonal exhaustion and integrable majorant**
+
+- **location**: ["d6g8k5htny-coder/main@b7edd52d0f032d642016431688f736a8e44da153:cbz/evidence/website-foundation-20261029/sources/legacy-v20/engine/dataset.json#imports/EXT-KR-OFFDIAG","PROOF_ADVANCES_v12_MARKED_KR.md §V39; calculation is checked conditional on upstream estimates"]
+
+- **layer_a_status**: A2/A7: this is a historical external applicability or source-model interface, not an axiom admitted into the kernel. The original record is unvalidated and carries no authenticated source digest.
+
+- **exact_boundary**: The original dataset states {"id":"EXT-KR-OFFDIAG","title":"Off-diagonal exhaustion and integrable majorant","scope":"Confirm the marked Kac–Rice limit is valid on compact off-diagonal domains and the unnormalized Gaussian majorant covers the entire exhaustion without normalizing by a vanishing pin density.","requirement":"Confirm the marked Kac–Rice limit is valid on compact off-diagonal domains and the unnormalized Gaussian majorant covers the entire exhaustion without normalizing by a vanishing pin density.","source_reference":"PROOF_ADVANCES_v12_MARKED_KR.md §V39; calculation is checked conditional on upstream estimates","applies_to":["D1-KR-DOM"],"import_status":"unvalidated"}. All source hypotheses and listed application scopes remain explicit; this entry may overlap application records and is not an independent discovery.
+
+- **blocking_reason**: The exact mathematical applicability, hypotheses and source-model bridges are not discharged by the retained historical record. This source-specific quarantine does not assert that another later proof is impossible.
+
+- **attempted**: Compared the complete five import entries in the contribution with the retained dataset; all fields matched. The original record states that the theorem/source match and source bytes have not been independently certified. No new mathematical or kernel execution is claimed.
+
+- **resumption_cost**: Case-specific exact theorem/hypothesis alignment and formal proof of the named model bridge; deliberately dormant until reopened.
+
+- **isolation**: The historical import is retained as dataset evidence only and is not injected as a kernel axiom or used as an unproved dependency of an admitted literal theorem.
+
+- **owner**: none
+
+- **maintenance**: zero
+
+## Q-10107
+
+**Legacy V20 external interface EXT-MORSE-ELDER: Morse genericity and elder-mark measurability**
+
+- **location**: ["d6g8k5htny-coder/main@b7edd52d0f032d642016431688f736a8e44da153:cbz/evidence/website-foundation-20261029/sources/legacy-v20/engine/dataset.json#imports/EXT-MORSE-ELDER","PROOF_ADVANCES_v12_MARKED_KR.md §V35"]
+
+- **layer_a_status**: A2/A7: this is a historical external applicability or source-model interface, not an axiom admitted into the kernel. The original record is unvalidated and carries no authenticated source digest.
+
+- **exact_boundary**: The original dataset states {"id":"EXT-MORSE-ELDER","title":"Morse genericity and elder-mark measurability","scope":"Check Gaussian-field Morse/distinct critical-value hypotheses, separable C² setting, countable chart/path approximation, and the exact elder persistence convention.","requirement":"Check Gaussian-field Morse/distinct critical-value hypotheses, separable C² setting, countable chart/path approximation, and the exact elder persistence convention.","source_reference":"PROOF_ADVANCES_v12_MARKED_KR.md §V35","applies_to":["D1-ELDER-MEAS"],"import_status":"unvalidated"}. All source hypotheses and listed application scopes remain explicit; this entry may overlap application records and is not an independent discovery.
+
+- **blocking_reason**: The exact mathematical applicability, hypotheses and source-model bridges are not discharged by the retained historical record. This source-specific quarantine does not assert that another later proof is impossible.
+
+- **attempted**: Compared the complete five import entries in the contribution with the retained dataset; all fields matched. The original record states that the theorem/source match and source bytes have not been independently certified. No new mathematical or kernel execution is claimed.
+
+- **resumption_cost**: Case-specific exact theorem/hypothesis alignment and formal proof of the named model bridge; deliberately dormant until reopened.
+
+- **isolation**: The historical import is retained as dataset evidence only and is not injected as a kernel axiom or used as an unproved dependency of an admitted literal theorem.
 
 - **owner**: none
 
