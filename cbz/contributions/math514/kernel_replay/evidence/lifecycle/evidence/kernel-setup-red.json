@@ -1,0 +1,16 @@
+{
+  "command": "current isolated run_tests.py --test fixture.Case (benign setup assertion)",
+  "returncode": 1,
+  "classifier_outcome": "KILLED",
+  "body_entered": false,
+  "tests": {
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpcoabbk9t/tests/fixture.py\", line 3, in setUp\n    def setUp(self): self.fail(\"benign setup assertion; body never entered\")\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: benign setup assertion; body never entered\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n"
+  }
+}
