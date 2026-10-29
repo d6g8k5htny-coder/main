@@ -19,6 +19,20 @@ attempt and original receipt SHA-256. The producer validates the unchanged recei
 against the current manifest and recorded log digests. No historical receipt is
 edited. Failed receipt generation publishes no success output.
 
+Fresh receipts record `workflow_run_attempt` from the producer's actual
+`GITHUB_RUN_ATTEMPT`, and live binding requires its exact string match with the
+current attempt. Missing, malformed or stale receipt attempts are refused even
+when the commit, workflow run and logs match. Local production records null
+hosted identity when the corresponding environment variables are absent; it
+does not acquire authority to satisfy the hosted required check.
+
+The Atlas historical evidence builder separately reproduces only the pinned
+`3b39c42` / run `40246431034` / attempt `1` binding. Its validation requires the
+original archive, manifest and receipt SHA-256 identities and matching log bytes.
+The original receipt has no attempt field and remains unchanged. This fixed
+historical route is unavailable to the live required-check CLI, accepts no
+arbitrary legacy receipts and establishes no current execution or alignment.
+
 The aggregate is driven on every pull request, without path filters, and on main
 pushes. The local reusable workflow is resolved at the caller's commit. Both
 formal and existing checks use the current tested merge commit rather than mixing
@@ -81,7 +95,7 @@ In short:
 ## Validation
 
 Run python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v
-and the same command with -O. The thirty tests cover real CLI success/failure,
+and the same command with -O. The tests cover real CLI success/failure,
 missing/extra dependencies, all non-success states, stale commit/run/attempt,
 repository substitution, malformed identity, modified logs/manifests, duplicate
 JSON keys and reusable-workflow wiring. Hosted negative and positive executions
