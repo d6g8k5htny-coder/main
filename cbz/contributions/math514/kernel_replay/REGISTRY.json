@@ -27,91 +27,140 @@
     "g0_lazy_body_profile_optimized": "PYTHONOPTIMIZE=1 python3 -B -S -O run_tests.py --test test_mutation_harness.LazyBodyHarnessTests --output /absolute/new-evidence/lazy-body-optimized.json"
   },
   "self_verification": {
-    "status": "PASS_SCOPED_COMPOSED_NONE_RETURN_PROFILE",
-    "generation": "lazy-body-none-v4",
+    "status": "PASS_SCOPED_COMPOSED_IDENTITY",
+    "generation": "combined-review-identity-final",
     "single_full_suite_claim": false,
-    "current_test_methods": 60,
-    "fresh_affected_harness_methods": 6,
+    "current_test_methods": 67,
+    "method_inventory_parts": {
+      "wrapper": 31,
+      "real_lean": 9,
+      "harness_predecessor": 20,
+      "harness_new_identity": 7
+    },
+    "fresh_affected_harness_methods_per_mode": 27,
+    "fresh_new_identity_methods": 7,
     "fresh_modes": [
       "normal",
       "optimized with inherited PYTHONOPTIMIZE=1"
     ],
-    "reused_prior_lifecycle_methods": 14,
     "reused_unchanged_wrapper_methods": 31,
     "reused_unchanged_real_lean_methods": 9,
-    "fresh_final_none_return_guard_mutants": 1,
-    "fresh_final_guard_executions": 2,
-    "reused_unchanged_shape_and_decorator_guard_mutants": 2,
-    "initial_type_only_guard_generation": {
-      "distinct": 3,
-      "executions": 6,
-      "scope": "earlier type-only source; return-profile branch superseded; unchanged shape/decorator guards reused"
+    "production_mutations_applicable": 25,
+    "production_mutations_replayed": false,
+    "identity_safeguard_mutations": {
+      "themes_per_tool_per_mode": 14,
+      "observations_this_tool": 28,
+      "observations_both_tools": 56,
+      "stages_both_tools": [
+        32,
+        8,
+        4,
+        12
+      ],
+      "single_final_source_campaign": false,
+      "production_mutants": false
     },
-    "historical_production_mutations_applicable": 25,
-    "evidence": "evidence/lazy-body/current-composed-receipt.json",
-    "review": "evidence/lazy-body/evidence/independent-lazy-body-review.json",
-    "historical_lifecycle_generation": {
-      "status": "PASS_SCOPED_COMPOSED_LIFECYCLE_REPAIR",
-      "generation": "lifecycle-v3",
+    "evidence": "evidence/final-review-identity/current-composed-admission.json",
+    "identity_review_status": "CLEAR_SCOPED_ENGINEERING",
+    "historical_lazy_body_generation": {
+      "status": "PASS_SCOPED_COMPOSED_NONE_RETURN_PROFILE",
+      "generation": "lazy-body-none-v4",
       "single_full_suite_claim": false,
-      "current_test_methods": 54,
-      "fresh_affected_harness_methods": 14,
+      "current_test_methods": 60,
+      "fresh_affected_harness_methods": 6,
+      "fresh_modes": [
+        "normal",
+        "optimized with inherited PYTHONOPTIMIZE=1"
+      ],
+      "reused_prior_lifecycle_methods": 14,
       "reused_unchanged_wrapper_methods": 31,
       "reused_unchanged_real_lean_methods": 9,
-      "fresh_distinct_grader_safeguard_mutants": 10,
-      "safeguard_mutant_executions_across_source_generations": 13,
+      "fresh_final_none_return_guard_mutants": 1,
+      "fresh_final_guard_executions": 2,
+      "reused_unchanged_shape_and_decorator_guard_mutants": 2,
+      "initial_type_only_guard_generation": {
+        "distinct": 3,
+        "executions": 6,
+        "scope": "earlier type-only source; return-profile branch superseded; unchanged shape/decorator guards reused"
+      },
       "historical_production_mutations_applicable": 25,
-      "evidence": "evidence/lifecycle/evidence/kernel-delivery.json",
-      "review": "evidence/lifecycle/evidence/independent-lifecycle-review.json",
-      "historical_resource_generation": {
-        "status": "PASS_RESOURCE_BOUNDARY_G0",
-        "generation": "resource-boundary-v2",
-        "fresh_distinct_tests": 32,
-        "new_resource_tests": 14,
-        "fresh_test_invocations": 33,
+      "evidence": "evidence/lazy-body/current-composed-receipt.json",
+      "review": "evidence/lazy-body/evidence/independent-lazy-body-review.json",
+      "historical_lifecycle_generation": {
+        "status": "PASS_SCOPED_COMPOSED_LIFECYCLE_REPAIR",
+        "generation": "lifecycle-v3",
         "single_full_suite_claim": false,
-        "test_evidence": [
-          "evidence/g0-resource-wrapper-tests.json",
-          "evidence/g0-resource-additional-tests.json",
-          "evidence/g0-resource-preexec-test.json",
-          "evidence/g0-resource-applicable.json"
-        ],
-        "reused_unchanged_real_lean_tests": 9,
-        "mutations": {
-          "fresh_planned": 19,
-          "fresh_executed": 19,
-          "fresh_killed": 19,
-          "new_resource_cases": 9,
-          "original_wrapper_cases": 10,
-          "reused_unchanged_real_cases": 6,
-          "memory_oracle_refresh": "evidence/g0-resource-memory-mutant-refresh.json",
-          "evidence": "evidence/g0-resource-mutations.json",
-          "threshold": 1
-        },
-        "prior_generation": {
-          "production_wrapper_sha256": "416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293",
-          "verification": {
-            "status": "PASS",
-            "applicable_tests": 27,
-            "test_evidence": [
-              "evidence/g0-tests.json",
-              "evidence/g0-additional-tests.json",
-              "evidence/g0-applicable-tests.json"
-            ],
-            "mutations": {
-              "planned": 16,
-              "executed": 16,
-              "killed": 16,
-              "threshold": 1,
-              "evidence": "evidence/g0-mutations.json"
+        "current_test_methods": 54,
+        "fresh_affected_harness_methods": 14,
+        "reused_unchanged_wrapper_methods": 31,
+        "reused_unchanged_real_lean_methods": 9,
+        "fresh_distinct_grader_safeguard_mutants": 10,
+        "safeguard_mutant_executions_across_source_generations": 13,
+        "historical_production_mutations_applicable": 25,
+        "evidence": "evidence/lifecycle/evidence/kernel-delivery.json",
+        "review": "evidence/lifecycle/evidence/independent-lifecycle-review.json",
+        "historical_resource_generation": {
+          "status": "PASS_RESOURCE_BOUNDARY_G0",
+          "generation": "resource-boundary-v2",
+          "fresh_distinct_tests": 32,
+          "new_resource_tests": 14,
+          "fresh_test_invocations": 33,
+          "single_full_suite_claim": false,
+          "test_evidence": [
+            "evidence/g0-resource-wrapper-tests.json",
+            "evidence/g0-resource-additional-tests.json",
+            "evidence/g0-resource-preexec-test.json",
+            "evidence/g0-resource-applicable.json"
+          ],
+          "reused_unchanged_real_lean_tests": 9,
+          "mutations": {
+            "fresh_planned": 19,
+            "fresh_executed": 19,
+            "fresh_killed": 19,
+            "new_resource_cases": 9,
+            "original_wrapper_cases": 10,
+            "reused_unchanged_real_cases": 6,
+            "memory_oracle_refresh": "evidence/g0-resource-memory-mutant-refresh.json",
+            "evidence": "evidence/g0-resource-mutations.json",
+            "threshold": 1
+          },
+          "prior_generation": {
+            "production_wrapper_sha256": "416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293",
+            "verification": {
+              "status": "PASS",
+              "applicable_tests": 27,
+              "test_evidence": [
+                "evidence/g0-tests.json",
+                "evidence/g0-additional-tests.json",
+                "evidence/g0-applicable-tests.json"
+              ],
+              "mutations": {
+                "planned": 16,
+                "executed": 16,
+                "killed": 16,
+                "threshold": 1,
+                "evidence": "evidence/g0-mutations.json"
+              }
             }
-          }
+          },
+          "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately."
         },
         "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately."
       },
       "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately."
     },
-    "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately."
+    "reuse_rule": "/workspace/AGENTS.md owner clarification 25 October 2026: reuse completed applicable checks on unchanged material; provider/process review tracked separately.",
+    "source_bindings": {
+      "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+      "mutations.py": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+      "kernel_replay.py": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+      "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+      "ExactReplay.lean": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+    },
+    "identity_review": {
+      "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
+      "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4"
+    }
   },
   "limits_and_boundaries": [
     "RLIMIT_AS bounds virtual address space, not RSS; enclosing cgroup physical limit remains separate. Fixture cap8192MiB; no assertion every project module fits.",
@@ -121,7 +170,8 @@
     "Unsafe and partial exclusions are upstream behavior.",
     "Resource bounds reject bool, huge/nonfinite timeouts and unrepresentable/inherited-hard-limit memory caps before spawn; see SPEC.md.",
     "Explicit Popen lifecycle normalizes spawn/wait resource exceptions. Kill/reap wait is bounded to one second; unreaped PID is reported ERROR and stops later modules. OS-uninterruptible processes cannot be promised forced termination.",
-    "Mutation grading supports only ordinary synchronous Python function/bound-method bodies that return None. Every wraps-linked shape must be non-generator/non-coroutine/non-async-generator; every non-None return is ERROR without evaluating or advancing it."
+    "Mutation grading supports only ordinary synchronous Python function/bound-method bodies that return None. Every wraps-linked shape must be non-generator/non-coroutine/non-async-generator; every non-None return is ERROR without evaluating or advancing it.",
+    "Selected declaration identity and loading profile must satisfy GRADER_IDENTITY_FIX.md. Module population hooks and arbitrary callable factories are unsupported; no fabricated trusted-runner or hostile Python sandbox claim."
   ],
   "quarantined_test_data": [
     {
@@ -159,7 +209,7 @@
     ]
   },
   "publication": {
-    "source_root": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/packages/kernel_replay/files",
+    "source_root": ".",
     "destination_root": "cbz/contributions/math514/kernel_replay",
     "excluded": [
       "**/__pycache__/**",
@@ -169,7 +219,9 @@
       "evidence/mutant-*/**",
       "evidence/RuntimeDiagnostic.lean"
     ],
-    "mapping_file": "PUBLICATION.json"
+    "mapping_file": "PUBLICATION.json",
+    "predecessor_metadata": "evidence/pre-review-identity-metadata/",
+    "historical_predecessor_source_root": "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/packages/kernel_replay/files"
   },
   "canonical_math_core_resolution": {
     "observed_by_this_window_utc": "2026-10-29T18:50:42.767390+00:00",
@@ -203,7 +255,7 @@
     },
     "metadata_authentication_boundary": "Trusted source-bound runner; accounting schema does not authenticate adversarially fabricated consistent JSON.",
     "original_summary_only_fixture_preserved": "evidence/lifecycle/baseline/",
-    "record_context": "Historical published lifecycle predecessor at 7b50d2b4c433a8f3b5442925e1ac9ff664880166; retain these source-bound hashes. Current runtime hashes are under lazy_body_profile."
+    "record_context": "Historical published lifecycle predecessor at 7b50d2b4c433a8f3b5442925e1ac9ff664880166; retain these source-bound hashes. Current runtime hashes are under self_verification.source_bindings and identity_repair.source_sha256; lazy_body_profile is a historical component generation."
   },
   "lazy_body_profile": {
     "description": "LAZY_BODY_FIX.md",
@@ -218,5 +270,26 @@
     "suspended_work_policy": "Never iterate or await a return; close only a native CORO_CREATED coroutine for disposal without body execution.",
     "applicability": "evidence/lazy-body/evidence/original-method-shape-applicability.json",
     "mathematics_or_original_mutants_replayed": false
+  },
+  "identity_repair": {
+    "description": "GRADER_IDENTITY_FIX.md",
+    "evidence_root": "evidence/grader-identity-fix/",
+    "source_parent": "15b534674ef9caf78b2ac42c8bebaa8f7faeb238",
+    "source_bindings_receipt": "evidence/final-review-identity/current-composed-admission.json",
+    "source_bindings_status": "FINAL_ROOT_COMPOSITION_BOUND",
+    "review_status": "CLEAR_SCOPED_ENGINEERING",
+    "scope": "Selected class/function/code identity and supported standard loading population; no arbitrary-hostile-Python sandbox claim.",
+    "source_sha256": {
+      "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+      "mutations.py": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+      "kernel_replay.py": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+      "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+      "ExactReplay.lean": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+    },
+    "review": {
+      "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
+      "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4"
+    },
+    "component_receipt": "evidence/grader-identity-fix/CURRENT_COMPOSED_ADMISSION.json"
   }
 }

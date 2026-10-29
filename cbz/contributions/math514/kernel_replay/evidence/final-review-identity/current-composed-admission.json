@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "record_kind": "SOURCE_BOUND_COMPOSED_COMPONENT_EVIDENCE",
+  "tool": "kernel_replay",
+  "source_parent": {
+    "commit": "15b534674ef9caf78b2ac42c8bebaa8f7faeb238",
+    "repository": "d6g8k5htny-coder/main"
+  },
+  "status": "PASS_SCOPED_COMPOSED_COMPONENTS",
+  "source_bindings": {
+    "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+    "mutations.py": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+    "kernel_replay.py": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+    "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+    "ExactReplay.lean": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+  },
+  "identity_review": {
+    "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
+    "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4",
+    "verdict": "CLEAR_SCOPED_ENGINEERING"
+  },
+  "current_method_inventory": 67,
+  "full_suite_rerun": false,
+  "production_mutant_rerun": false,
+  "new_Lean_runs": 0,
+  "new_mathematical_checks": 0,
+  "hosted_CI": "NOT_ASSESSED_BY_METADATA",
+  "actual_repository_G1": "NOT_APPLICABLE",
+  "identity_component": {
+    "document": "GRADER_IDENTITY_FIX.md",
+    "receipt": "evidence/grader-identity-fix/CURRENT_COMPOSED_ADMISSION.json",
+    "new_methods": 7,
+    "affected_methods_per_mode": 27,
+    "source_bindings": {
+      "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+      "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022"
+    },
+    "review_status": "CLEAR_SCOPED_ENGINEERING",
+    "safeguards": {
+      "distinct_themes_per_tool": 14,
+      "observations_this_tool": 28,
+      "observations_both_tools": 56,
+      "stage_sizes_both_tools": [
+        32,
+        8,
+        4,
+        12
+      ],
+      "all_assertion_killed": true,
+      "zero_errors": true,
+      "rule": "Earlier source-bound observations reused after specific predicate/ordinary-source applicability; not a single final-source full campaign",
+      "production_scanner_or_replay_mutants": false
+    }
+  },
+  "predecessor_metadata": "evidence/pre-review-identity-metadata/",
+  "method_inventory_parts": {
+    "wrapper_reused": 31,
+    "real_lean_reused": 9,
+    "harness_prior": 20,
+    "harness_new_identity": 7
+  },
+  "unchanged_production_mutation_definitions": 25,
+  "source_binding_origin": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
+  "source_binding_scope": "Actual combined changed/runtime sources listed in Root source-composition-final.json; other retained source-parent objects and predecessor evidence remain exact. This is scoped composition, not a fresh full-suite run.",
+  "source_composition_record": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
+  "composition_partition": {
+    "identity_functions_classes_AST_exact": true,
+    "manifest_68_MUTATIONS_literal_exact": "NOT_APPLICABLE",
+    "evidence": "evidence/final-review-identity/SOURCE_COMPOSITION.json"
+  },
+  "source_composition_record_sha256": "4ae680e692f96730089a369457462066269a0386b50a595936813e39fbdad675"
+}
