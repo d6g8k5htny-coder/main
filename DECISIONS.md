@@ -175,3 +175,7 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 22:13:35 UTC] [phase1] [layerB] Qualify B-001 cold-start completeness pending G9 and correct the zero-law workflow path before registration. Reversible:yes. Evidence: GOVERNANCE.md, Math commit 36440828402102a840bc6bdffc2e1238ce6e4bea.
 
 [2026-10-29 22:13:51 UTC] [phase3] [layerA] Preserve the independent source514 recorder mutation-harness review. Treat its successful preparatory step as scoped evidence, not auditor qualification, and distinguish it from the replay driver's checked-byte load. Reversible:yes. Evidence: cbz/evidence/source514-recorder-harness-source-review.json.
+
+[2026-10-29 22:14:54 UTC] [phase3] [layerA] Correct the stale #705 deferral description, distinguish the historical 367-record JSON from the two later records, and qualify archival self-test labels by their known attribution limits. Reversible:yes. Evidence: STATUS.md, BASELINE.md, cbz/evidence/historical-replay-text-observation-20261029.json.
+
+[2026-10-29 22:15:10 UTC] [phase3] [layerA] Correct the restricted-container evidence location to the recorded hosted architecture run; preserve the original broad-suite skips. Reversible:yes. Evidence: cbz/evidence/main-regression-skip-observation/sandbox-controls.json.

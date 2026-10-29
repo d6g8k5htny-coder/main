@@ -123,8 +123,9 @@ CBZ-0.
   Generates the pinned official-kernel trust-zero replay and checks transcript
   consistency; supplied text is not execution authentication. Exact commands
   are in the README and both package HOW_TO_REPLAY.md guides. Observed 31 tests
-  and three Python validator mutants per mode; actual Lean positive/six adverse
-  controls/six generated-auditor mutants passed in both modes. Owner none,
+  and three Python validator mutants per mode; archived Lean reports record
+  positive, six adverse and six generated-auditor controls per mode. Source-level
+  qualification limits appear below. Owner none,
   self-contained; criteria 3,6,9,11. Approved axioms remain exactly the three
   immutable names above. Raw receipts are retained unchanged.
 - **PR/citation evidence tools (2026-10-29):**
