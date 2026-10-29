@@ -50,8 +50,12 @@ so a repository with unadmitted submodules cannot produce a global clean result.
 
 The final suite contains 72 tests, including 66 lexical source mutations and
 23 A3 source mutations. Every old/replacement anchor must occur exactly once.
-Each mutant is bound to a named assertion that must fail; import/launch failures,
-syntax errors, unrelated failures, test errors and zero-test runs are not kills.
+Each mutant is mapped to a named test failure, and the harness rejects zero-test
+runs and unittest error summaries. Subsequent source inspection found that both
+graders accept any nonzero process exit, accept an expected failure alongside
+foreign failures, and do not require the guard-specific failure reason. Thus the
+historical mutant outcomes are scoped observations, not a sound G0 certificate.
+An adverse-control repair is pending; no federation-wide G0 pass is claimed.
 The unchanged source must pass through the same copied-source path. Both
 mutation runners propagate optimized Python into their children. Actual
 syntax-broken-source negative controls and synthetic error/foreign-failure

@@ -189,3 +189,7 @@ for elegance.
 ### Composed verification components
 
 The bounded Lean lexical scanner (`tools/cbz/layer_a_scan.py`) and Python floating-bound signal collector (`tools/cbz/a3_float_census.py`) are source prechecks, not semantic certificates. Their exact scope, commands, negative controls and observed mutation evidence are in `docs/cbz/CANONICAL_AUDITORS.md`. The source-custody and compiled-inventory checks are registered in `formal/COMPILED_INVENTORY.md` and the formal workflow. Component results at prior commits do not certify a new composed head. Owner: none; verification and limitations are recorded at those paths.
+
+### Mutation-grader qualification limit
+
+Source inspection found that both the lexical and A3 mutation graders accept any nonzero exit and an expected test failure even when foreign failures are present; neither requires the specific bypass reason. Their historical 66 and 23 mutant outcomes do not by themselves establish auditor soundness. Test-first repairs and fresh reason-bound controls are pending, so G0 and federation-wide G1 remain unqualified.
