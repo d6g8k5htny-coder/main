@@ -471,12 +471,13 @@ def assertion_kill(process, expected):
     summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
     if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):
         return False
-    if process.returncode == 0 or not summary or "errors=" in summary.group(1):
+    if process.returncode != 1 or not summary or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1)):
         return False
     if not re.search(r"^Ran [1-9][0-9]* tests?", text, re.MULTILINE):
         return False
     failures = re.findall(r"^FAIL: (test_[a-zA-Z0-9_]+) \(", text, re.MULTILINE)
-    return expected in failures
+    count = int(re.match(r"failures=([0-9]+)", summary.group(1)).group(1))
+    return len(failures) == count and all(name == expected for name in failures)
 
 
 def receipt_kill(process, expected, receipt, nonce, mutation):
@@ -506,6 +507,24 @@ class MutationHarnessTests(unittest.TestCase):
     def test_foreign_assertion_cannot_kill(self):
         self.assertFalse(assertion_kill(self.result(expected="test_foreign"),
                                         "test_expected"))
+
+    def test_expected_and_foreign_failures_cannot_kill(self):
+        result = self.result(summary="failures=2")
+        result.stderr += "\nFAIL: test_foreign (fixture.Contract)\n"
+        self.assertFalse(assertion_kill(result, "test_expected"))
+
+    def test_skips_and_expected_failures_cannot_kill(self):
+        for summary in ("failures=1, skipped=1",
+                        "failures=1, expected failures=1",
+                        "failures=1, unexpected successes=1"):
+            with self.subTest(summary=summary):
+                self.assertFalse(assertion_kill(self.result(summary=summary), "test_expected"))
+
+    def test_abnormal_test_process_exit_cannot_kill(self):
+        self.assertFalse(assertion_kill(self.result(code=86), "test_expected"))
+
+    def test_mismatched_failure_count_cannot_kill(self):
+        self.assertFalse(assertion_kill(self.result(summary="failures=2"), "test_expected"))
 
     def test_no_tests_cannot_kill(self):
         result = self.result()
@@ -560,6 +579,36 @@ class MutationHarnessTests(unittest.TestCase):
                 "nonce": "fresh", "mutation": "length",
                 "test": "test_all_byte_identities_are_required",
                 "observation": "intended_bypass_observed"})
+
+    def test_fixture_receipt_requires_successful_node_exit(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-fixture-observation-") as directory:
+            root = Path(directory)
+            fixture = root / "shop/Math-/data.txt"
+            fixture.parent.mkdir(parents=True)
+            fixture.write_bytes(b"mutated\n")
+            transcript = root / "node.tap"
+            transcript.write_text("# pass 1\n")
+            names = ("CBZ_NODE_MUTANT_NONCE", "CBZ_NODE_MUTANT_RECEIPT", "CBZ_NODE_MUTANT_NAME")
+            previous = {name: os.environ.get(name) for name in names}
+            def restore():
+                for name, value in previous.items():
+                    if value is None:
+                        os.environ.pop(name, None)
+                    else:
+                        os.environ[name] = value
+            self.addCleanup(restore)
+            case = NodeRunnerTests("test_child_fixture_mutation_is_a_failed_postflight")
+            for mutation in ("fixture-domain", "fixture-postflight"):
+                receipt = root / (mutation + ".json")
+                os.environ.update(CBZ_NODE_MUTANT_NONCE="fresh",
+                                  CBZ_NODE_MUTANT_RECEIPT=str(receipt),
+                                  CBZ_NODE_MUTANT_NAME=mutation)
+                inputs = {"output": root, "path": transcript, "observed_exit": 1}
+                case.observe_missing_rejection("fixture", inputs)
+                self.assertFalse(receipt.exists(), mutation)
+                inputs["observed_exit"] = 0
+                case.observe_missing_rejection("fixture", inputs)
+                self.assertTrue(receipt.exists(), mutation)
 
     def test_launch_failure_cannot_kill(self):
         result = subprocess.CompletedProcess([], 1, "", "SyntaxError: broken module")
@@ -659,6 +708,8 @@ class SourceMutationTests(unittest.TestCase):
         full_source = Path(__file__).read_text()
         source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
+            ("count", "len(failures) == count", "True",
+             "test_mismatched_failure_count_cannot_kill"),
             ("receipt", "receipt == required", "True",
              "test_receipt_accepts_only_the_matching_observation"),
             ("subject", 'if mutation in fields and variables.get("field") != fields[mutation]:',
@@ -671,11 +722,11 @@ class SourceMutationTests(unittest.TestCase):
              '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
              "", "test_import_trace_inside_assertion_cannot_kill"),
 
-            ("exit", "process.returncode == 0 or not summary", "not summary",
+            ("exit", "process.returncode != 1 or not summary", "not summary",
              "test_success_exit_cannot_kill"),
-            ("errors", ' or "errors=" in summary.group(1)', "",
+            ("errors", ' or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1))', "",
              "test_errors_cannot_kill"),
-            ("foreign", "return expected in failures", "return bool(failures)",
+            ("foreign", "all(name == expected for name in failures)", "bool(failures)",
              "test_foreign_assertion_cannot_kill"),
         ]
         with tempfile.TemporaryDirectory(prefix="cbz-node-harness-mutants-") as directory:
