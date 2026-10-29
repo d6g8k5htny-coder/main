@@ -31,7 +31,8 @@ class AtlasListFocusGeometry(unittest.TestCase):
         thread.start()
         try:
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch(executable_path=CHROMIUM, headless=True)
+                browser = playwright.chromium.launch(executable_path=CHROMIUM, headless=True,
+                                                     chromium_sandbox=True)
                 try:
                     page = browser.new_page(viewport={"width": 390, "height": 844},
                                             reduced_motion="reduce")
