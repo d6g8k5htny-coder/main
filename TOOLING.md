@@ -63,3 +63,7 @@ The same source review found that the historical replay mutation runner's baseli
 ### Replay delivery repair candidate
 
 Main PR #705 head `30184a6c7337099f910809116523112394e6504b` restores both four-file sets using the original Git blobs and adds a separately checksummed source-only Python mutation-grader candidate with adverse tests. Its checksum, historical, and candidate workflows are queued. Historical files remain preserved; the candidate does not repair the independent Lean self-test issue and is not yet verified. The PR's governance and status surfaces require reconciliation with this staging branch before integration.
+
+### Scoped lifetime candidate workflows
+
+The unverified zero-law candidate at Math commit `36440828402102a840bc6bdffc2e1238ce6e4bea` uses `.github/workflows/cbz-lifetime-zero-law-countermodel.yml`; run `40964012873` was queued at the observation cut. The E2-to-E4 logical-assembly candidate at Math commit `f19b254efae612ad5d4f010908cd615ca8c708fb` uses `.github/workflows/cbz-lifetime-e2-e4.yml`; run `40964002205` was queued. Both are hosted, scope-limited packet/Lean/axiom/kernel workflows, not global Layer A auditors. Observe their results and inspect axiom output before accepting either declaration. Maintenance owner: none for these isolated candidates.

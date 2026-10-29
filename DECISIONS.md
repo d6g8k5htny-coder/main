@@ -169,3 +169,7 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 22:11:33 UTC] [phase2] [layerC] Record #705's exact-source repair candidate and independent eight-blob comparison. Retain original package records; require fresh checks and canonical-document reconciliation before integration. Reversible:yes. Evidence: main PR #705 head 30184a6c7337099f910809116523112394e6504b, .github/workflows/cbz-replay-delivery.yml.
 
 [2026-10-29 22:12:39 UTC] [phase3] [layerA] Correct two status-surface overstatements: complete theorem binders require pinned source, and prior optional browser tests do not qualify the composed cut. Record the historical replay-text observation and #539 helper qualification limit without promoting an incomplete run. Reversible:yes. Evidence: PROOF_INDEX.md, cbz/evidence/historical-replay-text-observation-20261029.json, Math #539 job 123746751294.
+
+[2026-10-29 22:13:12 UTC] [phase2] [layerA] Correct the 307-record quarantine qualification to distinguish mathematical proof boundaries from engineering and fixture blockers. Register two isolated conditional Lean candidates and their queued workflows without closing them. Reversible:yes. Evidence: PROOF_INDEX.md; Math commits 36440828402102a840bc6bdffc2e1238ce6e4bea and f19b254efae612ad5d4f010908cd615ca8c708fb.
+
+[2026-10-29 22:13:35 UTC] [phase1] [layerB] Qualify B-001 cold-start completeness pending G9 and correct the zero-law workflow path before registration. Reversible:yes. Evidence: GOVERNANCE.md, Math commit 36440828402102a840bc6bdffc2e1238ce6e4bea.
