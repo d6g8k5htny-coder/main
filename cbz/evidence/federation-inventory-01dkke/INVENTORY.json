@@ -1,0 +1,4286 @@
+{
+ "gates": [
+  {
+   "check": "Layer A scanner mutation self-test",
+   "gate": "G0",
+   "runnable_here": true,
+   "tool": "tools/cbz_scanner_mutation_check.py"
+  },
+  {
+   "check": "Layer A static audit",
+   "gate": "G1",
+   "runnable_here": true,
+   "tool": "tools/cbz_layer_a_scan.py"
+  },
+  {
+   "check": "#print axioms on all declarations",
+   "gap": "no Lean toolchain (lean/lake) in this environment; hosted Math- workflows only",
+   "gate": "G2",
+   "runnable_here": false
+  },
+  {
+   "check": "Lean build",
+   "gap": "no Lean toolchain in this environment; hosted Math- workflows build per-package",
+   "gate": "G3",
+   "runnable_here": false
+  },
+  {
+   "check": "kernel re-check",
+   "gap": "no Lean toolchain; no federation-wide kernel re-check tool exists",
+   "gate": "G4",
+   "runnable_here": false
+  },
+  {
+   "check": "full regression suite",
+   "gate": "G5",
+   "runnable_here": true,
+   "tool": "python -B -S -m unittest discover -s tests -p \"test_*.py\" (main); per-repo suites differ"
+  },
+  {
+   "check": "mutation threshold",
+   "gap": "no declared federation mutation threshold or repo-wide mutation runner",
+   "gate": "G6",
+   "runnable_here": false
+  },
+  {
+   "check": "cross-repo pin verification",
+   "gap": "no tool verifies that cross-repo commit pins resolve and agree",
+   "gate": "G7",
+   "runnable_here": false
+  },
+  {
+   "check": "status-surface truth check",
+   "gap": "no tool compares STATUS.md/PROOF_INDEX.md claims with observed state",
+   "gate": "G8",
+   "runnable_here": false
+  },
+  {
+   "check": "cold-start test",
+   "gap": "requires canonical STATUS.md handoff surface (Phase 4)",
+   "gate": "G9",
+   "runnable_here": false
+  },
+  {
+   "check": "git hygiene",
+   "gate": "G10",
+   "runnable_here": true,
+   "tool": "this inventory (branches/PRs/worktrees)"
+  },
+  {
+   "check": "tooling hygiene",
+   "gate": "G11",
+   "runnable_here": true,
+   "tool": "GOVERNANCE.md tool registry (root, PR 685) and each tool own tests"
+  }
+ ],
+ "generated_at": "2026-10-29T17:03:39+00:00",
+ "inaccessible": [
+  {
+   "name": "google-drive",
+   "reason": "GitHub access to this repository is not enabled for this session (HTTP 403 from the session proxy)"
+  }
+ ],
+ "owner": "d6g8k5htny-coder",
+ "repos": [
+  {
+   "clone": "/home/user/main",
+   "default_branch": "main",
+   "default_head": "4ef1867175dbe1072a54a02e95f80c4e2c70a4ff",
+   "default_head_checks": [
+    {
+     "conclusion": "success",
+     "name": "architecture / research-architecture",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "browser-smoke",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "build",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "build",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "build",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "build",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "controls",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "controls",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "controls",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "controls",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "deploy",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "deploy",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "deploy",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "deploy",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "formal / formal-evidence",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "landing-checks",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "navigation",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "node-status",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "node-status-refresh",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "node-status-refresh",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "node-status-refresh",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "node-status-refresh",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "public-shop",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "verify",
+     "status": "completed"
+    }
+   ],
+   "file_count": 2824,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 4,
+    "hits": []
+   },
+   "lean_file_count": 4,
+   "name": "main",
+   "open_prs": [
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T00:13:32Z",
+     "draft": true,
+     "head_ref": "codex/semantic-runtime-preparation-20261008",
+     "head_sha": "b3bc164f4608e783e4c987022931915f04fa5c2d",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 333,
+     "title": "Prepare a separate Qwen embedding encoder with observed capacity receipts",
+     "updated_at": "2026-10-22T21:41:57Z"
+    },
+    {
+     "base_ref": "codex/spectral-amplitude-crossover-20261008",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T00:30:09Z",
+     "draft": true,
+     "head_ref": "codex/stationary-quartic-cusp-20261009",
+     "head_sha": "3ab12c6542c88554ad0d42e0e19aff2461dc3c0d",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 336,
+     "title": "Prove stationary quartic H0 law with explicit sampling weights",
+     "updated_at": "2026-10-26T19:49:06Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T17:26:56Z",
+     "draft": true,
+     "head_ref": "codex/routing-sqlite-runtime-preparation-20261008",
+     "head_sha": "45ac889a26cfd8ac10ecdd9a46121100db0de7b7",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 338,
+     "title": "Measure fresh SQLite contention with explicit BEGIN refusals",
+     "updated_at": "2026-10-09T18:15:12Z"
+    },
+    {
+     "base_ref": "codex/stationary-quartic-cusp-20261009",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T17:29:11Z",
+     "draft": true,
+     "head_ref": "codex/two-control-cusp-population-20261009",
+     "head_sha": "f02758555b4bce4554e34e8913947f69578d0816",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 340,
+     "title": "Prove smooth cusp population bars and fold-edge dominance",
+     "updated_at": "2026-10-25T16:26:58Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T17:50:49Z",
+     "draft": true,
+     "head_ref": "codex/lease-crypto-runtime-preparation-20261009",
+     "head_sha": "86fc0eed1b572e93e0db0c0f6b5b03936710064e",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 341,
+     "title": "Prepare pinned Ed25519 backend with original hosted custody",
+     "updated_at": "2026-10-23T23:45:10Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T18:29:50Z",
+     "draft": true,
+     "head_ref": "codex/routing-broker-tests-20261009",
+     "head_sha": "04b65516bcd4858bf03493eebcba5cf6dbf54229",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 342,
+     "title": "Reserve routing costs and retain expiry admission controls",
+     "updated_at": "2026-10-24T20:57:17Z"
+    },
+    {
+     "base_ref": "codex/two-control-cusp-population-20261009",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T18:30:46Z",
+     "draft": true,
+     "head_ref": "codex/exact-population-certificate-20261009-root01a11cbf",
+     "head_sha": "c283035b471fab6ea3efafb305e24247d2ec2577",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 343,
+     "title": "Certify eight fixed cusp-population predictions with exact interval routes",
+     "updated_at": "2026-10-28T11:13:46Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T18:34:41Z",
+     "draft": true,
+     "head_ref": "codex/exact-population-certificate-ci-20261009-root01a11cbf",
+     "head_sha": "33e91e3106478af2a0694380d9922d0d3fd4f7c7",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 344,
+     "title": "Validate exact cusp-population certificate controls on current main",
+     "updated_at": "2026-10-09T18:34:41Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T18:39:25Z",
+     "draft": true,
+     "head_ref": "codex/canvas-model-controls-20261009",
+     "head_sha": "77d35feff69c4df1b55a7449f3deaa68ed75de7d",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 345,
+     "title": "Implement cubic normalization and exact finite elder trace",
+     "updated_at": "2026-10-18T00:15:59Z"
+    },
+    {
+     "base_ref": "codex/exact-population-certificate-20261009-root01a11cbf",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T18:56:00Z",
+     "draft": true,
+     "head_ref": "codex/cusp-analytic-guards-20261009-root01a11cbf",
+     "head_sha": "c93a80969545370fac88fbe07825987c94c01c07",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 346,
+     "title": "Prove analytic cutoff guards for the fixed cusp-population realization",
+     "updated_at": "2026-10-26T20:48:23Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T19:19:57Z",
+     "draft": true,
+     "head_ref": "codex/c226-formal-phase-evidence",
+     "head_sha": "aae377652d26617ee6dc5e3cb36d89318bd2d2ba",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 347,
+     "title": "Retain each real formal execution's evidence without changing final receipt binding",
+     "updated_at": "2026-10-14T20:48:19Z"
+    },
+    {
+     "base_ref": "codex/cusp-analytic-guards-20261009-root01a11cbf",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T20:41:45Z",
+     "draft": true,
+     "head_ref": "codex/global-cusp-h0-selector-20261009-root01a11cbf",
+     "head_sha": "945c2ceeb18d48532f3549f2607fb9ab46ba803d",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 349,
+     "title": "Evaluate the complete periodic cusp field and certify global H0 bars",
+     "updated_at": "2026-10-24T02:54:46Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T20:43:56Z",
+     "draft": true,
+     "head_ref": "codex/global-cusp-h0-validation-20261009-root01a11cbf",
+     "head_sha": "4ccbaf628b9d5431982cbc3c210a86546c1534ae",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 350,
+     "title": "Run the complete periodic cusp H0 source controls on current main",
+     "updated_at": "2026-10-28T12:02:54Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-09T21:04:37Z",
+     "draft": true,
+     "head_ref": "codex/lease-protocol-tests-20261009",
+     "head_sha": "128ce837caac72a6864f28d63b76c6f8d94b9fe7",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 351,
+     "title": "test(leases): freeze external guards before signed lease implementation",
+     "updated_at": "2026-10-28T16:53:50Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 4,
+     "created_at": "2026-10-10T23:58:16Z",
+     "draft": true,
+     "head_ref": "claude/lean-verification-specification-20261010",
+     "head_sha": "b7ec86c2304b3fa21475b3b3950ef731fa30a623",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 4,
+      "hits": []
+     },
+     "number": 358,
+     "title": "Lean verification specification: environment, statement-register table and 28 kernel-proved P15 arithmetic targets",
+     "updated_at": "2026-10-20T01:29:26Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-11T18:09:24Z",
+     "draft": true,
+     "head_ref": "codex/reader-runtime-preparation-20261011",
+     "head_sha": "1ed9cdffb909c32ca15ca7b6f8d42bedcd172daa",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 363,
+     "title": "Prepare restricted browser runtime with original evidence and recovery",
+     "updated_at": "2026-10-13T13:24:03Z"
+    },
+    {
+     "base_ref": "codex/global-cusp-h0-validation-20261009-root01a11cbf",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-13T01:07:12Z",
+     "draft": true,
+     "head_ref": "chatgpt/c245a-replay-admission-contract-20261012",
+     "head_sha": "12785679b67ad4248e1fb3cf75a358f3f0957489",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 385,
+     "title": "C245-A: separate raw H0 replay from experiment acceptance",
+     "updated_at": "2026-10-24T03:54:16Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-13T17:55:38Z",
+     "draft": false,
+     "head_ref": "claude/side24-v3-draft-20261013",
+     "head_sha": "fea4f0f36bf91c2fad2496827053544d72d77c75",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 389,
+     "title": "SIDE24 V3 manuscript draft (author-side): LaTeX sources, compiled PDF, change list",
+     "updated_at": "2026-10-26T20:02:58Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-14T17:18:04Z",
+     "draft": true,
+     "head_ref": "codex/main388-new-successor-20261014",
+     "head_sha": "7c610fe5c1b82ba6541f660a8607ddf94f5b8216",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 399,
+     "title": "WIP: bounded current atlas filters and route paging",
+     "updated_at": "2026-10-29T16:14:40Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-14T20:33:29Z",
+     "draft": true,
+     "head_ref": "rloop/recon-universality-20261014-6177794896",
+     "head_sha": "601a747c882998d00c82138d09c520666dcdb92e",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 407,
+     "title": "docs: distinguish weak and strong persistence universality in novelty memo",
+     "updated_at": "2026-10-15T23:15:03Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-16T02:55:02Z",
+     "draft": true,
+     "head_ref": "codex/reviewed-fold-diagonal-20261016-root01a11cbf",
+     "head_sha": "16764aab8ce7b74327276ac4be619f2d3e4ed4af",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 429,
+     "title": "Add reviewed fold isolation, diagonal counts and covariance obstruction",
+     "updated_at": "2026-10-26T17:31:58Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-16T03:09:49Z",
+     "draft": true,
+     "head_ref": "codex/c287-population-current-main-20261016",
+     "head_sha": "9e393dcb60f3d5f16b84df87e442e2632d377811",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 430,
+     "title": "Carry repaired population certificate onto current Main with source review custody",
+     "updated_at": "2026-10-28T11:39:19Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-20T02:32:39Z",
+     "draft": true,
+     "head_ref": "claude/zeta-fold-r2-replay-venue-20261020",
+     "head_sha": "78976ae7d412427ac15d2ce01786ca1c24d6b066",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 458,
+     "title": "R2 venue: different-provider replay of the zeta fold slice C package (record pending; README \u00a79 unchanged)",
+     "updated_at": "2026-10-26T07:15:42Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-20T15:16:06Z",
+     "draft": true,
+     "head_ref": "codex/req8-controls-r01-20261020-1500",
+     "head_sha": "27fd44cdb12aa1b679e46f4e7742c5cd5d28a0cd",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 464,
+     "title": "test(formal-regression): freeze controls and isolated hosted caller",
+     "updated_at": "2026-10-24T20:33:10Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-21T20:51:27Z",
+     "draft": true,
+     "head_ref": "claude/zeta-manifest-check-adoption-20261021",
+     "head_sha": "5b1777faec7d3e3db7fe9cb86fe1c8230e145dc5",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 482,
+     "title": "zeta-fold: adopt the reviewed manifest-check repair and its test",
+     "updated_at": "2026-10-26T17:55:06Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-21T22:07:10Z",
+     "draft": true,
+     "head_ref": "chatgpt/nav-manifest-trigger-20261021-c",
+     "head_sha": "10035f8982a14e8c88549c90edc3252f85943882",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 484,
+     "title": "ci: select manifest checks and report navigation failure phases",
+     "updated_at": "2026-10-22T17:00:26Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-22T22:08:31Z",
+     "draft": true,
+     "head_ref": "codex/site-first-red-20261022-2207",
+     "head_sha": "e46de7092f6b22ef714e0aef021b0b77fe176bb0",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 499,
+     "title": "Expose collector and current-reader transition failures in bounded hosted tests",
+     "updated_at": "2026-10-22T22:17:24Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-22T22:34:52Z",
+     "draft": true,
+     "head_ref": "codex/current-observation-recovery-20261022-2234",
+     "head_sha": "64aa716ce399c240ef8afb6ec79a236c7040abbf",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 501,
+     "title": "Preserve current observation acquisition across publication transitions",
+     "updated_at": "2026-10-29T16:16:37Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-22T23:40:34Z",
+     "draft": true,
+     "head_ref": "codex/site-route-controls-v3-20261022-2338",
+     "head_sha": "364244ad01f58f95ca949815920bbf39523ddb68",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 503,
+     "title": "Qualify the site browser route supervisor with hosted controls",
+     "updated_at": "2026-10-26T02:02:05Z"
+    },
+    {
+     "base_ref": "codex/two-control-cusp-population-20261009",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-24T21:13:15Z",
+     "draft": true,
+     "head_ref": "grokbot-agent12/pr340-identity-binding-20261024",
+     "head_sha": "1537dadc6b77c9b8c89a0b7ce9a73233dc209d09",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 595,
+     "title": "#340 follow-up: bind Sections 1-10 to core identity (r4365127387)",
+     "updated_at": "2026-10-28T11:16:38Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-25T07:38:08Z",
+     "draft": true,
+     "head_ref": "codex/main583-setup-python-only-20261024",
+     "head_sha": "b47633986e8a494d1dca57f2bd70f2ef340088de",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 597,
+     "title": "chore(actions): narrow #583 to setup-python 7.1.0",
+     "updated_at": "2026-10-28T18:09:46Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-25T14:53:03Z",
+     "draft": true,
+     "head_ref": "claude/shared-custody-01cz-20261025",
+     "head_sha": "946f941ec852a534064ea6f523ce488767ee53f3",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 603,
+     "title": "Shared custody: data held only by Claude session 01Cz, 25 October (data only, not for merge)",
+     "updated_at": "2026-10-29T16:39:11Z"
+    },
+    {
+     "base_ref": "codex/two-control-cusp-population-20261009",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-25T16:07:16Z",
+     "draft": true,
+     "head_ref": "codex/weighted-cusp-sampling-20261025-root01a11cbf",
+     "head_sha": "b79ca1f6ea5f3cfab95a29401ebd16d9b5ee565b",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 606,
+     "title": "Prove weighted cusp phase laws and joint physical iid limits",
+     "updated_at": "2026-10-29T16:47:24Z"
+    },
+    {
+     "base_ref": "grok16/v20-planner-source-carrier-20261025",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-25T23:02:44Z",
+     "draft": true,
+     "head_ref": "cursor/g1-f1-journal-lf-framing-0b94",
+     "head_sha": "3dcff2b86f3b2166f42fa67f53a4f5c86f2883a9",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 623,
+     "title": "G1-F1: frame journal records on LF bytes only (draft, do not merge)",
+     "updated_at": "2026-10-29T16:38:51Z"
+    },
+    {
+     "base_ref": "grok16/v20-planner-source-carrier-20261025",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-25T23:35:06Z",
+     "draft": true,
+     "head_ref": "claude/g2-02-serialized-size-71049ac9",
+     "head_sha": "5b5555089502aa77963a220bfbe0d4f156c4a62e",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 624,
+     "title": "G2-02: bound the journal on the exact canonical record bytes (draft, do not merge)",
+     "updated_at": "2026-10-25T23:43:34Z"
+    },
+    {
+     "base_ref": "grok16/v20-planner-source-carrier-20261025",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-26T00:08:51Z",
+     "draft": true,
+     "head_ref": "claude/g1f2-g3f1-worker-liveness-71049ac9",
+     "head_sha": "e8544abeaec7b9e83bf745398975aa7074ac81ce",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 629,
+     "title": "G1-F2 + G3-F1: keep worker threads alive through transient OSErrors (draft, do not merge)",
+     "updated_at": "2026-10-26T00:33:28Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-26T00:20:38Z",
+     "draft": true,
+     "head_ref": "cursor/side24-alignment-review-20261026-dd62",
+     "head_sha": "a228f4410141549462260ba5ea426b7d08c358c1",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 630,
+     "title": "formal: SIDE24 alignment review 2026-10-26 (REJECTED \u2014 AMEND anchors)",
+     "updated_at": "2026-10-26T00:30:57Z"
+    },
+    {
+     "base_ref": "codex/weighted-cusp-sampling-20261025-root01a11cbf",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-26T18:18:21Z",
+     "draft": true,
+     "head_ref": "codex/weighted-cusp-production-20261026-root01a11cbf",
+     "head_sha": "21055c23e1913f3474418909f8ba0542fc4275f5",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 664,
+     "title": "Draft weighted-cusp field comparison: exact prediction and retained observations",
+     "updated_at": "2026-10-28T17:06:09Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-27T03:18:29Z",
+     "draft": true,
+     "head_ref": "research/v22-second-height-generic-gpt6-20261026",
+     "head_sha": "bb82ef4a5970149f1625577fc29289620fd2468a",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 674,
+     "title": "Draft scientific candidate: V22 generic sector two-height O(r^5) band sum",
+     "updated_at": "2026-10-27T19:59:16Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-29T16:55:54Z",
+     "draft": false,
+     "head_ref": "cbz/foundation-protocol-20261029",
+     "head_sha": "c3377cc8c0fb35844dc7613976d6e746fdc05600",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 685,
+     "title": "Adopt owner CBZ-0 mandate and evidence-based consolidation protocol",
+     "updated_at": "2026-10-29T16:56:05Z"
+    }
+   ],
+   "remote_branches": [
+    {
+     "last_commit": "2026-10-03T13:41:04-07:00",
+     "merged_into_default": true,
+     "name": "origin/agent/measure-title-reader-20261003"
+    },
+    {
+     "last_commit": "2026-10-01T09:10:07-05:00",
+     "merged_into_default": false,
+     "name": "origin/agent/observer-notes-20261001"
+    },
+    {
+     "last_commit": "2026-10-01T20:47:47-05:00",
+     "merged_into_default": false,
+     "name": "origin/agent/paper1-note-current-20261001"
+    },
+    {
+     "last_commit": "2026-09-22T22:37:35+00:00",
+     "merged_into_default": false,
+     "name": "origin/agent3/jetmod-rnunif-status-open-hold"
+    },
+    {
+     "last_commit": "2026-10-01T08:24:01-05:00",
+     "merged_into_default": true,
+     "name": "origin/agents/p15-and-simulation"
+    },
+    {
+     "last_commit": "2026-10-25T20:39:02+00:00",
+     "merged_into_default": false,
+     "name": "origin/carrier/v20-planner-source-delivery-20261025"
+    },
+    {
+     "last_commit": "2026-10-29T16:54:41+00:00",
+     "merged_into_default": false,
+     "name": "origin/cbz/foundation-protocol-20261029"
+    },
+    {
+     "last_commit": "2026-10-15T12:21:13-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/archsys-p2-current-population-20261015"
+    },
+    {
+     "last_commit": "2026-09-25T18:26:23-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/c101-source-bound-successor-20260925"
+    },
+    {
+     "last_commit": "2026-10-12T18:06:33-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/c245a-replay-admission-contract-20261012"
+    },
+    {
+     "last_commit": "2026-09-23T19:04:40-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cover-accounting-audit-20260924"
+    },
+    {
+     "last_commit": "2026-09-25T18:54:16-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/current-queue-and-annulus-nav-20260925"
+    },
+    {
+     "last_commit": "2026-09-24T15:25:32-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/default-home-repair-20260924"
+    },
+    {
+     "last_commit": "2026-09-25T07:31:46-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/downstream-crosswalk-20260925"
+    },
+    {
+     "last_commit": "2026-09-27T20:29:36+00:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/drive-github-hardening-20260919"
+    },
+    {
+     "last_commit": "2026-09-25T17:27:53-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/fail-closed-claim-audit-repair-20260925"
+    },
+    {
+     "last_commit": "2026-09-24T15:58:40-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/full-price-navigation-20260924"
+    },
+    {
+     "last_commit": "2026-10-23T11:56:31-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/gb7c-side24-proof-implementation-20261023"
+    },
+    {
+     "last_commit": "2026-09-21T19:39:00-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/h3-solver-pilot-20260921"
+    },
+    {
+     "last_commit": "2026-10-13T05:28:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/main-lean-preflight-20261008-r1"
+    },
+    {
+     "last_commit": "2026-09-23T17:57:40-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/main-research-home-20260923"
+    },
+    {
+     "last_commit": "2026-10-26T03:04:40+00:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/main399-route-window-20261025"
+    },
+    {
+     "last_commit": "2026-09-24T11:40:13-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/math-push-cap-palette-20260924"
+    },
+    {
+     "last_commit": "2026-10-22T11:06:23-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/nav-manifest-trigger-20261021-c"
+    },
+    {
+     "last_commit": "2026-09-24T13:40:33-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-price-20260924"
+    },
+    {
+     "last_commit": "2026-09-27T18:10:48-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/never-merge-formal-negative-20260927"
+    },
+    {
+     "last_commit": "2026-09-23T16:51:35-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/pr2-postmerge-handoff-20260923"
+    },
+    {
+     "last_commit": "2026-09-23T15:48:31-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/probe-test-isolation-20260923"
+    },
+    {
+     "last_commit": "2026-09-26T11:30:12-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-intake-identity-replay-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T21:01:06-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-mathematics-access-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T21:28:39-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-reader-access-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T11:28:05-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-research-shop-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T21:34:33-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-sard-successor-review-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T11:52:59-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-shop-live-metadata-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T21:05:37-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-side24-reading-links-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T10:38:41-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/public-source-visibility-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T19:44:21-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/q0-c103-source-bound-20260925"
+    },
+    {
+     "last_commit": "2026-09-26T01:23:59+00:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/q0-ledger-external-binding-20260925"
+    },
+    {
+     "last_commit": "2026-09-23T16:09:43-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/register-export-r1-20260923"
+    },
+    {
+     "last_commit": "2026-09-23T16:57:09-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/register-source-preflight-20260923"
+    },
+    {
+     "last_commit": "2026-09-24T17:07:42-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/remote-window-reading-20260924"
+    },
+    {
+     "last_commit": "2026-09-24T10:07:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/research-capsule-311-20260924-1504"
+    },
+    {
+     "last_commit": "2026-09-25T21:17:03-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/sard-g-boundary-review-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T20:40:33-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/side24-source-recovery-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T21:13:36-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/source-architecture-design-20260925"
+    },
+    {
+     "last_commit": "2026-10-16T07:21:17-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/source-recovery-companions-20261016-6215376409"
+    },
+    {
+     "last_commit": "2026-09-23T14:36:51-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/standing-authorization-20260923"
+    },
+    {
+     "last_commit": "2026-09-26T10:20:07-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/storefront-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T13:09:08-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/vault-census-20260925"
+    },
+    {
+     "last_commit": "2026-09-23T20:14:31-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/wedge-accounting-20260924"
+    },
+    {
+     "last_commit": "2026-09-21T17:17:37-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/withdrawal-governance-20260921"
+    },
+    {
+     "last_commit": "2026-10-19T19:40:51+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/build-manuscript-contributing-BowxS"
+    },
+    {
+     "last_commit": "2026-10-19T19:15:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/build-manuscript-script-TiApQ"
+    },
+    {
+     "last_commit": "2026-09-24T00:20:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/cover-outside-residual-guard"
+    },
+    {
+     "last_commit": "2026-09-24T00:45:24+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/cover-survivor-tangency"
+    },
+    {
+     "last_commit": "2026-09-24T04:22:41-05:00",
+     "merged_into_default": false,
+     "name": "origin/claude/cover-tangency-on-hardening"
+    },
+    {
+     "last_commit": "2026-09-24T00:06:19+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/cover-uniform-cost-contract"
+    },
+    {
+     "last_commit": "2026-10-24T20:20:30+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/dbx-crosswalk-01cz-20261024"
+    },
+    {
+     "last_commit": "2026-10-24T20:22:34+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/dbx-crosswalk-01cz-20261024-r2"
+    },
+    {
+     "last_commit": "2026-10-29T16:55:41+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/determined-bardeen-mrqy4y"
+    },
+    {
+     "last_commit": "2026-10-02T14:49:15-05:00",
+     "merged_into_default": false,
+     "name": "origin/claude/drive-audit-github-migration-rrglpp"
+    },
+    {
+     "last_commit": "2026-10-26T00:08:21+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/g1f2-g3f1-worker-liveness-71049ac9"
+    },
+    {
+     "last_commit": "2026-10-25T23:34:37+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/g2-02-serialized-size-71049ac9"
+    },
+    {
+     "last_commit": "2026-10-13T20:28:31+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/github-chatgpt-xxw5kp"
+    },
+    {
+     "last_commit": "2026-10-13T00:39:40+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/handoff-lean-register-tools-20261013"
+    },
+    {
+     "last_commit": "2026-10-26T03:06:12+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/help-other-claude-models-829990"
+    },
+    {
+     "last_commit": "2026-09-26T16:58:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/incoming-side24-chart-v2-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T12:43:15-05:00",
+     "merged_into_default": true,
+     "name": "origin/claude/intake-gate-reachability-20260926"
+    },
+    {
+     "last_commit": "2026-10-26T00:12:01+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/journal-623-624-combined-d476fc21"
+    },
+    {
+     "last_commit": "2026-09-23T22:11:51+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/ladder-pin-reconcile"
+    },
+    {
+     "last_commit": "2026-10-13T15:41:47+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/lean-verification-specification-20261010"
+    },
+    {
+     "last_commit": "2026-09-23T23:39:39+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/main-landing-page"
+    },
+    {
+     "last_commit": "2026-10-21T17:01:29+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/nice-maxwell-7i7ok0"
+    },
+    {
+     "last_commit": "2026-10-20T02:46:42+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/physics-multiscale-reconstruction-a1G1I"
+    },
+    {
+     "last_commit": "2026-09-24T06:26:56-05:00",
+     "merged_into_default": false,
+     "name": "origin/claude/pinned-sources-inventory"
+    },
+    {
+     "last_commit": "2026-09-26T09:26:12-05:00",
+     "merged_into_default": true,
+     "name": "origin/claude/public-landing-professional-20260926"
+    },
+    {
+     "last_commit": "2026-09-24T03:22:22+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/quarantine-digest-coverage"
+    },
+    {
+     "last_commit": "2026-10-13T16:21:37+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/recovery-01N-20261013"
+    },
+    {
+     "last_commit": "2026-10-13T22:07:31+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/recovery-01cz-20261013"
+    },
+    {
+     "last_commit": "2026-10-20T00:49:09+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/recovery-01cz-delta-20261018"
+    },
+    {
+     "last_commit": "2026-10-25T13:46:49+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/recovery-01cz-delta-20261020"
+    },
+    {
+     "last_commit": "2026-10-15T16:00:21+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/recovery-S-20261013"
+    },
+    {
+     "last_commit": "2026-10-26T00:02:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/review-grok-github-uploads-gsthj3"
+    },
+    {
+     "last_commit": "2025-12-16T02:54:57+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/setup-complexity-physics-8H96d"
+    },
+    {
+     "last_commit": "2026-10-26T02:41:22+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/shared-custody-01cz-20261025"
+    },
+    {
+     "last_commit": "2026-10-26T19:12:10+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-draft-20261013"
+    },
+    {
+     "last_commit": "2026-10-15T02:07:32+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft-20261013"
+    },
+    {
+     "last_commit": "2026-10-19T20:13:17+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft10-20261019"
+    },
+    {
+     "last_commit": "2026-10-19T21:50:06+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft11-20261019"
+    },
+    {
+     "last_commit": "2026-10-19T22:16:13+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft12-20261019"
+    },
+    {
+     "last_commit": "2026-10-21T19:24:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft13-20261020"
+    },
+    {
+     "last_commit": "2026-10-21T20:23:00+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft14-20261021"
+    },
+    {
+     "last_commit": "2026-10-21T20:42:49+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft15-20261021"
+    },
+    {
+     "last_commit": "2026-10-22T23:52:39-05:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft16-20261021"
+    },
+    {
+     "last_commit": "2026-10-26T16:17:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft17-20261026"
+    },
+    {
+     "last_commit": "2026-10-26T18:53:08+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft18-20261026"
+    },
+    {
+     "last_commit": "2026-10-15T02:07:32+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/side24-v3-supplement-draft9-20261015"
+    },
+    {
+     "last_commit": "2026-10-20T02:58:09+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/zeta-fold-r2-replay-venue-20261020"
+    },
+    {
+     "last_commit": "2026-10-21T17:33:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/zeta-fold-residual-diag-retention-20261021"
+    },
+    {
+     "last_commit": "2026-10-21T20:50:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/zeta-manifest-check-adoption-20261021"
+    },
+    {
+     "last_commit": "2026-10-25T11:37:50-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/605-v22-canonical-dataset-20261025"
+    },
+    {
+     "last_commit": "2026-10-15T20:12:20-05:00",
+     "merged_into_default": true,
+     "name": "origin/codex/architecture-cli-boundary-red-20261016"
+    },
+    {
+     "last_commit": "2026-10-08T14:38:00-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/architecture-post-upload-probe-20261008"
+    },
+    {
+     "last_commit": "2026-10-09T12:24:57-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c226-formal-phase-evidence"
+    },
+    {
+     "last_commit": "2026-10-15T22:05:05-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c287-population-current-main-20261016"
+    },
+    {
+     "last_commit": "2026-10-09T12:13:21-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/canvas-model-controls-20261009"
+    },
+    {
+     "last_commit": "2026-10-08T23:08:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/codex/casefold-adapter-checked-probe-20261008"
+    },
+    {
+     "last_commit": "2026-10-09T00:10:34+00:00",
+     "merged_into_default": false,
+     "name": "origin/codex/casefold-adapter-final-checked-20261008"
+    },
+    {
+     "last_commit": "2026-10-26T13:52:56-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/current-observation-recovery-20261022-2234"
+    },
+    {
+     "last_commit": "2026-10-26T15:18:26-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/cusp-analytic-guards-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-09-21T20:13:54-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/enforcement-control-20260922"
+    },
+    {
+     "last_commit": "2025-12-15T20:51:50-06:00",
+     "merged_into_default": true,
+     "name": "origin/codex/enforcement-probe-20260922"
+    },
+    {
+     "last_commit": "2026-10-25T09:19:46-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/exact-population-certificate-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-09T11:34:21-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/exact-population-certificate-ci-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-09T13:41:25-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/global-cusp-h0-selector-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-09T13:43:33-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/global-cusp-h0-validation-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-17T21:44:03-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/h3-closure-mirror-20261018"
+    },
+    {
+     "last_commit": "2026-10-08T16:48:23-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/higher-homology-fold-20261008"
+    },
+    {
+     "last_commit": "2026-10-25T23:39:19+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/integrate-625-20261025"
+    },
+    {
+     "last_commit": "2026-10-26T01:29:16+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/integrate-636-20261026"
+    },
+    {
+     "last_commit": "2026-10-26T21:36:33+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/integrate-source-list-continuity-20261026"
+    },
+    {
+     "last_commit": "2026-10-26T03:36:18+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/integration-650-refresh-a51445b4"
+    },
+    {
+     "last_commit": "2026-10-09T11:23:41-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/lease-crypto-runtime-preparation-20261009"
+    },
+    {
+     "last_commit": "2026-10-09T14:02:13-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/lease-protocol-tests-20261009"
+    },
+    {
+     "last_commit": "2026-10-25T10:47:39-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/main-classic-rule-evidence-20261025"
+    },
+    {
+     "last_commit": "2026-10-14T14:53:15-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/main388-new-successor-20261014"
+    },
+    {
+     "last_commit": "2026-10-25T16:11:21-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/main583-setup-python-only-20261024"
+    },
+    {
+     "last_commit": "2026-09-21T20:34:46-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/mechanism-assimilation-20260922"
+    },
+    {
+     "last_commit": "2026-10-01T22:39:59-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/milestone-audit-summary-20261002"
+    },
+    {
+     "last_commit": "2026-10-15T20:45:48-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/navigation-timing-20261016"
+    },
+    {
+     "last_commit": "2026-10-03T14:35:30-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/parallel-reader-tools-20261003"
+    },
+    {
+     "last_commit": "2026-10-13T06:20:22-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/population-a1-controls-20261013"
+    },
+    {
+     "last_commit": "2026-10-13T13:48:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/population-runner-attribution-20261013-root01a11cbf-2035z"
+    },
+    {
+     "last_commit": "2026-10-26T14:18:22+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/pr656-preflight-01a17864"
+    },
+    {
+     "last_commit": "2026-10-17T16:51:10-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/reader-native-admission-20261017"
+    },
+    {
+     "last_commit": "2026-10-17T16:48:02-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/reader-native-cp-20261017"
+    },
+    {
+     "last_commit": "2026-10-11T13:45:54-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/reader-runtime-preparation-20261011"
+    },
+    {
+     "last_commit": "2026-10-17T19:25:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/reader438-review-evidence-20261017-root01a14b9f"
+    },
+    {
+     "last_commit": "2026-10-22T16:18:16-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/req8-controls-r01-20261020-1500"
+    },
+    {
+     "last_commit": "2026-10-25T23:41:39-05:00",
+     "merged_into_default": true,
+     "name": "origin/codex/retain-pr651-754417e48b21123a070151a156dbd4f752608c05"
+    },
+    {
+     "last_commit": "2026-10-26T04:55:53-05:00",
+     "merged_into_default": true,
+     "name": "origin/codex/retain-pr653-56f7cd7c955bf6333ce6275f3a9483187b756412"
+    },
+    {
+     "last_commit": "2026-10-26T10:15:25+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/retain-pr654-a27bf60cf15b882742ec9903c3d7737b0750882b"
+    },
+    {
+     "last_commit": "2026-10-26T14:18:22+00:00",
+     "merged_into_default": true,
+     "name": "origin/codex/retain-pr656-5978c2e596c620584684a4097da27daeb4f66190"
+    },
+    {
+     "last_commit": "2026-10-26T08:10:02-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/reviewed-fold-diagonal-20261016-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-09T14:00:37-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/routing-broker-tests-20261009"
+    },
+    {
+     "last_commit": "2026-10-09T11:03:37-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/routing-sqlite-runtime-preparation-20261008"
+    },
+    {
+     "last_commit": "2026-10-15T20:59:25-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/semantic-memory-task1-20261016"
+    },
+    {
+     "last_commit": "2026-10-09T11:03:38-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/semantic-runtime-preparation-20261008"
+    },
+    {
+     "last_commit": "2026-10-17T19:51:11-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/signed-lease-recovery-evidence-20261018-root01a14b9f"
+    },
+    {
+     "last_commit": "2026-09-26T12:38:26-05:00",
+     "merged_into_default": true,
+     "name": "origin/codex/single-account-autonomy-20260926"
+    },
+    {
+     "last_commit": "2026-10-25T10:15:42-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/site-at-generated-f614-20261025"
+    },
+    {
+     "last_commit": "2026-10-22T17:08:05-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/site-first-red-20261022-2207"
+    },
+    {
+     "last_commit": "2026-10-29T16:58:22+00:00",
+     "merged_into_default": false,
+     "name": "origin/codex/site-publication-receipts"
+    },
+    {
+     "last_commit": "2026-10-22T18:40:03-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/site-route-controls-v3-20261022-2338"
+    },
+    {
+     "last_commit": "2026-10-25T09:56:02-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/spectral-amplitude-crossover-20261008"
+    },
+    {
+     "last_commit": "2026-10-08T17:04:35-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/spectral-gaussian-admission-20261008"
+    },
+    {
+     "last_commit": "2026-10-08T17:29:38-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/stationary-quartic-cusp-20261009"
+    },
+    {
+     "last_commit": "2026-10-09T10:28:06-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/two-control-cusp-population-20261009"
+    },
+    {
+     "last_commit": "2026-09-26T12:27:56-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/verification-museum-20260926"
+    },
+    {
+     "last_commit": "2026-10-26T13:16:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/weighted-cusp-production-20261026-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-25T10:58:28-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/weighted-cusp-sampling-20261025-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-23T23:52:05+00:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/comprehensive-audit-d6g8k5htny-coder"
+    },
+    {
+     "last_commit": "2026-10-10T18:05:21+00:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/copilotupdate-coordination-references-307"
+    },
+    {
+     "last_commit": "2026-10-23T18:11:35-05:00",
+     "merged_into_default": true,
+     "name": "origin/copilot/d6g8k5htny-coder-main-pull-578"
+    },
+    {
+     "last_commit": "2026-10-10T18:02:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/ec-014-audit-tasks"
+    },
+    {
+     "last_commit": "2026-10-23T18:11:35-05:00",
+     "merged_into_default": true,
+     "name": "origin/copilot/research-task-analyze-repository"
+    },
+    {
+     "last_commit": "2026-10-17T11:58:08-05:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/update-contributor-routing-agent-message-board-419"
+    },
+    {
+     "last_commit": "2026-09-23T21:50:34+00:00",
+     "merged_into_default": true,
+     "name": "origin/cos/revert-pr2-never-main"
+    },
+    {
+     "last_commit": "2026-09-26T17:30:39-05:00",
+     "merged_into_default": true,
+     "name": "origin/cursor-write-probe-1790476681870174240-3624305-65f2ee34"
+    },
+    {
+     "last_commit": "2026-10-26T02:02:12+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/at-remainder-source-repair-8ffc"
+    },
+    {
+     "last_commit": "2026-09-24T23:03:51+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/batch249-tip-observe-542e6ec-1c18"
+    },
+    {
+     "last_commit": "2026-09-25T12:17:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/cond-importers-13-audit-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T13:54:15-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/contribution-plan-crosswalk-lpw-identity"
+    },
+    {
+     "last_commit": "2026-09-25T12:26:25-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/downstream-crosswalk-outside-packet-31c5"
+    },
+    {
+     "last_commit": "2026-09-25T12:13:39-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/env-rescov-node-classification-20260925"
+    },
+    {
+     "last_commit": "2026-10-25T22:53:30+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/f1-repair-618-impl-ref-20261025-9e39"
+    },
+    {
+     "last_commit": "2026-10-25T23:02:16+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/g1-f1-journal-lf-framing-0b94"
+    },
+    {
+     "last_commit": "2026-09-26T02:01:08+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/intermediate-scale-bridge-ab2f"
+    },
+    {
+     "last_commit": "2026-09-23T16:30:11+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-jetmod-probes-4488"
+    },
+    {
+     "last_commit": "2026-09-23T12:35:43-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-jetmod-shortcut-refusals-09c9"
+    },
+    {
+     "last_commit": "2026-09-23T18:57:36+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-jetmod-status-honesty-f8c0"
+    },
+    {
+     "last_commit": "2026-09-24T14:34:48-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-nav-rescue-334e"
+    },
+    {
+     "last_commit": "2026-09-23T17:55:10-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-probe-index-provenance-b0e1"
+    },
+    {
+     "last_commit": "2026-09-23T15:07:44-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-refused-empty-absent-honesty-a3f9"
+    },
+    {
+     "last_commit": "2026-09-23T23:31:57+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-refused-empty-absent-honesty-f763"
+    },
+    {
+     "last_commit": "2026-09-24T09:55:09-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-registers-check-known-acceptance-c426"
+    },
+    {
+     "last_commit": "2026-09-23T16:50:51-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-rn-absent-empty-honesty-f2a8"
+    },
+    {
+     "last_commit": "2026-09-24T02:31:44-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-status-jetmod-24jet-row-852a"
+    },
+    {
+     "last_commit": "2026-09-24T13:33:39+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observation-honesty-79ba"
+    },
+    {
+     "last_commit": "2026-09-25T13:16:52+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observe-02cfbfdf-ad5a"
+    },
+    {
+     "last_commit": "2026-09-25T18:10:08+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observe-388a22ca"
+    },
+    {
+     "last_commit": "2026-09-25T07:52:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observe-3b3860da-cf44"
+    },
+    {
+     "last_commit": "2026-09-24T23:29:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observe-542e6ec-8fc7"
+    },
+    {
+     "last_commit": "2026-09-25T03:20:42+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-tip-observe-8e359e5-d0bd"
+    },
+    {
+     "last_commit": "2026-09-24T05:33:54+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/inventable-vault-path-tooling-docs-360d"
+    },
+    {
+     "last_commit": "2026-09-23T18:00:42+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/jetmod-partial-refused-not-24jet-status-vocab"
+    },
+    {
+     "last_commit": "2026-09-22T23:41:55+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/jetmod-sibling-sweep-empty-7b82"
+    },
+    {
+     "last_commit": "2026-09-23T17:12:24+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/jetmod-status-vocab-1814"
+    },
+    {
+     "last_commit": "2026-09-25T17:00:52+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/main-crosswalk-nav-31c5"
+    },
+    {
+     "last_commit": "2026-09-23T15:30:13-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math-status-inventable-honesty-3242"
+    },
+    {
+     "last_commit": "2026-09-22T22:32:56+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math-status-open-hold-20260922-b4a3"
+    },
+    {
+     "last_commit": "2026-09-22T22:42:39+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math-status-open-hold-20260922-e340"
+    },
+    {
+     "last_commit": "2026-09-25T05:20:29+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math-status-readme-unmix-9b14"
+    },
+    {
+     "last_commit": "2026-09-22T23:25:37+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math-status-walls-20260922-da25"
+    },
+    {
+     "last_commit": "2026-09-24T19:56:51+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/path-c-0019-attestations-rw-0c9d"
+    },
+    {
+     "last_commit": "2026-09-24T15:50:47+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/path-c-portable-fixes"
+    },
+    {
+     "last_commit": "2026-09-26T01:22:24+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/q0-ledger-reconcile-ebedb78-31c5"
+    },
+    {
+     "last_commit": "2026-09-23T17:06:27+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/register-consumers-cold-start-nav-a2df"
+    },
+    {
+     "last_commit": "2026-09-23T22:45:14+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/replace-2025-main-landing-6939"
+    },
+    {
+     "last_commit": "2026-09-23T22:31:56+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/restore-independence-credit-quote-e6a4"
+    },
+    {
+     "last_commit": "2026-09-25T17:29:23+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/retip-38-outside-residual-guard-077464ef"
+    },
+    {
+     "last_commit": "2026-09-25T17:29:32+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/retip-46-cellcount-pin-077464ef"
+    },
+    {
+     "last_commit": "2026-09-25T13:08:32-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/rn-unif-walkdown-scope-fixes"
+    },
+    {
+     "last_commit": "2026-09-26T00:49:53+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/scientific-state-schema-crosswalk-31c5"
+    },
+    {
+     "last_commit": "2026-10-26T01:40:08+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/side24-align-fresh-637-4904"
+    },
+    {
+     "last_commit": "2026-10-26T00:29:38+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/side24-alignment-review-20261026-dd62"
+    },
+    {
+     "last_commit": "2026-09-25T21:25:05-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/side24-missing-source-custody-0532"
+    },
+    {
+     "last_commit": "2026-09-23T18:52:46-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/side24-nav-prep-honesty-a050"
+    },
+    {
+     "last_commit": "2026-09-24T17:33:14+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/side24-prep-sot-absent-nav-d1b8"
+    },
+    {
+     "last_commit": "2026-09-23T16:28:30-05:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/status-jetmod-inventable-merge-promote-2820"
+    },
+    {
+     "last_commit": "2026-09-23T19:19:20+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-align-packet-ae7daf7-dc7f"
+    },
+    {
+     "last_commit": "2026-09-23T18:21:22+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-docs-hygiene-banners-4a17"
+    },
+    {
+     "last_commit": "2026-09-25T15:19:04+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-observe-0adeb651-d320"
+    },
+    {
+     "last_commit": "2026-09-25T11:22:11+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-observe-3a29f526-8144"
+    },
+    {
+     "last_commit": "2026-09-25T19:32:23+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-observe-fcad7236-c5d9"
+    },
+    {
+     "last_commit": "2026-09-24T00:45:07+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/vault-quarantine-hygiene-9f01"
+    },
+    {
+     "last_commit": "2026-10-21T19:41:12+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c"
+    },
+    {
+     "last_commit": "2026-10-20T23:45:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/zeta-fold-slice-c-timing-retention-20261020-458c"
+    },
+    {
+     "last_commit": "2026-10-25T18:58:00-05:00",
+     "merged_into_default": false,
+     "name": "origin/custody/dot-p15-manifest-correction-20261025"
+    },
+    {
+     "last_commit": "2026-10-25T18:40:03-05:00",
+     "merged_into_default": false,
+     "name": "origin/custody/dot-v19-dependency-supplement-20261025"
+    },
+    {
+     "last_commit": "2026-10-26T11:34:25-05:00",
+     "merged_into_default": false,
+     "name": "origin/custody/dot-v19-gap2-originals-20261026"
+    },
+    {
+     "last_commit": "2026-09-26T16:38:46-05:00",
+     "merged_into_default": true,
+     "name": "origin/custody/status-erratum-boundary-bullet-20260926"
+    },
+    {
+     "last_commit": "2026-10-24T14:36:44-05:00",
+     "merged_into_default": false,
+     "name": "origin/dependabot/github_actions/github-actions-d51a082eac"
+    },
+    {
+     "last_commit": "2026-10-09T15:09:58-07:00",
+     "merged_into_default": true,
+     "name": "origin/docs/agents-board-307-pointers"
+    },
+    {
+     "last_commit": "2026-10-25T19:17:50-05:00",
+     "merged_into_default": false,
+     "name": "origin/docs/retro-proof-source-join-incorp-20261025"
+    },
+    {
+     "last_commit": "2026-10-08T10:09:41-07:00",
+     "merged_into_default": false,
+     "name": "origin/docs/workspace-board-307-h04"
+    },
+    {
+     "last_commit": "2026-10-09T02:10:52-07:00",
+     "merged_into_default": false,
+     "name": "origin/docs/workspace-board-pointer-307"
+    },
+    {
+     "last_commit": "2026-10-26T14:14:04+00:00",
+     "merged_into_default": false,
+     "name": "origin/fix/atlas-persistent-ci-discovery-20261026"
+    },
+    {
+     "last_commit": "2026-10-09T15:09:58-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h01/c221-doc-01-readme-20261010"
+    },
+    {
+     "last_commit": "2026-10-13T15:11:19-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h02-formal-routing-amend-20261013"
+    },
+    {
+     "last_commit": "2026-10-23T15:58:13-05:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h02/board-links-539-20261023"
+    },
+    {
+     "last_commit": "2026-10-09T15:09:58-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h02/docs-agents-board-pointers-20261009"
+    },
+    {
+     "last_commit": "2026-10-09T15:09:58-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h02/docs-board-currency-20261009"
+    },
+    {
+     "last_commit": "2026-10-25T19:18:27-05:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h02/retro-proof-source-join-incorp-20261025"
+    },
+    {
+     "last_commit": "2026-10-09T05:18:59-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h04/c221-doc-01-public-shop-commands"
+    },
+    {
+     "last_commit": "2026-10-10T11:57:43-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h04/c221-doc-01-restore-v2"
+    },
+    {
+     "last_commit": "2026-10-09T07:14:36-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h04/c221-doc-01-w8b-commands"
+    },
+    {
+     "last_commit": "2026-10-10T18:11:45-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h04/c221-doc-01-w8b-restore"
+    },
+    {
+     "last_commit": "2026-10-10T11:57:43-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok-h04/c221-doc-01-w8b-tmp"
+    },
+    {
+     "last_commit": "2026-10-07T20:41:30-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok/c160-path-01-canonical-8687"
+    },
+    {
+     "last_commit": "2026-10-07T19:46:08-07:00",
+     "merged_into_default": true,
+     "name": "origin/grok/c160-path-01-canonical-fixture"
+    },
+    {
+     "last_commit": "2026-10-07T19:14:23-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/c160-path-01-fixture-alias"
+    },
+    {
+     "last_commit": "2026-10-11T04:12:35-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/c221-doc-01-w8b-commands"
+    },
+    {
+     "last_commit": "2026-09-26T13:26:27-05:00",
+     "merged_into_default": true,
+     "name": "origin/grok/drive-missing-source-hunt-20260926"
+    },
+    {
+     "last_commit": "2026-10-09T01:11:55-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/h02-workspace-board-pointer-20261009"
+    },
+    {
+     "last_commit": "2026-10-09T00:12:26-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/workspace-board-pointer-20261009"
+    },
+    {
+     "last_commit": "2026-10-25T20:38:54+00:00",
+     "merged_into_default": false,
+     "name": "origin/grok16/v20-planner-source-carrier-20261025"
+    },
+    {
+     "last_commit": "2026-10-24T21:12:50+00:00",
+     "merged_into_default": false,
+     "name": "origin/grokbot-agent12/pr340-identity-binding-20261024"
+    },
+    {
+     "last_commit": "2026-10-22T23:42:37-05:00",
+     "merged_into_default": false,
+     "name": "origin/grokbot-agent15/ci-cache-01"
+    },
+    {
+     "last_commit": "2026-10-25T19:56:43-05:00",
+     "merged_into_default": true,
+     "name": "origin/h02-benjamin-retro-join-composition-20261026"
+    },
+    {
+     "last_commit": "2026-10-08T08:10:56-07:00",
+     "merged_into_default": false,
+     "name": "origin/harper/workspace-coord-307-pointer"
+    },
+    {
+     "last_commit": "2026-09-26T18:31:28-05:00",
+     "merged_into_default": false,
+     "name": "origin/incoming/grok-cycle2-nd-d5-sard-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T12:41:17-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/open-problems-frozen-errata-388a22ca"
+    },
+    {
+     "last_commit": "2026-09-25T12:41:16-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/rn-certified-q2-carrier-absent-077464ef"
+    },
+    {
+     "last_commit": "2026-09-25T17:06:07+00:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/rn-crosswalk-docs-077464ef"
+    },
+    {
+     "last_commit": "2026-09-25T13:32:06-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/side24-cell-errata-pointer-848aea2a"
+    },
+    {
+     "last_commit": "2026-09-25T08:14:23-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/side24-cell-spatial-crosslink-3a29f526"
+    },
+    {
+     "last_commit": "2026-09-25T12:41:17-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/side24-cell-square-importers-077464ef"
+    },
+    {
+     "last_commit": "2026-09-25T04:13:53-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/side24-nav-pages-3b3860da"
+    },
+    {
+     "last_commit": "2026-10-22T13:11:28-05:00",
+     "merged_into_default": true,
+     "name": "origin/lane1-evidence-path-grok-h03"
+    },
+    {
+     "last_commit": "2026-10-07T06:32:22-07:00",
+     "merged_into_default": true,
+     "name": "origin/lucas-h01/delete-stop-record"
+    },
+    {
+     "last_commit": "2026-10-28T20:40:06-05:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    },
+    {
+     "last_commit": "2026-10-26T22:20:11-05:00",
+     "merged_into_default": false,
+     "name": "origin/research/v22-second-height-generic-gpt6-20261026"
+    },
+    {
+     "last_commit": "2026-10-14T16:10:49-05:00",
+     "merged_into_default": false,
+     "name": "origin/rloop/formal-page-triggers-20261014-6178357042"
+    },
+    {
+     "last_commit": "2026-10-14T19:15:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/rloop/recon-universality-20261014-6177794896"
+    },
+    {
+     "last_commit": "2026-09-23T16:30:40-05:00",
+     "merged_into_default": false,
+     "name": "origin/transport/register-integration-20260923"
+    },
+    {
+     "last_commit": "2026-09-23T15:48:43-05:00",
+     "merged_into_default": false,
+     "name": "origin/transport/register-r1-20260923"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": false,
+    "STATUS.md": true,
+    "TOOLING.md": false
+   },
+   "tags": [
+    "archive/drive-migration-20261002",
+    "pre-cbz-discovery-1",
+    "retain/pr-646-194e229606c6",
+    "retain/pr-650-a51445b4c2d6",
+    "retain/pr621-3ef658d7",
+    "retain/pr634-387b2321"
+   ],
+   "workflow_count": 30,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/main",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/m446-wt",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/main-wt",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/opw-wt",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/pkg-wt",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-429",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-467",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-638",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-648",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-671",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-board",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-cbz",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-diag",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-r2a",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-retain",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-siegel",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-streams",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-timing",
+    "/tmp/claude-0/-home-user-main/cbaffb33-f791-50e7-9e4c-e226e8bd0624/scratchpad/wt-trails"
+   ]
+  },
+  {
+   "clone": "/home/user/math-",
+   "default_branch": "main",
+   "default_head": "8151f592918a845bf19eb8eafaf8444540a32734",
+   "default_head_checks": [
+    {
+     "conclusion": "success",
+     "name": "d2-atom-integral",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "d2-moment-bridge",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "d2-square-schur",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "downstream-replay",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "formal / formal-evidence",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "math-downstream-gates",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "math-hypergraph",
+     "status": "completed"
+    }
+   ],
+   "file_count": 4019,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 162,
+    "hits": []
+   },
+   "lean_file_count": 162,
+   "name": "Math-",
+   "open_prs": [
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-06T12:37:41Z",
+     "draft": true,
+     "head_ref": "chatgpt/soft-fold-protocol-20261006",
+     "head_sha": "fedd0056c18093e8862b7f6ac2860dc04f8133b9",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 370,
+     "title": "Soft-fold replay: authenticate full failure messages and ordered controls",
+     "updated_at": "2026-10-14T11:42:16Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-06T12:51:01Z",
+     "draft": true,
+     "head_ref": "chatgpt/lm006-coefficient-refine-4096-20261006-r22",
+     "head_sha": "497dcca37abd18464a6b33cf32ce2e3263054323",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 372,
+     "title": "LM006 coefficient: halve enclosure width with exact zero-cell pruning",
+     "updated_at": "2026-10-23T23:48:20Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-06T13:54:20Z",
+     "draft": true,
+     "head_ref": "chatgpt/third-order-protocol-20261006-37bd-r4",
+     "head_sha": "9b3387bdc1cd4e1afc29916d7d7c3f9d922af722",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 379,
+     "title": "Third-order replay: authenticate complete mutant reports and exact control inventory",
+     "updated_at": "2026-10-15T17:31:53Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-06T16:18:43Z",
+     "draft": true,
+     "head_ref": "chatgpt/lm006-oned-replay-20261006-b91e",
+     "head_sha": "089d87ace030e755511a04735c42c1f91911d4c1",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 385,
+     "title": "LM006: source-bound replay for one-dimensional coefficient certificate",
+     "updated_at": "2026-10-15T15:20:16Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 2,
+     "created_at": "2026-10-07T00:00:55Z",
+     "draft": true,
+     "head_ref": "chatgpt/fold-affine-bridge-20261006-f81c",
+     "head_sha": "1038336f92a482b60c7d89fe3024c941281663d3",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 2,
+      "hits": []
+     },
+     "number": 389,
+     "title": "Fold affine bridge: exact derivatives, critical set and physical gap contract",
+     "updated_at": "2026-10-23T23:43:30Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-07T19:59:51Z",
+     "draft": true,
+     "head_ref": "chatgpt/ac1-f1-synthetic-controls-20261007-gp",
+     "head_sha": "8177f47bbb66b7cc0dca430941832740a5480dee",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 397,
+     "title": "Decouple hard-gate negative controls from live register transitions",
+     "updated_at": "2026-10-20T12:56:12Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-08T04:23:52Z",
+     "draft": true,
+     "head_ref": "grokbot-agent12/steward-source-refresh-01",
+     "head_sha": "bee7fd0b64121c452d5cc40c75e99a71ae8e2613",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 405,
+     "title": "steward skill: successor source refresh (STEWARDSHIP-SOURCE-REFRESH-01; draft, docs only)",
+     "updated_at": "2026-10-15T16:38:38Z"
+    },
+    {
+     "base_ref": "codex/compact-cutoff-controls-repair-20261011-root01a11cbf",
+     "changed_lean_files": 144,
+     "created_at": "2026-10-11T17:00:02Z",
+     "draft": true,
+     "head_ref": "codex/compact-cutoff-controls-final-repair-20261011-root01a11cbf",
+     "head_sha": "5fb3a52ebfbdb73a37f743d9ab960560979f3b20",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 144,
+      "hits": []
+     },
+     "number": 426,
+     "title": "Qualify the two remaining compact cutoff control repairs",
+     "updated_at": "2026-10-14T20:01:55Z"
+    },
+    {
+     "base_ref": "codex/compact-cutoff-proper-partial-control-20261011-root01a11cbf",
+     "changed_lean_files": 204,
+     "created_at": "2026-10-11T19:37:25Z",
+     "draft": true,
+     "head_ref": "codex/compact-cutoff-proper-partial-repair-20261011-root01a11cbf",
+     "head_sha": "1a7fc4be83043f2e313927019db85fff61eeac3f",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 204,
+      "hits": []
+     },
+     "number": 430,
+     "title": "Repair proper partial cutoff control proof bodies with a frozen first hosted gate",
+     "updated_at": "2026-10-14T19:03:56Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-15T17:33:07Z",
+     "draft": true,
+     "head_ref": "grokbot/local-path-map-20261015",
+     "head_sha": "5497685a50c47b05bd3703c9dc295ded1de2f867",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 460,
+     "title": "Custody: map retained local home paths and add a CI guard against new ones (additive, no pinned file edited)",
+     "updated_at": "2026-10-26T02:19:09Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 6,
+     "created_at": "2026-10-18T03:24:21Z",
+     "draft": true,
+     "head_ref": "codex/c293-morse-finite-critical-20261018",
+     "head_sha": "35a7d76869aad52d7508d58bc589eeb0ddc18bbb",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 6,
+      "hits": []
+     },
+     "number": 482,
+     "title": "C293: formalize finite literal Morse critical classes on the torus",
+     "updated_at": "2026-10-26T01:29:15Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 12,
+     "created_at": "2026-10-20T09:04:37Z",
+     "draft": true,
+     "head_ref": "codex/c294-critical-level-attainment-20261020",
+     "head_sha": "dbc3a80afd1ac82c13a0390af7913f9986858467",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 12,
+      "hits": []
+     },
+     "number": 487,
+     "title": "Formalize conditional attainment at the actual superlevel death height",
+     "updated_at": "2026-10-26T01:30:45Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-20T12:34:35Z",
+     "draft": true,
+     "head_ref": "codex/source-admission-graph-package-20261020",
+     "head_sha": "1016973a1f311114b814eef060707ab642bc29e8",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 490,
+     "title": "Draft: propose SOURCE_ADMISSION graph package; local validation HOLD",
+     "updated_at": "2026-10-20T13:04:06Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 13,
+     "created_at": "2026-10-20T14:21:52Z",
+     "draft": true,
+     "head_ref": "codex/c299-critical-ridge-20261020",
+     "head_sha": "deccada38a1510fb8330bc205890ba6e98527818",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 13,
+      "hits": []
+     },
+     "number": 491,
+     "title": "C299: construct the actual negative partial-gradient ridge",
+     "updated_at": "2026-10-24T18:17:49Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-20T15:04:31Z",
+     "draft": true,
+     "head_ref": "codex/elder-cusp-parity-protocol-20261020",
+     "head_sha": "f7fbd8cf44c29103297f29220ab49fcf64b5df3a",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 492,
+     "title": "Harden elder cusp workflow with exact mutant reports",
+     "updated_at": "2026-10-23T11:59:26Z"
+    },
+    {
+     "base_ref": "codex/c299-critical-ridge-20261020",
+     "changed_lean_files": 13,
+     "created_at": "2026-10-23T04:16:27Z",
+     "draft": true,
+     "head_ref": "agent8/c299-c7-replacement-20261022",
+     "head_sha": "91811388ef2e20cc30a1c418e866b185a253a186",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 13,
+      "hits": []
+     },
+     "number": 496,
+     "title": "C299-C7 replacement preparation (agent 8): candidate7 source + manifest/workflow digest rebind",
+     "updated_at": "2026-10-23T04:44:57Z"
+    },
+    {
+     "base_ref": "agent8/c299-c7-replacement-20261022",
+     "changed_lean_files": 13,
+     "created_at": "2026-10-23T04:40:19Z",
+     "draft": true,
+     "head_ref": "agent12/verifier-c7-01",
+     "head_sha": "5b3cc75d1585a00ee1420a556af5b77748c418fa",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 13,
+      "hits": []
+     },
+     "number": 497,
+     "title": "VERIFIER-C7-01: re-pin C299 negative matcher to observed C7 diagnostic (stacked on #496)",
+     "updated_at": "2026-10-24T18:46:36Z"
+    },
+    {
+     "base_ref": "agent12/verifier-c7-01",
+     "changed_lean_files": 13,
+     "created_at": "2026-10-24T18:31:37Z",
+     "draft": true,
+     "head_ref": "codex/c299-timeout-test-adoption-20261024",
+     "head_sha": "d65e4425e32f62678d4899a0488f137c9918d7ae",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 13,
+      "hits": []
+     },
+     "number": 504,
+     "title": "C299: adopt the reviewed timeout-test readiness fixture",
+     "updated_at": "2026-10-24T18:46:19Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 1813,
+     "created_at": "2026-10-26T00:35:37Z",
+     "draft": true,
+     "head_ref": "codex/cubic-curvature-20261026",
+     "head_sha": "a9846b96b5bdbdf7037a09425869ed54f8530f69",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 1813,
+      "hits": []
+     },
+     "number": 514,
+     "title": "Formalize actual source Morse geometry and component transport",
+     "updated_at": "2026-10-29T16:52:24Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-26T19:53:13Z",
+     "draft": false,
+     "head_ref": "claude/determined-bardeen-mrqy4y-c8-wrappers",
+     "head_sha": "8dca89cfbfe773570d9ee96d0f53e8aac3825016",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 520,
+     "title": "Authenticate the C8 check-mode verdicts of the planar cap-failure wrapper",
+     "updated_at": "2026-10-28T09:43:16Z"
+    },
+    {
+     "base_ref": "main",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-28T14:46:49Z",
+     "draft": true,
+     "head_ref": "codex/gaussian-lifetime-tail-20261028",
+     "head_sha": "223293d9d26a7a4158026a4225523e8a683a8794",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 522,
+     "title": "Derive Gaussian lifetime exponential tails and sharp axial escape",
+     "updated_at": "2026-10-29T00:06:54Z"
+    },
+    {
+     "base_ref": "codex/gaussian-lifetime-tail-20261028",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-28T22:18:18Z",
+     "draft": true,
+     "head_ref": "codex/essential-gaussian-rate-20261028",
+     "head_sha": "de872d97fa54eb11c0834b8f532543222900d165",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 523,
+     "title": "Prove matching essential-event Gaussian scale on coordinate axes",
+     "updated_at": "2026-10-28T22:18:18Z"
+    },
+    {
+     "base_ref": "codex/essential-gaussian-rate-20261028",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-28T23:10:17Z",
+     "draft": true,
+     "head_ref": "codex/all-frame-gaussian-rates-20261028",
+     "head_sha": "5a30296bfc6c9c886d483c87e80e2eb2d9ea047d",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 524,
+     "title": "Prove all-direction Gaussian rates and global critical-gap split",
+     "updated_at": "2026-10-29T00:06:55Z"
+    },
+    {
+     "base_ref": "codex/all-frame-gaussian-rates-20261028",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-29T00:00:44Z",
+     "draft": true,
+     "head_ref": "codex/essential-sharp-asymptotics-20261028",
+     "head_sha": "fc5ecb67f4a9d6cfb1dec066499ca2daa1147b3b",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 525,
+     "title": "Identify sharp essential action and tiny-gap square-root law",
+     "updated_at": "2026-10-29T16:49:58Z"
+    },
+    {
+     "base_ref": "codex/essential-sharp-asymptotics-20261028",
+     "changed_lean_files": 0,
+     "created_at": "2026-10-29T16:34:11Z",
+     "draft": true,
+     "head_ref": "codex/gaussian-lifetime-limit-completion-20261029",
+     "head_sha": "fdddc7e6b1fd584fa566beaccedd64d177104d10",
+     "layer_a_changed_lean": {
+      "deleted": [],
+      "errors": [],
+      "files_scanned": 0,
+      "hits": []
+     },
+     "number": 526,
+     "title": "Complete finite-lifetime moment limits and match essential actions",
+     "updated_at": "2026-10-29T16:34:11Z"
+    }
+   ],
+   "remote_branches": [
+    {
+     "last_commit": "2026-10-22T23:40:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/agent12/verifier-c7-01"
+    },
+    {
+     "last_commit": "2026-10-22T23:16:06-05:00",
+     "merged_into_default": false,
+     "name": "origin/agent8/c299-c7-replacement-20261022"
+    },
+    {
+     "last_commit": "2026-10-01T07:09:09-05:00",
+     "merged_into_default": true,
+     "name": "origin/agents/paper1-license-citation"
+    },
+    {
+     "last_commit": "2026-10-10T19:57:15+00:00",
+     "merged_into_default": true,
+     "name": "origin/archive/math421-20261011-pr416"
+    },
+    {
+     "last_commit": "2026-10-10T13:00:07-07:00",
+     "merged_into_default": true,
+     "name": "origin/archive/math421-20261011-pr417"
+    },
+    {
+     "last_commit": "2026-10-10T13:16:13-07:00",
+     "merged_into_default": true,
+     "name": "origin/archive/math421-20261011-pr418"
+    },
+    {
+     "last_commit": "2026-10-10T21:20:02-07:00",
+     "merged_into_default": true,
+     "name": "origin/archive/math421-20261011-pr420"
+    },
+    {
+     "last_commit": "2026-09-28T13:12:57-05:00",
+     "merged_into_default": false,
+     "name": "origin/benjamin/d5-collar-nonauthor-20260928b"
+    },
+    {
+     "last_commit": "2026-10-08T00:14:20-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/ac1-f1-synthetic-controls-20261007-gp"
+    },
+    {
+     "last_commit": "2026-10-06T18:41:29-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/bq11-import-profile-20261007-f81c"
+    },
+    {
+     "last_commit": "2026-10-05T17:27:20-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-adapter-envelope-20261005"
+    },
+    {
+     "last_commit": "2026-10-05T19:07:26-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-angular-formal-20261006"
+    },
+    {
+     "last_commit": "2026-10-06T09:23:00-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-chamber-bridge-20261006-r21"
+    },
+    {
+     "last_commit": "2026-10-06T06:14:28-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-clipped-integral-20261006-r17"
+    },
+    {
+     "last_commit": "2026-10-05T18:13:49-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-d3-moment8-20261005"
+    },
+    {
+     "last_commit": "2026-10-06T05:44:22-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-depth-kernel-20261006-r16"
+    },
+    {
+     "last_commit": "2026-10-05T20:21:09-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-entry-volume-20261006"
+    },
+    {
+     "last_commit": "2026-10-05T17:03:47-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-evidence-r2-20261005"
+    },
+    {
+     "last_commit": "2026-10-06T06:41:46-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-gaussian-envelope-20261006-r18"
+    },
+    {
+     "last_commit": "2026-10-06T04:53:14-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-independent-20261006-r15"
+    },
+    {
+     "last_commit": "2026-10-06T07:02:00-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-inner-integration-20261006-r19"
+    },
+    {
+     "last_commit": "2026-10-05T20:24:34-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-linear-formal-20261006"
+    },
+    {
+     "last_commit": "2026-10-05T19:49:15-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-matrix-formal-20261006"
+    },
+    {
+     "last_commit": "2026-10-06T08:09:59-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-outer-composition-20261006-r20"
+    },
+    {
+     "last_commit": "2026-10-05T18:50:17-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-polar-formal-20261006"
+    },
+    {
+     "last_commit": "2026-10-06T03:52:18-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-product-transport-20261006-r14"
+    },
+    {
+     "last_commit": "2026-10-05T21:57:26-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-proposal-diagnostic-20261006-r12"
+    },
+    {
+     "last_commit": "2026-10-06T09:39:30-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-residual-law-20261006-r22"
+    },
+    {
+     "last_commit": "2026-10-05T16:25:19-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-source-bridge-20261005"
+    },
+    {
+     "last_commit": "2026-10-05T20:43:59-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cap-i4-spectral-assembly-20261006"
+    },
+    {
+     "last_commit": "2026-09-25T16:48:55-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/collision-mechanism-transfer-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T16:44:20-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/contact-kernel-tail-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T16:48:06-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/contact-small-gap-20260925-oa"
+    },
+    {
+     "last_commit": "2026-10-06T05:41:44-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/cusp-contract-characterization-20261006-rfgate"
+    },
+    {
+     "last_commit": "2026-09-25T18:51:43-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/d1-borel-kac-rice-amend-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T16:55:07-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d1-section9-borel-repair-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T16:22:43-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d5-annulus-bridge-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T15:41:13-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d5-finite-r-hermite-repair-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T19:33:45-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d5-graph-regional-update-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T15:24:14-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d5-inner-axial-density-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T14:13:24-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/d5-pin-compatibility-review-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T16:16:18-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/d5-thin-tube-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T14:10:55-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/downstream-boundary-review-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T17:05:08-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/fail-closed-claim-audit-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T18:36:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/fail-closed-claim-audit-20260925-v2"
+    },
+    {
+     "last_commit": "2026-09-24T11:48:03-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/federation-coefficient-20260924"
+    },
+    {
+     "last_commit": "2026-10-06T18:56:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/fold-affine-bridge-20261006-f81c"
+    },
+    {
+     "last_commit": "2026-09-24T15:44:18-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/full-price-20260924"
+    },
+    {
+     "last_commit": "2026-09-25T12:39:18-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/gate-refuted-union-hotfix-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T19:05:16-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/integrate-reviewed-collision-package-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T18:55:11-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/landing-claim-manifest-20260925"
+    },
+    {
+     "last_commit": "2026-10-05T22:22:08-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-fixture-signing-20261006-r11"
+    },
+    {
+     "last_commit": "2026-10-05T21:30:19-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-json-refresh-20261006-r9"
+    },
+    {
+     "last_commit": "2026-10-05T20:39:05-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-json-repair-20261006-r8"
+    },
+    {
+     "last_commit": "2026-10-06T05:29:30-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-parser-plus-20261006-r13"
+    },
+    {
+     "last_commit": "2026-10-05T22:11:25-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-signing-isolation-20261006-r12"
+    },
+    {
+     "last_commit": "2026-10-06T04:11:02-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-trigger-coverage-20261006-r6"
+    },
+    {
+     "last_commit": "2026-10-05T21:02:37-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/legacy-tty-followon-20261006"
+    },
+    {
+     "last_commit": "2026-09-25T19:29:19-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/lifetime-parent-imports-20260925"
+    },
+    {
+     "last_commit": "2026-10-06T05:49:35-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/lm006-coefficient-refine-4096-20261006-r22"
+    },
+    {
+     "last_commit": "2026-10-06T07:10:57-07:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/lm006-oned-certificate-ci-20261006-b91e"
+    },
+    {
+     "last_commit": "2026-10-06T09:32:20-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/lm006-oned-replay-20261006-b91e"
+    },
+    {
+     "last_commit": "2026-10-05T20:09:13-07:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/lm006-regression-rate-20261006"
+    },
+    {
+     "last_commit": "2026-09-26T11:44:32-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/math-gate-identity-20260926"
+    },
+    {
+     "last_commit": "2026-10-05T21:00:30-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/nav-verdict-word-start-20261006-r10"
+    },
+    {
+     "last_commit": "2026-10-05T21:35:02-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-citation-identity-20261006"
+    },
+    {
+     "last_commit": "2026-10-06T07:59:16-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-corpus-observation-20261006"
+    },
+    {
+     "last_commit": "2026-09-24T13:26:51-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/navigation-price-20260924"
+    },
+    {
+     "last_commit": "2026-10-06T07:30:57-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-reviewed-stack-preparation-20261006"
+    },
+    {
+     "last_commit": "2026-10-05T21:12:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-verdict-boundaries-20261006"
+    },
+    {
+     "last_commit": "2026-10-05T20:58:40-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-verdict-boundary-20261006"
+    },
+    {
+     "last_commit": "2026-09-27T18:20:43-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/never-merge-formal-negative-20260927"
+    },
+    {
+     "last_commit": "2026-09-25T20:54:54-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/p15-reviewed-manifest-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T14:46:26-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/p15-smt-pilot-20260925-1918"
+    },
+    {
+     "last_commit": "2026-10-05T21:07:33-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/pr334-native-contract-support-20261006"
+    },
+    {
+     "last_commit": "2026-09-25T12:09:34-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/pr8-own-node-eligibility-fix"
+    },
+    {
+     "last_commit": "2026-09-25T19:35:03-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/proof-availability-audit-20260925"
+    },
+    {
+     "last_commit": "2026-09-25T20:57:10-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/proof-index-20260925-v2"
+    },
+    {
+     "last_commit": "2026-09-26T11:15:34-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-imports-pointer-20260926"
+    },
+    {
+     "last_commit": "2026-10-05T20:20:25-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/qs-raw-child-evidence-20261006-r9"
+    },
+    {
+     "last_commit": "2026-10-05T22:15:05-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/qs340-inventory-amendment-support-20261006"
+    },
+    {
+     "last_commit": "2026-09-24T16:58:41-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/remote-window-20260924"
+    },
+    {
+     "last_commit": "2026-10-05T15:13:04-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/retrospective-round10-20261005"
+    },
+    {
+     "last_commit": "2026-10-06T04:46:18-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/rf-gate-helper-replay-22393e7b-20261006-r8"
+    },
+    {
+     "last_commit": "2026-10-06T05:27:05-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/rf-gate-incorporation-rehearsal-20261006-r9"
+    },
+    {
+     "last_commit": "2026-10-06T06:09:46-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/soft-fold-protocol-20261006"
+    },
+    {
+     "last_commit": "2026-10-06T07:24:42-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/third-order-protocol-20261006-37bd-r4"
+    },
+    {
+     "last_commit": "2026-09-24T12:51:04-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/three-fronts-20260924"
+    },
+    {
+     "last_commit": "2026-09-25T14:09:40-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/transition-integrity-v2-20260925"
+    },
+    {
+     "last_commit": "2026-09-29T20:58:08-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/two-scale-custody-postmerge-repair-20260929"
+    },
+    {
+     "last_commit": "2026-10-13T12:57:29+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/dd-model-d-enclosure-wip-20261013"
+    },
+    {
+     "last_commit": "2026-10-06T11:30:23+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/determined-bardeen-mrqy4y"
+    },
+    {
+     "last_commit": "2026-10-28T03:40:40-05:00",
+     "merged_into_default": false,
+     "name": "origin/claude/determined-bardeen-mrqy4y-c8-wrappers"
+    },
+    {
+     "last_commit": "2026-10-11T22:46:08+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/round4-triage-table-20261011"
+    },
+    {
+     "last_commit": "2026-10-28T18:09:46-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/all-frame-gaussian-rates-20261028"
+    },
+    {
+     "last_commit": "2026-10-17T19:49:57-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c291-literal-lifetime-field-20261018"
+    },
+    {
+     "last_commit": "2026-10-22T21:40:51-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c293-morse-finite-critical-20261018"
+    },
+    {
+     "last_commit": "2026-10-24T15:12:34-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c294-critical-level-attainment-20261020"
+    },
+    {
+     "last_commit": "2026-10-20T10:22:37-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c299-critical-ridge-20261020"
+    },
+    {
+     "last_commit": "2026-10-24T13:30:59-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c299-timeout-test-adoption-20261024"
+    },
+    {
+     "last_commit": "2026-10-24T14:53:55-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/c301-c291-static-workspace-20261024"
+    },
+    {
+     "last_commit": "2026-10-10T10:59:14-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-baseline-20261009-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-11T09:59:00-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-controls-final-repair-20261011-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-11T09:21:39-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-controls-repair-20261011-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-10T11:52:13-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-proof-20261010-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-11T08:50:07-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-proof-repair-20261011-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-11T11:03:14-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-proper-partial-control-20261011-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-11T12:37:04-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/compact-cutoff-proper-partial-repair-20261011-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-28T19:08:12-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/cubic-curvature-20261026"
+    },
+    {
+     "last_commit": "2026-10-23T06:31:06-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/elder-cusp-parity-protocol-20261020"
+    },
+    {
+     "last_commit": "2026-10-28T17:17:42-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/essential-gaussian-rate-20261028"
+    },
+    {
+     "last_commit": "2026-10-28T19:00:11-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/essential-sharp-asymptotics-20261028"
+    },
+    {
+     "last_commit": "2026-10-29T11:33:44-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/gaussian-lifetime-limit-completion-20261029"
+    },
+    {
+     "last_commit": "2026-10-28T09:46:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/gaussian-lifetime-tail-20261028"
+    },
+    {
+     "last_commit": "2026-10-09T10:36:18-07:00",
+     "merged_into_default": true,
+     "name": "origin/codex/pr409-current-source-b4a66e52"
+    },
+    {
+     "last_commit": "2026-10-20T10:02:36-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/quotient-closed-superlevel-lpc-adapter-20261020"
+    },
+    {
+     "last_commit": "2026-10-20T10:21:15-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/quotient-closed-superlevel-lpc-adapter-20261020-r2"
+    },
+    {
+     "last_commit": "2026-10-22T16:37:47-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/quotient-closed-superlevel-lpc-adapter-20261022-r3"
+    },
+    {
+     "last_commit": "2026-10-20T07:30:23-05:00",
+     "merged_into_default": false,
+     "name": "origin/codex/source-admission-graph-package-20261020"
+    },
+    {
+     "last_commit": "2026-10-13T05:44:07-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/source-smooth-realization-20261013-root01a11cbf"
+    },
+    {
+     "last_commit": "2026-10-01T09:43:09-05:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/add-license-citation-files"
+    },
+    {
+     "last_commit": "2026-09-26T01:31:45+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/cross-repo-proof-custody-7eca"
+    },
+    {
+     "last_commit": "2026-09-26T00:50:52+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/d2-cumulative-confirm-870a"
+    },
+    {
+     "last_commit": "2026-09-25T22:10:23+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/d2-cumulative-correction-review-5dce"
+    },
+    {
+     "last_commit": "2026-09-25T17:47:03+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/d5-chart-graph-node-91fa"
+    },
+    {
+     "last_commit": "2026-09-26T00:00:04+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/d5-chart-j0-on-hotfix-91fa"
+    },
+    {
+     "last_commit": "2026-09-26T01:38:37+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/d5-pin-microdisk-c059"
+    },
+    {
+     "last_commit": "2026-09-25T16:44:05+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/downstream-hard-gate-91fa"
+    },
+    {
+     "last_commit": "2026-09-27T22:22:27+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/formal-verification-layer-ae3b"
+    },
+    {
+     "last_commit": "2026-09-26T00:38:18+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/lemma-theorem-registers-f339"
+    },
+    {
+     "last_commit": "2026-10-05T15:43:31+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/moment-generality-alignment-cdd1"
+    },
+    {
+     "last_commit": "2026-09-26T01:35:12+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/nonauthor-hermite-axial-review-5dce"
+    },
+    {
+     "last_commit": "2026-09-26T01:25:27+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/p15-full-price-review-55ed"
+    },
+    {
+     "last_commit": "2026-09-25T21:33:32+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/pr25-contact-kernel-review-b00c"
+    },
+    {
+     "last_commit": "2026-09-25T21:40:59+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/pr25-typed-transfer-review-bebc"
+    },
+    {
+     "last_commit": "2026-09-25T22:17:49+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/pr28-annulus-nonauthor-review-bed2"
+    },
+    {
+     "last_commit": "2026-09-26T02:04:58+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/pr69-pin-microdisk-review-4f5c"
+    },
+    {
+     "last_commit": "2026-09-26T15:56:06+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/proof-custody-repair-8e33"
+    },
+    {
+     "last_commit": "2026-09-26T00:00:02+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/rn-mesoscopic-chart-j0-91fa"
+    },
+    {
+     "last_commit": "2026-09-26T16:46:22-05:00",
+     "merged_into_default": true,
+     "name": "origin/custody/proof-index-erratum-pointer-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T16:38:16-05:00",
+     "merged_into_default": true,
+     "name": "origin/grok/congruence-erratum-on-default-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T12:57:20-05:00",
+     "merged_into_default": true,
+     "name": "origin/grok/required-math-20260926"
+    },
+    {
+     "last_commit": "2026-10-07T21:23:02-07:00",
+     "merged_into_default": false,
+     "name": "origin/grokbot-agent12/steward-source-refresh-01"
+    },
+    {
+     "last_commit": "2026-10-15T17:32:26+00:00",
+     "merged_into_default": false,
+     "name": "origin/grokbot/local-path-map-20261015"
+    },
+    {
+     "last_commit": "2026-09-28T13:09:14-05:00",
+     "merged_into_default": true,
+     "name": "origin/harper/d5-contact-kernel-tail-review-20260928"
+    },
+    {
+     "last_commit": "2026-09-24T09:58:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/purpose-readme-seed"
+    },
+    {
+     "last_commit": "2026-10-28T11:27:59-05:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    },
+    {
+     "last_commit": "2026-10-06T07:04:51-07:00",
+     "merged_into_default": false,
+     "name": "origin/support/navigation-336-344-353-on-08f86862-20261006"
+    },
+    {
+     "last_commit": "2026-09-30T08:12:42-05:00",
+     "merged_into_default": true,
+     "name": "origin/xai/outsider-directions-note-20260930"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": true,
+    "STATUS.md": false,
+    "TOOLING.md": false
+   },
+   "tags": [
+    "pre-cbz-discovery-1"
+   ],
+   "workflow_count": 182,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/math-"
+   ]
+  },
+  {
+   "clone": "/home/user/governance-",
+   "default_branch": "main",
+   "default_head": "e396002aa19158f9fcca27eaf33a5da38b1ed313",
+   "default_head_checks": [
+    {
+     "conclusion": "success",
+     "name": "work-leases (0)",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "work-leases (1)",
+     "status": "completed"
+    }
+   ],
+   "file_count": 42,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 0,
+    "hits": []
+   },
+   "lean_file_count": 0,
+   "name": "governance-",
+   "open_prs": [],
+   "remote_branches": [
+    {
+     "last_commit": "2026-10-15T15:23:12-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/archsys-active-board-route-20261015"
+    },
+    {
+     "last_commit": "2026-10-08T08:44:11-07:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/board307-routing-20261008"
+    },
+    {
+     "last_commit": "2026-10-07T14:17:10-07:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/c146-readme-current-entry-20261007"
+    },
+    {
+     "last_commit": "2026-09-24T11:56:54-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/federation-coefficient-20260924"
+    },
+    {
+     "last_commit": "2026-10-15T10:29:57-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/gtw-6195765034-trial-routing"
+    },
+    {
+     "last_commit": "2026-10-15T11:28:04-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/lease-input-types-20261015-6195569812"
+    },
+    {
+     "last_commit": "2026-10-15T13:34:21-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/meta-gov-mandate-entry-20261015-6199423937"
+    },
+    {
+     "last_commit": "2026-09-27T20:57:37-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/public-readme-cleanup-20260927"
+    },
+    {
+     "last_commit": "2026-09-25T15:52:31-05:00",
+     "merged_into_default": true,
+     "name": "origin/chatgpt/review-topology-v1-20260925"
+    },
+    {
+     "last_commit": "2026-10-21T19:24:53+00:00",
+     "merged_into_default": true,
+     "name": "origin/claude/determined-bardeen-mrqy4y"
+    },
+    {
+     "last_commit": "2026-10-25T23:40:10-05:00",
+     "merged_into_default": true,
+     "name": "origin/claude/drive-audit-github-migration-rrglpp"
+    },
+    {
+     "last_commit": "2026-09-28T00:24:16+00:00",
+     "merged_into_default": true,
+     "name": "origin/claude/formal-deployment-records-20260928"
+    },
+    {
+     "last_commit": "2026-09-28T00:32:57+00:00",
+     "merged_into_default": true,
+     "name": "origin/claude/governance-docs-watcher-95-20260928"
+    },
+    {
+     "last_commit": "2026-09-27T23:58:44+00:00",
+     "merged_into_default": true,
+     "name": "origin/claude/owner-stop-cursor-20260927"
+    },
+    {
+     "last_commit": "2026-10-15T15:37:51-05:00",
+     "merged_into_default": true,
+     "name": "origin/codex/mandate-readme-board419-20261015"
+    },
+    {
+     "last_commit": "2026-10-11T11:08:28-07:00",
+     "merged_into_default": true,
+     "name": "origin/codex/refresh-privacy-pointer-20261011"
+    },
+    {
+     "last_commit": "2026-10-26T01:38:24+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/board-619-pointer-matrix-eed8"
+    },
+    {
+     "last_commit": "2026-10-26T01:33:19+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/board-619-residual-links-eed8"
+    },
+    {
+     "last_commit": "2026-10-26T16:18:20+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/coord-crawl-wake-20261026-eed8"
+    },
+    {
+     "last_commit": "2026-10-26T01:51:40+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/followup-638-tip-lpw-eed8"
+    },
+    {
+     "last_commit": "2026-09-27T23:36:49+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/lease-watch-continuation-ab08"
+    },
+    {
+     "last_commit": "2026-09-27T23:50:02+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/lease-watch-followthrough-ab08"
+    },
+    {
+     "last_commit": "2026-09-27T23:55:31+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/lease-watch-pulse-ab08"
+    },
+    {
+     "last_commit": "2026-10-26T01:41:43+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/main638-eng-review-eed8"
+    },
+    {
+     "last_commit": "2026-10-26T01:42:55+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math512-eng-review-eed8"
+    },
+    {
+     "last_commit": "2026-10-26T02:29:34+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/math512-process-breach-note-eed8"
+    },
+    {
+     "last_commit": "2026-09-26T15:58:37+00:00",
+     "merged_into_default": true,
+     "name": "origin/cursor/process-packet-scope-ab08"
+    },
+    {
+     "last_commit": "2026-10-11T17:03:48-07:00",
+     "merged_into_default": false,
+     "name": "origin/docs/qualify-current-json-snapshot"
+    },
+    {
+     "last_commit": "2026-10-12T10:50:25-07:00",
+     "merged_into_default": true,
+     "name": "origin/docs/review-topology-current-precedence-20261012"
+    },
+    {
+     "last_commit": "2026-10-11T16:55:50-07:00",
+     "merged_into_default": true,
+     "name": "origin/fix/lease-checker-overlap"
+    },
+    {
+     "last_commit": "2026-10-15T14:27:23-05:00",
+     "merged_into_default": true,
+     "name": "origin/gtw/governance-readme-mandate-20261015-6200469837"
+    },
+    {
+     "last_commit": "2026-10-15T18:19:14-05:00",
+     "merged_into_default": true,
+     "name": "origin/gtw/lease-ci-20261015-6196870796"
+    },
+    {
+     "last_commit": "2026-10-07T09:40:21-07:00",
+     "merged_into_default": false,
+     "name": "origin/harper-h01-delete-owner-stop"
+    },
+    {
+     "last_commit": "2026-09-24T09:58:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/purpose-readme-seed"
+    },
+    {
+     "last_commit": "2026-10-26T11:38:49-05:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    },
+    {
+     "last_commit": "2026-10-07T09:40:58-07:00",
+     "merged_into_default": false,
+     "name": "origin/remove-owner-stop-20261007"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": false,
+    "STATUS.md": false,
+    "TOOLING.md": false
+   },
+   "tags": [
+    "pre-cbz-discovery-1"
+   ],
+   "workflow_count": 1,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/governance-"
+   ]
+  },
+  {
+   "clone": "/home/user/meta-framework",
+   "default_branch": "main",
+   "default_head": "c70e1984477ae1752e93a060fac8bf0486c0ce73",
+   "default_head_checks": [],
+   "file_count": 468,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 0,
+    "hits": []
+   },
+   "lean_file_count": 0,
+   "name": "meta-framework",
+   "open_prs": [],
+   "remote_branches": [
+    {
+     "last_commit": "2026-10-07T09:39:25-07:00",
+     "merged_into_default": false,
+     "name": "origin/architecture/meta-framework-stop-alignment-20261007"
+    },
+    {
+     "last_commit": "2026-10-07T15:25:28-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/c146-conformance-readme-20261007"
+    },
+    {
+     "last_commit": "2026-09-27T23:21:08-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/closed-queue-nav-20260928"
+    },
+    {
+     "last_commit": "2026-09-24T11:54:20-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/federation-coefficient-20260924"
+    },
+    {
+     "last_commit": "2026-09-24T15:56:33-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/full-price-catalog-20260924"
+    },
+    {
+     "last_commit": "2026-10-15T14:31:50-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/gtw-meta-trial-routing-20261015-6200549568"
+    },
+    {
+     "last_commit": "2026-10-15T15:25:58-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-agent-board419-20261015-6201558220"
+    },
+    {
+     "last_commit": "2026-10-11T08:34:05-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-artifact-repository-types-20261011"
+    },
+    {
+     "last_commit": "2026-10-14T13:44:57-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-contract-nul-20261014-6175652935"
+    },
+    {
+     "last_commit": "2026-10-11T16:45:03-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-contracts-push-main-20261011"
+    },
+    {
+     "last_commit": "2026-10-07T22:53:43-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-enum-type-refusals-20261008"
+    },
+    {
+     "last_commit": "2026-10-07T17:42:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-json-duplicates-20261008"
+    },
+    {
+     "last_commit": "2026-10-15T12:38:44-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-mandate-entry-20261015-6198347695"
+    },
+    {
+     "last_commit": "2026-10-15T16:02:40-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-readme-board419-20261015-6202194286"
+    },
+    {
+     "last_commit": "2026-10-07T16:32:29-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta-registry-root-refusal-20261007"
+    },
+    {
+     "last_commit": "2026-10-12T16:40:31-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/meta15-exact-hex-types-20261012"
+    },
+    {
+     "last_commit": "2026-09-24T13:42:59-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navigation-price-20260924"
+    },
+    {
+     "last_commit": "2026-09-27T23:02:27-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/navy-gold-readme-20260927"
+    },
+    {
+     "last_commit": "2026-09-24T17:05:20-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/remote-window-catalog-20260924"
+    },
+    {
+     "last_commit": "2026-10-15T18:41:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/rtw-meta-delegation-onboard-20261015-6204291992"
+    },
+    {
+     "last_commit": "2026-09-25T21:37:45-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/source-contracts-20260925"
+    },
+    {
+     "last_commit": "2026-10-11T11:46:37-07:00",
+     "merged_into_default": false,
+     "name": "origin/ci/contracts-push-trigger"
+    },
+    {
+     "last_commit": "2026-10-21T19:24:55+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/determined-bardeen-mrqy4y"
+    },
+    {
+     "last_commit": "2026-10-26T01:26:22+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/drive-audit-github-migration-rrglpp"
+    },
+    {
+     "last_commit": "2026-10-13T23:52:13+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/meta15-conformance-doc-current-20261013"
+    },
+    {
+     "last_commit": "2026-10-12T22:38:46+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/meta15-contract-compatibility-20261012"
+    },
+    {
+     "last_commit": "2026-09-27T23:58:40+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/owner-stop-cursor-20260927"
+    },
+    {
+     "last_commit": "2026-10-12T10:48:38-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/meta-catalog-guidance-20261012"
+    },
+    {
+     "last_commit": "2026-10-11T19:15:15-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/meta-current-routing-labels-20261012"
+    },
+    {
+     "last_commit": "2026-10-11T18:26:48-07:00",
+     "merged_into_default": false,
+     "name": "origin/codex/meta-lookup-only-quickstart-20261012"
+    },
+    {
+     "last_commit": "2026-09-27T23:31:59+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/catalog-drive-parents-5cb8"
+    },
+    {
+     "last_commit": "2026-09-27T23:50:41+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/catalog-math-pr53-5cb8"
+    },
+    {
+     "last_commit": "2026-09-27T22:24:06+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/formal-verification-layer-af9f"
+    },
+    {
+     "last_commit": "2026-09-27T23:41:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/public-face-navigation-9aa7"
+    },
+    {
+     "last_commit": "2026-10-08T02:11:47+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/w8f-w8d-controls-ci"
+    },
+    {
+     "last_commit": "2026-10-12T18:06:15-07:00",
+     "merged_into_default": false,
+     "name": "origin/gpt6/meta15-long-major-overflow-20261013"
+    },
+    {
+     "last_commit": "2026-09-27T23:22:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/grok-h01-delete-stop-20261007"
+    },
+    {
+     "last_commit": "2026-10-08T04:21:36-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/c179-w1v-discovery-01"
+    },
+    {
+     "last_commit": "2026-10-15T17:33:17+00:00",
+     "merged_into_default": false,
+     "name": "origin/grokbot/agent11-readme-archived-20261015"
+    },
+    {
+     "last_commit": "2026-10-09T17:13:22-07:00",
+     "merged_into_default": false,
+     "name": "origin/harper/c179-discovery-guard-20261009"
+    },
+    {
+     "last_commit": "2026-09-24T09:57:57-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/purpose-readme-seed"
+    },
+    {
+     "last_commit": "2026-09-27T23:22:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/lucas-h01-stop-gone"
+    },
+    {
+     "last_commit": "2026-10-26T01:57:28+00:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    },
+    {
+     "last_commit": "2026-10-21T14:49:12-05:00",
+     "merged_into_default": false,
+     "name": "origin/research/meta-d1-source-ref-repair-20261023"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": false,
+    "STATUS.md": false,
+    "TOOLING.md": false
+   },
+   "tags": [
+    "pre-cbz-discovery-1"
+   ],
+   "workflow_count": 2,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/meta-framework"
+   ]
+  },
+  {
+   "clone": "/home/user/query-",
+   "default_branch": "main",
+   "default_head": "fb4c457b5861dc49696fd0a8e11c7c405056c05f",
+   "default_head_checks": [
+    {
+     "conclusion": "success",
+     "name": "local-controls",
+     "status": "completed"
+    }
+   ],
+   "file_count": 55,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 0,
+    "hits": []
+   },
+   "lean_file_count": 0,
+   "name": "query-",
+   "open_prs": [],
+   "remote_branches": [
+    {
+     "last_commit": "2026-10-07T09:38:15-07:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/align-query-agent-entry-20261007"
+    },
+    {
+     "last_commit": "2026-09-24T11:55:37-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/federation-coefficient-20260924"
+    },
+    {
+     "last_commit": "2026-09-26T11:47:17-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/math-required-check-tip-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T11:18:36-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/public-math-tip-20260926"
+    },
+    {
+     "last_commit": "2026-09-25T21:42:19-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/src-migration-20260925"
+    },
+    {
+     "last_commit": "2026-10-08T02:17:20-07:00",
+     "merged_into_default": false,
+     "name": "origin/ci/w1v-02-empty-discovery-guard"
+    },
+    {
+     "last_commit": "2026-10-08T05:25:40-07:00",
+     "merged_into_default": false,
+     "name": "origin/ci/w1v-02-reject-empty-discovery"
+    },
+    {
+     "last_commit": "2026-09-26T10:08:32-05:00",
+     "merged_into_default": false,
+     "name": "origin/copilot/fix-github-actions-job"
+    },
+    {
+     "last_commit": "2026-10-26T01:44:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/board-route-619-3c54"
+    },
+    {
+     "last_commit": "2026-09-25T17:23:31+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/downstream-gate-stubs-2393"
+    },
+    {
+     "last_commit": "2026-09-26T01:38:04+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/peer-handoff-meta6-3c3cf11-2393"
+    },
+    {
+     "last_commit": "2026-09-25T18:46:18+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/peer-handoff-meta6-7ffa5c6-2393"
+    },
+    {
+     "last_commit": "2026-09-25T18:30:48+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/peer-handoff-meta6-e2259d4-2393"
+    },
+    {
+     "last_commit": "2026-09-25T18:16:20+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/peer-handoff-meta6-f890782-2393"
+    },
+    {
+     "last_commit": "2026-09-25T18:09:14+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/peer-handoff-meta6-verify-8cda"
+    },
+    {
+     "last_commit": "2026-09-25T17:46:15+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/refresh-gate-stubs-2393"
+    },
+    {
+     "last_commit": "2026-09-25T16:50:39+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/rn-lookup-local-tests-2393"
+    },
+    {
+     "last_commit": "2026-09-25T17:56:10+00:00",
+     "merged_into_default": false,
+     "name": "origin/cursor/tip-drift-gate-check-2393"
+    },
+    {
+     "last_commit": "2026-10-09T17:13:37-07:00",
+     "merged_into_default": false,
+     "name": "origin/harper/c179-discovery-guard-20261009"
+    },
+    {
+     "last_commit": "2026-09-26T14:47:06+00:00",
+     "merged_into_default": false,
+     "name": "origin/integration/public-src-20260926"
+    },
+    {
+     "last_commit": "2026-09-24T09:58:01-05:00",
+     "merged_into_default": false,
+     "name": "origin/inventable/purpose-readme-seed"
+    },
+    {
+     "last_commit": "2026-10-26T01:58:24+00:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": false,
+    "STATUS.md": false,
+    "TOOLING.md": false
+   },
+   "tags": [
+    "pre-cbz-discovery-1"
+   ],
+   "workflow_count": 2,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/query-"
+   ]
+  },
+  {
+   "clone": "/home/user/universal-law-workspace",
+   "default_branch": "main",
+   "default_head": "45a80ab01504936b46d035c2de1f92c73ed273de",
+   "default_head_checks": [
+    {
+     "conclusion": "success",
+     "name": "verify",
+     "status": "completed"
+    },
+    {
+     "conclusion": "success",
+     "name": "verify-pins",
+     "status": "completed"
+    }
+   ],
+   "file_count": 27,
+   "layer_a_default_tree": {
+    "errors": [],
+    "files_scanned": 0,
+    "hits": []
+   },
+   "lean_file_count": 0,
+   "name": "Universal-Law-Workspace",
+   "open_prs": [],
+   "remote_branches": [
+    {
+     "last_commit": "2026-09-26T10:21:04-05:00",
+     "merged_into_default": false,
+     "name": "origin/chatgpt/federation-bootstrap-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T16:11:16+00:00",
+     "merged_into_default": false,
+     "name": "origin/claude/public-workspace-proposal-20260926"
+    },
+    {
+     "last_commit": "2026-10-10T13:15:48-07:00",
+     "merged_into_default": false,
+     "name": "origin/grok/pins-update-20261010"
+    },
+    {
+     "last_commit": "2026-09-26T09:40:32-05:00",
+     "merged_into_default": false,
+     "name": "origin/import/curated-tree-20260926"
+    },
+    {
+     "last_commit": "2026-09-26T10:38:22-05:00",
+     "merged_into_default": false,
+     "name": "origin/import/submodules-20260926"
+    },
+    {
+     "last_commit": "2026-10-26T11:35:51-05:00",
+     "merged_into_default": true,
+     "name": "origin/main"
+    }
+   ],
+   "stashes": 0,
+   "status_surfaces": {
+    "AGENTS.md": true,
+    "BASELINE.md": false,
+    "DECISIONS.md": false,
+    "GOVERNANCE.md": false,
+    "INVENTORY.md": false,
+    "PROOF_INDEX.md": false,
+    "STATUS.md": false,
+    "TOOLING.md": false
+   },
+   "tags": [],
+   "workflow_count": 2,
+   "working_tree_dirty_entries": 0,
+   "worktrees": [
+    "/home/user/universal-law-workspace"
+   ]
+  }
+ ],
+ "schema": "cbz-inventory/v1"
+}
