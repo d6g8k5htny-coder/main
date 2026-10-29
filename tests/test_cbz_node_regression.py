@@ -580,6 +580,36 @@ class MutationHarnessTests(unittest.TestCase):
                 "test": "test_all_byte_identities_are_required",
                 "observation": "intended_bypass_observed"})
 
+    def test_fixture_receipt_requires_successful_node_exit(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-fixture-observation-") as directory:
+            root = Path(directory)
+            fixture = root / "shop/Math-/data.txt"
+            fixture.parent.mkdir(parents=True)
+            fixture.write_bytes(b"mutated\n")
+            transcript = root / "node.tap"
+            transcript.write_text("# pass 1\n")
+            names = ("CBZ_NODE_MUTANT_NONCE", "CBZ_NODE_MUTANT_RECEIPT", "CBZ_NODE_MUTANT_NAME")
+            previous = {name: os.environ.get(name) for name in names}
+            def restore():
+                for name, value in previous.items():
+                    if value is None:
+                        os.environ.pop(name, None)
+                    else:
+                        os.environ[name] = value
+            self.addCleanup(restore)
+            case = NodeRunnerTests("test_child_fixture_mutation_is_a_failed_postflight")
+            for mutation in ("fixture-domain", "fixture-postflight"):
+                receipt = root / (mutation + ".json")
+                os.environ.update(CBZ_NODE_MUTANT_NONCE="fresh",
+                                  CBZ_NODE_MUTANT_RECEIPT=str(receipt),
+                                  CBZ_NODE_MUTANT_NAME=mutation)
+                inputs = {"output": root, "path": transcript, "observed_exit": 1}
+                case.observe_missing_rejection("fixture", inputs)
+                self.assertFalse(receipt.exists(), mutation)
+                inputs["observed_exit"] = 0
+                case.observe_missing_rejection("fixture", inputs)
+                self.assertTrue(receipt.exists(), mutation)
+
     def test_launch_failure_cannot_kill(self):
         result = subprocess.CompletedProcess([], 1, "", "SyntaxError: broken module")
         self.assertFalse(assertion_kill(result, "test_expected"))
