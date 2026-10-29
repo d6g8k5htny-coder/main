@@ -183,3 +183,5 @@ for elegance.
   five unsupported real-record methods remain unexercised. No active regression
   claim may disguise those observations as a green historical full suite.
   Rationale: terminal boundaries preserve facts rather than fabricate data.
+
+- **B-014 (2026-10-29):** The active agent entry contains current CBZ instructions only. Superseded family-review/owner-approval requirements remain recoverable historical evidence and impose no task gate. Keep useful source/test/privacy guidance, exact current board routing and immutable verification requirements. Rationale: remove operative contradictory ceremony rather than repeatedly satisfy it.
