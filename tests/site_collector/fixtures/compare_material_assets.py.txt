@@ -1,0 +1,12 @@
+def compare_material_assets(bodies,source_bodies,normalize):
+    rows=[]
+    for key,raw in bodies.items():
+        path=key.split('?')[0];suffix=Path(path).suffix
+        static_json=path in ('config.json','dependency-source/GRAPH.json','dependency-source/PROVENANCE.json')
+        if not static_json and suffix not in ('.js','.mjs','.css','.svg','.png','.jpg','.jpeg','.webp','.ico','.woff','.woff2'):continue
+        require(path in source_bodies,'Material asset absent from final qualified Source: '+key);source=source_bodies[path]
+        if suffix in ('.js','.mjs','.css'):
+            actual=normalize(raw.decode('utf-8'),suffix).encode();expected=normalize(source.decode('utf-8'),suffix).encode()
+        else:actual,expected=raw,source
+        require(actual==expected,'Served material asset differs from final qualified Source: '+key);rows.append({'url':ORIGIN+key,'raw':record(raw),'source':record(source),'comparison':'Only qualified reserved release URL spans normalized' if suffix in ('.js','.mjs','.css') else 'Exact raw bytes'})
+    require(rows,'No independently qualified code assets');return rows

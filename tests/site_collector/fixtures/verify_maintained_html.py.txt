@@ -1,0 +1,6 @@
+def verify_maintained_html(payload,bodies):
+    digest=record(payload)['sha256'];count=0
+    for key in ('index.html','research.html','workspace.html','dependencies.html'):
+        raw=bodies[key].decode('utf-8');digests=re.findall(r'data-current-digest="([0-9a-f]{64})"',raw);sizes=re.findall(r'data-current-bytes="([0-9]+)"',raw)
+        require(digests==[digest] and sizes==[str(len(payload))],'Maintained HTML advertises another observation: '+key);count+=1
+    return count
