@@ -150,11 +150,20 @@ def check_lean(text):
     kernel_bypass = {'addDeclWithoutChecking'}
     expansion = {'macro', 'macro_rules', 'elab', 'elab_rules', 'syntax', 'unsafe', 'run_elab', 'initialize', 'builtin_initialize', 'implemented_by', 'extern'}
     hazards = []
-    for raw_name, line, column, first, plus_before, following in canonical_identifier_tokens(text):
+    lexical_errors = []
+    for metadata in canonical_identifier_tokens(text, lexical_errors):
+        if not isinstance(metadata, tuple) or len(metadata) != 7:
+            findings.append(finding('LEAN_LEXICAL_GAP', 'unsupported canonical lexer metadata shape'))
+            continue
+        raw_name, line, column, first, plus_before, following, field_before = metadata
+        # The stricter hazard rules inspect every identifier; native is refused
+        # regardless of the canonical classifier's seventh field/context hint.
         parts = raw_name.split('.')
         quoted = parts[-1].startswith('\x00')
         name = '.'.join(part.removeprefix('\x00').replace('\x01', '.') for part in parts)
         hazards.append(Token(name, line, column - 1, quoted))
+    for line, column, kind in dict.fromkeys(lexical_errors):
+        findings.append(finding('LEAN_LEXICAL_GAP', 'canonical lexer: ' + kind, line))
     for token in hazards:
         word = token.text
         tail = word.rsplit('.', 1)[-1]

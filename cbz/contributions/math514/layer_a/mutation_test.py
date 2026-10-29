@@ -4,6 +4,8 @@ import argparse
 import ast
 from datetime import datetime, timezone
 import hashlib
+import functools
+import io
 import json
 import os
 from pathlib import Path
@@ -12,18 +14,23 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import unittest
 
 HERE=Path(__file__).resolve().parent
 
 # Each change weakens a claimed auditor rule, rather than planting a bad proof fixture.
 MUTATIONS=[
+ ('restore-generic-numeral-swallowing','canonical_lean.py',"match = _NUMERAL.match(text, i)\n            advance(match.end() - i if match else 1)","while i < n and (text[i].isalnum() or text[i] in '._'):\n                advance(1)"),
+ ('discard-nested-string-code-holes','canonical_lean.py',"yield from _brace_segments(text, content_start, i - 1, start[0], start[1] + 1)","pass"),
+ ('discard-canonical-lexical-errors','source_checks.py',"for line, column, kind in dict.fromkeys(lexical_errors):","for line, column, kind in []:"),
+ ('ignore-canonical-metadata-shape','source_checks.py',"findings.append(finding('LEAN_LEXICAL_GAP', 'unsupported canonical lexer metadata shape'))","pass"),
  ('empty-lean-findings','source_checks.py',"return {'findings': findings, 'imports': imports, 'declarations': declarations}","return {'findings': [], 'imports': imports, 'declarations': declarations}"),
- ('canonical-unicode-boundary-weakened','canonical_lean.py',"if ch in _EXCLUDED_LETTERS:","if False:"),
+ ('canonical-unicode-boundary-weakened','canonical_lean.py',"or _is_letter(ch) or _is_subscript(ch)","or ch == 'λ' or _is_letter(ch) or _is_subscript(ch)"),
  ('disable-placeholder-category','source_checks.py',"placeholders = {'sorry', 'admit', 'sorryAx', 'admitGoal', 'mkSorry'}","placeholders = set()"),
  ('disable-axiom-category','source_checks.py',"if tail in {'axiom', 'constant', 'constants'}:","if False:"),
  ('disable-native-category','source_checks.py',"if tail in native:","if False:"),
  ('disable-unchecked-declaration-refusal','source_checks.py',"if tail in kernel_bypass:","if False:"),
- ('skip-malformed-character-refusal','source_checks.py',"error('unsupported or unterminated character literal'); advance(i + 1)","advance(i + 1)"),
+ ('skip-malformed-character-refusal','source_checks.py',"return {'findings': findings, 'imports': imports, 'declarations': declarations}","return {'findings': [f for f in findings if not (f['code'] == 'LEAN_LEXICAL_GAP' and ('character literal' in f['detail'] or 'unterminated_char' in f['detail']))], 'imports': imports, 'declarations': declarations}"),
  ('miss-escaped-placeholder-helpers','source_checks.py',"not token.quoted or tail in {'sorryAx','admitGoal','mkSorry'}","not token.quoted or tail == 'sorryAx'"),
  ('drop-escaped-constant-normalization','source_checks.py',"name = '.'.join(part.removeprefix('\\x00').replace('\\x01', '.') for part in parts)","name = raw_name"),
  ('miss-multiline-commented-native-config','source_checks.py',"if tail in native:","if tail in native and not (tail == 'native' and ('\\n' in text or '/-' in text)):"),
@@ -86,8 +93,241 @@ def parse_test_result(output, returncode):
     return tests,failures,errors
 
 
-def run_one(name, filename, transform, output_dir):
-    """Execute the unchanged behavioral suite against a temporary actual checker mutation."""
+def classify_test_result(value, code, expected_ids=None):
+    """Accept only a complete receipt emitted by the phase-aware runner.
+
+    Text summaries are diagnostic only. This validates runner evidence; it is
+    not an authentication scheme for JSON supplied by an untrusted process.
+    """
+    if type(value) is not dict or type(code) is not int or code not in (0, 1):
+        return 'ERROR'
+    if value.get('receipt_schema') != 'cbz-unittest-lifecycle-v1':
+        return 'ERROR'
+    counts=('tests_run','assertion_failures','errors','skipped','expected_failures',
+            'unexpected_successes','lifecycle_failures','subtests')
+    if any(type(value.get(k)) is not int or value[k] < 0 for k in counts):
+        return 'ERROR'
+    if type(value.get('successful')) is not bool or value.get('invalid_population') != []:
+        return 'ERROR'
+    lists=('selected_ids','started_ids','finished_ids','body_entered_ids',
+           'body_finished_ids','body_assertion_ids')
+    for key in lists:
+        items=value.get(key)
+        if type(items) is not list or any(type(item) is not str or not item for item in items):
+            return 'ERROR'
+        if key != 'body_assertion_ids' and len(items) != len(set(items)):
+            return 'ERROR'
+    selected=value['selected_ids']
+    if expected_ids is not None:
+        if (type(expected_ids) is not list or not expected_ids
+                or any(type(i) is not str or not i for i in expected_ids)
+                or len(expected_ids)!=len(set(expected_ids)) or selected!=expected_ids):
+            return 'ERROR'
+    if not selected or value['tests_run'] != len(selected):
+        return 'ERROR'
+    if any(value[k] != selected for k in lists[1:5]):
+        return 'ERROR'
+    if any(item not in selected for item in value['body_assertion_ids']):
+        return 'ERROR'
+    if value['assertion_failures'] != len(value['body_assertion_ids']):
+        return 'ERROR'
+    assertions=value.get('assertion_events')
+    if type(assertions) is not list:
+        return 'ERROR'
+    for event in assertions:
+        if (type(event) is not dict or set(event)!={'id','source'}
+                or event['id'] not in selected or event['source'] not in ('direct','subtest')):
+            return 'ERROR'
+    if [e['id'] for e in assertions]!=value['body_assertion_ids']:
+        return 'ERROR'
+    direct=[e['id'] for e in assertions if e['source']=='direct']
+    if len(direct)!=len(set(direct)):
+        return 'ERROR'
+    events=value.get('subtest_events')
+    if type(events) is not list or value['subtests'] != len(events):
+        return 'ERROR'
+    for event in events:
+        if (type(event) is not dict or set(event) != {'id','phase','outcome'}
+                or event['id'] not in selected or event['phase'] != 'body'
+                or event['outcome'] not in ('success','assertion')):
+            return 'ERROR'
+    assertion_subtests=[e['id'] for e in events if e['outcome']=='assertion']
+    if assertion_subtests!=[e['id'] for e in assertions if e['source']=='subtest']:
+        return 'ERROR'
+    if any(value[k] for k in ('errors','skipped','expected_failures',
+                              'unexpected_successes','lifecycle_failures')):
+        return 'ERROR'
+    if code == 1 and value['assertion_failures'] > 0 and value['successful'] is False:
+        return 'KILLED'
+    if code == 0 and value['assertion_failures'] == 0 and value['successful'] is True:
+        return 'SURVIVED'
+    return 'ERROR'
+
+
+def inspect_test_population(suite):
+    """Discover canonical method identities without calling fixtures or bodies."""
+    def leaves(node):
+        if isinstance(node,unittest.TestSuite):
+            for child in node:
+                yield from leaves(child)
+        else:
+            yield node
+    population=list(leaves(suite));selected=[];invalid=[]
+    for test in population:
+        if not isinstance(test,unittest.TestCase):
+            invalid.append('non-TestCase selection')
+            continue
+        method=getattr(test,'_testMethodName',None)
+        canonical=type(test).__module__+'.'+type(test).__qualname__+'.'+str(method)
+        selected.append(canonical)
+        if (type(method) is not str or not callable(getattr(test,method,None))
+                or test.id() != canonical or isinstance(test,unittest.loader._FailedTest)
+                or getattr(test.run,'__func__',None) is not unittest.TestCase.run):
+            invalid.append(canonical)
+    if len(selected)!=len(set(selected)):
+        invalid.append('duplicate selected method identity')
+    return population,selected,invalid
+
+
+def execute_test_suite(suite):
+    """Run an exact population and attribute assertions to actual body entry.
+
+    An assertion may leave a body exceptionally; body_finished means the call
+    exited, not that its assertion passed. Its phase stays 'body' until unittest
+    records the failure, and the following lifecycle wrapper changes the phase.
+    Body-scoped subtests carry explicit parent, phase and outcome events.
+    """
+    receipt={'receipt_schema':'cbz-unittest-lifecycle-v1',
+             'selected_ids':[],'started_ids':[],'finished_ids':[],
+             'body_entered_ids':[],'body_finished_ids':[],'body_assertion_ids':[],'assertion_events':[],
+             'invalid_population':[],'lifecycle_failures':0,'subtests':0,'subtest_events':[],
+             'failure_events':[]}
+    population,selected,invalid=inspect_test_population(suite)
+    receipt['selected_ids']=selected
+    receipt['invalid_population']=invalid
+    for test in population:
+        if not isinstance(test,unittest.TestCase):
+            continue
+        method=getattr(test,'_testMethodName',None)
+        canonical=type(test).__module__+'.'+type(test).__qualname__+'.'+str(method)
+        if canonical in invalid:
+            continue
+        test._cbz_phase='selected'
+        test._cbz_body_active=False
+        test._cbz_body_exception=None
+        test._cbz_dispatch_depth=0
+        test._cbz_lifecycle_depth=0
+        # Wrap the actual selected method, rather than treating startTest as
+        # evidence that setup succeeded or the test body was called.
+        original=getattr(test,method)
+        @functools.wraps(original)
+        def body(*args,_test=test,_original=original,_id=canonical,**kwargs):
+            if not (_test._cbz_dispatch_depth>0 and _test._cbz_lifecycle_depth==0):
+                receipt['invalid_population'].append('selected method invoked outside body dispatch: '+_id)
+                return _original(*args,**kwargs)
+            _test._cbz_phase='body'
+            _test._cbz_body_active=True
+            receipt['body_entered_ids'].append(_id)
+            try:
+                return _original(*args,**kwargs)
+            except BaseException as exc:
+                _test._cbz_body_exception=exc
+                raise
+            finally:
+                _test._cbz_body_active=False
+                receipt['body_finished_ids'].append(_id)
+        setattr(test,method,body)
+        original_dispatch=test._callTestMethod
+        def dispatch(*args,_test=test,_original=original_dispatch,**kwargs):
+            _test._cbz_dispatch_depth+=1
+            try:
+                return _original(*args,**kwargs)
+            finally:
+                _test._cbz_dispatch_depth-=1
+        test._callTestMethod=dispatch
+        for name,phase in (('_callSetUp','setup'),('_callTearDown','teardown'),('_callCleanup','cleanup')):
+            original=getattr(test,name)
+            def lifecycle(*args,_test=test,_original=original,_phase=phase,**kwargs):
+                _test._cbz_phase=_phase
+                _test._cbz_lifecycle_depth+=1
+                try:
+                    return _original(*args,**kwargs)
+                finally:
+                    _test._cbz_lifecycle_depth-=1
+            setattr(test,name,lifecycle)
+
+    class PhaseResult(unittest.TextTestResult):
+        def startTest(self,test):
+            receipt['started_ids'].append(test.id())
+            super().startTest(test)
+        def stopTest(self,test):
+            receipt['finished_ids'].append(test.id())
+            super().stopTest(test)
+        def addFailure(self,test,err):
+            phase=getattr(test,'_cbz_phase','unknown')
+            is_body=(phase == 'body' and issubclass(err[0],AssertionError)
+                     and err[1] is getattr(test,'_cbz_body_exception',None))
+            if is_body:
+                receipt['body_assertion_ids'].append(test.id())
+                receipt['assertion_events'].append({'id':test.id(),'source':'direct'})
+            else:
+                receipt['lifecycle_failures']+=1
+            receipt['failure_events'].append({'id':test.id(),'phase':phase,'kind':'assertion'})
+            super().addFailure(test,err)
+        def addError(self,test,err):
+            receipt['failure_events'].append({'id':test.id(),'phase':getattr(test,'_cbz_phase','fixture'),'kind':'error'})
+            super().addError(test,err)
+        def addSubTest(self,test,subtest,err):
+            receipt['subtests']+=1
+            phase=getattr(test,'_cbz_phase','unknown')
+            outcome=('success' if err is None else
+                     'assertion' if issubclass(err[0],AssertionError) else 'error')
+            scoped=(phase=='body' and getattr(test,'_cbz_body_active',False)
+                    and getattr(subtest,'test_case',None) is test)
+            if not scoped:
+                receipt['lifecycle_failures']+=1
+            if scoped and outcome=='assertion':
+                receipt['body_assertion_ids'].append(test.id())
+                receipt['assertion_events'].append({'id':test.id(),'source':'subtest'})
+            receipt['subtest_events'].append({'id':test.id(),'phase':phase,'outcome':outcome})
+            super().addSubTest(test,subtest,err)
+
+    stream=io.StringIO()
+    result=unittest.TextTestRunner(stream=stream,verbosity=2,resultclass=PhaseResult).run(suite)
+    receipt.update(tests_run=result.testsRun,assertion_failures=len(result.failures),
+                   errors=len(result.errors),skipped=len(result.skipped),
+                   expected_failures=len(result.expectedFailures),
+                   unexpected_successes=len(result.unexpectedSuccesses),
+                   successful=result.wasSuccessful(),log=stream.getvalue())
+    return receipt
+
+
+def internal_test_runner(argv):
+    parser=argparse.ArgumentParser(allow_abbrev=False)
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--test-root',type=Path,required=True)
+    parser.add_argument('--test-pattern',default='test_auditor.py')
+    parser.add_argument('--test',action='append',default=[])
+    parser.add_argument('--list',action='store_true')
+    args=parser.parse_args(argv)
+    sys.path.insert(0,str(args.test_root.parent))
+    sys.path.insert(0,str(args.test_root))
+    loader=unittest.TestLoader()
+    suite=(loader.loadTestsFromNames(args.test) if args.test else
+           loader.discover(str(args.test_root),pattern=args.test_pattern))
+    if args.list:
+        _,selected,invalid=inspect_test_population(suite)
+        value={'receipt_schema':'cbz-unittest-population-v1','selected_ids':selected,'invalid_population':invalid}
+        args.output.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
+        return 0 if selected and not invalid else 1
+    value=execute_test_suite(suite)
+    args.output.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
+    print(value['log'],end='')
+    return 0 if value['successful'] else 1
+
+
+def run_one(name, filename, transform, output_dir, tests=None):
+    """Execute an unchanged selected behavioral population against a source mutant."""
     output_dir=Path(output_dir);output_dir.mkdir(parents=True,exist_ok=True)
     original=(HERE/filename).read_text(encoding='utf-8')
     try:
@@ -100,24 +340,36 @@ def run_one(name, filename, transform, output_dir):
         for source in ['auditor.py','source_checks.py','canonical_lean.py']:
             (root/source).write_bytes((HERE/source).read_bytes())
         (root/'tests/test_auditor.py').write_bytes((HERE/'tests/test_auditor.py').read_bytes())
-        (root/filename).write_text(changed,encoding='utf-8')
-        command=[sys.executable,'-B','-S','-m','unittest','discover','-s',str(root/'tests'),'-p','test_auditor.py','-v']
+        result_path=root/'test-result.json'
+        command=[sys.executable,'-B','-S',str(Path(__file__).resolve()),'--internal-test-runner',
+                 '--output',str(result_path),'--test-root',str(root/'tests')]
+        for test in tests or []:
+            command.extend(['--test',test])
         env=dict(os.environ);env.pop('PYTHONPATH',None);env['PYTHONDONTWRITEBYTECODE']='1';env['PYTHONNOUSERSITE']='1'
+        expected_ids=[];population={}
         try:
-            p=subprocess.run(command,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
-        except subprocess.TimeoutExpired as exc:
+            population_path=root/'pristine-population.json'
+            list_command=[str(population_path) if item==str(result_path) else item for item in command]+['--list']
+            listed=subprocess.run(list_command,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
+            population=json.loads(population_path.read_text()) if population_path.is_file() else {}
+            expected_ids=population.get('selected_ids',[])
+            if (listed.returncode!=0 or population.get('receipt_schema')!='cbz-unittest-population-v1'
+                    or population.get('invalid_population')!=[]):
+                p=listed;value={}
+            else:
+                (root/filename).write_text(changed,encoding='utf-8')
+                p=subprocess.run(command,cwd=root,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,timeout=60)
+                value=json.loads(result_path.read_text()) if result_path.is_file() else {}
+        except subprocess.TimeoutExpired:
             return {'name':name,'file':filename,'outcome':'ERROR','detail':'behavioral suite timeout','assertion_failures':0,'errors':1}
+        except (OSError,ValueError) as exc:
+            return {'name':name,'file':filename,'outcome':'ERROR','detail':'runner receipt failure: '+str(exc),'assertion_failures':0,'errors':1}
         output=p.stdout
     log=output_dir/(name+'.log');log.write_text(output,encoding='utf-8')
-    tests,failures,errors=parse_test_result(output,p.returncode)
-    if p.returncode==0 and tests:
-        outcome='SURVIVED'
-    elif p.returncode!=0 and tests and failures and not errors:
-        outcome='KILLED'
-    else:
-        outcome='ERROR'
-    return {'name':name,'file':filename,'outcome':outcome,'returncode':p.returncode,'tests_run':tests,
-            'assertion_failures':failures,'errors':errors,'original_sha256':sha(original.encode()),
+    outcome=classify_test_result(value,p.returncode,expected_ids=expected_ids)
+    return {'name':name,'file':filename,'outcome':outcome,'returncode':p.returncode,
+            'tests_run':value.get('tests_run',0),'assertion_failures':value.get('assertion_failures',0),
+            'errors':value.get('errors',0),'tests':value,'expected_ids':expected_ids,'pristine_population':population,'original_sha256':sha(original.encode()),
             'mutated_sha256':sha(changed.encode()),'log':str(log),'log_sha256':sha(output.encode())}
 
 
@@ -130,12 +382,28 @@ def main(argv=None):
     starting_sources={p:sha((HERE/p).read_bytes()) for p in source_paths}
     args.output.parent.mkdir(parents=True,exist_ok=True)
     logs=args.output.parent/(args.output.stem+'-mutation-logs');logs.mkdir(exist_ok=True)
-    command=[sys.executable,'-B','-S','-m','unittest','discover','-s',str(HERE/'tests'),'-v']
+    baseline_path=logs/'baseline-tests.json'
+    command=[sys.executable,'-B','-S',str(Path(__file__).resolve()),'--internal-test-runner',
+             '--output',str(baseline_path),'--test-root',str(HERE/'tests'),'--test-pattern','test_*.py']
+    population_path=logs/'baseline-population.json'
+    list_command=[str(population_path) if item==str(baseline_path) else item for item in command]+['--list']
+    listed=subprocess.run(list_command,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,cwd=HERE,timeout=60)
+    try:
+        baseline_population=json.loads(population_path.read_text())
+    except (OSError,ValueError):
+        baseline_population={}
     baseline=subprocess.run(command,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True,cwd=HERE,timeout=60)
     (logs/'baseline.log').write_text(baseline.stdout,encoding='utf-8')
-    tests,failures,errors=parse_test_result(baseline.stdout,baseline.returncode)
+    try:
+        baseline_value=json.loads(baseline_path.read_text())
+    except (OSError,ValueError):
+        baseline_value={}
+    tests,failures,errors=(baseline_value.get(k,0) for k in ('tests_run','assertion_failures','errors'))
+    baseline_outcome=(classify_test_result(baseline_value,baseline.returncode,expected_ids=baseline_population.get('selected_ids',[]))
+                      if listed.returncode==0 and baseline_population.get('receipt_schema')=='cbz-unittest-population-v1'
+                      and baseline_population.get('invalid_population')==[] else 'ERROR')
     results=[]
-    if baseline.returncode==0 and tests:
+    if baseline_outcome=='SURVIVED':
         for name,filename,before,after in MUTATIONS:
             def transform(source,before=before,after=after):
                 if source.count(before)!=1:
@@ -145,11 +413,11 @@ def main(argv=None):
             print(name+': '+result['outcome'],flush=True)
     killed=sum(1 for r in results if r['outcome']=='KILLED')
     ending_sources={p:sha((HERE/p).read_bytes()) for p in source_paths}
-    passed=starting_sources==ending_sources and baseline.returncode==0 and tests>0 and len(results)==len(MUTATIONS) and killed==len(MUTATIONS)
+    passed=starting_sources==ending_sources and baseline_outcome=='SURVIVED' and len(results)==len(MUTATIONS) and killed==len(MUTATIONS)
     report={'schema_version':1,'gate':'G0','observed_status':'PASS' if passed else 'FAIL',
         'started_utc':started,'ended_utc':datetime.now(timezone.utc).isoformat(),
         'command':[sys.executable,'-B','-S',str(HERE/'mutation_test.py'),'--output',str(args.output)],
-        'baseline':{'command':command,'returncode':baseline.returncode,'tests_run':tests,'assertion_failures':failures,'errors':errors,'log':str(logs/'baseline.log'),'log_sha256':sha(baseline.stdout.encode())},
+        'baseline':{'command':command,'returncode':baseline.returncode,'outcome':baseline_outcome,'tests':baseline_value,'tests_run':tests,'assertion_failures':failures,'errors':errors,'log':str(logs/'baseline.log'),'log_sha256':sha(baseline.stdout.encode())},
         'threshold':{'required_killed':len(MUTATIONS),'declared_mutants':len(MUTATIONS),'killed':killed,'ratio':{'numerator':killed,'denominator':len(MUTATIONS)},'rule':'every declared valid checker-source mutant must be killed by assertions; syntax/import/runtime errors do not count'},
         'mutants':results,'source_sha256':ending_sources,'source_unchanged_during_run':starting_sources==ending_sources,
         'claim':'finite behavioral selftests and actual checker-source mutations; not a proof of universal scanner correctness'}
@@ -159,4 +427,6 @@ def main(argv=None):
 
 
 if __name__=='__main__':
+    if sys.argv[1:2] == ['--internal-test-runner']:
+        raise SystemExit(internal_test_runner(sys.argv[2:]))
     raise SystemExit(main())

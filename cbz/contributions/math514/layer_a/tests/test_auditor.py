@@ -125,6 +125,26 @@ theorem t : True := by trivial
     def test_axiom_audit_print_command_is_not_a_new_axiom_declaration(self):
         self.assertEqual(self.lean_codes('#print axioms Closed.t'),set())
 
+    def test_canonical_metadata_and_error_channels_fail_closed(self):
+        from unittest.mock import patch
+        with patch.object(source_checks, 'canonical_identifier_tokens', return_value=iter([('x', 1, 1, False, False, '')])):
+            self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes('def x := 1'))
+        def failed_lexing(text, errors):
+            errors.append((1, 1, 'unsupported canonical lexical region'))
+            return iter(())
+        with patch.object(source_checks, 'canonical_identifier_tokens', failed_lexing):
+            self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes('def x := 1'))
+
+    def test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens(self):
+        for numeral in ['0', '0b0', '0o0', '1e1', '1.0E+1']:
+            with self.subTest(numeral=numeral):
+                self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+        self.assertEqual(self.lean_codes('def n := 0x0a\ndef f := 1.0e+1\n'), set())
+
+    def test_nested_string_placeholder_and_benign_literal_boundaries(self):
+        self.assertIn('LEAN_PLACEHOLDER', self.lean_codes('def f := throwError "bad {let x := "safe"; (sorry : Nat)}"'))
+        self.assertEqual(self.lean_codes('def s := "brace { harmless } and \\"quoted\\""\n'), set())
+
     def test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses(self):
         ds = source_checks.check_lean('theorem t (h : complicated P) : P := h')['declarations']
         self.assertEqual(ds[0]['contradictions'], [])
@@ -272,6 +292,25 @@ class ManifestRules(unittest.TestCase):
                 result=self.runaudit()
                 self.assertEqual(result['result'],'FAIL',result)
                 self.assertIn(code,{f['code'] for f in result['findings']})
+
+    def test_numeral_adjoining_owned_axiom_cannot_receive_static_pass(self):
+        # Canonical698's already compiled counterexample; old numeric lexing hides axiom.
+        source = 'def harmless := 0axiom hiddenPremise : False\ntheorem bad : False := hiddenPremise\n#print axioms bad\n'
+        self.add('Hazard.lean', source, 'project_lean', module='lean:Hazard',
+                 vacuity={'bad@2':{'status':'conditional','premises':[],
+                                  'reason':'source statement only; not a witness claim'}})
+        result = self.runaudit()
+        self.assertIn('LEAN_AXIOM', {f['code'] for f in result['findings']}, result)
+        self.assertEqual(result['result'], 'FAIL', result)
+
+    def test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass(self):
+        # Lean is a benign mapped import fixture; actual compilation evidence is reused.
+        self.add('Lean.lean', 'def imported := 1\n', 'project_lean', module='lean:Lean', vacuity={})
+        source = 'import Lean\nopen Lean\n\ndef f : CoreM Unit := throwError "bad {let x := "safe"; (sorry : Nat)}"\n#print axioms f\n'
+        self.add('Hazard.lean', source, 'project_lean', module='lean:Hazard', vacuity={})
+        result = self.runaudit()
+        self.assertIn('LEAN_PLACEHOLDER', {f['code'] for f in result['findings']}, result)
+        self.assertEqual(result['result'], 'FAIL', result)
 
     def test_bound_engineering_review_cannot_waive_defined_reflective_loader(self):
         self.add('Q/bad.py','x=0.5','quarantined_source',language='python',module='python:Q.bad',

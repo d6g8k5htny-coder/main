@@ -1,0 +1,30 @@
+test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) ... 
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.test_one()\n def test_one(self): self.fail("setup called body")\n') ... FAIL
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self._callTestMethod(self.test_one)\n def test_one(self): self.fail("setup called dispatch")\n') ... FAIL
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.test_one()\n def test_one(self): self.fail("setup called body")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 83, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (test_auditor.C.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 227, in lifecycle\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: setup called body\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}, 'expected_ids': ['test_auditor.C.test_one'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_one'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpef89f2pg/logs/fixture.log', 'log_sha256': '5f62c639dca1f6cc1b5f4a9a8a11c8a7450fb22a9ae1c1397da7c74e528ff18e'}
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self._callTestMethod(self.test_one)\n def test_one(self): self.fail("setup called dispatch")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 83, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (test_auditor.C.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 227, in lifecycle\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: setup called dispatch\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}, 'expected_ids': ['test_auditor.C.test_one'], 'pristine_population': {'receipt_schema': 'cbz-unittest-population-v1', 'selected_ids': ['test_auditor.C.test_one'], 'invalid_population': []}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp85toiqow/logs/fixture.log', 'log_sha256': '00f8fcd15e7504d2ac7a32dcc27257c5a92986103687e0f40b3ce6071aa2727d'}
+
+----------------------------------------------------------------------
+Ran 1 test in 1.508s
+
+FAILED (failures=2)
