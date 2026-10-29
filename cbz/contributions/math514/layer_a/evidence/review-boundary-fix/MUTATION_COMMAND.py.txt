@@ -1,0 +1,30 @@
+import json,os,sys
+from pathlib import Path
+import mutation_test as m
+mode=sys.argv[1]
+if mode=='optimized':os.environ['PYTHONOPTIMIZE']='1'
+else:os.environ.pop('PYTHONOPTIMIZE',None)
+selected={
+'restore-augmented-division-gap':'test_auditor.ReviewBoundaryRules.test_augmented_division_cannot_certify_float_results',
+'restore-augmented-power-gap':'test_auditor.ReviewBoundaryRules.test_augmented_power_requires_nonnegative_integer_literal',
+'restore-python-candidate-nonmath-gap':'test_auditor.ReviewBoundaryRules.test_math_from_import_candidate_cannot_acquire_engineering_values',
+'restore-python-prefix-nonmath-gap':'test_auditor.ReviewBoundaryRules.test_math_import_package_prefix_requires_mathematical_scope',
+'restore-null-status-evidence-skip':'test_auditor.ReviewBoundaryRules.test_explicit_null_or_invalid_status_flag_cannot_disable_checks',
+'restore-es-module-extension-gap':'test_auditor.ReviewBoundaryRules.test_es_modules_cannot_be_reclassified_as_data_or_documentation',
+'restore-es-module-text-wrapper-gap':'test_auditor.ReviewBoundaryRules.test_es_module_text_wrapper_is_still_unsupported_source',
+'allow-python-division':'test_auditor.SourceRules.test_every_inexact_python_route_is_rejected',
+'allow-negative-dynamic-powers':'test_auditor.SourceRules.test_every_inexact_python_route_is_rejected',
+'skip-status-evidence':'test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration',
+}
+rows=[]
+for name,filename,before,after in m.MUTATIONS:
+ if name not in selected:continue
+ def transform(source,before=before,after=after):
+  if source.count(before)!=1:raise ValueError('mutation anchor missing/nonunique')
+  return source.replace(before,after,1)
+ r=m.run_one(name,filename,transform,Path('../evidence')/('mutations-'+mode),tests=[selected[name]])
+ rows.append(r)
+ print(name+': '+r['outcome'],flush=True)
+result={'mode':mode,'optimized_child_environment':mode=='optimized','new_definitions':7,'adapted_existing_definitions':3,'results':rows,'passed':len(rows)==10 and all(r['outcome']=='KILLED' and r['errors']==0 for r in rows)}
+Path('../evidence/mutations-'+mode+'.json').write_text(json.dumps(result,indent=2)+'\n')
+raise SystemExit(0 if result['passed'] else 1)

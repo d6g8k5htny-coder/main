@@ -1,0 +1,63 @@
+{
+  "fixture_source": "from pathlib import Path\nimport unittest\nimport functools\nsentinel=Path('/tmp/tmpaomfxhod/lazy-executed')\nordinary=Path('/tmp/tmpaomfxhod/ordinary-executed')\nclass C(unittest.TestCase):\n def test_one(self): pass\n",
+  "label": "ordinary-pass",
+  "lazy_sentinel_executed": false,
+  "optimize": 0,
+  "ordinary_sentinel_executed": false,
+  "receipt": {
+    "assertion_failures": 0,
+    "errors": 0,
+    "expected_ids": [
+      "test_auditor.C.test_one"
+    ],
+    "file": "source_checks.py",
+    "log": "/tmp/tmph045hl7h/logs/fixture.log",
+    "log_sha256": "c8197fbd8cb083e8802892806bc1fc4b8d28a2b00eac033daae03fd440b16de2",
+    "mutated_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+    "name": "fixture",
+    "original_sha256": "6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf",
+    "outcome": "SURVIVED",
+    "pristine_population": {
+      "invalid_population": [],
+      "receipt_schema": "cbz-unittest-population-v1",
+      "selected_ids": [
+        "test_auditor.C.test_one"
+      ]
+    },
+    "returncode": 0,
+    "tests": {
+      "assertion_events": [],
+      "assertion_failures": 0,
+      "body_assertion_ids": [],
+      "body_entered_ids": [
+        "test_auditor.C.test_one"
+      ],
+      "body_finished_ids": [
+        "test_auditor.C.test_one"
+      ],
+      "errors": 0,
+      "expected_failures": 0,
+      "failure_events": [],
+      "finished_ids": [
+        "test_auditor.C.test_one"
+      ],
+      "invalid_population": [],
+      "lifecycle_failures": 0,
+      "log": "test_one (test_auditor.C.test_one) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n",
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "selected_ids": [
+        "test_auditor.C.test_one"
+      ],
+      "skipped": 0,
+      "started_ids": [
+        "test_auditor.C.test_one"
+      ],
+      "subtest_events": [],
+      "subtests": 0,
+      "successful": true,
+      "tests_run": 1,
+      "unexpected_successes": 0
+    },
+    "tests_run": 1
+  }
+}

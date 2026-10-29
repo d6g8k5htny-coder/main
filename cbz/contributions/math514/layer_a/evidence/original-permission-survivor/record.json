@@ -1,0 +1,35 @@
+{
+  "historical_log_custody_limit": "Early development baseline/other per-mutant filenames were reused by the next development run. Original failed JSON, stdout summary and named survivor log above remain exact; final G0 uses receipt-specific directories and all final log/source bindings were checked.",
+  "original_receipt": "evidence/g0-development.json",
+  "original_receipt_sha256": "9cad58e6d837b8165db7e78c01c731592cd8d5337a45fdddbdb59b38c61f47e3",
+  "original_result": "FAIL",
+  "original_summary": "evidence/g0-development.log",
+  "original_summary_sha256": "4bdffc622980842951f17a0fff60c1bf712989b4c67e602c9c8b1f9437115c39",
+  "original_survivor": {
+    "assertion_failures": 0,
+    "errors": 0,
+    "file": "auditor.py",
+    "log": "/workspace/cbz-0/tools/layer_a/evidence/mutation-logs/allow-unreadable-files.log",
+    "log_sha256": "678db086095990bcdc4d11bd5f224158c2df0f486dc24aa1cc0d66ada0976502",
+    "mutated_sha256": "4029425c7ffda611722e1873de72341e9a1a9825cf856a43c079e63bfd9f315b",
+    "name": "allow-unreadable-files",
+    "original_sha256": "fc8d42528c1b889c39d2244580b4cf0ca8c5c66bfea36681cace928407f4bccd",
+    "outcome": "SURVIVED",
+    "returncode": 0,
+    "tests_run": 41
+  },
+  "original_threshold": {
+    "declared_mutants": 33,
+    "killed": 32,
+    "ratio": {
+      "denominator": 33,
+      "numerator": 32
+    },
+    "required_killed": 33,
+    "rule": "every declared valid checker-source mutant must be killed by assertions; syntax/import/runtime errors do not count"
+  },
+  "preserved_exact_survivor_log": "evidence/original-permission-survivor/survivor.log",
+  "preserved_log_sha256": "678db086095990bcdc4d11bd5f224158c2df0f486dc24aa1cc0d66ada0976502",
+  "resolution": "Original mutant retained in final set. Real already-open fd survives chmod(000); behavioral test rejects zero mode bits even with readable fd, killing guard-removal mutant. Silent skip mutant is additional.",
+  "type": "DERIVED_ORIGINAL_FAILED_RUN_RECORD"
+}

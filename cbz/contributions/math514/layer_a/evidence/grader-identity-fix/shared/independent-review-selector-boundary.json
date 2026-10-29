@@ -1,0 +1,31 @@
+{
+  "verdict": "AMEND",
+  "scope": "Final named-selector boundary review at exact d1783e48/6a719ffd runtime generation",
+  "reviewed_bindings": {
+    "kernel_replay/run_tests.py": "d1783e4892e5ae406762d8917cadb8d84534fd271744fdd92a1e285a72e26739",
+    "kernel_replay/tests/test_mutation_harness.py": "99d0bc18609f4966e7e8a12f4731cb13fb45a23d4689467da2c3fd564ef74030",
+    "layer_a/mutation_test.py": "6a719ffd05533bdd982b2dbb5c398ba7c5fc41b277c6e2277b33dab56689b463",
+    "layer_a/tests/test_mutation_runner.py": "849c787473367390fa56d8b75447bd489d18a1a308df0fd94f910dd47decc4de"
+  },
+  "closed_finding": "IDENTITY-REVIEW-F3 named raw descriptor/proxy traversal ordering is fixed in source and four targeted guard assertion kills; earlier F1/F2 source/evidence remain applicable.",
+  "findings": [
+    {
+      "id": "IDENTITY-REVIEW-F4",
+      "severity": "P1",
+      "title": "Refuse subclasses of allowed descriptor types before lookup",
+      "cause": "ordinary_test_class unwraps staticmethod/classmethod with isinstance, and selector descriptor allowance also uses isinstance. Custom subclasses can override __get__ while still passing these checks.",
+      "actual_observation": "Both exact proposed runners report SURVIVED/exit0, two distinct names, invalid_population=[], trace descriptor,first,first. The original second failing body is retained but omitted.",
+      "evidence": "review-probes/staticmethod-subclass-alias/RESULTS.json",
+      "minimal_fix": "Allow exact staticmethod/classmethod types only; reject custom subclasses before any descriptor lookup. Use static lookup for constructor/dispatch member comparisons as well, so the refusal inspector itself does not execute a custom descriptor."
+    }
+  ],
+  "targeted_guard_evidence": {
+    "records": 4,
+    "assertion_kills": 4,
+    "errors": 0,
+    "file": "SELECTOR_GUARD_MUTATIONS.json"
+  },
+  "new_execution": "Two new normal-mode probes for unsupported staticmethod subclass dispatch; no completed verification rerun.",
+  "prior_verification": "Previous40 generation-bound guard executions and27/19method unions remain separate applicable observations; not relabeled fresh final-source whole campaigns.",
+  "limits": "Trusted ordinary Python test source/runtime, no arbitrary malicious-code sandbox or universal scanner correctness claim."
+}
