@@ -171,3 +171,7 @@ Universal-Law-Workspace [PR #31](https://github.com/d6g8k5htny-coder/Universal-L
 ### Temporary split-delivery limitation
 
 At main commit `1e2be44c69e08e47472041ac329e1b27f7dec793`, #704 delivered historical replay documentation, manifests and evidence, but the four replay-tool Python sources and tests were deliberately deferred to the composed foundation candidate with their governance registry. Consequently the historical README's runnable-tool commands cannot be followed from that main commit alone; see [the split-delivery metadata](cbz/evidence/additional-delivery-20261029.json). The commands above describe the composed candidate, which contains those source files and still requires integration and fresh verification. The pending #705 determinant evidence split uses the same four-file deferral. Preserve historical checksums and source bytes when reconciling these deliveries.
+
+### Auditor and Node candidate handoff
+
+The auditor repair remains on branch `cbz/auditor-grader-a8-20261029`, observed head `78bbd4b388b86ddd9bc886b42f87e1b79e295b1f`; main #707's current Node candidate head is `9651b9c8f86fae3a696ceeb836a4e3c6c17a11a2`. Their new source and tests have not been qualified by a completed current-head run. A delegated repair turn was automatically stopped because its content was flagged for possible cybersecurity risk. Preserve its previous evidence and do not infer a passing gate or completed repair.
