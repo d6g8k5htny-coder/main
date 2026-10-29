@@ -99,3 +99,7 @@ Its [README](cbz/evidence/kernel/additional/replay-tool/README.md) supplies the 
 [DECISIONS.md](DECISIONS.md) is append-only; [GOVERNANCE.md](GOVERNANCE.md) contains Layer B rules/tool registry. [BASELINE.md](BASELINE.md) binds snapshots/cuts. Raw private evidence stays local; public evidence is under `cbz/evidence/`.
 
 Never present placeholders/stubs as closed, inject unverified axioms, certify mathematical bounds with floats, weaken bounds/tests, conceal vacuity, invent passing verification or trust untested auditors. Preserve failures and exact boundaries. Quarantined logical dependencies must not enter closed theorems.
+
+## Current integration checkpoint
+
+The integration candidate combines the receipt source-custody and compiled-inventory changes from main #701, the bounded lexical/AST prechecks from #698, and the current main source. Eight additional dormant engineering boundaries Q-9101–Q-9108 and their source histories are recorded in [runtime-archive-dispositions.json](cbz/quarantine/runtime-archive-dispositions.json); their incorporation into the central catalog remains pending. Existing kernel and test observations are tied to their recorded source cuts; the composed candidate has not completed the final gate matrix. Local execution encountered process-creation failures, so interrupted runs supply no passing evidence. The existing 184-row catalog count above does not include those eight records or later unpublished work.

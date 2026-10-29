@@ -1,0 +1,273 @@
+[
+  {
+    "name": "source-only",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "tools/formal_gate_check.py"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): 49360aa6588167f2e4cd49e90ba0e8a6dfce6c47a11f1f09ce64def51e0e8590"
+    ]
+  },
+  {
+    "name": "normal-test_required_formal_check",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 33 tests in 0.093s",
+      "OK"
+    ]
+  },
+  {
+    "name": "normal-test_formal_gate",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_formal_gate.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 51 tests in 0.398s",
+      "OK (skipped=1)"
+    ]
+  },
+  {
+    "name": "normal-test_atlas_formal_evidence_build",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_atlas_formal_evidence_build.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 13 tests in 0.160s",
+      "OK"
+    ]
+  },
+  {
+    "name": "normal-test_atlas_formal_source_bridge",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_atlas_formal_source_bridge.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 20 tests in 4.467s",
+      "OK"
+    ]
+  },
+  {
+    "name": "normal-test_formal_workflow_shell",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_formal_workflow_shell.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 6 tests in 0.066s",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-test_required_formal_check",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_check.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 33 tests in 0.090s",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-test_formal_gate",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_formal_gate.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 51 tests in 0.408s",
+      "OK (skipped=1)"
+    ]
+  },
+  {
+    "name": "optimized-test_atlas_formal_evidence_build",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_atlas_formal_evidence_build.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 13 tests in 0.128s",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-test_atlas_formal_source_bridge",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_atlas_formal_source_bridge.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 20 tests in 14.145s",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-test_formal_workflow_shell",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_formal_workflow_shell.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 6 tests in 0.076s",
+      "OK"
+    ]
+  },
+  {
+    "name": "normal-test_required_formal_binding_control",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_binding_control.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 7 tests in 0.072s",
+      "OK"
+    ]
+  },
+  {
+    "name": "optimized-test_required_formal_binding_control",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-O",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_required_formal_binding_control.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "summary": [
+      "Ran 7 tests in 0.321s",
+      "OK"
+    ]
+  }
+]

@@ -1,0 +1,95 @@
+{
+  "pin": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "tree": "b887218ed5cda9b023a83fceada9afa2cc38c982"
+  },
+  "findings": [
+    {
+      "id": "MATH-ADMISSION-001",
+      "state": "OPEN_CONFIRMED_SOURCE_GATE_OMISSION",
+      "priority": "FIRST_BOUNDED_ENGINEERING_REPAIR",
+      "path": "frontiers/determinant_moment_20261025/gate.py",
+      "evidence": [
+        "execution/admission-probe.json",
+        "source/frontiers/determinant_moment_20261025/gate.py"
+      ],
+      "observed": "Digest-rebound unused axiom False, unused sorry definition False, and private theorem each pass the existing source gate; canonical unregistered theorem rejects. Execute-time code audits registered theorem targets only.",
+      "not_claimed": "Injected Lean compilation and a completed execute-time bypass were not run; baseline proof sources are not alleged to contain the mutations.",
+      "repair_boundary": "All compiled package declarations and approved transitive axioms, including unused/private/generated declarations, with exact-reason source and compiled mutation tests. Preserve existing proof statements, proof bytes and bounds.",
+      "open_pr_path_overlap": [],
+      "quarantine": "NOT_ASSIGNED"
+    },
+    {
+      "id": "MATH-ADMISSION-002",
+      "state": "OPEN_CONFIRMED_SOURCE_GATE_OMISSION",
+      "priority": "NEXT_BOUNDED_ENGINEERING_REPAIR",
+      "path": "frontiers/cap_first_exit_lean_20261002/gate.py",
+      "evidence": [
+        "execution/admission-probe.json",
+        "source/frontiers/cap_first_exit_lean_20261002/gate.py"
+      ],
+      "observed": "Digest-rebound private theorem passes the existing source gate while canonical unregistered theorem rejects. Target list comes from restricted declaration regex.",
+      "not_claimed": "No compiled bypass or unsound baseline theorem is claimed.",
+      "repair_boundary": "Complete compiled-module inventory with source precheck preserving legitimate namespace/structure syntax and mutation-tested private/generated declaration coverage.",
+      "open_pr_path_overlap": [],
+      "quarantine": "NOT_ASSIGNED"
+    },
+    {
+      "id": "MATH-G9-001",
+      "state": "OPEN_REQUIRED_ENTRYPOINT_ABSENT",
+      "priority": "BASELINE_REPRODUCIBILITY",
+      "path": "STATUS.md",
+      "observed": "No root STATUS.md exists in pinned tree. Reproduction commands are distributed across README and project-specific documents.",
+      "repair_boundary": "Owner-protocol STATUS-only cold start must name exact commands and retain all explicit execution limits; creating it cannot assert unrun gates pass."
+    },
+    {
+      "id": "MATH-COVERAGE-001",
+      "state": "OPEN_COVERAGE_RECONCILIATION",
+      "priority": "INVENTORY",
+      "observed": "Eight live pinned Lake roots plus43 Lean files outside those roots; current required formal job builds only core formal/. Full-repository all-declaration axiom/build/recheck coverage is not demonstrated.",
+      "not_claimed": "Missing execution alone is not a reason to quarantine a package.",
+      "repair_boundary": "Map every active and historical Lean unit to an explicit reproducible build/audit route and disposition; preserve source-specific historical receipts."
+    },
+    {
+      "id": "MATH-VACUITY-001",
+      "state": "OPEN_DECLARED_INTERFACE_BLOCKERS",
+      "priority": "MATHEMATICAL_OBLIGATION",
+      "source": "specifications/lean_statements_20261010/README.md:337",
+      "observed": "Existing author-side register classification lists24 interface-blocked Props among66 without sibling proof; named missing laws/fields and conditional countermodels must not be replaced with false hypotheses.",
+      "evidence": [
+        "unproved_props.json"
+      ],
+      "not_claimed": "This discovery does not independently certify those author classifications or establish safe quarantine dependency boundaries."
+    },
+    {
+      "id": "MATH-NUMERIC-001",
+      "state": "UNRUN_REPOSITORY_WIDE_CERTIFICATION_REVIEW",
+      "priority": "NUMERICAL_PROVENANCE",
+      "observed": "193 of668 Python files have AST float literals or direct float calls. SIDE24 exact Fraction path and30tests per mode were checked.",
+      "not_claimed": "The193-file set is not a list of unsound certificates; precise call-path and interval-bound review remains unrun.",
+      "evidence": [
+        "python_numeric_inventory.json",
+        "execution/side24-tests-normal.json",
+        "execution/side24-tests-optimized.json"
+      ]
+    },
+    {
+      "id": "MATH-ATTEMPT-001",
+      "state": "OBSERVED_ALREADY_BOUND",
+      "priority": "NO_REPAIR_NEEDED_FOR_REPORTED_HOMOLOG",
+      "observed": "formal/gate.py:164 records workflow_run_attempt; tools/required_formal_check.py:117 requires equality with validated current attempt. Final current-main hosted receipt records1.",
+      "evidence": [
+        "source/formal/gate.py",
+        "source/tools/required_formal_check.py",
+        "evidence/formal-logged-receipts.json"
+      ]
+    },
+    {
+      "id": "MATH-API-001",
+      "state": "COVERAGE_LIMIT_RESOLVED_BY_LOCAL_GIT",
+      "priority": "EVIDENCE_QUALITY",
+      "observed": "PR514 API file inventory stops at3000; pinned local triple-dot diff returns10976, retained in open_pr_inventory.json. Other24 API/local file sets match."
+    }
+  ]
+}

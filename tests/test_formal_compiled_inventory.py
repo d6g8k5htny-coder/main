@@ -323,6 +323,50 @@ class IntegrationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'compiled inventory binding'):
             fixture.check()
 
+def require_policy_mutation_kill(result, expected_count, expected_failures):
+    """A kill requires the complete population and the declared assertion failures."""
+    if result.errors:
+        raise AssertionError('auditor mutation had test errors')
+    if result.skipped:
+        raise AssertionError('auditor mutation skipped tests')
+    if expected_count <= 0 or result.testsRun != expected_count:
+        raise AssertionError('auditor mutation ran an incomplete test population')
+    failures = [test.id().rsplit('.', 1)[-1] for test, _ in result.failures]
+    if (not expected_failures or len(failures) != len(set(failures))
+            or set(failures) != set(expected_failures)):
+        raise AssertionError('auditor mutation did not produce exactly its declared assertion failures')
+
+
+class MutationKillContractTests(unittest.TestCase):
+    def result(self, *, count=26, failures=('expected',), errors=(), skipped=()):
+        from types import SimpleNamespace
+        def case(name):
+            return SimpleNamespace(id=lambda: name)
+        return SimpleNamespace(testsRun=count,
+            failures=[(case(name), 'controlled assertion failure') for name in failures],
+            errors=[(case(name), 'controlled test error') for name in errors],
+            skipped=[(case(name), 'controlled skip') for name in skipped])
+
+    def test_intended_assertion_failure_qualifies(self):
+        require_policy_mutation_kill(self.result(), 26, {'expected'})
+
+    def test_test_errors_never_qualify_even_with_expected_assertion(self):
+        for failures in [(), ('expected',)]:
+            with self.subTest(failures=failures), self.assertRaisesRegex(AssertionError, 'errors'):
+                require_policy_mutation_kill(self.result(failures=failures, errors=('broken_fixture',)), 26, {'expected'})
+
+    def test_skips_or_incomplete_population_never_qualify(self):
+        for result in [self.result(skipped=('missing_case',)), self.result(count=25)]:
+            with self.subTest(result=result), self.assertRaises(AssertionError):
+                require_policy_mutation_kill(result, 26, {'expected'})
+
+    def test_survival_unexpected_failures_and_empty_contract_never_qualify(self):
+        for failures, expected in [((), {'expected'}), (('unrelated',), {'expected'}),
+                                   (('expected', 'unrelated'), {'expected'}), ((), set())]:
+            with self.subTest(failures=failures, expected=expected), self.assertRaises(AssertionError):
+                require_policy_mutation_kill(self.result(failures=failures), 26, expected)
+
+
 class AuditorMutationTests(unittest.TestCase):
     def test_policy_mutants_are_killed(self):
         import types
@@ -338,6 +382,31 @@ class AuditorMutationTests(unittest.TestCase):
             'allow_extra_theorem': ("flag('extra_theorem', name)", 'pass'),
             'allow_bad_count': ("flag('count_mismatch', name, str(per_module[name]) + '/' + str(counts[name]))", 'pass'),
         }
+        expected_failures = {'ignore_noise': ['test_noise_lines_refused'],
+         'allow_forbidden': ['test_custom_axiom_in_closure_rejected',
+                             'test_every_finding_is_reported',
+                             'test_quoted_private_sorry_rejected_for_both_reasons'],
+         'allow_extra_constant': ['test_axiom_kind_rejected_even_if_unused',
+                                  'test_bound_record_must_match_kind_and_provenance',
+                                  'test_default_bound_is_empty',
+                                  'test_every_finding_is_reported',
+                                  'test_unbound_constants_rejected_whatever_their_provenance'],
+         'allow_missing_module': ['test_module_table_findings'],
+         'allow_duplicate_constant': ['test_duplicate_name_rejected'],
+         'allow_extra_theorem': ['test_bound_record_must_match_kind_and_provenance',
+                                 'test_every_finding_is_reported',
+                                 'test_extra_user_theorem_rejected_whatever_its_name',
+                                 'test_local_user_theorem_rejected_even_when_local_allowed',
+                                 'test_quoted_private_sorry_rejected_for_both_reasons',
+                                 'test_target_only_as_auxiliary_or_private_is_missing'],
+         'allow_bad_count': ['test_module_table_findings']}
+        # The outer CLI -k filter must not shrink this internal control population.
+        loader = unittest.TestLoader()
+        baseline_suite = loader.loadTestsFromTestCase(AuditInventoryTests)
+        expected_count = baseline_suite.countTestCases()
+        baseline = unittest.TextTestRunner(stream=io.StringIO()).run(baseline_suite)
+        self.assertTrue(baseline.wasSuccessful(), 'unmutated auditor controls must pass')
+        self.assertFalse(baseline.skipped, 'unmutated auditor controls must not skip')
         original = globals()['gate']
         try:
             for label, (old, new) in mutations.items():
@@ -346,9 +415,9 @@ class AuditorMutationTests(unittest.TestCase):
                     mutant = types.ModuleType('mutant')
                     exec(compile(source.replace(old, new), '<auditor-mutant>', 'exec'), mutant.__dict__)
                     globals()['gate'] = mutant
-                    suite = unittest.defaultTestLoader.loadTestsFromTestCase(AuditInventoryTests)
+                    suite = loader.loadTestsFromTestCase(AuditInventoryTests)
                     result = unittest.TextTestRunner(stream=io.StringIO()).run(suite)
-                    self.assertFalse(result.wasSuccessful(), 'surviving auditor mutation: ' + label)
+                    require_policy_mutation_kill(result, expected_count, set(expected_failures[label]))
         finally:
             globals()['gate'] = original
 

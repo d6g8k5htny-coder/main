@@ -185,3 +185,7 @@ for elegance.
   Rationale: terminal boundaries preserve facts rather than fabricate data.
 
 - **B-014 (2026-10-29):** The active agent entry contains current CBZ instructions only. Superseded family-review/owner-approval requirements remain recoverable historical evidence and impose no task gate. Keep useful source/test/privacy guidance, exact current board routing and immutable verification requirements. Rationale: remove operative contradictory ceremony rather than repeatedly satisfy it.
+
+### Composed verification components
+
+The bounded Lean lexical scanner (`tools/cbz/layer_a_scan.py`) and Python floating-bound signal collector (`tools/cbz/a3_float_census.py`) are source prechecks, not semantic certificates. Their exact scope, commands, negative controls and observed mutation evidence are in `docs/cbz/CANONICAL_AUDITORS.md`. The source-custody and compiled-inventory checks are registered in `formal/COMPILED_INVENTORY.md` and the formal workflow. Component results at prior commits do not certify a new composed head. Owner: none; verification and limitations are recorded at those paths.

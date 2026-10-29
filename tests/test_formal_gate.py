@@ -10,6 +10,7 @@ import hashlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -357,7 +358,7 @@ class SyntheticControls(unittest.TestCase):
     )
 
     def runtime_probe(self, versions, *, version_returncode=0, version_timeout=False,
-                      mutate_source=False):
+                      mutate_source=False, checked_heads=None):
         m, digest, pkg = self.check()
         shutil.rmtree(pkg / ".lake", ignore_errors=True)
         sentinel = pkg / ".lake/build/existing-build-sentinel"
@@ -369,9 +370,16 @@ class SyntheticControls(unittest.TestCase):
         version_outputs = iter(versions)
         source_check = gate.source_check
 
-        def check_source(root):
+        def check_source(root, manifest_rel=gate.MANIFEST):
             events.append("source-check")
             return source_check(root, "pkg/manifest.json")
+
+        self.runtime_state["source_commit_calls"] = []
+        identity_heads = iter(checked_heads if checked_heads is not None else ["a" * 40, "a" * 40])
+        def source_commit(root, manifest, digest, *, manifest_rel=gate.MANIFEST, expected_head=None):
+            self.runtime_state["source_commit_calls"].append(expected_head)
+            events.append("source-commit-before" if expected_head is None else "source-commit-after")
+            return next(identity_heads)
 
         def run_process(command, **kwargs):
             if command == ["git", "rev-parse", "HEAD"]:
@@ -420,8 +428,9 @@ class SyntheticControls(unittest.TestCase):
         with mock.patch.object(gate, "lake_binary", return_value="/synthetic/lake"), \
                 mock.patch.object(gate.subprocess, "run", side_effect=run_process), \
                 mock.patch.object(gate, "source_check", side_effect=check_source), \
+                mock.patch.object(gate, "checked_source_commit", side_effect=source_commit), \
                 contextlib.redirect_stdout(io.StringIO()):
-            return gate.execute(m, digest, pkg, self.root)
+            return gate.execute(m, digest, pkg, self.root, manifest_rel="pkg/manifest.json")
 
     def test_wrong_runtime_preserves_build_and_refuses_before_work(self):
         for version in self.WRONG_RUNTIMES:
@@ -429,7 +438,7 @@ class SyntheticControls(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "unexpected running Lean version"):
                     self.runtime_probe([version])
                 self.assertTrue(self.runtime_state["sentinel"].is_file())
-                self.assertEqual(self.runtime_state["events"], ["version"])
+                self.assertEqual(self.runtime_state["events"], ["source-commit-before", "version"])
                 self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
                 self.assertEqual((self.runtime_state["out"] / "preflight-version.log").read_text(), version)
 
@@ -439,9 +448,10 @@ class SyntheticControls(unittest.TestCase):
             + self.LEAN_COMMIT + ", Release)\n"
         )
         receipt = self.runtime_probe([self.RUNTIME_RELEASE, final_version])
+        self.assertEqual(self.runtime_state["source_commit_calls"], [None, "a" * 40])
         self.assertEqual(self.runtime_state["events"], [
-            "version", "build", "leanchecker", "Audit.lean", "Inventory.lean", "Types.lean", "tight.lean",
-            "sorry.lean", "custom_imported.lean", "native.lean", "source-check", "version", "git-head"])
+            "source-commit-before", "version", "build", "leanchecker", "Audit.lean", "Inventory.lean", "Types.lean", "tight.lean",
+            "sorry.lean", "custom_imported.lean", "native.lean", "source-check", "version", "source-commit-after"])
         self.assertFalse(self.runtime_state["sentinel"].exists())
         self.assertEqual(receipt["lean_version"], final_version.strip())
         out = self.runtime_state["out"]
@@ -455,19 +465,45 @@ class SyntheticControls(unittest.TestCase):
         for name, digest in receipt["logs"].items():
             self.assertEqual(digest, sha((out / name).read_bytes()), name)
 
+    def test_changed_checked_head_after_execution_refuses_receipt(self):
+        with self.assertRaisesRegex(ValueError, "source custody HEAD changed"):
+            self.runtime_probe([self.RUNTIME_RELEASE, self.RUNTIME_RELEASE], checked_heads=["a" * 40, "b" * 40])
+        self.assertEqual(self.runtime_state["events"][-1], "source-commit-after")
+        self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
+
+    def test_producer_serializes_actual_nondefault_workflow_attempt(self):
+        hosted = {"GITHUB_REPOSITORY": "d6g8k5htny-coder/main",
+                  "GITHUB_RUN_ID": "123", "GITHUB_RUN_ATTEMPT": "7"}
+        with mock.patch.dict(os.environ, hosted):
+            receipt = self.runtime_probe([self.RUNTIME_RELEASE, self.RUNTIME_RELEASE])
+        stored = json.loads((self.runtime_state["out"] / "receipt.json").read_bytes())
+        for record in (receipt, stored):
+            self.assertEqual(record.get("workflow_run_attempt"), "7")
+            self.assertEqual(record["workflow_run_id"], "123")
+            self.assertEqual(record["repository"], "d6g8k5htny-coder/main")
+
+    def test_local_producer_has_null_hosted_identity(self):
+        with mock.patch.dict(os.environ, {}, clear=True):
+            receipt = self.runtime_probe([self.RUNTIME_RELEASE, self.RUNTIME_RELEASE])
+        stored = json.loads((self.runtime_state["out"] / "receipt.json").read_bytes())
+        for record in (receipt, stored):
+            for key in ("repository", "workflow_run_id", "workflow_run_attempt"):
+                self.assertIn(key, record)
+                self.assertIsNone(record[key])
+
     def test_wrong_postflight_runtime_refuses_receipt_after_source_recheck(self):
         for version in self.WRONG_RUNTIMES:
             with self.subTest(version=version):
                 with self.assertRaisesRegex(ValueError, "unexpected running Lean version"):
                     self.runtime_probe([self.RUNTIME_RELEASE, version])
-                self.assertEqual(self.runtime_state["events"][0], "version")
+                self.assertEqual(self.runtime_state["events"][:2], ["source-commit-before", "version"])
                 self.assertEqual(self.runtime_state["events"][-2:], ["source-check", "version"])
                 self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
 
     def test_postflight_source_change_still_refuses_receipt(self):
         with self.assertRaisesRegex(ValueError, "source hash mismatch"):
             self.runtime_probe([self.RUNTIME_RELEASE], mutate_source=True)
-        self.assertEqual(self.runtime_state["events"][0], "version")
+        self.assertEqual(self.runtime_state["events"][:2], ["source-commit-before", "version"])
         self.assertEqual(self.runtime_state["events"][-1], "source-check")
         self.assertEqual(self.runtime_state["events"].count("version"), 1)
         self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
@@ -476,14 +512,14 @@ class SyntheticControls(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unexpected process outcome"):
             self.runtime_probe([self.RUNTIME_RELEASE], version_returncode=17)
         self.assertTrue(self.runtime_state["sentinel"].is_file())
-        self.assertEqual(self.runtime_state["events"], ["version"])
+        self.assertEqual(self.runtime_state["events"], ["source-commit-before", "version"])
         self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
 
     def test_preflight_timeout_preserves_build(self):
         with self.assertRaises(subprocess.TimeoutExpired):
             self.runtime_probe([], version_timeout=True)
         self.assertTrue(self.runtime_state["sentinel"].is_file())
-        self.assertEqual(self.runtime_state["events"], ["version"])
+        self.assertEqual(self.runtime_state["events"], ["source-commit-before", "version"])
         self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
 
 

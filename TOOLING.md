@@ -21,3 +21,5 @@ python3.11 -B -O -S -m unittest discover -s tests -p test_cbz_inventory.py -v
 ```
 
 Inventory output lives outside scanned roots. Immutable ancestor bindings retain exact Git blobs; current proof bytes must remain identical. Explicit historical quarantine bindings cannot discharge CLOSED proofs. Private evidence is not copied into public manifests. A named missing tool is not a finished tool.
+
+The composed source prechecks and receipt-custody controls, with commands and self-verification scope, are documented in [canonical auditors](docs/cbz/CANONICAL_AUDITORS.md) and [compiled inventory](formal/COMPILED_INVENTORY.md). Their previous component results are not a final federation gate.
