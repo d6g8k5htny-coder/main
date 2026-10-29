@@ -23,6 +23,10 @@
     {
       "path": ".github/workflows/public-intake.yml",
       "sha256": "c8ee83ad38db05d8f0ce0a8ad944408ebac7e4f3a12b0d31fe4e270c46890c87"
+    },
+    {
+      "path": ".github/workflows/public-intake-controls.yml",
+      "sha256": "c5df17775ab9591a2984b2f61b7bc7e8342dcd0251148616a161338ca8c076f3"
     }
   ],
   "self_test": [
@@ -59,7 +63,8 @@
     "strict_source_mutants_normal": 14,
     "strict_source_mutants_optimized": 14,
     "review": "PASS_SCOPED_ENGINEERING; same-family engineering review only",
-    "scope": "Finite engineering routing/package controls only, not mathematical certification or full regression/hosted CI."
+    "scope": "Finite engineering routing/package controls only, not mathematical certification or full regression/hosted CI.",
+    "hosted_controls_selection": "Public intake checker controls runs all108focused controls in normal/optimized modes; trusted-default pull_request_target workflow unchanged; actual hosted outcome not inferred."
   },
   "usage": "CI invokes python3 -B -I tools/public_intake_check.py with the existing trusted GitHub event and read-only API configuration. Local no-network self-tests are listed above.",
   "maintenance_owner": "none \u2014 self-contained existing checker",
