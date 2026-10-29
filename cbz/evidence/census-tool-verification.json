@@ -1,0 +1,71 @@
+{
+  "schema": "cbz.inventory-rf312-implementation-evidence.v1",
+  "observed_utc": "2026-10-29T17:41:39.511833+00:00",
+  "files": [
+    {
+      "path": "tools/cbz_inventory.py",
+      "bytes": 33312,
+      "sha256": "763d7399d02b9582e57cd65fce5f62d315be54e48c8cb318c1038ceed5ba7f74"
+    },
+    {
+      "path": "tests/test_cbz_inventory.py",
+      "bytes": 29706,
+      "sha256": "5f176829ef8e5923699e96d053b1775734ef207d03c2de589fa5a35840e8ace4"
+    },
+    {
+      "path": "docs/cbz/INVENTORY_TOOL_PLAN.md",
+      "bytes": 9785,
+      "sha256": "bdf3a6fdf8b086788b57dde1b6c605184d8ddeab7fbab4c5175f051df83ded68"
+    }
+  ],
+  "tests_per_mode": 50,
+  "results": [
+    {
+      "mode": "normal",
+      "command": [
+        "/workspace/.runtimes/python/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_inventory.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 129.99
+    },
+    {
+      "mode": "optimized",
+      "command": [
+        "/workspace/.runtimes/python/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11",
+        "-B",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_inventory.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 130.433
+    }
+  ],
+  "source_mutations": {
+    "disable_missing_file_set_guard": "KILLED in each mode by test_missing_manifest_file_is_rejected",
+    "disable_file_identity_guard": "KILLED in each mode by test_declared_file_hash_substitution_is_rejected"
+  },
+  "red_evidence": [
+    "cbz-inventory-rf312-red.log",
+    "cbz-inventory-axiomshape-red.log"
+  ],
+  "review": "Root independent RF312 block/tests/plan review passed; final explicit axiom-shape finding repaired with red/green tests",
+  "scope": "Exact Math RF312 base-plus-overlay recorded-byte contract; no kernel execution/authentication or semantic completeness certification; not a final CBZ gate pass"
+}

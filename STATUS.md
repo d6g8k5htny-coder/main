@@ -4,22 +4,22 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 
 ## Current baseline
 
-**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 17:35 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
+**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 17:49 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
 
 | Gate | Actual component observation | Final result |
 |---|---|---|
-| G0 | Math: 244 formal and 76 receipt-consumer tests passed per Python mode; compiled controls distinct | Not qualified |
+| G0 | Math: 244 formal and 76 receipt-consumer tests passed per Python mode; all core compiled controls passed | Not qualified |
 | G1 | Complete source census and bounded lexical/AST probes exist; no semantic certification inferred | Not qualified |
 | G2 | Literal axiom reports for 116 Math core constants passed; three approved axioms only | Not qualified |
-| G3 | Fresh main arithmetic and Math core builds passed | Not qualified |
-| G4 | Fresh main recheck passed; unchanged Math recheck passed with LEAN_NUM_THREADS=2 | Not qualified |
+| G3 | Fresh main arithmetic and complete Math core builds passed | Not qualified |
+| G4 | Fresh main recheck and complete Math gate passed with LEAN_NUM_THREADS=2 | Not qualified |
 | G5 | Main: 1,541 tests per mode with 24 skips; 19 skipped methods passed separately. Prepared Node: 763/763, zero skips | Not qualified |
 | G6 | Downstream: 24/24 and replica: 24/24 semantic mutants detected per mode | Not qualified |
 | G7 | Workspace local/network historical-pin checks passed their existing contract | Current federation consistency not qualified |
 | G8 | Canonical surfaces being reconciled to observed evidence | Not qualified |
 | G9 | Historical fixture fetch preconditions identified | Final clone/tag test not run |
 | G10 |158 fully contained branches pruned and absences read back; distinct deliveries remain | Not passed |
-| G11 | Census tool: 38 tests per mode and both source mutations passed; independent review repaired/re-reviewed | Final federation admission not qualified |
+| G11 | Census tool: 50 tests per mode and both source mutations passed; independent review repaired/re-reviewed | Final federation admission not qualified |
 
 ## What is closed and verified
 

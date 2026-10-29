@@ -107,7 +107,7 @@ CBZ-0.
   `docs/cbz/INVENTORY_TOOL_PLAN.md`. Generate/verify a complete offline
   tracked/index-source census and immutable declaration/evidence bindings.
   Run `python3.11 -B -S -m unittest discover -s tests -p
-  test_cbz_inventory.py -v`, then repeat with `-O`. Observed38/38 each mode,
+  test_cbz_inventory.py -v`, then repeat with `-O`. Observed50/50 each mode,
   including both source mutations killed; actual12-repository capture/verify
   passed13,654 entries. Independent review findings were repaired and
   re-reviewed. Owner:none, self-contained. This is **not** a Layer A semantic
@@ -143,3 +143,8 @@ for elegance.
   normal/optimized source copies. No network or permission denial is bypassed.
   Rationale: observe actual tests without granting old probes ambient write
   authority.
+- **B-011 (2026-10-29):** G6 threshold is100% of every admitted tool's
+  explicit source-bound mutant inventory. A kill requires the intended test
+  assertion failure, not import/syntax/launch failure; stale mutation anchors
+  fail. Retain positive harness controls and original RED evidence. Scope:
+  mission certifiers and their declared mutation campaigns.
