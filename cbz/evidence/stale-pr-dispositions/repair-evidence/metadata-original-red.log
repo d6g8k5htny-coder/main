@@ -1,0 +1,71 @@
+.EF.......FF............EF..FF...
+======================================================================
+ERROR: test_existing_raw_is_refreshed_and_api_reread (__main__.FetchBinding.test_existing_raw_is_refreshed_and_api_reread)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 279, in test_existing_raw_is_refreshed_and_api_reread
+    self.assertEqual(data["pull"]["head"]["sha"], "a" * 40)
+                     ~~~~^^^^^^^^
+KeyError: 'pull'
+
+======================================================================
+ERROR: test_review_identity_preserved_in_public_projection (__main__.Publishable.test_review_identity_preserved_in_public_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 255, in test_review_identity_preserved_in_public_projection
+    self.assertEqual(reviews[0]["reviewer"], {"id": 42, "login": "reviewer"})
+                     ~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'reviewer'
+
+======================================================================
+FAIL: test_head_change_during_fetch_preserves_previous_raw (__main__.FetchBinding.test_head_change_during_fetch_preserves_previous_raw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 303, in test_head_change_during_fetch_preserves_previous_raw
+    with self.assertRaisesRegex(ValueError, "changed during fetch"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_api_local_head_mismatch_is_refused_before_analysis (__main__.GitAnalysis.test_api_local_head_mismatch_is_refused_before_analysis)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 148, in test_api_local_head_mismatch_is_refused_before_analysis
+    with self.assertRaisesRegex(ValueError, "head mismatch"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_api_wrong_pr_number_is_refused (__main__.GitAnalysis.test_api_wrong_pr_number_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 155, in test_api_wrong_pr_number_is_refused
+    with self.assertRaisesRegex(ValueError, "number mismatch"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_block_and_amend_are_not_positive_verdicts (__main__.RuleOrder.test_block_and_amend_are_not_positive_verdicts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 316, in test_block_and_amend_are_not_positive_verdicts
+    self.assertFalse(pe.pass_verdict("BLOCK after a partial PASS"))
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_unbound_metadata_never_recommends_disposition (__main__.RuleOrder.test_unbound_metadata_never_recommends_disposition) (fields={'head_matches_api': False})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 312, in test_unbound_metadata_never_recommends_disposition
+    with self.subTest(fields=fields), self.assertRaisesRegex(ValueError, "unbound"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unbound_metadata_never_recommends_disposition (__main__.RuleOrder.test_unbound_metadata_never_recommends_disposition) (fields={'head_matches_api': False, 'head_is_ancestor_of_target': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/stale-pr-dispositions/test_pr_evidence.py", line 312, in test_unbound_metadata_never_recommends_disposition
+    with self.subTest(fields=fields), self.assertRaisesRegex(ValueError, "unbound"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 32 tests in 0.471s
+
+FAILED (failures=6, errors=2)

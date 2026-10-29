@@ -1,0 +1,82 @@
+{
+  "source_commit": "5d25cadf4470c462af9c6e4f383b831ce2025320",
+  "scope": "Seven-file source-custody change only",
+  "verdict": "PASS_SCOPED_ENGINEERING",
+  "findings": [],
+  "source_files": [
+    {
+      "path": ".github/workflows/formal-verification.yml",
+      "bytes": 5724,
+      "sha256": "b124747e1070d0448b9653dee9b88a15e7a349ae8f35bfa7b7cbf9e564282c6f"
+    },
+    {
+      "path": "formal/COMPILED_INVENTORY.md",
+      "bytes": 5802,
+      "sha256": "89786524d472619cac7aeae3de9297205a7316bf4064e531af6ffd7bbf28d630"
+    },
+    {
+      "path": "formal/manifest.json",
+      "bytes": 23454,
+      "sha256": "5eb96030d92a6da917053310229355c8c8c314ce552cdb9127be0c64a883edd0"
+    },
+    {
+      "path": "tests/test_formal_gate.py",
+      "bytes": 30439,
+      "sha256": "2feb822f8e8c31b01e858ee01bae9c6f96f7e3d736682e25547557427382f4a4"
+    },
+    {
+      "path": "tests/test_formal_source_custody.py",
+      "bytes": 16508,
+      "sha256": "ebc0043086df427679225f4e01512784a3f5f2ef9a1e50132a599b0504b4b875"
+    },
+    {
+      "path": "tests/test_formal_workflow_shell.py",
+      "bytes": 7195,
+      "sha256": "8b4619ed719cbf7fadd3065778df287df9a8a8dd180c2a77e236142c03c37936"
+    },
+    {
+      "path": "tools/formal_gate_check.py",
+      "bytes": 34163,
+      "sha256": "ec51ea230f3da4dc295b24b172459702207b4c403654b7ddc8e00315300502c9"
+    }
+  ],
+  "source_manifest_sha256": "5eb96030d92a6da917053310229355c8c8c314ce552cdb9127be0c64a883edd0",
+  "fresh_results": {
+    "custody": {
+      "normal": 22,
+      "optimized": 22,
+      "source_mutants": 9
+    },
+    "synthetic_runtime": {
+      "normal": 48,
+      "optimized": 48
+    },
+    "workflow_shell": {
+      "normal": 9,
+      "optimized": 9
+    },
+    "all_qualified_tests": {
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  },
+  "limits": [
+    "No Lean execution in this review",
+    "No hosted execution in this review",
+    "No qualification of pending peer-evidence merge or global federation gates"
+  ],
+  "excluded_attempt": {
+    "file": "normal.log",
+    "reason": "Initial launch ran in the in-progress merge working tree instead of the frozen archive; JSON merge-marker error, not a frozen-source failure"
+  },
+  "log_sha256": {
+    "frozen-normal.log": "387e28a794f582a0303517bf746d89b944106b7d618e8756e50a0051ffc96059",
+    "frozen-optimized.log": "c4aeb47921f7859827dae474b8f7d7afc0a464f1add48aabd2bb543cc640a750",
+    "frozen-synthetic-normal.log": "49950c841ec00b9ba1790d58e2fb5b38c050cd1b4ce16984bcad55f773217231",
+    "frozen-synthetic-optimized.log": "fca81214c518af76c1fae0517327c3ce759f4da0047ee64705c4baf1e91bc352",
+    "frozen-workflow-normal.log": "f0edc7ecf97fe7d8911cdf9947de86822ace41bef170688307e99eb088281d68",
+    "frozen-workflow-optimized.log": "0294191fdb96a53d785c812254f764e09c3ef04de25f59cfdf497c20b97c368e",
+    "normal.log": "6befb20e2fbdb2fd89f50a5d3f384ad6d7d05b7b715989d3b364dd22ac8db694"
+  }
+}

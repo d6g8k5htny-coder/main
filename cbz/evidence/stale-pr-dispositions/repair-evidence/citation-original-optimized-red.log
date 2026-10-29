@@ -1,0 +1,46 @@
+F.FFFfatal: path 'no/such/PROOF.md' does not exist in '81acc060341e8a31cc4cd4f9523ef71fb6c06175'
+.F
+======================================================================
+FAIL: test_anchor_outside_its_range_fails (__main__.CitationChecks.test_anchor_outside_its_range_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/main-obligation-census/test_build_census.py", line 56, in test_anchor_outside_its_range_fails
+    with self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_inverted_or_zero_range_fails (__main__.CitationChecks.test_inverted_or_zero_range_fails) (rows=[(20, 10, None)])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/main-obligation-census/test_build_census.py", line 49, in test_inverted_or_zero_range_fails
+    with self.subTest(rows=rows), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_inverted_or_zero_range_fails (__main__.CitationChecks.test_inverted_or_zero_range_fails) (rows=[(0, 5, None)])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/main-obligation-census/test_build_census.py", line 49, in test_inverted_or_zero_range_fails
+    with self.subTest(rows=rows), self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_line_range_past_the_end_fails (__main__.CitationChecks.test_line_range_past_the_end_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/main-obligation-census/test_build_census.py", line 42, in test_line_range_past_the_end_fails
+    with self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_wrong_blob_fails (__main__.CitationChecks.test_wrong_blob_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/dispositions-fix/cbz/evidence/main-obligation-census/test_build_census.py", line 36, in test_wrong_blob_fails
+    with self.assertRaises(AssertionError):
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.161s
+
+FAILED (failures=5)

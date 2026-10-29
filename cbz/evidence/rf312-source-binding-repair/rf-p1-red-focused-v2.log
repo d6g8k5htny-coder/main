@@ -1,0 +1,79 @@
+test_rf312_valid_hex_wrong_overlay_digest_is_rejected (__main__.InventoryContract.test_rf312_valid_hex_wrong_overlay_digest_is_rejected) ... FAIL
+test_rf312_valid_hex_wrong_base_digest_is_rejected (__main__.InventoryContract.test_rf312_valid_hex_wrong_base_digest_is_rejected) ... FAIL
+test_rf312_declared_missing_file_is_rejected (__main__.InventoryContract.test_rf312_declared_missing_file_is_rejected) ... FAIL
+test_rf312_omitted_tracked_file_is_rejected (__main__.InventoryContract.test_rf312_omitted_tracked_file_is_rejected) ... FAIL
+test_rf312_source_module_cannot_be_omitted_from_effective_map (__main__.InventoryContract.test_rf312_source_module_cannot_be_omitted_from_effective_map) ... FAIL
+test_rf312_correct_overlay_replaces_a_stale_base_digest (__main__.InventoryContract.test_rf312_correct_overlay_replaces_a_stale_base_digest) ... ok
+test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) ... 
+  test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='../escape') ... FAIL
+  test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='A.lean/../A.lean') ... FAIL
+  test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='manifest.json') ... FAIL
+
+======================================================================
+FAIL: test_rf312_valid_hex_wrong_overlay_digest_is_rejected (__main__.InventoryContract.test_rf312_valid_hex_wrong_overlay_digest_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 499, in test_rf312_valid_hex_wrong_overlay_digest_is_rejected
+    with self.assertRaisesRegex(ValueError, 'RF312 effective source hash mismatch'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_valid_hex_wrong_base_digest_is_rejected (__main__.InventoryContract.test_rf312_valid_hex_wrong_base_digest_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 505, in test_rf312_valid_hex_wrong_base_digest_is_rejected
+    with self.assertRaisesRegex(ValueError, 'RF312 effective source hash mismatch'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_declared_missing_file_is_rejected (__main__.InventoryContract.test_rf312_declared_missing_file_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 515, in test_rf312_declared_missing_file_is_rejected
+    with self.assertRaisesRegex(ValueError, 'RF312 effective file set differs from checked source tree'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_omitted_tracked_file_is_rejected (__main__.InventoryContract.test_rf312_omitted_tracked_file_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 521, in test_rf312_omitted_tracked_file_is_rejected
+    with self.assertRaisesRegex(ValueError, 'RF312 effective file set differs from checked source tree'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_source_module_cannot_be_omitted_from_effective_map (__main__.InventoryContract.test_rf312_source_module_cannot_be_omitted_from_effective_map)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 527, in test_rf312_source_module_cannot_be_omitted_from_effective_map
+    with self.assertRaisesRegex(ValueError, 'RF312 source modules require effective file bindings'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='../escape')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 535, in test_rf312_source_paths_reject_traversal_and_manifest_self_binding
+    with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='A.lean/../A.lean')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 535, in test_rf312_source_paths_reject_traversal_and_manifest_self_binding
+    with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rf312_source_paths_reject_traversal_and_manifest_self_binding (__main__.InventoryContract.test_rf312_source_paths_reject_traversal_and_manifest_self_binding) (path='manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/census-extension/tests/test_cbz_inventory.py", line 535, in test_rf312_source_paths_reject_traversal_and_manifest_self_binding
+    with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.533s
+
+FAILED (failures=8)

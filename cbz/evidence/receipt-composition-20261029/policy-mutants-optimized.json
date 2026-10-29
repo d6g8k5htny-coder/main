@@ -1,0 +1,91 @@
+[
+  {
+    "mutant": "baseline",
+    "run": 26,
+    "failure_ids": [],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "ignore_noise",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_noise_lines_refused"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_forbidden",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_custom_axiom_in_closure_rejected",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_every_finding_is_reported",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_quoted_private_sorry_rejected_for_both_reasons"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_extra_constant",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_axiom_kind_rejected_even_if_unused",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_bound_record_must_match_kind_and_provenance",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_default_bound_is_empty",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_every_finding_is_reported",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_unbound_constants_rejected_whatever_their_provenance"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_missing_module",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_module_table_findings"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_duplicate_constant",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_duplicate_name_rejected"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_extra_theorem",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_bound_record_must_match_kind_and_provenance",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_every_finding_is_reported",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_extra_user_theorem_rejected_whatever_its_name",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_local_user_theorem_rejected_even_when_local_allowed",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_quoted_private_sorry_rejected_for_both_reasons",
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_target_only_as_auxiliary_or_private_is_missing"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  },
+  {
+    "mutant": "allow_bad_count",
+    "run": 26,
+    "failure_ids": [
+      "tests.test_formal_compiled_inventory.AuditInventoryTests.test_module_table_findings"
+    ],
+    "error_ids": [],
+    "skip_ids": [],
+    "reason_bound": true
+  }
+]

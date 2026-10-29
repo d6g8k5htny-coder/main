@@ -1,0 +1,99 @@
+{
+  "recorded_utc": "2026-10-29T17:12:51.359512+00:00",
+  "repair_commit": "0f5894f81a5462c10ee5ec8f8109f466e712e47e",
+  "branch": "cbz/replica-graph-20261029",
+  "worktree": "/workspace/cbz/meta-repair",
+  "base_commit": "c70e1984477ae1752e93a060fac8bf0486c0ce73",
+  "source": {
+    "repository": "Math-",
+    "commit": "ac868b2b31d0995b75dd697f19d4c94735179a38",
+    "merge_pr": 15,
+    "path_prefix": "frontiers/downstream_gate_20260925"
+  },
+  "restored_files": [
+    "D0_CI_UNBLOCK.md",
+    "GRAPH.json",
+    "SCOPE.md",
+    "SELECTOR_REGION.json",
+    "patches/d0_packet_allowlist.patch"
+  ],
+  "modified_existing_files": [
+    "replicas/downstream-gate-pr15-v1/SOURCE.json"
+  ],
+  "pre_existing_payloads_tests_implementation_and_historical_results_unchanged": true,
+  "original_clone_unchanged": true,
+  "worktree_clean": true,
+  "verification": {
+    "original_replica": "67 methods,39 errors in each mode; parent regression logs",
+    "graph_only": "67 methods,3 errors in each mode; retained exact intermediate logs",
+    "complete_final_commit": "67 methods passed,0 failures,0 errors,0 skips in each mode",
+    "semantic_mutation_campaign": {
+      "distinct_methods": 67,
+      "distinct_mutants": 24,
+      "modes": [
+        "normal",
+        "optimized"
+      ],
+      "passed": true,
+      "sources_unchanged": true
+    },
+    "central_contracts": "77 methods passed in each mode",
+    "diff_check": "exit2 on preserved historical whitespace only; exact source bytes retained"
+  },
+  "published_to_github": false,
+  "scientific_effect": "NONE",
+  "payloads": {
+    "D0_CI_UNBLOCK.md": {
+      "bytes": 2068,
+      "sha256": "2423fa7d3519a5ba06739cb43cc72e26db70020350338a1fa508e5adfb109643"
+    },
+    "GRAPH.json": {
+      "bytes": 12289,
+      "sha256": "556b961f92aa171655ab5cfe9fa7a89cdd16a10d29f5e39cd1ff7b6ccade73b7"
+    },
+    "README.md": {
+      "bytes": 3559,
+      "sha256": "574ed537cf8992bb3f86fae109e18336e51c18ea814e69451d39901b94fea80a"
+    },
+    "RESULTS.json": {
+      "bytes": 5909,
+      "sha256": "25eb3ef09f7b71248ddc15ee7c6b0a0e417ceea11da615c98a03a6ab39545a35"
+    },
+    "SCOPE.md": {
+      "bytes": 2218,
+      "sha256": "c7b5bb0ec34f53395b96ae24edceb3b5b0a3451caf7df6205b924d40e9e9fd84"
+    },
+    "SELECTOR_REGION.json": {
+      "bytes": 2753,
+      "sha256": "53fa0ec88e417882eff2a40e4b575c639d43b7e8787e7fb8917aa22ace79390d"
+    },
+    "SOURCE_FILES.json": {
+      "bytes": 1758,
+      "sha256": "c70d114e2275db39fcbf999dc909fb4bcb13657878bfecd8072330a2ab37f544"
+    },
+    "git_transition_audit.py": {
+      "bytes": 5581,
+      "sha256": "393d407c2e35d2b6f3230f5a60a9aaa7691172544d3b59f72cc880c81be20701"
+    },
+    "hard_gate.py": {
+      "bytes": 26247,
+      "sha256": "af0dabff98e050abed31fa838da210c40c230e94268fdfd568cf2de2024cfa04"
+    },
+    "patches/d0_packet_allowlist.patch": {
+      "bytes": 3096,
+      "sha256": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a"
+    },
+    "run_validation.py": {
+      "bytes": 7517,
+      "sha256": "2f71b34d5a241402e26c0e0046fece88e1c9f2ea07c4920735b0a3d1306fba6c"
+    },
+    "test_hard_gate.py": {
+      "bytes": 18595,
+      "sha256": "84ea94bb31ed0e8a3e022d6273ecec823bb6acc2703edc6f6a641492963f882d"
+    },
+    "test_transition_contract.py": {
+      "bytes": 8006,
+      "sha256": "d9851a322274fea01e7f74db283ed70ea798bc6a35423f66c7cfddad7d92c829"
+    }
+  }
+}

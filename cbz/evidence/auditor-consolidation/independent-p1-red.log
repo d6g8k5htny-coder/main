@@ -1,0 +1,47 @@
+FFFF
+======================================================================
+FAIL: test_plain_macro_holes_with_nested_literals (tests.test_cbz_auditor_hardening.LexicalUnion.test_plain_macro_holes_with_nested_literals) (src='def f := throwError "bad {let x := "safe"; (sorry : Nat)}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_plain_macro_holes_with_nested_literals
+    with self.subTest(src=src): self.assertIn('sorry',kinds(src))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'sorry' not found in []
+
+======================================================================
+FAIL: test_plain_macro_holes_with_nested_literals (tests.test_cbz_auditor_hardening.LexicalUnion.test_plain_macro_holes_with_nested_literals) (src='def f := throwError "bad {let x := "safe"; /- } -/ (sorry : Nat)}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_plain_macro_holes_with_nested_literals
+    with self.subTest(src=src): self.assertIn('sorry',kinds(src))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'sorry' not found in []
+
+======================================================================
+FAIL: test_plain_macro_holes_with_nested_literals (tests.test_cbz_auditor_hardening.LexicalUnion.test_plain_macro_holes_with_nested_literals) (src='def f := throwError "bad {let «odd}name» := "safe"; (sorry : Nat)}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 55, in test_plain_macro_holes_with_nested_literals
+    with self.subTest(src=src): self.assertIn('sorry',kinds(src))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'sorry' not found in []
+
+======================================================================
+FAIL: test_adjacent_numeral_never_swallows_code_keyword (tests.test_cbz_auditor_hardening.LexicalUnion.test_adjacent_numeral_never_swallows_code_keyword)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/auditor-review/tests/test_cbz_auditor_hardening.py", line 57, in test_adjacent_numeral_never_swallows_code_keyword
+    self.assertEqual(kinds('def harmless := 0axiom hiddenPremise : False\ntheorem bad : False := hiddenPremise'),['axiom'])
+AssertionError: Lists differ: [] != ['axiom']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'axiom'
+
+- []
++ ['axiom']
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=4)
