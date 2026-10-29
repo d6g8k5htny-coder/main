@@ -39,13 +39,18 @@
     "formal/sources/side24_v1/ENCLOSURE.json": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
     "formal/SCOPE.md": "fd06700628b1fbc81c5cfe3786aaa455032375bcb879914f068a66b726802a17",
     "formal/GLOSSARY.md": "342d4efb374fea31c39e51f8f6bcdbc50d7fb5fea1fd393eda21afff92c62fb8",
-    "formal/README.md": "1fbbb9ec763f36aa68894bfae594294bd36aa1b4d3e755737f9a0971131452f0",
+    "formal/README.md": "8cc24be73afee43522612bf8877f93d7c4a27098874c71f2c58ebb8acf949a04",
     "formal/REVIEW_LANE.md": "54d32104aa012e917ef40b73fa3a40228d023249b339cf30fe4bdb7dcbfed414",
     "formal/reviews/TEMPLATE_alignment_review.json": "e722e928ca43c16981e063d8eb1c91e9bf8c683241d9dcf156400a419e72feb3",
     "formal/reviews/README.md": "333ca71e7c676cee89e5d01cd61999c21bb0584e41d6bdacb18afa410109f95d",
-    "tools/formal_gate_check.py": "bb49648ed194530c260f1e2037bfe1800fdb3bb2123ea61a64179d7935e2e54a",
-    "tests/test_formal_gate.py": "2e0d197f77210b513f3f81b6df9181b2d2cbdb3a2d4b945e6fd00fe0f50190ce",
-    "tests/test_formal_negative_diagnostics.py": "3847f5382966e39e951e54d8558387227540cff775d96eb33ce3d6396f52107d"
+    "tools/formal_gate_check.py": "818c658e0e21397c19e2305cf6e12d79dcfb57f4ee7505843462dd6da31e996b",
+    "tests/test_formal_gate.py": "1b701f97f30042abe2f6e796e7695727ff7e5f5a49ef038d50398a2b9695720a",
+    "tests/test_formal_negative_diagnostics.py": "3847f5382966e39e951e54d8558387227540cff775d96eb33ce3d6396f52107d",
+    "tools/formal_compiled_inventory.py": "094ae0294bfa10f6af5a797cc7939909ab0094194c2b01b468b33e0d3aac1bab",
+    "tests/test_formal_compiled_inventory.py": "f209cf72239b3068430b5652034a125495478805c9a083fcfeb12a4f51fd0062",
+    "formal/COMPILED_INVENTORY.md": "1496ab2501276ed463b8cca27efcd25b9b380317d8f4de5883af6836c19b2ef1",
+    ".github/workflows/formal-verification.yml": "b1d54513c2fad747f56ccda9519b8e625e031165d4ef234624b5a427295fbaa9",
+    "tests/test_formal_workflow_shell.py": "0c316bd2c971b18ebef1df128365fefeb6bc1006c842e700060cbfd7b607d13f"
   },
   "unbound_files": [
     "formal/manifest.json",
@@ -369,5 +374,137 @@
       "with": "d2Upper = d2Lower + 2",
       "expected_diagnostic": "31:80: error: Tactic `decide` proved that the proposition\n  d2Lower < d2Upper ∧ d2Upper = d2Lower + 2\nis false\n"
     }
-  }
+  },
+  "compiled_inventory": [
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d2Lower"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d2Upper"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d3Lower"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Endpoints",
+      "UniversalLaw.Side24.d3Upper"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._f"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._sunfold"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._unsafe_rec"
+    ],
+    [
+      "def",
+      "aux",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact.match_1"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.imageConstant"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.pairingSum"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixA"
+    ],
+    [
+      "def",
+      "user",
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixB"
+    ]
+  ],
+  "codegen_inventory": [
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixB._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.sixA._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator._closed_1"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.expTaylorNumerator._closed_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.expTaylorNumerator.spec_0._closed_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.pairingSum._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.pairingSum.spec_0._boxed"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "List.foldl._at_.UniversalLaw.Side24.pairingSum.spec_0"
+    ],
+    [
+      "UniversalLaw.Side24.Ledger",
+      "UniversalLaw.Side24.fact._boxed"
+    ]
+  ]
 }

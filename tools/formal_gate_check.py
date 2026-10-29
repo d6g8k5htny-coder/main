@@ -44,6 +44,12 @@ import subprocess
 import sys
 import tempfile
 
+if __package__:
+    from . import formal_compiled_inventory as compiled
+else:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    import formal_compiled_inventory as compiled
+
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = "formal/manifest.json"
 ALLOWED = frozenset({"propext", "Classical.choice", "Quot.sound"})
@@ -157,7 +163,7 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
         require(sha(safe_path(root, name).read_bytes()) == digest, "source hash mismatch: " + name)
     required = {f"{pkg_rel}/lean-toolchain", f"{pkg_rel}/lakefile.toml", f"{pkg_rel}/lake-manifest.json",
                 f"{pkg_rel}/{m['root_module']}.lean", f"{pkg_rel}/SCOPE.md", f"{pkg_rel}/GLOSSARY.md",
-                f"{pkg_rel}/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py", "tests/test_formal_negative_diagnostics.py"}
+                f"{pkg_rel}/README.md", f"{pkg_rel}/COMPILED_INVENTORY.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py", "tests/test_formal_negative_diagnostics.py", "tools/formal_compiled_inventory.py", "tests/test_formal_compiled_inventory.py"}
     require(required <= set(files), "unbound control or scope file: " + repr(sorted(required - set(files))))
     require((pkg / "lean-toolchain").read_text(encoding="utf-8").strip() == TOOLCHAIN, "wrong Lean toolchain file")
     lock = load_json((pkg / "lake-manifest.json").read_text(encoding="utf-8"))
@@ -235,10 +241,14 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
             spec["expected_diagnostic"]) is not None,
             "invalid negative control diagnostic contract: " + label)
     if manifest_rel == MANIFEST:
+        require({'.github/workflows/formal-verification.yml', 'tests/test_formal_workflow_shell.py'} <= set(files),
+                'unbound formal workflow or regression control')
         require(m["package"] == "side24-arithmetic-skeleton" and set(controls) == {
             "false_exponent_bound_d3", "false_covariance_bound", "false_exp_partial_sum",
             "wrong_image_constant", "false_eigenvalue_third", "false_trace_variance",
             "false_endpoint_adjacency"}, "incomplete main negative control inventory")
+    compiled.bound_inventory(m.get("compiled_inventory"), target_names, [p[:-5].replace("/", ".") for p in modules])
+    compiled.bound_codegen(m.get("codegen_inventory"), [p[:-5].replace("/", ".") for p in modules])
     return m, sha(raw), pkg
 
 
@@ -320,6 +330,14 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
     audit = out / "Audit.lean"
     audit.write_text("import " + m["root_module"] + "\n" + "\n".join("#print axioms " + n for n in targets) + "\n", encoding="utf-8")
     axioms = audit_axioms(run([lake, "env", "lean", str(audit)], "axioms", out, pkg, env), targets)
+    inventory_path = out / "Inventory.lean"
+    inventory_path.write_text(compiled.inventory_source(package=m["root_module"]), encoding="utf-8")
+    modules = [p[:-5].replace("/", ".") for p in m["source_modules"]]
+    inventory = compiled.audit_inventory(
+        run([lake, "env", "lean", str(inventory_path)], "compiled-inventory", out, pkg, env),
+        targets, modules, reported_axioms=axioms,
+        bound=compiled.bound_inventory(m["compiled_inventory"], targets, modules), package=m["root_module"],
+        codegen=compiled.bound_codegen(m["codegen_inventory"], modules))
     types = out / "Types.lean"
     types.write_text("import " + m["root_module"] + "\nset_option pp.explicit true\n" + "\n".join("#check " + n for n in targets) + "\n", encoding="utf-8")
     run([lake, "env", "lean", str(types)], "elaborated-types", out, pkg, env)
@@ -359,7 +377,7 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
                    alignment_status="PENDING_INDEPENDENT_REVIEW", manifest_sha256=digest, checked_commit=head,
                    repository=os.environ.get("GITHUB_REPOSITORY"), workflow_run_id=os.environ.get("GITHUB_RUN_ID"),
                    lean_version=version, dependency_revisions=m["dependency_revisions"], axioms=axioms,
-                   negative_controls=outcomes)
+                   negative_controls=outcomes, compiled_inventory=inventory)
     receipt["logs"] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob("*.log"))}
     (out / "receipt.json").write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return receipt
