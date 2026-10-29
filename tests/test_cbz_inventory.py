@@ -60,6 +60,16 @@ class RenderFailsClosed(unittest.TestCase):
         for g in inv.gate_matrix():
             self.assertTrue(g.get('tool') or g.get('gap'), g['gate'])
 
+    def test_scope_note_is_printed_first(self):
+        d = doc([repo()]); d['scope_note'] = 'PARTIAL: 6 of 12 repositories'
+        md = inv.render_md(d)
+        self.assertLess(md.index('PARTIAL: 6 of 12'), md.index('## Repositories'))
+
+    def test_gate_with_tool_and_gap_shows_both(self):
+        md = inv.render_md(doc([repo()]))
+        self.assertIn('verify_pins.py', md)
+        self.assertIn('gap: no current coherent federation cut', md)
+
 
 if __name__ == '__main__':
     unittest.main()

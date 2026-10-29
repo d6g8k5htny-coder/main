@@ -169,8 +169,9 @@ def gate_matrix():
          'tool': 'python -B -S -m unittest discover -s tests -p "test_*.py" (main); per-repo suites differ'},
         {'gate': 'G6', 'check': 'mutation threshold', 'runnable_here': False,
          'gap': 'no declared federation mutation threshold or repo-wide mutation runner'},
-        {'gate': 'G7', 'check': 'cross-repo pin verification', 'runnable_here': False,
-         'gap': 'no tool verifies that cross-repo commit pins resolve and agree'},
+        {'gate': 'G7', 'check': 'cross-repo pin verification', 'runnable_here': True,
+         'tool': 'Universal-Law-Workspace tools/verify_pins.py (gitlinks vs pins.json/.gitmodules; lag reported)',
+         'gap': 'no current coherent federation cut; pin coverage narrower than the federation'},
         {'gate': 'G8', 'check': 'status-surface truth check', 'runnable_here': False,
          'gap': 'no tool compares STATUS.md/PROOF_INDEX.md claims with observed state'},
         {'gate': 'G9', 'check': 'cold-start test', 'runnable_here': False,
@@ -182,7 +183,10 @@ def gate_matrix():
 
 
 def render_md(inv):
-    lines = ['# CBZ-0 Phase 1 inventory', '',
+    lines = ['# CBZ-0 Phase 1 inventory', '']
+    if inv.get('scope_note'):
+        lines += [f"**Scope: {inv['scope_note']}**", '']
+    lines += [
              f"Generated {inv['generated_at']} by `tools/cbz_inventory.py`. Observations only; this file certifies nothing.",
              'Regenerate with the command in this directory'"'"'s README.md.', '',
              '## Repositories', '',
@@ -237,7 +241,8 @@ def render_md(inv):
                      f"dirty entries {r['working_tree_dirty_entries']}")
     lines += ['', '## Gate runnability and tooling gaps', '', '| Gate | Check | Runnable here | Tool or gap |', '|---|---|---|---|']
     for g in inv['gates']:
-        lines.append(f"| {g['gate']} | {g['check']} | {'yes' if g['runnable_here'] else 'no'} | {g.get('tool') or g.get('gap')} |")
+        detail = '; '.join(x for x in (g.get('tool'), ('gap: ' + g['gap']) if g.get('gap') else None) if x)
+        lines.append(f"| {g['gate']} | {g['check']} | {'yes' if g['runnable_here'] else 'no'} | {detail} |")
     lines += ['', '## Inaccessible repositories', '']
     lines += [f"- {u['name']}: {u['reason']}" for u in inv['inaccessible']] or ['- none']
     return '\n'.join(lines) + '\n'
@@ -251,9 +256,10 @@ def main(argv):
     ap.add_argument('--out-json', required=True)
     ap.add_argument('--out-md', required=True)
     ap.add_argument('--no-pr-scan', action='store_true')
+    ap.add_argument('--scope-note', default='', help='printed at the top, e.g. PARTIAL: 6 of 12 repositories')
     a = ap.parse_args(argv[1:])
     inv = {'schema': 'cbz-inventory/v1', 'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(timespec='seconds'),
-           'owner': a.owner, 'repos': [], 'gates': gate_matrix(),
+           'owner': a.owner, 'scope_note': a.scope_note, 'repos': [], 'gates': gate_matrix(),
            'inaccessible': [{'name': x.split('=', 1)[0], 'reason': x.split('=', 1)[1]} for x in a.inaccessible]}
     for spec in a.repo:
         name, path = spec.split('=', 1)

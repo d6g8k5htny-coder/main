@@ -1,27 +1,29 @@
 # CBZ-0 Phase 1 inventory
 
-Generated 2026-10-29T17:03:39+00:00 by `tools/cbz_inventory.py`. Observations only; this file certifies nothing.
+**Scope: PARTIAL — 6 of the 12 repositories accessible to the federation (DB642, #684/6503460941). Not inventoried here: three archived repositories, two private infrastructure repositories and the public profile repository; google-drive was unreachable from this session. Excluded repositories are not counted as zero.**
+
+Generated 2026-10-29T17:16:52+00:00 by `tools/cbz_inventory.py`. Observations only; this file certifies nothing.
 Regenerate with the command in this directory's README.md.
 
 ## Repositories
 
 | Repo | Default head | Files | Lean | Workflows | Remote branches (unmerged) | Tags | Open PRs (draft) | Layer A hits (default tree) |
 |---|---|---:|---:|---:|---|---:|---|---|
-| main | `4ef18671` | 2824 | 4 | 30 | 277 (229) | 6 | 40 (38) | 0 hits, 0 errors, 4 Lean files |
-| Math- | `8151f592` | 4019 | 162 | 182 | 149 (104) | 1 | 25 (24) | 0 hits, 0 errors, 162 Lean files |
-| governance- | `e396002a` | 42 | 0 | 1 | 36 (11) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
-| meta-framework | `c70e1984` | 468 | 0 | 2 | 44 (43) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
-| query- | `fb4c457b` | 55 | 0 | 2 | 22 (21) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
-| Universal-Law-Workspace | `45a80ab0` | 27 | 0 | 2 | 6 (5) | 0 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
+| main | `81acc060` | 2826 | 4 | 30 | 233 (230) | 6 | 40 (39) | 0 hits, 0 errors, 4 Lean files |
+| Math- | `8151f592` | 4019 | 162 | 182 | 110 (105) | 1 | 26 (25) | 0 hits, 0 errors, 162 Lean files |
+| governance- | `e396002a` | 42 | 0 | 1 | 6 (5) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
+| meta-framework | `0f5894f8` | 473 | 0 | 2 | 7 (6) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
+| query- | `fb4c457b` | 55 | 0 | 2 | 16 (15) | 1 | 0 (0) | 0 hits, 0 errors, 0 Lean files |
+| Universal-Law-Workspace | `a4b01682` | 39 | 0 | 2 | 7 (6) | 0 | 1 (0) | 0 hits, 0 errors, 0 Lean files |
 
 ## Default-branch checks
 
-- **main** `4ef18671`: 24 check runs, 0 not success/skipped
+- **main** `81acc060`: 8 check runs, 2 not success/skipped: architecture / research-architecture=in_progress, build=in_progress
 - **Math-** `8151f592`: 7 check runs, 0 not success/skipped
 - **governance-** `e396002a`: 2 check runs, 0 not success/skipped
-- **meta-framework** `c70e1984`: 0 check runs, 0 not success/skipped
+- **meta-framework** `0f5894f8`: 0 check runs, 0 not success/skipped
 - **query-** `fb4c457b`: 1 check runs, 0 not success/skipped
-- **Universal-Law-Workspace** `45a80ab0`: 2 check runs, 0 not success/skipped
+- **Universal-Law-Workspace** `a4b01682`: 2 check runs, 1 not success/skipped: verify-pins=failure
 
 ## Open pull requests
 
@@ -44,7 +46,7 @@ Regenerate with the command in this directory's README.md.
 | main | #358 | yes | 2026-10-20 | 4 | 0 | Lean verification specification: environment, statement-register table |
 | main | #363 | yes | 2026-10-13 | 0 | 0 | Prepare restricted browser runtime with original evidence and recovery |
 | main | #385 | yes | 2026-10-24 | 0 | 0 | C245-A: separate raw H0 replay from experiment acceptance |
-| main | #389 | no | 2026-10-26 | 0 | 0 | SIDE24 V3 manuscript draft (author-side): LaTeX sources, compiled PDF, |
+| main | #389 | no | 2026-10-29 | 0 | 0 | SIDE24 V3 manuscript (r20) and Supplement (draft 18): LaTeX sources, r |
 | main | #399 | yes | 2026-10-29 | 0 | 0 | WIP: bounded current atlas filters and route paging |
 | main | #407 | yes | 2026-10-15 | 0 | 0 | docs: distinguish weak and strong persistence universality in novelty  |
 | main | #429 | yes | 2026-10-26 | 0 | 0 | Add reviewed fold isolation, diagonal counts and covariance obstructio |
@@ -66,7 +68,7 @@ Regenerate with the command in this directory's README.md.
 | main | #630 | yes | 2026-10-26 | 0 | 0 | formal: SIDE24 alignment review 2026-10-26 (REJECTED — AMEND anchors) |
 | main | #664 | yes | 2026-10-28 | 0 | 0 | Draft weighted-cusp field comparison: exact prediction and retained ob |
 | main | #674 | yes | 2026-10-27 | 0 | 0 | Draft scientific candidate: V22 generic sector two-height O(r^5) band  |
-| main | #685 | no | 2026-10-29 | 0 | 0 | Adopt owner CBZ-0 mandate and evidence-based consolidation protocol |
+| main | #687 | yes | 2026-10-29 | 0 | 0 | cbz: verified Layer A lexical scanner, mutation self-test, federation  |
 | Math- | #370 | yes | 2026-10-14 | 0 | 0 | Soft-fold replay: authenticate full failure messages and ordered contr |
 | Math- | #372 | yes | 2026-10-23 | 0 | 0 | LM006 coefficient: halve enclosure width with exact zero-cell pruning |
 | Math- | #379 | yes | 2026-10-15 | 0 | 0 | Third-order replay: authenticate complete mutant reports and exact con |
@@ -92,17 +94,19 @@ Regenerate with the command in this directory's README.md.
 | Math- | #524 | yes | 2026-10-29 | 0 | 0 | Prove all-direction Gaussian rates and global critical-gap split |
 | Math- | #525 | yes | 2026-10-29 | 0 | 0 | Identify sharp essential action and tiny-gap square-root law |
 | Math- | #526 | yes | 2026-10-29 | 0 | 0 | Complete finite-lifetime moment limits and match essential actions |
+| Math- | #527 | yes | 2026-10-29 | 0 | 0 | Add a mutation-tested Layer A scan for every tracked Lean file (CBZ-0  |
+| Universal-Law-Workspace | #29 | no | 2026-10-29 | 0 | 0 | cbz: cross-repository Layer A lexical scanner and Phase 1 ref evidence |
 
 ## Status surfaces present on the default branch
 
 | Repo | STATUS.md | PROOF_INDEX.md | GOVERNANCE.md | TOOLING.md | BASELINE.md | DECISIONS.md | INVENTORY.md | AGENTS.md |
 |---|---|---|---|---|---|---|---|---|
-| main | yes | no | no | no | no | no | no | yes |
+| main | yes | no | yes | no | no | yes | no | yes |
 | Math- | no | yes | no | no | no | no | no | yes |
 | governance- | no | no | no | no | no | no | no | yes |
 | meta-framework | no | no | no | no | no | no | no | yes |
 | query- | no | no | no | no | no | no | no | yes |
-| Universal-Law-Workspace | no | no | no | no | no | no | no | yes |
+| Universal-Law-Workspace | yes | no | yes | no | yes | yes | yes | yes |
 
 ## Local hygiene (this inventory host)
 
@@ -119,14 +123,14 @@ Regenerate with the command in this directory's README.md.
 |---|---|---|---|
 | G0 | Layer A scanner mutation self-test | yes | tools/cbz_scanner_mutation_check.py |
 | G1 | Layer A static audit | yes | tools/cbz_layer_a_scan.py |
-| G2 | #print axioms on all declarations | no | no Lean toolchain (lean/lake) in this environment; hosted Math- workflows only |
-| G3 | Lean build | no | no Lean toolchain in this environment; hosted Math- workflows build per-package |
-| G4 | kernel re-check | no | no Lean toolchain; no federation-wide kernel re-check tool exists |
+| G2 | #print axioms on all declarations | no | gap: no Lean toolchain (lean/lake) in this environment; hosted Math- workflows only |
+| G3 | Lean build | no | gap: no Lean toolchain in this environment; hosted Math- workflows build per-package |
+| G4 | kernel re-check | no | gap: no Lean toolchain; no federation-wide kernel re-check tool exists |
 | G5 | full regression suite | yes | python -B -S -m unittest discover -s tests -p "test_*.py" (main); per-repo suites differ |
-| G6 | mutation threshold | no | no declared federation mutation threshold or repo-wide mutation runner |
-| G7 | cross-repo pin verification | no | no tool verifies that cross-repo commit pins resolve and agree |
-| G8 | status-surface truth check | no | no tool compares STATUS.md/PROOF_INDEX.md claims with observed state |
-| G9 | cold-start test | no | requires canonical STATUS.md handoff surface (Phase 4) |
+| G6 | mutation threshold | no | gap: no declared federation mutation threshold or repo-wide mutation runner |
+| G7 | cross-repo pin verification | yes | Universal-Law-Workspace tools/verify_pins.py (gitlinks vs pins.json/.gitmodules; lag reported); gap: no current coherent federation cut; pin coverage narrower than the federation |
+| G8 | status-surface truth check | no | gap: no tool compares STATUS.md/PROOF_INDEX.md claims with observed state |
+| G9 | cold-start test | no | gap: requires canonical STATUS.md handoff surface (Phase 4) |
 | G10 | git hygiene | yes | this inventory (branches/PRs/worktrees) |
 | G11 | tooling hygiene | yes | GOVERNANCE.md tool registry (root, PR 685) and each tool own tests |
 
