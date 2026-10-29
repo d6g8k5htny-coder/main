@@ -1,0 +1,3186 @@
+{
+  "scope": "SOURCE_ONLY_INVENTORY; NOT_KERNEL_EVIDENCE",
+  "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+  "worktree": "CLEAN",
+  "theorem_count": 78,
+  "covered_prop_count": 77,
+  "registered_prop_count": 143,
+  "unproved_registered_prop_count": 66,
+  "registered_structures": 10,
+  "source_aux_theorems": 481,
+  "source_auxiliary_definitions": 14,
+  "family_counts": {
+    "Specifications/P15.lean": 50,
+    "Specifications/Side24.lean": 22,
+    "Specifications/RN.lean": 6
+  },
+  "proofs": [
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.twoCoordGeneratorPrices",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 361,
+      "proves": "UniversalLaw.Spec.P15.TwoCoordGeneratorPrices",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-boundary",
+        "math.p15-price-boundary"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.TwoCoordGeneratorPrices` (register rows `p15-price-boundary`,",
+        "method": "unfold `genPrice`/`twoCoordC`, evaluate the four finite products with `simp`/`norm_num`.",
+        "does_not_establish": "the demand-one refutation itself (`DemandOneRefutation`), any review or"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem twoCoordGeneratorPrices : UniversalLaw.Spec.P15.TwoCoordGeneratorPrices",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.TwoCoordGeneratorPrices",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 629,
+        "source_id": "p15-price-boundary",
+        "doc_anchor": "The possible generator costs are1,2/3,2/3,4/9 for the empty",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def TwoCoordGeneratorPrices : Prop",
+        "literal_source_declaration": "def TwoCoordGeneratorPrices : Prop :=\n  genPrice twoCoordC ∅ = 1 ∧ genPrice twoCoordC {0} = 2 / 3 ∧ genPrice twoCoordC {1} = 2 / 3 ∧\n    genPrice twoCoordC Finset.univ = 4 / 9"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.logOnePlusBelowIdentity",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 373,
+      "proves": "UniversalLaw.Spec.P15.LogOnePlusBelowIdentity",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-boundary"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LogOnePlusBelowIdentity` (register row `p15-price-boundary`).",
+        "method": "`Real.log_lt_sub_one_of_pos` at `1 + x`.",
+        "does_not_establish": "anything about the refutation beyond this elementary inequality."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem logOnePlusBelowIdentity : UniversalLaw.Spec.P15.LogOnePlusBelowIdentity",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LogOnePlusBelowIdentity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 661,
+        "source_id": "p15-price-boundary",
+        "doc_anchor": "using log(1+x)<x for x>0.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LogOnePlusBelowIdentity : Prop",
+        "literal_source_declaration": "def LogOnePlusBelowIdentity : Prop :=\n  ∀ x : ℝ, 0 < x → Real.log (1 + x) < x\n\n/-! ## Price budget: the restricted transformed-price extension (T1)-(T5), (T7) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.demandOneRefutation",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 391,
+      "proves": "UniversalLaw.Spec.P15.DemandOneRefutation",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-boundary",
+        "math.p15-price-boundary"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.DemandOneRefutation` (register rows `p15-price-boundary`,",
+        "method": "`twoCoord` is definitionally the `cap = 1` demand-one block, so the one-block lemmas",
+        "does_not_establish": "that the refutation contradicts original P15-B (\"It does not contradict the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem demandOneRefutation : UniversalLaw.Spec.P15.DemandOneRefutation",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.DemandOneRefutation",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 643,
+        "source_id": "p15-price-boundary",
+        "doc_anchor": "    covercost_c(O_1(D))=4/9 > 1/3 > log(4/3).",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def DemandOneRefutation : Prop",
+        "literal_source_declaration": "def DemandOneRefutation : Prop :=\n  IsRealizedFamily twoCoord ∧\n  paletteNumber 1 ∅ (fun _ => 1) = 1 ∧\n  (∀ U : Finset (Fin 2), U ∈ obstruction twoCoord 1 ↔ U = Finset.univ) ∧\n  (∀ v, twoCoordC v ≤ phi (twoCoordP v)) ∧\n  phi (1 / 2) = Real.log 2 ∧ (2 / 3 : ℝ) < Real.log 2 ∧\n  mu twoCoord twoCoordP = 3 / 4 ∧\n  cappedHazard 1 (mu twoCoord twoCoordP) = Real.log (4 / 3) ∧ Real.log (4 / 3) < (1 / 3 : ℝ) ∧\n  (∀ G : Finset (Finset (Fin 2)), IsGeneratorCover twoCoord 1 G → 4 / 9 ≤ famPrice twoCoordC G) ∧\n  coverCost twoCoord 1 twoCoordC = 4 / 9 ∧ (1 / 3 : ℝ) < 4 / 9 ∧\n  cappedHazard 1 (mu twoCoord twoCoordP) < coverCost twoCoord 1 twoCoordC"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.logRatioBound",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 474,
+      "proves": "UniversalLaw.Spec.P15.LogRatioBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LogRatioBound` (register row `p15-price-budget-restricted`).",
+        "method": "`Real.log_le_sub_one_of_pos` at `(1 - p)⁻¹` and `Real.log_inv`.",
+        "does_not_establish": "display (T1) or the restricted budget; the source's integral representation"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem logRatioBound : UniversalLaw.Spec.P15.LogRatioBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LogRatioBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 672,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "    -log(1-p)=integral_0^p dt/(1-t) <= p/(1-p).               (T2)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LogRatioBound : Prop",
+        "literal_source_declaration": "def LogRatioBound : Prop :=\n  ∀ p : ℝ, 0 ≤ p → p < 1 → -Real.log (1 - p) ≤ p / (1 - p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.capTestAtTwoThirds",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 488,
+      "proves": "UniversalLaw.Spec.P15.CapTestAtTwoThirds",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.CapTestAtTwoThirds` (register row `p15-price-budget-restricted`).",
+        "method": "`log 3 > 1` from `exp 1 < 3` (Mathlib's `Real.exp_one_lt_d9`); for `2/3 ≤ q < 1`,",
+        "does_not_establish": "the checker program of the source's Section 5, nor any budget statement."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem capTestAtTwoThirds : UniversalLaw.Spec.P15.CapTestAtTwoThirds",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.CapTestAtTwoThirds",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 745,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "or if q>=2/3 (then phi(q)=1, since log3>1)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def CapTestAtTwoThirds : Prop",
+        "literal_source_declaration": "def CapTestAtTwoThirds : Prop :=\n  1 < Real.log 3 ∧ ∀ q : ℝ, 2 / 3 ≤ q → q ≤ 1 → phi q = 1"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.ratioExponentBound",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 511,
+      "proves": "UniversalLaw.Spec.P15.RatioExponentBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RatioExponentBound` (register row `p15-price-budget-restricted`).",
+        "method": "`3^n ≥ 3^(2a+1)` and the exact identity `4^(a+1)/3^(2a+1) = (4/3)(4/9)^a`; then",
+        "does_not_establish": "the ratio steps of (T3) preceding the exponent arithmetic, or (T4)/(T1)."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem ratioExponentBound : UniversalLaw.Spec.P15.RatioExponentBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RatioExponentBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 682,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "       <= (4/3)*(4/9)^a <=16/27.                          (T3)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RatioExponentBound : Prop",
+        "literal_source_declaration": "def RatioExponentBound : Prop :=\n  ∀ a n : ℕ, 1 ≤ a → 2 * a + 1 ≤ n →\n    (4 : ℝ) ^ (a + 1) / 3 ^ n ≤ (4 / 3) * (4 / 9) ^ a ∧ (4 / 3 : ℝ) * (4 / 9) ^ a ≤ 16 / 27"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.rhoStarBelowSixSevenths",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 533,
+      "proves": "UniversalLaw.Spec.P15.RhoStarBelowSixSevenths",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RhoStarBelowSixSevenths` (register row `p15-full-price`).",
+        "method": "`3e - 2 < 197/32 < exp(11/6)` (decimal bound on `e`; degree-5 Taylor lower bound on",
+        "does_not_establish": "the 20-digit enclosure (F3) (`RhoStarEnclosure`), the budget (F2), or any"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem rhoStarBelowSixSevenths : UniversalLaw.Spec.P15.RhoStarBelowSixSevenths",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RhoStarBelowSixSevenths",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 853,
+        "source_id": "p15-full-price",
+        "doc_anchor": "Thus 6/7 is a simpler valid rational factor.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RhoStarBelowSixSevenths : Prop",
+        "literal_source_declaration": "def RhoStarBelowSixSevenths : Prop :=\n  rhoStar < 6 / 7\n\n/-! ## Full price Section 2: the hazard interpolation bounds (F4)-(F8) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.sixSeventhsCertificate",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 541,
+      "proves": "UniversalLaw.Spec.P15.SixSeventhsCertificate",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.SixSeventhsCertificate` (register row `p15-full-price`).",
+        "method": "`Real.exp_one_lt_d9` for `e < 31967/11760`; `norm_num` for the two rational identities;",
+        "does_not_establish": "the series and geometric-tail bounds the source uses for `e < 31967/11760`"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem sixSeventhsCertificate : UniversalLaw.Spec.P15.SixSeventhsCertificate",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.SixSeventhsCertificate",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1153,
+        "source_id": "p15-full-price",
+        "doc_anchor": "Therefore 3e-2<197/32<exp(11/6), giving h_star>7/6 and rho_star<6/7.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def SixSeventhsCertificate : Prop",
+        "literal_source_declaration": "def SixSeventhsCertificate : Prop :=\n  Real.exp 1 < 31967 / 11760 ∧ (31967 / 11760 : ℝ) < 87 / 32 ∧\n  (87 / 32 - 31967 / 11760 : ℝ) = 11 / 23520 ∧\n  (∑ j ∈ Finset.range 6, (11 / 6 : ℝ) ^ j / (Nat.factorial j : ℝ)) - 197 / 32 = 26081 / 933120 ∧\n  (0 : ℝ) < 26081 / 933120 ∧\n  3 * Real.exp 1 - 2 < 197 / 32 ∧ (197 / 32 : ℝ) < Real.exp (11 / 6) ∧\n  7 / 6 < hStar ∧ rhoStar < 6 / 7"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.hStarExceedsOne",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 553,
+      "proves": "UniversalLaw.Spec.P15.HStarExceedsOne",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.HStarExceedsOne` (register row `p15-full-price`).",
+        "method": "`2 < e` from `Real.exp_one_gt_d9`; `ring` for the factorisation; `u = exp(-1) < 1/2`",
+        "does_not_establish": "(F11) for general `(n, a)` (that is `CapacityWorstCase`)."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem hStarExceedsOne : UniversalLaw.Spec.P15.HStarExceedsOne",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.HStarExceedsOne",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1033,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    e^2-(3e-2)=(e-1)(e-2)>0,",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def HStarExceedsOne : Prop",
+        "literal_source_declaration": "def HStarExceedsOne : Prop :=\n  2 < Real.exp 1 ∧\n  Real.exp 1 ^ 2 - (3 * Real.exp 1 - 2) = (Real.exp 1 - 1) * (Real.exp 1 - 2) ∧\n  0 < (Real.exp 1 - 1) * (Real.exp 1 - 2) ∧\n  3 * Real.exp (-2) - 2 * Real.exp (-3) < Real.exp (-1) ∧\n  1 < hStar\n\n/-! ## Full price Sections 3-4: local price bound (F12) and global assembly (F13) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.phiAtPStar",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 566,
+      "proves": "UniversalLaw.Spec.P15.PhiAtPStar",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.PhiAtPStar` (register row `p15-full-price`).",
+        "method": "`p_star < 1`, `1 - p_star = exp(-1)`, `Real.log_exp`.",
+        "does_not_establish": "equality of the two sides of (F7) (not specified separately)."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem phiAtPStar : UniversalLaw.Spec.P15.PhiAtPStar",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.PhiAtPStar",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 949,
+        "source_id": "p15-full-price",
+        "doc_anchor": "at every p_i=p_star and every c_i=1, the two sides of (F7) are equal",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def PhiAtPStar : Prop",
+        "literal_source_declaration": "def PhiAtPStar : Prop :=\n  phi pStar = 1"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.hazardStarPositive",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 582,
+      "proves": "UniversalLaw.Spec.P15.HazardStarPositive",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.HazardStarPositive` (register row `p15-full-price`).",
+        "method": "at the constant vector `p_star ∈ (0,1)` all weights are nonnegative, the empty set",
+        "does_not_establish": "the bounds (F5)-(F8) that use `H_A > 0`."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem hazardStarPositive : UniversalLaw.Spec.P15.HazardStarPositive",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.HazardStarPositive",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 893,
+        "source_id": "p15-full-price",
+        "doc_anchor": "The probability is positive on this compact cube because the empty set is admitted and every p_i(t)<1.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def HazardStarPositive : Prop",
+        "literal_source_declaration": "def HazardStarPositive : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A → 0 < hazardStar A"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.oddMajorityIdentity",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 626,
+      "proves": "UniversalLaw.Spec.P15.OddMajorityIdentity",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.OddMajorityIdentity` (register row `p15-full-price`).",
+        "method": "the one-trial recursion `binomTail (n+1) k = binomTail n k - C(n,k) p^(k+1) (1-p)^(n-k)`",
+        "does_not_establish": "(F11) itself (the chain over `a` is in `CapacityWorstCase`)."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem oddMajorityIdentity : UniversalLaw.Spec.P15.OddMajorityIdentity",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.OddMajorityIdentity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1003,
+        "source_id": "p15-full-price",
+        "doc_anchor": "       =p(1-2p)P(S=a)<0.                                (F10)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def OddMajorityIdentity : Prop",
+        "literal_source_declaration": "def OddMajorityIdentity : Prop :=\n  ∀ (a : ℕ) (p : ℝ),\n    binomTail (2 * a + 3) (a + 1) p - binomTail (2 * a + 1) a p =\n      (1 - p) ^ 2 * ((Nat.choose (2 * a + 1) (a + 1) : ℝ) * p ^ (a + 1) * (1 - p) ^ a) -\n        p ^ 2 * ((Nat.choose (2 * a + 1) a : ℝ) * p ^ a * (1 - p) ^ (a + 1)) ∧\n    binomTail (2 * a + 3) (a + 1) p - binomTail (2 * a + 1) a p =\n      p * (1 - 2 * p) * ((Nat.choose (2 * a + 1) a : ℝ) * p ^ a * (1 - p) ^ (a + 1)) ∧\n    (1 / 2 < p → p < 1 → binomTail (2 * a + 3) (a + 1) p - binomTail (2 * a + 1) a p < 0)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.capacityWorstCase",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 680,
+      "proves": "UniversalLaw.Spec.P15.CapacityWorstCase",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.CapacityWorstCase` (register row `p15-full-price`).",
+        "method": "`mu_{p_star}(capacityFamily n a) = binomTail n a p_star` (`Finset.sum_powerset_apply_card`),",
+        "does_not_establish": "the local price bound (F12) or the assembly (F13); the source's remark \"it"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem capacityWorstCase : UniversalLaw.Spec.P15.CapacityWorstCase",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.CapacityWorstCase",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1019,
+        "source_id": "p15-full-price",
+        "doc_anchor": "       =3-log(3e-2)=h_star>1.                           (F11)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def CapacityWorstCase : Prop",
+        "literal_source_declaration": "def CapacityWorstCase : Prop :=\n  (∀ a n : ℕ, 1 ≤ a → 2 * a + 1 ≤ n →\n      hazardStar (capacityFamily 3 1) ≤ hazardStar (capacityFamily n a)) ∧\n  hazardStar (capacityFamily 3 1) = -Real.log (3 * Real.exp (-2) - 2 * Real.exp (-3)) ∧\n  -Real.log (3 * Real.exp (-2) - 2 * Real.exp (-3)) = hStar ∧\n  1 < hStar"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.demandOneBoundary",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 715,
+      "proves": "UniversalLaw.Spec.P15.DemandOneBoundary",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.DemandOneBoundary` (register row `p15-full-price`).",
+        "method": "one-block lemmas (block = ground set, good ⇔ `|U| ≤ cap`, obstruction `{X}` at `K = 1`,",
+        "does_not_establish": "any retraction of original P15-B (\"whose local-budget premise is missing in"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem demandOneBoundary : UniversalLaw.Spec.P15.DemandOneBoundary",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.DemandOneBoundary",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1131,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    mu_p(D)=1-p_star^(a+1)>1-p_star=exp(-1),",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def DemandOneBoundary : Prop",
+        "literal_source_declaration": "def DemandOneBoundary : Prop :=\n  ∀ cap : ℕ, 1 ≤ cap →\n    IsRealizedFamily (demandOneBlock cap) ∧\n    (∀ U : Finset (Fin (cap + 1)), U ∈ obstruction (demandOneBlock cap) 1 ↔ U = Finset.univ) ∧\n    1 ≤ coverCost (demandOneBlock cap) 1 (fun _ => (1 : ℝ)) ∧\n    mu (demandOneBlock cap) (fun _ => pStar) = 1 - pStar ^ (cap + 1) ∧\n    Real.exp (-1) < 1 - pStar ^ (cap + 1) ∧\n    -Real.log (mu (demandOneBlock cap) (fun _ => pStar)) < 1 ∧\n    ∀ ρ : ℝ, ρ ≤ 1 →\n      cappedHazard ρ (mu (demandOneBlock cap) (fun _ => pStar)) <\n        coverCost (demandOneBlock cap) 1 (fun _ => (1 : ℝ))\n\n/-! ## Full price Section 6: rational certificates for `rho_star < 6/7` -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.triangleNeedsThree",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 757,
+      "proves": "UniversalLaw.Spec.P15.TriangleNeedsThree",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.TriangleNeedsThree` (register row `p15-realized-covers`).",
+        "method": "`K_H(d) = sInf` of the feasible set; three singletons are feasible at `K = 3`",
+        "does_not_establish": "display (P9) (`ElementaryPaletteFormula`), the matroid palette formula, or"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem triangleNeedsThree : UniversalLaw.Spec.P15.TriangleNeedsThree",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.TriangleNeedsThree",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 494,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "at unit demands needs3 colors, although a formula considering only size-two edge loads would give2.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def TriangleNeedsThree : Prop",
+        "literal_source_declaration": "def TriangleNeedsThree : Prop :=\n  paletteNumber 3 (completeClutter 3 1) (fun _ => 1) = 3\n\n/-! ## Realized covers Section 6: the six-block 816-label realization -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.capacityHazardIsBinomial",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 990,
+      "proves": "UniversalLaw.Spec.P15.CapacityHazardIsBinomial",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.CapacityHazardIsBinomial` (claim `p15-full-price`, display (F9)).",
+        "method": "`hazardStar` unfolds to `-log (muOf (capacityFamily n a) p_star)`, and the mass of the",
+        "does_not_establish": "the informal claim's review or acceptance; the alignment of `capacityFamily` and"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem capacityHazardIsBinomial : UniversalLaw.Spec.P15.CapacityHazardIsBinomial",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.CapacityHazardIsBinomial",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 991,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    H_(n,a)=-log P(Bin(n,p_star)<=a).                    (F9)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def CapacityHazardIsBinomial : Prop",
+        "literal_source_declaration": "def CapacityHazardIsBinomial : Prop :=\n  ∀ n a : ℕ, hazardStar (capacityFamily n a) = -Real.log (binomTail n a pStar)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Elementary.sharpnessOfRhoStar",
+      "module": "SpecificationProofs/P15Elementary.lean",
+      "line": 1009,
+      "proves": "UniversalLaw.Spec.P15.SharpnessOfRhoStar",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price",
+        "math.p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.SharpnessOfRhoStar` (claim `math.p15-full-price`, full-price note Section 5).",
+        "method": "for `tripleBlock` the single block is the ground set, good sets are those of size `≤ 1`, and a",
+        "does_not_establish": "the informal sharpness claim's review or acceptance; the alignment of the Lean"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Elementary.lean",
+      "module_sha256": "d4d87bba1da9473cd3c5bda9c702ba4dd036de06085d5ad589f17988bf8695b1",
+      "literal_source_header": "theorem sharpnessOfRhoStar : UniversalLaw.Spec.P15.SharpnessOfRhoStar",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.SharpnessOfRhoStar",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1095,
+        "source_id": "p15-full-price",
+        "doc_anchor": "Replacing rho_star by any smaller constant in (F2) would make its right side strictly less than one.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def SharpnessOfRhoStar : Prop",
+        "literal_source_declaration": "def SharpnessOfRhoStar : Prop :=\n  IsRealizedFamily tripleBlock ∧\n  paletteNumber 1 ∅ (fun _ => 2) = 2 ∧\n  (∀ U : Finset (Fin 3), U ∈ obstruction tripleBlock 2 ↔ U = Finset.univ) ∧\n  phi pStar = 1 ∧\n  (∀ g : Finset (Fin 3), genPrice (fun _ => (1 : ℝ)) g = 1) ∧\n  (∀ G : Finset (Finset (Fin 3)), IsGeneratorCover tripleBlock 2 G →\n    1 ≤ famPrice (fun _ => (1 : ℝ)) G) ∧\n  IsGeneratorCover tripleBlock 2 (fullBlockFamily tripleBlock) ∧\n  famPrice (fun _ => (1 : ℝ)) (fullBlockFamily tripleBlock) = 1 ∧\n  coverCost tripleBlock 2 (fun _ => (1 : ℝ)) = 1 ∧\n  -Real.log (mu tripleBlock (fun _ => pStar)) = hStar ∧\n  ∀ ρ : ℝ, ρ < rhoStar → cappedHazard ρ (mu tripleBlock (fun _ => pStar)) < 1"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816IsRealized",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1035,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816IsRealized",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816IsRealized` (claim `p15-realized-covers`, Section 6",
+        "method": "block cardinality `1 * 409 = 409` via the product decomposition of the fibre; clutter",
+        "does_not_establish": "anything about the informal six-block realization beyond this data record"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816IsRealized : UniversalLaw.Spec.P15.Benchmark816IsRealized",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816IsRealized",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 520,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "Every D-color class contains at most one vertex per block and occupies at most three blocks.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816IsRealized : Prop",
+        "literal_source_declaration": "def Benchmark816IsRealized : Prop :=\n  IsRealizedFamily benchmark816"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816Price",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1044,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816Price",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816Price` (claim `p15-realized-covers`, Section 6:",
+        "method": "the full-block family is the image of the injective block map, so its price is the sum",
+        "does_not_establish": "that this cover is optimal or that it covers the obstruction"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816Price : UniversalLaw.Spec.P15.Benchmark816Price",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816Price",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 575,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    6/(40900^409)>0.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816Price : Prop",
+        "literal_source_declaration": "def Benchmark816Price : Prop :=\n  famPrice (fun _ => (1 : ℝ) / 40900) (fullBlockFamily benchmark816) = 6 / 40900 ^ 409 ∧\n    (0 : ℝ) < 6 / 40900 ^ 409"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816RationalPrice",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1055,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816RationalPrice",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816RationalPrice` (claim `p15-price-budget-restricted`,",
+        "method": "`log x ≤ x - 1` for the upper bound; Mathlib's Taylor estimate",
+        "does_not_establish": "the (T1) budget itself, admissibility of any other price vector, or the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816RationalPrice : UniversalLaw.Spec.P15.Benchmark816RationalPrice",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816RationalPrice",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 774,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "    6*log(40900/40899)^409 <=6/(40899^409).                (T7)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816RationalPrice : Prop",
+        "literal_source_declaration": "def Benchmark816RationalPrice : Prop :=\n  6 * Real.log (40900 / 40899) ^ 409 ≤ (6 : ℝ) / 40899 ^ 409 ∧\n  (1 / 40900 : ℝ) + (1 / 40900) ^ 2 / 2 = 81801 / 3345620000 ∧\n  (81801 / 3345620000 : ℝ) < phi (1 / 40900) ∧\n  famPrice (fun _ => (81801 : ℝ) / 3345620000) (fullBlockFamily benchmark816) =\n    6 * (81801 / 3345620000) ^ 409\n\n/-! ## Full price: constants (F1), the result (F2) and the enclosure (F3) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.elementaryPaletteFormula",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1085,
+      "proves": "UniversalLaw.Spec.P15.ElementaryPaletteFormula",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.ElementaryPaletteFormula` (claim `p15-realized-covers`, display",
+        "method": "for the complete clutter the edge condition says each label lies in at most `s` label",
+        "does_not_establish": "the matroid palette formula of Section 5, anything about non-complete"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem elementaryPaletteFormula : UniversalLaw.Spec.P15.ElementaryPaletteFormula",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.ElementaryPaletteFormula",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 482,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    K_H(d)=max(max_i d_i, ceil(sum_i d_i/s)).             (P9)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def ElementaryPaletteFormula : Prop",
+        "literal_source_declaration": "def ElementaryPaletteFormula : Prop :=\n  ∀ (b s : ℕ) (d : Fin b → ℕ), 1 ≤ s → s ≤ b → (∀ i, 1 ≤ d i) →\n    paletteNumber b (completeClutter b s) d =\n      max (Finset.univ.sup d) ⌈((∑ i, d i : ℕ) : ℚ) / (s : ℚ)⌉₊"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.triangleNeedsThree",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1092,
+      "proves": "UniversalLaw.Spec.P15.TriangleNeedsThree",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.TriangleNeedsThree` (claim `p15-realized-covers`, Section 5:",
+        "method": "the complete-clutter formula at `b = 3`, `s = 1`, `d = 1`: `max 1 ⌈3/1⌉₊ = 3`.",
+        "does_not_establish": "the informal remark about \"size-two edge loads\"; no review or acceptance."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem triangleNeedsThree : UniversalLaw.Spec.P15.TriangleNeedsThree",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.TriangleNeedsThree",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 494,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "at unit demands needs3 colors, although a formula considering only size-two edge loads would give2.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def TriangleNeedsThree : Prop",
+        "literal_source_declaration": "def TriangleNeedsThree : Prop :=\n  paletteNumber 3 (completeClutter 3 1) (fun _ => 1) = 3\n\n/-! ## Realized covers Section 6: the six-block 816-label realization -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816Palette",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1103,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816Palette",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816Palette` (claim `p15-realized-covers`, Section 6:",
+        "method": "the complete-clutter formula at `b = 6`, `s = 3`, `d = 408`: `max 408 ⌈2448/3⌉₊ = 816`.",
+        "does_not_establish": "that the full blocks cover the obstruction (`Benchmark816Cover`), or the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816Palette : UniversalLaw.Spec.P15.Benchmark816Palette",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816Palette",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 529,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    K_H(408,...,408)=816.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816Palette : Prop",
+        "literal_source_declaration": "def Benchmark816Palette : Prop :=\n  paletteNumber 6 (completeClutter 6 3) (fun _ => 408) = 816"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.localDecomposability",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1116,
+      "proves": "UniversalLaw.Spec.P15.LocalDecomposability",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LocalDecomposability` (claim `p15-realized-covers`, Section 3 of",
+        "method": "a decomposition of `S ⊆ X_i` into `k` good parts has parts of size `≤ a_i`; conversely",
+        "does_not_establish": "the informal claim or its review; alignment of `IsKDecomposable` with the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem localDecomposability {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.LocalDecomposability F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LocalDecomposability",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 385,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    I_k(D_i)={S:|S|<=a_i k}.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LocalDecomposability {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def LocalDecomposability {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ (i : Fin F.b) (k : ℕ) (S : Finset X), S ⊆ block F i →\n    (IsKDecomposable F k S ↔ S.card ≤ F.a i * k)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.localObstructionIsFullBlock",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1124,
+      "proves": "UniversalLaw.Spec.P15.LocalObstructionIsFullBlock",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LocalObstructionIsFullBlock` (claim `p15-realized-covers`,",
+        "method": "`LocalDecomposability` at `k = d_i` and `|X_i| = a_i d_i + 1`.",
+        "does_not_establish": "the informal claim or its review."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem localObstructionIsFullBlock {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.LocalObstructionIsFullBlock F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LocalObstructionIsFullBlock",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 396,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    G_i={X_i}                                           (P3)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LocalObstructionIsFullBlock {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop",
+        "literal_source_declaration": "def LocalObstructionIsFullBlock {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop :=\n  IsRealizedFamily F → ∀ (i : Fin F.b) (S : Finset X), S ⊆ block F i →\n    (¬ IsKDecomposable F (F.d i) S ↔ S = block F i)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.fullBlockCoverIff",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1144,
+      "proves": "UniversalLaw.Spec.P15.FullBlockCoverIff",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.FullBlockCoverIff` (claim `p15-realized-covers`, Proposition",
+        "method": "a set containing no full block has `|U ∩ X_i| ≤ a_i d_i`, so a palette for `d` at `K`",
+        "does_not_establish": "optimality of other covers, the unrestricted prize, the informal claim or"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem fullBlockCoverIff {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.FullBlockCoverIff F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.FullBlockCoverIff",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 437,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    K>=K_H(d).                                          (P7)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def FullBlockCoverIff {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def FullBlockCoverIff {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ K : ℕ,\n    IsGeneratorCover F K (fullBlockFamily F) ↔ paletteNumber F.b F.H F.d ≤ K"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.wholeGroundChromaticNumber",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1201,
+      "proves": "UniversalLaw.Spec.P15.WholeGroundChromaticNumber",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.WholeGroundChromaticNumber` (claim `p15-realized-covers`,",
+        "method": "the palette/decomposition correspondence with `|X_i| = a_i d_i + 1`, which lies in",
+        "does_not_establish": "the informal claim or its review."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem wholeGroundChromaticNumber {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.WholeGroundChromaticNumber F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.WholeGroundChromaticNumber",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 459,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "the chromatic number of the ENTIRE ground set X is K_H(d+1), because ceil(n_i/a_i)=d_i+1.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def WholeGroundChromaticNumber {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop",
+        "literal_source_declaration": "def WholeGroundChromaticNumber {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop :=\n  IsRealizedFamily F → ∀ K : ℕ,\n    IsKDecomposable F K Finset.univ ↔ paletteNumber F.b F.H (fun i => F.d i + 1) ≤ K\n\n/-! ## Realized covers Section 5: the elementary palette formula (P9) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816WholeGround",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1233,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816WholeGround",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816WholeGround` (claim `p15-realized-covers`, Section",
+        "method": "`WholeGroundChromaticNumber` for the six-block data and the complete-clutter palette",
+        "does_not_establish": "the informal claim or its review."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816WholeGround : UniversalLaw.Spec.P15.Benchmark816WholeGround",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816WholeGround",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 549,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "The whole ground set, unlike the cover-avoiding sets, needs818 colors, since2454/3=818.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816WholeGround : Prop",
+        "literal_source_declaration": "def Benchmark816WholeGround : Prop :=\n  IsKDecomposable benchmark816 818 Finset.univ ∧ ¬ IsKDecomposable benchmark816 817 Finset.univ"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.minimalForbiddenCharacterisation",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1255,
+      "proves": "UniversalLaw.Spec.P15.MinimalForbiddenCharacterisation",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.MinimalForbiddenCharacterisation` (claim `p15-realized-covers`,",
+        "method": "a capacity violation in block `i` forces `U ⊆ X_i` with `|U| = a_i + 1` (removing any",
+        "does_not_establish": "the informal claim or its review; alignment of `IsMinimalForbidden` with the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem minimalForbiddenCharacterisation {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : UniversalLaw.Spec.P15.MinimalForbiddenCharacterisation F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.MinimalForbiddenCharacterisation",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 363,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "(a) every (a_i+1)-subset of a single X_i;",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def MinimalForbiddenCharacterisation {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def MinimalForbiddenCharacterisation {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ U : Finset X, IsMinimalForbidden F U ↔\n    ((∃ i, U ⊆ block F i ∧ U.card = F.a i + 1) ∨ ∃ e ∈ F.H, IsTransversal F e U)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Structure.benchmark816MinimalForbiddenCounts",
+      "module": "SpecificationProofs/P15Structure.lean",
+      "line": 1269,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816MinimalForbiddenCounts",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816MinimalForbiddenCounts` (claim",
+        "method": "Proposition P1 (`MinimalForbiddenCharacterisation`) for the six-block data; the pairs",
+        "does_not_establish": "the informal claim or its review; the evaluations `500616` and"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+      "module_sha256": "a3c9f514a4d482a99402a57c0097e1819fedbfd71faffaafade3b2050d797598",
+      "literal_source_header": "theorem benchmark816MinimalForbiddenCounts :\n    UniversalLaw.Spec.P15.Benchmark816MinimalForbiddenCounts",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816MinimalForbiddenCounts",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 560,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "    15*409^4=419743994415 crossing transversal quadruples. (P10)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816MinimalForbiddenCounts : Prop",
+        "literal_source_declaration": "def Benchmark816MinimalForbiddenCounts : Prop :=\n  Set.ncard {U : Finset (Fin 6 × Fin 409) |\n      IsMinimalForbidden benchmark816 U ∧ (supp benchmark816 U).card = 1} = 6 * Nat.choose 409 2 ∧\n  Set.ncard {U : Finset (Fin 6 × Fin 409) |\n      IsMinimalForbidden benchmark816 U ∧ (supp benchmark816 U).card = 4} = 15 * 409 ^ 4 ∧\n  Set.ncard {U : Finset (Fin 6 × Fin 409) | IsMinimalForbidden benchmark816 U} =\n    6 * Nat.choose 409 2 + 15 * 409 ^ 4"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Hazard.localPriceChain",
+      "module": "SpecificationProofs/P15Hazard.lean",
+      "line": 354,
+      "proves": "UniversalLaw.Spec.P15.LocalPriceChain",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LocalPriceChain` (claim `p15-realized-covers`, display (P4)).",
+        "method": "`Finset.prod_le_prod₀` for `0 ≤ c ≤ p`; the block-local marginal bound",
+        "does_not_establish": "the informal display (P4) or its review and acceptance; the alignment of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Hazard.lean",
+      "module_sha256": "65584aea77eefd1f59aee51554d94b9ea9c390f7a62da40e4210f8487dbdf8f1",
+      "literal_source_header": "theorem localPriceChain {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.LocalPriceChain F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LocalPriceChain",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 408,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "       =P(U_i=X_i)<=q_i<=phi(q_i),                      (P4)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LocalPriceChain {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def LocalPriceChain {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1) → (∀ v, 0 ≤ c v ∧ c v ≤ p v) →\n    ∀ i : Fin F.b, genPrice c (block F i) ≤ ∏ v ∈ block F i, p v ∧\n      ∏ v ∈ block F i, p v ≤ localFailure F p i ∧\n      localFailure F p i ≤ phi (localFailure F p i)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Hazard.independentBlockHazard",
+      "module": "SpecificationProofs/P15Hazard.lean",
+      "line": 373,
+      "proves": "UniversalLaw.Spec.P15.IndependentBlockHazard",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.IndependentBlockHazard` (claim `p15-realized-covers`, display",
+        "method": "`1 - q_i = mu_p(D_i)`; the factorisation `Aux.mu_le_prod_localGood` (block-product",
+        "does_not_establish": "the informal display (P5) or its review and acceptance; any independence of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Hazard.lean",
+      "module_sha256": "65584aea77eefd1f59aee51554d94b9ea9c390f7a62da40e4210f8487dbdf8f1",
+      "literal_source_header": "theorem independentBlockHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.IndependentBlockHazard F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.IndependentBlockHazard",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 421,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "        <=-log(product_i(1-q_i))<=-log mu_p(D).           (P5)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def IndependentBlockHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def IndependentBlockHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ p : X → ℝ, (∀ v, 0 ≤ p v ∧ p v ≤ 1) →\n    mu F p ≤ ∏ i, (1 - localFailure F p i) ∧\n    (0 < mu F p →\n      ∑ i, localFailure F p i ≤ -Real.log (∏ i, (1 - localFailure F p i)) ∧\n      -Real.log (∏ i, (1 - localFailure F p i)) ≤ -Real.log (mu F p))\n\n/-! ## Realized covers: the full-block cover criterion (P7) and the hazard bound (P8) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Hazard.globalAssemblyHazard",
+      "module": "SpecificationProofs/P15Hazard.lean",
+      "line": 397,
+      "proves": "UniversalLaw.Spec.P15.GlobalAssemblyHazard",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.GlobalAssemblyHazard` (claim `p15-full-price`, display (F13)).",
+        "method": "the factorisation `Aux.mu_le_prod_localGood` (every good set has good block",
+        "does_not_establish": "the informal display (F13) or its review and acceptance; the local bound"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Hazard.lean",
+      "module_sha256": "65584aea77eefd1f59aee51554d94b9ea9c390f7a62da40e4210f8487dbdf8f1",
+      "literal_source_header": "theorem globalAssemblyHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.GlobalAssemblyHazard F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.GlobalAssemblyHazard",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1064,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    sum_i [-log mu_p(D_i)] <= -log mu_p(D).               (F13)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def GlobalAssemblyHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def GlobalAssemblyHazard {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ p : X → ℝ, (∀ v, 0 ≤ p v ∧ p v ≤ 1) →\n    mu F p ≤ ∏ i, localGood F p i ∧\n    (0 < mu F p → ∑ i, -Real.log (localGood F p i) ≤ -Real.log (mu F p))\n\n/-! ## Full price Section 5: sharpness and the exact demand boundary -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Covers.benchmark816Cover",
+      "module": "SpecificationProofs/P15Covers.lean",
+      "line": 228,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816Cover",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816Cover` (claim `p15-realized-covers`, Section 6 of",
+        "method": "Proposition P2 (`FullBlockCoverIff`) for the six-block data, which satisfy",
+        "does_not_establish": "the informal claim, its review or acceptance; alignment of the formal"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Covers.lean",
+      "module_sha256": "5d14d6283c52e90451bce80061dd55b07b9234c92b3d87de38c1975f5b1852ed",
+      "literal_source_header": "theorem benchmark816Cover : UniversalLaw.Spec.P15.Benchmark816Cover",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816Cover",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 538,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "At816 colors it covers the obstruction; at815 it does not, because omitting one vertex from each block leaves2448 vertices, each color holds at most3, and815*3<2448.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816Cover : Prop",
+        "literal_source_declaration": "def Benchmark816Cover : Prop :=\n  IsGeneratorCover benchmark816 816 (fullBlockFamily benchmark816) ∧\n    ¬ IsGeneratorCover benchmark816 815 (fullBlockFamily benchmark816)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Covers.localRestriction",
+      "module": "SpecificationProofs/P15Covers.lean",
+      "line": 245,
+      "proves": "UniversalLaw.Spec.P15.LocalRestriction",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LocalRestriction` (claim `p15-realized-covers`, display (P2) of",
+        "method": "for `S ⊆ X_i`, `S ∩ X_i = S`, so goodness gives `|S| ≤ a_i`; conversely a subset of one",
+        "does_not_establish": "the informal claim, its review or acceptance; alignment of `IsGood` with the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Covers.lean",
+      "module_sha256": "5d14d6283c52e90451bce80061dd55b07b9234c92b3d87de38c1975f5b1852ed",
+      "literal_source_header": "theorem localRestriction {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.LocalRestriction F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LocalRestriction",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 375,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "D_i=D intersect 2^(X_i)={S subset X_i: |S|<=a_i}.     (P2)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LocalRestriction {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def LocalRestriction {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ (i : Fin F.b) (S : Finset X), S ⊆ block F i →\n    (IsGood F S ↔ S.card ≤ F.a i)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Covers.paletteNumberAttained",
+      "module": "SpecificationProofs/P15Covers.lean",
+      "line": 263,
+      "proves": "UniversalLaw.Spec.P15.PaletteNumberAttained",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 3,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.PaletteNumberAttained` (claim `p15-realized-covers`, Section 4",
+        "method": "disjoint label intervals of lengths `d_i` form a feasible palette of size `∑ d_i` when",
+        "does_not_establish": "the informal claim, its review or acceptance; the value of the palette"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Covers.lean",
+      "module_sha256": "5d14d6283c52e90451bce80061dd55b07b9234c92b3d87de38c1975f5b1852ed",
+      "literal_source_header": "theorem paletteNumberAttained {X : Type} [Fintype X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.PaletteNumberAttained F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.PaletteNumberAttained",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 319,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "By discarding excess labels within blocks, one may take |P_i|=d_i.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def PaletteNumberAttained {X : Type} [Fintype X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def PaletteNumberAttained {X : Type} [Fintype X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → IsPaletteFeasible F.b F.H F.d (paletteNumber F.b F.H F.d)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Covers.benchmark816UnionBound",
+      "module": "SpecificationProofs/P15Covers.lean",
+      "line": 279,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816UnionBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816UnionBound` (claim `p15-realized-covers`, display",
+        "method": "`1 - mu_p(D)` is the total weight of the bad sets; every bad set contains a minimal",
+        "does_not_establish": "the informal claim, its review or acceptance; the exact value of the bad"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Covers.lean",
+      "module_sha256": "5d14d6283c52e90451bce80061dd55b07b9234c92b3d87de38c1975f5b1852ed",
+      "literal_source_header": "theorem benchmark816UnionBound : UniversalLaw.Spec.P15.Benchmark816UnionBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816UnionBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 586,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "       =2449227/8180000000 < 3/10000.                    (P11)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816UnionBound : Prop",
+        "literal_source_declaration": "def Benchmark816UnionBound : Prop :=\n  1 - mu benchmark816 (fun _ => (1 : ℝ) / 40900) ≤ 500616 / 40900 ^ 2 + 15 / 100 ^ 4 ∧\n  (500616 / 40900 ^ 2 + 15 / 100 ^ 4 : ℝ) = 2449227 / 8180000000 ∧\n  (2449227 / 8180000000 : ℝ) < 3 / 10000 ∧\n  (9997 / 10000 : ℝ) < mu benchmark816 (fun _ => (1 : ℝ) / 40900)\n\n/-! ## Price boundary: the exact two-coordinate refutation at demand one -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Budget.coverCostHazardBound",
+      "module": "SpecificationProofs/P15Budget.lean",
+      "line": 339,
+      "proves": "UniversalLaw.Spec.P15.CoverCostHazardBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.CoverCostHazardBound` (claim `p15-realized-covers`, display",
+        "method": "the set of cover prices is bounded below by `0`; the cover `{∅}` has price `1`, so",
+        "does_not_establish": "the informal display (P8) or its review and acceptance; anything for prices"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Budget.lean",
+      "module_sha256": "6b5c5515345b3a8609fd7198f2da07e94a136dcf662445f1e528c63266671c46",
+      "literal_source_header": "theorem coverCostHazardBound {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.CoverCostHazardBound F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.CoverCostHazardBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 448,
+        "source_id": "p15-realized-covers",
+        "doc_anchor": "covercost_c(O_K(D)) <= min(1,-log mu_p(D)).            (P8)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def CoverCostHazardBound {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def CoverCostHazardBound {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1) → (∀ v, 0 ≤ c v ∧ c v ≤ p v) →\n    ∀ K : ℕ, paletteNumber F.b F.H F.d ≤ K → coverCost F K c ≤ cappedHazard 1 (mu F p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Budget.restrictedLocalBudget",
+      "module": "SpecificationProofs/P15Budget.lean",
+      "line": 364,
+      "proves": "UniversalLaw.Spec.P15.RestrictedLocalBudget",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RestrictedLocalBudget` (claim `p15-price-budget-restricted`,",
+        "method": "`phi(p) ≤ -log(1-p) ≤ p/(1-p)` (display (T2), `P15Elementary.logRatioBound`); a subset",
+        "does_not_establish": "the informal display (T4) or its review and acceptance; sharpness of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Budget.lean",
+      "module_sha256": "6b5c5515345b3a8609fd7198f2da07e94a136dcf662445f1e528c63266671c46",
+      "literal_source_header": "theorem restrictedLocalBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.RestrictedLocalBudget F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RestrictedLocalBudget",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 693,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "    price({X}) <= (16/27)q <= phi(q).                     (T4)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RestrictedLocalBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def RestrictedLocalBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → (∀ i, 2 ≤ F.d i) →\n  ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1 / 4) → (∀ v, 0 ≤ c v ∧ c v ≤ phi (p v)) →\n    ∀ i : Fin F.b, genPrice c (block F i) ≤ (16 / 27) * localFailure F p i ∧\n      (16 / 27) * localFailure F p i ≤ phi (localFailure F p i)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Budget.rhoTestSufficient",
+      "module": "SpecificationProofs/P15Budget.lean",
+      "line": 388,
+      "proves": "UniversalLaw.Spec.P15.RhoTestSufficient",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RhoTestSufficient` (claim `p15-price-budget-restricted`,",
+        "method": "the same ratio argument as (T3) with the common bound `p_*`: for `S ⊆ X_i` with",
+        "does_not_establish": "the informal display (T5) or its review and acceptance; anything when"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Budget.lean",
+      "module_sha256": "6b5c5515345b3a8609fd7198f2da07e94a136dcf662445f1e528c63266671c46",
+      "literal_source_header": "theorem rhoTestSufficient {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.RhoTestSufficient F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RhoTestSufficient",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 732,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "If rho<=1 the same argument proves price({X})<=q for that block.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RhoTestSufficient {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def RhoTestSufficient {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → ∀ (p c : X → ℝ) (pBound : ℝ), 0 ≤ pBound → pBound < 1 →\n    (∀ v, 0 ≤ c v ∧ c v ≤ phi (p v)) →\n    ∀ i : Fin F.b, (∀ v ∈ block F i, 0 ≤ p v ∧ p v ≤ pBound) →\n      rhoTest (F.a i) (F.d i) pBound ≤ 1 →\n      genPrice c (block F i) ≤ localFailure F p i"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Budget.restrictedTransformedPriceBudget",
+      "module": "SpecificationProofs/P15Budget.lean",
+      "line": 425,
+      "proves": "UniversalLaw.Spec.P15.RestrictedTransformedPriceBudget",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RestrictedTransformedPriceBudget` (claim",
+        "method": "`covercost ≤ 1` by the cover `{∅}`; for `K ≥ K_H(d)` the full blocks cover",
+        "does_not_establish": "the informal display (T1) or its review and acceptance; any retraction of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Budget.lean",
+      "module_sha256": "6b5c5515345b3a8609fd7198f2da07e94a136dcf662445f1e528c63266671c46",
+      "literal_source_header": "theorem restrictedTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : UniversalLaw.Spec.P15.RestrictedTransformedPriceBudget F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RestrictedTransformedPriceBudget",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 707,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "    covercost_c(O_K(D)) <= min(1,(16/27)*[-log mu_p(D)]).       (T1)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RestrictedTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def RestrictedTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X]\n    (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → (∀ i, 2 ≤ F.d i) →\n  ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1 / 4) → (∀ v, 0 ≤ c v ∧ c v ≤ phi (p v)) →\n    ∀ K : ℕ, paletteNumber F.b F.H F.d ≤ K →\n      coverCost F K c ≤ cappedHazard (16 / 27) (mu F p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Budget.benchmark816TransformedRange",
+      "module": "SpecificationProofs/P15Budget.lean",
+      "line": 444,
+      "proves": "UniversalLaw.Spec.P15.Benchmark816TransformedRange",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-price-budget-restricted"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.Benchmark816TransformedRange` (claim",
+        "method": "`1 - 1/40900 = (40900/40899)⁻¹`, `Real.log_inv` and `log(40900/40899) ≤ 1/40899 ≤ 1`",
+        "does_not_establish": "the informal Section 4 or its review and acceptance; optimality of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Budget.lean",
+      "module_sha256": "6b5c5515345b3a8609fd7198f2da07e94a136dcf662445f1e528c63266671c46",
+      "literal_source_header": "theorem benchmark816TransformedRange : UniversalLaw.Spec.P15.Benchmark816TransformedRange",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.Benchmark816TransformedRange",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 757,
+        "source_id": "p15-price-budget",
+        "doc_anchor": "    0<=c_v<=log(40900/40899),",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def Benchmark816TransformedRange : Prop",
+        "literal_source_declaration": "def Benchmark816TransformedRange : Prop :=\n  phi (1 / 40900) = Real.log (40900 / 40899) ∧\n  IsGeneratorCover benchmark816 816 (fullBlockFamily benchmark816) ∧\n  ∀ c : Fin 6 × Fin 409 → ℝ, (∀ v, 0 ≤ c v ∧ c v ≤ Real.log (40900 / 40899)) →\n    famPrice c (fullBlockFamily benchmark816) ≤\n        cappedHazard (16 / 27) (mu benchmark816 (fun _ => (1 : ℝ) / 40900)) ∧\n      coverCost benchmark816 816 c ≤\n        cappedHazard (16 / 27) (mu benchmark816 (fun _ => (1 : ℝ) / 40900))"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Elementary.exponentialBounds",
+      "module": "SpecificationProofs/Side24Elementary.lean",
+      "line": 136,
+      "proves": "UniversalLaw.Spec.Side24.ExponentialBounds",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ExponentialBounds` (register row `side24-coefficient`).",
+        "method": "degree-nine Taylor lower bound `Real.sum_le_exp_of_nonneg` at `288/125` evaluated in",
+        "does_not_establish": "the lattice-image bound or display (2) of the source, any enclosure of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Elementary.lean",
+      "module_sha256": "7fb8f8c5045f51ca766f1fa614a25e3b334b1ac6199731c2556c28707193c1bb",
+      "literal_source_header": "theorem exponentialBounds : UniversalLaw.Spec.Side24.ExponentialBounds",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ExponentialBounds",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 308,
+        "source_id": "side24-proof",
+        "doc_anchor": "hence e^(-288)<10^(-125) and the geometric-ratio inequality follows too.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ExponentialBounds : Prop",
+        "literal_source_declaration": "def ExponentialBounds : Prop :=\n  10 < Real.exp (288 / 125) ∧ Real.exp (-288) < 1 / 10 ^ 125"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Elementary.successiveTermRatio",
+      "module": "SpecificationProofs/Side24Elementary.lean",
+      "line": 145,
+      "proves": "UniversalLaw.Spec.Side24.SuccessiveTermRatio",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.SuccessiveTermRatio` (register row `side24-coefficient`).",
+        "method": "`(j+1)^9 ≤ (2j)^9 = 512 j^9` and `-288 (j+1)^2 ≤ -864 - 288 j^2` for `j ≥ 1`;",
+        "does_not_establish": "the lattice-image sum bound `LatticeImageSumBound` (the geometric"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Elementary.lean",
+      "module_sha256": "7fb8f8c5045f51ca766f1fa614a25e3b334b1ac6199731c2556c28707193c1bb",
+      "literal_source_header": "theorem successiveTermRatio : UniversalLaw.Spec.Side24.SuccessiveTermRatio",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.SuccessiveTermRatio",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 296,
+        "source_id": "side24-proof",
+        "doc_anchor": "successive terms have ratio at most512e^(-864)<1/2.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def SuccessiveTermRatio : Prop",
+        "literal_source_declaration": "def SuccessiveTermRatio : Prop :=\n  (∀ j : ℕ, 1 ≤ j →\n    ((j : ℝ) + 1) ^ 9 * Real.exp (-288 * ((j : ℝ) + 1) ^ 2) ≤\n      512 * Real.exp (-864) * ((j : ℝ) ^ 9 * Real.exp (-288 * (j : ℝ) ^ 2))) ∧\n  512 * Real.exp (-864) < 1 / 2"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Elementary.coneMomentD2Algebra",
+      "module": "SpecificationProofs/Side24Elementary.lean",
+      "line": 159,
+      "proves": "UniversalLaw.Spec.Side24.ConeMomentD2Algebra",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ConeMomentD2Algebra` (register row `side24-coefficient`).",
+        "method": "`sqrt (3/8) = sqrt 6 / 4` (`Real.sqrt_div'`, `Real.sqrt_sq`), then `ring`.",
+        "does_not_establish": "the Gaussian identity `ConeMomentD2Identity` (that `D_2` is the cone"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Elementary.lean",
+      "module_sha256": "7fb8f8c5045f51ca766f1fa614a25e3b334b1ac6199731c2556c28707193c1bb",
+      "literal_source_header": "theorem coneMomentD2Algebra : UniversalLaw.Spec.Side24.ConeMomentD2Algebra",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ConeMomentD2Algebra",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 712,
+        "source_id": "side24-proof",
+        "doc_anchor": "        = 29/6-sqrt(6).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ConeMomentD2Algebra : Prop",
+        "literal_source_declaration": "def ConeMomentD2Algebra : Prop :=\n  (1 / 2 : ℝ) * (25 / 3 - 20 / 3 + 8 - 8 * Real.sqrt (3 / 8)) = coneMomentD2"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Elementary.referenceCoefficientIdentity",
+      "module": "SpecificationProofs/Side24Elementary.lean",
+      "line": 174,
+      "proves": "UniversalLaw.Spec.Side24.ReferenceCoefficientIdentity",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ReferenceCoefficientIdentity` (register row",
+        "method": "case split `d = 2`, `d = 3`; `(sqrt 6)^(4/3) = 24^(1/3) (3/2)^(1/3)` through",
+        "does_not_establish": "that the left side is the parent formula (15.2) evaluated at the reference"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Elementary.lean",
+      "module_sha256": "7fb8f8c5045f51ca766f1fa614a25e3b334b1ac6199731c2556c28707193c1bb",
+      "literal_source_header": "theorem referenceCoefficientIdentity : UniversalLaw.Spec.Side24.ReferenceCoefficientIdentity",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ReferenceCoefficientIdentity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 615,
+        "source_id": "side24-proof",
+        "doc_anchor": "This eliminates BOTH the angular and cone integrals for the reference expression.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ReferenceCoefficientIdentity : Prop",
+        "literal_source_declaration": "def ReferenceCoefficientIdentity : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 →\n    Real.Gamma (7 / 6) / ((24 : ℝ) ^ ((1 : ℝ) / 3) * Real.sqrt Real.pi) *\n        ((2 * Real.pi) ^ (-(d : ℝ)) / Real.sqrt 3) * (Real.sqrt 6) ^ ((4 : ℝ) / 3) *\n        coneMomentRef (d - 1) * sphereArea d =\n      cRef d\n\n/-! ## Section 1: the cone moments as Gaussian expectations -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Elementary.elementaryConeIntegral",
+      "module": "SpecificationProofs/Side24Elementary.lean",
+      "line": 199,
+      "proves": "UniversalLaw.Spec.Side24.ElementaryConeIntegral",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ElementaryConeIntegral` (register row",
+        "method": "fundamental theorem of calculus `intervalIntegral.integral_eq_sub_of_hasDerivAt` with",
+        "does_not_establish": "the Rayleigh law of `R^2` (`RayleighSquareLaw`), the cone-moment identity"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Elementary.lean",
+      "module_sha256": "7fb8f8c5045f51ca766f1fa614a25e3b334b1ac6199731c2556c28707193c1bb",
+      "literal_source_header": "theorem elementaryConeIntegral : UniversalLaw.Spec.Side24.ElementaryConeIntegral",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ElementaryConeIntegral",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 745,
+        "source_id": "side24-proof",
+        "doc_anchor": "integral_0^a (a-z)^2 e^(-z/2) dz/2 = a^2-4a+8-8e^(-a/2).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ElementaryConeIntegral : Prop",
+        "literal_source_declaration": "def ElementaryConeIntegral : Prop :=\n  ∀ a : ℝ, 0 ≤ a →\n    ∫ z in (0 : ℝ)..a, (a - z) ^ 2 * Real.exp (-z / 2) / 2 =\n      a ^ 2 - 4 * a + 8 - 8 * Real.exp (-a / 2)\n\n/-! ## The exact periodic coefficient as an interface, and the headline statements -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNProbability.conditionalMeanIdentityN3",
+      "module": "SpecificationProofs/RNProbability.lean",
+      "line": 47,
+      "proves": "UniversalLaw.Spec.RN.ConditionalMeanIdentityN3",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-count-interface",
+        "math.rn-count-interface"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.ConditionalMeanIdentityN3` (register claims",
+        "method": "unfold `ProbabilityTheory.cond = (P E)⁻¹ • P.restrict E`, `integral_smul_measure`,",
+        "does_not_establish": "the informal Theorem N, the bounded-conditional-mean equivalence, the lower"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNProbability.lean",
+      "module_sha256": "3bdc6055c8fe9419addc3ad7bf77c5a88efe387470d9c7201331343859808636",
+      "literal_source_header": "theorem conditionalMeanIdentityN3 : ConditionalMeanIdentityN3",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.ConditionalMeanIdentityN3",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 251,
+        "source_id": "rn-count-interface",
+        "doc_anchor": "E[N_r 1_Er]=q E[N_r | E_r].",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def ConditionalMeanIdentityN3 : Prop",
+        "literal_source_declaration": "def ConditionalMeanIdentityN3 : Prop :=\n  ∀ (Ω : Type) [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]\n    (Ev : Set Ω) (N : Ω → ℕ),\n    MeasurableSet Ev → 0 < (P Ev).toReal → Integrable (fun ω => (N ω : ℝ)) P →\n      ∫ ω, (N ω : ℝ) * Ev.indicator (fun _ => (1 : ℝ)) ω ∂P =\n        (P Ev).toReal * ∫ ω, (N ω : ℝ) ∂(ProbabilityTheory.cond P Ev)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNProbability.holderCountBoundN1",
+      "module": "SpecificationProofs/RNProbability.lean",
+      "line": 60,
+      "proves": "UniversalLaw.Spec.RN.HolderCountBoundN1",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-count-interface",
+        "math.rn-count-interface"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.HolderCountBoundN1` (register claims `rn-count-interface`,",
+        "method": "Mathlib's Hölder inequality `integral_mul_le_Lp_mul_Lq_of_nonneg` with the conjugate",
+        "does_not_establish": "the informal Theorem N, that any Gaussian count satisfies the moment"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNProbability.lean",
+      "module_sha256": "3bdc6055c8fe9419addc3ad7bf77c5a88efe387470d9c7201331343859808636",
+      "literal_source_header": "theorem holderCountBoundN1 : HolderCountBoundN1",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.HolderCountBoundN1",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 218,
+        "source_id": "rn-count-interface",
+        "doc_anchor": "E[N_r 1_Er] <= (E N_r^p)^(1/p) P(E_r)^(1-1/p).",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def HolderCountBoundN1 : Prop",
+        "literal_source_declaration": "def HolderCountBoundN1 : Prop :=\n  ∀ (Ω : Type) [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]\n    (Ev : Set Ω) (N : Ω → ℕ) (p : ℝ),\n    MeasurableSet Ev → 1 < p → Integrable (fun ω => (N ω : ℝ) ^ p) P →\n      ∫ ω, (N ω : ℝ) * Ev.indicator (fun _ => (1 : ℝ)) ω ∂P ≤\n        (∫ ω, (N ω : ℝ) ^ p ∂P) ^ (1 / p) * (P Ev).toReal ^ (1 - 1 / p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNProbability.holderConsequenceN2",
+      "module": "SpecificationProofs/RNProbability.lean",
+      "line": 106,
+      "proves": "UniversalLaw.Spec.RN.HolderConsequenceN2",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-count-interface",
+        "math.rn-count-interface"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.HolderConsequenceN2` (register claims `rn-count-interface`,",
+        "method": "`holderCountBoundN1`, then monotonicity of `x ↦ x^(1/p)` and `x ↦ x^(1-1/p)` on",
+        "does_not_establish": "the informal Theorem N, that the exponent can be rounded up to `3`, that"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNProbability.lean",
+      "module_sha256": "3bdc6055c8fe9419addc3ad7bf77c5a88efe387470d9c7201331343859808636",
+      "literal_source_header": "theorem holderConsequenceN2 : HolderConsequenceN2",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.HolderConsequenceN2",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 234,
+        "source_id": "rn-count-interface",
+        "doc_anchor": "E[N_r 1_Er] <= A^(1/p) C^(1-1/p)",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def HolderConsequenceN2 : Prop",
+        "literal_source_declaration": "def HolderConsequenceN2 : Prop :=\n  ∀ (Ω : Type) [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]\n    (Ev : Set Ω) (N : Ω → ℕ) (p A β C r : ℝ),\n    MeasurableSet Ev → 1 < p → 0 ≤ A → 0 ≤ C → 0 < r →\n    Integrable (fun ω => (N ω : ℝ) ^ p) P →\n    ∫ ω, (N ω : ℝ) ^ p ∂P ≤ A * r ^ (-β) →\n    (P Ev).toReal ≤ C * r ^ 3 →\n      ∫ ω, (N ω : ℝ) * Ev.indicator (fun _ => (1 : ℝ)) ω ∂P ≤\n        A ^ (1 / p) * C ^ (1 - 1 / p) * r ^ ((3 * (p - 1) - β) / p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNProbability.uniformCounterexampleN4",
+      "module": "SpecificationProofs/RNProbability.lean",
+      "line": 221,
+      "proves": "UniversalLaw.Spec.RN.UniformCounterexampleN4",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-count-interface",
+        "math.rn-count-interface"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.UniformCounterexampleN4` (register claims",
+        "method": "`U(E_r) = r^3` from `volume.restrict` on `Icc 0 1`; `∫ N_r dU = ceil(log(1/r)) r^3`",
+        "does_not_establish": "the source's sharper bound `sup_(t>=1) e^(-3t)(t+1)^p`, the one-`p`"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNProbability.lean",
+      "module_sha256": "3bdc6055c8fe9419addc3ad7bf77c5a88efe387470d9c7201331343859808636",
+      "literal_source_header": "theorem uniformCounterexampleN4 : UniformCounterexampleN4",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.UniformCounterexampleN4",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 285,
+        "source_id": "rn-count-interface",
+        "doc_anchor": "E N_r/r^3=ceil(log(1/r)) -> infinity.",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def UniformCounterexampleN4 : Prop",
+        "literal_source_declaration": "def UniformCounterexampleN4 : Prop :=\n  (∀ r : ℝ, 0 < r → r ≤ Real.exp (-1) →\n    (uniformLaw (Set.Iic (r ^ 3))).toReal = r ^ 3 ∧\n    (∫ u, counterCount r u ∂uniformLaw) / r ^ 3 = (⌈Real.log (1 / r)⌉₊ : ℝ)) ∧\n  Filter.Tendsto (fun r : ℝ => (∫ u, counterCount r u ∂uniformLaw) / r ^ 3)\n    (nhdsWithin (0 : ℝ) (Set.Ioi 0)) Filter.atTop ∧\n  (∀ p : ℝ, 1 ≤ p → ∃ A : ℝ, ∀ r : ℝ, 0 < r → r ≤ Real.exp (-1) →\n    ∫ u, counterCount r u ^ p ∂uniformLaw ≤ A)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNProbability.exponentialTailLayerCakeN5",
+      "module": "SpecificationProofs/RNProbability.lean",
+      "line": 280,
+      "proves": "UniversalLaw.Spec.RN.ExponentialTailLayerCakeN5",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-count-interface",
+        "math.rn-count-interface"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.ExponentialTailLayerCakeN5` (register claims",
+        "method": "with `t₀ = B log(A/q) ≥ 0`, the pointwise bound `N 1_E ≤ t₀ 1_E + (N - t₀)⁺`; the",
+        "does_not_establish": "the source's intermediate identity `∫_0^∞ min(q, A e^(-t/B)) dt`, that"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNProbability.lean",
+      "module_sha256": "3bdc6055c8fe9419addc3ad7bf77c5a88efe387470d9c7201331343859808636",
+      "literal_source_header": "theorem exponentialTailLayerCakeN5 : ExponentialTailLayerCakeN5",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.ExponentialTailLayerCakeN5",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 302,
+        "source_id": "rn-count-interface",
+        "doc_anchor": "= B q[1+log(A/q)].",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def ExponentialTailLayerCakeN5 : Prop",
+        "literal_source_declaration": "def ExponentialTailLayerCakeN5 : Prop :=\n  ∀ (Ω : Type) [MeasurableSpace Ω] (P : Measure Ω) [IsProbabilityMeasure P]\n    (Ev : Set Ω) (N : Ω → ℕ) (A B : ℝ),\n    MeasurableSet Ev → 1 ≤ A → 0 < B → 0 < (P Ev).toReal →\n    Integrable (fun ω => (N ω : ℝ)) P →\n    (∀ t : ℝ, 0 ≤ t → (P {ω | t < (N ω : ℝ)}).toReal ≤ A * Real.exp (-t / B)) →\n      ∫ ω, (N ω : ℝ) * Ev.indicator (fun _ => (1 : ℝ)) ω ∂P ≤\n        B * (P Ev).toReal * (1 + Real.log (A / (P Ev).toReal))\n\n/-! ### The pinned weighted law as an interface -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.rhoStarEnclosure",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1065,
+      "proves": "UniversalLaw.Spec.P15.RhoStarEnclosure",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price",
+        "math.p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.RhoStarEnclosure` (claim `p15-full-price`, display (F3)).",
+        "method": "`rho_star < U` iff `3e - 2 < exp(3 - 1/U)` and `L < rho_star` iff `exp(3 - 1/L) < 3e - 2`",
+        "does_not_establish": "the informal display (F3) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem rhoStarEnclosure : UniversalLaw.Spec.P15.RhoStarEnclosure",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.RhoStarEnclosure",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 844,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    0.84547981724898672067 < rho_star",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def RhoStarEnclosure : Prop",
+        "literal_source_declaration": "def RhoStarEnclosure : Prop :=\n  rhoStarLower < rhoStar ∧ rhoStar < rhoStarUpper ∧ rhoStarUpper < 6 / 7"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.coordinatewiseConcavity",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1082,
+      "proves": "UniversalLaw.Spec.P15.CoordinatewiseConcavity",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.CoordinatewiseConcavity` (claim `p15-full-price`, display (F5)).",
+        "method": "split `mu_p(A)` at the coordinate `i` (display (F4), `Aux.cc_muOf_update`): with",
+        "does_not_establish": "the informal display (F5) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem coordinatewiseConcavity : UniversalLaw.Spec.P15.CoordinatewiseConcavity",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.CoordinatewiseConcavity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 903,
+        "source_id": "p15-full-price",
+        "doc_anchor": "Only SEPARATE coordinatewise concavity is asserted; joint concavity is not needed or claimed.",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def CoordinatewiseConcavity : Prop",
+        "literal_source_declaration": "def CoordinatewiseConcavity : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A →\n    ∀ (i : Fin n) (t : Fin n → ℝ), (∀ j, 0 ≤ t j ∧ t j ≤ 1) →\n      ConcaveOn ℝ (Set.Icc (0 : ℝ) 1) (fun s : ℝ => hazardCoord A (Function.update t i s))"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.hazardProductBound",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1098,
+      "proves": "UniversalLaw.Spec.P15.HazardProductBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.HazardProductBound` (claim `p15-full-price`, display (F6)).",
+        "method": "chord inequality of the separate coordinatewise concavity `coordinatewiseConcavity`",
+        "does_not_establish": "the informal display (F6) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem hazardProductBound : UniversalLaw.Spec.P15.HazardProductBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.HazardProductBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 914,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    F_A(t) >= (product_i t_i) H_A.                       (F6)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def HazardProductBound : Prop",
+        "literal_source_declaration": "def HazardProductBound : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A →\n    ∀ t : Fin n → ℝ, (∀ j, 0 ≤ t j ∧ t j ≤ 1) → (∏ i, t i) * hazardStar A ≤ hazardCoord A t"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.hazardPhiBound",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1115,
+      "proves": "UniversalLaw.Spec.P15.HazardPhiBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.HazardPhiBound` (claim `p15-full-price`, display (F7)).",
+        "method": "put `t_i := phi(p_i) ∈ [0,1]` (`Aux.f7_phi_mem`) and `p'_i := 1 - exp(-t_i) ∈ [0, p_i]`",
+        "does_not_establish": "the informal display (F7) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem hazardPhiBound : UniversalLaw.Spec.P15.HazardPhiBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.HazardPhiBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 925,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    -log mu_p(A) >= H_A product_i phi(p_i).              (F7)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def HazardPhiBound : Prop",
+        "literal_source_declaration": "def HazardPhiBound : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A →\n    ∀ p : Fin n → ℝ, (∀ j, 0 ≤ p j ∧ p j ≤ 1) → 0 < muOf A p →\n      hazardStar A * ∏ i, phi (p i) ≤ -Real.log (muOf A p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.fullGroundPriceBound",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1130,
+      "proves": "UniversalLaw.Spec.P15.FullGroundPriceBound",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.FullGroundPriceBound` (claim `p15-full-price`, display (F8)).",
+        "method": "`prod_i c_i ≤ prod_i phi(p_i)` for `0 ≤ c_i ≤ phi(p_i)` (`Finset.prod_le_prod₀`) and",
+        "does_not_establish": "the informal display (F8) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem fullGroundPriceBound : UniversalLaw.Spec.P15.FullGroundPriceBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.FullGroundPriceBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 937,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    product_i c_i <= min(1, [-log mu_p(A)]/H_A).          (F8)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def FullGroundPriceBound : Prop",
+        "literal_source_declaration": "def FullGroundPriceBound : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A →\n    ∀ (p c : Fin n → ℝ), (∀ j, 0 ≤ p j ∧ p j ≤ 1) → (∀ j, 0 ≤ c j ∧ c j ≤ phi (p j)) →\n      ∏ i, c i ≤ cappedHazard (1 / hazardStar A) (muOf A p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.fullGroundBudgetIff",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1147,
+      "proves": "UniversalLaw.Spec.P15.FullGroundBudgetIff",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.FullGroundBudgetIff` (claim `p15-full-price`, display (F8), the",
+        "method": "(⇐) is display (F8) with `rho = 1`: `prod_i c_i ≤ prod_i phi(p_i) ≤ 1`",
+        "does_not_establish": "the informal display (F8) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem fullGroundBudgetIff : UniversalLaw.Spec.P15.FullGroundBudgetIff",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.FullGroundBudgetIff",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 959,
+        "source_id": "p15-full-price",
+        "doc_anchor": "a full-ground generator universally meets the capped hazard budget precisely when H_A>=1",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def FullGroundBudgetIff : Prop",
+        "literal_source_declaration": "def FullGroundBudgetIff : Prop :=\n  ∀ (n : ℕ) (A : Finset (Finset (Fin n))), 1 ≤ n → IsProperDownset A →\n    ((∀ (p c : Fin n → ℝ), (∀ j, 0 ≤ p j ∧ p j ≤ 1) → (∀ j, 0 ≤ c j ∧ c j ≤ phi (p j)) →\n        ∏ i, c i ≤ cappedHazard 1 (muOf A p)) ↔ 1 ≤ hazardStar A)\n\n/-! ## Full price Section 3: capacity families and the sharp worst case (F9)-(F11) -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.localPriceBoundFull",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1161,
+      "proves": "UniversalLaw.Spec.P15.LocalPriceBoundFull",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.LocalPriceBoundFull` (claim `p15-full-price`, display (F12)).",
+        "method": "enumerate the block by `Fin n_i` (`Aux.lp_exists_enum`), transport `mu_p(D_i)` to the",
+        "does_not_establish": "the informal display (F12) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem localPriceBoundFull {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.LocalPriceBoundFull F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.LocalPriceBoundFull",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 1050,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    price({X_i}) <= rho_star [-log mu_p(D_i)],            (F12)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def LocalPriceBoundFull {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop",
+        "literal_source_declaration": "def LocalPriceBoundFull {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) : Prop :=\n  IsRealizedFamily F → (∀ i, 2 ≤ F.d i) →\n  ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1) → (∀ v, 0 ≤ c v ∧ c v ≤ phi (p v)) →\n    ∀ i : Fin F.b, 0 < localGood F p i →\n      genPrice c (block F i) ≤ rhoStar * (-Real.log (localGood F p i)) ∧\n      genPrice c (block F i) ≤ 1"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.P15Interpolation.fullTransformedPriceBudget",
+      "module": "SpecificationProofs/P15Interpolation.lean",
+      "line": 1179,
+      "proves": "UniversalLaw.Spec.P15.FullTransformedPriceBudget",
+      "statement_module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price",
+        "math.p15-full-price"
+      ],
+      "binder_count": 4,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.P15.FullTransformedPriceBudget` (claim `p15-full-price`, display (F2)).",
+        "method": "`covercost ≤ 1` by the cover `{∅}` (`P15Budget.Aux.coverCost_le_one`); for `K ≥ K_H(d)`",
+        "does_not_establish": "the informal display (F2) or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Interpolation.lean",
+      "module_sha256": "bdfd836ecc96910824e78249a19a12e74b99ac2f352bda1e9d5daa4f93ff03cb",
+      "literal_source_header": "theorem fullTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    UniversalLaw.Spec.P15.FullTransformedPriceBudget F",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.P15.FullTransformedPriceBudget",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 832,
+        "source_id": "p15-full-price",
+        "doc_anchor": "    covercost_c(O_K(D)) <= min(1,rho_star[-log mu_p(D)]).  (F2)",
+        "path": "specifications/lean_statements_20261010/Specifications/P15.lean",
+        "module_sha256": "a30d9e6938b64d4e2728c5380d41b3a627cde42448df254069293e3839a41ca6",
+        "literal_source_header": "def FullTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop",
+        "literal_source_declaration": "def FullTransformedPriceBudget {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) :\n    Prop :=\n  IsRealizedFamily F → (∀ i, 2 ≤ F.d i) →\n  ∀ (p c : X → ℝ), (∀ v, 0 ≤ p v ∧ p v ≤ 1) → (∀ v, 0 ≤ c v ∧ c v ≤ phi (p v)) →\n    ∀ K : ℕ, paletteNumber F.b F.H F.d ≤ K → coverCost F K c ≤ cappedHazard rhoStar (mu F p)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.thetaSummable",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1387,
+      "proves": "UniversalLaw.Spec.Side24.ThetaSummable",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 1,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ThetaSummable` (claim `side24-coefficient`).",
+        "method": "comparison `Summable.of_nonneg_of_le` with the dominating family",
+        "does_not_establish": "the informal convergence statement of the source as the source's object"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem thetaSummable (d : ℕ) : UniversalLaw.Spec.Side24.ThetaSummable d",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ThetaSummable",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 197,
+        "source_id": "side24-proof",
+        "doc_anchor": "K_24(z) = sum_{n in Z^d} exp(-|z+24n|^2/2)",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ThetaSummable (d : ℕ) : Prop",
+        "literal_source_declaration": "def ThetaSummable (d : ℕ) : Prop :=\n  ∀ z : E d, Summable (fun n : Fin d → ℤ => Real.exp (-(‖z + latticeVec d n‖ ^ 2) / 2))\n\n/-! ## Section 2: the uniform derivative bound and the lattice-image bound -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.derivativePairingBound",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1409,
+      "proves": "UniversalLaw.Spec.Side24.DerivativePairingBound",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.DerivativePairingBound` (register row `side24-coefficient`,",
+        "method": "the contraction at a unit tuple is at most the operator norm `‖iteratedFDeriv ℝ q (Kinf d) x‖`",
+        "does_not_establish": "the informal Section 2 display or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem derivativePairingBound : UniversalLaw.Spec.Side24.DerivativePairingBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.DerivativePairingBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 231,
+        "source_id": "side24-proof",
+        "doc_anchor": "pairings bound the absolute derivative by",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def DerivativePairingBound : Prop",
+        "literal_source_declaration": "def DerivativePairingBound : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (x : E d) (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) x u| ≤ Real.exp (-(‖x‖ ^ 2) / 2) * pairingSum q ‖x‖"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtLeastOne",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1434,
+      "proves": "UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne` (register row `side24-coefficient`,",
+        "method": "the Section 2 pairing bound `|D^q Kinf (x) u| ≤ exp(-‖x‖²/2) · pairingSum q ‖x‖` is the",
+        "does_not_establish": "the informal Section 2 display or its review and acceptance; the alignment of the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem derivativeBoundAtLeastOne : UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 242,
+        "source_id": "side24-proof",
+        "doc_anchor": "At |x|>=1 this is at most76 |x|^6 e^(-|x|^2/2).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def DerivativeBoundAtLeastOne : Prop",
+        "literal_source_declaration": "def DerivativeBoundAtLeastOne : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (x : E d), 1 ≤ ‖x‖ → ∀ (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) x u| ≤ 76 * ‖x‖ ^ 6 * Real.exp (-(‖x‖ ^ 2) / 2)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtZero",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1455,
+      "proves": "UniversalLaw.Spec.Side24.DerivativeBoundAtZero",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.DerivativeBoundAtZero` (register row `side24-coefficient`,",
+        "method": "the hypothesis-form helper `Aux.d0_derivativeBoundAtZero_of_derivativePairingBound`",
+        "does_not_establish": "the informal Section 2 display or its review and acceptance; the alignment of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem derivativeBoundAtZero : UniversalLaw.Spec.Side24.DerivativeBoundAtZero",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.DerivativeBoundAtZero",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 253,
+        "source_id": "side24-proof",
+        "doc_anchor": "contraction has absolute value at most15.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def DerivativeBoundAtZero : Prop",
+        "literal_source_declaration": "def DerivativeBoundAtZero : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) 0 u| ≤ 15"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.referenceOddAndPinBlocks",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1482,
+      "proves": "UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks` (claim `side24-coefficient`).",
+        "method": "the derivative contractions of `Kinf d` at `0` are evaluated by peeling one direction",
+        "does_not_establish": "the informal Section 1 block values of the source as the source's objects"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem referenceOddAndPinBlocks : UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 503,
+        "source_id": "side24-proof",
+        "doc_anchor": "Var(t)=15,  Cov(t,G)=(-3,0,...,0),",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ReferenceOddAndPinBlocks : Prop",
+        "literal_source_declaration": "def ReferenceOddAndPinBlocks : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    gradCov d (Kinf d) R = 1 ∧\n    thirdVar d (Kinf d) (R ⟨0, hd⟩) = 15 ∧\n    thirdGradCov d (Kinf d) (R ⟨0, hd⟩) R = (fun j => if j = ⟨0, hd⟩ then -3 else 0) ∧\n    pinCov d (Kinf d) (R ⟨0, hd⟩) R = Matrix.diagonal (fun i => if i = ⟨0, hd⟩ then 3 else 1) ∧\n    condThirdVariance d (Kinf d) (R ⟨0, hd⟩) R = 6\n\n/-! ## Section 4: Gaussian density comparison -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.referencePinDensityProduct",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1510,
+      "proves": "UniversalLaw.Spec.Side24.ReferencePinDensityProduct",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ReferencePinDensityProduct` (register row `side24-coefficient`,",
+        "method": "the hypothesis form `Aux.rp_referencePinDensityProduct_of_referenceOddAndPinBlocks` takes",
+        "does_not_establish": "the informal Section 1 display or its review and acceptance; the alignment of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem referencePinDensityProduct : UniversalLaw.Spec.Side24.ReferencePinDensityProduct",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ReferencePinDensityProduct",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 592,
+        "source_id": "side24-proof",
+        "doc_anchor": "p_G(0) p_V(0) = (2pi)^(-d) / sqrt(3).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ReferencePinDensityProduct : Prop",
+        "literal_source_declaration": "def ReferencePinDensityProduct : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    gaussDensity d (gradCov d (Kinf d) R) 0 *\n        gaussDensity d (pinCov d (Kinf d) (R ⟨0, hd⟩) R) 0 =\n      (2 * Real.pi) ^ (-(d : ℝ)) / Real.sqrt 3"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.integrandRatioBounds",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1536,
+      "proves": "UniversalLaw.Spec.Side24.IntegrandRatioBounds",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.IntegrandRatioBounds` (claim `side24-coefficient`).",
+        "method": "case split `d = 2`, `d = 3`, where the exponents evaluate to `a = 13/6, b = 5/2` and",
+        "does_not_establish": "the informal Section 4 display of the source as the source's object (the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem integrandRatioBounds : UniversalLaw.Spec.Side24.IntegrandRatioBounds",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.IntegrandRatioBounds",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 578,
+        "source_id": "side24-proof",
+        "doc_anchor": "ratio between1-13epsilon and",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def IntegrandRatioBounds : Prop",
+        "literal_source_declaration": "def IntegrandRatioBounds : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 →\n    1 - 13 * epsilon ≤ (1 - epsilon) ^ exponentA d / (1 + epsilon) ^ exponentB d ∧\n    (1 + epsilon) ^ exponentA d / (1 - epsilon) ^ exponentB d ≤ 1 + 28 * epsilon\n\n/-! ## Section 1: reference densities and the reference coefficient identity -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.latticeImageSumBound",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1565,
+      "proves": "UniversalLaw.Spec.Side24.LatticeImageSumBound",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.LatticeImageSumBound` (claim `side24-coefficient`).",
+        "method": "both conjuncts from the uniform partial-sum bound `Aux.li_partial_sum_le` via",
+        "does_not_establish": "the informal Section 2 lattice display of the source as the source's object"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem latticeImageSumBound : UniversalLaw.Spec.Side24.LatticeImageSumBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.LatticeImageSumBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 284,
+        "source_id": "side24-proof",
+        "doc_anchor": "<=1458 e^(-288).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def LatticeImageSumBound : Prop",
+        "literal_source_declaration": "def LatticeImageSumBound : Prop :=\n  ∀ d : ℕ, d ≤ 3 →\n    Summable (fun n : Fin d → ℤ => imageTerm d n) ∧\n    (∑' n : Fin d → ℤ, imageTerm d n) ≤ 1458 * Real.exp (-288)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Analysis.densityComparison",
+      "module": "SpecificationProofs/Side24Analysis.lean",
+      "line": 1593,
+      "proves": "UniversalLaw.Spec.Side24.DensityComparison",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.DensityComparison` (claim `side24-coefficient`).",
+        "method": "with `A = (1 - epsilon) • C0` and `B = (1 + epsilon) • C0` (positive definite by",
+        "does_not_establish": "the informal Section 4 display of the source as the source's object (the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Analysis.lean",
+      "module_sha256": "7cf64095450464b5974e381f9c6d1ed238473dd931ff558cad67db1d9a62acbc",
+      "literal_source_header": "theorem densityComparison : UniversalLaw.Spec.Side24.DensityComparison",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.DensityComparison",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 541,
+        "source_id": "side24-proof",
+        "doc_anchor": "[(1-epsilon)/(1+epsilon)]^(n/2) phi_((1-epsilon)C0)",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def DensityComparison : Prop",
+        "literal_source_declaration": "def DensityComparison : Prop :=\n  ∀ (m : ℕ) (C0 C : Matrix (Fin (symCoordDim m)) (Fin (symCoordDim m)) ℝ),\n    C0.PosDef → C.PosDef →\n    (C - (1 - epsilon) • C0).PosSemidef → ((1 + epsilon) • C0 - C).PosSemidef →\n    ∀ x : Fin (symCoordDim m) → ℝ,\n      ((1 - epsilon) / (1 + epsilon)) ^ ((symCoordDim m : ℝ) / 2) *\n          gaussDensity (symCoordDim m) ((1 - epsilon) • C0) x ≤\n        gaussDensity (symCoordDim m) C x ∧\n      gaussDensity (symCoordDim m) C x ≤\n        ((1 + epsilon) / (1 - epsilon)) ^ ((symCoordDim m : ℝ) / 2) *\n          gaussDensity (symCoordDim m) ((1 + epsilon) • C0) x"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Interfaces.coneMomentD1Identity",
+      "module": "SpecificationProofs/Side24Interfaces.lean",
+      "line": 536,
+      "proves": "UniversalLaw.Spec.Side24.ConeMomentD1Identity",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 1,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ConeMomentD1Identity` (claim `side24-coefficient`).",
+        "method": "transport along the law field `I.A_law` (`Aux.c1_integral_indicator_eq`, applied to",
+        "does_not_establish": "the informal identity `D_1 = E[A^2 1{A<0}] = 4/3` of the source as the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Interfaces.lean",
+      "module_sha256": "cac965c9f6095a0812891b609be56e0fed885861f5c95cc0e9518e7908642fce",
+      "literal_source_header": "theorem coneMomentD1Identity (I : ConeMomentInterface) :\n    UniversalLaw.Spec.Side24.ConeMomentD1Identity I",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ConeMomentD1Identity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 692,
+        "source_id": "side24-proof",
+        "doc_anchor": "D_1=E[A^2 1{A<0}]=4/3.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ConeMomentD1Identity (I : ConeMomentInterface) : Prop",
+        "literal_source_declaration": "def ConeMomentD1Identity (I : ConeMomentInterface) : Prop :=\n  ∫ ω, Set.indicator (Set.Iio (0 : ℝ)) (fun a => a ^ 2) (I.A ω) ∂I.P = coneMomentD1"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Interfaces.traceMoments",
+      "module": "SpecificationProofs/Side24Interfaces.lean",
+      "line": 568,
+      "proves": "UniversalLaw.Spec.Side24.TraceMoments",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 1,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.TraceMoments` (claim `side24-coefficient`).",
+        "method": "the law of `I.s` is `gaussianReal 0 (5/3)` (`Aux.tm_law_s`: the first marginal of the",
+        "does_not_establish": "the informal Section 1 display of the source as the source's object (the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Interfaces.lean",
+      "module_sha256": "cac965c9f6095a0812891b609be56e0fed885861f5c95cc0e9518e7908642fce",
+      "literal_source_header": "theorem traceMoments (I : ConeMomentInterface) : UniversalLaw.Spec.Side24.TraceMoments I",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.TraceMoments",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 722,
+        "source_id": "side24-proof",
+        "doc_anchor": "E s^2=5/3, E s^4=25/3 and",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def TraceMoments (I : ConeMomentInterface) : Prop",
+        "literal_source_declaration": "def TraceMoments (I : ConeMomentInterface) : Prop :=\n  ∫ ω, I.s ω ^ 2 ∂I.P = 5 / 3 ∧\n  ∫ ω, I.s ω ^ 4 ∂I.P = 25 / 3 ∧\n  ∫ ω, Real.exp (-(I.s ω ^ 2) / 2) ∂I.P = Real.sqrt (3 / 8)"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw",
+      "module": "SpecificationProofs/Side24Interfaces.lean",
+      "line": 622,
+      "proves": "UniversalLaw.Spec.Side24.RayleighSquareLaw",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 1,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.RayleighSquareLaw` (claim `side24-coefficient`).",
+        "method": "for `a ≥ 0`, `P {x^2 + y^2 ≤ a}` is the measure of the closed disk of radius `sqrt a`",
+        "does_not_establish": "the informal Section 1 display \"The variable R^2 has density e^(-z/2)/2\" of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Interfaces.lean",
+      "module_sha256": "cac965c9f6095a0812891b609be56e0fed885861f5c95cc0e9518e7908642fce",
+      "literal_source_header": "theorem rayleighSquareLaw (I : ConeMomentInterface) : UniversalLaw.Spec.Side24.RayleighSquareLaw I",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.RayleighSquareLaw",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 734,
+        "source_id": "side24-proof",
+        "doc_anchor": "The variable R^2 has density e^(-z/2)/2.",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def RayleighSquareLaw (I : ConeMomentInterface) : Prop",
+        "literal_source_declaration": "def RayleighSquareLaw (I : ConeMomentInterface) : Prop :=\n  ∀ a : ℝ, 0 ≤ a →\n    (I.P {ω | I.x ω ^ 2 + I.y ω ^ 2 ≤ a}).toReal = ∫ z in (0 : ℝ)..a, Real.exp (-z / 2) / 2"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO",
+      "module": "SpecificationProofs/RNCluster.lean",
+      "line": 311,
+      "proves": "UniversalLaw.Spec.RN.RareClusterPoissonObstructionO",
+      "statement_module": "Specifications/RN.lean",
+      "claim_ids": [
+        "OA-C6-RARE-CLUSTER-20260929-v1"
+      ],
+      "binder_count": 2,
+      "argument_count": 3,
+      "explicit_parameters": 3,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.RN.RareClusterPoissonObstructionO` (claim `OA-C6-RARE-CLUSTER-20260929-v1`).",
+        "method": "the antecedents at `r0` give `2a ≤ A` (`Aux.rc_two_mul_tail_two_le_mean`,",
+        "does_not_establish": "the informal Theorem O (3.1) of the source as the source's statement (the"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/RNCluster.lean",
+      "module_sha256": "829f8ad5677c52d55ae7c4c3ea36d817692c3d122273e29dfe2068b00dde442a",
+      "literal_source_header": "theorem rareClusterPoissonObstructionO (μ : ℝ → ℕ → ℝ) (a A : ℝ) :\n    UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.RN.RareClusterPoissonObstructionO",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 936,
+        "source_id": "c6-rare-cluster",
+        "doc_anchor": "(a/2) r^3 <= inf_{lambda>=0} dTV(Law N, Pois(lambda)) <= A r^3.",
+        "path": "specifications/lean_statements_20261010/Specifications/RN.lean",
+        "module_sha256": "cad83a9d18029e66f2563f16a0850e846eb01dad0c3f08da6959ce0c186ae59c",
+        "literal_source_header": "def RareClusterPoissonObstructionO (μ : ℝ → ℕ → ℝ) (a A : ℝ) : Prop",
+        "literal_source_declaration": "def RareClusterPoissonObstructionO (μ : ℝ → ℕ → ℝ) (a A : ℝ) : Prop :=\n  0 < a →\n  (∃ r0 : ℝ, 0 < r0 ∧ ∀ r : ℝ, 0 < r → r ≤ r0 →\n    (∀ n : ℕ, 0 ≤ μ r n) ∧ Summable (μ r) ∧ ∑' n : ℕ, μ r n = 1 ∧\n    Summable (fun n : ℕ => (n : ℝ) * μ r n) ∧ ∑' n : ℕ, (n : ℝ) * μ r n ≤ A * r ^ 3 ∧\n    a * r ^ 3 ≤ 1 - μ r 0 - μ r 1) →\n  ∃ rStar : ℝ, 0 < rStar ∧ ∀ r : ℝ, 0 < r → r ≤ rStar →\n    (∀ lam : ℝ, 0 ≤ lam → (a / 2) * r ^ 3 ≤ pmfTV (μ r) (poissonPMF lam)) ∧\n    (∃ lam : ℝ, 0 ≤ lam ∧ pmfTV (μ r) (poissonPMF lam) ≤ A * r ^ 3)\n\n/-! ### Remote collision (Corollary D) and the OPEN witness-collision target -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Covariance.referenceCovarianceLowerBound",
+      "module": "SpecificationProofs/Side24Covariance.lean",
+      "line": 278,
+      "proves": "UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound` (claim",
+        "method": "odd-order contractions of the even kernel `Kinf d` vanish at `0` (`Aux.cv_odd_zero`,",
+        "does_not_establish": "the informal Section 3 display \"C_ref >= I/3\" of the source as the source's"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Covariance.lean",
+      "module_sha256": "08317c620ae7b85ce2d253f0a106a6cee0099566a09debeb703acbce4744ae30",
+      "literal_source_header": "theorem referenceCovarianceLowerBound : UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 492,
+        "source_id": "side24-proof",
+        "doc_anchor": "Thus C_ref >= I/3 and",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ReferenceCovarianceLowerBound : Prop",
+        "literal_source_declaration": "def ReferenceCovarianceLowerBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    (Cref d (R ⟨0, hd⟩) R - (1 / 3 : ℝ) • (1 : Matrix (JointIndex d) (JointIndex d) ℝ)).PosSemidef"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity",
+      "module": "SpecificationProofs/Side24ConeMoment.lean",
+      "line": 458,
+      "proves": "UniversalLaw.Spec.Side24.ConeMomentD2Identity",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 1,
+      "argument_count": 1,
+      "explicit_parameters": 1,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ConeMomentD2Identity` (claim `side24-coefficient`), for every inhabitant `I : ConeMomentInterface`.",
+        "method": "transport along the law field `I.sxy_law` (`integral_map` after `Side24Interfaces.Aux.tm_aemeasurable_triple`), Fubini (`integral_prod`, with integrability from the bound `|coneIntegrand q| ≤ q.1^4`, `Aux.cm_integrable_coneIntegrand`), the cone identification `NegDefCone (s, x, y) ↔ s < 0 ∧ x^2 + y^2 < s^2` and `det A = s^2 - x^2 - y^2` (`Aux.cm_cone_iff`, `Aux.cm_det_transverse`), the inner planar Gaussian integral `s^4 - 4s^2 + 8 - 8 exp (-s^2/2)` for `s < 0` and `0` for `s ≥ 0` (`Aux.cm_inner`: `prod_withDensity`, polar coordinates `integral_comp_polarCoord_symm`, the substitution `z = r^2` onto `Side24Elementary.elementaryConeIntegral`), the symmetry halving of the even bracket under `gaussianReal 0 (5/3)` (`Aux.cm_setIntegral_Iio_even`), and the moments `25/3`, `5/3`, `sqrt (3/8)` (`Aux.cm_integral_bracket`, from `Side24Interfaces.Aux.tm_fourth_moment`, `c1_second_moment_gaussianReal`, `tm_exp_moment`).",
+        "does_not_establish": "the informal identity `D_2 = E[det(A)^2 1{A<0}] = (1/2)[25/3 - 20/3 + 8 - 8 sqrt(3/8)]` of the source as the source's object (the alignment of `ConeMomentInterface`, `transverseMatrix`, `NegDefCone`, `coneIntegrand` and `gaussianReal` with the source's objects is PENDING_INDEPENDENT_REVIEW); the source's Rayleigh integration route or its reduction of the cone to `s < -R` as the source's statements (the helper `Aux.cm_cone_iff` characterises the formal `NegDefCone` only, and `RayleighSquareLaw` is not used); integrability of the sample-space integrand under `I.P` as a separate statement (the integral is transported by `integral_map`, which needs only a.e.-measurability); that `D_2` is the parent's cone moment `D_u` of (15.1) for the reference law; that `ConeMomentInterface` has an inhabitant, or that its laws are the conditional law `A | V = 0` of the reference field; the value `29/6 - sqrt 6` (`ConeMomentD2Algebra`, not used here); any enclosure of the coefficient; the disposition of `side24-coefficient` (REVIEWED_SCOPED), which is transcribed in the register, not derived here; nonauthor review or acceptance of SIDE24-COEFFICIENT-D23-20260924-v1."
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24ConeMoment.lean",
+      "module_sha256": "08d53d0a970d5765c32e42253fd78226430627018c276398968cab9fc8e3180e",
+      "literal_source_header": "theorem coneMomentD2Identity (I : ConeMomentInterface) : UniversalLaw.Spec.Side24.ConeMomentD2Identity I",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ConeMomentD2Identity",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 702,
+        "source_id": "side24-proof",
+        "doc_anchor": "D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ConeMomentD2Identity (I : ConeMomentInterface) : Prop",
+        "literal_source_declaration": "def ConeMomentD2Identity (I : ConeMomentInterface) : Prop :=\n  ∫ ω, coneIntegrand (I.s ω, I.x ω, I.y ω) ∂I.P =\n    (1 / 2) * (25 / 3 - 20 / 3 + 8 - 8 * Real.sqrt (3 / 8))"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Images.imageBound",
+      "module": "SpecificationProofs/Side24Images.lean",
+      "line": 615,
+      "proves": "UniversalLaw.Spec.Side24.ImageBound",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.ImageBound` (claim `side24-coefficient`), for the formal",
+        "method": "`D^q K_24(0) = θ(0)⁻¹ ∑_n D^q K_∞(24 n)` by the local term-wise derivative on the unit",
+        "does_not_establish": "display (2) of the source as the source's object (the alignment of `E d`,"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Images.lean",
+      "module_sha256": "ca643c39144400074658c39bbdd0f04ac47d29bd0c59fc2327d5a90d4f5ae392",
+      "literal_source_header": "theorem imageBound : UniversalLaw.Spec.Side24.ImageBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.ImageBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 318,
+        "source_id": "side24-proof",
+        "doc_anchor": "|D^q K_24(0)-D^q K_infty(0)|",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def ImageBound : Prop",
+        "literal_source_declaration": "def ImageBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ q : ℕ, q ≤ 6 → ∀ u : Fin q → E d, IsUnitTuple d q u →\n      |iteratedFDeriv ℝ q (K24 d) 0 u - iteratedFDeriv ℝ q (Kinf d) 0 u| < imageConstE\n\n/-! ## Section 3: the joint covariance of `(G, t, svec H)` in a frame -/"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Images.entrywiseCovarianceBound",
+      "module": "SpecificationProofs/Side24Images.lean",
+      "line": 740,
+      "proves": "UniversalLaw.Spec.Side24.EntrywiseCovarianceBound",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.EntrywiseCovarianceBound` (claim `side24-coefficient`),",
+        "method": "the two entries share the factor `svecScale a · svecScale b · (-1)^|b|`, of absolute value",
+        "does_not_establish": "the source's Section 3 sentence as the source's object (the alignment of"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Images.lean",
+      "module_sha256": "ca643c39144400074658c39bbdd0f04ac47d29bd0c59fc2327d5a90d4f5ae392",
+      "literal_source_header": "theorem entrywiseCovarianceBound : UniversalLaw.Spec.Side24.EntrywiseCovarianceBound",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.EntrywiseCovarianceBound",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 480,
+        "source_id": "side24-proof",
+        "doc_anchor": "Each covariance entry differs from the reference by at most2E, by (2).",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def EntrywiseCovarianceBound : Prop",
+        "literal_source_declaration": "def EntrywiseCovarianceBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n      ∀ a b : JointIndex d,\n        |C24 d (R ⟨0, hd⟩) R a b - Cref d (R ⟨0, hd⟩) R a b| ≤ 2 * imageConstE"
+      }
+    },
+    {
+      "name": "UniversalLaw.Proofs.Side24Images.covarianceOrdering",
+      "module": "SpecificationProofs/Side24Images.lean",
+      "line": 803,
+      "proves": "UniversalLaw.Spec.Side24.CovarianceOrdering",
+      "statement_module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "binder_count": 0,
+      "argument_count": 0,
+      "explicit_parameters": 0,
+      "doc": {
+        "proves": "`UniversalLaw.Spec.Side24.CovarianceOrdering` (claim `side24-coefficient`), for the",
+        "method": "`C_24` is symmetric (`Aux.co_C24_hermitian`): by the term-wise derivative a contraction of",
+        "does_not_establish": "display (3) of the source as the source's object (the alignment of `C24`,"
+      },
+      "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/Side24Images.lean",
+      "module_sha256": "ca643c39144400074658c39bbdd0f04ac47d29bd0c59fc2327d5a90d4f5ae392",
+      "literal_source_header": "theorem covarianceOrdering : UniversalLaw.Spec.Side24.CovarianceOrdering",
+      "registered_statement": {
+        "name": "UniversalLaw.Spec.Side24.CovarianceOrdering",
+        "lean": "def",
+        "kind": "def_prop",
+        "result": "Prop",
+        "line": 467,
+        "source_id": "side24-proof",
+        "doc_anchor": "The inequalities are in the positive-semidefinite ordering and hold in every",
+        "path": "specifications/lean_statements_20261010/Specifications/Side24.lean",
+        "module_sha256": "3164ccfd527d5d443c3830ae871e5592abc6658dc3678006da368fdace3818e3",
+        "literal_source_header": "def CovarianceOrdering : Prop",
+        "literal_source_declaration": "def CovarianceOrdering : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n      (C24 d (R ⟨0, hd⟩) R - (1 - epsilon) • Cref d (R ⟨0, hd⟩) R).PosSemidef ∧\n      ((1 + epsilon) • Cref d (R ⟨0, hd⟩) R - C24 d (R ⟨0, hd⟩) R).PosSemidef"
+      }
+    }
+  ],
+  "unproved_registered_props": [
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.HessianHasInertia"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsCandidatePair"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsCriticalPoint"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsFiniteBar"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsIndexSaddle"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsLPeriodic"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsLifetimeDensityVersion"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsMorseDistinct"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsNondegMax"
+    },
+    {
+      "module": "Specifications/Field.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Field.IsSmooth"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.HessianHasInertia"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsCandidatePair"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsCriticalPoint"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsFiniteBar"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsIndexSaddle"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsLPeriodic"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "lifetime-remainder",
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-B"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsMorseDistinct"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsNondegMax"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsSmooth"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "lifetime-remainder",
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-C"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "lifetime-remainder",
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-C"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-B"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsWindowElderPair"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-B"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.IsWindowPair"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-B"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-A"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "math.uniform-matrix-cap-lifetime",
+        "D1-THM-C"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.PlanarDensityGapE11"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.PlanarElderLowerE2"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4"
+    },
+    {
+      "module": "Specifications/Lifetime.lean",
+      "claim_ids": [
+        "lifetime-remainder",
+        "math.lifetime-remainder"
+      ],
+      "name": "UniversalLaw.Spec.Lifetime.RemainderBoundedR1"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsGeneratorCover"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsGood"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsKDecomposable"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsMinimalForbidden"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsPaletteFeasible"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-full-price"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsProperDownset"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsRealizedFamily"
+    },
+    {
+      "module": "Specifications/P15.lean",
+      "claim_ids": [
+        "p15-realized-covers"
+      ],
+      "name": "UniversalLaw.Spec.P15.IsTransversal"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.mesoscopic-scaled-annulus",
+        "math.d5-component.annulus-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.pin-collision",
+        "math.d5-pin-neighborhood-first-moment",
+        "math.d5-component.punctured-pin-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5aPuncturedPinDisks"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.pin-collision",
+        "math.d5-pin-neighborhood-first-moment",
+        "math.d5-component.punctured-pin-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5bMicrodisk"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.d5-pin-neighborhood-first-moment",
+        "math.d5-component.collar-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5cCollarC1"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.mesoscopic-scaled-annulus",
+        "math.rn-region.pin-collision",
+        "math.d5-pin-neighborhood-first-moment"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.intermediate-r-to-rho",
+        "math.d5-pin-neighborhood-first-moment",
+        "math.d5-component.intermediate-window-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.d5-pin-neighborhood-first-moment",
+        "math.d5-component.intermediate-window-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-D5-DIMENSION-LIFT-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.DimensionLiftCompactCollarC"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-D5-DIMENSION-LIFT-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.DimensionLiftGlobalWindowG"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-D5-DIMENSION-LIFT-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.DimensionLiftIntermediateShellsI"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-D5-DIMENSION-LIFT-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.DimensionLiftPuncturedPinBallP"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-fixed-annulus-window",
+        "math.rn-fixed-annulus-window",
+        "math.rn-region.fixed-annulus-window"
+      ],
+      "name": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-fixed-remote-window",
+        "math.rn-fixed-remote-window",
+        "math.rn-region.fixed-remote",
+        "math.d5-component.remote-window-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-fixed-remote-window",
+        "math.rn-fixed-remote-window",
+        "math.rn-region.fixed-remote",
+        "math.d5-component.remote-window-proof"
+      ],
+      "name": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "OA-C6-FOURIER-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.FourierCutoffPlanarSecondFactorialF4"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-fixed-remote-window"
+      ],
+      "name": "UniversalLaw.Spec.RN.HessianHasInertia"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "rn-fixed-remote-window"
+      ],
+      "name": "UniversalLaw.Spec.RN.IsCriticalPoint"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-C6-PALM-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.PalmRouteFactorialMomentsQ"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "CL-C6-PALM-20260929-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.PalmRouteSecondFactorialTheta"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.witness-collision",
+        "CL-D5-REMOTE-COLLISION-20260928-v1"
+      ],
+      "name": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialD"
+    },
+    {
+      "module": "Specifications/RN.lean",
+      "claim_ids": [
+        "math.rn-region.witness-collision"
+      ],
+      "name": "UniversalLaw.Spec.RN.WitnessCollisionNearPinPairsTarget"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient",
+        "math.side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.CoefficientEnclosure"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.CoefficientEnclosure2"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.IsUnitTuple"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.NegDefCone"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient",
+        "math.side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.ReferenceComparison"
+    },
+    {
+      "module": "Specifications/Side24.lean",
+      "claim_ids": [
+        "side24-coefficient"
+      ],
+      "name": "UniversalLaw.Spec.Side24.ReferenceComparison2"
+    }
+  ],
+  "not_established": [
+    "informal-source alignment",
+    "scientific acceptance",
+    "remaining registered Props",
+    "inhabitation of given field/law interfaces",
+    "parent coefficient enclosure or conditional-law identification"
+  ]
+}
