@@ -507,6 +507,11 @@ class MutationHarnessTests(unittest.TestCase):
         self.assertFalse(assertion_kill(self.result(expected="test_foreign"),
                                         "test_expected"))
 
+    def test_expected_and_foreign_failures_cannot_kill(self):
+        result = self.result()
+        result.stderr += "\nFAIL: test_foreign (fixture.Contract)\n"
+        self.assertFalse(assertion_kill(result, "test_expected"))
+
     def test_no_tests_cannot_kill(self):
         result = self.result()
         result.stderr = result.stderr.replace("Ran 1 test", "Ran 0 tests")
