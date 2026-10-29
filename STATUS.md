@@ -167,3 +167,7 @@ An actual test-first run against the historical grader/loader source (`9d52d680`
 ### Cross-repository pin discrepancy
 
 Universal-Law-Workspace [PR #31](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/31) actually passed its historical eight-pin network resolution but failed `--require-current`: at that run, the main and Math pins differed from their then-observed default-branch tips. Main has advanced since that run. [Exact run and hashes](cbz/evidence/ulw-pin-discrepancy-20261029.json). Freeze the final source heads, update the gitlinks and manifest together, and rerun the current-pin checks; G7 is not qualified.
+
+### Temporary split-delivery limitation
+
+At main commit `1e2be44c69e08e47472041ac329e1b27f7dec793`, #704 delivered historical replay documentation, manifests and evidence, but the four replay-tool Python sources and tests were deliberately deferred to the composed foundation candidate with their governance registry. Consequently the historical README's runnable-tool commands cannot be followed from that main commit alone; see [the split-delivery metadata](cbz/evidence/additional-delivery-20261029.json). The commands above describe the composed candidate, which contains those source files and still requires integration and fresh verification. The pending #705 determinant evidence split uses the same four-file deferral. Preserve historical checksums and source bytes when reconciling these deliveries.
