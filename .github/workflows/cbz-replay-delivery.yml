@@ -1,0 +1,119 @@
+name: cbz-replay-delivery
+on:
+  pull_request:
+    paths:
+      - 'cbz/evidence/kernel/additional/**'
+      - 'cbz/evidence/kernel/determinant/**'
+      - 'tests/test_cbz_replay_harness_adverse.py'
+      - '.github/workflows/cbz-replay-delivery.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  historical-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: 8151f592918a845bf19eb8eafaf8444540a32734
+          path: task-math
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Prepare output and isolate bytecode caches
+        run: |
+          set -euo pipefail
+          mkdir -p replay-current-results
+          git rev-parse HEAD | tee replay-current-results/commit.txt
+          cache=$(mktemp -d "$RUNNER_TEMP/replay-bytecode-XXXXXX")
+          printf 'PYTHONPYCACHEPREFIX=%s\n' "$cache" >> "$GITHUB_ENV"
+      - name: Check all four original manifests and corresponding source copies
+        run: |
+          set -euo pipefail
+          for package in additional determinant; do
+            for suffix in '' '/replay-tool'; do
+              folder="cbz/evidence/kernel/$package$suffix"
+              label="$(printf '%s%s' "$package" "$suffix" | tr / -)"
+              (cd "$folder" && sha256sum -c SHA256SUMS) 2>&1 | tee "replay-current-results/checksum-$label.log"
+            done
+          done
+          for file in replay_tool.py test_replay_tool.py run_mutations.py run_lean_selftest.py; do
+            cmp "cbz/evidence/kernel/additional/replay-tool/$file" "cbz/evidence/kernel/determinant/replay-tool/$file"
+          done
+      - name: Historical unit tests and validator-source mutations
+        run: |
+          set -euo pipefail
+          for package in additional determinant; do
+            cd "$GITHUB_WORKSPACE/cbz/evidence/kernel/$package/replay-tool"
+            python -B -S -m unittest -v test_replay_tool.py 2>&1 | tee "$GITHUB_WORKSPACE/replay-current-results/$package-unit-normal.log"
+            python -B -O -S -m unittest -v test_replay_tool.py 2>&1 | tee "$GITHUB_WORKSPACE/replay-current-results/$package-unit-optimized.log"
+            python -B -S run_mutations.py --output "$GITHUB_WORKSPACE/replay-current-results/$package-mutations" 2>&1 | tee "$GITHUB_WORKSPACE/replay-current-results/$package-mutations.log"
+          done
+      - name: Install pinned Lean runtime
+        run: |
+          set -euo pipefail
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o "$RUNNER_TEMP/elan.tar.gz"
+          echo "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  $RUNNER_TEMP/elan.tar.gz" | sha256sum -c -
+          install_dir=$(mktemp -d "$RUNNER_TEMP/replay-elan-XXXXXX")
+          tar -xzf "$RUNNER_TEMP/elan.tar.gz" -C "$install_dir"
+          "$install_dir/elan-init" -y --default-toolchain none
+          "$HOME/.elan/bin/elan" toolchain install "$(cat task-math/formal/lean-toolchain)"
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Historical actual-Lean controls in both Python modes
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE/task-math/formal"
+          lean=$(elan which lean)
+          for package in additional determinant; do
+            tool="$GITHUB_WORKSPACE/cbz/evidence/kernel/$package/replay-tool/run_lean_selftest.py"
+            for mode in normal optimized; do
+              flags=(-B -S)
+              if [ "$mode" = optimized ]; then flags=(-B -O -S); fi
+              python "${flags[@]}" "$tool" --lean "$lean" \
+                --collector "$GITHUB_WORKSPACE/task-math/formal/gate_helper.py" \
+                --collector-sha256 ff8a5374597772b2d37054fd722c2243c4b552a63802c69f7c605519832be6c4 \
+                --output "$GITHUB_WORKSPACE/replay-current-results/$package-lean-$mode" 2>&1 |
+                tee "$GITHUB_WORKSPACE/replay-current-results/$package-lean-$mode.log"
+            done
+          done
+      - name: Preserve observed output
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-replay-historical-${{ github.run_id }}-${{ github.run_attempt }}
+          path: replay-current-results
+          if-no-files-found: warn
+  historical-counterexamples:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Exercise historical harness defects, including poisoned bytecode
+        run: |
+          set -euo pipefail
+          mkdir -p replay-adverse-results
+          git rev-parse HEAD | tee replay-adverse-results/commit.txt
+          env -u PYTHONPYCACHEPREFIX python -B -S -m unittest -v tests.test_cbz_replay_harness_adverse 2>&1 | tee replay-adverse-results/normal.log
+          env -u PYTHONPYCACHEPREFIX python -B -O -S -m unittest -v tests.test_cbz_replay_harness_adverse 2>&1 | tee replay-adverse-results/optimized.log
+          echo 'Counterexample test PASS means historical defects were reproduced; it is not auditor certification.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Preserve counterexample outputs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-replay-counterexamples-${{ github.run_id }}-${{ github.run_attempt }}
+          path: replay-adverse-results
+          if-no-files-found: warn

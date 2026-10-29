@@ -1,3 +1,25 @@
+# Current replay delivery notice
+
+This notice is source-bound to the proposed #705 delivery and does not supersede
+the scientific snapshot below. The prior #704 split recorded four replay files
+as deferred. Those historical split records are retained unchanged. The #705
+tree now restores the four exact historical scripts in each of the additional
+and determinant evidence packages. Their original four SHA256SUMS files and
+historical execution receipts remain untouched.
+
+The historical replay helper is bounded to the named Lean module closure and
+does not establish federation-wide Layer A compliance or authenticate supplied
+transcripts. Source review found false-acceptance weaknesses in its mutation
+grader and bytecode loading, plus limited diagnostic binding in its actual-Lean
+self-test. The separate counterexample tests exercise the original harness;
+their passing would demonstrate defects, not certify the helper. No fresh
+current-head verification result is asserted here. The workflow
+`.github/workflows/cbz-replay-delivery.yml` checks the four original manifests,
+runs the original suites in both Python modes, and records counterexamples;
+hosted results must be inspected for the exact current head. See
+`GOVERNANCE.md`, `TOOLING.md`, and `DECISIONS.md`. This delivery does not
+make or change a mathematical closure claim, and CBZ-0 remains unverified.
+
 # Scientific status snapshot
 
 **Snapshot date:** 2026-09-29  
