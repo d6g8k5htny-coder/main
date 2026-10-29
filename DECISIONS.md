@@ -179,3 +179,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 22:14:54 UTC] [phase3] [layerA] Correct the stale #705 deferral description, distinguish the historical 367-record JSON from the two later records, and qualify archival self-test labels by their known attribution limits. Reversible:yes. Evidence: STATUS.md, BASELINE.md, cbz/evidence/historical-replay-text-observation-20261029.json.
 
 [2026-10-29 22:15:10 UTC] [phase3] [layerA] Correct the restricted-container evidence location to the recorded hosted architecture run; preserve the original broad-suite skips. Reversible:yes. Evidence: cbz/evidence/main-regression-skip-observation/sandbox-controls.json.
+
+[2026-10-29 22:15:38 UTC] [phase3] [layerA] Record the E2-to-E4 candidate workflow's manual axiom/warning review and branch-only trigger limits before any declaration admission. Reversible:yes. Evidence: Math commit f19b254efae612ad5d4f010908cd615ca8c708fb workflow .github/workflows/cbz-lifetime-e2-e4.yml.

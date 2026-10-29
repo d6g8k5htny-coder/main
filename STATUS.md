@@ -236,7 +236,7 @@ An independent readback identifies the exact historical Python and Lean report a
 
 ### Further scoped Lean candidates
 
-Math branch `cbz/lifetime-zero-law-integration-20261029` at `36440828402102a840bc6bdffc2e1238ce6e4bea` contains an abstract zero-pair-law countermodel for supplied interfaces and positive length. Run `40964012873` is queued. Math branch `cbz/lifetime-e2-e4-implication-20261029` at `f19b254efae612ad5d4f010908cd615ca8c708fb` proposes that the literal lower predicate E2 implies E4, which itself assumes the literal parent upper predicate; run `40964002205` is queued. Both preserve the fixed packet inventory and propose packet, build, axiom and kernel checks. Neither is yet kernel-verified or proves the intended geometric law or interface existence.
+Math branch `cbz/lifetime-zero-law-integration-20261029` at `36440828402102a840bc6bdffc2e1238ce6e4bea` contains an abstract zero-pair-law countermodel for supplied interfaces and positive length. Run `40964012873` is queued. Math branch `cbz/lifetime-e2-e4-implication-20261029` at `f19b254efae612ad5d4f010908cd615ca8c708fb` proposes that the literal lower predicate E2 implies E4, which itself assumes the literal parent upper predicate; run `40964002205` is queued. Both preserve the fixed packet inventory and propose packet, build, axiom and kernel checks. The E2-to-E4 workflow prints axioms without enforcing an allowlist or rejecting Lean warnings and currently runs only on its candidate branch or dispatch; its log needs inspection and integration needs a fresh run. Neither candidate is yet kernel-verified or proves the intended geometric law or interface existence.
 
 ### Source514 recorder qualification limit
 
