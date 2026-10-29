@@ -7,7 +7,7 @@ import tempfile
 import unittest
 import zipfile
 
-from tools.atlas_formal_evidence_build import build_connection
+from tools.atlas_formal_evidence_build import build_connection, historical_source_identity
 from tools import atlas_formal_evidence_build as evidence
 from tools.required_formal_check import bind_receipt
 
@@ -129,6 +129,26 @@ class FormalConnectionAssembly(unittest.TestCase):
         raw = (ROOT/'docs/site/atlas-formal-evidence-data.mjs').read_text()
         expected = json.loads(raw.split('export const EVIDENCE = ', 1)[1].removesuffix(';\n'))
         self.assertEqual(self.build(), expected)
+
+    def test_identity_reader_cannot_opt_into_an_unknown_manifest(self):
+        with self.assertRaisesRegex(ValueError, 'unsupported historical manifest profile'):
+            historical_source_identity(self.root, '0' * 64)
+
+    def test_identity_reader_refuses_unbound_historical_package_files(self):
+        path = self.root/'formal/Unregistered.lean'
+        path.write_text('def unregistered : Nat := 1\n')
+        with self.assertRaisesRegex(ValueError, 'unbound historical package file'):
+            historical_source_identity(self.root)
+
+    def test_identity_reader_refuses_symlink_to_exact_bound_bytes(self):
+        path = self.root/'tools/formal_gate_check.py'
+        original = path.read_bytes()
+        outside = self.root/'frozen-control.txt'
+        outside.write_bytes(original)
+        path.unlink()
+        path.symlink_to(outside)
+        with self.assertRaises(ValueError):
+            historical_source_identity(self.root)
 
     def test_live_manifest_drift_is_refused_before_historical_evidence_is_rebound(self):
         with self.assertRaisesRegex(ValueError, 'formal manifest changed'):

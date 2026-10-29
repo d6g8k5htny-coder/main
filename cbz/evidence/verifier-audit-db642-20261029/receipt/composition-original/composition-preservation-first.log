@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<stdin>", line 22, in <module>
+AssertionError: tests/fixtures/atlas_formal_bridge_profiles/README.md
+
+Exit 1. The initial read-only preservation assertion included the fixture README,
+which PR689 intentionally documents. No mathematical or historical fixture bytes
+changed. Corrected check excludes that documentation file, records it separately,
+and requires all fixture data bytes to remain exact. This is the captured tool
+output, retained here after the check; no test failure is removed.

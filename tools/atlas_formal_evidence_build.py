@@ -14,10 +14,10 @@ import tempfile
 import zipfile
 
 if __package__:
-    from .formal_gate_check import source_check
+    from .formal_gate_check import safe_path
     from .required_formal_check import strict_json
 else:
-    from formal_gate_check import source_check
+    from formal_gate_check import safe_path
     from required_formal_check import strict_json
 
 CLAIM = 'math.side24-coefficient'
@@ -66,9 +66,40 @@ def bind_historical_receipt(receipt, manifest, artifact):
             'run_id': '40246431034', 'run_attempt': '1', 'receipt_sha256': RECEIPT}
 
 
+def historical_source_identity(root, expected_digest=MANIFEST):
+    """Check exact frozen bytes only; never certify or execute historical code.
+
+    The three fixed profiles were already retained as historical evidence. This
+    intentionally cannot accept a freshly refreshed manifest or a current gate
+    contract in place of the historical one.
+    """
+    require(expected_digest in {
+        MANIFEST,
+        '1a09020f0706abd506824f54fca76df9daa533749350b9ab6b818e0bbe9ed744',
+        '38eefbfdd84658cd0f6e18bd7d714458a7522b1021f73b1075e7972a63b9bcb0',
+    }, 'unsupported historical manifest profile')
+    root = Path(root).resolve()
+    raw = safe_path(root, 'formal/manifest.json').read_bytes()
+    require(digest(raw) == expected_digest, 'formal manifest changed')
+    manifest = strict_json(raw.decode('utf-8'))
+    for name, expected in manifest['files'].items():
+        require(digest(safe_path(root, name).read_bytes()) == expected,
+                'source hash mismatch: ' + name)
+    package = root / manifest['package_root']
+    require(package.is_dir() and not package.is_symlink(), 'historical package missing or symlink')
+    permitted = set(manifest['files']) | set(manifest['unbound_files'])
+    for path in package.rglob('*'):
+        relative = path.relative_to(root).as_posix()
+        if '.lake' not in path.relative_to(package).parts:
+            require(not path.is_symlink(), 'symlink historical package entry')
+            if path.is_file():
+                require(relative in permitted, 'unbound historical package file: ' + relative)
+    return manifest, digest(raw), package
+
+
 def build_connection(root, snapshot, proof, artifact):
     root = Path(root)
-    m, manifest_digest, _ = source_check(root)
+    m, manifest_digest, _ = historical_source_identity(root)
     require(manifest_digest == MANIFEST, 'formal manifest changed')
     target = next(t for t in m['targets'] if t['name'] == TARGET)
     source = next(s for s in m['sources'] if s['id'] == target['source'])
