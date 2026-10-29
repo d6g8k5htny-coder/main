@@ -1,0 +1,78 @@
+name: cbz-cold-start-node
+on:
+  push:
+    branches: [cbz/cold-start-node-20261029]
+    paths:
+      - 'tools/cbz_node_regression.py'
+      - 'tests/test_cbz_node_regression.py'
+      - '.github/workflows/cbz-cold-start-node.yml'
+  pull_request:
+    paths:
+      - 'tools/cbz_node_regression.py'
+      - 'tests/test_cbz_node_regression.py'
+      - '.github/workflows/cbz-cold-start-node.yml'
+permissions:
+  contents: read
+jobs:
+  controls-and-prepared:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Ordinary controls and intended source/harness mutations
+        run: python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+      - name: Optimized controls and intended source/harness mutations
+        if: always()
+        run: python -B -O -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+      - name: Fetch immutable historical fixture objects
+        if: always()
+        run: |
+          git clone --no-checkout https://github.com/d6g8k5htny-coder/Math-.git "$RUNNER_TEMP/Math-"
+          git clone --no-checkout https://github.com/d6g8k5htny-coder/query-.git "$RUNNER_TEMP/query-"
+      - name: Every tracked mjs test with verified fixtures
+        if: always()
+        env:
+          NODE_OPTIONS: --require=/definitely-missing-cbz-node-preload.cjs
+          NODE_PATH: /untrusted/cbz-node-path
+        run: python -B -S tools/cbz_node_regression.py --math-root "$RUNNER_TEMP/Math-" --query-root "$RUNNER_TEMP/query-" --output "$RUNNER_TEMP/cbz-node-result"
+      - name: Print actual result for independent readback
+        if: always()
+        run: |
+          python -B -S - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root = Path(os.environ["RUNNER_TEMP"]) / "cbz-node-result"
+          record = json.loads((root / "result.json").read_text())
+          print("CBZ_NODE_RESULT_JSON " + json.dumps(record, sort_keys=True))
+          raw = (root / "node.tap").read_bytes()
+          def verify_log(value):
+              if hashlib.sha256(value).hexdigest() != record["log_sha256"]:
+                  raise ValueError("Node transcript no longer matches executed report")
+          verify_log(raw)
+          try:
+              verify_log(raw + b"\0")
+          except ValueError:
+              print("CBZ_NODE_TRANSPORT_ADVERSE_PASS")
+          else:
+              raise SystemExit("modified transcript was admitted")
+          text = raw.decode("utf-8")
+          chunks = [text[i:i+4096] for i in range(0, len(text), 4096)]
+          print("CBZ_NODE_TAP_TOTAL " + str(len(chunks)))
+          print("CBZ_NODE_TAP_GIT_BLOB " + hashlib.sha1(
+              b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest())
+          for number, chunk in enumerate(chunks):
+              print("CBZ_NODE_TAP_JSON " + str(number) + " " + json.dumps(chunk))
+          PY
+      - name: Preserve actual result and transcript
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-node-result
+          path: ${{ runner.temp }}/cbz-node-result
+          if-no-files-found: error

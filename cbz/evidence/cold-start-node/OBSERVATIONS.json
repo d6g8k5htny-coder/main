@@ -1,0 +1,467 @@
+{
+  "schema": "cbz.cold-start-node.observations.v1",
+  "observed_utc": "2026-10-29T19:51:34Z",
+  "certifies_mathematics": false,
+  "certifies_cbz_zero": false,
+  "source_commit": "b3eacf768fc402ad65c9bf41e3b6b8d3c670342c",
+  "run_id": 40943173611,
+  "controls": {
+    "normal": {
+      "job_id": 123691557774,
+      "tests": 33,
+      "result": "PASS"
+    },
+    "optimized": {
+      "job_id": 123691557243,
+      "tests": 33,
+      "result": "PASS"
+    },
+    "source_mutants": 14,
+    "harness_mutants": 3,
+    "required_detection": "named assertion failures; no errors/foreign failures/launch failures/zero tests"
+  },
+  "prepared_node": {
+    "command": [
+      "node",
+      "--test",
+      "--test-reporter=tap",
+      "tests/fixtures/museum_fixture.mjs",
+      "tests/test_atlas_controls.mjs",
+      "tests/test_atlas_formal_evidence.mjs",
+      "tests/test_atlas_formal_source_bridge.mjs",
+      "tests/test_atlas_reader_experience.mjs",
+      "tests/test_atlas_relationships.mjs",
+      "tests/test_atlas_resilience.mjs",
+      "tests/test_atlas_spatial.mjs",
+      "tests/test_atlas_spatial_labels.mjs",
+      "tests/test_brand_identity.mjs",
+      "tests/test_catalog_query.mjs",
+      "tests/test_compare_categories.mjs",
+      "tests/test_compare_source_panel.mjs",
+      "tests/test_current_inventory_acquisition.mjs",
+      "tests/test_current_observation_coherence.mjs",
+      "tests/test_current_site.mjs",
+      "tests/test_current_site_resume.mjs",
+      "tests/test_current_site_shell.mjs",
+      "tests/test_curvature_export.mjs",
+      "tests/test_dependency_viewer.mjs",
+      "tests/test_explore_models.mjs",
+      "tests/test_figure_png.mjs",
+      "tests/test_library_discovery.mjs",
+      "tests/test_library_source_search.mjs",
+      "tests/test_measurement_model.mjs",
+      "tests/test_museum_conditionals.mjs",
+      "tests/test_museum_conditionals_cli.mjs",
+      "tests/test_museum_conditionals_paths.mjs",
+      "tests/test_museum_conditionals_startup.mjs",
+      "tests/test_museum_frontend.mjs",
+      "tests/test_museum_geometry.mjs",
+      "tests/test_museum_identity.mjs",
+      "tests/test_node_status_atlas.mjs",
+      "tests/test_palette_export.mjs",
+      "tests/test_pin_export.mjs",
+      "tests/test_public_shop_app.mjs",
+      "tests/test_public_shop_frontend.mjs",
+      "tests/test_reader_experience.mjs",
+      "tests/test_reader_jump.mjs",
+      "tests/test_reader_navigation.mjs",
+      "tests/test_reading_list_citation.mjs",
+      "tests/test_research_desk.mjs",
+      "tests/test_snapshot_compare.mjs",
+      "tests/test_source_quote.mjs",
+      "tests/test_source_reference.mjs",
+      "tests/test_teaching_export.mjs",
+      "tests/test_workspace_navigation.mjs"
+    ],
+    "final_cbz_certification": false,
+    "finished_utc": "2026-10-29T19:47:32.119259+00:00",
+    "fixture_environment": {
+      "MUSEUM_FIXTURE": "/home/runner/work/_temp/cbz-node-result/museum/verified-inputs.json",
+      "SHOP_MATH_FIXTURE": "/home/runner/work/_temp/cbz-node-result/shop/Math-",
+      "SHOP_QUERY_FIXTURE": "/home/runner/work/_temp/cbz-node-result/shop/query-"
+    },
+    "fixtures": [
+      {
+        "bytes": 1090,
+        "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+        "path": "coefficients/side24_v1/ENCLOSURE.json",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811"
+      },
+      {
+        "bytes": 10272,
+        "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+        "path": "coefficients/side24_v1/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769"
+      },
+      {
+        "bytes": 18262,
+        "commit": "9d7b6802424fb4715b31999066aafca8ee2f3cca",
+        "path": "imports/hardening_ebedb780/MANIFEST.json",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "fa7f33839924d340cc1123fe05276f681e6aa12193c68b2d1aa6ab489150d8e3"
+      },
+      {
+        "bytes": 4623,
+        "commit": "c88768bb11efd1f7d6bda188f13064bedec54a06",
+        "path": "portable/CANDIDATE_DOWNSTREAM_GATE_STUBS.json",
+        "repository": "d6g8k5htny-coder/query-",
+        "sha256": "4046357b30c56e911a8aea14515611201d4dbe3f7b9f16b99b61d4e10fccf828"
+      },
+      {
+        "bytes": 17734,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a"
+      },
+      {
+        "bytes": 10272,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "coefficients/side24_v1/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769"
+      },
+      {
+        "bytes": 18355,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/remote_window_20260924/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7"
+      },
+      {
+        "bytes": 16948,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/rn_annulus_bridge_20260925/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "d55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05"
+      },
+      {
+        "bytes": 17646,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "1fd9fe7141e464fd1c09ebf0318d8a701729c9c61ea24f73f7e20a9cf10c552b"
+      },
+      {
+        "bytes": 15902,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "079f9399aef401d58749b3684f3acbb7f49ffdcbcac9f501b79e06c28a7f4e7d"
+      },
+      {
+        "bytes": 10858,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/axial_density_20260925/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "8b9376a69fda9f0f231d9502be839ae45d8006d1891ff3e700fa521cc96f6cb4"
+      },
+      {
+        "bytes": 9902,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "f64c954245f17bcbc64a5ccf58a60689cf2a2fd85362f8321c0f64ff66584e36"
+      },
+      {
+        "bytes": 3272,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6"
+      },
+      {
+        "bytes": 2266,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b"
+      },
+      {
+        "bytes": 11352,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "frontiers/full_price_20260924/PROOF.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9"
+      },
+      {
+        "bytes": 12708,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "PROOF_INDEX.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "f9c4db77aeab1c61d2a0c02f88a964cbfc6be63d18619acf0e047c884e0c0249"
+      },
+      {
+        "bytes": 16417,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "claims/LANDING_CLAIMS.json",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "c6fb2fa2bda1fdae9eeaaaf13008497921537b77aa4d4537aec30c9b961b989e"
+      },
+      {
+        "bytes": 11331,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "imports/hardening_ebedb780/EC-014/proof.md.export.txt",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "c5e64b9ba3a906535f1ae58a161d594a427371599c102ae4a68849b087a2f62c"
+      },
+      {
+        "bytes": 1090,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "coefficients/side24_v1/ENCLOSURE.json",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811"
+      },
+      {
+        "bytes": 15925,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "69ea7a479a9e8a5150cbe07b373772ab22413a1d81194d5a6a78adf6ada5f03f"
+      },
+      {
+        "bytes": 12741,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "29a0c6d00ce739baf1d29a3163977d8e707e2079e216fba4fee3669cebec127d"
+      },
+      {
+        "bytes": 10073,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "04cf4c986f29ac7ac33b3cc87feac23f3cf494e0c1b3bf4476e4e6666de46574"
+      },
+      {
+        "bytes": 15615,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/replacement_20260925_pr19_pr21/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "7ff9e4a028f24afc731200b14bc5b993c0a874906cf6ea25e8c890afed8cdc53"
+      },
+      {
+        "bytes": 12510,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/pr16_fixed_transverse_nonauthor_20260925/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "20d6451412f304a20f70e0bc6aabb87bdd0bb9761b17834469d60867407ebd9c"
+      },
+      {
+        "bytes": 3723,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/d2_cumulative_correction_20260925/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "910d371ebb4a310a7e2248348ba8cd09d6f3229740525d74ec7d06d8d1470717"
+      },
+      {
+        "bytes": 15569,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "reviews/p15_full_price_nonauthor_20260926/REVIEW.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "691ea0db5c0f073326c9f7208c9804c6f5d0daf92ba7467529c9d57e08b15eb7"
+      },
+      {
+        "bytes": 7655,
+        "commit": "f2e432ea5c86742e480c66624775bc9103343314",
+        "path": "STATUS.md",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "039d4fea921a5e9602340ab8580404ef709588ca72f45c52f865f4644da51da3"
+      },
+      {
+        "bytes": 25057,
+        "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+        "path": "reviews/sard_g_successor_a1_a6_20260926/REVIEW.md",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "894d27c0de6dd4312ea5109ac2480a68cb1b5ded0b4a60749d4edee2288fb537"
+      },
+      {
+        "bytes": 673,
+        "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+        "path": "incoming/side24-identity-replay-20260926/IDENTITY.json",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "6087bfe1ccc12bd52ebb169d00975ce44e846d611f0628333a0dbd71a4448176"
+      },
+      {
+        "bytes": 362,
+        "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+        "path": "incoming/side24-identity-replay-20260926/output.json",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "813bcf5d81e1d5d52d37c112df23716701809f03e7b55939a2afb2e8e57741be"
+      },
+      {
+        "bytes": 61961,
+        "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+        "path": "docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "e348db8e9d667caff2a8da1d85ffd5ad599db34b34e542d9662d0bc1edc84024"
+      },
+      {
+        "bytes": 1118,
+        "commit": "71400b94f6cb354a8cf7aba73ffede2138a64efa",
+        "path": "incoming/side24-identity-replay-20260926/RESULT.md",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8"
+      },
+      {
+        "bytes": 40261,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+      },
+      {
+        "bytes": 10221,
+        "commit": "a12c178c0f857a130cf434e9efd44233a038195b",
+        "path": "incoming/side24-chart-claude-20260926/RESULT.md",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "3be14ca5013164e461a2bc72c317fd3694f94783826d4e5d8524d31133574502"
+      },
+      {
+        "bytes": 1471,
+        "commit": "a12c178c0f857a130cf434e9efd44233a038195b",
+        "path": "incoming/side24-chart-claude-20260926/IDENTITY.json",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "b74bc2e52c065022a616823bd488827911bb4f116fe891b0f6efdd8a8d09147b"
+      },
+      {
+        "bytes": 1724,
+        "commit": "a12c178c0f857a130cf434e9efd44233a038195b",
+        "path": "incoming/side24-chart-claude-20260926/output.json",
+        "repository": "d6g8k5htny-coder/main",
+        "sha256": "478fb7620ea5947855006ab7af448010fdd5cc31581407b1f86d4b87ce5de2eb"
+      },
+      {
+        "bytes": 23312,
+        "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+        "path": "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "451b9d7ffee072a73fc904cab891b6693e3f233808b89df10cce1b57036b65da"
+      },
+      {
+        "bytes": 6023,
+        "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+        "path": "README.md",
+        "repository": "d6g8k5htny-coder/Math-",
+        "sha256": "89d4c618ad4560373f8fba3c787522cea8f0191fd8e176f3e0741c6230390730"
+      }
+    ],
+    "log_sha256": "c644a9e64da171421fb6fbc64b2b747a372085eba7c7266f8f7f566e3e6ebe36",
+    "mathematical_certification": false,
+    "node_exit": 0,
+    "node_version": "v22.23.4",
+    "schema": "cbz.node-regression.v1",
+    "source_after": "b3eacf768fc402ad65c9bf41e3b6b8d3c670342c",
+    "source_before": "b3eacf768fc402ad65c9bf41e3b6b8d3c670342c",
+    "started_utc": "2026-10-29T19:47:25.264685+00:00",
+    "status": "PASS",
+    "summary": {
+      "cancelled": 0,
+      "fail": 0,
+      "pass": 764,
+      "skipped": 0,
+      "tests": 764,
+      "todo": 0
+    }
+  },
+  "extension_status": "observed on the separately identified subsequent source and run below",
+  "subsequent_observation": {
+    "observed_utc": "2026-10-29 20:30:04 UTC",
+    "source_commit": "dba9a9eaf65e190b2aee0445244eb26d6034b022",
+    "run_id": 40948751545,
+    "job_id": 123710906208,
+    "normal_tests": {
+      "run": 41,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "optimized_tests": {
+      "run": 41,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    "source_mutants": 21,
+    "harness_mutants": 4,
+    "prepared_node": {
+      "tests": 764,
+      "passed": 764,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0,
+      "exit": 0,
+      "fixture_records": 38,
+      "fixture_files": 39,
+      "log_sha256": "b2bc7b2b48068d475129118d07b62a0b8b217725ec1b68667ea584286e54450f",
+      "log_git_blob": "8cdeca3f173700f826563ec02bf30b48ea1680d5",
+      "artifact_id": 12929309903,
+      "artifact_zip_sha256": "139ff5eec7300d582dc1af1d2504399fe84724a1a7a59dd2905185324c47b527"
+    },
+    "scope": "Node regression reproduction only; no global G1, G5, G9 or CBZ-0 pass."
+  },
+  "reason_bound_observation": {
+    "source_commit": "f4ad0f49dbf9963fcec849a3dc66f1de46f51ac3",
+    "run_id": 40950290452,
+    "job_id": 123716298060,
+    "normal_tests": 43,
+    "optimized_tests": 43,
+    "source_mutations": 21,
+    "harness_mutations": 8,
+    "source_mutation_evidence": "specific control-side per-run nonce, test, mutant and bypass observation required",
+    "prepared_node": {
+      "summary": {
+        "cancelled": 0,
+        "fail": 0,
+        "pass": 764,
+        "skipped": 0,
+        "tests": 764,
+        "todo": 0
+      },
+      "node_exit": 0,
+      "log_sha256": "9b90d335aa4dc9345aaa1618d2aecc23c2bfd9f4c836f98ae71e784726303eae",
+      "log_git_blob": "bbeceb67e877902e1967d0bb5a86fb78613e2970",
+      "artifact_id": 12931890855,
+      "artifact_zip_sha256": "ef2fbff49b322fe1d2dd7182e5065915ed7b1dc397d39ecd920304ec88127086",
+      "downloaded_zip_rechecked": false
+    },
+    "global_certification": false
+  },
+  "strong_control_observation": {
+    "source_commit": "2db895e866dcd37ae7343eedbdfc2272aeb82e6c",
+    "run_id": 40950731897,
+    "job_id": 123717841712,
+    "python_modes": {
+      "normal": {
+        "tests": 43,
+        "result": "PASS"
+      },
+      "optimized": {
+        "tests": 43,
+        "result": "PASS"
+      }
+    },
+    "source_mutations": 21,
+    "harness_mutations": 8,
+    "prepared_node": {
+      "summary": {
+        "cancelled": 0,
+        "fail": 0,
+        "pass": 764,
+        "skipped": 0,
+        "tests": 764,
+        "todo": 0
+      },
+      "node_exit": 0,
+      "log_sha256": "e0acd188a5a881b377742be0547ea0906a5ae20c5dcf4e2f0a1c0bd33b8fb3f0",
+      "log_git_blob": "dcbeca296f5d6d46180001ac5c83e3347366be66",
+      "artifact_id": 12930309399,
+      "artifact_zip_sha256": "992168bb5cd49ed47fcc87933751cc6eb19a95942d0b0bbec22026623a1575c1",
+      "downloaded_zip_rechecked": false
+    },
+    "global_certification": false
+  }
+}
