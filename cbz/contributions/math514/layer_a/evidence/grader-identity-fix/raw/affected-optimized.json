@@ -1,0 +1,499 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selected_ids": [
+    "test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events",
+    "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+    "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+    "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+    "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+    "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population"
+  ],
+  "started_ids": [
+    "test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events",
+    "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+    "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+    "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+    "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+    "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population"
+  ],
+  "finished_ids": [
+    "test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events",
+    "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+    "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+    "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+    "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+    "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population"
+  ],
+  "body_entered_ids": [
+    "test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events",
+    "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+    "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+    "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+    "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+    "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population"
+  ],
+  "body_finished_ids": [
+    "test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives",
+    "test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events",
+    "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+    "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+    "test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation",
+    "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+    "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+    "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+    "test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill",
+    "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+    "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population"
+  ],
+  "body_assertion_ids": [],
+  "assertion_events": [],
+  "invalid_population": [],
+  "lifecycle_failures": 0,
+  "subtests": 76,
+  "subtest_events": [
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population",
+      "phase": "body",
+      "outcome": "success"
+    },
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population",
+      "phase": "body",
+      "outcome": "success"
+    }
+  ],
+  "failure_events": [],
+  "tests_run": 18,
+  "assertion_failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": true,
+  "log": "test_assertion_event_provenance_rejects_duplicate_direct_failures (test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures) ... ok\ntest_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives) ... ok\ntest_body_scoped_subtests_have_exact_parent_assertion_events (test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events) ... ok\ntest_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) ... ok\ntest_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) ... ok\ntest_expected_population_is_bound_before_mutation (test_mutation_runner.LifecycleHarnessRules.test_expected_population_is_bound_before_mutation) ... ok\ntest_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... ok\ntest_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) ... ok\ntest_mixed_lazy_function_shapes_are_refused_before_any_body (test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body) ... ok\ntest_sync_bodies_require_none_and_refuse_other_returns_without_iteration (test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration) ... ok\ntest_sync_lazy_returns_are_rejected_without_advancing_objects (test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects) ... ok\ntest_wraps_decorated_lazy_functions_are_refused_at_population (test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population) ... ok\ntest_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) ... ok\ntest_class_fixture_function_and_code_substitutions_are_refused (test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused) ... ok\ntest_custom_testcase_run_is_refused_before_execution (test_mutation_runner.IdentityHarnessRules.test_custom_testcase_run_is_refused_before_execution) ... ok\ntest_identity_change_during_body_is_not_a_clean_kill (test_mutation_runner.IdentityHarnessRules.test_identity_change_during_body_is_not_a_clean_kill) ... ok\ntest_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_runner.IdentityHarnessRules.test_module_alias_subclass_and_population_hooks_refused_before_execution) ... ok\ntest_named_class_and_method_selection_preserve_exact_population (test_mutation_runner.IdentityHarnessRules.test_named_class_and_method_selection_preserve_exact_population) ... ok\n\nRan 18 tests\n"
+}

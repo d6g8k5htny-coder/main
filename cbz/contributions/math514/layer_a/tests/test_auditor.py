@@ -768,5 +768,83 @@ class NumericDeclarationRules(unittest.TestCase):
         self.assertEqual(declarations[0]['contradictions'], ['incompatible literal equality candidate: 1 = 2'])
 
 
+class ReviewBoundaryRules(unittest.TestCase):
+    """Original review boundaries; each method targets an actual missing guard."""
+    setUp = ManifestRules.setUp
+    add = ManifestRules.add
+    bind = ManifestRules.bind
+    runaudit = ManifestRules.runaudit
+    codes = ManifestRules.codes
+
+    def engineering(self, path, text, module):
+        entry = self.add(path, text, 'engineering_python', module='python:' + module)
+        review_path = path + '.review.json'
+        self.add(review_path, json.dumps({'type':'nonmathematical_review',
+            'source_sha256':entry['sha256'], 'scope':'nonmathematical_execution_only',
+            'reviewer':'review-boundary fixture', 'rationale':'explicitly engineering only'}))
+        entry['nonmath_review'] = self.bind(review_path)
+
+    def test_augmented_division_cannot_certify_float_results(self):
+        for source in ['x = 1\nx /= 2', 'x = 0\nx /= 1']:
+            with self.subTest(source=source):
+                result = source_checks.check_python(source)
+                self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+
+    def test_augmented_power_requires_nonnegative_integer_literal(self):
+        for exponent in ['-1', 'n', 'True', '1.0']:
+            with self.subTest(exponent=exponent):
+                result = source_checks.check_python('n = 2\nx = 2\nx **= ' + exponent)
+                self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']})
+
+    def test_augmented_exact_controls_and_engineering_profile_remain_valid(self):
+        exact = 'x = 4\nx += 1\nx -= 1\nx *= 3\nx //= 2\nx %= 3\nx **= 2'
+        self.assertEqual(source_checks.check_python(exact)['findings'], [])
+        self.assertEqual(source_checks.check_python('x = 1\nx /= 2\nx **= -1', False)['findings'], [])
+
+    def test_math_from_import_candidate_cannot_acquire_engineering_values(self):
+        self.add('fractions/__init__.py', '', 'math_python', module='python:fractions')
+        self.engineering('fractions/Fraction.py', 'numerator = 0.5', 'fractions.Fraction')
+        self.add('closed.py', 'from fractions import Fraction\nx = Fraction.numerator',
+                 'math_python', module='python:closed')
+        self.assertIn('MATH_DEPENDENCY_GAP', self.codes())
+
+    def test_math_import_package_prefix_requires_mathematical_scope(self):
+        self.engineering('fractions/__init__.py', 'numerator = 0.5', 'fractions')
+        self.add('fractions/sub.py', 'x = 1', 'math_python', module='python:fractions.sub')
+        self.add('closed.py', 'from fractions.sub import Fraction', 'math_python', module='python:closed')
+        self.assertIn('MATH_DEPENDENCY_GAP', self.codes())
+
+    def test_explicit_null_or_invalid_status_flag_cannot_disable_checks(self):
+        entry = self.add('status.json', '{"observed_status":"PASS"}', 'data', status_evidence=None)
+        for invalid in [None, False, 0, '', [], {}]:
+            with self.subTest(flag=invalid):
+                entry['status_evidence'] = invalid
+                self.assertIn('STATUS_EVIDENCE', self.codes())
+
+    def test_es_modules_cannot_be_reclassified_as_data_or_documentation(self):
+        for index, kind in enumerate(['data', 'documentation']):
+            path = 'code' + str(index) + ('.mjs' if index == 0 else '.MJS')
+            self.add(path, 'export const bound = 0.1;', kind)
+            findings = [f for f in self.runaudit()['findings'] if f['path'] == path]
+            self.assertIn('SOURCE_CLASSIFICATION', {f['code'] for f in findings})
+            self.assertIn('LANGUAGE_GAP', {f['code'] for f in findings})
+
+    def test_es_module_text_wrapper_is_still_unsupported_source(self):
+        self.add('code.mjs.txt', 'export const bound = 0.1;', 'data')
+        self.assertIn('SOURCE_CLASSIFICATION', self.codes())
+        self.assertIn('LANGUAGE_GAP', self.codes())
+
+    def test_executable_notebooks_cannot_be_reclassified_as_nonsource(self):
+        notebook = json.dumps({'nbformat':4, 'nbformat_minor':5, 'metadata':{}, 'cells':[
+            {'cell_type':'code', 'metadata':{}, 'execution_count':None, 'outputs':[],
+             'source':['bound = 0.1\n']}]})
+        for path, kind in [('bounds.ipynb', 'data'), ('bounds.IPYNB', 'documentation'),
+                           ('bounds.ipynb.txt', 'data')]:
+            self.add(path, notebook, kind)
+            findings = [f for f in self.runaudit()['findings'] if f['path'] == path]
+            self.assertIn('SOURCE_CLASSIFICATION', {f['code'] for f in findings})
+            self.assertIn('LANGUAGE_GAP', {f['code'] for f in findings})
+
+
 if __name__=='__main__':
     unittest.main()

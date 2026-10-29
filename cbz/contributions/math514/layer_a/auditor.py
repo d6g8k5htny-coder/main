@@ -17,7 +17,9 @@ APPROVED_AXIOMS = frozenset({'propext', 'Classical.choice', 'Quot.sound'})
 KINDS = frozenset({'project_lean','math_python','engineering_python','negative_fixture','quarantined_source',
                    'external_pinned','binary_proof','documentation','data'})
 RETAINED = frozenset({'negative_fixture','quarantined_source'})
-SOURCE_EXTENSIONS = frozenset({'.lean','.py','.pyi','.sh','.bash','.js','.ts','.c','.cc','.cpp','.h','.rs'})
+SOURCE_EXTENSIONS = frozenset({'.lean','.py','.pyi','.sh','.bash','.js','.mjs','.ts','.c','.cc','.cpp','.h','.rs'})
+# Notebooks contain executable cells; neither supported checker accepts them.
+NOTEBOOK_SUFFIXES = ('.ipynb', '.ipynb.txt')
 BINARY_EXTENSIONS = frozenset({'.olean','.ilean','.o','.so','.a','.dll','.dylib','.wasm'})
 HEX = re.compile(r'[0-9a-f]{64}')
 ENTRY_KEYS = frozenset({'kind','sha256','module','language','vacuity','expected_findings','quarantine',
@@ -172,7 +174,7 @@ def audit(manifest):
         language=entry.get('language')
         if kind=='project_lean': language='lean'
         if kind in {'math_python','engineering_python'}: language='python'
-        source_like=suffix in SOURCE_EXTENSIONS or path.lower().endswith(('.lean.txt','.py.txt','.sh.txt','.js.txt'))
+        source_like=suffix in SOURCE_EXTENSIONS or path.lower().endswith(('.lean.txt','.py.txt','.sh.txt','.js.txt','.mjs.txt') + NOTEBOOK_SUFFIXES)
         if kind in {'documentation','data'} and (source_like or suffix in BINARY_EXTENSIONS):
             add('SOURCE_CLASSIFICATION','source/proof object cannot be relabeled documentation/data',rid,path)
         if kind=='binary_proof' and source_like:
@@ -256,10 +258,14 @@ def audit(manifest):
                         prefix=module_map.get('python:'+'.'.join(parts[:i]))
                         if prefix in records:
                             graph[ref].append(prefix)
+                            if kind=='math_python' and records[prefix]['entry']['kind']=='engineering_python':
+                                add('MATH_DEPENDENCY_GAP','mathematical code cannot acquire values from nonmathematical-only package prefix '+prefix,rid,path)
             for candidate in result.get('import_candidates',[]):
-                target=module_map.get('python:'+candidate)
-                if target in records:
-                    graph[ref].append(target)
+                candidate_target=module_map.get('python:'+candidate)
+                if candidate_target in records:
+                    graph[ref].append(candidate_target)
+                    if kind=='math_python' and records[candidate_target]['entry']['kind']=='engineering_python':
+                        add('MATH_DEPENDENCY_GAP','mathematical code cannot acquire values from nonmathematical-only candidate '+candidate_target,rid,path)
             if language=='lean' and kind not in RETAINED:
                 annotations=entry.get('vacuity')
                 declarations=result['declarations']
@@ -282,7 +288,7 @@ def audit(manifest):
                         if not isinstance(certificate,dict) or certificate.get('type')!='nonvacuity_certificate' or certificate.get('subject_sha256')!=entry['sha256'] or certificate.get('declaration')!=key or not nonempty(certificate.get('witness_description')):
                             add('VACUITY_EVIDENCE','content-bound nonvacuity witness certificate required for '+key,rid,path,declaration['line'])
                     observations.append({'root':rid,'path':path,'declaration':key,'status':a['status'],'contradiction_candidates':declaration['contradictions']})
-        if entry.get('status_evidence') is not None:
+        if 'status_evidence' in entry:
             if entry['status_evidence'] is not True:
                 add('STATUS_EVIDENCE','status_evidence must be true, never disable/skip',rid,path)
             try:

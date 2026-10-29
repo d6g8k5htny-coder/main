@@ -7,6 +7,7 @@ import hashlib
 import functools
 import io
 import inspect
+import importlib
 import json
 import os
 from pathlib import Path
@@ -21,6 +22,14 @@ HERE=Path(__file__).resolve().parent
 
 # Each change weakens a claimed auditor rule, rather than planting a bad proof fixture.
 MUTATIONS=[
+ ('discard-known-notebook-source-suffixes','auditor.py',"NOTEBOOK_SUFFIXES = ('.ipynb', '.ipynb.txt')","NOTEBOOK_SUFFIXES = ()"),
+ ('restore-augmented-division-gap', 'source_checks.py', 'if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Div):', 'if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):'),
+ ('restore-augmented-power-gap', 'source_checks.py', 'if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Pow):', 'if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Pow):'),
+ ('restore-python-candidate-nonmath-gap', 'auditor.py', "if kind=='math_python' and records[candidate_target]['entry']['kind']=='engineering_python':", 'if False:'),
+ ('restore-python-prefix-nonmath-gap', 'auditor.py', "if kind=='math_python' and records[prefix]['entry']['kind']=='engineering_python':", 'if False:'),
+ ('restore-null-status-evidence-skip', 'auditor.py', "if 'status_evidence' in entry:", "if entry.get('status_evidence') is not None:"),
+ ('restore-es-module-extension-gap', 'auditor.py', "'.js','.mjs','.ts'", "'.js','.ts'"),
+ ('restore-es-module-text-wrapper-gap', 'auditor.py', "'.sh.txt','.js.txt','.mjs.txt'", "'.sh.txt','.js.txt'"),
  ('restore-metadata-generic-numeral-swallowing', 'source_checks.py', "        elif c.isdigit():\n            # Preserve the canonical numeral boundary: valid Lean permits a\n            # numeral immediately before a declaration keyword (0theorem).\n            # Keep spelling/location for literal-hypothesis checks; no numeric\n            # evaluation or independent numeral grammar is introduced here.\n            match = canonical_numeral_spelling.match(text, i)\n            end = match.end() if match is not None else i + 1\n            tokens.append(Token(text[i:end], line, column)); advance(end)\n        elif c.isalpha() or c == '_':", "        elif c.isalpha() or c == '_' or c.isdigit():"),
  ('discard-metadata-numeral-tokens', 'source_checks.py', 'tokens.append(Token(text[i:end], line, column)); advance(end)', 'advance(end)'),
  ('overshoot-metadata-numeral-boundary', 'source_checks.py', 'tokens.append(Token(text[i:end], line, column)); advance(end)', 'tokens.append(Token(text[i:end], line, column)); advance(min(end + 1, n))'),
@@ -41,8 +50,8 @@ MUTATIONS=[
  ('disable-macro-gap-category','source_checks.py',"if tail in expansion:","if False:"),
  ('drop-lean-dependencies','source_checks.py',"'imports': imports, 'declarations': declarations}","'imports': [], 'declarations': declarations}"),
  ('disable-float-literal-category','source_checks.py',"if isinstance(node, ast.Constant) and isinstance(node.value, (float, complex)):","if False:"),
- ('allow-python-division','source_checks.py',"if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):","if False:"),
- ('allow-negative-dynamic-powers','source_checks.py',"if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Pow):","if False:"),
+ ('allow-python-division','source_checks.py',"if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Div):","if False:"),
+ ('allow-negative-dynamic-powers','source_checks.py',"if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Pow):","if False:"),
  ('allow-unknown-python-calls','source_checks.py',"if not isinstance(node.func, ast.Name) or node.func.id not in allowed_calls:","if False:"),
  ('disable-exact-python-profile','source_checks.py',"if not mathematical:\n            continue","if True:\n            continue"),
  ('allow-reflective-attributes','source_checks.py',"if isinstance(node, ast.Attribute) and node.attr not in {'numerator','denominator'}:","if False:"),
@@ -76,7 +85,7 @@ MUTATIONS=[
  ('skip-vacuity-coverage','auditor.py',"if not isinstance(annotations,dict) or len(keys)!=len(set(keys)) or set(annotations)!=set(keys):","if False:"),
  ('ignore-contradictory-hypotheses','auditor.py',"if declaration['contradictions'] and a['status']!='vacuous':","if False:"),
  ('allow-unbound-nonvacuity','auditor.py',"if a['status']=='nonvacuous':","if False:"),
- ('skip-status-evidence','auditor.py',"if entry.get('status_evidence') is not None:","if False:"),
+ ('skip-status-evidence','auditor.py',"if 'status_evidence' in entry:","if False:"),
  ('conflate-status-json-booleans-and-integers','auditor.py',"json.dumps(evidence,sort_keys=True,separators=(',',':'))!=json.dumps(comparable,sort_keys=True,separators=(',',':'))","evidence!=comparable"),
  ('allow-arbitrary-foundation-set','auditor.py',"if not isinstance(approved,list) or any(not isinstance(a,str) for a in approved) or len(approved)!=3 or set(approved)!=APPROVED_AXIOMS:","if False:"),
  ('empty-final-findings','auditor.py',"'retained_count':len(retained_findings),'findings':findings,","'retained_count':len(retained_findings),'findings':[],"),
@@ -186,6 +195,205 @@ def ordinary_sync_method(method):
         current=getattr(current,'__wrapped__',unwrapped)
 
 
+
+class IdentityMismatch(RuntimeError):
+    """A selected declaration no longer denotes its frozen body."""
+
+
+def function_chain(method):
+    """Bind actual ordinary function and code objects, including wraps links."""
+    chain=[];seen=set()
+    while True:
+        function=method.__func__ if inspect.ismethod(method) else method
+        if not inspect.isfunction(function) or id(function) in seen:
+            return None
+        seen.add(id(function));chain.append((function,function.__code__))
+        if not hasattr(function,'__wrapped__'):
+            return tuple(chain)
+        method=function.__wrapped__
+
+
+def same_function_chain(left,right):
+    return (left is not None and right is not None and len(left)==len(right)
+            and all(a is c and b is d for (a,b),(c,d) in zip(left,right)))
+
+
+def capture_identity(test):
+    if not isinstance(test,unittest.TestCase):
+        return None
+    cls=type(test);name=getattr(test,'_testMethodName',None)
+    if type(name) is not str:
+        return None
+    instance=function_chain(getattr(test,name,None))
+    declared=function_chain(getattr(cls,name,None))
+    if instance is None or declared is None:
+        return None
+    return {'class':cls,'name':name,
+            'id':cls.__module__+'.'+cls.__qualname__+'.'+name,
+            'instance':instance,'declared':declared,'wrapper':None}
+
+
+def identity_matches(test,binding):
+    if (binding is None or type(test) is not binding['class']
+            or getattr(test,'_testMethodName',None)!=binding['name']
+            or type(test).__module__+'.'+type(test).__qualname__+'.'+binding['name']!=binding['id']):
+        return False
+    if not same_function_chain(function_chain(getattr(type(test),binding['name'],None)),binding['declared']):
+        return False
+    live=getattr(test,binding['name'],None)
+    if binding['wrapper'] is not None and live is not binding['wrapper']:
+        return False
+    original=(binding['instance'][0][0] if binding['wrapper'] is not None else live)
+    return same_function_chain(function_chain(original),binding['instance'])
+
+
+def suite_leaves(suite):
+    for child in suite:
+        if type(child) is unittest.TestSuite:
+            yield from suite_leaves(child)
+        else:
+            yield child
+
+
+class IdentityLoader(unittest.TestLoader):
+    """Standard declarations only; never invoke module population factories."""
+    def __init__(self):
+        super().__init__();self.bindings={};self.invalid=[]
+
+    def remember(self,suite):
+        for test in suite_leaves(suite):
+            binding=capture_identity(test)
+            if binding is None:
+                self.invalid.append('unsupported selected declaration')
+            else:
+                self.bindings[id(test)]=binding
+        return suite
+
+    def ordinary_test_class(self,testCaseClass):
+        # Construction and attribute dispatch must not rewrite the population.
+        if type(testCaseClass) is not type:
+            return False
+        for name in ('__init__','__new__','__getattribute__','__setattr__','__delattr__'):
+            if inspect.getattr_static(testCaseClass,name,None) is not inspect.getattr_static(unittest.TestCase,name,None):
+                return False
+        for base in testCaseClass.__mro__:
+            if '__getattr__' in base.__dict__:
+                return False
+            for name,value in base.__dict__.items():
+                if name.startswith(self.testMethodPrefix) or name=='runTest':
+                    function=value.__func__ if type(value) in (staticmethod,classmethod) else value
+                    if not inspect.isfunction(function):
+                        return False
+        return True
+
+    def frozen_cases(self,testCaseClass,names):
+        if not self.ordinary_test_class(testCaseClass):
+            self.invalid.append('unsupported TestCase constructor/metaclass/attribute dispatch')
+            return unittest.TestSuite()
+        # Capture declaration identities before even standard construction.
+        declared={name:function_chain(getattr(testCaseClass,name,None)) for name in names}
+        suite=unittest.TestSuite(testCaseClass(name) for name in names)
+        self.remember(suite)
+        for test in suite_leaves(suite):
+            binding=self.bindings.get(id(test))
+            original=declared.get(getattr(test,'_testMethodName',None))
+            if binding is None or not same_function_chain(binding['declared'],original):
+                self.invalid.append('selected declaration changed during construction')
+            elif not same_function_chain(binding['instance'],original):
+                self.invalid.append('selected instance body changed during construction')
+            else:
+                binding['declared']=original
+        return suite
+
+    def loadTestsFromTestCase(self,testCaseClass):
+        if not self.ordinary_test_class(testCaseClass):
+            self.invalid.append('unsupported TestCase constructor/metaclass/attribute dispatch')
+            return unittest.TestSuite()
+        names=self.getTestCaseNames(testCaseClass)
+        if not names and hasattr(testCaseClass,'runTest'):
+            names=['runTest']
+        return self.frozen_cases(testCaseClass,names)
+
+    def loadTestsFromModule(self,module,*,pattern=None):
+        # Derive the complete standard population before looking at load_tests.
+        if type(module) is not type(sys):
+            self.invalid.append('unsupported module attribute dispatch')
+            return unittest.TestSuite()
+        suites=[]
+        for name in sorted(module.__dict__):
+            value=module.__dict__[name]
+            if (isinstance(value,type) and issubclass(value,unittest.TestCase)
+                    and value not in (unittest.TestCase,unittest.FunctionTestCase)):
+                suites.append(self.loadTestsFromTestCase(value))
+        suite=unittest.TestSuite(suites)
+        if module.__dict__.get('load_tests') is not None:
+            self.invalid.append('unsupported module load_tests hook: '+module.__name__)
+        return suite
+
+    def loadTestsFromName(self,name,module=None):
+        # The standard loader also accepts arbitrary callable suite factories.
+        # This profile supports modules, TestCase classes and exact methods only.
+        try:
+            parts=name.split('.')
+            if module is None:
+                for end in range(len(parts),0,-1):
+                    try:
+                        current=importlib.import_module('.'.join(parts[:end]));parts=parts[end:]
+                        break
+                    except ModuleNotFoundError as exc:
+                        prefix='.'.join(parts[:end])
+                        if exc.name!=prefix and not prefix.startswith(str(exc.name)+'.'):
+                            raise
+                else:
+                    raise ValueError('selector module not found')
+            else:
+                current=module
+            parent=None
+            for part in parts:
+                parent=current
+                if inspect.ismodule(current):
+                    if type(current) is not type(sys):
+                        raise ValueError('unsupported module attribute dispatch')
+                    current=current.__dict__[part]
+                elif isinstance(current,type):
+                    if type(current) is not type:
+                        raise ValueError('unsupported selector metaclass')
+                    if issubclass(current,unittest.TestCase) and not self.ordinary_test_class(current):
+                        raise ValueError('unsupported TestCase declaration traversal')
+                    declared=inspect.getattr_static(current,part)
+                    if not (inspect.isfunction(declared) or type(declared) in (type,staticmethod,classmethod)):
+                        raise ValueError('unsupported selector descriptor')
+                    current=getattr(current,part)
+                else:
+                    raise ValueError('unsupported selector object traversal')
+            if inspect.ismodule(current):
+                return self.loadTestsFromModule(current)
+            if isinstance(current,type) and issubclass(current,unittest.TestCase):
+                return self.loadTestsFromTestCase(current)
+            if (isinstance(parent,type) and issubclass(parent,unittest.TestCase)
+                    and (inspect.isfunction(current) or inspect.ismethod(current))):
+                return self.frozen_cases(parent,[parts[-1]])
+            raise ValueError('unsupported callable or selector kind')
+        except (ImportError,AttributeError,KeyError,TypeError,ValueError) as exc:
+            self.invalid.append('unsupported test selector: '+name+' ('+type(exc).__name__+')')
+            return unittest.TestSuite()
+
+
+def bound_population(suite,bindings=None,invalid=()):
+    cases=list(suite_leaves(suite));problems=list(invalid)
+    if bindings is None:
+        bindings={id(test):capture_identity(test) for test in cases}
+    for test in cases:
+        if not identity_matches(test,bindings.get(id(test))):
+            problems.append('selected class/function/code identity changed before execution')
+    return cases,bindings,problems
+
+
+def require_identities(cases,bindings,invalid):
+    if any(not identity_matches(test,bindings.get(id(test))) for test in cases):
+        invalid.append('selected class/function/code identity changed during execution')
+        raise IdentityMismatch('selected body identity changed')
+
 def inspect_test_population(suite):
     """Discover canonical method identities without calling fixtures or bodies."""
     def leaves(node):
@@ -211,7 +419,7 @@ def inspect_test_population(suite):
     return population,selected,invalid
 
 
-def execute_test_suite(suite):
+def execute_test_suite(suite, bindings=None, invalid=()):
     """Run an exact population and attribute assertions to actual body entry.
 
     An assertion may leave a body exceptionally; body_finished means the call
@@ -226,7 +434,9 @@ def execute_test_suite(suite):
              'body_entered_ids':[],'body_finished_ids':[],'body_assertion_ids':[],'assertion_events':[],
              'invalid_population':[],'lifecycle_failures':0,'subtests':0,'subtest_events':[],
              'failure_events':[]}
-    population,selected,invalid=inspect_test_population(suite)
+    population,bindings,identity_errors=bound_population(suite,bindings,invalid)
+    _,selected,invalid=inspect_test_population(suite)
+    invalid.extend(identity_errors)
     receipt['selected_ids']=selected
     receipt['invalid_population']=invalid
     if invalid:
@@ -251,6 +461,7 @@ def execute_test_suite(suite):
         original=getattr(test,method)
         @functools.wraps(original)
         def body(*args,_test=test,_original=original,_id=canonical,**kwargs):
+            require_identities(population,bindings,receipt['invalid_population'])
             if not (_test._cbz_dispatch_depth>0 and _test._cbz_lifecycle_depth==0):
                 receipt['invalid_population'].append('selected method invoked outside body dispatch: '+_id)
                 return _original(*args,**kwargs)
@@ -274,7 +485,9 @@ def execute_test_suite(suite):
             finally:
                 _test._cbz_body_active=False
                 receipt['body_finished_ids'].append(_id)
+                require_identities(population,bindings,receipt['invalid_population'])
         setattr(test,method,body)
+        bindings[id(test)]['wrapper']=body
         original_dispatch=test._callTestMethod
         def dispatch(*args,_test=test,_original=original_dispatch,**kwargs):
             _test._cbz_dispatch_depth+=1
@@ -296,6 +509,7 @@ def execute_test_suite(suite):
 
     class PhaseResult(unittest.TextTestResult):
         def startTest(self,test):
+            require_identities(population,bindings,receipt['invalid_population'])
             receipt['started_ids'].append(test.id())
             super().startTest(test)
         def stopTest(self,test):
@@ -331,7 +545,13 @@ def execute_test_suite(suite):
             super().addSubTest(test,subtest,err)
 
     stream=io.StringIO()
-    result=unittest.TextTestRunner(stream=stream,verbosity=2,resultclass=PhaseResult).run(suite)
+    result=PhaseResult(stream=unittest.runner._WritelnDecorator(stream),descriptions=True,verbosity=2)
+    try:
+        suite.run(result)
+    except IdentityMismatch:
+        result.stop()
+    result.printErrors()
+    stream.write('Ran '+str(result.testsRun)+' tests\n')
     receipt.update(tests_run=result.testsRun,assertion_failures=len(result.failures),
                    errors=len(result.errors),skipped=len(result.skipped),
                    expected_failures=len(result.expectedFailures),
@@ -350,15 +570,17 @@ def internal_test_runner(argv):
     args=parser.parse_args(argv)
     sys.path.insert(0,str(args.test_root.parent))
     sys.path.insert(0,str(args.test_root))
-    loader=unittest.TestLoader()
+    loader=IdentityLoader()
     suite=(loader.loadTestsFromNames(args.test) if args.test else
            loader.discover(str(args.test_root),pattern=args.test_pattern))
     if args.list:
         _,selected,invalid=inspect_test_population(suite)
+        _,_,identity_errors=bound_population(suite,loader.bindings,loader.invalid)
+        invalid.extend(identity_errors)
         value={'receipt_schema':'cbz-unittest-population-v1','selected_ids':selected,'invalid_population':invalid}
         args.output.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
         return 0 if selected and not invalid else 1
-    value=execute_test_suite(suite)
+    value=execute_test_suite(suite,loader.bindings,loader.invalid)
     args.output.write_text(json.dumps(value,indent=2)+'\n',encoding='utf-8')
     print(value['log'],end='')
     return 0 if value['successful'] else 1

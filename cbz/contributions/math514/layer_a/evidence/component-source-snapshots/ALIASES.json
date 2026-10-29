@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "logical_tool_prefix": "cbz/contributions/math514/layer_a/",
+  "purpose": "Resolve raw component source references without substituting the byte-different composed runtime.",
+  "resolution_rule": "Match raw source path plus the source SHA256 declared by its receipt/review; generation is an optional further selector. Never resolve an ambiguous raw path by path alone. Match the relative target bytes to the expected SHA256 within the exact publication Git tree; mismatch is an error. This exact-source map takes precedence over broader historical prefix/path-only aliases.",
+  "raw_relative_rule": "Review entries named work/X resolve beneath /workspace/cbz-0/delivery/auditor-review-closure/ before exact path+SHA matching.",
+  "snapshots_are_active_imports": false,
+  "snapshot_role": "retained source audit fixtures, never execution entrypoints or replacements for current runtime",
+  "aliases": [
+    {
+      "component_generation": "review-boundary-pre-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/auditor.py",
+      "relative_publication_path": "evidence/review-boundary-fix/pre-notebook-source/auditor.py",
+      "sha256": "bf003b11cdccf7a7c5b22a1fe63ace7544af47aa2b0d42cce2a5936ddfcabafd",
+      "bytes": 27000,
+      "binding_role": "existing immutable retained source snapshot"
+    },
+    {
+      "component_generation": "review-boundary-pre-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/source_checks.py",
+      "relative_publication_path": "evidence/review-boundary-fix/pre-notebook-source/source_checks.py",
+      "sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "bytes": 18681,
+      "binding_role": "existing immutable retained source snapshot"
+    },
+    {
+      "component_generation": "review-boundary-pre-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py",
+      "relative_publication_path": "evidence/review-boundary-fix/pre-notebook-source/mutation_test.py",
+      "sha256": "5ded9168b19ec759d16b2597dab5f0e3efc1a6598b22664de94787f7e1a62940",
+      "bytes": 32441,
+      "binding_role": "existing immutable retained source snapshot"
+    },
+    {
+      "component_generation": "review-boundary-pre-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py",
+      "relative_publication_path": "evidence/review-boundary-fix/pre-notebook-source/tests/test_auditor.py",
+      "sha256": "045de33d67dfc9ccabf8a16079b5a9c8a6af0fa2e85f988db596e318cadc749e",
+      "bytes": 50501,
+      "binding_role": "existing immutable retained source snapshot"
+    },
+    {
+      "component_generation": "review-boundary-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/auditor.py",
+      "relative_publication_path": "auditor.py",
+      "sha256": "309935e125195ae8093ffeb691f9d4c16f6c69e3dbb74b453ed6d50e05be1619",
+      "bytes": 27143,
+      "binding_role": "existing exact source; immutable enclosing Git tree plus explicit expected SHA256"
+    },
+    {
+      "component_generation": "review-boundary-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/source_checks.py",
+      "relative_publication_path": "evidence/review-boundary-fix/pre-notebook-source/source_checks.py",
+      "sha256": "6d68a5cb61e41823e0919f13418935f0baef25f41a0d36fb0ec06457e45f4ae0",
+      "bytes": 18681,
+      "binding_role": "existing exact source; immutable enclosing Git tree plus explicit expected SHA256"
+    },
+    {
+      "component_generation": "review-boundary-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/mutation_test.py",
+      "relative_publication_path": "evidence/component-source-snapshots/review-boundary-notebook/mutation_test.py",
+      "sha256": "fe3a1caa252eca0a678295c717eae8c9b7df8d36a4f1b0c8df740d8c33801af8",
+      "bytes": 32571,
+      "binding_role": "new retained source snapshot"
+    },
+    {
+      "component_generation": "review-boundary-notebook",
+      "raw_source_path": "/workspace/cbz-0/delivery/auditor-review-closure/work/tests/test_auditor.py",
+      "relative_publication_path": "tests/test_auditor.py",
+      "sha256": "73e0b36fe95774af04b433f2de748911625a4ed10cf9f5f46c86249f19707ddc",
+      "bytes": 51228,
+      "binding_role": "existing exact source; immutable enclosing Git tree plus explicit expected SHA256"
+    },
+    {
+      "component_generation": "identity-exact-descriptor",
+      "raw_source_path": "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/proposed/mutation_test.py",
+      "relative_publication_path": "evidence/grader-identity-fix/historical-source/exact-descriptor/mutation_test.py",
+      "sha256": "cf742de46c1e386deeb11b122ed5bccdcab0778666b0b2774fab78e57eed1ad2",
+      "bytes": 41569,
+      "binding_role": "existing immutable retained identity source snapshot; supersedes raw alias to byte-different current runtime"
+    },
+    {
+      "component_generation": "identity-exact-descriptor",
+      "raw_source_path": "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/proposed/tests/test_mutation_runner.py",
+      "relative_publication_path": "tests/test_mutation_runner.py",
+      "sha256": "9ecf6dbdc0cf30ecf1b9c4f72d6cda21bc8bfe4eac3a5383ebe4e8b1e93a2866",
+      "bytes": 32402,
+      "binding_role": "existing exact source; immutable enclosing Git tree plus explicit expected SHA256"
+    }
+  ],
+  "current_composed_mutation_test_sha256": "9146cd183a8fcdc93623de20596966b118f3a9e5403d94f74f6be0fe46e4e731",
+  "distinct_component_mutation_sources": [
+    "5ded9168b19ec759d16b2597dab5f0e3efc1a6598b22664de94787f7e1a62940",
+    "fe3a1caa252eca0a678295c717eae8c9b7df8d36a4f1b0c8df740d8c33801af8",
+    "cf742de46c1e386deeb11b122ed5bccdcab0778666b0b2774fab78e57eed1ad2"
+  ],
+  "no_tests_or_certification_replayed": true
+}

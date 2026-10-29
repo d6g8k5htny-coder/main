@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmp2o2g_8nt/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmp2o2g_8nt/tests",
+    "--output",
+    "/tmp/tmp2o2g_8nt/receipt.json",
+    "--test",
+    "test_auditor.C.test_second"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "bc249afcee9546996e594d268db8d9c5e924dd9a2255ab4a139d17afe3ea9a14",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmp2o2g_8nt/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Alias(classmethod):\n def __get__(self,instance,owner):\n  record(\"descriptor-subclass\")\n  owner.test_second=owner.test_first\n  return owner.test_first.__get__(instance,owner)\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n test_second=Alias(test_second)\n",
+  "label": "construction-descriptor-classmethod-1-method",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported test selector: test_auditor.C.test_second (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}
