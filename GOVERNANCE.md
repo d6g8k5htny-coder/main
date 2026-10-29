@@ -107,3 +107,67 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+
+## Registered source inventory instrument
+
+
+### cbz_source_audit
+
+Path: tools/cbz_source_audit.py. Purpose: reconcile a hash-pinned local .lean
+inventory and flag bounded lexical hazards without silently dropping sources.
+It is an inventory/review tool, not a full Layer A certifier. Every report
+leaves G1 and CBZ-0 NOT_ESTABLISHED.
+
+Run: python -B -S tools/cbz_source_audit.py --manifest cbz-source-manifest.json
+
+Manifest paths and SHA-256 values pin every Lean source in the selected local
+root. Symlinks, unreadable/missing files, malformed UTF-8, unlisted Lean sources,
+hash mismatches and resource-limit failures are explicit refusals. Nested Lean
+comments and literal strings are masked; unsupported syntax is reviewed.
+Optional output creates a new regular file outside the audited root and
+refuses overwriting earlier evidence or inputs. An unknown audited root
+preserves the JSON refusal and creates no output. Ambiguous POSIX `//` path
+anchors are refused before filesystem traversal or containment checks.
+
+Review triggers include direct `sorryAx`, compiler-trust primitives
+`ofReduceBool`, `ofReduceNat`, `trustCompiler`, `skipKernelTC` and
+`addDeclWithoutChecking`, plus `+native` and record-field `native :=` forms,
+including record updates after `with`, across whitespace and comments.
+An assignment to `native` as the first code on a line inside lexical braces
+also requests review, covering comma-free record-field layout. This conservative
+trigger preserves literal/comment masking and does not claim to parse records.
+Compound-form evidence points to the actual
+`native` identifier bytes and records the matched `review_form`. Ordinary
+identifiers and literal data do not become compiler options by spelling alone.
+
+Verification: 43 scanner regression tests; tests/test_cbz_mutation_harness.py has 16
+real-process controls. tests/run_scanner_mutations.py applies 51 source mutants
+to the scanner. Its declared threshold is 51/51 killed with a passing unchanged
+suite, valid CLI smoke, healthy JSON execution throughout the suite, full case
+count, assertion failures and no harness/test errors or skips. Input-dependent
+crashes, invalid JSON and timeouts are not successful rejection evidence even
+after a healthy benign smoke. Earlier 37/39, 39/39, 47/47 and 50/50 cuts remain preserved.
+The exploratory 49/50 repair cut is retained as unqualified evidence; its
+missing-artifact test error did not count as a kill. The strengthened assertions
+and final source seal are registered in cbz/evidence/source-instrument-selection.json.
+
+Limits: no grammar/elaboration/kernel proof, complete dependency audit,
+semantic bound/nonvacuity proof, historical deletion comparison, concurrent
+snapshot atomicity or status-truth certification. These require their actual
+independent evidence. A clear lexical scan cannot make G1 green.
+
+### formal_gate_check
+
+Existing tool: tools/formal_gate_check.py.
+Source-only mode checks the SIDE24 arithmetic manifest and exact source bytes.
+With --run-lean it requires pinned Lean, fresh build, leanchecker, target axiom
+audit and actual negative controls. Its scope is the registered 31 arithmetic
+targets, not an analytic coefficient theorem or all federation mathematics.
+
+## Ownership and maintenance
+
+Tools are standard-library Python except documented Lean execution.
+Maintenance is self-contained; any subsequent edit repeats the relevant
+tests and updates this registry. No future reserved reviewer, human approval
+queue or background monitor is installed here.

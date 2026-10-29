@@ -1,0 +1,69 @@
+name: CBZ source instrument self-tests
+'on':
+  push:
+    branches: [main]
+    paths:
+      - '**/*.lean'
+      - 'cbz-source-manifest.json'
+      - 'tools/cbz_source_audit.py'
+      - 'tests/test_cbz_source_audit.py'
+      - 'tests/test_cbz_mutation_harness.py'
+      - 'tests/run_scanner_mutations.py'
+      - '.github/workflows/cbz-source-auditor.yml'
+  pull_request:
+    paths:
+      - '**/*.lean'
+      - 'cbz-source-manifest.json'
+      - 'tools/cbz_source_audit.py'
+      - 'tests/test_cbz_source_audit.py'
+      - 'tests/test_cbz_mutation_harness.py'
+      - 'tests/run_scanner_mutations.py'
+      - '.github/workflows/cbz-source-auditor.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-instrument:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Preserve current source identity
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/cbz-evidence"
+          git rev-parse HEAD > "$RUNNER_TEMP/cbz-evidence/commit.txt"
+          python --version > "$RUNNER_TEMP/cbz-evidence/python.txt"
+      - name: Instrument and harness regression controls
+        run: |
+          set -euo pipefail
+          python -B -S -m unittest discover -s tests -p test_cbz_source_audit.py -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-normal.log"
+          python -B -S -m unittest discover -s tests -p test_cbz_mutation_harness.py -v 2>&1 | tee -a "$RUNNER_TEMP/cbz-evidence/tests-normal.log"
+          python -B -O -S -m unittest discover -s tests -p test_cbz_source_audit.py -v 2>&1 | tee "$RUNNER_TEMP/cbz-evidence/tests-optimized.log"
+          python -B -O -S -m unittest discover -s tests -p test_cbz_mutation_harness.py -v 2>&1 | tee -a "$RUNNER_TEMP/cbz-evidence/tests-optimized.log"
+      - name: Actual scanner mutation controls
+        run: |
+          set -euo pipefail
+          python -B -S tests/run_scanner_mutations.py --evidence-dir "$RUNNER_TEMP/cbz-evidence/mutation-cut"
+      - name: Preserve lexical findings without manufacturing Layer A success
+        run: |
+          set -euo pipefail
+          set +e
+          python -B -S tools/cbz_source_audit.py --manifest cbz-source-manifest.json > "$RUNNER_TEMP/cbz-evidence/source-review.json"
+          status=$?
+          set -e
+          test "$status" -eq 1 || test "$status" -eq 2
+          python -B -S -c 'import json,os; p=os.path.join(os.environ["RUNNER_TEMP"],"cbz-evidence","source-review.json"); r=json.load(open(p)); valid=r["gate_claims"]=={"G1":"NOT_ESTABLISHED","CBZ-0":"NOT_ESTABLISHED"} and r["input_integrity"]["status"]=="CHECKED" and not r["errors"]; print("Instrument output retained; G1 and CBZ-0 remain NOT_ESTABLISHED"); raise SystemExit(0 if valid else 1)'
+      - name: Preserve actual instrument evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-source-instrument-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/cbz-evidence/
+          if-no-files-found: error
+          retention-days: 30
