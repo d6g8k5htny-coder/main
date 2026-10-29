@@ -156,16 +156,15 @@ class NodeRunnerTests(unittest.TestCase):
                 os.environ["GIT_DIR"] = before
 
     def test_poisoned_runner_bytecode_cannot_execute_in_test_loader(self):
-        self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
         tools = self.repo / "tools"
         tools.mkdir()
         runner_path = tools / "cbz_node_regression.py"
         runner_path.write_bytes(SOURCE.read_bytes())
         (tools / "museum_data.py").write_bytes((ROOT / "tools/museum_data.py").read_bytes())
         stat = runner_path.stat()
-        suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
-        cache = tools / "__pycache__" / ("cbz_node_regression." + sys.implementation.cache_tag + suffix + ".pyc")
-        cache.parent.mkdir()
+        cache = Path(importlib.util.cache_from_source(
+            str(runner_path), optimization=str(sys.flags.optimize) if sys.flags.optimize else ""))
+        cache.parent.mkdir(parents=True, exist_ok=True)
         forged = compile("POISON_RUNNER = True\n", str(runner_path), "exec")
         cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
             forged, int(stat.st_mtime), stat.st_size))
@@ -830,14 +829,13 @@ class MutationHarnessTests(unittest.TestCase):
                     self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_source_loader_ignores_poisoned_bytecode(self):
-        self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
         with tempfile.TemporaryDirectory(prefix="cbz-loader-control-") as directory:
             path = Path(directory) / "probe.py"
             path.write_text("GOOD_SOURCE = True\n")
             stat = path.stat()
-            suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
-            cache = path.parent / "__pycache__" / ("probe." + sys.implementation.cache_tag + suffix + ".pyc")
-            cache.parent.mkdir()
+            cache = Path(importlib.util.cache_from_source(
+                str(path), optimization=str(sys.flags.optimize) if sys.flags.optimize else ""))
+            cache.parent.mkdir(parents=True, exist_ok=True)
             forged = compile("POISON_RUNNER = True\n", str(path), "exec")
             cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
                 forged, int(stat.st_mtime), stat.st_size))
