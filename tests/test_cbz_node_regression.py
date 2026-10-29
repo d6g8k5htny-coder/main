@@ -1,6 +1,7 @@
 """Real Git/subprocess contracts for the bounded prepared Node runner."""
 import hashlib
 import importlib.util
+import importlib._bootstrap_external
 import io
 import inspect
 import secrets
@@ -150,6 +151,36 @@ class NodeRunnerTests(unittest.TestCase):
                 os.environ.pop("GIT_DIR", None)
             else:
                 os.environ["GIT_DIR"] = before
+
+    def test_poisoned_museum_bytecode_cannot_pass_source_binding(self):
+        tools = self.repo / "tools"
+        tools.mkdir()
+        runner_path = tools / "cbz_node_regression.py"
+        museum_path = tools / "museum_data.py"
+        runner_path.write_bytes(SOURCE.read_bytes())
+        museum_path.write_bytes((ROOT / "tools/museum_data.py").read_bytes())
+        stat = museum_path.stat()
+        suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+        cache = tools / "__pycache__" / ("museum_data." + sys.implementation.cache_tag + suffix + ".pyc")
+        cache.parent.mkdir()
+        forged = compile("POISON_EXECUTED = True\n", str(museum_path), "exec")
+        cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+            forged, int(stat.st_mtime), stat.st_size))
+        script = (
+            "import sys\nfrom pathlib import Path\n"
+            "sys.path.insert(0, sys.argv[1])\n"
+            "import cbz_node_regression as recorder\n"
+            "recorder.assert_loaded_sources(Path(sys.argv[1]).parent)\n"
+            "print('CBZ_POISONED' if getattr(recorder.museum_data, 'POISON_EXECUTED', False) else 'CBZ_SOURCE_ONLY')\n")
+        environment = {key: value for key, value in os.environ.items()
+                       if key not in ("PYTHONPATH", "PYTHONHOME", "PYTHONPYCACHEPREFIX")}
+        result = subprocess.run(
+            [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
+             "-c", script, str(tools)], env=environment, capture_output=True, text=True, timeout=30)
+        if result.returncode == 0 and "CBZ_POISONED" in result.stdout:
+            self.mark_bypass("museum-bytecode")
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("CBZ_SOURCE_ONLY", result.stdout)
 
     def test_loaded_sources_must_belong_to_selected_main(self):
         self.assertTrue(hasattr(self.module, "assert_loaded_sources"),
