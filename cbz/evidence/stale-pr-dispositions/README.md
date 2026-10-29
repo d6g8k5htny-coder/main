@@ -7,6 +7,7 @@ covers the 27 open `main` PRs that had no activity between 26 and 29 October 202
 | File | What it is |
 |---|---|
 | `CURATED.md` | The recommended disposition for each PR, with a manual rationale. Start here. |
+| `QUARANTINE_DRAFTS.md` | Draft proof-index quarantine entries for #336, #340 and #429, in the governance fields. |
 | `DISPOSITIONS.md` | The mechanical first pass: rules only. |
 | `dispositions.json` | Per-PR evidence: head, base, stack parent, ancestry, per-path content comparison with `main`, trial merge result, Layer A signals, review identities and the verdict class, and check runs at the head. |
 | `pr_evidence.py` | The generator. Python standard library only. |
