@@ -159,3 +159,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 21:55:40 UTC] [phase3] [layerC] Bind the pending zero-law source trial to its actual queued hosted run. No compilation, axiom or kernel pass is inferred. Reversible:yes. Evidence: STATUS.md and Math run40960912254.
 
 [2026-10-29 21:56:11 UTC] [phase3] [layerC] Compare the11 directly referenced source paths for94 historical core/arithmetic records between their checked trees and observed current default trees. Record exact Git-blob/mode identity only; other package inputs, current execution and final gates remain unqualified. Reversible:yes. Evidence: cbz/evidence/core-current-source-tree-observation.json.
+
+[2026-10-29 21:57:51 UTC] [phase2] [layerA] Accept the source-identity finding that the two evidence-only deliveries name four missing replay-tool files apiece in their existing checksum and reproduction surfaces. Prepare exact-source inclusion and actual checksum/self-test execution; preserve all original manifests and do not merge the incomplete candidate. Reversible:yes. Evidence: main #705 review and STATUS.md.
