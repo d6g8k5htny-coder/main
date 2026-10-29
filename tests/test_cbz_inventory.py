@@ -461,6 +461,109 @@ class InventoryContract(unittest.TestCase):
         data = self.rf312_fixture(repository='alpha')
         with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
 
+    def rewrite_rf312_manifest(self, data, *, base_files=None, overlay_files=None,
+                               add_files=None, delete_files=None):
+        repo = self.root / 'Math-'
+        base = json.loads((repo / 'formal/manifest.json').read_text())
+        overlay = json.loads((repo / 'formal/manifest.overlay.json').read_text())
+        if base_files is not None: base['files'] = base_files
+        if overlay_files is not None: overlay['files'] = overlay_files
+        for path, content in (add_files or {}).items():
+            target = repo / 'formal' / path; target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+        for path in delete_files or []:
+            (repo / 'formal' / path).unlink()
+        base_raw = (json.dumps(base) + '\n').encode()
+        overlay_raw = (json.dumps(overlay) + '\n').encode()
+        (repo / 'formal/manifest.json').write_bytes(base_raw)
+        (repo / 'formal/manifest.overlay.json').write_bytes(overlay_raw)
+        self.commit(repo)
+        checked = git(repo, 'rev-parse', 'HEAD').decode().strip()
+        receipt = json.loads((repo / 'receipt.json').read_text())
+        receipt['checked_commit'] = checked
+        receipt['manifest_sha256'] = hashlib.sha256(base_raw + b'\0RF312-OVERLAY\0' + overlay_raw).hexdigest()
+        (repo / 'receipt.json').write_text(json.dumps(receipt)); self.commit(repo)
+        after = self.capture(); source = self.binding(after, 'formal/A.lean', 'Math-')
+        entry = data['obligations'][0]
+        entry['source_bindings'] = [source]
+        evidence = entry['kernel_evidence']
+        evidence.update(receipt=self.binding(after, 'receipt.json', 'Math-'),
+            manifest=self.binding(after, 'formal/manifest.json', 'Math-'),
+            manifest_overlay=self.binding(after, 'formal/manifest.overlay.json', 'Math-'),
+            checked_commit=checked, source_bindings=[source])
+        after['obligations'] = [entry]
+        return after
+
+    def test_rf312_valid_hex_wrong_overlay_digest_is_rejected(self):
+        data = self.rf312_fixture(overlay={'schema_version': 1, 'files': {'A.lean': '0' * 64}})
+        with self.assertRaisesRegex(ValueError, 'RF312 effective source hash mismatch'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_valid_hex_wrong_base_digest_is_rejected(self):
+        data = self.rf312_fixture()
+        data = self.rewrite_rf312_manifest(data, base_files={'A.lean': '0' * 64}, overlay_files={})
+        with self.assertRaisesRegex(ValueError, 'RF312 effective source hash mismatch'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_correct_overlay_replaces_a_stale_base_digest(self):
+        data = self.rf312_fixture()
+        data = self.rewrite_rf312_manifest(data, base_files={'A.lean': '0' * 64})
+        self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_declared_missing_file_is_rejected(self):
+        data = self.rf312_fixture(overlay={'schema_version': 1, 'files': {'Absent.txt': '0' * 64}})
+        with self.assertRaisesRegex(ValueError, 'RF312 effective file set differs from checked source tree'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_omitted_tracked_file_is_rejected(self):
+        data = self.rf312_fixture()
+        data = self.rewrite_rf312_manifest(data, add_files={'unbound.txt': b'unbound source\n'})
+        with self.assertRaisesRegex(ValueError, 'RF312 effective file set differs from checked source tree'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_source_module_cannot_be_omitted_from_effective_map(self):
+        data = self.rf312_fixture()
+        data = self.rewrite_rf312_manifest(data, base_files={}, overlay_files={})
+        with self.assertRaisesRegex(ValueError, 'RF312 source modules require effective file bindings'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_rf312_source_paths_reject_traversal_and_manifest_self_binding(self):
+        for path in ('../escape', 'A.lean/../A.lean', 'manifest.json'):
+            try:
+                with self.subTest(path=path):
+                    data = self.rf312_fixture(overlay={'schema_version': 1, 'files': {path: '0' * 64}})
+                    with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+            finally:
+                shutil.rmtree(self.root / 'Math-')
+                shutil.copytree(self.root / 'beta', self.root / 'alpha')
+                self.names = ['alpha', 'beta']
+
+    @unittest.skipIf(os.environ.get('CBZ_INVENTORY_MUTANT') == '1', 'outer mutation controller only')
+    def test_rf312_source_map_mutations_are_killed(self):
+        source = TOOL.read_text()
+        mutants = {
+            'skip_rf312_source_hash': (
+                "            _binding({'repository': 'Math-', 'commit': checked,",
+                "            if False: _binding({'repository': 'Math-', 'commit': checked,",
+                'test_rf312_valid_hex_wrong_overlay_digest_is_rejected'),
+            'skip_rf312_effective_file_set': (
+                'require(set(effective) == set(files),', 'require(True,',
+                'test_rf312_omitted_tracked_file_is_rejected')}
+        for name, (before, after, expected) in mutants.items():
+            with self.subTest(mutation=name):
+                self.assertEqual(source.count(before), 1, 'RF312 mutation anchor must be unique')
+                mutant = Path(self.temp.name) / (name + '.py')
+                mutant.write_text(source.replace(before, after))
+                env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(mutant),
+                           CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
+                optimize = ['-O'] if sys.flags.optimize else []
+                result = subprocess.run([sys.executable, '-B', *optimize, '-S',
+                    str(Path(__file__).resolve()), '-v', 'InventoryContract.' + expected],
+                    env=env, text=True, capture_output=True, timeout=180)
+                self.assertNotEqual(result.returncode, 0, 'RF312 source mutation escaped')
+                self.assertIn('FAIL: ' + expected, result.stderr)
+                self.assertNotIn('ERROR:', result.stderr)
+
     def test_raw_main_format_cannot_accept_manifest_overlay_field(self):
         data = self.closed_fixture()
         evidence = data['obligations'][0]['kernel_evidence']

@@ -379,6 +379,48 @@ def _bound_json(root, binding, repos, cache):
     return strict_json(row['_raw'].decode('utf-8'))
 
 
+def _rf312_sources(manifest, overlay, checked, repos, root, cache):
+    """Bind the RF312 effective file map: overlay replacements win, no file is omitted."""
+    base_files = manifest['files']
+    require(all(type(path) is str and type(digest) is str and HEX64.fullmatch(digest)
+                for path, digest in base_files.items()), 'invalid RF312 base file binding')
+    effective = dict(base_files)
+    effective.update(overlay['files'])
+    for path in effective:
+        _path(path)
+        require('\\' not in path, 'unsafe RF312 manifest path')
+    modules = manifest['source_modules']
+    require(modules and all(type(path) is str and path.endswith('.lean')
+                            and path in effective for path in modules)
+            and len(set(modules)) == len(modules),
+            'RF312 source modules require effective file bindings')
+    tree = _git(Path(root) / 'Math-', 'ls-tree', '-r', '-z', '--full-tree', checked,
+                '--', ':(literal)formal')
+    files = {}
+    for raw in tree.split(b'\0'):
+        if not raw:
+            continue
+        metadata, raw_path = raw.split(b'\t', 1)
+        mode, kind, oid = metadata.decode('ascii').split(' ')
+        path = os.fsdecode(raw_path)
+        require(path.startswith('formal/'), 'RF312 source tree escaped formal directory')
+        relative = path[len('formal/'):]
+        require(kind == 'blob' and mode in ('100644', '100755'),
+                'RF312 checked source tree must contain regular Git blobs')
+        if relative not in ('manifest.json', 'manifest.overlay.json'):
+            require(relative not in files, 'duplicate RF312 checked source path')
+            files[relative] = oid
+    require(set(effective) == set(files),
+            'RF312 effective file set differs from checked source tree')
+    for relative, digest in effective.items():
+        try:
+            _binding({'repository': 'Math-', 'commit': checked,
+                      'path': 'formal/' + relative, 'git_object': files[relative],
+                      'sha256': digest, 'scope': 'historical'}, repos, root, cache)
+        except ValueError as error:
+            raise ValueError('RF312 effective source hash mismatch: ' + relative + ': ' + str(error)) from error
+
+
 def _obligations(values, repositories, root):
     require(isinstance(values, list), 'obligations must be a list')
     repos = {repo['name']: repo for repo in repositories}
@@ -482,6 +524,8 @@ def _obligations(values, repositories, root):
                 require(binding['repository'] == kernel_repository,
                         'one kernel checked commit must bind one repository source cut')
                 _binding({**binding, 'commit': checked, 'scope': 'historical'}, repos, root, cache)
+            if rf312:
+                _rf312_sources(manifest_data, overlay_data, checked, repos, root, cache)
 
 
 def generate(root, names=DEFAULT_REPOSITORIES, obligations=None):
