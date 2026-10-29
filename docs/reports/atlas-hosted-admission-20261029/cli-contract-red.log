@@ -1,0 +1,15 @@
+F
+======================================================================
+FAIL: test_explicit_browser_and_source_failure_write_a_truthful_report (tests.test_atlas_hosted_browser_contract.HostedBrowserFailureIdentityTests.test_explicit_browser_and_source_failure_write_a_truthful_report)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-hosted-admission-20261029/tests/test_atlas_hosted_browser_contract.py", line 33, in test_explicit_browser_and_source_failure_write_a_truthful_report
+    self.assertTrue((output / 'report.json').is_file(), result.stderr)
+AssertionError: False is not true : usage: current_site_browser_check.py [-h] --output OUTPUT
+current_site_browser_check.py: error: unrecognized arguments: --browser /not-installed/atlas-browser
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.083s
+
+FAILED (failures=1)
