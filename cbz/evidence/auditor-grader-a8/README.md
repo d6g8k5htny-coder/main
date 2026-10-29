@@ -15,7 +15,7 @@ The full unmutated positive suites and each exact mutant/control must be separat
 
 ## Witness diagnostic collector
 
-The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The implementation is not yet present and the test-first execution is pending. After implementation, run its tests in both Python modes and record the actual result here and in GOVERNANCE.md before use.
+The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The bounded implementation is present but unqualified: the test-first and candidate hosted runs are queued. Run its controls in both Python modes and record actual results before relying on its output.
 
 ## Observed adverse results and source-byte repair
 
@@ -26,3 +26,15 @@ The three test loaders now compile one source-byte read directly, avoiding times
 A new test-first control constructs timestamp/size-valid poisoned bytecode for the grader child’s own test-module import. The previous source-byte loader fix does not cover that import. This new adverse control has not yet been executed; no outcome is asserted.
 
 A second test-first control plants a timestamp-valid poisoned child test cache under an inherited `PYTHONPYCACHEPREFIX`. It exercises both graders. Execution and child isolation are pending; no RED or PASS is inferred.
+
+## Raw witness collector candidate
+
+`tools/cbz/auditor_mutant_diagnostics.py` reports literal registry contents, exact source hashes and real named-control and mutant subprocess outcomes, including both raw streams. It reports no mutation kill or Layer A result. The candidate verifies unmutated controls, source hashes and clean Git state at both endpoints; those observations do not prove an atomic snapshot or protect against malicious concurrent edits. Its registry parser supports only explicit literal declarations and extensions, not arbitrary dynamic Python mutation or hostile code. The interpreter, standard library and selected source are trusted.
+
+~~~sh
+python3.11 -I -B -S tests/test_auditor_mutant_diagnostics.py -v
+python3.11 -I -B -O -S tests/test_auditor_mutant_diagnostics.py -v
+python3.11 -I -B -S tools/cbz/auditor_mutant_diagnostics.py --root ROOT --scope both --output NEW_EXTERNAL.json
+~~~
+
+The collector has meaningful adverse controls and source mutations, but no candidate test has yet been observed. Test-first and candidate runs are queued. Do not treat the collector as qualified, adopt its observed failures as their own witnesses, or claim a passing gate. Independently review every guard-specific observation before modifying a grader. Owner none.

@@ -28,12 +28,12 @@ jobs:
       - name: Normal adverse controls
         run: |
           set -o pipefail
-          python -B -S -m unittest discover -s tests -p test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-normal.log"
+          python -I -B -S tests/test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-normal.log"
       - name: Optimized adverse controls
         if: always()
         run: |
           set -o pipefail
-          python -B -O -S -m unittest discover -s tests -p test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-optimized.log"
+          python -I -B -O -S tests/test_cbz_mutation_grader_adverse.py -v 2>&1 | tee "$RUNNER_TEMP/a8-optimized.log"
       - name: Preserve actual outcomes
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -57,12 +57,15 @@ jobs:
       - name: Diagnostic normal controls
         run: |
           set -o pipefail
-          python -B -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-normal.log"
+          python -I -B -S tests/test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-normal.log"
       - name: Diagnostic optimized controls
         if: always()
         run: |
           set -o pipefail
-          python -B -O -S -m unittest discover -s tests -p test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-optimized.log"
+          python -I -B -O -S tests/test_auditor_mutant_diagnostics.py -v 2>&1 | tee "$RUNNER_TEMP/diag-optimized.log"
+      - name: Collect raw selected-control observations
+        if: success()
+        run: python -I -B -S tools/cbz/auditor_mutant_diagnostics.py --root "$GITHUB_WORKSPACE" --scope both --output "$RUNNER_TEMP/auditor-diagnostic.json"
       - name: Preserve diagnostic control outcomes
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -71,4 +74,5 @@ jobs:
           path: |
             ${{ runner.temp }}/diag-normal.log
             ${{ runner.temp }}/diag-optimized.log
+            ${{ runner.temp }}/auditor-diagnostic.json
           if-no-files-found: error
