@@ -1,0 +1,23 @@
+{
+  "schema": "cbz.replay-helper.grader-source-review.v1",
+  "observed_utc": "2026-10-29 21:58:54 UTC",
+  "source_commit": "82d9e480a51b946b3e74525ccf32139129d37d28",
+  "source_files": [
+    {
+      "path": "cbz/evidence/kernel/additional/replay-tool/run_mutations.py",
+      "git_blob": "c83f20c2daa01521c2e3f629e29d99b42e0da54d"
+    },
+    {
+      "path": "cbz/evidence/kernel/additional/replay-tool/test_replay_tool.py",
+      "git_blob": "ac8f72d271a95ed5fd9a362661c26b8cd2b5a048"
+    }
+  ],
+  "finding": "The mutant classifier accepts exit 1, a named FAIL header, and an AssertionError substring anywhere in stderr, without requiring the named failure's intended assertion or rejecting unrelated errors/failures. It records reason_bound_kill true on that condition. The test module loads target code via importlib, and -B does not by itself prevent reading existing bytecode.",
+  "logical_counterexample": "For an exit-1 transcript containing the named FAIL header, an unrelated RuntimeError in that named failure, an unrelated ERROR plus AssertionError, and no excluded import/syntax markers, every source rejection predicate is false. This is a source-condition argument, not an executed Python subprocess or a claim that a historical mutant actually survived.",
+  "scope": "The historical mutation counts do not alone establish A8; targeted actual adverse controls and any source repair are pending. Preserve raw historical Lean runs and do not infer that this finding alone invalidates their specific kernel outputs.",
+  "limitations": [
+    "No new Python test, mutation campaign or fixed-source result was executed in this observation.",
+    "A literal Lean theorem must retain its exact source, hypotheses, axiom and execution evidence; a replay parser supplied with text does not itself authenticate a process.",
+    "Final G0/G1/G6 and full federation closure remain unqualified."
+  ]
+}
