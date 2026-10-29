@@ -80,6 +80,43 @@ class SourceLoaderAdverseTests(unittest.TestCase):
             self.assertTrue(getattr(probe, "GOOD_SOURCE", False))
             self.assertFalse(getattr(probe, "POISON_EXECUTED", False))
 
+    def test_grader_children_do_not_execute_poisoned_test_cache(self):
+        for grader, module in (
+            (self.load_grader("tests/test_cbz_layer_a_scan_mutants.py", "child_lexer"),
+             "test_cbz_layer_a_scan"),
+            (self.load_grader("tests/test_cbz_a3_float_census.py", "child_a3"),
+             "test_cbz_a3_float_census"),
+        ):
+            with self.subTest(grader=grader.__name__), tempfile.TemporaryDirectory(prefix="cbz-a8-child-") as directory:
+                root = Path(directory)
+                package = root / "tests"
+                package.mkdir()
+                (package / "__init__.py").write_text("")
+                source = package / (module + ".py")
+                source.write_text("import unittest\nclass TestFixture(unittest.TestCase):\n def test_source(self): print('CBZ_CHILD_SOURCE')\n")
+                (package / "test_cbz_auditor_hardening.py").write_text(
+                    "import unittest\nclass TestHardening(unittest.TestCase):\n def test_source(self): pass\n")
+                stat = source.stat()
+                suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+                cache = package / "__pycache__" / (module + "." + sys.implementation.cache_tag + suffix + ".pyc")
+                cache.parent.mkdir()
+                poisoned = compile("print('CBZ_CHILD_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
+                cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                    poisoned, int(stat.st_mtime), stat.st_size))
+                original = grader.WORKSPACE
+                grader.WORKSPACE = str(root)
+                try:
+                    result = grader.run_suite(str(root / "irrelevant.py"))
+                finally:
+                    grader.WORKSPACE = original
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
+                self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
+
+    @staticmethod
+    def load_grader(path, name):
+        return load(ROOT / path, name)
+
     def test_poisoned_cached_bytecode_does_not_execute(self):
         sources = [
             ("lexer", ROOT / "tools/cbz/layer_a_scan.py"),
