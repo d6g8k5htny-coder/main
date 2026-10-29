@@ -1,0 +1,91 @@
+{
+ "observed_at": "2026-10-29T17:06Z",
+ "gates": [
+  {
+   "gate": "G0 auditor self-test",
+   "status": "GREEN (local)",
+   "evidence": "`tests/test_lean_layer_a_scan.py`: 13 tests OK under `-B -S` and `-B -O -S`; harness control survives; 15/15 scanner mutants killed by a test failure"
+  },
+  {
+   "gate": "G1 Layer A static audit",
+   "status": "GREEN (local)",
+   "evidence": "`tools/lean_layer_a_scan.py`: 0 findings, 0 lex errors over all 162 tracked Lean files in Math- `8151f592918a` and all 4 in main `4ef1867175db` (208,073 code identifiers lexed in Math-, including 2,042 `theorem`)"
+  },
+  {
+   "gate": "G2 axiom audit",
+   "status": "GREEN for Math- `formal/` only",
+   "evidence": "existing `formal/gate.py` kernel axiom closure; hosted `formal / formal-evidence` succeeded on Math-#521 merge tree `ae1c5398`. NOT RUN for the 153 Lean files outside `formal/` or for main `formal/`"
+  },
+  {
+   "gate": "G3 Lean build",
+   "status": "PARTIAL",
+   "evidence": "Math- `formal/` builds in hosted CI. The 153 other Math- Lean files (frontiers, companions, specifications) have no build gate observed by this inventory"
+  },
+  {
+   "gate": "G4 kernel audit",
+   "status": "PARTIAL",
+   "evidence": "as G3: Math- `formal/` only"
+  },
+  {
+   "gate": "G5 regression",
+   "status": "GREEN for Math- (hosted, Oct 28); NOT RUN elsewhere",
+   "evidence": "Math- `full-suite` success on `db4a148` (PR #521). No observed run for main, meta-framework, query-, governance- in this inventory"
+  },
+  {
+   "gate": "G6 mutation",
+   "status": "NO THRESHOLD DECLARED",
+   "evidence": "mutation controls exist per packet workflow; no federation-wide threshold or runner"
+  },
+  {
+   "gate": "G7 pin sync",
+   "status": "NO TOOL",
+   "evidence": "no cross-repo pin verifier exists"
+  },
+  {
+   "gate": "G8 status truth",
+   "status": "NOT RUN",
+   "evidence": "no doc-vs-reality checker"
+  },
+  {
+   "gate": "G9 cold start",
+   "status": "NOT RUN",
+   "evidence": "requires Phase 4 STATUS.md"
+  },
+  {
+   "gate": "G10 git hygiene",
+   "status": "RED",
+   "evidence": "2,099 remote branches (1,857 with unmerged commits), 69 open PRs (\u00a71, \u00a72)"
+  },
+  {
+   "gate": "G11 tooling hygiene",
+   "status": "GREEN for the new scanner",
+   "evidence": "scanner documented in `audits/cbz0_20261029/TOOLING.md`, self-verified by G0"
+  }
+ ],
+ "tooling_gaps": [
+  {
+   "gap": "Federation-wide Lean Layer A scan (G0/G1)",
+   "disposition": "BUILT: `tools/lean_layer_a_scan.py` + `tests/test_lean_layer_a_scan.py` + workflow `layer-a-lean-scan.yml` (Math-). Static only."
+  },
+  {
+   "gap": "Build/kernel/axiom gate for Lean outside Math- `formal/` (153 files; main `formal/` 4 files)",
+   "disposition": "OPEN. Needs per-package lake builds and `#print axioms` closure; next tool build."
+  },
+  {
+   "gap": "A3 floating-point use in Python checkers",
+   "disposition": "OPEN. Static detection of float-based certification in Python is not decidable by token scan; needs a per-checker exact-arithmetic audit (many packets already use exact rationals or interval arithmetic)."
+  },
+  {
+   "gap": "Cross-repo pin verifier (G7)",
+   "disposition": "OPEN."
+  },
+  {
+   "gap": "Status-surface truth checker (G8) and cold-start harness (G9)",
+   "disposition": "OPEN; depends on Phase 4 STATUS.md."
+  },
+  {
+   "gap": "Branch/PR disposition tool (G10)",
+   "disposition": "OPEN. 242 merged branches are prunable with no loss; 1,857 unmerged need per-branch disposition; `trial` is archived and read-only."
+  }
+ ]
+}
