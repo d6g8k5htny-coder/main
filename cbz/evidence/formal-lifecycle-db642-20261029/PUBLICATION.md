@@ -1,0 +1,11 @@
+# Source-pinned lifecycle delivery
+
+The reviewed implementation is `d676b961bc016110fa990de549a3d07888d5af24`; source history is preserved in `source-history.bundle`, verified with native prerequisites `7b1657700aca5f8e9c391513c7974009688945ab` and `c93cec70223281492709ff74ca84fed5dc6e40e8`. Both independent technical reviews found no actionable issue. These are same-provider engineering reviews, not claims of organizational independence.
+
+The additive composed tree is `dde93df679476bedda9a833d853a0dbe26da5cf1` at local `658d6bc5b5a5df0cc3a50fdd4a8443f547d8e21b`. It retains all reviewed sources byte-for-byte and includes only the current Main novelty-memo change. Native delivery preserves existing701 as a parent, currentMain as a merge parent, and every existing custody/proof/helper/workflow byte. Its PR targetsMain so the existing hosted workflow can actually run; this does not overwrite701 or assume B-003 integration ownership.
+
+`raw-evidence.zip` preserves all 339 task files, including original REDs, intermediate failed instrumentation, superseded smaller test populations, final results and both reviews. `EVIDENCE_MANIFEST.json` records every member's SHA256/size plus archive and source-bundle identities. Archive CRCs, complete member bytes and the source bundle were checked. Read `task-1-report.md` for the final82/242 local results,21 source-omission cases per mode and unchanged original7/9 mutant populations. Earlier79/239 and16-case records remain historical only. One-off capture, preservation and observation scripts in the ZIP are reproducible development aids, not additional installed federation gates.
+
+Local qualification uses CPython3.12.14; unavailable Lean cases remain1/2 skips, not passes. Hosted3.11, actual Lean/kernel and federation qualification are pending at packaging. Historical kernel receipts are not relabelled for new manifest bytes. No all-green or CBZ-0 declaration is made.
+
+Integration handoff: preserve this entire evidence prefix; register the bounded existing-harness amendment and its scoped21-case auxiliary verifier from REGISTRY.md in the canonical GOVERNANCE/TOOLING/STATUS surfaces during the single-writer integration. No new mathematical obligation, source-of-truth procedure or board rollover is introduced.
