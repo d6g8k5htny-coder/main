@@ -46,11 +46,12 @@ export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
   const more=make('button','Show more excerpts');more.id='library-text-more';more.type='button';
   textPanel.append(count,list,more);files.after(textPanel);
   const save=doc.getElementById('desk-save-current');
-  let limit=10,renderedQuery=null,renderedCount=0;
+  let renderedQuery=null,renderedCount=0;
   function renderText(append=false) {
-    if(append&&input.value!==renderedQuery){append=false;limit=10;}
-    const found=searchEquations(data.equations,input.value,{limit,offset:0});
-    const rows=found.equations.slice(append?renderedCount:0).map(excerpt=>{
+    if(append&&input.value!==renderedQuery)append=false;
+    const offset=append?renderedCount:0;
+    const found=searchEquations(data.equations,input.value,{limit:10,offset});
+    const rows=found.equations.map(excerpt=>{
       const row=make('li'),href=excerptSourceHref(excerpt);
       const name=`${excerpt.repository.split('/')[1]} · ${excerpt.path} · lines ${excerpt.line_start}–${excerpt.line_end}`;
       const link=make(href?'a':'span',name);if(href)link.href=href;row.append(link);
@@ -61,7 +62,7 @@ export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
       return row;
     });
     if(append)list.append(...rows);else list.replaceChildren(...rows);
-    renderedQuery=input.value;renderedCount=found.equations.length;
+    renderedQuery=input.value;renderedCount=offset+found.equations.length;
     count.textContent=`${found.matches} matching excerpts of ${found.total} acquired excerpts · ${renderedCount} shown. ${found.matches?'':'No acquired excerpt matches this query.'}`;
     more.hidden=renderedCount>=found.matches;
     return rows[0];
@@ -81,13 +82,12 @@ export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
   select.value=libraryCollection(win.location.search);apply();
   if(ownedFocus)input.focus({preventScroll:true});
   select.addEventListener('change',()=>{
-    limit=10;
     try{win.history.replaceState(null,'',libraryDiscoveryHref(win.location.href,select.value));}catch{}
     apply();refreshLink();
   });
-  input.addEventListener('input',()=>{limit=10;if(select.value==='text')renderText();});
+  input.addEventListener('input',()=>{if(select.value==='text')renderText();});
   more.addEventListener('click',()=>{
-    const owned=doc.activeElement===more;limit+=10;const first=renderText(true);
+    const owned=doc.activeElement===more;const first=renderText(true);
     if(owned&&first){const link=first.querySelector('a');if(link)link.focus();else{first.tabIndex=-1;first.focus();}}
   });
   // Window-target popstate listeners run in registration order. Retain actual
@@ -98,7 +98,7 @@ export function startLibraryDiscovery(doc,win,data,refreshLink=()=>{}) {
   doc.addEventListener('pointerdown',event=>{if(!ownsResult(event.target))historyFocus=null;},{capture:true});
   win.addEventListener('popstate',()=>{
     const previous=historyFocus;historyFocus=null;
-    limit=10;select.value=libraryCollection(win.location.search);apply();refreshLink();
+    select.value=libraryCollection(win.location.search);apply();refreshLink();
     if(previous&&(doc.activeElement===doc.body||doc.activeElement===previous)&&
       (!previous.isConnected||!previous.getClientRects().length))select.focus({preventScroll:true});
   });

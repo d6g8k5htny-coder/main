@@ -25,6 +25,30 @@ def serve(site):
     try: yield f'http://127.0.0.1:{server.server_port}/'
     finally: server.shutdown(); server.server_close(); worker.join()
 
+def excerpt_population_regression(page, origin):
+    """Production DOM paging over synthetic engineering inputs, not source admission."""
+    page.goto(origin+'index.html')
+    result=page.evaluate('''async()=>{
+      const {startLibraryDiscovery}=await import('./library-discovery.mjs');
+      const results=[];
+      for(const population of [151,201]){
+        const doc=document.implementation.createHTMLDocument('Engineering pagination fixture');
+        doc.body.innerHTML='<div id="research-desk"></div><section id="current-research"><details class="current-source-details"><details><summary>Sources</summary><label>Search<input class="current-search"></label><p class="current-count"></p><ul class="current-results"></ul><button class="current-more">More files</button></details></details></section>';
+        const win=new EventTarget();win.location={search:'?library-collection=text',href:location.href};win.history={replaceState(){}};
+        const equations=Array.from({length:population},(_,i)=>({id:'fixture_'+i,repository:'d6g8k5htny-coder/main',commit:'a'.repeat(40),path:'engineering-fixture/'+i+'.md',line_start:1,line_end:1,text:'literal fixture '+i,sha256:'b'.repeat(64)}));
+        startLibraryDiscovery(doc,win,{equations});
+        const more=doc.getElementById('library-text-more'),first=doc.querySelector('#library-text-results > li'),counts=[doc.querySelectorAll('#library-text-results > li').length];
+        for(let i=0;i<25&&!more.hidden;i++){more.click();counts.push(doc.querySelectorAll('#library-text-results > li').length);}
+        results.push({population,counts,shown:doc.querySelectorAll('#library-text-results > li').length,more_hidden:more.hidden,first_row_retained:first===doc.querySelector('#library-text-results > li'),last_text:doc.querySelector('#library-text-results > li:last-child pre').textContent});
+      }
+      return results;
+    }''')
+    for row in result:
+        assert row['shown']==row['population'] and row['more_hidden'],row
+        assert row['first_row_retained'] and row['last_text']=='literal fixture '+str(row['population']-1),row
+        assert all(0<right-left<=10 for left,right in zip(row['counts'],row['counts'][1:])),row
+    return result
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--site', type=Path, default=ROOT/'docs/site')
@@ -237,6 +261,12 @@ def main():
                 row['passed']=True
             except Exception:row['passed']=False;row['error']=traceback.format_exc()
             finally:context.close()
+        context=browser.new_context()
+        context.route('**/*',lambda route:route.continue_() if route.request.url.startswith(origin) else route.abort())
+        page=context.new_page();row={'case':'bounded-offset-excerpt-pagination','fixture_scope':'Synthetic engineering population151/201; no mathematical or acquisition claim.'};report['cases'].append(row)
+        try:row['results']=excerpt_population_regression(page,origin);row['passed']=True
+        except Exception:row['passed']=False;row['error']=traceback.format_exc()
+        finally:context.close()
     from playwright.sync_api import sync_playwright
     with sync_playwright() as pw:
         browser=pw.chromium.launch(executable_path=a.browser,chromium_sandbox=True); report['browser']=browser.version
