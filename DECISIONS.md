@@ -181,3 +181,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 22:15:10 UTC] [phase3] [layerA] Correct the restricted-container evidence location to the recorded hosted architecture run; preserve the original broad-suite skips. Reversible:yes. Evidence: cbz/evidence/main-regression-skip-observation/sandbox-controls.json.
 
 [2026-10-29 22:15:38 UTC] [phase3] [layerA] Record the E2-to-E4 candidate workflow's manual axiom/warning review and branch-only trigger limits before any declaration admission. Reversible:yes. Evidence: Math commit f19b254efae612ad5d4f010908cd615ca8c708fb workflow .github/workflows/cbz-lifetime-e2-e4.yml.
+
+[2026-10-29 22:16:56 UTC] [phase3] [layerA] Record the independently reviewed strict replay grader's source-level baseline-ID and failure-membership counterexample, filesystem subprocess boundary and mode limitation. Preserve its pinned-source trust assumptions; no actual false pass or verification success is asserted. Reversible:yes. Evidence: cbz/evidence/strict-replay-grader-source-review-20261029.md.
