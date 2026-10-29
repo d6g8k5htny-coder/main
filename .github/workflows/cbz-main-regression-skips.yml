@@ -1,0 +1,36 @@
+name: CBZ main regression skip observation
+on:
+  push:
+    branches: ["cbz/main-regression-skips-20261029"]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Read exact artifacts and enumerate skips
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/12932406224/zip" > "$RUNNER_TEMP/normal.zip"
+          gh api "/repos/$GITHUB_REPOSITORY/actions/artifacts/12930494074/zip" > "$RUNNER_TEMP/optimized.zip"
+          printf '%s  %s\n' 7aaf4350125f9950eac02084dfad64b020b98b2d16a945ce8f38e46f60b0180b "$RUNNER_TEMP/normal.zip" | sha256sum --check
+          printf '%s  %s\n' 61f0a7304e26427d6eb41eb00afa825cfa87f9ea15ce6bb18ab40acd7f88c3c7 "$RUNNER_TEMP/optimized.zip" | sha256sum --check
+          unzip -p "$RUNNER_TEMP/normal.zip" main-full-normal.log > "$RUNNER_TEMP/normal.log"
+          unzip -p "$RUNNER_TEMP/optimized.zip" main-full-optimized.log > "$RUNNER_TEMP/optimized.log"
+          printf '%s  %s\n' 78eaea4473a576b6d060937b08a8cbd95391ba1bfb9513e4b9fd5eca836e "$RUNNER_TEMP/normal.log" | sha256sum --check
+          printf '%s  %s\n' 117c2cfa37103338ec940f38bb7f9d8c603b2eefc0da07718b4c9bfd5eca836e "$RUNNER_TEMP/optimized.log" | sha256sum --check
+          grep -E '\.\.\. skipped ' "$RUNNER_TEMP/normal.log" > "$RUNNER_TEMP/normal-skips.txt"
+          grep -E '\.\.\. skipped ' "$RUNNER_TEMP/optimized.log" > "$RUNNER_TEMP/optimized-skips.txt"
+          test "$(wc -l < "$RUNNER_TEMP/normal-skips.txt")" -eq 25
+          test "$(wc -l < "$RUNNER_TEMP/optimized-skips.txt")" -eq 25
+          echo 'NORMAL MODE SKIPPED TESTS'
+          cat "$RUNNER_TEMP/normal-skips.txt"
+          echo 'OPTIMIZED MODE SKIPPED TESTS'
+          cat "$RUNNER_TEMP/optimized-skips.txt"
