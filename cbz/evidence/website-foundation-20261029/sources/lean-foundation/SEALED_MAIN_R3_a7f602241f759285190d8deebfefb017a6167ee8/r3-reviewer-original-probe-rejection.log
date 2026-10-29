@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/workspace/cbz0/review-tools/probe_witness_contract.py", line 16, in <module>
+    result=m.validate_census(audit.stdout,set(m.WITNESSES),{'FakeWitness'})
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tools/cbz_lean_check.py", line 80, in validate_census
+    require(row['kind'] == 'theorem' and not row['prop_premises'] and
+  File "/workspace/universal-law/website-repair-20261028/tools/cbz_lean_check.py", line 49, in require
+    raise ValueError(message)
+ValueError: witness type contract changed: CBZNonvacuity.dimensions_inhabited

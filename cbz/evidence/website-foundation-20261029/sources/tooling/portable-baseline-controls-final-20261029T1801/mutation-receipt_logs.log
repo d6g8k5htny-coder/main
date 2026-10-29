@@ -1,0 +1,17 @@
+test_receipt_log_tampering_is_refused (baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused) ... FAIL
+
+======================================================================
+FAIL: test_receipt_log_tampering_is_refused (baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_baseline.py", line 180, in test_receipt_log_tampering_is_refused
+    self.assertEqual(self.inspect(self.out / 'receipts.json')['gate_statuses']['G0'], 'INCOMPLETE')
+AssertionError: 'PASS' != 'INCOMPLETE'
+- PASS
++ INCOMPLETE
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.287s
+
+FAILED (failures=1)

@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "tool_sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518",
+  "tests_sha256": "744b429d553d044063cc3a3bb99d8979a017ccdabb16c1d1d0c5257a26f7e8e4",
+  "baseline": {
+    "exit_code": 0,
+    "output": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.159s\n\nOK\n"
+  },
+  "optimized": {
+    "exit_code": 0,
+    "output": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.082s\n\nOK\n"
+  },
+  "threshold": {
+    "numerator": 1,
+    "denominator": 1
+  },
+  "mutants": [
+    {
+      "exit_code": 1,
+      "output": "........F......\n======================================================================\nFAIL: test_member_bytes_and_lean_hits_preserved (__main__.Contract.test_member_bytes_and_lean_hits_preserved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 17, in test_member_bytes_and_lean_hits_preserved\n    self.assertEqual(len(r['members']),2);self.assertEqual(r['members'][0]['sha256'],c.sha(b'example := by sorry'))\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 2\n\n----------------------------------------------------------------------\nRan 15 tests in 0.047s\n\nFAILED (failures=1)\n",
+      "name": "drop_members",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": "........F......\n======================================================================\nFAIL: test_member_bytes_and_lean_hits_preserved (__main__.Contract.test_member_bytes_and_lean_hits_preserved)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 18, in test_member_bytes_and_lean_hits_preserved\n    self.assertEqual(len(r['members'][0]['inspection']['lean_findings']),1);self.assertEqual(r['members'][0]['inspection']['lean_findings'][0]['code'],'lean.sorry')\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 15 tests in 0.064s\n\nFAILED (failures=1)\n",
+      "name": "disable_lean_scan",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": "..............F\n======================================================================\nFAIL: test_total_budget_is_enforced_when_each_member_fits (__main__.Contract.test_total_budget_is_enforced_when_each_member_fits)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 79, in test_total_budget_is_enforced_when_each_member_fits\n    self.assertTrue(c.inspect_zip(archive([('a',b'123'),('b',b'456')]),limit=10)['residuals'])\nAssertionError: [] is not true\n\n----------------------------------------------------------------------\nRan 15 tests in 0.056s\n\nFAILED (failures=1)\n",
+      "name": "disable_budget",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": ".....F.........\n======================================================================\nFAIL: test_inventory_hash_change_and_empty_inputs_remain_residual (__main__.Contract.test_inventory_hash_change_and_empty_inputs_remain_residual)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 57, in test_inventory_hash_change_and_empty_inputs_remain_residual\n    r=c.inventory(root,g1);self.assertIn('G1 exact byte binding changed',r['containers'][0].get('error',''));self.assertEqual(r['coverage_result'],'INCOMPLETE')\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'G1 exact byte binding changed' not found in 'historical control receipt not unique'\n\n----------------------------------------------------------------------\nRan 15 tests in 0.052s\n\nFAILED (failures=1)\n",
+      "name": "ignore_outer_sha",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": "...........F...\n======================================================================\nFAIL: test_npy_object_and_wrong_length_refused (__main__.Contract.test_npy_object_and_wrong_length_refused)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 36, in test_npy_object_and_wrong_length_refused\n    with self.assertRaises(ValueError):c.inspect_npy(raw)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 15 tests in 0.051s\n\nFAILED (failures=1)\n",
+      "name": "ignore_numeric_payload_length",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": "............F..\n======================================================================\nFAIL: test_preservation_detects_changed_and_missing_test_bytes (__main__.Contract.test_preservation_detects_changed_and_missing_test_bytes)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 67, in test_preservation_detects_changed_and_missing_test_bytes\n    (root/'tests/test_one.py').write_text('pass # changed\\n');self.assertFalse(c.preservation(root,'HEAD')['all_preserved'])\n                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: True is not false\n\n----------------------------------------------------------------------\nRan 15 tests in 0.030s\n\nFAILED (failures=1)\n",
+      "name": "force_preservation",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": ".........F.....\n======================================================================\nFAIL: test_notebook_cells_outputs_and_image_bound (__main__.Contract.test_notebook_cells_outputs_and_image_bound)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 42, in test_notebook_cells_outputs_and_image_bound\n    r=c.inspect_notebook(raw);self.assertEqual(len(r['cells']),1);self.assertEqual(len(r['cells'][0]['outputs']),1);self.assertEqual(r['cells'][0]['outputs'][0]['media'][0]['decoded_sha256'],c.sha(b'abc'))\n                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 0 != 1\n\n----------------------------------------------------------------------\nRan 15 tests in 0.052s\n\nFAILED (failures=1)\n",
+      "name": "drop_notebook_outputs",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": ".F.............\n======================================================================\nFAIL: test_control_log_hash_binding_and_tamper (__main__.Contract.test_control_log_hash_binding_and_tamper)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 74, in test_control_log_hash_binding_and_tamper\n    with self.assertRaises(ValueError):c.control_bindings(bad)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 15 tests in 0.044s\n\nFAILED (failures=1)\n",
+      "name": "ignore_control_log_hash",
+      "killed": true
+    },
+    {
+      "exit_code": 1,
+      "output": "F.F...........F\n======================================================================\nFAIL: test_budget_and_corruption_are_gaps (__main__.Contract.test_budget_and_corruption_are_gaps)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 30, in test_budget_and_corruption_are_gaps\n    self.assertTrue(c.inspect_zip(archive([('a',b'12345')]),limit=4)['residuals'])\nAssertionError: [] is not true\n\n======================================================================\nFAIL: test_duplicate_unsafe_nested_and_symlink_members_refused (__main__.Contract.test_duplicate_unsafe_nested_and_symlink_members_refused)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 24, in test_duplicate_unsafe_nested_and_symlink_members_refused\n    self.assertTrue(c.inspect_zip(archive(rows))['residuals'])\nAssertionError: [] is not true\n\n======================================================================\nFAIL: test_total_budget_is_enforced_when_each_member_fits (__main__.Contract.test_total_budget_is_enforced_when_each_member_fits)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/universal-law/website-repair-20261028/cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py\", line 79, in test_total_budget_is_enforced_when_each_member_fits\n    self.assertTrue(c.inspect_zip(archive([('a',b'123'),('b',b'456')]),limit=10)['residuals'])\nAssertionError: [] is not true\n\n----------------------------------------------------------------------\nRan 15 tests in 0.058s\n\nFAILED (failures=3)\n",
+      "name": "suppress_archive_residuals",
+      "killed": true
+    }
+  ],
+  "killed": 9,
+  "total": 9,
+  "result": "PASS"
+}

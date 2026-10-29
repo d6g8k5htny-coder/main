@@ -1,0 +1,90 @@
+{
+  "cli_controls": [
+    {
+      "control": "missing_output",
+      "exit_code": 2,
+      "rejected": true
+    },
+    {
+      "control": "missing_root",
+      "exit_code": 2,
+      "rejected": true
+    },
+    {
+      "control": "existing_output",
+      "exit_code": 2,
+      "rejected": true
+    },
+    {
+      "control": "inside_root_output",
+      "exit_code": 2,
+      "rejected": true
+    }
+  ],
+  "control_source_sha256": "ca0804fe6a56ceec5f7ee762158f59be7194b275f1b7e25b5728688f0721bc00",
+  "mutations": [
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "live_hash",
+      "test": "test_live_proof_tamper_fails"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "closed_quarantine",
+      "test": "test_closed_cannot_depend_transitively_on_quarantine"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "receipt_binding",
+      "test": "test_receipts_bind_actual_execution_and_stale_source_is_refused"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "receipt_logs",
+      "test": "test_receipt_log_tampering_is_refused"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "custom_axiom",
+      "test": "test_custom_axiom_cannot_be_closed"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "unlisted_tool",
+      "test": "test_unlisted_mission_tool_refused"
+    },
+    {
+      "detected": true,
+      "errors": 0,
+      "failures": 1,
+      "mutation": "doc_truth",
+      "test": "test_receipts_bind_actual_execution_and_stale_source_is_refused"
+    }
+  ],
+  "positive": {
+    "errors": 0,
+    "failures": 0,
+    "passed": true,
+    "skipped": 0,
+    "tests_run": 18
+  },
+  "schema": "cbz.portable-controls.v1",
+  "scope": "finite engineering controls only; no global G0..G11, Layer A or CBZ-0 certification",
+  "source_sha256": {
+    "tests/test_cbz_baseline.py": "fb0def6cced0b901bdbb9138a8402d273d267d5d2eaf8e35e32ca101b2e4d587",
+    "tools/cbz_baseline.py": "095c6e9eb5adb7174720e9c5ad5194ba62b413d37b5d43e6d49bc04b0b592b46"
+  },
+  "status": "PASS"
+}

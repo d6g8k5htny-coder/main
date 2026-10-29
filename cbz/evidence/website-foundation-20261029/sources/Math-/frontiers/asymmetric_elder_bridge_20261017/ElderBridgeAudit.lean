@@ -1,0 +1,9 @@
+import ElderBridge
+
+#print axioms TorusFiltration.elderTrap_closedTrace_isClopen
+#print axioms TorusFiltration.elderTrap_of_boundary
+#print axioms TorusFiltration.elderBoundaryDirectSummand
+#print axioms TorusFiltration.elderBoundary_death_eq
+
+#check TorusFiltration.elderBoundaryDirectSummand
+#check TorusFiltration.elderBoundary_death_eq

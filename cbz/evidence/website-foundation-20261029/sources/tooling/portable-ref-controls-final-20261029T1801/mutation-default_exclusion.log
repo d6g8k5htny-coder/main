@@ -1,0 +1,15 @@
+test_publish_then_atomic_prune_preserves_default_policy_and_tag (cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag) ... FAIL
+
+======================================================================
+FAIL: test_publish_then_atomic_prune_preserves_default_policy_and_tag (cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_refs.py", line 150, in test_publish_then_atomic_prune_preserves_default_policy_and_tag
+    self.assertEqual(set(plan['delete_refs']), {'refs/heads/duplicate', 'refs/heads/unmerged'})
+AssertionError: Items in the first set but not the second:
+'refs/heads/main'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.342s
+
+FAILED (failures=1)

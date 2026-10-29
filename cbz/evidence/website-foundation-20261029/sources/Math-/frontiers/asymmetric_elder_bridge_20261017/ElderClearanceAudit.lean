@@ -1,0 +1,12 @@
+import ElderClearanceControls
+
+#print axioms TorusFiltration.elderTrap_strictTrace
+#print axioms TorusFiltration.elderTrap_strictTrace_isClopen
+#print axioms TorusFiltration.elderTrap_path_stays
+#print axioms TorusFiltration.elderTrap_higher_path_meets_threshold
+#print axioms TorusFiltration.elderTrap_clearance_eq_Iio
+#print axioms TorusFiltration.elderTrap_death_eq
+#print axioms TorusFiltration.elderTrap_closed_path_attains
+#print axioms TorusFiltration.elder_control_below
+#print axioms TorusFiltration.elder_control_death_excluded
+#print axioms TorusFiltration.elder_control_positive_lifetime

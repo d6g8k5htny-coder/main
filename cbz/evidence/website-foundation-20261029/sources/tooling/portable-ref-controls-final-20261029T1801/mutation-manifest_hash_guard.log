@@ -1,0 +1,15 @@
+test_receipt_hash_tampering_is_detected (cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected) ... FAIL
+
+======================================================================
+FAIL: test_receipt_hash_tampering_is_detected (cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_refs.py", line 300, in test_receipt_hash_tampering_is_detected
+    with self.assertRaisesRegex(self.tool.SafetyError, 'manifest hash mismatch'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SafetyError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.190s
+
+FAILED (failures=1)

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "tool": "cbz-static-1",
+  "observed_at": "2026-10-29T17:10:50.208433+00:00",
+  "path": "tools/cbz_audit.py",
+  "sha256": "d18f74984b6a5d4c2834119b9ee804d6e71942f306a7801035acdb04f66a7d47",
+  "tests_path": "tests/test_cbz_audit.py",
+  "tests_sha256": "347fb2ee14f6ac69e67604f22cd29995bf18724fe3f12d75b29faf61e728247b",
+  "purpose": "Read every tracked working-tree file; enumerate finite proof candidates; detect declared Lean lexical trust/placeholder tokens and explicitly classified float-certification patterns; surface all unsupported or inaccessible coverage.",
+  "dependencies": [
+    "Python 3.10+ standard library",
+    "Git"
+  ],
+  "commands": {
+    "G0": "python -B tools/cbz_audit.py selftest",
+    "G1": "python -B tools/cbz_audit.py scan --root .",
+    "optimized_tests": "python -B -O -S -m unittest discover -s tests -p test_cbz_audit.py"
+  },
+  "verification": {
+    "scope": "demonstrated finite static checks only",
+    "behavioral_tests": 43,
+    "optimized_tests": 43,
+    "mutants_killed": 12,
+    "mutants_total": 12,
+    "threshold": {
+      "numerator": 1,
+      "denominator": 1
+    },
+    "direct_mutated_selftest_rejections": 3,
+    "receipt": "G0.json"
+  },
+  "outputs": {
+    "selftest": "JSON, exit 0 iff baseline passes and exact finite mutation threshold is met",
+    "scan": "JSON, exit 1 active findings; exit 2 missing semantics/coverage; never claims overall Layer A PASS"
+  },
+  "scientific_effect": "NONE",
+  "mathematical_soundness_certified": false,
+  "semantic_requirements": [
+    "kernel_and_declared_axioms",
+    "status_index_and_nonvacuity",
+    "statement_alignment_and_unweakened_bounds",
+    "test_preservation_and_regression",
+    "certification_scope",
+    "dependency_and_dynamic_syntax_review"
+  ],
+  "quarantine_policy": "Exact SHA256 matching requires statement, reason, attempts, owner:none; annotate and preserve every finding; independent isolation and CLOSED-dependency audit required. Scanner never suppresses active findings.",
+  "limitations": [
+    "Not a Lean parser, kernel, theorem statement alignment checker, nonvacuity proof, or transitive axiom closure checker.",
+    "Candidate inventory is finite extension detection plus explicit proof-source registry; semantic classification must cover arbitrarily encoded or embedded proof sources.",
+    "Archives are hashed and explicitly unscanned; inner members are not claimed examined.",
+    "Python float detector covers AST float/complex literals and direct float or listed attribute calls, not arbitrary aliasing or FFI; Lean float detector covers Float/Float32/Float64 tokens.",
+    "No default classification treats UI Float use as mathematical certification; registry completeness remains semantic work.",
+    "Working-tree byte inventory is not an atomic snapshot or a commit/build receipt.",
+    "No A4 bound preservation, A5 test-preservation/regression, or A6 nonvacuity conclusion is inferred from token counts."
+  ]
+}

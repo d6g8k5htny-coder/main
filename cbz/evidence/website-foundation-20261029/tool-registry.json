@@ -1,0 +1,712 @@
+{
+  "schema": "cbz.tools.v1",
+  "generated_utc": "2026-10-29T17:49:55.330138Z",
+  "scope": "Namespaced contribution toolkit; original worker registries copied under sources/tooling and sources/lean-foundation. Complete canonical mission registry remains joint-run work.",
+  "tools": [
+    {
+      "path": "tools/cbz_audit.py",
+      "sha256": "d18f74984b6a5d4c2834119b9ee804d6e71942f306a7801035acdb04f66a7d47",
+      "purpose": "Finite static source inventory and lexical controls; not complete Layer A semantics.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_audit.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/cbz_audit.py",
+          "sha256": "d18f74984b6a5d4c2834119b9ee804d6e71942f306a7801035acdb04f66a7d47"
+        },
+        {
+          "path": "tests/test_cbz_audit.py",
+          "sha256": "347fb2ee14f6ac69e67604f22cd29995bf18724fe3f12d75b29faf61e728247b"
+        }
+      ],
+      "status": "CURRENT_SOURCE_FOCUSED_SELFTEST_OBSERVED; BASELINE_GATES_INCOMPLETE",
+      "latest_joint_focused_selftest": {
+        "command": [
+          "python",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cbz_*.py",
+          "-v"
+        ],
+        "evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests.log",
+        "sha256": "3eab3494ec0d807bff3818a58d33e79d01bdbf1451a7a37d57222c6d83e37948",
+        "result": "PASS_FOCUSED_TOOLS_ONLY; NOT_ALL_PROJECT_REGRESSION",
+        "normal_tests": 114,
+        "optimized_tests": 114,
+        "optimized_evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests-optimized.log",
+        "optimized_sha256": "25f3a9abeb405b1452e46abf53f804bfd79f05cd0e68209ef3e9b2121ed89772"
+      }
+    },
+    {
+      "path": "tools/cbz_refs.py",
+      "sha256": "f26c6f8f13aac2b967a8c03cf4ca9643a875a93ebd0855a732576e8fdceaca85",
+      "purpose": "Exact Git ref snapshot and guarded archive/prune engineering; only Root executes real remote mutations.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_refs.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/cbz_refs.py",
+          "sha256": "f26c6f8f13aac2b967a8c03cf4ca9643a875a93ebd0855a732576e8fdceaca85"
+        },
+        {
+          "path": "tests/test_cbz_refs.py",
+          "sha256": "87894edca7a54974ff53af31e8d3a696643633c148d591d410709b28881916de"
+        }
+      ],
+      "status": "CURRENT_SOURCE_FOCUSED_SELFTEST_OBSERVED; BASELINE_GATES_INCOMPLETE",
+      "prior_constructed_source_hashes": [
+        {
+          "path": "tools/cbz_refs.py",
+          "sha256": "186a090c2dd536f3e21dbaf71d9a11e48281fcb6644bbc74653543774180bc24"
+        },
+        {
+          "path": "tests/test_cbz_refs.py",
+          "sha256": "091ce8c4fb16f5dbe79dc97cab52428af9430100548237672f2ef5505e39e6a5"
+        }
+      ],
+      "latest_joint_focused_selftest": {
+        "command": [
+          "python",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cbz_*.py",
+          "-v"
+        ],
+        "evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests.log",
+        "sha256": "3eab3494ec0d807bff3818a58d33e79d01bdbf1451a7a37d57222c6d83e37948",
+        "result": "PASS_FOCUSED_TOOLS_ONLY; NOT_ALL_PROJECT_REGRESSION",
+        "normal_tests": 114,
+        "optimized_tests": 114,
+        "optimized_evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests-optimized.log",
+        "optimized_sha256": "25f3a9abeb405b1452e46abf53f804bfd79f05cd0e68209ef3e9b2121ed89772"
+      }
+    },
+    {
+      "path": "tools/cbz_storage.py",
+      "sha256": "c829d392e00601d7876a2530a8bff02b7f913cff7bed2dec29df69d796b4ff9a",
+      "purpose": "Exact immutable duplicate-storage preservation; no mathematical certification.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_storage.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/cbz_storage.py",
+          "sha256": "c829d392e00601d7876a2530a8bff02b7f913cff7bed2dec29df69d796b4ff9a"
+        },
+        {
+          "path": "tests/test_cbz_storage.py",
+          "sha256": "5efc1289a0d13e266cd1143b7f6b1946efb29a24deba718eb0170093f67b1295"
+        }
+      ],
+      "status": "CURRENT_SOURCE_FOCUSED_SELFTEST_OBSERVED; BASELINE_GATES_INCOMPLETE",
+      "prior_constructed_source_hashes": [
+        {
+          "path": "tools/cbz_storage.py",
+          "sha256": "a0aee53dec348bf5bc40016b4956fae41b1a672a36942fcb9160398a399379ae"
+        },
+        {
+          "path": "tests/test_cbz_storage.py",
+          "sha256": "8fc7303a983fc626f3aa9a422451812db25e4cbe8ff2b3054b77274127afaefb"
+        }
+      ],
+      "latest_joint_focused_selftest": {
+        "command": [
+          "python",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cbz_*.py",
+          "-v"
+        ],
+        "evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests.log",
+        "sha256": "3eab3494ec0d807bff3818a58d33e79d01bdbf1451a7a37d57222c6d83e37948",
+        "result": "PASS_FOCUSED_TOOLS_ONLY; NOT_ALL_PROJECT_REGRESSION",
+        "normal_tests": 114,
+        "optimized_tests": 114,
+        "optimized_evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests-optimized.log",
+        "optimized_sha256": "25f3a9abeb405b1452e46abf53f804bfd79f05cd0e68209ef3e9b2121ed89772"
+      }
+    },
+    {
+      "path": "tools/cbz_lean_check.py",
+      "sha256": "a0c4b544da423a741e8d8a4590fe28878c8f77b19b35c786e61a4e6948d6796d",
+      "purpose": "31 literal arithmetic declarations, all project constants, named-module fresh kernel replay and finite nonvacuity witnesses.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_lean_check.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/cbz_lean_check.py",
+          "sha256": "a0c4b544da423a741e8d8a4590fe28878c8f77b19b35c786e61a4e6948d6796d"
+        },
+        {
+          "path": "tests/test_cbz_lean_check.py",
+          "sha256": "8642d2bb63acf3d9ab56c89dad4132449f6b9b964431ca14ce9cf52ed3eac3d6"
+        },
+        {
+          "path": "tools/CBZNonvacuity.lean",
+          "sha256": "b9f29f231bb41ff6ffc896230c5c23b358cf2527ebd33a576d3c6d96a0ded49f"
+        }
+      ],
+      "status": "R3_FULL_LITERAL_MAIN_RUN_OBSERVED; JOINT_FINAL_GATES_INCOMPLETE",
+      "prior_checked_source_hashes": [
+        {
+          "path": "tools/cbz_lean_check.py",
+          "sha256": "7b716e0507c0963510af5d276d1b900378df1cb630c5888551db3f939b333e75"
+        },
+        {
+          "path": "tests/test_cbz_lean_check.py",
+          "sha256": "cabf2ba2f705b3b289482468f55de77e86a727a01f223ce47832ec8dd0ab5150"
+        }
+      ],
+      "prior_snapshot_focused_selftest": {
+        "command": [
+          "python",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cbz_*.py",
+          "-v"
+        ],
+        "evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests.log",
+        "sha256": "3eab3494ec0d807bff3818a58d33e79d01bdbf1451a7a37d57222c6d83e37948",
+        "result": "PASS_FOCUSED_TOOLS_ONLY; NOT_ALL_PROJECT_REGRESSION",
+        "normal_tests": 114,
+        "optimized_tests": 114,
+        "optimized_evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests-optimized.log",
+        "optimized_sha256": "25f3a9abeb405b1452e46abf53f804bfd79f05cd0e68209ef3e9b2121ed89772",
+        "source_binding": "Historical run window; Lean tool changed afterwards. Does not certify current strengthened auditor."
+      },
+      "r3_verification": {
+        "tests_normal": 19,
+        "tests_optimized": 19,
+        "actual_controls": 7,
+        "exact_witness_type_contracts": 4,
+        "receipt": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/lean-foundation/SEALED_MAIN_R3_a7f602241f759285190d8deebfefb017a6167ee8/cbz-gate/receipt.json",
+          "sha256": "b7c14c0131fd77faf6c14c7eb80ba33bd796499943e3fd718e6077f12ec1ab6c"
+        },
+        "seal_manifest": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/lean-foundation/SEALED_MAIN_R3_a7f602241f759285190d8deebfefb017a6167ee8/MANIFEST.json",
+          "sha256": "63ec2b5c11b893e1fbb026133b19c7f7dd004a5ed0e20a3ad2d62a98bccde8c6"
+        }
+      }
+    },
+    {
+      "path": "tools/formal_gate_check.py",
+      "sha256": "1125e435429f0a7391d6b076c99f1198bf862376276f6c00c91b5ea4f6a88ec5",
+      "purpose": "Existing source/build/kernel/axiom controls; analytic alignment is separate.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_formal_gate.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/formal_gate_check.py",
+          "sha256": "1125e435429f0a7391d6b076c99f1198bf862376276f6c00c91b5ea4f6a88ec5"
+        },
+        {
+          "path": "tests/test_formal_gate.py",
+          "sha256": "2b13ad83b03d2b45f4be70ce03af597c195563a1ed0bd3983a2b7040068a3a84"
+        }
+      ],
+      "status": "OBSERVED_WORKER_EVIDENCE; JOINT_FINAL_RUN_PENDING"
+    },
+    {
+      "path": "tools/cbz_baseline.py",
+      "sha256": "095c6e9eb5adb7174720e9c5ad5194ba62b413d37b5d43e6d49bc04b0b592b46",
+      "purpose": "Namespaced proof/source/receipt/doc consistency and explicit missing-gate accounting; no complete scientific/audit closure inference.",
+      "self_test": [
+        "python",
+        "-B",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_cbz_baseline.py",
+        "-v"
+      ],
+      "source_hashes": [
+        {
+          "path": "tools/cbz_baseline.py",
+          "sha256": "095c6e9eb5adb7174720e9c5ad5194ba62b413d37b5d43e6d49bc04b0b592b46"
+        },
+        {
+          "path": "tests/test_cbz_baseline.py",
+          "sha256": "fb0def6cced0b901bdbb9138a8402d273d267d5d2eaf8e35e32ca101b2e4d587"
+        }
+      ],
+      "status": "CURRENT_SOURCE_FOCUSED_SELFTEST_OBSERVED; BASELINE_GATES_INCOMPLETE",
+      "latest_joint_focused_selftest": {
+        "command": [
+          "python",
+          "-B",
+          "-S",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_cbz_*.py",
+          "-v"
+        ],
+        "evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests.log",
+        "sha256": "3eab3494ec0d807bff3818a58d33e79d01bdbf1451a7a37d57222c6d83e37948",
+        "result": "PASS_FOCUSED_TOOLS_ONLY; NOT_ALL_PROJECT_REGRESSION",
+        "normal_tests": 114,
+        "optimized_tests": 114,
+        "optimized_evidence": "cbz/evidence/website-foundation-20261029/sources/tooling/current-tool-selftests-optimized.log",
+        "optimized_sha256": "25f3a9abeb405b1452e46abf53f804bfd79f05cd0e68209ef3e9b2121ed89772"
+      }
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_companion.py",
+      "sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518",
+      "purpose": "Finite bounded original nine-container/notebook inventory with visible archived findings; no total Layer A certification.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_companion.py",
+          "sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py",
+          "sha256": "744b429d553d044063cc3a3bb99d8979a017ccdabb16c1d1d0c5257a26f7e8e4"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_selftest.py",
+          "sha256": "95dd8b7bc5290f4a23b21578a1c25c8322b5adf0eca19f9e3cb64d175afa3fc3"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_boundary.py",
+          "sha256": "f757d7aad6baacba99f83364140bb1a1a891f927498d6819fdd1297186e6f4ed"
+        }
+      ],
+      "worker_verification": {
+        "tests_normal": 15,
+        "tests_optimized": 15,
+        "mutants_killed": 9,
+        "mutants_total": 9,
+        "receipt": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage-selftest.json",
+          "sha256": "263f65ca8c6296661e13c9ed4ea0f7f1b46affb95f804808f00a47faaf66cbda"
+        }
+      },
+      "original_registry": {
+        "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/COVERAGE_TOOL_REGISTRY_ENTRY.json",
+        "sha256": "8a613c91b1de22723f69623bc9518bf8d64b288791a3e0aed0da5347b1d3d50c"
+      },
+      "status": "FROZEN_FINITE_COVERAGE_SCOPE; SEMANTIC_AND_JOINT_FINAL_RESIDUE_EXPLICIT"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_selftest.py",
+      "sha256": "95dd8b7bc5290f4a23b21578a1c25c8322b5adf0eca19f9e3cb64d175afa3fc3",
+      "purpose": "15normal+15optimized finite tests and9actual source mutants; no whole-project regression.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_companion.py",
+          "sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py",
+          "sha256": "744b429d553d044063cc3a3bb99d8979a017ccdabb16c1d1d0c5257a26f7e8e4"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_selftest.py",
+          "sha256": "95dd8b7bc5290f4a23b21578a1c25c8322b5adf0eca19f9e3cb64d175afa3fc3"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_boundary.py",
+          "sha256": "f757d7aad6baacba99f83364140bb1a1a891f927498d6819fdd1297186e6f4ed"
+        }
+      ],
+      "worker_verification": {
+        "tests_normal": 15,
+        "tests_optimized": 15,
+        "mutants_killed": 9,
+        "mutants_total": 9,
+        "receipt": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage-selftest.json",
+          "sha256": "263f65ca8c6296661e13c9ed4ea0f7f1b46affb95f804808f00a47faaf66cbda"
+        }
+      },
+      "original_registry": {
+        "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/COVERAGE_TOOL_REGISTRY_ENTRY.json",
+        "sha256": "8a613c91b1de22723f69623bc9518bf8d64b288791a3e0aed0da5347b1d3d50c"
+      },
+      "status": "FROZEN_FINITE_COVERAGE_SCOPE; SEMANTIC_AND_JOINT_FINAL_RESIDUE_EXPLICIT"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_boundary.py",
+      "sha256": "f757d7aad6baacba99f83364140bb1a1a891f927498d6819fdd1297186e6f4ed",
+      "purpose": "Read-only import/source/receipt boundary assembly; emits observations, not a fresh kernel or global gate PASS.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_companion.py",
+          "sha256": "adb20234c60c017a07a6411f4fa559b8552a59ae6ebb56f9753c3ecce53bb518"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/test_coverage_companion.py",
+          "sha256": "744b429d553d044063cc3a3bb99d8979a017ccdabb16c1d1d0c5257a26f7e8e4"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_selftest.py",
+          "sha256": "95dd8b7bc5290f4a23b21578a1c25c8322b5adf0eca19f9e3cb64d175afa3fc3"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage_boundary.py",
+          "sha256": "f757d7aad6baacba99f83364140bb1a1a891f927498d6819fdd1297186e6f4ed"
+        }
+      ],
+      "worker_verification": {
+        "tests_normal": 15,
+        "tests_optimized": 15,
+        "mutants_killed": 9,
+        "mutants_total": 9,
+        "receipt": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/coverage-selftest.json",
+          "sha256": "263f65ca8c6296661e13c9ed4ea0f7f1b46affb95f804808f00a47faaf66cbda"
+        }
+      },
+      "original_registry": {
+        "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/coverage/COVERAGE_TOOL_REGISTRY_ENTRY.json",
+        "sha256": "8a613c91b1de22723f69623bc9518bf8d64b288791a3e0aed0da5347b1d3d50c"
+      },
+      "status": "FROZEN_FINITE_COVERAGE_SCOPE; SEMANTIC_AND_JOINT_FINAL_RESIDUE_EXPLICIT"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/verification/ref_controls.py",
+      "sha256": "884b8a49ab4e2b73bf7a66ea46a813f7e466f3deeb824ff54d24f86e0d03955e",
+      "purpose": "Portable finite positive/mutation/CLI controls for ref tool; disposable local fixtures only, no federation or theorem certification.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/verification/ref_controls.py",
+        "--root",
+        ".",
+        "--output",
+        "/tmp/cbz-ref-controls"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/verification/ref_controls.py",
+          "sha256": "884b8a49ab4e2b73bf7a66ea46a813f7e466f3deeb824ff54d24f86e0d03955e"
+        },
+        {
+          "path": "tests/test_cbz_refs.py",
+          "sha256": "87894edca7a54974ff53af31e8d3a696643633c148d591d410709b28881916de"
+        },
+        {
+          "path": "tools/cbz_refs.py",
+          "sha256": "f26c6f8f13aac2b967a8c03cf4ca9643a875a93ebd0855a732576e8fdceaca85"
+        }
+      ],
+      "worker_verification": {
+        "positive_tests": 26,
+        "mutants_killed": 7,
+        "mutants_total": 7,
+        "cli_rejection_controls": 4,
+        "report": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/portable-ref-controls-final-20261029T1801/report.json",
+          "sha256": "6168426c0fea393586217786c89fc9ecc84411950e4a277f7dc0a620628a4c5e"
+        },
+        "scale": {
+          "archive_parents": 2215,
+          "deleted_branches": 2214,
+          "fixture_removed_on_exit": true,
+          "prune_seconds": 4.802,
+          "publish_seconds": 1.953,
+          "recovery_verified": true,
+          "snapshot_bytes": 727525,
+          "snapshot_seconds": 2.062,
+          "unique_original_branch_tips": 2215
+        }
+      },
+      "output_requirement": "Choose a new output path outside the source root; no existing output, symlink or source-root output is accepted.",
+      "maintenance_owner": "none \u2014 self-contained",
+      "status": "PASS_FINITE_DECLARED_CONTROLS_ONLY"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/verification/baseline_controls.py",
+      "sha256": "ca0804fe6a56ceec5f7ee762158f59be7194b275f1b7e25b5728688f0721bc00",
+      "purpose": "Portable finite positive/mutation/CLI controls for baseline tool; disposable local fixtures only, no federation or theorem certification.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/verification/baseline_controls.py",
+        "--root",
+        ".",
+        "--output",
+        "/tmp/cbz-baseline-controls"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/verification/baseline_controls.py",
+          "sha256": "ca0804fe6a56ceec5f7ee762158f59be7194b275f1b7e25b5728688f0721bc00"
+        },
+        {
+          "path": "tests/test_cbz_baseline.py",
+          "sha256": "fb0def6cced0b901bdbb9138a8402d273d267d5d2eaf8e35e32ca101b2e4d587"
+        },
+        {
+          "path": "tools/cbz_baseline.py",
+          "sha256": "095c6e9eb5adb7174720e9c5ad5194ba62b413d37b5d43e6d49bc04b0b592b46"
+        }
+      ],
+      "worker_verification": {
+        "positive_tests": 18,
+        "mutants_killed": 7,
+        "mutants_total": 7,
+        "cli_rejection_controls": 4,
+        "report": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/portable-baseline-controls-final-20261029T1801/report.json",
+          "sha256": "958c3428efba8012b72eebe84f71ef5b97698ead152413400f625fb850e5cc9a"
+        }
+      },
+      "output_requirement": "Choose a new output path outside the source root; no existing output, symlink or source-root output is accepted.",
+      "maintenance_owner": "none \u2014 self-contained",
+      "status": "PASS_FINITE_DECLARED_CONTROLS_ONLY"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
+      "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
+      "purpose": "Verify exact207-record contribution identity and metadata boundaries with explicit guards preserved under Python optimization; no theorem or full-baseline certification.",
+      "self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py"
+      ],
+      "self_test_optimized": [
+        "python",
+        "-B",
+        "-O",
+        "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py"
+      ],
+      "source_hashes": [
+        {
+          "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
+          "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5"
+        },
+        {
+          "path": "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py",
+          "sha256": "4355cdd6f6c197e13dfe70300c668d4963522e1a77f9aa46e970801c627dc178"
+        }
+      ],
+      "maintenance_owner": "none \u2014 self-contained",
+      "status": "PASS_FINITE_CONTRIBUTION_IDENTITY_CHECKS_ONLY",
+      "criteria_served": [
+        9,
+        10,
+        11
+      ],
+      "worker_verification": {
+        "runs": [
+          {
+            "mode": "normal",
+            "path": "cbz/evidence/website-foundation-20261029/sources/tooling/metadata-identity/normal.json",
+            "sha256": "8aa28d4e03c0b7424a389ef570ea33ab3e5de83f22ec4bc64b9ca7f53971f7e3",
+            "positive_validation": "PASS",
+            "negative_input_controls": [
+              {
+                "name": "deleted_original_scope",
+                "detected": true
+              },
+              {
+                "name": "all_main_overclaim",
+                "detected": true
+              },
+              {
+                "name": "quarantine_promoted",
+                "detected": true
+              },
+              {
+                "name": "missing_nonvacuity",
+                "detected": true
+              }
+            ]
+          },
+          {
+            "mode": "optimized",
+            "path": "cbz/evidence/website-foundation-20261029/sources/tooling/metadata-identity/optimized.json",
+            "sha256": "b704f0e141ff687fc04feb92b1993381c8ca8652afda1fd31d7ee59011dedf9c",
+            "positive_validation": "PASS",
+            "negative_input_controls": [
+              {
+                "name": "deleted_original_scope",
+                "detected": true
+              },
+              {
+                "name": "all_main_overclaim",
+                "detected": true
+              },
+              {
+                "name": "quarantine_promoted",
+                "detected": true
+              },
+              {
+                "name": "missing_nonvacuity",
+                "detected": true
+              }
+            ]
+          }
+        ],
+        "source_guard_mutation_normal": {
+          "mutants_killed": 1,
+          "mutants_total": 1,
+          "positive_harness_tests": 1,
+          "mutant_assertion_failures": 1,
+          "errors": 0,
+          "skips": 0,
+          "report": {
+            "path": "cbz/evidence/website-foundation-20261029/sources/tooling/metadata-identity/source-mutation-normal.json",
+            "sha256": "f4423e7d477ab2953a92b829fc38ac744574ad884f6d2c3714b701f2ff3a4a25"
+          }
+        },
+        "source_guard_mutation_optimized": {
+          "mutants_killed": 1,
+          "mutants_total": 1,
+          "positive_harness_tests": 1,
+          "mutant_assertion_failures": 1,
+          "errors": 0,
+          "skips": 0,
+          "report": {
+            "path": "cbz/evidence/website-foundation-20261029/sources/tooling/metadata-identity/source-mutation-optimized.json",
+            "sha256": "9b35e636b5b678262e3d90ce72131ffc0eac7c5649a489704c39f15af51066b9"
+          }
+        }
+      },
+      "mutation_self_test": [
+        "python",
+        "-B",
+        "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py"
+      ],
+      "mutation_self_test_optimized": [
+        "python",
+        "-B",
+        "-O",
+        "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py"
+      ]
+    }
+  ],
+  "pending_tools": [],
+  "original_registry_sources": [
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/lean-foundation/TOOL_REGISTRY.json",
+      "sha256": "f6b6ff72a0664cb55dc33232ac1837e43213f3e04d957ec4772bba05696dde64",
+      "original_path": "/workspace/cbz0/lean-foundation/TOOL_REGISTRY.json"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/auditor/TOOL_REGISTRY_ENTRY.json",
+      "sha256": "3736a90029676cd50538a599055b0397aaea1120f72fc411a851b1b670b82443",
+      "original_path": "/workspace/cbz0/auditor/TOOL_REGISTRY_ENTRY.json"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/ref-tool/registry.json",
+      "sha256": "4152e6e4ce896688d0adadb6023b71e8e6e5ddb770a4e248cd673dc0f2838209",
+      "original_path": "/workspace/cbz0/ref-tool/registry.json"
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/sources/tooling/storage/TOOL_REGISTRY_ENTRY.json",
+      "sha256": "2828b771dd8fe29811c08b846d625b9f72c74f4c28b81f5b22ddeec13eab9d03",
+      "original_path": "/workspace/cbz0/storage/TOOL_REGISTRY_ENTRY.json"
+    }
+  ],
+  "construction_tools": [
+    {
+      "path": "cbz/evidence/website-foundation-20261029/construction/generate.py",
+      "sha256": "610b8953c903c37dfdc0289ddd29d60d5411d5a0efb872be98b2e3a1226a8ddb",
+      "scope": "Archived one-off builder/metadata verifier; workspace paths are intentionally preserved. Not a fresh-clone operational tool."
+    },
+    {
+      "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
+      "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
+      "scope": "Portable contribution metadata identity validator with optimization-safe explicit guards and four finite negative controls; not theorem or whole-baseline certification."
+    }
+  ]
+}

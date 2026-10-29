@@ -1,0 +1,1375 @@
+                                            ON A GENERAL KAC-RICE FORMULA FOR THE MEASURE
+                                                            OF A LEVEL SET
+arXiv:2304.07424v3 [math.PR] 5 Dec 2023
+
+
+
+
+                                                      DIEGO ARMENTANO, JEAN-MARC AZAÏS, JOSÉ RAFAEL LEÓN
+
+
+
+
+                                                   Abstract. Let X(·) be a random field from RD to Rd , D ≥ d. We first studied
+                                                   the level set X −1 (u), u ∈ Rd . In particular we gave a weak condition for this
+                                                   level set to be rectifiable. Then, we established a Kac-Rice formula to compute
+                                                   the (D − d) Hausdorff measure. Our results extend known results, particularly
+                                                   in the non-Gaussian case where we obtained a very general result. We conclude
+                                                   with several extensions and examples of application, including functions of
+                                                   Gaussian random field, zeroes of the likelihood, gravitational microlensing,
+                                                   shot-noise.
+
+
+                                                                    1. Introduction and motivation
+                                          1.1. History and the present of Kac-Rice formula roadmap. The study of
+                                          level sets has begun with the pioneering works of Kac [22] and Rice [30] in the case
+                                          of a random process R → R. Ito [21] gave the first general rigorous proof of what
+                                          has become to be the Kac-Rice formula . A first general monograph was published
+                                          by Cramer and Leadbetter [15]. At that time, only stochastic processes from
+                                          R to R were considered. The applications were mainly in engineering [15] or
+                                          oceanography [24].
+                                              In 1957, Longuet-Higgings [24], for modeling the sea surface, established a Kac-
+                                          Rice formula for the expectation of the length of the level set of a random field
+                                          X : R2 → R. Its proof used an intuitive approach but very interesting ideas.
+                                          Another interesting work is a paper by Brillinger [12] where he studied the zeros of
+                                          a system of random equations and for the first time the celebrated area formula was
+                                          used. Using this latter formula Brillinger established a Kac-Rice formula for almost
+                                          every level (see Proposition 22 below) remarking that as long as both members are
+                                          continuous, the equality for all levels is satisfied. However, his conditions for having
+                                          this continuity are very strong; see his Corollary 3.1.
+                                              The first convincing application to the expectation of the number of zeroes of
+                                          random fields Rd → Rd was due to Adler [1] (in fact, Adler considered critical
+                                          points that are the zeroes of the derivatives), and two different general proofs
+                                          were published in [2] and [6].
+                                              Another generalization is the case where dimensions disagree: that is, random
+                                          fields RD → Rd , D > d. In such a case the level set is generically a set of
+                                          dimension D − d. Defining and computing of the expectation of its measure
+                                          are difficult problems. The first attempts seem to date back to Wschebor [32]
+                                          and Cabaña [13]. The subject has been developed by Kratz-León [23], [2, Th
+
+                                             2010 Mathematics Subject Classification. 60GG60,60G15,60G10,49Q15,52A22.
+                                             Key words and phrases. Random fields, Kac-Rice formula, Bulinskaya lemma, Gaussian fields,
+                                          Shot-noise, likelihood process, Stochastic micro-lensing.
+                                                                                          1
+2                             ARMENTANO, AZAÏS, LEÓN
+
+
+15.9.4] consider the case of i.i.d. Gaussian components and a first general proof
+was given in Azaı̈s-Wschebor [7], with a detailed version in Berzin et al. [9]. All
+the cited works, except marginal results, are limited to the computation of the
+moments of the measure of the level set. The computation of other geometrical
+quantities is a largely unsolved problem.
+   In the last decades, new applications of the Kac-Rice formula have been
+developed. The statistics high-dimensional and learning have presented the problem
+of studying the landscape of random fields: the behavior of the number of critical
+points with a given index on a high-dimensional sphere. This problem is related to
+the Ising model [4].
+   The random wave model due to Berry and the famous Berry cancellation prob-
+lem [8] have been considerably studied in physics and astronomy. Many references
+can be found in the recent review paper of Wigman [33] about the progress in the
+study of nodal sets of random fields.
+   In the 20th century, the Gaussian model was the most relevant: it permitted
+to avoid technicalities but, above all, it was almost the only one under which pre-
+cise calculations were doable. This explains why most of the manuals considered
+mainly this case and some direct generalizations as χ2 processes. Nowadays, some
+non-Gaussian models have been developed, for example, non-Gaussian likelihood
+models, but the most common model is perhaps the shot-noise model. For applica-
+tions of the KRF in these processes, see, for instance, the work of Biermé-Desolneux
+[10].
+   In the cited literature, there are numerous conditions that provide different proofs
+of the Kac-Rice formulas. In this paper our goal is to provide simple proofs and
+at the same time under conditions that are easy to verify and weaker than usual.
+This is illustrated by the numerous examples given in Section 8.
+
+                                  2. Main results
+   Let X : T → Rd be a random field defined on a open set T ⊂ RD .
+   Given a fixed value u ∈ Rd , and a Borel subset B ⊂ T , we are interested in the
+level set
+(2.1)                       Lu (B) := {t ∈ B : X(t) = u}.
+
+   In this paper, we will assume that D ≥ d (under general conditions, if D < d,
+Lu (B) is almost surely (a.s.) empty). We assume that the paths of X(·) are of
+class C 1 a.s., and we denote by X ′ (·) its derivative.
+   Irregular points of the level set Lu (B) are defined as points t in Lu (B), where the
+derivative X ′ (t) is not a surjective linear map, i.e., when the generalized Jacobian
+(or normal Jacobian)
+                                       q
+(2.2)                         ∆(t) := det(X ′ (t)X ′ (t)⊤ )
+vanishes. Here X ′ (t)⊤ denotes the transpose. In particular, when D = d, we have
+∆(t) = | det X ′ (t)|: the absolute value of the determinant of the Jacobian matrix
+of X at t.
+   The first main result concerns the Bulinskaya-type lemma about the regularity
+of the level set Lu for C 1 random fields. Note that this condition is needed in the
+proof of the Kac-Rice formula.
+                         KAC-RICE FORMULA FOR LEVEL SET                               3
+
+
+    Let us first consider the case D = d in that case the Bulinskaya condition reads:
+a.s. there are no irregular points. In classical results, some assumptions are needed
+to obtain this condition, for example, [2, Lemma (11.2.1)] or [7, Proposition 6,5].
+The present proof, based on local time permits to get this condition for free and
+even in the very classical Gaussian random fields, our condition for the Kac-Rice
+formula are weaker. In addition, in our opinion, the proof is simpler.
+    Let us turn to the case D > d. Under further smoothness conditions on the path
+of X, the Morse-Sard type arguments and implicit function theorem imply that Lu
+is a manifold for almost every level u ∈ Rd . However, our main interest is for a
+prescribed value u, say, u = 0.
+    It is sometimes written that, if the paths of X are C 1 the level set is always a
+manifold, which to be true needs some additional regularity. This can be the case
+for almost every level using the Morse-Sard theorem, as long as the random field
+is sufficiently differentiable. Perhaps it was that situation that led to this assertion
+in the work of Ibragimov–Zaporozhets [20]. However, this statement is not true in
+full generality as shown by the following counter-example:
+  Let D = 2 d = 1 and, for example,
+                       X(t1 , t2 ) = ξ(t21 − t22 ),   (t1 , t2 ) ∈ R2 ,
+where ξ is standard normal. Take u = 0, the nodal set is a.s.
+                                 L0 = {|t1 | = |t2 |} ⊂ R2 ,
+which is obviously not a manifold.
+
+  If we assume the strong Bulinskaya condition:
+(2.3)                    P {∃t ∈ U, X(t) = u, ∆(t) = 0} = 0,
+then the implicit function theorem implies that the level set Lu is a.s. a manifold.
+   Our contribution is to introduce instead the weak Bulinskaya condition
+(2.4)               σD−d {t ∈ T : X(t) = u, ∆(t) = 0} = 0, a.s.
+where σℓ denotes the ℓ-dimensional Hausdorff measure on RD . Moreover, we give
+weak sufficient conditions for (2.4) (Proposition 2.1).
+    (Note that σ0 coincides with the counting measure; therefore, conditions (2.3)
+and (2.4) are equivalent in the case D = d.)
+    Under condition (2.4), we proved as shown in Section 4, that the level set Lu
+is, almost surely, the union of a C 1 manifold and a negligible set, and thus it is
+rectifiable.
+   When D > d, classical proofs of KRF (see [7]) demand the strong condition (2.3).
+But with the use of the Crofton formula for rectifiable sets, we are able to prove
+it under the weaker condition (2.4), and again the local time argument permits to
+establish it almost for free. The basis idea is the following. Let X(·) be a “nice”
+random field. Then (2.4) must hold because, otherwise, the random field, “would
+spend too much time in the neighborhood of u”. This last quantity is measured by
+the local time: the density of the occupation measure at u.
+   This is the object of the next proposition.
+4                              ARMENTANO, AZAÏS, LEÓN
+
+
+Proposition 2.1 (Bulinskaya-type Lemma). Let T ⊂ RD be an open set and let
+X : T → Rd be a C 1 random field. Let u ∈ Rd . Assume that the density pX(t) of
+X(t) satisfies
+(2.5)      pX(t) (v) ≤ C for all t ∈ T and v in some neighbourhood Vu of u.
+Then
+                  σD−d ({t ∈ T : X(t) = u, ∆(t) = 0}) = 0, a.s..
+Remark 1. The condition (2.5) can be weakened into
+                          Z
+(2.6)                          pX(t) (v) dt < C for all v ∈ Vu
+                           T
+   The proof of Proposition 2.1, included in Section 4, which uses local time, ex-
+tends existing results considerably. (Cf. Adler-Taylor [2, Lema 11.2.11] and Azaı̈s-
+Wschebor [7, Proposition 6.11], [26, Lemma 6].)
+   When D > d, since the regular part of the level set is a C 1 manifold of dimension
+D − d, it implies that the level set is a.s. a (D − d)-rectifiable set. In particular,
+its (D − d)-dimensional Hausdorff measure coincides with the associated geometric
+measure of the regular part of Lu , i.e. the Riemaniann measure induced by the
+inherited Riemannian structure from RD (see Morgan [25], for example).
+
+   The next main result of this paper is a new version of the Kac-Rice formula which
+extends to non-Gaussian random fields. There exists in the literature some formula
+for non-Gaussian processes, for example, [5], [10], with ad hoc proofs. In the case of
+random fields, when D = d, Adler-Taylor [2, Theorem 11.2.1] demands numerous
+conditions. The following theorem gives general results in the non-Gaussian case.
+Theorem 2.1 (Rice formula for the expectation). Let X : T → Rd be a random
+field, T an open subset of RD , (D ≥ d).
+    Assume that:
+      (i) The sample paths of X(·) are a.s. C 1 ,
+     (ii) for each t ∈ T , X(t) admits a continuous density pX(t) (v), which is bounded
+          uniformly in v ∈ Rd and t in any compact subset of T .
+    (iii) For every v ∈ Rd , for every t ∈ T , the distribution of {X(s), s ∈ T }
+          conditional to X(t) = v is well defined as a probability and is continuous,
+          as a function of v, with respect to the C 1 topology.
+Then, for every Borel set B contained in T and for every level u, one has
+                                     Z
+                                                         
+(2.7)         E (σD−d (Lu (B))) =          E ∆(t) X(t) = u pX(t) (u)dt.
+                                       B
+Remark 2. In full generality, the conditions of Theorem 2.1 can be “localized”: It
+is sufficient that they were true for X(t) in some neighborhood of the considered
+level u.
+Remark 3. The proof of Theorem 2.1 is partially based on the method of Azaı̈s-
+Wschebor [7] and uses tools from integral geometry such as Crofton formula for
+the rectifiable set Lu . (See Section 5 for the proof and preliminaries on integral
+geometry.)
+Remark 4. The C 1 topology is detailed in Section 5.
+                         KAC-RICE FORMULA FOR LEVEL SET                               5
+
+
+Remark 5. Another way of presenting (2.7) is to say that the map B → E (σD−d (Lu (B)))
+defines a Borel measure whose density is given by E ∆(t) X(t) = u pX(t) (u).
+
+   When D = d, the level set Lu is, under the conditions of this theorem, a set of
+isolated points. Then, σD−d (Lu (B)) = Nu (X, B), where
+(2.8)                     Nu (X, B) := #{t ∈ B : X(t) = u}
+is the number of solutions in B. Then, formula (2.7) reads as follows:
+                              Z
+                                                        
+(2.9)       E (Nu (X, B)) =     E | det(X ′ (t)| X(t) = u pX(t) (u)dt.
+                                 B
+
+  Theorem 2.1 implies the following important result for the Gaussian case. The
+most important aspect is that there are almost no conditions.
+Theorem 2.2. Let X : T → Rd be a Gaussian random field, T an open subset of
+RD , (D ≥ d), and u ∈ Rd , satisfying the following:
+     (i) The sample paths of X(·) are a.s. C 1 ;
+    (ii) for each t ∈ T , X(t) has a positive definite variance-covariance matrix.
+  Then, (2.7) holds true. In addition, if B is compact, both sides of (2.7) are finite
+and, consequently, the measure B 7→ E (σD−d (Lu (B))) is Radon.
+Remark 6. Suppose that (ii) is not meet on T . Define
+                      T̃ := {t ∈ T : Var(X(t)) positive definite}.
+Then, (2.7) is valid for all Borel subset of T̃ .
+Remark 7. This theorem is a direct consequence of Theorem 2.1 once the conditional
+distributions are defined by means of regression formulas.
+   In Section 8 we present interesting examples most of them are non-Gaussian.
+In that case, the main difficulty is to define a regular version of the conditional
+expectation. One main contribution is to define it through a very general version
+of the push-forward distribution, Lemma 8.1, based on the Co-area formula. This
+permits us to define the mentioned conditional expectation in various situations.
+
+                         3. Background and motivations
+   In this section, we revisited some classical results which motivate the main results
+of this paper.
+
+3.1. Regularity of level sets. A classical result given by Bullinskaya for a one-
+parameter random field is as follows:
+Lemma 3.1 (Bulinskaya[11]). Let X : [a, b] → R be a random process with paths
+of class C 1 . Let u ∈ R, and assume that
+         pX(t) (v) ≤ C for all t ∈ T and v in some neighbourhood Vu of u.
+Then
+(3.1)                 P {∃t ∈ T, X(t) = u, X ′ (t) = 0} = 0.   
+6                              ARMENTANO, AZAÏS, LEÓN
+
+
+3.2. Kac-Rice formula for almost every level. A much weaker version of
+Theorem 2.1 is the Kac-Rice formula for almost every level.
+Proposition 3.2. [Kac-Rice formula for almost every level] Let X : T → Rd be a
+random field, and T an open subset of RD . Assume the following:
+     (i) X(·) has C 1 paths;
+    (ii) for each t ∈ T : ∆(t) is integrable;
+   (iii) for each t ∈ T : X(t) admits a density pX(t) (·) in Rd .
+Then, for every Borel set B ⊂ T , we have
+                                    Z
+                                                         
+(3.2)           E(σD−d (Lu (B))) =      E ∆(t) X(t) = u pX(t) (u) dt
+                                     B
+                           d
+for almost every u ∈ R .
+   This result is much easier than Theorem 2.1 and follows almost directly from the
+co-area formula. This is well known since the works of Brillinger [12], and Zähle
+[36] and we give the proof for completeness.
+
+Proof. Let g : Rd → R be a test function, a bounded Borel non-negative function.
+By the co-area formula [7, Proposition 6.13], one gets
+               Z                                Z
+                                         
+                  g(u)σD−d X −1 (u) ∩ B du =        g(X(t)) |∆(t)| dt.
+                Rd                                  B
+Take expectations on both sides. Note that the expectations are always well defined
+because we consider non-negative
+                                 functions, and also that the conditional expec-
+tation: E |∆(t)|/X(t) = u is well defined for almost every u. Applying Fubini’s
+theorem and conditioning by X(t) = u, we get
+     Z                            Z         Z
+                                                                 
+        g(u)E σD−d (Lu (B)) du =    g(u)du      E |∆(t)| X(t) = u pX(t) (u)dt.
+     R                               R          B
+
+By duality, since g(·) is arbitrary, the terms in factor of g(u) on both sides are equal
+for almost every u, giving the result.                                                
+
+   Some practitioners consider that the result above is sufficient for applications.
+In fact, this is rarely the case: Very often, the considered level is u = 0! (as in the
+seminal work of Kac [22]), and a statement, valid for almost every u, is not valid
+for u = 0! It is necessary to establish formula (3.2) for every level. This demands
+a lot of work, especially for non-Gaussian models.
+   Note that if X(·)
+                     is Gaussian, the definition of the conditional expectation:
+E ∆(t) X(t) = u for every u with continuity properties is very easy through
+regression formulas. In the general setting, the right-hand side of (3.2) is defined, a
+priori, only for almost every u. Some work is necessary to define the density and the
+conditional expectation for every u. Without this work, the Kac-Rice formula for
+all levels even makes no sense.
+
+                          4. Proof of Proposition 2.1
+   Let us start recalling some definitions.
+   Given x ∈ Rℓ and ρ > 0, we denote by Bℓ (x, ρ) ⊂ Rℓ the ball centered at x and
+of radius ρ.
+                           KAC-RICE FORMULA FOR LEVEL SET                                      7
+
+
+   For a given K ⊂ RD , recall that σℓ (K) is the ℓ-dimensional Hausdorff measure
+given by
+                               σℓ (K) = lim σℓε (K),
+                                                 ε→0
+
+where σℓε is the ℓ-dimensional Hausdorff pre-measure on RD given by
+                               (                                                        )
+                                   X
+(4.1)      σℓε (K) := αℓ inf             ℓ
+                                       ρi , for a covering {BD (xi , ρi )} of K, ρi < ε ,
+                                   i
+
+where αℓ := λℓ (Bℓ (0, 1)) is the Lebesgue measure of the unit ball in Rℓ . With this
+constant, ones get that the ℓ-dimensional Hausdorff measure on Rℓ coincides with
+the Lebesgue measure λℓ on Borel sets of Rℓ .
+   Before proving Proposition 2.1, we need a technical lemma.
+Lemma 4.1. Let K be a compact set of RD , and assume d < D. Suppose σD−d (K)
+is finite. Then there exist constants C1 and C2 , depending on d and D, such that,
+for ε sufficiently small:
+        • There exists an “ε-packing” (a collection of disjoint balls with center be-
+          longing to K and with radius ε) with cardinality l(ε),
+                                l(ε) ≥ C1 εd−D σD−d (K).
+                                   S
+        • The parallel set K +ε = x∈K BD (x, ε) satisfies
+
+                                   σD (K +ε ) ≥ C2 εd σD−d (K).
+                                     ε                               ε
+Proof. Recall that the premeasure σD−d  , given in (4.1), satisfies σD−d (K) ↑ σD−d (K)
+as ε ↓ 0. Suppose σD−d (K) = a > 0 (otherwise, there is nothing to prove). Then,
+                           3ε
+for sufficiently small ε, σD−d (K) > a/2. We perform a covering of K by induction
+using balls centred at points in K and of radius 3ε exactly. To do so, we start from
+one point of K, and at each step, we define a new ball such that (i) the center
+belongs to K and (ii) does not belong to the union of the preceding balls. By
+compactness, the needed number of such balls, say ℓ(ε), is finite, and by definition
+of the Hausdorff pre-measure,
+                                    ℓ(ε)(3ε)D−d αD−d > a/2.
+Let t1 , . . . , tℓ(ε) be the centres of the balls; the balls BD (ti , ε) constitute an ε packing
+giving the first assertion. The union of the balls, which has a volume
+                                              C2 aεd
+(for certain constant C2 ), is included in the parallel set K +ε giving the second
+assertion.                                                                       
+
+   Now, we turn into the proof of Proposition 2.1.
+
+Proof of Proposition 2.1. Assume, with no loss of generality, that u = 0 and that
+the considered set T is compact.
+   Define the density of the occupation measure LT, the local time, as
+                                                  1
+         LT := lim inf LT(δ) := lim inf                    σD ({t ∈ T : kX(t)k ≤ δ}) ,
+                 δ→0                   δ→0   λd (Bd (0, δ)
+8                               ARMENTANO, AZAÏS, LEÓN
+
+
+where λd (Bd (0, δ) = αd δ d is the volume of the ball Bd (0, δ) with radius δ on Rd .
+Note that since we used lim inf, the definition of the local time is in a generalized
+sense. By Fubini’s theorem, the hypothesis on the density and Fatou’s lemma:
+                                        
+(4.2)                             E LT ≤ CσD (T ).
+
+This implies that LT is an almost surely finite non-negative random variable.
+
+    Let M := maxt∈T λmax (X ′ (t)), where λmax is the greatest singular value. Let
+                                          kX(t + v) − X(t) − X ′ (t)vk
+                   N (ε) :=      sup                                   .
+                              t∈T ; kvk<ε            kvk
+
+Then, by compactness, N (ε) and M are almost surely finite non-negative random
+variables and N (ε) → 0, as ε → 0.
+   Let L̃0 the irregular part of the level set L0 , i.e.,
+
+(4.3)                    L̃0 := {t ∈ T : X(t) = 0, ∆(t) = 0}.
+
+  Let t ∈ L̃0 , then X(t) = 0, rk(X ′ (t)) = k for some k ∈ {0, 1, . . . , d − 1}.
+  Let v1 ∈ V1 := ker(X ′ (t)), where V1 has dimension D − k.
+Let v2 ∈ V2 := V1⊥ , where V2 has dimension k.
+  Then we have
+
+          kX(t + v1 + v2 )k ≤ kX(t + v1 + v2 ) − X(t + v1 )k + kX(t + v1 )k
+                              ≤ M kv2 k + kv1 k · N (kv1 k).
+
+    Suppose ε is such that N (ε) < 1, choose v1 and v2 such that
+                                  1                  1
+(4.4)                     kv1 k ≤ √ ε,      kv2 k ≤ √ ε · N (ε).
+                                   2                  2
+Then we have
+                             
+                              v1     1
+                        X t+      ≤ √ (M + 1)ε · N (ε).
+                              v2      2
+The condition given in (4.4) defines a polydisk with volume
+
+(4.5)                            (const)εD−k ε · N (ε))k ,
+
+where the constant depends on D, d, and k. The polydisk is included in L̄+ε
+                                                                         0 and
+thus in T for sufficiently small ε.
+
+   Let us define the event ZD,d = {ω : σD−d (L̃0 ) > 0}, and assume by contradiction
+that P(ZD,d ) > 0.                                                      
+   In the case D = d, given ω ∈ Zd,d , let δ = δω,ε = (M + 1)ε · N (ε) . Then the
+approximated local time LT(δ) is greater than
+                    1
+                           (const)εd−k ε · N (ε))k = (const)(N (ε))k−d ,
+              (ε · N (ε))d
+which tends to infinity as ε → 0, giving the contradiction with the fact that LT is
+an almost surely finite non-negative random variable (cf. (4.2) for D = d).
+                           KAC-RICE FORMULA FOR LEVEL SET                               9
+
+
+   Now, let us consider the case D > d. When ω ∈ ZD,d , by Lemma 4.1 and (4.5),
+the approximated local time LT(δ) for δ = (M + 1)ε · N (ε) satisfies
+                            1
+              LT(δ) =                σD {t ∈ T : kX(t)k ≤ (M + 1)ε · N (ε)}
+                       λd (Bd (0, δ)
+                        (const)
+                     ≥               ℓ(ε)εD−k ε · N (ε))k
+                       λd (Bd (0, δ)
+                     ≥ (const)((M + 1)εN (ε))−d εD−k ε · N (ε))k × εd−D
+                     = (const)((M + 1)N (ε)k−d ,
+which again tends to infinity as ε → 0, giving the contradiction.                       
+
+                        5. Proof of Theorem 2.1 for D = d
+   We first prove Theorem 2.1 for the case D = d. The general version of the proof,
+which follows from this case and the uses of the Crofton formula, will be posponed
+to Section 6.
+   The proof needs some technical results.
+Lemma 5.1. Let f : T → Rd be a C 1 function, defined on a compact set T ⊂ Rd .
+Assume that
+        • Nu (f, ∂T ) = 0
+        • {t ∈ T̊ : f (t) = u, det(f ′ (t)) = 0} = ∅.
+Then, for δ > 0, sufficiently small,
+                                                           Z
+                                               1
+             Nu (f, T ) = Nuδ (f, T ) =                        1{|f (t)−u|<δ} ∆(t)dt.
+                                          λd (Bd (0, δ))   T
+
+Proof. See Adler-Taylor [2].                                                            
+
+  Let C 1 (T, Rd ) be the space of C 1 functions defined on T with values on Rd . This
+space is equipped with the following canonical norm:
+(5.1)                          kf k = sup(kf (t)k + kf ′ (t)k),
+                                       t∈T
+
+where we have chosen, once for all, a certain norm in Rd and in the space of (d × d)-
+matrices.
+    The following proposition, about the continuity of the number of roots with
+respect to the C 1 topology, is inspired by the proof in dimension 1 by Angst-Poly
+[3].
+Proposition 5.2. Let T be a compact set of Rd . Suppose Xn (·), n = 1, 2, . . . is
+a sequence of random fields defined on T and belonging to the space C 1 (T, Rd )
+defined in (5.1). Suppose that the sequence Xn (·) converges a.s. to X(·) with the
+above-mentioned topology. Suppose that in addition, a.s.
+   (a) Nu (X, ∂T ) = 0 ,
+   (b) {t ∈ T : X(t) = u; ∆(t) = 0} = ∅.
+Then
+                       Nu (Xn , T ) → Nu (X, T )     a.s. as      n → ∞.
+10                               ARMENTANO, AZAÏS, LEÓN
+
+
+  Note that we have the same result if we replace the a.s. convergence by the weak
+convergence.
+  Furthermore, we will prove a sharper result, namely, almost surely Nu (Xn , T ) =
+Nu (X, T ) for n large enough.
+
+Proof. In this proof, we use the operator norm for kX ′ (t)k. For each realisation,
+let m be the number of solutions of X(t) = u in T . Since T is compact, (b) implies
+that m is finite. The case m = 0 is direct. We consider the case m > 0.
+   Let x1 , . . . , xm be the solutions of X(t) = u for t ∈ T . By hypothesis, these
+solutions are interior points of T .
+   Let B(x, δ) denote the open ball with center x and radius δ in Rd . By the
+inverse function theorem, for sufficiently small δ and for all i = 1, . . . , m, X(·) is a
+diffeomorphism from B(xi , δ) to some open set of Rd . Set
+                                    W := ∪ni=1 B(xi , δ).
+We may assume that there exists α > 0 such that k(X ′ (t))−1 k ≤ α, for all t ∈ W .
+  By uniform convergence in the C 1 topology, one may find N ∈ N such that
+(5.2)                kXn − Xk < min(δ, (4α)−1 ),         for all n > N
+and Xn (·) has no solution of Xn (t) = u on T \ W for n > N .
+                                            en,i : B(xi , δ) → Rd , given by
+  Let us define the auxiliary C 1 functions X
+               en,i (t) = t − (X ′ (xi ))−1 (Xn (t) − u),
+               X                                                (i = 1, . . . , m).
+                                                                              en,i
+Note that Xn has a solution of Xn (t) = u on B(xi , δ) if and only if the map X
+has a fixed point.
+  By strengthening the conditions on δ, we can even demand the following
+
+
+(5.3)       ∀t ∈ B(xi , δ) : kX ′ (t) − X ′ (xi )k < (4α)−1 ,      (i = 1, . . . , m).
+                                  e i , δ),
+From (5.2) and (5.3), for all t ∈ B(x
+                 en,i )′ (t)k = kId − (X ′ (xi ))−1 Xn′ (t)k
+               k(X
+                             ≤ k(X ′ (xi ))−1 k · kX ′ (xi ) − Xn′ (t)k
+                             ≤ α · (kX ′ (xi ) − X ′ (t)k + kX ′ (t) − Xn′ (t)k)
+                                              
+                                     1      1         1
+                             <α        +         = ,
+                                    4α 4α             2
+for all n > N . We conclude that X en,i is a contraction B(xi , δ) → B(xi , δ). The
+fixed point theorem implies that Xen,i has exactly one fixed point.
+   So, for large enough n, the number of solutions is m, concluding our proposition.
+                                                                                  
+
+     We turn now to the main result. Mainly, three problems may arise:
+        • The roots X(t) = u can be associated with a Jacobian X ′ (t), which is
+          almost singular or even singular, namely, ∆(t) = 0.
+        • There can be some roots on the boundary of the considered set.
+        • The quantities considered may be too large, causing non-integrability.
+                                 KAC-RICE FORMULA FOR LEVEL SET                          11
+
+
+   All these problems will be overcome by a bounding and tapering argument
+followed by a monotone convergence argument. This (without tapering) is, for
+example, a routine argument in stochastic calculus where one often localises, for
+example, stopping times. The tapering is here necessary to keep the continuity,
+which is a key argument. We now introduce our notation:
+
+   Let F be the continuous monotone, piecewise linear function : R+ → [0, 1] such
+that: (i) It vanishes on [0, 1/2]. (ii) It takes the value 1 on [1, +∞). Consider
+Fn (x) := F (nx), a tapered version of the indicator function 1x>1/n , and Gn (x) :=
+1 − F (x/n), a tapered version of the indicator function 1x<n
+
+
+
+
+        Fn (t)                                                      Gn (t)
+
+                                                                       n             t
+        1/2n               1/n                            n/2
+
+                                   Figure 1. Tapered functions
+
+
+
+Proof of Theorem 2.1 for D = d. For the moment, consider R a compact hyper-
+rectangle included in T . Let v be a generic point in Rd . The bounding and tapering
+argument is introduced by considering
+                               X
+(5.4)           Cvn (R) :=            Fn (∆(s))Gn (∆(s))Fn (dist(s)),
+                              s∈R:X(s)=v
+
+(5.5)               Qv (R) := Cvn (R)Gn (Cvn (R)),
+                     n
+
+
+where dist(s) is the distance of the point s to the boundary of R. In (5.4), when the
+summation index set is empty, we put Cvn (R) = 0. Let g : Rd → R+ be continuous
+with compact support. We apply the area formula [7, eq. (6.2), page 161] for the
+function
+                  h(t, v) = Fn (∆(t))Gn (∆(t))Fn (dist(t))Gn (Cvn (R))g(v)
+to get that
+  Z
+           g(v)Qnv (R)dv
+      Rd
+                     Z
+                                                                  n
+                   =    ∆(t) Fn (∆(t)) Gn (∆(t)) )Fn dist(t))Gn (CX(t) (R)) g(X(t))dt.
+                       R
+
+Taking expectations in both sides provides
+ Z
+      g(v) E(Qnv (R))dv =
+   Rd
+ Z            Z
+                                                                    
+      g(v) dv     E ∆(t) Fn (∆(t)) ))Fn (dist(t))Gn (Cvn (R)) X(t) = v pX(t) (v)dt.
+   Rd              R
+12                            ARMENTANO, AZAÏS, LEÓN
+
+
+Note that the conditional expectation is well defined, since the variable is bounded.
+Since this equality holds for any g continuous with bounded support, it follows that
+(5.6)
+     E(Qnv (R))
+       Z
+                                                                   
+     =      E ∆(t)Fn (∆(t))Gn (∆(t))Fn (dist(t))Gn (Cvn (R)) X(t) = v pX(t) (v)dt,
+         R
+for almost every v.
+   Let us prove that the left-hand side of (5.6) is a continuous function of v. Outside
+the compact set,
+                           {t ∈ R : ∆(t) ≥ 1/2n; dist(s) ≥ 1/2n},
+the contribution to the sum (5.4) defining Cvn (R) is zero, for any v ∈ Rd . Let us
+consider now a particular level u, using the local inversion theorem, the number of
+points t ∈ R such that X(t) = u; ∆(t) ≥ 1/2n, dist(s) ≥ 1/2n, say, k, is finite, and
+all these points are interior.
+   If k is non-zero, X(t) is locally invertible in k neighborhoods V1 , . . . , Vk ⊂ R
+around these k points. For v in some (random) neighborhood of u, there is exactly
+one root of X(s) = v in each V1 , ..., Vk , and the contribution to Cvn (R) of these
+points can be made arbitrarily close to the one corresponding to v = u. Outside
+the union of V1 , ..., Vk , X(t) − u is bounded away from zero in R so that the con-
+tribution to Cvn (R) vanishes if v is sufficiently close to u.
+
+   Therefore, the function v → Qnv (R) is a.s. continuous at v = u. On the other
+hand, it is obvious from its definition that Qnv (R) ≤ n and an application of the
+Lebesgue dominated convergence theorem implies the continuity of E(Qnv (R)) as a
+function of v.
+   Let us look at the right-hand side of (5.6). The key point is that, because the
+bounding and tapering argument, irregular points and points on the boundary do
+not contribute to Cvn . As a consequence, Proposition 5.2 applies to Cvn without con-
+ditions (a) and (b). Hypotheses (ii) and (iii) and the boundedness of the quantities
+considered due to the presence of Gn imply that
+                                                                       
+            E ∆(t)Fn (∆(t))Gn (∆(t)))Fn (dist(t))Gn (Cvn (R)) X(t) = v
+is a bounded continuous function of v. Since pX(t) (v) is continuous as a function
+of v and uniformly bounded in t, the right-hand side of (5.6) is continuous and
+equality in (5.6) holds for every v ∈ N .
+   We can now pass to the limit as n → +∞, applying the monotone convergence
+theorem. This gives the equivalent of (2.9) for the number of regular roots in
+B = R̊. Applying Proposition 2.1, for D = d, we get (2.9) for such a B. Since
+the class of open relatively compact rectangles generates the Borel σ−algebra, and
+both members of (2.9) are measures on Borel subsets B of T , then by a classic
+extension argument, we get (2.9) for every Borel set B.                          
+
+                      6. Proof of Theorem 2.1 for D > d
+  Let us start with some preliminaries on integral geometry.
+  Suppose that we are in the Euclidean space RD . Given ℓ < D, we consider the
+Grassmannian manifold GD,ℓ of ℓ-dimensional subspaces of RD .
+                           KAC-RICE FORMULA FOR LEVEL SET                                        13
+
+
+   Let dGD,ℓ be the Har measure: the uniquely defined orthogonally invariant prob-
+ability measure on this space. Let B be a Borel set in RD . We define the m-integral
+geometric measure of B by
+                          Z                         Z
+(6.1) ID,m (B) := cD,m               dGD,D−m (V )           dλm (y) # {B ∩ ℓV,y } ,
+                              V ∈GD,D−m                        y∈V ⊥
+
+where ℓV,y is the affine linear space {y + V }, and where we naturally identify
+the element of the grassmanian V ∈ GD,D−m with the associated subspace of
+codimension m on RD . The constant cD,m is defined by
+                                                 
+                                  1/2      Γ D+1
+                                               2
+(6.2)                   cD,m := π                    .
+                                      Γ m+1
+                                         2    Γ D−m+1
+                                                   2
+   The integrand in (6.1) is measurable (see, for example, Morgan [25, p. 13]), and
+since it is non-negative, the integral is always well defined, finite, or infinite. This
+measure is also called the Favard measure.
+   The Crofton formula is a fundamental formula of integral geometry:
+Theorem 6.1 (Crofton’s formula). If B ⊂ RD is m-rectifiable, then Crofton’s
+formula [25, p. 31] yields
+(6.3)                               σm (B) = ID,m (B).
+                                                                                                 
+   A simple way to characterise m-rectifiable sets is to describe then as the union
+of countably many C 1 manifolds and a set of σm measure zero.
+   A Borel set can be decomposed into the disjoint union of a rectifiable set and
+a purely non-rectifiable sets. This last class of sets has always a null integral geo-
+metric measure ([25, 3.17 Structure Theorem]), and this implies that the Hausdorff
+measure of a set is always greater or equal than the integral geometric measure.
+Proof of Theorem 2.1. First, note that under our hypotheses and because of Propo-
+sition 2.1, a.s. the level set Lu is rectifiable. The proof is a direct application of
+Formula (6.1) and Theorem 2.1 for D = d. By Fubini’s theorem
+                                Z                   Z
+   E (σD−d (Lu (B))) = cD,D−d            GD,d d(V )       dλD−d (y) E# {B ∩ ℓV,y } ,
+                                  V ∈GD,d                    y∈V ⊥
+
+where                                                    
+                      E# {B ∩ ℓV,y } = E Nu X, B ∩ (V + y) .
+Let V be as above and let πV be the projector (of dimension d, D) on V . We can
+parametrise the affine space (V + y) as
+                            (V + y) = {(πV )⊤ s + y, y ∈ Rd }.
+Applying the Kac-Rice formula, for D = d, and again Fubini’s theorem:
+  E (σD−d (Lu (B)))
+               Z                        Z
+                                                                                 
+     = cD,D−d              dGD,d (V )           E | det(X ′ (t))(πV )⊤ |/X(t) = u pX(t) (u)dt,
+                 V ∈GD,d                    B
+
+After a new inversion of integral we get the result identity
+                     Z
+              cD,D−d            | det(X ′ (t)(πV )⊤ )|dGD,d (V ) = ∆(t),
+                        V ∈G(D,d)
+14                             ARMENTANO, AZAÏS, LEÓN
+
+
+which follows directly from Proposition 6.2 below.                                       
+     We begin with a lemma about computation of Gaussian determinants,
+Lemma 6.1. Let M a D ×d standard Gaussian matrix (its entries are i.i.d. N(0,1)
+r.v.), D ≥ d. Then,
+                          q                     D+1
+                                                    
+                                   ⊤      d/2 Γ  2
+              E(∆(M )) = E |det M M | = 2              =: LD,d .
+                                             Γ D−d+1
+                                                 2
+
+Proof. Let us write M ⊤ = [R1 , . . . , Rd ]. We use an interpretation of ∆(M ) as the
+d-volume of the parallelotope generated by R1 , . . . , Rd :
+                                                  d
+                                                  Y
+                           |∆(M )| = kR1 k              dist(Rj , Sj−1 ),
+                                                  j=2
+
+with Sj−1 = Span(R1 , . . . , Rj−1 ). Because of the invariance properties dist(Rj , Sj−1 ),
+                                                    √ Γ( D−j+2   )
+is distributed as a χ(D −j +1) with expectation 2 Γ D−j+1    2
+                                                                   and all these variables
+                                                          ( 2 )
+are independent. This yields
+                                                 D+1
+                                                      
+                                        d/2 Γ    2
+(6.4)                   E ∆(M ) = 2                      = LD,d .
+                                            Γ D−d+1
+                                                  2
+                                                                                         
+                                 d×D
+Proposition 6.2. Let M ∈ R     . Then,
+          q                        Z
+(6.5)      |det M M ⊤ | = cD,D−d ·                       | det(M (πV )⊤ )|dGD,d (V ).
+                                          V ∈GD,d
+
+Proof. Using singular value decomposition and invariance by isometry of the Haar
+measure and the determinant, we can assume, without loss of generality, that
+                                                     
+                                λ1
+                                  ..                 
+                        M =          .      0             d×(D−d)
+                                                   λd
+where the λi ’s are the singular values of M . Using
+                                                  the linearity of the determinant,
+we can even assume that M = Id 0d×(D−d) so that (6.5) is proved up to the
+multiplicative constant. To determine it, we use the particular case of a standard
+Gaussian matrix M .
+  Concerning the left-hand side, Lemma 6.1 implies directly that
+                                   E(∆(M )) = LD,d .
+  As for the second, the rows of M (πV )⊤ are the columns of πV M ⊤ , and they
+consist of d independent standard Gaussian vectors in V . Applying Lemma 6.1 in
+V again, we get
+                Z                                                 
+                                      ⊤                     Γ d+1
+                                                               2
+                         | det(M (πV ) )|dGD,d (V ) = Ld,d = √      ,
+                 V ∈GD,d                                       π
+giving                                                          
+                                                       D+1
+                                        1/2             Γ
+                           cD,D−d = π              D−d+1
+                                                         2         d+1
+                                                                          ,
+                                              Γ      2      Γ        2
+which agrees with (6.2).                                                                 
+                        KAC-RICE FORMULA FOR LEVEL SET                              15
+
+
+                    7. Some extensions and applications
+    Theorem 1 has many extensions: We can consider the (a) “non-flat case” where
+the parameter set T is now a D-dimensional manifold as a sphere ; (b) the case of
+the computation of higher moments and (c) we can add weight to the roots. Of
+course, all the combinations of (a) (b) and (c) can be considered. We provide a
+non-exhaustive list of statements in the appendix .
+    Here, because we need it in the examples, we consider the case of weights (c).
+Suppose now that we want to compute an integral over the level set with a non-
+negative weight g(t, Z(·)), that will depend on the location t and some extra random
+field Z(·). So, we consider
+                                   Z
+(7.1)               Gu (X, B) =                   g(t, Z(·))dσD−d (t).
+                                    t∈T :X(t)=u
+
+
+What kind of weights are admissible? Let us give two examples:
+    • Up-crossings. Let D = d = 1, Z(t) = X ′ (t), g(t, Z(·)) = 1Z(t)>0 .
+    • Critical points with a given index: Let Y (t), t ∈ T ⊂ Rd be a C 2 random
+field with real values, and define X(·) as its gradient. The critical points of Y
+are the zeros of X(·). We define the index i(M ) of a matrix as its number of
+negative eigenvalues. Among the critical values above, we may want to count only
+those associated with a Hessian of index k. In such a case, we have to define
+Z(·) = X ′ (·) = Y ′′ (·), g(t, Z(·)) = 1i(Z(t))=k .
+
+
+
+  We assume the following
+    a) g is lower semi-continuous as a function of t;
+    b) g is lower semi-continuous as a function of Z(·) for the weak convergence
+       of continuous functions;
+    c) For every v ∈ N , for every t ∈ T , the distribution of {Z(·)} conditional to
+       X(t) = v is well defined as a probability and is continuous, as a function of
+       v with respect the weak convergence of continuous functions.
+
+Theorem 7.1 (Expected integral on the level set). Let X : T → Rd be a random
+field satisfying the hypotheses of Theorem 2.1. To each point t of the parametric
+space, let us associate a weight g(t, Z(·)), where the function g satisfies a), b), c)
+then use the Definition (7.1).
+                             Z
+                                                         
+(7.2)       E Gu (X, B) =         E ∆(t)g(t, Z(·)) X(t) = u pX(t) (u)dt.
+                              B
+
+
+Remark 8. In the case X(·), Z(·) are jointly Gaussian, c) is always met.
+
+Proof. Since the function g(·) is a monotone limit of a sequence of continuous func-
+tion, by a monotone convergence argument, we can assume that g(·) is a continuous
+function. Then the conditions above ensure the continuity of both sides of the for-
+mula (5.6).                                                                       
+16                            ARMENTANO, AZAÏS, LEÓN
+
+
+                                           8. Examples
+8.1. Critical points of Gaussian random fields. Let X(·) be a Gaussian ran-
+dom field with C 2 paths from T ⊂ Rd → R such that for every t ∈ T , the variance-
+covariance matrix Var(X ′ (t)) is nondegenerate. Then, by Proposition 2.1, the sam-
+ple paths are a.s. Morse in the sense that
+                    P{∃t ∈ T : X ′ (t) = 0, det(X ′′ (t)) = 0} = 0.
+So, we can define the modified (not considering boundaries) Euler characteristic
+      P
+Φ := D  k=0 (−1)
+                 d−k
+                     Crtk,u , where Crtk,u are the critical points greater than u of
+index k (see [2, lemma 11.7.11] and [16]). When the random field is Morse, this
+quantity is equal, up to boundary problems, to the Euler characteristic of the
+excursion set:
+                              Eu := {t ∈ T : X(t) > u}.
+   Then, an easy application of Theorem 7.1 gives
+                      Z +∞        Z
+                                                            
+             E(Φ) =          dx           dt E(det(X ′′ (t)) X ′ (t) = 0)pX ′ (t) (0).
+                      u               T
+
+8.2. Function of Gaussian processes. Before stating our result, we need to
+establish two lemmas.
+  Let Y ∈ RD be a random variable admitting a density p(y) w.r.t. the Lebesgue
+measure and f : RD → Rd , d ≤ D, be a C 1 function. Set U = f (Y ) and define RU
+and IU as the sets of regular and irregular values respectively of f (·):
+                  IU := {u ∈ Rd : ∃y ∈ RD ; u = f (y); ∆(y) = 0}
+               RU := {u ∈ Rd : ∃y ∈ RD ; u = f (y); ∆(y) 6= 0},
+                                T 
+where ∆(y) := det f ′ (y) f ′ (y)     . Note that IU and RU may have some inter-
+section.
+Lemma 8.1 (Push-forward measure). The push-forward distribution, the distribu-
+tion of U = f (Y ), is the sum of a measure supported by the set IU and an absolutely
+continuous distribution on the set RU of regular values of f with density
+                                   Z
+                                               p(y)
+                            h(u) =                  dσD−d (y).
+                                    y∈f −1 (u) ∆(y)
+
+In particular, if P{∆(Y ) = 0} = 0, the distribution of U is absolutely continuous,
+with density given by the formula above.
+  The proof of this lemma is given in the appendix.
+  Note that if f is C D−d+1 , the Morse-Sard theorem (see Hirsch [19], for example)
+implies that IU has zero Lebesgue measure.
+Lemma 8.2 (Continuity of integrals on the level set). Let K be a compact set of
+RD , H : K → Rd , D ≥ d, a C 1 function and g : RD → Rd a continuous function.
+Let W be an open set of Rd . Suppose that for every y ∈ W
+                         
+                          x ∈ H −1 (y) : ∆(x) = 0 = ∅,
+where H −1 (y) := {t ∈ K : H(t) = y}.
+  Then,
+                             KAC-RICE FORMULA FOR LEVEL SET                          17
+
+
+                         Z
+                    y→               g(x)dσD−d (x) is continuous on W.
+                          H −1 (y)
+
+  For the proof, see Cabaña [14].
+Theorem 8.1. Suppose now that X is not Gaussian but a function of a Gaussian
+random field Y . More precisely,
+                                               
+                                 X(t) = H Y (t) .
+We assume the following for v in a neighbourhood of the considered level u.
+    a) Y (·) is a Gaussian random field with parameter in RD and values in Rn ,
+       n ≥ d with C 1 paths and non degenerated distribution, i.e., for all t ∈ T :
+       Var(Y (t)) ≻ 0.
+    b) H(·) : Rn → Rd is a C 1 function.
+    c) For each v, the irregular set
+                         {y ∈ H −1 (v) : det(H ′ (y)H ′ (y)⊤ ) = 0}
+        is empty.
+  Then, the conclusion of Theorem 2.1 holds true.
+Proof. Without loss of generality, using additivity, we can assume that T is com-
+pact. Proposition 8.1 implies that, for all t ∈ T , the density of X(t) at u is
+                           Z
+                                              φt (y)
+               pX(t) (u) =             p                      dσn−d (y).
+                            y∈H −1 (u)  det(H ′ (y)H ′ (y)⊤ )
+Since H −1 (u) is compact, then det(H ′ (·)H ′ (·)⊤ ) is lower bounded on it. Therefore,
+the pX(t) (v) is continuous and bounded.
+   Here, φt (y) is the Gaussian density of Y (t).
+   Let us check the conditions of Theorem 2.1. (i) and (ii) are clear.
+   We now consider the difficult hypothesis (iii). Let F be a bounded continuous
+non-negative functional on C1 (T ); our aim is to prove that
+                     
+                E(F X(t) = v) is continuous as a function of v.
+                                                    
+   We know that the conditional expectation E(F Y (t) = y) is well defined and
+that                          Z
+                                       
+                     E(F ) =       E(F Y (t) = y)pY (t) (y)dy.
+                                      Rn
+  Using the generalised change of variable H(y) = x (i.e., the co-area formula),
+                    Z       Z             
+                                      E(F Y (t) = y)
+            E(F ) =      dx                          pY (t) (y)σn−d (dy),
+                      Rd     H −1 (x)      ∆(y)
+             p
+with ∆(y) := det(H ′ (y)H ′ (y)⊤ ).
+  As a consequence, we choose as a version of the conditional expectation:
+                                    Z           
+                             1              E(F Y (t) = y)
+      E(F X(t) = x) :=                                        pY (t) (y)σn−d (dy).
+                          pX(t) (x) H −1 (x)     ∆(y)
+18                                   ARMENTANO, AZAÏS, LEÓN
+
+                                                                               
+   Note that this integral is always well defined. According to hypothesis, E(F Y (t) =
+y) is continuous. By (c), ∆(y) is continuous and non-zero almost everywhere, ap-
+plying Lemma 8.2
+                        Z             
+                                   E(F Y (t) = y)
+                    x→                             pY (t) (y)σn−d (dy)
+                          H −1 (x)     ∆(y)
+is continuous.                                                                            
+
+     The classical example is, of course, the case of χ2 processes :
+                                           X(t) = kY (t)k2 ,
+with Var(Y (t)) = In . a) and b) are clear; as for c)
+               H ′ (y) = 2(y1 , . . . , yn );    det(H ′ (y)H ′ (y)⊤ ) = 4kyk2 = 4v.
+So, if we exclude the non interesting case u = 0, the hypothesis is met.
+  In the proof of Corollary 8.1, the Gaussianity of Y (·) is not really needed: all
+what we need is the regularity
+                              of the density of Y (t) and the regularity of the
+conditional expectation E(F Y (t) = y). The result can be generalized as in the
+next section.
+
+8.3. Sum of parametrized function. In this section, we consider the following
+general framework:
+                          n
+                          X
+               X(t) =           L(Yi , t) := Ht (Y),      with Y := (Y1 , . . . , Yn ),
+                          i=1
+
+where
+        • t ∈ T ⊂ RD ;
+        • the Yi ’s are i.i.d. random variables in Rm with density f (·);
+        • L(·) is a function with value in Rd , d ≤ D, which is C 1 as a function of t
+          and Y ;
+        • nm ≥ D.
+Proposition 8.3. With the notation and assumption above, assume that for every
+t ∈ T , v ∈ V , the irregular set
+                        {Y ∈ Ht−1 (v) : Ht′ (Y) is not of full rank },
+is a.s.empty. Then, the conditions of Theorem 2.1 are fullfilled, and the Kac-Rice
+formula holds true for u ∈ V .
+Proof. Let us check the hypotheses of Theorem 2.1. (i) is clear. (ii) follows from
+the study of the density as in the proof of Theorem 8.1. It remains to establish (iii);
+for that goal, we follow the lines of the proof of Theorem 8.1. Fix a particular value
+of the parameter t0 and consider abounded continuous non-negative functional F
+on C 1 (T ). We want to define E(F X(t0 ) = v) as a continuous function of v.
+   It is clear that
+                                        
+                                   E(F Y) = F (Y),
+where Y is the function
+                                                t → Ht (Y).
+                         KAC-RICE FORMULA FOR LEVEL SET                               19
+
+
+This functional is continuous as a function of Y because of the differentiability
+hypothesis. Now, we chose as a version of the conditional expectation
+                                      Z            
+                              1                E(F Y = y)
+       E(F X(t0 ) = v) :=                                  pY (y)σn−d (dy),
+                           pX(t0 ) (v) H −1 (v)    ∆(y)
+
+where H stands for Ht0 and ∆(y) for its generalized Jacobian. Since by hypothesis
+E(F Y = y) is continuous, applying Lemma 8.2,
+                          Z             
+                                    E(F Y = y)
+                     v→                        pY (y)σn−d (dy)
+                           H −1 (v)    ∆(y)
+                                        
+is continuous and, consequently, E(F X(t0 ) = v) is a continuous function of v.
+This proves (iii) and achieves the proof:
+                                   Z
+                                                     
+                 E(σD−d (Lu )) =      E(∆(t) X(t) = u pX(t) (u) dt.
+                                    T
+
+                                                                                       
+
+8.4. Mean number of critical points of the likelihood. An example of a
+situation corresponding to the framework above is given by the case of number of
+critical points of the likelihood. We consider a parametric statistical model. The
+observation Y := (Y1 , . . . , Yn ) consists of n i.i.d. observations Yi that lie in Rm .
+   L(Y, θ) is the log-likelihood associated to the observation of one Y ∈ Rm . We
+set
+                                             X n
+                                     L(θ) :=     L(Yi , θ).
+                                            i=1
+
+   We assume that the model is parametric. That is θ varies in an open set Θ of
+Rd . Let us denote by L′ (θ) ∈ Rd the gradient of L(θ):
+                                              ∂
+                                   L′ (θ) =      L(θ).
+                                              ∂θ
+  We have
+                                            n
+                                            X
+                                L′ (θ) :=         L′ (Yi , θ).
+                                            i=1
+
+Under the convenient conditions, we can apply Proposition 8.3 to compute the
+expectation of the number N of critical points of the likelihood.
+                             N := #{θ ∈ θ : L′ (θ) = 0}.
+
+8.5. Gravitational stochastic microlensing. This paragraph is mainly based
+on the paper of Petter et al. [29]. Let us consider a gravitational potential ψ : T ⊂
+R2 → R, and then let us define the transformation :
+(8.1)                             η(x) = x − ∇ψ(x).
+A lensed image is defined as the point solution of the following equation η(x) = y.
+We will consider the expectation of the number of images from the source y in a
+region D ⊂ R2 , which we will denote by N (D, y).
+20                               ARMENTANO, AZAÏS, LEÓN
+
+
+  From now on, we are interested in a type of lens system known as stochastic
+microlensing. For the definition, take a number N of stars, each one in a random
+position ξj , j = 1, . . . , N. In such a case the above quantities are defined as
+
+                                                        XN
+                                |x|2  γ
+                ψ(x)     = κc        − (x21 − x22 ) + m     log |x − ξj | ,
+                                 2    2                 j=1
+                                                      N
+                                                      X      x − ξi
+                η(x)     = (1 − κc + γ)x − 2m                           ,
+                                                       i=1
+                                                           ||x − ξi ||2
+
+where x = (x1 , x2 ) ∈ R2 − {ξ1 , . . . , xN }, γ is the external shear, in continuous
+matter with constant density κc ≥ 0, m the mass of the stars and N the number of
+stars, that remain fixed. We also use the condition (1 − κc + γ) < 0 that is known
+as the supercritical case in the physical literature see [28, pp. 434]. One assumes
+that the positions of the stars are random vectors ξj = (Uj , Vj ) independent with
+bounded density on the ball D = B2 (0, R). The lensed image with y, the light
+source, is
+                                               N
+                                               X      x∗ − ξi
+       η(x∗ ) = y that can be written 2m               ∗ − ξ ||2
+                                                                 − (1 − κc + γ)x∗ = y.
+                                                i=1
+                                                    ||x     i
+
+  To place this problem in the framework of the precedent development, we intro-
+duce L(Ξ, x) : D ⊂ R2 → R2 though the expression
+                   N 
+                   X                                            
+                       (1 − κc + γ)x               x − ξi
+       L(Ξ, x) =                          − 2m                      where Ξ = (ξ1 , . . . , ξm ).
+                   i=1
+                             N                   ||x − ξi ||2
+
+   The function L(Ξ, x) has m singularities when x = ξj , but in R2 − {ξ1 , . . . , ξN }
+is a C ∞ function. Let y ∈ R2 , and let V be a neighbourhood of y. As we have
+limx→ξj ||η(x)|| = +∞, all the roots η(x) = y ′ for y ′ ∈ V are in R2 − {ξ1 , . . . , ξN }.
+Hence in the set η −1 (V), the function η is C ∞ giving (i) in the localised version of
+Theorem 2.1.
+   Let us consider the following the push-forward formula:
+                                   Z                        YN
+                                                      1
+                    pL(Ξ,x)(y) =                                f (ξj )dξj ,
+                                       L−1 (Ξ,x)(y) ∆(Ξ, x) j=1
+
+where
+                                            ∂L(Ξ, x)
+                                ∆(Ξ, x) = | det      |.
+                                               ∂x
+  Hence, for checking (ii) and (iii) of Theorem 2.1, we use Proposition 8.3. let us
+check the condition of this proposition. We need to study the behavior of ∆(Ξ, x).
+Hence, we first compute
+
+     ∂L(Ξ, x)
+       ∂x
+              "    PN                      (x1 −ξi1 )2               PN (x −ξi1 )(x2 −ξi2 )           #
+                             1
+               −2m i=1 ( ||x−ξ i ||
+                                    2 − 2 ||x−ξ ||4 )              2m i=1 1 ||x−ξ        || 4
+= (1−κc +γ)I+       P       (x1 −ξi1 )(x2 −ξi2 )
+                                                 i
+                                                                    P                  i
+                                                                                          (x2 −ξi2 )2
+                                                                                                        .
+                  2m Ni=1        ||x−ξi || 4                    −2m N          1
+                                                                     i=1 ( ||x−ξi ||2 − |||x−ξi ||4 )
+                                KAC-RICE FORMULA FOR LEVEL SET                                        21
+
+
+In this form, we get
+    ∂L(Ξ, x)        h             XN
+                                           1                      XN
+                                                                           1
+                                                            2
+h            v, vi = (1−κc +γ)−2m                  2
+                                                     ]||v||   +2m                  4
+                                                                                     hx−ξi , vi2
+      ∂x                          i=1
+                                      ||x −  ξi ||                i=1
+                                                                      ||x −  ξi ||
+
+                                                                                   v 2 i
+                                        N
+                                        X         1                  x − ξi
+               = [(1 − κc + γ) − 2m                       2
+                                                            (1 − h             ,       i ) ||v||2 .
+                                         i=1
+                                             ||x −  ξi ||          ||x − ξi ||   ||v||
+When ||v|| = 1, we have
+                                                  XN
+            ∂L(Ξ, x)                                       1                  x − ξi
+        h            v, v, i = [(1 − κc + γ) − 2m                  2
+                                                                     (1 − h             , vi2 )].
+              ∂x                                  i=1
+                                                      ||x −  ξi ||          ||x − ξi ||
+
+  Since (1 − κc + γ) < 0, ∀v holds h ∂L(Ξ,x)
+                                         ∂x    v, vi < 0. Thus in this case, we get
+∆(Ξ, x) > 0. Then the (ii) and (iii) of Theorem 2.1 hold true.
+  The KRF writes in this case
+                        Z
+                                    ∂L(Ξ, x)
+          E(N (D, y)) =     E[| det          | |η(x) = y]fη(x) (y)dx, ∀y.
+                         D            ∂x
+Remark 9. In Theorem 4 of [29] a version for almost every y of a similar formula has
+been proved. Our method allows obtaining, in the supercritical case, the formula
+for all y. We believe that the formula is true for all y also in the subcritical case.
+However, the preceding procedure cannot be applied.
+
+
+8.6. Shot-noise. Following [10], the shot-noise process X = {X(t) : t ∈ Rd } is
+defined by
+                                   X
+(8.2)                      X(t) =      βi g((t − τi )),
+                                                   i
+
+where the (βi )’s are a sequence of i.i.d. random real variables (the “impluse”) and
+(τi )i is a Poisson field with intensity (say) 1.
+    We assume the following
+  (H1) The kernel g(·) is of class C1 with compact support included in, say, (−η, η)d
+           .
+  (H2) The impulse β has a finite first moment.
+  (H3) β1 g(T ) has a bounded density, where T has a uniform distribution over
+           (−η, η)d .
+    Let us consider a fixed instant t. Without loss of generality, we can assume that
+t = 0. The number P of (i)′ s in (8.2) follows a Poisson distribution with parameter
+(2η)d and it thus is almost surely finite. Let u 6= 0, and let Mu denote the measure
+of the level set:
+                             Mu := σd−1 {t ∈ T : X(t) = u}.
+   We can use the law of total probability to write
+                                                   
+(8.3) E(Mu ) = E(Mu P = 1)P{P = 1} + · · · + E(Mu P = p)P{P = p} + · · ·
+By definition of the Poisson process, conditional to P = p, the τi ’s are i.i.d. with a
+uniform distribution on (−η, η)d . Each term of the sum can be computed by means
+of Proposition 8.3.
+22                            ARMENTANO, AZAÏS, LEÓN
+
+
+   Let us check the condition of this proposition. Under the condition {P = p}, Ht′
+is a (2p, 1) matrix, which is of full rank unless all its elements are zero. A sufficient
+condition to avoid that is, for example, for all t:
+                              P{g(dist(t − τ )) 6= 0} = 1,
+where τ is uniformly distributed on K. As a conclusion, Proposition 8.3. can be
+applied conditionally to P.
+   Happy end: Finally by de-conditioning, we get the usual expression: (2.7) holds
+true for every u 6= 0 as soon as the conditional expectation has been defined by all
+the process above.
+
+
+
+.1. Extensions of Theorem 2.1.
+
+.1.1. Extension to manifolds. In the present form, the following theorem has no
+equivalent in the literature.
+                                                              ′
+   Let M be a C 1 manifold of dimension D embedded in RD , D′ > D with the
+induced Riemannian structure. Let X(·) be a random field defined on M and taking
+values in Rd (or in another d dimensional Riemannian manifold). For B Borel set
+in M and for u ∈ Rd , we define the level set as
+                              Lu := {t ∈ B : X(t) = u}.
+Roughly speaking this set is of dimension D − d, so it is natural to consider the
+Hausdorff measure:
+                                   σD−d (Lu ).
+Through a partition of the unity argument, the “weak” Bulinskaya property can
+be localized inside a chart and Proposition 2.1 can be extended to our case. As a
+consequence, the level set is a.s. still rectifiable, and we can use the scheme of the
+proof of Theorem 2.1. The main modifications are the following:
+      • Using the area formula for manifolds [25].
+      • Replacing the compact hyper-rectangle R by a compact set, which is the
+        adherence of its interior.
+      • Defining dist as the geodesic distance induced by the Riemannian metric.
+to get
+Theorem .2. The result (validity of Kac-Rice formula) of Theorem 2.1 can be
+extended to a random field defined on a manifold U of dimension D and with values
+in a manifold of dimension d. Define the generalised Jacobian by
+                                   q
+                          ∆(t) := det(∇X(t)∇X(t)⊤ ).
+where ∇X(t) is the Riemannian gradient defined by differentiation along curves.
+Then for every Borel set B included in U :
+                                Z
+                                                 
+(.4)        E (σD−d (Lu (B))) =    E ∆(t) X(t) = u pX(t) (u)dσ(t),
+                                     B
+where σ is the surfacic measure on U .
+  Note that, in practice, the computation of det(∇X(t)) must be performed using
+an orthogonal basis of the tangent space at t.
+                               KAC-RICE FORMULA FOR LEVEL SET                                            23
+
+
+.1.2. Higher moments. The form of the formula for higher moments takes a partic-
+ular expression in the particular case where D = d and the considered level are all
+equals. With the notation of Theorem 2.1, let D = d and k, k ≥ 2 be an integer,
+the Kac-Rice formula of order k gives the kth factorial moment of order k.
+                                                               
+(.5) E Nu (X, B) Nu (X, B) − 1 . . . Nu (X, B) − k + 1
+                    Z
+                  =     EC (∆(t1 ) . . . ∆(tk ))) p(X(t1 ),...,X(tk )) (u, . . . , u)dt1 . . . dtk ,
+                          Bk
+where EC is the expectation with respect to the condition:
+                               C = {X(t1 ) = u, . . . , X(tk ) = u}.
+   In the cases D > d or when all the considered sets B1 , . . . , Bk are pairwise differ-
+ent or when the considered level u1 , . . . , uk are different (we omit more complicated
+alternatives) the Kac-Rice formula of order k reads as
+(.6) E (σD−d (Lu (B1 )) , . . . , σD−d (Lu (Bk )))
+           Z
+         =             EC (∆(t1 ), . . . , ∆(tk )) pX(t);...,X(tk ) (u . . . , uk )dt1 , . . . , dtk .
+                 B1 ×···×Bk
+
+   To understand this change of form, define on T k the measure M by
+             M(B1 × · · · × Bk ) := E(σD−d (Lu (B1 )) , . . . , σD−d (Lu (Bk )) .
+   Then the Kac-Rice formula of order k gives the density of the absolutely con-
+tinuous part of the measure. The measure has a singular part in the first case, but
+not in the second cases .
+Theorem .3 (Rice formula for higher moments). Let X : T → Rd be a random
+field, T an open subset of Rd , and u ∈ Rd a fixed point. Assume the following :
+(i) The sample paths of X(·) are a.s. C 1 .
+(ii’) For every u1 , . . . , uk , for every pairwise different t1 , . . . , tk ∈ T , the distribu-
+tion of {X(s), s ∈ T } conditional to X(t1 ) = u1 , . . . , X(tk ) = uk is well defined as
+a probability and is continuous as a function of u1 , . . . , uk with respect to the weak
+topology on the space C 1 (T ). See Proposition 5.2.
+(iii’) For every pairwise different t1 , . . . , tk ∈ T , X(t1 ), . . . , X(tk ) admits a contin-
+uous density pX(t1 ),...,X(tk ) (v1 , . . . , vk ), which is bounded uniformly for v1 , . . . , vk ∈
+(Rd )k and t1 , . . . , tk in any compact subset of T k \ D, where D is the diagonal in
+T k:
+                           D = {(t1 , . . . , tk ) ∈ T k : ∃i 6= j, ti = tj }.
+Then, following situations (.5) or (.6) holds true.
+.2. Proof of Lemma 8.1.
+Proof. Define
+                                   IY := {y ∈ RD : ∆(y) = 0}
+                                  RY := IYc .
+The distribution of Y (and, consequently, that of U ) can be split into two distribu-
+tions:
+       • One is supported by IY and induces for U a distribution on the set IU of
+         singular values of f (.);
+24                                ARMENTANO, AZAÏS, LEÓN
+
+
+      • the other one is supported by RY and induces for U a distribution supported
+        on RU , the set of regular values of f (.).
+   We study the distribution of U restricted to the set RU of regular values. Let
+g(·) be a bounded Borel function defined on Rd and with support on RU . Then
+                                          Z
+                                                            p(y)
+                E(g(U ) = E g(f (Y )) =         g(f (y))∆(y)      dy.
+                                            RY               ∆(y)
+Applying the co-area formula in the form [6, formula (6.31)] with h(y, f (y)) =
+p(y)
+∆(y) 1f (y)∈RU yields
+                              Z           Z
+                                                   p(y)
+                   E(g(U )) =      g(u)du               dσD−d (y),
+                               R d            −1
+                                           y∈f (u) ∆(y)
+giving the result.                                                                              
+
+                                    Acknowledgement
+  Authors would like to thank Rafael Potrie for his helpful comments on the
+Bulinskaya-type lemma.
+
+                                         References
+[1] Robert J. Adler. The geometry of random fields. Wiley Series in Probability and Mathematical
+ Statistics. John Wiley & Sons, Ltd., Chichester, 1981.
+[2] Robert J Adler and Jonathan E Taylor. Random fields and geometry, volume 80. Springer,
+ 2007.
+[3] Jürgen Angst and Guillaume Poly. On the zeros of non-analytic random periodic signals. Int.
+ Math. Res. Not. IMRN 2022, no. 7, 4931–4968.
+[4] Antonio Auffinger and Gérard Ben Arous, and Jiri Cerny. Random matrices and complexity
+ of spin glasses. Commun. Pure Appl. Math, 66(2):165–201, 2013.
+[5] Jean-Marc Azaı̈s. Approximation des trajectoires et temps local des diffusions. Ann. Inst. H.
+ Poincaré Probab. Statist. 25, no. 2, 175–194, 1989.
+[6] Jean-Marc Azaı̈s and Mario Wschebor. On the distribution of the maximum of a gaussian field
+ with d parameters. The Annals of Applied Probability, 15(1A):254–278, 2005.
+[7] Jean-Marc Azaı̈s and Mario Wschebor. Level sets and extrema of ran- dom processes
+ and fields. John Wiley & Sons, Inc., Hoboken, NJ, 2009. ISBN 978-0-470-40933-6. doi:
+ 10.1002/9780470434642.
+[8] Michael Berry. Statistics of nodal lines and points in chaotic quantum billiards: perimeter
+ corrections, fluctuations, curvature. J. Phys. A 35(13), 3025–3038. 2002.
+[9] Corinne Berzin, Alain Latour and José R. León. Kac-Rice formula: A contemporary overview
+ of the main results and applications. arXiv preprint arXiv:2205.08742, 2022.
+[10] Hermine Biermé and Agnès Desolneux. On the perimeter of excursion sets of shot noise
+ random fields. Ann. Probab. 44 , no. 1, 521–543, 2016.
+[11] Ekaterina V. Bulinskaya. On the mean number of crossings of a level by a stationary gaussian
+ process. Theory of Probability & Its Applications, 6(4):435–438, 1961.
+[12] David R. Brillinger. On the number of solutions of systems of random equations. Ann. Math.
+ Statist. 43, 534–540, 1972.
+[13] Enrique M. Cabaña. Esperanzas de integrales sobre conjuntos de nivel aleatorios, in Actas del
+ segundo Congreso Latinoamericano de Probabilidad y Estadı́stica Matemática (Caracas), 65-81,
+ 1985.
+[14] E.M. Cabaña. Integrals on random sets.
+ https://drive.google.com/file/d/1DyUHlV2FrUanUua6wBTUmIrJOhmvfT8x/view
+[15] Harald Cramér and M Ross Leadbetter. Stationary and related stochastic processes: Sample
+ function properties and their applications. Courier Corporation, 2013.
+[16] Anne Estrade Anne and José R. León. A central limit theorem for the Euler characteristic of
+ a Gaussian excursion set. Ann. Probab. 44, no. 6, 3849–3878, 2016.
+[17] Herbert Federer. Geometric measure theory. Springer, 2014.
+                            KAC-RICE FORMULA FOR LEVEL SET                                      25
+
+
+[18] Eric Grinberg. On the smoothness hypothesis in Sard’s theorem. Amer. Math. Monthly 92
+ (1985), no. 10, 733–734.
+[19] Morris W. Hirsch. Differential Topology Graduate Texts in Mathematics, No. 33. Springer-
+ Verlag, New York-Heidelberg, 1976.
+[20] Ildar A. Ibragimov and Dmitry N. Zaporozhets. On the area of a random surface. Zap.
+ Nauchn. Sem. S.-Peterburg. Otdel. Mat. Inst. Steklov. (POMI), 384:154–175, 312, 2010.
+[21] Kiyosi Ito. The expected number of zeros of continuous stationary gaussian processes. Journal
+ of Mathematics of Kyoto University, 3(2):207–216, 1963.
+[22] Mark Kac. On the average number of real roots of a random algebraic equation. Bulletin of
+ the American Mathematical Society, 49(4):314–320, 1943.
+[23] Marie Kratz and José R. León. Central limit theorems for level functionals of stationary
+ Gaussian processes and fields. J. Theoret. Probab. 14, no. 3, 639–672 2001.
+[24] Michael S. Longuet-Higgins. The statistical analysis of a random, mov- ing surface. Philosoph-
+ ical Transactions of the Royal Society of London. Series A, Mathematical and Physical Sciences,
+ 249(966):321–387, 1957.
+[25] Frank Morgan. Geometric measure theory. Elsevier/Academic Press, Ams- terdam, fifth edi-
+ tion, 2016. ISBN 978-0-12-804489-6. A beginner’s guide, Illustrated by James F. Bredt.
+[26] Fedor Nazarov, Mikhail L. Sodin. Asymptotic laws for the spatial distribution and the number
+ of connected components of zero sets of Gaussian random functions. Zh. Mat. Fiz. Anal. Geom.
+ 12 (2016), no. 3, 205-278.
+[27] David Nualart and Giovanni Peccati. Central limit theorems for sequences of multiple sto-
+ chastic integrals. Ann. Probab., 33(1):177–193, 2005.
+[28] Arlie O. Petters, Harrild Levine and Joachim Wambsganss. Singularity theory and gravita-
+ tional lensing. With a foreword by David Spergel. (English) Zbl 0979.83001 Progress in Mathe-
+ matical Physics. 21. Basel: Birkhäuser, 2001.
+[29] Arlie O. Petters, Brian C. Rider and Alberto Teguia. A mathematical theory of stochastic
+ microlensing. II: Random images, shear, and the Kac-Rice formula. J. Math. Phys. 50, No. 12,
+ 122501, 17 p. 2009.
+[30] Stephen O. Rice. Mathematical analysis of random noise. Bell System Tech. J., 24: 46–156,
+ 1945.
+[31] Eric Slud. Multiple Wiener-Itô integral expansions for level-crossing-count functionals.
+ Probab. Theory Related Fields, 87(3):349–364, 1991.
+[32] Mario Wschebor. Formule de rice en dimension d. Zeitschrift für Wahrscheinlichkeitstheorie
+ und Verwandte Gebiete, 60(3), 393–401, 1982.
+[33] Igor Wigman. On the nodal structure of random fields - a decade of results.
+ https://arxiv.org/abs/2206.10020v3.
+[34] Hassler Whitney. A function not constant on a connected set of critical points. Duke Math.
+ J. 1, no. 4, 514–517, 1935.
+[35] Mario Wschebor. Surfaces aléatoires: mesure géométrique des ensembles de niveau, volume
+ 1147. Springer, 1985.
+[36] Zähle, Ulrich. A general Rice formula, Palm measures, and horizontal-window conditioning
+ for random fields. Stochastic Process. Appl. 17, no. 2, 265–283, 1984.
+
+   Departamento de Métodos Cuantitativos, Facultad de Ciencias Económicas y de Ad-
+ministración, Universidad de la República, 11200 Montevideo, Uruguay
+   Email address: diego.armentano@fcea.edu.uy
+
+   Institut de mathématiques de Toulouse, IMT, Toulouse, France
+   Email address: Jean-marc.azais@math.univ-toulouse.fr
+
+   Insituto de Matemática y Estadı́stica Rafael Laguardia, Facultad de Ingenierı́a, Uni-
+versidad de la República, 11200 Montevideo, Uruguay
+   Email address: rlramos@fing.edu.uy
+

@@ -1,0 +1,14 @@
+test_closed_cannot_depend_transitively_on_quarantine (baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine) ... FAIL
+
+======================================================================
+FAIL: test_closed_cannot_depend_transitively_on_quarantine (baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_baseline.py", line 93, in test_closed_cannot_depend_transitively_on_quarantine
+    self.assertTrue(any('quarant' in x.lower() for x in report['failures']))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 0.031s
+
+FAILED (failures=1)
