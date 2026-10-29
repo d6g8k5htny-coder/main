@@ -26,9 +26,10 @@ class GraderAdverseTests(unittest.TestCase):
             load(ROOT / "tests/test_cbz_a3_float_census.py", "old_a3_grader"),
         ]
 
-    def sample(self, *, code=1, summary="failures=1", extra=""):
-        text = ("Ran 1 test in 0.001s\nFAILED (" + summary + ")\n"
-                "FAIL: test_expected (fixture.Case)\n" + extra)
+    def sample(self, *, code=1, summary="failures=1", extra="", tests=1):
+        text = ("FAIL: test_expected (fixture.Case)\n" + extra
+                + "\nRan " + str(tests) + (" test" if tests == 1 else " tests")
+                + " in 0.001s\nFAILED (" + summary + ")\n")
         return subprocess.CompletedProcess([], code, stdout="", stderr=text)
 
     def test_abnormal_exit_does_not_kill(self):
@@ -39,7 +40,7 @@ class GraderAdverseTests(unittest.TestCase):
     def test_mixed_foreign_failure_does_not_kill(self):
         for grader in self.graders:
             with self.subTest(grader=grader.__name__):
-                process = self.sample(summary="failures=2", extra="FAIL: test_foreign (fixture.Case)\n")
+                process = self.sample(summary="failures=2", extra="FAIL: test_foreign (fixture.Case)\n", tests=2)
                 self.assertFalse(grader.killed(process, "test_expected"))
 
     def test_skips_and_inconsistent_failure_counts_do_not_kill(self):
