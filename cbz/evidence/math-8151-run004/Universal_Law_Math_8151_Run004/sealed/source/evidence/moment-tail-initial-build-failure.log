@@ -1,0 +1,33 @@
+⚠ [8924/8930] Built ResearchFormalCoreR1.ProbabilityCompanionsV2 (4.8s)
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:18: Variable name `hcW` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hcW
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:48: Variable name `hq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [8925/8930] Built ResearchFormalCoreR1.AlgebraV2 (5.0s)
+✔ [8926/8930] Built ResearchFormalCoreR1.MeasureBridge (4.1s)
+✔ [8927/8930] Built ResearchFormalCoreR1.WeightedLaw (3.0s)
+✖ [8928/8930] Building ResearchFormalCoreR1.MomentTail (3.9s)
+trace: .> LEAN_PATH=/home/runner/work/Math-/Math-/formal/.lake/packages/Cli/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/batteries/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/Qq/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/aesop/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/importGraph/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/plausible/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/mathlib/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /home/runner/work/Math-/Math-/formal/ResearchFormalCoreR1/MomentTail.lean -o /home/runner/work/Math-/Math-/formal/.lake/build/lib/lean/ResearchFormalCoreR1/MomentTail.olean -i /home/runner/work/Math-/Math-/formal/.lake/build/lib/lean/ResearchFormalCoreR1/MomentTail.ilean -c /home/runner/work/Math-/Math-/formal/.lake/build/ir/ResearchFormalCoreR1/MomentTail.c --setup /home/runner/work/Math-/Math-/formal/.lake/build/ir/ResearchFormalCoreR1/MomentTail.setup.json --json
+error: ResearchFormalCoreR1/MomentTail.lean:56:2: Type mismatch: After simplification, term
+  hp
+ has type
+  (ε / r) ^ 8 ≤ R x ^ 40
+but is expected to have type
+  x ∈ {x | (ε / r) ^ 8 ≤ R x ^ 40}
+warning: ResearchFormalCoreR1/MomentTail.lean:77:48: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ResearchFormalCoreR1/MomentTail.lean:77:48: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Some required targets logged failures:
+- ResearchFormalCoreR1.MomentTail
+error: build failed

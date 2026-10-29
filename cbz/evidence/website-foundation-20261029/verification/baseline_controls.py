@@ -25,6 +25,7 @@ def load(path, name):
 
 def mutations(root, output):
     source = (root / 'tools' / TOOL_NAME).read_text()
+    lifecycle = load(root / 'tools/cbz_mutation.py', 'cbz_lifecycle_' + TOOL_NAME)
     cases = [
         ('live_hash', "elif _sha(path) != entry['sha256']:", 'elif False:', 'test_live_proof_tamper_fails'),
         ('closed_quarantine', "if by_id[dep].get('status') == 'QUARANTINED':", 'if False:', 'test_closed_cannot_depend_transitively_on_quarantine'),
@@ -44,9 +45,9 @@ def mutations(root, output):
             tests = load(root / 'tests' / TEST_NAME, 'baseline_tests_' + name)
             tests.TOOL = path
             with (output / ('mutation-' + name + '.log')).open('w') as stream:
-                result = unittest.TextTestRunner(stream=stream, verbosity=2).run(unittest.TestSuite([tests.BaselineTests(test)]))
-            rows.append({'mutation': name, 'test': test, 'detected': result.testsRun == 1 and len(result.failures) == 1 and not result.errors and not result.skipped,
-                         'failures': len(result.failures), 'errors': len(result.errors)})
+                result = lifecycle.run_suite(unittest.TestSuite([tests.BaselineTests(test)]), stream, [tests.__name__ + '.' + CLASS_NAME + '.' + test])
+            rows.append({'mutation': name, 'test': test, 'detected': result['body_kill'],
+                         'failures': result['failures'], 'errors': result['errors'], 'lifecycle': result})
     (output / 'mutations.json').write_text(json.dumps(rows, indent=2) + '\n')
     return rows
 
@@ -55,11 +56,12 @@ def positive(root, output, test_name, class_name):
     tests = load(root / 'tests' / test_name, 'unmutated_positive')
     tests.TOOL = root / 'tools' / ('cbz_refs.py' if class_name == 'RefSafetyTests' else 'cbz_baseline.py')
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(getattr(tests, class_name))
+    lifecycle = load(root / 'tools/cbz_mutation.py', 'cbz_positive_lifecycle_' + TOOL_NAME)
     with (output / 'positive.log').open('w') as stream:
-        result = unittest.TextTestRunner(stream=stream, verbosity=2).run(suite)
-    report = {'tests_run': result.testsRun, 'failures': len(result.failures),
-              'errors': len(result.errors), 'skipped': len(result.skipped),
-              'passed': result.wasSuccessful() and result.testsRun > 0 and not result.skipped}
+        result = lifecycle.run_suite(suite, stream)
+    report = {'tests_run': result['tests_run'], 'failures': result['failures'],
+              'errors': result['errors'], 'skipped': result['skips'],
+              'passed': result['baseline_success'], 'lifecycle': result}
     (output / 'positive.json').write_text(json.dumps(report, indent=2) + '\n')
     if not report['passed']:
         raise RuntimeError('unmutated positive harness failed; mutations cannot be credited')
@@ -113,7 +115,7 @@ def main(argv=None):
     except (OSError, ValueError) as error:
         print(json.dumps({'status': 'REFUSED', 'error': str(error)}), file=sys.stderr)
         return 2
-    sources = [root / 'tools' / TOOL_NAME, root / 'tests' / TEST_NAME]
+    sources = [root / 'tools' / TOOL_NAME, root / 'tests' / TEST_NAME, root / 'tools/cbz_mutation.py']
     before = {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest() for path in sources}
     report = {'schema': 'cbz.portable-controls.v1', 'status': 'FAIL', 'source_sha256': before,
               'control_source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

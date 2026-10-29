@@ -1,0 +1,17 @@
+test_success_is_observed_and_log_hash_bound (math_driver_mutation_tests.DriverGuardTests.test_success_is_observed_and_log_hash_bound) ... FAIL
+
+======================================================================
+FAIL: test_success_is_observed_and_log_hash_bound (math_driver_mutation_tests.DriverGuardTests.test_success_is_observed_and_log_hash_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz0/lean-foundation/test_math_sequential_driver.py", line 105, in test_success_is_observed_and_log_hash_bound
+    self.assertEqual(row['log_sha256'], self.ns['hashlib'].sha256(log.encode()).hexdigest())
+AssertionError: '0000000000000000000000000000000000000000000000000000000000000000' != '0cf785c55c1c3ea9621195daf989c7c6eece9db61f182a6b856b3a8c6e4e076e'
+- 0000000000000000000000000000000000000000000000000000000000000000
++ 0cf785c55c1c3ea9621195daf989c7c6eece9db61f182a6b856b3a8c6e4e076e
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.348s
+
+FAILED (failures=1)

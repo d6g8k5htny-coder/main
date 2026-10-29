@@ -1,0 +1,41 @@
+{
+  "verified": [
+    {
+      "phase": "clean_identity",
+      "optimized": false,
+      "code": 0,
+      "stdout": "PASS file identity only: 329 package files; 315 original sealed entries; no fresh kernel run\n"
+    },
+    {
+      "phase": "clean_identity",
+      "optimized": true,
+      "code": 0,
+      "stdout": "PASS file identity only: 329 package files; 315 original sealed entries; no fresh kernel run\n"
+    },
+    {
+      "phase": "tamper_refused",
+      "optimized": false,
+      "code": 1,
+      "expected_size_error": true
+    },
+    {
+      "phase": "tamper_refused",
+      "optimized": true,
+      "code": 1,
+      "expected_size_error": true
+    },
+    {
+      "phase": "extracted_21_driver_tests",
+      "optimized": false,
+      "code": 0,
+      "21_tests_observed": true
+    },
+    {
+      "phase": "extracted_21_driver_tests",
+      "optimized": true,
+      "code": 0,
+      "21_tests_observed": true
+    }
+  ],
+  "zip_sha256": "5da23a87bf81e13131391f35530b74fe28c83e1d4b88c5febc90eba8dcbc519b"
+}

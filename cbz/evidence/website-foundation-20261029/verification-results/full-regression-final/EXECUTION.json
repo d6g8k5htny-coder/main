@@ -1,0 +1,113 @@
+{
+  "observed_utc": "2026-10-29T20:03:23.329993+00:00",
+  "runs": [
+    {
+      "label": "metadata-normal",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "dcc35e6200ecbbf41cc6efeff44ca57d6eb22cfbfaa1d7fad0ac8149d9f840c0",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "metadata-optimized",
+      "argv": [
+        "python",
+        "-B",
+        "-O",
+        "-S",
+        "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "a4c58f16cc989d131bdb8b5dbbe68812808bb6d4ec4bbc5cf702e7fc1cf86083",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "source-guard-normal",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "48d828b9cc27b52078d905160030df0a5099e0ff7cfb26fa46b7288653a27b2b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "source-guard-optimized",
+      "argv": [
+        "python",
+        "-B",
+        "-O",
+        "-S",
+        "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "d18bc428bb42f1a5a1314eefe34c925c2f8e5176333cbd01e7373ac0c58b3edd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "baseline-inspect",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_baseline.py",
+        "inspect",
+        "--root",
+        "."
+      ],
+      "exit": 2,
+      "stdout_sha256": "349006f5d28e1feda84537abbe9b1f90ae68ee78d1206d79873b974e459bf662",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cold-start",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "tools/cbz_baseline.py",
+        "cold-start",
+        "--root",
+        "."
+      ],
+      "exit": 0,
+      "stdout_sha256": "84f90063efd06b880ea3b71ab6d036de07b5b7c66ead2fbc2216500bbc88c245",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "math-identity-normal",
+      "argv": [
+        "python",
+        "-B",
+        "-S",
+        "cbz/evidence/math-8151-run004/Universal_Law_Math_8151_Run004/verify_identity.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "0625bc3a60e97abe4c357072d0492fd53f0b28686ab0f418a7eb87662bd3ccba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "math-identity-optimized",
+      "argv": [
+        "python",
+        "-B",
+        "-O",
+        "-S",
+        "cbz/evidence/math-8151-run004/Universal_Law_Math_8151_Run004/verify_identity.py"
+      ],
+      "exit": 0,
+      "stdout_sha256": "0625bc3a60e97abe4c357072d0492fd53f0b28686ab0f418a7eb87662bd3ccba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "namespace_files_unchanged": 1084,
+  "result": "PASS_READONLY_FINITE_METADATA_AND_GUARDS; BASELINE_INCOMPLETE",
+  "scope": "No newkernel/fullregression/federationcertification; baselineconsistencyFAILURESemptybutunmetgatesremain."
+}

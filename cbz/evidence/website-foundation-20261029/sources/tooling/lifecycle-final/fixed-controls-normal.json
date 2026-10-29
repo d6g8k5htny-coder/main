@@ -1,0 +1,1698 @@
+{
+  "mode": 0,
+  "source_sha256": {
+    "tools/cbz_mutation.py": "00e316ffde3cb33b7499d57141856ef0efa3bd304001148b8737c5674c7ee2ea",
+    "tools/cbz_audit.py": "e1c42fa2377415cd201133c985890dbc2658099c8cb754228141642395e217ba",
+    "tests/test_cbz_mutation_lifecycle.py": "ea43d15ec0ec03c870e80d9ef8910d711f02df9e070a5439eb4327278ead192b",
+    "tests/test_cbz_audit.py": "347fb2ee14f6ac69e67604f22cd29995bf18724fe3f12d75b29faf61e728247b",
+    "cbz/evidence/website-foundation-20261029/verification/ref_controls.py": "32ef032feeb14a976543ac12fc8f9d60491a26d0a8bffc2d63b8f99dd921f82c",
+    "cbz/evidence/website-foundation-20261029/verification/baseline_controls.py": "fbf2720300bbcbaee8db6a6476cbdf2ab49b57cd3528a156a3ad01eef43f83ef"
+  },
+  "portable": [
+    {
+      "runner": "ref",
+      "positive": {
+        "tests_run": 26,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": true,
+        "lifecycle": {
+          "schema": "cbz.mutation-lifecycle.v1",
+          "tool": "cbz-mutation-lifecycle-v1",
+          "optimization": 0,
+          "optimization_args": [],
+          "population": [
+            "unmutated_positive.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback",
+            "unmutated_positive.RefSafetyTests.test_archive_has_unique_parents_exact_manifest_and_recoverable_content",
+            "unmutated_positive.RefSafetyTests.test_archive_head_must_be_detached_at_archive_commit",
+            "unmutated_positive.RefSafetyTests.test_cli_default_json_does_not_create_snapshot",
+            "unmutated_positive.RefSafetyTests.test_credential_urls_rejected_without_echoing_secret",
+            "unmutated_positive.RefSafetyTests.test_default_branch_change_refuses_prune",
+            "unmutated_positive.RefSafetyTests.test_default_is_read_only_machine_plan",
+            "unmutated_positive.RefSafetyTests.test_existing_output_and_tag_are_never_overwritten",
+            "unmutated_positive.RefSafetyTests.test_fetch_race_removes_partial_output_and_keeps_remote_work",
+            "unmutated_positive.RefSafetyTests.test_final_readback_rejects_changes_instead_of_partial_success",
+            "unmutated_positive.RefSafetyTests.test_finished_archive_retains_no_original_branch_refs",
+            "unmutated_positive.RefSafetyTests.test_invalid_ref_names_are_refused",
+            "unmutated_positive.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically",
+            "unmutated_positive.RefSafetyTests.test_local_archive_tree_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc",
+            "unmutated_positive.RefSafetyTests.test_moved_original_branch_refuses_all_deletions",
+            "unmutated_positive.RefSafetyTests.test_prune_requires_actual_remote_archive_readback",
+            "unmutated_positive.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag",
+            "unmutated_positive.RefSafetyTests.test_receipt_hash_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_remote_inventory_does_not_spawn_one_git_process_per_ref",
+            "unmutated_positive.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success",
+            "unmutated_positive.RefSafetyTests.test_source_index_and_worktrees_untouched",
+            "unmutated_positive.RefSafetyTests.test_tag_only_blob_and_tree_refs_are_required_even_before_gc",
+            "unmutated_positive.RefSafetyTests.test_tampered_manifest_fails_before_remote_mutation",
+            "unmutated_positive.RefSafetyTests.test_unexpected_archive_head_or_tag_is_rejected",
+            "unmutated_positive.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+          ],
+          "expected_population": [
+            "unmutated_positive.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback",
+            "unmutated_positive.RefSafetyTests.test_archive_has_unique_parents_exact_manifest_and_recoverable_content",
+            "unmutated_positive.RefSafetyTests.test_archive_head_must_be_detached_at_archive_commit",
+            "unmutated_positive.RefSafetyTests.test_cli_default_json_does_not_create_snapshot",
+            "unmutated_positive.RefSafetyTests.test_credential_urls_rejected_without_echoing_secret",
+            "unmutated_positive.RefSafetyTests.test_default_branch_change_refuses_prune",
+            "unmutated_positive.RefSafetyTests.test_default_is_read_only_machine_plan",
+            "unmutated_positive.RefSafetyTests.test_existing_output_and_tag_are_never_overwritten",
+            "unmutated_positive.RefSafetyTests.test_fetch_race_removes_partial_output_and_keeps_remote_work",
+            "unmutated_positive.RefSafetyTests.test_final_readback_rejects_changes_instead_of_partial_success",
+            "unmutated_positive.RefSafetyTests.test_finished_archive_retains_no_original_branch_refs",
+            "unmutated_positive.RefSafetyTests.test_invalid_ref_names_are_refused",
+            "unmutated_positive.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically",
+            "unmutated_positive.RefSafetyTests.test_local_archive_tree_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc",
+            "unmutated_positive.RefSafetyTests.test_moved_original_branch_refuses_all_deletions",
+            "unmutated_positive.RefSafetyTests.test_prune_requires_actual_remote_archive_readback",
+            "unmutated_positive.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag",
+            "unmutated_positive.RefSafetyTests.test_receipt_hash_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_remote_inventory_does_not_spawn_one_git_process_per_ref",
+            "unmutated_positive.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success",
+            "unmutated_positive.RefSafetyTests.test_source_index_and_worktrees_untouched",
+            "unmutated_positive.RefSafetyTests.test_tag_only_blob_and_tree_refs_are_required_even_before_gc",
+            "unmutated_positive.RefSafetyTests.test_tampered_manifest_fails_before_remote_mutation",
+            "unmutated_positive.RefSafetyTests.test_unexpected_archive_head_or_tag_is_rejected",
+            "unmutated_positive.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+          ],
+          "population_valid": true,
+          "started": [
+            "unmutated_positive.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback",
+            "unmutated_positive.RefSafetyTests.test_archive_has_unique_parents_exact_manifest_and_recoverable_content",
+            "unmutated_positive.RefSafetyTests.test_archive_head_must_be_detached_at_archive_commit",
+            "unmutated_positive.RefSafetyTests.test_cli_default_json_does_not_create_snapshot",
+            "unmutated_positive.RefSafetyTests.test_credential_urls_rejected_without_echoing_secret",
+            "unmutated_positive.RefSafetyTests.test_default_branch_change_refuses_prune",
+            "unmutated_positive.RefSafetyTests.test_default_is_read_only_machine_plan",
+            "unmutated_positive.RefSafetyTests.test_existing_output_and_tag_are_never_overwritten",
+            "unmutated_positive.RefSafetyTests.test_fetch_race_removes_partial_output_and_keeps_remote_work",
+            "unmutated_positive.RefSafetyTests.test_final_readback_rejects_changes_instead_of_partial_success",
+            "unmutated_positive.RefSafetyTests.test_finished_archive_retains_no_original_branch_refs",
+            "unmutated_positive.RefSafetyTests.test_invalid_ref_names_are_refused",
+            "unmutated_positive.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically",
+            "unmutated_positive.RefSafetyTests.test_local_archive_tree_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc",
+            "unmutated_positive.RefSafetyTests.test_moved_original_branch_refuses_all_deletions",
+            "unmutated_positive.RefSafetyTests.test_prune_requires_actual_remote_archive_readback",
+            "unmutated_positive.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag",
+            "unmutated_positive.RefSafetyTests.test_receipt_hash_tampering_is_detected",
+            "unmutated_positive.RefSafetyTests.test_remote_inventory_does_not_spawn_one_git_process_per_ref",
+            "unmutated_positive.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success",
+            "unmutated_positive.RefSafetyTests.test_source_index_and_worktrees_untouched",
+            "unmutated_positive.RefSafetyTests.test_tag_only_blob_and_tree_refs_are_required_even_before_gc",
+            "unmutated_positive.RefSafetyTests.test_tampered_manifest_fails_before_remote_mutation",
+            "unmutated_positive.RefSafetyTests.test_unexpected_archive_head_or_tag_is_rejected",
+            "unmutated_positive.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+          ],
+          "tests_run": 26,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "expected_failures": 0,
+          "unexpected_successes": 0,
+          "body_entries": {
+            "unmutated_positive.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback": 1,
+            "unmutated_positive.RefSafetyTests.test_archive_has_unique_parents_exact_manifest_and_recoverable_content": 1,
+            "unmutated_positive.RefSafetyTests.test_archive_head_must_be_detached_at_archive_commit": 1,
+            "unmutated_positive.RefSafetyTests.test_cli_default_json_does_not_create_snapshot": 1,
+            "unmutated_positive.RefSafetyTests.test_credential_urls_rejected_without_echoing_secret": 1,
+            "unmutated_positive.RefSafetyTests.test_default_branch_change_refuses_prune": 1,
+            "unmutated_positive.RefSafetyTests.test_default_is_read_only_machine_plan": 1,
+            "unmutated_positive.RefSafetyTests.test_existing_output_and_tag_are_never_overwritten": 1,
+            "unmutated_positive.RefSafetyTests.test_fetch_race_removes_partial_output_and_keeps_remote_work": 1,
+            "unmutated_positive.RefSafetyTests.test_final_readback_rejects_changes_instead_of_partial_success": 1,
+            "unmutated_positive.RefSafetyTests.test_finished_archive_retains_no_original_branch_refs": 1,
+            "unmutated_positive.RefSafetyTests.test_invalid_ref_names_are_refused": 1,
+            "unmutated_positive.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically": 1,
+            "unmutated_positive.RefSafetyTests.test_local_archive_tree_tampering_is_detected": 1,
+            "unmutated_positive.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc": 1,
+            "unmutated_positive.RefSafetyTests.test_moved_original_branch_refuses_all_deletions": 1,
+            "unmutated_positive.RefSafetyTests.test_prune_requires_actual_remote_archive_readback": 1,
+            "unmutated_positive.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag": 1,
+            "unmutated_positive.RefSafetyTests.test_receipt_hash_tampering_is_detected": 1,
+            "unmutated_positive.RefSafetyTests.test_remote_inventory_does_not_spawn_one_git_process_per_ref": 1,
+            "unmutated_positive.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success": 1,
+            "unmutated_positive.RefSafetyTests.test_source_index_and_worktrees_untouched": 1,
+            "unmutated_positive.RefSafetyTests.test_tag_only_blob_and_tree_refs_are_required_even_before_gc": 1,
+            "unmutated_positive.RefSafetyTests.test_tampered_manifest_fails_before_remote_mutation": 1,
+            "unmutated_positive.RefSafetyTests.test_unexpected_archive_head_or_tag_is_rejected": 1,
+            "unmutated_positive.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions": 1
+          },
+          "body_failures": [],
+          "invalid": [],
+          "baseline_success": true,
+          "body_kill": false
+        }
+      },
+      "mutants": [
+        {
+          "mutation": "original_tag_ref_guard",
+          "test": "test_missing_original_annotated_tag_ref_is_rejected_before_gc",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_original_tag_ref_guard.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc"
+            ],
+            "expected_population": [
+              "cbz_tests_original_tag_ref_guard.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_original_tag_ref_guard.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_original_tag_ref_guard.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc": 1
+            },
+            "body_failures": [
+              "cbz_tests_original_tag_ref_guard.RefSafetyTests.test_missing_original_annotated_tag_ref_is_rejected_before_gc"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "full_state_guard",
+          "test": "test_unexpected_new_ref_refuses_all_deletions",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_full_state_guard.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+            ],
+            "expected_population": [
+              "cbz_tests_full_state_guard.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_full_state_guard.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_full_state_guard.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions": 1
+            },
+            "body_failures": [
+              "cbz_tests_full_state_guard.RefSafetyTests.test_unexpected_new_ref_refuses_all_deletions"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "expected_old_leases",
+          "test": "test_lease_rejects_branch_changed_after_final_preflight_atomically",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_expected_old_leases.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically"
+            ],
+            "expected_population": [
+              "cbz_tests_expected_old_leases.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_expected_old_leases.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_expected_old_leases.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically": 1
+            },
+            "body_failures": [
+              "cbz_tests_expected_old_leases.RefSafetyTests.test_lease_rejects_branch_changed_after_final_preflight_atomically"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "default_exclusion",
+          "test": "test_publish_then_atomic_prune_preserves_default_policy_and_tag",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag"
+            ],
+            "expected_population": [
+              "cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag": 1
+            },
+            "body_failures": [
+              "cbz_tests_default_exclusion.RefSafetyTests.test_publish_then_atomic_prune_preserves_default_policy_and_tag"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "atomic_push",
+          "test": "test_server_rejection_is_atomic_and_never_silent_success",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success"
+            ],
+            "expected_population": [
+              "cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success": 1
+            },
+            "body_failures": [
+              "cbz_tests_atomic_push.RefSafetyTests.test_server_rejection_is_atomic_and_never_silent_success"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "archive_readback",
+          "test": "test_actual_tag_fetch_rejects_forged_advertised_readback",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback"
+            ],
+            "expected_population": [
+              "cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback": 1
+            },
+            "body_failures": [
+              "cbz_tests_archive_readback.RefSafetyTests.test_actual_tag_fetch_rejects_forged_advertised_readback"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "manifest_hash_guard",
+          "test": "test_receipt_hash_tampering_is_detected",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected"
+            ],
+            "expected_population": [
+              "cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected"
+            ],
+            "population_valid": true,
+            "started": [
+              "cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected": 1
+            },
+            "body_failures": [
+              "cbz_tests_manifest_hash_guard.RefSafetyTests.test_receipt_hash_tampering_is_detected"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        }
+      ]
+    },
+    {
+      "runner": "baseline",
+      "positive": {
+        "tests_run": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": true,
+        "lifecycle": {
+          "schema": "cbz.mutation-lifecycle.v1",
+          "tool": "cbz-mutation-lifecycle-v1",
+          "optimization": 0,
+          "optimization_args": [],
+          "population": [
+            "unmutated_positive.BaselineTests.test_changed_command_invalidates_receipt",
+            "unmutated_positive.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine",
+            "unmutated_positive.BaselineTests.test_cold_start_checks_executable_entrypoints_without_theorem_claim",
+            "unmutated_positive.BaselineTests.test_custom_axiom_cannot_be_closed",
+            "unmutated_positive.BaselineTests.test_declared_allowed_axioms_cannot_admit_custom_axioms",
+            "unmutated_positive.BaselineTests.test_duplicate_json_key_is_refused",
+            "unmutated_positive.BaselineTests.test_exit_two_is_incomplete_rather_than_an_observed_failure",
+            "unmutated_positive.BaselineTests.test_forged_pass_without_process_logs_is_refused",
+            "unmutated_positive.BaselineTests.test_live_proof_tamper_fails",
+            "unmutated_positive.BaselineTests.test_missing_offline_dependency_is_incomplete",
+            "unmutated_positive.BaselineTests.test_missing_receipts_are_incomplete_never_green",
+            "unmutated_positive.BaselineTests.test_offline_pin_object_and_manifest_checked",
+            "unmutated_positive.BaselineTests.test_output_inside_source_root_refused",
+            "unmutated_positive.BaselineTests.test_receipt_log_tampering_is_refused",
+            "unmutated_positive.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused",
+            "unmutated_positive.BaselineTests.test_timeout_is_recorded_incomplete",
+            "unmutated_positive.BaselineTests.test_unknown_proof_status_refused",
+            "unmutated_positive.BaselineTests.test_unlisted_mission_tool_refused"
+          ],
+          "expected_population": [
+            "unmutated_positive.BaselineTests.test_changed_command_invalidates_receipt",
+            "unmutated_positive.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine",
+            "unmutated_positive.BaselineTests.test_cold_start_checks_executable_entrypoints_without_theorem_claim",
+            "unmutated_positive.BaselineTests.test_custom_axiom_cannot_be_closed",
+            "unmutated_positive.BaselineTests.test_declared_allowed_axioms_cannot_admit_custom_axioms",
+            "unmutated_positive.BaselineTests.test_duplicate_json_key_is_refused",
+            "unmutated_positive.BaselineTests.test_exit_two_is_incomplete_rather_than_an_observed_failure",
+            "unmutated_positive.BaselineTests.test_forged_pass_without_process_logs_is_refused",
+            "unmutated_positive.BaselineTests.test_live_proof_tamper_fails",
+            "unmutated_positive.BaselineTests.test_missing_offline_dependency_is_incomplete",
+            "unmutated_positive.BaselineTests.test_missing_receipts_are_incomplete_never_green",
+            "unmutated_positive.BaselineTests.test_offline_pin_object_and_manifest_checked",
+            "unmutated_positive.BaselineTests.test_output_inside_source_root_refused",
+            "unmutated_positive.BaselineTests.test_receipt_log_tampering_is_refused",
+            "unmutated_positive.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused",
+            "unmutated_positive.BaselineTests.test_timeout_is_recorded_incomplete",
+            "unmutated_positive.BaselineTests.test_unknown_proof_status_refused",
+            "unmutated_positive.BaselineTests.test_unlisted_mission_tool_refused"
+          ],
+          "population_valid": true,
+          "started": [
+            "unmutated_positive.BaselineTests.test_changed_command_invalidates_receipt",
+            "unmutated_positive.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine",
+            "unmutated_positive.BaselineTests.test_cold_start_checks_executable_entrypoints_without_theorem_claim",
+            "unmutated_positive.BaselineTests.test_custom_axiom_cannot_be_closed",
+            "unmutated_positive.BaselineTests.test_declared_allowed_axioms_cannot_admit_custom_axioms",
+            "unmutated_positive.BaselineTests.test_duplicate_json_key_is_refused",
+            "unmutated_positive.BaselineTests.test_exit_two_is_incomplete_rather_than_an_observed_failure",
+            "unmutated_positive.BaselineTests.test_forged_pass_without_process_logs_is_refused",
+            "unmutated_positive.BaselineTests.test_live_proof_tamper_fails",
+            "unmutated_positive.BaselineTests.test_missing_offline_dependency_is_incomplete",
+            "unmutated_positive.BaselineTests.test_missing_receipts_are_incomplete_never_green",
+            "unmutated_positive.BaselineTests.test_offline_pin_object_and_manifest_checked",
+            "unmutated_positive.BaselineTests.test_output_inside_source_root_refused",
+            "unmutated_positive.BaselineTests.test_receipt_log_tampering_is_refused",
+            "unmutated_positive.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused",
+            "unmutated_positive.BaselineTests.test_timeout_is_recorded_incomplete",
+            "unmutated_positive.BaselineTests.test_unknown_proof_status_refused",
+            "unmutated_positive.BaselineTests.test_unlisted_mission_tool_refused"
+          ],
+          "tests_run": 18,
+          "failures": 0,
+          "errors": 0,
+          "skips": 0,
+          "expected_failures": 0,
+          "unexpected_successes": 0,
+          "body_entries": {
+            "unmutated_positive.BaselineTests.test_changed_command_invalidates_receipt": 1,
+            "unmutated_positive.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine": 1,
+            "unmutated_positive.BaselineTests.test_cold_start_checks_executable_entrypoints_without_theorem_claim": 1,
+            "unmutated_positive.BaselineTests.test_custom_axiom_cannot_be_closed": 1,
+            "unmutated_positive.BaselineTests.test_declared_allowed_axioms_cannot_admit_custom_axioms": 1,
+            "unmutated_positive.BaselineTests.test_duplicate_json_key_is_refused": 1,
+            "unmutated_positive.BaselineTests.test_exit_two_is_incomplete_rather_than_an_observed_failure": 1,
+            "unmutated_positive.BaselineTests.test_forged_pass_without_process_logs_is_refused": 1,
+            "unmutated_positive.BaselineTests.test_live_proof_tamper_fails": 1,
+            "unmutated_positive.BaselineTests.test_missing_offline_dependency_is_incomplete": 1,
+            "unmutated_positive.BaselineTests.test_missing_receipts_are_incomplete_never_green": 1,
+            "unmutated_positive.BaselineTests.test_offline_pin_object_and_manifest_checked": 1,
+            "unmutated_positive.BaselineTests.test_output_inside_source_root_refused": 1,
+            "unmutated_positive.BaselineTests.test_receipt_log_tampering_is_refused": 1,
+            "unmutated_positive.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused": 1,
+            "unmutated_positive.BaselineTests.test_timeout_is_recorded_incomplete": 1,
+            "unmutated_positive.BaselineTests.test_unknown_proof_status_refused": 1,
+            "unmutated_positive.BaselineTests.test_unlisted_mission_tool_refused": 1
+          },
+          "body_failures": [],
+          "invalid": [],
+          "baseline_success": true,
+          "body_kill": false
+        }
+      },
+      "mutants": [
+        {
+          "mutation": "live_hash",
+          "test": "test_live_proof_tamper_fails",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_live_hash.BaselineTests.test_live_proof_tamper_fails"
+            ],
+            "expected_population": [
+              "baseline_tests_live_hash.BaselineTests.test_live_proof_tamper_fails"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_live_hash.BaselineTests.test_live_proof_tamper_fails"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_live_hash.BaselineTests.test_live_proof_tamper_fails": 1
+            },
+            "body_failures": [
+              "baseline_tests_live_hash.BaselineTests.test_live_proof_tamper_fails"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "closed_quarantine",
+          "test": "test_closed_cannot_depend_transitively_on_quarantine",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine"
+            ],
+            "expected_population": [
+              "baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine": 1
+            },
+            "body_failures": [
+              "baseline_tests_closed_quarantine.BaselineTests.test_closed_cannot_depend_transitively_on_quarantine"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "receipt_binding",
+          "test": "test_receipts_bind_actual_execution_and_stale_source_is_refused",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_receipt_binding.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "expected_population": [
+              "baseline_tests_receipt_binding.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_receipt_binding.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_receipt_binding.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused": 1
+            },
+            "body_failures": [
+              "baseline_tests_receipt_binding.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "receipt_logs",
+          "test": "test_receipt_log_tampering_is_refused",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused"
+            ],
+            "expected_population": [
+              "baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused": 1
+            },
+            "body_failures": [
+              "baseline_tests_receipt_logs.BaselineTests.test_receipt_log_tampering_is_refused"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "custom_axiom",
+          "test": "test_custom_axiom_cannot_be_closed",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_custom_axiom.BaselineTests.test_custom_axiom_cannot_be_closed"
+            ],
+            "expected_population": [
+              "baseline_tests_custom_axiom.BaselineTests.test_custom_axiom_cannot_be_closed"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_custom_axiom.BaselineTests.test_custom_axiom_cannot_be_closed"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_custom_axiom.BaselineTests.test_custom_axiom_cannot_be_closed": 1
+            },
+            "body_failures": [
+              "baseline_tests_custom_axiom.BaselineTests.test_custom_axiom_cannot_be_closed"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "unlisted_tool",
+          "test": "test_unlisted_mission_tool_refused",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_unlisted_tool.BaselineTests.test_unlisted_mission_tool_refused"
+            ],
+            "expected_population": [
+              "baseline_tests_unlisted_tool.BaselineTests.test_unlisted_mission_tool_refused"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_unlisted_tool.BaselineTests.test_unlisted_mission_tool_refused"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_unlisted_tool.BaselineTests.test_unlisted_mission_tool_refused": 1
+            },
+            "body_failures": [
+              "baseline_tests_unlisted_tool.BaselineTests.test_unlisted_mission_tool_refused"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        },
+        {
+          "mutation": "doc_truth",
+          "test": "test_receipts_bind_actual_execution_and_stale_source_is_refused",
+          "detected": true,
+          "failures": 1,
+          "errors": 0,
+          "lifecycle": {
+            "schema": "cbz.mutation-lifecycle.v1",
+            "tool": "cbz-mutation-lifecycle-v1",
+            "optimization": 0,
+            "optimization_args": [],
+            "population": [
+              "baseline_tests_doc_truth.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "expected_population": [
+              "baseline_tests_doc_truth.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "population_valid": true,
+            "started": [
+              "baseline_tests_doc_truth.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "tests_run": 1,
+            "failures": 1,
+            "errors": 0,
+            "skips": 0,
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "body_entries": {
+              "baseline_tests_doc_truth.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused": 1
+            },
+            "body_failures": [
+              "baseline_tests_doc_truth.BaselineTests.test_receipts_bind_actual_execution_and_stale_source_is_refused"
+            ],
+            "invalid": [],
+            "baseline_success": false,
+            "body_kill": true
+          }
+        }
+      ]
+    }
+  ],
+  "classifier_mutants": [
+    {
+      "name": "legacy_counter_kill",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 8,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_counter_kill.MutationLifecycleTests.test_teardown_assertion_never_counts"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "legacy_positive",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 3,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_legacy_positive.MutationLifecycleTests.test_skip_is_not_positive_or_kill"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "ignore_registered_population",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 3,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_registered_population.MutationLifecycleTests.test_expected_identity_mismatch_is_refused"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "drop_body_exception_identity",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_drop_body_exception_identity.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "erase_expected_failure_decoration",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 2,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_erase_expected_failure_decoration.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "misreport_child_optimization",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_misreport_child_optimization.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "ignore_lifecycle_failures",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_ignore_lifecycle_failures.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    },
+    {
+      "name": "leak_case_patches",
+      "killed": true,
+      "lifecycle": {
+        "schema": "cbz.mutation-lifecycle.v1",
+        "tool": "cbz-mutation-lifecycle-v1",
+        "optimization": 0,
+        "optimization_args": [],
+        "population": [
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "expected_population": [
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "population_valid": true,
+        "started": [
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_error_is_not_assertion_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_case_instance_methods_restored_after_run",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_setup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_cleanup_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_duplicate_expected_population_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_identity_mismatch_is_refused",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_passing_subtest_remains_positive",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_positive_body_and_complete_population",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_skip_is_not_positive_or_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_teardown_assertion_never_counts",
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_unexpected_success_is_not_positive"
+        ],
+        "tests_run": 20,
+        "failures": 1,
+        "errors": 0,
+        "skips": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "body_entries": {
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_child_optimization_modes_and_population_binding": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_error_is_not_assertion_kill": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_case_instance_methods_restored_after_run": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_setup_assertion_never_counts": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_class_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_cleanup_assertion_never_counts": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_duplicate_expected_population_is_refused": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_expected_identity_mismatch_is_refused": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_passing_subtest_remains_positive": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_positive_body_and_complete_population": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_skip_is_not_positive_or_kill": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_teardown_assertion_never_counts": 1,
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_unexpected_success_is_not_positive": 1
+        },
+        "body_failures": [
+          "tests_lifecycle_leak_case_patches.MutationLifecycleTests.test_case_instance_methods_restored_after_run"
+        ],
+        "invalid": [],
+        "baseline_success": false,
+        "body_kill": true
+      }
+    }
+  ],
+  "result": "PASS"
+}

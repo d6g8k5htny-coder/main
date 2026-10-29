@@ -1,0 +1,72 @@
+% Link-only Blueprint source. No semantic equivalence or completed website claim.
+\section{Scalar formalization pilot}
+\begin{definition}[Canonical fold potential]
+\label{def:fold}
+For real $s,x$, put $V_s(x)=-x^3/3+s^2x$.
+\end{definition}
+\begin{lemma}[Canonical fold gap]
+\label{lem:fold-gap}
+\lean{ResearchFormalCoreR1.ec005_fold_gap}
+\uses{def:fold}
+For every real $s$, $V_s(s)-V_s(-s)=(2s)^3/6$.
+\end{lemma}
+\begin{proof}Expand the polynomial and collect terms.\end{proof}
+\begin{lemma}[Scalar contact power]
+\label{lem:contact-power}
+\lean{ResearchFormalCoreR1.ec014_contact_power}
+For every nonzero real $r$, $(r^3/6)(1/r^5)r^2=1/6$.
+This is not the geometric Jacobian theorem.
+\end{lemma}
+\begin{proof}Cancel nonzero powers of $r$.\end{proof}
+\begin{lemma}[Conditional quotient transfer]
+\label{lem:quotient}
+\lean{ResearchFormalCoreR1.p02_lm008_quotient_bound}
+Let $n,z,r,c_W,c_Z,q$ be real. Assume $r>0$, $c_W\ge0$, $c_Z>0$,
+$q\ge0$, $z>0$, $c_Zr^2\le z$, and $n\le\sqrt{c_W}r^2\sqrt q$.
+Then $n/z\le (\sqrt{c_W}/c_Z)\sqrt q$.
+The numerator and lower-normalizer estimates are assumptions, not conclusions.
+\end{lemma}
+\begin{proof}Cross-multiply positive denominators and cancel $r^2$.\end{proof}
+\begin{lemma}[Conditional power ledger]
+\label{lem:rate}
+\lean{ResearchFormalCoreR1.p02_lm009_palm_r4_to_r3}
+Let $p,C,r$ be real, $C\ge0$, $0\le r\le1$ and $p\le Cr^4$.
+Then $p\le Cr^3$. This supplies no new probabilistic bound on $p$.
+\end{lemma}
+\begin{proof}Use $r^4\le r^3$ and multiply by nonnegative $C$.\end{proof}
+
+\section{Same-law measure-theoretic bridge}
+\begin{lemma}[Event Cauchy--Schwarz]
+\label{lem:event-cs}
+\lean{ResearchFormalCoreR1.p02_lm008_event_cs}
+Let $\mu$ be a probability measure, $W\in L^2(\mu)$ nonnegative almost
+surely and $A$ measurable. Then
+$\int_A W\,d\mu\le\sqrt{\int W^2\,d\mu}\sqrt{\mu(A)}$.
+No independence between $A$ and $W$ is assumed.
+\end{lemma}
+\begin{proof}Apply Holder with exponents $2,2$ to $W$ and $1_A$.\end{proof}
+\begin{lemma}[Same-law ratio transfer]
+\label{lem:measure-transfer}
+\lean{ResearchFormalCoreR1.p02_lm008_measure_transfer}
+\uses{lem:event-cs,lem:quotient}
+Under the preceding assumptions, also suppose $r>0$, $c_W\ge0$, $c_Z>0$,
+$\int W^2\,d\mu\le c_Wr^4$ and $c_Zr^2\le\int W\,d\mu$.
+Then $(\int_A W\,d\mu)/(\int W\,d\mu)\le(\sqrt{c_W}/c_Z)\sqrt{\mu(A)}$.
+The two model bounds remain premises; no Palm measure is constructed here.
+\end{lemma}
+\begin{proof}Bound the numerator, derive a positive normalizer, and use
+the unchanged scalar quotient theorem.\end{proof}
+
+
+\section{D2 Schur algebra and endpoint positivity}
+\begin{lemma}[Endpoint lower bound for the conditional expression]
+\label{lem:d2-schur}
+\lean{ResearchFormalCoreR1.d2_schur_endpoint_lower}
+For the expressions defined in D2Schur, assume $m_2>0$, $m_4>m_2^2$
+and $0\le q\le1/4$. Put $N=m_2^2(m_4^2-m_2^4)$ and
+$D(q)=m_2^2m_4+(m_4-3m_2^2)(m_4+m_2^2)q$.
+Then $N/\max\{D(0),D(1/4)\}\le S(q)$, and $S(q)>0$.
+The scalar-to-Gaussian covariance identification is not formalized here.
+\end{lemma}
+\begin{proof}Cancel the Schur numerator, bound the positive affine denominator
+by its endpoint maximum, and reverse that comparison upon reciprocation.\end{proof}

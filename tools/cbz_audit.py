@@ -319,13 +319,27 @@ MUTATIONS = [
 def selftest(tests):
     source_path = Path(__file__).resolve()
     source = source_path.read_text()
-    def run(path):
+    helper = source_path.with_name('cbz_mutation.py')
+    helper_before = digest(helper.read_bytes())
+    tests_before = digest(tests.read_bytes())
+    optimization = ['-OO'] if sys.flags.optimize == 2 else ['-O'] if sys.flags.optimize == 1 else []
+    def run(path, expected=None):
         env = dict(os.environ, CBZ_AUDIT_UNDER_TEST=str(path), PYTHONDONTWRITEBYTECODE='1')
-        proc = subprocess.run([sys.executable, '-B', str(tests)], capture_output=True, text=True, env=env)
-        return proc.returncode, proc.stdout + proc.stderr
-    code, output = run(source_path)
-    result = {'schema_version': 1, 'tool': VERSION, 'scope': 'finite behavioral and source-mutation suite; no mathematical soundness claim', 'scanner_sha256': digest(source.encode()), 'tests_sha256': digest(tests.read_bytes()), 'baseline': {'exit_code': code, 'output': output}, 'mutants': [], 'threshold': {'numerator': 1, 'denominator': 1}, 'result': 'FAIL'}
-    if code != 0 or not re.search(r'Ran [1-9][0-9]* tests? in ', output):
+        command = [sys.executable, '-B', *optimization, str(helper), '--tests', str(tests)]
+        with tempfile.TemporaryDirectory(prefix='cbz-audit-population-') as temp:
+            if expected is not None:
+                population = Path(temp) / 'expected.json'
+                population.write_text(json.dumps(expected))
+                command.extend(['--expected', str(population)])
+            proc = subprocess.run(command, capture_output=True, text=True, env=env)
+        try:
+            evidence = json.loads(proc.stdout)
+        except (ValueError, TypeError):
+            evidence = {'body_kill': False, 'baseline_success': False, 'output': proc.stdout + proc.stderr}
+        return proc.returncode, evidence
+    code, baseline = run(source_path)
+    result = {'schema_version': 1, 'tool': VERSION, 'scope': 'finite behavioral and source-mutation suite; no mathematical soundness claim', 'scanner_sha256': digest(source.encode()), 'tests_sha256': tests_before, 'lifecycle_helper_sha256': helper_before, 'optimization': sys.flags.optimize, 'baseline': {'exit_code': code, 'output': baseline.get('output', ''), 'lifecycle': baseline}, 'mutants': [], 'threshold': {'numerator': 1, 'denominator': 1}, 'result': 'FAIL'}
+    if code != 0 or not baseline.get('baseline_success') or baseline.get('optimization') != sys.flags.optimize:
         return result
     with tempfile.TemporaryDirectory(prefix='cbz-audit-mutants-') as directory:
         for name, before, after in MUTATIONS:
@@ -336,12 +350,15 @@ def selftest(tests):
                 continue
             path = Path(directory) / (name + '.py')
             path.write_text(head.replace(before, after, 1) + '\nMUTATIONS = [' + tail)
-            code, output = run(path)
-            killed = code != 0 and bool(re.search(r'FAILED \(failures=[1-9][0-9]*\)', output)) and 'ERROR:' not in output
-            result['mutants'].append({'name': name, 'killed': killed, 'exit_code': code, 'output': output})
+            code, evidence = run(path, baseline['population'])
+            killed = code == 0 and evidence.get('body_kill') is True and evidence.get('optimization') == sys.flags.optimize
+            result['mutants'].append({'name': name, 'killed': killed, 'exit_code': code, 'output': evidence.get('output', ''), 'lifecycle': evidence})
     result['killed'] = sum(item['killed'] for item in result['mutants'])
     result['total'] = len(MUTATIONS)
-    result['result'] = 'PASS' if result['total'] > 0 and result['killed'] * result['threshold']['denominator'] >= result['total'] * result['threshold']['numerator'] else 'FAIL'
+    result['inputs_unchanged'] = (digest(source_path.read_bytes()) == result['scanner_sha256']
+                                  and digest(tests.read_bytes()) == tests_before
+                                  and digest(helper.read_bytes()) == helper_before)
+    result['result'] = 'PASS' if result['inputs_unchanged'] and result['total'] > 0 and result['killed'] * result['threshold']['denominator'] >= result['total'] * result['threshold']['numerator'] else 'FAIL'
     return result
 
 

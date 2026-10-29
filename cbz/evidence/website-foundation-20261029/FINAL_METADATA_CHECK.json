@@ -1,30 +1,119 @@
 {
-  "observed_utc": "2026-10-29T19:15:20.883954+00:00",
-  "source_commit": "c643cefa0d1255f2f2b0d421a6ced79de746c117",
-  "scope": "Current contribution metadata/evidence consistency only; no new mathematical execution or CBZ declaration",
+  "observed_utc": "2026-10-29T20:03:23.330405+00:00",
+  "source_git_head": "9c09dc98a639341c8bfa088edefe011131016b41",
+  "source_state": "9c09Githeadplusfrozenlifecycletoolchanges; actualcurrentinputbytes in source-manifest. Noexactfinalcommitclaim.",
+  "main_proof_checked_commit": "9c09dc98a639341c8bfa088edefe011131016b41",
+  "scope": "Finitecontributionrecord/evidenceconsistencyandread-onlychecks; notCBZ-0",
   "records": 207,
   "closed": 31,
   "quarantined": 176,
-  "source_manifest_entries": 693,
+  "original_record_identity_vs_b7": true,
+  "source_manifest_entries": 1541,
+  "registered_tools": 15,
   "current_sealed_kernel_members": 104,
   "current_positive_objects": 5,
   "positive_object_bytes": 176136,
-  "negative_fixture_files": 18,
-  "explicit_generated_inventory_lexical_gaps": 5,
+  "negative_input_boundaries": 47,
+  "negative_input_main_count": 36,
+  "negative_input_math_delivered_count": 9,
+  "negative_input_math_reconstructed_count": 2,
+  "explicit_generated_tool_lexical_gap_files": 9,
+  "binary_objects_or_metadata_explicitly_not_lexically_scanned": 28,
+  "math_delivered_lean_classification_files": 56,
+  "pinned_checker_unsafe_tokens_visible": 3,
   "metadata_controls_per_mode": 4,
   "source_guard_mutants_per_mode": 1,
   "inspect_status": "INCOMPLETE",
   "inspect_failures": [],
   "cold_start_status": "PASS_DOCUMENTATION_ENTRYPOINT_SCOPE_ONLY",
-  "current_observed_execution": "31literal proofs/45constants wrapper and119focused CBZtests; actual parent-owned execution records under sources/current-c643",
-  "prior_full_regression": "6fc Python1673zero failures21skips; Node763zero skips; historical only, not current c643 full regression",
+  "current_focused_tests": [
+    144,
+    144
+  ],
+  "current_configured_node": {
+    "tests": 763,
+    "pass": 763,
+    "fail": 0,
+    "skip": 0
+  },
+  "full_current_python": {
+    "tests": 1784,
+    "failures": 0,
+    "skipped": 23,
+    "seconds": "344.746",
+    "source_head": "9c09dc98a639341c8bfa088edefe011131016b41",
+    "working_overlay": "frozen mutation grader lifecycle fix plus its25 tests",
+    "receipt": {
+      "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/python-with-lifecycle-fix/RESULT.json",
+      "sha256": "028b7f57801f0e0e0201bf827a169f3b4be7342244c81d5525dff66dbb4f8d00"
+    },
+    "skip_disposition": {
+      "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/python-with-lifecycle-fix/SKIP_DISPOSITION.json",
+      "sha256": "51099ca55e5ccd3f7937bf247cedc10bdb374033efdc3d2b5ccc1bb0a82abc90"
+    }
+  },
+  "math_pinned_formal_axis": {
+    "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+    "targets": 63,
+    "compiled_declarations": 116,
+    "exact_module_kernel_replays": 9,
+    "application_status": "QUARANTINED",
+    "nonvacuity_alignment_applicability_fresh_imported_closure": "NOT_INFERRED"
+  },
   "joint_gates": "INCOMPLETE",
-  "readonly_verifier": {
-    "source_sha256": "161ff33112a888872daf42896c612a90dda8a1dc19705ca914ece10939357a32",
-    "historical_VERIFICATION_sha256": "099252ce08071112ad4635d92643ede549ccfc6f6963298496dbe5521b7f93b2",
-    "namespace_unchanged_during_four_selftests": true,
-    "normal_optimized_metadata_and_mutant_checks": "PASS",
-    "scope": "719 files at initial readonly observation; final metadata additions separately hashed.",
-    "final_namespace_files_unchanged": 724
-  }
+  "execution": {
+    "path": "cbz/evidence/website-foundation-20261029/verification-results/full-regression-final/EXECUTION.json",
+    "sha256": "4915ce85f56ef8a639239fccc6cc5f9e98b8a78f3dea97bb4b0bcd9ff5bad045"
+  },
+  "manifest_self_hash": "EXCLUDED; finalartifactmanifesthashmustbeheldexternally",
+  "full_python_later_receipt_requires_reseal": false,
+  "supplemental18_verification": {
+    "result": {
+      "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/supplemental/RESULT.json",
+      "sha256": "a8c75bbe58e72a2431f9709044cb92f9a25c946a8980e3e4d705dd40fe5ab949"
+    },
+    "manifest": {
+      "path": "cbz/evidence/website-foundation-20261029/sources/current-9c09/regression/supplemental/MANIFEST.json",
+      "sha256": "c2880c1b3baaf6c28293be95e78430371da994ffa7da2e24e6d281eb2d453d45"
+    },
+    "manifest_entries": 26,
+    "actual_test_executions": 29,
+    "distinct_original_skips_exercised": 18,
+    "original_run_skips_unchanged": 23,
+    "remaining_real_record_unexercised": 5,
+    "runtime_fixture_scope": "Fiveactualruntimecontrolsuse6fcfixturewithtestbytesidenticaltocurrent; notafullcurrent-sourcecontainerclaim.",
+    "new_shared_wrapper_receipt_claimed": false
+  },
+  "remaining_real_record_cases": [
+    {
+      "test_method": "test_real_records_cited_artifacts_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present",
+      "reason_repr": "'no real record cites repo artifact paths; missing-artifact checks are not exercised'",
+      "original_log_line": "test_real_records_cited_artifacts_when_present (test_living_project_validation.RealRecordTests.test_real_records_cited_artifacts_when_present) ... skipped 'no real record cites repo artifact paths; missing-artifact checks are not exercised'"
+    },
+    {
+      "test_method": "test_real_records_dependencies_when_present",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present",
+      "reason_repr": "'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'",
+      "original_log_line": "test_real_records_dependencies_when_present (test_living_project_validation.RealRecordTests.test_real_records_dependencies_when_present) ... skipped 'no real record carries depends_on; dependency checks are not exercised. depends_on is not interface v0. Dependency validation is not proof verification.'"
+    },
+    {
+      "test_method": "test_real_records_evidence_id_pattern",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern",
+      "reason_repr": "'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'",
+      "original_log_line": "test_real_records_evidence_id_pattern (test_living_project_validation.RealRecordTests.test_real_records_evidence_id_pattern) ... skipped 'no real record has evidence_url, released_url, or resolution_url; the evidence id pattern is not exercised on records/node_status'"
+    },
+    {
+      "test_method": "test_real_records_fresh_against_live_source_head",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head",
+      "reason_repr": "'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'",
+      "original_log_line": "test_real_records_fresh_against_live_source_head (test_living_project_validation.RealRecordTests.test_real_records_fresh_against_live_source_head) ... skipped 'fresh records eng.d0-packet-allowlist-fix, eng.hard-gate, math.lifetime-remainder, math.side24-coefficient are not compared to a live source head; tools/validate_node_status.py performs no network fetch, so this check is skipped instead of passed'"
+    },
+    {
+      "test_method": "test_real_records_owner_released_url_consistency",
+      "test_class": "test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency",
+      "reason_repr": "'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'",
+      "original_log_line": "test_real_records_owner_released_url_consistency (test_living_project_validation.RealRecordTests.test_real_records_owner_released_url_consistency) ... skipped 'every real record has owner null; owner/released_url consistency is not exercised (released_url must stay on the owner object and must not clear it)'"
+    }
+  ]
 }

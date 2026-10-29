@@ -1,0 +1,44 @@
+⚠ [8924/8932] Built ResearchFormalCoreR1.ProbabilityCompanionsV2 (4.0s)
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:18: Variable name `hcW` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hcW
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:48: Variable name `hq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [8925/8932] Built ResearchFormalCoreR1.AlgebraV2 (5.3s)
+✔ [8926/8932] Built ResearchFormalCoreR1.MeasureBridge (4.4s)
+✔ [8927/8932] Built ResearchFormalCoreR1.WeightedLaw (4.2s)
+✖ [8928/8932] Building ResearchFormalCoreR1.WeightPerturbation (4.4s)
+trace: .> LEAN_PATH=/home/runner/work/Math-/Math-/formal/.lake/packages/Cli/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/batteries/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/Qq/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/aesop/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/importGraph/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/plausible/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/packages/mathlib/.lake/build/lib/lean:/home/runner/work/Math-/Math-/formal/.lake/build/lib/lean /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /home/runner/work/Math-/Math-/formal/ResearchFormalCoreR1/WeightPerturbation.lean -o /home/runner/work/Math-/Math-/formal/.lake/build/lib/lean/ResearchFormalCoreR1/WeightPerturbation.olean -i /home/runner/work/Math-/Math-/formal/.lake/build/lib/lean/ResearchFormalCoreR1/WeightPerturbation.ilean -c /home/runner/work/Math-/Math-/formal/.lake/build/ir/ResearchFormalCoreR1/WeightPerturbation.c --setup /home/runner/work/Math-/Math-/formal/.lake/build/ir/ResearchFormalCoreR1/WeightPerturbation.setup.json --json
+error: ResearchFormalCoreR1/WeightPerturbation.lean:78:34: Unknown identifier `abs_add`
+warning: ResearchFormalCoreR1/WeightPerturbation.lean:138:46: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+warning: ResearchFormalCoreR1/WeightPerturbation.lean:138:46: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+⚠ [8929/8932] Built ResearchFormalCoreR1.MomentTail (4.8s)
+warning: ResearchFormalCoreR1/MomentTail.lean:49:0: automatically included section variable(s) unused in theorem `ResearchFormalCoreR1.p02_lm009_badJet_subset`:
+  [MeasurableSpace Ω]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace Ω] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [8930/8932] Built ResearchFormalCoreR1.MomentGenerality (4.2s)
+warning: ResearchFormalCoreR1/MomentGenerality.lean:72:2: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Some required targets logged failures:
+- ResearchFormalCoreR1.WeightPerturbation
+error: build failed

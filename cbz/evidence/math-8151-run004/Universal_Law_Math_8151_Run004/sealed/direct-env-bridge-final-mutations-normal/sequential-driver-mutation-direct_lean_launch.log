@@ -1,0 +1,28 @@
+test_lake_environment_launch_preserves_pinned_binary_args_and_values (math_driver_mutation_tests.DriverGuardTests.test_lake_environment_launch_preserves_pinned_binary_args_and_values) ... FAIL
+
+======================================================================
+FAIL: test_lake_environment_launch_preserves_pinned_binary_args_and_values (math_driver_mutation_tests.DriverGuardTests.test_lake_environment_launch_preserves_pinned_binary_args_and_values)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz0/lean-foundation/test_math_sequential_driver.py", line 50, in test_lake_environment_launch_preserves_pinned_binary_args_and_values
+    self.assertEqual(command,[str(self.ns['T']/'lean'),'-o','result.olean','source.lean'])
+AssertionError: Lists differ: ['lake', 'env', 'lean', '-o', 'result.olean', 'source.lean'] != ['/tmp/cbz-math-driver-test-pkj9ldqk/toolch[46 chars]ean']
+
+First differing element 0:
+'lake'
+'/tmp/cbz-math-driver-test-pkj9ldqk/toolchain/bin/lean'
+
+First list contains 2 additional elements.
+First extra element 4:
+'result.olean'
+
+- ['lake', 'env', 'lean', '-o', 'result.olean', 'source.lean']
++ ['/tmp/cbz-math-driver-test-pkj9ldqk/toolchain/bin/lean',
++  '-o',
++  'result.olean',
++  'source.lean']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

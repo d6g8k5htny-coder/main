@@ -1,0 +1,14 @@
+test_monitor_error_cleans_direct_child_before_reraise (math_driver_mutation_tests.DriverGuardTests.test_monitor_error_cleans_direct_child_before_reraise) ... FAIL
+
+======================================================================
+FAIL: test_monitor_error_cleans_direct_child_before_reraise (math_driver_mutation_tests.DriverGuardTests.test_monitor_error_cleans_direct_child_before_reraise)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz0/lean-foundation/test_math_sequential_driver.py", line 132, in test_monitor_error_cleans_direct_child_before_reraise
+    self.assertIsInstance(caught, OSError)
+AssertionError: TimeoutExpired(['/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python', '-c', 'import time;time.sleep(20)'], 5) is not an instance of <class 'OSError'>
+
+----------------------------------------------------------------------
+Ran 1 test in 5.005s
+
+FAILED (failures=1)

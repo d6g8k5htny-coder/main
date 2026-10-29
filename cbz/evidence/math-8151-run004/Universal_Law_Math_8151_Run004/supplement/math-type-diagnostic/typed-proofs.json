@@ -1,0 +1,2225 @@
+{
+  "schema": "cbz.math.typed-diagnostic.v1",
+  "scope": "Elaborated statement and Prop-binder diagnostics only; no semantic source alignment or nonvacuity certification. Missing Prop binders alone never establishes inhabitation of non-Prop parameter domains.",
+  "program_sha256": "5d707e4291760bf423bd088b29a56f8c0344c1fac3c362028379220173b2fb6a",
+  "gate_receipt_sha256": "7711c528031f26bb094718db736f960c546fcbb5c00f345fae1b201d4d85f561",
+  "registered_targets": 63,
+  "all_reported_theorems": 106,
+  "target_coverage": "EXACT_OR_SUPERSET_CHECKED",
+  "target_axioms_match_gate": true,
+  "proofs": [
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec005_fold_gap",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (s : \u211d), ResearchFormalCoreR1.foldPotential s s - ResearchFormalCoreR1.foldPotential s (-s) = (2 * s) ^ 3 / 6"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec008_factor_expansion",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (c s : \u211d),\n  2 * s ^ 2 *\n      (s ^ 2 * (3 * c ^ 4 + 3 * c ^ 2 * s ^ 2 + s ^ 4) / 24 * (s ^ 2 * (4 * c ^ 2 + s ^ 2) / 2) -\n        (-c * s ^ 2 * (2 * c ^ 2 + s ^ 2) / 4) ^ 2) =\n    s ^ 8 * (c ^ 2 + s ^ 2) * (3 * c ^ 2 + s ^ 2) / 24"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec010_generic",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (\u03b1 K c \u03b7 : \u211d), (K + 8 * \u03b1 * c * \u03b7) ^ 2 + 64 * \u03b1 * (1 - \u03b1) * c ^ 2 * \u03b7 ^ 2 = (1 - \u03b1) * K ^ 2 + \u03b1 * (K + 8 * c * \u03b7) ^ 2"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec010_transverse",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (\u03b1 a \u03b7 : \u211d), (a + (1 - 2 * \u03b1) * \u03b7) ^ 2 + 4 * \u03b1 * (1 - \u03b1) * \u03b7 ^ 2 = (1 - \u03b1) * (a + \u03b7) ^ 2 + \u03b1 * (a - \u03b7) ^ 2"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec011_scalar_cancellation",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (h w g : \u211d), -h * w * g + w * (h * g) = 0"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.foldPotential._proof_1",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [],
+      "statement": "(2 + 1).AtLeastTwo"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.ec014_contact_power",
+      "module": "ResearchFormalCoreR1.AlgebraV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "r \u2260 0"
+        }
+      ],
+      "statement": "\u2200 (r : \u211d), r \u2260 0 \u2192 r ^ 3 / 6 * (1 / r ^ 5) * r ^ 2 = 1 / 6"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_5",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.301975504._hygCtx._hyg.11",
+          "type": "IsReduced M\u2080"
+        },
+        {
+          "name": "h",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : MonoidWithZero M\u2080] {a : M\u2080} [IsReduced M\u2080] (n : \u2115), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_1",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.2030121524._hygCtx._hyg.14",
+          "type": "NeZero 2"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 2] [NeZero 2], (2 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "r \u2260 0"
+        },
+        {
+          "name": "hcZ",
+          "type": "cZ \u2260 0"
+        }
+      ],
+      "statement": "\u2200 (r cW cZ q : \u211d), r \u2260 0 \u2192 cZ \u2260 0 \u2192 \u221acW * r ^ 2 * \u221aq / (cZ * r ^ 2) = \u221acW / cZ * \u221aq"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_palm_r4_to_r3",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hC",
+          "type": "0 \u2264 C"
+        },
+        {
+          "name": "hr0",
+          "type": "0 \u2264 r"
+        },
+        {
+          "name": "hr1",
+          "type": "r \u2264 1"
+        },
+        {
+          "name": "hp",
+          "type": "p \u2264 C * r ^ 4"
+        }
+      ],
+      "statement": "\u2200 (p C r : \u211d), 0 \u2264 C \u2192 0 \u2264 r \u2192 r \u2264 1 \u2192 p \u2264 C * r ^ 4 \u2192 p \u2264 C * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_cross_multiplied",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hq",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hz",
+          "type": "cZ * r ^ 2 \u2264 z"
+        },
+        {
+          "name": "hn",
+          "type": "n \u2264 \u221acW * r ^ 2 * \u221aq"
+        }
+      ],
+      "statement": "\u2200 (n z r cW cZ q : \u211d),\n  0 < r \u2192 0 \u2264 cW \u2192 0 < cZ \u2192 0 \u2264 q \u2192 cZ * r ^ 2 \u2264 z \u2192 n \u2264 \u221acW * r ^ 2 * \u221aq \u2192 n * (cZ * r ^ 2) \u2264 \u221acW * r ^ 2 * \u221aq * z"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_bad_event_threshold",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hbad",
+          "type": "\u03b5 < r * R ^ 5"
+        }
+      ],
+      "statement": "\u2200 (r R \u03b5 : \u211d), 0 < r \u2192 \u03b5 < r * R ^ 5 \u2192 \u03b5 / r < R ^ 5"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_7",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.CharZero.Defs.1325129559._hygCtx._hyg.6",
+          "type": "CharZero R"
+        }
+      ],
+      "statement": "\u2200 {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : \u2115), (\u2191n + 1 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_4",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.430946186._hygCtx._hyg.10",
+          "type": "NoZeroDivisors M\u2080"
+        },
+        {
+          "name": "ha",
+          "type": "a \u2260 0"
+        },
+        {
+          "name": "hb",
+          "type": "b \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : Mul M\u2080] [inst_1 : Zero M\u2080] [NoZeroDivisors M\u2080] {a b : M\u2080}, a \u2260 0 \u2192 b \u2260 0 \u2192 (a * b = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_6",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "a._@._internal._hyg.0",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {G\u2080 : Type u_3} [inst : GroupWithZero G\u2080] {a : G\u2080} (n : \u2124), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_2",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.289478065._hygCtx._hyg.14",
+          "type": "NeZero 3"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 3] [NeZero 3], (3 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_power40_identity",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (R : \u211d), (R ^ 5) ^ 8 = R ^ 40"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_quotient_bound",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hq",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hzpos",
+          "type": "0 < z"
+        },
+        {
+          "name": "hz",
+          "type": "cZ * r ^ 2 \u2264 z"
+        },
+        {
+          "name": "hn",
+          "type": "n \u2264 \u221acW * r ^ 2 * \u221aq"
+        }
+      ],
+      "statement": "\u2200 (n z r cW cZ q : \u211d),\n  0 < r \u2192 0 \u2264 cW \u2192 0 < cZ \u2192 0 \u2264 q \u2192 0 < z \u2192 cZ * r ^ 2 \u2264 z \u2192 n \u2264 \u221acW * r ^ 2 * \u221aq \u2192 n / z \u2264 \u221acW / cZ * \u221aq"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_r2_cancel._simp_1_3",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.1405315497._hygCtx._hyg.14",
+          "type": "NeZero 4"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 4] [NeZero 4], (4 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_r4_le_r3",
+      "module": "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+      "prop_premise_binders": [
+        {
+          "name": "hr0",
+          "type": "0 \u2264 r"
+        },
+        {
+          "name": "hr1",
+          "type": "r \u2264 1"
+        }
+      ],
+      "statement": "\u2200 (r : \u211d), 0 \u2264 r \u2192 r \u2264 1 \u2192 r ^ 4 \u2264 r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_event_numerator",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MeasureBridge.274981188._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        \u2200 (r cW : \u211d), 0 \u2264 cW \u2192 \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192 \u222b (x : \u03a9) in A, W x \u2202\u03bc \u2264 \u221acW * r ^ 2 * \u221a(\u03bc A).toReal"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_event_cs",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MeasureBridge.2944369594._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192 MeasurableSet A \u2192 \u222b (x : \u03a9) in A, W x \u2202\u03bc \u2264 \u221a(\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc) * \u221a(\u03bc A).toReal"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_measure_transfer",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MeasureBridge.3077989097._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        \u2200 (r cW cZ : \u211d),\n          0 < r \u2192\n            0 \u2264 cW \u2192\n              0 < cZ \u2192\n                \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                  cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                    (\u222b (x : \u03a9) in A, W x \u2202\u03bc) / \u222b (x : \u03a9), W x \u2202\u03bc \u2264 \u221acW / cZ * \u221a(\u03bc A).toReal"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_upper_normalizer_counterexample",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [],
+      "statement": "1 \u2264 2 * 1 ^ 2 \u2227 1 / 1 > \u221a1 / 2 * \u221a1"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_measure_transfer_r8_to_r3",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MeasureBridge.3371205258._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hr1",
+          "type": "r \u2264 1"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hK",
+          "type": "0 \u2264 K"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        },
+        {
+          "name": "htail",
+          "type": "(\u03bc A).toReal \u2264 K * r ^ 8"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        \u2200 (r cW cZ K : \u211d),\n          0 < r \u2192\n            r \u2264 1 \u2192\n              0 \u2264 cW \u2192\n                0 < cZ \u2192\n                  0 \u2264 K \u2192\n                    \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                      cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                        (\u03bc A).toReal \u2264 K * r ^ 8 \u2192 (\u222b (x : \u03a9) in A, W x \u2202\u03bc) / \u222b (x : \u03a9), W x \u2202\u03bc \u2264 \u221acW / cZ * \u221aK * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_sqrt_counterexample",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [],
+      "statement": "1 = \u221a4 * \u221a(1 / 4) \u2227 \u00ac1 \u2264 \u221a4 * (1 / 4)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_integral_cs._simp_1_1",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (x : \u211d), x ^ (1 / 2) = \u221ax"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_integral_cs",
+      "module": "ResearchFormalCoreR1.MeasureBridge",
+      "prop_premise_binders": [
+        {
+          "name": "hf",
+          "type": "MeasureTheory.MemLp f 2 \u03bc"
+        },
+        {
+          "name": "hg",
+          "type": "MeasureTheory.MemLp g 2 \u03bc"
+        },
+        {
+          "name": "hf0",
+          "type": "0 \u2264\u1d50[\u03bc] f"
+        },
+        {
+          "name": "hg0",
+          "type": "0 \u2264\u1d50[\u03bc] g"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (f g : \u03a9 \u2192 \u211d),\n  MeasureTheory.MemLp f 2 \u03bc \u2192\n    MeasureTheory.MemLp g 2 \u03bc \u2192\n      0 \u2264\u1d50[\u03bc] f \u2192 0 \u2264\u1d50[\u03bc] g \u2192 \u222b (x : \u03a9), f x * g x \u2202\u03bc \u2264 \u221a(\u222b (x : \u03a9), f x ^ 2 \u2202\u03bc) * \u221a(\u222b (x : \u03a9), g x ^ 2 \u2202\u03bc)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_zero",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9),\n  (ResearchFormalCoreR1.weightedLaw \u03bc fun x => 0) = 0"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_apply",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.Integrable W \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        (ResearchFormalCoreR1.weightedLaw \u03bc W) A =\n          (ENNReal.ofReal (\u222b (x : \u03a9), W x \u2202\u03bc))\u207b\u00b9 * ENNReal.ofReal (\u222b (x : \u03a9) in A, W x \u2202\u03bc)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw._proof_1",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [],
+      "statement": "IsScalarTower ENNReal ENNReal ENNReal"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_probability_transfer_r8_to_r3",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.WeightedLaw.2971933370._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hr1",
+          "type": "r \u2264 1"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hK",
+          "type": "0 \u2264 K"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        },
+        {
+          "name": "htail",
+          "type": "(\u03bc A).toReal \u2264 K * r ^ 8"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        \u2200 (r cW cZ K : \u211d),\n          0 < r \u2192\n            r \u2264 1 \u2192\n              0 \u2264 cW \u2192\n                0 < cZ \u2192\n                  0 \u2264 K \u2192\n                    \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                      cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                        (\u03bc A).toReal \u2264 K * r ^ 8 \u2192\n                          MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                            ((ResearchFormalCoreR1.weightedLaw \u03bc W) A).toReal \u2264 \u221acW / cZ * \u221aK * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_one",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.WeightedLaw.714536353._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc],\n  (ResearchFormalCoreR1.weightedLaw \u03bc fun x => 1) = \u03bc"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_isProbabilityMeasure",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hz",
+          "type": "0 < \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d),\n  MeasureTheory.Integrable W \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192 0 < \u222b (x : \u03a9), W x \u2202\u03bc \u2192 MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_absolutelyContinuous",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d),\n  (ResearchFormalCoreR1.weightedLaw \u03bc W).AbsolutelyContinuous \u03bc"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm008_probability_transfer",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.WeightedLaw.1107017715._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        \u2200 (r cW cZ : \u211d),\n          0 < r \u2192\n            0 \u2264 cW \u2192\n              0 < cZ \u2192\n                \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                  cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                    MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                      ((ResearchFormalCoreR1.weightedLaw \u03bc W) A).toReal \u2264 \u221acW / cZ * \u221a(\u03bc A).toReal"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw.eq_1",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d),\n  ResearchFormalCoreR1.weightedLaw \u03bc W =\n    (ENNReal.ofReal (\u222b (x : \u03a9), W x \u2202\u03bc))\u207b\u00b9 \u2022 \u03bc.withDensity fun x => ENNReal.ofReal (W x)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_real",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hA",
+          "type": "MeasurableSet A"
+        },
+        {
+          "name": "hz",
+          "type": "0 < \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.Integrable W \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      MeasurableSet A \u2192\n        0 < \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n          ((ResearchFormalCoreR1.weightedLaw \u03bc W) A).toReal = (\u222b (x : \u03a9) in A, W x \u2202\u03bc) / \u222b (x : \u03a9), W x \u2202\u03bc"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_congr_ae",
+      "module": "ResearchFormalCoreR1.WeightedLaw",
+      "prop_premise_binders": [
+        {
+          "name": "h",
+          "type": "W =\u1d50[\u03bc] V"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d),\n  W =\u1d50[\u03bc] V \u2192 ResearchFormalCoreR1.weightedLaw \u03bc W = ResearchFormalCoreR1.weightedLaw \u03bc V"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentTail.3291083849._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hRi",
+          "type": "MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc"
+        },
+        {
+          "name": "hMbound",
+          "type": "\u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (R : \u03a9 \u2192 \u211d) (r \u03b5 M : \u211d),\n  0 < r \u2192\n    0 < \u03b5 \u2192\n      MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc \u2192\n        \u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M \u2192 (\u03bc (ResearchFormalCoreR1.badJetEvent R r \u03b5)).toReal \u2264 M / \u03b5 ^ 8 * r ^ 8"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_markov_event",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentTail.456516239._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsFiniteMeasure \u03bc"
+        },
+        {
+          "name": "hY",
+          "type": "MeasureTheory.Integrable Y \u03bc"
+        },
+        {
+          "name": "hY0",
+          "type": "0 \u2264\u1d50[\u03bc] Y"
+        },
+        {
+          "name": "ha",
+          "type": "0 < a"
+        },
+        {
+          "name": "hsub",
+          "type": "A \u2286 {x | a \u2264 Y x}"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsFiniteMeasure \u03bc] (Y : \u03a9 \u2192 \u211d)\n  (A : Set \u03a9),\n  MeasureTheory.Integrable Y \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] Y \u2192 \u2200 (a : \u211d), 0 < a \u2192 A \u2286 {x | a \u2264 Y x} \u2192 (\u03bc A).toReal \u2264 (\u222b (x : \u03a9), Y x \u2202\u03bc) / a"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r3",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentTail.3570724272._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hR",
+          "type": "Measurable R"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hr1",
+          "type": "r \u2264 1"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hM",
+          "type": "0 \u2264 M"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hRi",
+          "type": "MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc"
+        },
+        {
+          "name": "hMbound",
+          "type": "\u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W R : \u03a9 \u2192 \u211d),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      Measurable R \u2192\n        \u2200 (r \u03b5 M cW cZ : \u211d),\n          0 < r \u2192\n            r \u2264 1 \u2192\n              0 < \u03b5 \u2192\n                0 \u2264 M \u2192\n                  0 \u2264 cW \u2192\n                    0 < cZ \u2192\n                      MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc \u2192\n                        \u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M \u2192\n                          \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                            cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                              MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                                ((ResearchFormalCoreR1.weightedLaw \u03bc W)\n                                      (ResearchFormalCoreR1.badJetEvent R r \u03b5)).toReal \u2264\n                                  \u221acW / cZ * \u221a(M / \u03b5 ^ 8) * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r4",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentTail.4249102532._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hW",
+          "type": "MeasureTheory.MemLp W 2 \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hR",
+          "type": "Measurable R"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hM",
+          "type": "0 \u2264 M"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hRi",
+          "type": "MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc"
+        },
+        {
+          "name": "hMbound",
+          "type": "\u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M"
+        },
+        {
+          "name": "hsecond",
+          "type": "\u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4"
+        },
+        {
+          "name": "hlower",
+          "type": "cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (W R : \u03a9 \u2192 \u211d),\n  MeasureTheory.MemLp W 2 \u03bc \u2192\n    0 \u2264\u1d50[\u03bc] W \u2192\n      Measurable R \u2192\n        \u2200 (r \u03b5 M cW cZ : \u211d),\n          0 < r \u2192\n            0 < \u03b5 \u2192\n              0 \u2264 M \u2192\n                0 \u2264 cW \u2192\n                  0 < cZ \u2192\n                    MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc \u2192\n                      \u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M \u2192\n                        \u222b (x : \u03a9), W x ^ 2 \u2202\u03bc \u2264 cW * r ^ 4 \u2192\n                          cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2192\n                            MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                              ((ResearchFormalCoreR1.weightedLaw \u03bc W) (ResearchFormalCoreR1.badJetEvent R r \u03b5)).toReal \u2264\n                                \u221acW / cZ * \u221a(M / \u03b5 ^ 8) * r ^ 4"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_5",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.301975504._hygCtx._hyg.11",
+          "type": "IsReduced M\u2080"
+        },
+        {
+          "name": "h",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : MonoidWithZero M\u2080] {a : M\u2080} [IsReduced M\u2080] (n : \u2115), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_badJet_subset",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [MeasurableSpace \u03a9] (R : \u03a9 \u2192 \u211d) (r \u03b5 : \u211d),\n  0 < r \u2192 0 < \u03b5 \u2192 ResearchFormalCoreR1.badJetEvent R r \u03b5 \u2286 {x | (\u03b5 / r) ^ 8 \u2264 R x ^ 40}"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_6",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "a._@._internal._hyg.0",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {G\u2080 : Type u_3} [inst : GroupWithZero G\u2080] {a : G\u2080} (n : \u2124), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_2",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.289478065._hygCtx._hyg.14",
+          "type": "NeZero 3"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 3] [NeZero 3], (3 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_7",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.CharZero.Defs.1325129559._hygCtx._hyg.6",
+          "type": "CharZero R"
+        }
+      ],
+      "statement": "\u2200 {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : \u2115), (\u2191n + 1 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_4",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.430946186._hygCtx._hyg.10",
+          "type": "NoZeroDivisors M\u2080"
+        },
+        {
+          "name": "ha",
+          "type": "a \u2260 0"
+        },
+        {
+          "name": "hb",
+          "type": "b \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : Mul M\u2080] [inst_1 : Zero M\u2080] [NoZeroDivisors M\u2080] {a b : M\u2080}, a \u2260 0 \u2192 b \u2260 0 \u2192 (a * b = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_badJet_measurable",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "hR",
+          "type": "Measurable R"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (R : \u03a9 \u2192 \u211d),\n  Measurable R \u2192 \u2200 (r \u03b5 : \u211d), MeasurableSet (ResearchFormalCoreR1.badJetEvent R r \u03b5)"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_1",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.2030121524._hygCtx._hyg.14",
+          "type": "NeZero 2"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 2] [NeZero 2], (2 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_family_r3",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentTail.2223816908._hygCtx._hyg.12",
+          "type": "\u2200 (r : \u211d), MeasureTheory.IsProbabilityMeasure (\u03bc r)"
+        },
+        {
+          "name": "hr0",
+          "type": "0 < r0 \u2227 r0 \u2264 1"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hM",
+          "type": "0 \u2264 M"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hdata",
+          "type": "\u2200 (r : \u211d),\n  0 < r \u2192\n    r \u2264 r0 \u2192\n      MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n        0 \u2264\u1d50[\u03bc r] W r \u2227\n          Measurable (R r) \u2227\n            MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n              \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : \u211d \u2192 MeasureTheory.Measure \u03a9)\n  [\u2200 (r : \u211d), MeasureTheory.IsProbabilityMeasure (\u03bc r)] (W R : \u211d \u2192 \u03a9 \u2192 \u211d) (r0 \u03b5 M cW cZ : \u211d),\n  0 < r0 \u2227 r0 \u2264 1 \u2192\n    0 < \u03b5 \u2192\n      0 \u2264 M \u2192\n        0 \u2264 cW \u2192\n          0 < cZ \u2192\n            (\u2200 (r : \u211d),\n                0 < r \u2192\n                  r \u2264 r0 \u2192\n                    MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n                      0 \u2264\u1d50[\u03bc r] W r \u2227\n                        Measurable (R r) \u2227\n                          MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n                            \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                              \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r) \u2192\n              \u2203 C,\n                0 \u2264 C \u2227\n                  \u2200 (r : \u211d),\n                    0 < r \u2192\n                      r \u2264 r0 \u2192\n                        MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r)) \u2227\n                          ((ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r))\n                                (ResearchFormalCoreR1.badJetEvent (R r) r \u03b5)).toReal \u2264\n                            C * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail._simp_1_3",
+      "module": "ResearchFormalCoreR1.MomentTail",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.1405315497._hygCtx._hyg.14",
+          "type": "NeZero 4"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 4] [NeZero 4], (4 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_4",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.430946186._hygCtx._hyg.10",
+          "type": "NoZeroDivisors M\u2080"
+        },
+        {
+          "name": "ha",
+          "type": "a \u2260 0"
+        },
+        {
+          "name": "hb",
+          "type": "b \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : Mul M\u2080] [inst_1 : Zero M\u2080] [NoZeroDivisors M\u2080] {a b : M\u2080}, a \u2260 0 \u2192 b \u2260 0 \u2192 (a * b = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_of_finite",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentGenerality.2175396391._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsProbabilityMeasure \u03bc"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hRi",
+          "type": "MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc"
+        },
+        {
+          "name": "hMbound",
+          "type": "\u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsProbabilityMeasure \u03bc]\n  (R : \u03a9 \u2192 \u211d) (r \u03b5 M : \u211d),\n  0 < r \u2192\n    0 < \u03b5 \u2192\n      MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc \u2192\n        \u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M \u2192 (\u03bc (ResearchFormalCoreR1.badJetEvent R r \u03b5)).toReal \u2264 M / \u03b5 ^ 8 * r ^ 8"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_6",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "a._@._internal._hyg.0",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {G\u2080 : Type u_3} [inst : GroupWithZero G\u2080] {a : G\u2080} (n : \u2124), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_2",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.289478065._hygCtx._hyg.14",
+          "type": "NeZero 3"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 3] [NeZero 3], (3 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_7",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.CharZero.Defs.1325129559._hygCtx._hyg.6",
+          "type": "CharZero R"
+        }
+      ],
+      "statement": "\u2200 {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : \u2115), (\u2191n + 1 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_interval",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "hr0",
+          "type": "0 < r0 \u2227 r0 \u2264 1"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hM",
+          "type": "0 \u2264 M"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hdata",
+          "type": "\u2200 (r : \u211d),\n  0 < r \u2192\n    r \u2264 r0 \u2192\n      MeasureTheory.IsProbabilityMeasure (\u03bc r) \u2227\n        MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n          0 \u2264\u1d50[\u03bc r] W r \u2227\n            Measurable (R r) \u2227\n              MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n                \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                  \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : \u211d \u2192 MeasureTheory.Measure \u03a9) (W R : \u211d \u2192 \u03a9 \u2192 \u211d) (r0 \u03b5 M cW cZ : \u211d),\n  0 < r0 \u2227 r0 \u2264 1 \u2192\n    0 < \u03b5 \u2192\n      0 \u2264 M \u2192\n        0 \u2264 cW \u2192\n          0 < cZ \u2192\n            (\u2200 (r : \u211d),\n                0 < r \u2192\n                  r \u2264 r0 \u2192\n                    MeasureTheory.IsProbabilityMeasure (\u03bc r) \u2227\n                      MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n                        0 \u2264\u1d50[\u03bc r] W r \u2227\n                          Measurable (R r) \u2227\n                            MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n                              \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                                \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r) \u2192\n              \u2203 C,\n                0 \u2264 C \u2227\n                  \u2200 (r : \u211d),\n                    0 < r \u2192\n                      r \u2264 r0 \u2192\n                        MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r)) \u2227\n                          ((ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r))\n                                (ResearchFormalCoreR1.badJetEvent (R r) r \u03b5)).toReal \u2264\n                            C * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_of_interval",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentGenerality.4015594744._hygCtx._hyg.12",
+          "type": "\u2200 (r : \u211d), MeasureTheory.IsProbabilityMeasure (\u03bc r)"
+        },
+        {
+          "name": "hr0",
+          "type": "0 < r0 \u2227 r0 \u2264 1"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hM",
+          "type": "0 \u2264 M"
+        },
+        {
+          "name": "hcW",
+          "type": "0 \u2264 cW"
+        },
+        {
+          "name": "hcZ",
+          "type": "0 < cZ"
+        },
+        {
+          "name": "hdata",
+          "type": "\u2200 (r : \u211d),\n  0 < r \u2192\n    r \u2264 r0 \u2192\n      MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n        0 \u2264\u1d50[\u03bc r] W r \u2227\n          Measurable (R r) \u2227\n            MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n              \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : \u211d \u2192 MeasureTheory.Measure \u03a9)\n  [\u2200 (r : \u211d), MeasureTheory.IsProbabilityMeasure (\u03bc r)] (W R : \u211d \u2192 \u03a9 \u2192 \u211d) (r0 \u03b5 M cW cZ : \u211d),\n  0 < r0 \u2227 r0 \u2264 1 \u2192\n    0 < \u03b5 \u2192\n      0 \u2264 M \u2192\n        0 \u2264 cW \u2192\n          0 < cZ \u2192\n            (\u2200 (r : \u211d),\n                0 < r \u2192\n                  r \u2264 r0 \u2192\n                    MeasureTheory.MemLp (W r) 2 (\u03bc r) \u2227\n                      0 \u2264\u1d50[\u03bc r] W r \u2227\n                        Measurable (R r) \u2227\n                          MeasureTheory.Integrable (fun x => R r x ^ 40) (\u03bc r) \u2227\n                            \u222b (x : \u03a9), R r x ^ 40 \u2202\u03bc r \u2264 M \u2227\n                              \u222b (x : \u03a9), W r x ^ 2 \u2202\u03bc r \u2264 cW * r ^ 4 \u2227 cZ * r ^ 2 \u2264 \u222b (x : \u03a9), W r x \u2202\u03bc r) \u2192\n              \u2203 C,\n                0 \u2264 C \u2227\n                  \u2200 (r : \u211d),\n                    0 < r \u2192\n                      r \u2264 r0 \u2192\n                        MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r)) \u2227\n                          ((ResearchFormalCoreR1.weightedLaw (\u03bc r) (W r))\n                                (ResearchFormalCoreR1.badJetEvent (R r) r \u03b5)).toReal \u2264\n                            C * r ^ 3"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_5",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.301975504._hygCtx._hyg.11",
+          "type": "IsReduced M\u2080"
+        },
+        {
+          "name": "h",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : MonoidWithZero M\u2080] {a : M\u2080} [IsReduced M\u2080] (n : \u2115), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_3",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.1405315497._hygCtx._hyg.14",
+          "type": "NeZero 4"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 4] [NeZero 4], (4 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite._simp_1_1",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.2030121524._hygCtx._hyg.14",
+          "type": "NeZero 2"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 2] [NeZero 2], (2 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite",
+      "module": "ResearchFormalCoreR1.MomentGenerality",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.ResearchFormalCoreR1.MomentGenerality.4074944949._hygCtx._hyg.8",
+          "type": "MeasureTheory.IsFiniteMeasure \u03bc"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "h\u03b5",
+          "type": "0 < \u03b5"
+        },
+        {
+          "name": "hRi",
+          "type": "MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc"
+        },
+        {
+          "name": "hMbound",
+          "type": "\u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) [MeasureTheory.IsFiniteMeasure \u03bc] (R : \u03a9 \u2192 \u211d)\n  (r \u03b5 M : \u211d),\n  0 < r \u2192\n    0 < \u03b5 \u2192\n      MeasureTheory.Integrable (fun x => R x ^ 40) \u03bc \u2192\n        \u222b (x : \u03a9), R x ^ 40 \u2202\u03bc \u2264 M \u2192 (\u03bc (ResearchFormalCoreR1.badJetEvent R r \u03b5)).toReal \u2264 M / \u03b5 ^ 8 * r ^ 8"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hV",
+          "type": "MeasureTheory.Integrable V \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hV0",
+          "type": "0 \u2264\u1d50[\u03bc] V"
+        },
+        {
+          "name": "hc",
+          "type": "0 < c"
+        },
+        {
+          "name": "hreference",
+          "type": "c \u2264 \u222b (x : \u03a9), V x \u2202\u03bc"
+        },
+        {
+          "name": "herror",
+          "type": "\u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b4"
+        },
+        {
+          "name": "hsmall",
+          "type": "\u03b4 \u2264 c / 2"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d),\n  MeasureTheory.Integrable W \u03bc \u2192\n    MeasureTheory.Integrable V \u03bc \u2192\n      0 \u2264\u1d50[\u03bc] W \u2192\n        0 \u2264\u1d50[\u03bc] V \u2192\n          \u2200 (c \u03b4 : \u211d),\n            0 < c \u2192\n              c \u2264 \u222b (x : \u03a9), V x \u2202\u03bc \u2192\n                \u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b4 \u2192\n                  \u03b4 \u2264 c / 2 \u2192\n                    c / 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2227\n                      MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                        MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc V) \u2227\n                          \u2200 (A : Set \u03a9),\n                            MeasurableSet A \u2192\n                              |((ResearchFormalCoreR1.weightedLaw \u03bc W) A).toReal -\n                                    ((ResearchFormalCoreR1.weightedLaw \u03bc V) A).toReal| \u2264\n                                2 * \u03b4 / c"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_1",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.2030121524._hygCtx._hyg.14",
+          "type": "NeZero 2"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 2] [NeZero 2], (2 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightPerturbation_integral",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hV",
+          "type": "MeasureTheory.Integrable V \u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d),\n  MeasureTheory.Integrable W \u03bc \u2192\n    MeasureTheory.Integrable V \u03bc \u2192 |\u222b (x : \u03a9), W x \u2202\u03bc - \u222b (x : \u03a9), V x \u2202\u03bc| \u2264 \u222b (x : \u03a9), |W x - V x| \u2202\u03bc"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_4",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.430946186._hygCtx._hyg.10",
+          "type": "NoZeroDivisors M\u2080"
+        },
+        {
+          "name": "ha",
+          "type": "a \u2260 0"
+        },
+        {
+          "name": "hb",
+          "type": "b \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : Mul M\u2080] [inst_1 : Zero M\u2080] [NoZeroDivisors M\u2080] {a b : M\u2080}, a \u2260 0 \u2192 b \u2260 0 \u2192 (a * b = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_6",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "a._@._internal._hyg.0",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {G\u2080 : Type u_3} [inst : GroupWithZero G\u2080] {a : G\u2080} (n : \u2124), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_2",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.289478065._hygCtx._hyg.14",
+          "type": "NeZero 3"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 3] [NeZero 3], (3 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightPerturbation_quotient_bound",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hz",
+          "type": "0 < z"
+        },
+        {
+          "name": "ht",
+          "type": "0 < t"
+        },
+        {
+          "name": "ha",
+          "type": "0 \u2264 a"
+        },
+        {
+          "name": "haz",
+          "type": "a \u2264 z"
+        },
+        {
+          "name": "hab",
+          "type": "|a - b| \u2264 \u03b4"
+        },
+        {
+          "name": "hzt",
+          "type": "|z - t| \u2264 \u03b4"
+        }
+      ],
+      "statement": "\u2200 (a b z t \u03b4 : \u211d), 0 < z \u2192 0 < t \u2192 0 \u2264 a \u2192 a \u2264 z \u2192 |a - b| \u2264 \u03b4 \u2192 |z - t| \u2264 \u03b4 \u2192 |a / z - b / t| \u2264 2 * \u03b4 / t"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_7",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.CharZero.Defs.1325129559._hygCtx._hyg.6",
+          "type": "CharZero R"
+        }
+      ],
+      "statement": "\u2200 {R : Type u_1} [inst : AddMonoidWithOne R] [CharZero R] (n : \u2115), (\u2191n + 1 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hV",
+          "type": "MeasureTheory.Integrable V \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        },
+        {
+          "name": "hV0",
+          "type": "0 \u2264\u1d50[\u03bc] V"
+        },
+        {
+          "name": "hr",
+          "type": "0 < r"
+        },
+        {
+          "name": "hc",
+          "type": "0 < c"
+        },
+        {
+          "name": "hreference",
+          "type": "c * r ^ 2 \u2264 \u222b (x : \u03a9), V x \u2202\u03bc"
+        },
+        {
+          "name": "herror",
+          "type": "\u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b7 * r ^ 2"
+        },
+        {
+          "name": "hsmall",
+          "type": "\u03b7 \u2264 c / 2"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d),\n  MeasureTheory.Integrable W \u03bc \u2192\n    MeasureTheory.Integrable V \u03bc \u2192\n      0 \u2264\u1d50[\u03bc] W \u2192\n        0 \u2264\u1d50[\u03bc] V \u2192\n          \u2200 (r c \u03b7 : \u211d),\n            0 < r \u2192\n              0 < c \u2192\n                c * r ^ 2 \u2264 \u222b (x : \u03a9), V x \u2202\u03bc \u2192\n                  \u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b7 * r ^ 2 \u2192\n                    \u03b7 \u2264 c / 2 \u2192\n                      c * r ^ 2 / 2 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc \u2227\n                        MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc W) \u2227\n                          MeasureTheory.IsProbabilityMeasure (ResearchFormalCoreR1.weightedLaw \u03bc V) \u2227\n                            \u2200 (A : Set \u03a9),\n                              MeasurableSet A \u2192\n                                |((ResearchFormalCoreR1.weightedLaw \u03bc W) A).toReal -\n                                      ((ResearchFormalCoreR1.weightedLaw \u03bc V) A).toReal| \u2264\n                                  2 * \u03b7 / c"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightPerturbation_normalizer_lower",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hV",
+          "type": "MeasureTheory.Integrable V \u03bc"
+        },
+        {
+          "name": "hreference",
+          "type": "c \u2264 \u222b (x : \u03a9), V x \u2202\u03bc"
+        },
+        {
+          "name": "herror",
+          "type": "\u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b4"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d),\n  MeasureTheory.Integrable W \u03bc \u2192\n    MeasureTheory.Integrable V \u03bc \u2192\n      \u2200 (c \u03b4 : \u211d), c \u2264 \u222b (x : \u03a9), V x \u2202\u03bc \u2192 \u222b (x : \u03a9), |W x - V x| \u2202\u03bc \u2264 \u03b4 \u2192 c - \u03b4 \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_5",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.GroupWithZero.Basic.301975504._hygCtx._hyg.11",
+          "type": "IsReduced M\u2080"
+        },
+        {
+          "name": "h",
+          "type": "a \u2260 0"
+        }
+      ],
+      "statement": "\u2200 {M\u2080 : Type u_1} [inst : MonoidWithZero M\u2080] {a : M\u2080} [IsReduced M\u2080] (n : \u2115), a \u2260 0 \u2192 (a ^ n = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightPerturbation_setIntegral",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hV",
+          "type": "MeasureTheory.Integrable V \u03bc"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W V : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.Integrable W \u03bc \u2192\n    MeasureTheory.Integrable V \u03bc \u2192 |\u222b (x : \u03a9) in A, W x \u2202\u03bc - \u222b (x : \u03a9) in A, V x \u2202\u03bc| \u2264 \u222b (x : \u03a9), |W x - V x| \u2202\u03bc"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightPerturbation_event_integral_bounds",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "hW",
+          "type": "MeasureTheory.Integrable W \u03bc"
+        },
+        {
+          "name": "hW0",
+          "type": "0 \u2264\u1d50[\u03bc] W"
+        }
+      ],
+      "statement": "\u2200 {\u03a9 : Type u_1} [inst : MeasurableSpace \u03a9] (\u03bc : MeasureTheory.Measure \u03a9) (W : \u03a9 \u2192 \u211d) (A : Set \u03a9),\n  MeasureTheory.Integrable W \u03bc \u2192 0 \u2264\u1d50[\u03bc] W \u2192 0 \u2264 \u222b (x : \u03a9) in A, W x \u2202\u03bc \u2227 \u222b (x : \u03a9) in A, W x \u2202\u03bc \u2264 \u222b (x : \u03a9), W x \u2202\u03bc"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2._simp_1_3",
+      "module": "ResearchFormalCoreR1.WeightPerturbation",
+      "prop_premise_binders": [
+        {
+          "name": "inst._@.Mathlib.Algebra.NeZero.1405315497._hygCtx._hyg.14",
+          "type": "NeZero 4"
+        }
+      ],
+      "statement": "\u2200 {\u03b1 : Type u_2} [inst : Zero \u03b1] [inst_1 : OfNat \u03b1 4] [NeZero 4], (4 = 0) = False"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_tau_cumulant_eq",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "m2 \u2260 0"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 m6 q : \u211d),\n  m2 \u2260 0 \u2192\n    6 * m2 ^ 3 + 9 * m2 * (m4 - 3 * m2 ^ 2) * (1 - 2 * q) +\n        (m6 - 15 * m4 * m2 + 30 * m2 ^ 3 - (m4 - 3 * m2 ^ 2) ^ 2 / m2) * (1 - 3 * q) =\n      ResearchFormalCoreR1.d2Tau m2 m4 m6 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_det_pos",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "0 < m2"
+        },
+        {
+          "name": "hm4",
+          "type": "m2 ^ 2 < m4"
+        },
+        {
+          "name": "hq0",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hq1",
+          "type": "q \u2264 1 / 4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 q : \u211d), 0 < m2 \u2192 m2 ^ 2 < m4 \u2192 0 \u2264 q \u2192 q \u2264 1 / 4 \u2192 0 < ResearchFormalCoreR1.d2DetV m2 m4 q"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Tau._proof_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "(8 + 1).AtLeastTwo"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_det_interpolation",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  ResearchFormalCoreR1.d2DetV m2 m4 q = (1 - 4 * q) * (m2 ^ 2 * m4) + 4 * q * ((m4 - m2 ^ 2) * (m4 + 3 * m2 ^ 2) / 4)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_numerator_pos",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "0 < m2"
+        },
+        {
+          "name": "hm4",
+          "type": "m2 ^ 2 < m4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 : \u211d), 0 < m2 \u2192 m2 ^ 2 < m4 \u2192 0 < ResearchFormalCoreR1.d2Numerator m2 m4"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Schur._proof_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "(3 + 1).AtLeastTwo"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_tau_pos",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "0 < m2"
+        },
+        {
+          "name": "hm4",
+          "type": "m2 ^ 2 < m4"
+        },
+        {
+          "name": "hDelta",
+          "type": "0 < ResearchFormalCoreR1.d2Delta m2 m4 m6"
+        },
+        {
+          "name": "hq0",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hq1",
+          "type": "q \u2264 1 / 4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 m6 q : \u211d),\n  0 < m2 \u2192\n    m2 ^ 2 < m4 \u2192\n      0 < ResearchFormalCoreR1.d2Delta m2 m4 m6 \u2192 0 \u2264 q \u2192 q \u2264 1 / 4 \u2192 0 < ResearchFormalCoreR1.d2Tau m2 m4 m6 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Schur.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  ResearchFormalCoreR1.d2Schur m2 m4 q =\n    ResearchFormalCoreR1.d2Alpha m2 m4 q -\n      (ResearchFormalCoreR1.d2Gamma m2 m4 q ^ 3 +\n          (2 * ResearchFormalCoreR1.d2Gamma m2 m4 q + ResearchFormalCoreR1.d2Alpha m2 m4 q) * (m4 - 3 * m2 ^ 2) ^ 2 *\n              q *\n            (1 - 4 * q)) /\n        ResearchFormalCoreR1.d2DetV m2 m4 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Gamma.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d), ResearchFormalCoreR1.d2Gamma m2 m4 q = m2 ^ 2 + 2 * (m4 - 3 * m2 ^ 2) * q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Tau.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 m6 q : \u211d),\n  ResearchFormalCoreR1.d2Tau m2 m4 m6 q =\n    (1 - 4 * q) * ResearchFormalCoreR1.d2Delta m2 m4 m6 +\n      4 * q * ((ResearchFormalCoreR1.d2Delta m2 m4 m6 + 9 * m2 * (m4 - m2 ^ 2)) / 4)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Delta.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 m6 : \u211d), ResearchFormalCoreR1.d2Delta m2 m4 m6 = m6 - m4 ^ 2 / m2"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_gaussian_control",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (q : \u211d),\n  ResearchFormalCoreR1.d2DetV 1 3 q = 3 \u2227\n    ResearchFormalCoreR1.d2Schur 1 3 q = 8 / 3 \u2227 ResearchFormalCoreR1.d2Tau 1 3 15 q = 6"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Alpha._proof_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "(1 + 1).AtLeastTwo"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_tau_axis",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 m6 : \u211d), ResearchFormalCoreR1.d2Tau m2 m4 m6 0 = ResearchFormalCoreR1.d2Delta m2 m4 m6"
+    },
+    {
+      "axioms": [
+        "propext"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Alpha._proof_2",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "(2 + 1).AtLeastTwo"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_schur_numerator",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  ResearchFormalCoreR1.d2Alpha m2 m4 q * ResearchFormalCoreR1.d2DetV m2 m4 q -\n        ResearchFormalCoreR1.d2Gamma m2 m4 q ^ 3 -\n      (2 * ResearchFormalCoreR1.d2Gamma m2 m4 q + ResearchFormalCoreR1.d2Alpha m2 m4 q) * (m4 - 3 * m2 ^ 2) ^ 2 * q *\n        (1 - 4 * q) =\n    ResearchFormalCoreR1.d2Numerator m2 m4"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Numerator.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 : \u211d), ResearchFormalCoreR1.d2Numerator m2 m4 = m2 ^ 2 * (m4 ^ 2 - m2 ^ 4)"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2DetV.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d), ResearchFormalCoreR1.d2DetV m2 m4 q = m2 ^ 2 * m4 + (m4 - 3 * m2 ^ 2) * (m4 + m2 ^ 2) * q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_schur_ratio",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hD",
+          "type": "ResearchFormalCoreR1.d2DetV m2 m4 q \u2260 0"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  ResearchFormalCoreR1.d2DetV m2 m4 q \u2260 0 \u2192\n    ResearchFormalCoreR1.d2Schur m2 m4 q = ResearchFormalCoreR1.d2Numerator m2 m4 / ResearchFormalCoreR1.d2DetV m2 m4 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_schur_endpoint_lower",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "0 < m2"
+        },
+        {
+          "name": "hm4",
+          "type": "m2 ^ 2 < m4"
+        },
+        {
+          "name": "hq0",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hq1",
+          "type": "q \u2264 1 / 4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  0 < m2 \u2192\n    m2 ^ 2 < m4 \u2192\n      0 \u2264 q \u2192\n        q \u2264 1 / 4 \u2192\n          ResearchFormalCoreR1.d2Numerator m2 m4 / max (m2 ^ 2 * m4) ((m4 - m2 ^ 2) * (m4 + 3 * m2 ^ 2) / 4) \u2264\n            ResearchFormalCoreR1.d2Schur m2 m4 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_degenerate_control",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "ResearchFormalCoreR1.d2DetV 1 1 (1 / 4) = 0 \u2227\n  ResearchFormalCoreR1.d2Schur 1 1 (1 / 4) = 2 \u2227\n    ResearchFormalCoreR1.d2Numerator 1 1 / ResearchFormalCoreR1.d2DetV 1 1 (1 / 4) = 0 \u2227\n      ResearchFormalCoreR1.d2Tau 1 1 1 0 = 0"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_det_axis",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 : \u211d), ResearchFormalCoreR1.d2DetV m2 m4 0 = m2 ^ 2 * m4"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2Alpha.eq_1",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 q : \u211d), ResearchFormalCoreR1.d2Alpha m2 m4 q = m4 - 2 * (m4 - 3 * m2 ^ 2) * q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_tau_diagonal",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 m6 : \u211d),\n  ResearchFormalCoreR1.d2Tau m2 m4 m6 (1 / 4) = (ResearchFormalCoreR1.d2Delta m2 m4 m6 + 9 * m2 * (m4 - m2 ^ 2)) / 4"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_det_diagonal",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [],
+      "statement": "\u2200 (m2 m4 : \u211d), ResearchFormalCoreR1.d2DetV m2 m4 (1 / 4) = (m4 - m2 ^ 2) * (m4 + 3 * m2 ^ 2) / 4"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_schur_pos",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hm2",
+          "type": "0 < m2"
+        },
+        {
+          "name": "hm4",
+          "type": "m2 ^ 2 < m4"
+        },
+        {
+          "name": "hq0",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hq1",
+          "type": "q \u2264 1 / 4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 q : \u211d), 0 < m2 \u2192 m2 ^ 2 < m4 \u2192 0 \u2264 q \u2192 q \u2264 1 / 4 \u2192 0 < ResearchFormalCoreR1.d2Schur m2 m4 q"
+    },
+    {
+      "axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "declaration": "ResearchFormalCoreR1.d2_det_le_endpoint_max",
+      "module": "ResearchFormalCoreR1.D2Schur",
+      "prop_premise_binders": [
+        {
+          "name": "hq0",
+          "type": "0 \u2264 q"
+        },
+        {
+          "name": "hq1",
+          "type": "q \u2264 1 / 4"
+        }
+      ],
+      "statement": "\u2200 (m2 m4 q : \u211d),\n  0 \u2264 q \u2192 q \u2264 1 / 4 \u2192 ResearchFormalCoreR1.d2DetV m2 m4 q \u2264 max (m2 ^ 2 * m4) ((m4 - m2 ^ 2) * (m4 + 3 * m2 ^ 2) / 4)"
+    }
+  ]
+}

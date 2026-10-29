@@ -1,0 +1,254 @@
+FFFFFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_actual_direct_guard_body_assertion_is_a_kill (__main__.MutationLifecycleTests.test_actual_direct_guard_body_assertion_is_a_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 58, in test_actual_direct_guard_body_assertion_is_a_kill
+    report,events=self.run_case('body');self.assertTrue(report['body_kill']);self.assertEqual(events,['body']);self.assertEqual(len(report['body_failures']),1)
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_body_error_is_not_assertion_kill (__main__.MutationLifecycleTests.test_body_error_is_not_assertion_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 74, in test_body_error_is_not_assertion_kill
+    self.assertFalse(self.run_case('error')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_body_failure_with_bad_teardown_is_not_credited (__main__.MutationLifecycleTests.test_body_failure_with_bad_teardown_is_not_credited)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 70, in test_body_failure_with_bad_teardown_is_not_credited
+    self.assertFalse(self.run_case('body_and_teardown')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_class_setup_assertion_never_counts (__main__.MutationLifecycleTests.test_class_setup_assertion_never_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 66, in test_class_setup_assertion_never_counts
+    self.assertFalse(self.run_case('class_setup')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_class_teardown_assertion_never_counts (__main__.MutationLifecycleTests.test_class_teardown_assertion_never_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 68, in test_class_teardown_assertion_never_counts
+    self.assertFalse(self.run_case('class_teardown')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_cleanup_assertion_never_counts (__main__.MutationLifecycleTests.test_cleanup_assertion_never_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 64, in test_cleanup_assertion_never_counts
+    self.assertFalse(self.run_case('cleanup')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_dispatcher_assertion_cannot_impersonate_actual_named_body (__main__.MutationLifecycleTests.test_dispatcher_assertion_cannot_impersonate_actual_named_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 84, in test_dispatcher_assertion_cannot_impersonate_actual_named_body
+    report,events=self.run_case('dispatcher_impostor');self.assertFalse(report['body_kill']);self.assertEqual(events,[])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_duplicate_expected_population_is_refused (__main__.MutationLifecycleTests.test_duplicate_expected_population_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 88, in test_duplicate_expected_population_is_refused
+    report,_=self.run_case('body',['same','same']);self.assertFalse(report['body_kill'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_expected_failure_is_not_mutation_credit (__main__.MutationLifecycleTests.test_expected_failure_is_not_mutation_credit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 80, in test_expected_failure_is_not_mutation_credit
+    report,_=self.run_case('expected_failure');self.assertFalse(report['body_kill']);self.assertFalse(report['baseline_success'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_expected_identity_mismatch_is_refused (__main__.MutationLifecycleTests.test_expected_identity_mismatch_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 86, in test_expected_identity_mismatch_is_refused
+    report,_=self.run_case('body',['different.test_identity']);self.assertFalse(report['body_kill']);self.assertFalse(report['population_valid'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_optimization_flag_is_preserved_exactly (__main__.MutationLifecycleTests.test_optimization_flag_is_preserved_exactly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 90, in test_optimization_flag_is_preserved_exactly
+    obj=module();expected=['-O'] if sys.flags.optimize==1 else ['-OO'] if sys.flags.optimize==2 else []
+        ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_passing_subtest_remains_positive (__main__.MutationLifecycleTests.test_passing_subtest_remains_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 78, in test_passing_subtest_remains_positive
+    self.assertTrue(self.run_case('passing_subtest')[0]['baseline_success'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_positive_body_and_complete_population (__main__.MutationLifecycleTests.test_positive_body_and_complete_population)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 56, in test_positive_body_and_complete_population
+    report,events=self.run_case();self.assertTrue(report['baseline_success']);self.assertFalse(report['body_kill']);self.assertEqual(events,['body'])
+                  ^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_setup_assertion_never_counts_and_body_not_entered (__main__.MutationLifecycleTests.test_setup_assertion_never_counts_and_body_not_entered)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 60, in test_setup_assertion_never_counts_and_body_not_entered
+    report,events=self.run_case('setup');self.assertFalse(report['body_kill']);self.assertEqual(events,[])
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_skip_is_not_positive_or_kill (__main__.MutationLifecycleTests.test_skip_is_not_positive_or_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 72, in test_skip_is_not_positive_or_kill
+    report,_=self.run_case('skip');self.assertFalse(report['baseline_success']);self.assertFalse(report['body_kill'])
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_subtest_failure_is_not_direct_body_kill (__main__.MutationLifecycleTests.test_subtest_failure_is_not_direct_body_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 76, in test_subtest_failure_is_not_direct_body_kill
+    self.assertFalse(self.run_case('subtest')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_teardown_assertion_never_counts (__main__.MutationLifecycleTests.test_teardown_assertion_never_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 62, in test_teardown_assertion_never_counts
+    self.assertFalse(self.run_case('teardown')[0]['body_kill'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+======================================================================
+FAIL: test_unexpected_success_is_not_positive (__main__.MutationLifecycleTests.test_unexpected_success_is_not_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 82, in test_unexpected_success_is_not_positive
+    self.assertFalse(self.run_case('unexpected_success')[0]['baseline_success'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 53, in run_case
+    return module().run_suite(unittest.TestSuite([case]),io.StringIO(),expected),events
+           ^^^^^^^^
+  File "/workspace/universal-law/website-repair-20261028/tests/test_cbz_mutation_lifecycle.py", line 14, in module
+    raise AssertionError('lifecycle-aware mutation runner is missing')
+AssertionError: lifecycle-aware mutation runner is missing
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=18)

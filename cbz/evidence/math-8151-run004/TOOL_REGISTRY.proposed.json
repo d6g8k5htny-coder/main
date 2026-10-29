@@ -1,0 +1,63 @@
+{
+  "schema": "cbz.math.tool-registry.proposal.v1",
+  "scope": "Namespaced frozen engineering execution recipe and read-only file identity checks only; no federation-wide certification",
+  "entries": [
+    {
+      "name": "PinnedMathSequentialExecution",
+      "purpose": "Repeat every unchanged8151 Math gate predicate/control using sequential exact-module pinned LeanChecker replay and same-pinned-Lean launches under ten validated Lake environment fields.",
+      "path": "cbz/evidence/math-8151-run004/Universal_Law_Math_8151_Run004/sealed/run_math_sequential_gate.py",
+      "sha256": "df54d63dabfb04becf256f77f4feb843e3d866837a17d92f8e47d1c547335712",
+      "usage": "Follow exact clean-machine setup in package README; copy frozen driver, OneModuleReplay.lean and LeanChecker-pinned.lean to /workspace/cbz0/lean-foundation; then python -B -S /workspace/cbz0/lean-foundation/run_math_sequential_gate.py",
+      "selftests": [
+        "In a fresh disposable directory copy sealed/run_math_sequential_gate.py, sealed/test_math_sequential_driver.py, sealed/mutate_math_sequential_driver.py; run python -B -S -m unittest test_math_sequential_driver -v",
+        "Repeat with python -O -B -S -m unittest test_math_sequential_driver -v",
+        "python -B -S mutate_math_sequential_driver.py",
+        "python -O -B -S mutate_math_sequential_driver.py"
+      ],
+      "observed": "Fresh public ZIP extraction:21 tests and19/19 strict source mutants each normal/O; unmutated21-case harness passes; zero mutant harness errors/skips. Full run004 receipt records82 actual commands and unchanged source/runtime bindings.",
+      "evidence": [
+        "Universal_Law_Math_8151_Run004/sealed/direct-env-bridge-final-normal.stderr",
+        "Universal_Law_Math_8151_Run004/sealed/direct-env-bridge-final-optimized.stderr",
+        "Universal_Law_Math_8151_Run004/sealed/direct-env-bridge-final-mutations-normal/sequential-driver-mutations.json",
+        "Universal_Law_Math_8151_Run004/sealed/direct-env-bridge-final-mutations-optimized/sequential-driver-mutations.json",
+        "Universal_Law_Math_8151_Run004/sealed/tool-review/launch-review-REPORT.md",
+        "Universal_Law_Math_8151_Run004/sealed/formal-evidence/receipt.json",
+        "EXTRACTED_IDENTITY_AND_DRIVER_TESTS.json",
+        "EXTRACTED_MUTATION_TESTS.json"
+      ],
+      "related_inputs": {
+        "sealed/OneModuleReplay.lean": "e61370531ad8e12837ca9ae9ec1f615208f9ec0b225967c9622be0ab81ddd43d",
+        "sealed/LeanChecker-pinned.lean": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae",
+        "sealed/test_math_sequential_driver.py": "285512c4dfa93cbe5c0f1e41d2caf9fce2b627838d95b1b066ad965815d50817",
+        "sealed/mutate_math_sequential_driver.py": "f73618b66d3782a7846b59afbbd2b421a110d071fe288b5b21516977e6265230"
+      },
+      "maintenance_owner": "none; frozen self-contained scoped recipe, canonical porting/admission owned by federation integrator",
+      "criteria_served": [
+        6,
+        7,
+        9,
+        11
+      ],
+      "limitations": "Sampled same-process-group resource monitor; not a hard kernel cgroup. No fresh imported-dependency closure, alignment, applicability, model-existence or nonvacuity claim."
+    },
+    {
+      "name": "PinnedMathPackageIdentity",
+      "purpose": "Read-only verification of package member paths/sizes/SHA256s and immutable original seal/receipt identities; no mathematical or Layer A certification.",
+      "path": "cbz/evidence/math-8151-run004/Universal_Law_Math_8151_Run004/verify_identity.py",
+      "sha256": "1aed4e984959be2dc42163735b3b15864aae7affd19346771946d4f03b3db7e7",
+      "usage": "python -B -S cbz/evidence/math-8151-run004/Universal_Law_Math_8151_Run004/verify_identity.py; repeat with python -O -B -S",
+      "self_verification": "Clean fresh ZIP extraction passes normal/O; append bytes to disposable sealed/OneModuleReplay.lean and require exact size diagnostic/refusal in both modes; restore original bytes. Copied namespace clean checks also pass normal/O.",
+      "evidence": [
+        "COPY_VERIFICATION.json",
+        "Universal_Law_Math_8151_Run004/PACKAGE_MANIFEST.json",
+        "EXTRACTED_IDENTITY_AND_DRIVER_TESTS.json"
+      ],
+      "maintenance_owner": "none; frozen self-contained delivery",
+      "criteria_served": [
+        9,
+        11
+      ],
+      "limitations": "Cryptographic file identity only. Check independently supplied whole-ZIP hash before treating its internal manifest as authoritative. No fresh kernel replay or broad proof-certification claim."
+    }
+  ]
+}

@@ -78,7 +78,9 @@
       "scope": "Finite static auditor adversarial selftest; no complete Layer A claim",
       "sources": [
         "tools/cbz_audit.py",
-        "tests/test_cbz_audit.py"
+        "tests/test_cbz_audit.py",
+        "tools/cbz_mutation.py",
+        "tests/test_cbz_mutation_lifecycle.py"
       ],
       "timeout_seconds": 60
     },
@@ -126,7 +128,9 @@
         "tests/test_cbz_baseline.py",
         "tests/test_cbz_lean_check.py",
         "tests/test_cbz_refs.py",
-        "tests/test_cbz_storage.py"
+        "tests/test_cbz_storage.py",
+        "tools/cbz_mutation.py",
+        "tests/test_cbz_mutation_lifecycle.py"
       ],
       "timeout_seconds": 300
     }
@@ -139,7 +143,7 @@
   ],
   "pins": [
     {
-      "commit": "a7f602241f759285190d8deebfefb017a6167ee8",
+      "commit": "9c09dc98a639341c8bfa088edefe011131016b41",
       "limits": "Snapshot object identity only; no independently verified consuming cross-repository manifest available.",
       "name": "Main",
       "object_path": "formal/lean-toolchain",
