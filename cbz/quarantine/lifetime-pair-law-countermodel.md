@@ -7,27 +7,27 @@ declaration. It concerns the precise abstract definitions in
 `PairLawInterface`, `ParentUniformSelectionA` and
 `PlanarTwoSidedRateE4`.
 
-Fix (L>0), objects (G:mathrm{GaussianFieldInterface}(2,L)) and
-(I:mathrm{SuperlevelBarInterface}(2,L)), and an orthonormal frame (R).
+Fix \(L>0\), objects \(G:\mathrm{GaussianFieldInterface}(2,L)\) and
+\(I:\mathrm{SuperlevelBarInterface}(2,L)\), and an orthonormal frame \(R\).
 The argument is conditional on these objects: it does not construct the
 elder interface or claim that all its hypotheses are satisfiable.
 
-Define (p(r,b,k,R')=1) for every input. This is a
-`PairLawInterface` over the given (G,I), since (0\le 1\le 1).
+Define \(p(r,b,k,R')=1\) for every input. This is a
+`PairLawInterface` over the given \(G,I\), since \(0\le 1\le 1\).
 The interface has no field binding this probability to the actual elder
 event. For every allowed pair of windows, `ParentUniformSelectionA`
-holds for this artificial law: choose (r_*=1), (C=0). Both sides
+holds for this artificial law: choose \(r_*=1\), \(C=0\). Both sides
 of its stated inequality are then zero.
 
-For the windows (B=[0,0]) and (K=[1,1]), the remaining hypotheses of
+For the windows \(B=[0,0]\) and \(K=[1,1]\), the remaining hypotheses of
 `PlanarTwoSidedRateE4` are satisfied. If its conclusion held, it would
-provide (c>0), a constant (C), and (r_*>0) such that, in particular,
-[
+provide \(c>0\), a constant \(C\), and \(r_*>0\) such that, in particular,
+\[
   c r^3 \le 1-p(r,0,1,R)=0
   \quad (0<r\le r_*).
-]
-Taking (r=r_*/2) makes the left side strictly positive, a contradiction.
-Thus, for any supplied (L,G,I,R) satisfying the displayed assumptions,
+\]
+Taking \(r=r_*/2\) makes the left side strictly positive, a contradiction.
+Thus, for any supplied \(L,G,I,R\) satisfying the displayed assumptions,
 the original upper predicate holds for this law but the original E4
 predicate fails. No exponent, constant requirement, or other source bound
 has been relaxed.
