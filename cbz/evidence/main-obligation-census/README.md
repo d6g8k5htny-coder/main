@@ -7,13 +7,14 @@ CBZ-0 Phase 1 discovery for criterion 3, unit `CBZ0-MAIN-OBLIGATION-CENSUS-01SHC
 |---|---|
 | `CENSUS.md` | 20 prose and archival rows, plus the 31 Lean targets. Start here. |
 | `census.json` | The same rows, machine-readable, with the computed links. |
-| `build_census.py` | Holds the manual reading and renders both files. It checks every citation against Git objects at the revision. |
-| `test_build_census.py` | Adverse tests: a wrong blob, an out-of-range or inverted line range, a misplaced anchor and a missing path must each fail. |
+| `build_census.py` | Holds the manual reading and renders both files. It checks every citation against Git objects at the revision. `--rev` and `--entries` run it against a fixture. |
+| `test_build_census.py` | In-process adverse tests, plus the real command line in ordinary and `-O` Python against a fixture: a valid control must pass, and a wrong blob, bad ranges, a misplaced anchor, a missing path, 30 Lean targets or an unapproved axiom must each exit 1 with no output. |
+| `mutation_check.py` | Disables each validation in turn; every mutant must be killed (8/8). |
 | `extract.py`, `digest.py` | The extraction aids used for the reading: headings, status lines, statement and non-claim lines, and review verdict lines. |
 
 ## What it establishes
 
-- **Mechanically checked.** For every row, the path exists at `81acc060` with the recorded blob, each cited line range lies inside the file, and each cited anchor text occurs in its range. The links between rows are computed from each document's own relative links.
+- **Mechanically checked, in every interpreter mode.** The checks are explicit runtime checks, not `assert`, so `python -O` cannot remove them (finding DCL-691-F1). Any failure prints the reason, exits 1 and creates no output. For every row, the path exists at `81acc060` with the recorded blob, each cited line range lies inside the file, and each cited anchor text occurs in its range. The links between rows are computed from each document's own relative links.
 - **Manual and not mechanical.** Each claim restates the document's own words, and the statement and limit ranges locate where it says so. This is not a new mathematical review.
 - **The draft dispositions follow governance.** Prose proofs are QUARANTINED, because prose review cannot establish kernel closure. The 31 Lean targets are CLOSED candidates, pending G3, G4 and G2 observed in the final run.
 
@@ -29,5 +30,6 @@ CBZ-0 Phase 1 discovery for criterion 3, unit `CBZ0-MAIN-OBLIGATION-CENSUS-01SHC
 
 ```sh
 python3 -B -I build_census.py --git <clone> --out .   # exit 1 if any citation fails at REV
-python3 -B -I test_build_census.py                    # 6 tests
+python3 -B -I test_build_census.py                    # 8 tests, both interpreter modes
+python3 -B -I mutation_check.py                       # 8/8 mutants killed
 ```

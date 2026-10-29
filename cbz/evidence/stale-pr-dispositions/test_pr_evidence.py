@@ -1,10 +1,14 @@
 """Tests for pr_evidence.py: signal detection, git analysis and the rule order."""
 
+import contextlib
+import io
+import json
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import pr_evidence as pe  # noqa: E402
@@ -223,13 +227,105 @@ def evidence(**overrides):
 class Publishable(unittest.TestCase):
     def test_free_text_is_dropped_and_verdict_class_kept(self):
         ev = evidence(title="t", reviews=[{"id": 1, "state": "COMMENTED", "commit": "c", "at_head": True,
+                                           "reviewer_login": "someone", "reviewer_id": 42,
                                            "headline": "PASS from some named model"}],
                       last_comments=[{"id": 2, "created_at": "x", "headline": "quoted text"}])
         out = pe.publishable(ev)
         self.assertEqual(out["reviews"], [{"id": 1, "state": "COMMENTED", "commit": "c",
+                                           "reviewer_login": "someone", "reviewer_id": 42,
                                            "at_head": True, "positive_verdict": True}])
         self.assertEqual(out["last_comments"], [{"id": 2, "created_at": "x"}])
         self.assertNotIn("headline", repr(out))
+
+
+def raw_record(head, base="main", reviews=()):
+    return {"pull": {"number": 7, "state": "open", "draft": True, "title": "t", "body": "",
+                     "created_at": "c", "updated_at": "u", "mergeable_state": "clean",
+                     "head": {"ref": "feature", "sha": head}, "base": {"ref": base, "sha": "x"}},
+            "reviews": list(reviews), "check_runs": [], "comments": []}
+
+
+class HeadBinding(unittest.TestCase):
+    """GTW-691-F1: a record fetched for head A must never be combined with local head B."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        root = Path(self.tmp.name)
+        self.repo, self.out = root / "repo", root / "out"
+        self.repo.mkdir()
+        (self.out / "raw").mkdir(parents=True)
+        run(self.repo, "init", "-q", "-b", "main")
+        run(self.repo, "config", "user.email", "t@example.invalid")
+        run(self.repo, "config", "user.name", "t")
+        write(self.repo, "README.md", "base\n")
+        run(self.repo, "add", "-A")
+        run(self.repo, "commit", "-q", "-m", "base")
+        run(self.repo, "checkout", "-q", "-b", "feature")
+        write(self.repo, "NEW.md", "a\n")
+        run(self.repo, "add", "-A")
+        run(self.repo, "commit", "-q", "-m", "head A")
+        self.head_a = pe.rev(self.repo, "feature")
+        write(self.repo, "NEW.md", "b\n")
+        run(self.repo, "commit", "-q", "-am", "head B")
+        self.head_b = pe.rev(self.repo, "feature")
+        run(self.repo, "checkout", "-q", "main")
+        run(self.repo, "update-ref", "refs/cbz/pr/7", self.head_b)
+        self.pass_at_a = {"id": 1, "state": "COMMENTED", "commit_id": self.head_a, "body": "PASS_SCOPED",
+                          "user": {"login": "reviewer", "id": 9}}
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def analyze(self):
+        return pe.main(["analyze", "--git", str(self.repo), "--target", "main", "--out", str(self.out), "7"])
+
+    def test_stale_record_for_another_head_is_refused_with_no_output(self):
+        (self.out / "raw" / "7.json").write_text(json.dumps(raw_record(self.head_a, reviews=[self.pass_at_a])))
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            self.assertEqual(self.analyze(), 1)
+        self.assertIn("REFUSED", err.getvalue())
+        self.assertFalse((self.out / "dispositions.json").exists())
+        self.assertFalse((self.out / "DISPOSITIONS.md").exists())
+
+    def test_matching_head_writes_and_an_older_pass_does_not_count(self):
+        (self.out / "raw" / "7.json").write_text(json.dumps(raw_record(self.head_b, reviews=[self.pass_at_a])))
+        self.assertEqual(self.analyze(), 0)
+        data = json.loads((self.out / "dispositions.json").read_text())
+        (pr,) = data["prs"]
+        self.assertEqual(pr["head"], self.head_b)
+        self.assertEqual(pr["reviews"][0]["at_head"], False)
+        self.assertEqual(pr["reviews"][0]["reviewer_login"], "reviewer")
+        self.assertNotEqual(pr["recommendation"], "INTEGRATE-CANDIDATE")
+        self.assertNotIn("PASS_SCOPED", json.dumps(data))
+
+
+class FetchRefreshes(unittest.TestCase):
+    """GTW-691-F1: fetch must overwrite an existing raw record, never silently reuse it."""
+
+    def test_existing_record_is_overwritten(self):
+        responses = {
+            "repos/o/r/pulls/7": {"number": 7, "state": "open", "draft": False, "title": "new", "body": "b",
+                                  "created_at": "c", "updated_at": "u", "mergeable_state": "clean",
+                                  "head": {"ref": "f", "sha": "B" * 40}, "base": {"ref": "main", "sha": "x"}},
+            "repos/o/r/commits/" + "B" * 40 + "/check-runs?per_page=100": {"check_runs": []},
+            "repos/o/r/issues/7/comments?per_page=100&page=1": [],
+            "repos/o/r/pulls/7/reviews?per_page=100&page=1": [
+                {"id": 3, "state": "APPROVED", "commit_id": "B" * 40, "submitted_at": "s", "body": "PASS",
+                 "user": {"login": "rev", "id": 5}}],
+        }
+
+        def fake_run(cmd, **kwargs):
+            return subprocess.CompletedProcess(cmd, 0, stdout=json.dumps(responses[cmd[2]]))
+
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp) / "raw"
+            raw.mkdir()
+            (raw / "7.json").write_text(json.dumps(raw_record("A" * 40)))
+            with mock.patch.object(pe.subprocess, "run", fake_run):
+                pe.fetch("o/r", [7], raw)
+            record = json.loads((raw / "7.json").read_text())
+        self.assertEqual(record["pull"]["head"]["sha"], "B" * 40)
+        self.assertEqual(record["reviews"][0]["user"], {"login": "rev", "id": 5})
 
 
 class RuleOrder(unittest.TestCase):

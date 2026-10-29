@@ -6,6 +6,7 @@ mutant; a surviving mutant means the tests do not protect that behaviour.
 Exit status 0 only when every mutant is killed and the unmutated suite passes.
 """
 
+import re
 import shutil
 import subprocess
 import sys
@@ -46,6 +47,11 @@ MUTANTS = [
      "return dict(signals)"),
     ("headlines published", 'out["last_comments"] = [{k: c[k] for k in ("id", "created_at")} for c in ev["last_comments"]]',
      'out["last_comments"] = ev["last_comments"]'),
+    ("head mismatch not fatal", "    if head != pull[\"head\"][\"sha\"]:", "    if False:"),
+    ("fetch reuses existing raw", "        # Always refresh: a raw record is only evidence for the head it was fetched with.\n",
+     "        if (out / f\"{n}.json\").exists():\n            continue\n"),
+    ("reviewer identity dropped", '("id", "state", "commit", "reviewer_login", "reviewer_id", "at_head")',
+     '("id", "state", "commit", "at_head")'),
     ("failing checks ignored", 'if ev.get("failing_checks"):', "if False:"),
     ("timed-out checks ignored", '("failure", "timed_out", "cancelled", "action_required")',
      '("failure", "cancelled", "action_required")'),
@@ -55,17 +61,38 @@ MUTANTS = [
 ]
 
 
+RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
+
+
 def run_suite(directory):
+    """Return 'pass', 'fail' or 'invalid'.
+
+    'fail' needs a suite that ran at least one test and reported FAILED, so a mutant
+    that breaks the import or the syntax is 'invalid' and never counts as killed.
+    """
     proc = subprocess.run([sys.executable, "-B", "-I", str(directory / "test_pr_evidence.py")],
                           cwd=directory, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
-    return proc.returncode == 0
+    ran = RAN.search(proc.stdout)
+    if not ran or int(ran.group(1)) == 0:
+        return "invalid"
+    if proc.returncode == 0 and "\nOK" in proc.stdout:
+        return "pass"
+    return "fail" if "FAILED (" in proc.stdout else "invalid"
 
 
 def main():
     source = (HERE / "pr_evidence.py").read_text()
-    if not run_suite(HERE):
+    if run_suite(HERE) != "pass":
         print("BASELINE FAIL: the unmutated suite does not pass")
         return 2
+    with tempfile.TemporaryDirectory() as tmp:
+        # Negative control: a syntax-broken copy must be reported invalid, not killed.
+        tmp = Path(tmp)
+        (tmp / "pr_evidence.py").write_text(source + "\ndef (:\n")
+        shutil.copy(HERE / "test_pr_evidence.py", tmp / "test_pr_evidence.py")
+        if run_suite(tmp) != "invalid":
+            print("CONTROL FAIL: a syntax-broken copy was not reported invalid")
+            return 2
     survivors = []
     for name, old, new in MUTANTS:
         if source.count(old) != 1:
@@ -76,8 +103,9 @@ def main():
             tmp = Path(tmp)
             (tmp / "pr_evidence.py").write_text(source.replace(old, new))
             shutil.copy(HERE / "test_pr_evidence.py", tmp / "test_pr_evidence.py")
-            killed = not run_suite(tmp)
-        print(f"{'KILLED  ' if killed else 'SURVIVED'} {name}")
+            outcome = run_suite(tmp)
+        killed = outcome == "fail"
+        print(f"{'KILLED  ' if killed else 'INVALID ' if outcome == 'invalid' else 'SURVIVED'} {name}")
         if not killed:
             survivors.append(name)
     print(f"{len(MUTANTS) - len(survivors)}/{len(MUTANTS)} mutants killed")

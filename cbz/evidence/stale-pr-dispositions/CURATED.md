@@ -10,6 +10,26 @@ finding, and the absence of one certifies nothing.
 Of the 27 PRs claimed, #331 was closed at 16:57:16Z today with no closing record, after #334 was closed at 16:52:59Z.
 That leaves 26.
 
+## Refresh at `main` `e6f26538`, 29 October about 23:10Z
+
+Since the first cut, 16 of the 26 PRs have closed:
+
+| PR | Outcome |
+|---|---|
+| #407 | merged 19:11Z, as recommended |
+| #482 | closed 18:06Z; its repair landed as #693 |
+| #484, #458, #630 | closed as superseded |
+| #333, #338, #341, #342, #363, #464 | closed as out of scope |
+| #336, #340, #429 | closed as research quarantine |
+| #624, #629 | closed with their journal lane |
+
+The other 10 were fetched again and re-analysed by the repaired generator. Each record is bound to its current head. `dispositions.json` and `DISPOSITIONS.md` now hold that cut. Two mechanical results changed:
+
+- #347 now conflicts with `main` in one path. The call stays to route it to DB642.
+- #389's head has moved: Claude01N refreshed it. Its earlier reviews are therefore not at the head, and it reads INTEGRATE-CANDIDATE-UNREVIEWED.
+
+The per-PR table below is the reading at the first cut, `81acc060`, kept as a dated record.
+
 ## Summary
 
 | Disposition | PRs |

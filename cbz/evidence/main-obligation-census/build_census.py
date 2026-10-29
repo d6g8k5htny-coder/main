@@ -308,15 +308,32 @@ def git(repo, *args):
                           stdout=subprocess.PIPE, text=True).stdout
 
 
-def check(repo, entry):
-    blob = git(repo, "rev-parse", f"{REV}:{entry['path']}").strip()
-    assert blob.startswith(entry["blob"]), f"{entry['id']}: blob {blob} does not match {entry['blob']}"
-    lines = git(repo, "show", f"{REV}:{entry['path']}").splitlines()
-    for first, last, anchor in entry["statement"] + entry["nonclaims"]:
-        assert 1 <= first <= last <= len(lines), f"{entry['id']}: lines {first}-{last} outside 1-{len(lines)}"
+EXPECTED_LEAN_TARGETS = 31
+APPROVED_AXIOMS = ["propext", "Classical.choice", "Quot.sound"]
+
+
+class CensusError(Exception):
+    """A citation or invariant does not hold at the revision."""
+
+
+def require(condition, message):
+    # Explicit checks, not assert: python -O must not remove them (finding DCL-691-F1).
+    if not condition:
+        raise CensusError(message)
+
+
+def check(repo, entry, rev=REV):
+    try:
+        blob = git(repo, "rev-parse", "--verify", "--quiet", f"{rev}:{entry['path']}").strip()
+        lines = git(repo, "show", f"{rev}:{entry['path']}").splitlines()
+    except subprocess.CalledProcessError:
+        raise CensusError(f"{entry['id']}: {entry['path']} does not exist at {rev}") from None
+    require(blob.startswith(entry["blob"]), f"{entry['id']}: blob {blob} does not match {entry['blob']}")
+    for first, last, anchor in list(entry["statement"]) + list(entry["nonclaims"]):
+        require(1 <= first <= last <= len(lines), f"{entry['id']}: lines {first}-{last} outside 1-{len(lines)}")
         if anchor:
             window = "\n".join(lines[first - 1:last])
-            assert anchor in window, f"{entry['id']}: anchor {anchor!r} not in lines {first}-{last}"
+            require(anchor in window, f"{entry['id']}: anchor {anchor!r} not in lines {first}-{last}")
     entry["blob"] = blob
     entry["lines"] = len(lines)
 
@@ -324,9 +341,9 @@ def check(repo, entry):
 PROOF_LINK = re.compile(r"(?<![\w])(?:[\w.-]+/)*(?:PROOF|THEOREM|LEMMA)[\w.-]*\.md")
 
 
-def links(repo, entry, by_path):
+def links(repo, entry, by_path, rev=REV):
     """Census rows this document links to, resolved from its own relative links."""
-    text = git(repo, "show", f"{REV}:{entry['path']}")
+    text = git(repo, "show", f"{rev}:{entry['path']}")
     base = posixpath.dirname(entry["path"])
     found = set()
     for raw in PROOF_LINK.findall(text):
@@ -336,15 +353,23 @@ def links(repo, entry, by_path):
     return sorted(found)
 
 
-def lean_targets(repo):
-    manifest = json.loads(git(repo, "show", f"{REV}:formal/manifest.json"))
-    return manifest, [{k: t[k] for k in ("name", "module", "title", "does_not_claim") if k in t}
-                      for t in manifest["targets"]]
+def lean_targets(repo, rev=REV):
+    try:
+        manifest = json.loads(git(repo, "show", f"{rev}:formal/manifest.json"))
+    except (subprocess.CalledProcessError, json.JSONDecodeError):
+        raise CensusError(f"formal/manifest.json is missing or not JSON at {rev}") from None
+    targets = [{k: t[k] for k in ("name", "module", "title", "does_not_claim") if k in t}
+               for t in manifest.get("targets", [])]
+    require(len(targets) == EXPECTED_LEAN_TARGETS,
+            f"expected {EXPECTED_LEAN_TARGETS} Lean targets, found {len(targets)}")
+    require(manifest.get("allowed_axioms") == APPROVED_AXIOMS,
+            f"allowed axioms {manifest.get('allowed_axioms')} differ from {APPROVED_AXIOMS}")
+    return manifest, targets
 
 
-def render(entries, lean, targets):
+def render(entries, lean, targets, rev=REV):
     out = ["# Census of main's proof obligations", "",
-           f"Read at `main` `{REV}`. These are draft rows for Root's `PROOF_INDEX.md`, and they are not dispositions. "
+           f"Read at `main` `{rev}`. These are draft rows for Root's `PROOF_INDEX.md`, and they are not dispositions. "
            "Every cited path, blob, line range and anchor below was checked mechanically against that revision by "
            "`build_census.py`. Each claim restates the document's own words; it is not a new mathematical review.", "",
            "| ID | Draft disposition | Kind | Path |", "|---|---|---|---|"]
@@ -380,23 +405,27 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--git", type=Path, required=True)
     p.add_argument("--out", type=Path, required=True)
+    p.add_argument("--rev", default=REV, help="revision to check (default: the census revision)")
+    p.add_argument("--entries", type=Path,
+                   help="JSON list of entries to check instead of the built-in census rows")
     args = p.parse_args(argv)
+    entries = json.loads(args.entries.read_text()) if args.entries else ENTRIES
     try:
-        by_path = {e["path"]: e["id"] for e in ENTRIES}
-        for e in ENTRIES:
-            check(args.git, e)
-            e["links"] = links(args.git, e, by_path)
-        manifest, targets = lean_targets(args.git)
-        assert len(targets) == 31, f"expected 31 Lean targets, found {len(targets)}"
-        assert manifest["allowed_axioms"] == ["propext", "Classical.choice", "Quot.sound"]
-    except AssertionError as exc:
+        by_path = {e["path"]: e["id"] for e in entries}
+        for e in entries:
+            check(args.git, e, args.rev)
+            e["links"] = links(args.git, e, by_path, args.rev)
+        manifest, targets = lean_targets(args.git, args.rev)
+    except CensusError as exc:
+        # Refuse with no output, in every interpreter mode.
         print(f"CENSUS CHECK FAILED: {exc}", file=sys.stderr)
         return 1
     args.out.mkdir(parents=True, exist_ok=True)
-    data = {"rev": REV, "entries": ENTRIES, "lean": LEAN_ENTRY | {"targets": targets}}
+    data = {"rev": args.rev, "entries": entries, "lean": LEAN_ENTRY | {"targets": targets}}
     (args.out / "census.json").write_text(json.dumps(data, indent=1, sort_keys=True) + "\n")
-    (args.out / "CENSUS.md").write_text(render(ENTRIES, LEAN_ENTRY, targets))
-    print(f"census OK: {len(ENTRIES)} prose/archival rows and 31 Lean targets, all citations checked at {REV}")
+    (args.out / "CENSUS.md").write_text(render(entries, LEAN_ENTRY, targets, args.rev))
+    print(f"census OK: {len(entries)} prose/archival rows and {len(targets)} Lean targets, "
+          f"all citations checked at {args.rev}")
     return 0
 
 

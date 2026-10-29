@@ -248,12 +248,18 @@ def certificate_float(signals):
     return {p: c for p, c in signals.items() if c.get("certificate_like")}
 
 
-def review_summary(raw):
-    head = raw["pull"]["head"]["sha"]
+class HeadMismatch(Exception):
+    """The fetched API record and the local Git ref name different PR heads."""
+
+
+def review_summary(raw, head):
+    """Reviews with their reviewer identity, judged against the analysed head."""
     rows = []
     for r in raw.get("reviews", []):
         first = (r.get("body") or "").strip().splitlines()
+        user = r.get("user") or {}
         rows.append({"id": r["id"], "state": r["state"], "commit": r.get("commit_id"),
+                     "reviewer_login": user.get("login"), "reviewer_id": user.get("id"),
                      "at_head": r.get("commit_id") == head,
                      "headline": first[0][:160] if first else ""})
     return rows
@@ -316,6 +322,11 @@ def recommend(ev):
 def analyze_one(repo, n, raw, target_ref, open_heads):
     pull = raw["pull"]
     head = rev(repo, f"refs/cbz/pr/{n}")
+    if head != pull["head"]["sha"]:
+        # Reviews, checks and comments were fetched for another head: combining them with
+        # this head's Git evidence would misattribute them. Refuse before any output.
+        raise HeadMismatch(f"#{n}: local refs/cbz/pr/{n} is {head}, but the fetched record is for "
+                           f"{pull['head']['sha']}; fetch both again")
     base_ref = pull["base"]["ref"]
     target = rev(repo, target_ref)
     base_commit = target if base_ref == "main" else rev(repo, f"refs/remotes/origin/{base_ref}")
@@ -334,7 +345,6 @@ def analyze_one(repo, n, raw, target_ref, open_heads):
         "created_at": pull.get("created_at"),
         "updated_at": pull.get("updated_at"),
         "head": head,
-        "head_matches_api": head == pull["head"]["sha"],
         "head_ref": pull["head"]["ref"],
         "base_ref": base_ref,
         "target_ref": "main",
@@ -354,7 +364,7 @@ def analyze_one(repo, n, raw, target_ref, open_heads):
         },
         "not_for_merge": not_for_merge_evidence(pull.get("title"), pull.get("body")),
         "base_on_target": base_ref != "main" and is_ancestor(repo, base_commit, target),
-        "reviews": review_summary(raw),
+        "reviews": review_summary(raw, head),
         "head_checks": raw.get("check_runs", []),
         "failing_checks": failing_checks(raw.get("check_runs", [])),
         "last_comments": raw.get("comments", [])[-3:],
@@ -381,8 +391,7 @@ def fetch(slug, numbers, out):
             page += 1
 
     for n in numbers:
-        if (out / f"{n}.json").exists():
-            continue
+        # Always refresh: a raw record is only evidence for the head it was fetched with.
         pull = api(f"repos/{slug}/pulls/{n}")
         head = pull["head"]["sha"]
         runs = api(f"repos/{slug}/commits/{head}/check-runs?per_page=100").get("check_runs", [])
@@ -393,7 +402,9 @@ def fetch(slug, numbers, out):
                     | {"head": {"ref": pull["head"]["ref"], "sha": head},
                        "base": {"ref": pull["base"]["ref"], "sha": pull["base"]["sha"]}},
             "reviews": [{"id": r["id"], "state": r["state"], "commit_id": r["commit_id"],
-                         "submitted_at": r.get("submitted_at"), "body": r.get("body")}
+                         "submitted_at": r.get("submitted_at"), "body": r.get("body"),
+                         "user": {"login": (r.get("user") or {}).get("login"),
+                                  "id": (r.get("user") or {}).get("id")}}
                         for r in pages(f"repos/{slug}/pulls/{n}/reviews")],
             "check_runs": sorted({f"{c['name']}={c['status']}/{c.get('conclusion') or '-'}" for c in runs}),
             "comments": [{"id": c["id"], "created_at": c["created_at"],
@@ -410,7 +421,7 @@ def publishable(ev):
     published; the output keeps identities, states and the derived verdict class.
     """
     out = dict(ev)
-    out["reviews"] = [{k: r[k] for k in ("id", "state", "commit", "at_head")}
+    out["reviews"] = [{k: r[k] for k in ("id", "state", "commit", "reviewer_login", "reviewer_id", "at_head")}
                       | {"positive_verdict": pass_verdict(r["headline"])} for r in ev["reviews"]]
     out["last_comments"] = [{k: c[k] for k in ("id", "created_at")} for c in ev["last_comments"]]
     out["title"] = ev["title"]
@@ -464,9 +475,14 @@ def main(argv=None):
         return 0
     open_heads = json.loads(args.open_heads.read_text()) if args.open_heads else {}
     rows = []
-    for n in args.numbers:
-        raw = json.loads((args.out / "raw" / f"{n}.json").read_text())
-        rows.append(analyze_one(args.git, n, raw, args.target, open_heads))
+    try:
+        for n in args.numbers:
+            raw = json.loads((args.out / "raw" / f"{n}.json").read_text())
+            rows.append(analyze_one(args.git, n, raw, args.target, open_heads))
+    except HeadMismatch as exc:
+        # Nothing is written: no partial or misattributed evidence leaves this run.
+        print(f"REFUSED: {exc}", file=sys.stderr)
+        return 1
     target = rev(args.git, args.target)
     (args.out / "dispositions.json").write_text(
         json.dumps({"target": target, "prs": [publishable(r) for r in rows]},
