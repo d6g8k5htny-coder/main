@@ -593,7 +593,7 @@
     },
     {
       "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
-      "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
+      "sha256": "161ff33112a888872daf42896c612a90dda8a1dc19705ca914ece10939357a32",
       "purpose": "Verify exact207-record contribution identity and metadata boundaries with explicit guards preserved under Python optimization; no theorem or full-baseline certification.",
       "self_test": [
         "python",
@@ -609,7 +609,7 @@
       "source_hashes": [
         {
           "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
-          "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5"
+          "sha256": "161ff33112a888872daf42896c612a90dda8a1dc19705ca914ece10939357a32"
         },
         {
           "path": "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py",
@@ -709,7 +709,22 @@
         "-B",
         "-O",
         "cbz/evidence/website-foundation-20261029/construction/test_verify_proposal_guard.py"
-      ]
+      ],
+      "previous_source_sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
+      "execution_effects": "Read-only namespace/source validation; JSON result is stdout only. Redirect outside source when saving a new observation.",
+      "current_readonly_verification": {
+        "source_sha256": "161ff33112a888872daf42896c612a90dda8a1dc19705ca914ece10939357a32",
+        "normal_optimized_positive_validations": 2,
+        "negative_input_controls_per_mode": 4,
+        "source_guard_mutants_per_mode": 1,
+        "namespace_files_unchanged_during_observation": 719,
+        "historical_verification_file_unchanged": true,
+        "report": {
+          "path": "cbz/evidence/website-foundation-20261029/sources/tooling/metadata-identity/readonly-verifier/REPORT.json",
+          "sha256": "ef229e37f79f179c7f2e54a7c58996fc7986af10f717fbe6a3019829895d28af"
+        },
+        "scope": "Observed finite checks only; previous source-version reports remain dated history."
+      }
     }
   ],
   "pending_tools": [],
@@ -743,8 +758,8 @@
     },
     {
       "path": "cbz/evidence/website-foundation-20261029/construction/verify_proposal.py",
-      "sha256": "17a44125ca44d0f36e1c614c1809159f7fd933b3c292cec22c937356548e57e5",
-      "scope": "Portable contribution metadata identity validator with optimization-safe explicit guards and four finite negative controls; not theorem or whole-baseline certification."
+      "sha256": "161ff33112a888872daf42896c612a90dda8a1dc19705ca914ece10939357a32",
+      "scope": "Portable read-only contribution metadata identity validator; JSON stdout only; no theorem or whole-baseline certification."
     }
   ]
 }

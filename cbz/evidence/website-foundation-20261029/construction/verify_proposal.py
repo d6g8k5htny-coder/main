@@ -93,7 +93,6 @@ def main():
         for b in tool['source_hashes']:
             require(sha(ROOT / b['path']) == b['sha256'], 'contribution identity invariant failed')
     result = {'verified_utc': dt.datetime.now(dt.timezone.utc).isoformat().replace('+00:00', 'Z'), 'result': 'PASS_CONTRIBUTION_DATA_CHECKS_ONLY', 'records': 207, 'closed_literal_arithmetic': 31, 'quarantined': 176, 'original_legacy_records_verified': 104, 'original_graph_records_verified': 49, 'source_files_verified': len(manifest['files']), 'root_status_unchanged': True, 'controls': controls, 'scope': 'Record identity, exact fields, byte hashes, finite metadata/isolation checks and proposal gate markers; no scientific/kernel rerun or exhaustive Main obligation closure.'}
-    (OUT / 'VERIFICATION.json').write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps(result))
 if __name__ == '__main__':
     main()

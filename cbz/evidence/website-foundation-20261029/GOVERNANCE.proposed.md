@@ -15,3 +15,5 @@ The full terminal contract has 12 criteria: clean scoped Git/worktrees/stashes; 
 The two portable control scripts are registered in `tool-registry.json` with their exact source hashes, positive tests, mutation controls and CLI refusals. They exist to make the tested operational safeguards inheritable; their results certify only those finite engineering checks.
 
 The contribution identity checker is registered with explicit optimization-safe guards and portable checkout-relative paths. Its four finite negative metadata controls must pass in both Python modes; those checks certify only contribution metadata identity.
+
+The construction identity verifier is read-only: its result goes to stdout and no tracked receipt is rewritten. Preserve a new result by redirecting stdout outside the checkout. Existing VERIFICATION.json remains its dated historical observation. Both ordinary and optimized self-tests must leave every namespace byte unchanged.
