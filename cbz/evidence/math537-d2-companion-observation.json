@@ -1,0 +1,42 @@
+{
+  "schema": "cbz.math537.d2-companion-observation.v1",
+  "observed_utc": "2026-10-29 21:42:03 UTC",
+  "pr": 537,
+  "pr_head": "db46797a430495c943fc45867e77d6cffc6baee2",
+  "tested_merge": "b64ad0825c44669366ff13f5a990c80fa9510dc2",
+  "tested_tree": "6bc70fd81286cd277509145fbacc51d03817f2db",
+  "jobs": [
+    {
+      "kind": "atom",
+      "id": 123720645080,
+      "conclusion": "success",
+      "package_tests_per_mode": 24,
+      "formal_tests_per_mode": 269,
+      "broad_tests_per_mode": 1066,
+      "broad_skips_per_mode": 1
+    },
+    {
+      "kind": "moment",
+      "id": 123720645349,
+      "conclusion": "success",
+      "package_tests_per_mode": 26,
+      "formal_tests_per_mode": 269
+    },
+    {
+      "kind": "square-schur",
+      "id": 123720645816,
+      "conclusion": "success",
+      "package_tests_per_mode": 25,
+      "formal_tests_per_mode": 269,
+      "broad_tests_per_mode": 1066,
+      "broad_skips_per_mode": 1
+    }
+  ],
+  "broad_skip": "real empty-discovery contract requires hosted CPython 3.11",
+  "limitations": [
+    "These scoped jobs are at the historical tested merge, not the later consolidated repair candidate.",
+    "The two broad suites have one skipped method in each mode; they do not establish zero-skip G5.",
+    "The D2 ZIP payloads have not been independently downloaded or hash-checked in this observation.",
+    "The kernel/custody run has a non-adversarial endpoint assumption and does not authenticate transient edits or cached dependency objects."
+  ]
+}

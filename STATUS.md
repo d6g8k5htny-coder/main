@@ -191,3 +191,5 @@ Math [#539](https://github.com/d6g8k5htny-coder/Math-/pull/539) has a candidate 
 Source-cut pytest-dependent and pinned graph-composition diagnostic workflows are queued; their exact commands, pins and limitations are registered in [TOOLING.md](TOOLING.md). Neither result has been observed, so the associated skips remain unqualified.
 
 The [P15 target observation](cbz/evidence/historical-p15-target-observation.json) preserves all 28 historical empty-axiom output lines and their exact source Git blobs; a literal-name comparison found no overlap with the 367-record index. This is source-cut evidence, not artifact authentication or new CLOSED admission.
+
+All three D2 companion jobs at the historical Math #537 tested merge completed successfully. Two broad companion suites each ran 1,066 tests per mode with one declared skip per mode; their artifacts have not been independently downloaded here. These results do not qualify the newer custody/grader candidate or complete G5. [Job observations](cbz/evidence/math537-d2-companion-observation.json).
