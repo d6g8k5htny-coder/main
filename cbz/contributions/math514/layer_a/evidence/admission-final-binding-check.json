@@ -1,0 +1,870 @@
+{
+  "baseline": {
+    "assertion_failures": 0,
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/cbz-0/tools/layer_a/tests",
+      "-v"
+    ],
+    "errors": 0,
+    "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/baseline.log",
+    "log_sha256": "48b479454164cbabc2e90514ca0689afc29d60f5eabc87ab7cefdd7c6666b546",
+    "returncode": 0,
+    "tests_run": 70
+  },
+  "mutant_log_inspections": [
+    {
+      "assertion_failures": 72,
+      "errors": 0,
+      "failed_test_names": [
+        "test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first)",
+        "test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned)",
+        "test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection)",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='propext')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Classical.choice')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Quot.sound')",
+        "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean)",
+        "test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\\n := /- nested /- c -/ -/\\n true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source=\"def c := 'a\")",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='/- unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := \"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := r#\"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def \u00abunterminated')",
+        "test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module)",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Elab.admitGoal')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Meta.mkSorry')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='set_option debug.skipKernelTC true')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def sorry\u03bb := 1')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def f (x : Float) := x')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='@[extern \"c\"] def f := 1')",
+        "test_lean_block_comment_separator_cannot_join_identifiers_into_escape (test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape)",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='axiom fake : False')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='constant fake : False')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='native_decide')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='decide +native')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceBool')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceNat')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceInt')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.trustCompiler')",
+        "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='/- unclosed')",
+        "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := \"open')",
+        "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def r := r##\"open\"#')",
+        "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def \u00abopen := 1')",
+        "test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := s!\"{by sorry}\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='r\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand=\"'q'\")",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='macro \"magic\" : term => `(by trivial)')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='elab \"magic\" : term => pure ()')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='unsafe def x := 1')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='syntax \"magic\" : term')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='run_elab pure ()')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Environment.addDeclWithoutChecking')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide +native')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide + native')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native := true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := {\\n native\\n :=\\n true\\n})')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native /- gap /- nested -/ -/ := /- gap -/ true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { \u00abnative\u00bb /- gap -/ := true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.\u00abadmitGoal\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.\u00abmkSorry\u00bb')",
+        "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape)",
+        "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix (test_auditor.SourceRules.test_unsupported_import_tail_is_a_gap_after_a_valid_prefix)",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := 'a\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\\\\n\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\\\\\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\")"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/empty-lean-findings.log",
+      "log_sha256": "7d60d5f3bb35f075be2dc95ef516fde62144b44d82cb5a0cb69b263701dbb089",
+      "name": "empty-lean-findings"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def sorry\u03bb := 1')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/canonical-unicode-boundary-weakened.log",
+      "log_sha256": "ddb42307fddb84a2c0a36578771ceec87768f58c5e9cde52a4cce3a192b216ad",
+      "name": "canonical-unicode-boundary-weakened"
+    },
+    {
+      "assertion_failures": 17,
+      "errors": 0,
+      "failed_test_names": [
+        "test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first)",
+        "test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection)",
+        "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean)",
+        "test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := \u00absorryAx\u00bb')",
+        "test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module)",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Elab.admitGoal')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Meta.mkSorry')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def sorry\u03bb := 1')",
+        "test_lean_block_comment_separator_cannot_join_identifiers_into_escape (test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape)",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.\u00abadmitGoal\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.\u00abmkSorry\u00bb')",
+        "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-placeholder-category.log",
+      "log_sha256": "2f66452bcc31bb46067e67e31bf0209e7d1626bc4fb0af569719622dcc663328",
+      "name": "disable-placeholder-category"
+    },
+    {
+      "assertion_failures": 6,
+      "errors": 0,
+      "failed_test_names": [
+        "test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned)",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='propext')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Classical.choice')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Quot.sound')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='axiom fake : False')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='constant fake : False')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-axiom-category.log",
+      "log_sha256": "af53c355f1253f75bd5b6d80a54b2b6023af21b5439cf16dfd075a2a698590bc",
+      "name": "disable-axiom-category"
+    },
+    {
+      "assertion_failures": 19,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\\n := /- nested /- c -/ -/\\n true })')",
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='set_option debug.skipKernelTC true')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='native_decide')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='decide +native')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceBool')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceNat')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceInt')",
+        "test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.trustCompiler')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide +native')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide + native')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native := true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := {\\n native\\n :=\\n true\\n})')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native /- gap /- nested -/ -/ := /- gap -/ true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { \u00abnative\u00bb /- gap -/ := true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-native-category.log",
+      "log_sha256": "71fac7f9bb3fcc1679660c04ea70389ed8673d75c7dea4f1fb36c11420784736",
+      "name": "disable-native-category"
+    },
+    {
+      "assertion_failures": 6,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Environment.addDeclWithoutChecking')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00abaddDeclWithoutChecking\u00bb')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-unchecked-declaration-refusal.log",
+      "log_sha256": "b06acc22f5b30ce2ce0b6b5033d0c2869c03b697d447f2f7ce457a7095c31d8e",
+      "name": "disable-unchecked-declaration-refusal"
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source=\"def c := 'a\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := 'a\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\\\\n\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\\\\\")",
+        "test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source=\"def x := '\")"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-malformed-character-refusal.log",
+      "log_sha256": "29209fd0f78f24a2f62825b040dccc1b61f6a2b03c245dba7e7c034c95654488",
+      "name": "skip-malformed-character-refusal"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.\u00abadmitGoal\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.\u00abmkSorry\u00bb')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/miss-escaped-placeholder-helpers.log",
+      "log_sha256": "859387901ba4ec1252bb492ceeb75218af8aec09890ff2b371e8d5047bcd1ee0",
+      "name": "miss-escaped-placeholder-helpers"
+    },
+    {
+      "assertion_failures": 11,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { \u00abnative\u00bb /- gap -/ := true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.\u00abadmitGoal\u00bb')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.\u00abmkSorry\u00bb')",
+        "test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/drop-escaped-constant-normalization.log",
+      "log_sha256": "e3d9e1400d7fecd704767e3b548f20b634c88eda1031d8a6056d0a7190e1346d",
+      "name": "drop-escaped-constant-normalization"
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "failed_test_names": [
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\\n := /- nested /- c -/ -/\\n true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := {\\n native\\n :=\\n true\\n})')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native /- gap /- nested -/ -/ := /- gap -/ true })')",
+        "test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { \u00abnative\u00bb /- gap -/ := true })')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/miss-multiline-commented-native-config.log",
+      "log_sha256": "90555f29ff16f769815d204a98d680ce9febede05d3d8411c27ddb54e0792e46",
+      "name": "miss-multiline-commented-native-config"
+    },
+    {
+      "assertion_failures": 6,
+      "errors": 0,
+      "failed_test_names": [
+        "test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='@[extern \"c\"] def f := 1')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='macro \"magic\" : term => `(by trivial)')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='elab \"magic\" : term => pure ()')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='unsafe def x := 1')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='syntax \"magic\" : term')",
+        "test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='run_elab pure ()')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-macro-gap-category.log",
+      "log_sha256": "c7a9c4d1972fb428b780bacaa796503099e729188db4b2927c27ed09769c6a27",
+      "name": "disable-macro-gap-category"
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "failed_test_names": [
+        "test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively)",
+        "test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine)",
+        "test_unknown_module_alias_and_dynamic_import_fail_closed (test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed)",
+        "test_import_module_primes_and_identifier_suffixes_are_extracted_completely (test_auditor.SourceRules.test_import_module_primes_and_identifier_suffixes_are_extracted_completely)",
+        "test_lean_explicit_imports_are_extracted_across_lines (test_auditor.SourceRules.test_lean_explicit_imports_are_extracted_across_lines)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/drop-lean-dependencies.log",
+      "log_sha256": "167e0d9941f59ec7504e256ea162cff3cca6dd82a9b40f82b621b28936e5f25d",
+      "name": "drop-lean-dependencies"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=0.1')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1j')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-float-literal-category.log",
+      "log_sha256": "df8ffc2253e7ecfe3a0b73500e4bba0f298c1887f21ca69d9dd666a3da782df4",
+      "name": "disable-float-literal-category"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-python-division.log",
+      "log_sha256": "def3d45be08a0f303901211aa873b46534d1c7045995e9095e6e247f7d2f856f",
+      "name": "allow-python-division"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**-1')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**n')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-negative-dynamic-powers.log",
+      "log_sha256": "335ca04a0e1bf3f084430b3102a290645ae04d5b1aa284bd1573f60285129e94",
+      "name": "allow-negative-dynamic-powers"
+    },
+    {
+      "assertion_failures": 6,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=float(1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=complex(1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=eval(\"0.1\")')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=getattr(1,\"real\")')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='def f():\\n return 1\\ng=f\\nx=g()')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='x=yield_value()')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unknown-python-calls.log",
+      "log_sha256": "18a29b8e22b569b9b5680bdebbf87507a7aed8a690e4d1d99d0309160ec0b6a7",
+      "name": "allow-unknown-python-calls"
+    },
+    {
+      "assertion_failures": 27,
+      "errors": 0,
+      "failed_test_names": [
+        "test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) (text='x=sorted([1,2],key=float)')",
+        "test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) (text='def f(x): return x\\nf=float\\nx=f(1)')",
+        "test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) (text='from fractions import Fraction as F\\ndef f(): return 1\\nf=F.from_float\\nx=f(1)')",
+        "test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) (text='def f(x): return x\\ndef g(f): return f(1)\\nx=g(float)')",
+        "test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions (test_auditor.SourceRules.test_callbacks_and_rebound_local_functions_cannot_smuggle_float_decisions) (text='from fractions import Fraction as int\\nx=int(1,2)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=0.1')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1j')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=1/2')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**-1')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=2**n')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=float(1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=complex(1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='from math import sqrt\\nx=sqrt(2)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='from decimal import Decimal')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=eval(\"0.1\")')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=getattr(1,\"real\")')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=(1).__class__')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='from fractions import Fraction as F\\nF=lambda x:x\\nx=F(0.1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='def f(Fraction):\\n return Fraction(1)')",
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='def f():\\n return 1\\ng=f\\nx=g()')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='class C: pass')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='async def f(): return 1')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='@deco\\ndef f(): return 1')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='try:\\n x=1\\nexcept:\\n pass')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='x=lambda y:y')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='x=yield_value()')",
+        "test_unhandled_python_constructs_are_explicit_not_skipped (test_auditor.SourceRules.test_unhandled_python_constructs_are_explicit_not_skipped) (text='import fractions as f\\nx=f.Fraction(1,2)')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-exact-python-profile.log",
+      "log_sha256": "602dea685d404fc0994f8d24fc6549183f17cf36a397509c1d3f201f5ef9f2de",
+      "name": "disable-exact-python-profile"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='x=(1).__class__')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-reflective-attributes.log",
+      "log_sha256": "83d0c4b27f18c217c2fd37126fb97c60a9c5effe95c9ddaeece1454266546bc5",
+      "name": "allow-reflective-attributes"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_every_inexact_python_route_is_rejected (test_auditor.SourceRules.test_every_inexact_python_route_is_rejected) (text='from fractions import Fraction as F\\nF=lambda x:x\\nx=F(0.1)')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-protected-name-rebinding.log",
+      "log_sha256": "b2cee8aa9785ef3ba893ff8e4861b61e10a77b14a1f9f7df1742b7b66aa7b836",
+      "name": "allow-protected-name-rebinding"
+    },
+    {
+      "assertion_failures": 3,
+      "errors": 0,
+      "failed_test_names": [
+        "test_bound_engineering_review_cannot_waive_defined_reflective_loader (test_auditor.ManifestRules.test_bound_engineering_review_cannot_waive_defined_reflective_loader)",
+        "test_defined_reflective_loader_forms_fail_in_engineering_scope (test_auditor.SourceRules.test_defined_reflective_loader_forms_fail_in_engineering_scope) (source=\"getattr(__builtins__, '__dict__', __builtins__)['__import__']('Q.bad')\")",
+        "test_defined_reflective_loader_forms_fail_in_engineering_scope (test_auditor.SourceRules.test_defined_reflective_loader_forms_fail_in_engineering_scope) (source=\"vars()['__builtins__']['__import__']('Q.bad')\")"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/restore-reflective-builtin-loader-gap.log",
+      "log_sha256": "275ba0b2f074ea7aa4417a532ded58a69f392a6a2c45d93522ba213d7bb15177",
+      "name": "restore-reflective-builtin-loader-gap"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_defined_reflective_loader_forms_fail_in_engineering_scope (test_auditor.SourceRules.test_defined_reflective_loader_forms_fail_in_engineering_scope) (source=\"f.__globals__['__builtins__']['__import__']('Q.bad')\")",
+        "test_defined_reflective_loader_forms_fail_in_engineering_scope (test_auditor.SourceRules.test_defined_reflective_loader_forms_fail_in_engineering_scope) (source='().__class__.__base__.__subclasses__()')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-reflective-loader-attributes.log",
+      "log_sha256": "a5ea11b28c313e410040d2b7afce62e87128279a7bfc879b7c4aa441e4aebdb9",
+      "name": "disable-reflective-loader-attributes"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine)",
+        "test_import_module_primes_and_identifier_suffixes_are_extracted_completely (test_auditor.SourceRules.test_import_module_primes_and_identifier_suffixes_are_extracted_completely)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/truncate-primed-lean-imports.log",
+      "log_sha256": "dc519920f39c3fd04b7b44db148f698e7256d101be93dd5c2b0aa18f788b3fd9",
+      "name": "truncate-primed-lean-imports"
+    },
+    {
+      "assertion_failures": 4,
+      "errors": 0,
+      "failed_test_names": [
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='r\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand=\"'q'\")",
+        "test_unsupported_import_tail_is_a_gap_after_a_valid_prefix (test_auditor.SourceRules.test_unsupported_import_tail_is_a_gap_after_a_valid_prefix)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/silence-unsupported-lean-import-tail.log",
+      "log_sha256": "b333f3041f329843a38da7131a07e1839e2c754ea6f07b2af7ee0e0f39fa25e4",
+      "name": "silence-unsupported-lean-import-tail"
+    },
+    {
+      "assertion_failures": 3,
+      "errors": 0,
+      "failed_test_names": [
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='r\"Q.Bad\"')",
+        "test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand=\"'q'\")"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/drop-literal-import-operands.log",
+      "log_sha256": "410e61212b6354356dcaeb8b5d3c3c52f4ee33269aeefd6b32e8a81d44b6993b",
+      "name": "drop-literal-import-operands"
+    },
+    {
+      "assertion_failures": 18,
+      "errors": 0,
+      "failed_test_names": [
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected)",
+        "test_binary_proof_requires_bound_g2_g4_evidence (test_auditor.ManifestRules.test_binary_proof_requires_bound_g2_g4_evidence)",
+        "test_bound_engineering_review_cannot_waive_defined_reflective_loader (test_auditor.ManifestRules.test_bound_engineering_review_cannot_waive_defined_reflective_loader)",
+        "test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively)",
+        "test_complete_manifest_counts_every_file_and_is_deterministic (test_auditor.ManifestRules.test_complete_manifest_counts_every_file_and_is_deterministic)",
+        "test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first)",
+        "test_engineering_from_import_alias_checks_a_mapped_submodule_boundary (test_auditor.ManifestRules.test_engineering_from_import_alias_checks_a_mapped_submodule_boundary)",
+        "test_engineering_requires_explicit_bound_nonmathematical_review (test_auditor.ManifestRules.test_engineering_requires_explicit_bound_nonmathematical_review)",
+        "test_exact_math_cannot_import_a_nonmathematical_fractions_shadow (test_auditor.ManifestRules.test_exact_math_cannot_import_a_nonmathematical_fractions_shadow)",
+        "test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine (test_auditor.ManifestRules.test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine)",
+        "test_malformed_vacuity_and_status_types_are_explicit_findings (test_auditor.ManifestRules.test_malformed_vacuity_and_status_types_are_explicit_findings)",
+        "test_mapped_external_text_module_cannot_skip_supported_source_analysis (test_auditor.ManifestRules.test_mapped_external_text_module_cannot_skip_supported_source_analysis)",
+        "test_nonvacuity_certificate_and_not_run_status_have_positive_binding_cases (test_auditor.ManifestRules.test_nonvacuity_certificate_and_not_run_status_have_positive_binding_cases)",
+        "test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine)",
+        "test_python_import_alias_cannot_hide_quarantine (test_auditor.ManifestRules.test_python_import_alias_cannot_hide_quarantine)",
+        "test_status_observation_binding_distinguishes_json_booleans_and_integers (test_auditor.ManifestRules.test_status_observation_binding_distinguishes_json_booleans_and_integers)",
+        "test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration)",
+        "test_unknown_module_alias_and_dynamic_import_fail_closed (test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-all-but-first-file.log",
+      "log_sha256": "50c0d7b823f1abea680798c069712ce1516bacc6c4b609888540b0c3412a7ea5",
+      "name": "skip-all-but-first-file"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_unclassified_unknown_skipped_and_extra_paths_fail_closed (test_auditor.ManifestRules.test_unclassified_unknown_skipped_and_extra_paths_fail_closed)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-incomplete-classification.log",
+      "log_sha256": "8a803a3599cf9ffc65854dfa3658e593e11a72625915c53228af3b0128f95889",
+      "name": "allow-incomplete-classification"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_unclassified_unknown_skipped_and_extra_paths_fail_closed (test_auditor.ManifestRules.test_unclassified_unknown_skipped_and_extra_paths_fail_closed)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unknown-classification.log",
+      "log_sha256": "4630e7a7efbe0c4cd6c5c0f8d5dd1f4df38d6a807920bf6ad46c821f2411cd19",
+      "name": "allow-unknown-classification"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection)",
+        "test_pin_hash_and_foundation_allowlist_cannot_be_weakened (test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/disable-content-hash-check.log",
+      "log_sha256": "474e7b7a67c0474af697e11d1fc013f6cbedd2ded18f87d0c8641de9825f55cb",
+      "name": "disable-content-hash-check"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-symlink-files.log",
+      "log_sha256": "a3996be3912b71c1254f547281b0b76c229642d6bd2c9c4e7b35e1c5c2e3deea",
+      "name": "allow-symlink-files"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read (test_auditor.ManifestRules.test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unreadable-files.log",
+      "log_sha256": "c46c2db2a36b646a7e7d3744056202a3ab288f10e09c7c2521b936af9f4767f5",
+      "name": "allow-unreadable-files"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_missing_unreadable_invalid_utf8_files_are_not_skipped (test_auditor.ManifestRules.test_missing_unreadable_invalid_utf8_files_are_not_skipped)",
+        "test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read (test_auditor.ManifestRules.test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-unreadable-file.log",
+      "log_sha256": "a1b95b365c3656990bc063216683e59d55f6139d24e489b9928f6c7e586b0307",
+      "name": "skip-unreadable-file"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code (test_auditor.ManifestRules.test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code)",
+        "test_source_relabeling_to_docs_or_binary_is_not_silent (test_auditor.ManifestRules.test_source_relabeling_to_docs_or_binary_is_not_silent)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-relabeled-source.log",
+      "log_sha256": "c4cbde0b19afac1e3b1b87bccfd40c10462097e67303d58e3c1961cd0a1e1d6f",
+      "name": "allow-relabeled-source"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-retained-text-language-requirement.log",
+      "log_sha256": "ecc5c89043ac9062649cae944083e3aa1bac889e555070482eb42132b39628fc",
+      "name": "skip-retained-text-language-requirement"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_mapped_external_text_module_cannot_skip_supported_source_analysis (test_auditor.ManifestRules.test_mapped_external_text_module_cannot_skip_supported_source_analysis)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-mapped-external-language-requirement.log",
+      "log_sha256": "472fc25b11fb884cd4b9c1584f26f25062ea33e2b066be4c325a5038f6fbb7aa",
+      "name": "skip-mapped-external-language-requirement"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_known_unsupported_source_suffix_cannot_claim_a_supported_language (test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language) (path='bad.sh')",
+        "test_known_unsupported_source_suffix_cannot_claim_a_supported_language (test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language) (path='bad.js')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unsupported-source-extension-language.log",
+      "log_sha256": "29a7eb7c01feb5349be81eec2d7e6f234d973ac27dfa1a7f27b4595f28ff07ad",
+      "name": "allow-unsupported-source-extension-language"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unpinned-external-source.log",
+      "log_sha256": "45433e33b0d2d43fa5ec453d41d11a9d411913c8874335b749228131fa6d3db0",
+      "name": "allow-unpinned-external-source"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_engineering_requires_explicit_bound_nonmathematical_review (test_auditor.ManifestRules.test_engineering_requires_explicit_bound_nonmathematical_review)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-nonmath-review.log",
+      "log_sha256": "d989c3d14c5f113afadb92542ddc003e6db73304ab899da8e3e4866dc660b8ff",
+      "name": "skip-nonmath-review"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_binary_proof_requires_bound_g2_g4_evidence (test_auditor.ManifestRules.test_binary_proof_requires_bound_g2_g4_evidence)",
+        "test_external_binary_proof_cannot_bypass_kernel_bindings_or_utf8_mode (test_auditor.ManifestRules.test_external_binary_proof_cannot_bypass_kernel_bindings_or_utf8_mode)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-binary-proof-bindings.log",
+      "log_sha256": "e05f6a90e53af70d6d281fc568eafb49c6c6ab0fab0da67da46a106310d6fd08",
+      "name": "skip-binary-proof-bindings"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean)",
+        "test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/ignore-retained-finding-counts.log",
+      "log_sha256": "354717b75dbd51b852f4ee79a4b12311a91295577e9483c969b159375a14e4f7",
+      "name": "ignore-retained-finding-counts"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/ignore-quarantine-boundary.log",
+      "log_sha256": "34de8bc4e62ccc8747a50468f1af22fd40fee9e07a470f6df897c6a2d32afdbf",
+      "name": "ignore-quarantine-boundary"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_exact_math_cannot_import_a_nonmathematical_fractions_shadow (test_auditor.ManifestRules.test_exact_math_cannot_import_a_nonmathematical_fractions_shadow)",
+        "test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine (test_auditor.ManifestRules.test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/restore-shadowed-fractions-exemption.log",
+      "log_sha256": "cd93029536e8cef3b5f99a2f6d8953888be0e7b07b8073482afb8f975edb621f",
+      "name": "restore-shadowed-fractions-exemption"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_engineering_from_import_alias_checks_a_mapped_submodule_boundary (test_auditor.ManifestRules.test_engineering_from_import_alias_checks_a_mapped_submodule_boundary)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/drop-python-submodule-candidates.log",
+      "log_sha256": "28eba93ce01222c100c54918b813a3c59acf5169cb543bbbe75abb2862c714df",
+      "name": "drop-python-submodule-candidates"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_exact_math_cannot_import_a_nonmathematical_fractions_shadow (test_auditor.ManifestRules.test_exact_math_cannot_import_a_nonmathematical_fractions_shadow)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-nonmath-dependency-values.log",
+      "log_sha256": "f97582b7bd414f5cd284d54e3d4cd051bd214509247520498da8ca768ee7b5f2",
+      "name": "allow-nonmath-dependency-values"
+    },
+    {
+      "assertion_failures": 7,
+      "errors": 0,
+      "failed_test_names": [
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='../a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='/a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='./a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='a//b')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='a\\\\b')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='\u00e9/../a')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='e\u0301.txt')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-path-validation.log",
+      "log_sha256": "2d3e105b6d538ee3e3a1c4cf8870a4af57a62a57ebae175e6efc7edf4dc19403",
+      "name": "skip-path-validation"
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "failed_test_names": [
+        "test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively)",
+        "test_engineering_from_import_alias_checks_a_mapped_submodule_boundary (test_auditor.ManifestRules.test_engineering_from_import_alias_checks_a_mapped_submodule_boundary)",
+        "test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine (test_auditor.ManifestRules.test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine)",
+        "test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine)",
+        "test_python_import_alias_cannot_hide_quarantine (test_auditor.ManifestRules.test_python_import_alias_cannot_hide_quarantine)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-quarantine-dependency.log",
+      "log_sha256": "c98e2cb88d000d7748b182d066594bd3b7b00798b0f814c16795b3b0196b556e",
+      "name": "allow-quarantine-dependency"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected (test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-vacuity-coverage.log",
+      "log_sha256": "1041557b10b61dae07ea6b8caea95cd9adc74736566ec1b560917506053e1cf5",
+      "name": "skip-vacuity-coverage"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected (test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/ignore-contradictory-hypotheses.log",
+      "log_sha256": "e6d62067d8a9e8f03cd0fe1efec00f33bc3e2975517acadfc2d891bc922a8ebd",
+      "name": "ignore-contradictory-hypotheses"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_nonvacuous_claim_requires_content_bound_certificate (test_auditor.ManifestRules.test_nonvacuous_claim_requires_content_bound_certificate)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-unbound-nonvacuity.log",
+      "log_sha256": "31379a84aaae69b63392e7a0d08477af53a8fb85906b9deefebb29b73e3f4993",
+      "name": "allow-unbound-nonvacuity"
+    },
+    {
+      "assertion_failures": 3,
+      "errors": 0,
+      "failed_test_names": [
+        "test_malformed_vacuity_and_status_types_are_explicit_findings (test_auditor.ManifestRules.test_malformed_vacuity_and_status_types_are_explicit_findings)",
+        "test_status_observation_binding_distinguishes_json_booleans_and_integers (test_auditor.ManifestRules.test_status_observation_binding_distinguishes_json_booleans_and_integers)",
+        "test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/skip-status-evidence.log",
+      "log_sha256": "018575693ea5d8b5f68982570c1de49f7ae282353564d7456a034e26cdd05bf3",
+      "name": "skip-status-evidence"
+    },
+    {
+      "assertion_failures": 1,
+      "errors": 0,
+      "failed_test_names": [
+        "test_status_observation_binding_distinguishes_json_booleans_and_integers (test_auditor.ManifestRules.test_status_observation_binding_distinguishes_json_booleans_and_integers)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/conflate-status-json-booleans-and-integers.log",
+      "log_sha256": "190cb864e83f17137de943c1cac74d3c0e0a6bbe61db9a96195fa69813442655",
+      "name": "conflate-status-json-booleans-and-integers"
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "failed_test_names": [
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': [[], [], []], 'roots': [{'id': 'r', 'path': '/tmp/tmp3bc6i47p', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_pin_hash_and_foundation_allowlist_cannot_be_weakened (test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/allow-arbitrary-foundation-set.log",
+      "log_sha256": "8bb9d5535025ef79a3583c4187a4007c9eed179bbae20fb43332665e5c90a47e",
+      "name": "allow-arbitrary-foundation-set"
+    },
+    {
+      "assertion_failures": 68,
+      "errors": 0,
+      "failed_test_names": [
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='../a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='/a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='./a.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='a//b')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='a\\\\b')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='\u00e9/../a')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected) (path='e\u0301.txt')",
+        "test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected (test_auditor.ManifestRules.test_absolute_parent_normalization_and_symlink_alias_paths_are_rejected)",
+        "test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code (test_auditor.ManifestRules.test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code)",
+        "test_binary_proof_requires_bound_g2_g4_evidence (test_auditor.ManifestRules.test_binary_proof_requires_bound_g2_g4_evidence)",
+        "test_binary_source_language_mismatch_is_a_finding_not_a_crash (test_auditor.ManifestRules.test_binary_source_language_mismatch_is_a_finding_not_a_crash)",
+        "test_bound_engineering_review_cannot_waive_defined_reflective_loader (test_auditor.ManifestRules.test_bound_engineering_review_cannot_waive_defined_reflective_loader)",
+        "test_classification_fields_are_not_silently_ignored_and_tree_pin_is_immutable (test_auditor.ManifestRules.test_classification_fields_are_not_silently_ignored_and_tree_pin_is_immutable)",
+        "test_cli_json_and_nonzero_failures_and_duplicate_json_keys (test_auditor.ManifestRules.test_cli_json_and_nonzero_failures_and_duplicate_json_keys)",
+        "test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively)",
+        "test_duplicate_scope_and_unknown_schema_keys_are_rejected (test_auditor.ManifestRules.test_duplicate_scope_and_unknown_schema_keys_are_rejected)",
+        "test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first)",
+        "test_empty_scope_cannot_manufacture_green (test_auditor.ManifestRules.test_empty_scope_cannot_manufacture_green)",
+        "test_engineering_from_import_alias_checks_a_mapped_submodule_boundary (test_auditor.ManifestRules.test_engineering_from_import_alias_checks_a_mapped_submodule_boundary)",
+        "test_engineering_requires_explicit_bound_nonmathematical_review (test_auditor.ManifestRules.test_engineering_requires_explicit_bound_nonmathematical_review)",
+        "test_exact_math_cannot_import_a_nonmathematical_fractions_shadow (test_auditor.ManifestRules.test_exact_math_cannot_import_a_nonmathematical_fractions_shadow)",
+        "test_external_binary_proof_cannot_bypass_kernel_bindings_or_utf8_mode (test_auditor.ManifestRules.test_external_binary_proof_cannot_bypass_kernel_bindings_or_utf8_mode)",
+        "test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned)",
+        "test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection)",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='propext')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Classical.choice')",
+        "test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Quot.sound')",
+        "test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine (test_auditor.ManifestRules.test_fraction_stdlib_exception_cannot_hide_a_mapped_local_quarantine)",
+        "test_known_unsupported_source_suffix_cannot_claim_a_supported_language (test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language) (path='bad.sh')",
+        "test_known_unsupported_source_suffix_cannot_claim_a_supported_language (test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language) (path='bad.js')",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'language': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'module': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': None, 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': {}, 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': []})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': [[], [], []], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': True, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmp2x_nwd8t', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_malformed_vacuity_and_status_types_are_explicit_findings (test_auditor.ManifestRules.test_malformed_vacuity_and_status_types_are_explicit_findings)",
+        "test_mapped_external_text_module_cannot_skip_supported_source_analysis (test_auditor.ManifestRules.test_mapped_external_text_module_cannot_skip_supported_source_analysis)",
+        "test_missing_unreadable_invalid_utf8_files_are_not_skipped (test_auditor.ManifestRules.test_missing_unreadable_invalid_utf8_files_are_not_skipped)",
+        "test_modules_cannot_point_to_documentation_in_place_of_source (test_auditor.ManifestRules.test_modules_cannot_point_to_documentation_in_place_of_source)",
+        "test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean)",
+        "test_nonvacuous_claim_requires_content_bound_certificate (test_auditor.ManifestRules.test_nonvacuous_claim_requires_content_bound_certificate)",
+        "test_pin_hash_and_foundation_allowlist_cannot_be_weakened (test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened)",
+        "test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine)",
+        "test_python_import_alias_cannot_hide_quarantine (test_auditor.ManifestRules.test_python_import_alias_cannot_hide_quarantine)",
+        "test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\\n := /- nested /- c -/ -/\\n true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source=\"def c := 'a\")",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='/- unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := \"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := r#\"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def \u00abunterminated')",
+        "test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module)",
+        "test_source_relabeling_to_docs_or_binary_is_not_silent (test_auditor.ManifestRules.test_source_relabeling_to_docs_or_binary_is_not_silent)",
+        "test_status_observation_binding_distinguishes_json_booleans_and_integers (test_auditor.ManifestRules.test_status_observation_binding_distinguishes_json_booleans_and_integers)",
+        "test_status_pass_requires_actual_bound_observation_not_aspiration (test_auditor.ManifestRules.test_status_pass_requires_actual_bound_observation_not_aspiration)",
+        "test_unclassified_unknown_skipped_and_extra_paths_fail_closed (test_auditor.ManifestRules.test_unclassified_unknown_skipped_and_extra_paths_fail_closed)",
+        "test_unknown_module_alias_and_dynamic_import_fail_closed (test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed)",
+        "test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected (test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected)",
+        "test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read (test_auditor.ManifestRules.test_zero_mode_file_is_rejected_even_when_existing_descriptor_can_read)"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/empty-final-findings.log",
+      "log_sha256": "97111a1733e4b1b079dd307a39b3c855da80c06375d135ddbccb88c14f551132",
+      "name": "empty-final-findings"
+    },
+    {
+      "assertion_failures": 22,
+      "errors": 0,
+      "failed_test_names": [
+        "test_bound_engineering_review_cannot_waive_defined_reflective_loader (test_auditor.ManifestRules.test_bound_engineering_review_cannot_waive_defined_reflective_loader)",
+        "test_cli_json_and_nonzero_failures_and_duplicate_json_keys (test_auditor.ManifestRules.test_cli_json_and_nonzero_failures_and_duplicate_json_keys)",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'language': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation', 'module': []}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': None, 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': {}, 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': []})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': 1, 'approved_axioms': [[], [], []], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_malformed_manifest_values_fail_with_findings_instead_of_crashing (test_auditor.ManifestRules.test_malformed_manifest_values_fail_with_findings_instead_of_crashing) (manifest={'schema_version': True, 'approved_axioms': ['propext', 'Classical.choice', 'Quot.sound'], 'roots': [{'id': 'r', 'path': '/tmp/tmpp9p0tzwo', 'tree_id': 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 'tracked_files': ['a.txt'], 'files': {'a.txt': {'sha256': 'ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb', 'kind': 'documentation'}}}], 'module_map': {}})",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.\u00abaddDeclWithoutChecking\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := \u00absorryAx\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.\u00abofReduceBool\u00bb')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\\n := /- nested /- c -/ -/\\n true })')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source=\"def c := 'a\")",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='/- unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := \"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := r#\"unterminated')",
+        "test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def \u00abunterminated')"
+      ],
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final-mutation-logs/always-report-static-pass.log",
+      "log_sha256": "bb42f937a9ee2f58e2b40f812c28ba3373886a7f639ba7fccea6982c995aebb5",
+      "name": "always-report-static-pass"
+    }
+  ],
+  "observed_status": "PASS",
+  "original_44_mutants_preserved": true,
+  "receipt": "/workspace/cbz-0/tools/layer_a/evidence/g0-admission-final.json",
+  "receipt_sha256": "8f03335ff833b706445e1a6b6d8232548ece81cb439626e87275c5a6ffc98fe7",
+  "schema_version": 1,
+  "scope": "New final admission generation receipt/source/log binding and assertion-kill inspection; no mathematical or historical test execution",
+  "source_bindings_checked": 9
+}
