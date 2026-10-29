@@ -41,3 +41,31 @@ runs them and preserves logs in both modes. Owner: none. Their own execution
 and the workflow are pending observation at the current head; they do not
 certify Layer A. Fresh private bytecode prefix isolation in the historical
 workflow assumes a trusted hosted runner and mitigates pre-existing caches only.
+
+## Proposed strict mutation qualification
+
+`cbz/replay-qualification/replay_mutations_strict.py` and
+`test_replay_mutations_strict.py` have a **new separate** SHA256SUMS. They
+do not replace or modify the four historical manifests. This candidate pins the
+original source/test hashes, adapts only their loader in memory, executes the
+verified source bytes, retains the adapted test hash and structured results,
+and requires 31 unique tests, no extra failures/errors/skips, and the exact
+guard-specific assertion in each Python mode. Its tests plant classifier
+mutations and exercise unrelated assertions, foreign errors and poisoned
+timestamp-valid source/test caches. Current-head verification is pending.
+The candidate has not been admitted as a certifying tool.
+
+With `dir="$PWD/cbz/evidence/kernel/additional/replay-tool"`, verify the new
+manifest using `(cd cbz/replay-qualification && sha256sum -c SHA256SUMS)`.
+Run its tests using
+`CBZ_REPLAY_DIR="$dir" python -B -S cbz/replay-qualification/test_replay_mutations_strict.py -v`
+and again with `-O`. Run the candidate itself with
+`python -I -B -S cbz/replay-qualification/replay_mutations_strict.py --directory "$dir" --source-sha256 b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3 --test-sha256 a07eaab8b6fd40a911d313197fae688927ebb3e1d74644628e4888a7e6505fc0 --output /new/strict-output`.
+Repeat for the determinant directory with a distinct output. The candidate
+runs both Python modes internally. The workflow performs all of these.
+
+Trust assumptions include the Python runtime, standard library, subprocess
+results and filesystem; read/re-read hashing cannot rule out transient
+replacement. This candidate does not fix the separate Lean self-test's
+substring grader or normal-import behavior. Owner: none, bounded
+self-contained candidate, serving criteria 6 and 9 if verified.

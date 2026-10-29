@@ -130,3 +130,17 @@ have passed at the current head. The helper is not admitted as a sound G0
 certifier. See `TOOLING.md` for commands and scope. The hosted workflow uses a
 fresh private bytecode prefix for historical runs and preserves raw outputs;
 this reduces cache exposure on a trusted runner but does not fix the tool.
+
+### Proposed source-only mutation qualification
+
+`cbz/replay-qualification/replay_mutations_strict.py` is a separately
+checksummed candidate repair for the historical Python mutation grader. It
+pins the historical source and test hashes, compiles their bytes directly,
+records the adapted test-loader hash and structured per-test results, requires
+31 distinct matching test identities, and binds each sole failure to its
+guard-specific assertion. Its accompanying tests exercise classifier mutations,
+wrong assertions, foreign errors and poisoned target/test bytecode. It does not
+repair the separate historical actual-Lean self-test. Both candidate and tests
+are pending current-head execution; they are not yet admitted as a certifier.
+Trust remains in Python, the standard library, process/OS, and filesystem; a
+transient source replacement between reads is not ruled out.

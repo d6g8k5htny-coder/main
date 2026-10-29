@@ -11,7 +11,9 @@ The historical replay helper is bounded to the named Lean module closure and
 does not establish federation-wide Layer A compliance or authenticate supplied
 transcripts. Source review found false-acceptance weaknesses in its mutation
 grader and bytecode loading, plus limited diagnostic binding in its actual-Lean
-self-test. The separate counterexample tests exercise the original harness;
+self-test. A separate source-only mutation harness candidate and its adverse suite are
+present under `cbz/replay-qualification`; current execution is pending and it
+does not repair the Lean self-test. The counterexample tests exercise the original harness;
 their passing would demonstrate defects, not certify the helper. No fresh
 current-head verification result is asserted here. The workflow
 `.github/workflows/cbz-replay-delivery.yml` checks the four original manifests,

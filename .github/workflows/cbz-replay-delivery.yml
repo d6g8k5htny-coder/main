@@ -5,6 +5,7 @@ on:
       - 'cbz/evidence/kernel/additional/**'
       - 'cbz/evidence/kernel/determinant/**'
       - 'tests/test_cbz_replay_harness_adverse.py'
+      - 'cbz/replay-qualification/**'
       - '.github/workflows/cbz-replay-delivery.yml'
   workflow_dispatch:
 permissions:
@@ -116,4 +117,43 @@ jobs:
         with:
           name: cbz-replay-counterexamples-${{ github.run_id }}-${{ github.run_attempt }}
           path: replay-adverse-results
+          if-no-files-found: warn
+  strict-qualification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Check new qualification manifest and run adverse tests and strict mutations
+        run: |
+          set -euo pipefail
+          mkdir -p replay-strict-results
+          git rev-parse HEAD | tee replay-strict-results/commit.txt
+          (cd cbz/replay-qualification && sha256sum -c SHA256SUMS) 2>&1 | tee replay-strict-results/checksum.log
+          for package in additional determinant; do
+            dir="$GITHUB_WORKSPACE/cbz/evidence/kernel/$package/replay-tool"
+            export CBZ_REPLAY_DIR="$dir"
+            for mode in normal optimized; do
+              flags=(-B -S)
+              if [ "$mode" = optimized ]; then flags=(-B -O -S); fi
+              env -u PYTHONPYCACHEPREFIX python "${flags[@]}" cbz/replay-qualification/test_replay_mutations_strict.py -v 2>&1 |
+                tee "replay-strict-results/$package-adverse-$mode.log"
+            done
+            python -I -B -S cbz/replay-qualification/replay_mutations_strict.py \
+              --directory "$dir" \
+              --source-sha256 b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3 \
+              --test-sha256 a07eaab8b6fd40a911d313197fae688927ebb3e1d74644628e4888a7e6505fc0 \
+              --output "$GITHUB_WORKSPACE/replay-strict-results/$package-mutations" 2>&1 |
+              tee "replay-strict-results/$package-mutations.log"
+          done
+      - name: Preserve strict qualification outputs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-replay-strict-${{ github.run_id }}-${{ github.run_attempt }}
+          path: replay-strict-results
           if-no-files-found: warn
