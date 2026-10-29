@@ -1,0 +1,51 @@
+{
+  "schema": "cbz.archived-optional-upgrade.v1",
+  "observed_utc": "2026-10-29 20:42:08 UTC",
+  "pr": 597,
+  "source_commit": "b47633986e8a494d1dca57f2bd70f2ef340088de",
+  "scope": "Optional setup-python v7.1.0 upgrade, not a mathematical proof obligation or CBZ prerequisite. Current seven target workflows use the same immutable setup-python Git pin 5fda3b95a4ea91299a34e894583c3862153e4b97. No upgrade, CVE, runtime compatibility or new test execution is claimed.",
+  "source_bindings": [
+    {
+      "path": ".github/workflows/current-site.yml",
+      "git_blob": "51e293f7afb15dd1e9085391faefd17634aa9d28",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/formal-verification.yml",
+      "git_blob": "3115c335b1ab9129a816b143bf1a3b3c51d4b5ed",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/math-hypergraph.yml",
+      "git_blob": "0f25f53dc241693db1681fcdd6f62fbf501f8800",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/navigation.yml",
+      "git_blob": "11839ed583757c92a33a2cb574fcc926bab7ed44",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/periodic-h0-pilot.yml",
+      "git_blob": "824c03ee8e8aa580186a7960f65abd3ea910ac04",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/public-shop.yml",
+      "git_blob": "b7fc100b3457101d9ef6a153c5fe281b063c1026",
+      "status": "modified"
+    },
+    {
+      "path": ".github/workflows/universality-controls.yml",
+      "git_blob": "d5e0e851c81f98205a7fac4ce505f6dc9eae36e3",
+      "status": "modified"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-24-main583-narrow-setup-python.md",
+      "git_blob": "52c1bb177e6e1828193a558e0751c777aef39101",
+      "status": "added"
+    }
+  ],
+  "isolation": "The optional source and all tests/evidence remain reachable through this commit's parent; it is not integrated into active workflows.",
+  "decision": "[2026-10-29 20:42:08 UTC] [phase2] [layerC] Archive optional workflow-version upgrade as out of the frozen CBZ mission, preserve exact source history, and retain current immutable action pins. No test deletion or dependency-skew success is inferred. Reversible:yes."
+}
