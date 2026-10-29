@@ -723,3 +723,7 @@ These five historical source/model interfaces are quarantined at their stated sc
 ### Q-1048: conditional interface countermodel
 
 [Source-level argument](cbz/quarantine/lifetime-pair-law-countermodel.md): for any supplied positive-L field, elder interface and frame, the allowed constant-one pair law satisfies the original upper predicate and violates the positive E4 lower rate. This is not a kernel-verified declaration or an intended-model counterexample; Q-1048 remains QUARANTINED and existence of the supplied elder interface is not established here.
+
+### Numerical evidence awaiting full packet recovery
+
+The historical axis-envelope point certificate has a [source-bound precision limitation](cbz/quarantine/axis-envelope-precision-observation.md). This does not establish either side of the intended inequality. The full locally prepared Q-5026 boundary and the numerical mapping remain unavailable at this observation cut and are not reconstructed from partial information.

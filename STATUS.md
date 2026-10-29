@@ -149,3 +149,7 @@ The candidate incorporates [main #702](https://github.com/d6g8k5htny-coder/main/
 Five lifetime-related quarantine rows previously said their abstract predicates hold for every interface inhabitant. That was an incorrect universal assertion: these are predicates on supplied objects, and the source itself warns that the pair-law interface permits counterexamples. The original full wording is retained in the catalog alongside the corrected boundary. A separately recorded Gaussian-field constructor is not an elder/pair-law binding. [Correction evidence](cbz/quarantine/lifetime-predicate-wording-correction.json). No parent theorem is promoted.
 
 A source-level [conditional constant-law countermodel](cbz/quarantine/lifetime-pair-law-countermodel.md) explains why the abstract pair-law interface does not imply the planar lower rate even when its upper predicate holds. The field, elder interface and frame remain supplied hypotheses; the manuscript is not a kernel receipt and Q-1048 remains quarantined.
+
+### Archived axis-envelope precision observation
+
+[Source inspection and exact-rational comparisons](cbz/quarantine/axis-envelope-precision-observation.md) identify that the archived point-certificate script constructs its decimal threshold and point offset before raising mpmath precision and reuses the point in both later runs. Under a fresh default 53-bit context, both differ from their stated decimals in the recorded directions. The archived process has not been rerun; no exact point violation, opposite inequality or recovered Q-5026 packet is claimed.
