@@ -602,6 +602,206 @@ class InventoryContract(unittest.TestCase):
         data = self.closed_with_axioms(['propext', 'propext'])
         with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
 
+    def replay_fixture(self, manifest_updates=None, receipt_updates=None):
+        source_repo = self.root / 'beta'
+        (source_repo / 'Proof.lean').write_text('theorem Example.t : True := by trivial\n')
+        (source_repo / 'Other.lean').write_text('theorem Example.u : True := by trivial\n')
+        if git(source_repo, 'status', '--porcelain'):
+            self.commit(source_repo)
+        checked = git(source_repo, 'rev-parse', 'HEAD').decode().strip()
+        source_data = self.capture()
+        sources = [self.binding(source_data, path, 'beta') for path in ('Other.lean', 'Proof.lean')]
+        manifest = {'schema': 'cbz.kernel-targets.v1', 'source_repository': 'beta',
+            'checked_commit': checked, 'files': {b['path']: b['sha256'] for b in sources},
+            'targets': [{'name': 'Example.t', 'path': 'Proof.lean'},
+                        {'name': 'Example.u', 'path': 'Other.lean'}]}
+        manifest.update(manifest_updates or {})
+        repo = self.root / 'alpha'; (repo / 'delivery').mkdir(exist_ok=True)
+        raw_evidence = b'original observed replay output; test fixture is not real kernel evidence\n'
+        (repo / 'delivery/replay.stdout').write_bytes(raw_evidence)
+        manifest_raw = (json.dumps(manifest) + '\n').encode()
+        (repo / 'delivery/targets.json').write_bytes(manifest_raw)
+        receipt = {'schema': 'cbz.kernel-replay.receipt.v1',
+            'formalization_status': 'kernel-checked', 'checked_repository': 'beta',
+            'checked_commit': checked, 'manifest_sha256': hashlib.sha256(manifest_raw).hexdigest(),
+            'axioms': {'Example.t': [], 'Example.u': ['propext']},
+            'source_sha256': {b['path']: b['sha256'] for b in sources},
+            'evidence_sha256': {'replay.stdout': hashlib.sha256(raw_evidence).hexdigest()},
+            'scope': 'Fixture binds bytes only; no actual Lean execution claimed.'}
+        receipt.update(receipt_updates or {})
+        (repo / 'delivery/receipt.json').write_text(json.dumps(receipt) + '\n')
+        if git(repo, 'status', '--porcelain'):
+            self.commit(repo)
+        data = self.capture()
+        source = next(b for b in sources if b['path'] == 'Proof.lean')
+        data['obligations'] = [{'id': 'replay-claim', 'status': 'CLOSED',
+            'source_bindings': [source], 'kernel_evidence': {
+                'format': 'cbz.kernel-replay.v1',
+                'receipt': self.binding(data, 'delivery/receipt.json'),
+                'manifest': self.binding(data, 'delivery/targets.json'),
+                'checked_commit': checked, 'targets': ['Example.t'],
+                'source_bindings': sources,
+                'execution_evidence': [self.binding(data, 'delivery/replay.stdout')]}}]
+        return data
+
+    def test_replay_format_binds_later_evidence_to_exact_source_cut(self):
+        data = self.replay_fixture()
+        try:
+            self.tool.verify(data, self.root, self.names)
+        except ValueError as error:
+            self.fail('Explicit replay format must bind cross-repository artifacts: ' + str(error))
+        self.assertFalse(data['cbz_green'])
+        self.assertFalse(data['semantic_claim_completeness'])
+
+    def test_replay_manifest_source_file_omission_is_rejected(self):
+        data = self.replay_fixture()
+        evidence = data['obligations'][0]['kernel_evidence']
+        evidence['source_bindings'] = [b for b in evidence['source_bindings']
+                                       if b['path'] != 'Other.lean']
+        with self.assertRaisesRegex(ValueError, 'replay manifest source files must match all bound sources'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_target_source_mapping_must_cover_the_obligation(self):
+        data = self.replay_fixture(manifest_updates={'targets': [
+            {'name': 'Example.t', 'path': 'Other.lean'}, {'name': 'Example.u', 'path': 'Proof.lean'}]})
+        with self.assertRaisesRegex(ValueError, 'replay target source is not bound by the obligation'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_raw_evidence_hash_substitution_is_rejected(self):
+        data = self.replay_fixture(receipt_updates={'evidence_sha256': {'replay.stdout': '0' * 64}})
+        with self.assertRaisesRegex(ValueError, 'replay raw evidence files must match receipt hashes'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_all_target_axioms_are_checked_even_for_a_subset(self):
+        data = self.replay_fixture(receipt_updates={'axioms': {'Example.t': [], 'Example.u': ['sorryAx']}})
+        with self.assertRaisesRegex(ValueError, 'invalid, duplicate or unapproved kernel axiom report'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_receipt_source_hashes_are_not_accepted_from_a_different_manifest(self):
+        data = self.replay_fixture(receipt_updates={'source_sha256': {'Proof.lean': '0' * 64}})
+        with self.assertRaisesRegex(ValueError, 'replay receipt source hashes must equal manifest files'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_checked_repository_mismatch_is_rejected(self):
+        data = self.replay_fixture(receipt_updates={'checked_repository': 'alpha'})
+        with self.assertRaisesRegex(ValueError, 'replay checked repository mismatch'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_manifest_checked_commit_mismatch_is_rejected(self):
+        data = self.replay_fixture(manifest_updates={'checked_commit': 'f' * 40})
+        with self.assertRaisesRegex(ValueError, 'replay manifest checked commit mismatch'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_target_table_rejects_duplicates_and_unbound_paths(self):
+        cases = [[{'name': 'Example.t', 'path': 'Proof.lean'}, {'name': 'Example.t', 'path': 'Other.lean'}],
+                 [{'name': 'Example.t', 'path': 'Absent.lean'}],
+                 [{'name': 'Example.t', 'path': '../Proof.lean'}],
+                 [{'name': 'Example.t', 'path': 'Proof.lean', 'extra': 'unknown'}]]
+        for table in cases:
+            with self.subTest(table=table):
+                data = self.replay_fixture(manifest_updates={'targets': table})
+                with self.assertRaisesRegex(ValueError, 'invalid replay target table'):
+                    self.tool.verify(data, self.root, self.names)
+
+    def test_replay_missing_or_extra_raw_evidence_binding_is_rejected(self):
+        for extra in (False, True):
+            data = self.replay_fixture()
+            evidence = data['obligations'][0]['kernel_evidence']
+            if extra:
+                evidence['execution_evidence'].append(self.binding(data, 'a.txt'))
+            else:
+                evidence['execution_evidence'] = []
+            with self.subTest(extra=extra), self.assertRaises(ValueError):
+                self.tool.verify(data, self.root, self.names)
+
+    def test_replay_raw_evidence_binding_cannot_follow_an_unsafe_receipt_relative_path(self):
+        data = self.replay_fixture(receipt_updates={'evidence_sha256': {'../a.txt': '0' * 64}})
+        with self.assertRaisesRegex(ValueError, 'unsafe tracked path'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_source_replaced_after_checked_cut_is_rejected(self):
+        data = self.replay_fixture(); entry = data['obligations'][0]
+        repo = self.root / 'beta'
+        (repo / 'Proof.lean').write_text('theorem Example.t : False := by trivial\n')
+        self.commit(repo)
+        after = self.capture()
+        source = self.binding(after, 'Proof.lean', 'beta')
+        entry['source_bindings'] = [source]
+        entry['kernel_evidence']['source_bindings'] = [source if b['path'] == 'Proof.lean' else b
+            for b in entry['kernel_evidence']['source_bindings']]
+        after['obligations'] = [entry]
+        with self.assertRaises(ValueError):
+            self.tool.verify(after, self.root, self.names)
+
+    def test_replay_historical_proof_and_unknown_format_are_rejected(self):
+        data = self.replay_fixture()
+        evidence = data['obligations'][0]['kernel_evidence']
+        evidence['source_bindings'][0]['scope'] = 'historical'
+        with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+        data = self.replay_fixture()
+        data['obligations'][0]['kernel_evidence']['format'] = 'cbz.kernel-replay.v2'
+        with self.assertRaises(ValueError): self.tool.verify(data, self.root, self.names)
+
+    def test_replay_receipt_cannot_use_dormant_historical_scope(self):
+        data = self.replay_fixture()
+        data['obligations'][0]['kernel_evidence']['receipt']['scope'] = 'historical'
+        with self.assertRaisesRegex(ValueError, 'dormant historical scope cannot discharge'):
+            self.tool.verify(data, self.root, self.names)
+
+    def test_replay_receipt_cannot_change_schema_manifest_digest_or_status(self):
+        for changes in ({'schema': 'cbz.kernel-replay.receipt.v2'},
+                        {'manifest_sha256': '0' * 64}, {'formalization_status': 'source-only'},
+                        {'checked_commit': 'f' * 40}, {'unrecognized_trust_field': True}):
+            data = self.replay_fixture(receipt_updates=changes)
+            with self.subTest(changes=changes), self.assertRaisesRegex(
+                    ValueError, 'replay receipt source/manifest binding mismatch'):
+                self.tool.verify(data, self.root, self.names)
+
+    def test_replay_axiom_table_requires_exact_complete_target_set_and_valid_lists(self):
+        for axioms in ({'Example.t': []}, {'Example.t': [], 'Example.u': [], 'Hidden.t': []},
+                       {'Example.t': [], 'Example.u': ['propext', 'propext']},
+                       {'Example.t': [], 'Example.u': 'propext'}):
+            data = self.replay_fixture(receipt_updates={'axioms': axioms})
+            with self.subTest(axioms=axioms), self.assertRaises(ValueError):
+                self.tool.verify(data, self.root, self.names)
+
+    @unittest.skipIf(os.environ.get('CBZ_INVENTORY_MUTANT') == '1', 'outer mutation controller only')
+    def test_replay_binding_source_mutations_are_killed(self):
+        source = TOOL.read_text()
+        mutants = {
+            'skip_replay_receipt_current_scope': (
+                "_binding(evidence['receipt'], repos, root, cache, allow_historical=False)",
+                'None', 'test_replay_receipt_cannot_use_dormant_historical_scope'),
+            'skip_replay_source_coverage': (
+                "require(all(binding['repository'] == repository for binding in sources)",
+                "require(True or all(binding['repository'] == repository for binding in sources)",
+                'test_replay_manifest_source_file_omission_is_rejected'),
+            'skip_replay_target_source': (
+                'require(all(target_sources[target] in obligation_paths for target in targets),',
+                'require(True,', 'test_replay_target_source_mapping_must_cover_the_obligation'),
+            'skip_replay_evidence_hashes': (
+                "require(evidence['manifest']['repository'] == evidence['receipt']['repository']",
+                "require(True or evidence['manifest']['repository'] == evidence['receipt']['repository']",
+                'test_replay_raw_evidence_hash_substitution_is_rejected'),
+            'skip_replay_axiom_allowlist': (
+                "and len(set(reported)) == len(reported),\n                'invalid, duplicate or unapproved kernel axiom report: '",
+                "and len(set(reported)) == len(reported) or True,\n                'invalid, duplicate or unapproved kernel axiom report: '",
+                'test_replay_all_target_axioms_are_checked_even_for_a_subset')}
+        for name, (before, after, expected) in mutants.items():
+            with self.subTest(mutation=name):
+                self.assertEqual(source.count(before), 1, 'replay mutation anchor must be unique')
+                mutant = Path(self.temp.name) / (name + '.py')
+                mutant.write_text(source.replace(before, after))
+                env = dict(os.environ, CBZ_INVENTORY_UNDER_TEST=str(mutant),
+                           CBZ_INVENTORY_MUTANT='1', PYTHONDONTWRITEBYTECODE='1')
+                optimize = ['-O'] if sys.flags.optimize else []
+                result = subprocess.run([sys.executable, '-B', *optimize, '-S',
+                    str(Path(__file__).resolve()), '-v', 'InventoryContract.' + expected],
+                    env=env, text=True, capture_output=True, timeout=180)
+                self.assertNotEqual(result.returncode, 0, 'replay source mutation escaped')
+                self.assertIn('FAIL: ' + expected, result.stderr)
+                self.assertNotIn('ERROR:', result.stderr)
+
     def test_cli_roundtrip_rejects_duplicate_json_keys_and_floats(self):
         output = Path(self.temp.name) / 'inventory.json'
         result = self.cli('generate', '--root', str(self.root), '--output', str(output),

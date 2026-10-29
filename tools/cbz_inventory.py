@@ -421,6 +421,81 @@ def _rf312_sources(manifest, overlay, checked, repos, root, cache):
             raise ValueError('RF312 effective source hash mismatch: ' + relative + ': ' + str(error)) from error
 
 
+def _replay_evidence(entry, evidence, checked, targets, repos, root, cache):
+    """Validate a normalized observation index; never authenticate a kernel run."""
+    manifest_row = _binding(evidence['manifest'], repos, root, cache, allow_historical=False)
+    manifest = _bound_json(root, evidence['manifest'], repos, cache)
+    require(isinstance(manifest, dict) and set(manifest) == {
+                'schema', 'source_repository', 'checked_commit', 'files', 'targets'}
+            and manifest['schema'] == 'cbz.kernel-targets.v1', 'unsupported replay target manifest')
+    repository = manifest['source_repository']
+    require(type(repository) is str and repository in repos, 'unknown replay source repository')
+    require(manifest['checked_commit'] == checked, 'replay manifest checked commit mismatch')
+    files = manifest['files']
+    require(isinstance(files, dict) and files and all(
+                type(path) is str and type(digest) is str and HEX64.fullmatch(digest)
+                for path, digest in files.items()), 'invalid replay source file table')
+    for path in files:
+        _path(path)
+    sources = evidence['source_bindings']
+    require(all(binding['repository'] == repository for binding in sources)
+            and len({binding['path'] for binding in sources}) == len(sources)
+            and {binding['path']: binding['sha256'] for binding in sources} == files,
+            'replay manifest source files must match all bound sources')
+    for binding in sources:
+        _binding({**binding, 'commit': checked, 'scope': 'historical'}, repos, root, cache)
+    declared = manifest['targets']
+    require(isinstance(declared, list) and declared and all(
+                isinstance(item, dict) and set(item) == {'name', 'path'}
+                and type(item['name']) is str and item['name'].strip() == item['name']
+                and item['name'] and type(item['path']) is str and item['path'] in files
+                and item['path'].endswith('.lean') for item in declared), 'invalid replay target table')
+    declared_names = [item['name'] for item in declared]
+    require(len(set(declared_names)) == len(declared_names)
+            and all(target in declared_names for target in targets), 'invalid replay target table')
+    target_sources = {item['name']: item['path'] for item in declared}
+    obligation_paths = {binding['path'] for binding in entry['source_bindings']}
+    require(all(target_sources[target] in obligation_paths for target in targets),
+            'replay target source is not bound by the obligation')
+    _binding(evidence['receipt'], repos, root, cache, allow_historical=False)
+    receipt = _bound_json(root, evidence['receipt'], repos, cache)
+    required = {'schema', 'formalization_status', 'checked_repository', 'checked_commit',
+                'manifest_sha256', 'axioms', 'source_sha256', 'evidence_sha256'}
+    metadata = {'executor', 'scope', 'original_receipts_retained', 'normalization',
+                'lean_version', 'lean_commit', 'mathlib_commit', 'self_verification'}
+    require(isinstance(receipt, dict) and required <= set(receipt)
+            and set(receipt) <= required | metadata
+            and receipt['schema'] == 'cbz.kernel-replay.receipt.v1'
+            and receipt['formalization_status'] == 'kernel-checked'
+            and receipt['checked_commit'] == checked
+            and receipt['manifest_sha256'] == manifest_row['sha256'],
+            'replay receipt source/manifest binding mismatch')
+    require(receipt['checked_repository'] == repository, 'replay checked repository mismatch')
+    require(receipt['source_sha256'] == files, 'replay receipt source hashes must equal manifest files')
+    axioms = receipt['axioms']
+    require(isinstance(axioms, dict) and set(axioms) == set(declared_names),
+            'replay receipt must report every target axiom list exactly once')
+    for target in declared_names:
+        reported = axioms[target]
+        require(type(reported) is list and all(type(name) is str and
+                    name in APPROVED_KERNEL_AXIOMS for name in reported)
+                and len(set(reported)) == len(reported),
+                'invalid, duplicate or unapproved kernel axiom report: ' + target)
+    evidence_files = receipt['evidence_sha256']
+    require(isinstance(evidence_files, dict) and evidence_files and all(
+                type(path) is str and type(digest) is str and HEX64.fullmatch(digest)
+                for path, digest in evidence_files.items()), 'invalid replay evidence file table')
+    prefix = evidence['receipt']['path'].rsplit('/', 1)[0] + '/' if '/' in evidence['receipt']['path'] else ''
+    expected_files = {prefix + _path(path): digest for path, digest in evidence_files.items()}
+    raw_bindings = evidence['execution_evidence']
+    _bindings(raw_bindings, repos, root, cache, allow_historical=False)
+    require(evidence['manifest']['repository'] == evidence['receipt']['repository']
+            and all(binding['repository'] == evidence['receipt']['repository'] for binding in raw_bindings)
+            and len({binding['path'] for binding in raw_bindings}) == len(raw_bindings)
+            and {binding['path']: binding['sha256'] for binding in raw_bindings} == expected_files,
+            'replay raw evidence files must match receipt hashes')
+
+
 def _obligations(values, repositories, root):
     require(isinstance(values, list), 'obligations must be a list')
     repos = {repo['name']: repo for repo in repositories}
@@ -449,8 +524,11 @@ def _obligations(values, repositories, root):
         else:
             evidence = entry['kernel_evidence']
             kernel_keys = {'receipt', 'manifest', 'checked_commit', 'targets', 'source_bindings'}
-            require(isinstance(evidence, dict) and set(evidence) in
-                    (kernel_keys, kernel_keys | {'manifest_overlay'}),
+            replay = (isinstance(evidence, dict)
+                      and evidence.get('format') == 'cbz.kernel-replay.v1'
+                      and set(evidence) == kernel_keys | {'format', 'execution_evidence'})
+            require(isinstance(evidence, dict) and (replay or set(evidence) in
+                    (kernel_keys, kernel_keys | {'manifest_overlay'})),
                     'CLOSED requires actual kernel evidence bindings')
             _bindings(evidence['source_bindings'], repos, root, cache, allow_historical=False)
             require(all(binding in evidence['source_bindings'] for binding in entry['source_bindings']),
@@ -461,6 +539,9 @@ def _obligations(values, repositories, root):
             require(isinstance(targets, list) and targets and
                     all(type(target) is str and target.strip() for target in targets) and
                     len(set(targets)) == len(targets), 'nonempty unique kernel target names required')
+            if replay:
+                _replay_evidence(entry, evidence, checked, targets, repos, root, cache)
+                continue
             manifest_row = _binding(evidence['manifest'], repos, root, cache)
             manifest_data = _bound_json(root, evidence['manifest'], repos, cache)
             manifest_inputs = [evidence['manifest']]
