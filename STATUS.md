@@ -4,16 +4,16 @@ This workspace develops mathematical candidates/formal companions in `Math-`, re
 
 ## Current baseline
 
-**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 18:42 UTC. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
+**Partial Baseline — consolidation is running; CBZ-0 is NOT established.** Observation cut: 2026-10-29 21:19 UTC; observations are tied to the exact source cuts stated below. No final G0–G11 run has completed; none of the twelve criteria is qualified as part of a combined final baseline. This is a progress checkpoint, not a terminal/resource-impossibility declaration.
 
 | Gate | Actual component observation | Final result |
 |---|---|---|
-| G0 | Math: 244 formal and 76 receipt-consumer tests passed per Python mode; all core compiled controls passed | Not qualified |
-| G1 | Complete source census and bounded lexical/AST probes exist; no semantic certification inferred | Not qualified |
+| G0 | Historical core controls passed; lexical and A3 mutation graders have identified false-kill paths and their repairs are pending | Not qualified |
+| G1 | A historical source census and bounded lexical/AST probes exist; full current-source classification and auditor qualification remain incomplete | Not qualified |
 | G2 | Literal axiom reports for 116 Math core constants passed; three approved axioms only | Not qualified |
 | G3 | Fresh main arithmetic and complete Math core builds passed | Not qualified |
 | G4 | Fresh main recheck and complete Math gate passed with LEAN_NUM_THREADS=2 | Not qualified |
-| G5 | Main: 1,541 tests per mode with 24 skips; 19 skipped methods passed separately. Prepared Node: 763/763, zero skips | Not qualified |
+| G5 | Main composed-source run: 1,801 tests per mode, 25 skips each; two Lean-dependent methods passed separately at the recorded equal-tree source cut | Not qualified |
 | G6 | Downstream: 24/24 and replica: 24/24 semantic mutants detected per mode | Not qualified |
 | G7 | Workspace local/network historical-pin checks passed their existing contract | Current federation consistency not qualified |
 | G8 | Canonical surfaces being reconciled to observed evidence | Not qualified |
@@ -41,7 +41,7 @@ The strict CLOSED domain contains only the 367 context-bound literal records. [T
 
 The boundaries preserve actual smooth/Fourier constructions but withhold unconstructed critical-point/bar measures, Morse/Palm/Kac–Rice/once-counting/elder-pairing bridges, global small-bar converses, concrete coefficient identification and unproved source-to-model alignment. Conditional geometry keeps its regular/interior/Morse premises. Conventional quartic/cusp/fold arguments remain source-bound prose. Historical float-based WP/THM023 verifiers are approximate diagnostics, with no mathematical bound certified by them; Q-3010/Q-3011 preserve the exact decertification and finite-grid limits. Main PR336/340/429 source is retained at annotated tags `cbz-quarantine-q-8336`, `cbz-quarantine-q-8340`, `cbz-quarantine-q-8429`. Quarantined unproved assertions do not supply proof dependencies to CLOSED declarations.
 
-Known residue: determinant compiled inventory/private support is not yet qualified; Cap auditor repairs remain in progress; main receipt attempt/source-custody repair is not yet integrated. Archived trial tests reproduced 87 failures per mode under write/network isolation. Original sources/failures are retained. Disjoint repairs/dispositions are coordinated in [main#684](https://github.com/d6g8k5htny-coder/main/issues/684), with main#619 the active board. No human or old family-review approval is required.
+Known residue: determinant compiled inventory/private support is not yet qualified at its current source; Cap auditor repairs remain in progress; main receipt attempt/source-custody repair is not yet integrated. The 99-module source514 build passed, but its independent compiled census failed on a generated metadata name that also has a kernel declaration; the required ownership and replay repair is pending. Archived trial tests reproduced 87 failures per mode under write/network isolation. Original sources/failures are retained. Disjoint repairs/dispositions are coordinated in [main#684](https://github.com/d6g8k5htny-coder/main/issues/684), with main#619 the active board. No human or old family-review approval is required.
 
 ## Tools and how to verify
 
