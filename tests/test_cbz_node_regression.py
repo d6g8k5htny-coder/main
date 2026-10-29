@@ -537,9 +537,15 @@ class MutationHarnessTests(unittest.TestCase):
                               CBZ_NODE_MUTANT_RECEIPT=str(receipt),
                               CBZ_NODE_MUTANT_NAME="length")
             case = NodeRunnerTests("test_all_byte_identities_are_required")
+            case.mark_bypass("foreign-event")
+            self.assertFalse(receipt.exists())
             case.observe_missing_rejection("source identity mismatch", {"field": "sha256"})
             case.observe_missing_rejection("wrong refusal", {"field": "bytes"})
             self.assertFalse(receipt.exists())
+            os.environ.pop("CBZ_NODE_MUTANT_NONCE")
+            case.observe_missing_rejection("source identity mismatch", {"field": "bytes"})
+            self.assertFalse(receipt.exists())
+            os.environ["CBZ_NODE_MUTANT_NONCE"] = "fresh"
             case.observe_missing_rejection("source identity mismatch", {"field": "bytes"})
             self.assertEqual(json.loads(receipt.read_text()), {
                 "nonce": "fresh", "mutation": "length",
@@ -646,6 +652,12 @@ class SourceMutationTests(unittest.TestCase):
         mutations = [
             ("receipt", "receipt == required", "True",
              "test_receipt_accepts_only_the_matching_observation"),
+            ("subject", 'if mutation in fields and variables.get("field") != fields[mutation]:',
+             "if False:", "test_control_receipt_requires_the_exact_subject"),
+            ("nonce", "if nonce and path and wanted == event:",
+             "if path and wanted == event:", "test_control_receipt_requires_the_exact_subject"),
+            ("event", "if nonce and path and wanted == event:",
+             "if nonce and path:", "test_control_receipt_requires_the_exact_subject"),
             ("import",
              '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
              "", "test_import_trace_inside_assertion_cannot_kill"),
