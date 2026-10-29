@@ -46,7 +46,7 @@ def definitions():
         ('ignore-memory-limit', 'kernel_replay.py', 'preexec_fn=limits(memory_mib)', 'preexec_fn=None', wrapper),
         ('truncate-module-coverage', 'kernel_replay.py', "for entry in m['modules']:\n            validate_manifest(m)", "for entry in m['modules'][:1]:\n            validate_manifest(m)", wrapper),
         ('concurrent-module-processes', 'kernel_replay.py',
-         "        for entry in m['modules']:\n            validate_manifest(m)\n            report['results'].append(run_one(m, entry, memory_mib, timeout_seconds))",
+         "        for entry in m['modules']:\n            validate_manifest(m)\n            report['results'].append(run_one(m, entry, memory_mib, timeout_seconds))\n            if report['results'][-1].get('cleanup', {}).get('reaped') is False:\n                break  # Do not start another process while an earlier PID remains unreaped.",
          "        from concurrent.futures import ThreadPoolExecutor\n        with ThreadPoolExecutor(max_workers=2) as pool:\n            report['results'] = list(pool.map(lambda entry: run_one(m, entry, memory_mib, timeout_seconds), m['modules']))",
          wrapper + '.test_one_child_at_a_time_and_exact_coverage'),
         ('skip-kernel-replay', 'ExactReplay.lean', '  replayFromImports target', '  pure ()', real + 'test_public_self_reference_rejected'),
@@ -58,6 +58,40 @@ def definitions():
          "env['LEAN_PATH'] = os.pathsep.join(m['lean_path'])", real + 'test_user_lean_path_cannot_shadow_checker'),
     ]
     return items
+
+
+def resource_definitions():
+    wrapper = 'test_kernel_replay.WrapperTests.'
+    return [
+        ('resource-ignore-memory-upper-bound', 'kernel_replay.py',
+         'not 64 <= memory_mib <= memory_mib_max', 'memory_mib < 64',
+         wrapper + 'test_resource_memory_upper_bounds_before_spawn'),
+        ('resource-ignore-inherited-memory-hard-limit', 'kernel_replay.py',
+         'if hard_memory != resource.RLIM_INFINITY:', 'if False:',
+         wrapper + 'test_resource_memory_hard_limit_before_spawn'),
+        ('resource-ignore-timeout-upper-bound', 'kernel_replay.py',
+         'not 0 < timeout_seconds <= MAX_TIMEOUT_SECONDS', 'not 0 < timeout_seconds',
+         wrapper + 'test_resource_timeout_upper_bounds_before_spawn'),
+        ('resource-accept-boolean-timeout', 'kernel_replay.py',
+         'type(timeout_seconds) not in (int, float)', 'type(timeout_seconds) not in (int, float, bool)',
+         wrapper + 'test_resource_boolean_arguments_rejected'),
+        ('resource-drop-process-exception-normalization', 'kernel_replay.py',
+         'PROCESS_ERRORS = (OSError, subprocess.SubprocessError, OverflowError, ValueError)',
+         'PROCESS_ERRORS = (OSError,)',
+         wrapper + 'test_resource_spawn_exceptions_are_structured_errors'),
+        ('resource-unbounded-cleanup-wait', 'kernel_replay.py',
+         'p.wait(timeout=CLEANUP_TIMEOUT_SECONDS)', 'p.wait()',
+         wrapper + 'test_resource_unreapable_child_cleanup_is_bounded'),
+        ('resource-skip-abnormal-cleanup', 'kernel_replay.py',
+         "if p is not None and result['status'] != 'FINISHED':", 'if False:',
+         wrapper + 'test_resource_unreapable_child_cleanup_is_bounded'),
+        ('resource-overwrite-error-with-success', 'kernel_replay.py',
+         "    if result['status'] == 'FINISHED':", "    if result['status'] != 'TIMEOUT':",
+         wrapper + 'test_resource_wait_errors_cannot_become_success'),
+        ('resource-continue-after-unreaped-child', 'kernel_replay.py',
+         "if report['results'][-1].get('cleanup', {}).get('reaped') is False:", 'if False:',
+         wrapper + 'test_resource_unreaped_child_stops_further_modules'),
+    ]
 
 
 def derived_driver_mutations(lean):
@@ -85,14 +119,21 @@ def derived_driver_mutations(lean):
     ]
 
 
-def run_mutations(output, only=None):
+def run_mutations(output, only=None, group='all'):
     lean = os.environ.get('CBZ_TEST_LEAN', '/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean')
-    plan = definitions() + derived_driver_mutations(lean)
+    plan = definitions() + resource_definitions()
+    if group == 'resource':
+        plan = resource_definitions()
+    elif group == 'wrapper':
+        plan = [x for x in plan if x[4].startswith('test_kernel_replay.')]
+    else:
+        plan += derived_driver_mutations(lean)
     if only:
         if only not in [x[0] for x in plan]:
             raise ValueError('unknown mutation: ' + only)
         plan = [x for x in plan if x[0] == only]
-    evidence = ROOT / 'evidence/mutations'
+    # Keep old-generation mutation receipts immutable when selecting this repair.
+    evidence = ROOT / ('evidence/mutations' if group == 'all' else 'evidence/resource-mutations')
     evidence.mkdir(parents=True, exist_ok=True)
     results = []
     for name, filename, old, new, test in plan:
@@ -121,7 +162,7 @@ def run_mutations(output, only=None):
             (evidence / (name + '.json')).write_text(json.dumps(record, indent=2) + '\n')
             results.append(record)
             print(name + ': ' + record['outcome'], flush=True)
-    result = {'threshold': 1.0, 'planned': len(plan), 'executed': len(results),
+    result = {'group': group, 'threshold': 1.0, 'planned': len(plan), 'executed': len(results),
               'killed': sum(x['outcome'] == 'KILLED' for x in results),
               'ok': bool(results) and len(results) == len(plan) and all(x['outcome'] == 'KILLED' for x in results),
               'results': results}
@@ -133,9 +174,10 @@ def main():
     parser = argparse.ArgumentParser(allow_abbrev=False)
     parser.add_argument('--output', required=True)
     parser.add_argument('--only')
+    parser.add_argument('--group', choices=('all', 'wrapper', 'resource'), default='all')
     args = parser.parse_args()
     try:
-        return 0 if run_mutations(args.output, args.only)['ok'] else 1
+        return 0 if run_mutations(args.output, args.only, args.group)['ok'] else 1
     except (ValueError, OSError) as e:
         print('mutation harness ERROR: ' + str(e), file=sys.stderr)
         return 2
