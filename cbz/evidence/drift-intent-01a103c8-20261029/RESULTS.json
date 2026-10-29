@@ -1,0 +1,124 @@
+{
+  "actor": "OpenAI Codex chat01a103c8-7a8e-7461-8e9f-36e3b02757c5; owner-delegated engineering, no human/scientific verification claimed",
+  "adversarial_runs": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_cbz_drift_adversarial_01a103c8",
+        "-v"
+      ],
+      "assertion_failures": 6,
+      "ended_at": "2026-10-29T23:29:48.740160+00:00",
+      "errors": 0,
+      "exit_code": 1,
+      "name": "ADVERSARIAL_NORMAL",
+      "started_at": "2026-10-29T23:29:44.836598+00:00",
+      "stderr_sha256": "f78f0b05b099fc0fe321eee531cfe36dccdf4f6baf97cb593f706837fa8d216e",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-O",
+        "-m",
+        "unittest",
+        "test_cbz_drift_adversarial_01a103c8",
+        "-v"
+      ],
+      "assertion_failures": 6,
+      "ended_at": "2026-10-29T23:29:52.720329+00:00",
+      "errors": 0,
+      "exit_code": 1,
+      "name": "ADVERSARIAL_OPTIMIZED",
+      "started_at": "2026-10-29T23:29:48.740336+00:00",
+      "stderr_sha256": "67ed0124c5470752720e7c99e96fba9c496582d4dd59be27701c7d491f5e01dd",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "cli_reproduction": {
+    "blocking": 0,
+    "exit_code": 0,
+    "expected": "fed/c definition value7 differs from fed/a and fed/b value3; scan must include c and block",
+    "record_sha256": "7bf8160a35b33cfbe124f9f548eb0dd5860b5e3af2b0fb0d61181005104421e3",
+    "resolved_repositories": [
+      "fed/a",
+      "fed/b",
+      "fed/c",
+      "fed/reg",
+      "fed/ws"
+    ],
+    "stats": {
+      "lean_declarations": 8,
+      "lean_files": 2,
+      "lean_shared_names": 3,
+      "registry_artifacts": 1,
+      "registry_artifacts_verified": 1
+    }
+  },
+  "original_runs": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_cbz_drift"
+      ],
+      "ended_at": "2026-10-29T23:27:37.633694+00:00",
+      "exit_code": 0,
+      "name": "NORMAL",
+      "started_at": "2026-10-29T23:26:29.647741+00:00",
+      "stderr_sha256": "fcae1d9ff3088619594abbf832df3a912f33778e7717c0bb8c089b170cb8c8a5",
+      "stderr_tail": "...........................................\n----------------------------------------------------------------------\nRan 43 tests in 67.917s\n\nOK\n",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-O",
+        "-m",
+        "unittest",
+        "test_cbz_drift"
+      ],
+      "ended_at": "2026-10-29T23:28:45.521611+00:00",
+      "exit_code": 0,
+      "name": "OPTIMIZED",
+      "started_at": "2026-10-29T23:27:37.634579+00:00",
+      "stderr_sha256": "ef73b4f08475cfc63fea428ab33db37aa08421aa8b689ed4486d33751217d835",
+      "stderr_tail": "...........................................\n----------------------------------------------------------------------\nRan 43 tests in 67.824s\n\nOK\n",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "runtime": "3.9.6 (default, Dec  2 2025, 07:27:58) \n[Clang 17.0.0 (clang-1700.6.3.2)]",
+  "schema": "cbz.intent.adversarial.v1",
+  "scope": "Source-bound engineering reproduction. No Lean execution, mathematical closure, full-federation G7 PASS or CBZ-0 admission.",
+  "source_records": {
+    ".github/workflows/cbz-federation-drift.yml": {
+      "bytes": 2984,
+      "sha256": "f1ca1f44181c0ad670724dd3d120ba2d8306330c1fccaf248b108607525b1aa1"
+    },
+    "tests/test_cbz_drift.py": {
+      "bytes": 31490,
+      "sha256": "647e04ff376fad7f5e355abed7c7fe1912a8718599bfbd8dc9341e98970b5440"
+    },
+    "tools/cbz_drift/crawl.py": {
+      "bytes": 29357,
+      "sha256": "737d1307bf76bd4fab24dffc50952de22f450e6dbc4f85780e53d330f0346600"
+    },
+    "tools/cbz_drift/lean_decls.py": {
+      "bytes": 11379,
+      "sha256": "ce9a2a462bc38f3bf29b0f4aad6054d39733290b4ac59ed29aa5a02acff7a761"
+    }
+  },
+  "subject": {
+    "head": "15e8f689d00ca03e28e9bc5d97b6aba3f19ec900",
+    "pr": 712,
+    "repository": "d6g8k5htny-coder/main"
+  },
+  "subject_source_unchanged": true
+}

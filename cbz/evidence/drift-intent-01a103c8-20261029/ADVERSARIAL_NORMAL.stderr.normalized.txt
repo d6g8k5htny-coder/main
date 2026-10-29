@@ -1,0 +1,62 @@
+test_fetch_tips_contract_observes_advanced_local_remote (test_cbz_drift_adversarial_01a103c8.CurrentTipContractTests) ... FAIL
+test_absent_declared_canonical_registry_blocks_instead_of_zero_coverage (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests) ... FAIL
+test_child_workspace_pins_extend_the_graph (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests) ... FAIL
+test_missing_lake_revision_blocks_pin_synchronization (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests) ... FAIL
+test_newly_opened_local_lake_dependency_is_actually_scanned (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests) ... FAIL
+test_unheld_reachable_lake_dependency_is_discovered_and_cloned (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests) ... FAIL
+
+======================================================================
+FAIL: test_fetch_tips_contract_observes_advanced_local_remote (test_cbz_drift_adversarial_01a103c8.CurrentTipContractTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 107, in test_fetch_tips_contract_observes_advanced_local_remote
+    self.assertEqual(
+AssertionError: '056aa4088f9e4050a032e2e2d4cedb0acae622e1' != '1590ed0a6a47d314b9089ab1a38c73e812eb34d1'
+- 056aa4088f9e4050a032e2e2d4cedb0acae622e1
++ 1590ed0a6a47d314b9089ab1a38c73e812eb34d1
+ : A missing-object-only fetch is insufficient to certify current tips
+
+======================================================================
+FAIL: test_absent_declared_canonical_registry_blocks_instead_of_zero_coverage (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 87, in test_absent_declared_canonical_registry_blocks_instead_of_zero_coverage
+    self.assertGreater(report["blocking"], 0, "Declared registry disappeared without blocking the gate")
+AssertionError: 0 not greater than 0 : Declared registry disappeared without blocking the gate
+
+======================================================================
+FAIL: test_child_workspace_pins_extend_the_graph (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 73, in test_child_workspace_pins_extend_the_graph
+    self.assertIn("fed/c", {r["repository"] for r in report["repositories"] if r["resolved"]})
+AssertionError: 'fed/c' not found in {'fed/b', 'fed/ws', 'fed/reg', 'fed/a'}
+
+======================================================================
+FAIL: test_missing_lake_revision_blocks_pin_synchronization (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 93, in test_missing_lake_revision_blocks_pin_synchronization
+    self.assertIn("PIN-MISSING", codes(report, "BLOCK"))
+AssertionError: 'PIN-MISSING' not found in []
+
+======================================================================
+FAIL: test_newly_opened_local_lake_dependency_is_actually_scanned (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 52, in test_newly_opened_local_lake_dependency_is_actually_scanned
+    self.assertIn("LEAN-DRIFT", codes(report, "BLOCK"))
+AssertionError: 'LEAN-DRIFT' not found in []
+
+======================================================================
+FAIL: test_unheld_reachable_lake_dependency_is_discovered_and_cloned (test_cbz_drift_adversarial_01a103c8.IntentGraphClosureTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "$CHECKOUT/tests/test_cbz_drift_adversarial_01a103c8.py", line 39, in test_unheld_reachable_lake_dependency_is_discovered_and_cloned
+    self.assertIn("fed/c", resolved)
+AssertionError: 'fed/c' not found in {'fed/b', 'fed/ws', 'fed/reg', 'fed/a'}
+
+----------------------------------------------------------------------
+Ran 6 tests in 3.839s
+
+FAILED (failures=6)
