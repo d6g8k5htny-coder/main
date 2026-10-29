@@ -1,0 +1,70 @@
+{
+  "schema": "cbz.source514-recorder-harness-source-review.v1",
+  "observed_utc": "2026-10-29 22:13:05 UTC",
+  "kind": "source-inspection-only",
+  "subject": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "pull_request": 539,
+    "head": "785a71f0b8267d6d11b736dc5f621b1265bd7198",
+    "mutation_runner": {
+      "path": "tools/cbz_source514_mutations.py",
+      "git_blob": "7900c0b5933cb6601e91b13f9538480e51eca3cf"
+    },
+    "tests": {
+      "path": "tests/test_cbz_source514_hosted.py",
+      "git_blob": "2730cdd4b30f912c44fd878804bba7f89836cfc7"
+    },
+    "recorder": {
+      "path": "tools/cbz_source514_hosted.py",
+      "git_blob": "eab17dabd96ee760478f418d86835e668c686e61"
+    },
+    "workflow": {
+      "path": ".github/workflows/cbz-source514-hosted.yml",
+      "git_blob": "36ec4da6742fa8bac499a243c4d34179978d543f"
+    }
+  },
+  "findings": [
+    {
+      "id": "baseline-test-count-unchecked",
+      "lines": "tools/cbz_source514_mutations.py:31-41",
+      "observation": "The baseline decision tests only subprocess returncode. It does not check the test count or test identities, so a zero-test successful unittest result satisfies that individual decision. This is an analysis of the branch condition; no zero-test run of this workflow is asserted.",
+      "boundary": "The subsequent ten mutant invocations have separate one-test checks; this finding alone does not establish that the whole mutation runner accepted a zero-test execution or that any recorded run was false."
+    },
+    {
+      "id": "normal-loader-can-read-caches",
+      "lines": "tools/cbz_source514_mutations.py:33-34,45-50; tests/test_cbz_source514_hosted.py:11-12",
+      "observation": "The runner invokes unittest discovery with -B -S; the tests import the subject through the normal module loader. -B prevents bytecode writes but does not disable reads of pre-existing valid bytecode. Mutant tests are copied into fresh temporary directories, but the workflow does not expressly isolate PYTHONPYCACHEPREFIX.",
+      "boundary": "No poisoned cache or stale bytecode is shown to have existed in the hosted run. The normal loader creates a source-attribution limitation; actual adverse controls are needed."
+    },
+    {
+      "id": "replay-driver-distinct",
+      "lines": "tools/cbz_source514_hosted.py:422-429,435-438,554-560",
+      "observation": "The final recorder separately reads the replay tool bytes, verifies their source hash, and executes them with exec(compile(data,...)); it invokes Lean and validates the captured transcript. This avoids attributing the final driver replay-tool load to the normal import mechanism above.",
+      "boundary": "The final 99-module build/replay step remains in progress at observation; this source inspection does not establish a passing kernel run or auditor soundness."
+    }
+  ],
+  "related_historical_helper": {
+    "workflow_replay_commit": "66c54f8c161c3af467e5d1d715066c96b3a0561b",
+    "independently_compared_commit": "82d9e480a51b946b3e74525ccf32139129d37d28",
+    "matching_git_blobs": {
+      "replay_tool.py": "e06d3de332b3d7d062b7985422dabd38c0f85706",
+      "test_replay_tool.py": "ac8f72d271a95ed5fd9a362661c26b8cd2b5a048",
+      "run_mutations.py": "c83f20c2daa01521c2e3f629e29d99b42e0da54d",
+      "run_lean_selftest.py": "d46b1054614d32315010fac10149419854ae8415"
+    },
+    "boundary": "Historical runner classifier and loader concerns and separate Lean self-test diagnostic-binding limitations remain; passing those workflow steps does not by itself establish A8."
+  },
+  "workflow_observation": {
+    "run": 40959068453,
+    "job": 123746751294,
+    "status": "in_progress",
+    "completed_success_steps": [
+      6,
+      10,
+      12
+    ],
+    "running_step": 13,
+    "qualification": "No final job, kernel replay, or federation gate pass is asserted."
+  },
+  "recommended_next": "Execute targeted adverse controls, repair and rerun the recorder harness if those controls confirm the source conditions, independently inspect the eventual kernel artifact and raw outputs, and qualify any overbroad self-test wording. Preserve historical artifacts and failed tests."
+}

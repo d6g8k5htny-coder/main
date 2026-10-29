@@ -237,3 +237,7 @@ An independent readback identifies the exact historical Python and Lean report a
 ### Further scoped Lean candidates
 
 Math branch `cbz/lifetime-zero-law-integration-20261029` at `36440828402102a840bc6bdffc2e1238ce6e4bea` contains an abstract zero-pair-law countermodel for supplied interfaces and positive length. Run `40964012873` is queued. Math branch `cbz/lifetime-e2-e4-implication-20261029` at `f19b254efae612ad5d4f010908cd615ca8c708fb` proposes that the literal lower predicate E2 implies E4, which itself assumes the literal parent upper predicate; run `40964002205` is queued. Both preserve the fixed packet inventory and propose packet, build, axiom and kernel checks. Neither is yet kernel-verified or proves the intended geometric law or interface existence.
+
+### Source514 recorder qualification limit
+
+Independent source inspection of Math #539's new mutation runner found its baseline condition checks exit status without counting or identifying tests. Its test loader can also read existing bytecode; no zero-test acceptance of the whole runner or actual stale-bytecode execution has been observed. Its separate final replay driver loads checked replay-tool bytes directly. The carrier's description of the historical helper as verified requires qualification before adoption. [Source-level evidence](cbz/evidence/source514-recorder-harness-source-review.json).

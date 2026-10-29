@@ -173,3 +173,5 @@ Append-only. Historical source outcomes remain in their original records.
 [2026-10-29 22:13:12 UTC] [phase2] [layerA] Correct the 307-record quarantine qualification to distinguish mathematical proof boundaries from engineering and fixture blockers. Register two isolated conditional Lean candidates and their queued workflows without closing them. Reversible:yes. Evidence: PROOF_INDEX.md; Math commits 36440828402102a840bc6bdffc2e1238ce6e4bea and f19b254efae612ad5d4f010908cd615ca8c708fb.
 
 [2026-10-29 22:13:35 UTC] [phase1] [layerB] Qualify B-001 cold-start completeness pending G9 and correct the zero-law workflow path before registration. Reversible:yes. Evidence: GOVERNANCE.md, Math commit 36440828402102a840bc6bdffc2e1238ce6e4bea.
+
+[2026-10-29 22:13:51 UTC] [phase3] [layerA] Preserve the independent source514 recorder mutation-harness review. Treat its successful preparatory step as scoped evidence, not auditor qualification, and distinguish it from the replay driver's checked-byte load. Reversible:yes. Evidence: cbz/evidence/source514-recorder-harness-source-review.json.
