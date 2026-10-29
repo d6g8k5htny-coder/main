@@ -68,3 +68,9 @@ only the three approved axioms for each theorem, and ran `leanchecker`
 successfully. [Source-bound observation](../evidence/lifetime-countermodel/observation.json).
 The artifact ZIP has not independently been downloaded; the source has not yet
 been merged to current Math main.
+
+A separate [constant-zero Lean candidate](https://github.com/d6g8k5htny-coder/Math-/tree/cb1fe3d189d94ee207750fc005eadf0596fb9cef) is prepared at
+`cb1fe3d189d94ee207750fc005eadf0596fb9cef`. Its compilation, axiom
+report and kernel recheck have not yet been observed. The source-level
+zero-law argument above remains separate from the two verified constant-one
+declarations.
