@@ -30,6 +30,7 @@ class RequiredCheckTests(unittest.TestCase):
         self.receipt = self.root/'receipt.json'
         self.record = {'checked_commit': self.env['GITHUB_SHA'],
             'repository': self.env['GITHUB_REPOSITORY'], 'workflow_run_id': '123',
+            'workflow_run_attempt': '2',
             'formalization_status': 'kernel-checked', 'scientific_effect':'NONE',
             'manifest_sha256':hashlib.sha256(self.manifest.read_bytes()).hexdigest(),
             'logs':{'build.log':hashlib.sha256(self.log.read_bytes()).hexdigest()}}
@@ -98,6 +99,17 @@ class RequiredCheckTests(unittest.TestCase):
         self.assertEqual(self.receipt.read_bytes(),before)
         self.assertEqual(result['receipt_sha256'],hashlib.sha256(before).hexdigest())
         self.assertEqual(result['run_attempt'],'2')
+    def test_same_run_stale_receipt_attempt_refused(self):
+        self.record['workflow_run_attempt']='1';self.write_receipt()
+        with self.assertRaisesRegex(ValueError,'workflow_run_attempt'):self.binding()
+    def test_missing_receipt_attempt_refused(self):
+        del self.record['workflow_run_attempt'];self.write_receipt()
+        with self.assertRaisesRegex(ValueError,'workflow_run_attempt'):self.binding()
+    def test_malformed_receipt_attempt_refused(self):
+        for value in (None,2,True,'0','02',' 2','2 ','2\n',''):
+            with self.subTest(value=value):
+                self.record['workflow_run_attempt']=value;self.write_receipt()
+                with self.assertRaisesRegex(ValueError,'workflow_run_attempt'):self.binding()
     def test_unproved_receipt_refused(self):
         self.record['formalization_status']='specified';self.write_receipt()
         with self.assertRaises(ValueError):self.binding()

@@ -35,6 +35,7 @@ class RequiredFormalBindingControl(unittest.TestCase):
         self.receipt = self.root / 'receipt.json'
         self.record = {'checked_commit': 'a' * 40, 'repository': 'd6g8k5htny-coder/main',
                        'workflow_run_id': '123', 'formalization_status': 'kernel-checked',
+                       'workflow_run_attempt': '2',
                        'scientific_effect': 'NONE',
                        'manifest_sha256': hashlib.sha256(self.manifest.read_bytes()).hexdigest(),
                        'logs': {'build.log': hashlib.sha256(self.log.read_bytes()).hexdigest()}}
