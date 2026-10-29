@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import functools
 import io
+import inspect
 import json
 import os
 from pathlib import Path
@@ -164,6 +165,24 @@ def classify_test_result(value, code, expected_ids=None):
     return 'ERROR'
 
 
+def ordinary_sync_method(method):
+    """Only ordinary synchronous methods, including every wraps-linked layer."""
+    try:
+        unwrapped=inspect.unwrap(method)
+    except (ValueError,TypeError):
+        return False
+    current=method
+    while True:
+        if not (inspect.isfunction(current) or inspect.ismethod(current)):
+            return False
+        if (inspect.isgeneratorfunction(current) or inspect.iscoroutinefunction(current)
+                or inspect.isasyncgenfunction(current)):
+            return False
+        if current is unwrapped:
+            return True
+        current=getattr(current,'__wrapped__',unwrapped)
+
+
 def inspect_test_population(suite):
     """Discover canonical method identities without calling fixtures or bodies."""
     def leaves(node):
@@ -180,7 +199,7 @@ def inspect_test_population(suite):
         method=getattr(test,'_testMethodName',None)
         canonical=type(test).__module__+'.'+type(test).__qualname__+'.'+str(method)
         selected.append(canonical)
-        if (type(method) is not str or not callable(getattr(test,method,None))
+        if (type(method) is not str or not ordinary_sync_method(getattr(test,method,None))
                 or test.id() != canonical or isinstance(test,unittest.loader._FailedTest)
                 or getattr(test.run,'__func__',None) is not unittest.TestCase.run):
             invalid.append(canonical)
@@ -196,6 +215,8 @@ def execute_test_suite(suite):
     exited, not that its assertion passed. Its phase stays 'body' until unittest
     records the failure, and the following lifecycle wrapper changes the phase.
     Body-scoped subtests carry explicit parent, phase and outcome events.
+    Selected methods must be ordinary synchronous methods and return None;
+    obtaining a lazy call object does not count as executing its deferred body.
     """
     receipt={'receipt_schema':'cbz-unittest-lifecycle-v1',
              'selected_ids':[],'started_ids':[],'finished_ids':[],
@@ -205,6 +226,11 @@ def execute_test_suite(suite):
     population,selected,invalid=inspect_test_population(suite)
     receipt['selected_ids']=selected
     receipt['invalid_population']=invalid
+    if invalid:
+        receipt.update(tests_run=0,assertion_failures=0,errors=0,skipped=0,
+                       expected_failures=0,unexpected_successes=0,successful=False,
+                       log='Refused unsupported selected test population before execution.\n')
+        return receipt
     for test in population:
         if not isinstance(test,unittest.TestCase):
             continue
@@ -229,7 +255,16 @@ def execute_test_suite(suite):
             _test._cbz_body_active=True
             receipt['body_entered_ids'].append(_id)
             try:
-                return _original(*args,**kwargs)
+                value=_original(*args,**kwargs)
+                if value is not None:
+                    receipt['invalid_population'].append('non-None return from selected method: '+_id)
+                    # Closing a fresh native coroutine does not enter its body.
+                    # Never close custom awaitables or advance any lazy object.
+                    if (inspect.iscoroutine(value)
+                            and inspect.getcoroutinestate(value)==inspect.CORO_CREATED):
+                        value.close()
+                    return None
+                return value
             except BaseException as exc:
                 _test._cbz_body_exception=exc
                 raise
