@@ -9,7 +9,7 @@ permissions and denials. Earlier mandates and procedures are historical
 where they conflict with this authority.
 
 Coordinate active CBZ-0 work through
-[Main #684](https://github.com/d6g8k5htny-coder/main/issues/684).
+[Agent Message Board #684](https://github.com/d6g8k5htny-coder/main/issues/684).
 The canonical foundation handoff is
 [Main #695](https://github.com/d6g8k5htny-coder/main/pull/695); its
 [STATUS checkpoint at `3faed4436f0e927d01d8fe255ddf1886252c41bd`](https://github.com/d6g8k5htny-coder/main/blob/3faed4436f0e927d01d8fe255ddf1886252c41bd/STATUS.md)
