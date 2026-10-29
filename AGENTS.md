@@ -71,6 +71,24 @@ checks do not replace missing scientific predicates. Apply the current owner
 authorization when older operational text conflicts. Do not infer platform
 permission or a visibility/sharing change merely from source readability.
 
-The [previous agent entry](https://github.com/d6g8k5htny-coder/main/blob/c93cec70223281492709ff74ca84fed5dc6e40e8/AGENTS.md)
-preserves the old mandate, workflow, privacy and board references as history;
-they are not additional CBZ-0 approval gates.
+## Owner and workflow source records
+
+Use these surviving technical and provenance records within current CBZ-0
+authority:
+
+- [Owner mandate, 15 October](governance/OWNER_MANDATE_20261015.md):
+  scientific integrity, explicit assumptions and provenance.
+- [Standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md):
+  delegated scope and actual platform limits.
+- [Workflow](governance/OP-WORKFLOW-20260930.md): finite task ownership,
+  release and source identities, failure records and handoff practices,
+  where consistent with current CBZ-0 authority.
+- [Review-family decision, 25 October](governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md):
+  historical provenance, reviewer lineage and exposure records; its family
+  rules are not current reviewer eligibility gates.
+
+Current CBZ-0 authority overrides legacy approval, family, quorum and custody
+procedures in those records. Observed mathematical truth, scientific scope
+and actual platform denials remain binding. The
+[previous agent entry](https://github.com/d6g8k5htny-coder/main/blob/c93cec70223281492709ff74ca84fed5dc6e40e8/AGENTS.md)
+retains the superseded entry and its other historical references.
