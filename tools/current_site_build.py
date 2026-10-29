@@ -19,6 +19,8 @@ import tempfile
 from urllib.parse import quote, urlsplit
 
 from current_site_data import parse_json, public_inventory_path, safe_path
+from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
+                                           inventory_legend, acquisition_notice, date_explanation)
 from site_asset_release import transform, without_release
 from current_site_history import (choose_archive, mathematical_projection, mathematical_digest, manifest_bytes,
                                   manifest_plan, render_static_v2, render_live_current_v2,
@@ -169,7 +171,11 @@ def source_list(sources):
                      for source in sources)
 
 
-def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False):
+def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False,
+                    acquisition=None, compact=False, capacity_html="", readable_status=False):
+    """Keep full static rendering stable; reading-page builds explicitly opt into compact detail."""
+    if not archived and acquisition is None:
+        acquisition = project_current_acquisitions(data)
     snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta.get("archive", meta["sha256"])}/'
     node_index = snapshot_prefix + "nodes/index.html" if archived else prefix + "nodes/index.html"
     pins = " · ".join(f'<a href="https://github.com/{escape(repo["repository"])}/tree/{repo["commit"]}">{escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
@@ -178,18 +184,29 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
                       for ref in data["references"])
     controls = ""
     if search:
-        controls = ('<details><summary>Search the current public source inventory</summary>\n'
+        controls = ((inventory_legend() + '<div class="current-acquisition-notice">' + acquisition_notice(acquisition) + '</div>' if not archived else '')
+                    + '<details><summary>Search the current public source inventory</summary>\n'
                     '<label>Source path or repository <input class="current-search" type="search" disabled placeholder="Search after snapshot verification"></label>\n'
                     f'<p class="current-count">{min(8, len(data["sources"]))} of {len(data["sources"])} indexed public files shown. Historical, recovery and operational paths are outside this discovery population.</p>\n'
-                    '<ul class="current-results">\n' + source_list(data["sources"][:8]) + '\n</ul>\n'
+                    + ('<ul class="current-results" aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"][:8], acquisition) if not archived else '<ul class="current-results">\n' + source_list(data["sources"][:8])) + '\n</ul>\n'
                     '<button class="current-more" type="button" hidden>Show more files</button>\n'
                     '<noscript><p>Use the <a href="' + node_index + '#sources">complete static source inventory</a>.</p></noscript>\n</details>')
-    return (f'<section id="current-research" class="current-research" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
-            + ('<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
-            + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
-            f'<p>{pins}</p>\n<p>{refs}</p>\n'
-            f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
-            + controls + '\n</section>')
+    details = (f'<p>{pins}</p>\n<p>{refs}</p>\n'
+               + (date_explanation(data, prefix=prefix, snapshot_prefix=snapshot_prefix) if not archived else '')
+               + f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
+               + (inventory_legend() if compact and not search and not archived else '')
+               + controls + ('\n' + capacity_html if capacity_html else ''))
+    if compact:
+        details = '<details class="current-source-details"><summary>Sources and scope</summary>\n' + details + '\n</details>'
+    heading = ('<h2>Source observation</h2>\n' if compact else
+               '<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
+    status = (f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+              if archived or not readable_status else
+              f'<div role="status"><p class="current-state">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>\n')
+    return (f'<section id="current-research" class="current-research{" current-research-compact" if compact else ""}" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
+            + heading
+            + status
+            + details + '\n</section>')
 
 
 def axes_html(node):
@@ -287,7 +304,7 @@ def static_page(data, meta, title, body, *, archived=False, node_id=None):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{escape(title)} · Research dependency atlas</title>\n'
-            f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
+            f'<link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
             '</head><body><main class="node-static">\n'
             f'<nav aria-label="Research site"><a href="{site_prefix}index.html">Home</a> · <a href="{site_prefix}explore.html">Explore</a> · <a href="{site_prefix}research.html">Research</a> · <a href="{site_prefix}workspace.html#inventory">Library</a> · <a href="{site_prefix}dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Static graph index</a></nav>\n'
             + current_section(data, meta, prefix=site_prefix, search=False,
@@ -388,14 +405,36 @@ def ensure_render_budget(data, meta):
     return 2 * (total_nodes + index + meta["bytes"] + 1024)
 
 
-def build(site, payload):
+def build(site, payload, *, native_graph_archive=None, native_graph_expected=None,
+          native_graph_source=None, build_repository=None, build_commit=None):
     site = site.resolve()
     if not site.is_dir():
         raise ValueError("site must be an existing directory")
+    native_values = (native_graph_archive, native_graph_expected, native_graph_source,
+                     build_repository, build_commit)
+    native_mode = any(value is not None for value in native_values)
+    if native_mode:
+        if any(type(value) is not kind for value, kind in
+               zip(native_values, (bytes, dict, bytes, str, str))):
+            raise ValueError("native graph build requires all five inputs with exact types")
+    elif any(os.path.lexists(site / name) for name in
+             ("proof-tree.html", "current-build-manifest.json", "native-graph")):
+        raise ValueError("existing native graph outputs require a complete native build")
     if payload.stat().st_size > MAX_PAYLOAD:
         raise ValueError("current payload exceeds its admitted byte bound")
     raw = payload.read_bytes()
     data = validate_payload(parse_json(raw))
+    native_outputs = {}
+    if native_mode:
+        # Direct tools/current_site_build.py execution initially exposes tools/.
+        repository_root = str(Path(__file__).resolve().parents[1])
+        if repository_root not in sys.path:
+            sys.path.insert(0, repository_root)
+        from architecture.site_graph_bundle import build_native_graph_bundle
+        native_outputs = build_native_graph_bundle(
+            native_graph_archive, native_graph_expected, native_graph_source,
+            build_repository=build_repository, build_commit=build_commit,
+            current_payload_bytes=raw)
     fresh_meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
     chosen = choose_archive(site, data)
     archive_id = chosen["id"] if chosen else mathematical_digest(data)
@@ -410,7 +449,8 @@ def build(site, payload):
         ensure_render_budget(projection, archive_meta)
         archive = {"current.json": projection_raw, "current-meta.json": manifest_bytes(archive_meta),
                    **render_static_v2(projection, archive_meta, archived=True)}
-    aliases = render_live_current_v2(data, meta)
+    acquisition = project_current_acquisitions(data)
+    aliases = render_live_current_v2(data, meta, acquisition=acquisition)
     planned, all_aliases, _ = manifest_plan(site, data, meta, raw, aliases, archive)
     capacity = planned["capacity"]
     capacity_html = (f'<p class="current-capacity">History capacity: {capacity["snapshots"]} of {capacity["maximum_snapshots"]} mathematical archives; '
@@ -418,7 +458,27 @@ def build(site, payload):
                      + ('Capacity warning: at least 75% of the archive or byte limit is used. Further versions will refuse publication at capacity; no history is pruned.'
                         if capacity["warning"] else 'Publication refuses additional versions at capacity; no history is pruned.') + '</p>')
     outputs = {"current.json": raw, "current-meta.json": manifest_bytes(meta), **all_aliases}
-    pages = sorted(site.glob("*.html"))
+    outputs.update(native_outputs)
+    existing_native_assets = []
+    if native_mode:
+        # Check every native ancestor before opening any existing native asset.
+        native_parents = {parent for name in native_outputs
+                          for parent in (site / name).parents
+                          if parent != site and parent.is_relative_to(site)}
+        for directory in sorted(native_parents, key=lambda path: len(path.parts)):
+            if directory.is_symlink() or (os.path.lexists(directory) and not directory.is_dir()):
+                raise ValueError("unavailable native graph namespace refused")
+        for name, content in native_outputs.items():
+            target = site / name
+            if os.path.lexists(target):
+                if target.is_symlink() or not target.is_file():
+                    raise ValueError("native graph destination is not a regular nonsymlink file")
+                if name.startswith("native-graph/"):
+                    if target.read_bytes() != content:
+                        raise ValueError("immutable native graph asset conflict; no repair inferred")
+                    existing_native_assets.append(name)
+    pages = sorted(page for page in site.glob("*.html")
+                   if not (native_mode and page.name == "proof-tree.html"))
     if not pages:
         raise ValueError("site has no main HTML pages")
     for page in pages:
@@ -429,9 +489,17 @@ def build(site, payload):
             raise ValueError(f"{page.name}: exactly one ordered CURRENT-SITE marker pair is required")
         start = original.index(START) + len(START)
         end = original.index(END)
-        script_free = page.name in ("research.html", "formal.html") or bool(re.search(
+        script_blocked = bool(re.search(
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
-        section = current_section(data, meta, search=not script_free).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
+        search_enabled = page.name not in ("research.html", "formal.html") and not script_blocked
+        section = current_section(data, meta, search=search_enabled, acquisition=acquisition,
+                                  compact=True, capacity_html=capacity_html, readable_status=True).encode("utf-8")
+        if page.name == "research.html":
+            if script_blocked:
+                raise ValueError("research.html: current freshness loader requires a script-enabled CSP")
+            section = section.replace(
+                b"\n</section>",
+                b'\n<script type="module" src="current.mjs"></script>\n</section>')
         outputs[page.name] = original[:start] + b"\n" + section + b"\n" + original[end:]
     archive_relative = f'snapshots/{archive_id}'
     archive_outputs = ({f"{archive_relative}/{name}": content for name, content in archive.items()} if archive else {})
@@ -443,6 +511,10 @@ def build(site, payload):
             raise ValueError("unavailable generated file destination refused")
         if target.is_symlink() or any(parent.is_symlink() for parent in target.parents if parent != site and parent.is_relative_to(site)):
             raise ValueError("symlinked generated target refused")
+    # All native targets passed the common destination preflight. Keep already
+    # admitted archive-addressed assets untouched; only current aliases refresh.
+    for name in existing_native_assets:
+        del outputs[name]
     if (site / archive_relative).exists():
         if not chosen:
             admit_existing_archive(site / archive_relative, archive)

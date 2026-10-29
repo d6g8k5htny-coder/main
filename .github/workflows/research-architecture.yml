@@ -36,8 +36,8 @@ jobs:
   graph:
     name: research-architecture
     runs-on: ubuntu-24.04
-    # Complete stage ceiling: 19 preparation + 11 tests + fourteen 1-minute stages.
-    timeout-minutes: 44
+    # Complete stage ceiling: 19 preparation + 16 tests + 5 checkout + thirteen 1-minute stages.
+    timeout-minutes: 53
     outputs:
       checked_commit: ${{ steps.accepted.outputs.checked_commit }}
       repository: ${{ steps.accepted.outputs.repository }}
@@ -49,7 +49,7 @@ jobs:
       artifact_name: ${{ steps.accepted.outputs.artifact_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        timeout-minutes: 1
+        timeout-minutes: 5
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -311,17 +311,17 @@ jobs:
           printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$RUNNER_TEMP/architecture-publish/run-attempt.txt"
       - name: Run controls and export in ephemeral restricted container
         id: architecture_controls
-        timeout-minutes: 11
+        timeout-minutes: 16
         env:
           IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
         run: |
           set -euo pipefail
           set +e
-          timeout --signal=TERM --kill-after=10s 600s docker run --pull=never --rm --log-driver none --name architecture-controls \
+          timeout --signal=TERM --kill-after=10s 900s docker run --pull=never --rm --log-driver none --name architecture-controls \
             --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
             --cap-drop ALL --security-opt no-new-privileges \
             --env ARCHITECTURE_SANDBOX=1 \
-            --tmpfs /tmp:rw,noexec,nosuid,size=64m \
+            --tmpfs /tmp:rw,noexec,nosuid,size=128m \
             --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
             --mount type=bind,source="$RUNNER_TEMP/architecture-evidence/container",target=/output \
             --workdir /source "$IMAGE" sh -c '

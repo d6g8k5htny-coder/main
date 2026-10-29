@@ -8,7 +8,7 @@ hashes asset-release-normalized HTML, exact JSON and exact deterministic ZIP
 bytes. Restore admits all downloads and the durable manifest pin before writes.
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 from html.parser import HTMLParser
 import io
@@ -16,18 +16,29 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import email.utils
+import random
 import stat
 import tempfile
+import time
 import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
 import zipfile
+from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
+                                           inventory_legend, acquisition_notice, date_explanation)
+from validate_node_status import EVIDENCE_URL_PATTERN
 
 from current_site_data import parse_json
 from site_asset_release import transform, without_release
 
 ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/"
 MAX_SNAPSHOTS = 512
+TRANSIENT_HTTP = frozenset({429, 500, 502, 503, 504})
+GET_RETRY_ATTEMPTS = 4
+GET_RETRY_BUDGET_SECONDS = 30
+GET_RETRY_BACKOFF_SECONDS = (2, 4, 8)
+GET_RETRY_JITTER_SECONDS = 0.25
 MAX_HISTORY_BYTES = 768 * 1024 * 1024
 MAX_FILE_BYTES = 16 * 1024 * 1024
 MAX_MEMBERS = 20006
@@ -506,11 +517,78 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise ValueError("public history redirect refused")
 
 
+def _default_jitter():
+    return random.uniform(0.0, GET_RETRY_JITTER_SECONDS)
+
+
+def _note_http_error(error, url):
+    marker = "[" + url + "]"
+    message = str(error.msg or "")
+    if marker not in message:
+        error.msg = (message + " " + marker).strip()
+    error.filename = url
+    return error
+
+
+def _note_url_error(error, url):
+    marker = "[" + url + "]"
+    reason = getattr(error, "reason", error)
+    text = str(reason)
+    if marker not in text:
+        text = text + " " + marker
+    noted = urllib.error.URLError(text)
+    noted.filename = url
+    return noted
+
+
+def _retry_after_seconds(headers, now):
+    if headers is None or not hasattr(headers, "get"):
+        return None
+    raw = headers.get("Retry-After")
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if re.fullmatch(r"[0-9]+", text):
+        return int(text)
+    if re.fullmatch(r"[0-9]+\.[0-9]+", text):
+        return float(text)
+    try:
+        parsed = email.utils.parsedate_to_datetime(text)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delay = (parsed - now).total_seconds()
+    return 0 if delay < 0 else delay
+
+
+def _retry_delay(failed_attempt, retry_after, elapsed, jitter):
+    remaining = GET_RETRY_BUDGET_SECONDS - elapsed
+    if remaining <= 0:
+        return None
+    if retry_after is not None:
+        if retry_after >= remaining:
+            return None
+        return retry_after
+    if failed_attempt >= len(GET_RETRY_BACKOFF_SECONDS):
+        return None
+    delay = GET_RETRY_BACKOFF_SECONDS[failed_attempt] + jitter
+    if delay >= remaining:
+        return None
+    return delay
+
+
 class HistoryReader:
-    def __init__(self, opener=None):
+    def __init__(self, opener=None, *, pause=time.sleep, clock=time.monotonic, jitter=None, now=None):
         self.opener = opener or urllib.request.build_opener(NoRedirect())
         self.requests = 0
         self.total_bytes = 0
+        self.pause = pause
+        self.clock = clock
+        self.jitter = _default_jitter if jitter is None else jitter
+        self.now = (lambda: datetime.now(timezone.utc)) if now is None else now
 
     def get_bytes(self, path):
         if path not in ("snapshots/index.json", "current-meta.json", "current.json") and not re.fullmatch(
@@ -518,26 +596,74 @@ class HistoryReader:
             raise ValueError("nonpublic history request path refused")
         if self.requests >= MAX_SNAPSHOTS + 3:
             raise ValueError("history request capacity exceeded")
+        # One logical Pages GET. Retries do not consume MAX_SNAPSHOTS + 3, so a
+        # full restore can still absorb a transient 503. This is HistoryReader,
+        # not publication.PublicReader; public_readback retries that other path.
         self.requests += 1
         url = ORIGIN + path
         request = urllib.request.Request(url, headers={"User-Agent": "current-site-public-history",
                                                       "Cache-Control": "no-cache", "Pragma": "no-cache",
                                                       "Accept-Encoding": "identity"})
-        with self.opener.open(request, timeout=20) as response:
-            if response.geturl() != url or response.status != 200:
-                raise ValueError("public history response identity mismatch")
-            encoding = response.headers.get("Content-Encoding", "identity")
-            if encoding not in ("", "identity"):
-                raise ValueError("encoded public history response refused")
-            length = response.headers.get("Content-Length")
-            if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
-                raise ValueError("history response byte bound exceeded")
-            raw = response.read(MAX_FILE_BYTES + 1)
+        raw, length = self._read_exchange(request)
         self.total_bytes += len(raw)
         if (len(raw) > MAX_FILE_BYTES or (length is not None and len(raw) != int(length))
                 or self.total_bytes > MAX_HISTORY_BYTES + 3 * MAX_FILE_BYTES):
-            raise ValueError("history response byte bound exceeded")
+            raise ValueError(f"history response byte bound exceeded [{url}]")
         return raw
+
+    def _read_exchange(self, outbound):
+        url = outbound.full_url
+        started = self.clock()
+        last_error = None
+        for attempt in range(GET_RETRY_ATTEMPTS):
+            elapsed = self.clock() - started
+            if attempt and elapsed >= GET_RETRY_BUDGET_SECONDS:
+                break
+            timeout = 20 if attempt == 0 else min(20, GET_RETRY_BUDGET_SECONDS - elapsed)
+            retry_after = None
+            try:
+                with self.opener.open(outbound, timeout=timeout) as response:
+                    if response.geturl() != url:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    status = response.status
+                    headers = response.headers
+                    if status in TRANSIENT_HTTP:
+                        last_error = urllib.error.HTTPError(
+                            url, status, f"transient HTTP {status} [{url}]", headers, None)
+                        retry_after = _retry_after_seconds(headers, self.now())
+                    elif status != 200:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    else:
+                        encoding = headers.get("Content-Encoding", "identity")
+                        if encoding not in ("", "identity"):
+                            raise ValueError(f"encoded public history response refused [{url}]")
+                        length = headers.get("Content-Length")
+                        if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
+                            raise ValueError(f"history response byte bound exceeded [{url}]")
+                        return response.read(MAX_FILE_BYTES + 1), length
+            except urllib.error.HTTPError as error:
+                _note_http_error(error, url)
+                if error.code not in TRANSIENT_HTTP or attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise
+                last_error = error
+                retry_after = _retry_after_seconds(getattr(error, "headers", None), self.now())
+            except (urllib.error.URLError, TimeoutError) as error:
+                last_error = _note_url_error(error, url)
+                if attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise last_error from error
+                retry_after = None
+            if last_error is None:
+                raise ValueError(f"public history transient failure [{url}]")
+            if attempt + 1 == GET_RETRY_ATTEMPTS:
+                raise last_error
+            jitter = 0 if retry_after is not None else self.jitter()
+            delay = _retry_delay(attempt, retry_after, self.clock() - started, jitter)
+            if delay is None:
+                raise last_error
+            self.pause(delay)
+        if last_error is not None:
+            raise last_error
+        raise ValueError(f"public history transient retry budget exceeded [{url}]")
 
 
 class StaticHTML(HTMLParser):
@@ -990,7 +1116,7 @@ def remote_metadata(reader, *, missing_allowed=False):
     except urllib.error.HTTPError as error:
         if error.code == 404 and missing_allowed:
             return None
-        raise ValueError("published history metadata unavailable") from error
+        raise ValueError("published history metadata unavailable: " + str(error)) from error
     meta = parse_json(raw)
     if not isinstance(meta, dict):
         raise ValueError("malformed published history metadata")
@@ -1003,6 +1129,53 @@ def remote_metadata(reader, *, missing_allowed=False):
     if type(meta["bytes"]) is not int or not 0 <= meta["bytes"] <= MAX_FILE_BYTES:
         raise ValueError("invalid published payload byte count")
     return meta
+
+
+def _alias_descriptor(alias):
+    return {k: alias[k] for k in ("path", "bytes", "sha256")}
+
+
+def _restore_v2_historical_pages(data, meta, aliases):
+    """Re-render v2 removed-node convenience pages for an exact published match.
+
+    New routes emit style.css before brand.css. A predecessor publication of the
+    same route emitted brand.css before style.css. Keep the predecessor bytes
+    only when their descriptor equals the published alias. Any other difference
+    stays in the new rendering so the caller's exact descriptor check still fails.
+    """
+    pages = render_static_v2(data, meta, archived=False)
+    pending = [alias for alias in aliases if descriptor(alias["path"], pages.get(alias["path"], b"")) != _alias_descriptor(alias)]
+    if not pending:
+        return pages
+    legacy = render_static_v2(data, meta, archived=False, style_first=False)
+    for alias in pending:
+        content = legacy.get(alias["path"])
+        if content is not None and descriptor(alias["path"], content) == _alias_descriptor(alias):
+            pages[alias["path"]] = content
+    return pages
+
+
+def _restore_v2_live_pages(data, meta, expected):
+    """Select a known presentation only by its complete published descriptors.
+
+    Continuation pointers are presentation inputs too. Keep the pre-R1 table
+    available for already-published observations; current builds use the current
+    table. Neither an observation date nor a partial match selects old bytes.
+    """
+    # Reuse this pure projection only within this call's immutable input.
+    acquisition = None
+    for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
+        for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            if annotations and acquisition is None:
+                acquisition = project_current_acquisitions(data)
+            for readable_status in (True, False):
+                pages = render_live_current_v2(
+                    data, meta, annotations=annotations, style_first=style_first,
+                    resume=resume, task_records=task_records, readable_status=readable_status,
+                    acquisition=acquisition)
+                if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
+                    return pages
+    raise ValueError("live static reading does not match the exact observation")
 
 
 def restore_history(site, reader=None, expected_manifest_sha=None):
@@ -1029,7 +1202,7 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         raw_manifest = reader.get_bytes("snapshots/index.json")
     except urllib.error.HTTPError as error:
         if error.code != 404:
-            raise ValueError("published history manifest unavailable") from error
+            raise ValueError("published history manifest unavailable: " + str(error)) from error
         if expected_manifest_sha is not None:
             raise ValueError("published manifest pin is unavailable; bootstrap refused") from error
         remote = remote_metadata(reader, missing_allowed=True)
@@ -1077,16 +1250,19 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         if data["observed_at"] != remote["observed_at"] or mathematical_digest(data) != mathematical_digest(data_by_id[manifest["current"]]):
             raise ValueError("published current observation has different mathematical material")
         ensure_render_budget(data, remote)
-        live = render_live_current_v2(data, remote)
-        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
-            raise ValueError("live static reading does not match the exact observation")
+        # Only an exact complete map can select a predecessor presentation.
+        # Current builds keep annotations, the Resume block and style-first output by default.
+        live = _restore_v2_live_pages(data, remote, manifest["current_observation"]["files"])
         historical = {}
         for entry in manifest["archives"]:
             snapshot = entry["id"]
             members = members_by_id[snapshot]
             archived_meta = parse_json(members["current-meta.json"])
             historical[snapshot] = ({n[len("aliases/"):]: b for n, b in members.items() if n.startswith("aliases/")}
-                                    if entry.get("archive_version", 1) == 1 else render_static_v2(data_by_id[snapshot], archived_meta, archived=False))
+                                    if entry.get("archive_version", 1) == 1 else
+                                    _restore_v2_historical_pages(data_by_id[snapshot], archived_meta,
+                                                                 [alias for alias in manifest["aliases"]
+                                                                  if alias["snapshot"] == snapshot and alias["binding"] == "archive"]))
         for alias in manifest["aliases"]:
             content = live.get(alias["path"]) if alias["binding"] == "current_observation" else historical[alias["snapshot"]].get(alias["path"])
             if content is None or descriptor(alias["path"], content) != {k: alias[k] for k in ("path", "bytes", "sha256")}:
@@ -1367,8 +1543,14 @@ def _v2_node_sources(projection, node):
     return "\n".join(lines)
 
 
-def _v2_static_page(projection, meta, title, body, *, archived, node_id=None):
+def _v2_static_page(projection, meta, title, body, *, archived, node_id=None, style_first=None):
     site_prefix = "../../../" if archived else "../"
+    # Immutable snapshot pages stay brand-first. Live removed-node routes are
+    # style-first unless a predecessor publication is being matched exactly.
+    if archived:
+        style_first = False
+    elif style_first is None:
+        style_first = True
     archive_id = meta["mathematical_sha256"]
     snapshot_prefix = "../" if archived else f"../snapshots/{archive_id}/"
     record = f"{node_id}.html" if node_id is not None else "index.html"
@@ -1381,8 +1563,10 @@ def _v2_static_page(projection, meta, title, body, *, archived, node_id=None):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Historical mathematical dependency atlas</title>\n'
-            f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
-            '</head><body><main class="node-static">\n'
+            + (f'<link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
+               if style_first else
+               f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n')
+            + '</head><body><main class="node-static">\n'
             f'<nav aria-label="Research site"><a href="{site_prefix}index.html">Home</a> · <a href="{site_prefix}explore.html">Explore</a> · <a href="{site_prefix}research.html">Research</a> · <a href="{site_prefix}workspace.html#inventory">Library</a> · <a href="{site_prefix}dependencies.html#current-atlas">Current dependencies</a> · <a href="{_v1_escape(graph_index)}">Historical static graph index</a></nav>\n'
             + _v2_material_section(projection, meta, site_prefix=site_prefix, snapshot_prefix=snapshot_prefix)
             + '\n' + disclosure
@@ -1410,7 +1594,7 @@ def _v2_equation_collection(projection):
     return "\n".join(parts)
 
 
-def render_static_v2(projection, meta, *, archived=True):
+def render_static_v2(projection, meta, *, archived=True, style_first=None):
     """Render frozen research-static-v2 compact mathematical-material pages.
 
     The archived form is retained in v2 bundles. The convenience form is used
@@ -1430,7 +1614,7 @@ def render_static_v2(projection, meta, *, archived=True):
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(projection, node_id, prefix=node_prefix))
-        pages[f"nodes/{node_id}.html"] = _v2_static_page(projection, meta, node_id, body, archived=archived, node_id=node_id)
+        pages[f"nodes/{node_id}.html"] = _v2_static_page(projection, meta, node_id, body, archived=archived, node_id=node_id, style_first=style_first)
     items = "\n".join(f'<li><a href="{_v1_escape(node_prefix)}{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1441,56 +1625,278 @@ def render_static_v2(projection, meta, *, archived=True):
             f'<p>{len(projection["sources"])} selected graph, node source/review and equation source files are retained in this mathematical-material-only projection.</p>\n<ul>\n'
             + _v1_source_list(projection["sources"]) + '\n</ul>\n'
             + _v2_equation_collection(projection))
-    pages["nodes/index.html"] = _v2_static_page(projection, meta, "Historical graph, equation excerpts and selected sources", body, archived=archived)
+    pages["nodes/index.html"] = _v2_static_page(projection, meta, "Historical graph, equation excerpts and selected sources", body, archived=archived, style_first=style_first)
     return pages
 
 
 # Repository-owned live renderer. Current routes bind the full fresh observation;
 # the separately named historical link retains its own original pins and date.
 LIVE_RENDERER_V2 = "research-live-static-v2"
+# (annotations, style_first, resume) for each published live presentation: the
+# current default first, then predecessors without the Resume block or annotations.
+LIVE_PRESENTATIONS = ((True, True, True), (True, False, True), (True, True, False),
+                      (True, False, False), (False, True, False), (False, False, False))
 
 
-def _live_v2_current_section(data, meta):
+def _live_v2_current_section(data, meta, *, annotations=True, readable_status=True):
     pins = " · ".join(f'<a href="https://github.com/{_v1_escape(repo["repository"])}/tree/{repo["commit"]}">{_v1_escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{_v1_escape(_v1_source_url(ref))}">{_v1_escape(ref.get("label", ref["path"]))}</a>'
                       for ref in data["references"])
     archive = _v1_escape(meta["archive"])
+    status = (f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n')
+    if readable_status:
+        status = '<div role="status">' + status.replace(' role="status"', '', 1).rstrip('\n') + '</div>\n'
     return (f'<section id="current-research" class="current-research" data-current-digest="{_v1_escape(meta["sha256"])}" data-current-bytes="{_v1_escape(meta["bytes"])}">\n'
             '<h2>Current research sources</h2>\n'
-            f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + status +
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
+            + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
+            +
             '<p><a href="../dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="index.html">Current static graph and complete source inventory</a> · <a href="../current.json">Exact current source observation payload</a>. Scientific effect: NONE.</p>\n'
             f'<p><a href="../snapshots/{archive}/nodes/index.html">Historical mathematical material (original pins and observation)</a>.</p>\n'
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True, readable_status=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Current research dependency atlas</title>\n'
-            '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n'
-            '</head><body><main class="node-static">\n'
+            + ('<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../current.css">\n'
+               if style_first else
+               '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
+            + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
-            + _live_v2_current_section(data, meta)
+            + _live_v2_current_section(data, meta, annotations=annotations, readable_status=readable_status)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
-def render_live_current_v2(data, meta):
+RESUME_NOT_RECORDED = "not recorded in this snapshot"
+RESUME_FRESHNESS_WARNING = ("Refresh from the live canonical record before any ownership- or head-dependent action. "
+                            "This block is a dated snapshot observation, not live task state.")
+RESUME_REVIEW_LABEL = ("Recorded review metadata. This is a review record, not the current task, an owner claim or a "
+                       "completion record. A closed or accepted review does not establish that work on this node is finished.")
+RESUME_OPERATIONAL = (("next_action", "Next action"), ("missing_input", "Missing input"),
+                      ("owner_evidence", "Owner evidence"), ("retained_stop", "Retained stop"))
+RESUME_ISSUE_NOTE = "Issue number recorded without a repository in this snapshot; no link is inferred."
+RESUME_NO_TASK = "No explicitly identified task record for this node. A recorded review issue is not used as a task record."
+# Frozen pre-R1 presentation input. Do not advance this table with current links.
+_RESUME_TASK_RECORDS_V1 = {
+    "math.d5-component.punctured-pin-proof": {
+        "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
+        "label": "Operational request: main#327 comment 6321244764",
+        "meaning": ("A request for a source-only registration input for this node. It is an operational pointer, not "
+                    "scientific acceptance, source-binding admission, a registration or an owner claim."),
+        "identified_on": "2026-10-21",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618",
+    },
+}
+# Site-maintained current pointers, not graph metadata. The JavaScript table matches.
+RESUME_TASK_RECORDS = {
+    **{node: dict(record) for node, record in _RESUME_TASK_RECORDS_V1.items()},
+    "math.lifetime-remainder": {
+        "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961",
+        "label": "Operational continuation: Math-#193 R1 integration closeout",
+        "meaning": ("Continuation from the merged conditional R1 far-sector addendum for d=2, L=24. It is an "
+                    "operational pointer, not scientific acceptance, source-binding admission, R81/R83 adoption, "
+                    "completion of the general Theorem R remainder claim or an owner claim."),
+        "identified_on": "2026-10-22",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396",
+    },
+}
+_RESUME_REVIEW_URL = re.compile(r"https://github\.com/d6g8k5htny-coder/(?:main|Math-)/(?:issues|pull)/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?")
+
+
+def _resume_text(value):
+    return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
+_NODE_STATUS_FORBIDDEN = frozenset({
+    "lemma_closed", "prizes_solved", "discharges_OBL_H5_JETMOD", "certified_C_H",
+    "freeze", "inventable_attempt_accepted"})
+_NODE_STATUS_STATE = re.compile(r"(?:fresh|stale|unknown)\Z")
+_NODE_STATUS_OBSERVED = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
+_NODE_STATUS_EVIDENCE = re.compile(EVIDENCE_URL_PATTERN)
+_NODE_STATUS_STALE_MS = 24 * 60 * 60 * 1000
+
+
+def _node_status_forbidden(value):
+    if isinstance(value, dict):
+        return any(key in _NODE_STATUS_FORBIDDEN or _node_status_forbidden(item) for key, item in value.items())
+    if isinstance(value, list):
+        return any(_node_status_forbidden(item) for item in value)
+    return False
+
+
+def _node_status_record(status_records, node_id):
+    """Optional current view. An owner without evidence_url drops the whole record."""
+    if not isinstance(status_records, dict) or node_id not in status_records:
+        return None
+    record = status_records[node_id]
+    if (not isinstance(record, dict) or record.get("scientific_effect") != "NONE"
+            or _node_status_forbidden(record) or "owner" not in record):
+        return None
+    owner = record["owner"]
+    if owner is not None and (not isinstance(owner, dict) or not isinstance(owner.get("id"), str) or not owner.get("id")
+                              or not isinstance(owner.get("evidence_url"), str) or not owner.get("evidence_url")):
+        return None
+    return record
+
+
+def _node_status_list(value):
+    if isinstance(value, list) and value and all(isinstance(item, str) and item for item in value):
+        return "; ".join(value)
+    return None
+
+
+def _node_status_evidence(url):
+    return url if isinstance(url, str) and _NODE_STATUS_EVIDENCE.fullmatch(url) else None
+
+
+def _node_status_note(record, now):
+    recorded = record.get("status")
+    observed = record.get("observed_at")
+    if not (isinstance(recorded, str) and _NODE_STATUS_STATE.fullmatch(recorded)
+            and isinstance(observed, str) and _NODE_STATUS_OBSERVED.fullmatch(observed)):
+        return None
+    shown = recorded
+    if isinstance(now, (int, float)) and not isinstance(now, bool):
+        try:
+            parsed = datetime.strptime(observed, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        except ValueError:
+            parsed = None
+        if parsed is not None:
+            age = now - int(parsed.timestamp()) * 1000
+            if age > _NODE_STATUS_STALE_MS:
+                shown = "stale"
+    return (f"Node-status view {shown} as of {observed}. Recorded status {recorded}. "
+            "Scientific effect NONE. Freshness is not scientific validity.")
+
+
+def _node_status_operational(record, now=None):
+    owner = record["owner"]
+    rows = []
+    for field, label in RESUME_OPERATIONAL:
+        row = {"field": field, "label": label, "text": RESUME_NOT_RECORDED}
+        if field == "next_action" and isinstance(record.get("next_action"), str) and record["next_action"]:
+            row["text"] = record["next_action"]
+            note = _node_status_note(record, now)
+            if note:
+                row["note"] = note
+        elif field == "missing_input":
+            text = _node_status_list(record.get("missing_input"))
+            if text:
+                row["text"] = text
+        elif field == "owner_evidence":
+            if owner is None:
+                row["text"] = "No owner recorded in this node-status view."
+            elif isinstance(owner, dict) and "released_url" in owner:
+                row["text"] = "released"
+                link = _node_status_evidence(owner.get("released_url"))
+                if link:
+                    row["url"] = link
+                elif isinstance(owner.get("released_url"), str) and owner["released_url"]:
+                    row["text"] = owner["released_url"]
+            elif isinstance(owner, dict):
+                link = _node_status_evidence(owner.get("evidence_url"))
+                if link:
+                    row["text"] = owner["id"]
+                    row["url"] = link
+                elif isinstance(owner.get("evidence_url"), str) and owner["evidence_url"]:
+                    row["text"] = owner["evidence_url"]
+        elif field == "retained_stop":
+            row["text"] = _node_status_list(record.get("stops")) or "No retained stop recorded in this node-status view."
+        rows.append(row)
+    return rows
+
+
+def resume_projection(data, node_id, status_records=None, now=None, *, task_records=None):
+    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness.
+
+    status_records is the optional node-status map. The snapshot-only call matches the
+    JavaScript default and is what static pages render. now is the render clock in
+    milliseconds, used only for the node-status stale display.
+    """
+    nodes = data["graph"]["data"]["nodes"]
+    if not isinstance(node_id, str) or node_id not in nodes:
+        return None
+    node, identity = nodes[node_id], data["graph"]["identity"]
+    task = (RESUME_TASK_RECORDS if task_records is None else task_records).get(node_id)
+    main = next((repo["commit"] for repo in data["repositories"] if repo["repository"] == "d6g8k5htny-coder/main"), None)
+    record = _node_status_record(status_records, node_id)
+    return {
+        "node": node_id,
+        "snapshot": {"observed_at": data["observed_at"], "graph_repository": identity["repository"],
+                     "graph_commit": identity["commit"], "graph_path": identity["path"],
+                     "graph_sha256": identity["sha256"], "main_commit": main},
+        "freshness": None, "warning": RESUME_FRESHNESS_WARNING,
+        "state": [{"field": field, "text": _resume_text(node[field]) if node.get(field) is not None else RESUME_NOT_RECORDED}
+                  for field in ("classification", "controlling")],
+        "review": {"label": RESUME_REVIEW_LABEL, "fields": [
+            {"field": field, "text": _resume_text(value),
+             "url": value if isinstance(value, str) and _RESUME_REVIEW_URL.fullmatch(value) else None,
+             "note": RESUME_ISSUE_NOTE if field == "review_issue" and isinstance(value, (int, float)) and not isinstance(value, bool) else None}
+            for field, value in node.items() if field.startswith("review_")]},
+        "operational": _node_status_operational(record, now) if record else [
+            {"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
+        "continuation": dict(task) if task else None,
+        "continuation_text": None if task else RESUME_NO_TASK,
+    }
+
+
+def _resume_html(view):
+    snapshot = view["snapshot"]
+    def _href(item):
+        url = item.get("url")
+        if not isinstance(url, str) or not url:
+            return None
+        if item.get("field") == "owner_evidence" and not _NODE_STATUS_EVIDENCE.fullmatch(url):
+            return None
+        return url
+
+    rows = lambda items: "".join(f'<dt>{_v1_escape(item.get("label", item["field"]))}</dt><dd>' + (
+        f'<a href="{_v1_escape(_href(item))}">{_v1_escape(item["text"])}</a>' if _href(item) else f'<code>{_v1_escape(item["text"])}</code>')
+        + (f' {_v1_escape(item["note"])}' if item.get("note") else "") + '</dd>' for item in items)
+    review = (f'<dl class="resume-fields">{rows(view["review"]["fields"])}</dl>' if view["review"]["fields"]
+              else f'<p>Review metadata: <code>{RESUME_NOT_RECORDED}</code>.</p>')
+    task = view["continuation"]
+    continuation = (f'<p><a href="{_v1_escape(task["url"])}">{_v1_escape(task["label"])}</a>. {_v1_escape(task["meaning"])} '
+                    f'Site-maintained pointer, not part of the graph snapshot; identified on <time datetime="{_v1_escape(task["identified_on"])}">{_v1_escape(task["identified_on"])}</time> '
+                    f'in <a href="{_v1_escape(task["identified_in"])}">the coordinator\'s activation record</a>. The linked comment is mutable; read it live before acting.</p>'
+                    if task else f'<p>{_v1_escape(view["continuation_text"])}</p>')
+    return ('<section id="resume-node" class="resume-node" aria-labelledby="resume-node-heading">\n'
+            '<h2 id="resume-node-heading">Resume this node</h2>\n'
+            f'<p class="resume-warning"><strong>As of <time datetime="{_v1_escape(snapshot["observed_at"])}">{_v1_escape(snapshot["observed_at"])}</time>.</strong> '
+            f'{_v1_escape(view["warning"])} Compare this date with the present time; this static page cannot evaluate freshness.</p>\n'
+            f'<p>Snapshot identity: graph <code>{_v1_escape(snapshot["graph_repository"])}</code> commit <code>{_v1_escape(snapshot["graph_commit"])}</code> · '
+            f'<code>{_v1_escape(snapshot["graph_path"])}</code> · SHA-256 <code>{_v1_escape(snapshot["graph_sha256"])}</code> · '
+            f'main commit <code>{_v1_escape(snapshot["main_commit"] or RESUME_NOT_RECORDED)}</code>.</p>\n'
+            f'<h3>Recorded graph state</h3>\n<dl class="resume-fields">{rows(view["state"])}</dl>\n'
+            f'<h3>Recorded review record</h3>\n<p>{_v1_escape(view["review"]["label"])}</p>\n{review}\n'
+            f'<h3>Operational task state</h3>\n<dl class="resume-fields">{rows(view["operational"])}</dl>\n'
+            f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
+
+
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None, readable_status=True):
     """Render current static routes from the full fresh schema-1 observation."""
+    if resume is None:
+        resume = annotations
+    if annotations and acquisition is None:
+        acquisition = project_current_acquisitions(data)
     graph = data["graph"]["data"]
     pages = {}
     for node_id, node in graph["nodes"].items():
         body = (f'<h1>{_v1_escape(node_id)}</h1>\n<p>Original kind: <code>{_v1_escape(node.get("kind", "not_recorded"))}</code> · recorded classification: <code>{_v1_escape(node.get("classification", "not_recorded"))}</code>.</p>\n'
-                '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
+                + (_resume_html(resume_projection(data, node_id, task_records=task_records)) if resume else '')
+                + '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
                 + '\n<p>These values describe metadata presence, not a proof result, applicability or scientific acceptance. No kernel, computation or alignment record is admitted by this graph export.</p>\n'
                 '<p>Graph-to-artifact binding: unresolved; artifact roles: unknown; custody: unknown. No Artifact Index mapping is inferred.</p>\n'
                 '<h2>Source and recorded review references</h2>\n' + _v1_node_sources(data, node)
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1499,10 +1905,11 @@ def render_live_current_v2(data, meta):
             f'<p>Graph source: <a href="{_v1_escape(_v1_source_url(graph_source))}">{_v1_escape(graph_source["path"])}</a> · SHA-256 <code>{_v1_escape(graph_source["sha256"])}</code>. The upstream graph may be unchanged while its repository advances.</p>\n'
             '<p>Every current node has static source/evidence reading and required/context neighbor navigation at the fresh observation pins. Graph-to-artifact binding is unresolved; artifact roles and custody are unknown. No classification is promoted here.</p>\n'
             '<ul>\n' + items + '\n</ul>\n<h2 id="sources">Complete current public source inventory</h2>\n'
-            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n<ul>\n'
-            + _v1_source_list(data["sources"]) + '\n</ul>\n'
+            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n'
+            + ('<ul>\n' if not annotations else '')
+            + (inventory_legend() + acquisition_notice(acquisition) + '<ul aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"], acquisition) if annotations else _v1_source_list(data["sources"])) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     return pages
 
 

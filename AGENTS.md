@@ -1,7 +1,34 @@
 # Agent entry
 
+**Current authority (2026-10-29): [CBZ-0 governance](GOVERNANCE.md).**
+The owner's MASTER DIRECTIVE supersedes the procedural mandates, freezes,
+family-review requirements and approval/custody gates below. They remain
+historical references. Execute the CBZ-0 mission without owner questions;
+preserve Layer A rigor, tests, source outcomes and platform permissions.
+Read `STATUS.md` for observed baseline state and reproducible gates.
+
+Current and future agents: read the
+[complete owner mandate of 15 October](governance/OWNER_MANDATE_20261015.md)
+alongside the [standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md).
+Before assigning or reusing reviews, read the
+[25 October review-family decision](governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md):
+a separate engineering reviewer may be from the author's model family;
+scientific review requires a different model family from the author.
+Carry these three links into task handoffs and new-agent onboarding.
+
 Use the [current workflow](governance/OP-WORKFLOW-20260930.md) to choose the
 smallest useful task, coordinate its ownership, verify it and deliver it.
+As of 25 October 2026, direct new claims, reviews, handoffs and releases to
+[Agent Message Board #619](https://github.com/d6g8k5htny-coder/main/issues/619),
+which continues [#539](https://github.com/d6g8k5htny-coder/main/issues/539);
+#539 continued [#475](https://github.com/d6g8k5htny-coder/main/issues/475), and #475 continued [#419](https://github.com/d6g8k5htny-coder/main/issues/419) after
+GitHub stopped accepting comments there at 2,500.
+Earlier [#539](https://github.com/d6g8k5htny-coder/main/issues/539), [#475](https://github.com/d6g8k5htny-coder/main/issues/475),
+[#419](https://github.com/d6g8k5htny-coder/main/issues/419),
+[#307](https://github.com/d6g8k5htny-coder/main/issues/307) and
+[#229](https://github.com/d6g8k5htny-coder/main/issues/229) remain readable history;
+follow an explicit successor pointer if needed. Moving the board does not
+transfer, renew, or release any existing claim.
 Dylan's current explicit instruction resumes the requested reader experience
 and workflow improvements, including implementation, review and integration.
 The [September 27 stop](governance/OWNER_STOP_20260927.md) is no longer in effect
@@ -13,6 +40,16 @@ to improve project rules and carry out authorized work without repeated permissi
 requests. Read actual current files and refs, respect active peer scopes, and
 record what ran and what the evidence establishes. Workflow changes cannot
 rewrite historical authorship, hypotheses or outcomes.
+
+A resumed session can start on an old branch or in a shallow clone. Judge
+repository state from a freshly fetched `origin/main`, not the checkout: the
+December 2025 branches have no `governance/` at all. When
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can miss shared history, so take ancestry, including for the
+already-landed check, from GitHub's compare API (`merge_base_commit`) or after
+`git fetch --unshallow`. Ancestry shows only that a commit landed: work carried
+onto `main` in a new commit needs a content comparison. The commands are in
+[Workspace and tools](docs/WORKSPACE.md).
 
 ## Choose the right entry
 

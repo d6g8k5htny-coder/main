@@ -1,0 +1,1316 @@
+name: Semantic memory Task1 fixture controls
+'on':
+  push:
+    branches: [codex/semantic-memory-task1-20261016]
+  pull_request:
+    paths:
+      - 'experiments/semantic_memory/**'
+      - 'tests/test_semantic_memory_benchmark.py'
+      - 'tools/semantic_memory_experiment.py'
+      - '.github/workflows/semantic-memory-experiment.yml'
+permissions:
+  contents: read
+concurrency:
+  group: semantic-memory-task1-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  fixture-controls:
+    runs-on: ubuntu-24.04
+    # 19-minute preparation + 6-minute controls + fourteen 1-minute stages = 39.
+    # One additional minute covers runner/action transition overhead.
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Capture native context and complete public Task1 source inventory
+        id: task1_native
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" <<'PY'
+          import hashlib, json, os, pathlib, re, stat, subprocess, sys
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def git(*args):
+              return subprocess.run(['git', *args], check=True, stdout=subprocess.PIPE).stdout
+          def write(path, raw):
+              path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+              fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+              with os.fdopen(fd, 'wb') as stream:
+                  stream.write(raw)
+          def document(value):
+              return (json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=True) + '\n').encode('ascii')
+          temporary, workspace = map(pathlib.Path, sys.argv[1:])
+          run, attempt = os.environ['GITHUB_RUN_ID'], os.environ['GITHUB_RUN_ATTEMPT']
+          require(re.fullmatch(r'[1-9][0-9]*', run) and re.fullmatch(r'[1-9][0-9]*', attempt), 'native run/attempt')
+          root = temporary / ('semantic-memory-task1-' + run + '-' + attempt)
+          root.mkdir(mode=0o700, exist_ok=False)
+          publish = root / 'publish'
+          publish.mkdir(mode=0o700)
+          commit = git('rev-parse', 'HEAD').decode('ascii').strip()
+          tree = git('rev-parse', 'HEAD^{tree}').decode('ascii').strip()
+          parents = git('rev-list', '--parents', '-n', '1', 'HEAD').decode('ascii').split()
+          native = {
+              'schema_version': 1, 'kind': 'NATIVE_FIXTURE_EXECUTION_CONTEXT',
+              'repository': os.environ['GITHUB_REPOSITORY'], 'checked_commit': commit,
+              'checked_tree': tree, 'ordered_parents': parents[1:],
+              'github_sha': os.environ['GITHUB_SHA'], 'run_id': run, 'run_attempt': attempt,
+              'event_name': os.environ['GITHUB_EVENT_NAME'], 'ref': os.environ['GITHUB_REF'],
+              'scientific_effect': 'NONE', 'scientific_status_authority': False,
+              'scope': 'Task1 synthetic fixture controls only; not semantic retrieval or installation'}
+          write(publish / 'native-context.json', document(native))
+          write(publish / 'checked-commit-object.txt', git('cat-file', 'commit', 'HEAD'))
+          require(commit == os.environ['GITHUB_SHA'] and parents[0] == commit, 'checked native commit mismatch')
+          prefixes = ['experiments/semantic_memory', 'tests/test_semantic_memory_benchmark.py',
+                      'tools/semantic_memory_experiment.py', '.github/workflows/semantic-memory-experiment.yml']
+          listing = git('ls-tree', '-r', '-z', 'HEAD', '--', *prefixes)
+          write(publish / 'selected-source-tree.z', listing)
+          records, total = [], 0
+          for entry in listing.split(b'\0'):
+              if not entry:
+                  continue
+              metadata, encoded_name = entry.split(b'\t', 1)
+              mode, kind, blob = metadata.decode('ascii').split()
+              name = encoded_name.decode('ascii')
+              require(mode == '100644' and kind == 'blob'
+                      and re.fullmatch(r'[A-Za-z0-9_./-]+', name)
+                      and all(part not in ('', '.', '..') for part in name.split('/')), 'closed public source path/type')
+              require(len(records) < 256, 'bounded complete source inventory')
+              source = workspace / name
+              for parent in source.parents:
+                  require(stat.S_ISDIR(parent.lstat().st_mode), 'source parent must not be a link')
+                  if parent == workspace:
+                      break
+              fd = os.open(source, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= 4 * 2**20,
+                          'bounded original source file')
+                  raw = b''
+                  while len(raw) <= 4 * 2**20:
+                      block = os.read(fd, min(65536, 4 * 2**20 + 1 - len(raw)))
+                      if not block:
+                          break
+                      raw += block
+                  after = os.fstat(fd)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == before.st_size, 'source stable during capture')
+              finally:
+                  os.close(fd)
+              total += len(raw)
+              require(total <= 16 * 2**20, 'bounded original source aggregate')
+              require(hashlib.sha1(b'blob ' + str(len(raw)).encode('ascii') + b'\0' + raw).hexdigest() == blob,
+                      'source bytes must equal native Git blob')
+              records.append({'path': name, 'mode': mode, 'git_blob': blob, 'bytes': len(raw),
+                              'sha256': hashlib.sha256(raw).hexdigest()})
+              write(publish / 'source' / name, raw)
+          names = {record['path'] for record in records}
+          require('tests/test_semantic_memory_benchmark.py' in names
+                  and '.github/workflows/semantic-memory-experiment.yml' in names
+                  and any(name.startswith('experiments/semantic_memory/') for name in names),
+                  'complete Task1 fixture/test/workflow source required')
+          write(publish / 'source-inventory.json', document({
+              'schema_version': 1, 'native_context': native, 'files': records, 'total_bytes': total,
+              'product_cli_present': 'tools/semantic_memory_experiment.py' in names}))
+          # Only the already captured/inventoried Git blobs enter the test mount.
+          # Directory access is explicit for the unprivileged container; files remain0444.
+          captured = publish / 'source'
+          for directory in [captured, *captured.rglob('*')]:
+              if directory.is_dir():
+                  directory.chmod(0o555)
+          write(publish / 'source-mount.json', document({
+              'schema_version': 1, 'kind': 'DECLARED_CAPTURED_SOURCE_MOUNT',
+              'native_context': native, 'container_destination': '/source',
+              'whole_workspace_mounted': False, 'files': records,
+              'runtime_mount_inspection': 'NOT_SEPARATELY_RETAINED',
+              'scope': 'Declared mount of exact captured source; actual interpreter contexts retained separately'}))
+          PY
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/semantic-memory-experiment.yml
+      - name: Extract whole-pinned qualified preparation sources
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP" "$GITHUB_WORKSPACE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def original(path, size, digest):
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == size,
+                          'qualified whole-source size/type mismatch')
+                  raw = b''
+                  while len(raw) <= size:
+                      part = os.read(descriptor, min(65536, size + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == size and hashlib.sha256(raw).hexdigest() == digest,
+                          'qualified whole-source changed or pin mismatch')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          temporary, workspace = map(pathlib.Path, sys.argv[1:3])
+          run_id, attempt = sys.argv[3:5]
+          require(run_id.isdecimal() and attempt.isdecimal(), 'native preparation path context')
+          workflow = original(workspace / '.github/workflows/architecture-runtime-acquisition.yml', 95714,
+              '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65')
+          original(workspace / 'docs/plans/2026-10-09-public-runtime-acquisition.md', 22516,
+              '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7')
+          destination = temporary / ('architecture-preparation-source-' + run_id + '-' + attempt)
+          destination.mkdir(mode=0o700, exist_ok=False)
+          lines = workflow.decode('ascii').splitlines()
+          selection = (
+              ('write-sources.sh', 'Write fixed trusted preparation sources'),
+              ('run-preparation.sh', 'Parse the standalone source and run the preparation once'),
+              ('seal.sh', 'Seal available originals on every conclusion'),
+              ('cleanup.sh', 'Remove only owned preparation client and control files'))
+          for filename, name in selection:
+              starts = [index for index, line in enumerate(lines) if line == '      - name: ' + name]
+              require(len(starts) == 1, 'ambiguous qualified step marker')
+              start = starts[0]
+              end = next((index for index in range(start + 1, len(lines))
+                          if lines[index].startswith('      - ')), len(lines))
+              block = lines[start:end]
+              markers = [index for index, line in enumerate(block) if line == '        run: |']
+              require(len(markers) == 1, 'ambiguous qualified literal run source')
+              body = block[markers[0] + 1:]
+              require(body and all(line.startswith('          ') for line in body),
+                      'qualified literal script indentation')
+              raw = ('\n'.join(line[10:] for line in body) + '\n').encode('ascii')
+              descriptor = os.open(destination / filename, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+              with os.fdopen(descriptor, 'wb') as stream:
+                  stream.write(raw)
+          print(json.dumps({'qualified_sources': 'PIN_MATCH', 'literal_scripts': len(selection)}))
+          PY
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/write-sources.sh"
+      - name: Qualify canonical acquisition and restore daemon before tests
+        id: preparation
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/run-preparation.sh"
+      - name: Seal separate preparation originals on every conclusion
+        id: preparation_seal
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          bash "$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seal.sh"
+      - name: Retain separate bounded preparation originals
+        id: preparation_retained
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: architecture-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/public-runtime-${{ github.run_id }}-${{ github.run_attempt }}/publish/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Remove only owned preparation and extraction files
+        id: preparation_cleanup
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          directory="$RUNNER_TEMP/architecture-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          bash "$directory/cleanup.sh"
+          python3 -I -B -S - "$directory" <<'PY'
+          import os, pathlib, stat, sys
+          directory = pathlib.Path(sys.argv[1])
+          info = directory.lstat()
+          if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid() or stat.S_IMODE(info.st_mode) != 0o700:
+              raise ValueError('owned extraction directory identity')
+          names = {'write-sources.sh', 'run-preparation.sh', 'seal.sh', 'cleanup.sh'}
+          if {path.name for path in directory.iterdir()} != names:
+              raise ValueError('closed owned extraction inventory')
+          for name in sorted(names):
+              path = directory / name
+              info = path.lstat()
+              if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_uid != os.getuid() or info.st_size > 1024 * 1024:
+                  raise ValueError('owned extraction file identity/bound')
+              path.unlink()
+          directory.rmdir()
+          PY
+      - name: Require complete current-run preparation before architecture
+        timeout-minutes: 1
+        env:
+          PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
+          PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" <<'PY'
+          import hashlib, json, os, pathlib, re, stat, sys
+          MIB = 2**20
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def read(path, limit):
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'sealed preparation regular-file admission')
+                  raw = b''
+                  while len(raw) <= limit:
+                      part = os.read(descriptor, min(65536, limit + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == before.st_size <= limit, 'sealed preparation changed during read')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          root = pathlib.Path(sys.argv[1])
+          info = root.lstat()
+          require(stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid()
+                  and stat.S_IMODE(info.st_mode) == 0o700, 'owned sealed preparation directory')
+          native = {key: os.environ[name] for key, name in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          require(re.fullmatch(r'[1-9][0-9]*', os.environ['PREPARATION_ARTIFACT_ID'])
+                  and re.fullmatch(r'(?:sha256:)?[0-9a-f]{64}', os.environ['PREPARATION_ARTIFACT_DIGEST']),
+                  'native preparation upload identity unavailable')
+          manifest = {}
+          manifest_raw = read(root / 'ARTIFACT_SHA256SUMS', MIB)
+          for line in manifest_raw.decode('ascii').splitlines():
+              match = re.fullmatch(r'([0-9a-f]{64})  ([A-Za-z0-9_.-]+)', line)
+              require(match is not None and match[2] not in manifest, 'closed preparation hash manifest')
+              manifest[match[2]] = match[1]
+          require(0 < len(manifest) <= 256
+                  and {path.name for path in root.iterdir()} == set(manifest) | {'ARTIFACT_SHA256SUMS'},
+                  'exact sealed preparation inventory')
+          bodies, records, total = {}, {}, len(manifest_raw)
+          for name, digest in manifest.items():
+              limit = 4 * MIB if name in ('pull.stdout', 'pull.stderr') else MIB
+              raw = read(root / name, limit)
+              total += len(raw)
+              require(total <= 36 * MIB and hashlib.sha256(raw).hexdigest() == digest,
+                      'sealed preparation original hash/aggregate bound')
+              bodies[name] = raw
+              records[name] = {'bytes': len(raw), 'sha256': digest}
+          receipt = json.loads(bodies['receipt.json'])
+          collection = json.loads(bodies['collection.json'])
+          result = json.loads(bodies['preparation-result.json'])
+          observation = json.loads(bodies['preparation-observations.json'])
+          semantic = json.loads(bodies['semantic-controls.json'])
+          for record in (receipt, collection):
+              require(record['status'] == 'ACCEPTED_PREPARATION' and record['native_context'] == native,
+                      'current-run sealed preparation acceptance required')
+          require(result['status'] == 'ACCEPTED_PREPARATION' and result['context'] == native
+                  and observation['context'] == native and observation['head'] == native['checked_commit']
+                  and collection['missing'] == [] and collection['refused'] == []
+                  and result['preparation_error'] is None and result['recovery_error'] is None
+                  and result['refused_originals'] == [], 'complete current-run preparation required')
+          rows = receipt['originals']
+          joined = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in rows}
+          require(len(joined) == len(rows) == receipt['original_count']
+                  and set(joined) == set(records) - {'receipt.json'}
+                  and all(records[name] == record for name, record in joined.items())
+                  and receipt['original_bytes'] == sum(record['bytes'] for record in joined.values()),
+                  'receipt original copies/subtotal join')
+          copied = collection['copied']
+          copies = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in copied}
+          require(len(copies) == len(copied) and set(copies) == set(joined) - {'collection.json'}
+                  and all(records[name] == record for name, record in copies.items())
+                  and set(copies) == set(result['available_originals']) | {'preparation-result.json'}
+                  and all(copies[name] == record for name, record in result['available_originals'].items()),
+                  'collection/controller original copies join')
+          require(records['checked-workflow.yml'] == {'bytes': 95714, 'sha256':
+                  '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65'}
+                  and records['contract.md'] == {'bytes': 22516, 'sha256':
+                  '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7'}
+                  and observation['source_before'] == observation['source_after'],
+                  'qualified preparation whole sources stable')
+          negative_ids = (
+              'RP01_stale_run', 'RP01_changed_source', 'RP02_existing_container', 'RP02_cached_image',
+              'RP03_missing_actual_mirror', 'RP03_changed_preserved_setting', 'RP04_manifest_substitution',
+              'RP04_config_substitution', 'RP05_pull_nonzero', 'RP05_pull_incomplete',
+              'RP06_mirror_prefixed_digest', 'RP06_extra_digest', 'RP06_wrong_image_platform',
+              'RP07_native_root', 'RP07_missing_OO', 'RP08_wrong_sqlite_all_modes', 'RP08_wrong_OO_flag',
+              'RP08_empty_binary_all_modes', 'RP09_wrong_CPU_all_modes', 'RP10_disposal_unconfirmed',
+              'RP11_restored_mirror_wrong', 'RP11_restored_bytes_wrong', 'RP12_missing_original',
+              'RP03_nested_synthetic_credential', 'RP09_oversized_overlay_lowerdir')
+          expected = [{'id': 'RP_positive_actual_copy', 'status': 'PASS'}]
+          expected += [{'id': name, 'status': 'REFUSED'} for name in negative_ids]
+          require(result['controls'] == semantic['controls'] == expected
+                  and semantic['origin'] == 'TEST_SEMANTIC_MUTATIONS_OF_COPIED_ACTUAL_OBSERVATIONS',
+                  'all qualified actual-copy controls required')
+          require(observation['recovery_complete'] is True
+                  and observation['containers_recovery_empty'] is True
+                  and observation['containers_restored_empty'] is True
+                  and observation['restored_mirrors'] == observation['original_mirrors']
+                  and set(observation['probes']) == {'0', '1', '2'}
+                  and all(item['disposed'] is True for item in observation['probes'].values())
+                  and result['disposal_confirmed'] == {'0': True, '1': True, '2': True},
+                  'owned probe disposal and daemon recovery before architecture')
+          print(json.dumps({'status': 'ACCEPTED_PREPARATION', 'current_run': native['run_id'],
+                            'positive': 'PASS', 'negative_refusals': len(negative_ids)}))
+          PY
+      - name: Prepare bounded Task1 output and record the admitted image
+        id: task1_output
+        timeout-minutes: 1
+        env:
+          IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+          PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
+          PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          task1_root="$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir "$task1_root/output"
+          truncate -s 64M "$task1_root/output.img"
+          mkfs.ext4 -F "$task1_root/output.img"
+          sudo mount -o loop,nodev,nosuid,noexec "$task1_root/output.img" "$task1_root/output"
+          sudo mkdir "$task1_root/output/container" "$task1_root/output/host"
+          sudo chmod 0777 "$task1_root/output/container"
+          sudo chown "$(id -u):$(id -g)" "$task1_root/output/host"
+          chmod 0700 "$task1_root/output/host"
+          docker image inspect "$IMAGE" > "$task1_root/publish/runtime-image.json"
+          python3 -I -B -S - "$task1_root/publish/preparation-binding.json" <<'PY'
+          import json, os, pathlib, sys
+          record = {'schema_version': 1, 'kind': 'NATIVE_PREPARATION_ARTIFACT_BINDING',
+                    'run_id': os.environ['GITHUB_RUN_ID'], 'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+                    'artifact_id': os.environ['PREPARATION_ARTIFACT_ID'],
+                    'artifact_digest': os.environ['PREPARATION_ARTIFACT_DIGEST']}
+          pathlib.Path(sys.argv[1]).write_text(json.dumps(record, sort_keys=True) + '\n', encoding='ascii')
+          PY
+      - name: Run all three fixture methods in both interpreter modes
+        id: task1_controls
+        timeout-minutes: 6
+        env:
+          IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+        run: |
+          set -euo pipefail
+          task1_root="$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          task1_container="semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          set +e
+          timeout --signal=TERM --kill-after=10s 300s docker run --pull=never --rm --log-driver none --name "$task1_container" \
+            --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --tmpfs /tmp:rw,noexec,nosuid,size=128m \
+            --mount type=bind,source="$task1_root/publish/source",target=/source,readonly \
+            --mount type=bind,source="$task1_root/output/container",target=/output \
+            --workdir /source "$IMAGE" sh -c '
+              SEMANTIC_MEMORY_R03_EVIDENCE=/output/r03-controls-normal.json \
+              SEMANTIC_MEMORY_CHILD_MODE_LOG=/output/child-modes-normal.jsonl \
+              SEMANTIC_MEMORY_IMPORT_CONTEXT=/output/import-context-normal.jsonl \
+                python -I -B -S -m unittest discover -s /source/tests -p test_semantic_memory_benchmark.py -v > /output/tests-normal.log 2>&1
+              normal=$?
+              printf "%s\n" "$normal" > /output/mode-exit-normal.txt
+              SEMANTIC_MEMORY_R03_EVIDENCE=/output/r03-controls-optimized.json \
+              SEMANTIC_MEMORY_CHILD_MODE_LOG=/output/child-modes-optimized.jsonl \
+              SEMANTIC_MEMORY_IMPORT_CONTEXT=/output/import-context-optimized.jsonl \
+                python -I -B -O -S -m unittest discover -s /source/tests -p test_semantic_memory_benchmark.py -v > /output/tests-optimized.log 2>&1
+              optimized=$?
+              printf "%s\n" "$optimized" > /output/mode-exit-optimized.txt
+              if [ "$normal" -ne 0 ] || [ "$optimized" -ne 0 ]; then exit 1; fi
+            ' > "$task1_root/output/host/console.log" 2>&1
+          status=$?
+          printf '%s\n' "$status" > "$task1_root/publish/container-exit-status.txt"
+          exit "$status"
+      - name: Dispose only the exact Task1 container before collection
+        id: task1_disposal
+        if: ${{ always() && (steps.task1_output.outcome == 'success' || steps.task1_output.outcome == 'failure' || steps.task1_output.outcome == 'cancelled') }}
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          task1_container="semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          present="$(docker ps -aq --filter "name=^/$task1_container$")"
+          if [ -n "$present" ]; then docker rm --force "$task1_container"; fi
+          remaining="$(docker ps -aq --filter "name=^/$task1_container$")"
+          test -z "$remaining"
+      - name: Collect bounded originals only after confirmed container absence
+        id: task1_collection
+        if: ${{ always() && steps.task1_native.outcome == 'success' }}
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          task1_container="semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          remaining="$(docker ps -aq --filter "name=^/$task1_container$")"
+          test -z "$remaining"
+          sudo python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          root = pathlib.Path(sys.argv[1])
+          publish = root / 'publish'
+          copied, missing, refused = [], [], []
+          limits = {'tests-normal.log': 8 * 2**20, 'tests-optimized.log': 8 * 2**20,
+                    'mode-exit-normal.txt': 64, 'mode-exit-optimized.txt': 64,
+                    'child-modes-normal.jsonl': 2**20, 'child-modes-optimized.jsonl': 2**20,
+                    'import-context-normal.jsonl': 2**21, 'import-context-optimized.jsonl': 2**21,
+                    'r03-controls-normal.json': 2**20, 'r03-controls-optimized.json': 2**20}
+          def admitted_sizes(directory, allowed=None):
+              total, count = 0, 0
+              if not directory.exists():
+                  return total, count
+              if allowed is None:
+                  for path in directory.rglob('*'):
+                      info = path.lstat()
+                      if stat.S_ISDIR(info.st_mode):
+                          continue
+                      if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                          raise ValueError('aggregate publication input type/link')
+                      total += info.st_size
+                      count += 1
+              else:
+                  descriptor = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+                  try:
+                      for name, limit in allowed.items():
+                          try:
+                              info = os.stat(name, dir_fd=descriptor, follow_symlinks=False)
+                          except FileNotFoundError:
+                              continue
+                          if (not stat.S_ISREG(info.st_mode) or info.st_nlink != 1
+                                  or not 0 <= info.st_size <= limit):
+                              raise ValueError('aggregate original admission type/link/size')
+                          total += info.st_size
+                          count += 1
+                  finally:
+                      os.close(descriptor)
+              return total, count
+          existing_bytes, existing_count = admitted_sizes(publish)
+          pending_bytes, pending_count = admitted_sizes(root / 'output' / 'container', limits)
+          host_bytes, host_count = admitted_sizes(root / 'output' / 'host', {'console.log': 4 * 2**20})
+          metadata_reserve = 2 * 2**20
+          if (existing_bytes + pending_bytes + host_bytes + metadata_reserve > 48 * 2**20
+                  or existing_count + pending_count + host_count + 8 > 512):
+              raise ValueError('actual aggregate originals plus metadata reserve exceed unchanged publication caps')
+          budget_admission = {'existing_publish_bytes': existing_bytes,
+                              'pending_container_bytes': pending_bytes, 'pending_host_bytes': host_bytes,
+                              'metadata_reserve_bytes': metadata_reserve,
+                              'publish_cap_bytes': 48 * 2**20, 'output_fs_cap_bytes': 64 * 2**20,
+                              'per_sidecar_cap_bytes': 2**20,
+                              'scope': 'actual size admission, not sum of per-file maxima'}
+          def copy_file(directory, name, limit):
+              try:
+                  fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+              except FileNotFoundError:
+                  missing.append(name)
+                  return
+              try:
+                  before = os.fstat(fd)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > limit:
+                      raise ValueError('original type/link/size')
+                  raw = b''
+                  while len(raw) <= limit:
+                      block = os.read(fd, min(65536, limit + 1 - len(raw)))
+                      if not block:
+                          break
+                      raw += block
+                  after = os.fstat(fd)
+                  if ((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                      != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                      or len(raw) != before.st_size):
+                      raise ValueError('original changed during collection')
+              finally:
+                  os.close(fd)
+              if existing_bytes + sum(row['bytes'] for row in copied) + len(raw) + metadata_reserve > 48 * 2**20:
+                  raise ValueError('actual copying exceeds unchanged publication cap/reserve')
+              target = os.open(publish / name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+              with os.fdopen(target, 'wb') as stream:
+                  stream.write(raw)
+              copied.append({'path': name, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest(),
+                             'original_uid': before.st_uid, 'original_gid': before.st_gid,
+                             'original_mode': stat.S_IMODE(before.st_mode)})
+          source = root / 'output' / 'container'
+          if source.exists():
+              directory = os.open(source, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  unknown = set(os.listdir(directory)) - set(limits)
+                  for name in sorted(unknown):
+                      refused.append({'name_sha256': hashlib.sha256(os.fsencode(name)).hexdigest(),
+                                      'reason': 'unregistered output entry'})
+                  for name, limit in limits.items():
+                      try:
+                          copy_file(directory, name, limit)
+                      except Exception as error:
+                          refused.append({'path': name, 'reason': type(error).__name__})
+              finally:
+                  os.close(directory)
+          else:
+              missing.extend(limits)
+          host = root / 'output' / 'host'
+          if host.exists():
+              directory = os.open(host, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  copy_file(directory, 'console.log', 4 * 2**20)
+              finally:
+                  os.close(directory)
+          record = {'schema_version': 1, 'kind': 'ORIGINAL_COLLECTION_OBSERVATION',
+                    'exact_container_absence_confirmed': True, 'copied': copied, 'missing': missing,
+                    'refused': refused, 'budget_admission': budget_admission,
+                    'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          raw = (json.dumps(record, sort_keys=True, separators=(',', ':')) + '\n').encode('ascii')
+          collected_bytes, collected_count = admitted_sizes(publish)
+          if collected_bytes + len(raw) > 48 * 2**20 or collected_count + 1 > 512:
+              raise ValueError('actual collection metadata exceeds unchanged publication caps')
+          fd = os.open(publish / 'collection.json', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+          with os.fdopen(fd, 'wb') as stream:
+              stream.write(raw)
+          if refused:
+              raise ValueError('unregistered or refused original output; retained observation')
+          PY
+      - name: Observe exact fixture inventories without inventing product acceptance
+        id: task1_observation
+        if: ${{ always() && steps.task1_native.outcome == 'success' }}
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          set +e
+          python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" "$GITHUB_WORKSPACE" <<'COUNT_CONTROL'
+          """Hosted verifier regression on private derivatives; never native originals."""
+          import ast
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import stat
+          import subprocess
+          import sys
+          import tempfile
+          import time
+
+          publish, workspace = map(Path, sys.argv[1:])
+          started = time.monotonic()
+          deadline = started + 35
+          expected_children = 190  # 164 original +6 new CLI probes +16 strict refusals +3 strict positives +1 tampered report.
+          expected_contexts = 191
+          receipt = {"schema_version": 1, "kind": "OBSERVER_COUNT_CONTROLS",
+                     "scope": "SYNTHETIC_MUTATIONS_OF_CURRENT_ORIGINALS",
+                     "native_originals_modified": False, "expected_children_per_mode": expected_children,
+                     "expected_contexts_per_mode": expected_contexts,
+                     "controls_complete": False, "results": [], "scientific_effect": "NONE"}
+          exit_status = 2
+          scratch = None
+
+
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+
+
+          def stable_read(path, limit):
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and 0 <= before.st_size <= limit, "regular bounded single-link input")
+                  data = bytearray()
+                  while len(data) <= limit:
+                      block = os.read(fd, min(65536, limit + 1 - len(data)))
+                      if not block:
+                          break
+                      data.extend(block)
+                  after = os.fstat(fd)
+                  fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  require(len(data) == before.st_size
+                          and all(getattr(before, name) == getattr(after, name) for name in fields),
+                          "stable input")
+                  return bytes(data)
+              finally:
+                  os.close(fd)
+
+
+          try:
+              inventory_raw = stable_read(publish / "source-inventory.json", 4 * 2**20)
+              inventory = json.loads(inventory_raw)
+              receipt["native_context_lineage"] = inventory["native_context"]
+              receipt["source_inventory_sha256"] = hashlib.sha256(inventory_raw).hexdigest()
+              workflow_path = ".github/workflows/semantic-memory-experiment.yml"
+              source_row = next(row for row in inventory["files"] if row["path"] == workflow_path)
+              workflow = stable_read(publish / "source" / workflow_path, 2**20)
+              require(len(workflow) == source_row["bytes"]
+                      and hashlib.sha256(workflow).hexdigest() == source_row["sha256"], "inventoried workflow")
+              text = workflow.decode("utf-8")
+              command = "          python3 -I -B -S - \"$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish\" \"$GITHUB_WORKSPACE\" <<'PY'\n"
+              # Construct the marker without reproducing it literally in this embedded driver.
+              marker = "      - name: " + "Observe exact fixture inventories without inventing product acceptance\n"
+              require(text.count(marker) == 1 and text.count(command) == 1, "unique observer boundary")
+              step = text.split(marker, 1)[1].split("\n      - name:", 1)[0]
+              require(step.count(command) == 1, "observer belongs to fixed named stage")
+              body = step.split(command, 1)[1].split("\n          PY\n", 1)[0]
+              require(all(not line or line.startswith("          ") for line in body.splitlines()), "observer indentation")
+              observer = "\n".join(line[10:] if line else "" for line in body.splitlines()) + "\n"
+              ast.parse(observer)
+              receipt["observer"] = {"bytes": len(observer.encode()), "sha256": hashlib.sha256(observer.encode()).hexdigest()}
+              scratch = Path(tempfile.mkdtemp(prefix="semantic-observer-count-", dir=publish.parent))
+              clone = scratch / "inputs"
+              clone.mkdir(mode=0o700)
+              consumed = ["source-inventory.json", "collection.json", "container-exit-status.txt"]
+              for mode in ("normal", "optimized"):
+                  consumed.extend(("tests-" + mode + ".log", "mode-exit-" + mode + ".txt",
+                                   "child-modes-" + mode + ".jsonl", "import-context-" + mode + ".jsonl",
+                                   "r03-controls-" + mode + ".json"))
+              consumed.extend("source/" + row["path"] for row in inventory["files"])
+              clone_inputs, admitted_bytes = {}, 0
+              clone_metadata_reserve = 2 * 2**20
+              for name in consumed:
+                  parts = name.split("/")
+                  require(not name.startswith("/") and all(part not in ("", ".", "..") for part in parts),
+                          "closed relative clone admission path")
+                  source_path = publish
+                  for part in parts[:-1]:
+                      source_path /= part
+                      require(stat.S_ISDIR(source_path.lstat().st_mode), "no linked clone admission parent")
+                  raw = stable_read(publish / name, 32 * 2**20 - admitted_bytes)
+                  admitted_bytes += len(raw)
+                  clone_inputs[name] = raw
+                  require(time.monotonic() < deadline, "control deadline during aggregate admission")
+              require(admitted_bytes + clone_metadata_reserve <= 32 * 2**20,
+                      "actual clone inputs plus metadata reserve exceed unchanged32MiB cap")
+              receipt["clone_budget_admission"] = {"actual_input_bytes": admitted_bytes,
+                                                   "metadata_reserve_bytes": clone_metadata_reserve,
+                                                   "cap_bytes": 32 * 2**20,
+                                                   "sidecar_per_file_cap_bytes": 2**20,
+                                                   "driver_seconds": 35, "observer_max_seconds": 8,
+                                                   "planned_observer_calls": 11,
+                                                   "fit_authority": "absolute deadline and actual bytes only; no representative latency claim"}
+              copied = 0
+              for name in consumed:
+                  parts = name.split("/")
+                  require(not name.startswith("/") and all(part not in ("", ".", "..") for part in parts), "closed relative clone path")
+                  source = publish
+                  for part in parts[:-1]:
+                      source /= part
+                      require(stat.S_ISDIR(source.lstat().st_mode), "no linked clone parent")
+                  raw = clone_inputs[name]
+                  copied += len(raw)
+                  target = clone / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with target.open("xb") as stream:
+                      stream.write(raw)
+                  if name.startswith("source/") or name in ("r03-controls-normal.json", "r03-controls-optimized.json"):
+                      target.chmod(0o444)
+                  require(time.monotonic() < deadline, "control deadline")
+              for directory in sorted((clone / "source").rglob("*"), reverse=True):
+                  if directory.is_dir():
+                      directory.chmod(0o555)
+              (clone / "source").chmod(0o555)
+              receipt["copied_consumed_bytes"] = copied
+
+              def run_observer(label):
+                  output = clone / "fixture-control-observation.json"
+                  if output.exists():
+                      output.unlink()
+                  remaining = min(8, deadline - time.monotonic())
+                  require(remaining > 0, "control deadline")
+                  with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+                      result = subprocess.run([sys.executable, "-I", "-B", "-S", "-c", observer,
+                                               str(clone), str(workspace)], stdout=stdout, stderr=stderr,
+                                              timeout=remaining, check=False)
+                      streams = {}
+                      for key, stream in (("stdout", stdout), ("stderr", stderr)):
+                          stream.seek(0, os.SEEK_END)
+                          size = stream.tell()
+                          require(size <= 65536, "bounded observer stream")
+                          stream.seek(0)
+                          raw = stream.read()
+                          streams[key] = {"bytes": size, "sha256": hashlib.sha256(raw).hexdigest()}
+                  require(time.monotonic() <= deadline, "absolute35-second control deadline")
+                  clone_actual_bytes = sum(path.lstat().st_size for path in clone.rglob("*") if path.is_file())
+                  require(clone_actual_bytes + 2 * 65536 <= 32 * 2**20, "actual clone plus bounded temporary observer streams")
+                  observation_raw = stable_read(output, 2**20)
+                  observed = json.loads(observation_raw)
+                  item = {"label": label, "exit": result.returncode, "streams": streams,
+                          "observation_sha256": hashlib.sha256(observation_raw).hexdigest(),
+                          "complete": observed["complete_fixture_controls_passed"],
+                          "issues": observed["issues"], "modes": observed["modes"]}
+                  receipt["results"].append(item)
+                  return item
+
+              positive = run_observer("UNMODIFIED_CURRENT_INPUT_COPY")
+              if positive["exit"] != 0 or positive["complete"] is not True:
+                  receipt["outcome"] = "NOT_RUN_POSITIVE_OBSERVER_REFUSED"
+                  exit_status = 3  # Canonical observation still runs and must independently fail.
+              else:
+                  all_refused = True
+                  for mode in ("normal", "optimized"):
+                      child_path = clone / ("child-modes-" + mode + ".jsonl")
+                      context_path = clone / ("import-context-" + mode + ".jsonl")
+                      child_original, context_original = child_path.read_bytes(), context_path.read_bytes()
+                      children, contexts = child_original.splitlines(keepends=True), context_original.splitlines(keepends=True)
+                      require(len(children) == expected_children and len(contexts) == expected_contexts
+                              and all(line.endswith(b"\n") for line in children + contexts), "complete original diagnostic framing/count")
+                      removed_context = next(index for index, line in enumerate(contexts)
+                                             if json.loads(line)["kind"] == "CLI_PROCESS_IMPORT_CONTEXT")
+                      child_path.write_bytes(b"".join(children[:-1]))
+                      context_path.write_bytes(b"".join(contexts[:removed_context] + contexts[removed_context + 1:]))
+                      try:
+                          result = run_observer("BALANCED_ONE_CLI_OMISSION_" + mode.upper())
+                          result["only_changed_inputs"] = [child_path.name, context_path.name]
+                          result["original_input_sha256"] = {child_path.name: hashlib.sha256(child_original).hexdigest(),
+                                                             context_path.name: hashlib.sha256(context_original).hexdigest()}
+                          result["mutated_input_sha256"] = {child_path.name: hashlib.sha256(child_path.read_bytes()).hexdigest(),
+                                                            context_path.name: hashlib.sha256(context_path.read_bytes()).hexdigest()}
+                          require(all(row["complete_three_pass"] for row in result["modes"].values()), "unchanged complete PASS logs")
+                          actual = result["modes"][mode]
+                          require(actual["child_mode_diagnostic"]["records"] == expected_children - 1
+                                  and actual["import_context_diagnostic"]["records"] == expected_contexts - 1,
+                                  "balanced omission observed")
+                          refused = result["exit"] != 0 and result["complete"] is False and bool(result["issues"])
+                          result["required_refusal_observed"] = refused
+                          all_refused = all_refused and refused
+                      finally:
+                          child_path.write_bytes(child_original)
+                          context_path.write_bytes(context_original)
+                  # Eleven total observer calls: positive1, balanced2, missing2, generic5, custody1.
+                  # The five generic semantic cases run once in normal mode, not symmetrically twice.
+                  collection_path = clone / "collection.json"
+                  collection_original = stable_read(collection_path, 2**20)
+                  sidecar_originals = {mode: stable_read(clone / ("r03-controls-" + mode + ".json"), 2**20)
+                                      for mode in ("normal", "optimized")}
+
+                  def rewrite_private(path, raw, mode):
+                      if path.exists():
+                          info = path.lstat()
+                          require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, "private clone regular single-link target")
+                          path.chmod(0o600)
+                          descriptor = os.open(path, os.O_WRONLY | os.O_TRUNC | os.O_NOFOLLOW)
+                      else:
+                          descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+                      with os.fdopen(descriptor, "wb") as stream:
+                          stream.write(raw)
+                      path.chmod(mode)
+
+                  def check_r03_refusal(item, mode, reason):
+                      require(all(row["complete_three_pass"] for row in item["modes"].values()),
+                              "R03 controls preserve complete three-method PASS logs")
+                      actual = item["modes"][mode]["r03_derivative_control"]
+                      refused = (item["exit"] == 1 and item["complete"] is False
+                                 and actual["accepted"] is False and reason in actual["reason"])
+                      item["required_refusal_observed"] = refused
+                      return refused
+
+                  for mode in ("normal", "optimized"):
+                      filename = "r03-controls-" + mode + ".json"
+                      path = clone / filename
+                      path.unlink()
+                      try:
+                          item = run_observer("R03_MISSING_SIDECAR_" + mode.upper())
+                          item["only_changed_inputs"] = [filename]
+                          item["original_input_sha256"] = {filename: hashlib.sha256(sidecar_originals[mode]).hexdigest()}
+                          all_refused = check_r03_refusal(item, mode, "") and all_refused
+                      finally:
+                          rewrite_private(path, sidecar_originals[mode], 0o444)
+
+                  generic = (
+                      ("WRONG_MODE", "mode/version", ("mode",), "optimized"),
+                      ("WRONG_SOURCE_SHA", "source SHA join", ("source_sha256", ".github/workflows/semantic-memory-experiment.yml"), "0" * 64),
+                      ("RAW_HASH_MISMATCH", "canonical raw stream identity", ("probes", 0, "stdout", "sha256"), "0" * 64),
+                      ("WRONG_EXIT", "ordered arm/exit/complete", ("probes", 0, "observed_exit"), 1),
+                      ("WRONG_ARM", "ordered arm/exit/complete", ("probes", 0, "arm"), "UNEXPECTED_R03_ARM"))
+                  mode = "normal"
+                  filename = "r03-controls-normal.json"
+                  path = clone / filename
+                  for label, reason, keys, replacement in generic:
+                      value = json.loads(sidecar_originals[mode])
+                      cursor = value
+                      for key in keys[:-1]:
+                          cursor = cursor[key]
+                      cursor[keys[-1]] = replacement
+                      changed = (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+                      require(len(changed) <= 2**20, "semantic sidecar derivative bound")
+                      copied_collection = json.loads(collection_original)
+                      rows = [row for row in copied_collection["copied"] if row["path"] == filename]
+                      require(len(rows) == 1, "one actual sidecar collection row")
+                      rows[0]["bytes"], rows[0]["sha256"] = len(changed), hashlib.sha256(changed).hexdigest()
+                      rebound = (json.dumps(copied_collection, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+                      try:
+                          rewrite_private(path, changed, 0o444)
+                          rewrite_private(collection_path, rebound, 0o644)
+                          item = run_observer("R03_" + label + "_NORMAL")
+                          item["only_changed_inputs"] = [filename, "collection.json"]
+                          item["semantic_field"] = list(keys)
+                          item["clone_collection_row_rebound"] = True
+                          item["native_originals_modified"] = False
+                          item["original_input_sha256"] = {filename: hashlib.sha256(sidecar_originals[mode]).hexdigest(),
+                                                           "collection.json": hashlib.sha256(collection_original).hexdigest()}
+                          item["mutated_input_sha256"] = {filename: hashlib.sha256(changed).hexdigest(),
+                                                          "collection.json": hashlib.sha256(rebound).hexdigest()}
+                          all_refused = check_r03_refusal(item, mode, reason) and all_refused
+                      finally:
+                          rewrite_private(path, sidecar_originals[mode], 0o444)
+                          rewrite_private(collection_path, collection_original, 0o644)
+
+                  # Whitespace leaves the semantic JSON unchanged; only stale collection custody can refuse it.
+                  changed = sidecar_originals["normal"] + b" "
+                  require(len(changed) <= 2**20, "custody derivative sidecar bound")
+                  try:
+                      rewrite_private(path, changed, 0o444)
+                      item = run_observer("R03_STALE_COLLECTION_HASH_NORMAL")
+                      item["only_changed_inputs"] = [filename]
+                      item["clone_collection_row_rebound"] = False
+                      item["semantic_json_unchanged"] = True
+                      item["original_input_sha256"] = {filename: hashlib.sha256(sidecar_originals["normal"]).hexdigest()}
+                      item["mutated_input_sha256"] = {filename: hashlib.sha256(changed).hexdigest()}
+                      all_refused = check_r03_refusal(item, "normal", "collection raw identity") and all_refused
+                  finally:
+                      rewrite_private(path, sidecar_originals["normal"], 0o444)
+                  require(stable_read(collection_path, 2**20) == collection_original
+                          and all(stable_read(clone / ("r03-controls-" + mode + ".json"), 2**20) == original
+                                  for mode, original in sidecar_originals.items()), "all private original-copy inputs restored exactly")
+                  require(len(receipt["results"]) == 11, "fixed eleven observer calls")
+                  receipt["r03_control_inventory"] = [item["label"] for item in receipt["results"]]
+                  receipt["generic_semantic_cases_mode"] = "normal only; no symmetric five-case repetition claimed"
+                  receipt["controls_complete"] = all_refused
+                  receipt["outcome"] = "PASS" if all_refused else "FAIL_OBSERVER_ACCEPTED_DERIVATIVE_MUTATION"
+                  exit_status = 0 if all_refused else 1
+          except Exception as error:
+              receipt["outcome"] = "SETUP_OR_CONTROL_ERROR"
+              receipt["error_type"] = type(error).__name__
+              receipt["error"] = str(error)[:256]
+              exit_status = 2
+          finally:
+              if scratch is not None:
+                  # Captured directories are private copies; restore access only for their disposal.
+                  for directory in scratch.rglob("*"):
+                      if directory.is_dir():
+                          directory.chmod(0o700)
+                  shutil.rmtree(scratch)
+              receipt["scratch_disposed"] = scratch is None or not scratch.exists()
+              receipt["duration_seconds"] = time.monotonic() - started
+              with (publish / "observer-count-controls.json").open("x", encoding="ascii") as stream:
+                  json.dump(receipt, stream, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+                  stream.write("\n")
+          sys.exit(exit_status)
+          COUNT_CONTROL
+          observer_count_status=$?
+          python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" "$GITHUB_WORKSPACE" <<'PY'
+          import base64, binascii, hashlib, json, math, os, pathlib, re, stat, sys
+          publish, workspace = map(pathlib.Path, sys.argv[1:])
+          methods = ('test_frozen_case_inventory_and_hashes', 'test_gold_never_enters_index_or_prompt',
+                     'test_deep_and_confusable_spans_are_real')
+          expected = sorted('test_semantic_memory_benchmark.SemanticMemoryFixtureContract.' + name for name in methods)
+          issues, modes = [], {}
+          R03_LIMIT = 2**20
+          R03_PATHS = {'tests/test_semantic_memory_benchmark.py', 'experiments/semantic_memory/benchmark.py',
+                       'tools/semantic_memory_experiment.py', '.github/workflows/semantic-memory-experiment.yml'}
+          R03_PRODUCT = ('9d383143036cbfded585d0544d89d636e83cc609',
+                         'b91368ed9c81e2264f677618c981a60774b164cc1d3fc61700eb2735e3ee96fb')
+          R03_CLI = ('51bdc1917dc3f234f2f27cba205ae4b668d4616d',
+                     'dbc5990ca0a7e2c6e50b1dbcfd2b761c843ef9097260795840ab8094b939696a')
+          R03_MUTANT = '9aac72f6198d65a68ac256d195b803c1aaffd78c7d73b3f67ccb73c58b9b4df4'
+          def r03_require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          def r03_unique(pairs):
+              result = {}
+              for key, value in pairs:
+                  r03_require(key not in result, 'duplicate JSON key')
+                  result[key] = value
+              return result
+          def r03_constant(value):
+              raise ValueError('nonfinite JSON constant')
+          def r03_float(value):
+              result = float(value)
+              r03_require(math.isfinite(result), 'nonfinite JSON number')
+              return result
+          def r03_json(raw, ascii_only=False):
+              return json.loads(raw.decode('ascii' if ascii_only else 'utf-8'), object_pairs_hook=r03_unique,
+                                parse_constant=r03_constant, parse_float=r03_float)
+          def r03_read(path, limit, sealed=False):
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  r03_require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                              and 0 <= before.st_size <= limit
+                              and (not sealed or stat.S_IMODE(before.st_mode) == 0o444),
+                              'R03 regular bounded sealed input')
+                  raw = bytearray()
+                  while len(raw) <= limit:
+                      part = os.read(fd, min(65536, limit + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw.extend(part)
+                  after = os.fstat(fd)
+                  fields = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+                  r03_require(len(raw) == before.st_size
+                              and all(getattr(before, key) == getattr(after, key) for key in fields),
+                              'R03 stable whole input')
+                  return bytes(raw)
+              finally:
+                  os.close(fd)
+          def r03_stream(value):
+              r03_require(type(value) is dict and set(value) == {'bytes', 'sha256', 'base64'},
+                          'R03 stream exact schema')
+              count, digest, encoded = value['bytes'], value['sha256'], value['base64']
+              r03_require(type(count) is int and 0 <= count < R03_LIMIT
+                          and type(digest) is str and re.fullmatch(r'[0-9a-f]{64}', digest)
+                          and type(encoded) is str, 'R03 stream types/bounds')
+              raw = base64.b64decode(encoded.encode('ascii'), validate=True)
+              r03_require(base64.b64encode(raw).decode('ascii') == encoded
+                          and len(raw) == count and hashlib.sha256(raw).hexdigest() == digest,
+                          'R03 canonical raw stream identity')
+              return raw
+          def validate_r03(mode, optimize):
+              filename = 'r03-controls-' + mode + '.json'
+              raw = r03_read(publish / filename, R03_LIMIT, sealed=True)
+              r03_require(type(collection) is dict and type(collection.get('copied')) is list,
+                          'R03 collection inventory unavailable')
+              rows = [row for row in collection['copied']
+                      if type(row) is dict and row.get('path') == filename]
+              r03_require(len(rows) == 1 and type(rows[0].get('bytes')) is int
+                          and rows[0]['bytes'] == len(raw)
+                          and rows[0].get('sha256') == hashlib.sha256(raw).hexdigest()
+                          and type(rows[0].get('original_mode')) is int
+                          and rows[0]['original_mode'] == 0o444, 'R03 collection raw identity')
+              value = r03_json(raw, ascii_only=True)
+              keys = {'schema_version', 'kind', 'mode', 'optimize', 'source_sha256',
+                      'native_product_git_blob', 'native_cli_git_blob', 'mutant_sha256',
+                      'transform', 'probes', 'native_accounting', 'native_originals_modified',
+                      'scientific_effect'}
+              r03_require(type(value) is dict and set(value) == keys, 'R03 record exact schema')
+              r03_require(type(value['schema_version']) is int and value['schema_version'] == 1
+                          and value['kind'] == 'HOSTED_R03_DERIVATIVE_CONTROL'
+                          and type(value['optimize']) is int and value['optimize'] == optimize
+                          and value['mode'] == mode, 'R03 mode/version')
+              r03_require(value['transform'] == 'remove_only_bool_value_strip'
+                          and value['native_accounting'] == 'PRIVATE_PROBES_EXCLUDED; EXPECTED_COUNTS_UNCHANGED_190_CLI_191_CONTEXT'
+                          and value['native_originals_modified'] is False
+                          and value['scientific_effect'] == 'NONE', 'R03 constants/accounting')
+              records = {row['path']: row for row in source['files'] if row['path'] in R03_PATHS}
+              expected_sha = {name: row['sha256'] for name, row in records.items()}
+              r03_require(set(records) == R03_PATHS and type(value['source_sha256']) is dict
+                          and set(value['source_sha256']) == R03_PATHS
+                          and all(type(digest) is str and re.fullmatch(r'[0-9a-f]{64}', digest)
+                                  for digest in value['source_sha256'].values())
+                          and value['source_sha256'] == expected_sha, 'R03 source SHA join')
+              product_name, cli_name = 'experiments/semantic_memory/benchmark.py', 'tools/semantic_memory_experiment.py'
+              r03_require((records[product_name]['git_blob'], records[product_name]['sha256']) == R03_PRODUCT
+                          and (records[cli_name]['git_blob'], records[cli_name]['sha256']) == R03_CLI
+                          and value['native_product_git_blob'] == R03_PRODUCT[0]
+                          and value['native_cli_git_blob'] == R03_CLI[0], 'R03 frozen native blob join')
+              product = r03_read(publish / 'source' / product_name, R03_LIMIT, sealed=True)
+              needle = b'_require(type(value) is str and bool(value.strip()))'
+              replacement = b'_require(type(value) is str)'
+              r03_require(len(product) == 23447 and hashlib.sha256(product).hexdigest() == R03_PRODUCT[1]
+                          and product.count(needle) == 1, 'R03 single replacement preimage')
+              mutant = product.replace(needle, replacement, 1)
+              r03_require(len(mutant) == 23423 and hashlib.sha256(mutant).hexdigest() == R03_MUTANT
+                          and value['mutant_sha256'] == R03_MUTANT, 'R03 reconstructed mutant identity')
+              probes = value['probes']
+              expected = (('R03_VALID_POSITIVE', 0), ('AMENDED_U3000_PLUS_R03_RED', 0),
+                          ('OLD_ASCII_SPACE_PLUS_R03_MASKING', 1))
+              r03_require(type(probes) is list and len(probes) == 3, 'R03 probe count')
+              summaries = []
+              for probe, (arm, expected_exit) in zip(probes, expected):
+                  r03_require(type(probe) is dict
+                              and set(probe) == {'arm', 'expected_exit', 'observed_exit', 'capture_status', 'stdout', 'stderr'},
+                              'R03 probe exact schema')
+                  r03_require(probe['arm'] == arm and type(probe['expected_exit']) is int
+                              and probe['expected_exit'] == expected_exit
+                              and type(probe['observed_exit']) is int
+                              and probe['observed_exit'] == expected_exit
+                              and probe['capture_status'] == 'COMPLETE', 'R03 ordered arm/exit/complete')
+                  stdout, stderr = r03_stream(probe['stdout']), r03_stream(probe['stderr'])
+                  if expected_exit == 0:
+                      r03_require(stderr == b'' and type(r03_json(stdout)) is dict,
+                                  'R03 positive/red strict JSON stdout and empty stderr')
+                  else:
+                      r03_require(stdout == b'' and stderr.startswith(b'semantic memory fixtures refused:')
+                                  and b'Traceback' not in stderr, 'R03 masking controlled refusal')
+                  summaries.append({'arm': arm, 'exit': expected_exit, 'capture_status': 'COMPLETE',
+                                    'stdout': {'bytes': len(stdout), 'sha256': hashlib.sha256(stdout).hexdigest()},
+                                    'stderr': {'bytes': len(stderr), 'sha256': hashlib.sha256(stderr).hexdigest()}})
+              return {'accepted': True, 'path': filename, 'bytes': len(raw),
+                      'sha256': hashlib.sha256(raw).hexdigest(), 'source_sha256': expected_sha,
+                      'single_mutation_reconstructed': True, 'mutant_sha256': R03_MUTANT,
+                      'private_probes_excluded_from_190_191': True, 'probes': summaries}
+          source = json.loads((publish / 'source-inventory.json').read_bytes())
+          for record in source['files']:
+              path = workspace / record['path']
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  info = os.fstat(fd)
+                  if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size != record['bytes']:
+                      raise ValueError('source geometry changed')
+                  raw = os.read(fd, record['bytes'] + 1)
+                  if len(raw) != record['bytes'] or hashlib.sha256(raw).hexdigest() != record['sha256']:
+                      raise ValueError('source bytes changed')
+              finally:
+                  os.close(fd)
+          # Re-read the actual read-only captured tree, not just the workspace preimage.
+          captured = publish / 'source'
+          expected_captured = {record['path']: record for record in source['files']}
+          seen_captured = set()
+          for path in captured.rglob('*'):
+              info = path.lstat()
+              if stat.S_ISDIR(info.st_mode):
+                  if stat.S_IMODE(info.st_mode) != 0o555:
+                      raise ValueError('captured directory access changed')
+                  continue
+              name = path.relative_to(captured).as_posix()
+              record = expected_captured.get(name)
+              if (record is None or not stat.S_ISREG(info.st_mode) or info.st_nlink != 1
+                      or stat.S_IMODE(info.st_mode) != 0o444 or info.st_size != record['bytes']):
+                  raise ValueError('captured source closure changed')
+              raw = path.read_bytes()
+              if len(raw) != record['bytes'] or hashlib.sha256(raw).hexdigest() != record['sha256']:
+                  raise ValueError('captured source bytes changed')
+              seen_captured.add(name)
+          if seen_captured != set(expected_captured):
+              raise ValueError('captured source inventory incomplete')
+          collection = json.loads((publish / 'collection.json').read_bytes()) if (publish / 'collection.json').is_file() else None
+          if collection is None or collection['refused']:
+              issues.append('original collection unavailable or refused')
+          elif set(collection['missing']) & {'tests-normal.log', 'tests-optimized.log', 'mode-exit-normal.txt',
+                                             'mode-exit-optimized.txt', 'console.log',
+                                             'import-context-normal.jsonl', 'import-context-optimized.jsonl',
+                                             'r03-controls-normal.json', 'r03-controls-optimized.json'}:
+              issues.append('required original output missing')
+          for mode, optimize in (('normal', 0), ('optimized', 1)):
+              path = publish / ('tests-' + mode + '.log')
+              result = {'expected_ids': expected, 'results': [], 'footers': [], 'complete_three_pass': False,
+                        'child_mode_diagnostic': 'NOT_PRESENT'}
+              if path.is_file():
+                  raw = path.read_bytes()
+                  try:
+                      text = raw.decode('utf-8')
+                      if '\r' in text or '\0' in text:
+                          raise ValueError('non-LF log')
+                      lines = text.splitlines()
+                      for line in lines:
+                          match = re.fullmatch(r'([A-Za-z_][A-Za-z0-9_]*) \(([^()\s]+)\) \.\.\. (ok|FAIL|ERROR|skipped.*)', line)
+                          if match:
+                              result['results'].append({'id': match[2], 'short_name': match[1], 'result': match[3]})
+                          elif re.match(r'\s*test[A-Za-z0-9_]*\s*\(', line):
+                              issues.append(mode + ': malformed result-looking line')
+                          footer = re.fullmatch(r'Ran ([1-9][0-9]*) tests? in ([0-9]+(?:\.[0-9]+)?)s', line)
+                          if footer:
+                              result['footers'].append({'count': int(footer[1]), 'duration_text': footer[2]})
+                      rows = result['results']
+                      terminal = [line for line in lines if line]
+                      result['complete_three_pass'] = (
+                          len(rows) == 3 and sorted(row['id'] for row in rows) == expected
+                          and all(row['result'] == 'ok' and row['short_name'] == row['id'].split('.')[-1] for row in rows)
+                          and len(result['footers']) == 1 and result['footers'][0]['count'] == 3
+                          and terminal[-1:] == ['OK'] and lines.count('OK') == 1)
+                  except (UnicodeError, ValueError) as error:
+                      issues.append(mode + ': ' + type(error).__name__)
+              else:
+                  issues.append(mode + ': raw test log missing')
+              exit_path = publish / ('mode-exit-' + mode + '.txt')
+              mode_exit = exit_path.read_text('ascii').strip() if exit_path.is_file() else None
+              result['untrusted_mode_exit_status'] = mode_exit
+              if mode_exit != '0':
+                  issues.append(mode + ': original mode exit was nonzero or unavailable')
+              diagnostic = publish / ('child-modes-' + mode + '.jsonl')
+              if diagnostic.is_file():
+                  try:
+                      raw = diagnostic.read_bytes()
+                      if not raw or not raw.endswith(b'\n') or b'\r' in raw:
+                          raise ValueError('diagnostic line framing')
+                      def unique(pairs):
+                          obj = {}
+                          for key, value in pairs:
+                              if key in obj:
+                                  raise ValueError('duplicate diagnostic key')
+                              obj[key] = value
+                          return obj
+                      rows = [json.loads(line, object_pairs_hook=unique) for line in raw.splitlines()]
+                      if not all(type(row) is dict and set(row) == {'schema_version', 'optimize'}
+                                 and type(row['schema_version']) is int and row['schema_version'] == 1
+                                 and type(row['optimize']) is int and row['optimize'] == optimize for row in rows):
+                          raise ValueError('diagnostic closed schema or mode')
+                      result['child_mode_diagnostic'] = {'records': len(rows), 'optimize': optimize}
+                      if len(rows) != 190:
+                          issues.append(mode + ': expected exactly 190 CLI-child diagnostic rows')
+                      if not source['product_cli_present']:
+                          issues.append(mode + ': child diagnostic exists while CLI was absent')
+                  except (UnicodeError, ValueError) as error:
+                      issues.append(mode + ': invalid child diagnostic ' + type(error).__name__)
+              elif source['product_cli_present']:
+                  issues.append(mode + ': required child diagnostic missing while CLI was present')
+              contexts_path = publish / ('import-context-' + mode + '.jsonl')
+              result['import_context_diagnostic'] = 'NOT_PRESENT'
+              try:
+                  raw = contexts_path.read_bytes()
+                  if not raw or not raw.endswith(b'\n') or b'\r' in raw:
+                      raise ValueError('import context framing')
+                  def context_unique(pairs):
+                      obj = {}
+                      for key, value in pairs:
+                          if key in obj:
+                              raise ValueError('duplicate import context key')
+                          obj[key] = value
+                      return obj
+                  contexts = [json.loads(line, object_pairs_hook=context_unique) for line in raw.splitlines()]
+                  fields = {'schema_version', 'kind', 'optimize', 'isolated', 'ignore_environment',
+                            'safe_path', 'sys_path', 'stdlib_origins', 'entry_source'}
+                  image_paths = {'/usr/local/lib/python311.zip', '/usr/local/lib/python3.11',
+                                 '/usr/local/lib/python3.11/lib-dynload'}
+                  kinds = {'TEST_PROCESS_IMPORT_CONTEXT': 0, 'CLI_PROCESS_IMPORT_CONTEXT': 0}
+                  for context in contexts:
+                      if (type(context) is not dict or set(context) != fields
+                              or type(context['schema_version']) is not int or context['schema_version'] != 1
+                              or context['kind'] not in kinds
+                              or type(context['optimize']) is not int or context['optimize'] != optimize
+                              or type(context['isolated']) is not int or context['isolated'] != 1
+                              or type(context['ignore_environment']) is not int or context['ignore_environment'] != 1
+                              or context['safe_path'] is not True):
+                          raise ValueError('isolated import context closed schema/flags')
+                      is_test = context['kind'] == 'TEST_PROCESS_IMPORT_CONTEXT'
+                      expected_entry = ('/source/tests/test_semantic_memory_benchmark.py' if is_test
+                                        else '/source/tools/semantic_memory_experiment.py')
+                      allowed_paths = image_paths | ({'/source/tests'} if is_test else set())
+                      if (context['entry_source'] != expected_entry
+                              or type(context['sys_path']) is not list
+                              or not context['sys_path']
+                              or not all(type(path) is str and path in allowed_paths
+                                         for path in context['sys_path'])):
+                          raise ValueError('unsafe import search path/entry')
+                      origins = context['stdlib_origins']
+                      if type(origins) is not dict or set(origins) != {'copy', 'json'}:
+                          raise ValueError('stdlib origin inventory')
+                      for module, filename in (('copy', 'copy.py'), ('json', 'json/__init__.py')):
+                          origin = origins[module]
+                          if (type(origin) is not dict or set(origin) != {'path', 'sha256'}
+                                  or origin['path'] != '/usr/local/lib/python3.11/' + filename
+                                  or type(origin['sha256']) is not str
+                                  or re.fullmatch(r'[0-9a-f]{64}', origin['sha256']) is None):
+                              raise ValueError('stdlib origin identity')
+                      kinds[context['kind']] += 1
+                  children = result['child_mode_diagnostic']
+                  if (not isinstance(children, dict)
+                          or kinds['TEST_PROCESS_IMPORT_CONTEXT'] != 1
+                          or kinds['CLI_PROCESS_IMPORT_CONTEXT'] != children['records']):
+                      raise ValueError('parent/child import context count join')
+                  result['import_context_diagnostic'] = {
+                      'records': len(contexts), 'kinds': kinds, 'isolated': 1,
+                      'safe_path': True, 'stdlib_origins': 'RETAINED_TEST_PROCESS_OBSERVATIONS',
+                      'search_path': 'PINNED_IMAGE_PLUS_EXACT_CAPTURED_TEST_DIRECTORY'}
+                  if len(contexts) != 191:
+                      issues.append(mode + ': expected exactly 191 import-context rows')
+              except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
+                  issues.append(mode + ': missing/invalid import context ' + type(error).__name__)
+              try:
+                  result['r03_derivative_control'] = validate_r03(mode, optimize)
+              except (OSError, UnicodeError, ValueError, TypeError, KeyError, RecursionError, binascii.Error) as error:
+                  result['r03_derivative_control'] = {'accepted': False, 'error_type': type(error).__name__,
+                                                      'reason': str(error)[:160]}
+                  issues.append(mode + ': invalid R03 derivative control ' + type(error).__name__ + ': ' + str(error)[:160])
+              modes[mode] = result
+              if not result['complete_three_pass']:
+                  issues.append(mode + ': complete expected three-method PASS not observed')
+          status_path = publish / 'container-exit-status.txt'
+          status = status_path.read_text('ascii').strip() if status_path.is_file() else None
+          if status != '0':
+              issues.append('trusted container command did not complete with zero status')
+          observation = {
+              'schema_version': 1, 'kind': 'FIXTURE_CONTROL_OBSERVATION', 'native_context': source['native_context'],
+              'product_cli_present': source['product_cli_present'], 'modes': modes, 'container_exit_status': status,
+              'issues': issues, 'complete_fixture_controls_passed': not issues,
+              'qualification_scope': 'Three synthetic Task1 fixture methods only. No semantic retrieval, encoder, tokenizer, vector DB, installation or scientific acceptance.',
+              'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          fd = os.open(publish / 'fixture-control-observation.json',
+                       os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+          with os.fdopen(fd, 'w', encoding='ascii') as stream:
+              json.dump(observation, stream, sort_keys=True, separators=(',', ':'))
+              stream.write('\n')
+          if issues:
+              raise ValueError('fixture controls failed or incomplete; inspect retained originals')
+          PY
+          canonical_observer_status=$?
+          set -e
+          if [ "$canonical_observer_status" -ne 0 ]; then
+            exit "$canonical_observer_status"
+          fi
+          if [ "$observer_count_status" -ne 0 ]; then
+            exit "$observer_count_status"
+          fi
+      - name: Seal every available original on success or failure
+        id: task1_seal
+        if: ${{ always() && steps.task1_native.outcome != 'skipped' }}
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" <<'PY'
+          import hashlib, os, pathlib, stat, sys
+          root = pathlib.Path(sys.argv[1])
+          rows, total, files = [], 0, []
+          for path in sorted(root.rglob('*')):
+              info = path.lstat()
+              if stat.S_ISDIR(info.st_mode):
+                  continue
+              if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+                  raise ValueError('refusing nonregular or linked publication member')
+              name = path.relative_to(root).as_posix()
+              if name == 'ARTIFACT_SHA256SUMS':
+                  raise ValueError('manifest already exists')
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= 48 * 2**20:
+                      raise ValueError('sealed original admission type/link/size')
+                  raw = bytearray()
+                  while len(raw) <= before.st_size:
+                      part = os.read(descriptor, min(65536, before.st_size + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw.extend(part)
+                  after = os.fstat(descriptor)
+                  fields = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+                  if len(raw) != before.st_size or any(getattr(before, key) != getattr(after, key) for key in fields):
+                      raise ValueError('sealed original stable whole read')
+              finally:
+                  os.close(descriptor)
+              total += len(raw)
+              rows.append(hashlib.sha256(raw).hexdigest() + '  ' + name + '\n')
+              files.append(path)
+          manifest = ''.join(rows).encode('ascii')
+          if len(rows) + 1 > 512 or total + len(manifest) > 48 * 2**20:
+              raise ValueError('actual originals plus exact manifest exceed unchanged publication count/aggregate caps')
+          for path in files:
+              if stat.S_IMODE(path.lstat().st_mode) != 0o444:
+                  path.chmod(0o444)
+          fd = os.open(root / 'ARTIFACT_SHA256SUMS', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+          with os.fdopen(fd, 'wb') as stream:
+              stream.write(manifest)
+          PY
+      - name: Retain original fixture results and native context
+        if: ${{ always() && steps.task1_native.outcome != 'skipped' }}
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: semantic-memory-task1-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/semantic-memory-task1-${{ github.run_id }}-${{ github.run_attempt }}/publish/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Release only the owned bounded Task1 output filesystem
+        if: ${{ always() && steps.task1_native.outcome != 'skipped' }}
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          task1_root="$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          task1_container="semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          remaining="$(docker ps -aq --filter "name=^/$task1_container$")"
+          test -z "$remaining"
+          mounted="$(python3 -I -B -S - "$task1_root/output" <<'PY'
+          import pathlib, sys
+          target = sys.argv[1]
+          rows = [line.split()[4] for line in pathlib.Path('/proc/self/mountinfo').read_text().splitlines()]
+          count = rows.count(target)
+          if count not in (0, 1):
+              raise ValueError('ambiguous owned mount')
+          print('mounted' if count else 'absent')
+          PY
+          )"
+          if [ "$mounted" = mounted ]; then sudo umount "$task1_root/output"; fi
+
+

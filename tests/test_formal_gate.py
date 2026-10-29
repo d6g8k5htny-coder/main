@@ -11,8 +11,11 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import shutil
+import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("gate", ROOT / "tools/formal_gate_check.py")
@@ -50,13 +53,16 @@ class SyntheticControls(unittest.TestCase):
         self.write("pkg/Demo.lean", "import Demo.Basic\n\n/-! root docstring -/\n")
         self.write("pkg/Demo/Basic.lean", LEAN)
         self.write("pkg/sources/SOURCE.md", SOURCE)
-        for name in ("SCOPE.md", "GLOSSARY.md", "README.md"):
+        for name in ("SCOPE.md", "GLOSSARY.md", "README.md", "COMPILED_INVENTORY.md"):
             self.write("pkg/" + name, name + "\n")
         self.write("tools/formal_gate_check.py", "# bound control copy\n")
         self.write("tests/test_formal_gate.py", "# bound control copy\n")
+        self.write("tests/test_formal_negative_diagnostics.py", "# bound control copy\n")
+        for name in ("tools/formal_compiled_inventory.py", "tests/test_formal_compiled_inventory.py"):
+            self.write(name, "# bound compiled inventory control\n")
         self.bound = ["pkg/lean-toolchain", "pkg/lakefile.toml", "pkg/lake-manifest.json", "pkg/Demo.lean",
                       "pkg/Demo/Basic.lean", "pkg/sources/SOURCE.md", "pkg/SCOPE.md", "pkg/GLOSSARY.md",
-                      "pkg/README.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py"]
+                      "pkg/README.md", "pkg/COMPILED_INVENTORY.md", "tools/formal_gate_check.py", "tests/test_formal_gate.py", "tests/test_formal_negative_diagnostics.py", "tools/formal_compiled_inventory.py", "tests/test_formal_compiled_inventory.py"]
         self.manifest = {
             "schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
             "package": "demo", "package_root": "pkg", "root_module": "Demo",
@@ -66,14 +72,14 @@ class SyntheticControls(unittest.TestCase):
             "files": {}, "unbound_files": ["pkg/manifest.json", "pkg/ALIGNMENT.md"],
             "sources": [{"id": "src", "repository": "d6g8k5htny-coder/Math-", "commit": "a" * 40, "path": "SOURCE.md",
                          "bytes": len(SOURCE.encode()), "sha256": sha(SOURCE.encode()), "local_copy": "pkg/sources/SOURCE.md"}],
-            "source_modules": ["Demo/Basic.lean"],
+            "source_modules": ["Demo/Basic.lean"], "compiled_inventory": [], "codegen_inventory": [],
             "targets": [
                 {"name": "Demo.two_add", "module": "Demo/Basic.lean", "title": "two add", "source": "src",
                  "informal_anchor": "two and two make four", "does_not_claim": "anything else"},
                 {"name": "Demo.tight", "module": "Demo/Basic.lean", "title": "tight", "source": "src",
                  "informal_anchor": "77 < 78", "does_not_claim": "anything else"},
             ],
-            "negative_controls": {"tight": {"module": "Demo/Basic.lean", "replace": "77 < 78", "with": "77 < 77"}},
+            "negative_controls": {"tight": {"module": "Demo/Basic.lean", "replace": "77 < 78", "with": "77 < 77", "expected_diagnostic": "6:30: error: Tactic `decide` proved that the proposition\n  77 < 77\nis false\n"}},
         }
         self.refresh()
         self.audit = self.root / "audit.txt"
@@ -320,6 +326,165 @@ class SyntheticControls(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()):
             code = gate.main(["--root", str(self.root), "--manifest", "pkg/manifest.json", "--alignment-table", "pkg/ALIGNMENT.md"])
         self.assertEqual(code, 1)
+
+
+    # Ordering cases derive from the published, source-bound diagnostic:
+    # https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6066278094
+    # Only subprocess outputs and Git identity are synthetic. The real execute,
+    # run/log writer, axiom parser and temporary-package source checker run here.
+    LEAN_COMMIT = "5045d0056413266e57c625dcd7c365b10e377c52"
+    RUNTIME_RELEASE = (
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Release)\n"
+    )
+    WRONG_RUNTIMES = (
+        "Lean (version 4.34.10, x86_64, Release)",
+        "Lean (version 4.34.100, x86_64, Release)",
+        "Lean (version 4.34.1-rc1, x86_64, Release)",
+        "Lean (version 4.34.1-nightly, x86_64, Release)",
+        "unrelated diagnostic: version 4.34.1",
+        "Lean (version 4.34.2, x86_64, Release)",
+        "Lean (version 4.35.1, x86_64, Release)",
+        "Lean (version 4.34.0, x86_64, Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5, Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit " + "a" * 40 + ", Release)",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Debug)",
+        "Lean (version 4.34.1,",
+        "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit "
+        + LEAN_COMMIT + ", Release)\ntrailing diagnostic",
+        "",
+    )
+
+    def runtime_probe(self, versions, *, version_returncode=0, version_timeout=False,
+                      mutate_source=False):
+        m, digest, pkg = self.check()
+        shutil.rmtree(pkg / ".lake", ignore_errors=True)
+        sentinel = pkg / ".lake/build/existing-build-sentinel"
+        sentinel.parent.mkdir(parents=True)
+        sentinel.write_text("temporary build must survive preflight refusal\n")
+        out = pkg / ".lake/formal-evidence"
+        events = []
+        self.runtime_state = {"events": events, "sentinel": sentinel, "out": out}
+        version_outputs = iter(versions)
+        source_check = gate.source_check
+
+        def check_source(root):
+            events.append("source-check")
+            return source_check(root, "pkg/manifest.json")
+
+        def run_process(command, **kwargs):
+            if command == ["git", "rev-parse", "HEAD"]:
+                events.append("git-head")
+                return subprocess.CompletedProcess(command, 0, "a" * 40 + "\n")
+            self.assertEqual(command[0], "/synthetic/lake")
+            self.assertEqual(kwargs["cwd"], pkg)
+            if command[1:] == ["env", "lean", "--version"]:
+                events.append("version")
+                if version_timeout:
+                    raise subprocess.TimeoutExpired(command, kwargs["timeout"])
+                return subprocess.CompletedProcess(command, version_returncode, next(version_outputs))
+            if command[1:] == ["build"]:
+                events.append("build")
+                if mutate_source:
+                    with (pkg / "sources/SOURCE.md").open("a") as f:
+                        f.write("synthetic build changed a bound source\n")
+                return subprocess.CompletedProcess(command, 0, "synthetic build\n")
+            if command[1:] == ["env", "leanchecker", "Demo"]:
+                events.append("leanchecker")
+                return subprocess.CompletedProcess(command, 0, "synthetic replay\n")
+            self.assertEqual(command[1:3], ["env", "lean"])
+            name = Path(command[3]).name
+            events.append(name)
+            if name == "Audit.lean":
+                return subprocess.CompletedProcess(command, 0, AUDIT)
+            if name == "Inventory.lean":
+                enc = lambda n: gate.compiled.encode(gate.compiled.simple_name(n))
+                transcript = (f"MODULE|{enc('Demo')}|false|0|0\nMODULE|{enc('Demo.Basic')}|false|2|0\n"
+                              + "".join(f"INV|theorem|user|{enc('Demo.Basic')}|{enc(n)}\n" for n in ("Demo.two_add", "Demo.tight"))
+                              + "AXIOMS|\nCLOSURE|2\n")
+                return subprocess.CompletedProcess(command, 0, transcript)
+            if name == "Types.lean":
+                return subprocess.CompletedProcess(command, 0, "synthetic elaborated types\n")
+            if name == "tight.lean":
+                return subprocess.CompletedProcess(command, 1, str(command[3]) + ":6:30: error: Tactic `decide` proved that the proposition\n  77 < 77\nis false\n", "")
+            if name in {"sorry.lean", "custom_imported.lean", "native.lean"}:
+                reports = {
+                    "sorry.lean": str(command[3]) + ":2:8: warning: declaration uses `sorry`\n'injected' depends on axioms: [sorryAx]\n",
+                    "custom_imported.lean": "'injected' depends on axioms: [hiddenPremise]\n",
+                    "native.lean": "'injected' depends on axioms: [injected._native.native_decide.ax_1_1]\n",
+                }
+                return subprocess.CompletedProcess(command, 0, reports[name], "")
+            self.fail("unexpected synthetic process: " + repr(command))
+
+        with mock.patch.object(gate, "lake_binary", return_value="/synthetic/lake"), \
+                mock.patch.object(gate.subprocess, "run", side_effect=run_process), \
+                mock.patch.object(gate, "source_check", side_effect=check_source), \
+                contextlib.redirect_stdout(io.StringIO()):
+            return gate.execute(m, digest, pkg, self.root)
+
+    def test_wrong_runtime_preserves_build_and_refuses_before_work(self):
+        for version in self.WRONG_RUNTIMES:
+            with self.subTest(version=version):
+                with self.assertRaisesRegex(ValueError, "unexpected running Lean version"):
+                    self.runtime_probe([version])
+                self.assertTrue(self.runtime_state["sentinel"].is_file())
+                self.assertEqual(self.runtime_state["events"], ["version"])
+                self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
+                self.assertEqual((self.runtime_state["out"] / "preflight-version.log").read_text(), version)
+
+    def test_valid_runtime_preserves_both_version_observations_and_logs(self):
+        final_version = (
+            "Lean (version 4.34.1, aarch64-unknown-linux-gnu, commit "
+            + self.LEAN_COMMIT + ", Release)\n"
+        )
+        receipt = self.runtime_probe([self.RUNTIME_RELEASE, final_version])
+        self.assertEqual(self.runtime_state["events"], [
+            "version", "build", "leanchecker", "Audit.lean", "Inventory.lean", "Types.lean", "tight.lean",
+            "sorry.lean", "custom_imported.lean", "native.lean", "source-check", "version", "git-head"])
+        self.assertFalse(self.runtime_state["sentinel"].exists())
+        self.assertEqual(receipt["lean_version"], final_version.strip())
+        out = self.runtime_state["out"]
+        self.assertEqual((out / "preflight-version.log").read_text(), self.RUNTIME_RELEASE)
+        self.assertEqual((out / "version.log").read_text(), final_version)
+        self.assertEqual(set(receipt["logs"]), {
+            "preflight-version.log", "version.log", "build.log", "leanchecker.log",
+            "axioms.log", "compiled-inventory.log", "elaborated-types.log", "tight.log", "sorry.log",
+            "custom_imported.log", "native.log", "tight-stderr.log", "sorry-stderr.log",
+            "custom_imported-stderr.log", "native-stderr.log"})
+        for name, digest in receipt["logs"].items():
+            self.assertEqual(digest, sha((out / name).read_bytes()), name)
+
+    def test_wrong_postflight_runtime_refuses_receipt_after_source_recheck(self):
+        for version in self.WRONG_RUNTIMES:
+            with self.subTest(version=version):
+                with self.assertRaisesRegex(ValueError, "unexpected running Lean version"):
+                    self.runtime_probe([self.RUNTIME_RELEASE, version])
+                self.assertEqual(self.runtime_state["events"][0], "version")
+                self.assertEqual(self.runtime_state["events"][-2:], ["source-check", "version"])
+                self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
+
+    def test_postflight_source_change_still_refuses_receipt(self):
+        with self.assertRaisesRegex(ValueError, "source hash mismatch"):
+            self.runtime_probe([self.RUNTIME_RELEASE], mutate_source=True)
+        self.assertEqual(self.runtime_state["events"][0], "version")
+        self.assertEqual(self.runtime_state["events"][-1], "source-check")
+        self.assertEqual(self.runtime_state["events"].count("version"), 1)
+        self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
+
+    def test_preflight_process_failure_preserves_build(self):
+        with self.assertRaisesRegex(ValueError, "unexpected process outcome"):
+            self.runtime_probe([self.RUNTIME_RELEASE], version_returncode=17)
+        self.assertTrue(self.runtime_state["sentinel"].is_file())
+        self.assertEqual(self.runtime_state["events"], ["version"])
+        self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
+
+    def test_preflight_timeout_preserves_build(self):
+        with self.assertRaises(subprocess.TimeoutExpired):
+            self.runtime_probe([], version_timeout=True)
+        self.assertTrue(self.runtime_state["sentinel"].is_file())
+        self.assertEqual(self.runtime_state["events"], ["version"])
+        self.assertFalse((self.runtime_state["out"] / "receipt.json").exists())
 
 
 class RepositoryControls(unittest.TestCase):
