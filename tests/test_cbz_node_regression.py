@@ -643,7 +643,7 @@ class MutationHarnessTests(unittest.TestCase):
             fixture.parent.mkdir(parents=True)
             fixture.write_bytes(b"mutated\n")
             transcript = root / "node.tap"
-            transcript.write_text("# pass 1\n")
+            transcript.write_text("# tests 1\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n")
             names = ("CBZ_NODE_MUTANT_NONCE", "CBZ_NODE_MUTANT_RECEIPT", "CBZ_NODE_MUTANT_NAME")
             previous = {name: os.environ.get(name) for name in names}
             def restore():
@@ -707,7 +707,7 @@ class MutationHarnessTests(unittest.TestCase):
         observer = globals().get("loaded_bypass_observed")
         self.assertTrue(callable(observer), "loaded-source observation must be explicit and testable")
         good = subprocess.CompletedProcess([], 1, "CONTROL_IMPORT_PASS\n",
-                                           "AssertionError: changed loaded source was accepted\n")
+                                           "Traceback (most recent call last):\n  File \"<string>\", line 9, in <module>\nAssertionError: changed loaded source was accepted\n")
         self.assertTrue(observer(good))
         for candidate in (
             subprocess.CompletedProcess([], 86, good.stdout, good.stderr),
@@ -718,6 +718,37 @@ class MutationHarnessTests(unittest.TestCase):
         ):
             with self.subTest(candidate=candidate):
                 self.assertFalse(observer(candidate))
+
+    def test_mutant_child_does_not_execute_poisoned_test_cache(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-node-child-cache-") as directory:
+            root = Path(directory)
+            package = root / "tests"
+            package.mkdir()
+            (package / "__init__.py").write_text("")
+            source = package / "test_cbz_node_regression.py"
+            source.write_text("import unittest\nclass NodeRunnerTests(unittest.TestCase):\n def test_child(self): print('CBZ_CHILD_SOURCE')\n")
+            stat = source.stat()
+            suffix = ".opt-" + str(sys.flags.optimize) if sys.flags.optimize else ""
+            cache = package / "__pycache__" / ("test_cbz_node_regression." + sys.implementation.cache_tag + suffix + ".pyc")
+            cache.parent.mkdir()
+            poisoned = compile("print('CBZ_CHILD_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
+            cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                poisoned, int(stat.st_mtime), stat.st_size))
+            (root / "tools").mkdir()
+            (root / "tools/museum_data.py").write_text("")
+            target = root / "mutant.py"
+            target.write_text("")
+            original = ROOT
+            globals()["ROOT"] = root
+            try:
+                with patch.dict(os.environ):
+                    os.environ.pop("PYTHONPYCACHEPREFIX", None)
+                    result = SourceMutationTests("test_unmodified_copied_source_passes").invoke(target, "test_child")
+            finally:
+                globals()["ROOT"] = original
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
+            self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
     def test_source_loader_ignores_poisoned_bytecode(self):
         self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
