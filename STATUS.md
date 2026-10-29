@@ -153,3 +153,5 @@ A source-level [conditional constant-law countermodel](cbz/quarantine/lifetime-p
 ### Archived axis-envelope precision observation
 
 [Source inspection and exact-rational comparisons](cbz/quarantine/axis-envelope-precision-observation.md) identify that the archived point-certificate script constructs its decimal threshold and point offset before raising mpmath precision and reuses the point in both later runs. Under a fresh default 53-bit context, both differ from their stated decimals in the recorded directions. The archived process has not been rerun; no exact point violation, opposite inequality or recovered Q-5026 packet is claimed.
+
+At the recorded candidate cut, an ad hoc comparison found the same 307 unique quarantine IDs in the catalog, proof-index rows and readable headings, with each exact boundary text present, and the same 367 unique CLOSED IDs in the index and literal evidence records. This is a narrow index consistency observation, not a final G8 or completeness audit. [Evidence](cbz/evidence/index-id-alignment-20261029.json).
