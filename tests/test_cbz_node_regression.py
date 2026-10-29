@@ -2,6 +2,8 @@
 import hashlib
 import importlib.util
 import io
+import inspect
+import secrets
 import json
 import os
 import re
@@ -26,7 +28,73 @@ def runner():
     return module
 
 
+class _ObservedRegex:
+    def __init__(self, inner, case, pattern, frame):
+        self.inner, self.case, self.pattern, self.frame = inner, case, pattern, frame
+
+    def __enter__(self):
+        return self.inner.__enter__()
+
+    def __exit__(self, exc_type, exc, traceback):
+        if exc_type is None:
+            self.case.observe_missing_rejection(self.pattern, self.frame.f_locals)
+        return self.inner.__exit__(exc_type, exc, traceback)
+
+
 class NodeRunnerTests(unittest.TestCase):
+    def mark_bypass(self, event):
+        nonce = os.environ.get("CBZ_NODE_MUTANT_NONCE")
+        path = os.environ.get("CBZ_NODE_MUTANT_RECEIPT")
+        wanted = os.environ.get("CBZ_NODE_MUTANT_NAME")
+        if nonce and path and wanted == event:
+            with open(path, "x", encoding="utf-8") as output:
+                json.dump({"nonce": nonce, "mutation": event,
+                           "test": self._testMethodName,
+                           "observation": "intended_bypass_observed"}, output)
+
+    def assertRaisesRegex(self, expected_exception, expected_regex, *args, **kwargs):
+        inner = super().assertRaisesRegex(expected_exception, expected_regex, *args, **kwargs)
+        if args or kwargs or not os.environ.get("CBZ_NODE_MUTANT_RECEIPT"):
+            return inner
+        return _ObservedRegex(inner, self, expected_regex, inspect.currentframe().f_back)
+
+    def observe_missing_rejection(self, pattern, variables):
+        mutation = os.environ.get("CBZ_NODE_MUTANT_NAME")
+        allowed = {
+            "loaded-root": ("test_loaded_sources_must_belong_to_selected_main", "loaded source"),
+            "selected-symlink": ("test_selected_node_test_symlink_is_rejected", "regular.*Node"),
+            "external-source-symlink": ("test_tracked_source_symlink_cannot_bind_an_external_dependency", "unsupported tracked Git entry"),
+            "fixture-domain": ("test_child_fixture_mutation_is_a_failed_postflight", "fixture"),
+            "fixture-postflight": ("test_child_fixture_mutation_is_a_failed_postflight", "fixture"),
+            "length": ("test_all_byte_identities_are_required", "source identity mismatch"),
+            "sha256": ("test_all_byte_identities_are_required", "source identity mismatch"),
+            "declared-blob": ("test_all_byte_identities_are_required", "source identity mismatch"),
+            "regular-blob": ("test_symlink_is_not_admitted_as_a_regular_fixture", "not a regular Git blob"),
+            "url": ("test_url_alias_is_rejected", "URL/identity"),
+            "skip-inputs": ("test_materialization_checks_every_input_before_writing", "source identity mismatch"),
+            "hidden-bytes": ("test_snapshot_detects_assume_unchanged_source_changes", "tracked bytes differ"),
+            "hidden-mode": ("test_snapshot_detects_hidden_executable_mode_changes", "executable mode changed"),
+            "zero-tests": ("test_tap_requires_nonzero_complete_all_passed_summary", "failed.*skipped/todo"),
+            "skip-summary": ("test_real_node_skips_are_not_a_green_suite", "skipped/todo"),
+            "duplicate-summary": ("test_tap_missing_or_duplicate_fields_refuse", "missing or ambiguous"),
+            "empty-discovery": ("test_zero_tracked_node_tests_refuses", "no tracked Node tests"),
+        }
+        if allowed.get(mutation) != (self._testMethodName, pattern):
+            return
+        fields = {"length": "bytes", "sha256": "sha256", "declared-blob": "blob"}
+        if mutation in fields and variables.get("field") != fields[mutation]:
+            return
+        if mutation == "zero-tests" and ("# tests 0" not in variables.get("value", "") or "# pass 0" not in variables.get("value", "")):
+            return
+        if mutation == "duplicate-summary" and (variables.get("field") != "tests" or variables.get("text", "").count("# tests ") != 2):
+            return
+        if mutation in ("fixture-domain", "fixture-postflight"):
+            fixture = variables["output"] / "shop/Math-/data.txt"
+            transcript = variables["path"]
+            if fixture.read_bytes() != b"mutated\n" or "# pass 1" not in transcript.read_text():
+                return
+        self.mark_bypass(mutation)
+
     def setUp(self):
         self.module = runner()
         self.temporary = tempfile.TemporaryDirectory(prefix="cbz-node-test-")
@@ -65,6 +133,8 @@ class NodeRunnerTests(unittest.TestCase):
             try:
                 raw = self.module.read_pinned(self.roots, self.descriptor())
             except ValueError as error:
+                if "Git command failed" in str(error):
+                    self.mark_bypass("ambient-git")
                 self.fail("ambient Git redirection affected pinned read: " + str(error))
             self.assertEqual(raw, b"exact input\n")
         finally:
@@ -103,6 +173,8 @@ class NodeRunnerTests(unittest.TestCase):
                 [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
                  "-c", script, str(tools), name],
                 capture_output=True, text=True, timeout=30)
+            if result.returncode != 0 and "CONTROL_IMPORT_PASS" in result.stdout and "changed loaded source was accepted" in result.stderr:
+                self.mark_bypass("loaded-bytes")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("CONTROL_IMPORT_PASS", result.stdout)
             self.assertIn("EXPECTED_SOURCE_REJECTION", result.stdout)
@@ -321,6 +393,8 @@ class NodeRunnerTests(unittest.TestCase):
                 self.repo, [sys.executable, "-c",
                             "print('real stdout'); raise SystemExit(7)"],
                 dict(os.environ), log, *self.make_fixtures())
+        if code == 0 and log_path.read_bytes() == b"real stdout\n":
+            self.mark_bypass("exit")
         self.assertEqual(code, 7)
         self.assertEqual(log_path.read_text(), "real stdout\n")
 
@@ -365,6 +439,8 @@ class NodeRunnerTests(unittest.TestCase):
         result = self.module.run(
             self.repo, self.directory / "Math-", self.directory / "query-",
             self.directory / "report")
+        if result["status"] == "PASS" and not result["mathematical_certification"] and not result["final_cbz_certification"]:
+            self.mark_bypass("false-green-report")
         self.assertEqual(result["status"], "FAIL")
         self.assertFalse(result["mathematical_certification"])
         self.assertFalse(result["final_cbz_certification"])
@@ -392,6 +468,12 @@ def assertion_kill(process, expected):
         return False
     failures = re.findall(r"^FAIL: (test_[a-zA-Z0-9_]+) \(", text, re.MULTILINE)
     return expected in failures
+
+
+def receipt_kill(process, expected, receipt, nonce, mutation):
+    required = {"nonce": nonce, "mutation": mutation, "test": expected,
+                "observation": "intended_bypass_observed"}
+    return process.returncode == 1 and assertion_kill(process, expected) and receipt == required
 
 
 class MutationHarnessTests(unittest.TestCase):
@@ -425,6 +507,44 @@ class MutationHarnessTests(unittest.TestCase):
         result = self.result()
         result.stderr += "\nImportError: child module could not load\n"
         self.assertFalse(assertion_kill(result, "test_expected"))
+
+    def test_receipt_accepts_only_the_matching_observation(self):
+        receipt = {"nonce": "fresh", "mutation": "m", "test": "test_expected",
+                   "observation": "intended_bypass_observed"}
+        self.assertTrue(receipt_kill(self.result(), "test_expected", receipt, "fresh", "m"))
+        for change in (None, {}, dict(receipt, nonce="old"),
+                       dict(receipt, mutation="other"),
+                       dict(receipt, test="test_foreign"),
+                       dict(receipt, observation="wrong_refusal")):
+            self.assertFalse(receipt_kill(self.result(), "test_expected", change, "fresh", "m"))
+        self.assertFalse(receipt_kill(self.result(code=86), "test_expected", None, "fresh", "m"))
+        self.assertFalse(receipt_kill(self.result(code=86), "test_expected", receipt, "fresh", "m"))
+        self.assertFalse(receipt_kill(self.result(expected="test_foreign"), "test_expected", receipt, "fresh", "m"))
+
+    def test_control_receipt_requires_the_exact_subject(self):
+        with tempfile.TemporaryDirectory(prefix="cbz-receipt-control-") as directory:
+            receipt = Path(directory) / "receipt.json"
+            names = ("CBZ_NODE_MUTANT_NONCE", "CBZ_NODE_MUTANT_RECEIPT", "CBZ_NODE_MUTANT_NAME")
+            previous = {name: os.environ.get(name) for name in names}
+            def restore():
+                for name, value in previous.items():
+                    if value is None:
+                        os.environ.pop(name, None)
+                    else:
+                        os.environ[name] = value
+            self.addCleanup(restore)
+            os.environ.update(CBZ_NODE_MUTANT_NONCE="fresh",
+                              CBZ_NODE_MUTANT_RECEIPT=str(receipt),
+                              CBZ_NODE_MUTANT_NAME="length")
+            case = NodeRunnerTests("test_all_byte_identities_are_required")
+            case.observe_missing_rejection("source identity mismatch", {"field": "sha256"})
+            case.observe_missing_rejection("wrong refusal", {"field": "bytes"})
+            self.assertFalse(receipt.exists())
+            case.observe_missing_rejection("source identity mismatch", {"field": "bytes"})
+            self.assertEqual(json.loads(receipt.read_text()), {
+                "nonce": "fresh", "mutation": "length",
+                "test": "test_all_byte_identities_are_required",
+                "observation": "intended_bypass_observed"})
 
     def test_launch_failure_cannot_kill(self):
         result = subprocess.CompletedProcess([], 1, "", "SyntaxError: broken module")
@@ -484,9 +604,11 @@ class SourceMutationTests(unittest.TestCase):
          "test_preflight_failure_produces_fail_report"),
     ]
 
-    def invoke(self, path, name):
+    def invoke(self, path, name, receipt=None, nonce=None, mutation=None):
         environment = dict(os.environ, CBZ_NODE_RUNNER_SOURCE=str(path),
                            PYTHONDONTWRITEBYTECODE="1")
+        if receipt is not None:
+            environment.update(CBZ_NODE_MUTANT_RECEIPT=str(receipt), CBZ_NODE_MUTANT_NONCE=nonce, CBZ_NODE_MUTANT_NAME=mutation)
         return subprocess.run(
             [sys.executable, *(["-O"] if sys.flags.optimize else []), "-B", "-S",
              "-m", "unittest", "-v",
@@ -508,15 +630,22 @@ class SourceMutationTests(unittest.TestCase):
                     self.assertEqual(source.count(old), 1, "mutation anchor drift: " + name)
                     path = Path(directory) / (name + ".py")
                     path.write_text(source.replace(old, new))
-                    result = self.invoke(path, expected)
-                    print("CBZ_MUTANT_DIAGNOSTIC " + json.dumps({"name": name, "stdout": result.stdout, "stderr": result.stderr}), flush=True)
-                    self.assertTrue(assertion_kill(result, expected),
+                    receipt_path = Path(directory) / (name + ".receipt.json")
+                    nonce = secrets.token_hex(16)
+                    result = self.invoke(path, expected, receipt_path, nonce, name)
+                    try:
+                        receipt = json.loads(receipt_path.read_text())
+                    except (FileNotFoundError, ValueError):
+                        receipt = None
+                    self.assertTrue(receipt_kill(result, expected, receipt, nonce, name),
                                     name + "\n" + result.stdout + result.stderr)
 
     def test_harness_mutations_are_rejected_by_named_controls(self):
         full_source = Path(__file__).read_text()
         source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
+            ("receipt", "receipt == required", "True",
+             "test_receipt_accepts_only_the_matching_observation"),
             ("import",
              '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
              "", "test_import_trace_inside_assertion_cannot_kill"),
