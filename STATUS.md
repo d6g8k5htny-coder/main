@@ -179,3 +179,5 @@ The auditor repair remains on branch `cbz/auditor-grader-a8-20261029`, observed 
 ### Unavailable local numerical and classification work
 
 The execution environment is currently unavailable. A previously observed local commit `4d416a851ecb1d474141bbfc60173927949124ce` contained a prepared 27-record numerical mapping and a 367-record source-classification update; its push did not complete, and the commit is not available through the examined public GitHub refs. The published `cbz/classifications.json` contains 94 records. The 367 literal declaration records and their published evidence remain available separately. Neither the 27 numerical records nor the local classification file has been recovered; restore the execution environment and preserve those exact bytes, or independently regenerate and verify a new mapping from published source evidence. No claim of permanent loss or completed numerical disposition is made.
+
+Among the other 273 embedded printed signatures, 45 visibly contain Lean's `⋯` abbreviation at this cut. The count identifies visible abbreviations only; it is not a full semantic or vacuity audit.
