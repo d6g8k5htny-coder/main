@@ -1,0 +1,31 @@
+# Exact-module kernel replay specification
+
+This tool repairs resource scheduling for Lean 4.34.1's installed `LeanChecker.replayFromImports`. It does not replace the kernel or change mathematical source. Owner: CBZ tooling agent; registry payload is `REGISTRY.json` for the canonical writer.
+
+The Lean driver imports `LeanChecker`, initializes the search path with `findSysroot`, and calls the exported official unsafe IO routine exactly once. It never imports the target into its driver environment. The official routine reads exported/server/private parts, builds an environment containing only the target's imports, then replays the constants from the most private available part. This preserves upstream handling of inductives, constructors, recursors and proof bodies. Its intentional unsafe/partial-definition exclusion remains upstream behavior.
+
+The Python CLI accepts only declared arguments; no prefix expansion, default anonymous target, ignored dash flags, concurrency option or empty target set exists. `prepare` creates a manifest from explicit `--module NAME=SOURCE` selections. `run` validates exact expected coverage and all bindings, then starts and waits for one Lean process at a time. Each process has an explicit address-space limit and wall timeout. Any missing module, source/part mutation, nonzero exit, timeout, absent/mismatched completion marker, changed tool binding or coverage mismatch is non-green. A report records every requested module, observed return code, exact command, hashes, resource bounds, times and output. A failed run never claims G4 success.
+
+The manifest binds source bytes and compiled bytes independently; it does not prove that source produced those bytes. G3 build evidence must establish that relationship. The report binds only declared target artifacts and explicit extra context bindings; it does not claim to bind an undeclared full dependency closure. The manifest's explicit expected list must come from the caller's independently complete owned-module inventory; preparing a subset cannot establish full-project coverage.
+
+Trust/path invariant: installed sysroot library precedence pins the driver's checker import. Artifact search roots, selected module filenames and all sibling part paths must be canonical and contain no symlinks. This conservative restriction prevents binding canonical destination siblings while the official routine reads lexical search-path siblings. Limits bound virtual address space, not RSS; an 8192 MiB cap is used for actual fixtures, and no claim is made that every project module fits.
+
+Kernel validity permits axioms. A successful replay is not G2 approved-axiom certification and is not full CBZ. G2 remains an independent blocking gate. Fixtures include a quarantined unapproved axiom and an intentionally corrupted theorem body solely as negative tool tests.
+
+G0 acceptance: strict CLI, exact target, sequential processes, no empty/missing/duplicate coverage, fatal child failure, limits/timeouts, source/part/tool binding changes, public/private/inductive fixture with three real olean parts, malformed public and private proof bodies rejected, unapproved axiom replay accepted while an independent fixture axiom check rejects it. Mutation testing must kill relevant wrapper/driver defects and report actual counts. No heavy project replay is required to self-test this tool.
+
+Resource-boundary generation (P2 repair): memory is an exact integer in `[64, min(sys.maxsize, finite inherited RLIMIT_AS hard limit) // 1048576]` MiB. The unlimited hard-limit sentinel contributes no cap. Timeout is an exact int/float type in `(0, min(floor(threading.TIMEOUT_MAX), 2147483)]` seconds; 2147483 is the signed 32-bit poll-millisecond range rounded down. Bool, NaN/infinity and oversized values are rejected before process creation and before converting a huge int to float. Both ceilings and the one-second cleanup wait budget appear in the report.
+
+The wrapper owns Popen explicitly and never invokes its implicit unbounded context-manager cleanup. Spawn/wait resource exceptions (`OSError`, `SubprocessError`, `OverflowError`, `ValueError`) are structured errors. Timeout/error cleanup signals the process group, falls back to child signaling on a group error, and uses a one-second reap wait plus nonblocking poll. Cleanup failure leaves a non-green ERROR with the PID and diagnostics, and stops subsequent modules. A finite wait cannot force an OS-uninterruptible child to exit. Only an ordinary completed wait can promote a result to PASS/FAIL; neither timeout nor ERROR can become PASS from exit-zero/marker observations during cleanup. Existing coverage, binding, private-part, replay, and G2 semantics remain unchanged.
+
+
+## Mutation grader lifecycle contract
+
+See LIFECYCLE_FIX.md. Kills require a pristine externally bound exact selected parent-method population and one authorized body entry/exit per method, direct escaping AssertionError identity or matched body-subtest assertion events, and exact integer count/event consistency. Lifecycle errors/assertions, false or incomplete identities, foreign subtest parents, missing metadata, skips/expected failures and synthetic summaries are ERROR. Fully fabricated consistent JSON remains outside the trusted runner/source-custody boundary. Historical source-bound body-trace evidence is retained separately from new receipts.
+
+
+## Synchronous None-return test-body profile
+
+Mutation grading supports ordinary synchronous unittest methods that return None. Generator, coroutine, async-generator and wraps-linked suspended method shapes are refused during pristine population discovery. Every non-None body return is ERROR, including falsey values and opaque iterables. Returned work is not consumed or awaited; only a fresh native coroutine may be closed without entering its body. Creating a suspended call object is not evidence that its deferred test body executed.
+
+All 54 predecessor methods are ordinary synchronous methods with no direct valued return or suspension; the static source-applicability report is in evidence/lazy-body/evidence/original-method-shape-applicability.json. Existing lifecycle/error/subtest and externally bound population obligations remain in force. No additional runtime module, dependency or receipt schema is introduced.

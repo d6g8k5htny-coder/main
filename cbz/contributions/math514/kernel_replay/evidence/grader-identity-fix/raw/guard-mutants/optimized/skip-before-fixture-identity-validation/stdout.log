@@ -1,0 +1,19 @@
+test_postload_substitution_refused_before_any_fixture (test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture) ... FAIL
+
+======================================================================
+FAIL: test_postload_substitution_refused_before_any_fixture (test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/skip-before-fixture-identity-validation/run_tests.py", line 275, in dispatch
+    return original_dispatch(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['class-setup'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'class-setup'
+
+- ['class-setup']
++ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['probe.Case'], 'selected_ids': ['test_mutation_harness.IdentityHarnessTests.test_postload_substitution_refused_before_any_fixture.<locals>.Case.test_one'], 'invalid_population': ['selected class/function/code identity changed during execution'], 'tests_run': 0, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': '\nRan 0 tests\n', 'started_ids': [], 'finished_ids': [], 'body_entered_ids': [], 'body_finished_ids': [], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}
+
+Ran 1 tests
