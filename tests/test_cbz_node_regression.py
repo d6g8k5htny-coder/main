@@ -471,12 +471,13 @@ def assertion_kill(process, expected):
     summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
     if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):
         return False
-    if process.returncode == 0 or not summary or "errors=" in summary.group(1):
+    if process.returncode != 1 or not summary or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1)):
         return False
     if not re.search(r"^Ran [1-9][0-9]* tests?", text, re.MULTILINE):
         return False
     failures = re.findall(r"^FAIL: (test_[a-zA-Z0-9_]+) \(", text, re.MULTILINE)
-    return expected in failures
+    count = int(re.match(r"failures=([0-9]+)", summary.group(1)).group(1))
+    return len(failures) == count and all(name == expected for name in failures)
 
 
 def receipt_kill(process, expected, receipt, nonce, mutation):
@@ -677,6 +678,8 @@ class SourceMutationTests(unittest.TestCase):
         full_source = Path(__file__).read_text()
         source, suffix = full_source.split("\nclass SourceMutationTests", 1)
         mutations = [
+            ("count", "len(failures) == count", "True",
+             "test_mismatched_failure_count_cannot_kill"),
             ("receipt", "receipt == required", "True",
              "test_receipt_accepts_only_the_matching_observation"),
             ("subject", 'if mutation in fields and variables.get("field") != fields[mutation]:',
@@ -689,11 +692,11 @@ class SourceMutationTests(unittest.TestCase):
              '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
              "", "test_import_trace_inside_assertion_cannot_kill"),
 
-            ("exit", "process.returncode == 0 or not summary", "not summary",
+            ("exit", "process.returncode != 1 or not summary", "not summary",
              "test_success_exit_cannot_kill"),
-            ("errors", ' or "errors=" in summary.group(1)', "",
+            ("errors", ' or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1))', "",
              "test_errors_cannot_kill"),
-            ("foreign", "return expected in failures", "return bool(failures)",
+            ("foreign", "all(name == expected for name in failures)", "bool(failures)",
              "test_foreign_assertion_cannot_kill"),
         ]
         with tempfile.TemporaryDirectory(prefix="cbz-node-harness-mutants-") as directory:
