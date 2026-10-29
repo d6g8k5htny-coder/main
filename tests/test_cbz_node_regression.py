@@ -750,6 +750,42 @@ class MutationHarnessTests(unittest.TestCase):
             self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
             self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
+    def test_outer_control_launcher_ignores_poisoned_test_cache(self):
+        launcher = ROOT / "tools/cbz_node_controls.py"
+        self.assertTrue(launcher.is_file(), "source-only control launcher is required")
+        with tempfile.TemporaryDirectory(prefix="cbz-node-outer-cache-") as directory:
+            root = Path(directory) / "workspace"
+            package = root / "tests"
+            package.mkdir(parents=True)
+            (package / "__init__.py").write_text("")
+            source = package / "test_cbz_node_regression.py"
+            source.write_text("import unittest\nclass TestOuter(unittest.TestCase):\n def test_source(self): print('CBZ_OUTER_SOURCE')\n")
+            stat = source.stat()
+            inherited = Path(directory) / "inherited"
+            cache_paths = []
+            for prefix in (None, str(inherited)):
+                with patch.object(sys, "pycache_prefix", prefix):
+                    cache_paths.append(Path(importlib.util.cache_from_source(
+                        str(source), optimization=str(sys.flags.optimize) if sys.flags.optimize else "")))
+            for cache in cache_paths:
+                cache.parent.mkdir(parents=True, exist_ok=True)
+                poisoned = compile("print('CBZ_OUTER_POISON'); raise RuntimeError('poison')\n", str(source), "exec")
+                cache.write_bytes(importlib._bootstrap_external._code_to_timestamp_pyc(
+                    poisoned, int(stat.st_mtime), stat.st_size))
+            for prefix in (None, str(inherited)):
+                with self.subTest(prefix=prefix), patch.dict(os.environ):
+                    if prefix is None:
+                        os.environ.pop("PYTHONPYCACHEPREFIX", None)
+                    else:
+                        os.environ["PYTHONPYCACHEPREFIX"] = prefix
+                    result = subprocess.run(
+                        [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
+                         str(launcher), "--root", str(root)],
+                        capture_output=True, text=True, env=dict(os.environ), timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertIn("CBZ_OUTER_SOURCE", result.stdout)
+                    self.assertNotIn("CBZ_OUTER_POISON", result.stdout + result.stderr)
+
     def test_source_loader_ignores_poisoned_bytecode(self):
         self.assertIsNone(sys.pycache_prefix, "bytecode-cache control requires the default cache location")
         with tempfile.TemporaryDirectory(prefix="cbz-loader-control-") as directory:
