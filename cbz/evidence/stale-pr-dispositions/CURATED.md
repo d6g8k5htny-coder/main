@@ -14,11 +14,11 @@ That leaves 26.
 
 | Disposition | PRs |
 |---|---|
-| **Integrate**: a source fix or a truthfulness fix | #482, #407 |
+| **Integrate**: a source fix or a truthfulness fix | #482, #407; #389 (refreshed by Claude01N; see its row) |
 | **Integrate, or archive with an index entry** | #429 |
 | **Archive as superseded** | #458 (by #652), #484 (by #679), #630 (by #637) |
 | **Archive as out of CBZ-0 scope**: new infrastructure, never landed | #333, #338, #341, #342, #345, #363, #464 |
-| **Archive as research quarantine**: close with the ref preserved, plus an index entry | #336, #340, #358, #389 |
+| **Archive as research quarantine**: close with the ref preserved, plus an index entry | #336, #340, #358 |
 | **Route to an active owner** | #499 and #503 (SITE Root); #344, #346, #349 and #385 (the cusp-population stack owner); #624 and #629 (the G1-F1 journal lane); #347 (DB642) |
 
 ## Per PR
@@ -39,7 +39,7 @@ That leaves 26.
 | #363 | REPAIR-OR-ARCHIVE | **ARCHIVE**: out of scope | Preparation of a restricted browser runtime. Its preparation check fails at the head. |
 | #464 | REPAIR-OR-ARCHIVE | **ARCHIVE**: out of scope | A scaffold for a formal-regression collector whose "five core functions remain unimplemented". Its controls fail for unimplemented code, not for a defect in landed code, so archiving it hides no defect. |
 | #336, #340 | STACK-DEPENDENT | **ARCHIVE**: research quarantine | A research stack: a stationary quartic H0 law, and smooth cusp-population bars. Its lower PRs, #331 and #334, were closed today with no record, so #336's base branch now has no open PR. Index entries: an unmerged paper draft at heads `3ab12c65` and `f0275855`, not kernel-verified; the only reviews are automated overviews. |
-| #389 | QUARANTINE-ARCHIVE | **ARCHIVE**: author intent | The SIDE24 V3 manuscript (LaTeX and PDF, 32 files under `docs/`). Its body says "Not for merge yet". It adds no new proof obligation beyond SIDE24's existing status. |
+| #389 | QUARANTINE-ARCHIVE | **INTEGRATE-CANDIDATE**, superseding my earlier ARCHIVE call | The SIDE24 V3 manuscript and its supplement, under `docs/manuscript/`. My first call, "author intent", rested on its old body's "Not for merge yet", which was a pre-CBZ staging note. Claude01N has since refreshed it to `65ec6b6d`, folded in the supplement, and recorded the author's current disposition as INTEGRATE-CANDIDATE ([684/6503701347](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6503701347)). I agree: it is documentation with no new proof obligation, and a landed folder is the simpler terminal state (§7.4). Its proof-index rows are prose proofs, so QUARANTINE-class, never CLOSED. |
 | #358 | QUARANTINE-ARCHIVE | **ARCHIVE**: superseded | A Lean verification specification. It conflicts with `main` in 2 paths, and DB642 records that it "overlaps only old manifest/test paths" ([684/6503176617](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6503176617)). The current `formal/` package and its gates replace it. Keep it as a historical reference. |
 | #499 | REPAIR-OR-ARCHIVE | **ROUTE**: SITE Root, with #501 | A first-RED baseline. It shows a real defect in landed reader code: an open page keeps an old observation digest after `current.json` advances, then refuses instead of acquiring the successor. Its body says it "must remain unmerged". #501, the fix, is active today (16:16Z). Close #499 as superseded once #501 lands. If #501 does not land, record the defect as an engineering quarantine. Do not close it silently (A5). |
 | #503 | INTEGRATE-CANDIDATE-UNREVIEWED | **ROUTE**: SITE Root | Site route-supervisor controls, "ROOT_ADOPTED_CONTROLS_PASS; BROWSER_BINDING_PENDING". SITE Root is active today on #501 and #399. Adopt it with that work or archive it. |
