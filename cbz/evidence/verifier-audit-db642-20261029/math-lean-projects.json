@@ -1,0 +1,504 @@
+[
+  {
+    "root": "formal",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"universal_law_formal\"\nversion = \"0.1.0\"\ndefaultTargets = [\"ResearchFormalCoreR1\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"ResearchFormalCoreR1\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 9
+  },
+  {
+    "root": "frontiers/cap_first_exit_lean_20261002",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"cap_first_exit\"\nversion = \"0.1.0\"\ndefaultTargets = [\"CapFirstExit\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"CapFirstExit\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 1
+  },
+  {
+    "root": "frontiers/determinant_moment_20261025",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"universal_law_formal\"\nversion = \"0.1.0\"\ndefaultTargets = [\"ResearchFormalCoreR1\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"ResearchFormalCoreR1\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 14
+  },
+  {
+    "root": "frontiers/source_derivative_gaussian_20261025",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"source_derivative_gaussian\"\nversion = \"0.1.0\"\ndefaultTargets = [\"SourceDerivativeGaussian\", \"ContactJetCovariance\", \"SourceContactCovariance\", \"SourceConfluentPins\", \"SourceContactSchur\", \"SourceDerivativeContinuity\", \"ConfluentIntegralIdentities\", \"SourceEndpointRegression\", \"GaussianRegressionLimits\", \"SourceEndpointParameters\", \"SourceContactEndpointParameters\", \"SourceConfluentLimits\", \"SourcePhysicalEndpointKernel\", \"SourceEndpointEstimates\", \"SourceSmoothConditionalKernel\", \"SourceSmoothPalm\", \"GaussianWeightedMajorants\", \"SourceConditionalMajorant\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"SourceDerivativeInputs\"\nsrcDir = \"inputs\"\nroots = [\"GaussianSeriesFoundation\", \"SpectralWeights\", \"SourceFourierSeries\", \"SourceC4\", \"SourceGaussianLaw\", \"SourceLattice\", \"SourceKernel\", \"SourceCovariance\", \"SourceTorus\", \"SourceTorusC4\", \"SourceSmooth\", \"SourceSmoothCarrier\", \"ResearchFormalCoreR1.DeterminantMoment\", \"ResearchFormalCoreR1.GaussianScalarMoments\", \"ResearchFormalCoreR1.GaussianJetMoments\", \"ResearchFormalCoreR1.GaussianNormalizer\", \"ResearchFormalCoreR1.EndpointGaussianMoments\", \"ResearchFormalCoreR1.NormalizerFloor\", \"ResearchFormalCoreR1.EndpointNormalizerBridge\", \"ResearchFormalCoreR1.GaussianCoupling\", \"ResearchFormalCoreR1.GaussianNormalizerLimit\", \"ResearchFormalCoreR1.PalmReweighting\", \"ResearchFormalCoreR1.GaussianRegressionKernel\"]\n\n[[lean_lib]]\nname = \"SourceDerivativeGaussian\"\n\n[[lean_lib]]\nname = \"ContactJetCovariance\"\n\n[[lean_lib]]\nname = \"SourceContactCovariance\"\n\n[[lean_lib]]\nname = \"SourceConfluentPins\"\n\n[[lean_lib]]\nname = \"SourceContactSchur\"\n\n[[lean_lib]]\nname = \"SourceDerivativeContinuity\"\n\n[[lean_lib]]\nname = \"ConfluentIntegralIdentities\"\n\n[[lean_lib]]\nname = \"SourceEndpointRegression\"\n\n[[lean_lib]]\nname = \"GaussianRegressionLimits\"\n\n[[lean_lib]]\nname = \"SourceEndpointParameters\"\n\n[[lean_lib]]\nname = \"SourceContactEndpointParameters\"\n\n[[lean_lib]]\nname = \"SourceConfluentLimits\"\n\n[[lean_lib]]\nname = \"SourcePhysicalEndpointKernel\"\n\n[[lean_lib]]\nname = \"SourceEndpointEstimates\"\n\n[[lean_lib]]\nname = \"SourceSmoothConditionalKernel\"\n\n[[lean_lib]]\nname = \"SourceSmoothPalm\"\n\n[[lean_lib]]\nname = \"GaussianWeightedMajorants\"\n\n[[lean_lib]]\nname = \"SourceConditionalMajorant\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 41
+  },
+  {
+    "root": "frontiers/source_lifetime_realization_20261017",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"source_lifetime_realization\"\nversion = \"0.1.0\"\ndefaultTargets = [\"C291Inputs\", \"SourceLifetimeControls\", \"SourceLifetimeAxiomAudit\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"C291Inputs\"\nsrcDir = \"inputs\"\nroots = [\n  \"GaussianSeriesFoundation\",\n  \"SourceC4\",\n  \"SourceCovariance\",\n  \"SourceFourierSeries\",\n  \"SourceGaussianLaw\",\n  \"SourceKernel\",\n  \"SourceLattice\",\n  \"SourceTorus\",\n  \"SourceTorusC4\",\n  \"SpectralWeights\",\n  \"SourceSmooth\",\n  \"SourceSmoothCarrier\",\n  \"SourceSmoothControls\",\n  \"Lifetime\",\n]\n\n[[lean_lib]]\nname = \"SourceThetaBridge\"\n\n[[lean_lib]]\nname = \"SourceLifetimeGeometry\"\n\n[[lean_lib]]\nname = \"SourceLifetimeField\"\n\n[[lean_lib]]\nname = \"SourceLifetimeControls\"\n\n[[lean_lib]]\nname = \"SourceLifetimeAxiomAudit\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 19
+  },
+  {
+    "root": "frontiers/source_smooth_realization_20261011",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"source_smooth_realization\"\nversion = \"0.1.0\"\ndefaultTargets = [\"SourceSmoothControls\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"GaussianSeriesFoundation\"\n\n[[lean_lib]]\nname = \"SourceC4\"\n\n[[lean_lib]]\nname = \"SourceCovariance\"\n\n[[lean_lib]]\nname = \"SourceFourierSeries\"\n\n[[lean_lib]]\nname = \"SourceGaussianLaw\"\n\n[[lean_lib]]\nname = \"SourceKernel\"\n\n[[lean_lib]]\nname = \"SourceLattice\"\n\n[[lean_lib]]\nname = \"SourceTorus\"\n\n[[lean_lib]]\nname = \"SourceTorusC4\"\n\n[[lean_lib]]\nname = \"SpectralWeights\"\n\n[[lean_lib]]\nname = \"SourceSmooth\"\n\n[[lean_lib]]\nname = \"SourceSmoothCarrier\"\n\n[[lean_lib]]\nname = \"SourceSmoothControls\"\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 14
+  },
+  {
+    "root": "specifications/lean_statement_proofs_20261011",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"universal_law_specification_proofs\"\nversion = \"0.1.0\"\ndefaultTargets = [\"SpecificationProofs\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[require]]\nname = \"universal_law_specifications\"\npath = \"../lean_statements_20261010\"\n\n[[lean_lib]]\nname = \"SpecificationProofs\"\nleanOptions = { autoImplicit = false }\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      },
+      {
+        "name": "universal_law_specifications",
+        "url": null,
+        "rev": null,
+        "inputRev": null
+      }
+    ],
+    "lean_files": 15
+  },
+  {
+    "root": "specifications/lean_statements_20261010",
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "lakefile": "name = \"universal_law_specifications\"\nversion = \"0.1.0\"\ndefaultTargets = [\"Specifications\"]\n\n[[require]]\nname = \"mathlib\"\ngit = \"https://github.com/leanprover-community/mathlib4.git\"\nrev = \"d13f23b723b8a846827a245b89c10fc7d3f11612\"\n\n[[lean_lib]]\nname = \"Specifications\"\nleanOptions = { autoImplicit = false }\n",
+    "dependencies": [
+      {
+        "name": "plausible",
+        "url": "https://github.com/leanprover-community/plausible",
+        "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "inputRev": "main"
+      },
+      {
+        "name": "LeanSearchClient",
+        "url": "https://github.com/leanprover-community/LeanSearchClient",
+        "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "inputRev": "main"
+      },
+      {
+        "name": "importGraph",
+        "url": "https://github.com/leanprover-community/import-graph",
+        "rev": "e928b72544873815af278d38681b31c0293588e3",
+        "inputRev": "main"
+      },
+      {
+        "name": "proofwidgets",
+        "url": "https://github.com/leanprover-community/ProofWidgets4",
+        "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+        "inputRev": "main"
+      },
+      {
+        "name": "aesop",
+        "url": "https://github.com/leanprover-community/aesop",
+        "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "inputRev": "master"
+      },
+      {
+        "name": "Qq",
+        "url": "https://github.com/leanprover-community/quote4",
+        "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "inputRev": "master"
+      },
+      {
+        "name": "batteries",
+        "url": "https://github.com/leanprover-community/batteries",
+        "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "inputRev": "main"
+      },
+      {
+        "name": "Cli",
+        "url": "https://github.com/leanprover/lean4-cli",
+        "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "inputRev": "v4.34.0"
+      },
+      {
+        "name": "mathlib",
+        "url": "https://github.com/leanprover-community/mathlib4.git",
+        "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+      }
+    ],
+    "lean_files": 6
+  }
+]

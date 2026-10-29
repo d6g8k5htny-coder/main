@@ -1,11 +1,15 @@
 """Source-identity assembly, never mathematical acceptance."""
 from pathlib import Path
+from io import BytesIO
 import hashlib
 import json
 import tempfile
 import unittest
+import zipfile
 
-from tools.atlas_formal_evidence_build import build_connection
+from tools.atlas_formal_evidence_build import build_connection, historical_source_identity
+from tools import atlas_formal_evidence_build as evidence
+from tools.required_formal_check import bind_receipt
 
 ROOT = Path(__file__).resolve().parents[1]
 CLAIM = 'math.side24-coefficient'
@@ -60,6 +64,91 @@ class FormalConnectionAssembly(unittest.TestCase):
 
     def build(self):
         return build_connection(self.root, self.snapshot, self.proof, self.artifact)
+
+    def historical_files(self):
+        folder = self.root/'receipt'
+        folder.mkdir()
+        with zipfile.ZipFile(BytesIO(self.artifact)) as archive:
+            raw = archive.read('receipt/receipt.json')
+            record = json.loads(raw)
+            (folder/'receipt.json').write_bytes(raw)
+            for name in record['logs']:
+                (folder/name).write_bytes(archive.read('receipt/'+name))
+        return folder/'receipt.json'
+
+    def historical_binding(self, receipt):
+        return evidence.bind_historical_receipt(receipt, self.root/'formal/manifest.json', self.artifact)
+
+    def test_historical_route_preserves_original_binding_and_artifact_bytes(self):
+        receipt = self.historical_files()
+        before = receipt.read_bytes()
+        artifact_before = self.artifact
+        self.assertNotIn('workflow_run_attempt', json.loads(before))
+        with zipfile.ZipFile(BytesIO(self.artifact)) as archive:
+            original_binding = json.loads(archive.read('receipt/required-check-binding.json'))
+        self.assertEqual(self.historical_binding(receipt), original_binding)
+        self.assertEqual(receipt.read_bytes(), before)
+        self.assertEqual(self.artifact, artifact_before)
+        self.assertEqual(digest(self.artifact), '80ac88cf770afbadd89f4801a4692d6b6540a9269dfb916c249d491c2b41f737')
+
+    def test_original_legacy_receipt_is_refused_by_live_binder(self):
+        receipt = self.historical_files()
+        env = {'GITHUB_REPOSITORY': 'd6g8k5htny-coder/main',
+               'GITHUB_SHA': '3b39c42d6edcc98ae165270be346f0e31c57f81d',
+               'GITHUB_RUN_ID': '40246431034', 'GITHUB_RUN_ATTEMPT': '1'}
+        with self.assertRaisesRegex(ValueError, 'workflow_run_attempt'):
+            bind_receipt(receipt, self.root/'formal/manifest.json', env, env['GITHUB_SHA'])
+
+    def test_historical_route_refuses_arbitrary_or_stale_legacy_receipt(self):
+        receipt = self.historical_files()
+        original = json.loads(receipt.read_bytes())
+        for key, value in [('workflow_run_id', '40246431033'),
+                           ('checked_commit', 'a'*40), ('workflow_run_attempt', '1')]:
+            with self.subTest(key=key):
+                receipt.write_text(json.dumps({**original, key: value}))
+                with self.assertRaisesRegex(ValueError, 'historical receipt identity'):
+                    self.historical_binding(receipt)
+
+    def test_historical_route_refuses_changed_manifest_artifact_and_logs(self):
+        receipt = self.historical_files()
+        manifest = self.root/'formal/manifest.json'
+        original = manifest.read_bytes()
+        manifest.write_bytes(original+b'\n')
+        with self.assertRaisesRegex(ValueError, 'historical manifest identity'):
+            self.historical_binding(receipt)
+        manifest.write_bytes(original)
+        self.artifact += b'\n'
+        with self.assertRaisesRegex(ValueError, 'historical artifact identity'):
+            self.historical_binding(receipt)
+        self.artifact = self.artifact[:-1]
+        (receipt.parent/'build.log').write_text('changed')
+        with self.assertRaisesRegex(ValueError, 'log hash mismatch'):
+            self.historical_binding(receipt)
+
+    def test_published_historical_evidence_reproduces_exactly(self):
+        raw = (ROOT/'docs/site/atlas-formal-evidence-data.mjs').read_text()
+        expected = json.loads(raw.split('export const EVIDENCE = ', 1)[1].removesuffix(';\n'))
+        self.assertEqual(self.build(), expected)
+
+    def test_identity_reader_cannot_opt_into_an_unknown_manifest(self):
+        with self.assertRaisesRegex(ValueError, 'unsupported historical manifest profile'):
+            historical_source_identity(self.root, '0' * 64)
+
+    def test_identity_reader_refuses_unbound_historical_package_files(self):
+        path = self.root/'formal/Unregistered.lean'
+        path.write_text('def unregistered : Nat := 1\n')
+        with self.assertRaisesRegex(ValueError, 'unbound historical package file'):
+            historical_source_identity(self.root)
+
+    def test_identity_reader_refuses_symlink_to_exact_bound_bytes(self):
+        path = self.root/'tools/formal_gate_check.py'
+        original = path.read_bytes()
+        outside = self.root/'frozen-control.txt'
+        outside.write_bytes(original)
+        path.unlink()
+        path.symlink_to(outside)
+        with self.assertRaises(ValueError):
+            historical_source_identity(self.root)
 
     def test_live_manifest_drift_is_refused_before_historical_evidence_is_rebound(self):
         with self.assertRaisesRegex(ValueError, 'formal manifest changed'):

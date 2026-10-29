@@ -1,0 +1,23 @@
+test_local_producer_has_null_hosted_identity (test_formal_gate.SyntheticControls.test_local_producer_has_null_hosted_identity) ... FAIL
+test_producer_serializes_actual_nondefault_workflow_attempt (test_formal_gate.SyntheticControls.test_producer_serializes_actual_nondefault_workflow_attempt) ... FAIL
+
+======================================================================
+FAIL: test_local_producer_has_null_hosted_identity (test_formal_gate.SyntheticControls.test_local_producer_has_null_hosted_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/db6428847655/cbz/worktrees/main-cbz/tests/test_formal_gate.py", line 461, in test_local_producer_has_null_hosted_identity
+    self.assertIn(key, record)
+AssertionError: 'workflow_run_attempt' not found in {'schema_version': 1, 'scientific_effect': 'NONE', 'scientific_status_authority': False, 'package': 'demo', 'formalization_status': 'kernel-checked', 'alignment_status': 'PENDING_INDEPENDENT_REVIEW', 'manifest_sha256': '1a69c3d8ed0affd8f8aa839a68fac686a0e40fde813656283116668a24e9ef03', 'checked_commit': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'repository': None, 'workflow_run_id': None, 'lean_version': 'Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)', 'dependency_revisions': {}, 'axioms': {'Demo.two_add': [], 'Demo.tight': []}, 'negative_controls': {'tight': 'REJECTED_BY_LEAN', 'sorry': 'REJECTED_BY_AXIOM_GATE', 'custom_imported': 'REJECTED_BY_AXIOM_GATE', 'native': 'REJECTED_BY_AXIOM_GATE'}, 'logs': {'axioms.log': '4a44dabfe6ba9b1af15f4f4f0b8328cfe240e3df4016ed8226088c410936edb7', 'build.log': '6a77a08e30112fab26622111e9d98269c1f2d38f2383bcea7ed260e63ea7b91b', 'custom_imported.log': '1ffe30c62711cc7e64eeeaa93164a3e0e9ee0c71a813614ae52d1b5c40a9813c', 'elaborated-types.log': 'd2039bb3d83438942f54842ae4127164700fbc4c71583e450825fb23e0543e71', 'leanchecker.log': '1e8ef6247b8ca268dd3b7c1eaa87c21915c7721b8b67858d176af33494369242', 'native.log': '1ffe30c62711cc7e64eeeaa93164a3e0e9ee0c71a813614ae52d1b5c40a9813c', 'preflight-version.log': '355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680', 'sorry.log': '1ffe30c62711cc7e64eeeaa93164a3e0e9ee0c71a813614ae52d1b5c40a9813c', 'tight.log': '56cb58067a64a152a67f6bc8b5e720b9cc82338d11751d319d118fcab02c884f', 'version.log': '355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680'}}
+
+======================================================================
+FAIL: test_producer_serializes_actual_nondefault_workflow_attempt (test_formal_gate.SyntheticControls.test_producer_serializes_actual_nondefault_workflow_attempt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/db6428847655/cbz/worktrees/main-cbz/tests/test_formal_gate.py", line 451, in test_producer_serializes_actual_nondefault_workflow_attempt
+    self.assertEqual(record.get("workflow_run_attempt"), "7")
+AssertionError: None != '7'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.021s
+
+FAILED (failures=2)
