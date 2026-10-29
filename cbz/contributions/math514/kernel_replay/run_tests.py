@@ -23,6 +23,28 @@ def method_id(test):
     return cls.__module__ + '.' + cls.__qualname__ + '.' + name
 
 
+def supported_method_shape(method):
+    """Only synchronous ordinary functions/methods are supported test bodies.
+
+    Inspect every advertised decorator link. Returning suspended work is checked
+    separately, since decorators may intentionally omit __wrapped__ metadata.
+    """
+    try:
+        inspect.unwrap(method)  # Reject cyclic decorator metadata.
+    except ValueError:
+        return False
+    current = method
+    while True:
+        if (not (inspect.isfunction(current) or inspect.ismethod(current))
+                or inspect.isgeneratorfunction(current)
+                or inspect.iscoroutinefunction(current)
+                or inspect.isasyncgenfunction(current)):
+            return False
+        if not hasattr(current, '__wrapped__'):
+            return True
+        current = current.__wrapped__
+
+
 def selected_cases(suite):
     for test in suite:
         if isinstance(test, unittest.TestSuite):
@@ -124,7 +146,13 @@ def instrument(test, result):
         result.body_entered_ids.append(method_id(test))
         result.body_active.add(id(test))
         try:
-            return original_body(*args, **kwargs)
+            value = original_body(*args, **kwargs)
+            if value is not None:
+                result.invalid_execution.append('selected synchronous method must return None')
+                if inspect.iscoroutine(value) and inspect.getcoroutinestate(value) == inspect.CORO_CREATED:
+                    value.close()  # Closing a native unstarted coroutine executes no body.
+                return None
+            return value
         except BaseException as exc:
             result.body_exception[id(test)] = exc
             raise
@@ -132,24 +160,6 @@ def instrument(test, result):
             result.body_active.discard(id(test))
             result.body_finished_ids.append(method_id(test))
             # _Outcome calls addFailure *after* this wrapper unwinds.
-    if inspect.iscoroutinefunction(original_body):
-        @functools.wraps(original_body)
-        async def async_body(*args, **kwargs):
-            if id(test) not in result.dispatch_active or result.lifecycle_depth.get(id(test), 0):
-                result.invalid_execution.append('selected async method invoked outside body dispatch')
-                return await original_body(*args, **kwargs)
-            result.phase[id(test)] = 'body'
-            result.body_entered_ids.append(method_id(test))
-            result.body_active.add(id(test))
-            try:
-                return await original_body(*args, **kwargs)
-            except BaseException as exc:
-                result.body_exception[id(test)] = exc
-                raise
-            finally:
-                result.body_active.discard(id(test))
-                result.body_finished_ids.append(method_id(test))
-        body = async_body
     setattr(test, test._testMethodName, body)
 
 
@@ -166,6 +176,8 @@ def describe_suite(suite, selection):
     for test, identity in zip(cases, selected):
         if identity is not None and test.id() != identity:
             invalid.append('display identity does not match selected method')
+        if identity is not None and not supported_method_shape(getattr(test, test._testMethodName)):
+            invalid.append('unsupported selected method shape: ' + identity)
     return cases, {'selection': selection, 'selected_ids': selected, 'invalid_population': invalid}
 
 
@@ -174,10 +186,10 @@ def run_suite(suite, selection):
     stream = io.StringIO()
     result = LifecycleResult(stream=unittest.runner._WritelnDecorator(stream),
                              descriptions=True, verbosity=2)
-    for test in cases:
-        if method_id(test) is not None:
+    if not population['invalid_population']:
+        for test in cases:
             instrument(test, result)
-    suite.run(result)
+        suite.run(result)
     population['invalid_population'].extend(result.invalid_execution)
     # Render the ordinary summary for humans; grading uses the structured fields.
     result.printErrors()

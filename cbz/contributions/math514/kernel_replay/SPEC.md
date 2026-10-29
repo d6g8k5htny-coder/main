@@ -22,3 +22,10 @@ The wrapper owns Popen explicitly and never invokes its implicit unbounded conte
 ## Mutation grader lifecycle contract
 
 See LIFECYCLE_FIX.md. Kills require a pristine externally bound exact selected parent-method population and one authorized body entry/exit per method, direct escaping AssertionError identity or matched body-subtest assertion events, and exact integer count/event consistency. Lifecycle errors/assertions, false or incomplete identities, foreign subtest parents, missing metadata, skips/expected failures and synthetic summaries are ERROR. Fully fabricated consistent JSON remains outside the trusted runner/source-custody boundary. Historical source-bound body-trace evidence is retained separately from new receipts.
+
+
+## Synchronous None-return test-body profile
+
+Mutation grading supports ordinary synchronous unittest methods that return None. Generator, coroutine, async-generator and wraps-linked suspended method shapes are refused during pristine population discovery. Every non-None body return is ERROR, including falsey values and opaque iterables. Returned work is not consumed or awaited; only a fresh native coroutine may be closed without entering its body. Creating a suspended call object is not evidence that its deferred test body executed.
+
+All 54 predecessor methods are ordinary synchronous methods with no direct valued return or suspension; the static source-applicability report is in evidence/lazy-body/evidence/original-method-shape-applicability.json. Existing lifecycle/error/subtest and externally bound population obligations remain in force. No additional runtime module, dependency or receipt schema is introduced.
