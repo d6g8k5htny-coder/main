@@ -38,6 +38,8 @@ class DiagnosticsTests(unittest.TestCase):
             "MUTANTS = [('a','x','y'),('a','z','q')]\nEXPECTED_FAILURE = {'a':'test_a'}\n",
             "MUTANTS = [('a','x','y')]\nEXPECTED_FAILURE = {}\n",
             "MUTANTS = []\nMUTANTS.append(('a','x','y'))\nEXPECTED_FAILURE = {}\n",
+            "MUTANTS = [('a','x','y')]\nMUTANTS[0] = ('a','x','z')\nEXPECTED_FAILURE = {'a':'test_a'}\n",
+            "MUTANTS = [('a','x','y')]\nEXPECTED_FAILURE = {'a':'test_a','a':'test_b'}\n",
         ]
         for source in cases:
             with self.subTest(source=source), self.assertRaises(ValueError):
@@ -62,6 +64,27 @@ class DiagnosticsTests(unittest.TestCase):
         for source in ("none", "old old"):
             with self.subTest(source=source), self.assertRaises(ValueError):
                 mod.make_mutant(source, "old", "new")
+
+    def test_source_mutations_expose_the_exact_guards(self):
+        self.diagnostic()
+        source = TOOL.read_text()
+        mutations = (
+            ("len(set(names)) != len(names)", "False", "duplicate"),
+            ("source.count(old) != 1", "False", "anchor"),
+        )
+        for old, new, kind in mutations:
+            with self.subTest(kind=kind):
+                self.assertEqual(source.count(old), 1)
+                module = types.ModuleType("diagnostic_mutant")
+                module.__file__ = str(TOOL)
+                exec(compile(source.replace(old, new), str(TOOL), "exec"), module.__dict__)
+                if kind == "duplicate":
+                    value = ("MUTANTS=[('a','x','y'),('a','z','q')]\n"
+                             "EXPECTED_FAILURE={'a':'test_a'}\n")
+                    result, _ = module.parse_registry(value)
+                    self.assertEqual(len(result), 2)
+                else:
+                    self.assertEqual(module.make_mutant("old old", "old", "new"), "new old")
 
     def test_actual_nonzero_child_and_both_streams_are_preserved(self):
         mod = self.diagnostic()

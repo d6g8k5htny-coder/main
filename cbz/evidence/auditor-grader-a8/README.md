@@ -16,3 +16,9 @@ The full unmutated positive suites and each exact mutant/control must be separat
 ## Witness diagnostic collector
 
 The test-first file `tests/test_auditor_mutant_diagnostics.py` specifies a narrow collector that will parse only literal existing mutation registries, resolve one exact source test per named guard, record real subprocess exits and both streams, and refuse missing/ambiguous targets or changed mutation anchors. Its output is raw diagnostic evidence for independent guard review, never a mutation-kill, Layer A or CBZ certificate. The implementation is not yet present and the test-first execution is pending. After implementation, run its tests in both Python modes and record the actual result here and in GOVERNANCE.md before use.
+
+## Observed adverse results and source-byte repair
+
+Hosted run 40956034512, job 123736264636, tested commit aacd2f904e850673e730fccd6232148859740596. Its preserved decoded log is in `red/aacd2f904e850673-job123736264636.log`: each Python mode ran six test methods with 15 assertion failures and zero errors. Both original graders accepted malformed or unrelated failure conditions. All three original loaders executed a genuinely timestamp/size-valid poisoned bytecode cache while the checked source bytes remained legitimate. This is historical RED evidence, not a result for the later source.
+
+The three test loaders now compile one source-byte read directly, avoiding timestamp-cache selection for those tool loads. This change does not authenticate an already-loaded interpreter, test module, imported library, or child process. Fresh execution and source-mutation tests are required to qualify the repair; no such result is implied by this edit. The grader failures remain open.

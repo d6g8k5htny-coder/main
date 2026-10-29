@@ -21,7 +21,9 @@ SCANNER = os.environ.get("CBZ_LAYER_A_SCAN") or os.path.join(WORKSPACE, "tools",
 def _load():
     spec = importlib.util.spec_from_file_location("layer_a_scan_under_test", SCANNER)
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    with open(SCANNER, "rb") as source:
+        code = compile(source.read(), str(SCANNER), "exec")
+    exec(code, mod.__dict__)
     return mod
 
 

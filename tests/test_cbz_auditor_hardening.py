@@ -17,7 +17,9 @@ CENSUS = Path(os.environ.get('CBZ_A3_CENSUS', ROOT/'tools/cbz/a3_float_census.py
 def load(path, name):
     spec = importlib.util.spec_from_file_location(name, path)
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    with open(path, "rb") as source:
+        code = compile(source.read(), str(path), "exec")
+    exec(code, mod.__dict__)
     return mod
 S = load(SCAN, 'hardening_scanner')
 

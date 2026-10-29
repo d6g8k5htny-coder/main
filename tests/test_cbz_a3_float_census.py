@@ -22,7 +22,9 @@ TOOL = os.environ.get("CBZ_A3_CENSUS") or REAL
 def _load():
     spec = importlib.util.spec_from_file_location("a3_census_under_test", TOOL)
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    with open(TOOL, "rb") as source:
+        code = compile(source.read(), str(TOOL), "exec")
+    exec(code, mod.__dict__)
     return mod
 
 
