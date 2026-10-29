@@ -193,3 +193,19 @@ The bounded Lean lexical scanner (`tools/cbz/layer_a_scan.py`) and Python floati
 ### Mutation-grader qualification limit
 
 Source inspection found that both the lexical and A3 mutation graders accept any nonzero exit and an expected test failure even when foreign failures are present; neither requires the specific bypass reason. Their historical 66 and 23 mutant outcomes do not by themselves establish auditor soundness. Test-first repairs and fresh reason-bound controls are pending, so G0 and federation-wide G1 remain unqualified.
+
+### B-NODE-REGRESSION (pending source composition; 2026-10-29 21:10:01 UTC)
+
+The prepared Node regression runner proposed in [main #707](https://github.com/d6g8k5htny-coder/main/pull/707) materializes the exact immutable historical Math-, query- and main fixture blobs, verifies their byte identities, runs every tracked Node test and retains the command, fixture identities, exit and TAP transcript. It does not certify mathematics or a final federation gate. Owner: none, self-contained. The runner and evidence are not yet present in this staging tree; compose them with this registry before treating this entry as active.
+
+On source head `dc49a747f7ae1fa34ec3087afc6585453498c1e0`, actual tested merge `c7ccb9872e88394398ffa7a31add1b95727d6f28`, hosted run 40954958414/job123732540511 passed 51 tests in each Python mode, including 22 source mutants bound to specific per-run control observations and 11 harness mutants. It also ran 764 Node tests with zero failures/skips and exit 0. Those observations are source-bound and do not establish a final G5/G9 or CBZ-0 result. Receipts are same-process finite test controls, not a boundary against deliberately malicious code or a compromised runtime. ZIP artifacts were not independently downloaded and rehashed in this record.
+
+Run from the composed main root:
+
+```sh
+python3.11 -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+python3.11 -B -O -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+python3.11 -B -S tools/cbz_node_regression.py --math-root "$CBZ_ROOT/Math-" --query-root "$CBZ_ROOT/query-" --output "$CBZ_EVIDENCE/node"
+```
+
+The output directory must be new and outside the source roots. Historical fixture object IDs, full reproduction instructions, original REDs, exact raw Node transcripts and the same-process limitation are recorded in #707's `docs/cbz/COLD_START.md` and `cbz/evidence/cold-start-node/`. Criteria served: 5, 9, 11 and 12.

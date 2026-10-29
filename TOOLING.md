@@ -27,3 +27,7 @@ The composed source prechecks and receipt-custody controls, with commands and se
 ### Mutation-grader qualification limit
 
 Source inspection found that both the lexical and A3 mutation graders accept any nonzero exit and an expected test failure even when foreign failures are present; neither requires the specific bypass reason. Their historical 66 and 23 mutant outcomes do not by themselves establish auditor soundness. Test-first repairs and fresh reason-bound controls are pending, so G0 and federation-wide G1 remain unqualified.
+
+### Prepared Node regression (pending composition)
+
+The finished [#707 source and evidence](https://github.com/d6g8k5htny-coder/main/pull/707) are not yet in this staging tree. Compose them before activating this registry entry. Purpose: reproduce the complete tracked Node suite with verified historical fixtures; owner none. The exact commands, component verification and finite same-process mutation limitations are in GOVERNANCE.md B-NODE-REGRESSION. The tested source passed 51 tests in each Python mode, 22 source and 11 harness mutations, and 764 prepared Node tests without skips. This is operational evidence, not a final federation gate or mathematical certificate.
