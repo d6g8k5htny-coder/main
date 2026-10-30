@@ -132,7 +132,7 @@ class InventoryTests(unittest.TestCase):
         d=self.census();self.assertTrue(d['complete'],d['errors']);self.assertFalse(marker.exists())
 
         nested_source=self.repo('nested-source')
-        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\\n')
+        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\n')
         self.git(nested_source,'add','.gitattributes')
         self.git(nested_source,'commit','-qm','configure nested filter')
 
@@ -160,13 +160,13 @@ class InventoryTests(unittest.TestCase):
                                  (nested,'nested-audit',markers[1])]:
             script=Path(self.temp.name)/(name+'-filter.py')
             script.write_text(
-                'import pathlib,sys\\n'
-                'pathlib.Path('+repr(str(marker))+').write_text("ran")\\n'
-                'sys.stdout.buffer.write(sys.stdin.buffer.read())\\n')
+                'import pathlib,sys\n'
+                'pathlib.Path('+repr(str(marker))+').write_text("ran")\n'
+                'sys.stdout.buffer.write(sys.stdin.buffer.read())\n')
             command=shlex.quote(sys.executable)+' '+shlex.quote(str(script))
             self.git(path,'config','filter.'+name+'.clean',command)
             self.git(path,'config','filter.'+name+'.required','true')
-            (path/'tracked').write_text('modified\\n')
+            (path/'tracked').write_text('modified\n')
 
         self.git(linked,'status','--porcelain=v1','-z','--ignore-submodules=none')
         self.assertTrue(markers[0].exists(),
