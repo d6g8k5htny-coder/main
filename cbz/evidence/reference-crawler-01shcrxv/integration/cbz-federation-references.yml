@@ -1,0 +1,45 @@
+# Proposed for .github/workflows/ by #721; Root decides whether to bind it and whether to pass --strict (B-003).
+name: CBZ federation references
+'on':
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '23 5 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  crawl:
+    name: federation-references
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          path: main
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Crawl the federation with this head as main's candidate (G7 merge gate)
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          # Only the workspace is named here. Every other repository is discovered from its pins and
+          # registries, and cloned (all are public) into the cache. main is this checkout, crawled at
+          # the tested commit in place of its pin; everything else stays at its pin.
+          git clone -q https://github.com/d6g8k5htny-coder/Universal-Law-Workspace.git ulw
+          mkdir -p fed
+          head=$(git -C main rev-parse HEAD)
+          python -B -S main/tools/cbz/reference_crawler.py --workspace ulw --cache fed \
+            --repo main=main --at "main=$head" \
+            --json "$RUNNER_TEMP/references.json" --markdown "$RUNNER_TEMP/references.md"
+      - if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: federation-references
+          path: ${{ runner.temp }}/references.*
+          if-no-files-found: warn

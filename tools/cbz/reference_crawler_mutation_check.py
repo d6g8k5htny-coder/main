@@ -3,9 +3,11 @@
 
 Each mutant disables or corrupts one detection, policy rule, extractor or topology
 behaviour. A mutant counts as killed only when tests/test_cbz_reference_crawler.py ran
-at least one test and reported at least one assertion failure. An error-only run is
-invalid, never a kill. Each kill is printed with its failure and error counts and the
-failing tests. Two controls must come out invalid, never killed: a syntax-broken copy,
+at least one test and one of the mutant's designated tests (DESIGNATED, governance B-011)
+failed by assertion. An error-only run is invalid, and a run in which only other tests
+fail is a survivor, never a kill. Each kill is printed with its failure and error counts
+and the designated test that failed. Every mutant must have designated tests, and each
+designated test must exist in the suite. Two controls must come out invalid, never killed: a syntax-broken copy,
 and an error-only copy whose crawl() raises. The unmutated suite
 must pass both before and after the mutants. If the environment changes mid-run, so
 that errors could pass for kills, the run is invalid (exit 2). Exit 0 only if every
@@ -27,6 +29,7 @@ RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
 FAILED = re.compile(r"^FAILED \(([^)]*)\)$", re.M)
 FAILURES = re.compile(r"\bfailures=(\d+)")
 FAIL_NAME = re.compile(r"^FAIL: (\w+) ", re.M)
+TEST_NAME = re.compile(r"^    def (test_\w+)\(", re.M)
 CRAWL_START = "    findings = []\n    overrides = overrides or {}\n"
 MUTANTS = [
     ("blob identity ignored", "for b in ref.blobs if b != oid]", "for b in ref.blobs if False]"),
@@ -165,6 +168,100 @@ MUTANTS = [
 ]
 
 
+# The tests written for each mutant's behaviour. A kill needs one of them to fail by assertion.
+DESIGNATED = {
+    "abbreviated commits rejected": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
+    "alias conflict ignored": ("test_record_aliases_commits_and_refs",),
+    "backslash allowed in url paths": ("test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",),
+    "balanced parentheses dropped": ("test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",),
+    "binary count hidden in markdown": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "binary files not counted": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "blob identity ignored": ("test_identity_failures_block", "test_every_recorded_identity_key_is_checked",),
+    "blocking ignored at exit": ("test_identity_failures_block", "test_missing_path_commit_and_repository_block",),
+    "byte-identical claims ignored": ("test_byte_identical_claims_are_checked_at_their_commit",),
+    "byte-identical claims without identity accepted": ("test_byte_identical_values_are_validated",),
+    "byte_length ignored": ("test_every_recorded_identity_key_is_checked",),
+    "bytes ignored": ("test_identity_failures_block", "test_excerpt_references_are_checked_against_their_lines",),
+    "candidate ignored": ("test_candidate_head_is_crawled_in_place_of_the_pin",),
+    "candidate missing silent": ("test_candidate_revision_must_exist_and_name_a_crawled_repository",),
+    "canonical input silent": ("test_incomplete_topology_inputs_block",),
+    "comment stripping ignores strings": ("test_json_with_comments_and_trailing_commas_is_read",),
+    "excerpt checked as whole file": ("test_excerpt_references_are_checked_against_their_lines",),
+    "excerpt identity unchecked": ("test_excerpt_references_are_checked_against_their_lines",),
+    "excerpt lines never read": ("test_excerpt_references_are_checked_against_their_lines",),
+    "excerpt off by one": ("test_excerpt_references_are_checked_against_their_lines",),
+    "excerpt range unchecked": ("test_excerpt_references_are_checked_against_their_lines",),
+    "excerpt text ignored": ("test_excerpt_references_are_checked_against_their_lines",),
+    "extra blob keys ignored": ("test_every_recorded_identity_key_is_checked",),
+    "extra commit keys ignored": ("test_every_commit_key_pins_the_reference",),
+    "file identity on a directory accepted": ("test_file_identity_on_a_directory_is_a_mismatch",),
+    "fixture match includes file names": ("test_fixture_paths_are_directory_segments_only",),
+    "fixtures not skipped": ("test_fixture_files_are_skipped_and_counted_unless_included",),
+    "foreign owners included": ("test_text_references_filter_owner_and_strip_punctuation",),
+    "foreign reference silent": ("test_clean_federation_reports_interface_drift_without_blocking",),
+    "frozen change unreported": ("test_clean_federation_reports_interface_drift_without_blocking",),
+    "include-fixtures ignored": ("test_fixture_files_are_skipped_and_counted_unless_included", "test_template_files_are_synthetic",),
+    "json comments not read": ("test_json_with_comments_and_trailing_commas_is_read",),
+    "json lines not parsed": ("test_every_text_file_is_read_whatever_its_extension",),
+    "json shape shallow": ("test_clean_federation_reports_interface_drift_without_blocking",),
+    "json shape truncated": ("test_json_shape_walks_every_array_element",),
+    "json strings not decoded": ("test_json_urls_are_matched_in_decoded_strings",),
+    "lean statements blind": ("test_clean_federation_reports_interface_drift_without_blocking",),
+    "line comments kept": ("test_nested_block_and_line_comments_are_removed_but_strings_kept",),
+    "live drift misclassified": ("test_live_reference_drift_blocks",),
+    "malformed byte-identical values silent": ("test_byte_identical_values_are_validated",),
+    "malformed identity silent": ("test_records_with_an_identity_are_references_and_malformed_values_are_reported",),
+    "missing commit assumed present": ("test_missing_path_commit_and_repository_block",),
+    "missing path silent": ("test_missing_path_commit_and_repository_block",),
+    "missing pin silent": ("test_missing_pinned_commit_blocks",),
+    "missing workspace registry silent": ("test_incomplete_topology_inputs_block",),
+    "named refs malformed": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
+    "named refs not references": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
+    "nested comments not tracked": ("test_nested_block_and_line_comments_are_removed_but_strings_kept",),
+    "only the first commit checked": ("test_record_aliases_commits_and_refs",),
+    "only the first recorded value checked": ("test_every_recorded_identity_key_is_checked",),
+    "oversize file silent": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "owner case-sensitive": ("test_owner_and_repository_names_match_case_insensitively",),
+    "path-only records checked": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
+    "pin skew reported for candidates": ("test_candidate_head_is_crawled_in_place_of_the_pin",),
+    "pin skew silent": ("test_pin_skew_reported_and_optionally_blocking",),
+    "python signatures drop arguments": ("test_python_signatures",),
+    "raw_sha256 ignored": ("test_every_recorded_identity_key_is_checked",),
+    "registry document missing silent": ("test_incomplete_topology_inputs_block",),
+    "registry entry silent": ("test_incomplete_topology_inputs_block",),
+    "registry host commit silent": ("test_incomplete_topology_inputs_block",),
+    "registry host silent": ("test_incomplete_topology_inputs_block",),
+    "registry host unreachable silent": ("test_incomplete_topology_inputs_block",),
+    "registry map silent": ("test_incomplete_topology_inputs_block",),
+    "repositories list silent": ("test_incomplete_topology_inputs_block",),
+    "repository name case-sensitive": ("test_owner_and_repository_names_match_case_insensitively",),
+    "require-current-pins ignored": ("test_pin_skew_reported_and_optionally_blocking",),
+    "same-name foreign repository conflated": ("test_owner_and_repository_names_match_case_insensitively", "test_clean_federation_reports_interface_drift_without_blocking",),
+    "sha256 ignored": ("test_identity_failures_block", "test_excerpt_references_are_checked_against_their_lines",),
+    "size limit ignored": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "skip count hidden in markdown": ("test_fixture_files_are_skipped_and_counted_unless_included",),
+    "skipped fixtures not counted": ("test_fixture_files_are_skipped_and_counted_unless_included",),
+    "strict ignored": ("test_strict_blocks_on_interface_drift",),
+    "suffix filter restored": ("test_every_text_file_is_read_whatever_its_extension",),
+    "template files read": ("test_template_files_are_synthetic",),
+    "topology incomplete not blocking": ("test_incomplete_topology_inputs_block",),
+    "trailing commas kept": ("test_json_with_comments_and_trailing_commas_is_read",),
+    "unknown candidate accepted": ("test_candidate_revision_must_exist_and_name_a_crawled_repository",),
+    "unknown repository ignored": ("test_missing_path_commit_and_repository_block", "test_rename_adapts_traversal_and_reports_stale_names",),
+    "unparseable not blocking": ("test_unparseable_json_blocks_as_an_incomplete_census",),
+    "unparseable silent": ("test_unparseable_json_blocks_as_an_incomplete_census", "test_json_urls_are_matched_in_decoded_strings",),
+    "unparsed json lines dropped": ("test_every_text_file_is_read_whatever_its_extension",),
+    "unpinned not reported": ("test_registered_but_unpinned_repository_is_crawled_and_reported",),
+    "unpinned repositories get no url": ("test_registered_unpinned_repository_resolves_through_the_cache",),
+    "unreachable halts the crawl": ("test_unreachable_pinned_repository_blocks_but_does_not_halt", "test_stale_registry_entry_is_reported_without_halting",),
+    "unreachable target not blocking": ("test_stale_registry_entry_is_reported_without_halting",),
+    "unread not blocking": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "unterminated comment accepted": ("test_unterminated_comment_is_unparseable_and_its_tail_scanned",),
+    "url path not decoded": ("test_percent_encoded_url_paths_are_decoded",),
+    "workspace registry shape silent": ("test_incomplete_topology_inputs_block",),
+}
+
+
 def run_suite(tool_dir):
     """Run the crawler tests against the copy of the tool in tool_dir."""
     work = Path(tool_dir)
@@ -174,17 +271,16 @@ def run_suite(tool_dir):
                           cwd=work, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     ran = RAN.search(proc.stdout)
     if not ran or int(ran.group(1)) == 0:
-        return "invalid", ""
+        return "invalid", "", set()
     if proc.returncode == 0 and "\nOK" in proc.stdout:
-        return "pass", ""
+        return "pass", "", set()
     failed = FAILED.search(proc.stdout)
     if not failed:
-        return "invalid", ""
+        return "invalid", "", set()
     failures = FAILURES.search(failed.group(1))
     if not failures or int(failures.group(1)) == 0:
-        return "invalid", failed.group(1)  # errors alone are not evidence that a check caught the mutant
-    names = sorted(set(FAIL_NAME.findall(proc.stdout)))
-    return "fail", f"{failed.group(1)}; {', '.join(names[:3])}{', ...' if len(names) > 3 else ''}"
+        return "invalid", failed.group(1), set()  # errors alone are not evidence that a check caught the mutant
+    return "fail", failed.group(1), set(FAIL_NAME.findall(proc.stdout))
 
 
 def with_tool(source):
@@ -215,20 +311,33 @@ def main():
         return 2
     with with_tool(source.replace(CRAWL_START, CRAWL_START.replace("    findings = []\n",
                                   "    raise RuntimeError(\"error-only control\")\n    findings = []\n"))) as tmp:
-        outcome, detail = run_suite(tmp)
+        outcome, detail, _ = run_suite(tmp)
         if outcome != "invalid" or "errors=" not in detail:
             print(f"CONTROL FAIL: an error-only copy was not reported invalid ({outcome}: {detail})")
             return 2
+    tests = set(TEST_NAME.findall(TEST.read_text()))
+    names = [name for name, _, _ in MUTANTS]
+    unknown = sorted({t for ts in DESIGNATED.values() for t in ts} - tests)
+    if sorted(names) != sorted(DESIGNATED) or len(set(names)) != len(names) or unknown:
+        print("CONTROL FAIL: every mutant needs designated tests that exist in the suite "
+              f"(without: {sorted(set(names) - set(DESIGNATED))}, extra: {sorted(set(DESIGNATED) - set(names))}, "
+              f"unknown tests: {unknown})")
+        return 2
     killed = 0
     for name, old, new in MUTANTS:
         if source.count(old) != 1:
             print(f"NOT APPLICABLE {name} ({source.count(old)} matches)")
             continue
         with with_tool(source.replace(old, new)) as tmp:
-            outcome, detail = run_suite(tmp)
-        killed += outcome == "fail"
-        label = {"fail": "KILLED  ", "invalid": "INVALID "}.get(outcome, "SURVIVED")
-        print(f"{label} {name}" + (f" ({detail})" if detail else ""))
+            outcome, detail, failed = run_suite(tmp)
+        hit = sorted(failed & set(DESIGNATED[name]))
+        if outcome == "fail" and hit:
+            killed += 1
+            print(f"KILLED   {name} ({detail}; designated {hit[0]} failed)")
+        elif outcome == "fail":
+            print(f"SURVIVED {name} ({detail}; no designated test failed, only {sorted(failed)[:3]})")
+        else:
+            print(f"{'INVALID ' if outcome == 'invalid' else 'SURVIVED'} {name}" + (f" ({detail})" if detail else ""))
     if not baseline("after"):
         return 2
     print(f"{killed}/{len(MUTANTS)} mutants killed")

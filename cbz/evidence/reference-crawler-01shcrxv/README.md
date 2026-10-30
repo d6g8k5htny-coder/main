@@ -225,7 +225,7 @@ reproducible evidence.
 | F8: malformed `byte_identical_at_*` values were dropped | Every prefixed value is validated, and an invalid one is `MALFORMED_IDENTITY`. A claim with no blob, sha256 or bytes to compare is `MALFORMED_IDENTITY`. | `test_byte_identical_values_are_validated`; mutants "malformed byte-identical values silent" and "byte-identical claims without identity accepted" |
 | F9: an unterminated `/*` comment could hide the rest of a file | Stripping comments raises, so the file is `UNPARSEABLE`, and its whole raw text is still scanned for URLs. | `test_unterminated_comment_is_unparseable_and_its_tail_scanned`; mutant "unterminated comment accepted" |
 | F10: the mutation result was unqualified | Hermetic fixtures, a baseline before and after the mutants, and the kept 74-of-75 run (all at `1ead96bc`), plus F11 | below |
-| F11: a run with errors only could count as a kill | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each kill line names up to three failing tests. | the harness's controls |
+| F11: a run with errors only could count as a kill, and any test's failure counted | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each mutant is also bound to its designated tests (B-011), and each kill line names the designated test that failed. | the harness's controls |
 | F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
 
 **A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
@@ -277,9 +277,13 @@ python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
 **Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 89 mutants, and
-each must apply exactly once. A mutant counts as killed only if the suite ran at least one
-test and reported at least one assertion failure. A run with errors only is invalid. There are
-four controls:
+each must apply exactly once. Each mutant is bound to its designated tests: the tests written
+for its behaviour (`DESIGNATED`). A mutant counts as killed only if one of its designated tests
+fails by assertion, as #695's statute B-011 requires. A run with errors only is invalid. A run
+in which only other tests fail is a survivor. Every mutant must have designated tests, and every
+designated test must exist in the suite, or the harness exits 2. The designations were checked
+against a full record of which tests fail by assertion under each mutant. There are four
+controls:
 - the unmutated copy must pass before the mutants;
 - it must pass again after them;
 - a syntax-broken copy must come out invalid;
