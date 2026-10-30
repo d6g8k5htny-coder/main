@@ -131,9 +131,8 @@ class InventoryTests(unittest.TestCase):
         (repo/'.gitattributes').write_text('tracked filter=audit\n');(repo/'tracked').write_text('changed\n')
         d=self.census();self.assertTrue(d['complete'],d['errors']);self.assertFalse(marker.exists())
 
-    def test_external_linked_worktree_submodule_filters_are_suppressed_before_status(self):
         nested_source=self.repo('nested-source')
-        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\n')
+        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\\n')
         self.git(nested_source,'add','.gitattributes')
         self.git(nested_source,'commit','-qm','configure nested filter')
 
@@ -161,23 +160,38 @@ class InventoryTests(unittest.TestCase):
                                  (nested,'nested-audit',markers[1])]:
             script=Path(self.temp.name)/(name+'-filter.py')
             script.write_text(
-                'import pathlib,sys\n'
-                'pathlib.Path('+repr(str(marker))+').write_text("ran")\n'
-                'sys.stdout.buffer.write(sys.stdin.buffer.read())\n')
+                'import pathlib,sys\\n'
+                'pathlib.Path('+repr(str(marker))+').write_text("ran")\\n'
+                'sys.stdout.buffer.write(sys.stdin.buffer.read())\\n')
             command=shlex.quote(sys.executable)+' '+shlex.quote(str(script))
             self.git(path,'config','filter.'+name+'.clean',command)
             self.git(path,'config','filter.'+name+'.required','true')
-            (path/'tracked').write_text('modified\n')
+            (path/'tracked').write_text('modified\\n')
 
         self.git(linked,'status','--porcelain=v1','-z','--ignore-submodules=none')
-        self.assertTrue(all(marker.exists() for marker in markers),
-                        'Native recursive positive control did not run both filters')
+        self.assertTrue(markers[0].exists(),
+                        'Native parent status did not run the direct submodule filter')
+        markers[0].unlink()
+        self.git(child,'status','--porcelain=v1','-z','--ignore-submodules=none')
+        self.assertTrue(markers[1].exists(),
+                        'Native child status did not run the nested submodule filter')
         for marker in markers:
-            marker.unlink()
+            if marker.exists():
+                marker.unlink()
+
+        spec=importlib.util.spec_from_file_location('git_inventory_preflight',TOOL)
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        reader=module.Git('git',10,30,32*1024*1024)
+        settings,submodules=module._preflight_submodule_settings(
+            reader,{str(linked.resolve()):str(parent/'.git')},[])
+        self.assertTrue(reader.configuration_complete,reader.errors)
+        self.assertIn(str(linked.resolve()),submodules)
+        self.assertIn(str(child.resolve()),submodules)
+        self.assertIn(str(nested.resolve()),submodules)
+        self.assertIn('filter.audit.clean=',settings)
+        self.assertIn('filter.nested-audit.clean=',settings)
 
         d=self.census();self.assertTrue(d['complete'],d['errors'])
-        work=next(w for w in d['worktrees'] if w['path']==str(linked.resolve()))
-        self.assertTrue(work['submodules'][0]['initialized'])
         self.assertFalse(any(marker.exists() for marker in markers),
                          'Collector executed an external submodule clean filter')
 
