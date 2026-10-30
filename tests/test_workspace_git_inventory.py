@@ -203,6 +203,15 @@ class InventoryTests(unittest.TestCase):
         self.assertIn('filter.nested-audit.clean=',settings)
 
         d=self.census();self.assertTrue(d['complete'],d['errors'])
+        linked_path=str(linked.resolve())
+        linked_row=next((row for row in d['worktrees'] if row['path']==linked_path),None)
+        self.assertIsNotNone(linked_row,
+                             'Collector omitted the registered external linked worktree')
+        module_row=(next((row for row in linked_row['submodules'] if row['path']=='module'),None)
+                    if linked_row is not None else None)
+        self.assertIsNotNone(module_row,'Collector omitted the direct module submodule')
+        self.assertIs(module_row['initialized'],True,
+                      'Collector did not report the direct module submodule initialized')
         self.assertFalse(any(marker.exists() for marker in markers),
                          'Collector executed an external submodule clean filter')
 
