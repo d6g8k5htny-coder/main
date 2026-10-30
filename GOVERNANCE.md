@@ -164,3 +164,28 @@ Neither tool is admitted merely by this requirement or by a green badge.
 Implementation and repair continue through the existing mission main#684 and
 tool/component task records. This governance change records requirements, not
 completed implementations, theorem closure or CBZ-0.
+
+## Restored bounded replay controls
+
+The four Python sources under
+`cbz/evidence/kernel/additional/replay-tool/` are restored byte-for-byte from
+public commit `260271793f0d53e4348390c5e8708f3280ac4964`, matching their
+published SHA256SUMS. The existing README defines use, coverage and limitations;
+the Python validator checks transcript consistency and authenticates no execution.
+
+Run `python3.11 -B -S run_mutations.py --output /new/output` from that directory
+using Python 3.11.16. The unchanged runner requires 31 baseline tests and all
+three intended validator mutant kills in each normal/optimized mode. The
+`bounded-replay-python-controls` job in
+`.github/workflows/cbz-p15-historical-readback.yml` installs the pinned runtime
+and retains complete results on success or failure. The existing P15 job is
+unchanged. This job covers the restored Python controls, not actual Lean replay,
+whole-federation G0 or a mathematical proof. Actual Lean controls use the separate
+documented harness and pinned Lean 4.34.1.
+
+This CI binding resolves an observed local Python 3.9 unittest-header mismatch;
+the failed local mutation-grader attempt remains evidence. No assertion or
+expected verdict was weakened. Registration records how to verify the restored
+source; passing qualification is recorded at its exact run/source, never inferred
+from this text. Maintenance owner: none, self-contained. Serves criteria 6, 9,
+11 within the documented bounded scope.
