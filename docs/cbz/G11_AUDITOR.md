@@ -20,10 +20,10 @@ The census exits 0 for no detected production finding, 1 for a detected producti
 
 ## Soundness boundaries
 
-- Stub exemptions are bound to imported `abc.abstractmethod`, `typing.overload`, `typing_extensions.overload`, `abc.ABC`, `typing.Protocol`, `typing_extensions.Protocol`, actual built-in exception classes, and the named `http.server` request-handler bases. Name suffixes and locally defined look-alikes do not grant exemptions.
-- Python test/tool exercise evidence uses parsed imports and recognized subprocess invocations, not arbitrary comments or string mentions. JavaScript test imports are read from import declarations after comment stripping. Workflow exercise evidence is read from run commands, not YAML comments.
+- Stub exemptions are bound to imported `abc.abstractmethod`, `typing.overload`, `typing_extensions.overload`, `abc.ABC`, `typing.Protocol`, `typing_extensions.Protocol`, actual built-in exception classes, and the named `http.server` request-handler bases. Name suffixes, locally defined look-alikes, and enclosing function/class bindings that shadow an imported decorator do not grant exemptions.
+- Python test/tool exercise evidence uses parsed imports and recognized subprocess invocations, not arbitrary comments or string mentions. Python and shell `-c` payloads are deliberately not credited from path mentions alone. JavaScript test imports are read from static import declarations after comment and template-literal masking; dynamic imports are outside this recognizer. Workflow exercise evidence is read from run commands, not YAML comments.
 - YAML comments are scanned for marker words. Empty and comment-only `run` blocks are reported as no-op steps.
-- The mutation self-test preserves the original mutation inventory and admits a kill only when the clean full 33-test baseline succeeds and a single designated test body fails at its exact designated assertion line with one AssertionError, zero errors, and zero skips. The harness propagates the parent's optimized mode to child tests and also has a mutation against its own attribution predicate.
+- The mutation self-test preserves the original mutation inventory and admits a kill only when the clean full 33-test baseline succeeds and the exact designated module/class/method reports `FAILED` with one AssertionError at its exact designated assertion line, zero errors, and zero skips. The harness propagates the parent's optimized mode to child tests and mutates its own parser and each attribution guard.
 
 ## Limits
 
