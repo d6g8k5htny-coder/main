@@ -7,8 +7,11 @@ come from the seed's `.gitmodules`, gitlinks, `pins.json` and
 `workspace/repositories.json`, from any repository registry those name under
 `canonical_inputs` (artifact `repository` keys are resolved through the registry's own
 `repositories` map), and from every `lake-manifest.json` dependency whose URL resolves to
-a repository the crawl can reach. A rename, addition or removal in those records changes
-the crawl with no code change.
+a repository of the federation's owners. This is a breadth-first fixed point: the records
+of every reached repository are read in turn until nothing new appears. Lake dependencies
+outside the owners named by those records (for example mathlib) are counted as external
+edges and not crawled. A rename, addition or removal in those records changes the crawl
+with no code change.
 
 Findings. BLOCK means two records that claim the same identity disagree, or something the
 crawl must read is missing or malformed; the exit status is then 1. INFO means a record
@@ -28,12 +31,15 @@ commit, different Lean toolchains); it never fails the run.
                   in two crawled locations (see lean_decls for the exact domain)
   LEAN-SYNTAX     a Lean file could not be lexed or its scopes do not balance       BLOCK
   LAKE-DEP        a lake dependency on a crawled repository pins another rev        INFO
+  PIN-DIVERGENT   two reached repositories pin one repository differently           INFO
+  FETCH-FAILED    --fetch could not refresh a repository, so its tips are not current BLOCK
   TOOLCHAIN       Lean packages that share declarations use different toolchains   INFO
   MALFORMED       a manifest exists but cannot be parsed                            BLOCK
 
 Repositories are read from local git object stores only, found by matching each
-candidate directory's `origin` URL. `--fetch` additionally runs `git fetch` for missing
-commits, and `--clone-into DIR` clones a discovered repository that no search directory
+candidate directory's `origin` URL. `--fetch` refreshes each repository from origin
+first, so a default tip is the remote's current one (failure is FETCH-FAILED), and fetches
+missing commits; `--clone-into DIR` clones a discovered repository that no search directory
 holds (so a CI job needs only the seed). The crawl reads each repository at one ref: the seed at `--seed-ref`, every
 pinned repository at its pin (`--at pins`, the default) or at its default tip
 (`--at tips`), and `--override NAME=REV` replaces one repository's ref (to test a
@@ -84,9 +90,16 @@ class Repo:
     def __init__(self, key, gitdir, fetch=False):
         self.key, self.gitdir, self.fetch = key, gitdir, fetch
         self._blob_cache = {}
+        self.fetch_failed = None
         self.shallow = git(gitdir, 'rev-parse', '--is-shallow-repository').stdout.decode().strip() == 'true'
-        if self.shallow and fetch:
-            git(gitdir, 'fetch', '-q', '--unshallow', 'origin', check=False)
+        if fetch:
+            # refresh, so that a default tip read later is the remote's current one, not a cached ref
+            args = ['fetch', '-q'] + (['--unshallow'] if self.shallow else []) + ['origin']
+            r = git(gitdir, *args, check=False)
+            if r.returncode:
+                self.fetch_failed = r.stderr.decode(errors='replace').strip()[-300:] or 'git fetch failed'
+            else:
+                git(gitdir, 'remote', 'set-head', 'origin', '--auto', check=False)
             self.shallow = git(gitdir, 'rev-parse', '--is-shallow-repository').stdout.decode().strip() == 'true'
 
     def has_commit(self, rev):
@@ -183,6 +196,8 @@ class Crawl:
         self.findings, self.repos, self.refs = [], {}, {}
         self.pins, self.optional, self.edges = {}, set(), []
         self.stats = collections.Counter()
+        self.discovered, self.canonical_inputs, self.pin_records = set(), [], []
+        self.owners, self.lake_records = set(), []
 
     def add(self, level, code, msg, **where):
         self.findings.append(dict(where, level=level, code=code, message=msg))
@@ -199,6 +214,9 @@ class Crawl:
                      'repository %s (%s) is not available locally' % (key, why), repo=key)
             return None
         self.repos[key] = Repo(key, gitdir, self.fetch)
+        if self.repos[key].fetch_failed:
+            self.add(BLOCK, 'FETCH-FAILED', 'could not refresh %s from origin, so its tips are not current: %s' % (
+                key, self.repos[key].fetch_failed), repo=key)
         return self.repos[key]
 
     def clone(self, key):
@@ -249,8 +267,100 @@ class Crawl:
             raise CrawlError('seed repository %s is not available locally' % seed_key)
         if seed_ref:
             self.overrides.setdefault(seed_key, seed_ref)
-        ref = self.ref_for(seed_key, repo)
-        self.seed_key, self.seed_ref = seed_key, ref
+        self.seed_key, self.seed_ref = seed_key, self.ref_for(seed_key, repo)
+        self.owners.add(seed_key.split('/')[0])
+
+    def close_graph(self):
+        """Breadth-first fixed point over every record that names a repository.
+
+        Each reached repository's own `.gitmodules`, gitlinks, `pins.json`,
+        `workspace/repositories.json`, canonical inputs and lake manifests are read, and
+        what they name is reached in turn, until nothing new appears. A repository is read
+        at one ref: an override, else the first pin met in breadth-first order (`--at pins`),
+        else its default tip. Lake dependencies outside the federation's owners (those of
+        the seed and of every repository its records list) are recorded as external edges
+        and not crawled.
+        """
+        queue, done = collections.deque([(self.seed_key, 'seed')]), set()
+        while queue:
+            key, why = queue.popleft()
+            if key in done:
+                continue
+            done.add(key)
+            repo = self.open(key, why)
+            if repo is None:
+                continue
+            for new in self.expand(key, repo):
+                queue.append((new, 'listed by %s' % key))
+            for new in self.lake_targets(key, repo):
+                queue.append((new, 'lake dependency of %s' % key))
+            for new in self.registry_targets(key):
+                queue.append((new, 'registry artifact via %s' % key))
+        for key, ref, lm, pkg, dep in self.lake_records:
+            drepo = self.repos.get(dep)
+            if drepo is None:
+                continue
+            if not drepo.has_commit(pkg['rev']):
+                self.add(BLOCK, 'PIN-MISSING', '%s:%s pins %s at %s, which is not in that repository%s' % (
+                    key, lm, dep, pkg['rev'], drepo.where()), repo=key, path=lm, target=dep, pin=pkg['rev'])
+            elif pkg['rev'] != self.ref_for(dep, drepo):
+                self.add(INFO, 'LAKE-DEP', '%s:%s pins %s at %s; crawl reads it at %s' % (
+                    key, lm, dep, pkg['rev'][:12], self.ref_for(dep, drepo)[:12]), repo=key, path=lm)
+
+    def lake_targets(self, key, repo):
+        ref = self.ref_for(key, repo)
+        tree = repo.tree(ref)
+        out = []
+        for lm in sorted(p for p in tree if p.rsplit('/', 1)[-1] == 'lake-manifest.json' and '/.lake/' not in '/' + p):
+            doc = self.json_at(repo, ref, lm)
+            for pkg in (doc or {}).get('packages', []) if isinstance(doc, dict) else []:
+                if not (isinstance(pkg, dict) and pkg.get('type') == 'git' and pkg.get('url') and pkg.get('rev')):
+                    continue
+                try:
+                    dep = repo_key(pkg['url'])
+                except CrawlError:
+                    continue
+                if dep.split('/')[0] not in self.owners:
+                    self.stats['lake_external_edges'] += 1
+                    continue
+                self.urls.setdefault(dep, pkg['url'])
+                self.edges.append((key, dep, 'lake'))
+                self.lake_records.append((key, ref, lm, pkg, dep))
+                out.append(dep)
+        return out
+
+    def registry_targets(self, key):
+        """Repositories named by artifacts of the registries that `key` declares."""
+        out = []
+        for owner, label, spec in self.canonical_inputs:
+            if owner != key or not isinstance(spec, dict) or 'repository' not in spec or 'path' not in spec:
+                continue
+            try:
+                rkey = repo_key(spec['repository'])
+            except CrawlError:
+                continue
+            out.append(rkey)
+            rrepo = self.open(rkey, 'canonical input %s of %s' % (label, key))
+            if rrepo is None:
+                continue
+            ref = spec.get('ref') or self.ref_for(rkey, rrepo)
+            if not rrepo.has_commit(ref):
+                continue
+            doc = self.json_at(rrepo, ref, spec['path']) if spec['path'] in rrepo.tree(ref) else None
+            if isinstance(doc, dict) and isinstance(doc.get('repositories'), dict) and isinstance(doc.get('artifacts'), list):
+                used = {a.get('repository') for a in doc['artifacts'] if isinstance(a, dict)}
+                for name, ent in sorted(doc['repositories'].items()):
+                    if name in used and isinstance(ent, dict) and ent.get('full_name'):
+                        try:
+                            out.append(repo_key(ent['full_name']))
+                        except CrawlError:
+                            pass
+        return out
+
+    def expand(self, owner, repo):
+        """Read one repository's own pin and listing records; return the repositories they name."""
+        seed_key = owner
+        ref = self.ref_for(owner, repo)
         tree = repo.tree(ref)
         records = collections.defaultdict(dict)   # key -> {source: value}
 
@@ -310,9 +420,13 @@ class Crawl:
                     self.add(BLOCK, 'MALFORMED', 'repositories.json entry %r: %s' % (ent, exc), repo=seed_key)
             inputs = reg.get('canonical_inputs', {}) if isinstance(reg, dict) else {}
 
+        named = []
         for key, rec in sorted(records.items()):
             if key == seed_key:
                 continue
+            named.append(key)
+            self.discovered.add(key)
+            self.owners.add(key.split('/')[0])
             srcs = [s for s in ('gitmodules', 'pins', 'listed') if s in rec]
             have = set(srcs)
             if gm is not None and pins is not None and ('gitmodules' in have) != ('pins' in have):
@@ -330,17 +444,21 @@ class Crawl:
                          repo=seed_key, target=key)
             pin = rec.get('pins') or rec.get('gitlink')
             if pin:
-                self.pins[key] = pin
+                self.pin_records.append((seed_key, key, pin))
+                first = self.pins.setdefault(key, pin)
+                if first != pin:
+                    self.add(INFO, 'PIN-DIVERGENT', '%s pins %s at %s; an earlier record pins %s, which the crawl reads' % (
+                        seed_key, key, pin[:12], first[:12]), repo=seed_key, target=key, pin=pin)
             self.edges.append((seed_key, key, '+'.join(srcs)))
-        self.discovered = sorted(k for k in records if k != seed_key)
-        self.canonical_inputs = inputs
+        for label, spec in sorted(inputs.items()) if isinstance(inputs, dict) else []:
+            self.canonical_inputs.append((seed_key, label, spec))
+        return named
 
     def check_pins(self):
-        for key in self.discovered:
-            repo = self.open(key, 'listed by the seed')
-            if repo is None or key not in self.pins:
+        for parent, key, pin in sorted(set(self.pin_records)):
+            repo = self.repos.get(key)
+            if repo is None:
                 continue
-            pin = self.pins[key]
             if not repo.has_commit(pin):
                 self.add(BLOCK, 'PIN-MISSING', 'pinned commit %s is not in %s%s' % (pin, key, repo.where()), repo=key, pin=pin)
                 continue
@@ -360,7 +478,7 @@ class Crawl:
 
     # ------------------------------------------------------------------ registries
     def check_registries(self):
-        for label, spec in sorted(self.canonical_inputs.items()):
+        for owner, label, spec in self.canonical_inputs:
             if not isinstance(spec, dict) or 'repository' not in spec or 'path' not in spec:
                 continue
             key = repo_key(spec['repository'])
@@ -437,7 +555,6 @@ class Crawl:
     def check_lean(self):
         decls = collections.defaultdict(list)
         packages = {}
-        lake_deps = []
         for key, repo, ref in list(self.crawled()):
             tree = repo.tree(ref)
             roots = sorted({p.rsplit('/', 1)[0] if '/' in p else '' for p in tree
@@ -445,12 +562,6 @@ class Crawl:
             for root in roots:
                 tc = repo.read(ref, (root + '/' if root else '') + 'lean-toolchain')
                 packages[(key, root)] = tc.decode(errors='replace').strip() if tc else None
-                lm = (root + '/' if root else '') + 'lake-manifest.json'
-                if lm in tree:
-                    doc = self.json_at(repo, ref, lm)
-                    for pkg in (doc or {}).get('packages', []) if isinstance(doc, dict) else []:
-                        if isinstance(pkg, dict) and pkg.get('type') == 'git' and pkg.get('url') and pkg.get('rev'):
-                            lake_deps.append((key, ref, lm, pkg))
             for path, (mode, typ, sha) in sorted(tree.items()):
                 if typ != 'blob' or not path.endswith('.lean') or '/.lake/' in '/' + path:
                     continue
@@ -488,17 +599,6 @@ class Crawl:
             if packages.get(a) != packages.get(b):
                 self.add(INFO, 'TOOLCHAIN', 'packages %s:%s and %s:%s share declarations but use %s and %s' % (
                     a[0], a[1] or '.', b[0], b[1] or '.', packages.get(a), packages.get(b)))
-        for key, ref, lm, pkg in lake_deps:
-            try:
-                dep = repo_key(pkg['url'])
-            except CrawlError:
-                continue
-            if dep in self.repos or dep in self.local:
-                self.edges.append((key, dep, 'lake'))
-                drepo = self.open(dep, 'lake dependency of %s' % key)
-                if drepo is not None and pkg['rev'] != self.ref_for(dep, drepo):
-                    self.add(INFO, 'LAKE-DEP', '%s:%s pins %s at %s; crawl reads it at %s' % (
-                        key, lm, dep, pkg['rev'][:12], self.ref_for(dep, drepo)[:12]), repo=key, path=lm)
 
     def report(self):
         return {
@@ -518,6 +618,7 @@ def run(seed, search, at='pins', seed_ref=None, overrides=None, fetch=False, clo
     local = find_local_repos(search)
     c = Crawl(local, at=at, overrides=overrides, fetch=fetch, clone_into=clone_into)
     c.seed(repo_key(seed) if '/' in seed else _match_name(seed, local), seed_ref)
+    c.close_graph()
     c.check_pins()
     c.check_registries()
     c.check_lean()

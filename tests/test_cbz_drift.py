@@ -27,7 +27,7 @@ import crawl  # noqa: E402
 import lean_decls  # noqa: E402
 
 ENV = dict(os.environ, GIT_AUTHOR_NAME='t', GIT_AUTHOR_EMAIL='t@t', GIT_COMMITTER_NAME='t',
-           GIT_COMMITTER_EMAIL='t@t', GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1')
+           GIT_COMMITTER_EMAIL='t@t', GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1', GIT_TERMINAL_PROMPT='0')
 
 LEAN_A = textwrap.dedent('''\
     import Mathlib
@@ -395,16 +395,109 @@ class TopologyTests(FedCase):
         self.fed.write_seed()
         rep = self.fed.crawl()
         self.assertIn('fed/a', {r['repository'] for r in rep['repositories'] if r['resolved']})
-        self.assertEqual(rep['stats']['registry_artifacts_verified'], 1)
+        self.assertEqual(rep['stats'].get('registry_artifacts_verified', 0), 1)
 
     def test_lake_dependency_on_a_crawled_repository_is_followed(self):
+        # A present historical revision is INFO. (This fixture used an absent revision until
+        # R2 at #712/6511043716 showed that an absent one must block; see the next test.)
         self.fed.build()
-        manifest = {'packages': [{'type': 'git', 'url': 'https://github.com/fed/a', 'rev': '2' * 40, 'name': 'a'}]}
+        old = self.fed.pins['a']
+        self.fed.pins['a'] = self.fed.commit('a', {'later': 'x'})
+        manifest = {'packages': [{'type': 'git', 'url': 'https://github.com/fed/a', 'rev': old, 'name': 'a'}]}
         self.fed.pins['b'] = self.fed.commit('b', {'lake-manifest.json': json.dumps(manifest)})
         self.fed.write_seed()
         rep = self.fed.crawl()
         self.assertIn('LAKE-DEP', codes(rep, 'INFO'))
+        self.assertEqual(codes(rep, 'BLOCK'), [])
         self.assertIn({'from': 'fed/b', 'to': 'fed/a', 'via': 'lake'}, rep['edges'])
+
+    def add_lake_edge(self, holder, name, url, rev):
+        manifest = {'packages': [{'type': 'git', 'url': url, 'rev': rev, 'name': name}]}
+        self.fed.pins[holder] = self.fed.commit(holder, {'lake-manifest.json': json.dumps(manifest)})
+        self.fed.write_seed()
+
+    def lean_c(self):
+        return self.fed.commit('c', {'lakefile.toml': 'name = "c"\n', 'lean-toolchain': 'v4.0.0\n',
+                                     'C.lean': LEAN_A.replace('def f : Nat := 3', 'def f : Nat := 7')})
+
+    def test_missing_lake_revision_blocks(self):
+        self.fed.build()
+        self.add_lake_edge('b', 'a', 'https://github.com/fed/a.git', '2' * 40)
+        self.assertEqual(codes(self.fed.crawl(), 'BLOCK'), ['PIN-MISSING'])
+
+    def test_lake_dependency_reached_only_by_lake_is_scanned(self):
+        self.fed.build()
+        self.add_lake_edge('b', 'c', 'https://github.com/fed/c.git', self.lean_c())
+        rep = self.fed.crawl()
+        self.assertIn('fed/c', {r['repository'] for r in rep['repositories'] if r['resolved']})
+        self.assertEqual([f['name'] for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'], ['Fed.f'])
+
+    def test_unheld_lake_dependency_is_cloned(self):
+        self.fed.build()
+        sha = self.lean_c()
+        remote = pathlib.Path(self.tmp.name + '-lake') / 'fed' / 'c'
+        remote.parent.mkdir(parents=True)
+        shutil.move(str(self.fed.repo('c')), str(remote))
+        try:
+            self.add_lake_edge('b', 'c', remote.as_uri(), sha)
+            clones = pathlib.Path(self.tmp.name + '-lake') / 'clones'
+            clones.mkdir()
+            rep = self.fed.crawl(clone_into=str(clones))
+            self.assertIn('fed/c', {r['repository'] for r in rep['repositories'] if r['resolved']})
+            self.assertEqual([f['name'] for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'], ['Fed.f'])
+        finally:
+            shutil.rmtree(self.tmp.name + '-lake')
+
+    def test_external_lake_dependency_is_not_crawled(self):
+        self.fed.build()
+        self.add_lake_edge('b', 'mathlib', 'https://github.com/leanprover-community/mathlib4', '3' * 40)
+        rep = self.fed.crawl()
+        self.assertEqual(codes(rep, 'BLOCK'), [])
+        self.assertEqual(rep['stats']['lake_external_edges'], 1)
+
+    def test_child_records_extend_the_graph(self):
+        self.fed.build()
+        sha = self.lean_c()
+        child = self.fed.repo('a')
+        sh(child, 'update-index', '--add', '--cacheinfo', '160000,%s,repos/c' % sha)
+        self.fed.pins['a'] = self.fed.commit('a', {
+            '.gitmodules': '[submodule "c"]\npath = repos/c\nurl = https://github.com/fed/c.git\n',
+            'pins.json': json.dumps({'repos': [{'url': 'https://github.com/fed/c.git', 'path': 'repos/c', 'pinned_sha': sha}]}),
+            'workspace/repositories.json': json.dumps({'repositories': [{'full_name': 'fed/a'}, {'full_name': 'fed/c'}]}),
+        })
+        self.fed.write_seed()
+        rep = self.fed.crawl()
+        self.assertIn({'from': 'fed/a', 'to': 'fed/c', 'via': 'gitmodules+pins+listed'}, rep['edges'])
+        self.assertEqual([f['name'] for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'], ['Fed.f'])
+
+    def test_registry_only_repository_is_expanded(self):
+        # fed/a is reached only through a registry artifact; its own lake edge must still be followed
+        self.fed.build()
+        sha = self.lean_c()
+        manifest = {'packages': [{'type': 'git', 'url': 'https://github.com/fed/c', 'rev': sha, 'name': 'c'}]}
+        self.fed.commit('a', {'lake-manifest.json': json.dumps(manifest)})
+        self.fed.members.remove('a')
+        del self.fed.pins['a']
+        self.fed.write_seed()
+        rep = self.fed.crawl()
+        self.assertIn({'from': 'fed/a', 'to': 'fed/c', 'via': 'lake'}, rep['edges'])
+        self.assertIn('fed/c', {r['repository'] for r in rep['repositories'] if r['resolved']})
+
+    def test_fetch_refreshes_the_default_tip(self):
+        self.fed.build()
+        with tempfile.TemporaryDirectory() as base:
+            cache = pathlib.Path(base) / 'cached'
+            subprocess.run(['git', 'clone', '-q', self.fed.repo('b').as_uri(), str(cache)], check=True, env=ENV,
+                           capture_output=True)
+            advanced = self.fed.commit('b', {'tip': 'new\n'})
+            self.assertNotEqual(crawl.Repo('fed/b', cache).default_tip(), advanced)
+            self.assertEqual(crawl.Repo('fed/b', cache, fetch=True).default_tip(), advanced)
+
+    def test_failed_refresh_blocks(self):
+        self.fed.build()
+        sh(self.fed.repo('b'), 'remote', 'set-url', 'origin', 'file://%s/nowhere/fed/b' % self.tmp.name)
+        rep = self.fed.crawl(fetch=True)
+        self.assertIn('FETCH-FAILED', codes(rep, 'BLOCK'))
 
     def test_unheld_repository_is_cloned_from_its_recorded_url(self):
         self.fed.build()
@@ -536,10 +629,26 @@ MUTANTS = [
      'RegistryTests.test_observed_input_blob_difference_is_info'),
     ('registry not followed', "                self.check_artifacts(repo, ref, spec['path'], doc)", "                pass", 'crawl.py',
      'TopologyTests.test_registry_artifact_repositories_join_the_crawl'),
-    ('lake deps not followed', "                        if isinstance(pkg, dict) and pkg.get('type') == 'git'", "                        if False and isinstance(pkg, dict)", 'crawl.py',
+    ('lake records dropped', "                self.lake_records.append((key, ref, lm, pkg, dep))\n", "", 'crawl.py',
      'TopologyTests.test_lake_dependency_on_a_crawled_repository_is_followed'),
     ('clone ignored', "        if gitdir is None and self.clone_into:\n", "        if False:\n", 'crawl.py',
      'TopologyTests.test_unheld_repository_is_cloned_from_its_recorded_url'),
+    ('lake revision unchecked', "            if not drepo.has_commit(pkg['rev']):", "            if False:", 'crawl.py',
+     'TopologyTests.test_missing_lake_revision_blocks'),
+    ('lake targets not queued', "                out.append(dep)\n", "", 'crawl.py',
+     'TopologyTests.test_lake_dependency_reached_only_by_lake_is_scanned'),
+    ('lake url not recorded', "                self.urls.setdefault(dep, pkg['url'])\n", "", 'crawl.py',
+     'TopologyTests.test_unheld_lake_dependency_is_cloned'),
+    ('federation boundary ignored', "                if dep.split('/')[0] not in self.owners:", "                if False:", 'crawl.py',
+     'TopologyTests.test_external_lake_dependency_is_not_crawled'),
+    ('children not expanded', "            for new in self.expand(key, repo):", "            for new in (self.expand(key, repo) if key == self.seed_key else []):", 'crawl.py',
+     'TopologyTests.test_child_records_extend_the_graph'),
+    ('registry repositories not queued', "                            out.append(repo_key(ent['full_name']))", "                            pass", 'crawl.py',
+     'TopologyTests.test_registry_only_repository_is_expanded'),
+    ('no refresh', "            r = git(gitdir, *args, check=False)", "            r = git(gitdir, 'status', check=False)", 'crawl.py',
+     'TopologyTests.test_fetch_refreshes_the_default_tip'),
+    ('failed refresh passes', "        if self.repos[key].fetch_failed:", "        if False:", 'crawl.py',
+     'TopologyTests.test_failed_refresh_blocks'),
     ('case-sensitive identity', "        return ('%s/%s' % (m.group(1), m.group(2))).lower()", "        return '%s/%s' % (m.group(1), m.group(2))", 'crawl.py',
      'TopologyTests.test_identity_normalization'),
     ('exit ignores blocks', "    return 1 if rep['blocking'] else 0", "    return 0", 'crawl.py', 'CleanFederationTests.test_cli_exit_status'),
@@ -551,7 +660,8 @@ class ScannerMutationTests(unittest.TestCase):
 
     def run_designated(self, tool_dir, test):
         env = dict(ENV, CBZ_DRIFT_DIR=str(tool_dir), PYTHONDONTWRITEBYTECODE='1')
-        return subprocess.run([sys.executable, '-B', '-m', 'unittest', 'test_cbz_drift.%s' % test],
+        mode = ['-O'] if sys.flags.optimize else []      # children run in the parent's interpreter mode
+        return subprocess.run([sys.executable, '-B', *mode, '-m', 'unittest', 'test_cbz_drift.%s' % test],
                               cwd=str(pathlib.Path(__file__).parent), capture_output=True, env=env, timeout=600)
 
     def copy_tool(self, base):
