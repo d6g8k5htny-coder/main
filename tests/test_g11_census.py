@@ -4,6 +4,7 @@ Every finding class is planted once in a synthetic tree, beside look-alikes that
 must not be flagged; the mutation self-test (tools/cbz/g11_mutation_selftest.py)
 requires these tests to fail when any detector is weakened.
 """
+import hashlib
 import os
 import subprocess
 import sys
@@ -15,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
+
+EXPECTED_MUTATION_INVENTORY_SHA256 = "30517cb4c2a241620a7f100cd3015f24c157c91ae2eb69dce332db6ddfa2c104"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
@@ -81,12 +84,15 @@ class PythonStubs(unittest.TestCase):
                 "class Base(ABC):\n    def m(self):\n        ...\n"
                 "class Shape(Protocol):\n    def area(self) -> float:\n        ...\n"
                 "class Bad(ValueError):\n    def __init__(self):\n        pass\n"
-                "class C:\n    @abstractmethod\n    def a(self):\n        pass\n"
-                "    @overload\n    def f(self, x: int) -> int:\n        ...\n")
+                "class C(ABC):\n    @abstractmethod\n    def a(self):\n        pass\n"
+                "    @overload\n    def f(self, x: int) -> int:\n        ...\n"
+                "    @overload\n    def f(self, x: str) -> str:\n        ...\n"
+                "    def f(self, x):\n        return x\n")
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         contexts = sorted(f["detail"] for f in report["findings"] if f["class"] == "stub-context")
         self.assertEqual(contexts, ["a: pass; @abstractmethod",
-                                    "area: ellipsis; method of a Protocol class", "f: ellipsis; @overload"])
+                                    "area: ellipsis; method of a Protocol class",
+                                    "f: ellipsis; @overload", "f: ellipsis; @overload"])
         self.assertEqual(sorted(f["detail"] for f in report["failing"]), ["__init__: pass", "m: ellipsis"])
         self.assertEqual(report["status"], "FAIL")
 
@@ -268,6 +274,13 @@ class CommandLine(unittest.TestCase):
         result = self.cli(bad)
         self.assertEqual(result.returncode, 1)
         self.assertIn("tools/good.py:1: tooling stub (a: pass)", result.stdout)
+        unexercised = self.repo({
+            "tools/lonely.py": b"x = 1\n",
+            "tools/README.md": b"tools/lonely.py\n",
+        })
+        unexercised_result = self.cli(unexercised)
+        self.assertEqual(unexercised_result.returncode, 1)
+        self.assertIn("tools/lonely.py: tool unexercised", unexercised_result.stdout)
         self.assertEqual(self.cli(root, "--rev", "no-such-revision").returncode, 2)
 
 
@@ -294,7 +307,8 @@ class AdversarialControls(unittest.TestCase):
         )
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),
-                         ["abc", "builtin", "decoy_decorator", "decoy_qualified", "fail", "fail", "fail", "log_message", "proto"])
+                         ["abc", "abstract", "builtin", "decoy_decorator", "decoy_qualified",
+                          "fail", "fail", "fail", "log_message", "proto"])
         self.assertEqual(report["status"], "FAIL")
         local_shadow = (
             "from abc import abstractmethod\n"
@@ -399,7 +413,7 @@ class ReviewResidualControls(unittest.TestCase):
     def test_stub_exemptions_are_immediate_and_scope_safe(self):
         text = (
             "from abc import ABC, abstractmethod\n"
-            "from typing import Protocol\n"
+            "from typing import Protocol, overload\n"
             "from http.server import BaseHTTPRequestHandler\n"
             "class Abstract(ABC):\n"
             "    @abstractmethod\n"
@@ -420,6 +434,11 @@ class ReviewResidualControls(unittest.TestCase):
             "        def shadowed_exception(self): ...\n"
             "    class ShadowedHandler(BaseHTTPRequestHandler):\n"
             "        def shadowed_handler_log_message(self, *args): ...\n"
+            "class Unpaired:\n"
+            "    @abstractmethod\n"
+            "    def abstract_without_abc(self): ...\n"
+            "    @overload\n"
+            "    def overload_without_implementation(self, value: int): ...\n"
         )
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         stub_names = {f["detail"].split(":")[0] for f in report["findings"] if f["class"] == "stub"}
@@ -429,7 +448,8 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertIn("inner_abc", stub_names)
         self.assertIn("shadowed_abc", stub_names)
         for name in ("concrete", "inner_abc", "inner_protocol", "exception_method",
-                     "shadowed_abc", "shadowed_exception", "shadowed_handler_log_message"):
+                     "shadowed_abc", "shadowed_exception", "shadowed_handler_log_message",
+                     "abstract_without_abc", "overload_without_implementation"):
             self.assertIn(name, stub_names)
             self.assertNotIn(name, context_names)
 
@@ -458,6 +478,28 @@ class ReviewResidualControls(unittest.TestCase):
             ),
         })
         self.assertTrue(reachable["tools"]["tools/runner.py"]["referenced"])
+        decoy = run({
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            "tests/test_runner.py": (
+                "class TestCase:\n    pass\n"
+                "class Fake(TestCase):\n"
+                "    def test_decoy(self):\n"
+                "        import runner\n"
+            ),
+        })
+        self.assertFalse(decoy["tools"]["tools/runner.py"]["referenced"])
+        imported_alias = run({
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            "tests/test_runner.py": (
+                "from unittest import TestCase as BaseCase\n"
+                "class RunnerTests(BaseCase):\n"
+                "    def test_reaches_helper(self):\n"
+                "        import runner\n"
+            ),
+        })
+        self.assertTrue(imported_alias["tools"]["tools/runner.py"]["referenced"])
         workflow = ("jobs:\n  test:\n    steps:\n      - run: |\n"
                     "          cat <<'EOF'\n"
                     "          python tools/runner.py\n"
@@ -476,13 +518,24 @@ class ReviewResidualControls(unittest.TestCase):
         self.assertTrue(real_command["tools"]["tools/runner.py"]["referenced"])
 
     def test_mutation_inventory_is_sealed(self):
+        source = Path(g11m.__file__).read_bytes()
+        start = source.index(b"MUTATIONS = [")
+        end = source.index(b"\n\n\ndef _build_cases", start)
+        self.assertEqual(hashlib.sha256(source[start:end]).hexdigest(),
+                         EXPECTED_MUTATION_INVENTORY_SHA256)
         cases = g11m._build_cases()
-        self.assertEqual(len(cases), 74)
+        self.assertEqual(len(cases), 75)
         g11m._validate_mutation_inventory(cases)
         altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
         for altered in altered_cases:
             with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory"):
                 g11m._validate_mutation_inventory(altered)
+        weakened = list(cases)
+        original = weakened[0]
+        weakened[0] = (original[0], original[1], original[2],
+                       original[3] + " # same-name weakening", original[4], original[5])
+        with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory mismatch"):
+            g11m._validate_mutation_inventory(tuple(weakened))
 
     def test_mutation_child_environment_is_sanitized(self):
         with tempfile.TemporaryDirectory() as temporary:

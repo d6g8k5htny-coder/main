@@ -5,8 +5,10 @@ Reads the exact blob bytes of one git revision and reports:
 
   stub      a Python function whose body, after any docstring, is only `pass`,
             `...` or `raise NotImplementedError`, or is the docstring alone.
-            @abstractmethod/@overload and immediate Protocol methods are
-            contextual; ABC or exception inheritance alone is not an exemption.
+            @abstractmethod is contextual only in an immediate imported ABC subclass;
+            @overload requires a complete overload group and a concrete implementation;
+            immediate Protocol methods are contextual; ABC or exception inheritance alone
+            is not an exemption.
   marker    TODO, FIXME, XXX, TBD or STUB (upper case) or "not implemented" in
             a code comment. In Python the comment is found by tokenizing; in
             .mjs/.js/.cjs/.sh a comment is found by a quote-parity heuristic.
@@ -199,6 +201,43 @@ def _trusted_decorator(node, imports, scope_shadowed=()):
                         ("typing_extensions", "overload")}
 
 
+def _overload_declaration(node, imports, scope_shadowed=()):
+    return (
+        isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        and any(_resolve_scoped_import(dec, imports, scope_shadowed) in {
+            ("typing", "overload"), ("typing_extensions", "overload")
+        } for dec in node.decorator_list)
+    )
+
+
+def _complete_overload_group(func, siblings, imports, scope_shadowed=()):
+    if not _overload_declaration(func, imports, scope_shadowed):
+        return False
+    try:
+        index = next(i for i, node in enumerate(siblings) if node is func)
+    except StopIteration:
+        return False
+    start = index
+    while (start > 0 and isinstance(siblings[start - 1], (ast.FunctionDef, ast.AsyncFunctionDef))
+           and siblings[start - 1].name == func.name
+           and _overload_declaration(siblings[start - 1], imports, scope_shadowed)):
+        start -= 1
+    end = start
+    while (end < len(siblings) and isinstance(siblings[end], (ast.FunctionDef, ast.AsyncFunctionDef))
+           and siblings[end].name == func.name
+           and _overload_declaration(siblings[end], imports, scope_shadowed)):
+        end += 1
+    if not any(siblings[i] is func for i in range(start, end)) or end >= len(siblings):
+        return False
+    implementation = siblings[end]
+    return (
+        isinstance(implementation, (ast.FunctionDef, ast.AsyncFunctionDef))
+        and implementation.name == func.name
+        and not _overload_declaration(implementation, imports, scope_shadowed)
+        and _stub_kind(implementation.body) is None
+    )
+
+
 def _trusted_abstract_base(node, imports, scope_shadowed=()):
     resolved = _resolve_scoped_import(node, imports, scope_shadowed)
     if resolved == ("abc", "ABC"):
@@ -253,10 +292,17 @@ def _stub_kind(body):
     return None
 
 
-def _legit_context(func, classes, imports, scope_shadowed=()):
+def _legit_context(func, classes, imports, scope_shadowed=(), siblings=()):
     for dec in func.decorator_list:
         if _trusted_decorator(dec, imports, scope_shadowed):
-            return "@" + _decorator_name(dec)
+            resolved = _resolve_scoped_import(dec, imports, scope_shadowed)
+            if resolved == ("abc", "abstractmethod"):
+                if classes and any(_trusted_abstract_base(base, imports, scope_shadowed) == "ABC"
+                                   for base in classes[-1].bases):
+                    return "@abstractmethod"
+            elif (resolved in {("typing", "overload"), ("typing_extensions", "overload")}
+                  and _complete_overload_group(func, siblings, imports, scope_shadowed)):
+                return "@overload"
     # Only the immediate class can supply method context.
     for cls in classes[-1:]:
         for base in cls.bases:
@@ -278,19 +324,21 @@ def python_stubs(tree, imports=None):
     if imports is None:
         imports = _import_bindings(tree)
 
-    def visit(node, classes, scope_shadowed):
+    def visit(node, classes, scope_shadowed, siblings):
         for child in ast.iter_child_nodes(node):
             if isinstance(child, ast.ClassDef):
-                visit(child, classes + [child], scope_shadowed | _scope_bindings(child))
+                visit(child, classes + [child], scope_shadowed | _scope_bindings(child), child.body)
             elif isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 kind = _stub_kind(child.body)
                 if kind:
                     found.append({"line": child.lineno, "name": child.name, "kind": kind,
-                                  "context": _legit_context(child, classes, imports, scope_shadowed)})
-                visit(child, [], scope_shadowed | _scope_bindings(child))
+                                  "context": _legit_context(child, classes, imports, scope_shadowed, siblings)})
+                visit(child, [], scope_shadowed | _scope_bindings(child), child.body)
             else:
-                visit(child, classes, scope_shadowed)
-    visit(tree, [], set())
+                child_body = getattr(child, "body", None)
+                visit(child, classes, scope_shadowed,
+                      child_body if isinstance(child_body, list) else siblings)
+    visit(tree, [], set(), tree.body)
     return found
 
 
@@ -529,9 +577,11 @@ def _reachable_python_nodes(tree, mode):
     register(tree.body)
     test_classes = set()
     if mode == "tests":
+        imports = _import_bindings(tree)
         for statement in tree.body:
             if (isinstance(statement, ast.ClassDef)
-                    and any(_base_name(base) == "TestCase" for base in statement.bases)):
+                    and any(_resolve_import(base, imports) == ("unittest", "TestCase")
+                            for base in statement.bases)):
                 test_classes.add(statement.name)
 
     nodes, queue, visited = [], [], set()
@@ -947,7 +997,7 @@ def main(argv=None):
     for path in report["failing_tools"]:
         t = report["tools"][path]
         print("%s: tool %s" % (path, ", ".join(w for w, ok in (("undocumented", t["documented"]),
-                                                              ("unexercised", t["exercised"])) if not ok)))
+                                                              ("unexercised", t["referenced"])) if not ok)))
     counts = {}
     for f in report["findings"]:
         counts[f["class"]] = counts.get(f["class"], 0) + 1

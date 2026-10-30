@@ -278,7 +278,7 @@ NEW_MUTATIONS = [
       "tests.test_g11_census.ReviewResidualControls.test_tool_reachability_and_heredoc_boundaries",
       'self.assertFalse(heredoc["tools"]["tools/runner.py"]["referenced"])'),
     ("mutation inventory shrink accepted", "harness",
-      "    if names != EXPECTED_MUTATION_NAMES:", "    if False:",
+      "\n    if tuple(cases) != declared:\n        raise HarnessError(\"mutation inventory mismatch: complete case tuples differ\")\n", "\n    if False:\n        raise HarnessError(\"mutation inventory mismatch: complete case tuples differ\")\n",
       "tests.test_g11_census.ReviewResidualControls.test_mutation_inventory_is_sealed",
       'self.assertRaisesRegex(g11m.HarnessError, "mutation inventory")'),
     ("hostile Python environment survives", "harness",
@@ -290,6 +290,11 @@ NEW_MUTATIONS = [
       "        if False:",
       "tests.test_g11_census.ReviewResidualControls.test_in_scope_tracked_symlink_is_rejected",
       'self.assertRaisesRegex(ValueError, "in-scope non-regular tracked path")'),
+    ("decoy TestCase base credited", "census",
+     'and any(_resolve_import(base, imports) == ("unittest", "TestCase")',
+     'and any(_base_name(base) == "TestCase"',
+     "tests.test_g11_census.ReviewResidualControls.test_tool_reachability_and_heredoc_boundaries",
+     'self.assertFalse(decoy["tools"]["tools/runner.py"]["referenced"])'),
 
 ]
 EXPECTED_MUTATION_NAMES = (
@@ -367,6 +372,7 @@ EXPECTED_MUTATION_NAMES = (
     "mutation inventory shrink accepted",
     "hostile Python environment survives",
     "in-scope tracked symlink silently skipped",
+    "decoy TestCase base credited",
 )
 
 
@@ -379,11 +385,41 @@ def _build_cases():
     return cases
 
 
+def _declared_mutation_cases(source):
+    tree = ast.parse(source)
+    required = {"MUTATIONS", "TARGETS", "NEW_MUTATIONS", "EXPECTED_MUTATION_NAMES"}
+    values = {}
+    for node in tree.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+                and node.targets[0].id in required):
+            values[node.targets[0].id] = ast.literal_eval(node.value)
+    if set(values) != required:
+        raise HarnessError("mutation inventory declarations are incomplete")
+    cases = []
+    for item in values["MUTATIONS"]:
+        if not isinstance(item, (tuple, list)) or len(item) != 3:
+            raise HarnessError("mutation inventory declaration has an invalid census tuple")
+        name, old, new = item
+        try:
+            target_test, fragment = values["TARGETS"][name]
+        except (KeyError, TypeError, ValueError) as exc:
+            raise HarnessError("mutation inventory target missing for %r: %s" % (name, exc))
+        cases.append((name, "census", old, new, target_test, fragment))
+    cases.extend(values["NEW_MUTATIONS"])
+    expected_names = tuple(values["EXPECTED_MUTATION_NAMES"])
+    if tuple(case[0] for case in cases) != expected_names:
+        raise HarnessError("mutation inventory names disagree with literal declarations")
+    return tuple(cases)
+
+
 def _validate_mutation_inventory(cases):
-    names = tuple(case[0] for case in cases)
-    if names != EXPECTED_MUTATION_NAMES:
-        raise HarnessError("mutation inventory mismatch: expected %d fixed names, received %d" %
-                           (len(EXPECTED_MUTATION_NAMES), len(names)))
+    try:
+        declared = _declared_mutation_cases(Path(__file__).read_text(encoding="utf-8"))
+    except (OSError, SyntaxError, ValueError, TypeError, KeyError) as exc:
+        raise HarnessError("mutation inventory cannot be parsed: %s" % exc)
+    if tuple(cases) != declared:
+        raise HarnessError("mutation inventory mismatch: complete case tuples differ")
 
 
 
@@ -523,7 +559,7 @@ def run_selftest(root):
                     tool_source = original_tool.replace(old, new, 1)
                 else:
                     harness_source = original_harness.replace(old, new, 1)
-                _sandbox(tool_source, test_source, original_harness, work)
+                _sandbox(tool_source, test_source, harness_source, work)
                 outcome = _run(work, test_id)
                 expected_line = _assertion_line(test_source, test_id, fragment)
                 results.append(dict(outcome, mutation=name, target=target, expected_test=test_id,
