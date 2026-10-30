@@ -23,6 +23,7 @@ commit, different Lean toolchains); it never fails the run.
   REGISTRY-BYTES  a registry artifact's bytes or SHA-256 differ at its commit       BLOCK
   REGISTRY-EVOLVED the artifact differs (or is gone) at the crawled ref             INFO
   INPUT-OBSERVED  a canonical input's observed blob differs at the crawled ref      INFO
+  INPUT-MISSING   a declared canonical input is absent at its selected ref         BLOCK
   LEAN-DRIFT      one fully qualified Lean declaration has different interfaces     BLOCK
                   in two crawled locations (see lean_decls for the exact domain)
   LEAN-SYNTAX     a Lean file could not be lexed or its scopes do not balance       BLOCK
@@ -377,6 +378,8 @@ class Crawl:
                     label, spec['path'], ref[:12], ent[2][:12] if ent else 'absent', spec['observed_blob'][:12]),
                     repo=key, ref=ref, path=spec['path'])
             if ent is None:
+                self.add(BLOCK, 'INPUT-MISSING', 'canonical input %s is absent at %s@%s:%s' % (
+                    label, key, ref, spec['path']), label=label, repo=key, ref=ref, path=spec['path'])
                 continue
             doc = self.json_at(repo, ref, spec['path'])
             if isinstance(doc, dict) and isinstance(doc.get('artifacts'), list) and isinstance(doc.get('repositories'), dict):
