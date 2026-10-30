@@ -1,0 +1,204 @@
+{
+ "blocking": 1,
+ "counts": {
+  "FOREIGN_REPOSITORY": 1,
+  "FROZEN_CHANGED": 1294,
+  "FROZEN_REMOVED": 4322,
+  "LIVE_DRIFT": 1,
+  "PIN_SKEW": 4,
+  "UNPARSEABLE": 1
+ },
+ "findings_other_than_frozen": [
+  {
+   "blocking": false,
+   "class": "PIN_SKEW",
+   "detail": "pinned 81acc060341e8a31cc4cd4f9523ef71fb6c06175, tip 11e28815163e15223e8827fe6ff47a1faaf36ebd",
+   "path": "",
+   "repo": "main"
+  },
+  {
+   "blocking": false,
+   "class": "PIN_SKEW",
+   "detail": "pinned 8151f592918a845bf19eb8eafaf8444540a32734, tip 19a55750451b8016b50d1d20be6a18c021807ecb",
+   "path": "",
+   "repo": "Math-"
+  },
+  {
+   "blocking": false,
+   "class": "PIN_SKEW",
+   "detail": "pinned c70e1984477ae1752e93a060fac8bf0486c0ce73, tip 0f5894f81a5462c10ee5ec8f8109f466e712e47e",
+   "path": "",
+   "repo": "meta-framework"
+  },
+  {
+   "blocking": false,
+   "class": "PIN_SKEW",
+   "detail": "pinned e396002aa19158f9fcca27eaf33a5da38b1ed313, tip 1b62ca2f64b3012c2fdbbf7f55ced236c3042891",
+   "path": "",
+   "repo": "governance-"
+  },
+  {
+   "blocking": false,
+   "class": "UNPARSEABLE",
+   "detail": "JSON does not parse: its records are unchecked; URLs are matched in the raw text",
+   "path": ".cursor/environment.json",
+   "repo": "trial"
+  },
+  {
+   "blocking": true,
+   "class": "LIVE_DRIFT",
+   "commit": null,
+   "detail": "path absent at 81acc060341e8a31cc4cd4f9523ef71fb6c06175",
+   "path": "docs/math_status/STATUS_RN_UNIF.md",
+   "reference_kind": "json",
+   "repo": "main",
+   "source": "Math-:frontiers/three_fronts_20260924/SOURCES.json"
+  },
+  {
+   "blocking": false,
+   "class": "FOREIGN_REPOSITORY",
+   "commit": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+   "detail": "the owner is outside the federation, so this reference is not checked",
+   "path": "Mathlib/Analysis/SpecialFunctions/PolarCoord.lean",
+   "reference_kind": "json",
+   "repo": "leanprover-community/mathlib4",
+   "source": "Math-:reviews/cap_i4_d3_spectral_adapter_20261005/SOURCES.json"
+  }
+ ],
+ "frozen_counts_by_class_and_source_repository": [
+  {
+   "class": "FROZEN_CHANGED",
+   "count": 24,
+   "source_repository": "Math-"
+  },
+  {
+   "class": "FROZEN_CHANGED",
+   "count": 1,
+   "source_repository": "governance-"
+  },
+  {
+   "class": "FROZEN_CHANGED",
+   "count": 1225,
+   "source_repository": "main"
+  },
+  {
+   "class": "FROZEN_CHANGED",
+   "count": 34,
+   "source_repository": "meta-framework"
+  },
+  {
+   "class": "FROZEN_CHANGED",
+   "count": 10,
+   "source_repository": "query-"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 33,
+   "source_repository": "Math-"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 1,
+   "source_repository": "Universal-Law-Workspace"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 2,
+   "source_repository": "governance-"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 4284,
+   "source_repository": "main"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 1,
+   "source_repository": "meta-framework"
+  },
+  {
+   "class": "FROZEN_REMOVED",
+   "count": 1,
+   "source_repository": "query-"
+  }
+ ],
+ "full_report": {
+  "bytes": 2978144,
+  "note": "the complete report is reproduced by the command in README.md",
+  "sha256": "db2c11d335809f3292ec3a0c5c0465e8a70afc2db56db84b3f67bafe9d2731d9"
+ },
+ "references": 17578,
+ "require_current_pins": false,
+ "schema": "cbz.references.v1",
+ "skipped_fixture_files": {
+  "Math-": 6,
+  "main": 66,
+  "meta-framework": 5
+ },
+ "strict": false,
+ "topology": [
+  {
+   "commit": "a4b016820329afc1787d9c191572b05cd88236ac",
+   "full_name": "d6g8k5htny-coder/Universal-Law-Workspace",
+   "name": "Universal-Law-Workspace",
+   "pinned": false,
+   "registered": true
+  },
+  {
+   "commit": "81acc060341e8a31cc4cd4f9523ef71fb6c06175",
+   "full_name": "d6g8k5htny-coder/main",
+   "name": "main",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+   "full_name": "d6g8k5htny-coder/Math-",
+   "name": "Math-",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "c70e1984477ae1752e93a060fac8bf0486c0ce73",
+   "full_name": "d6g8k5htny-coder/meta-framework",
+   "name": "meta-framework",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "fb4c457b5861dc49696fd0a8e11c7c405056c05f",
+   "full_name": "d6g8k5htny-coder/query-",
+   "name": "query-",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "ad08584b3ea9d533af10113e85169f471fa8ec93",
+   "full_name": "d6g8k5htny-coder/google-drive",
+   "name": "google-drive",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
+   "full_name": "d6g8k5htny-coder/trial",
+   "name": "trial",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "e396002aa19158f9fcca27eaf33a5da38b1ed313",
+   "full_name": "d6g8k5htny-coder/governance-",
+   "name": "governance-",
+   "pinned": true,
+   "registered": true
+  },
+  {
+   "commit": "dce04a4174835107126ab4f36c199a2dc320f964",
+   "full_name": "d6g8k5htny-coder/sandbox",
+   "name": "sandbox",
+   "pinned": true,
+   "registered": true
+  }
+ ]
+}
