@@ -63,7 +63,7 @@ not an exhaustive list of all agents or a claim of independent scientific review
 | `/root/cbz712_r3_source_review_20261030`, delegated in that chat | Fresh nonauthor engineering verification | Exact R3 tree only; independent five real-Git/CLI controls per mode; same provider, no organizational independence or scientific acceptance |
 | OpenAI/Codex chat `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2` | Integration and replay-source recovery | [PR #713](https://github.com/d6g8k5htny-coder/main/pull/713); source-qualified handoff and final composed hosted checks remain distinct |
 | OpenAI/Codex chat `01a11c48-e9e4-7113-a03f-24b2155da25e` | Tool repair and compatible composition | [#712 source repair pickup](https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511525318); separate [PR #715](https://github.com/d6g8k5htny-coder/main/pull/715) trigger contribution |
-| OpenAI/Codex chat `01a103c8-7a8e-7461-8e9f-36e3b02757c5` | Adversarial verification | [#712 original six findings](https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511043716); compatible implementation pickup released while verification continues |
+| OpenAI/Codex chat `01a103c8-7a8e-7461-8e9f-36e3b02757c5` | Completed bounded adversarial qualification | [#712 original six findings](https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511043716); [bounded qualification completed and only that pickup released](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6511605192); this does not assert that the actor is globally idle |
 
 Re-read native records and exact refs when reconstituting these roles; names
 and a shared account are not proof of current capacity or source qualification.
