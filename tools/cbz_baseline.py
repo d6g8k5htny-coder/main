@@ -16,6 +16,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 
 DEFAULT_CONFIG = 'cbz/evidence/website-foundation-20261029/baseline-config.json'
@@ -242,7 +243,57 @@ def _pins(root, config, failures, unmet):
 
 def _binding(root, config, gate):
     paths = [config['_config_path'], config['proof_index'], config['tool_registry'], *gate['sources']]
-    return {name: _sha(_inside(root, name)) for name in sorted(set(paths))}
+    binding = {name: _sha(_inside(root, name)) for name in sorted(set(paths))}
+    if gate['id'] == 'G1':
+        # G1 receipt semantics are implemented by this consumer; bind that code too.
+        binding['tools/cbz_baseline.py'] = _sha(Path(__file__).resolve())
+    return binding
+
+
+def _scan_snapshot(raw_output, exit_code):
+    if type(exit_code) is not int:
+        raise ValidationError('G1 scan exit code unavailable')
+    try:
+        parsed = json.loads(raw_output.decode('utf-8'), object_pairs_hook=_pairs)
+        if not isinstance(parsed, dict):
+            raise ValidationError('G1 scan output is not a JSON object')
+        canonical = json.dumps(
+            {'exit_code': exit_code, 'output': parsed},
+            sort_keys=True, ensure_ascii=True, separators=(',', ':'), allow_nan=False,
+        ).encode('utf-8')
+    except (UnicodeDecodeError, ValueError, TypeError) as error:
+        raise ValidationError('G1 scan output unavailable or invalid') from error
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _recompute_scan_snapshot(root, gate):
+    timeout = gate.get('timeout_seconds', 60)
+    memory = gate.get('memory_mb', 1024) * 1024 * 1024
+
+    def limits():
+        import resource
+        resource.setrlimit(resource.RLIMIT_CPU, (timeout + 1, timeout + 2))
+        resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
+        resource.setrlimit(resource.RLIMIT_FSIZE, (64 * 1024 * 1024, 64 * 1024 * 1024))
+
+    with tempfile.TemporaryDirectory(prefix='cbz-g1-recheck-') as directory:
+        stdout_path = Path(directory) / 'stdout.json'
+        stderr_path = Path(directory) / 'stderr.log'
+        with stdout_path.open('wb') as stdout, stderr_path.open('wb') as stderr:
+            process = subprocess.Popen(
+                gate['argv'], cwd=root, stdout=stdout, stderr=stderr,
+                start_new_session=True, preexec_fn=limits,
+            )
+            try:
+                exit_code = process.wait(timeout=timeout)
+            except subprocess.TimeoutExpired as error:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                process.wait()
+                raise ValidationError('G1 scan timed out during receipt verification') from error
+        return _scan_snapshot(stdout_path.read_bytes(), exit_code)
 
 
 def _receipt_statuses(root, config, receipt_path, failures, unmet):
@@ -268,6 +319,7 @@ def _receipt_statuses(root, config, receipt_path, failures, unmet):
                 unmet.append(name + ': stale receipt command/source identity')
                 continue
             valid = True
+            log_paths = {}
             for stream in ('stdout', 'stderr'):
                 relative = row.get(stream + '_path')
                 if not isinstance(relative, str):
@@ -277,10 +329,28 @@ def _receipt_statuses(root, config, receipt_path, failures, unmet):
                 if not log.is_relative_to(receipt_path.parent) or not log.is_file() or _sha(log) != row.get(stream + '_sha256'):
                     valid = False
                     break
+                log_paths[stream] = log
             observed = 'INCOMPLETE' if row.get('timed_out') or row.get('source_changed') else ('PASS' if row.get('exit_code') == 0 else ('INCOMPLETE' if row.get('exit_code') == 2 else 'FAIL'))
             if not valid or row.get('status') != observed or type(row.get('exit_code')) not in (int, type(None)) or not row.get('started_utc'):
                 unmet.append(name + ': unverified/forged receipt or process logs')
                 continue
+            if name == 'G1':
+                snapshot = row.get('scan_snapshot_sha256')
+                if not isinstance(snapshot, str) or not re.fullmatch(r'[0-9a-f]{64}', snapshot):
+                    unmet.append('G1: missing or invalid scan snapshot; legacy receipt is INCOMPLETE')
+                    continue
+                try:
+                    stored_snapshot = _scan_snapshot(log_paths['stdout'].read_bytes(), row.get('exit_code'))
+                    if stored_snapshot != snapshot:
+                        unmet.append('G1: stored scan snapshot does not match preserved JSON output')
+                        continue
+                    current_snapshot = _recompute_scan_snapshot(root, gate)
+                except (ValidationError, OSError, subprocess.SubprocessError):
+                    unmet.append('G1: current registered scan snapshot could not be reproduced')
+                    continue
+                if current_snapshot != snapshot:
+                    unmet.append('G1: current scan snapshot differs from receipt')
+                    continue
             statuses[name] = observed
     except (ValidationError, OSError, TypeError, KeyError):
         unmet.append('stale/invalid receipt or missing exact execution evidence')
@@ -418,6 +488,13 @@ def run(root, output, *, config_path=None):
             path = output / row[stream + '_path']
             path.touch(exist_ok=True)
             row[stream + '_sha256'] = _sha(path)
+        if name == 'G1':
+            try:
+                row['scan_snapshot_sha256'] = _scan_snapshot(
+                    (output / row['stdout_path']).read_bytes(), row['exit_code'])
+            except (ValidationError, OSError):
+                row['status'] = 'INCOMPLETE'
+                row['scan_snapshot_error'] = 'G1 JSON output or actual exit code unavailable'
         result['gates'].append(row)
         temp = output / 'receipts.json.tmp'
         temp.write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
