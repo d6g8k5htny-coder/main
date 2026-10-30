@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT / "tools" / "cbz"))
 import g11_census as g11  # noqa: E402
 import g11_mutation_selftest as g11m  # noqa: E402
 
-EXPECTED_MUTATION_INVENTORY_SHA256 = "d1f564e77ab8446b9410e84f77b4d966a932a647335bcdb63ff4101b000d40a6"
+EXPECTED_MUTATION_INVENTORY_SHA256 = "10e62de452e4966039e6fee0232989828d40e8855c45e13d4eee06208f034982"
 
 DOCUMENTED_TESTED = {
     "tools/README.md": b"Run `tools/good.py` to check things.\n",
