@@ -134,7 +134,7 @@ TARGETS = {
     "docstring not stripped": ("tests.test_g11_census.PythonStubs.test_docstring_then_stub_body", '[(1, "a: pass")])'),
     "decorator context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
     "Protocol/ABC context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
-    "exception context ignored": ("tests.test_g11_census.ReviewResidualControls.test_stub_exemptions_are_immediate_and_scope_safe", 'self.assertIn("exception_method", stub_names)'),
+    "exception context ignored": ("tests.test_g11_census.ReviewResidualControls.test_stub_exemptions_are_immediate_and_scope_safe", 'self.assertIn(name, stub_names)'),
     "log_message context ignored": ("tests.test_g11_census.PythonStubs.test_request_handler_log_message_override_is_legitimate", "self.assertEqual(found,"),
     "log_message context too broad": ("tests.test_g11_census.PythonStubs.test_request_handler_log_message_override_is_legitimate", "self.assertEqual(found,"),
     "module docstring not recorded": ("tests.test_g11_census.ToolChecks.test_module_docstring_is_recorded", "self.assertEqual((report["),
