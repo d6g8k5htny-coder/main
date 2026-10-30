@@ -106,6 +106,42 @@ def _target_names(node):
     return set()
 
 
+def _scope_bindings(scope):
+    """Names bound in one lexical scope; nested scope bodies are kept separate."""
+    names = set()
+    if isinstance(scope, (ast.FunctionDef, ast.AsyncFunctionDef, ast.Lambda)):
+        args = scope.args
+        for arg in args.posonlyargs + args.args + args.kwonlyargs:
+            names.add(arg.arg)
+        if args.vararg:
+            names.add(args.vararg.arg)
+        if args.kwarg:
+            names.add(args.kwarg.arg)
+
+    def visit(node, root=False):
+        if not root and isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            names.add(node.name)
+            return
+        if not root and isinstance(node, ast.Lambda):
+            return
+        if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)):
+            names.add(node.id)
+        elif isinstance(node, ast.Import):
+            for alias in node.names:
+                names.add(alias.asname or alias.name.split(".", 1)[0])
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                if alias.name != "*":
+                    names.add(alias.asname or alias.name)
+        elif isinstance(node, ast.ExceptHandler) and node.name:
+            names.add(node.name)
+        for child in ast.iter_child_nodes(node):
+            visit(child)
+
+    visit(scope, True)
+    return names
+
+
 def _import_bindings(tree):
     modules, symbols, shadowed = {}, {}, set()
     for node in tree.body:
@@ -147,8 +183,15 @@ def _resolve_import(node, imports):
     return tuple(resolved.rsplit(".", 1))
 
 
-def _trusted_decorator(node, imports):
-    resolved = _resolve_import(node, imports)
+def _trusted_decorator(node, imports, scope_shadowed=()):
+    target = node
+    while isinstance(target, ast.Call):
+        target = target.func
+    dotted = _dotted_name(target)
+    binding = dotted.split(".", 1)[0] if dotted else ""
+    if binding and binding in scope_shadowed:
+        return False
+    resolved = _resolve_import(target, imports)
     return resolved in {("abc", "abstractmethod"), ("typing", "overload"),
                         ("typing_extensions", "overload")}
 
@@ -203,9 +246,9 @@ def _stub_kind(body):
     return None
 
 
-def _legit_context(func, classes, imports):
+def _legit_context(func, classes, imports, scope_shadowed=()):
     for dec in func.decorator_list:
-        if _trusted_decorator(dec, imports):
+        if _trusted_decorator(dec, imports, scope_shadowed):
             return "@" + _decorator_name(dec)
     for cls in reversed(classes):
         for base in cls.bases:
@@ -224,19 +267,19 @@ def python_stubs(tree, imports=None):
     if imports is None:
         imports = _import_bindings(tree)
 
-    def visit(node, classes):
+    def visit(node, classes, scope_shadowed):
         for child in ast.iter_child_nodes(node):
             if isinstance(child, ast.ClassDef):
-                visit(child, classes + [child])
+                visit(child, classes + [child], scope_shadowed | _scope_bindings(child))
             elif isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
                 kind = _stub_kind(child.body)
                 if kind:
                     found.append({"line": child.lineno, "name": child.name, "kind": kind,
-                                  "context": _legit_context(child, classes, imports)})
-                visit(child, [])
+                                  "context": _legit_context(child, classes, imports, scope_shadowed)})
+                visit(child, [], scope_shadowed | _scope_bindings(child))
             else:
-                visit(child, classes)
-    visit(tree, [])
+                visit(child, classes, scope_shadowed)
+    visit(tree, [], set())
     return found
 
 
@@ -481,6 +524,9 @@ def python_tool_references(text, tools, unique):
                     else:
                         tokens = []
                     if tokens and tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
+                        # Inline -c payloads are code strings, not proof that a path was executed.
+                        if "-c" in tokens[1:]:
+                            continue
                         for token in tokens[1:]:
                             if token == "-m":
                                 continue
@@ -522,6 +568,16 @@ def _strip_js_comments(text):
                 i += 1
             continue
         if quote:
+            if quote == "`":
+                if ch == "\\" and i + 1 < len(text):
+                    out.extend((" ", " "))
+                    i += 2
+                    continue
+                if ch == quote:
+                    quote = None
+                out.append("\n" if ch == "\n" else " ")
+                i += 1
+                continue
             out.append(ch)
             if ch == "\\" and i + 1 < len(text):
                 out.append(text[i + 1])
@@ -533,7 +589,7 @@ def _strip_js_comments(text):
             continue
         if ch in "\"'" + chr(96):
             quote = ch
-            out.append(ch)
+            out.append(" " if ch == chr(96) else ch)
             i += 1
             continue
         if ch == "/" and nxt == "/":
@@ -577,6 +633,9 @@ def workflow_tool_references(text, tools):
             if not tokens:
                 continue
             if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
+                # Do not treat a path mentioned inside an inline -c program as an invocation.
+                if "-c" in tokens[1:]:
+                    continue
                 for index, token in enumerate(tokens[1:], 1):
                     if token == "-m" and index + 1 < len(tokens):
                         module_path = tokens[index + 1].replace(".", "/") + ".py"
