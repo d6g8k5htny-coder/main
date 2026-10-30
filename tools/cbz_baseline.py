@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
@@ -302,14 +303,24 @@ def _scan_execution_identity(root, gate):
         git_dir = info_exclude.parent.parent
         home_dir = git_dir / 'cbz-g1-home'
         xdg_dir = git_dir / 'cbz-g1-xdg'
-        for directory in (home_dir, xdg_dir):
+        def private_directory_identity(directory):
             if directory.is_symlink():
                 raise ValidationError('G1 isolated Git home/config path is a symlink')
             if directory.exists() and not directory.is_dir():
                 raise ValidationError('G1 isolated Git home/config path is not a directory')
             directory.mkdir(mode=0o700, parents=True, exist_ok=True)
-            if directory.is_symlink():
-                raise ValidationError('G1 isolated Git home/config path became a symlink')
+            metadata = directory.lstat()
+            if not stat.S_ISDIR(metadata.st_mode):
+                raise ValidationError('G1 isolated Git home/config path is not a real directory')
+            if not hasattr(os, 'geteuid') or metadata.st_uid != os.geteuid():
+                raise ValidationError('G1 isolated Git home/config directory owner is not the effective user')
+            mode = stat.S_IMODE(metadata.st_mode)
+            if mode != 0o700:
+                raise ValidationError('G1 isolated Git home/config directory mode must be 0700')
+            return {'uid': metadata.st_uid, 'mode': mode}
+
+        home_directory = private_directory_identity(home_dir)
+        xdg_directory = private_directory_identity(xdg_dir)
         environment['HOME'] = str(home_dir)
         environment['XDG_CONFIG_HOME'] = str(xdg_dir)
 
@@ -325,6 +336,10 @@ def _scan_execution_identity(root, gate):
         if home_ignore.is_symlink() or home_ignore.exists():
             raise ValidationError('G1 default HOME Git ignore file must be absent')
         default_excludes = {
+            'home_directory_uid': home_directory['uid'],
+            'home_directory_mode': home_directory['mode'],
+            'xdg_directory_uid': xdg_directory['uid'],
+            'xdg_directory_mode': xdg_directory['mode'],
             'home_path_sha256': hashlib.sha256(os.fsencode(str(home_dir))).hexdigest(),
             'xdg_config_home_path_sha256': hashlib.sha256(os.fsencode(str(xdg_dir))).hexdigest(),
             'xdg_ignore_path_sha256': hashlib.sha256(os.fsencode(str(xdg_ignore))).hexdigest(),
@@ -404,6 +419,18 @@ def _scan_snapshot(raw_output, exit_code, execution_identity):
         or not isinstance(environment.get('XDG_CONFIG_HOME'), str)
         or not Path(environment.get('XDG_CONFIG_HOME', '')).is_absolute()
         or not isinstance(default_excludes, dict)
+        or not hasattr(os, 'geteuid')
+        or type(default_excludes.get('home_directory_uid')) is not int
+        or default_excludes.get('home_directory_uid') < 0
+        or default_excludes.get('home_directory_uid') != os.geteuid()
+        or type(default_excludes.get('home_directory_mode')) is not int
+        or default_excludes.get('home_directory_mode') != 0o700
+        or type(default_excludes.get('xdg_directory_uid')) is not int
+        or default_excludes.get('xdg_directory_uid') < 0
+        or default_excludes.get('xdg_directory_uid') != os.geteuid()
+        or type(default_excludes.get('xdg_directory_mode')) is not int
+        or default_excludes.get('xdg_directory_mode') != 0o700
+        or default_excludes.get('home_directory_uid') != default_excludes.get('xdg_directory_uid')
         or not valid_hash(default_excludes.get('home_path_sha256'))
         or not valid_hash(default_excludes.get('xdg_config_home_path_sha256'))
         or not valid_hash(default_excludes.get('xdg_ignore_path_sha256'))

@@ -412,6 +412,64 @@ class BaselineTests(unittest.TestCase):
         with self.assertRaises(self.tool.ValidationError):
             self.tool._scan_execution_identity(self.root, gate)
 
+    def test_g1_execution_identity_rejects_preexisting_permissive_directories(self):
+        gate = self.config['gates'][1]
+        identity = self.tool._scan_execution_identity(self.root, gate)
+        default = identity['git']['default_excludes']
+        effective_uid = os.geteuid()
+        self.assertEqual(default['home_directory_uid'], effective_uid)
+        self.assertEqual(default['xdg_directory_uid'], effective_uid)
+        self.assertEqual(default['home_directory_mode'], 0o700)
+        self.assertEqual(default['xdg_directory_mode'], 0o700)
+
+        git_dir = self.root / '.git'
+        directories = (git_dir / 'cbz-g1-home', git_dir / 'cbz-g1-xdg')
+        for directory in directories:
+            if directory.exists():
+                directory.rmdir()
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                directory.mkdir(mode=0o700)
+                directory.chmod(0o777)
+                try:
+                    with self.assertRaisesRegex(self.tool.ValidationError, 'mode must be 0700'):
+                        self.tool._scan_execution_identity(self.root, gate)
+                finally:
+                    for cleanup in directories:
+                        if cleanup.exists():
+                            cleanup.chmod(0o700)
+                            cleanup.rmdir()
+
+    def test_g1_snapshot_requires_private_directory_identity_fields(self):
+        identity = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        effective_uid = os.geteuid()
+        fields = (
+            'home_directory_uid',
+            'home_directory_mode',
+            'xdg_directory_uid',
+            'xdg_directory_mode',
+        )
+        for field in fields:
+            altered = json.loads(json.dumps(identity))
+            del altered['git']['default_excludes'][field]
+            with self.subTest(field=field):
+                with self.assertRaises(self.tool.ValidationError):
+                    self.tool._scan_snapshot(b'{}', 0, altered)
+        invalid = (
+            ('home_directory_uid', True),
+            ('home_directory_uid', effective_uid + 1),
+            ('home_directory_mode', 0o777),
+            ('xdg_directory_uid', True),
+            ('xdg_directory_uid', effective_uid + 1),
+            ('xdg_directory_mode', 0o777),
+        )
+        for field, value in invalid:
+            altered = json.loads(json.dumps(identity))
+            altered['git']['default_excludes'][field] = value
+            with self.subTest(field=field, value=value):
+                with self.assertRaises(self.tool.ValidationError):
+                    self.tool._scan_snapshot(b'{}', 0, altered)
+
     def test_g1_focused_controls_under_optimized_python(self):
         names = (
             'test_g1_snapshot_is_canonical_and_binds_exit_code',
@@ -424,6 +482,8 @@ class BaselineTests(unittest.TestCase):
             'test_g1_execution_identity_binds_git_executable',
             'test_g1_execution_identity_binds_git_configuration',
             'test_g1_execution_identity_rejects_default_xdg_home_ignore_files',
+            'test_g1_execution_identity_rejects_preexisting_permissive_directories',
+            'test_g1_snapshot_requires_private_directory_identity_fields',
             'test_malformed_receipt_shapes_are_incomplete',
         )
         command = [
