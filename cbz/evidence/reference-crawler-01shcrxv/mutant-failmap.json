@@ -7,6 +7,38 @@
     "test_record_aliases_commits_and_refs"
    ]
   },
+  "acknowledgement commit not compared": {
+   "error": [],
+   "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict"
+   ]
+  },
+  "acknowledgement file hash dropped": {
+   "error": [],
+   "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict"
+   ]
+  },
+  "acknowledgement narrowing ignored": {
+   "error": [],
+   "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict"
+   ]
+  },
+  "acknowledgement schema unchecked": {
+   "error": [],
+   "fail": [
+    "test_malformed_acknowledgements_stop_the_run_before_crawling"
+   ]
+  },
+  "acknowledgements ignored": {
+   "error": [],
+   "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged"
+   ]
+  },
   "alias conflict ignored": {
    "error": [],
    "fail": [
@@ -43,6 +75,12 @@
     "test_binary_files_are_counted_and_oversize_files_reported"
    ]
   },
+  "blank acknowledgement reason accepted": {
+   "error": [],
+   "fail": [
+    "test_malformed_acknowledgements_stop_the_run_before_crawling"
+   ]
+  },
   "blob identity ignored": {
    "error": [],
    "fail": [
@@ -53,9 +91,17 @@
     "test_live_reference_drift_blocks"
    ]
   },
+  "blocking findings not listed": {
+   "error": [],
+   "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict"
+   ]
+  },
   "blocking ignored at exit": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_added_repository_is_crawled",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_byte_identical_claims_are_checked_at_their_commit",
@@ -70,6 +116,7 @@
     "test_identity_failures_block",
     "test_incomplete_topology_inputs_block",
     "test_live_reference_drift_blocks",
+    "test_malformed_acknowledgements_stop_the_run_before_crawling",
     "test_missing_path_commit_and_repository_block",
     "test_missing_pinned_commit_blocks",
     "test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",
@@ -77,9 +124,21 @@
     "test_registered_but_unpinned_repository_is_crawled_and_reported",
     "test_rename_adapts_traversal_and_reports_stale_names",
     "test_stale_registry_entry_is_reported_without_halting",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_unparseable_json_blocks_as_an_incomplete_census",
     "test_unreachable_pinned_repository_blocks_but_does_not_halt"
+   ]
+  },
+  "blocks field not recorded": {
+   "error": [],
+   "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
+    "test_malformed_acknowledgements_stop_the_run_before_crawling",
+    "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
+    "test_strict_blocks_on_interface_drift"
    ]
   },
   "byte-identical claims ignored": {
@@ -130,6 +189,8 @@
   "changed entries dropped from diffs": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_clean_federation_reports_interface_drift_without_blocking",
     "test_json_shape_and_diff",
     "test_strict_blocks_on_interface_drift"
@@ -141,9 +202,29 @@
     "test_json_with_comments_and_trailing_commas_is_read"
    ]
   },
+  "directory acknowledgement crosses its boundary": {
+   "error": [],
+   "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it"
+   ]
+  },
+  "every acknowledgement source is a prefix": {
+   "error": [],
+   "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it"
+   ]
+  },
+  "every removed file is drift": {
+   "error": [],
+   "fail": [
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged"
+   ]
+  },
   "excerpt checked as whole file": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_byte_identical_claims_are_checked_at_their_commit",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
@@ -151,6 +232,7 @@
     "test_excerpt_references_are_checked_against_their_lines",
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_template_files_are_synthetic",
     "test_unparseable_json_blocks_as_an_incomplete_census"
@@ -165,6 +247,8 @@
   "excerpt lines never read": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_byte_identical_claims_are_checked_at_their_commit",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
@@ -172,6 +256,7 @@
     "test_excerpt_references_are_checked_against_their_lines",
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_template_files_are_synthetic",
     "test_unparseable_json_blocks_as_an_incomplete_census"
@@ -180,6 +265,8 @@
   "excerpt off by one": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_byte_identical_claims_are_checked_at_their_commit",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
@@ -187,6 +274,7 @@
     "test_excerpt_references_are_checked_against_their_lines",
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_template_files_are_synthetic",
     "test_unparseable_json_blocks_as_an_incomplete_census"
@@ -234,11 +322,14 @@
     "test_template_files_are_synthetic"
    ],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
     "test_clean_federation_reports_interface_drift_without_blocking",
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_unparseable_json_blocks_as_an_incomplete_census"
    ]
@@ -259,8 +350,12 @@
   "frozen change unreported": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_clean_federation_reports_interface_drift_without_blocking",
+    "test_malformed_acknowledgements_stop_the_run_before_crawling",
     "test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift"
    ]
   },
@@ -289,6 +384,7 @@
     "test_json_shape_walks_every_array_element"
    ],
    "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_clean_federation_reports_interface_drift_without_blocking",
     "test_strict_blocks_on_interface_drift"
    ]
@@ -317,7 +413,9 @@
   "lean statements blind": {
    "error": [],
    "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_clean_federation_reports_interface_drift_without_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift"
    ]
   },
@@ -332,6 +430,14 @@
    "fail": [
     "test_candidate_head_is_crawled_in_place_of_the_pin",
     "test_live_reference_drift_blocks"
+   ]
+  },
+  "malformed acknowledgement accepted": {
+   "error": [
+    "test_malformed_acknowledgements_stop_the_run_before_crawling"
+   ],
+   "fail": [
+    "test_malformed_acknowledgements_stop_the_run_before_crawling"
    ]
   },
   "malformed byte-identical values silent": {
@@ -453,6 +559,8 @@
   "python signatures drop arguments": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_clean_federation_reports_interface_drift_without_blocking",
     "test_python_signatures",
     "test_strict_blocks_on_interface_drift"
@@ -500,6 +608,18 @@
     "test_incomplete_topology_inputs_block"
    ]
   },
+  "removed interface files not drift": {
+   "error": [],
+   "fail": [
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged"
+   ]
+  },
+  "repeated acknowledgement accepted": {
+   "error": [],
+   "fail": [
+    "test_malformed_acknowledgements_stop_the_run_before_crawling"
+   ]
+  },
   "repositories list silent": {
    "error": [],
    "fail": [
@@ -521,12 +641,15 @@
   "same-name foreign repository conflated": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
     "test_clean_federation_reports_interface_drift_without_blocking",
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_owner_and_repository_names_match_case_insensitively",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_template_files_are_synthetic",
     "test_unparseable_json_blocks_as_an_incomplete_census"
@@ -563,12 +686,17 @@
   "strict ignored": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
+    "test_malformed_acknowledgements_stop_the_run_before_crawling",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift"
    ]
   },
   "suffix filter restored": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_every_text_file_is_read_whatever_its_extension"
    ]
@@ -672,9 +800,17 @@
     "test_unterminated_comment_is_unparseable_and_its_tail_scanned"
    ]
   },
+  "unused acknowledgements hidden": {
+   "error": [],
+   "fail": [
+    "test_acknowledged_drift_does_not_block_under_strict"
+   ]
+  },
   "url path not decoded": {
    "error": [],
    "fail": [
+    "test_a_directory_source_acknowledges_only_files_under_it",
+    "test_acknowledged_drift_does_not_block_under_strict",
     "test_binary_files_are_counted_and_oversize_files_reported",
     "test_candidate_head_is_crawled_in_place_of_the_pin",
     "test_clean_federation_reports_interface_drift_without_blocking",
@@ -682,6 +818,7 @@
     "test_fixture_files_are_skipped_and_counted_unless_included",
     "test_percent_encoded_url_paths_are_decoded",
     "test_pin_skew_reported_and_optionally_blocking",
+    "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
     "test_strict_blocks_on_interface_drift",
     "test_template_files_are_synthetic",
     "test_unparseable_json_blocks_as_an_incomplete_census",
@@ -696,8 +833,10 @@
   }
  },
  "population": {
-  "test_file_sha256": "94dbcab58c3160f709e7d8a0e820811b136609984cef84e68565e90a2d023668",
+  "test_file_sha256": "148fd971cb041ab4d2c198976e2c3f26b17d8dd75f9910bfc3e370a8cc068a74",
   "tests": [
+   "test_a_directory_source_acknowledges_only_files_under_it",
+   "test_acknowledged_drift_does_not_block_under_strict",
    "test_added_repository_is_crawled",
    "test_binary_files_are_counted_and_oversize_files_reported",
    "test_byte_identical_claims_are_checked_at_their_commit",
@@ -720,6 +859,7 @@
    "test_json_with_comments_and_trailing_commas_is_read",
    "test_lean_statements_with_namespace_multiline_and_attributes",
    "test_live_reference_drift_blocks",
+   "test_malformed_acknowledgements_stop_the_run_before_crawling",
    "test_missing_path_commit_and_repository_block",
    "test_missing_pinned_commit_blocks",
    "test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",
@@ -734,6 +874,7 @@
    "test_registered_unpinned_repository_resolves_through_the_cache",
    "test_rename_adapts_traversal_and_reports_stale_names",
    "test_stale_registry_entry_is_reported_without_halting",
+   "test_strict_blocks_on_a_removed_interface_file_unless_acknowledged",
    "test_strict_blocks_on_interface_drift",
    "test_template_files_are_synthetic",
    "test_text_references_filter_owner_and_strip_punctuation",

@@ -1,3 +1,5 @@
+test_a_directory_source_acknowledges_only_files_under_it (tests.test_cbz_reference_crawler.Crawl.test_a_directory_source_acknowledges_only_files_under_it) ... ok
+test_acknowledged_drift_does_not_block_under_strict (tests.test_cbz_reference_crawler.Crawl.test_acknowledged_drift_does_not_block_under_strict) ... ok
 test_added_repository_is_crawled (tests.test_cbz_reference_crawler.Crawl.test_added_repository_is_crawled) ... ok
 test_binary_files_are_counted_and_oversize_files_reported (tests.test_cbz_reference_crawler.Crawl.test_binary_files_are_counted_and_oversize_files_reported) ... ok
 test_byte_identical_claims_are_checked_at_their_commit (tests.test_cbz_reference_crawler.Crawl.test_byte_identical_claims_are_checked_at_their_commit) ... ok
@@ -13,6 +15,7 @@ test_fixture_files_are_skipped_and_counted_unless_included (tests.test_cbz_refer
 test_identity_failures_block (tests.test_cbz_reference_crawler.Crawl.test_identity_failures_block) ... ok
 test_incomplete_topology_inputs_block (tests.test_cbz_reference_crawler.Crawl.test_incomplete_topology_inputs_block) ... ok
 test_live_reference_drift_blocks (tests.test_cbz_reference_crawler.Crawl.test_live_reference_drift_blocks) ... ok
+test_malformed_acknowledgements_stop_the_run_before_crawling (tests.test_cbz_reference_crawler.Crawl.test_malformed_acknowledgements_stop_the_run_before_crawling) ... ok
 test_missing_path_commit_and_repository_block (tests.test_cbz_reference_crawler.Crawl.test_missing_path_commit_and_repository_block) ... ok
 test_missing_pinned_commit_blocks (tests.test_cbz_reference_crawler.Crawl.test_missing_pinned_commit_blocks) ... ok
 test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references (tests.test_cbz_reference_crawler.Crawl.test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references) ... ok
@@ -21,6 +24,7 @@ test_registered_but_unpinned_repository_is_crawled_and_reported (tests.test_cbz_
 test_registered_unpinned_repository_resolves_through_the_cache (tests.test_cbz_reference_crawler.Crawl.test_registered_unpinned_repository_resolves_through_the_cache) ... ok
 test_rename_adapts_traversal_and_reports_stale_names (tests.test_cbz_reference_crawler.Crawl.test_rename_adapts_traversal_and_reports_stale_names) ... ok
 test_stale_registry_entry_is_reported_without_halting (tests.test_cbz_reference_crawler.Crawl.test_stale_registry_entry_is_reported_without_halting) ... ok
+test_strict_blocks_on_a_removed_interface_file_unless_acknowledged (tests.test_cbz_reference_crawler.Crawl.test_strict_blocks_on_a_removed_interface_file_unless_acknowledged) ... ok
 test_strict_blocks_on_interface_drift (tests.test_cbz_reference_crawler.Crawl.test_strict_blocks_on_interface_drift) ... ok
 test_template_files_are_synthetic (tests.test_cbz_reference_crawler.Crawl.test_template_files_are_synthetic) ... ok
 test_unparseable_json_blocks_as_an_incomplete_census (tests.test_cbz_reference_crawler.Crawl.test_unparseable_json_blocks_as_an_incomplete_census) ... ok
@@ -44,6 +48,6 @@ test_unterminated_comment_is_unparseable_and_its_tail_scanned (tests.test_cbz_re
 test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes (tests.test_cbz_reference_crawler.Extractors.test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 18.481s
+Ran 48 tests in 17.161s
 
 OK

@@ -7,7 +7,8 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
   (main#684/6510540816, 23:01:47Z). Claude017's claim (main#684/6510531192, 23:01:14Z)
   was earlier, and main#712 delivers it. That claim is released, and this tool is offered
   as a complementary component under master §7.4 ("merge, don't choose").
-- **What is written here (B-003).** Only `tools/cbz/reference_crawler*.py`,
+- **What is written here (B-003).** Only `tools/cbz/reference_crawler*.py`, the reviewed
+  acknowledgements `tools/cbz/reference_crawler_acknowledged.json`,
   `tests/test_cbz_reference_crawler.py` and this directory. `GOVERNANCE.md`,
   `TOOLING.md` and the gate matrix belong to Root. The proposed text for them is below.
 
@@ -30,13 +31,18 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
   - Lean statements;
   - Python signatures;
   - JSON shapes.
+
+  Under `--strict` that drift blocks, and so does the removal of a cited Lean, Python or JSON
+  file, unless the citing file is a reviewed historical citation in
+  `tools/cbz/reference_crawler_acknowledged.json`. The proposed G7 gate runs that way; see
+  "Interface drift under `--strict`" below.
 - **No overlap.** The two tools share no paths and no checks.
 
 ## Observed run
 
 | | |
 |---|---|
-| When | 2026-10-30, 14:00:33Z to 14:03:06Z; the run at current tips followed, to 14:05:43Z |
+| When | 2026-10-30, 19:41:15Z to 19:43:47Z; the run at current tips followed, to 19:46:20Z. The strict runs below ran from 19:25:58Z to 19:38:27Z. Every run used this head's tool bytes. |
 | Environment | CPython 3.11.17, git 2.43.0 |
 | Exit status | 1 |
 | Logs | `crawl.stdout`, `crawl.exit` |
@@ -54,13 +60,13 @@ python3 -B -S tools/cbz/reference_crawler.py --workspace <Universal-Law-Workspac
   - `summary.json` holds the full report's topology, counts, every skipped and binary path,
     and every finding except the two `FROZEN_*` classes, which it gives as counts by source
     repository.
-  - Both full reports are byte-identical to those of head `1ead96bc`: the decompressed SHA-256
-    values match. The crawl is deterministic, and the fixes below change no live result.
-  - `report.json.gz` is the complete JSON report. It is gzip with `mtime=0`, so the
-    compression is deterministic. It decompresses to 3,615,116 bytes with SHA-256
-    `d8249fb0beda3b2da4c591b8610fce5aa7781a379d2028ea3a1607abf55beed0`. The `.gz` file
-    itself is 205,447 bytes, with SHA-256
-    `c26970fdb0fd26bf209cbf793499e7eb965b7b0b9eef0f55117affa4c5296a66`.
+  - Each finding now also records `blocks`: whether it blocked this run. The report also has an
+    `acknowledgements` block. Apart from those added fields, both default reports equal those of
+    head `b41faf12`, with the same references, findings and counts. The crawl is deterministic.
+  - `report.json.gz` is the complete JSON report. It is zlib's gzip stream at level 9 with
+    `mtime=0`, so the compression is deterministic. It decompresses to 3,750,509 bytes with
+    SHA-256 `d3f839f6d0dacadebad5a8298320fefb4868c581f069a925351ca0b8eddd282e`. The `.gz` file itself is 206,645 bytes, with SHA-256
+    `16a79a386d562e02ac36aa87fcb8bc3d634af115a1533025828a34397ffa0da4`.
 
 **Topology.** It was discovered from Universal-Law-Workspace `a4b016820329afc1787d9c191572b05cd88236ac`, with no list in the tool:
 
@@ -133,8 +139,8 @@ stays at its pins. A second run moved every repository with pin skew to its curr
 
 The other five repositories' pins equal their tips. The tip values are in `tips.txt`; the run's
 logs are `crawl-tips.stdout` and `crawl-tips.exit`, its report is `report-tips.md`, and its
-compressed full report is `report-tips.json.gz`. That report decompresses to 3,710,986 bytes,
-SHA-256 `4039ef88b6dec1411d047d32763ae61b2ce86ff103d91441290f0d44c5167980`, and its summary is
+compressed full report is `report-tips.json.gz`. That report decompresses to 3,848,259 bytes,
+SHA-256 `01b946cc3483d9ae22bdfc9d8eb14802b5a270b329214592e40285219e0252ac`, and its summary is
 `summary-tips.json`.
 
 The result: 28,636 references, with **1 blocking** finding, the same Math- record (judged at main's
@@ -168,7 +174,7 @@ GitHub Task Watch (OpenAI) took the open task
 Math- branch `chatgpt/rn-status-provenance-pin-20261030-gpt6`, at `44a583c4`, it added
 `"commit": "fbb43601…"` to `rn_status`, with a README successor note.
 
-The crawler, at this head's tool bytes, was run twice:
+In default mode, with the crawler bytes of head `f91bfb2e` (unchanged through `b41faf12`), the crawler was run twice:
 - with `--at Math-=44a583c4` and the rest at the pins: 28,122 references, **0 blocking**, exit 0;
 - with main, meta-framework and governance- also at their current tips: 28,636 references,
   **0 blocking**, exit 0.
@@ -176,6 +182,125 @@ The crawler, at this head's tool bytes, was run twice:
 In both runs the record resolves at `fbb43601` and is INFO `FROZEN_REMOVED`. The logs and
 Markdown reports are in `readback-math-44a583c4/`, and the result is posted at
 [#684/6524973479](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6524973479).
+
+At this head both runs were repeated with this head's tool bytes, in strict mode with the
+acknowledgements. The results: 28,122 references at the pins and 28,636 at the tips, **0 blocking** and
+exit 0 in both. The logs are `strict-pins.stdout` and `strict-tips.stdout`, with their `.exit` files
+and Markdown reports.
+
+Math-#548 has since moved to `542cadbc`, which adds a manifest of the consumed source files. The same
+two strict runs at that head are in `readback-math-542cadbc/`: 28,122 references at the pins and
+28,636 at the tips, **0 blocking** at the pins and **0** at the tips.
+
+### Interface drift under `--strict`, and the reviewed historical citations
+
+**Why.** The owner's addendum requires the crawler to block merge synchronization when it detects
+drift. Architecture Task Watch's G7 note
+([#666/6530428834](https://github.com/d6g8k5htny-coder/main/issues/666#issuecomment-6530428834))
+recorded that the proposed G7 command did not do that. It ran without `--strict`, so interface drift
+was INFO, and this README left the choice to Root. The proposed G7 command now runs
+`--strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`.
+
+**What counts as interface drift.** A commit-pinned citation whose cited `.lean`, `.py` or `.json`
+file has since changed its interface (`FROZEN_CHANGED` with a statement, signature or shape
+change), or has been removed (`FROZEN_REMOVED`). A removed file has lost its whole interface.
+
+**What `--strict` alone blocks.**
+- **At the pins.** 347 citations drift:
+  - 234 Python signature changes;
+  - 76 JSON shape changes;
+  - 37 removed files: 29 JSON, 7 Lean and 1 Python.
+- **Lean.** No cited Lean file has changed its statements, but 7 cited Lean files were removed.
+  Lean declarations shared across locations are #712's `LEAN-DRIFT` check.
+- **Result.** With `--strict` and nothing acknowledged, all of them block, and so does the
+  `rn_status` record: 348 blocking in all.
+  `crawl-strict-unacknowledged.stdout` lists each one.
+
+**Why these are not desynchronization.** The drifting citations come from 49 citing files
+at the pins, and 53 at the tips (401 citations). Each of those files records a file at a
+commit on purpose. It says so itself, or follows a stated convention of its directory: dated
+names, content-addressed snapshots, frozen registry entries, records marked historical.
+
+`tools/cbz/reference_crawler_acknowledged.json` lists them in 21 entries, each with a reason
+that a reviewer can check against the citing files. A source that ends in `/` covers its
+directory. A cited path narrows an entry to that one citation. In the table, each count is
+changed + removed.
+
+| # | Entry | At the pins | At the tips | Citing files at the tips |
+|---|---|---|---|---|
+| 0 | `Math-:frontiers/regular_superlevel_geometry_20261020/` | 0 + 2 | 0 + 2 | 2 |
+| 1 | `Math-:reviews/` | 0 + 1 | 0 + 1 | 1 |
+| 2 | `Universal-Law-Workspace:workspace/repositories.json`, cited path `architecture/scientific_state/v1/AUTHORITY_MAP.json` | 0 + 1 | 0 + 1 | 1 |
+| 3 | `main:cbz/evidence/` | 0 + 0 | 2 + 0 | 1 |
+| 4 | `main:data/hypergraph/math_coverage_ledger_20261023.md` | 0 + 1 | 0 + 1 | 1 |
+| 5 | `main:docs/REPRODUCE.md`, cited path `engine/next_action.py` | 0 + 1 | 0 + 1 | 1 |
+| 6 | `main:docs/agents/LEAN_AUDIT_OWNER.md` | 2 + 0 | 2 + 0 | 1 |
+| 7 | `main:docs/public-math/` | 0 + 4 | 0 + 4 | 2 |
+| 8 | `main:docs/reports/` | 30 + 21 | 64 + 21 | 10 |
+| 9 | `main:docs/retro/` | 4 + 0 | 7 + 0 | 4 |
+| 10 | `main:docs/site/current.json` | 40 + 0 | 42 + 0 | 1 |
+| 11 | `main:docs/site/evidence/` | 0 + 0 | 2 + 0 | 2 |
+| 12 | `main:docs/site/nodes/` | 44 + 0 | 46 + 0 | 5 |
+| 13 | `main:docs/site/research.html` | 2 + 0 | 2 + 0 | 1 |
+| 14 | `main:docs/site/snapshots/` | 168 + 0 | 176 + 0 | 12 |
+| 15 | `main:incoming/` | 0 + 4 | 0 + 4 | 2 |
+| 16 | `main:reviews/` | 0 + 1 | 0 + 1 | 1 |
+| 17 | `meta-framework:docs/ARCHITECTURE_CONFORMANCE.md`, cited path `architecture/scientific_state/v1/AUTHORITY_MAP.json` | 0 + 1 | 0 + 1 | 1 |
+| 18 | `meta-framework:registry.json` | 14 + 0 | 15 + 0 | 1 |
+| 19 | `meta-framework:replicas/` | 1 + 0 | 1 + 0 | 1 |
+| 20 | `query-:portable/history/` | 5 + 0 | 5 + 0 | 2 |
+
+At the pins, entries 3 and 11 acknowledge nothing: their citing files exist only at main's
+tip. At the tips every entry is used. Each convention behind a directory entry was
+checked at the pins and at the tips: every directory under main `reviews/`, `incoming/` and
+`docs/reports/`, and under Math- `reviews/`, carries its date, and every directory under
+meta-framework `replicas/` its version.
+
+**The rule, as the tool applies it.**
+- Under `--strict`, interface drift blocks unless an entry acknowledges its citing file. A new
+  record whose cited interface later changes blocks G7. So does a candidate head that changes or
+  removes an interface which an unacknowledged record cites. The way out is to update the citation
+  or acknowledge it, in a diff a reviewer sees.
+- The file is validated before anything is crawled. An unknown key, a blank reason, an invalid
+  commit or a repeated entry stops the run with exit 2.
+- An entry that acknowledges nothing is reported as unused. That is INFO, not blocking.
+- Each finding records `blocks` next to `blocking`, its class's default, and the log prints one
+  `BLOCKING` line per blocking finding.
+
+**Runs, from Universal-Law-Workspace `a4b01682`, with this head's tool bytes:**
+
+| Run | References | Acknowledged | Blocking | Exit | Logs |
+|---|---|---|---|---|---|
+| default, at the pins | 28,123 | | 1 | 1 | `crawl.stdout` |
+| default, at the tips | 28,636 | | 1 | 1 | `crawl-tips.stdout` |
+| `--strict`, at the pins, nothing acknowledged | 28,123 | 0 | 348 | 1 | `crawl-strict-unacknowledged.stdout` |
+| `--strict --acknowledged`, at the pins | 28,123 | 347 | 1 | 1 | `crawl-strict.stdout`, `report-strict.md` |
+| `--strict --acknowledged`, at the tips | 28,636 | 401 | 1 | 1 | `crawl-strict-tips.stdout`, `report-strict-tips.md` |
+| `--strict --acknowledged`, Math- at #548's head `44a583c4`, the rest at the pins | 28,122 | 353 | 0 | 0 | `readback-math-44a583c4/strict-pins.stdout` |
+| the same, with main, meta-framework and governance- also at their tips | 28,636 | 407 | 0 | 0 | `readback-math-44a583c4/strict-tips.stdout` |
+| `--strict --acknowledged`, Math- at #548's current head `542cadbc`, the rest at the pins | 28,122 | 353 | 0 | 0 | `readback-math-542cadbc/strict-pins.stdout` |
+| the same, with main, meta-framework and governance- also at their tips | 28,636 | 407 | 0 | 0 | `readback-math-542cadbc/strict-tips.stdout` |
+
+In every strict run with the acknowledgements, the only blocking finding is the `rn_status`
+record, and with Math-#548's fix nothing blocks.
+
+**Full reports.**
+- `report-strict.json.gz` decompresses to 3,758,502 bytes, SHA-256 `9f0f87b8c362adc4368d3d563cc74c7a6ceccf4a6ddafd225a0c2fc774461bf3`.
+- `report-strict-tips.json.gz` decompresses to 3,857,440 bytes, SHA-256 `e99f5410e296d208e79bed0d2cdc961183eefa7b060e37d4680d305e26ced6a3`.
+- Their summaries are `summary-strict.json` and `summary-strict-tips.json`.
+- The acknowledgement file read by every strict run has SHA-256 `9a261c83815adab78e2ef89ed201f2c8e3c0fb463b18f71f1a885aee4dba4371`.
+
+**Independent check.** Whether each citing file really is historical is a judgement. A blind
+classification by another model family was offered at
+[#619/6531502916](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6531502916).
+Downstream Closure Loop (OpenAI) did it, without opening the acknowledgement file
+([#721/6531975148](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6531975148)). Its
+result for the 40 citing files of changed interfaces: 40 historical, 0 current, 0 unclear, each
+with its own source-evidence line. That agrees with every acknowledgement.
+
+The 13 citing files that only cite removed interfaces came into scope at this head, and a
+follow-up on #619 offers them the same way. Under master §7.4 the stricter reading wins: any file
+classed as current or unclear will be removed from the acknowledgements, so G7 blocks on it.
 
 ## False positives found on the live federation, and fixed
 
@@ -229,6 +354,7 @@ reproducible evidence.
 | F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
 | DCL at `c7e89aaa` ([#721/6529091412](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6529091412)): the suite's population was not frozen, so an added test, or a deleted undesignated one, went unnoticed | The harness freezes `EXPECTED_TESTS` (all 44 method names) and `TEST_SHA256` (the test file's exact bytes). Both must match before anything runs, and the baseline must run exactly 44 tests. With `--write-failmap` the harness writes the fail-map from the same run, records the population in it and checks it; `--failmap` checks a committed map. Four new mutants designate the four tests no mutant designated, so every test is designated. | controls for an added method, a deleted undesignated method and a corrupted fail-map; 93 mutants |
 | DCL at `0160e740` ([#721/6530232961](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6530232961)): P2-A, the test hash was taken over newline-translated text; P2-B, the fail-map validator accepted unknown test ids and wrong field types, and did not require every test to be designated | `TEST_SHA256` is now taken over the file's raw bytes (`read_bytes()`), and names are read from the bytes decoded without newline translation. The fail-map's `fail` and `error` fields must be lists of frozen test names. `DESIGNATED` must cover every frozen test. | controls for a CRLF-only rewrite, an unknown fail id, an unknown error id, and a designation map that leaves a test uncovered |
+| ATW's G7 note at `0160e740` ([#666/6530428834](https://github.com/d6g8k5htny-coder/main/issues/666#issuecomment-6530428834)): the proposed G7 command ran without `--strict`, so interface drift never blocked, and the choice was left to Root | The proposed G7 command runs `--strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`. Interface drift, now also a removed Lean, Python or JSON file, blocks unless its citing file is a reviewed historical citation. The 21 entries cover every drifting citation at the pins and at the tips. Each finding records whether it blocked, and the log lists each blocking finding. See "Interface drift under `--strict`". | `test_acknowledged_drift_does_not_block_under_strict`, `test_a_directory_source_acknowledges_only_files_under_it`, `test_strict_blocks_on_a_removed_interface_file_unless_acknowledged`, `test_malformed_acknowledgements_stop_the_run_before_crawling`; 15 new mutants, and "strict ignored" retargeted |
 
 **A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
 reference gave two false `LIVE_DRIFT` findings, on trial `needs_attention/SNAPSHOT.json`. Its cards
@@ -270,7 +396,7 @@ objects, without fetching:
 
 ## Self-verification (A8, B-006)
 
-**Tests.** `tests/test_cbz_reference_crawler.py` has 44 tests, run on local multi-repository
+**Tests.** `tests/test_cbz_reference_crawler.py` has 48 tests, run on local multi-repository
 Git fixtures with no network. The output is in `tests-normal.txt` and `tests-optimized.txt`.
 
 ```
@@ -278,17 +404,17 @@ python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 93 mutants, and
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 108 mutants, and
 each must apply exactly once. Each mutant is bound to its designated tests: the tests written
 for its behaviour (`DESIGNATED`). A mutant counts as killed only if one of its designated tests
 fails by assertion, as #695's statute B-011 requires. A run with errors only is invalid. A run
 in which only other tests fail is a survivor. Every mutant must have designated tests, and every
-designated test must exist in the suite, or the harness exits 2. Every one of the 44 tests is
+designated test must exist in the suite, or the harness exits 2. Every one of the 48 tests is
 designated by at least one mutant.
 
-**The suite's population is frozen** in the harness, as `EXPECTED_TESTS` (the 44 method names) and
+**The suite's population is frozen** in the harness, as `EXPECTED_TESTS` (the 48 method names) and
 `TEST_SHA256`, which is taken over the file's raw bytes, so a CRLF rewrite counts as a change. The live test file must match both before anything runs, and the baseline must run
-exactly 44 tests. The run that produced `mutation.txt` also wrote `mutant-failmap.json`
+exactly 48 tests. The run that produced `mutation.txt` also wrote `mutant-failmap.json`
 (`--write-failmap`): the population, plus every failing and erroring test under each mutant. It
 then checked that map against the population and `DESIGNATED`. There are four suite controls:
 - the unmutated copy must pass before the mutants;
@@ -306,7 +432,7 @@ There are eight population, designation and fail-map controls. Each of these mus
 - a fail-map with an unknown test id in an `error` list;
 - a fail-map whose `error` field is not a list of test names.
 
-The output is in `mutation.txt`.
+The output is in `mutation.txt`. Its result line: `108/108 mutants killed`.
 
 ```
 python3 -B -S tools/cbz/reference_crawler_mutation_check.py --write-failmap mutant-failmap.json
@@ -361,37 +487,47 @@ judgement.
 > `tools/cbz_drift/crawl.py`). It discovers the federation from the workspace's pins and
 > registries, and resolves every cross-repository reference record and commit-pinned URL it
 > finds, by commit, path, Git blob, SHA-256, byte count or line excerpt. It blocks on a
-> reference that does not resolve or does not match, and reports frozen-reference interface
-> drift as INFO. An incomplete census (an unparseable or unread file) also blocks. Its domain
-> is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a pull
-> request can be gated against the federation. Self-verification: 44 tests in both interpreter
-> modes, and 93 mutants with 100% required kills, each by its designated test's assertion, against a
-> frozen 44-test population.
+> reference that does not resolve or does not match. Under `--strict`, which G7 uses, it also
+> blocks on frozen-reference interface drift, including a removed Lean, Python or JSON file,
+> unless `tools/cbz/reference_crawler_acknowledged.json` records the citing file as a reviewed
+> historical citation. An incomplete census (an unparseable or unread file) also blocks. Its
+> domain is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a
+> pull request can be gated against the federation. Self-verification: 48 tests in both
+> interpreter modes, and 108 mutants with 100% required kills, each by its designated test's
+> assertion, against a frozen 48-test population.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 44 tests per mode (frozen population); 93 of 93 intended source mutants killed, each by its designated test's assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR [--at main=HEAD] --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation; exit 1 on a broken reference, unacknowledged interface drift or an incomplete census. | 48 tests per mode (frozen population); 108 of 108 intended source mutants killed, each by its designated test's assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`, strict with the 21 acknowledgements: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each (Math- `rn_status`), 0 with Math-#548's current head `542cadbc`. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
-`tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0. A pull
-request to a federation repository passes its merge gate when
-`tools/cbz/reference_crawler.py --at NAME=HEAD` exits 0."
+`tools/cbz_drift/crawl.py --at pins` and
+`tools/cbz/reference_crawler.py --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`
+exit 0. A pull request to a federation repository passes its merge gate when
+`tools/cbz/reference_crawler.py --at NAME=HEAD --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`
+exits 0."
 
-**What blocks a merge, and what does not.** The owner's addendum asks for merge synchronization to
-be blocked when drift is detected. Here is how that maps onto this tool:
-- **Blocks, with or without `--strict`:**
+**What blocks a merge, and what does not.** The owner's addendum requires merge synchronization
+to be blocked when drift is detected. Under the proposed G7 command
+(`--strict --acknowledged tools/cbz/reference_crawler_acknowledged.json`):
+- **Blocks:**
   - a reference that a candidate head breaks: `MISSING_*`, `IDENTITY_MISMATCH`, or a live
     reference into the candidate whose content changed (`LIVE_DRIFT`);
-  - every check of the candidate's own records.
-- **Informational by default:** the 2,435 `FROZEN_CHANGED` rows. These are commit-pinned citations
-  whose file has changed since, by design. Blocking on them would block on history.
-- **`--strict`** makes interface drift in frozen citations block. That covers Lean statements,
-  Python signatures and JSON shapes.
-- **Shared Lean declarations** must agree across locations under #712's `LEAN-DRIFT`.
+  - every check of the candidate's own records, and an incomplete census;
+  - interface drift in any commit-pinned citation whose citing file is not acknowledged: a
+    changed Lean statement, Python signature or JSON shape, or a removed Lean, Python or JSON
+    file. That includes drift the candidate causes in a file that an unacknowledged record cites.
+- **Does not block:**
+  - drift in the acknowledged historical citations;
+  - `FROZEN_CHANGED` and `FROZEN_REMOVED` of other files, which carry no interface;
+  - `PIN_SKEW`, unless `--require-current-pins`.
+- **Shared Lean declarations** must agree across locations, under #712's `LEAN-DRIFT`.
 
-The choice between the default and `--strict` for G7 is Root's (B-003).
+Root binds the gate (B-003). A pull request that adds an acknowledgement shows it as a diff to
+`tools/cbz/reference_crawler_acknowledged.json`, with its reason, so silencing drift is never
+silent.
 
-At this run the reference crawler exits 1 on the Math- record above. G7 is therefore RED
+At this run the reference crawler exits 1 on the Math- record above, with or without `--strict`. G7 is therefore RED
 until that record carries its commit. That is the federation's actual state.

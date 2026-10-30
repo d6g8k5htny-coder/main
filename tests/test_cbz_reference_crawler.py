@@ -87,9 +87,11 @@ class Federation:
     def __init__(self, tmp, **opt):
         self.root = Path(tmp)
         self.math = init(self.root / "math")
+        removed = opt.get("math_removed", {})  # files at A1 that A2 deletes
         self.a1 = commit(self.math, {"Thm.lean": LEAN_A1, "tool.py": PY_A1, "data.json": JSON_A1,
-                                     "README.md": "math\n", NOTES_PATH: NOTES}, "A1")
-        self.a2 = commit(self.math, {"Thm.lean": LEAN_A2, "tool.py": PY_A2, "data.json": JSON_A2}, "A2")
+                                     "README.md": "math\n", NOTES_PATH: NOTES, **removed}, "A1")
+        self.a2 = commit(self.math, {"Thm.lean": LEAN_A2, "tool.py": PY_A2, "data.json": JSON_A2,
+                                     **{path: None for path in removed}}, "A2")
         if opt.get("math_pin_old"):
             git(self.math, "checkout", "-q", "-b", "keep", self.a2)
         readme = b"math\n"
@@ -181,10 +183,17 @@ def classes(report):
 
 def silence(fn):
     """Run fn with stdout and stderr captured, so test output stays readable."""
+    return captured(fn)[0]
+
+
+def captured(fn):
+    """fn's result, with what it printed to stdout and to stderr."""
     import contextlib
     import io
-    with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-        return fn()
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        result = fn()
+    return result, out.getvalue(), err.getvalue()
 
 
 class Extractors(unittest.TestCase):
@@ -349,6 +358,93 @@ class Crawl(unittest.TestCase):
         code, report = silence(lambda: self.fed().crawl("--strict"))
         self.assertEqual(code, 1)
         self.assertEqual(report["blocking"], 3)
+
+    def acknowledgements(self, entries):
+        path = Path(self.tmp.name) / "acknowledged.json"
+        path.write_text(json.dumps({"schema": rc.ACK_SCHEMA, "entries": entries}))
+        return str(path)
+
+    def test_acknowledged_drift_does_not_block_under_strict(self):
+        fed = self.fed()
+        ack = self.acknowledgements([
+            {"source": "main:sources.json", "reason": "a dated record"},
+            {"source": "main:docs/LINKS.md", "repo": "math", "path": "tool.py", "commit": fed.a1, "reason": "dated"},
+            {"source": "main:docs/LINKS.md", "path": "data.json", "commit": "0" * 40, "reason": "another commit"},
+        ])
+        (code, report), out, _ = captured(lambda: fed.crawl("--strict", "--acknowledged", ack))
+        self.assertEqual((code, report["blocking"]), (1, 1))
+        self.assertEqual([(f["source"], f["path"]) for f in report["findings"] if f["blocks"]],
+                         [("main:docs/LINKS.md", "data.json")])
+        acked = {f["path"]: f.get("acknowledged") for f in report["findings"] if f["class"] == "FROZEN_CHANGED"}
+        self.assertEqual(acked, {"Thm.lean": 0, "tool.py": 1, "data.json": None})
+        self.assertEqual({k: v for k, v in report["acknowledgements"].items() if k != "sha256"},
+                         {"entries": 3, "acknowledged_findings": 2, "unused_entries": [2]})
+        self.assertEqual(report["acknowledgements"]["sha256"], hashlib.sha256(Path(ack).read_bytes()).hexdigest())
+        self.assertIn("BLOCKING FROZEN_CHANGED math:data.json cited by main:docs/LINKS.md", out)
+        self.assertNotIn("BLOCKING FROZEN_CHANGED math:tool.py", out)
+        # Without --strict nothing it covers blocks, and the findings are still marked.
+        code, report = silence(lambda: fed.crawl("--acknowledged", ack))
+        self.assertEqual((code, report["blocking"]), (0, 0))
+        self.assertFalse(any(f["blocks"] for f in report["findings"]))
+
+    def test_a_directory_source_acknowledges_only_files_under_it(self):
+        link = "https://github.com/acme/math/blob/{a1}/tool.py\n"
+        fed = self.fed(main_extra={"old/LINKS.md": link, "older/LINKS.md": link, "docs/LINKS.md.orig": link})
+        ack = self.acknowledgements([{"source": "main:old/", "reason": "a dated directory"},
+                                     {"source": "main:docs/LINKS.md", "reason": "dated"},
+                                     {"source": "main:sources.json", "reason": "dated"}])
+        code, report = silence(lambda: fed.crawl("--strict", "--acknowledged", ack))
+        self.assertEqual(code, 1)
+        self.assertEqual(sorted(f["source"] for f in report["findings"] if f["blocks"]),
+                         ["main:docs/LINKS.md.orig", "main:older/LINKS.md"])
+        self.assertEqual([f["acknowledged"] for f in report["findings"] if f.get("source") == "main:old/LINKS.md"], [0])
+
+    def test_strict_blocks_on_a_removed_interface_file_unless_acknowledged(self):
+        links = ("https://github.com/acme/math/blob/{a1}/gone.py\n"
+                 "https://github.com/acme/math/blob/{a1}/gone.md\n")
+        fed = self.fed(math_removed={"gone.py": "def g():\n    return 0\n", "gone.md": "notes\n"},
+                       main_extra={"old/GONE.md": links})
+        dated = [{"source": "main:sources.json", "reason": "dated"}, {"source": "main:docs/LINKS.md", "reason": "dated"}]
+        code, report = silence(lambda: fed.crawl("--strict", "--acknowledged", self.acknowledgements(dated)))
+        self.assertEqual(code, 1)
+        self.assertEqual(sorted(f["path"] for f in report["findings"] if f["class"] == "FROZEN_REMOVED"),
+                         ["gone.md", "gone.py"])
+        # The removed Python file lost its interface; the removed Markdown file had none.
+        self.assertEqual([(f["class"], f["path"]) for f in report["findings"] if f["blocks"]],
+                         [("FROZEN_REMOVED", "gone.py")])
+        ack = self.acknowledgements(dated + [{"source": "main:old/GONE.md", "reason": "a dated record"}])
+        code, report = silence(lambda: fed.crawl("--strict", "--acknowledged", ack))
+        self.assertEqual((code, report["blocking"]), (0, 0))
+        self.assertEqual({f["path"]: f.get("acknowledged") for f in report["findings"] if f["class"] == "FROZEN_REMOVED"},
+                         {"gone.py": 2, "gone.md": None})
+        self.assertEqual(report["acknowledgements"]["unused_entries"], [])
+
+    def test_malformed_acknowledgements_stop_the_run_before_crawling(self):
+        fed = self.fed()
+        good = {"source": "main:sources.json", "reason": "a dated record"}
+        cases = {
+            "wrong schema": {"schema": "cbz.drift-acknowledgements.v0", "entries": []},
+            "unknown top-level key": {"schema": rc.ACK_SCHEMA, "entries": [], "note": "x"},
+            "non-string description": {"schema": rc.ACK_SCHEMA, "description": 5, "entries": []},
+            "entries not a list": {"schema": rc.ACK_SCHEMA, "entries": {}},
+            "unknown entry key": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, pth="tool.py")]},
+            "blank reason": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, reason=" ")]},
+            "no reason": {"schema": rc.ACK_SCHEMA, "entries": [{"source": "main:sources.json"}]},
+            "non-string value": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, path=["tool.py"])]},
+            "source without a repository": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, source="sources.json")]},
+            "branch name as commit": {"schema": rc.ACK_SCHEMA, "entries": [dict(good, commit="main")]},
+            "repeated entry": {"schema": rc.ACK_SCHEMA, "entries": [good, dict(good, reason="again")]},
+            "not JSON": "{",
+        }
+        path = Path(self.tmp.name) / "acknowledged.json"
+        for name, doc in cases.items():
+            with self.subTest(name):
+                path.write_text(doc if isinstance(doc, str) else json.dumps(doc))
+                (code, report), out, err = captured(lambda: fed.crawl("--strict", "--acknowledged", str(path)))
+                self.assertEqual((code, report, out), (2, None, ""))
+                self.assertIn("REFERENCE CRAWL ERROR: acknowledgements", err)
+        path.write_text(json.dumps({"schema": rc.ACK_SCHEMA, "description": "reviewed", "entries": [good]}))
+        self.assertEqual(silence(lambda: fed.crawl("--strict", "--acknowledged", str(path)))[0], 1)
 
     def test_identity_failures_block(self):
         cases = {"source_blob": "0" * 40, "artifact_sha256": "0" * 64, "artifact_bytes": 999}

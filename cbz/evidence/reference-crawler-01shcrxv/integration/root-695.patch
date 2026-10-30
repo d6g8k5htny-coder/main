@@ -1,35 +1,39 @@
 diff --git a/GOVERNANCE.md b/GOVERNANCE.md
-index 117b2ef..9de2a75 100644
+index 117b2efd..e1aba31d 100644
 --- a/GOVERNANCE.md
 +++ b/GOVERNANCE.md
-@@ -135,6 +135,18 @@ CBZ-0.
+@@ -135,6 +135,22 @@ CBZ-0.
    26-head historical regeneration passed. They do not certify mathematics,
    independence or actual PR disposition. Obsolete staging text is historical.
    Owner none, self-contained; criteria 2,3,10,11,12.
 +- **Federation reference crawler (2026-10-30):** `tools/cbz/reference_crawler.py`, with
-+  `tests/test_cbz_reference_crawler.py`, `tools/cbz/reference_crawler_mutation_check.py` and the
-+  evidence README `cbz/evidence/reference-crawler-01shcrxv/README.md`. Discovers the federation from
-+  the workspace's pins and registries, with no repository list, and resolves every cross-repository
++  `tests/test_cbz_reference_crawler.py`, `tools/cbz/reference_crawler_mutation_check.py`, the
++  reviewed acknowledgements `tools/cbz/reference_crawler_acknowledged.json` and the evidence README
++  `cbz/evidence/reference-crawler-01shcrxv/README.md`. Discovers the federation from the
++  workspace's pins and registries, with no repository list, and resolves every cross-repository
 +  reference record and commit-pinned URL against the named repository's Git objects. It blocks on a
 +  broken or mismatched reference and on an incomplete census (unparseable or unread file,
-+  incomplete topology, malformed identity, conflicting aliases). `--at NAME=REV` gates a candidate
-+  head against the rest of the federation at its pins. A G7 component with
-+  `tools/cbz_drift/crawl.py`. Observed: 44 tests per Python mode, and all source mutants killed by
-+  their designated tests' assertion failures (B-011), with baseline, syntax-broken and error-only
-+  controls. It certifies recorded reference identity only, not mathematics or elaboration. Owner
-+  none, self-contained; criteria 8,10,11.
++  incomplete topology, malformed identity, conflicting aliases). Under `--strict`, which G7 uses,
++  interface drift in a cited file also blocks: a changed Lean statement, Python signature or JSON
++  shape, or a removed Lean, Python or JSON file. The exception is a citing file that the
++  acknowledgements record as a reviewed historical citation. `--at NAME=REV` gates a candidate head
++  against the rest of the federation at its pins. A G7 component with `tools/cbz_drift/crawl.py`.
++  Observed: 48 tests per Python mode, and all source mutants killed by their designated tests'
++  assertion failures (B-011), with baseline, syntax-broken and error-only controls. It certifies
++  recorded reference identity only, not mathematics or elaboration. Owner none, self-contained;
++  criteria 8,10,11.
  - Existing core compiled auditors, fixture launchers and recovery commands
    are catalogued in `TOOLING.md`. A scope-limited or historical success is
    never promoted to a federation certificate.
 diff --git a/TOOLING.md b/TOOLING.md
-index d951ac2..1cd3358 100644
+index d951ac24..040933d0 100644
 --- a/TOOLING.md
 +++ b/TOOLING.md
 @@ -12,6 +12,7 @@ Checkpoint registry, **not G11 final admission**. Exact final source/run evidenc
  | Git bundle/SHA-lease cleanup | `git bundle verify PATH`; guarded atomic ref deletion | Ancestor checks, excluded PR/protected/workflow refs, actual absence readback; no mathematical certification | none;1,2 |
  | Bounded proof-closure replay | [Exact tool commands](cbz/evidence/kernel/additional/replay-tool/README.md), [additional package replay](cbz/evidence/kernel/additional/HOW_TO_REPLAY.md), [determinant replay](cbz/evidence/kernel/determinant/HOW_TO_REPLAY.md) | 31 tests/three Python mutants per mode; actual Lean positive/six adverse/six auditor mutants in both modes. Official empty trust-zero kernel; supplied text does not authenticate execution | none;3,6,9,11 |
  | PR/citation evidence | [Exact ordinary/optimized test and mutation commands](cbz/evidence/stale-pr-dispositions/README.md) | 35+9 tests and49 intended source/harness kills per mode. Actual network fetch and26-head historical regeneration. Advisory recorded facts, no current approval or mathematical certification | none;2,3,10,11,12 |
-+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR [--at main=HEAD] --json OUT`. Resolves every cross-repository reference record and commit-pinned URL; exit 1 on a broken reference or an incomplete census | 44 tests per mode; every source mutant killed by its designated test's assertion (B-011), with baseline, syntax and error-only controls (`reference_crawler_mutation_check.py`). Live: 1 blocking at the pins and at current tips (Math- `rn_status`), 0 with Math-#548. Git-object and text identity only; no elaboration or mathematical certification | none, self-contained; 8 (G7), 10, 11 |
++| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR [--at main=HEAD] --strict --acknowledged tools/cbz/reference_crawler_acknowledged.json --json OUT`. Resolves every cross-repository reference record and commit-pinned URL; exit 1 on a broken reference, unacknowledged interface drift or an incomplete census | 48 tests per mode; every source mutant killed by its designated test's assertion (B-011), with baseline, syntax and error-only controls (`reference_crawler_mutation_check.py`). Live, strict with the 21 acknowledgements: 1 blocking at the pins and at current tips (Math- `rn_status`), 0 with Math-#548. Git-object and text identity only; no elaboration or mathematical certification | none, self-contained; 8 (G7), 10, 11 |
  
  New census self-tests:
  

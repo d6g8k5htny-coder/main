@@ -76,8 +76,10 @@ INFO findings are reported and do not block, unless a flag says otherwise:
   FROZEN_CHANGED        a commit-pinned reference whose path has since changed. For .lean
                         files it lists theorem-statement drift, for .py files AST signature
                         drift, and for .json files type-shape drift. --strict blocks on any
-                        of those interface changes.
-  FROZEN_REMOVED        a commit-pinned reference whose path no longer exists at the pin
+                        of those interface changes that --acknowledged does not acknowledge.
+  FROZEN_REMOVED        a commit-pinned reference whose path no longer exists at the pin. A
+                        removed .lean, .py or .json file has lost its whole interface, so
+                        --strict blocks on it too, unless --acknowledged acknowledges it.
   PIN_SKEW              a pinned commit differs from its default-branch tip; blocks only with
                         --require-current-pins
   TOPOLOGY_UNPINNED     registered but not pinned
@@ -91,7 +93,27 @@ INFO findings are reported and do not block, unless a flag says otherwise:
   CANDIDATE             a repository crawled at an --at revision instead of its pin
 Exit status 0 therefore means a complete census of the readable files with nothing
 broken. Exit status 2 means the crawl itself failed: the workspace's pins are missing,
-unreadable or of the wrong schema.
+unreadable or of the wrong schema, or the --acknowledged file is malformed. Every finding
+in the report carries "blocking" (its class blocks by default) and "blocks" (it blocked
+this run, under the flags given).
+
+Acknowledged historical citations. Many records cite a file at a commit on purpose: a
+dated report, a content-addressed snapshot, a registry entry that pins one version of an
+artifact. Their interface drift is expected. Interface drift means a FROZEN_CHANGED
+finding with an interface change, or a FROZEN_REMOVED finding for a .lean, .py or .json
+file. --acknowledged FILE names those citations, so that --strict blocks on all
+interface drift except the drift that has been reviewed and recorded as historical.
+FILE is JSON:
+  {"schema": "cbz.drift-acknowledgements.v1", "description": "...",
+   "entries": [{"source": "REPO:PATH", "reason": "...", "repo": "...", "path": "...", "commit": "..."}]}
+"source" is the citing file as the report names it (main:docs/x.json); a source that ends
+in "/" names every file under that directory. "reason" is required and must not be
+blank. The optional repo, path and commit narrow an entry to one cited repository, path
+or recorded commit. Any other key, a blank or non-string value, an invalid commit or a
+repeated entry makes the file malformed, and a malformed file stops the run (exit 2)
+before anything is crawled. An acknowledged finding records the index of the first entry
+that matches it. Entries that match no interface drift are listed as unused; that is
+reported, not blocking.
 
 Domain (governance B-006). The checks are on Git objects and file text. Lean
 statement drift compares comment-stripped, whitespace-normalized declaration text,
@@ -109,8 +131,8 @@ id. Keys that pin another repository (such as math_pin) are not commit keys.
 
 Usage:
   reference_crawler.py --workspace DIR [--workspace-rev REV] [--cache DIR] [--repo NAME=PATH]...
-                   [--offline] [--json FILE] [--markdown FILE] [--strict] [--require-current-pins]
-                   [--include-fixtures] [--at NAME=REV]...
+                   [--offline] [--json FILE] [--markdown FILE] [--strict] [--acknowledged FILE]
+                   [--require-current-pins] [--include-fixtures] [--at NAME=REV]...
 """
 
 import argparse
@@ -138,6 +160,10 @@ BLOB_KEYS = ("blob", "git_blob", "observed_blob", "blob_sha", "blob_sha1", "git_
 SHA256_KEYS = ("sha256", "raw_sha256")
 BYTES_KEYS = ("bytes", "byte_length")
 ALSO_AT_PREFIX = "byte_identical_at_"
+INTERFACE_SUFFIXES = (".lean", ".py", ".json")
+ACK_SCHEMA = "cbz.drift-acknowledgements.v1"
+ACK_KEYS = ("source", "repo", "path", "commit")
+ACK_SOURCE = re.compile(r"^[^:/]+:[^:]")
 JSON_SUFFIXES = (".json", ".ipynb")
 JSON_LINES_SUFFIXES = (".jsonl", ".ndjson")
 URL_PATH_CHAR = r"[^\s()\]>\"'`#?|,\\]"  # a backslash is never part of a URL path
@@ -854,6 +880,49 @@ def interface_changed(row):
     return bool(d and (d["removed"] or d["added"] or d["changed"] or d["kind"] == "unparsed"))
 
 
+def interface_drifted(row):
+    """Whether a finding is interface drift: a cited file whose interface changed, or one that was removed."""
+    if row["class"] == "FROZEN_CHANGED":
+        return interface_changed(row)
+    return row["class"] == "FROZEN_REMOVED" and row["path"].endswith(INTERFACE_SUFFIXES)
+
+
+def load_acknowledgements(path):
+    """The validated entries of an --acknowledged file, with the SHA-256 of its bytes."""
+    try:
+        data = Path(path).read_bytes()
+        doc = json.loads(data.decode("utf-8"))
+    except (OSError, UnicodeDecodeError, ValueError) as exc:
+        raise CrawlError(f"acknowledgements {path}: {exc}") from None
+    if (not isinstance(doc, dict) or doc.get("schema") != ACK_SCHEMA or set(doc) - {"schema", "description", "entries"}
+            or not isinstance(doc.get("description", ""), str) or not isinstance(doc.get("entries"), list)):
+        raise CrawlError(f"acknowledgements {path}: expected an object with schema {ACK_SCHEMA!r} and an entries list")
+    seen = set()
+    for i, entry in enumerate(doc["entries"]):
+        valid = (isinstance(entry, dict) and not set(entry) - {*ACK_KEYS, "reason"} and "reason" in entry
+                 and all(isinstance(v, str) and v.strip() for v in entry.values())
+                 and ACK_SOURCE.match(entry.get("source", "")) is not None
+                 and ("commit" not in entry or COMMITISH.match(entry["commit"]) is not None))
+        if not valid:
+            raise CrawlError(f"acknowledgements {path}: entry {i} is malformed")
+        key = tuple(entry.get(k) for k in ACK_KEYS)
+        if key in seen:
+            raise CrawlError(f"acknowledgements {path}: entry {i} repeats an earlier entry")
+        seen.add(key)
+    return {"entries": doc["entries"], "sha256": hashlib.sha256(data).hexdigest()}
+
+
+def acknowledgement_for(row, entries):
+    """The index of the first entry that acknowledges a finding, or None."""
+    for i, entry in enumerate(entries):
+        source, cited = entry["source"], row.get("source", "")
+        if not (cited.startswith(source) if source.endswith("/") else cited == source):
+            continue
+        if all(entry[k] == row.get(k) for k in ("repo", "path", "commit") if k in entry):
+            return i
+    return None
+
+
 def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, include_fixtures=False, skipped=None,
           binary=None, at=None):
     findings = []
@@ -885,14 +954,26 @@ def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, incl
     return nodes, references, findings
 
 
-def summarize(nodes, references, findings, strict=False, require_current_pins=False, skipped=None, binary=None):
+def summarize(nodes, references, findings, strict=False, require_current_pins=False, skipped=None, binary=None,
+              acknowledgements=None):
+    entries = (acknowledgements or {}).get("entries", [])
+    used = set()
+    for row in findings:
+        if interface_drifted(row):
+            index = acknowledgement_for(row, entries)
+            if index is not None:
+                row["acknowledged"] = index
+                used.add(index)
+
     def blocks(row):
-        return (row["blocking"] or (strict and row["class"] == "FROZEN_CHANGED" and interface_changed(row))
+        return (row["blocking"]
+                or (strict and interface_drifted(row) and "acknowledged" not in row)
                 or (require_current_pins and row["class"] == "PIN_SKEW"))
     counts = {}
     for row in findings:
         counts[row["class"]] = counts.get(row["class"], 0) + 1
-    blocking = [row for row in findings if blocks(row)]
+        row["blocks"] = blocks(row)
+    blocking = [row for row in findings if row["blocks"]]
     return {
         "schema": "cbz.references.v1",
         "topology": [{"name": n.name, "full_name": n.full_name, "commit": n.commit, "pinned": n.pinned,
@@ -901,6 +982,9 @@ def summarize(nodes, references, findings, strict=False, require_current_pins=Fa
         "counts": dict(sorted(counts.items())),
         "blocking": len(blocking),
         "strict": strict, "require_current_pins": require_current_pins,
+        "acknowledgements": {"sha256": (acknowledgements or {}).get("sha256"), "entries": len(entries),
+                             "acknowledged_findings": sum(1 for row in findings if "acknowledged" in row),
+                             "unused_entries": sorted(set(range(len(entries))) - used)},
         "skipped_fixture_files": {k: len(v) for k, v in sorted((skipped or {}).items())},
         "binary_files_not_read": {k: len(v) for k, v in sorted((binary or {}).items())},
         "skipped_fixture_paths": dict(sorted((skipped or {}).items())),
@@ -915,8 +999,13 @@ def render(report):
     lines = ["# Federation reference report", "",
              f"{report['references']} references checked across {len(report['topology'])} repositories; "
              f"**{report['blocking']} blocking**. Fixture files skipped: {skipped} "
-             f"(use --include-fixtures to check them). Binary files not read: {binary}.", "",
-             "| Repository | Commit | Pinned | Registered |", "|---|---|---|---|"]
+             f"(use --include-fixtures to check them). Binary files not read: {binary}.", ""]
+    ack = report["acknowledgements"]
+    if ack["sha256"]:
+        lines += [f"Strict mode: {report['strict']}. Acknowledged historical citations: "
+                  f"{ack['acknowledged_findings']} findings, by {ack['entries']} entries of the file with SHA-256 "
+                  f"`{ack['sha256']}`; unused entries: {ack['unused_entries'] or 'none'}.", ""]
+    lines += ["| Repository | Commit | Pinned | Registered |", "|---|---|---|---|"]
     for n in report["topology"]:
         lines.append(f"| {n['name']} | `{n['commit'][:12]}` | {n['pinned']} | {n['registered']} |")
     lines += ["", "| Finding | Count | Blocking by default |", "|---|---|---|"]
@@ -935,6 +1024,8 @@ def main(argv=None):
     p.add_argument("--json", type=Path)
     p.add_argument("--markdown", type=Path)
     p.add_argument("--strict", action="store_true")
+    p.add_argument("--acknowledged", type=Path, metavar="FILE",
+                   help="reviewed historical citations whose interface drift --strict does not block")
     p.add_argument("--require-current-pins", action="store_true")
     p.add_argument("--include-fixtures", action="store_true",
                    help="also check references inside tests/, fixtures/ and examples/ directories")
@@ -955,18 +1046,28 @@ def main(argv=None):
         at[name] = rev
     skipped, binary = {}, {}
     try:
+        acknowledgements = load_acknowledgements(args.acknowledged) if args.acknowledged else None
         nodes, references, findings = crawl(args.workspace, args.workspace_rev, args.cache, overrides, args.offline,
                                             args.include_fixtures, skipped, binary, at)
     except (CrawlError, subprocess.CalledProcessError) as exc:  # workspace-level failure
         print(f"REFERENCE CRAWL ERROR: {exc}", file=sys.stderr)
         return 2
-    report = summarize(nodes, references, findings, args.strict, args.require_current_pins, skipped, binary)
+    report = summarize(nodes, references, findings, args.strict, args.require_current_pins, skipped, binary,
+                       acknowledgements)
     if args.json:
         args.json.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
     if args.markdown:
         args.markdown.write_text(render(report))
     print(f"reference crawl: {report['references']} references, {len(report['topology'])} repositories, "
           f"{report['blocking']} blocking; counts {report['counts']}")
+    if acknowledgements:
+        ack = report["acknowledgements"]
+        print(f"acknowledged: {ack['acknowledged_findings']} findings by {ack['entries']} entries; "
+              f"unused entries {ack['unused_entries']}")
+    for row in report["findings"]:
+        if row["blocks"]:
+            print(f"BLOCKING {row['class']} {row['repo']}:{row['path']}"
+                  + (f" cited by {row['source']}" if "source" in row else "") + f": {row['detail']}")
     return 1 if report["blocking"] else 0
 
 
