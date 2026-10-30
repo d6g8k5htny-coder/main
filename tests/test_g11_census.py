@@ -77,12 +77,12 @@ class PythonStubs(unittest.TestCase):
                 self.assertEqual(stubs(text), [])
 
     def test_legitimate_contexts_are_reported_but_do_not_fail(self):
-        text = ("from abc import ABC, abstractmethod\\nfrom typing import Protocol, overload\\n"
-                "class Base(ABC):\\n    def m(self):\\n        ...\\n"
-                "class Shape(Protocol):\\n    def area(self) -> float:\\n        ...\\n"
-                "class Bad(ValueError):\\n    def __init__(self):\\n        pass\\n"
-                "class C:\\n    @abstractmethod\\n    def a(self):\\n        pass\\n"
-                "    @overload\\n    def f(self, x: int) -> int:\\n        ...\\n")
+        text = ("from abc import ABC, abstractmethod\nfrom typing import Protocol, overload\n"
+                "class Base(ABC):\n    def m(self):\n        ...\n"
+                "class Shape(Protocol):\n    def area(self) -> float:\n        ...\n"
+                "class Bad(ValueError):\n    def __init__(self):\n        pass\n"
+                "class C:\n    @abstractmethod\n    def a(self):\n        pass\n"
+                "    @overload\n    def f(self, x: int) -> int:\n        ...\n")
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         contexts = sorted(f["detail"] for f in report["findings"] if f["class"] == "stub-context")
         self.assertEqual(contexts, ["a: pass; @abstractmethod",
@@ -398,28 +398,28 @@ class MutationAttribution(unittest.TestCase):
 class ReviewResidualControls(unittest.TestCase):
     def test_stub_exemptions_are_immediate_and_scope_safe(self):
         text = (
-            "from abc import ABC, abstractmethod\\n"
-            "from typing import Protocol\\n"
-            "from http.server import BaseHTTPRequestHandler\\n"
-            "class Abstract(ABC):\\n"
-            "    @abstractmethod\\n"
-            "    def required(self): ...\\n"
-            "    def concrete(self): ...\\n"
-            "    class Nested:\\n"
-            "        def inner_abc(self): ...\\n"
-            "class Interface(Protocol):\\n"
-            "    def declared(self): ...\\n"
-            "    class Nested:\\n"
-            "        def inner_protocol(self): ...\\n"
-            "class Failure(Exception):\\n"
-            "    def exception_method(self): ...\\n"
-            "def build(ABC, Exception, BaseHTTPRequestHandler):\\n"
-            "    class ShadowedABC(ABC):\\n"
-            "        def shadowed_abc(self): ...\\n"
-            "    class ShadowedError(Exception):\\n"
-            "        def shadowed_exception(self): ...\\n"
-            "    class ShadowedHandler(BaseHTTPRequestHandler):\\n"
-            "        def shadowed_handler_log_message(self, *args): ...\\n"
+            "from abc import ABC, abstractmethod\n"
+            "from typing import Protocol\n"
+            "from http.server import BaseHTTPRequestHandler\n"
+            "class Abstract(ABC):\n"
+            "    @abstractmethod\n"
+            "    def required(self): ...\n"
+            "    def concrete(self): ...\n"
+            "    class Nested:\n"
+            "        def inner_abc(self): ...\n"
+            "class Interface(Protocol):\n"
+            "    def declared(self): ...\n"
+            "    class Nested:\n"
+            "        def inner_protocol(self): ...\n"
+            "class Failure(Exception):\n"
+            "    def exception_method(self): ...\n"
+            "def build(ABC, Exception, BaseHTTPRequestHandler):\n"
+            "    class ShadowedABC(ABC):\n"
+            "        def shadowed_abc(self): ...\n"
+            "    class ShadowedError(Exception):\n"
+            "        def shadowed_exception(self): ...\n"
+            "    class ShadowedHandler(BaseHTTPRequestHandler):\n"
+            "        def shadowed_handler_log_message(self, *args): ...\n"
         )
         report = run({"tools/good.py": text, **DOCUMENTED_TESTED})
         stub_names = {f["detail"].split(":")[0] for f in report["findings"] if f["class"] == "stub"}
@@ -433,43 +433,43 @@ class ReviewResidualControls(unittest.TestCase):
 
     def test_tool_reachability_and_heredoc_boundaries(self):
         uncalled = run({
-            "tools/runner.py": "def main(): return 0\\n",
-            "tools/README.md": "Use tools/runner.py.\\n",
-            "tests/test_runner.py": "def unused_helper():\\n    import runner\\n",
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            "tests/test_runner.py": "def unused_helper():\n    import runner\n",
         })
         self.assertFalse(uncalled["tools"]["tools/runner.py"]["exercised"])
         dead = run({
-            "tools/runner.py": "def main(): return 0\\n",
-            "tools/README.md": "Use tools/runner.py.\\n",
-            "tests/test_runner.py": "if False:\\n    import runner\\n",
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            "tests/test_runner.py": "if False:\n    import runner\n",
         })
         self.assertFalse(dead["tools"]["tools/runner.py"]["exercised"])
         reachable = run({
-            "tools/runner.py": "def main(): return 0\\n",
-            "tools/README.md": "Use tools/runner.py.\\n",
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
             "tests/test_runner.py": (
-                "import unittest\\n"
-                "class RunnerTests(unittest.TestCase):\\n"
-                "    def test_reaches_helper(self): self.helper()\\n"
-                "    def helper(self):\\n"
-                "        import runner\\n"
+                "import unittest\n"
+                "class RunnerTests(unittest.TestCase):\n"
+                "    def test_reaches_helper(self): self.helper()\n"
+                "    def helper(self):\n"
+                "        import runner\n"
             ),
         })
         self.assertTrue(reachable["tools"]["tools/runner.py"]["exercised"])
-        workflow = ("jobs:\\n  test:\\n    steps:\\n      - run: |\\n"
-                    "          cat <<'EOF'\\n"
-                    "          python tools/runner.py\\n"
-                    "          EOF\\n")
+        workflow = ("jobs:\n  test:\n    steps:\n      - run: |\n"
+                    "          cat <<'EOF'\n"
+                    "          python tools/runner.py\n"
+                    "          EOF\n")
         heredoc = run({
-            "tools/runner.py": "def main(): return 0\\n",
-            "tools/README.md": "Use tools/runner.py.\\n",
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
             ".github/workflows/ci.yml": workflow,
         })
         self.assertFalse(heredoc["tools"]["tools/runner.py"]["exercised"])
         real_command = run({
-            "tools/runner.py": "def main(): return 0\\n",
-            "tools/README.md": "Use tools/runner.py.\\n",
-            ".github/workflows/ci.yml": workflow + "          python tools/runner.py\\n",
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            ".github/workflows/ci.yml": workflow + "          python tools/runner.py\n",
         })
         self.assertTrue(real_command["tools"]["tools/runner.py"]["exercised"])
 
@@ -491,16 +491,16 @@ class ReviewResidualControls(unittest.TestCase):
             tests_dir.mkdir()
             (tests_dir / "__init__.py").write_text("", encoding="utf-8")
             (tests_dir / "test_probe.py").write_text(
-                "import os, unittest\\n"
-                "class Probe(unittest.TestCase):\\n"
-                "    def test_environment(self):\\n"
-                "        for key in ('PYTHONPATH', 'PYTHONHOME', 'PYTHONPYCACHEPREFIX'):\\n"
-                "            self.assertNotIn(key, os.environ)\\n"
-                "        self.assertNotIn('poison', unittest.__file__)\\n",
+                "import os, unittest\n"
+                "class Probe(unittest.TestCase):\n"
+                "    def test_environment(self):\n"
+                "        for key in ('PYTHONPATH', 'PYTHONHOME', 'PYTHONPYCACHEPREFIX'):\n"
+                "            self.assertNotIn(key, os.environ)\n"
+                "        self.assertNotIn('poison', unittest.__file__)\n",
                 encoding="utf-8")
             poison = root / "poison"
             poison.mkdir()
-            (poison / "unittest.py").write_text("raise RuntimeError('poisoned unittest')\\n", encoding="utf-8")
+            (poison / "unittest.py").write_text("raise RuntimeError('poisoned unittest')\n", encoding="utf-8")
             env = os.environ.copy()
             env["PYTHONPATH"] = str(poison)
             env["PYTHONHOME"] = str(poison)
@@ -518,7 +518,7 @@ class ReviewResidualControls(unittest.TestCase):
             subprocess.run(["git", "-C", str(root), "config", "user.email", "g11@example.invalid"],
                            check=True, capture_output=True)
             target = root / "target.txt"
-            target.write_text("not a scanned source\\n", encoding="utf-8")
+            target.write_text("not a scanned source\n", encoding="utf-8")
             link = root / "tools" / "cbz" / "linked.py"
             link.parent.mkdir(parents=True)
             link.symlink_to(target)
