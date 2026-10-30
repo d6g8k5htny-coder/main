@@ -297,6 +297,17 @@ class AdversarialControls(unittest.TestCase):
         self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),
                          ["abc", "builtin", "decoy_decorator", "decoy_qualified", "fail", "fail", "fail", "log_message", "proto"])
         self.assertEqual(report["status"], "FAIL")
+        local_shadow = (
+            "from abc import abstractmethod\n"
+            "def factory():\n"
+            "    abstractmethod = lambda fn: fn\n"
+            "    @abstractmethod\n"
+            "    def local_decoy():\n"
+            "        pass\n"
+        )
+        local_report = run({"tools/good.py": local_shadow, **DOCUMENTED_TESTED})
+        self.assertEqual([(f["class"], f["detail"]) for f in local_report["findings"]
+                          if f["class"].startswith("stub")], [("stub", "local_decoy: pass")])
 
     def test_comment_and_string_mentions_do_not_exercise_tools(self):
         tree = {
@@ -305,8 +316,29 @@ class AdversarialControls(unittest.TestCase):
             "tests/test_runner.py": "# tools/runner.py\nDOC = 'tools/runner.py'\nprint('tools/runner.py')\n",
         }
         report = run(tree)
-        self.assertFalse(report["tools/runner.py"]["exercised"])
+        self.assertFalse(report["tools"]["tools/runner.py"]["exercised"])
         self.assertEqual(report["failing_tools"], ["tools/runner.py"])
+
+        python_cmd = run({
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            "tests/test_runner.py": 'import subprocess\nsubprocess.run("python -c \\'tools/runner.py\\'", shell=True)\n',
+        })
+        self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])
+
+        shell_cmd = run({
+            "tools/runner.py": "def main(): return 0\n",
+            "tools/README.md": "Use tools/runner.py.\n",
+            ".github/workflows/ci.yml": "jobs:\n  test:\n    steps:\n      - run: sh -c 'echo tools/runner.py'\n",
+        })
+        self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["exercised"])
+
+        js_cmd = run({
+            "tools/runner.mjs": "export const run = () => 1;\n",
+            "tools/README.md": "Use tools/runner.mjs.\n",
+            "tests/runner.test.mjs": "const sample = \`\nimport '../tools/runner.mjs';\n\`;\n",
+        })
+        self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["exercised"])
 
     def test_empty_and_comment_only_run_blocks_fail(self):
         text = ("jobs:\n  a:\n    steps:\n"
@@ -328,12 +360,35 @@ class AdversarialControls(unittest.TestCase):
 class MutationAttribution(unittest.TestCase):
     def test_mutation_kill_requires_exact_target_assertion(self):
         expected = "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion"
-        good = {"exit": 1, "ran": 1, "failures": 1, "errors": 0, "skipped": 0,
-                "test_id": expected, "traceback_method": "test_mutation_kill_requires_exact_target_assertion",
+        good = {"parsed": True, "status": "FAILED", "exit": 1, "ran": 1, "failures": 1,
+                "errors": 0, "skipped": 0, "test_id": expected,
+                "traceback_method": "test_mutation_kill_requires_exact_target_assertion",
                 "traceback_line": 17, "exception_type": "AssertionError"}
         self.assertTrue(g11m.qualifies_kill(good, expected, 17))
         wrong_line = dict(good, traceback_line=18)
         self.assertFalse(g11m.qualifies_kill(wrong_line, expected, 17))
+        wrong_test = dict(good, test_id=expected + ".other")
+        self.assertFalse(g11m.qualifies_kill(wrong_test, expected, 17))
+        not_failed = dict(good, status="OK")
+        self.assertFalse(g11m.qualifies_kill(not_failed, expected, 17))
+        has_errors = dict(good, errors=1)
+        self.assertFalse(g11m.qualifies_kill(has_errors, expected, 17))
+        has_skips = dict(good, skipped=1)
+        self.assertFalse(g11m.qualifies_kill(has_skips, expected, 17))
+
+        expected_parser = "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion"
+        output = (
+            "Ran 1 test in 0.001s\n\n"
+            "FAIL: test_mutation_kill_requires_exact_target_assertion (tests.test_g11_census.MutationAttribution)\n"
+            "Traceback (most recent call last):\n"
+            '  File "/tmp/tests/test_g11_census.py", line 123, in test_mutation_kill_requires_exact_target_assertion\n'
+            "AssertionError: expected\n\n"
+            "FAILED (failures=1)\n"
+        )
+        proc = subprocess.CompletedProcess(["python"], 1, output, "")
+        parsed = g11m._parse_run(proc)
+        self.assertEqual(parsed["test_id"], expected_parser)
+        self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))
 
 
 if __name__ == "__main__":
