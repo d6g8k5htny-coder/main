@@ -254,6 +254,27 @@ syntax-broken copy must come out invalid, never killed. The output is in `mutati
 python3 -B -S tools/cbz/reference_crawler_mutation_check.py
 ```
 
+Fixture repositories set `commit.gpgsign=false`, so the suite is hermetic and never calls a host
+signer. The harness runs the unmutated suite both before and after the mutants. If the final
+baseline fails, the run is invalid, with exit 2, because errors could then pass for kills. Each
+kill line shows the suite's failure and error counts.
+
+**An evidence incident, and its correction.** The mutation output first committed at `b8994c6f`
+(75 of 75) is not trustworthy for its late mutants:
+- the fixtures then inherited the host's `commit.gpgsign=true`;
+- after about 20,000 fixture commits, the session's signer ran out of file descriptors;
+- fixture commits then failed;
+- the harness of that time counted any `FAILED (` as a kill.
+
+The fix is in the fixtures and the harness, as above. The clean re-run on the hermetic suite then
+gave **74 of 75**. The mutant "pin skew reported for candidates" survived, which shows the earlier
+75 of 75 had included at least one false kill. It survived because the candidate test used a
+candidate equal to main's tip, so pin skew could never appear. That output is kept as
+`mutation-74of75-before-test-fix.txt`. The test now moves the tip past the candidate, and
+`mutation.txt` is the full re-run on these final bytes: 75 of 75, with both baselines passing. Every
+kill includes at least one assertion failure; five also raise errors in some tests. That head was also committed unsigned, because the signer itself had failed;
+no rule on the branch requires signatures.
+
 The mutation check runs the suite in normal mode. Neither the tool nor its tests contain an
 `assert` statement or a `__debug__` branch, so `-O` cannot change what the tool decides. The
 `-O` test run above confirms that the suite itself also passes in that mode.

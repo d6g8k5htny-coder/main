@@ -57,6 +57,8 @@ def init(path):
     git(path, "init", "-q", "-b", "main")
     git(path, "config", "user.email", "t@example.invalid")
     git(path, "config", "user.name", "t")
+    # Fixtures are hermetic: a host's commit-signing setup must never be invoked by the suite.
+    git(path, "config", "commit.gpgsign", "false")
     return path
 
 
@@ -543,6 +545,7 @@ class Crawl(unittest.TestCase):
     def test_candidate_head_is_crawled_in_place_of_the_pin(self):
         fed = self.fed()
         cand = commit(fed.main, {"cand.json": [{"repository": "math", "commit": fed.a1, "path": "gone-cand.md"}]}, "M2")
+        commit(fed.main, {"later.md": "a later commit, so the tip is neither the pin nor the candidate\n"}, "M3")
         code, report = silence(fed.crawl)
         self.assertEqual(code, 0)  # main is crawled at its pin, where cand.json does not exist
         self.assertIn("PIN_SKEW", classes(report))
