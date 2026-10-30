@@ -314,18 +314,28 @@ class Crawl:
         for lm in sorted(p for p in tree if p.rsplit('/', 1)[-1] == 'lake-manifest.json' and '/.lake/' not in '/' + p):
             doc = self.json_at(repo, ref, lm)
             for pkg in (doc or {}).get('packages', []) if isinstance(doc, dict) else []:
-                if not (isinstance(pkg, dict) and pkg.get('type') == 'git' and pkg.get('url') and pkg.get('rev')):
+                if not (isinstance(pkg, dict) and pkg.get('type') == 'git'):
                     continue
                 try:
+                    if not isinstance(pkg.get('url'), str):
+                        raise CrawlError('no url')
                     dep = repo_key(pkg['url'])
-                except CrawlError:
+                except CrawlError as exc:
+                    self.add(BLOCK, 'MALFORMED', '%s:%s has a git package %r without a repository URL (%s)' % (
+                        key, lm, pkg.get('name'), exc), repo=key, path=lm)
                     continue
                 if dep.split('/')[0] not in self.owners:
                     self.stats['lake_external_edges'] += 1
                     continue
                 self.urls.setdefault(dep, pkg['url'])
                 self.edges.append((key, dep, 'lake'))
-                self.lake_records.append((key, ref, lm, pkg, dep))
+                rev = pkg.get('rev')
+                if not (isinstance(rev, str) and rev.strip()):
+                    # a git dependency with no usable revision pins nothing: that is a missing pin, not a skip
+                    self.add(BLOCK, 'PIN-MISSING', '%s:%s pins %s with no revision (%r)' % (key, lm, dep, rev),
+                             repo=key, path=lm, target=dep, pin=rev)
+                else:
+                    self.lake_records.append((key, ref, lm, pkg, dep))
                 out.append(dep)
         return out
 

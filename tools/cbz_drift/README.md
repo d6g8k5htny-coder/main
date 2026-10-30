@@ -54,7 +54,7 @@ lag a moving tip (INFO).**
 | `INPUT-OBSERVED` | INFO | a canonical input's recorded blob differs at the crawled ref |
 | `LEAN-DRIFT` | BLOCK | one fully qualified Lean declaration has different interfaces in two crawled locations |
 | `LEAN-SYNTAX` | BLOCK | a Lean file cannot be lexed, or its `namespace`/`section`/`end` do not balance |
-| `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a present, different rev (an absent rev is `PIN-MISSING`) |
+| `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a present, different rev (an absent, empty or non-string rev is `PIN-MISSING`; a git package with no repository URL is `MALFORMED`) |
 | `PIN-DIVERGENT` | INFO | two reached repositories pin one repository differently; the first in breadth-first order is read |
 | `FETCH-FAILED` | BLOCK | `--fetch` could not refresh a repository, so its tips are not current |
 | `TOOLCHAIN` | INFO | Lean packages that share declarations use different `lean-toolchain`s |
@@ -94,7 +94,7 @@ a temporary directory, covering both positive and negative cases. That includes:
 - clone-on-demand;
 - candidate-head overrides.
 
-`ScannerMutationTests` applies 43 source mutants. Each one must be killed by its own
+`ScannerMutationTests` applies 46 source mutants. Each one must be killed by its own
 designated test, failing by assertion (`FAILED (failures=N)` with no errors). Every
 mutant must apply exactly once and must compile, and the unmutated copy must pass
 every designated test, as the harness control.

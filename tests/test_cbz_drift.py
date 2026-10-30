@@ -423,7 +423,46 @@ class TopologyTests(FedCase):
     def test_missing_lake_revision_blocks(self):
         self.fed.build()
         self.add_lake_edge('b', 'a', 'https://github.com/fed/a.git', '2' * 40)
-        self.assertEqual(codes(self.fed.crawl(), 'BLOCK'), ['PIN-MISSING'])
+        rep = self.fed.crawl()
+        self.assertEqual(codes(rep, 'BLOCK'), ['PIN-MISSING'])
+        f = [f for f in rep['findings'] if f['code'] == 'PIN-MISSING'][0]
+        self.assertEqual((f.get('repo'), f.get('path'), f.get('target'), f.get('pin')),
+                         ('fed/b', 'lake-manifest.json', 'fed/a', '2' * 40))
+
+    def test_lake_package_without_usable_revision_blocks(self):
+        for rev in (None, '', '  ', 123):
+            with self.subTest(rev=rev):
+                self.tearDown()
+                self.setUp()
+                self.fed.build()
+                manifest = {'packages': [{'type': 'git', 'url': 'https://github.com/fed/a.git', 'name': 'a'}]}
+                if rev is not None:
+                    manifest['packages'][0]['rev'] = rev
+                self.fed.pins['b'] = self.fed.commit('b', {'lake-manifest.json': json.dumps(manifest)})
+                self.fed.write_seed()
+                try:
+                    rep = self.fed.crawl()
+                except Exception as exc:          # a crash is not a finding (A8: fail closed, visibly)
+                    self.fail('crawl raised %r instead of reporting PIN-MISSING' % exc)
+                self.assertEqual(codes(rep, 'BLOCK'), ['PIN-MISSING'])
+                f = [f for f in rep['findings'] if f['code'] == 'PIN-MISSING'][0]
+                self.assertEqual((f.get('repo'), f.get('path'), f.get('target'), f.get('pin')),
+                                 ('fed/b', 'lake-manifest.json', 'fed/a', rev))
+
+    def test_lake_git_package_without_url_blocks(self):
+        for url in (None, 7, 'not-a-repository'):
+            with self.subTest(url=url):
+                self.tearDown()
+                self.setUp()
+                self.fed.build()
+                manifest = {'packages': [{'type': 'git', 'url': url, 'rev': '2' * 40, 'name': 'x'}]}
+                self.fed.pins['b'] = self.fed.commit('b', {'lake-manifest.json': json.dumps(manifest)})
+                self.fed.write_seed()
+                try:
+                    rep = self.fed.crawl()
+                except Exception as exc:
+                    self.fail('crawl raised %r instead of reporting MALFORMED' % exc)
+                self.assertEqual(codes(rep, 'BLOCK'), ['MALFORMED'])
 
     def test_lake_dependency_reached_only_by_lake_is_scanned(self):
         self.fed.build()
@@ -635,6 +674,12 @@ MUTANTS = [
      'TopologyTests.test_unheld_repository_is_cloned_from_its_recorded_url'),
     ('lake revision unchecked', "            if not drepo.has_commit(pkg['rev']):", "            if False:", 'crawl.py',
      'TopologyTests.test_missing_lake_revision_blocks'),
+    ('lake identity dropped', "key, lm, dep, pkg['rev'], drepo.where()), repo=key, path=lm, target=dep, pin=pkg['rev'])",
+     "key, lm, dep, pkg['rev'], drepo.where()), repo=key)", 'crawl.py', 'TopologyTests.test_missing_lake_revision_blocks'),
+    ('revisionless package skipped', "                if not (isinstance(rev, str) and rev.strip()):", "                if not (isinstance(rev, str) and rev.strip()) and False:", 'crawl.py',
+     'TopologyTests.test_lake_package_without_usable_revision_blocks'),
+    ('url-less package skipped', "                    self.add(BLOCK, 'MALFORMED', '%s:%s has a git package", "                    (lambda *a, **k: None)(BLOCK, 'MALFORMED', '%s:%s has a git package", 'crawl.py',
+     'TopologyTests.test_lake_git_package_without_url_blocks'),
     ('lake targets not queued', "                out.append(dep)\n", "", 'crawl.py',
      'TopologyTests.test_lake_dependency_reached_only_by_lake_is_scanned'),
     ('lake url not recorded', "                self.urls.setdefault(dep, pkg['url'])\n", "", 'crawl.py',

@@ -49,3 +49,16 @@ cases frozen at `9a5d313b`.
 R2's own author lane may still deliver it. The Lean-context findings C1–C4 (slice B,
 01SHCrxv) are not addressed here. Nor are #715's trigger, ruleset binding, typed or
 elaborated coverage, or any G7/CBZ-0 claim.
+
+## Successor: DCL review of the R2 part (#723/6533295921)
+
+DCL's two findings were real, and both are fixed in the successor commit.
+- **P1.** A git lake package with a missing, empty or non-string `rev` was skipped
+  silently, and a non-string `rev` crashed. Both are now BLOCK `PIN-MISSING`, and the
+  repository is still reached. A git package with no usable URL is BLOCK `MALFORMED`.
+- **P2.** The test now asserts the bound identity: repository, manifest path, target and
+  pin.
+
+The successor has 68 tests, OK in both modes. It has 46 mutants, killed by designated
+assertions, three of them new. Two tests were made assertion-safe so that a crash cannot
+stand in for a kill.
