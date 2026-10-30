@@ -1,4 +1,4 @@
-name: CBZ P15 historical artifact readback
+name: CBZ historical evidence readback and replay controls
 'on':
   push:
     branches:
@@ -10,6 +10,7 @@ name: CBZ P15 historical artifact readback
       - 'tools/p15_historical_mutations.py'
       - 'tests/test_p15_historical_artifact.py'
       - 'docs/cbz/P15_HISTORICAL_READBACK.md'
+      - 'cbz/evidence/kernel/additional/replay-tool/**'
   workflow_dispatch:
 permissions:
   contents: read
@@ -61,5 +62,26 @@ jobs:
             ${{ runner.temp }}/p15-*
             historical/formal/manifest.json
             historical/formal/UniversalLaw/P15/*.lean
+          if-no-files-found: error
+          retention-days: 90
+  bounded-replay-python-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.11.16'
+      - name: Run the restored validator and its intended mutant controls
+        working-directory: cbz/evidence/kernel/additional/replay-tool
+        run: python -B -S run_mutations.py --output "$RUNNER_TEMP/replay-python-controls"
+      - name: Preserve complete control evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-replay-python-controls-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/replay-python-controls
           if-no-files-found: error
           retention-days: 90
