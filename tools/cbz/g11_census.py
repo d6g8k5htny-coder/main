@@ -419,7 +419,9 @@ def _workflow_commands(text):
             else:
                 commands = []
         else:
-            commands = [re.sub(r"\s+#.*$", "", value).strip("'\"")]
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in "'\"":
+                value = value[1:-1]
+            commands = [_strip_shell_comment(value).strip()]
             commands = [_strip_shell_comment(c).strip() for c in commands]
             commands = [c for c in commands if c]
         found.append((number, commands))
