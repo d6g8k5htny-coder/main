@@ -302,6 +302,9 @@ class BaselineTests(unittest.TestCase):
         ))
 
     def test_g1_execution_identity_binds_resolved_executable(self):
+        # Exercise the registered PATH-resolved command, not only an absolute fixture interpreter.
+        self.config['gates'][1]['argv'][0] = 'python'
+        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
         run = self.tool.run(self.root, self.out)
         row = next(item for item in run['gates'] if item['id'] == 'G1')
         identity = row['scan_execution']
