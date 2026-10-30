@@ -174,8 +174,9 @@ published SHA256SUMS. The existing README defines use, coverage and limitations;
 the Python validator checks transcript consistency and authenticates no execution.
 
 Run `python3.11 -B -S run_mutations.py --output /new/output` from that directory
-using Python 3.11.16. The unchanged runner requires 31 baseline tests and all
-three intended validator mutant kills in each normal/optimized mode. The
+using Python 3.11.16. The frozen suite contains 31 baseline tests; the unchanged runner requires both
+baselines to pass and all three intended validator mutant kills in each
+normal/optimized mode. The
 `bounded-replay-python-controls` job in
 `.github/workflows/cbz-p15-historical-readback.yml` installs the pinned runtime
 and retains complete results on success or failure. The existing P15 job is
