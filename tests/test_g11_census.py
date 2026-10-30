@@ -182,13 +182,13 @@ class ToolChecks(unittest.TestCase):
         for path in ("tools/a.py", "tools/b.py", "tools/c.mjs", "tools/d.py"):
             with self.subTest(tool=path):
                 self.assertTrue(report[path]["documented"])
-                self.assertTrue(report[path]["exercised"])
+                self.assertTrue(report[path]["referenced"])
 
     def test_undocumented_and_unexercised_tools_fail(self):
         result = run({"tools/lonely.py": "x = 1\n", "tools/README.md": "nothing here\n"})
         self.assertEqual(result["failing_tools"], ["tools/lonely.py"])
         self.assertFalse(result["tools"]["tools/lonely.py"]["documented"])
-        self.assertFalse(result["tools"]["tools/lonely.py"]["exercised"])
+        self.assertFalse(result["tools"]["tools/lonely.py"]["referenced"])
         self.assertEqual(result["status"], "FAIL")
 
     def test_exercised_through_an_exercised_tool(self):
@@ -196,24 +196,24 @@ class ToolChecks(unittest.TestCase):
                 "tools/README.md": "tools/top.py tools/helper.py tools/orphan.py\n",
                 "tests/test_top.py": "import top\n"}
         report = self.tools(tree)
-        self.assertEqual(report["tools/helper.py"]["exercised_by"], ["via tools/top.py"])
-        self.assertFalse(report["tools/orphan.py"]["exercised"])
+        self.assertEqual(report["tools/helper.py"]["referenced_by"], ["via tools/top.py"])
+        self.assertFalse(report["tools/orphan.py"]["referenced"])
 
     def test_ambiguous_basename_needs_the_full_path(self):
         tree = {"tools/run.py": "x = 1\n", "docs/USE.md": "call run.py\n", "tests/test_x.py": "import run\n"}
         ambiguous = self.tools(tree, sorted(tree) + ["experiments/run.py"])
         self.assertFalse(ambiguous["tools/run.py"]["documented"])
-        self.assertFalse(ambiguous["tools/run.py"]["exercised"])
+        self.assertFalse(ambiguous["tools/run.py"]["referenced"])
         unique = self.tools(tree)
         self.assertTrue(unique["tools/run.py"]["documented"])
-        self.assertTrue(unique["tools/run.py"]["exercised"])
+        self.assertTrue(unique["tools/run.py"]["referenced"])
 
     def test_full_path_counts_even_when_basename_is_ambiguous(self):
         tree = {"tools/run.py": "x = 1\n", "docs/USE.md": "call tools/run.py\n",
                 ".github/workflows/ci.yml": "      - run: python tools/run.py\n"}
         report = self.tools(tree, sorted(tree) + ["experiments/run.py"])
         self.assertTrue(report["tools/run.py"]["documented"])
-        self.assertTrue(report["tools/run.py"]["exercised"])
+        self.assertTrue(report["tools/run.py"]["referenced"])
 
     def test_module_docstring_is_recorded(self):
         report = self.tools({"tools/a.py": '"""Does a."""\n', "tools/b.py": "x = 1\n"})
@@ -315,7 +315,7 @@ class AdversarialControls(unittest.TestCase):
             "tests/test_runner.py": "# tools/runner.py\nDOC = 'tools/runner.py'\nprint('tools/runner.py')\n",
         }
         report = run(tree)
-        self.assertFalse(report["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(report["tools"]["tools/runner.py"]["referenced"])
         self.assertEqual(report["failing_tools"], ["tools/runner.py"])
 
         python_cmd = run({
@@ -323,7 +323,7 @@ class AdversarialControls(unittest.TestCase):
             "tools/README.md": "Use tools/runner.py.\n",
             "tests/test_runner.py": "import subprocess\nsubprocess.run(\"python -c 'tools/runner.py'\", shell=True)\n",
         })
-        self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(python_cmd["tools"]["tools/runner.py"]["referenced"])
 
         workflow_text = "jobs:\n  test:\n    steps:\n      - run: \"sh -c 'echo tools/runner.py'\"\n"
         shell_cmd = run({
@@ -332,14 +332,14 @@ class AdversarialControls(unittest.TestCase):
             ".github/workflows/ci.yml": workflow_text,
         })
         self.assertEqual(g11._workflow_commands(workflow_text)[0][1], ["sh -c 'echo tools/runner.py'"])
-        self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["referenced"])
 
         js_cmd = run({
             "tools/runner.mjs": "export const run = () => 1;\n",
             "tools/README.md": "Use tools/runner.mjs.\n",
             "tests/runner.test.mjs": "const sample = `\nimport '../tools/runner.mjs';\n`;\n",
         })
-        self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["exercised"])
+        self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["referenced"])
 
     def test_empty_and_comment_only_run_blocks_fail(self):
         text = ("jobs:\n  a:\n    steps:\n"
@@ -426,6 +426,8 @@ class ReviewResidualControls(unittest.TestCase):
         context_names = {f["detail"].split(":")[0] for f in report["findings"] if f["class"] == "stub-context"}
         self.assertIn("required", context_names)
         self.assertIn("declared", context_names)
+        self.assertIn("inner_abc", stub_names)
+        self.assertIn("shadowed_abc", stub_names)
         for name in ("concrete", "inner_abc", "inner_protocol", "exception_method",
                      "shadowed_abc", "shadowed_exception", "shadowed_handler_log_message"):
             self.assertIn(name, stub_names)
@@ -437,13 +439,13 @@ class ReviewResidualControls(unittest.TestCase):
             "tools/README.md": "Use tools/runner.py.\n",
             "tests/test_runner.py": "def unused_helper():\n    import runner\n",
         })
-        self.assertFalse(uncalled["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(uncalled["tools"]["tools/runner.py"]["referenced"])
         dead = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
             "tests/test_runner.py": "if False:\n    import runner\n",
         })
-        self.assertFalse(dead["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(dead["tools"]["tools/runner.py"]["referenced"])
         reachable = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
@@ -455,7 +457,7 @@ class ReviewResidualControls(unittest.TestCase):
                 "        import runner\n"
             ),
         })
-        self.assertTrue(reachable["tools"]["tools/runner.py"]["exercised"])
+        self.assertTrue(reachable["tools"]["tools/runner.py"]["referenced"])
         workflow = ("jobs:\n  test:\n    steps:\n      - run: |\n"
                     "          cat <<'EOF'\n"
                     "          python tools/runner.py\n"
@@ -465,24 +467,22 @@ class ReviewResidualControls(unittest.TestCase):
             "tools/README.md": "Use tools/runner.py.\n",
             ".github/workflows/ci.yml": workflow,
         })
-        self.assertFalse(heredoc["tools"]["tools/runner.py"]["exercised"])
+        self.assertFalse(heredoc["tools"]["tools/runner.py"]["referenced"])
         real_command = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
             ".github/workflows/ci.yml": workflow + "          python tools/runner.py\n",
         })
-        self.assertTrue(real_command["tools"]["tools/runner.py"]["exercised"])
+        self.assertTrue(real_command["tools"]["tools/runner.py"]["referenced"])
 
     def test_mutation_inventory_is_sealed(self):
         cases = g11m._build_cases()
         self.assertEqual(len(cases), 74)
         g11m._validate_mutation_inventory(cases)
-        with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory"):
-            g11m._validate_mutation_inventory(cases[:-1])
-        with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory"):
-            g11m._validate_mutation_inventory(cases + [cases[0]])
-        with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory"):
-            g11m._validate_mutation_inventory(cases[1:] + cases[:1])
+        altered_cases = (cases[:-1], cases + [cases[0]], cases[1:] + cases[:1])
+        for altered in altered_cases:
+            with self.assertRaisesRegex(g11m.HarnessError, "mutation inventory"):
+                g11m._validate_mutation_inventory(altered)
 
     def test_mutation_child_environment_is_sanitized(self):
         with tempfile.TemporaryDirectory() as temporary:

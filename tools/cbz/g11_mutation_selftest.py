@@ -45,11 +45,13 @@ MUTATIONS = [
      "        if not rest:\n            return None\n"),
     ("docstring not stripped", "        rest = rest[1:]\n", "        rest = rest[0:]\n"),
     ("decorator context ignored", "        if _trusted_decorator(dec, imports, scope_shadowed):", "        if False:"),
-    ("Protocol/ABC context ignored", "            if _trusted_abstract_base(base, imports):", "            if False:"),
-    ("exception context ignored", "            if _builtin_exception_base(base, imports):", "            if False:"),
-    ("log_message context ignored", '            if _http_request_handler_base(base, imports) and func.name == "log_message":', "            if False:"),
-    ("log_message context too broad", '            if _http_request_handler_base(base, imports) and func.name == "log_message":',
-     '            if _http_request_handler_base(base, imports):'),
+    ("Protocol/ABC context ignored", '            if base_kind == "Protocol":', "            if False:"),
+    ("exception context ignored",
+     "            if _builtin_exception_base(base, imports, scope_shadowed):\n                continue\n",
+     "            if _builtin_exception_base(base, imports, scope_shadowed):\n                return \"method of an exception class\"\n"),
+    ("log_message context ignored", '            if _http_request_handler_base(base, imports, scope_shadowed) and func.name == "log_message":', "            if False:"),
+    ("log_message context too broad", '            if _http_request_handler_base(base, imports, scope_shadowed) and func.name == "log_message":',
+     '            if _http_request_handler_base(base, imports, scope_shadowed):'),
     ("module docstring not recorded", "                docstring = bool(ast.get_docstring(ast.parse(files[path])))",
      "                docstring = True"),
     ("class bodies not visited", "                visit(child, classes + [child], scope_shadowed | _scope_bindings(child))", "                pass"),
@@ -91,8 +93,8 @@ MUTATIONS = [
     ("from-import list not recognised", "        elif isinstance(node, ast.ImportFrom) and node.level == 0:", "        elif False:"),
     ("basename not recognised", '                    r"|\\b" + re.escape(path.rsplit("/", 1)[-1]) + r"\\b")',
      '                    r"|\\bNOMATCH")'),
-    ("transitive exercise off", '                if other != path and report[other]["exercised"] and other in texts and path in tool_dependencies.get(other, set()):',
-     '                if False and other != path and report[other]["exercised"] and other in texts and path in tool_dependencies.get(other, set()):'),
+    ("transitive exercise off", '                if other != path and report[other]["referenced"] and other in texts and path in tool_dependencies.get(other, set()):',
+     '                if False and other != path and report[other]["referenced"] and other in texts and path in tool_dependencies.get(other, set()):'),
     ("site not production", 'PRODUCTION = {"tooling", "site"}', 'PRODUCTION = {"tooling"}'),
     ("research counted as production", 'PRODUCTION = {"tooling", "site"}', 'PRODUCTION = {"tooling", "site", "research"}'),
     ("vendor counted as site", '    if path.startswith("docs/site/vendor/"):\n        return "vendor"',
@@ -132,7 +134,7 @@ TARGETS = {
     "docstring not stripped": ("tests.test_g11_census.PythonStubs.test_docstring_then_stub_body", "Doc."),
     "decorator context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
     "Protocol/ABC context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
-    "exception context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
+    "exception context ignored": ("tests.test_g11_census.ReviewResidualControls.test_stub_exemptions_are_immediate_and_scope_safe", 'self.assertIn("exception_method", stub_names)'),
     "log_message context ignored": ("tests.test_g11_census.PythonStubs.test_request_handler_log_message_override_is_legitimate", "self.assertEqual(found,"),
     "log_message context too broad": ("tests.test_g11_census.PythonStubs.test_request_handler_log_message_override_is_legitimate", "self.assertEqual(found,"),
     "module docstring not recorded": ("tests.test_g11_census.ToolChecks.test_module_docstring_is_recorded", "self.assertEqual((report["),
@@ -156,16 +158,16 @@ TARGETS = {
     "__init__ counted as tool": ("tests.test_g11_census.ToolChecks.test_tests_and_init_files_are_not_tools", "self.assertEqual(sorted(report),"),
     "basename ambiguity ignored": ("tests.test_g11_census.ToolChecks.test_ambiguous_basename_needs_the_full_path", 'self.assertFalse(report["tools/run.py"]["documented"])'),
     "path reference not recognised": ("tests.test_g11_census.ToolChecks.test_full_path_counts_even_when_basename_is_ambiguous", 'self.assertTrue(report["tools/run.py"]["documented"])'),
-    "import not recognised": ("tests.test_g11_census.ToolChecks.test_documented_and_exercised_by_path_import_and_basename", 'self.assertTrue(report[path]["exercised"])'),
-    "from-import list not recognised": ("tests.test_g11_census.ToolChecks.test_documented_and_exercised_by_path_import_and_basename", 'self.assertTrue(report[path]["exercised"])'),
+    "import not recognised": ("tests.test_g11_census.ToolChecks.test_documented_and_exercised_by_path_import_and_basename", 'self.assertTrue(report[path]["referenced"])'),
+    "from-import list not recognised": ("tests.test_g11_census.ToolChecks.test_documented_and_exercised_by_path_import_and_basename", 'self.assertTrue(report[path]["referenced"])'),
     "basename not recognised": ("tests.test_g11_census.ToolChecks.test_documented_and_exercised_by_path_import_and_basename", 'self.assertTrue(report[path]["documented"])'),
-    "transitive exercise off": ("tests.test_g11_census.ToolChecks.test_exercised_through_an_exercised_tool", 'self.assertEqual(report["tools/helper.py"]["exercised_by"],'),
+    "transitive exercise off": ("tests.test_g11_census.ToolChecks.test_exercised_through_an_exercised_tool", 'self.assertEqual(report["tools/helper.py"]["referenced_by"],'),
     "site not production": ("tests.test_g11_census.Markers.test_site_marker_fails_and_vendor_marker_does_not", 'self.assertEqual(run({"docs/site/app.mjs":'),
     "research counted as production": ("tests.test_g11_census.PythonStubs.test_production_stub_fails_but_research_stub_does_not", 'self.assertEqual(research["status"],'),
     "vendor counted as site": ("tests.test_g11_census.Markers.test_site_marker_fails_and_vendor_marker_does_not", 'self.assertEqual(run({"docs/site/vendor/lib.js":'),
     "undecodable decoded leniently": ("tests.test_g11_census.FailClosed.test_undecodable_and_unparseable_production_files_fail", 'self.assertEqual(report["status"], "FAIL")'),
     "unparseable not a failure class": ("tests.test_g11_census.FailClosed.test_undecodable_and_unparseable_production_files_fail", 'self.assertEqual(report["status"], "FAIL")'),
-    "legitimate context still fails": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", 'self.assertEqual(report["failing"], [])'),
+    "legitimate context still fails": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", 'self.assertEqual(sorted(f["detail"] for f in report["failing"]), ["__init__: pass", "m: ellipsis"])'),
     "markers do not fail": ("tests.test_g11_census.Markers.test_production_marker_fails", 'self.assertEqual(report["status"], "FAIL")'),
     "noop steps do not fail": ("tests.test_g11_census.Workflows.test_production_noop_fails", 'self.assertEqual(run({".github/workflows/w.yml": "      - run: true'),
     "tool findings do not fail": ("tests.test_g11_census.ToolChecks.test_undocumented_and_unexercised_tools_fail", 'self.assertEqual(result["status"], "FAIL")'),
@@ -177,25 +179,25 @@ TARGETS = {
 NEW_MUTATIONS = [
     ("decoy decorator names accepted", "census", "        if _trusted_decorator(dec, imports, scope_shadowed):", "        if _decorator_name(dec) in LEGIT_DECORATORS:",
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
-    ("decoy abstract-base names accepted", "census", "            if _trusted_abstract_base(base, imports):", "            if _base_name(base) in LEGIT_BASES:",
+    ("decoy abstract-base names accepted", "census", '            if base_kind == "Protocol":', "            if _base_name(base) in LEGIT_BASES:",
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
-    ("decoy exception suffix accepted", "census", "            if _builtin_exception_base(base, imports):",
+    ("decoy exception suffix accepted", "census", "            if _builtin_exception_base(base, imports, scope_shadowed):",
      '            if _base_name(base).endswith(("Error", "Exception", "Warning")):',
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
     ("decoy request-handler suffix accepted", "census", '            if _http_request_handler_base(base, imports) and func.name == "log_message":',
      '            if _base_name(base).endswith("RequestHandler") and func.name == "log_message":',
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
     ("comment and string mentions count as exercise", "census",
-     "def python_tool_references(text, tools, unique):\n    references = set()",
-     "def python_tool_references(text, tools, unique):\n    references = {p for p in tools if p in text}",
+     'def python_tool_references(text, tools, unique, mode="script"):\n    references = set()',
+     'def python_tool_references(text, tools, unique, mode="script"):\n    references = {p for p in tools if p in text}',
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
-     'self.assertFalse(report["tools"]["tools/runner.py"]["exercised"])'),
+     'self.assertFalse(report["tools"]["tools/runner.py"]["referenced"])'),
     ("empty workflow run block not detected", "census", "        if not commands:", "        if False:",
      "tests.test_g11_census.AdversarialControls.test_empty_and_comment_only_run_blocks_fail", "self.assertEqual(found,"),
     ("YAML comments omitted", "census", '        elif path.endswith((".yml", ".yaml")):', "        elif False:",
      "tests.test_g11_census.AdversarialControls.test_yaml_comments_are_scanned_for_markers", "self.assertEqual(classes(report),"),
     ("shadowed builtin exception name accepted", "census",
-     'elif isinstance(node, ast.Name) and node.id in builtins.__dict__ and node.id not in imports["shadowed"]:',
+     'elif (isinstance(node, ast.Name) and node.id in builtins.__dict__\n          and node.id not in imports["shadowed"] and node.id not in scope_shadowed):',
      'elif isinstance(node, ast.Name) and node.id in builtins.__dict__:',
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs",
      'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
@@ -203,25 +205,25 @@ NEW_MUTATIONS = [
      "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
      "self.assertFalse(g11m.qualifies_kill(wrong_line, expected, 17))"),
     ("function-local decorator shadow accepted", "census",
-     "    if binding and binding in scope_shadowed:\n        return False",
-     "    if False:\n        return False",
+     "    if binding and binding in scope_shadowed:\n        return None",
+     "    if False:\n        return None",
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs",
      'self.assertEqual([(f["class"], f["detail"]) for f in local_report["findings"]'),
     ("python -c path mention counts as execution", "census",
      '                        if "-c" in tokens[1:]:\n                            continue',
      "                        if False:\n                            continue",
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
-     'self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])'),
+     'self.assertFalse(python_cmd["tools"]["tools/runner.py"]["referenced"])'),
     ("shell -c path mention counts as execution", "census",
      '                if "-c" in tokens[1:]:\n                    continue',
      "                if False:\n                    continue",
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
-     'self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["exercised"])'),
+     'self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["referenced"])'),
     ("template literal import text counts as static import", "census",
      '            if quote == "`":\n                if ch == "\\\\" and i + 1 < len(text):\n                    out.extend((" ", " "))\n                    i += 2\n                    continue\n                if ch == quote:\n                    quote = None\n                out.append("\\n" if ch == "\\n" else " ")\n                i += 1\n                continue',
      '            if quote == "`":\n                if ch == "\\\\" and i + 1 < len(text):\n                    out.extend((" ", " "))\n                    i += 2\n                    continue\n                if ch == quote:\n                    quote = None\n                out.append(ch)\n                i += 1\n                continue',
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
-     'self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["exercised"])'),
+     'self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["referenced"])'),
     ("parser drops method identity", "harness",
      '        result["test_id"] = header.group(2) + "." + header.group(1)',
      '        result["test_id"] = header.group(2)',
@@ -257,7 +259,132 @@ NEW_MUTATIONS = [
      'EXCEPTION = re.compile(r"(?m)^([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception|Warning|Interrupt|Exit|StopIteration)):")',
      "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
      "self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))"),
+    ("outer class exemption leaks", "census",
+      "    for cls in classes[-1:]:", "    for cls in reversed(classes):",
+      "tests.test_g11_census.ReviewResidualControls.test_stub_exemptions_are_immediate_and_scope_safe",
+      'self.assertIn("inner_abc", stub_names)'),
+    ("local base shadow accepted", "census",
+      "    if binding and binding in scope_shadowed:\n        return None",
+      "    if False:\n        return None",
+      "tests.test_g11_census.ReviewResidualControls.test_stub_exemptions_are_immediate_and_scope_safe",
+      'self.assertIn("shadowed_abc", stub_names)'),
+    ("uncalled helper counts as exercise", "census",
+      "        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):\n            # A definition is not a call: only decorators/defaults execute here.",
+      "        if False:\n            # A definition is not a call: only decorators/defaults execute here.",
+      "tests.test_g11_census.ReviewResidualControls.test_tool_reachability_and_heredoc_boundaries",
+      'self.assertFalse(uncalled["tools"]["tools/runner.py"]["referenced"])'),
+    ("heredoc body counted as command", "census",
+      "            if heredoc:", "            if False:",
+      "tests.test_g11_census.ReviewResidualControls.test_tool_reachability_and_heredoc_boundaries",
+      'self.assertFalse(heredoc["tools"]["tools/runner.py"]["referenced"])'),
+    ("mutation inventory shrink accepted", "harness",
+      "    if names != EXPECTED_MUTATION_NAMES:", "    if False:",
+      "tests.test_g11_census.ReviewResidualControls.test_mutation_inventory_is_sealed",
+      'self.assertRaisesRegex(g11m.HarnessError, "mutation inventory")'),
+    ("hostile Python environment survives", "harness",
+      "    for name in PYTHON_ENVIRONMENT_KEYS:", "    for name in ():",
+      "tests.test_g11_census.ReviewResidualControls.test_mutation_child_environment_is_sanitized",
+      'self.assertEqual(outcome.get("status"), "OK")'),
+    ("in-scope tracked symlink silently skipped", "census",
+      "        if path.endswith(SCANNED) and (kind != b\"blob\" or mode == b\"120000\"):",
+      "        if False:",
+      "tests.test_g11_census.ReviewResidualControls.test_in_scope_tracked_symlink_is_rejected",
+      'self.assertRaisesRegex(ValueError, "in-scope non-regular tracked path")'),
+
 ]
+EXPECTED_MUTATION_NAMES = (
+    "pass not detected",
+    "ellipsis not detected",
+    "NotImplementedError not detected",
+    "raise call not unwrapped",
+    "docstring-only not reported",
+    "docstring not stripped",
+    "decorator context ignored",
+    "Protocol/ABC context ignored",
+    "exception context ignored",
+    "log_message context ignored",
+    "log_message context too broad",
+    "module docstring not recorded",
+    "class bodies not visited",
+    "nested functions not visited",
+    "comments read as data",
+    "strings read as comments",
+    "marker words case-insensitive",
+    "marker word boundary dropped",
+    "quotes not tracked",
+    "string escapes ignored",
+    "hash comment needs no whitespace",
+    "block comments not entered",
+    "block comment end ignored",
+    "mentions dropped",
+    "noop detection off",
+    "block scalar not read",
+    "block scalar ends late",
+    "inline comment kept",
+    "tests counted as tools",
+    "__init__ counted as tool",
+    "basename ambiguity ignored",
+    "path reference not recognised",
+    "import not recognised",
+    "from-import list not recognised",
+    "basename not recognised",
+    "transitive exercise off",
+    "site not production",
+    "research counted as production",
+    "vendor counted as site",
+    "undecodable decoded leniently",
+    "unparseable not a failure class",
+    "legitimate context still fails",
+    "markers do not fail",
+    "noop steps do not fail",
+    "tool findings do not fail",
+    "exit status always zero",
+    "unreadable revision exits zero",
+    "decoy decorator names accepted",
+    "decoy abstract-base names accepted",
+    "decoy exception suffix accepted",
+    "decoy request-handler suffix accepted",
+    "comment and string mentions count as exercise",
+    "empty workflow run block not detected",
+    "YAML comments omitted",
+    "shadowed builtin exception name accepted",
+    "mutation attribution accepts wrong assertion",
+    "function-local decorator shadow accepted",
+    "python -c path mention counts as execution",
+    "shell -c path mention counts as execution",
+    "template literal import text counts as static import",
+    "parser drops method identity",
+    "wrong test id credited",
+    "nonfailure status credited",
+    "error outcome credited",
+    "skipped outcome credited",
+    "quoted workflow command boundary ignored",
+    "FAIL header mistaken for exception",
+    "outer class exemption leaks",
+    "local base shadow accepted",
+    "uncalled helper counts as exercise",
+    "heredoc body counted as command",
+    "mutation inventory shrink accepted",
+    "hostile Python environment survives",
+    "in-scope tracked symlink silently skipped",
+)
+
+
+def _build_cases():
+    cases = []
+    for name, old, new in MUTATIONS:
+        target_test, fragment = TARGETS[name]
+        cases.append((name, "census", old, new, target_test, fragment))
+    cases.extend(NEW_MUTATIONS)
+    return cases
+
+
+def _validate_mutation_inventory(cases):
+    names = tuple(case[0] for case in cases)
+    if names != EXPECTED_MUTATION_NAMES:
+        raise HarnessError("mutation inventory mismatch: expected %d fixed names, received %d" %
+                           (len(EXPECTED_MUTATION_NAMES), len(names)))
+
 
 
 def _assertion_line(test_source, test_id, fragment):
@@ -328,14 +455,27 @@ def qualifies_kill(outcome, expected_test, expected_line):
     )
 
 
-def _run(workdir, test_id=None):
+PYTHON_ENVIRONMENT_KEYS = ("PYTHONPATH", "PYTHONHOME", "PYTHONPYCACHEPREFIX",
+                           "PYTHONSTARTUP", "PYTHONUSERBASE")
+
+
+def _clean_child_env(source=None):
+    env = dict(os.environ if source is None else source)
+    for name in PYTHON_ENVIRONMENT_KEYS:
+        env.pop(name, None)
+    env["PYTHONNOUSERSITE"] = "1"
+    return env
+
+
+def _run(workdir, test_id=None, env=None):
     command = [sys.executable, "-B", "-S"]
     if sys.flags.optimize:
         command.append("-O")
     command.extend(["-m", "unittest"])
     command.append(test_id if test_id else "tests.test_g11_census")
     command.append("-v")
-    proc = subprocess.run(command, cwd=workdir, capture_output=True, text=True, timeout=300)
+    proc = subprocess.run(command, cwd=workdir, env=_clean_child_env(env),
+                          capture_output=True, text=True, timeout=300)
     return _parse_run(proc)
 
 
@@ -357,14 +497,8 @@ def run_selftest(root):
         test_source = fh.read()
     with open(harness_path, encoding="utf-8") as fh:
         original_harness = fh.read()
-    cases = []
-    for name, old, new in MUTATIONS:
-        target_test, fragment = TARGETS[name]
-        cases.append((name, "census", old, new, target_test, fragment))
-    cases.extend(NEW_MUTATIONS)
-    names = [case[0] for case in cases]
-    if len(names) != len(set(names)):
-        raise HarnessError("duplicate mutation names")
+    cases = _build_cases()
+    _validate_mutation_inventory(cases)
     for name, target, old, new, test_id, fragment in cases:
         source = original_tool if target == "census" else original_harness
         if source.count(old) != 1 or old == new:
@@ -377,26 +511,28 @@ def run_selftest(root):
         base = os.path.join(tmp, "baseline")
         _sandbox(original_tool, test_source, original_harness, base)
         baseline = _run(base)
-        for index, (name, target, old, new, test_id, fragment) in enumerate(cases):
-            work = os.path.join(tmp, "m%02d" % index)
-            tool_source = original_tool
-            harness_source = original_harness
-            if target == "census":
-                tool_source = original_tool.replace(old, new, 1)
-            else:
-                harness_source = original_harness.replace(old, new, 1)
-            _sandbox(tool_source, test_source, harness_source, work)
-            outcome = _run(work, test_id)
-            expected_line = _assertion_line(test_source, test_id, fragment)
-            results.append(dict(outcome, mutation=name, target=target, expected_test=test_id,
-                                expected_line=expected_line,
-                                killed=qualifies_kill(outcome, test_id, expected_line)))
-    baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 38
-                   and baseline.get("failures") == 0 and baseline.get("errors") == 0
-                   and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
+        baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 38
+                       and baseline.get("failures") == 0 and baseline.get("errors") == 0
+                       and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
+        if baseline_ok:
+            for index, (name, target, old, new, test_id, fragment) in enumerate(cases):
+                work = os.path.join(tmp, "m%02d" % index)
+                tool_source = original_tool
+                harness_source = original_harness
+                if target == "census":
+                    tool_source = original_tool.replace(old, new, 1)
+                else:
+                    harness_source = original_harness.replace(old, new, 1)
+                _sandbox(tool_source, test_source, original_harness, work)
+                outcome = _run(work, test_id)
+                expected_line = _assertion_line(test_source, test_id, fragment)
+                results.append(dict(outcome, mutation=name, target=target, expected_test=test_id,
+                                    expected_line=expected_line,
+                                    killed=qualifies_kill(outcome, test_id, expected_line)))
     killed = sum(r["killed"] for r in results)
-    return {"baseline": baseline, "mutations": results, "killed": killed, "total": len(results),
-            "status": "PASS" if baseline_ok and killed == len(results) else "FAIL"}
+    return {"baseline": baseline, "mutations": results, "killed": killed, "total": len(cases),
+            "executed": len(results),
+            "status": "PASS" if baseline_ok and len(results) == len(cases) and killed == len(results) else "FAIL"}
 
 
 def main(argv=None):
@@ -416,8 +552,9 @@ def main(argv=None):
             print("%-8s %s (target %s, exit %d, failures %d, errors %d, skips %d, line %s/%s)" %
                   ("KILLED" if r["killed"] else "SURVIVED", r["mutation"], r["target"], r["exit"],
                    r["failures"], r["errors"], r["skipped"], r["traceback_line"], r["expected_line"]))
-        print("G11_SELFTEST_%s: baseline %d tests, %d/%d mutations killed" %
-              (report["status"], report["baseline"].get("ran", -1), report["killed"], report["total"]))
+        print("G11_SELFTEST_%s: baseline %d tests, %d/%d mutations killed (%d executed)" %
+              (report["status"], report["baseline"].get("ran", -1), report["killed"],
+               report["total"], report["executed"]))
     return 0 if report["status"] == "PASS" else 1
 
 

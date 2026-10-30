@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`tools/cbz/g11_census.py` reads tracked blob bytes from one Git revision and reports review triggers for the owner-defined G11 tooling-hygiene criterion: Python stubs, code-comment markers, no-op workflow run steps, and tool documentation/exercise references. It is a triage instrument, not a proof, a Layer A certificate, or a federation-wide G11 admission.
+`tools/cbz/g11_census.py` reads tracked blob bytes from one Git revision and reports review triggers for the owner-defined G11 tooling-hygiene criterion: Python stubs, code-comment markers, no-op workflow run steps, and tool documentation/static-reference checks. It is a triage instrument, not a proof, a Layer A certificate, or a federation-wide G11 admission.
 
 ## Commands
 
@@ -16,14 +16,14 @@ python3 -B -S -O tools/cbz/g11_mutation_selftest.py
 python3 -B -S tools/cbz/g11_census.py --rev <commit> --json census.json
 ```
 
-The census exits 0 for no detected production finding, 1 for a detected production finding, and 2 when the requested Git revision cannot be read. A zero exit is only the result of this implementation over its stated scanned paths and rules.
+The census exits 0 for no detected production finding, 1 for a detected production finding, and 2 when the requested Git revision cannot be read. In-scope tracked symlinks and other non-regular scanned entries fail closed with exit 2. A zero exit is only the result of this implementation over its stated scanned paths and rules.
 
 ## Soundness boundaries
 
-- Stub exemptions are bound to imported `abc.abstractmethod`, `typing.overload`, `typing_extensions.overload`, `abc.ABC`, `typing.Protocol`, `typing_extensions.Protocol`, actual built-in exception classes, and the named `http.server` request-handler bases. Name suffixes, locally defined look-alikes, and enclosing function/class bindings that shadow an imported decorator do not grant exemptions.
-- Python test/tool exercise evidence uses parsed imports and recognized subprocess invocations, not arbitrary comments or string mentions. Python and shell `-c` payloads are deliberately not credited from path mentions alone. JavaScript test imports are read from static import declarations after comment and template-literal masking; dynamic imports are outside this recognizer. Workflow exercise evidence is read from run commands, not YAML comments.
+- Stub exemptions are bound to imported `abc.abstractmethod`, `typing.overload`, `typing_extensions.overload`, immediate `typing.Protocol`/`typing_extensions.Protocol` interface methods, and the named `http.server` request-handler `log_message` override. ABC inheritance alone and exception-class inheritance do not exempt a method. Nested outer-class context, name suffixes, local look-alikes, and lexical bindings shadowing an imported decorator/base do not grant exemptions.
+- Python reference evidence is limited to module-level statements and `unittest.TestCase` methods, following only locally reachable helper calls and literal branches; uncalled helpers, `if False`, runtime-dependent branches, and loop bodies are not credited. Workflow references ignore here-document bodies and are read from run commands, not YAML comments. Python/shell `-c` payloads and JavaScript template-literal text are not credited. These are static references only, never proof of runtime execution, and cannot satisfy a runtime-exercise requirement.
 - YAML comments are scanned for marker words. Empty and comment-only `run` blocks are reported as no-op steps.
-- The mutation self-test preserves the original mutation inventory and admits a kill only when the clean full 33-test baseline succeeds and the exact designated module/class/method reports `FAILED` with one AssertionError at its exact designated assertion line, zero errors, and zero skips. The harness propagates the parent's optimized mode to child tests and mutates its own parser and each attribution guard.
+- The mutation self-test preserves the original mutation inventory and admits a kill only when the clean full 38-test baseline succeeds and the exact designated module/class/method reports `FAILED` with one AssertionError at its exact designated assertion line, zero errors, and zero skips. The harness propagates the parent's optimized mode to child tests and mutates its own parser and each attribution guard.
 
 ## Limits
 

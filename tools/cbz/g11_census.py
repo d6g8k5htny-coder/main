@@ -5,17 +5,16 @@ Reads the exact blob bytes of one git revision and reports:
 
   stub      a Python function whose body, after any docstring, is only `pass`,
             `...` or `raise NotImplementedError`, or is the docstring alone.
-            A stub under @abstractmethod or @overload, or in a Protocol, ABC or
-            exception class, is reported with that context and does not fail.
+            @abstractmethod/@overload and immediate Protocol methods are
+            contextual; ABC or exception inheritance alone is not an exemption.
   marker    TODO, FIXME, XXX, TBD or STUB (upper case) or "not implemented" in
             a code comment. In Python the comment is found by tokenizing; in
             .mjs/.js/.cjs/.sh a comment is found by a quote-parity heuristic.
             The same words in string data are recorded as mentions only.
   noop      a workflow step whose `run:` does nothing: `true`, `:` or `exit 0`.
   tools     every executable source under tools/ (not tests, not __init__.py),
-            with the tracked Markdown files that name it and the evidence that
-            something exercises it: a test or workflow naming or importing it,
-            or an import from a tool that is itself exercised.
+            with tracked Markdown documentation and statically reachable test
+            or workflow references. References are not proof of runtime execution.
 
 Every path has an area. Only `tooling` (tools/, .github/) and `site`
 (docs/site/ outside vendor/) are production; findings elsewhere are reported
@@ -183,31 +182,39 @@ def _resolve_import(node, imports):
     return tuple(resolved.rsplit(".", 1))
 
 
-def _trusted_decorator(node, imports, scope_shadowed=()):
+def _resolve_scoped_import(node, imports, scope_shadowed=()):
     target = node
-    while isinstance(target, ast.Call):
-        target = target.func
+    while isinstance(target, (ast.Call, ast.Subscript)):
+        target = target.func if isinstance(target, ast.Call) else target.value
     dotted = _dotted_name(target)
     binding = dotted.split(".", 1)[0] if dotted else ""
     if binding and binding in scope_shadowed:
-        return False
-    resolved = _resolve_import(target, imports)
+        return None
+    return _resolve_import(target, imports)
+
+
+def _trusted_decorator(node, imports, scope_shadowed=()):
+    resolved = _resolve_scoped_import(node, imports, scope_shadowed)
     return resolved in {("abc", "abstractmethod"), ("typing", "overload"),
                         ("typing_extensions", "overload")}
 
 
-def _trusted_abstract_base(node, imports):
-    resolved = _resolve_import(node, imports)
-    return resolved in {("abc", "ABC"), ("typing", "Protocol"),
-                        ("typing_extensions", "Protocol")}
+def _trusted_abstract_base(node, imports, scope_shadowed=()):
+    resolved = _resolve_scoped_import(node, imports, scope_shadowed)
+    if resolved == ("abc", "ABC"):
+        return "ABC"
+    if resolved in {("typing", "Protocol"), ("typing_extensions", "Protocol")}:
+        return "Protocol"
+    return None
 
 
-def _builtin_exception_base(node, imports):
-    resolved = _resolve_import(node, imports)
+def _builtin_exception_base(node, imports, scope_shadowed=()):
+    resolved = _resolve_scoped_import(node, imports, scope_shadowed)
     name = None
     if resolved and resolved[0] == "builtins":
         name = resolved[1]
-    elif isinstance(node, ast.Name) and node.id in builtins.__dict__ and node.id not in imports["shadowed"]:
+    elif (isinstance(node, ast.Name) and node.id in builtins.__dict__
+          and node.id not in imports["shadowed"] and node.id not in scope_shadowed):
         name = node.id
     if not name:
         return False
@@ -215,8 +222,8 @@ def _builtin_exception_base(node, imports):
     return isinstance(candidate, type) and issubclass(candidate, BaseException)
 
 
-def _http_request_handler_base(node, imports):
-    return _resolve_import(node, imports) in {
+def _http_request_handler_base(node, imports, scope_shadowed=()):
+    return _resolve_scoped_import(node, imports, scope_shadowed) in {
         ("http.server", "BaseHTTPRequestHandler"),
         ("http.server", "SimpleHTTPRequestHandler"),
         ("http.server", "CGIHTTPRequestHandler"),
@@ -250,14 +257,18 @@ def _legit_context(func, classes, imports, scope_shadowed=()):
     for dec in func.decorator_list:
         if _trusted_decorator(dec, imports, scope_shadowed):
             return "@" + _decorator_name(dec)
-    for cls in reversed(classes):
+    # Only the immediate class can supply method context.
+    for cls in classes[-1:]:
         for base in cls.bases:
-            name = _base_name(base)
-            if _trusted_abstract_base(base, imports):
-                return "method of a %s class" % name
-            if _builtin_exception_base(base, imports):
-                return "method of an exception class"
-            if _http_request_handler_base(base, imports) and func.name == "log_message":
+            base_kind = _trusted_abstract_base(base, imports, scope_shadowed)
+            if base_kind == "Protocol":
+                return "method of a Protocol class"
+            if base_kind == "ABC":
+                continue
+            if _builtin_exception_base(base, imports, scope_shadowed):
+                continue
+            if (_http_request_handler_base(base, imports, scope_shadowed)
+                    and func.name == "log_message"):
                 return "log_message override that silences http.server request logging"
     return None
 
@@ -487,13 +498,119 @@ def _tool_for_token(token, tools):
     return None
 
 
-def python_tool_references(text, tools, unique):
+def _literal_bool(node):
+    try:
+        return bool(ast.literal_eval(node))
+    except (ValueError, TypeError):
+        return None
+
+
+def _is_main_guard(node):
+    return (isinstance(node, ast.Compare) and isinstance(node.left, ast.Name)
+            and node.left.id == "__name__" and len(node.ops) == 1
+            and isinstance(node.ops[0], ast.Eq) and len(node.comparators) == 1
+            and isinstance(node.comparators[0], ast.Constant)
+            and node.comparators[0].value == "__main__")
+
+
+def _reachable_python_nodes(tree, mode):
+    functions, methods = {}, {}
+
+    def register(body, owner=None):
+        for statement in body:
+            if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if owner is None:
+                    functions.setdefault(statement.name, statement)
+                else:
+                    methods.setdefault((owner, statement.name), statement)
+            elif isinstance(statement, ast.ClassDef):
+                register(statement.body, statement.name)
+
+    register(tree.body)
+    test_classes = set()
+    if mode == "tests":
+        for statement in tree.body:
+            if (isinstance(statement, ast.ClassDef)
+                    and any(_base_name(base) == "TestCase" for base in statement.bases)):
+                test_classes.add(statement.name)
+
+    nodes, queue, visited = [], [], set()
+
+    def visit(node, owner=None):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            # A definition is not a call: only decorators/defaults execute here.
+            for decorator in node.decorator_list:
+                visit(decorator, owner)
+            for default in node.args.defaults:
+                visit(default, owner)
+            for default in node.args.kw_defaults:
+                if default is not None:
+                    visit(default, owner)
+            if mode == "tests" and owner in test_classes and node.name.startswith("test_"):
+                queue.append((node, owner))
+            return
+        if isinstance(node, ast.ClassDef):
+            for decorator in node.decorator_list:
+                visit(decorator, owner)
+            for base in node.bases:
+                visit(base, owner)
+            for keyword in node.keywords:
+                visit(keyword.value, owner)
+            for statement in node.body:
+                visit(statement, node.name)
+            return
+        if isinstance(node, ast.If):
+            visit(node.test, owner)
+            if _is_main_guard(node.test):
+                branch = node.body if mode == "script" else node.orelse
+            else:
+                truth = _literal_bool(node.test)
+                if truth is None:
+                    return
+                branch = node.body if truth else node.orelse
+            for statement in branch:
+                visit(statement, owner)
+            return
+        if isinstance(node, (ast.For, ast.AsyncFor, ast.While)):
+            if isinstance(node, (ast.For, ast.AsyncFor)):
+                visit(node.iter, owner)
+            else:
+                visit(node.test, owner)
+            return
+
+        nodes.append(node)
+        if isinstance(node, ast.Call):
+            target = node.func
+            if isinstance(target, ast.Name) and target.id in functions:
+                queue.append((functions[target.id], None))
+            elif (isinstance(target, ast.Attribute) and isinstance(target.value, ast.Name)
+                  and target.value.id in {"self", "cls"} and owner):
+                method = methods.get((owner, target.attr))
+                if method:
+                    queue.append((method, owner))
+        for child in ast.iter_child_nodes(node):
+            visit(child, owner)
+
+    for statement in tree.body:
+        visit(statement)
+    while queue:
+        function, owner = queue.pop()
+        identity = (id(function), owner)
+        if identity in visited:
+            continue
+        visited.add(identity)
+        for statement in function.body:
+            visit(statement, owner)
+    return nodes
+
+
+def python_tool_references(text, tools, unique, mode="script"):
     references = set()
     try:
         tree = ast.parse(text)
     except (SyntaxError, ValueError):
         return references
-    for node in ast.walk(tree):
+    for node in _reachable_python_nodes(tree, mode):
         if isinstance(node, ast.Import):
             for alias in node.names:
                 path = _tool_for_module(alias.name, tools, unique)
@@ -526,7 +643,6 @@ def python_tool_references(text, tools, unique):
                     else:
                         tokens = []
                     if tokens and tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                        # Inline -c payloads are code strings, not proof that a path was executed.
                         if "-c" in tokens[1:]:
                             continue
                         for token in tokens[1:]:
@@ -624,36 +740,52 @@ def js_tool_references(text, source_path, tools):
     return references
 
 
+def _heredoc_opener(command):
+    match = re.search(r"<<(?P<strip>-?)(?:'(?P<single>[^']+)'|\"(?P<double>[^\"]+)\"|(?P<bare>[A-Za-z_][A-Za-z0-9_]*))",
+                      command)
+    if not match:
+        return None
+    delimiter = match.group("single") or match.group("double") or match.group("bare")
+    return delimiter, match.group("strip") == "-"
+
+
 def workflow_tool_references(text, tools):
     references = set()
     for _number, commands in _workflow_commands(text):
+        heredoc = None
         for command in commands:
+            if heredoc:
+                delimiter, strip_tabs = heredoc
+                candidate = command.lstrip("\t") if strip_tabs else command
+                if candidate.strip() == delimiter:
+                    heredoc = None
+                continue
             try:
                 tokens = shlex.split(command)
             except ValueError:
-                continue
-            if not tokens:
-                continue
-            if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
-                # Do not treat a path mentioned inside an inline -c program as an invocation.
-                if "-c" in tokens[1:]:
-                    continue
-                for index, token in enumerate(tokens[1:], 1):
-                    if token == "-m" and index + 1 < len(tokens):
-                        module_path = tokens[index + 1].replace(".", "/") + ".py"
-                        if module_path in tools:
-                            references.add(module_path)
-                        break
-                    if token.startswith("-"):
-                        continue
-                    path = _tool_for_token(token, tools)
+                tokens = []
+            if tokens:
+                if tokens[0] in {"python", "python3", "python3.11", "bash", "sh"}:
+                    if "-c" not in tokens[1:]:
+                        for index, token in enumerate(tokens[1:], 1):
+                            if token == "-m" and index + 1 < len(tokens):
+                                module_path = tokens[index + 1].replace(".", "/") + ".py"
+                                if module_path in tools:
+                                    references.add(module_path)
+                                break
+                            if token.startswith("-"):
+                                continue
+                            path = _tool_for_token(token, tools)
+                            if path:
+                                references.add(path)
+                            break
+                else:
+                    path = _tool_for_token(tokens[0], tools)
                     if path:
                         references.add(path)
-                    break
-            else:
-                path = _tool_for_token(tokens[0], tools)
-                if path:
-                    references.add(path)
+            opener = _heredoc_opener(command)
+            if opener:
+                heredoc = opener
     return references
 
 
@@ -674,10 +806,10 @@ def tool_report(files, texts, all_paths):
                   (p.startswith(".github/workflows/") and p.endswith((".yml", ".yaml")))]
     direct, tool_dependencies = {p: [] for p in tools}, {}
     for path in tools:
-        tool_dependencies[path] = python_tool_references(texts.get(path, ""), tools, unique_modules)
+        tool_dependencies[path] = python_tool_references(texts.get(path, ""), tools, unique_modules, mode="script")
     for exerciser in exercisers:
         if exerciser.endswith(".py"):
-            refs = python_tool_references(texts[exerciser], tools, unique_modules)
+            refs = python_tool_references(texts[exerciser], tools, unique_modules, mode="tests")
         elif exerciser.endswith((".mjs", ".js", ".cjs")):
             refs = js_tool_references(texts[exerciser], exerciser, tools)
         else:
@@ -695,18 +827,18 @@ def tool_report(files, texts, all_paths):
             except (SyntaxError, ValueError):
                 docstring = False
         report[path] = {"documented_by": documented[:5], "documented": bool(documented),
-                        "exercised_by": direct_paths[:5], "exercised": bool(direct_paths),
+                        "referenced_by": direct_paths[:5], "referenced": bool(direct_paths),
                         "module_docstring": docstring}
     changed = True
     while changed:
         changed = False
         for path in tools:
-            if report[path]["exercised"] or path not in texts:
+            if report[path]["referenced"] or path not in texts:
                 continue
             for other in tools:
-                if other != path and report[other]["exercised"] and other in texts and path in tool_dependencies.get(other, set()):
-                    report[path]["exercised"] = True
-                    report[path]["exercised_by"] = ["via " + other]
+                if other != path and report[other]["referenced"] and other in texts and path in tool_dependencies.get(other, set()):
+                    report[path]["referenced"] = True
+                    report[path]["referenced_by"] = ["via " + other]
                     changed = True
                     break
     return report
@@ -753,7 +885,7 @@ def census(files, all_paths=None):
     tools = tool_report(files, texts, sorted(all_paths if all_paths is not None else files))
     failing = [f for f in findings if f["area"] in PRODUCTION
                and f["class"] in {"stub", "marker", "noop", "undecodable", "unparseable"}]
-    failing_tools = sorted(p for p, t in tools.items() if not (t["documented"] and t["exercised"]))
+    failing_tools = sorted(p for p, t in tools.items() if not (t["documented"] and t["referenced"]))
     return {"findings": findings, "tools": tools, "failing": failing, "failing_tools": failing_tools,
             "status": "FAIL" if failing or failing_tools else "PASS"}
 
@@ -768,6 +900,9 @@ def read_tree(root, rev):
         meta, path = item.split(b"\t", 1)
         mode, kind, sha = meta.split()
         path = path.decode("utf-8", "surrogateescape")
+        if path.endswith(SCANNED) and (kind != b"blob" or mode == b"120000"):
+            raise ValueError("in-scope non-regular tracked path %s (mode %s, type %s)" %
+                             (path, mode.decode(), kind.decode()))
         if kind == b"blob" and mode != b"120000":
             if path.endswith(SCANNED):
                 entries.append((path, sha.decode()))
