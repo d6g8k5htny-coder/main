@@ -131,6 +131,56 @@ class InventoryTests(unittest.TestCase):
         (repo/'.gitattributes').write_text('tracked filter=audit\n');(repo/'tracked').write_text('changed\n')
         d=self.census();self.assertTrue(d['complete'],d['errors']);self.assertFalse(marker.exists())
 
+    def test_external_linked_worktree_submodule_filters_are_suppressed_before_status(self):
+        nested_source=self.repo('nested-source')
+        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\\n')
+        self.git(nested_source,'add','.gitattributes')
+        self.git(nested_source,'commit','-qm','configure nested filter')
+
+        source=self.repo('source')
+        self.git(source,'-c','protocol.file.allow=always','submodule','add','-q',
+                 '--name','nested',str(nested_source),'nested')
+        self.git(source,'commit','-qm','add nested submodule')
+        self.git(source,'submodule','deinit','-f','nested')
+
+        parent=self.repo('parent')
+        self.git(parent,'-c','protocol.file.allow=always','submodule','add','-q',
+                 '--name','module',str(source),'module')
+        self.git(parent,'commit','-qm','add external-worktree submodule')
+        self.git(parent,'submodule','deinit','-f','module')
+
+        linked=Path(self.temp.name)/'external-linked'
+        self.git(parent,'worktree','add','-qb','external-linked',str(linked))
+        self.git(linked,'-c','protocol.file.allow=always','submodule',
+                 'update','--init','--recursive')
+        child=linked/'module'
+        nested=child/'nested'
+        markers=[Path(self.temp.name)/'SUBMODULE-FILTER-RAN',
+                 Path(self.temp.name)/'NESTED-SUBMODULE-FILTER-RAN']
+        for path,name,marker in [(child,'audit',markers[0]),
+                                 (nested,'nested-audit',markers[1])]:
+            script=Path(self.temp.name)/(name+'-filter.py')
+            script.write_text(
+                'import pathlib,sys\\n'
+                'pathlib.Path('+repr(str(marker))+').write_text("ran")\\n'
+                'sys.stdout.buffer.write(sys.stdin.buffer.read())\\n')
+            command=shlex.quote(sys.executable)+' '+shlex.quote(str(script))
+            self.git(path,'config','filter.'+name+'.clean',command)
+            self.git(path,'config','filter.'+name+'.required','true')
+            (path/'tracked').write_text('modified\\n')
+
+        self.git(linked,'status','--porcelain=v1','-z','--ignore-submodules=none')
+        self.assertTrue(all(marker.exists() for marker in markers),
+                        'Native recursive positive control did not run both filters')
+        for marker in markers:
+            marker.unlink()
+
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        work=next(w for w in d['worktrees'] if w['path']==str(linked.resolve()))
+        self.assertTrue(work['submodules'][0]['initialized'])
+        self.assertFalse(any(marker.exists() for marker in markers),
+                         'Collector executed an external submodule clean filter')
+
     def test_output_limit_and_total_deadline_are_explicit(self):
         self.repo('repo');fake=Path(self.temp.name)/'git-noisy'
         fake.write_text('#!/usr/bin/env python3\nimport sys\nsys.stdout.write("x"*100000)\n');fake.chmod(0o700)

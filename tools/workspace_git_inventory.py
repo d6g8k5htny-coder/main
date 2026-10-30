@@ -404,6 +404,68 @@ def _submodules(git, path, settings, bare, head):
     return sorted(modules.values(), key=lambda row: os.fsencode(row['path']))
 
 
+def _preflight_submodule_settings(reader, candidates, settings):
+    """Collect initialized submodule config before recursive worktree status."""
+    all_settings = list(dict.fromkeys(settings))
+    submodules_by_path = {}
+    pending = list(sorted(candidates))
+    visited = set()
+    while pending:
+        path = pending.pop()
+        try:
+            path = str(Path(path).resolve())
+        except (OSError, RuntimeError) as exc:
+            reader.error('filesystem', path, 'submodule configuration', message=str(exc))
+            reader.configuration_complete = False
+            continue
+        if path in visited:
+            continue
+        visited.add(path)
+        if reader.expired():
+            reader.error('deadline', path, 'submodule configuration')
+            reader.configuration_complete = False
+            break
+        if not Path(path).is_dir():
+            continue
+        bare_result = reader.run(path, 'rev-parse', '--is-bare-repository',
+                                 settings=all_settings)
+        head_result = reader.run(path, 'rev-parse', '--verify', '--quiet', 'HEAD',
+                                 allowed=(0, 1), settings=all_settings)
+        if bare_result is None or head_result is None:
+            reader.configuration_complete = False
+            continue
+        bare = _line(bare_result[1]) == 'true'
+        head = _line(head_result[1]) if head_result[0] == 0 else None
+        errors_before = len(reader.errors)
+        modules = _submodules(reader, Path(path), all_settings, bare, head)
+        submodules_by_path[path] = modules
+        if len(reader.errors) != errors_before:
+            reader.configuration_complete = False
+        for module in modules:
+            if not module['initialized']:
+                continue
+            relative = Path(module['path'])
+            if relative.is_absolute() or '..' in relative.parts or relative == Path('.'):
+                reader.error('unsafe_submodule_path', path, 'submodule configuration',
+                             module_path=module['path'])
+                reader.configuration_complete = False
+                continue
+            child_path = Path(path) / relative
+            try:
+                child = str(child_path.resolve())
+            except (OSError, RuntimeError) as exc:
+                reader.error('filesystem', child_path, 'submodule configuration',
+                             message=str(exc))
+                reader.configuration_complete = False
+                continue
+            if child in visited:
+                continue
+            child_settings, _ = _settings_and_remotes(reader, child)
+            all_settings = list(dict.fromkeys([*all_settings, *child_settings]))
+            pending.append(child)
+    return all_settings, submodules_by_path
+
+
 def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_command_bytes=32 * 1024 * 1024):
     reader = Git(git, command_timeout, total_timeout, max_command_bytes)
     try:
@@ -477,6 +539,8 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                                       for setting in settings))
     all_settings += list(dict.fromkeys(setting for settings in per_worktree_settings.values()
                                        for setting in settings))
+    all_settings, pre_status_submodules = _preflight_submodule_settings(
+        reader, candidates, all_settings)
     for path, common in sorted(candidates.items()):
         if reader.expired():
             reader.error('deadline', path, 'worktree census')
@@ -505,7 +569,9 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
             reader.error('unresolved_head', path, 'HEAD identity')
         if work['bare'] is False:
             work['status'] = _status(reader, Path(path), settings)
-        work['submodules'] = _submodules(reader, Path(path), settings, work['bare'], work['head'])
+        work['submodules'] = pre_status_submodules.get(path)
+        if work['submodules'] is None:
+            work['submodules'] = _submodules(reader, Path(path), settings, work['bare'], work['head'])
         final_head = reader.run(path, 'rev-parse', '--verify', '--quiet', 'HEAD', allowed=(0, 1), settings=settings)
         if head is not None and final_head is not None and head != final_head:
             reader.error('changed_during_observation', path, 'HEAD identity')
