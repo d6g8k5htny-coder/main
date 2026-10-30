@@ -7,14 +7,28 @@ at least one test and one of the mutant's designated tests (DESIGNATED, governan
 failed by assertion. An error-only run is invalid, and a run in which only other tests
 fail is a survivor, never a kill. Each kill is printed with its failure and error counts
 and the designated test that failed. Every mutant must have designated tests, and each
-designated test must exist in the suite. Two controls must come out invalid, never killed: a syntax-broken copy,
+designated test must exist in the suite.
+
+The suite's population is frozen: EXPECTED_TESTS lists every test method and TEST_SHA256
+is the test file's exact SHA-256. Before anything runs, the live file must match both,
+and the unmutated baseline must run exactly len(EXPECTED_TESTS) tests. Two controls
+prove that an added test method and a deleted (undesignated) test method are refused.
+With --failmap FILE, the evidence fail-map must record the same population and mutant
+set, and list every designated test among its mutant's assertion failures. With
+--write-failmap FILE, this run records which tests fail and error under each mutant,
+writes that fail-map with the frozen population, and checks it the same way. A
+corrupted copy of it, with one designated failure removed, must be refused. Two controls must come out invalid, never killed: a syntax-broken copy,
 and an error-only copy whose crawl() raises. The unmutated suite
 must pass both before and after the mutants. If the environment changes mid-run, so
 that errors could pass for kills, the run is invalid (exit 2). Exit 0 only if every
 mutant is killed.
-Run from the repository root: python3 -B -S tools/cbz/reference_crawler_mutation_check.py
+Run from the repository root:
+  python3 -B -S tools/cbz/reference_crawler_mutation_check.py [--failmap FILE] [--write-failmap FILE]
 """
 
+import argparse
+import hashlib
+import json
 import re
 import shutil
 import subprocess
@@ -29,6 +43,7 @@ RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
 FAILED = re.compile(r"^FAILED \(([^)]*)\)$", re.M)
 FAILURES = re.compile(r"\bfailures=(\d+)")
 FAIL_NAME = re.compile(r"^FAIL: (\w+) ", re.M)
+ERROR_NAME = re.compile(r"^ERROR: (\w+) ", re.M)
 TEST_NAME = re.compile(r"^    def (test_\w+)\(", re.M)
 CRAWL_START = "    findings = []\n    overrides = overrides or {}\n"
 MUTANTS = [
@@ -162,6 +177,15 @@ MUTANTS = [
     ("unknown candidate accepted",
      '            raise CrawlError(f"--at names {name!r}, which is not a crawled repository (use --workspace-rev for the workspace)")',
      "            pass"),
+    ("bad pins schema accepted",
+     'if not pins or pins.get("schema") != "ulw.pins.v1" or not isinstance(pins.get("repos"), list):',
+     'if not pins or not isinstance(pins.get("repos"), list):'),
+    ("lean namespace prefix dropped", '        prefix = ".".join(n for kw, n in scopes if kw == "namespace" and n)',
+     '        prefix = ""'),
+    ("changed entries dropped from diffs", "    changed = sorted(k for k in set(old) & set(new) if old[k] != new[k])",
+     "    changed = []"),
+    ("unregistered pinned repositories not crawled", "        if node.available:\n            references.extend(collect(",
+     "        if node.available and node.registered:\n            references.extend(collect("),
     ("repository name case-sensitive",
      "target = nodes.get(name) or next((n for k, n in nodes.items() if k.lower() == name.lower()), None)",
      "target = nodes.get(name)"),
@@ -173,6 +197,7 @@ DESIGNATED = {
     "abbreviated commits rejected": ("test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",),
     "alias conflict ignored": ("test_record_aliases_commits_and_refs",),
     "backslash allowed in url paths": ("test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",),
+    "bad pins schema accepted": ("test_unreadable_workspace_pins_exit_2",),
     "balanced parentheses dropped": ("test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",),
     "binary count hidden in markdown": ("test_binary_files_are_counted_and_oversize_files_reported",),
     "binary files not counted": ("test_binary_files_are_counted_and_oversize_files_reported",),
@@ -185,6 +210,7 @@ DESIGNATED = {
     "candidate ignored": ("test_candidate_head_is_crawled_in_place_of_the_pin",),
     "candidate missing silent": ("test_candidate_revision_must_exist_and_name_a_crawled_repository",),
     "canonical input silent": ("test_incomplete_topology_inputs_block",),
+    "changed entries dropped from diffs": ("test_json_shape_and_diff",),
     "comment stripping ignores strings": ("test_json_with_comments_and_trailing_commas_is_read",),
     "excerpt checked as whole file": ("test_excerpt_references_are_checked_against_their_lines",),
     "excerpt identity unchecked": ("test_excerpt_references_are_checked_against_their_lines",),
@@ -206,6 +232,7 @@ DESIGNATED = {
     "json shape shallow": ("test_clean_federation_reports_interface_drift_without_blocking",),
     "json shape truncated": ("test_json_shape_walks_every_array_element",),
     "json strings not decoded": ("test_json_urls_are_matched_in_decoded_strings",),
+    "lean namespace prefix dropped": ("test_lean_statements_with_namespace_multiline_and_attributes",),
     "lean statements blind": ("test_clean_federation_reports_interface_drift_without_blocking",),
     "line comments kept": ("test_nested_block_and_line_comments_are_removed_but_strings_kept",),
     "live drift misclassified": ("test_live_reference_drift_blocks",),
@@ -256,10 +283,63 @@ DESIGNATED = {
     "unreachable halts the crawl": ("test_unreachable_pinned_repository_blocks_but_does_not_halt", "test_stale_registry_entry_is_reported_without_halting",),
     "unreachable target not blocking": ("test_stale_registry_entry_is_reported_without_halting",),
     "unread not blocking": ("test_binary_files_are_counted_and_oversize_files_reported",),
+    "unregistered pinned repositories not crawled": ("test_added_repository_is_crawled",),
     "unterminated comment accepted": ("test_unterminated_comment_is_unparseable_and_its_tail_scanned",),
     "url path not decoded": ("test_percent_encoded_url_paths_are_decoded",),
     "workspace registry shape silent": ("test_incomplete_topology_inputs_block",),
 }
+
+
+# The test population this inventory was designed and run against. Any change to the suite
+# (a test added, removed or renamed, or any edit to the file) must update these deliberately,
+# together with DESIGNATED and the evidence fail-map.
+TEST_SHA256 = "94dbcab58c3160f709e7d8a0e820811b136609984cef84e68565e90a2d023668"
+EXPECTED_TESTS = (
+    "test_added_repository_is_crawled",
+    "test_binary_files_are_counted_and_oversize_files_reported",
+    "test_byte_identical_claims_are_checked_at_their_commit",
+    "test_byte_identical_values_are_validated",
+    "test_candidate_head_is_crawled_in_place_of_the_pin",
+    "test_candidate_revision_must_exist_and_name_a_crawled_repository",
+    "test_clean_federation_reports_interface_drift_without_blocking",
+    "test_every_commit_key_pins_the_reference",
+    "test_every_recorded_identity_key_is_checked",
+    "test_every_text_file_is_read_whatever_its_extension",
+    "test_excerpt_references_are_checked_against_their_lines",
+    "test_file_identity_on_a_directory_is_a_mismatch",
+    "test_fixture_files_are_skipped_and_counted_unless_included",
+    "test_fixture_paths_are_directory_segments_only",
+    "test_identity_failures_block",
+    "test_incomplete_topology_inputs_block",
+    "test_json_shape_and_diff",
+    "test_json_shape_walks_every_array_element",
+    "test_json_urls_are_matched_in_decoded_strings",
+    "test_json_with_comments_and_trailing_commas_is_read",
+    "test_lean_statements_with_namespace_multiline_and_attributes",
+    "test_live_reference_drift_blocks",
+    "test_missing_path_commit_and_repository_block",
+    "test_missing_pinned_commit_blocks",
+    "test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references",
+    "test_nested_block_and_line_comments_are_removed_but_strings_kept",
+    "test_owner_and_repository_names_match_case_insensitively",
+    "test_percent_encoded_url_paths_are_decoded",
+    "test_pin_skew_reported_and_optionally_blocking",
+    "test_python_signatures",
+    "test_record_aliases_commits_and_refs",
+    "test_records_with_an_identity_are_references_and_malformed_values_are_reported",
+    "test_registered_but_unpinned_repository_is_crawled_and_reported",
+    "test_registered_unpinned_repository_resolves_through_the_cache",
+    "test_rename_adapts_traversal_and_reports_stale_names",
+    "test_stale_registry_entry_is_reported_without_halting",
+    "test_strict_blocks_on_interface_drift",
+    "test_template_files_are_synthetic",
+    "test_text_references_filter_owner_and_strip_punctuation",
+    "test_unparseable_json_blocks_as_an_incomplete_census",
+    "test_unreachable_pinned_repository_blocks_but_does_not_halt",
+    "test_unreadable_workspace_pins_exit_2",
+    "test_unterminated_comment_is_unparseable_and_its_tail_scanned",
+    "test_url_paths_keep_balanced_parentheses_and_stop_at_backslashes",
+)
 
 
 def run_suite(tool_dir):
@@ -270,17 +350,18 @@ def run_suite(tool_dir):
     proc = subprocess.run([sys.executable, "-B", "-S", "-m", "unittest", f"tests.{TEST.stem}"],
                           cwd=work, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     ran = RAN.search(proc.stdout)
+    errored = set(ERROR_NAME.findall(proc.stdout))
     if not ran or int(ran.group(1)) == 0:
-        return "invalid", "", set()
+        return "invalid", "", set(), errored
     if proc.returncode == 0 and "\nOK" in proc.stdout:
-        return "pass", "", set()
+        return "pass", f"ran={ran.group(1)}", set(), errored
     failed = FAILED.search(proc.stdout)
     if not failed:
-        return "invalid", "", set()
+        return "invalid", "", set(), errored
     failures = FAILURES.search(failed.group(1))
     if not failures or int(failures.group(1)) == 0:
-        return "invalid", failed.group(1), set()  # errors alone are not evidence that a check caught the mutant
-    return "fail", failed.group(1), set(FAIL_NAME.findall(proc.stdout))
+        return "invalid", failed.group(1), set(), errored  # errors alone are not evidence that a check caught the mutant
+    return "fail", failed.group(1), set(FAIL_NAME.findall(proc.stdout)), errored
 
 
 def with_tool(source):
@@ -290,14 +371,65 @@ def with_tool(source):
     return tmp
 
 
-def main():
+def population_problems(test_text):
+    """Every way the live test file differs from the frozen population; empty when it matches."""
+    names = TEST_NAME.findall(test_text)
+    problems = [f"duplicate test name {n}" for n in sorted({n for n in names if names.count(n) > 1})]
+    problems += [f"added test {n}" for n in sorted(set(names) - set(EXPECTED_TESTS))]
+    problems += [f"removed test {n}" for n in sorted(set(EXPECTED_TESTS) - set(names))]
+    if hashlib.sha256(test_text.encode("utf-8")).hexdigest() != TEST_SHA256:
+        problems.append("test file bytes differ from TEST_SHA256")
+    return problems
+
+
+def failmap_problems(doc):
+    """Every way an evidence fail-map disagrees with the frozen population and DESIGNATED."""
+    population = doc.get("population") or {}
+    problems = []
+    if population.get("test_file_sha256") != TEST_SHA256 or tuple(population.get("tests") or ()) != EXPECTED_TESTS:
+        problems.append("the fail-map records a different test population")
+    mutants = doc.get("mutants") or {}
+    if sorted(mutants) != sorted(DESIGNATED):
+        problems.append("the fail-map covers a different mutant set")
+    for name, tests in DESIGNATED.items():
+        if name in mutants and not set(tests) <= set(mutants[name].get("fail") or ()):
+            problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
+    return problems
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Adverse mutation check for tools/cbz/reference_crawler.py")
+    parser.add_argument("--failmap", type=Path, help="evidence fail-map to check against the frozen population")
+    parser.add_argument("--write-failmap", type=Path, help="write this run's fail-map (population and per-mutant failures)")
+    args = parser.parse_args(argv)
     source = TOOL.read_text()
+    test_text = TEST.read_text()
+    problems = population_problems(test_text)
+    if problems:
+        print(f"POPULATION FAIL: {'; '.join(problems)}")
+        return 2
+    controls = {"an added test method": (test_text + "\n    def test_population_control_extra(self):\n        pass\n",
+                                         "added test test_population_control_extra"),
+                "a deleted undesignated test method": (
+                    test_text.replace("    def test_added_repository_is_crawled(", "    def _deleted_control(", 1),
+                    "removed test test_added_repository_is_crawled")}
+    for label, (text, expected) in controls.items():
+        if expected not in population_problems(text):
+            print(f"CONTROL FAIL: {label} was not refused by the population check")
+            return 2
+    if args.failmap is not None:
+        problems = failmap_problems(json.loads(args.failmap.read_text()))
+        if problems:
+            print(f"FAILMAP FAIL: {'; '.join(problems)}")
+            return 2
 
     def baseline(when):
         with with_tool(source) as tmp:
-            if run_suite(tmp)[0] != "pass":
-                print(f"BASELINE FAIL ({when}): the unmutated suite does not pass, so no kill can be trusted")
-                return False
+            outcome, detail, _, _ = run_suite(tmp)
+        if outcome != "pass" or detail != f"ran={len(EXPECTED_TESTS)}":
+            print(f"BASELINE FAIL ({when}): the unmutated suite did not pass all {len(EXPECTED_TESTS)} frozen tests "
+                  f"({outcome}: {detail}), so no kill can be trusted")
+            return False
         return True
 
     if not baseline("before"):
@@ -311,7 +443,7 @@ def main():
         return 2
     with with_tool(source.replace(CRAWL_START, CRAWL_START.replace("    findings = []\n",
                                   "    raise RuntimeError(\"error-only control\")\n    findings = []\n"))) as tmp:
-        outcome, detail, _ = run_suite(tmp)
+        outcome, detail, _, _ = run_suite(tmp)
         if outcome != "invalid" or "errors=" not in detail:
             print(f"CONTROL FAIL: an error-only copy was not reported invalid ({outcome}: {detail})")
             return 2
@@ -323,13 +455,14 @@ def main():
               f"(without: {sorted(set(names) - set(DESIGNATED))}, extra: {sorted(set(DESIGNATED) - set(names))}, "
               f"unknown tests: {unknown})")
         return 2
-    killed = 0
+    killed, observed = 0, {}
     for name, old, new in MUTANTS:
         if source.count(old) != 1:
             print(f"NOT APPLICABLE {name} ({source.count(old)} matches)")
             continue
         with with_tool(source.replace(old, new)) as tmp:
-            outcome, detail, failed = run_suite(tmp)
+            outcome, detail, failed, errored = run_suite(tmp)
+        observed[name] = {"fail": sorted(failed), "error": sorted(errored)}
         hit = sorted(failed & set(DESIGNATED[name]))
         if outcome == "fail" and hit:
             killed += 1
@@ -340,6 +473,18 @@ def main():
             print(f"{'INVALID ' if outcome == 'invalid' else 'SURVIVED'} {name}" + (f" ({detail})" if detail else ""))
     if not baseline("after"):
         return 2
+    if args.write_failmap is not None:
+        doc = {"population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)}, "mutants": observed}
+        problems = failmap_problems(doc)
+        name = next(iter(DESIGNATED))
+        corrupt = json.loads(json.dumps(doc))
+        if name in corrupt["mutants"]:
+            corrupt["mutants"][name]["fail"] = [t for t in corrupt["mutants"][name]["fail"] if t not in DESIGNATED[name]]
+        if not failmap_problems(corrupt):
+            print("CONTROL FAIL: a fail-map missing a designated failure was not refused")
+            return 2
+        args.write_failmap.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
+        print(f"FAILMAP {'OK' if not problems else 'FAIL: ' + '; '.join(problems)}: {args.write_failmap.name}")
     print(f"{killed}/{len(MUTANTS)} mutants killed")
     return 0 if killed == len(MUTANTS) else 1
 

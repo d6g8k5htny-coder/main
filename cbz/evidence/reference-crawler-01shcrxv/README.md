@@ -227,6 +227,7 @@ reproducible evidence.
 | F10: the mutation result was unqualified | Hermetic fixtures, a baseline before and after the mutants, and the kept 74-of-75 run (all at `1ead96bc`), plus F11 | below |
 | F11: a run with errors only could count as a kill, and any test's failure counted | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each mutant is also bound to its designated tests (B-011), and each kill line names the designated test that failed. | the harness's controls |
 | F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
+| DCL at `c7e89aaa` ([#721/6529091412](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6529091412)): the suite's population was not frozen, so an added test, or a deleted undesignated one, went unnoticed | The harness freezes `EXPECTED_TESTS` (all 44 method names) and `TEST_SHA256` (the test file's exact bytes). Both must match before anything runs, and the baseline must run exactly 44 tests. With `--write-failmap` the harness writes the fail-map from the same run, records the population in it and checks it; `--failmap` checks a committed map. Four new mutants designate the four tests no mutant designated, so every test is designated. | controls for an added method, a deleted undesignated method and a corrupted fail-map; 93 mutants |
 
 **A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
 reference gave two false `LIVE_DRIFT` findings, on trial `needs_attention/SNAPSHOT.json`. Its cards
@@ -276,24 +277,37 @@ python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 89 mutants, and
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 93 mutants, and
 each must apply exactly once. Each mutant is bound to its designated tests: the tests written
 for its behaviour (`DESIGNATED`). A mutant counts as killed only if one of its designated tests
 fails by assertion, as #695's statute B-011 requires. A run with errors only is invalid. A run
 in which only other tests fail is a survivor. Every mutant must have designated tests, and every
-designated test must exist in the suite, or the harness exits 2. The designations were checked
-against a full record of which tests fail by assertion under each mutant. There are four
-controls:
+designated test must exist in the suite, or the harness exits 2. Every one of the 44 tests is
+designated by at least one mutant.
+
+**The suite's population is frozen** in the harness, as `EXPECTED_TESTS` (the 44 method names) and
+`TEST_SHA256`. The live test file must match both before anything runs, and the baseline must run
+exactly 44 tests. The run that produced `mutation.txt` also wrote `mutant-failmap.json`
+(`--write-failmap`): the population, plus every failing and erroring test under each mutant. It
+then checked that map against the population and `DESIGNATED`. There are four suite controls:
 - the unmutated copy must pass before the mutants;
 - it must pass again after them;
 - a syntax-broken copy must come out invalid;
 - an error-only copy, whose `crawl()` raises, must come out invalid.
 
+There are three population and fail-map controls:
+- a copy with an added test method must be refused;
+- a copy with a deleted undesignated test method must be refused;
+- a copy of the fail-map with one designated failure removed must be refused.
+
 The output is in `mutation.txt`.
 
 ```
-python3 -B -S tools/cbz/reference_crawler_mutation_check.py
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --write-failmap mutant-failmap.json
+python3 -B -S tools/cbz/reference_crawler_mutation_check.py --failmap cbz/evidence/reference-crawler-01shcrxv/mutant-failmap.json
 ```
+
+The first command records the fail-map. The second rechecks a committed one.
 
 Fixture repositories set `commit.gpgsign=false`, so the suite is hermetic and never calls a host
 signer. The harness runs the unmutated suite both before and after the mutants. If the final
@@ -345,13 +359,14 @@ judgement.
 > drift as INFO. An incomplete census (an unparseable or unread file) also blocks. Its domain
 > is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a pull
 > request can be gated against the federation. Self-verification: 44 tests in both interpreter
-> modes, and 89 mutants with 100% required kills; a kill needs an assertion failure.
+> modes, and 93 mutants with 100% required kills, each by its designated test's assertion, against a
+> frozen 44-test population.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 44 tests per mode; 89 of 89 intended source mutants killed, each by an assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 44 tests per mode (frozen population); 93 of 93 intended source mutants killed, each by its designated test's assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
 `tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0. A pull

@@ -199,10 +199,11 @@ class Extractors(unittest.TestCase):
 
     def test_lean_statements_with_namespace_multiline_and_attributes(self):
         stmts = rc.lean_statements(LEAN_A1 + "@[simp] private theorem q : 2 = 2 := rfl\nexample : 3 = 3 := rfl\n")
-        self.assertEqual(stmts["Demo.foo"], "theorem : 1 + 1 = 2")
-        self.assertEqual(stmts["Demo.bar"], "theorem (n : Nat) : n + 0 = n")
+        # .get() so that a missing name is an assertion failure, not an error (B-011).
+        self.assertEqual(stmts.get("Demo.foo"), "theorem : 1 + 1 = 2")
+        self.assertEqual(stmts.get("Demo.bar"), "theorem (n : Nat) : n + 0 = n")
         self.assertNotIn("Demo.fake", stmts)
-        self.assertEqual(stmts["q"], "theorem : 2 = 2")
+        self.assertEqual(stmts.get("q"), "theorem : 2 = 2")
         self.assertIn("<example#1>", stmts)
 
     def test_python_signatures(self):
