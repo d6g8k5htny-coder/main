@@ -372,6 +372,46 @@ class BaselineTests(unittest.TestCase):
         fourth = self.tool._scan_execution_identity(self.root, gate)
         self.assertNotEqual(original_excludes_hash, fourth['git']['core_excludesfiles'][0]['sha256'])
 
+    def test_g1_execution_identity_rejects_default_xdg_home_ignore_files(self):
+        gate = self.config['gates'][1]
+        identity = self.tool._scan_execution_identity(self.root, gate)
+        home = Path(identity['environment']['HOME'])
+        xdg = Path(identity['environment']['XDG_CONFIG_HOME'])
+        self.assertIsNone(identity['git']['default_excludes']['xdg_ignore_sha256'])
+        self.assertIsNone(identity['git']['default_excludes']['home_fallback_ignore_sha256'])
+
+        candidate = self.root / 'untracked-proof-candidate.lean'
+        candidate.write_text('theorem hidden : True := True.intro\n')
+        git = identity['git']['executable_path']
+
+        def untracked():
+            result = subprocess.run(
+                [git, '-C', str(self.root), 'ls-files', '--others', '--exclude-standard'],
+                cwd=self.root, capture_output=True, env=identity['environment'], check=True,
+            )
+            return result.stdout.decode().splitlines()
+
+        self.assertIn('untracked-proof-candidate.lean', untracked())
+
+        # XDG_CONFIG_HOME takes precedence over the HOME fallback, but both
+        # implicit paths must remain absent in the captured G1 identity.
+        home_ignore = home / '.config' / 'git' / 'ignore'
+        home_ignore.parent.mkdir(parents=True)
+        home_ignore.write_text('untracked-proof-candidate.lean\n')
+        self.assertIn('untracked-proof-candidate.lean', untracked())
+        with self.assertRaises(self.tool.ValidationError):
+            self.tool._scan_execution_identity(self.root, gate)
+        home_ignore.unlink()
+
+        # The effective XDG default ignore file can hide the same candidate;
+        # the identity preflight must reject it before a G1 scan is launched.
+        xdg_ignore = xdg / 'git' / 'ignore'
+        xdg_ignore.parent.mkdir(parents=True)
+        xdg_ignore.write_text('untracked-proof-candidate.lean\n')
+        self.assertNotIn('untracked-proof-candidate.lean', untracked())
+        with self.assertRaises(self.tool.ValidationError):
+            self.tool._scan_execution_identity(self.root, gate)
+
     def test_g1_focused_controls_under_optimized_python(self):
         names = (
             'test_g1_snapshot_is_canonical_and_binds_exit_code',
@@ -383,6 +423,7 @@ class BaselineTests(unittest.TestCase):
             'test_g1_execution_identity_binds_resolved_executable',
             'test_g1_execution_identity_binds_git_executable',
             'test_g1_execution_identity_binds_git_configuration',
+            'test_g1_execution_identity_rejects_default_xdg_home_ignore_files',
             'test_malformed_receipt_shapes_are_incomplete',
         )
         command = [
