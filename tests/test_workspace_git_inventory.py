@@ -169,12 +169,20 @@ class InventoryTests(unittest.TestCase):
             command=shlex.quote(sys.executable)+' '+shlex.quote(str(script))
             self.git(path,'config','filter.'+name+'.clean',command)
             self.git(path,'config','filter.'+name+'.required','true')
-            (path/'tracked').write_text('modified\n')
+            # Keep size and mtime unchanged: ctime changes, forcing Git to
+            # inspect content and execute the configured clean filter. A mere
+            # size/mtime change can be reported without exercising the filter.
+            stat_before=(path/'tracked').stat()
+            (path/'tracked').write_text('changed\n')
+            os.utime(path/'tracked',ns=(stat_before.st_atime_ns,stat_before.st_mtime_ns))
 
         self.git(linked,'status','--porcelain=v1','-z','--ignore-submodules=none')
         self.assertTrue(markers[0].exists(),
                         'Native parent status did not run the direct submodule filter')
         markers[0].unlink()
+        self.assertTrue(markers[1].exists(),
+                        'Native parent status did not run the nested submodule filter')
+        markers[1].unlink()
         self.git(child,'status','--porcelain=v1','-z','--ignore-submodules=none')
         self.assertTrue(markers[1].exists(),
                         'Native child status did not run the nested submodule filter')
