@@ -78,6 +78,16 @@ The compared **interface** is:
 - for anything definition-like: statement plus value, because the value is part of
   its meaning.
 
+The interface also carries its **context**: the `open`, `variable`, `universe`, `export`,
+`include` and `omit` commands in scope (file level, enclosing `namespace` and `section`
+blocks, and any `open … in` or `variable … in` prefix of the declaration). So the same
+statement text under `variable (x : Nat)` and under `variable (x : Int)`, or under
+`open Real` and `open NNReal`, is drift. A variable the statement does not use still
+counts, which errs toward reporting drift. Notation, macros and `set_option` are not
+tracked. Inside a declaration, `open … in` and `set_option … in` stay in its value
+unless they start a line that is not indented deeper than the declaration, and
+`mutual … end` is a scope.
+
 Comments are removed and whitespace is normalized. Equal interfaces mean equal source
 text, not equal elaborated terms. The extractor does not elaborate, expand notation or
 macros, or see generated declarations. `private` names are file-local and are never
@@ -94,7 +104,7 @@ a temporary directory, covering both positive and negative cases. That includes:
 - clone-on-demand;
 - candidate-head overrides.
 
-`ScannerMutationTests` applies 46 source mutants. Each one must be killed by its own
+`ScannerMutationTests` applies 58 source mutants. Each one must be killed by its own
 designated test, failing by assertion (`FAILED (failures=N)` with no errors). Every
 mutant must apply exactly once and must compile, and the unmutated copy must pass
 every designated test, as the harness control.
