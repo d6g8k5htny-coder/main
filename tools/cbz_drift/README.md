@@ -19,7 +19,16 @@ Only the seed is named on the command line. The crawler reads the seed's
 - each registry named under `canonical_inputs` (today the meta-framework
   `registry.json`), resolving artifact `repository` keys through the registry's own map;
 - every Lean package (`lakefile.lean` / `lakefile.toml`) in every reached repository;
-- every `lake-manifest.json` dependency whose URL is a reachable repository.
+- every `lake-manifest.json` dependency on a repository of the federation's owners
+  (those of the seed and of every repository the records list). Others, such as
+  mathlib, are counted as external edges and are not crawled.
+
+It does this as a breadth-first fixed point: every reached repository's own records,
+canonical inputs and lake manifests are read in turn until nothing new appears, and
+every reached repository is then validated and scanned once. A repository is read at
+one ref: an override, else the first pin met in breadth-first order, else its default
+tip. With `--fetch`, each repository is refreshed from origin first, so a default tip
+is the remote's current one.
 
 So a rename, addition or removal in those records changes the crawl with no code
 change. `--search` directories are scanned for clones by their `origin` URL. With
@@ -45,7 +54,9 @@ lag a moving tip (INFO).**
 | `INPUT-OBSERVED` | INFO | a canonical input's recorded blob differs at the crawled ref |
 | `LEAN-DRIFT` | BLOCK | one fully qualified Lean declaration has different interfaces in two crawled locations |
 | `LEAN-SYNTAX` | BLOCK | a Lean file cannot be lexed, or its `namespace`/`section`/`end` do not balance |
-| `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a different rev |
+| `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a present, different rev (an absent, empty or non-string rev is `PIN-MISSING`; a git package with no repository URL is `MALFORMED`) |
+| `PIN-DIVERGENT` | INFO | two reached repositories pin one repository differently; the first in breadth-first order is read |
+| `FETCH-FAILED` | BLOCK | `--fetch` could not refresh a repository, so its tips are not current |
 | `TOOLCHAIN` | INFO | Lean packages that share declarations use different `lean-toolchain`s |
 | `MALFORMED` | BLOCK | a manifest exists but cannot be parsed |
 
@@ -83,7 +94,7 @@ a temporary directory, covering both positive and negative cases. That includes:
 - clone-on-demand;
 - candidate-head overrides.
 
-`ScannerMutationTests` applies 35 source mutants. Each one must be killed by its own
+`ScannerMutationTests` applies 46 source mutants. Each one must be killed by its own
 designated test, failing by assertion (`FAILED (failures=N)` with no errors). Every
 mutant must apply exactly once and must compile, and the unmutated copy must pass
 every designated test, as the harness control.
