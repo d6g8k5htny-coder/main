@@ -7,6 +7,16 @@ historical references. Execute the CBZ-0 mission without owner questions;
 preserve Layer A rigor, tests, source outcomes and platform permissions.
 Read `STATUS.md` for observed baseline state and reproducible gates.
 
+The latest complete owner source is the [verbatim master](https://github.com/d6g8k5htny-coder/main/issues/686#issuecomment-6511339492)
+(SHA256 `83ac6552fc6406e95213a1cfd6e8636095215e11aac6e3db473cd42c22275a8b`).
+Work as a dynamic team: ownership is a coordination hint, not an exclusive lock.
+Use actual chat identities and exact scopes; preserve compatible work, resolve
+conflicts by GOVERNANCE.md, log explicit reassignments and integrate verified
+contributions without waiting for peer or owner approval. Earlier no-merge,
+one-delivery and exclusive-canonical-writer limits are superseded. Layer A and
+actual platform permissions remain binding. The older approval and review-family
+instructions retained below are historical where they conflict with this master.
+
 Current and future agents: read the
 [complete owner mandate of 15 October](governance/OWNER_MANDATE_20261015.md)
 alongside the [standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md).
