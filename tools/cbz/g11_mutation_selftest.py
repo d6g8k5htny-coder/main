@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Mutation self-test of the G11 census (tools/cbz/g11_census.py).
 
-Each mutation weakens the census in one way. For every mutation the harness
-copies the census and its test module into an isolated directory, applies the
-mutation, and runs the test module there. A mutation is KILLED only when the
-test run reports at least one assertion failure and no error, so a mutant that
-breaks the import or crashes the tests does not count. The self-test passes
-only when the unmutated copy passes and every mutation is killed.
+Each mutation weakens the census or its attribution guard in one way. For
+every mutation the harness copies the census, test module and harness into an
+isolated directory, applies exactly one mutation, and runs one designated test.
+A mutation is KILLED only when the clean full baseline passes and that one test
+reports exactly one AssertionError at its exact designated assertion line,
+with the exact module/class/method identity, FAILED status, zero errors and
+zero skips. Setup, import, teardown, cleanup, process and unrelated assertion
+failures never count as kills. The self-test passes only when the unmutated
+baseline passes and every mutation is killed.
 
 A mutation whose target text does not occur exactly once is a harness error,
 never a silent no-op.
@@ -41,7 +44,7 @@ MUTATIONS = [
     ("docstring-only not reported", '        if not rest:\n            return "docstring only"\n',
      "        if not rest:\n            return None\n"),
     ("docstring not stripped", "        rest = rest[1:]\n", "        rest = rest[0:]\n"),
-    ("decorator context ignored", "        if _trusted_decorator(dec, imports):", "        if False:"),
+    ("decorator context ignored", "        if _trusted_decorator(dec, imports, scope_shadowed):", "        if False:"),
     ("Protocol/ABC context ignored", "            if _trusted_abstract_base(base, imports):", "            if False:"),
     ("exception context ignored", "            if _builtin_exception_base(base, imports):", "            if False:"),
     ("log_message context ignored", '            if _http_request_handler_base(base, imports) and func.name == "log_message":', "            if False:"),
@@ -172,7 +175,7 @@ TARGETS = {
 
 
 NEW_MUTATIONS = [
-    ("decoy decorator names accepted", "census", "        if _trusted_decorator(dec, imports):", "        if _decorator_name(dec) in LEGIT_DECORATORS:",
+    ("decoy decorator names accepted", "census", "        if _trusted_decorator(dec, imports, scope_shadowed):", "        if _decorator_name(dec) in LEGIT_DECORATORS:",
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
     ("decoy abstract-base names accepted", "census", "            if _trusted_abstract_base(base, imports):", "            if _base_name(base) in LEGIT_BASES:",
      "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs", 'self.assertEqual(sorted(f["detail"].split(":")[0] for f in report["failing"]),'),
@@ -186,7 +189,7 @@ NEW_MUTATIONS = [
      "def python_tool_references(text, tools, unique):\n    references = set()",
      "def python_tool_references(text, tools, unique):\n    references = {p for p in tools if p in text}",
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
-     'self.assertFalse(report["tools/runner.py"]["exercised"])'),
+     'self.assertFalse(report["tools"]["tools/runner.py"]["exercised"])'),
     ("empty workflow run block not detected", "census", "        if not commands:", "        if False:",
      "tests.test_g11_census.AdversarialControls.test_empty_and_comment_only_run_blocks_fail", "self.assertEqual(found,"),
     ("YAML comments omitted", "census", '        elif path.endswith((".yml", ".yaml")):', "        elif False:",
@@ -199,6 +202,51 @@ NEW_MUTATIONS = [
     ("mutation attribution accepts wrong assertion", "harness", '        and outcome.get("traceback_line") == expected_line', "        and True",
      "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
      "self.assertFalse(g11m.qualifies_kill(wrong_line, expected, 17))"),
+    ("function-local decorator shadow accepted", "census",
+     "    if binding and binding in scope_shadowed:\n        return False",
+     "    if False:\n        return False",
+     "tests.test_g11_census.AdversarialControls.test_decoy_names_do_not_exempt_stubs",
+     'self.assertEqual([(f["class"], f["detail"]) for f in local_report["findings"]'),
+    ("python -c path mention counts as execution", "census",
+     '                        if "-c" in tokens[1:]:\n                            continue',
+     "                        if False:\n                            continue",
+     "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
+     'self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])'),
+    ("shell -c path mention counts as execution", "census",
+     '                if "-c" in tokens[1:]:\n                    continue',
+     "                if False:\n                    continue",
+     "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
+     'self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["exercised"])'),
+    ("template literal import text counts as static import", "census",
+     '            if quote == "`":\n                if ch == "\\\\" and i + 1 < len(text):\n                    out.extend((" ", " "))\n                    i += 2\n                    continue\n                if ch == quote:\n                    quote = None\n                out.append("\\n" if ch == "\\n" else " ")\n                i += 1\n                continue',
+     '            if quote == "`":\n                if ch == "\\\\" and i + 1 < len(text):\n                    out.extend((" ", " "))\n                    i += 2\n                    continue\n                if ch == quote:\n                    quote = None\n                out.append(ch)\n                i += 1\n                continue',
+     "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
+     'self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["exercised"])'),
+    ("parser drops method identity", "harness",
+     '        result["test_id"] = header.group(2) + "." + header.group(1)',
+     '        result["test_id"] = header.group(2)',
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     'self.assertEqual(parsed["test_id"], expected_parser)'),
+    ("wrong test id credited", "harness",
+     '        and outcome.get("test_id") == expected_test',
+     "        and True",
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     "self.assertFalse(g11m.qualifies_kill(wrong_test, expected, 17))"),
+    ("nonfailure status credited", "harness",
+     '        and outcome.get("status") == "FAILED"',
+     "        and True",
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     "self.assertFalse(g11m.qualifies_kill(not_failed, expected, 17))"),
+    ("error outcome credited", "harness",
+     '        and outcome.get("errors") == 0',
+     "        and True",
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     "self.assertFalse(g11m.qualifies_kill(has_errors, expected, 17))"),
+    ("skipped outcome credited", "harness",
+     '        and outcome.get("skipped") == 0',
+     "        and True",
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     "self.assertFalse(g11m.qualifies_kill(has_skips, expected, 17))"),
 ]
 
 
@@ -241,7 +289,7 @@ def _parse_run(proc):
         result["skipped"] = int(counts.get("skipped", 0))
     header = FAIL_HEADER.search(output)
     if header:
-        result["test_id"] = header.group(2)
+        result["test_id"] = header.group(2) + "." + header.group(1)
         frames = TRACE_FRAME.findall(output)
         if frames:
             _path, line, method = frames[-1]
@@ -257,6 +305,7 @@ def qualifies_kill(outcome, expected_test, expected_line):
     expected_method = expected_test.rsplit(".", 1)[-1]
     return (
         outcome.get("parsed") is True
+        and outcome.get("status") == "FAILED"
         and outcome.get("exit") == 1
         and outcome.get("ran") == 1
         and outcome.get("failures") == 1
