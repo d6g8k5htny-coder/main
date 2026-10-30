@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import tempfile
@@ -283,10 +284,6 @@ def _scan_execution_identity(root, gate):
         raise ValidationError('registered G1 Git executable is not a file')
     try:
         git_sha256 = _sha(git_path)
-        git_config = subprocess.run(
-            [str(git_path), '-C', str(root), 'config', '--null', '--show-origin', '--list'],
-            cwd=root, capture_output=True, env=environment, timeout=10, check=True,
-        ).stdout
         exclude_output = subprocess.run(
             [str(git_path), '-C', str(root), 'rev-parse', '--git-path', 'info/exclude'],
             cwd=root, capture_output=True, env=environment, timeout=10, check=True,
@@ -300,6 +297,60 @@ def _scan_execution_identity(root, gate):
         else:
             info_exclude = info_exclude.resolve()
         info_exclude_sha256 = _sha(info_exclude) if info_exclude.is_file() else None
+
+        # Pin Git's implicit global-ignore lookup to private, repository-local
+        # empty directories. Reject either default ignore file if it appears.
+        git_dir = info_exclude.parent.parent
+        home_dir = git_dir / 'cbz-g1-home'
+        xdg_dir = git_dir / 'cbz-g1-xdg'
+        def private_directory_identity(directory):
+            if directory.is_symlink():
+                raise ValidationError('G1 isolated Git home/config path is a symlink')
+            if directory.exists() and not directory.is_dir():
+                raise ValidationError('G1 isolated Git home/config path is not a directory')
+            directory.mkdir(mode=0o700, parents=True, exist_ok=True)
+            metadata = directory.lstat()
+            if not stat.S_ISDIR(metadata.st_mode):
+                raise ValidationError('G1 isolated Git home/config path is not a real directory')
+            if not hasattr(os, 'geteuid') or metadata.st_uid != os.geteuid():
+                raise ValidationError('G1 isolated Git home/config directory owner is not the effective user')
+            mode = stat.S_IMODE(metadata.st_mode)
+            if mode != 0o700:
+                raise ValidationError('G1 isolated Git home/config directory mode must be 0700')
+            return {'uid': metadata.st_uid, 'mode': mode}
+
+        home_directory = private_directory_identity(home_dir)
+        xdg_directory = private_directory_identity(xdg_dir)
+        environment['HOME'] = str(home_dir)
+        environment['XDG_CONFIG_HOME'] = str(xdg_dir)
+
+        xdg_ignore = xdg_dir / 'git' / 'ignore'
+        home_ignore = home_dir / '.config' / 'git' / 'ignore'
+        for directory in (xdg_dir / 'git', home_dir / '.config', home_dir / '.config' / 'git'):
+            if directory.is_symlink():
+                raise ValidationError('G1 default Git ignore parent is a symlink')
+            if directory.exists() and not directory.is_dir():
+                raise ValidationError('G1 default Git ignore parent is not a directory')
+        if xdg_ignore.is_symlink() or xdg_ignore.exists():
+            raise ValidationError('G1 default XDG Git ignore file must be absent')
+        if home_ignore.is_symlink() or home_ignore.exists():
+            raise ValidationError('G1 default HOME Git ignore file must be absent')
+        default_excludes = {
+            'home_directory_uid': home_directory['uid'],
+            'home_directory_mode': home_directory['mode'],
+            'xdg_directory_uid': xdg_directory['uid'],
+            'xdg_directory_mode': xdg_directory['mode'],
+            'home_path_sha256': hashlib.sha256(os.fsencode(str(home_dir))).hexdigest(),
+            'xdg_config_home_path_sha256': hashlib.sha256(os.fsencode(str(xdg_dir))).hexdigest(),
+            'xdg_ignore_path_sha256': hashlib.sha256(os.fsencode(str(xdg_ignore))).hexdigest(),
+            'xdg_ignore_sha256': None,
+            'home_fallback_ignore_path_sha256': hashlib.sha256(os.fsencode(str(home_ignore))).hexdigest(),
+            'home_fallback_ignore_sha256': None,
+        }
+        git_config = subprocess.run(
+            [str(git_path), '-C', str(root), 'config', '--null', '--show-origin', '--list'],
+            cwd=root, capture_output=True, env=environment, timeout=10, check=True,
+        ).stdout
         core_excludes_output = subprocess.run(
             [str(git_path), '-C', str(root), 'config', '--path', '--null', '--get-all', 'core.excludesfile'],
             cwd=root, capture_output=True, env=environment, timeout=10,
@@ -339,6 +390,7 @@ def _scan_execution_identity(root, gate):
             'config_sha256': hashlib.sha256(git_config).hexdigest(),
             'info_exclude_sha256': info_exclude_sha256,
             'core_excludesfiles': core_excludesfiles,
+            'default_excludes': default_excludes,
         },
     }
 
@@ -349,6 +401,8 @@ def _scan_snapshot(raw_output, exit_code, execution_identity):
     def valid_hash(value):
         return isinstance(value, str) and re.fullmatch(r'[0-9a-f]{64}', value) is not None
     core_excludesfiles = git_identity.get('core_excludesfiles') if isinstance(git_identity, dict) else None
+    default_excludes = git_identity.get('default_excludes') if isinstance(git_identity, dict) else None
+    environment = execution_identity.get('environment') if isinstance(execution_identity, dict) else None
     if (
         not isinstance(execution_identity, dict)
         or not valid_hash(execution_identity.get('executable_sha256'))
@@ -359,6 +413,34 @@ def _scan_snapshot(raw_output, exit_code, execution_identity):
         or not isinstance(git_identity.get('version'), str)
         or not git_identity.get('version')
         or (git_identity.get('info_exclude_sha256') is not None and not valid_hash(git_identity.get('info_exclude_sha256')))
+        or not isinstance(environment, dict)
+        or not isinstance(environment.get('HOME'), str)
+        or not Path(environment.get('HOME', '')).is_absolute()
+        or not isinstance(environment.get('XDG_CONFIG_HOME'), str)
+        or not Path(environment.get('XDG_CONFIG_HOME', '')).is_absolute()
+        or not isinstance(default_excludes, dict)
+        or not hasattr(os, 'geteuid')
+        or type(default_excludes.get('home_directory_uid')) is not int
+        or default_excludes.get('home_directory_uid') < 0
+        or default_excludes.get('home_directory_uid') != os.geteuid()
+        or type(default_excludes.get('home_directory_mode')) is not int
+        or default_excludes.get('home_directory_mode') != 0o700
+        or type(default_excludes.get('xdg_directory_uid')) is not int
+        or default_excludes.get('xdg_directory_uid') < 0
+        or default_excludes.get('xdg_directory_uid') != os.geteuid()
+        or type(default_excludes.get('xdg_directory_mode')) is not int
+        or default_excludes.get('xdg_directory_mode') != 0o700
+        or default_excludes.get('home_directory_uid') != default_excludes.get('xdg_directory_uid')
+        or not valid_hash(default_excludes.get('home_path_sha256'))
+        or not valid_hash(default_excludes.get('xdg_config_home_path_sha256'))
+        or not valid_hash(default_excludes.get('xdg_ignore_path_sha256'))
+        or default_excludes.get('xdg_ignore_sha256') is not None
+        or not valid_hash(default_excludes.get('home_fallback_ignore_path_sha256'))
+        or default_excludes.get('home_fallback_ignore_sha256') is not None
+        or default_excludes.get('home_path_sha256') != hashlib.sha256(os.fsencode(environment['HOME'])).hexdigest()
+        or default_excludes.get('xdg_config_home_path_sha256') != hashlib.sha256(os.fsencode(environment['XDG_CONFIG_HOME'])).hexdigest()
+        or default_excludes.get('xdg_ignore_path_sha256') != hashlib.sha256(os.fsencode(str(Path(environment['XDG_CONFIG_HOME']) / 'git' / 'ignore'))).hexdigest()
+        or default_excludes.get('home_fallback_ignore_path_sha256') != hashlib.sha256(os.fsencode(str(Path(environment['HOME']) / '.config' / 'git' / 'ignore'))).hexdigest()
         or not isinstance(core_excludesfiles, list)
         or any(
             not isinstance(item, dict)

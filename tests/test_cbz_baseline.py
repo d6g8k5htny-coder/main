@@ -372,6 +372,144 @@ class BaselineTests(unittest.TestCase):
         fourth = self.tool._scan_execution_identity(self.root, gate)
         self.assertNotEqual(original_excludes_hash, fourth['git']['core_excludesfiles'][0]['sha256'])
 
+    def test_g1_execution_identity_rejects_default_xdg_home_ignore_files(self):
+        gate = self.config['gates'][1]
+        identity = self.tool._scan_execution_identity(self.root, gate)
+        home = Path(identity['environment']['HOME'])
+        xdg = Path(identity['environment']['XDG_CONFIG_HOME'])
+        self.assertIsNone(identity['git']['default_excludes']['xdg_ignore_sha256'])
+        self.assertIsNone(identity['git']['default_excludes']['home_fallback_ignore_sha256'])
+
+        candidate = self.root / 'untracked-proof-candidate.lean'
+        candidate.write_text('theorem hidden : True := True.intro\n')
+        git = identity['git']['executable_path']
+
+        def untracked():
+            result = subprocess.run(
+                [git, '-C', str(self.root), 'ls-files', '--others', '--exclude-standard'],
+                cwd=self.root, capture_output=True, env=identity['environment'], check=True,
+            )
+            return result.stdout.decode().splitlines()
+
+        self.assertIn('untracked-proof-candidate.lean', untracked())
+
+        # XDG_CONFIG_HOME takes precedence over the HOME fallback, but both
+        # implicit paths must remain absent in the captured G1 identity.
+        home_ignore = home / '.config' / 'git' / 'ignore'
+        home_ignore.parent.mkdir(parents=True)
+        home_ignore.write_text('untracked-proof-candidate.lean\n')
+        self.assertIn('untracked-proof-candidate.lean', untracked())
+        with self.assertRaises(self.tool.ValidationError):
+            self.tool._scan_execution_identity(self.root, gate)
+        home_ignore.unlink()
+
+        # The effective XDG default ignore file can hide the same candidate;
+        # the identity preflight must reject it before a G1 scan is launched.
+        xdg_ignore = xdg / 'git' / 'ignore'
+        xdg_ignore.parent.mkdir(parents=True)
+        xdg_ignore.write_text('untracked-proof-candidate.lean\n')
+        self.assertNotIn('untracked-proof-candidate.lean', untracked())
+        with self.assertRaises(self.tool.ValidationError):
+            self.tool._scan_execution_identity(self.root, gate)
+
+    def test_g1_execution_identity_rejects_preexisting_permissive_directories(self):
+        gate = self.config['gates'][1]
+        identity = self.tool._scan_execution_identity(self.root, gate)
+        default = identity['git']['default_excludes']
+        effective_uid = os.geteuid()
+        self.assertEqual(default['home_directory_uid'], effective_uid)
+        self.assertEqual(default['xdg_directory_uid'], effective_uid)
+        self.assertEqual(default['home_directory_mode'], 0o700)
+        self.assertEqual(default['xdg_directory_mode'], 0o700)
+
+        git_dir = self.root / '.git'
+        directories = (git_dir / 'cbz-g1-home', git_dir / 'cbz-g1-xdg')
+        for directory in directories:
+            if directory.exists():
+                directory.rmdir()
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                directory.mkdir(mode=0o700)
+                directory.chmod(0o777)
+                try:
+                    with self.assertRaisesRegex(self.tool.ValidationError, 'mode must be 0700'):
+                        self.tool._scan_execution_identity(self.root, gate)
+                finally:
+                    for cleanup in directories:
+                        if cleanup.exists():
+                            cleanup.chmod(0o700)
+                            cleanup.rmdir()
+
+    def test_g1_execution_identity_rejects_wrong_owner_directories(self):
+        gate = self.config['gates'][1]
+        git_dir = self.root / '.git'
+        directories = (git_dir / 'cbz-g1-home', git_dir / 'cbz-g1-xdg')
+        path_type = type(self.root)
+        original_lstat = path_type.lstat
+        effective_uid = os.geteuid()
+
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                for cleanup in directories:
+                    if cleanup.exists():
+                        cleanup.chmod(0o700)
+                        cleanup.rmdir()
+
+                def wrong_owner(path):
+                    metadata = original_lstat(path)
+                    if path == directory:
+                        fields = list(metadata)
+                        fields[4] = effective_uid + 1
+                        return os.stat_result(fields)
+                    return metadata
+
+                with mock.patch.object(path_type, 'lstat', new=wrong_owner):
+                    with mock.patch.object(subprocess, 'Popen', wraps=subprocess.Popen) as popen:
+                        with self.assertRaisesRegex(
+                            self.tool.ValidationError,
+                            'owner is not the effective user',
+                        ):
+                            self.tool._scan_execution_identity(self.root, gate)
+
+                # _scan_execution_identity may run Git metadata commands, but
+                # the registered G1 scan command must not launch after the
+                # filesystem-owner preflight refuses the directory.
+                self.assertFalse(any(
+                    isinstance(call.args[0], (list, tuple))
+                    and list(call.args[0][1:]) == gate['argv'][1:]
+                    for call in popen.call_args_list
+                ))
+
+    def test_g1_snapshot_requires_private_directory_identity_fields(self):
+        identity = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        effective_uid = os.geteuid()
+        fields = (
+            'home_directory_uid',
+            'home_directory_mode',
+            'xdg_directory_uid',
+            'xdg_directory_mode',
+        )
+        for field in fields:
+            altered = json.loads(json.dumps(identity))
+            del altered['git']['default_excludes'][field]
+            with self.subTest(field=field):
+                with self.assertRaises(self.tool.ValidationError):
+                    self.tool._scan_snapshot(b'{}', 0, altered)
+        invalid = (
+            ('home_directory_uid', True),
+            ('home_directory_uid', effective_uid + 1),
+            ('home_directory_mode', 0o777),
+            ('xdg_directory_uid', True),
+            ('xdg_directory_uid', effective_uid + 1),
+            ('xdg_directory_mode', 0o777),
+        )
+        for field, value in invalid:
+            altered = json.loads(json.dumps(identity))
+            altered['git']['default_excludes'][field] = value
+            with self.subTest(field=field, value=value):
+                with self.assertRaises(self.tool.ValidationError):
+                    self.tool._scan_snapshot(b'{}', 0, altered)
+
     def test_g1_focused_controls_under_optimized_python(self):
         names = (
             'test_g1_snapshot_is_canonical_and_binds_exit_code',
@@ -383,6 +521,10 @@ class BaselineTests(unittest.TestCase):
             'test_g1_execution_identity_binds_resolved_executable',
             'test_g1_execution_identity_binds_git_executable',
             'test_g1_execution_identity_binds_git_configuration',
+            'test_g1_execution_identity_rejects_default_xdg_home_ignore_files',
+            'test_g1_execution_identity_rejects_preexisting_permissive_directories',
+            'test_g1_execution_identity_rejects_wrong_owner_directories',
+            'test_g1_snapshot_requires_private_directory_identity_fields',
             'test_malformed_receipt_shapes_are_incomplete',
         )
         command = [
