@@ -10,14 +10,18 @@ and the designated test that failed. Every mutant must have designated tests, an
 designated test must exist in the suite.
 
 The suite's population is frozen: EXPECTED_TESTS lists every test method and TEST_SHA256
-is the test file's exact SHA-256. Before anything runs, the live file must match both,
-and the unmutated baseline must run exactly len(EXPECTED_TESTS) tests. Two controls
-prove that an added test method and a deleted (undesignated) test method are refused.
+is the SHA-256 of the test file's raw bytes (read without newline translation). Before
+anything runs, the live file must match both, DESIGNATED must cover every frozen test,
+and the unmutated baseline must run exactly len(EXPECTED_TESTS) tests. Controls prove
+that an added test method, a deleted (undesignated) test method, a CRLF-only rewrite of
+the file and a designation map that leaves a test uncovered are all refused.
 With --failmap FILE, the evidence fail-map must record the same population and mutant
-set, and list every designated test among its mutant's assertion failures. With
+set, list every designated test among its mutant's assertion failures, and name only
+frozen tests, as lists of strings, in every fail and error field. With
 --write-failmap FILE, this run records which tests fail and error under each mutant,
-writes that fail-map with the frozen population, and checks it the same way. A
-corrupted copy of it, with one designated failure removed, must be refused. Two controls must come out invalid, never killed: a syntax-broken copy,
+writes that fail-map with the frozen population, and checks it the same way. Corrupted
+copies of it (one designated failure removed, an unknown test id added to a fail or an
+error list, or an error field that is not a list) must be refused. Two controls must come out invalid, never killed: a syntax-broken copy,
 and an error-only copy whose crawl() raises. The unmutated suite
 must pass both before and after the mutants. If the environment changes mid-run, so
 that errors could pass for kills, the run is invalid (exit 2). Exit 0 only if every
@@ -371,14 +375,27 @@ def with_tool(source):
     return tmp
 
 
-def population_problems(test_text):
-    """Every way the live test file differs from the frozen population; empty when it matches."""
-    names = TEST_NAME.findall(test_text)
+def population_problems(test_bytes):
+    """Every way the test file's raw bytes differ from the frozen population; empty when they match."""
+    names = TEST_NAME.findall(test_bytes.decode("utf-8"))  # bytes.decode keeps CRLF; read_text would not
     problems = [f"duplicate test name {n}" for n in sorted({n for n in names if names.count(n) > 1})]
     problems += [f"added test {n}" for n in sorted(set(names) - set(EXPECTED_TESTS))]
     problems += [f"removed test {n}" for n in sorted(set(EXPECTED_TESTS) - set(names))]
-    if hashlib.sha256(test_text.encode("utf-8")).hexdigest() != TEST_SHA256:
+    if hashlib.sha256(test_bytes).hexdigest() != TEST_SHA256:
         problems.append("test file bytes differ from TEST_SHA256")
+    return problems
+
+
+def designation_problems(designated, mutant_names):
+    """Every way the designation map fails to bind each mutant, and to cover each frozen test."""
+    problems = []
+    if sorted(mutant_names) != sorted(designated) or len(set(mutant_names)) != len(mutant_names):
+        problems.append(f"mutants without designations: {sorted(set(mutant_names) - set(designated))}, "
+                        f"designations without mutants: {sorted(set(designated) - set(mutant_names))}")
+    problems += [f"{n}: no designated test" for n in sorted(n for n, tests in designated.items() if not tests)]
+    named = {t for tests in designated.values() for t in tests}
+    problems += [f"unknown designated test {t}" for t in sorted(named - set(EXPECTED_TESTS))]
+    problems += [f"test {t} is designated by no mutant" for t in sorted(set(EXPECTED_TESTS) - named)]
     return problems
 
 
@@ -391,8 +408,19 @@ def failmap_problems(doc):
     mutants = doc.get("mutants") or {}
     if sorted(mutants) != sorted(DESIGNATED):
         problems.append("the fail-map covers a different mutant set")
+    for name, entry in sorted(mutants.items()):
+        if not isinstance(entry, dict):
+            problems.append(f"{name}: the fail-map entry is not an object")
+            continue
+        for field in ("fail", "error"):
+            ids = entry.get(field)
+            if not isinstance(ids, list) or not all(isinstance(t, str) for t in ids):
+                problems.append(f"{name}: {field} is not a list of test names")
+            elif set(ids) - set(EXPECTED_TESTS):
+                problems.append(f"{name}: unknown test ids in {field}: {sorted(set(ids) - set(EXPECTED_TESTS))}")
     for name, tests in DESIGNATED.items():
-        if name in mutants and not set(tests) <= set(mutants[name].get("fail") or ()):
+        entry = mutants.get(name)
+        if isinstance(entry, dict) and not set(tests) <= set(entry.get("fail") or ()):
             problems.append(f"{name}: a designated test is not among the fail-map's assertion failures")
     return problems
 
@@ -403,18 +431,19 @@ def main(argv=None):
     parser.add_argument("--write-failmap", type=Path, help="write this run's fail-map (population and per-mutant failures)")
     args = parser.parse_args(argv)
     source = TOOL.read_text()
-    test_text = TEST.read_text()
-    problems = population_problems(test_text)
+    test_bytes = TEST.read_bytes()
+    problems = population_problems(test_bytes)
     if problems:
         print(f"POPULATION FAIL: {'; '.join(problems)}")
         return 2
-    controls = {"an added test method": (test_text + "\n    def test_population_control_extra(self):\n        pass\n",
+    controls = {"an added test method": (test_bytes + b"\n    def test_population_control_extra(self):\n        pass\n",
                                          "added test test_population_control_extra"),
                 "a deleted undesignated test method": (
-                    test_text.replace("    def test_added_repository_is_crawled(", "    def _deleted_control(", 1),
-                    "removed test test_added_repository_is_crawled")}
-    for label, (text, expected) in controls.items():
-        if expected not in population_problems(text):
+                    test_bytes.replace(b"    def test_added_repository_is_crawled(", b"    def _deleted_control(", 1),
+                    "removed test test_added_repository_is_crawled"),
+                "a CRLF-only rewrite": (test_bytes.replace(b"\n", b"\r\n"), "test file bytes differ from TEST_SHA256")}
+    for label, (data, expected) in controls.items():
+        if expected not in population_problems(data):
             print(f"CONTROL FAIL: {label} was not refused by the population check")
             return 2
     if args.failmap is not None:
@@ -447,13 +476,17 @@ def main(argv=None):
         if outcome != "invalid" or "errors=" not in detail:
             print(f"CONTROL FAIL: an error-only copy was not reported invalid ({outcome}: {detail})")
             return 2
-    tests = set(TEST_NAME.findall(TEST.read_text()))
     names = [name for name, _, _ in MUTANTS]
-    unknown = sorted({t for ts in DESIGNATED.values() for t in ts} - tests)
-    if sorted(names) != sorted(DESIGNATED) or len(set(names)) != len(names) or unknown:
-        print("CONTROL FAIL: every mutant needs designated tests that exist in the suite "
-              f"(without: {sorted(set(names) - set(DESIGNATED))}, extra: {sorted(set(DESIGNATED) - set(names))}, "
-              f"unknown tests: {unknown})")
+    problems = designation_problems(DESIGNATED, names)
+    if problems:
+        print(f"DESIGNATION FAIL: {'; '.join(problems)}")
+        return 2
+    sole = next(t for t in EXPECTED_TESTS if sum(t in ts for ts in DESIGNATED.values()) == 1)
+    owner = next(n for n, ts in DESIGNATED.items() if sole in ts)
+    other = next(t for t in EXPECTED_TESTS if t != sole)
+    uncovering = dict(DESIGNATED, **{owner: tuple(t for t in DESIGNATED[owner] if t != sole) or (other,)})
+    if f"test {sole} is designated by no mutant" not in designation_problems(uncovering, names):
+        print("CONTROL FAIL: a designation map that leaves a test uncovered was not refused")
         return 2
     killed, observed = 0, {}
     for name, old, new in MUTANTS:
@@ -477,12 +510,16 @@ def main(argv=None):
         doc = {"population": {"test_file_sha256": TEST_SHA256, "tests": list(EXPECTED_TESTS)}, "mutants": observed}
         problems = failmap_problems(doc)
         name = next(iter(DESIGNATED))
-        corrupt = json.loads(json.dumps(doc))
-        if name in corrupt["mutants"]:
-            corrupt["mutants"][name]["fail"] = [t for t in corrupt["mutants"][name]["fail"] if t not in DESIGNATED[name]]
-        if not failmap_problems(corrupt):
-            print("CONTROL FAIL: a fail-map missing a designated failure was not refused")
-            return 2
+        for label, field, change in (("missing a designated failure", "fail", lambda ids: [t for t in ids if t not in DESIGNATED[name]]),
+                                     ("with an unknown fail id", "fail", lambda ids: ids + ["test_not_in_the_suite"]),
+                                     ("with an unknown error id", "error", lambda ids: ids + ["test_not_in_the_suite"]),
+                                     ("whose error field is not a list", "error", lambda ids: "not a list")):
+            corrupt = json.loads(json.dumps(doc))
+            if name in corrupt["mutants"]:
+                corrupt["mutants"][name][field] = change(corrupt["mutants"][name][field])
+            if not failmap_problems(corrupt):
+                print(f"CONTROL FAIL: a fail-map {label} was not refused")
+                return 2
         args.write_failmap.write_text(json.dumps(doc, indent=1, sort_keys=True) + "\n")
         print(f"FAILMAP {'OK' if not problems else 'FAIL: ' + '; '.join(problems)}: {args.write_failmap.name}")
     print(f"{killed}/{len(MUTANTS)} mutants killed")

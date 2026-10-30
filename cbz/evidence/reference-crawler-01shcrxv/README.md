@@ -228,6 +228,7 @@ reproducible evidence.
 | F11: a run with errors only could count as a kill, and any test's failure counted | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each mutant is also bound to its designated tests (B-011), and each kill line names the designated test that failed. | the harness's controls |
 | F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
 | DCL at `c7e89aaa` ([#721/6529091412](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6529091412)): the suite's population was not frozen, so an added test, or a deleted undesignated one, went unnoticed | The harness freezes `EXPECTED_TESTS` (all 44 method names) and `TEST_SHA256` (the test file's exact bytes). Both must match before anything runs, and the baseline must run exactly 44 tests. With `--write-failmap` the harness writes the fail-map from the same run, records the population in it and checks it; `--failmap` checks a committed map. Four new mutants designate the four tests no mutant designated, so every test is designated. | controls for an added method, a deleted undesignated method and a corrupted fail-map; 93 mutants |
+| DCL at `0160e740` ([#721/6530232961](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6530232961)): P2-A, the test hash was taken over newline-translated text; P2-B, the fail-map validator accepted unknown test ids and wrong field types, and did not require every test to be designated | `TEST_SHA256` is now taken over the file's raw bytes (`read_bytes()`), and names are read from the bytes decoded without newline translation. The fail-map's `fail` and `error` fields must be lists of frozen test names. `DESIGNATED` must cover every frozen test. | controls for a CRLF-only rewrite, an unknown fail id, an unknown error id, and a designation map that leaves a test uncovered |
 
 **A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
 reference gave two false `LIVE_DRIFT` findings, on trial `needs_attention/SNAPSHOT.json`. Its cards
@@ -286,7 +287,7 @@ designated test must exist in the suite, or the harness exits 2. Every one of th
 designated by at least one mutant.
 
 **The suite's population is frozen** in the harness, as `EXPECTED_TESTS` (the 44 method names) and
-`TEST_SHA256`. The live test file must match both before anything runs, and the baseline must run
+`TEST_SHA256`, which is taken over the file's raw bytes, so a CRLF rewrite counts as a change. The live test file must match both before anything runs, and the baseline must run
 exactly 44 tests. The run that produced `mutation.txt` also wrote `mutant-failmap.json`
 (`--write-failmap`): the population, plus every failing and erroring test under each mutant. It
 then checked that map against the population and `DESIGNATED`. There are four suite controls:
@@ -295,10 +296,15 @@ then checked that map against the population and `DESIGNATED`. There are four su
 - a syntax-broken copy must come out invalid;
 - an error-only copy, whose `crawl()` raises, must come out invalid.
 
-There are three population and fail-map controls:
-- a copy with an added test method must be refused;
-- a copy with a deleted undesignated test method must be refused;
-- a copy of the fail-map with one designated failure removed must be refused.
+There are eight population, designation and fail-map controls. Each of these must be refused:
+- a copy with an added test method;
+- a copy with a deleted undesignated test method;
+- a CRLF-only rewrite of the test file;
+- a designation map that leaves a test uncovered;
+- a fail-map with one designated failure removed;
+- a fail-map with an unknown test id in a `fail` list;
+- a fail-map with an unknown test id in an `error` list;
+- a fail-map whose `error` field is not a list of test names.
 
 The output is in `mutation.txt`.
 
