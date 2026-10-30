@@ -2,6 +2,7 @@
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -69,7 +70,7 @@ class BaselineTests(unittest.TestCase):
                                   'sources': ['tools/check.py'], 'timeout_seconds': 3} for i in range(12)]}
         self.config['gates'][1] = dict(
             self.config['gates'][1],
-            argv=[sys.executable, '-B', '-S', 'tools/cbz_audit.py', 'scan', '--root', '.'],
+            argv=['python', '-B', '-S', 'tools/cbz_audit.py', 'scan', '--root', '.'],
             sources=['tools/cbz_audit.py'],
             timeout_seconds=120,
         )
@@ -133,10 +134,11 @@ class BaselineTests(unittest.TestCase):
         self.assertTrue(any('stale' in x.lower() for x in stale['unmet']))
 
     def test_g1_snapshot_is_canonical_and_binds_exit_code(self):
-        compact = self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 0)
-        spaced = self.tool._scan_snapshot(b'{ "b": 2, "a": 1 }\n', 0)
+        execution = self.tool._scan_execution_identity(self.config['gates'][1])
+        compact = self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 0, execution)
+        spaced = self.tool._scan_snapshot(b'{ "b": 2, "a": 1 }\n', 0, execution)
         self.assertEqual(compact, spaced)
-        self.assertNotEqual(compact, self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 1))
+        self.assertNotEqual(compact, self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 1, execution))
 
     def test_g1_legacy_or_malformed_snapshot_is_incomplete(self):
         self.tool.run(self.root, self.out)
@@ -165,93 +167,21 @@ class BaselineTests(unittest.TestCase):
     def test_g1_receipt_rejects_new_committed_tracked_axiom(self):
         run = self.tool.run(self.root, self.out)
         row = next(item for item in run['gates'] if item['id'] == 'G1')
-        self.assertEqual(row['status'], 'INCOMPLETE')  # scanner does not certify semantic closure
-        self.assertRegex(row['scan_snapshot_sha256'], r'^[0-9a-f]{64}
-        fake = self.base / 'forged.json'
-        write(fake, {'schema': 'cbz.receipts.v1', 'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
-                     'gates': [{'id': f'G{i}', 'status': 'PASS'} for i in range(12)]})
-        report = self.inspect(fake)
-        self.assertEqual(set(report['gate_statuses'].values()), {'INCOMPLETE'})
-        self.assertNotEqual(report['status'], 'PASS')
-
-    def test_changed_command_invalidates_receipt(self):
-        self.tool.run(self.root, self.out)
-        self.config['gates'][0]['argv'].append('new-argument')
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        self.assertEqual(set(self.inspect(self.out / 'receipts.json')['gate_statuses'].values()), {'INCOMPLETE'})
-
-    def test_output_inside_source_root_refused(self):
-        with self.assertRaises(self.tool.ValidationError):
-            self.tool.run(self.root, self.root / 'out')
-
-    def test_timeout_is_recorded_incomplete(self):
-        self.gate.write_text('import time\ntime.sleep(10)\n')
-        self.config['gates'] = [dict(self.config['gates'][0], timeout_seconds=1)]
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        result = self.tool.run(self.root, self.out)
-        self.assertEqual(result['gates'][0]['status'], 'INCOMPLETE')
-        self.assertTrue(result['gates'][0]['timed_out'])
-
-    def test_offline_pin_object_and_manifest_checked(self):
-        head = subprocess.check_output(['git', '-C', str(self.root), 'rev-parse', 'HEAD'], text=True).strip()
-        write(self.root / 'lake-manifest.json', {'packages': [{'name': 'Math', 'rev': head}]})
-        self.config['pins'] = [{'repo': '.', 'commit': head, 'object_path': 'proof.lean',
-                               'sha256': sha(self.root / 'proof.lean'), 'pin_file': 'lake-manifest.json', 'package': 'Math'}]
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        report = self.inspect()
-        self.assertEqual(report['pins'][0]['status'], 'PASS')
-        write(self.root / 'lake-manifest.json', {'packages': [{'name': 'Math', 'rev': 'f' * 40}]})
-        self.assertEqual(self.inspect()['pins'][0]['status'], 'FAIL')
-
-    def test_missing_offline_dependency_is_incomplete(self):
-        self.config['pins'] = [{'repo': '../missing', 'commit': 'f' * 40, 'object_path': 'x', 'sha256': '0' * 64}]
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        self.assertEqual(self.inspect()['pins'][0]['status'], 'INCOMPLETE')
-
-    def test_cold_start_checks_executable_entrypoints_without_theorem_claim(self):
-        result = self.tool.cold_start(self.root)
-        self.assertEqual(result['status'], 'PASS')
-        self.assertFalse(result['certifies_theorems'])
-        (self.root / 'STATUS.md').write_text('PASS\n')
-        self.assertEqual(self.tool.cold_start(self.root)['status'], 'FAIL')
-
-    def test_exit_two_is_incomplete_rather_than_an_observed_failure(self):
-        self.gate.write_text('import sys\nsys.exit(2)\n')
-        self.config['gates'] = [self.config['gates'][0]]
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        self.assertEqual(self.tool.run(self.root, self.out)['gates'][0]['status'], 'INCOMPLETE')
-
-    def test_receipt_log_tampering_is_refused(self):
-        self.tool.run(self.root, self.out)
-        (self.out / 'G0.stdout').write_text('forged PASS')
-        self.assertEqual(self.inspect(self.out / 'receipts.json')['gate_statuses']['G0'], 'INCOMPLETE')
-
-    def test_declared_allowed_axioms_cannot_admit_custom_axioms(self):
-        self.config['allowed_axioms'].append('Custom.fake')
-        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
-        with self.assertRaises(self.tool.ValidationError):
-            self.inspect()
-
-    def test_duplicate_json_key_is_refused(self):
-        (self.root / self.tool.DEFAULT_CONFIG).write_text('{"schema":"cbz.baseline.v1","schema":"forged"}')
-        with self.assertRaises(self.tool.ValidationError):
-            self.inspect()
-
-
-if __name__ == '__main__':
-    unittest.main()
-)
+        self.assertEqual(row['status'], 'INCOMPLETE')  # scanner output is not semantic closure
+        self.assertRegex(row['scan_snapshot_sha256'], r'^[0-9a-f]{64}$')
         self.assertIn('tools/cbz_baseline.py', row['source_sha256'])
         self.assertEqual(row['source_sha256']['tools/cbz_baseline.py'], sha(TOOL))
+        self.assertEqual(row['scan_execution']['argv'][0], row['scan_execution']['executable_path'])
         late = self.root / 'late-proof.lean'
         late.write_text('axiom injected : False\n')
         self.commit()
         observed = self.inspect(self.out / 'receipts.json')
         self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
         self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
+        execution = self.tool._scan_execution_identity(self.config['gates'][1])
         fresh = subprocess.run(
-            [sys.executable, '-B', '-S', 'tools/cbz_audit.py', 'scan', '--root', '.'],
-            cwd=self.root, capture_output=True, text=True,
+            execution['argv'], cwd=self.root, env=execution['environment'],
+            capture_output=True,
         )
         self.assertEqual(fresh.returncode, 1)
         payload = json.loads(fresh.stdout)
@@ -266,9 +196,10 @@ if __name__ == '__main__':
         observed = self.inspect(self.out / 'receipts.json')
         self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
         self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
+        execution = self.tool._scan_execution_identity(self.config['gates'][1])
         fresh = subprocess.run(
-            [sys.executable, '-B', '-S', 'tools/cbz_audit.py', 'scan', '--root', '.'],
-            cwd=self.root, capture_output=True, text=True,
+            execution['argv'], cwd=self.root, env=execution['environment'],
+            capture_output=True,
         )
         self.assertEqual(fresh.returncode, 2)
         payload = json.loads(fresh.stdout)
@@ -277,14 +208,6 @@ if __name__ == '__main__':
             item['code'] == 'file.untracked_proof' and item['path'] == 'proofs/new-candidate.lean'
             for item in payload['coverage_gaps']
         ))
-
-    def test_forged_pass_without_process_logs_is_refused(self):
-        fake = self.base / 'forged.json'
-        write(fake, {'schema': 'cbz.receipts.v1', 'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
-                     'gates': [{'id': f'G{i}', 'status': 'PASS'} for i in range(12)]})
-        report = self.inspect(fake)
-        self.assertEqual(set(report['gate_statuses'].values()), {'INCOMPLETE'})
-        self.assertNotEqual(report['status'], 'PASS')
 
     def test_changed_command_invalidates_receipt(self):
         self.tool.run(self.root, self.out)
@@ -348,6 +271,80 @@ if __name__ == '__main__':
         (self.root / self.tool.DEFAULT_CONFIG).write_text('{"schema":"cbz.baseline.v1","schema":"forged"}')
         with self.assertRaises(self.tool.ValidationError):
             self.inspect()
+
+
+    def test_malformed_receipt_shapes_are_incomplete(self):
+        fake = self.base / 'malformed.json'
+        payloads = (
+            [],
+            None,
+            {'schema': 'cbz.receipts.v1',
+             'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
+             'gates': [None]},
+        )
+        for payload in payloads:
+            write(fake, payload)
+            observed = self.inspect(fake)
+            self.assertEqual(set(observed['gate_statuses'].values()), {'INCOMPLETE'})
+
+    def test_g1_receipt_recheck_brackets_source_binding(self):
+        run = self.tool.run(self.root, self.out)
+        row = next(item for item in run['gates'] if item['id'] == 'G1')
+        def mutate_during_recheck(root, gate, expected_execution):
+            (root / 'tools/cbz_audit.py').write_text('print("changed during recheck")\n')
+            return row['scan_snapshot_sha256']
+        with mock.patch.object(self.tool, '_recompute_scan_snapshot', side_effect=mutate_during_recheck):
+            observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any(
+            'source or execution identity changed during receipt recheck' in item
+            for item in observed['unmet']
+        ))
+
+    def test_g1_execution_identity_binds_resolved_executable(self):
+        run = self.tool.run(self.root, self.out)
+        row = next(item for item in run['gates'] if item['id'] == 'G1')
+        identity = row['scan_execution']
+        self.assertEqual(identity['argv'][0], identity['executable_path'])
+        self.assertRegex(identity['executable_sha256'], r'^[0-9a-f]{64}$')
+        shadow_dir = self.base / 'shadow-bin'
+        shadow_dir.mkdir()
+        shadow = shadow_dir / 'python'
+        shadow.write_text('#!/bin/sh\nexit 0\n')
+        shadow.chmod(0o755)
+        with mock.patch.dict(os.environ, {'PATH': str(shadow_dir)}):
+            observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any('executable identity is missing or changed' in item for item in observed['unmet']))
+
+    def test_g1_focused_controls_under_optimized_python(self):
+        names = (
+            'test_g1_snapshot_is_canonical_and_binds_exit_code',
+            'test_g1_legacy_or_malformed_snapshot_is_incomplete',
+            'test_g1_receipt_recheck_failure_is_incomplete',
+            'test_g1_receipt_recheck_brackets_source_binding',
+            'test_g1_receipt_rejects_new_committed_tracked_axiom',
+            'test_g1_receipt_rejects_new_untracked_proof_candidate',
+            'test_g1_execution_identity_binds_resolved_executable',
+            'test_malformed_receipt_shapes_are_incomplete',
+        )
+        command = [
+            sys.executable, '-O', str(Path(__file__).resolve()),
+            *[f'BaselineTests.{name}' for name in names],
+        ]
+        completed = subprocess.run(
+            command, cwd=Path(__file__).resolve().parents[1],
+            capture_output=True, text=True, timeout=300,
+        )
+        self.assertEqual(completed.returncode, 0, msg=(completed.stdout + completed.stderr)[-12000:])
+
+    def test_forged_pass_without_process_logs_is_refused(self):
+        fake = self.base / 'forged.json'
+        write(fake, {'schema': 'cbz.receipts.v1', 'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
+                     'gates': [{'id': f'G{i}', 'status': 'PASS'} for i in range(12)]})
+        report = self.inspect(fake)
+        self.assertEqual(set(report['gate_statuses'].values()), {'INCOMPLETE'})
+        self.assertNotEqual(report['status'], 'PASS')
 
 
 if __name__ == '__main__':
