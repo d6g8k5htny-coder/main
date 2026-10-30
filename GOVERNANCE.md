@@ -220,19 +220,54 @@ published SHA256SUMS. The existing README defines use, coverage and limitations;
 the Python validator checks transcript consistency and authenticates no execution.
 
 Run `python3.11 -B -S run_mutations.py --output /new/output` from that directory
-using Python 3.11.16. The frozen suite contains 31 baseline tests; the unchanged runner requires both
-baselines to pass and all three intended validator mutant kills in each
-normal/optimized mode. The
-`bounded-replay-python-controls` job in
-`.github/workflows/cbz-p15-historical-readback.yml` installs the pinned runtime
-and retains complete results on success or failure. The existing P15 job is
-unchanged. This job covers the restored Python controls, not actual Lean replay,
-whole-federation G0 or a mathematical proof. Actual Lean controls use the separate
-documented harness and pinned Lean 4.34.1.
+using Python 3.11.16. The frozen suite contains 31 baseline tests. Preserve its
+original reports and logs: the historical runner's `reason_bound_kill` fields
+alone do not establish intended-cause qualification. A recorded negative-control
+probe showed that it accepts unrelated assertion causes or extra runtime errors
+when the expected method header appears. The original six hosted observations
+were separately inspected and have their intended causes; they are not withdrawn.
 
-This CI binding resolves an observed local Python 3.9 unittest-header mismatch;
-the failed local mutation-grader attempt remains evidence. No assertion or
-expected verdict was weakened. Registration records how to verify the restored
-source; passing qualification is recorded at its exact run/source, never inferred
-from this text. Maintenance owner: none, self-contained. Serves criteria 6, 9,
-11 within the documented bounded scope.
+**Recorded mutation qualifier:** `tools/cbz_replay_mutation_qualify.py` is a
+separate, bounded post-check; all four historical Python files and SHA256SUMS
+remain unchanged. After the historical command, run from the repository root:
+
+```sh
+python -B -S tools/cbz_replay_mutation_qualify.py --input /new/output --output /new/qualification.json
+```
+
+The qualification output must be fresh and outside the input/source directories.
+The optional `--source-dir` supplies the same frozen source set explicitly. The
+qualifier pins source, test and runner bytes, recomputes the three mutant-source
+hashes, and requires the complete two-baseline/six-mutant population. Every log
+must match its full 31-test census, exact recorded exit, no skips/errors/foreign
+failures, and the intended final cause. The owned-names mutation checks diagnostic
+loss while the module-assignment guard still rejects; it is not a validator-bypass
+claim. Duplicate/unknown/missing/nonfinite fields, bool/int exit aliases,
+missing/extra/symlink files, altered digests and nonempty stdout are rejected.
+
+Self-verification at the initial source: 14 tests passed normally and optimized
+on Python 3.9.6; six source mutants produced named assertion failures in both
+modes, with no import/error kills. A separate source-exposed OpenAI/Codex reviewer
+ran the 14 tests in both modes and checked the authentic and adverse inputs.
+All six wrong-cause/mixed-error probes reject on cause after explicitly labeled
+synthetic reported-runtime adjustment; their untouched Python 3.9.6 reports
+instead reject at the declared-runtime boundary. These parser checks do not
+execute the historical replay program. Exact source and raw records accompany
+the task-local review; a hosted result remains bound to its actual source/run.
+
+The `bounded-replay-python-controls` job in
+`.github/workflows/cbz-p15-historical-readback.yml` installs Python 3.11.16,
+requires both 14-test qualifier suites without skips, runs the historical
+controls, then requires the separate qualification output. It retains complete
+results on success or failure. The P15 job is unchanged. This binding serves
+criteria 6, 9 and 11 only within the recorded scope; it is not actual Lean replay,
+whole-federation G0, general grader soundness, or mathematical proof. Actual Lean
+controls use the separate documented harness and pinned Lean 4.34.1.
+
+Unsigned internally consistent records do not authenticate execution. This tool
+checks recorded consistency; independent native artifact/source custody remains
+necessary. The unsupported local Python 3.9 historical-grader failure, synthetic
+false-credit cases, source-mutant controls and corrected failed attempts remain
+in the evidence. No original test, bound or expected verdict is weakened.
+Maintenance owner: none; frozen profile, self-contained. Requalify changed
+source/profile inputs; do not convert this registration into global admission.
