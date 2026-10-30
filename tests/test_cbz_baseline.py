@@ -440,6 +440,46 @@ class BaselineTests(unittest.TestCase):
                             cleanup.chmod(0o700)
                             cleanup.rmdir()
 
+    def test_g1_execution_identity_rejects_wrong_owner_directories(self):
+        gate = self.config['gates'][1]
+        git_dir = self.root / '.git'
+        directories = (git_dir / 'cbz-g1-home', git_dir / 'cbz-g1-xdg')
+        path_type = type(self.root)
+        original_lstat = path_type.lstat
+        effective_uid = os.geteuid()
+
+        for directory in directories:
+            with self.subTest(directory=directory.name):
+                for cleanup in directories:
+                    if cleanup.exists():
+                        cleanup.chmod(0o700)
+                        cleanup.rmdir()
+
+                def wrong_owner(path):
+                    metadata = original_lstat(path)
+                    if path == directory:
+                        fields = list(metadata)
+                        fields[4] = effective_uid + 1
+                        return os.stat_result(fields)
+                    return metadata
+
+                with mock.patch.object(path_type, 'lstat', new=wrong_owner):
+                    with mock.patch.object(subprocess, 'Popen', wraps=subprocess.Popen) as popen:
+                        with self.assertRaisesRegex(
+                            self.tool.ValidationError,
+                            'owner is not the effective user',
+                        ):
+                            self.tool._scan_execution_identity(self.root, gate)
+
+                # _scan_execution_identity may run Git metadata commands, but
+                # the registered G1 scan command must not launch after the
+                # filesystem-owner preflight refuses the directory.
+                self.assertFalse(any(
+                    isinstance(call.args[0], (list, tuple))
+                    and list(call.args[0][1:]) == gate['argv'][1:]
+                    for call in popen.call_args_list
+                ))
+
     def test_g1_snapshot_requires_private_directory_identity_fields(self):
         identity = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
         effective_uid = os.geteuid()
@@ -483,6 +523,7 @@ class BaselineTests(unittest.TestCase):
             'test_g1_execution_identity_binds_git_configuration',
             'test_g1_execution_identity_rejects_default_xdg_home_ignore_files',
             'test_g1_execution_identity_rejects_preexisting_permissive_directories',
+            'test_g1_execution_identity_rejects_wrong_owner_directories',
             'test_g1_snapshot_requires_private_directory_identity_fields',
             'test_malformed_receipt_shapes_are_incomplete',
         )
