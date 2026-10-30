@@ -2,11 +2,14 @@
 import hashlib
 import importlib.util
 import json
+import os
+import shlex
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 TOOL = Path(__file__).resolve().parents[1] / 'tools/cbz_baseline.py'
 
@@ -42,6 +45,8 @@ class BaselineTests(unittest.TestCase):
         (self.root / 'tools').mkdir()
         self.gate = self.root / 'tools/check.py'
         self.gate.write_text('print("observed fixture execution")\n')
+        self.audit = self.root / 'tools/cbz_audit.py'
+        self.audit.write_bytes(TOOL.with_name('cbz_audit.py').read_bytes())
         proof = self.root / 'proof.lean'
         proof.write_text('theorem fixture : True := True.intro\n')
         self.proof = {'schema': 'cbz.proof-index.v1', 'records': [
@@ -50,7 +55,8 @@ class BaselineTests(unittest.TestCase):
              'reason': 'not kernel audited', 'attempts': ['fixture inspection'], 'isolation': 'No CLOSED dependents', 'owner': 'none'}]}
         write(self.root / 'cbz/proof-index.json', self.proof)
         write(self.root / 'cbz/tool-registry.json', {'schema': 'cbz.tools.v1', 'tools': [
-            {'path': 'tools/check.py', 'self_test': [sys.executable, 'tools/check.py']}]})
+            {'path': 'tools/check.py', 'self_test': [sys.executable, 'tools/check.py']},
+            {'path': 'tools/cbz_audit.py', 'self_test': [sys.executable, '-B', '-S', 'tools/cbz_audit.py', 'selftest']}]})
         statuses = {f'G{i}': 'INCOMPLETE' for i in range(12)}
         self.doc = '# Baseline state\n# Scientific boundaries\n# Cold-start commands\npython tools/check.py\n# Evidence and invariants\n# Unmet criteria\n'
         self.doc += '<!-- cbz-gates: ' + json.dumps(statuses) + ' -->\n'
@@ -63,6 +69,12 @@ class BaselineTests(unittest.TestCase):
                            'Evidence and invariants', 'Unmet criteria'], 'commands': [['python', 'tools/check.py']]},
                        'gates': [{'id': f'G{i}', 'argv': [sys.executable, 'tools/check.py'],
                                   'sources': ['tools/check.py'], 'timeout_seconds': 3} for i in range(12)]}
+        self.config['gates'][1] = dict(
+            self.config['gates'][1],
+            argv=['python', '-B', '-S', 'tools/cbz_audit.py', 'scan', '--root', '.'],
+            sources=['tools/cbz_audit.py'],
+            timeout_seconds=120,
+        )
         write(self.root / self.tool.DEFAULT_CONFIG, self.config)
         self.commit()
         self.out = self.base / 'receipts'
@@ -110,22 +122,93 @@ class BaselineTests(unittest.TestCase):
     def test_receipts_bind_actual_execution_and_stale_source_is_refused(self):
         run = self.tool.run(self.root, self.out)
         self.assertTrue((self.out / 'receipts.json').exists())
-        self.assertEqual([r['status'] for r in run['gates']], ['PASS'] * 12)
+        statuses = {row['id']: row['status'] for row in run['gates']}
+        self.assertEqual(statuses['G1'], 'INCOMPLETE')  # scanner result requires semantic receipts
+        self.assertEqual([statuses[f'G{i}'] for i in range(12) if i != 1], ['PASS'] * 11)
         observed = self.inspect(self.out / 'receipts.json')
-        self.assertEqual(set(observed['gate_statuses'].values()), {'PASS'})
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertEqual([observed['gate_statuses'][f'G{i}'] for i in range(12) if i != 1], ['PASS'] * 11)
         self.assertEqual(observed['status'], 'FAIL')  # docs still say INCOMPLETE
         self.gate.write_text('print("changed source")\n')
         stale = self.inspect(self.out / 'receipts.json')
         self.assertEqual(set(stale['gate_statuses'].values()), {'INCOMPLETE'})
         self.assertTrue(any('stale' in x.lower() for x in stale['unmet']))
 
-    def test_forged_pass_without_process_logs_is_refused(self):
-        fake = self.base / 'forged.json'
-        write(fake, {'schema': 'cbz.receipts.v1', 'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
-                     'gates': [{'id': f'G{i}', 'status': 'PASS'} for i in range(12)]})
-        report = self.inspect(fake)
-        self.assertEqual(set(report['gate_statuses'].values()), {'INCOMPLETE'})
-        self.assertNotEqual(report['status'], 'PASS')
+    def test_g1_snapshot_is_canonical_and_binds_exit_code(self):
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        compact = self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 0, execution)
+        spaced = self.tool._scan_snapshot(b'{ "b": 2, "a": 1 }\n', 0, execution)
+        self.assertEqual(compact, spaced)
+        self.assertNotEqual(compact, self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 1, execution))
+
+    def test_g1_legacy_or_malformed_snapshot_is_incomplete(self):
+        self.tool.run(self.root, self.out)
+        for malformed in (None, 'not-a-sha256'):
+            receipt = json.loads((self.out / 'receipts.json').read_text())
+            row = next(item for item in receipt['gates'] if item['id'] == 'G1')
+            if malformed is None:
+                row.pop('scan_snapshot_sha256', None)
+            else:
+                row['scan_snapshot_sha256'] = malformed
+            write(self.out / 'receipts.json', receipt)
+            observed = self.inspect(self.out / 'receipts.json')
+            self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+            self.assertTrue(any('missing or invalid scan snapshot' in item for item in observed['unmet']))
+
+    def test_g1_receipt_recheck_failure_is_incomplete(self):
+        self.tool.run(self.root, self.out)
+        with mock.patch.object(
+            self.tool, '_recompute_scan_snapshot',
+            side_effect=self.tool.ValidationError('recheck unavailable'),
+        ):
+            observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any('current registered scan snapshot could not be reproduced' in item for item in observed['unmet']))
+
+    def test_g1_receipt_rejects_new_committed_tracked_axiom(self):
+        run = self.tool.run(self.root, self.out)
+        row = next(item for item in run['gates'] if item['id'] == 'G1')
+        self.assertEqual(row['status'], 'INCOMPLETE')  # scanner output is not semantic closure
+        self.assertRegex(row['scan_snapshot_sha256'], r'^[0-9a-f]{64}$')
+        self.assertIn('tools/cbz_baseline.py', row['source_sha256'])
+        self.assertEqual(row['source_sha256']['tools/cbz_baseline.py'], sha(TOOL))
+        self.assertEqual(row['scan_execution']['argv'][0], row['scan_execution']['executable_path'])
+        late = self.root / 'late-proof.lean'
+        late.write_text('axiom injected : False\n')
+        self.commit()
+        observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        fresh = subprocess.run(
+            execution['argv'], cwd=self.root, env=execution['environment'],
+            capture_output=True,
+        )
+        self.assertEqual(fresh.returncode, 1)
+        payload = json.loads(fresh.stdout)
+        self.assertEqual(payload['result'], 'FAIL')
+        self.assertTrue(any(item['path'] == 'late-proof.lean' for item in payload['findings']))
+
+    def test_g1_receipt_rejects_new_untracked_proof_candidate(self):
+        self.tool.run(self.root, self.out)
+        late = self.root / 'proofs/new-candidate.lean'
+        late.parent.mkdir(parents=True)
+        late.write_text('theorem candidate : True := True.intro\n')
+        observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        fresh = subprocess.run(
+            execution['argv'], cwd=self.root, env=execution['environment'],
+            capture_output=True,
+        )
+        self.assertEqual(fresh.returncode, 2)
+        payload = json.loads(fresh.stdout)
+        self.assertIn('proofs/new-candidate.lean', payload['untracked'])
+        self.assertTrue(any(
+            item['code'] == 'file.untracked_proof' and item['path'] == 'proofs/new-candidate.lean'
+            for item in payload['coverage_gaps']
+        ))
 
     def test_changed_command_invalidates_receipt(self):
         self.tool.run(self.root, self.out)
@@ -189,6 +272,136 @@ class BaselineTests(unittest.TestCase):
         (self.root / self.tool.DEFAULT_CONFIG).write_text('{"schema":"cbz.baseline.v1","schema":"forged"}')
         with self.assertRaises(self.tool.ValidationError):
             self.inspect()
+
+
+    def test_malformed_receipt_shapes_are_incomplete(self):
+        fake = self.base / 'malformed.json'
+        payloads = (
+            [],
+            None,
+            {'schema': 'cbz.receipts.v1',
+             'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
+             'gates': [None]},
+        )
+        for payload in payloads:
+            write(fake, payload)
+            observed = self.inspect(fake)
+            self.assertEqual(set(observed['gate_statuses'].values()), {'INCOMPLETE'})
+
+    def test_g1_receipt_recheck_brackets_source_binding(self):
+        run = self.tool.run(self.root, self.out)
+        row = next(item for item in run['gates'] if item['id'] == 'G1')
+        def mutate_during_recheck(root, gate, expected_execution):
+            (root / 'tools/cbz_audit.py').write_text('print("changed during recheck")\n')
+            return row['scan_snapshot_sha256']
+        with mock.patch.object(self.tool, '_recompute_scan_snapshot', side_effect=mutate_during_recheck):
+            observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any(
+            'source or execution identity changed during receipt recheck' in item
+            for item in observed['unmet']
+        ))
+
+    def test_g1_execution_identity_binds_resolved_executable(self):
+        # Exercise the registered PATH-resolved command, not only an absolute fixture interpreter.
+        self.config['gates'][1]['argv'][0] = 'python'
+        write(self.root / self.tool.DEFAULT_CONFIG, self.config)
+        run = self.tool.run(self.root, self.out)
+        row = next(item for item in run['gates'] if item['id'] == 'G1')
+        identity = row['scan_execution']
+        self.assertEqual(identity['argv'][0], identity['executable_path'])
+        self.assertRegex(identity['executable_sha256'], r'^[0-9a-f]{64}$')
+        shadow_dir = self.base / 'shadow-bin'
+        shadow_dir.mkdir()
+        shadow = shadow_dir / 'python'
+        shadow.write_text('#!/bin/sh\nexit 0\n')
+        shadow.chmod(0o755)
+        original_path = os.environ.get('PATH', os.defpath)
+        with mock.patch.dict(os.environ, {'PATH': str(shadow_dir) + os.pathsep + original_path}):
+            observed = self.inspect(self.out / 'receipts.json')
+        self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
+        self.assertTrue(any('execution identity is missing or changed' in item for item in observed['unmet']))
+
+    def test_g1_execution_identity_binds_git_executable(self):
+        real_git = self.tool.shutil.which('git')
+        self.assertIsNotNone(real_git)
+        shadow_dir = self.base / 'shadow-git'
+        shadow_dir.mkdir()
+        shadow_git = shadow_dir / 'git'
+
+        def write_wrapper(marker):
+            shadow_git.write_text(
+                '#!/bin/sh\n# ' + marker + '\nexec ' + shlex.quote(real_git) + ' "$@"\n'
+            )
+            shadow_git.chmod(0o755)
+
+        original_defpath = os.defpath
+        shadow_path = str(shadow_dir) + os.pathsep + original_defpath
+        write_wrapper('first identity')
+        with mock.patch.object(os, 'defpath', shadow_path):
+            first = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+            write_wrapper('second identity')
+            second = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        self.assertEqual(first['git']['executable_path'], str(shadow_git.resolve()))
+        self.assertRegex(first['git']['executable_sha256'], r'^[0-9a-f]{64}$')
+        self.assertNotEqual(first['git']['executable_sha256'], second['git']['executable_sha256'])
+
+    def test_g1_execution_identity_binds_git_configuration(self):
+        gate = self.config['gates'][1]
+        first = self.tool._scan_execution_identity(self.root, gate)
+        info_exclude = self.root / '.git/info/exclude'
+        info_exclude.parent.mkdir(parents=True, exist_ok=True)
+        info_exclude.write_text('# first exclude state\n')
+        second = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(
+            first['git']['info_exclude_sha256'],
+            second['git']['info_exclude_sha256'],
+        )
+
+        core_excludes = self.base / 'core-excludes'
+        core_excludes.write_text('*.candidate\n')
+        subprocess.run(
+            ['git', '-C', str(self.root), 'config', 'core.excludesfile', str(core_excludes)],
+            check=True,
+        )
+        third = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(second['git']['config_sha256'], third['git']['config_sha256'])
+        self.assertEqual(len(third['git']['core_excludesfiles']), 1)
+        original_excludes_hash = third['git']['core_excludesfiles'][0]['sha256']
+        core_excludes.write_text('*.candidate\n*.archive\n')
+        fourth = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(original_excludes_hash, fourth['git']['core_excludesfiles'][0]['sha256'])
+
+    def test_g1_focused_controls_under_optimized_python(self):
+        names = (
+            'test_g1_snapshot_is_canonical_and_binds_exit_code',
+            'test_g1_legacy_or_malformed_snapshot_is_incomplete',
+            'test_g1_receipt_recheck_failure_is_incomplete',
+            'test_g1_receipt_recheck_brackets_source_binding',
+            'test_g1_receipt_rejects_new_committed_tracked_axiom',
+            'test_g1_receipt_rejects_new_untracked_proof_candidate',
+            'test_g1_execution_identity_binds_resolved_executable',
+            'test_g1_execution_identity_binds_git_executable',
+            'test_g1_execution_identity_binds_git_configuration',
+            'test_malformed_receipt_shapes_are_incomplete',
+        )
+        command = [
+            sys.executable, '-O', str(Path(__file__).resolve()),
+            *[f'BaselineTests.{name}' for name in names],
+        ]
+        completed = subprocess.run(
+            command, cwd=Path(__file__).resolve().parents[1],
+            capture_output=True, text=True, timeout=300,
+        )
+        self.assertEqual(completed.returncode, 0, msg=(completed.stdout + completed.stderr)[-12000:])
+
+    def test_forged_pass_without_process_logs_is_refused(self):
+        fake = self.base / 'forged.json'
+        write(fake, {'schema': 'cbz.receipts.v1', 'config_sha256': sha(self.root / self.tool.DEFAULT_CONFIG),
+                     'gates': [{'id': f'G{i}', 'status': 'PASS'} for i in range(12)]})
+        report = self.inspect(fake)
+        self.assertEqual(set(report['gate_statuses'].values()), {'INCOMPLETE'})
+        self.assertNotEqual(report['status'], 'PASS')
 
 
 if __name__ == '__main__':

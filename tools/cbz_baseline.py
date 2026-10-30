@@ -16,6 +16,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 
 DEFAULT_CONFIG = 'cbz/evidence/website-foundation-20261029/baseline-config.json'
@@ -242,8 +243,177 @@ def _pins(root, config, failures, unmet):
 
 def _binding(root, config, gate):
     paths = [config['_config_path'], config['proof_index'], config['tool_registry'], *gate['sources']]
-    return {name: _sha(_inside(root, name)) for name in sorted(set(paths))}
+    binding = {name: _sha(_inside(root, name)) for name in sorted(set(paths))}
+    if gate['id'] == 'G1':
+        # G1 receipt semantics are implemented by this consumer; bind that code too.
+        binding['tools/cbz_baseline.py'] = _sha(Path(__file__).resolve())
+    return binding
 
+
+def _scan_execution_identity(root, gate):
+    argv = gate.get('argv')
+    if not isinstance(argv, list) or not argv or any(
+        not isinstance(item, str) or not item or '\x00' in item for item in argv
+    ):
+        raise ValidationError('invalid registered G1 command')
+    executable = shutil.which(argv[0])
+    if not executable:
+        raise ValidationError('registered G1 executable unavailable')
+    path = Path(executable).resolve()
+    if not path.is_file():
+        raise ValidationError('registered G1 executable is not a file')
+    environment = {
+        'PATH': os.defpath,
+        'LANG': 'C',
+        'LC_ALL': 'C',
+        'GIT_CONFIG_NOSYSTEM': '1',
+        'GIT_CONFIG_SYSTEM': os.devnull,
+        'GIT_CONFIG_GLOBAL': os.devnull,
+        'GIT_TERMINAL_PROMPT': '0',
+        'GIT_NO_REPLACE_OBJECTS': '1',
+        'GIT_OPTIONAL_LOCKS': '0',
+        'PYTHONDONTWRITEBYTECODE': '1',
+        'PYTHONHASHSEED': '0',
+    }
+    git_executable = shutil.which('git', path=environment['PATH'])
+    if not git_executable:
+        raise ValidationError('registered G1 Git executable unavailable')
+    git_path = Path(git_executable).resolve()
+    if not git_path.is_file():
+        raise ValidationError('registered G1 Git executable is not a file')
+    try:
+        git_sha256 = _sha(git_path)
+        git_config = subprocess.run(
+            [str(git_path), '-C', str(root), 'config', '--null', '--show-origin', '--list'],
+            cwd=root, capture_output=True, env=environment, timeout=10, check=True,
+        ).stdout
+        exclude_output = subprocess.run(
+            [str(git_path), '-C', str(root), 'rev-parse', '--git-path', 'info/exclude'],
+            cwd=root, capture_output=True, env=environment, timeout=10, check=True,
+        ).stdout
+        exclude_name = os.fsdecode(exclude_output.removesuffix(b'\n'))
+        if not exclude_name:
+            raise ValidationError('G1 Git info/exclude path unavailable')
+        info_exclude = Path(exclude_name)
+        if not info_exclude.is_absolute():
+            info_exclude = (Path(root) / info_exclude).resolve()
+        else:
+            info_exclude = info_exclude.resolve()
+        info_exclude_sha256 = _sha(info_exclude) if info_exclude.is_file() else None
+        core_excludes_output = subprocess.run(
+            [str(git_path), '-C', str(root), 'config', '--path', '--null', '--get-all', 'core.excludesfile'],
+            cwd=root, capture_output=True, env=environment, timeout=10,
+        )
+        if core_excludes_output.returncode not in (0, 1):
+            raise ValidationError('G1 Git core.excludesfile configuration unavailable')
+        core_excludesfiles = []
+        for raw_path in core_excludes_output.stdout.split(b'\0'):
+            if not raw_path:
+                continue
+            configured_path = Path(os.fsdecode(raw_path)).expanduser()
+            if not configured_path.is_absolute():
+                configured_path = (Path(root) / configured_path).resolve()
+            else:
+                configured_path = configured_path.resolve()
+            core_excludesfiles.append({
+                'path_sha256': hashlib.sha256(os.fsencode(str(configured_path))).hexdigest(),
+                'sha256': _sha(configured_path) if configured_path.is_file() else None,
+            })
+        version = subprocess.run(
+            [str(git_path), '--version'], cwd=root, capture_output=True,
+            env=environment, timeout=10, check=True,
+        ).stdout
+        if _sha(git_path) != git_sha256:
+            raise ValidationError('registered G1 Git executable changed during identity capture')
+    except (OSError, subprocess.SubprocessError) as error:
+        raise ValidationError('registered G1 Git execution identity unavailable') from error
+    return {
+        'argv': [str(path), *argv[1:]],
+        'executable_path': str(path),
+        'executable_sha256': _sha(path),
+        'environment': environment,
+        'git': {
+            'executable_path': str(git_path),
+            'executable_sha256': git_sha256,
+            'version': os.fsdecode(version).strip(),
+            'config_sha256': hashlib.sha256(git_config).hexdigest(),
+            'info_exclude_sha256': info_exclude_sha256,
+            'core_excludesfiles': core_excludesfiles,
+        },
+    }
+
+def _scan_snapshot(raw_output, exit_code, execution_identity):
+    if type(exit_code) is not int:
+        raise ValidationError('G1 scan exit code unavailable')
+    git_identity = execution_identity.get('git') if isinstance(execution_identity, dict) else None
+    def valid_hash(value):
+        return isinstance(value, str) and re.fullmatch(r'[0-9a-f]{64}', value) is not None
+    core_excludesfiles = git_identity.get('core_excludesfiles') if isinstance(git_identity, dict) else None
+    if (
+        not isinstance(execution_identity, dict)
+        or not valid_hash(execution_identity.get('executable_sha256'))
+        or not isinstance(git_identity, dict)
+        or not isinstance(git_identity.get('executable_path'), str)
+        or not valid_hash(git_identity.get('executable_sha256'))
+        or not valid_hash(git_identity.get('config_sha256'))
+        or not isinstance(git_identity.get('version'), str)
+        or not git_identity.get('version')
+        or (git_identity.get('info_exclude_sha256') is not None and not valid_hash(git_identity.get('info_exclude_sha256')))
+        or not isinstance(core_excludesfiles, list)
+        or any(
+            not isinstance(item, dict)
+            or not valid_hash(item.get('path_sha256'))
+            or (item.get('sha256') is not None and not valid_hash(item.get('sha256')))
+            for item in core_excludesfiles
+        )
+    ):
+        raise ValidationError('G1 scan executable or Git identity unavailable')
+    try:
+        parsed = json.loads(raw_output.decode('utf-8'), object_pairs_hook=_pairs)
+        if not isinstance(parsed, dict):
+            raise ValidationError('G1 scan output is not a JSON object')
+        canonical = json.dumps(
+            {'exit_code': exit_code, 'execution': execution_identity, 'output': parsed},
+            sort_keys=True, ensure_ascii=True, separators=(',', ':'), allow_nan=False,
+        ).encode('utf-8')
+    except (UnicodeDecodeError, ValueError, TypeError) as error:
+        raise ValidationError('G1 scan output unavailable or invalid') from error
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _recompute_scan_snapshot(root, gate, expected_execution):
+    execution = _scan_execution_identity(root, gate)
+    if execution != expected_execution:
+        raise ValidationError('G1 registered execution identity changed')
+    timeout = gate.get('timeout_seconds', 60)
+    memory = gate.get('memory_mb', 1024) * 1024 * 1024
+
+    def limits():
+        import resource
+        resource.setrlimit(resource.RLIMIT_CPU, (timeout + 1, timeout + 2))
+        resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
+        resource.setrlimit(resource.RLIMIT_FSIZE, (64 * 1024 * 1024, 64 * 1024 * 1024))
+
+    with tempfile.TemporaryDirectory(prefix='cbz-g1-recheck-') as directory:
+        stdout_path = Path(directory) / 'stdout.json'
+        stderr_path = Path(directory) / 'stderr.log'
+        with stdout_path.open('wb') as stdout, stderr_path.open('wb') as stderr:
+            process = subprocess.Popen(
+                execution['argv'], cwd=root, stdout=stdout, stderr=stderr,
+                env=execution['environment'], start_new_session=True, preexec_fn=limits,
+            )
+            try:
+                exit_code = process.wait(timeout=timeout)
+            except subprocess.TimeoutExpired as error:
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                process.wait()
+                raise ValidationError('G1 scan timed out during receipt verification') from error
+        if _scan_execution_identity(root, gate) != execution:
+            raise ValidationError('G1 registered execution identity changed during recheck')
+        return _scan_snapshot(stdout_path.read_bytes(), exit_code, execution)
 
 def _receipt_statuses(root, config, receipt_path, failures, unmet):
     statuses = dict.fromkeys(GATES, 'INCOMPLETE')
@@ -254,20 +424,27 @@ def _receipt_statuses(root, config, receipt_path, failures, unmet):
     try:
         receipt_path = Path(receipt_path).resolve()
         receipts = _read(receipt_path)
+        if not isinstance(receipts, dict):
+            raise ValidationError('receipt must be a JSON object')
         if receipts.get('schema') != 'cbz.receipts.v1' or receipts.get('config_sha256') != _sha(_inside(root, config['_config_path'])):
             raise ValidationError('stale or invalid receipt configuration binding')
-        rows = receipts.get('gates', [])
-        if not isinstance(rows, list) or len({r.get('id') for r in rows}) != len(rows):
-            raise ValidationError('duplicate gate receipts')
+        rows = receipts.get('gates')
+        if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+            raise ValidationError('receipt gates must be a list of objects')
+        names = [row.get('id') for row in rows]
+        if any(not isinstance(name, str) for name in names) or len(set(names)) != len(names):
+            raise ValidationError('duplicate or invalid gate receipts')
         for row in rows:
-            name = row.get('id')
+            name = row['id']
             if name not in declared:
                 raise ValidationError('receipt for unregistered gate')
             gate = declared[name]
-            if row.get('argv') != gate['argv'] or row.get('source_sha256') != _binding(root, config, gate):
+            binding_before = _binding(root, config, gate)
+            if row.get('argv') != gate['argv'] or row.get('source_sha256') != binding_before:
                 unmet.append(name + ': stale receipt command/source identity')
                 continue
             valid = True
+            log_paths = {}
             for stream in ('stdout', 'stderr'):
                 relative = row.get(stream + '_path')
                 if not isinstance(relative, str):
@@ -277,12 +454,41 @@ def _receipt_statuses(root, config, receipt_path, failures, unmet):
                 if not log.is_relative_to(receipt_path.parent) or not log.is_file() or _sha(log) != row.get(stream + '_sha256'):
                     valid = False
                     break
-            observed = 'INCOMPLETE' if row.get('timed_out') or row.get('source_changed') else ('PASS' if row.get('exit_code') == 0 else ('INCOMPLETE' if row.get('exit_code') == 2 else 'FAIL'))
-            if not valid or row.get('status') != observed or type(row.get('exit_code')) not in (int, type(None)) or not row.get('started_utc'):
+                log_paths[stream] = log
+            exit_code = row.get('exit_code')
+            observed = 'INCOMPLETE' if row.get('timed_out') or row.get('source_changed') else ('PASS' if exit_code == 0 else ('INCOMPLETE' if exit_code == 2 else 'FAIL'))
+            if not valid or row.get('status') != observed or type(exit_code) not in (int, type(None)) or not isinstance(row.get('started_utc'), str) or not row.get('started_utc'):
                 unmet.append(name + ': unverified/forged receipt or process logs')
                 continue
+            if name == 'G1':
+                snapshot = row.get('scan_snapshot_sha256')
+                execution = row.get('scan_execution')
+                if not isinstance(snapshot, str) or not re.fullmatch(r'[0-9a-f]{64}', snapshot):
+                    unmet.append('G1: missing or invalid scan snapshot; legacy receipt is INCOMPLETE')
+                    continue
+                try:
+                    current_execution = _scan_execution_identity(root, gate)
+                    if execution != current_execution:
+                        unmet.append('G1: registered execution identity is missing or changed')
+                        continue
+                    stored_snapshot = _scan_snapshot(log_paths['stdout'].read_bytes(), exit_code, execution)
+                    if stored_snapshot != snapshot:
+                        unmet.append('G1: stored scan snapshot does not match preserved JSON output')
+                        continue
+                    current_snapshot = _recompute_scan_snapshot(root, gate, execution)
+                    binding_after = _binding(root, config, gate)
+                    execution_after = _scan_execution_identity(root, gate)
+                except (ValidationError, OSError, subprocess.SubprocessError, TypeError, KeyError, AttributeError):
+                    unmet.append('G1: current registered scan snapshot could not be reproduced')
+                    continue
+                if binding_after != binding_before or execution_after != execution:
+                    unmet.append('G1: source or execution identity changed during receipt recheck')
+                    continue
+                if current_snapshot != snapshot:
+                    unmet.append('G1: current scan snapshot differs from receipt')
+                    continue
             statuses[name] = observed
-    except (ValidationError, OSError, TypeError, KeyError):
+    except (ValidationError, OSError, TypeError, KeyError, AttributeError):
         unmet.append('stale/invalid receipt or missing exact execution evidence')
         return dict.fromkeys(GATES, 'INCOMPLETE')
     for name, status in statuses.items():
@@ -291,7 +497,6 @@ def _receipt_statuses(root, config, receipt_path, failures, unmet):
         elif status == 'FAIL':
             failures.append(name + ': observed command failed')
     return statuses
-
 
 def cold_start(root, *, config_path=None):
     root = Path(root).resolve()
@@ -391,8 +596,12 @@ def run(root, output, *, config_path=None):
         row = {'id': name, 'argv': gate['argv'], 'status': 'INCOMPLETE', 'exit_code': None,
                'timed_out': False, 'source_changed': False, 'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
                'stdout_path': name + '.stdout', 'stderr_path': name + '.stderr'}
+        execution = None
         try:
             row['source_sha256'] = _binding(root, config, gate)
+            if name == 'G1':
+                execution = _scan_execution_identity(root, gate)
+                row['scan_execution'] = execution
             timeout = gate.get('timeout_seconds', 60)
             def limits():
                 import resource
@@ -400,16 +609,23 @@ def run(root, output, *, config_path=None):
                 memory = gate.get('memory_mb', 1024) * 1024 * 1024
                 resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
                 resource.setrlimit(resource.RLIMIT_FSIZE, (64 * 1024 * 1024, 64 * 1024 * 1024))
+            command = execution['argv'] if execution is not None else gate['argv']
+            environment = execution['environment'] if execution is not None else None
             with (output / row['stdout_path']).open('wb') as stdout, (output / row['stderr_path']).open('wb') as stderr:
-                process = subprocess.Popen(gate['argv'], cwd=root, stdout=stdout, stderr=stderr,
-                                           start_new_session=True, preexec_fn=limits)
+                process = subprocess.Popen(command, cwd=root, stdout=stdout, stderr=stderr,
+                                           env=environment, start_new_session=True, preexec_fn=limits)
                 try:
                     row['exit_code'] = process.wait(timeout=timeout)
                 except subprocess.TimeoutExpired:
                     row['timed_out'] = True
-                    os.killpg(process.pid, signal.SIGKILL)
+                    try:
+                        os.killpg(process.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
                     row['exit_code'] = process.wait()
-            row['source_changed'] = row['source_sha256'] != _binding(root, config, gate)
+            if name == 'G1' and _scan_execution_identity(root, gate) != execution:
+                row['source_changed'] = True
+            row['source_changed'] = row['source_changed'] or row['source_sha256'] != _binding(root, config, gate)
             row['status'] = 'INCOMPLETE' if row['timed_out'] or row['source_changed'] else ('PASS' if row['exit_code'] == 0 else ('INCOMPLETE' if row['exit_code'] == 2 else 'FAIL'))
         except (OSError, ValidationError, subprocess.SubprocessError):
             row['status'] = 'INCOMPLETE'
@@ -418,12 +634,20 @@ def run(root, output, *, config_path=None):
             path = output / row[stream + '_path']
             path.touch(exist_ok=True)
             row[stream + '_sha256'] = _sha(path)
+        if name == 'G1':
+            try:
+                if execution is None:
+                    raise ValidationError('G1 executable identity unavailable')
+                row['scan_snapshot_sha256'] = _scan_snapshot(
+                    (output / row['stdout_path']).read_bytes(), row['exit_code'], execution)
+            except (ValidationError, OSError):
+                row['status'] = 'INCOMPLETE'
+                row['scan_snapshot_error'] = 'G1 JSON output, execution identity or actual exit code unavailable'
         result['gates'].append(row)
         temp = output / 'receipts.json.tmp'
         temp.write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
         temp.replace(output / 'receipts.json')
     return result
-
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
