@@ -8,6 +8,15 @@ Platform permissions and denials remain binding. Historical mathematical
 statements, test failures, authorship and verification outcomes are facts;
 this governance change does not rewrite them.
 
+## Current owner source
+
+The latest complete master is preserved [verbatim in main#686](https://github.com/d6g8k5htny-coder/main/issues/686#issuecomment-6511339492):
+36,617 UTF-8 bytes, SHA256
+`83ac6552fc6406e95213a1cfd6e8636095215e11aac6e3db473cd42c22275a8b`.
+Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
+monitor-specific integration restrictions. Historical decisions retain their
+original timestamps and outcomes; the latest directive controls future action.
+
 ## Mission and authority
 
 The sole mission is Clean Baseline Zero (CBZ-0), not additional research.
@@ -55,10 +64,14 @@ mathematical interpretation.
   Date, phase, layer, action, rationale, reversibility and evidence are
   required. Discovery evidence is timestamped and source-bound; a changing
   federation is not represented as an atomic observation.
-- **B-003 (2026-10-29):** Root owns shared canonical files and integration;
-  delegated discovery writes only its assigned evidence directory. Agents
-  may make autonomous bounded decisions and finish without peer approval.
-  Rationale: avoid concurrent overwrite while preserving parallel work.
+- **B-003 (updated 2026-10-30):** Agents share accountability for CBZ-0.
+  Ownership identifies the actual writer and current source scope; it is a
+  coordination hint, not an exclusive lock or approval gate. Preserve compatible
+  active work, communicate exact file/ref scopes and use guarded updates.
+  Reassign or absorb blocked work explicitly in the decision ledger.
+  Canonical documents remain single coherent surfaces; no agent identity,
+  including a shared `/root` label, confers exclusive integration authority.
+  Rationale: implement the owner's dynamic team model without silent overwrite.
 - **B-004 (2026-10-29):** Snapshot before recoverable/destructive operations;
   one extra verification cycle before irreversible published history work.
   No silent deletion. Preserve removed material in a documented tag,
@@ -107,3 +120,47 @@ are being inventoried against their actual tests and execution coverage.
 Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
+
+## Dynamic team coordination
+
+Proof closure, tooling, verification, integration and documentation are fluid
+roles. Assign the best-positioned agent to the highest-ranked useful task.
+Read current source, findings and compatible work before changing it; record
+actual executor/chat identity, evidence exposure and exact scope. A peer's
+silence is not proof of completion, and peer approval is not a prerequisite.
+If a peer is unavailable within the work cycle, proceed with a logged,
+source-preserving reassignment while taking other useful work in parallel.
+
+Surface incompatible edits in the inventory/conflict record. Apply this order:
+mathematically stricter valid content; simpler Layer B structure; combine
+compatible contributions; otherwise retain stronger verified evidence and
+quarantine the incompatible alternative with its precise boundary. Log the
+positions, resolution, rationale and evidence in DECISIONS.md before proceeding.
+Use current native task routes and source guards to converge; do not create
+duplicate canonical ledgers or treat model agreement as mathematical evidence.
+
+## Required addendum tools: admission boundaries
+
+The owner's compatible intent-locked addendum requires both an empirical
+randomized/pathological falsification harness and a dynamic federation drift
+crawler before final baseline lock. Discovery follows active root pins,
+dependency manifests and workspace registry graphs, including topology changes.
+Neither tool is admitted merely by this requirement or by a green badge.
+
+- G0/G5/G6 require meaningful positive/adverse self-tests and source-bound
+  mutation grading. Invalid executions cannot count as kills, and a
+  truth-preserving mutation cannot be assigned an unjustified false verdict.
+- New CLOSED claims require applicable empirical validation at the exact source
+  in addition to kernel, axiom and statement evidence. Empirical success never
+  proves a mathematical bound; decisive numerical violations require exact
+  arithmetic or justified intervals. Missing or unsupported coverage is explicit.
+- G7 includes contextual AST signatures, type definitions and theorem statements
+  across declared federation relationships. Lexical equality alone does not
+  establish semantic agreement; missing topology cannot silently pass.
+- G8/G9/G11 require truthful coverage and limitations, documented runnable
+  commands, self-verification and tool registration. The final G0-G11 run remains
+  required; separate proposed gate numbers do not replace it.
+
+Implementation and repair continue through the existing mission main#684 and
+tool/component task records. This governance change records requirements, not
+completed implementations, theorem closure or CBZ-0.
