@@ -116,7 +116,7 @@ RESULT = re.compile(r"^(FAILED|OK)\b(?: \(([^)]*)\))?\s*$", re.M)
 SUMMARY = re.compile(r"Ran (\d+) tests? in [^\n]+")
 FAIL_HEADER = re.compile(r"^FAIL: ([^(]+) \(([^)]+)\)$", re.M)
 TRACE_FRAME = re.compile(r'File "([^"]*test_g11_census\.py)", line (\d+), in ([A-Za-z_]\w*)')
-EXCEPTION = re.compile(r"(?m)^(AssertionError):")
+EXCEPTION = re.compile(r"(?m)^([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception|Warning|Interrupt|Exit|StopIteration)):")
 
 
 class HarnessError(Exception):
@@ -252,6 +252,11 @@ NEW_MUTATIONS = [
      "                value = value",
      "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
      "self.assertEqual(g11._workflow_commands(workflow_text)[0][1], [\"sh -c 'echo tools/runner.py'\"])"),
+    ("FAIL header mistaken for exception", "harness",
+     'EXCEPTION = re.compile(r"(?m)^([A-Za-z_][A-Za-z0-9_]*):")',
+     'EXCEPTION = re.compile(r"(?m)^([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception|Warning|Interrupt|Exit|StopIteration)):")',
+     "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
+     "self.assertTrue(g11m.qualifies_kill(parsed, expected_parser, 123))"),
 ]
 
 
