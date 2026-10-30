@@ -321,7 +321,7 @@ class AdversarialControls(unittest.TestCase):
         python_cmd = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
-            "tests/test_runner.py": 'import subprocess\nsubprocess.run("python -c \\'tools/runner.py\\'", shell=True)\n',
+            "tests/test_runner.py": "import subprocess\nsubprocess.run(\"python -c 'tools/runner.py'\", shell=True)\n",
         })
         self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])
 
