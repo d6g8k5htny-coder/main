@@ -133,10 +133,13 @@ class InventoryTests(unittest.TestCase):
 
         nested_source=self.repo('nested-source')
         (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\n')
-        self.git(nested_source,'add','.gitattributes')
+        self.git(nested_source,'add','.gitattributes','tracked')
         self.git(nested_source,'commit','-qm','configure nested filter')
 
         source=self.repo('source')
+        (source/'.gitattributes').write_text('tracked filter=audit\n')
+        self.git(source,'add','.gitattributes','tracked')
+        self.git(source,'commit','-qm','configure direct submodule filter')
         self.git(source,'-c','protocol.file.allow=always','submodule','add','-q',
                  '--name','nested',str(nested_source),'nested')
         self.git(source,'commit','-qm','add nested submodule')
