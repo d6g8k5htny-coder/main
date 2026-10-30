@@ -391,7 +391,7 @@ def run_selftest(root):
             results.append(dict(outcome, mutation=name, target=target, expected_test=test_id,
                                 expected_line=expected_line,
                                 killed=qualifies_kill(outcome, test_id, expected_line)))
-    baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 33
+    baseline_ok = (baseline.get("parsed") and baseline.get("exit") == 0 and baseline.get("ran") == 38
                    and baseline.get("failures") == 0 and baseline.get("errors") == 0
                    and baseline.get("skipped") == 0 and baseline.get("status") == "OK")
     killed = sum(r["killed"] for r in results)
