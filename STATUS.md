@@ -1,4 +1,79 @@
-# Scientific status snapshot
+# CBZ-0 execution status
+
+**State: Partial Baseline; CBZ-0 is not established.**
+
+This entry adopts the owner's expanded [Master Directive](governance/MASTER_DIRECTIVE_20261029_SWARM.txt)
+and [team protocol](GOVERNANCE.md#team-structure-and-coordination).
+The inherited scientific material below is explicitly the 29 September
+snapshot, not a fresh CLOSED decision or an empirical-validation receipt.
+Its mathematical statements, source cuts and review limits are preserved.
+
+## Current verification boundary
+
+The full federation inventory, proof dispositions, required tooling admission,
+cross-repository synchronization and final common G0-G11 pass remain unfinished.
+Source-only checks and individual successful jobs do not complete the twelve
+baseline criteria. The [foundation candidate #695](https://github.com/d6g8k5htny-coder/main/pull/695)
+is a candidate handoff, not the current default-branch baseline.
+At this observation, current Main is `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
+PR #713 is pending integration; its replay sources, controls and this documentation
+must be qualified at their final composed source. The proof catalogue and other
+foundation material in #695 are pending, not an admitted default-branch baseline.
+This intermediate entry is not a completed cold-start acceptance test.
+
+## How to verify
+
+The existing formal component can be run with
+`python -B tools/formal_gate_check.py --run-lean` using the toolchain pinned
+in `formal/lean-toolchain`; consult [the formal guide](docs/FORMAL_VERIFICATION.md)
+for setup and exact scope. Retain its actual build, kernel, axiom and negative
+control outputs. This command alone is not the full G0-G11 federation run.
+For the restored bounded replay controls in this PR, use Python 3.11.16 and
+run `python3.11 -B -S run_mutations.py --output /new/output` from
+`cbz/evidence/kernel/additional/replay-tool/`; see its [README](cbz/evidence/kernel/additional/replay-tool/README.md)
+and [governance scope](GOVERNANCE.md#restored-bounded-replay-controls).
+This checks the documented Python validator and its three mutants per mode;
+it neither authenticates a historical execution nor performs a Lean kernel replay.
+The retained Python 3.9 mutation-grader failure is not a passing qualification.
+
+The empirical fuzzing harness and contextual federation crawler are required
+but not admitted by this entry. Applicable source-bound empirical validation is
+necessary for a new CLOSED decision, alongside the formal gates; unsupported,
+empty or missing coverage cannot silently pass. #712's original green controls
+do not resolve its later graph and Lean-context findings. A bounded repair is
+not full AST/type/theorem synchronization. New gating tools require documented
+commands and self-verification before admission; unavailable or unsupported
+coverage remains explicit. No documented command here runs all G0-G11 yet.
+
+## Team and reconstitution
+
+Use the discovery, proof-closure, tooling, verification, integration and
+documentation roles in [GOVERNANCE.md](GOVERNANCE.md). Roles are fluid;
+ownership is not a lock. Start from the current pins, dependency manifests
+and registry graph, then assign the highest-value closable work to available
+agents. Record actual actors, source cuts, conflicts, decisions and handoffs
+in [DECISIONS.md](DECISIONS.md) and [CONFLICTS.md](CONFLICTS.md).
+The following is a bounded execution observation at 2026-10-30 00:13:19 UTC,
+not an exhaustive list of all agents or a claim of independent scientific review:
+
+| Actual actor | Current role and delivered scope | Source or execution boundary |
+|---|---|---|
+| OpenAI/Codex chat `01a11d37-16a7-7d32-a8b1-8131336243bf` | Documentation composition; R3 delivery coordination | This additive documentation contribution; [task record](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6511442656) |
+| `/root/cbz712_r3_registry_repair_20261029`, delegated in that chat | Tool repair | Two-file staged R3 tree `d6f8eb15af4216eb93352b96382264e5d39525cf` on `15e8f689`; nine focused and original 43 controls pass in both modes; original six retain five separate failures |
+| `/root/cbz712_r3_source_review_20261030`, delegated in that chat | Fresh nonauthor engineering verification | Exact R3 tree only; independent five real-Git/CLI controls per mode; same provider, no organizational independence or scientific acceptance |
+| OpenAI/Codex chat `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2` | Integration and replay-source recovery | [PR #713](https://github.com/d6g8k5htny-coder/main/pull/713); source-qualified handoff and final composed hosted checks remain distinct |
+| OpenAI/Codex chat `01a11c48-e9e4-7113-a03f-24b2155da25e` | Tool repair and compatible composition | [#712 source repair pickup](https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511525318); separate [PR #715](https://github.com/d6g8k5htny-coder/main/pull/715) trigger contribution |
+| OpenAI/Codex chat `01a103c8-7a8e-7461-8e9f-36e3b02757c5` | Adversarial verification | [#712 original six findings](https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511043716); compatible implementation pickup released while verification continues |
+
+Re-read native records and exact refs when reconstituting these roles; names
+and a shared account are not proof of current capacity or source qualification.
+At phase boundaries reconcile evidence and re-rank work. A final baseline
+must record its observed team composition and runnable final gate commands;
+this role description does not claim that acceptance has occurred.
+
+---
+
+## Historical scientific status snapshot
 
 **Snapshot date:** 2026-09-29  
 **Purpose:** one human-readable status page for the public front door.  

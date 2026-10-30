@@ -10,7 +10,8 @@ this governance change does not rewrite them.
 
 ## Current owner source
 
-The latest complete master is preserved [verbatim in main#686](https://github.com/d6g8k5htny-coder/main/issues/686#issuecomment-6511339492):
+The latest complete master is preserved [verbatim in this repository](governance/MASTER_DIRECTIVE_20261029_SWARM.txt)
+and [in main#686](https://github.com/d6g8k5htny-coder/main/issues/686#issuecomment-6511339492):
 36,617 UTF-8 bytes, SHA256
 `83ac6552fc6406e95213a1cfd6e8636095215e11aac6e3db473cd42c22275a8b`.
 Its team-model sections 1.5, 7.4 and 8 supersede older exclusive-owner and
@@ -121,23 +122,68 @@ Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
 
-## Dynamic team coordination
+## Team structure and coordination
 
-Proof closure, tooling, verification, integration and documentation are fluid
-roles. Assign the best-positioned agent to the highest-ranked useful task.
-Read current source, findings and compatible work before changing it; record
-actual executor/chat identity, evidence exposure and exact scope. A peer's
-silence is not proof of completion, and peer approval is not a prerequisite.
-If a peer is unavailable within the work cycle, proceed with a logged,
-source-preserving reassignment while taking other useful work in parallel.
+**B-007 (owner expansion dated 2026-10-29):** Operate as a fluid team, not a
+sequential coordinator queue. These are mandates, not permanent seats:
 
-Surface incompatible edits in the inventory/conflict record. Apply this order:
-mathematically stricter valid content; simpler Layer B structure; combine
-compatible contributions; otherwise retain stronger verified evidence and
-quarantine the incompatible alternative with its precise boundary. Log the
-positions, resolution, rationale and evidence in DECISIONS.md before proceeding.
-Use current native task routes and source guards to converge; do not create
-duplicate canonical ledgers or treat model agreement as mathematical evidence.
+| Role | Mandate | Required handoff |
+|---|---|---|
+| Discovery | Enumerate current topology, obligations, refs, deliveries and gaps | Exact source cut, coverage and unknowns |
+| Proof closure | Finish or precisely quarantine existing obligations without new research | Exact statement, hypotheses, kernel/axiom evidence and boundary |
+| Tool building | Build the narrow tool needed for closure; include adverse self-tests | Source, commands, exits, supported domain and residuals |
+| Verification | Execute the actual gate population and retain failures | Tested composition, raw outcomes and limits |
+| Integration | Compose compatible work with guarded, recoverable mutations | Actual integrated source, checks and remaining discrepancies |
+| Documentation | Keep canonical surfaces consistent with observed evidence | Source-bound status, runnable commands and team reconstruction |
+
+An agent may change roles or absorb blocked work under the owner's ranking
+function. Roles and a shared `/root` alias confer neither exclusive file
+ownership nor scientific or organizational independence. Automated checks
+and self-review do not become evidence of a broader mathematical claim.
+
+### Conflict protocol
+
+1. Register the incompatibility in [CONFLICTS.md](CONFLICTS.md), with both
+   positions, actual actors, source cuts, constraints and affected paths.
+2. Apply the hierarchy: mathematically stricter valid content wins for
+   Layer A; simpler compliant structure wins for Layer B; combine compatible
+   contributions; retain the stronger verified alternative and precisely
+   quarantine a genuinely irreconcilable one.
+3. Log the resolution, rationale and evidence in [DECISIONS.md](DECISIONS.md)
+   before calling it resolved. Preserve the losing work's recovery path and
+   all observed failures; no vote, silence or shared account supplies proof.
+4. When a conflict class recurs, add a dated Layer B rule here that prevents it.
+
+Agent questions may coordinate work for one work cycle; they are not
+approval gates. If a peer is unresponsive or its output is unusable, proceed
+with the best source-bound judgment, record the assumption and take useful
+work. Do not wait for a human or coordinator. A real platform denial remains
+binding; an expected-head guard is race protection, not a permission lock.
+
+### Shared state, handoffs and convergence
+
+Publish current task intent and source changes in the existing ledger and
+task-local record. Prepare concurrent reversible changes in isolated branches;
+re-read the current tree before mutation and compose rather than overwrite.
+A handoff records from-agent, to-agent or available role, task, exact state,
+what was done, what remains, discoveries, tools and evidence. The receiver's
+actual action is separate from a delivery notification.
+
+At each of the four phase boundaries, reconcile the inventory, conflict
+registry and gate evidence, then re-rank work. Phase convergence is an
+evidence synchronization point, not a provider quorum or waiting period.
+Private or local working files must be represented by an accessible,
+appropriately scoped source/evidence handoff rather than invisible state.
+
+### Reconstituting the team
+
+A cold-start agent begins with [STATUS.md](STATUS.md), the exact owner source,
+this role table and the decision/conflict records. It discovers the current
+federation from pins, manifests and registry edges; assigns the highest-value
+closable tasks to available roles; uses isolated reversible work; records
+handoffs; and converges on the same final G0-G11 run. The current bounded team observation is in [STATUS.md](STATUS.md#team-and-reconstitution).
+The final baseline must record the actual team composition and evidence, not
+only this role template.
 
 ## Required addendum tools: admission boundaries
 
