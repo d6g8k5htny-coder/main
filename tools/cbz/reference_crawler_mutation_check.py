@@ -3,8 +3,10 @@
 
 Each mutant disables or corrupts one detection, policy rule, extractor or topology
 behaviour. A mutant counts as killed only when tests/test_cbz_reference_crawler.py ran
-at least one test and reported FAILED. Each kill is printed with its failure and error
-counts. A syntax-broken copy must come out invalid, never killed. The unmutated suite
+at least one test and reported at least one assertion failure. An error-only run is
+invalid, never a kill. Each kill is printed with its failure and error counts and the
+failing tests. Two controls must come out invalid, never killed: a syntax-broken copy,
+and an error-only copy whose crawl() raises. The unmutated suite
 must pass both before and after the mutants. If the environment changes mid-run, so
 that errors could pass for kills, the run is invalid (exit 2). Exit 0 only if every
 mutant is killed.
@@ -23,6 +25,9 @@ TOOL = ROOT / "tools" / "cbz" / "reference_crawler.py"
 TEST = ROOT / "tests" / "test_cbz_reference_crawler.py"
 RAN = re.compile(r"^Ran (\d+) tests? in ", re.M)
 FAILED = re.compile(r"^FAILED \(([^)]*)\)$", re.M)
+FAILURES = re.compile(r"\bfailures=(\d+)")
+FAIL_NAME = re.compile(r"^FAIL: (\w+) ", re.M)
+CRAWL_START = "    findings = []\n    overrides = overrides or {}\n"
 MUTANTS = [
     ("blob identity ignored", "for b in ref.blobs if b != oid]", "for b in ref.blobs if False]"),
     ("sha256 ignored", "for d in ref.sha256s if d != digest]", "for d in ref.sha256s if False]"),
@@ -83,8 +88,37 @@ MUTANTS = [
     ("byte_length ignored", 'BYTES_KEYS = ("bytes", "byte_length")', 'BYTES_KEYS = ("bytes",)'),
     ("only the first recorded value checked", "if valid(obj.get(k)) and obj[k] not in out:",
      "if valid(obj.get(k)) and not out:"),
-    ("byte-identical claims ignored",
-     "for key in sorted(k for k in obj if k.startswith(ALSO_AT_PREFIX) and hex40(obj[k])):", "for key in ():"),
+    ("byte-identical claims ignored", "    for key in also:", "    for key in ():"),
+    ("malformed byte-identical values silent",
+     "    malformed += [k for k in also if obj[k] is not None and not hex40(obj[k])]", "    pass"),
+    ("byte-identical claims without identity accepted",
+     '        report("MALFORMED_IDENTITY", f"{also[0]} claims byte identity, but there is no blob, sha256 or bytes to compare")\n        also = []',
+     "        pass"),
+    ("unterminated comment accepted",
+     '            if end < 0:\n                raise ValueError("unterminated block comment")\n            i = end + 2',
+     "            i = len(text) if end < 0 else end + 2"),
+    ("topology incomplete not blocking", '"UNREAD", "TOPOLOGY_INCOMPLETE"}', '"UNREAD"}'),
+    ("missing workspace registry silent", 'incomplete("workspace", ws_registry, "the workspace registry is missing")', "pass"),
+    ("workspace registry shape silent", 'incomplete("workspace", ws_registry, "the workspace registry is not a JSON object")',
+     "pass"),
+    ("repositories list silent", 'incomplete("workspace", ws_registry, "the workspace registry has no repositories list")',
+     "pass"),
+    ("registry entry silent", 'incomplete("workspace", ws_registry, f"repositories[{i}] has no full_name")', "pass"),
+    ("canonical input silent",
+     'incomplete("workspace", ws_registry, "canonical_inputs.repository_registry does not name a repository and a path")',
+     "pass"),
+    ("registry host silent",
+     'incomplete("workspace", ws_registry, f"the repository registry\'s host {reg_input[\'repository\']!r} is not in the topology")',
+     "pass"),
+    ("registry document missing silent",
+     'incomplete(host.name, reg_input["path"], f"the repository registry is missing at {commit}")', "pass"),
+    ("registry map silent", 'incomplete(host.name, reg_input["path"], "the repository registry has no repositories map")',
+     "pass"),
+    ("registry host unreachable silent",
+     'incomplete(host.name, reg_input["path"], f"the registry host {host.name} is unreachable")', "pass"),
+    ("registry host commit silent",
+     'incomplete(host.name, reg_input["path"], f"the registry host\'s commit {commit or \'(none)\'} is not available")',
+     "pass"),
     ("suffix filter restored", 'if kind != "blob":\n            continue\n        if not include_fixtures',
      'if kind != "blob" or not path.endswith((".md", ".txt", ".json")):\n            continue\n        if not include_fixtures'),
     ("json lines not parsed", "if path.endswith(JSON_LINES_SUFFIXES):\n        docs, rest = [], []",
@@ -95,11 +129,14 @@ MUTANTS = [
     ("size limit ignored", "if size > MAX_TEXT_BYTES:", "if False:"),
     ("binary count hidden in markdown", 'binary = sum(report["binary_files_not_read"].values())', "binary = 0"),
     ("owner case-sensitive", "if owner.lower() not in owners:", "if owner not in owners:"),
-    ("unparseable not blocking", '"MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD"}', '"MALFORMED_IDENTITY", "UNREAD"}'),
-    ("unread not blocking", '"MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD"}', '"MALFORMED_IDENTITY", "UNPARSEABLE"}'),
+    ("unparseable not blocking", '"MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD", "TOPOLOGY_INCOMPLETE"}',
+     '"MALFORMED_IDENTITY", "UNREAD", "TOPOLOGY_INCOMPLETE"}'),
+    ("unread not blocking", '"MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD", "TOPOLOGY_INCOMPLETE"}',
+     '"MALFORMED_IDENTITY", "UNPARSEABLE", "TOPOLOGY_INCOMPLETE"}'),
     ("alias conflict ignored", "        report(\"ALIAS_CONFLICT\", f\"the repository fields disagree: {', '.join(repos)}\")\n        return",
      "        pass"),
-    ("malformed identity silent", 'report("MALFORMED_IDENTITY",', '(lambda *a: None)("MALFORMED_IDENTITY",'),
+    ("malformed identity silent", 'report("MALFORMED_IDENTITY", f"{k} = {str(obj[k])[:60]!r} is not a valid value")',
+     '(lambda *a: None)("MALFORMED_IDENTITY", f"{k} = {str(obj[k])[:60]!r} is not a valid value")'),
     ("only the first commit checked", "    for commit in commits or [None]:", "    for commit in commits[:1] or [None]:"),
     ("abbreviated commits rejected", 'COMMITISH = re.compile(r"^[0-9a-f]{7,40}$")', 'COMMITISH = re.compile(r"^[0-9a-f]{40}$")'),
     ("named refs malformed", '        elif k == "ref" and isinstance(value, str) and REF_NAME.match(value):', "        elif False:"),
@@ -113,8 +150,7 @@ MUTANTS = [
     ("json shape truncated", "            for child in v:\n                walk(child", "            for child in v[:50]:\n                walk(child"),
     ("file identity on a directory accepted",
      '        problems.append(f"a file identity is recorded, but the path is a {kind}")', "        pass"),
-    ("unpinned repositories get no url", '            url = f"https://github.com/{full}.git" if "/" in str(full) else ""',
-     '            url = ""'),
+    ("unpinned repositories get no url", '    url = f"https://github.com/{full}.git" if "/" in str(full) else ""', '    url = ""'),
     ("template files read", "or parts[-1].startswith(TEMPLATE_PREFIX)", "or False"),
     ("candidate ignored", "            node.commit, node.candidate = sha, True", "            node.candidate = True"),
     ("candidate missing silent", 'findings.append(finding("MISSING_PIN", node.name, "", f"candidate revision',
@@ -142,7 +178,13 @@ def run_suite(tool_dir):
     if proc.returncode == 0 and "\nOK" in proc.stdout:
         return "pass", ""
     failed = FAILED.search(proc.stdout)
-    return ("fail", failed.group(1)) if failed else ("invalid", "")
+    if not failed:
+        return "invalid", ""
+    failures = FAILURES.search(failed.group(1))
+    if not failures or int(failures.group(1)) == 0:
+        return "invalid", failed.group(1)  # errors alone are not evidence that a check caught the mutant
+    names = sorted(set(FAIL_NAME.findall(proc.stdout)))
+    return "fail", f"{failed.group(1)}; {', '.join(names[:3])}{', ...' if len(names) > 3 else ''}"
 
 
 def with_tool(source):
@@ -167,6 +209,15 @@ def main():
     with with_tool(source + "\ndef (:\n") as tmp:
         if run_suite(tmp)[0] != "invalid":
             print("CONTROL FAIL: a syntax-broken copy was not reported invalid")
+            return 2
+    if source.count(CRAWL_START) != 1:
+        print("CONTROL FAIL: the error-only control's anchor is not unique")
+        return 2
+    with with_tool(source.replace(CRAWL_START, CRAWL_START.replace("    findings = []\n",
+                                  "    raise RuntimeError(\"error-only control\")\n    findings = []\n"))) as tmp:
+        outcome, detail = run_suite(tmp)
+        if outcome != "invalid" or "errors=" not in detail:
+            print(f"CONTROL FAIL: an error-only copy was not reported invalid ({outcome}: {detail})")
             return 2
     killed = 0
     for name, old, new in MUTANTS:

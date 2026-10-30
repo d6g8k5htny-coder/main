@@ -21,7 +21,8 @@ records a broken reference or breaks a live reference into itself.
 References, extracted from every file of every node at its crawled commit that is
 valid UTF-8 text, whatever its extension:
   * JSON (.json and .ipynb documents, and each line of .jsonl and .ndjson files; JSON
-    with // or /* */ comments and trailing commas is read too): any object with a
+    with // or /* */ comments and trailing commas is read too; an unterminated
+    comment makes the file UNPARSEABLE): any object with a
     repository key (repository, repo or full_name) and a string "path" is a record.
     Its identities are a commit (COMMIT_KEYS: 7 to 40 hex digits, so an abbreviated
     commit resolves through Git), a Git blob id (BLOB_KEYS), a SHA-256 (SHA256_KEYS)
@@ -33,7 +34,9 @@ valid UTF-8 text, whatever its extension:
     claim about a file and is not a reference. Repository aliases
     that disagree, and identity values that are not valid (a null counts as absent),
     are blocking findings. A byte_identical_at_<name> key with a 40-hex value claims
-    the same identity at that further commit, and is checked there too;
+    the same identity at that further commit, and is checked there too. Such a claim
+    needs a recorded blob, sha256 or byte count to compare, and an invalid value is a
+    MALFORMED_IDENTITY;
   * text: GitHub blob, tree or raw URLs of a topology owner with a 40-hex commit.
     The URL path may contain balanced parentheses and is percent-decoded. In JSON,
     URLs are matched in the decoded string values, so JSON escapes such as \n or \/
@@ -64,6 +67,9 @@ Findings. BLOCKING findings make the exit status 1:
                         with comments: its records are unchecked, so the census is incomplete.
                         URLs are still matched in its raw text
   UNREAD                a file over MAX_TEXT_BYTES, which is not read, so the census is incomplete
+  TOPOLOGY_INCOMPLETE   the workspace registry, its canonical repository_registry input, or the
+                        registry document is missing, unreadable or of the wrong shape, so some
+                        repositories may not have been discovered
 The crawl never halts on one repository: an unreachable node is a finding, and the
 rest of the federation is still crawled.
 INFO findings are reported and do not block, unless a flag says otherwise:
@@ -121,7 +127,7 @@ from pathlib import Path
 
 BLOCKING = {"UNKNOWN_REPOSITORY", "MISSING_COMMIT", "MISSING_PATH", "IDENTITY_MISMATCH", "LIVE_DRIFT",
             "UNREACHABLE_REPOSITORY", "MISSING_PIN", "TARGET_UNREACHABLE", "ALIAS_CONFLICT",
-            "MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD"}
+            "MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD", "TOPOLOGY_INCOMPLETE"}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 COMMITISH = re.compile(r"^[0-9a-f]{7,40}$")
@@ -255,6 +261,12 @@ def resolve_revision(mirror, rev):
     return git(mirror.path, "rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}", check=False).stdout.strip() or None
 
 
+def unpinned_node(name, full):
+    """A registered repository without a pin, to be cloned from the URL its owner/name gives."""
+    url = f"https://github.com/{full}.git" if "/" in str(full) else ""
+    return Node(name, full if "/" in str(full) else name, url, "", False, True)
+
+
 def discover(workspace, rev, mirror_for, findings, at=None):
     """Build the topology from the workspace's pins and registries at rev; --at revisions replace pins."""
     at = at or {}
@@ -266,14 +278,33 @@ def discover(workspace, rev, mirror_for, findings, at=None):
         raise CrawlError(f"workspace pins.json does not parse: {exc}") from None
     if not pins or pins.get("schema") != "ulw.pins.v1" or not isinstance(pins.get("repos"), list):
         raise CrawlError("workspace pins.json is missing or is not schema ulw.pins.v1")
+    def incomplete(repo, path, detail):
+        findings.append(finding("TOPOLOGY_INCOMPLETE", repo, path, detail))
+
+    ws_registry = "workspace/repositories.json"
     try:
-        registry = read_json(ws, rev, "workspace/repositories.json") or {}
+        registry = read_json(ws, rev, ws_registry)
     except (ValueError, UnicodeDecodeError):
-        registry = {}
-        findings.append(finding("UNPARSEABLE", "workspace", "workspace/repositories.json",
-                                "the workspace registry does not parse"))
-    registered = {name_of(r.get("full_name")): r.get("full_name")
-                  for r in registry.get("repositories", []) if isinstance(r, dict) and r.get("full_name")}
+        registry = None
+        findings.append(finding("UNPARSEABLE", "workspace", ws_registry, "the workspace registry does not parse"))
+    else:
+        if registry is None:
+            incomplete("workspace", ws_registry, "the workspace registry is missing")
+        elif not isinstance(registry, dict):
+            incomplete("workspace", ws_registry, "the workspace registry is not a JSON object")
+            registry = None
+    registered = {}
+    if registry is not None:
+        entries = registry.get("repositories")
+        if not isinstance(entries, list):
+            incomplete("workspace", ws_registry, "the workspace registry has no repositories list")
+            entries = []
+        for i, r in enumerate(entries):
+            if isinstance(r, dict) and isinstance(r.get("full_name"), str) and r["full_name"]:
+                registered[name_of(r["full_name"])] = r["full_name"]
+            else:
+                incomplete("workspace", ws_registry, f"repositories[{i}] has no full_name")
+    registry = registry or {}
     ws_full = registry.get("workspace") or "workspace"
     nodes = {name_of(ws_full): Node(name_of(ws_full), ws_full, "", rev, False, True, ws)}
     for entry in pins["repos"]:
@@ -283,31 +314,49 @@ def discover(workspace, rev, mirror_for, findings, at=None):
             raise CrawlError(f"pins.json entry {entry!r} lacks a name or a 40-hex pinned_sha")
         full = registered.get(name) or (f"{owner_of(entry.get('url'))}/{name}" if owner_of(entry.get("url")) else name)
         nodes[name] = Node(name, full, entry.get("url", ""), sha, True, name in registered)
+    for name, full in registered.items():
+        if name not in nodes:
+            nodes[name] = unpinned_node(name, full)
     # The registry that canonical_inputs names contributes registered repositories too.
-    reg_input = (registry.get("canonical_inputs") or {}).get("repository_registry") or {}
+    inputs = registry.get("canonical_inputs")
+    reg_input = inputs.get("repository_registry") if isinstance(inputs, dict) else None
     extra = {}
-    if reg_input.get("repository") and reg_input.get("path"):
+    if registry and not (isinstance(reg_input, dict) and isinstance(reg_input.get("repository"), str)
+                         and isinstance(reg_input.get("path"), str) and reg_input["repository"] and reg_input["path"]):
+        incomplete("workspace", ws_registry, "canonical_inputs.repository_registry does not name a repository and a path")
+    elif registry:
         host = nodes.get(name_of(reg_input["repository"]))
-        if host is not None:
+        doc = None
+        if host is None:
+            incomplete("workspace", ws_registry, f"the repository registry's host {reg_input['repository']!r} is not in the topology")
+        else:
             try:
                 host.mirror = host.mirror or mirror_for(host)
-                doc = read_json(host.mirror, host.commit, reg_input["path"]) or {}
+                commit = host.commit or host.mirror.default_tip()
+                if not commit or not host.mirror.ensure_commit(commit):
+                    incomplete(host.name, reg_input["path"], f"the registry host's commit {commit or '(none)'} is not available")
+                else:
+                    doc = read_json(host.mirror, commit, reg_input["path"])
+                    if doc is None:
+                        incomplete(host.name, reg_input["path"], f"the repository registry is missing at {commit}")
             except CrawlError:
-                doc = {}  # the host's own UNREACHABLE_REPOSITORY finding is recorded below
+                incomplete(host.name, reg_input["path"], f"the registry host {host.name} is unreachable")
             except (ValueError, UnicodeDecodeError):
-                doc = {}
                 findings.append(finding("UNPARSEABLE", host.name, reg_input["path"],
                                         "the repository registry does not parse"))
-            repos = doc.get("repositories", {})
-            for key in (repos if isinstance(repos, dict) else []):
-                extra[name_of(key)] = key
+        if doc is not None:
+            repos = doc.get("repositories") if isinstance(doc, dict) else None
+            if not isinstance(repos, dict):
+                incomplete(host.name, reg_input["path"], "the repository registry has no repositories map")
+            else:
+                for key in repos:
+                    extra[name_of(key)] = key
     for name in at:
         if name not in nodes or nodes[name].mirror is ws:
             raise CrawlError(f"--at names {name!r}, which is not a crawled repository (use --workspace-rev for the workspace)")
-    for name, full in list(registered.items()) + list(extra.items()):
+    for name, full in extra.items():
         if name not in nodes:
-            url = f"https://github.com/{full}.git" if "/" in str(full) else ""
-            nodes[name] = Node(name, full if "/" in str(full) else name, url, "", False, True)
+            nodes[name] = unpinned_node(name, full)
     for node in nodes.values():
         if node.mirror is None:
             try:
@@ -407,6 +456,8 @@ def record_references(obj, repos, path, source, source_path, out, findings):
               (BYTES_KEYS, is_int))
     for keys, valid in checks:
         malformed += [k for k in keys if obj.get(k) is not None and not valid(obj[k])]
+    also = sorted(k for k in obj if k.startswith(ALSO_AT_PREFIX))
+    malformed += [k for k in also if obj[k] is not None and not hex40(obj[k])]
     for k in malformed:
         report("MALFORMED_IDENTITY", f"{k} = {str(obj[k])[:60]!r} is not a valid value")
     blobs = distinct(obj, BLOB_KEYS, hex40)
@@ -414,12 +465,16 @@ def record_references(obj, repos, path, source, source_path, out, findings):
     sizes = distinct(obj, BYTES_KEYS, is_int)
     lines = (obj["line_start"], obj["line_end"]) if is_int(obj.get("line_start")) and is_int(obj.get("line_end")) else None
     text = obj.get("text") if lines and isinstance(obj.get("text"), str) else None
+    also = [k for k in also if hex40(obj[k])]
+    if also and not (blobs or sha256s or sizes):
+        report("MALFORMED_IDENTITY", f"{also[0]} claims byte identity, but there is no blob, sha256 or bytes to compare")
+        also = []
     if not (commits or named or blobs or sha256s or sizes):
         return  # no identity is claimed, so there is nothing to check
     # Each distinct commit is its own claim; a record without one is a live reference.
     for commit in commits or [None]:
         out.append(Reference(source, source_path, repo, path, commit, blobs, sha256s, sizes, "json", lines, text))
-    for key in sorted(k for k in obj if k.startswith(ALSO_AT_PREFIX) and hex40(obj[k])):
+    for key in also:
         # A claim that the same identity also holds at a further commit.
         out.append(Reference(source, source_path, repo, path, obj[key], blobs, sha256s, sizes, "json", lines, text))
 
@@ -476,7 +531,9 @@ def strip_json_comments(text):
                 i += 1
         elif text.startswith("/*", i):
             end = text.find("*/", i + 2)
-            i = n if end < 0 else end + 2
+            if end < 0:
+                raise ValueError("unterminated block comment")
+            i = end + 2
         else:
             pieces.append((False, text[i]))
             i += 1

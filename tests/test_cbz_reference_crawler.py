@@ -102,7 +102,8 @@ class Federation:
                  "acme/registry": {}, "acme/main": {}, "acme/workspace": {}}
         repos.update({f"acme/{n}": {} for n in opt.get("registry_extra", [])})
         self.reg_old = commit(self.registry, {"registry.json": {"repositories": repos, "artifacts": []}}, "R1")
-        self.reg = commit(self.registry, {"registry.json": {"repositories": repos, "artifacts": [artifact]}}, "R2")
+        reg_doc = {"repositories": repos, "artifacts": [artifact]}
+        self.reg = commit(self.registry, {"registry.json": opt.get("registry_edit", lambda d: d)(reg_doc)}, "R2")
         self.main = init(self.root / "main")
         source = {"repository": opt.get("source_repo", "math"),
                   opt.get("source_commit_key", "commit"): opt.get("source_commit", self.a1),
@@ -152,13 +153,15 @@ class Federation:
         registered = [{"full_name": f"acme/{n}"} for n in ("workspace", math_name, "registry", "main")]
         if self.pruned is not None:
             registered.append({"full_name": "acme/pruned"})
-        commit(self.ws, {
-            "pins.json": opt.get("pins_doc") or {"schema": "ulw.pins.v1", "repos": pins},
-            "workspace/repositories.json": {
-                "workspace": "acme/workspace",
-                "canonical_inputs": {"repository_registry": {"repository": "acme/registry", "path": "registry.json",
-                                                             "observed_blob": observed}},
-                "repositories": registered}}, "W1")
+        ws_doc = opt.get("ws_edit", lambda d: d)({
+            "workspace": "acme/workspace",
+            "canonical_inputs": {"repository_registry": {"repository": "acme/registry", "path": "registry.json",
+                                                         "observed_blob": observed}},
+            "repositories": registered})
+        ws_files = {"pins.json": opt.get("pins_doc") or {"schema": "ulw.pins.v1", "repos": pins}}
+        if ws_doc is not None:
+            ws_files["workspace/repositories.json"] = ws_doc
+        commit(self.ws, ws_files, "W1")
 
     def crawl(self, *flags, overrides=None):
         args = ["--workspace", str(self.ws), "--offline"] + list(flags)
@@ -208,6 +211,28 @@ class Extractors(unittest.TestCase):
         self.assertEqual(sigs["K.m"], "def m(self)")
         self.assertEqual(sigs["K"], "class K()")
         self.assertEqual(sigs["g"], "async def g(a) -> int")
+
+    def test_byte_identical_values_are_validated(self):
+        out, findings = [], []
+        rc.json_references([{"repository": "math", "path": "p", "byte_identical_at_x": "zzz"},
+                            {"repository": "math", "path": "p", "blob": "b" * 40, "byte_identical_at_x": "a" * 40,
+                             "byte_identical_at_y": "nope"},
+                            {"repository": "math", "path": "p", "commit": "c" * 40, "byte_identical_at_x": "a" * 40}],
+                           "s", "f.json", out, findings)
+        self.assertEqual([(r.commit, r.blobs) for r in out], [(None, ("b" * 40,)), ("a" * 40, ("b" * 40,)), ("c" * 40, ())])
+        self.assertEqual([f["detail"] for f in findings],
+                         ["byte_identical_at_x = 'zzz' is not a valid value",
+                          "byte_identical_at_y = 'nope' is not a valid value",
+                          "byte_identical_at_x claims byte identity, but there is no blob, sha256 or bytes to compare"])
+
+    def test_unterminated_comment_is_unparseable_and_its_tail_scanned(self):
+        c = "c" * 40
+        text = '{"a": 1}\n/* unterminated https://github.com/acme/r/blob/' + c + '/tail.md\n'
+        refs, findings = [], []
+        rc.file_references(text, "cfg.json", "s", {"acme"}, refs, findings)
+        self.assertEqual(([r.path for r in refs], [f["class"] for f in findings]), (["tail.md"], ["UNPARSEABLE"]))
+        with self.assertRaises(ValueError):
+            rc.strip_json_comments('{"a": 1} /* open')
 
     def test_json_shape_walks_every_array_element(self):
         self.assertEqual(rc.json_shape([1] * 60 + ["x"])["[]"], "number|string")
@@ -568,6 +593,48 @@ class Crawl(unittest.TestCase):
         self.assertEqual([f["detail"] for f in report["findings"] if f["class"] == "MISSING_PIN"],
                          ["candidate revision 'no-such-branch' not found"])
         self.assertEqual(silence(lambda: fed.crawl("--at", "ghost=HEAD")), (2, None))
+
+    def test_incomplete_topology_inputs_block(self):
+        def without(key):
+            return lambda d: {k: v for k, v in d.items() if k != key}
+
+        def canonical(**change):
+            def edit(d):
+                d["canonical_inputs"]["repository_registry"].update(change)
+                return d
+            return edit
+
+        def extra_entry(d):
+            d["repositories"].append({"name": "no-full-name"})
+            return d
+
+        cases = {"workspace registry missing": ({"ws_edit": lambda d: None}, "the workspace registry is missing"),
+                 "workspace registry not an object": ({"ws_edit": lambda d: [d]}, "is not a JSON object"),
+                 "no repositories list": ({"ws_edit": without("repositories")}, "has no repositories list"),
+                 "entry without full_name": ({"ws_edit": extra_entry}, "has no full_name"),
+                 "canonical input absent": ({"ws_edit": without("canonical_inputs")}, "does not name a repository and a path"),
+                 "registry host not in topology": ({"ws_edit": canonical(repository="acme/ghost")}, "is not in the topology"),
+                 "registry document missing": ({"ws_edit": canonical(path="nope.json")}, "the repository registry is missing at"),
+                 "registry map missing": ({"registry_edit": without("repositories")}, "has no repositories map")}
+        for name, (opt, detail) in cases.items():
+            with self.subTest(case=name), tempfile.TemporaryDirectory() as tmp:
+                code, report = silence(lambda: Federation(tmp, **opt).crawl())
+                rows = [f["detail"] for f in report["findings"] if f["class"] == "TOPOLOGY_INCOMPLETE"]
+                self.assertEqual(code, 1)
+                self.assertTrue(any(detail in row for row in rows), rows)
+        with self.subTest(case="registry host unreachable"), tempfile.TemporaryDirectory() as tmp:
+            fed = Federation(tmp)
+            code, report = silence(lambda: fed.crawl(overrides={k: v for k, v in fed.overrides.items() if k != "registry"}))
+            self.assertIn("the registry host registry is unreachable",
+                          [f["detail"] for f in report["findings"] if f["class"] == "TOPOLOGY_INCOMPLETE"])
+        with self.subTest(case="registry host commit unavailable"), tempfile.TemporaryDirectory() as tmp:
+            fed = Federation(tmp)
+            pins = json.loads(git(fed.ws, "show", "HEAD:pins.json"))
+            pins["repos"][1]["pinned_sha"] = "d" * 40
+            commit(fed.ws, {"pins.json": pins}, "bad registry pin")
+            code, report = silence(fed.crawl)
+            self.assertIn(f"the registry host's commit {'d' * 40} is not available",
+                          [f["detail"] for f in report["findings"] if f["class"] == "TOPOLOGY_INCOMPLETE"])
 
     def test_unreadable_workspace_pins_exit_2(self):
         with tempfile.TemporaryDirectory() as tmp:

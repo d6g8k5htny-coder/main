@@ -36,7 +36,7 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
 
 | | |
 |---|---|
-| When | 2026-10-30, 12:17:16Z to 12:19:51Z |
+| When | 2026-10-30, 14:00:33Z to 14:03:06Z; the run at current tips followed, to 14:05:43Z |
 | Environment | CPython 3.11.17, git 2.43.0 |
 | Exit status | 1 |
 | Logs | `crawl.stdout`, `crawl.exit` |
@@ -54,6 +54,8 @@ python3 -B -S tools/cbz/reference_crawler.py --workspace <Universal-Law-Workspac
   - `summary.json` holds the full report's topology, counts, every skipped and binary path,
     and every finding except the two `FROZEN_*` classes, which it gives as counts by source
     repository.
+  - Both full reports are byte-identical to those of head `1ead96bc`: the decompressed SHA-256
+    values match. The crawl is deterministic, and the fixes below change no live result.
   - `report.json.gz` is the complete JSON report. It is gzip with `mtime=0`, so the
     compression is deterministic. It decompresses to 3,615,116 bytes with SHA-256
     `d8249fb0beda3b2da4c591b8610fce5aa7781a379d2028ea3a1607abf55beed0`. The `.gz` file
@@ -159,6 +161,22 @@ Math- `frontiers/three_fronts_20260924/SOURCES.json`, key `rn_status`:
   `"commit": "fbb43601369b19ecb12447d4cc02ed44340dce60"` to the record. It then verifies
   (path and blob match at that commit) and reports `FROZEN_REMOVED`, which is INFO.
 
+### Readback of the Math- fix
+
+GitHub Task Watch (OpenAI) took the open task
+([#684/6524737617](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6524737617)). On
+Math- branch `chatgpt/rn-status-provenance-pin-20261030-gpt6`, at `44a583c4`, it added
+`"commit": "fbb43601…"` to `rn_status`, with a README successor note.
+
+The crawler, at this head's tool bytes, was run twice:
+- with `--at Math-=44a583c4` and the rest at the pins: 28,122 references, **0 blocking**, exit 0;
+- with main, meta-framework and governance- also at their current tips: 28,636 references,
+  **0 blocking**, exit 0.
+
+In both runs the record resolves at `fbb43601` and is INFO `FROZEN_REMOVED`. The logs and
+Markdown reports are in `readback-math-44a583c4/`, and the result is posted at
+[#684/6524973479](https://github.com/d6g8k5htny-coder/main/issues/684#issuecomment-6524973479).
+
 ## False positives found on the live federation, and fixed
 
 Each fix has a test and a mutant (see `mutation.txt`).
@@ -196,6 +214,19 @@ reproducible evidence.
 | F4: JSON shapes ignored array elements after the 50th | Every element is walked. | `test_json_shape_walks_every_array_element`; mutant "json shape truncated" |
 | F5: a SHA-256, byte or excerpt claim on a directory path was accepted | It is an `IDENTITY_MISMATCH` ("a file identity is recorded, but the path is a tree"). | `test_file_identity_on_a_directory_is_a_mismatch`; mutant "file identity on a directory accepted" |
 | F6: a registered but unpinned repository had no clone URL | The URL is derived from the registered `owner/name`. A test resolves the repository through a real `--cache` mirror, with no override, and checks that the derived URL is what `--offline` refuses. | `test_registered_unpinned_repository_resolves_through_the_cache`; mutant "unpinned repositories get no url" |
+
+**Review of heads `b8994c6f` and `1ead96bc`, and the fix for each.** The reviews are
+[#721/6524177083](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6524177083) and
+[#721/6524450718](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6524450718).
+
+| Finding | Fix | Test and mutants |
+|---|---|---|
+| F7: a missing or wrong-shaped workspace registry, canonical input or registry document collapsed the topology silently | The new blocking class `TOPOLOGY_INCOMPLETE` covers each case: the workspace registry missing or not an object, no `repositories` list, an entry without `full_name`, no usable `canonical_inputs.repository_registry`, a registry host outside the topology, unreachable, or without its commit, the registry document missing, and the registry with no `repositories` map. Registered nodes are now built before the canonical registry is read, so a registered host works. | `test_incomplete_topology_inputs_block`, 10 cases; 11 mutants, one per check plus "topology incomplete not blocking" |
+| F8: malformed `byte_identical_at_*` values were dropped | Every prefixed value is validated, and an invalid one is `MALFORMED_IDENTITY`. A claim with no blob, sha256 or bytes to compare is `MALFORMED_IDENTITY`. | `test_byte_identical_values_are_validated`; mutants "malformed byte-identical values silent" and "byte-identical claims without identity accepted" |
+| F9: an unterminated `/*` comment could hide the rest of a file | Stripping comments raises, so the file is `UNPARSEABLE`, and its whole raw text is still scanned for URLs. | `test_unterminated_comment_is_unparseable_and_its_tail_scanned`; mutant "unterminated comment accepted" |
+| F10: the mutation result was unqualified | Hermetic fixtures, a baseline before and after the mutants, and the kept 74-of-75 run (all at `1ead96bc`), plus F11 | below |
+| F11: a run with errors only could count as a kill | A kill now needs at least one assertion failure, and an error-only run is invalid. A new control, a copy whose `crawl()` raises, must come out invalid (`errors=42`) or the harness exits 2. Each kill line names up to three failing tests. | the harness's controls |
+| F12: the PR's stated disposition was stale | The PR body records every review and finding. | not applicable |
 
 **A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
 reference gave two false `LIVE_DRIFT` findings, on trial `needs_attention/SNAPSHOT.json`. Its cards
@@ -237,7 +268,7 @@ objects, without fetching:
 
 ## Self-verification (A8, B-006)
 
-**Tests.** `tests/test_cbz_reference_crawler.py` has 41 tests, run on local multi-repository
+**Tests.** `tests/test_cbz_reference_crawler.py` has 44 tests, run on local multi-repository
 Git fixtures with no network. The output is in `tests-normal.txt` and `tests-optimized.txt`.
 
 ```
@@ -245,10 +276,16 @@ python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 75 mutants, and
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 89 mutants, and
 each must apply exactly once. A mutant counts as killed only if the suite ran at least one
-test and reported `FAILED`. There are two controls: the unmutated copy must pass, and a
-syntax-broken copy must come out invalid, never killed. The output is in `mutation.txt`.
+test and reported at least one assertion failure. A run with errors only is invalid. There are
+four controls:
+- the unmutated copy must pass before the mutants;
+- it must pass again after them;
+- a syntax-broken copy must come out invalid;
+- an error-only copy, whose `crawl()` raises, must come out invalid.
+
+The output is in `mutation.txt`.
 
 ```
 python3 -B -S tools/cbz/reference_crawler_mutation_check.py
@@ -285,7 +322,9 @@ The mutation check runs the suite in normal mode. Neither the tool nor its tests
 - free-text fields such as `meaning` are not interpreted;
 - a nested identity sub-object is not attached to its parent;
 - binary files (not valid UTF-8, such as PDFs and images) are listed, not parsed;
-- a record with no identity key (only a repository and a path) is not a reference.
+- a record with no identity key (only a repository and a path) is not a reference;
+- a topology input that is missing or of the wrong shape blocks as `TOPOLOGY_INCOMPLETE`, rather
+  than being read as empty.
 
 A pass means every reference that was read resolved and matched. It is not a mathematical
 judgement.
@@ -301,14 +340,14 @@ judgement.
 > reference that does not resolve or does not match, and reports frozen-reference interface
 > drift as INFO. An incomplete census (an unparseable or unread file) also blocks. Its domain
 > is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a pull
-> request can be gated against the federation. Self-verification: 41 tests in both interpreter
-> modes, and 75 mutants with 100% required kills.
+> request can be gated against the federation. Self-verification: 44 tests in both interpreter
+> modes, and 89 mutants with 100% required kills; a kill needs an assertion failure.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 41 tests per mode; 75 of 75 intended source mutants killed (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 44 tests per mode; 89 of 89 intended source mutants killed, each by an assertion failure (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
 `tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0. A pull
