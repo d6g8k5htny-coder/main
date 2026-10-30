@@ -18,7 +18,9 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
   `workspace/repositories.json`), the 592 registry artifacts, canonical inputs, and Lean
   declarations shared across locations.
 - **This tool** checks every cross-repository reference recorded anywhere in the
-  federation, against the Git objects of the repository it names. It reads:
+  federation, against the Git objects of the repository it names. It reads every file
+  that is valid UTF-8 text, whatever its extension, and counts the binary files it cannot
+  read. It reads:
   - JSON objects that pair a repository with a path and an identity;
   - commit-pinned GitHub URLs in text;
   - line excerpts;
@@ -34,7 +36,7 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
 
 | | |
 |---|---|
-| When | 2026-10-30, 10:49:37Z to 10:51:35Z |
+| When | 2026-10-30, 11:27:03Z to 11:29:54Z |
 | Environment | CPython 3.11.17, git 2.43.0 |
 | Exit status | 1 |
 | Logs | `crawl.stdout`, `crawl.exit` |
@@ -51,8 +53,8 @@ python3 -B -S tools/cbz/reference_crawler.py --workspace <Universal-Law-Workspac
   - `report.md` is the complete Markdown output.
   - `summary.json` holds the full report's topology, counts and every finding except
     the two `FROZEN_*` classes, which it gives as counts by source repository.
-  - The full JSON report (2,978,144 bytes, SHA-256
-    `db2c11d335809f3292ec3a0c5c0465e8a70afc2db56db84b3f67bafe9d2731d9`) is reproduced by
+  - The full JSON report (3,584,948 bytes, SHA-256
+    `32cbf7fc3ca8067241d0d2230c784dfbd4b61068f46ec47da5dd94ce06b1b1dc`) is reproduced by
     the command above, against mirrors at the same heads.
 
 **Topology.** It was discovered from Universal-Law-Workspace `a4b016820329afc1787d9c191572b05cd88236ac`, with no list in the tool:
@@ -69,24 +71,24 @@ python3 -B -S tools/cbz/reference_crawler.py --workspace <Universal-Law-Workspac
 | governance- | `e396002aa191` | yes |
 | sandbox | `dce04a417483` | yes |
 
-**References checked: 17,578.** These counts are from `reference_stats.py`; its output is
+**References checked: 28,123.** These counts are from `reference_stats.py`; its output is
 in `refstats.txt`.
 
 | Kind | Count | Detail |
 |---|---|---|
-| JSON records | 13,396 | 13,379 commit-pinned and 17 live |
-| GitHub URLs | 4,182 | commit and path checked |
+| JSON records | 13,397 | 13,380 commit-pinned and 17 live |
+| GitHub URLs | 14,726 | commit and path checked |
 
 The JSON records carry these identity claims:
 
 | Claim | Count |
 |---|---|
 | Git blob ids | 12,163 |
-| SHA-256 values | 3,651 |
+| SHA-256 values | 3,652 |
 | Byte counts | 12,726 |
 | Line excerpts | 324 |
 
-By source repository: main 15,954, Math- 772, meta-framework 600, Universal-Law-Workspace 170,
+By source repository: main 26,499, Math- 772, meta-framework 600, Universal-Law-Workspace 170,
 query- 38, governance- 27, google-drive 16, trial 1.
 
 **Findings.**
@@ -95,13 +97,15 @@ query- 38, governance- 27, google-drive 16, trial 1.
 |---|---|---|
 | LIVE_DRIFT | 1 | **yes** |
 | FOREIGN_REPOSITORY | 1 | no |
-| FROZEN_CHANGED | 1,294 | no |
+| FROZEN_CHANGED | 2,435 | no |
 | FROZEN_REMOVED | 4,322 | no |
 | PIN_SKEW | 4 | no |
 | UNPARSEABLE | 1 | no |
 
-- **Skipped fixture files.** 66 in main, 6 in Math- and 5 in meta-framework, all under
-  `tests/`, `fixtures/` or `examples/`.
+- **Skipped fixture files.** 311, all under `tests/`, `fixtures/` or `examples/`: main 188,
+  Math- 82, meta-framework 13, query- 13, Universal-Law-Workspace 8 and trial 7.
+- **Binary files counted, not read.** 185: main 183 and trial 2. No file exceeded the
+  read limit, so there is no `UNREAD` finding.
 - **Pin skew** is in main, Math-, meta-framework and governance-, the same four repositories
   that #712 reports as `PIN-STALE`.
 - **Not blocking.**
@@ -144,7 +148,16 @@ reproducible evidence.
 | 30 Oct | 15 | 12 `MISSING_PATH`: URLs read from raw JSON text kept the escape `\n` | URLs in `.json` files are matched in the decoded strings, and a backslash ends a URL path |
 | | | 1 `MISSING_PATH`: `…12%20(1)/…` was cut at `)` | URL paths keep balanced parentheses |
 | | | 1 `LIVE_DRIFT`: a record pinned its commit under `cut` | Key census, below |
+| self-review | 1 | Two silent gaps, both now closed (see below). The blocking count did not change, and references went from 17,578 to 28,123. | Every UTF-8 file is read, whatever its extension. JSON Lines and notebooks are parsed. Binary files are counted. A file over the limit is an `UNREAD` finding. Owner and repository names match case-insensitively. |
 | final | 1 | the record above | none in this tool: the record needs a commit |
+
+**The self-review gaps.**
+- Files over 2 MB, and text that is not UTF-8, were skipped with no trace. One such file
+  exists, Math- `frontiers/finite_l_d2_coefficient_20261018/RESULT.json` (2.57 MB). It holds
+  no references, but a certifying tool may not skip without counting (§2.3).
+- Only eight suffixes were scanned, so 10,544 federation URLs in `.html`, `.py`, `.mjs`,
+  `.ipynb` and `.log` files, mostly main's `docs/site` pages, were never checked. All of
+  them now resolve.
 
 **Key census.** Every key holding 40 hex characters in a reference-shaped object was
 counted across the eight pinned repositories. Before each key was adopted, its values in
@@ -173,7 +186,7 @@ objects, without fetching:
 
 ## Self-verification (A8, B-006)
 
-**Tests.** `tests/test_cbz_reference_crawler.py` has 29 tests, run on local multi-repository
+**Tests.** `tests/test_cbz_reference_crawler.py` has 32 tests, run on local multi-repository
 Git fixtures with no network. The output is in `tests-normal.txt` and `tests-optimized.txt`.
 
 ```
@@ -181,7 +194,7 @@ python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 46 mutants, and
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 55 mutants, and
 each must apply exactly once. A mutant counts as killed only if the suite ran at least one
 test and reported `FAILED`. There are two controls: the unmutated copy must pass, and a
 syntax-broken copy must come out invalid, never killed. The output is in `mutation.txt`.
@@ -198,7 +211,8 @@ The mutation check runs the suite in normal mode. Neither the tool nor its tests
 - the checks are on Git objects and file text;
 - Lean statement drift compares comment-stripped declaration text, not elaborated terms;
 - free-text fields such as `meaning` are not interpreted;
-- a nested identity sub-object is not attached to its parent.
+- a nested identity sub-object is not attached to its parent;
+- binary files (not valid UTF-8, such as PDFs and images) are counted, not parsed.
 
 A pass means every reference that was read resolved and matched. It is not a mathematical
 judgement.
@@ -212,14 +226,14 @@ judgement.
 > registries, and resolves every cross-repository reference record and commit-pinned URL it
 > finds, by commit, path, Git blob, SHA-256, byte count or line excerpt. It blocks on a
 > reference that does not resolve or does not match, and reports frozen-reference interface
-> drift as INFO. Its domain is in its docstring. Self-verification: 29 tests in both
-> interpreter modes, and 46 mutants with 100% required kills.
+> drift as INFO. Its domain is in its docstring. Self-verification: 32 tests in both
+> interpreter modes, and 55 mutants with 100% required kills.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 29 tests per mode; 46 of 46 intended source mutants killed (`reference_crawler_mutation_check.py`). Live run at ULW `a4b01682`: 17,578 references, 1 blocking. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 32 tests per mode; 55 of 55 intended source mutants killed (`reference_crawler_mutation_check.py`). Live run at ULW `a4b01682`: 28,123 references, 1 blocking. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
 `tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0."

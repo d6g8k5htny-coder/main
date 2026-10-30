@@ -14,17 +14,22 @@ Topology, read from the workspace repository at one revision:
 The workspace itself is a node at the crawled revision. A repository that is
 registered but not pinned is crawled at its default-branch tip.
 
-References, extracted from every node at its crawled commit:
-  * JSON: any object with a repository key (repository, repo or full_name), a
+References, extracted from every file of every node at its crawled commit that is
+valid UTF-8 text, whatever its extension:
+  * JSON (.json and .ipynb documents, and each line of .jsonl and .ndjson files): any
+    object with a repository key (repository, repo or full_name), a
     string "path", and at least one identity: a commit (COMMIT_KEYS), a Git blob id
     (BLOB_KEYS), a SHA-256 (SHA256_KEYS) or a byte count (BYTES_KEYS). Every
     recorded value is checked, not only the first. A byte_identical_at_<name> key
     with a 40-hex value claims the same identity at that further commit, and is
     checked there too;
   * text: GitHub blob, tree or raw URLs of a topology owner with a 40-hex commit.
-    The URL path may contain balanced parentheses and is percent-decoded. In a
-    .json file, URLs are matched in the decoded string values, so JSON escapes such
-    as \n or \/ never become part of a path.
+    The URL path may contain balanced parentheses and is percent-decoded. In JSON,
+    URLs are matched in the decoded string values, so JSON escapes such as \n or \/
+    never become part of a path.
+Owner and repository names match case-insensitively, as on GitHub. A binary file (one
+that is not valid UTF-8) is counted per repository, not read. A file over
+MAX_TEXT_BYTES is an UNREAD finding. Nothing is skipped without being counted.
 An object with integer line_start and line_end is an excerpt reference: its sha256,
 bytes and text, where present, are checked against exactly those lines of the file
 (splitlines with line ends kept, as the site generators record them), not the whole file.
@@ -57,8 +62,9 @@ INFO findings are reported and do not block, unless a flag says otherwise:
                         (a Lean dependency, for example). It is outside the federation and is
                         counted, not checked. A foreign repository that shares a short name with
                         a topology repository is never confused with it.
-  UNPARSEABLE           a .json file that does not parse: its JSON records are unchecked, and
-                        URLs are still matched in its raw text
+  UNPARSEABLE           a JSON file, or a JSON Lines line, that does not parse: its records are
+                        unchecked, and URLs are still matched in its raw text
+  UNREAD                a file over MAX_TEXT_BYTES, which is not read
 Exit status 2 means the crawl itself failed: the workspace's pins are missing,
 unreadable or of the wrong schema.
 
@@ -104,14 +110,15 @@ BLOB_KEYS = ("blob", "git_blob", "observed_blob", "blob_sha", "blob_sha1", "git_
 SHA256_KEYS = ("sha256", "raw_sha256")
 BYTES_KEYS = ("bytes", "byte_length")
 ALSO_AT_PREFIX = "byte_identical_at_"
-TEXT_SUFFIXES = (".md", ".txt", ".json", ".toml", ".yml", ".yaml", ".tex", ".rst")
+JSON_SUFFIXES = (".json", ".ipynb")
+JSON_LINES_SUFFIXES = (".jsonl", ".ndjson")
 URL_PATH_CHAR = r"[^\s()\]>\"'`#?|,\\]"  # a backslash is never part of a URL path
 URL_RE = re.compile(
     r"https://(?:github\.com/(?P<o1>[\w.-]+)/(?P<r1>[\w.-]+)/(?:blob|tree|raw)/(?P<c1>[0-9a-f]{40})/"
     r"|raw\.githubusercontent\.com/(?P<o2>[\w.-]+)/(?P<r2>[\w.-]+)/(?P<c2>[0-9a-f]{40})/)"
     rf"(?P<path>(?:{URL_PATH_CHAR}|\({URL_PATH_CHAR}*\))+)")
 SHAPE_DEPTH = 6
-MAX_TEXT_BYTES = 2_000_000
+MAX_TEXT_BYTES = 64_000_000
 # Synthetic test data is not federation reference data: files under these directory
 # names are skipped unless --include-fixtures is given, and the skipped count is reported.
 FIXTURE_SEGMENTS = {"tests", "test", "testdata", "fixtures", "examples"}
@@ -137,6 +144,7 @@ class Mirror:
     def __init__(self, name, path, offline=False):
         self.name, self.path, self.offline = name, Path(path), offline
         self._trees = {}
+        self._sizes = {}
         self._fetched = set()
 
     def has_commit(self, sha):
@@ -154,15 +162,21 @@ class Mirror:
     def tree(self, sha):
         """Map of path -> (type, object id) for every entry at sha, directories included."""
         if sha not in self._trees:
-            out = git(self.path, "ls-tree", "-r", "-t", "-z", sha).stdout
-            entries = {}
+            out = git(self.path, "ls-tree", "-r", "-t", "-l", "-z", sha).stdout
+            entries, sizes = {}, {}
             for item in out.split("\0"):
                 if item:
                     meta, path = item.split("\t", 1)
-                    _mode, kind, oid = meta.split()
+                    _mode, kind, oid, size = meta.split()
                     entries[path] = (kind, oid)
-            self._trees[sha] = entries
+                    sizes[path] = int(size) if size.isdigit() else 0
+            self._trees[sha], self._sizes[sha] = entries, sizes
         return self._trees[sha]
+
+    def size(self, sha, path):
+        """The byte size of the blob at path in sha's tree."""
+        self.tree(sha)
+        return self._sizes[sha][path]
 
     def blob(self, oid):
         return git(self.path, "cat-file", "blob", oid, binary=True).stdout
@@ -346,7 +360,7 @@ def json_references(obj, source, source_path, out):
 def text_references(text, source, source_path, owners, out):
     for m in URL_RE.finditer(text):
         owner = m.group("o1") or m.group("o2")
-        if owner not in owners:
+        if owner.lower() not in owners:
             continue
         repo = f"{owner}/{m.group('r1') or m.group('r2')}"
         commit = m.group("c1") or m.group("c2")
@@ -367,41 +381,62 @@ def json_strings(obj):
             yield from json_strings(value)
 
 
+def json_documents(text, path):
+    """The parsed JSON documents of a file, and the text that did not parse."""
+    if path.endswith(JSON_LINES_SUFFIXES):
+        docs, rest = [], []
+        for line in text.splitlines():
+            if line.strip():
+                try:
+                    docs.append(json.loads(line))
+                except ValueError:
+                    rest.append(line)
+        return docs, "\n".join(rest)
+    try:
+        return [json.loads(text)], ""
+    except ValueError:
+        return [], text
+
+
 def file_references(text, path, source, owners, refs, findings):
-    """References in one text file. URLs in JSON are matched in the decoded strings."""
-    if path.endswith(".json"):
-        try:
-            doc = json.loads(text)
-        except ValueError:
-            findings.append(finding("UNPARSEABLE", source, path,
-                                    "JSON does not parse: its records are unchecked; URLs are matched in the raw text"))
-        else:
-            json_references(doc, source, path, refs)
-            for string in json_strings(doc):
-                text_references(string, source, path, owners, refs)
-            return
-    text_references(text, source, path, owners, refs)
+    """References in one text file. In JSON, URLs are matched in the decoded strings."""
+    if not path.endswith(JSON_SUFFIXES + JSON_LINES_SUFFIXES):
+        text_references(text, source, path, owners, refs)
+        return
+    docs, unparsed = json_documents(text, path)
+    for doc in docs:
+        json_references(doc, source, path, refs)
+        for string in json_strings(doc):
+            text_references(string, source, path, owners, refs)
+    if unparsed:
+        findings.append(finding("UNPARSEABLE", source, path,
+                                "JSON does not parse: its records are unchecked; URLs are matched in the raw text"))
+        text_references(unparsed, source, path, owners, refs)
 
 
 def is_fixture(path):
     return any(part in FIXTURE_SEGMENTS for part in path.split("/")[:-1])
 
 
-def collect(node, owners, findings, include_fixtures=False, skipped=None):
+def collect(node, owners, findings, include_fixtures=False, skipped=None, binary=None):
+    """References in every file of node at its crawled commit. Nothing is skipped uncounted."""
     refs = []
     for path, (kind, oid) in sorted(node.mirror.tree(node.commit).items()):
-        if kind != "blob" or not path.endswith(TEXT_SUFFIXES):
+        if kind != "blob":
             continue
         if not include_fixtures and is_fixture(path):
             if skipped is not None:
                 skipped[node.name] = skipped.get(node.name, 0) + 1
             continue
-        data = node.mirror.blob(oid)
-        if len(data) > MAX_TEXT_BYTES:
+        size = node.mirror.size(node.commit, path)
+        if size > MAX_TEXT_BYTES:
+            findings.append(finding("UNREAD", node.name, path, f"{size} bytes, over the {MAX_TEXT_BYTES}-byte read limit"))
             continue
         try:
-            text = data.decode("utf-8")
+            text = node.mirror.blob(oid).decode("utf-8")
         except UnicodeDecodeError:
+            if binary is not None:
+                binary[node.name] = binary.get(node.name, 0) + 1
             continue
         file_references(text, path, node.name, owners, refs, findings)
     return refs
@@ -572,7 +607,8 @@ def identity_problems(data, ref, scope=""):
 
 def resolve(ref, nodes, owners):
     """The topology node a reference names, or None; and whether its owner is outside the federation."""
-    target = nodes.get(name_of(ref.repo))
+    name = name_of(ref.repo)
+    target = nodes.get(name) or next((n for k, n in nodes.items() if k.lower() == name.lower()), None)
     owner = (owner_of(ref.repo) or "").lower() if "/" in ref.repo else ""
     if target is not None and owner and (owner_of(target.full_name) or owner).lower() != owner:
         target = None  # another owner's repository with the same short name
@@ -641,7 +677,8 @@ def interface_changed(row):
     return bool(d and (d["removed"] or d["added"] or d["changed"] or d["kind"] == "unparsed"))
 
 
-def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, include_fixtures=False, skipped=None):
+def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, include_fixtures=False, skipped=None,
+          binary=None):
     findings = []
     overrides = overrides or {}
 
@@ -661,18 +698,17 @@ def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, incl
         return Mirror(node.name, path, offline)
 
     nodes = discover(workspace, rev, mirror_for, findings)
-    owners = {owner_of(n.full_name) for n in nodes.values()} | {owner_of(n.url) for n in nodes.values()}
-    owners.discard(None)
+    owners = {o.lower() for n in nodes.values() for o in (owner_of(n.full_name), owner_of(n.url)) if o}
     references = []
     for node in nodes.values():
         if node.available:
-            references.extend(collect(node, owners, findings, include_fixtures, skipped))
+            references.extend(collect(node, owners, findings, include_fixtures, skipped, binary))
     for ref in references:
         check_reference(ref, nodes, owners, findings)
     return nodes, references, findings
 
 
-def summarize(nodes, references, findings, strict=False, require_current_pins=False, skipped=None):
+def summarize(nodes, references, findings, strict=False, require_current_pins=False, skipped=None, binary=None):
     def blocks(row):
         return (row["blocking"] or (strict and row["class"] == "FROZEN_CHANGED" and interface_changed(row))
                 or (require_current_pins and row["class"] == "PIN_SKEW"))
@@ -689,16 +725,18 @@ def summarize(nodes, references, findings, strict=False, require_current_pins=Fa
         "blocking": len(blocking),
         "strict": strict, "require_current_pins": require_current_pins,
         "skipped_fixture_files": dict(sorted((skipped or {}).items())),
+        "binary_files_not_read": dict(sorted((binary or {}).items())),
         "findings": findings,
     }
 
 
 def render(report):
     skipped = sum(report["skipped_fixture_files"].values())
+    binary = sum(report["binary_files_not_read"].values())
     lines = ["# Federation reference report", "",
              f"{report['references']} references checked across {len(report['topology'])} repositories; "
              f"**{report['blocking']} blocking**. Fixture files skipped: {skipped} "
-             "(use --include-fixtures to check them).", "",
+             f"(use --include-fixtures to check them). Binary files not read: {binary}.", "",
              "| Repository | Commit | Pinned | Registered |", "|---|---|---|---|"]
     for n in report["topology"]:
         lines.append(f"| {n['name']} | `{n['commit'][:12]}` | {n['pinned']} | {n['registered']} |")
@@ -728,14 +766,14 @@ def main(argv=None):
         if not sep:
             p.error(f"--repo expects NAME=PATH, got {item!r}")
         overrides[name] = path
-    skipped = {}
+    skipped, binary = {}, {}
     try:
         nodes, references, findings = crawl(args.workspace, args.workspace_rev, args.cache, overrides, args.offline,
-                                            args.include_fixtures, skipped)
+                                            args.include_fixtures, skipped, binary)
     except (CrawlError, subprocess.CalledProcessError) as exc:  # workspace-level failure
         print(f"REFERENCE CRAWL ERROR: {exc}", file=sys.stderr)
         return 2
-    report = summarize(nodes, references, findings, args.strict, args.require_current_pins, skipped)
+    report = summarize(nodes, references, findings, args.strict, args.require_current_pins, skipped, binary)
     if args.json:
         args.json.write_text(json.dumps(report, indent=1, sort_keys=True) + "\n")
     if args.markdown:

@@ -66,6 +66,8 @@ def commit(repo, files, message):
         p.parent.mkdir(parents=True, exist_ok=True)
         if content is None:
             p.unlink()
+        elif isinstance(content, bytes):
+            p.write_bytes(content)
         else:
             p.write_text(content if isinstance(content, str) else json.dumps(content, indent=1))
     git(repo, "add", "-A")
@@ -119,6 +121,8 @@ class Federation:
                  "tests/fixtures/refs.json": [{"repository": "math", "commit": "a" * 40, "path": "Thm.lean"}]}
         if opt.get("bad_json"):
             files["broken.json"] = "{not json"
+        for rel, content in opt.get("main_extra", {}).items():
+            files[rel] = content.format(a1=self.a1) if isinstance(content, str) else content
         self.main_sha = commit(self.main, files, "M1")
         self.extra = None
         if opt.get("add_repo"):
@@ -239,6 +243,14 @@ class Extractors(unittest.TestCase):
         rc.file_references(f"{{broken https://github.com/acme/r/blob/{c}/z.md", "g.json", "s", {"acme"}, refs, findings)
         self.assertEqual(([r.path for r in refs], [f["class"] for f in findings]), (["z.md"], ["UNPARSEABLE"]))
 
+    def test_owner_and_repository_names_match_case_insensitively(self):
+        out = []
+        rc.text_references(f"https://github.com/ACME/r/blob/{'c' * 40}/a.md", "s", "f.md", {"acme"}, out)
+        self.assertEqual([r.repo for r in out], ["ACME/r"])
+        node = rc.Node("math", "acme/math", "", "c" * 40, True, True)
+        self.assertEqual(rc.resolve(rc.Reference("s", "f", "Acme/MATH", "p"), {"math": node}, {"acme"}), (node, False))
+        self.assertEqual(rc.resolve(rc.Reference("s", "f", "other/MATH", "p"), {"math": node}, {"acme"}), (None, True))
+
     def test_fixture_paths_are_directory_segments_only(self):
         self.assertTrue(rc.is_fixture("tests/fixtures/a.json"))
         self.assertTrue(rc.is_fixture("pkg/examples/b.md"))
@@ -344,6 +356,33 @@ class Crawl(unittest.TestCase):
         self.assertEqual(code, 1)
         rows = [f for f in report["findings"] if f["class"] == "IDENTITY_MISMATCH"]
         self.assertEqual([(r["path"], r["commit"]) for r in rows], [("Thm.lean", fed.a2)])
+
+    def test_every_text_file_is_read_whatever_its_extension(self):
+        extra = {"docs/page.html": '<a href="https://github.com/acme/math/blob/{a1}/gone-html.md">x</a>\n',
+                 "notes/README": "see https://github.com/acme/math/blob/{a1}/gone-plain.md\n",
+                 "logs/records.jsonl": ('{{"repository": "math", "commit": "{a1}", "path": "gone-jsonl.md"}}\n'
+                                        '{{not json https://github.com/acme/math/blob/{a1}/gone-raw.md\n')}
+        code, report = silence(lambda: self.fed(main_extra=extra).crawl())
+        self.assertEqual(code, 1)
+        missing = sorted((f["source"], f["path"]) for f in report["findings"] if f["class"] == "MISSING_PATH")
+        self.assertEqual(missing, [("main:docs/page.html", "gone-html.md"), ("main:logs/records.jsonl", "gone-jsonl.md"),
+                                   ("main:logs/records.jsonl", "gone-raw.md"), ("main:notes/README", "gone-plain.md")])
+        self.assertEqual([f["path"] for f in report["findings"] if f["class"] == "UNPARSEABLE"], ["logs/records.jsonl"])
+
+    def test_binary_files_are_counted_and_oversize_files_reported(self):
+        fed = self.fed(main_extra={"img/logo.png": b"\x89PNG\r\n\x1a\n\xff\xfe\x00"})
+        code, report = silence(fed.crawl)
+        self.assertEqual((code, report["binary_files_not_read"]), (0, {"main": 1}))
+        self.assertIn("Binary files not read: 1.", rc.render(report))
+        limit = rc.MAX_TEXT_BYTES
+        rc.MAX_TEXT_BYTES = 40
+        try:
+            code, report = silence(fed.crawl)
+        finally:
+            rc.MAX_TEXT_BYTES = limit
+        unread = {(f["repo"], f["path"]) for f in report["findings"] if f["class"] == "UNREAD"}
+        self.assertIn(("math", "Thm.lean"), unread)
+        self.assertNotIn(("math", "README.md"), unread)  # 5 bytes, under the limit
 
     def test_fixture_files_are_skipped_and_counted_unless_included(self):
         fed = self.fed()
