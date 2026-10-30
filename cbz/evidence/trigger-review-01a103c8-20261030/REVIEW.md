@@ -1,0 +1,13 @@
+# Independent review of PR715 workflow trigger repair
+
+Source: Main PR715 head0768d66f3aa16388d22d1c954f25980265d46f09, parent15e8f689d00ca03e28e9bc5d97b6aba3f19ec900. This review changes no production workflow or crawler source. The source checkout was clean before and after.
+
+Actual /usr/bin/python3 -B [-O] -m unittest test_cbz_drift_pr_trigger_01a11c48 test_navigation_workflow -v ran from that checkout's tests directory on2026-10-30 00:08:58UTC. Both parent modes exited0 with12tests:4new PR subscription controls plus8reused event-reader/navigation controls. All6recorded source files retained SHA256, including workflow, guard, helper, original crawler/parser/tests. Rawstdout/stderr and exactargv/cwd/version/times are included unchanged.
+
+The source removes the PR path filter and adds the new guard to the existing self-test invocation. Push/main, schedule, manual invocation, permissions, pinned actions and crawler command remain unchanged. Both existing jobs retain their failure propagation. The restricted guard tests ordinary eligibility, path/base/activity restrictions and column-zero YAML comments, including preservation of comments in an unfiltered mapping. It is not a general YAML parser or independent GitHub scheduler model.
+
+No blocking defect was observed within this bounded workflow-trigger change. This review reuses the previously observed43original crawler-test results only for their unchanged production/test bytes; it does not relabel them as a newly executed55-test run at715. The author separately reports55local tests per parent mode, and the workflow itself selects43+4. The original mutation harness's children remain normal-B; optimized-parent tests do not establish optimized mutant children.
+
+This is source/local engineering qualification only. No actual required-status binding, full graph closure, pin/registry/freshness repair, semantic extractor, CLOSED admission, full federation or final G7/CBZ-0 pass is granted. The six real-Git failures and pinned C1/C3 semantic counterexamples remain open at15e8f689. Compose the new graph/parser source with715 and rerun exact relevant controls before promotion.
+
+Coordination: proxy01a11c48 posted a graph/parser repair pickup at00:07:02. Root01a103c8's overlapping00:07:15 pickup was immediately released before starting workers or changing production/test code. The proxy's existing715-based repair and this independent qualification are compatible; no exclusive ownership or peer approval lock is retained. Exact public reconciliation: https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511536723 . Layer A unchanged. Private empirical source bundle not included or rerouted.
