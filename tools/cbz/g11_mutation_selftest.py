@@ -126,11 +126,11 @@ class HarnessError(Exception):
 
 
 TARGETS = {
-    "pass not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", r'stubs("def a():\n    pass\n")'),
-    "ellipsis not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", r'stubs("def a():\n    ...\n")'),
-    "NotImplementedError not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", r"raise NotImplementedError\n"),
-    "raise call not unwrapped": ("tests.test_g11_census.PythonStubs.test_each_stub_body", "NotImplementedError('later')"),
-    "docstring-only not reported": ("tests.test_g11_census.PythonStubs.test_each_stub_body", "Only a docstring."),
+    "pass not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", 'self.assertEqual(stubs("def a():\\n    pass\\n"), [(1, "a: pass")])'),
+    "ellipsis not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", 'self.assertEqual(stubs("def a():\\n    ...\\n"), [(1, "a: ellipsis")])'),
+    "NotImplementedError not detected": ("tests.test_g11_census.PythonStubs.test_each_stub_body", 'self.assertEqual(stubs("def a():\\n    raise NotImplementedError\\n"), [(1, "a: raise NotImplementedError")])'),
+    "raise call not unwrapped": ("tests.test_g11_census.PythonStubs.test_each_stub_body", 'self.assertEqual(stubs("def a():\\n    raise NotImplementedError(\'later\')\\n"), [(1, "a: raise NotImplementedError")])'),
+    "docstring-only not reported": ("tests.test_g11_census.PythonStubs.test_each_stub_body", 'self.assertEqual(stubs(\'def a():\\n    """Only a docstring."""\\n\'), [(1, "a: docstring only")])'),
     "docstring not stripped": ("tests.test_g11_census.PythonStubs.test_docstring_then_stub_body", "Doc."),
     "decorator context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
     "Protocol/ABC context ignored": ("tests.test_g11_census.PythonStubs.test_legitimate_contexts_are_reported_but_do_not_fail", "self.assertEqual(contexts,"),
