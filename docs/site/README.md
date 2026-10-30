@@ -361,6 +361,25 @@ index stays within 320 px under the override. A failure names the element, the
 side or the word.
 A setup artifact without a successful report is not a completed browser run.
 
+The same current-site admission also exercises optional Atlas 3D with real
+software WebGL: a drawn canvas and real sphere mouse picking must succeed, and
+context loss must restore usable Graph geometry while preserving the original
+focused inspector disclosure and its next Tab destination. A blocked renderer
+or unavailable WebGL remains useful to readers through Graph/List, but cannot
+count as a successful-render test. The original source-refusal, static-reading
+and other browser assertions remain in the same report and failure boundary.
+The new cases use reduced motion and sandboxed packaged Chrome with the explicit
+SwiftShader flag already used by the spatial release operator. This is software
+rendering evidence, not a physical GPU, touch or full accessibility qualification.
+
+For local reproduction with an installed sandbox-capable Chromium, use
+`python -B tools/current_site_browser_check.py --browser /path/to/chromium
+--output NEW_DIRECTORY` against a coherent generated checkout. Without
+`--browser`, hosted verification keeps its packaged Chrome channel. The report's
+`browser_request` describes the requested executable/channel even if source
+admission fails before launch; actual browser/version and rendered observations
+are reported only after execution.
+
 Inspect the screenshots before accepting visual quality. This is headless Chromium
 with mobile-sized viewports, not physical touch-device, all-browser, full
 accessibility or deployed-Pages certification. The original source validation and
