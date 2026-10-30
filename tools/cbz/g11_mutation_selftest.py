@@ -52,8 +52,8 @@ MUTATIONS = [
      '            if _http_request_handler_base(base, imports):'),
     ("module docstring not recorded", "                docstring = bool(ast.get_docstring(ast.parse(files[path])))",
      "                docstring = True"),
-    ("class bodies not visited", "                visit(child, classes + [child])", "                pass"),
-    ("nested functions not visited", "                visit(child, [])\n            else:",
+    ("class bodies not visited", "                visit(child, classes + [child], scope_shadowed | _scope_bindings(child))", "                pass"),
+    ("nested functions not visited", "                visit(child, [], scope_shadowed | _scope_bindings(child))\n            else:",
      "                pass\n            else:"),
     ("comments read as data", "        if tok.type == tokenize.COMMENT:\n            target = markers",
      "        if tok.type == tokenize.COMMENT:\n            target = mentions"),
@@ -77,8 +77,8 @@ MUTATIONS = [
     ("block scalar not read", '        if not value or value[0] in "|>":', "        if False:"),
     ("block scalar ends late", "                if nxt.strip() and len(nxt) - len(nxt.lstrip()) <= key_column:",
      "                if nxt.strip() and len(nxt) - len(nxt.lstrip()) < key_column:"),
-    ("inline comment kept", '            commands = [re.sub(r"\\s+#.*$", "", value).strip("\'\\"")]',
-     '            commands = [value.strip("\'\\"")]'),
+    ("inline comment kept", "            commands = [_strip_shell_comment(value).strip()]",
+     "            commands = [value.strip()]"),
     ("tests counted as tools", '                  and area(p) == "tooling" and not p.endswith("__init__.py"))',
      '                  and True and not p.endswith("__init__.py"))'),
     ("__init__ counted as tool", '                  and area(p) == "tooling" and not p.endswith("__init__.py"))',
@@ -247,6 +247,11 @@ NEW_MUTATIONS = [
      "        and True",
      "tests.test_g11_census.MutationAttribution.test_mutation_kill_requires_exact_target_assertion",
      "self.assertFalse(g11m.qualifies_kill(has_skips, expected, 17))"),
+    ("quoted workflow command boundary ignored", "census",
+     "                value = value[1:-1]",
+     "                value = value",
+     "tests.test_g11_census.AdversarialControls.test_comment_and_string_mentions_do_not_exercise_tools",
+     "self.assertEqual(g11._workflow_commands(workflow_text)[0][1], [\"sh -c 'echo tools/runner.py'\"])"),
 ]
 
 
