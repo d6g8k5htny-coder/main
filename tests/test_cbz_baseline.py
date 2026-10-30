@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import shlex
 from pathlib import Path
 import subprocess
 import sys
@@ -134,7 +135,7 @@ class BaselineTests(unittest.TestCase):
         self.assertTrue(any('stale' in x.lower() for x in stale['unmet']))
 
     def test_g1_snapshot_is_canonical_and_binds_exit_code(self):
-        execution = self.tool._scan_execution_identity(self.config['gates'][1])
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
         compact = self.tool._scan_snapshot(b'{"a":1,"b":2}\n', 0, execution)
         spaced = self.tool._scan_snapshot(b'{ "b": 2, "a": 1 }\n', 0, execution)
         self.assertEqual(compact, spaced)
@@ -178,7 +179,7 @@ class BaselineTests(unittest.TestCase):
         observed = self.inspect(self.out / 'receipts.json')
         self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
         self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
-        execution = self.tool._scan_execution_identity(self.config['gates'][1])
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
         fresh = subprocess.run(
             execution['argv'], cwd=self.root, env=execution['environment'],
             capture_output=True,
@@ -196,7 +197,7 @@ class BaselineTests(unittest.TestCase):
         observed = self.inspect(self.out / 'receipts.json')
         self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
         self.assertTrue(any('current scan snapshot differs from receipt' in item for item in observed['unmet']))
-        execution = self.tool._scan_execution_identity(self.config['gates'][1])
+        execution = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
         fresh = subprocess.run(
             execution['argv'], cwd=self.root, env=execution['environment'],
             capture_output=True,
@@ -315,10 +316,61 @@ class BaselineTests(unittest.TestCase):
         shadow = shadow_dir / 'python'
         shadow.write_text('#!/bin/sh\nexit 0\n')
         shadow.chmod(0o755)
-        with mock.patch.dict(os.environ, {'PATH': str(shadow_dir)}):
+        original_path = os.environ.get('PATH', os.defpath)
+        with mock.patch.dict(os.environ, {'PATH': str(shadow_dir) + os.pathsep + original_path}):
             observed = self.inspect(self.out / 'receipts.json')
         self.assertEqual(observed['gate_statuses']['G1'], 'INCOMPLETE')
-        self.assertTrue(any('executable identity is missing or changed' in item for item in observed['unmet']))
+        self.assertTrue(any('execution identity is missing or changed' in item for item in observed['unmet']))
+
+    def test_g1_execution_identity_binds_git_executable(self):
+        real_git = self.tool.shutil.which('git')
+        self.assertIsNotNone(real_git)
+        shadow_dir = self.base / 'shadow-git'
+        shadow_dir.mkdir()
+        shadow_git = shadow_dir / 'git'
+
+        def write_wrapper(marker):
+            shadow_git.write_text(
+                '#!/bin/sh\n# ' + marker + '\nexec ' + shlex.quote(real_git) + ' "$@"\n'
+            )
+            shadow_git.chmod(0o755)
+
+        original_defpath = os.defpath
+        shadow_path = str(shadow_dir) + os.pathsep + original_defpath
+        write_wrapper('first identity')
+        with mock.patch.object(os, 'defpath', shadow_path):
+            first = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+            write_wrapper('second identity')
+            second = self.tool._scan_execution_identity(self.root, self.config['gates'][1])
+        self.assertEqual(first['git']['executable_path'], str(shadow_git.resolve()))
+        self.assertRegex(first['git']['executable_sha256'], r'^[0-9a-f]{64}$')
+        self.assertNotEqual(first['git']['executable_sha256'], second['git']['executable_sha256'])
+
+    def test_g1_execution_identity_binds_git_configuration(self):
+        gate = self.config['gates'][1]
+        first = self.tool._scan_execution_identity(self.root, gate)
+        info_exclude = self.root / '.git/info/exclude'
+        info_exclude.parent.mkdir(parents=True, exist_ok=True)
+        info_exclude.write_text('# first exclude state\n')
+        second = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(
+            first['git']['info_exclude_sha256'],
+            second['git']['info_exclude_sha256'],
+        )
+
+        core_excludes = self.base / 'core-excludes'
+        core_excludes.write_text('*.candidate\n')
+        subprocess.run(
+            ['git', '-C', str(self.root), 'config', 'core.excludesfile', str(core_excludes)],
+            check=True,
+        )
+        third = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(second['git']['config_sha256'], third['git']['config_sha256'])
+        self.assertEqual(len(third['git']['core_excludesfiles']), 1)
+        original_excludes_hash = third['git']['core_excludesfiles'][0]['sha256']
+        core_excludes.write_text('*.candidate\n*.archive\n')
+        fourth = self.tool._scan_execution_identity(self.root, gate)
+        self.assertNotEqual(original_excludes_hash, fourth['git']['core_excludesfiles'][0]['sha256'])
 
     def test_g1_focused_controls_under_optimized_python(self):
         names = (
@@ -329,6 +381,8 @@ class BaselineTests(unittest.TestCase):
             'test_g1_receipt_rejects_new_committed_tracked_axiom',
             'test_g1_receipt_rejects_new_untracked_proof_candidate',
             'test_g1_execution_identity_binds_resolved_executable',
+            'test_g1_execution_identity_binds_git_executable',
+            'test_g1_execution_identity_binds_git_configuration',
             'test_malformed_receipt_shapes_are_incomplete',
         )
         command = [
