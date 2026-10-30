@@ -326,17 +326,19 @@ class AdversarialControls(unittest.TestCase):
         })
         self.assertFalse(python_cmd["tools"]["tools/runner.py"]["exercised"])
 
+        workflow_text = "jobs:\n  test:\n    steps:\n      - run: \"sh -c 'echo tools/runner.py'\"\n"
         shell_cmd = run({
             "tools/runner.py": "def main(): return 0\n",
             "tools/README.md": "Use tools/runner.py.\n",
-            ".github/workflows/ci.yml": "jobs:\n  test:\n    steps:\n      - run: sh -c 'echo tools/runner.py'\n",
+            ".github/workflows/ci.yml": workflow_text,
         })
+        self.assertEqual(g11._workflow_commands(workflow_text)[0][1], ["sh -c 'echo tools/runner.py'"])
         self.assertFalse(shell_cmd["tools"]["tools/runner.py"]["exercised"])
 
         js_cmd = run({
             "tools/runner.mjs": "export const run = () => 1;\n",
             "tools/README.md": "Use tools/runner.mjs.\n",
-            "tests/runner.test.mjs": "const sample = \`\nimport '../tools/runner.mjs';\n\`;\n",
+            "tests/runner.test.mjs": "const sample = `\nimport '../tools/runner.mjs';\n`;\n",
         })
         self.assertFalse(js_cmd["tools"]["tools/runner.mjs"]["exercised"])
 
