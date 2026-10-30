@@ -1,6 +1,6 @@
 # Federation reference report
 
-28123 references checked across 9 repositories; **1 blocking**. Fixture files skipped: 311 (use --include-fixtures to check them). Binary files not read: 185.
+28123 references checked across 9 repositories; **1 blocking**. Fixture files skipped: 312 (use --include-fixtures to check them). Binary files not read: 185.
 
 | Repository | Commit | Pinned | Registered |
 |---|---|---|---|
@@ -19,6 +19,6 @@
 | FOREIGN_REPOSITORY | 1 | False |
 | FROZEN_CHANGED | 2435 | False |
 | FROZEN_REMOVED | 4322 | False |
+| JSON_WITH_COMMENTS | 1 | False |
 | LIVE_DRIFT | 1 | True |
 | PIN_SKEW | 4 | False |
-| UNPARSEABLE | 1 | False |

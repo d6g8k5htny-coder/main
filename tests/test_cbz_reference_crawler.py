@@ -122,7 +122,7 @@ class Federation:
         if opt.get("bad_json"):
             files["broken.json"] = "{not json"
         for rel, content in opt.get("main_extra", {}).items():
-            files[rel] = content.format(a1=self.a1) if isinstance(content, str) else content
+            files[rel] = content.format(a1=self.a1, a1s=self.a1[:8]) if isinstance(content, str) else content
         self.main_sha = commit(self.main, files, "M1")
         self.extra = None
         if opt.get("add_repo"):
@@ -207,20 +207,47 @@ class Extractors(unittest.TestCase):
         self.assertEqual(sigs["K"], "class K()")
         self.assertEqual(sigs["g"], "async def g(a) -> int")
 
+    def test_json_shape_walks_every_array_element(self):
+        self.assertEqual(rc.json_shape([1] * 60 + ["x"])["[]"], "number|string")
+
     def test_json_shape_and_diff(self):
         old, new = rc.json_shape(JSON_A1), rc.json_shape(JSON_A2)
         self.assertEqual(old["b.c"], "string")
         self.assertEqual(new["b.c"], "number")
         self.assertEqual(rc.diff_maps(old, new), {"removed": [], "added": ["d"], "changed": ["b.c"]})
 
-    def test_json_references_need_repo_path_and_an_identity(self):
-        out = []
+    def test_records_with_an_identity_are_references_and_malformed_values_are_reported(self):
+        out, findings = [], []
         rc.json_references({"x": [{"repository": "m", "path": "p", "commit": "a" * 40},
                                   {"repository": "m", "path": "p"},
                                   {"repository": "m", "path": "p", "bytes": True},
-                                  {"repo": "m", "path": "q", "sha256": "b" * 64, "bytes": 3}]}, "s", "f.json", out)
+                                  {"repo": "m", "path": "q", "sha256": "b" * 64, "bytes": 3},
+                                  {"repository": "m", "path": ""},
+                                  {"name": "m", "path": "r"}]}, "s", "f.json", out, findings)
         self.assertEqual([(r.path, r.commit, r.sha256s, r.sizes) for r in out],
                          [("p", "a" * 40, (), ()), ("q", None, ("b" * 64,), (3,))])
+        self.assertEqual([(f["class"], f["detail"]) for f in findings],
+                         [("MALFORMED_IDENTITY", "bytes = 'True' is not a valid value")])
+
+    def test_record_aliases_commits_and_refs(self):
+        out, findings = [], []
+        rc.json_references([{"repository": "acme/math", "repo": "registry", "path": "p", "commit": "a" * 40},
+                            {"repository": "math", "path": "p", "commit": "a" * 40, "head": "b" * 40},
+                            {"repository": "math", "path": "p", "commit": "abcdef12"},
+                            {"repository": "math", "path": "p", "ref": "main"},
+                            {"repository": "math", "path": "p", "ref": "not a ref!"}], "s", "f.json", out, findings)
+        self.assertEqual([(r.path, r.commit) for r in out],
+                         [("p", "a" * 40), ("p", "b" * 40), ("p", "abcdef12"), ("p", None)])
+        self.assertEqual([f["class"] for f in findings], ["ALIAS_CONFLICT", "MALFORMED_IDENTITY"])
+
+    def test_json_with_comments_and_trailing_commas_is_read(self):
+        c = "c" * 40
+        text = ('{\n // a comment, "quoted", with https://github.com/acme/r/blob/' + c + '/in-comment.md\n'
+                ' "url": "https://github.com/acme/r/blob/' + c + '/a//b.md", /* block */\n "list": [1, 2,],\n}\n')
+        refs, findings = [], []
+        rc.file_references(text, "cfg.json", "s", {"acme"}, refs, findings)
+        self.assertEqual(([r.path for r in refs], [f["class"] for f in findings]), (["a//b.md"], ["JSON_WITH_COMMENTS"]))
+        self.assertEqual(json.loads(rc.strip_json_comments('{"a": "x // y, ]", "b": [1,\n ],}')), {"a": "x // y, ]", "b": [1]})
 
     def test_percent_encoded_url_paths_are_decoded(self):
         out = []
@@ -373,6 +400,7 @@ class Crawl(unittest.TestCase):
         fed = self.fed(main_extra={"img/logo.png": b"\x89PNG\r\n\x1a\n\xff\xfe\x00"})
         code, report = silence(fed.crawl)
         self.assertEqual((code, report["binary_files_not_read"]), (0, {"main": 1}))
+        self.assertEqual(report["binary_paths"], {"main": ["img/logo.png"]})
         self.assertIn("Binary files not read: 1.", rc.render(report))
         limit = rc.MAX_TEXT_BYTES
         rc.MAX_TEXT_BYTES = 40
@@ -381,6 +409,7 @@ class Crawl(unittest.TestCase):
         finally:
             rc.MAX_TEXT_BYTES = limit
         unread = {(f["repo"], f["path"]) for f in report["findings"] if f["class"] == "UNREAD"}
+        self.assertEqual(code, 1)  # an unread file makes the census incomplete
         self.assertIn(("math", "Thm.lean"), unread)
         self.assertNotIn(("math", "README.md"), unread)  # 5 bytes, under the limit
 
@@ -388,6 +417,7 @@ class Crawl(unittest.TestCase):
         fed = self.fed()
         code, report = silence(fed.crawl)
         self.assertEqual((code, report["skipped_fixture_files"]), (0, {"main": 1}))
+        self.assertEqual(report["skipped_fixture_paths"], {"main": ["tests/fixtures/refs.json"]})
         self.assertIn("Fixture files skipped: 1 ", rc.render(report))
         code, report = silence(lambda: fed.crawl("--include-fixtures"))
         self.assertEqual((code, report["skipped_fixture_files"]), (1, {}))
@@ -431,10 +461,55 @@ class Crawl(unittest.TestCase):
                             for f in report["findings"]))
         self.assertEqual(code, 1)
 
-    def test_unparseable_json_is_reported_not_blocking(self):
+    def test_unparseable_json_blocks_as_an_incomplete_census(self):
         code, report = silence(lambda: self.fed(bad_json=True).crawl())
-        self.assertEqual(code, 0)
+        self.assertEqual((code, report["blocking"]), (1, 1))
         self.assertIn("UNPARSEABLE", classes(report))
+
+    def test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references(self):
+        extra = {"refs/live.json": ('[{{"repository": "math", "path": "Thm.lean", "ref": "main"}},'
+                                    ' {{"repository": "math", "path": "gone-named.md", "ref": "main"}},'
+                                    ' {{"repo": "math", "path": "cards/local-to-main.json", "card": "C-1"}},'
+                                    ' {{"repository": "math", "path": "Thm.lean", "commit": "{a1s}"}}]')}
+        fed = self.fed(main_extra=extra)
+        code, report = silence(fed.crawl)
+        rows = [(f["class"], f["path"]) for f in report["findings"] if f.get("source") == "main:refs/live.json"]
+        # The card names the repository it concerns; its path is local, so it is not checked against math.
+        self.assertEqual(rows, [("LIVE_DRIFT", "gone-named.md"), ("FROZEN_CHANGED", "Thm.lean")])
+        self.assertEqual(code, 1)
+
+    def test_file_identity_on_a_directory_is_a_mismatch(self):
+        extra = {"refs/dir.json": '[{{"repository": "math", "commit": "{a1}", "path": "notes", "sha256": "' + "c" * 64 + '"}}]'}
+        code, report = silence(lambda: self.fed(main_extra=extra).crawl())
+        rows = [f for f in report["findings"] if f.get("source") == "main:refs/dir.json"]
+        self.assertEqual([(f["class"], f["detail"]) for f in rows],
+                         [("IDENTITY_MISMATCH", "a file identity is recorded, but the path is a tree")])
+        self.assertEqual(code, 1)
+
+    def test_template_files_are_synthetic(self):
+        extra = {"docs/TEMPLATE_review.json": '{{"repository": "math", "path": "Thm.lean", "sha256": "REPLACE_ME"}}'}
+        fed = self.fed(main_extra=extra)
+        code, report = silence(fed.crawl)
+        self.assertEqual((code, report["skipped_fixture_paths"]["main"]),
+                         (0, ["docs/TEMPLATE_review.json", "tests/fixtures/refs.json"]))
+        code, report = silence(lambda: fed.crawl("--include-fixtures"))
+        self.assertIn("MALFORMED_IDENTITY", classes(report))
+
+    def test_registered_unpinned_repository_resolves_through_the_cache(self):
+        fed = self.fed(prune_repo=True)
+        cache = Path(self.tmp.name) / "cache"
+        cache.mkdir()
+        overrides = {k: v for k, v in fed.overrides.items() if k != "pruned"}
+        # With no mirror, the clone URL derived from the registered name is what --offline refuses.
+        code, report = silence(lambda: fed.crawl("--cache", str(cache), overrides=overrides))
+        rows = [f["detail"] for f in report["findings"] if f["class"] == "UNREACHABLE_REPOSITORY" and f["repo"] == "pruned"]
+        self.assertEqual(len(rows), 1)
+        self.assertIn("--offline forbids cloning", rows[0])
+        subprocess.run(["git", "clone", "-q", "--bare", str(fed.pruned), str(cache / "pruned.git")], check=True)
+        code, report = silence(lambda: fed.crawl("--cache", str(cache), overrides=overrides))
+        self.assertIn("TOPOLOGY_UNPINNED", classes(report))
+        self.assertTrue(any(f["class"] == "MISSING_COMMIT" and f.get("source", "").startswith("pruned:")
+                            for f in report["findings"]))
 
     def test_pin_skew_reported_and_optionally_blocking(self):
         fed = self.fed(math_pin_old=True)
@@ -464,6 +539,32 @@ class Crawl(unittest.TestCase):
             code, report = silence(fed.crawl)
         self.assertEqual(code, 1)
         self.assertIn("MISSING_PIN", classes(report))
+
+    def test_candidate_head_is_crawled_in_place_of_the_pin(self):
+        fed = self.fed()
+        cand = commit(fed.main, {"cand.json": [{"repository": "math", "commit": fed.a1, "path": "gone-cand.md"}]}, "M2")
+        code, report = silence(fed.crawl)
+        self.assertEqual(code, 0)  # main is crawled at its pin, where cand.json does not exist
+        self.assertIn("PIN_SKEW", classes(report))
+        code, report = silence(lambda: fed.crawl("--at", f"main={cand}"))
+        self.assertEqual(code, 1)
+        self.assertEqual([f["source"] for f in report["findings"] if f["class"] == "MISSING_PATH"], ["main:cand.json"])
+        self.assertIn("CANDIDATE", classes(report))
+        self.assertNotIn("PIN_SKEW", classes(report))
+        self.assertTrue([n for n in report["topology"] if n["name"] == "main" and n["commit"] == cand and n["candidate"]])
+        # A candidate that changes a file another repository depends on live is caught too.
+        reg = commit(fed.registry, {"registry.json": {"repositories": {}, "artifacts": [], "changed": True}}, "R3")
+        code, report = silence(lambda: fed.crawl("--at", f"registry={reg}"))
+        self.assertEqual(code, 1)
+        self.assertTrue(any(f["class"] == "LIVE_DRIFT" and f["source"].startswith("workspace:") for f in report["findings"]))
+
+    def test_candidate_revision_must_exist_and_name_a_crawled_repository(self):
+        fed = self.fed()
+        code, report = silence(lambda: fed.crawl("--at", "main=no-such-branch"))
+        self.assertEqual(code, 1)
+        self.assertEqual([f["detail"] for f in report["findings"] if f["class"] == "MISSING_PIN"],
+                         ["candidate revision 'no-such-branch' not found"])
+        self.assertEqual(silence(lambda: fed.crawl("--at", "ghost=HEAD")), (2, None))
 
     def test_unreadable_workspace_pins_exit_2(self):
         with tempfile.TemporaryDirectory() as tmp:

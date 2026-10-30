@@ -12,17 +12,28 @@ Topology, read from the workspace repository at one revision:
   * the repository registry that canonical_inputs.repository_registry names
     (registry.json in meta-framework today): its "repositories" entries.
 The workspace itself is a node at the crawled revision. A repository that is
-registered but not pinned is crawled at its default-branch tip.
+registered but not pinned is crawled at its default-branch tip, cloned from the URL its
+registered owner/name gives. --at NAME=REV crawls one repository at a candidate
+revision, such as a pull request head, in place of its pin, while the rest of the
+federation stays at its pins. That is the merge gate: exit 1 means the candidate
+records a broken reference or breaks a live reference into itself.
 
 References, extracted from every file of every node at its crawled commit that is
 valid UTF-8 text, whatever its extension:
-  * JSON (.json and .ipynb documents, and each line of .jsonl and .ndjson files): any
-    object with a repository key (repository, repo or full_name), a
-    string "path", and at least one identity: a commit (COMMIT_KEYS), a Git blob id
-    (BLOB_KEYS), a SHA-256 (SHA256_KEYS) or a byte count (BYTES_KEYS). Every
-    recorded value is checked, not only the first. A byte_identical_at_<name> key
-    with a 40-hex value claims the same identity at that further commit, and is
-    checked there too;
+  * JSON (.json and .ipynb documents, and each line of .jsonl and .ndjson files; JSON
+    with // or /* */ comments and trailing commas is read too): any object with a
+    repository key (repository, repo or full_name) and a string "path" is a record.
+    Its identities are a commit (COMMIT_KEYS: 7 to 40 hex digits, so an abbreviated
+    commit resolves through Git), a Git blob id (BLOB_KEYS), a SHA-256 (SHA256_KEYS)
+    and a byte count (BYTES_KEYS). Every recorded value is checked, not only the
+    first, and each distinct commit is checked separately. A record with an identity
+    but no commit is live, and so is one whose "ref" names a branch: its path must
+    exist at the target's crawled commit. A record with no identity key at all (only a
+    repository and a path, say a card that names the repository it concerns) makes no
+    claim about a file and is not a reference. Repository aliases
+    that disagree, and identity values that are not valid (a null counts as absent),
+    are blocking findings. A byte_identical_at_<name> key with a 40-hex value claims
+    the same identity at that further commit, and is checked there too;
   * text: GitHub blob, tree or raw URLs of a topology owner with a 40-hex commit.
     The URL path may contain balanced parentheses and is percent-decoded. In JSON,
     URLs are matched in the decoded string values, so JSON escapes such as \n or \/
@@ -33,8 +44,9 @@ MAX_TEXT_BYTES is an UNREAD finding. Nothing is skipped without being counted.
 An object with integer line_start and line_end is an excerpt reference: its sha256,
 bytes and text, where present, are checked against exactly those lines of the file
 (splitlines with line ends kept, as the site generators record them), not the whole file.
-Files under a tests, test, testdata, fixtures or examples directory are synthetic data.
-They are skipped unless --include-fixtures is given, and the report counts them.
+Files under a tests, test, testdata, fixtures or examples directory, and files whose
+name starts with TEMPLATE, are synthetic data. They are skipped unless
+--include-fixtures is given. The report lists every skipped and every binary path.
 
 Findings. BLOCKING findings make the exit status 1:
   UNKNOWN_REPOSITORY    the reference names a repository outside the topology
@@ -44,8 +56,14 @@ Findings. BLOCKING findings make the exit status 1:
   LIVE_DRIFT            a reference without a commit no longer matches the target's
                         crawled commit
   UNREACHABLE_REPOSITORY  a topology repository has no mirror and cannot be cloned
-  MISSING_PIN           a pinned commit cannot be found or fetched
+  MISSING_PIN           a pinned commit, or an --at revision, cannot be found or fetched
   TARGET_UNREACHABLE    a reference into a topology repository that is unreachable
+  ALIAS_CONFLICT        a record's repository fields name different repositories
+  MALFORMED_IDENTITY    a record's commit, blob, sha256 or bytes value is not a valid value
+  UNPARSEABLE           a JSON file, or a JSON Lines line, that does not parse, even as JSON
+                        with comments: its records are unchecked, so the census is incomplete.
+                        URLs are still matched in its raw text
+  UNREAD                a file over MAX_TEXT_BYTES, which is not read, so the census is incomplete
 The crawl never halts on one repository: an unreachable node is a finding, and the
 rest of the federation is still crawled.
 INFO findings are reported and do not block, unless a flag says otherwise:
@@ -62,10 +80,11 @@ INFO findings are reported and do not block, unless a flag says otherwise:
                         (a Lean dependency, for example). It is outside the federation and is
                         counted, not checked. A foreign repository that shares a short name with
                         a topology repository is never confused with it.
-  UNPARSEABLE           a JSON file, or a JSON Lines line, that does not parse: its records are
-                        unchecked, and URLs are still matched in its raw text
-  UNREAD                a file over MAX_TEXT_BYTES, which is not read
-Exit status 2 means the crawl itself failed: the workspace's pins are missing,
+  JSON_WITH_COMMENTS    a JSON file that parses only once comments and trailing commas are
+                        removed; it is read that way
+  CANDIDATE             a repository crawled at an --at revision instead of its pin
+Exit status 0 therefore means a complete census of the readable files with nothing
+broken. Exit status 2 means the crawl itself failed: the workspace's pins are missing,
 unreadable or of the wrong schema.
 
 Domain (governance B-006). The checks are on Git objects and file text. Lean
@@ -85,7 +104,7 @@ id. Keys that pin another repository (such as math_pin) are not commit keys.
 Usage:
   reference_crawler.py --workspace DIR [--workspace-rev REV] [--cache DIR] [--repo NAME=PATH]...
                    [--offline] [--json FILE] [--markdown FILE] [--strict] [--require-current-pins]
-                   [--include-fixtures]
+                   [--include-fixtures] [--at NAME=REV]...
 """
 
 import argparse
@@ -101,9 +120,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 BLOCKING = {"UNKNOWN_REPOSITORY", "MISSING_COMMIT", "MISSING_PATH", "IDENTITY_MISMATCH", "LIVE_DRIFT",
-            "UNREACHABLE_REPOSITORY", "MISSING_PIN", "TARGET_UNREACHABLE"}
+            "UNREACHABLE_REPOSITORY", "MISSING_PIN", "TARGET_UNREACHABLE", "ALIAS_CONFLICT",
+            "MALFORMED_IDENTITY", "UNPARSEABLE", "UNREAD"}
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+COMMITISH = re.compile(r"^[0-9a-f]{7,40}$")
+REF_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]*$")
 REPO_KEYS = ("repository", "repo", "full_name")
 COMMIT_KEYS = ("commit", "ref", "source_commit", "cut", "head", "at_commit")
 BLOB_KEYS = ("blob", "git_blob", "observed_blob", "blob_sha", "blob_sha1", "git_blob_sha", "git_blob_sha1")
@@ -122,6 +144,7 @@ MAX_TEXT_BYTES = 64_000_000
 # Synthetic test data is not federation reference data: files under these directory
 # names are skipped unless --include-fixtures is given, and the skipped count is reported.
 FIXTURE_SEGMENTS = {"tests", "test", "testdata", "fixtures", "examples"}
+TEMPLATE_PREFIX = "TEMPLATE"
 
 
 class CrawlError(Exception):
@@ -198,6 +221,7 @@ class Node:
     registered: bool
     mirror: Mirror = field(repr=False, default=None)
     available: bool = True
+    candidate: bool = False
 
 
 def owner_of(full_name_or_url):
@@ -224,8 +248,16 @@ def read_json(mirror, sha, path):
     return json.loads(mirror.blob(entry[1]).decode("utf-8"))
 
 
-def discover(workspace, rev, mirror_for, findings):
-    """Build the topology from the workspace's pins and registries at rev."""
+def resolve_revision(mirror, rev):
+    """The commit rev names in mirror, fetching a full SHA if needed, or None."""
+    if HEX40.match(rev):
+        mirror.ensure_commit(rev)
+    return git(mirror.path, "rev-parse", "--verify", "--quiet", f"{rev}^{{commit}}", check=False).stdout.strip() or None
+
+
+def discover(workspace, rev, mirror_for, findings, at=None):
+    """Build the topology from the workspace's pins and registries at rev; --at revisions replace pins."""
+    at = at or {}
     ws = Mirror("workspace", workspace)
     rev = git(workspace, "rev-parse", "--verify", f"{rev}^{{commit}}").stdout.strip()
     try:
@@ -269,9 +301,13 @@ def discover(workspace, rev, mirror_for, findings):
             repos = doc.get("repositories", {})
             for key in (repos if isinstance(repos, dict) else []):
                 extra[name_of(key)] = key
+    for name in at:
+        if name not in nodes or nodes[name].mirror is ws:
+            raise CrawlError(f"--at names {name!r}, which is not a crawled repository (use --workspace-rev for the workspace)")
     for name, full in list(registered.items()) + list(extra.items()):
         if name not in nodes:
-            nodes[name] = Node(name, full if "/" in str(full) else name, "", "", False, True)
+            url = f"https://github.com/{full}.git" if "/" in str(full) else ""
+            nodes[name] = Node(name, full if "/" in str(full) else name, url, "", False, True)
     for node in nodes.values():
         if node.mirror is None:
             try:
@@ -281,7 +317,15 @@ def discover(workspace, rev, mirror_for, findings):
                 findings.append(finding("UNREACHABLE_REPOSITORY", node.name, "", str(exc)))
                 node.available = False
                 continue
-        if not node.commit:
+        if node.name in at:
+            sha = resolve_revision(node.mirror, at[node.name])
+            if sha is None:
+                findings.append(finding("MISSING_PIN", node.name, "", f"candidate revision {at[node.name]!r} not found"))
+                node.available = False
+                continue
+            findings.append(finding("CANDIDATE", node.name, "", f"crawled at candidate {sha}; recorded {node.commit or 'none'}"))
+            node.commit, node.candidate = sha, True
+        elif not node.commit:
             node.commit = node.mirror.default_tip()
             if not node.commit:
                 findings.append(finding("UNREACHABLE_REPOSITORY", node.name, "", "no reachable default tip"))
@@ -295,7 +339,7 @@ def discover(workspace, rev, mirror_for, findings):
             findings.append(finding("TOPOLOGY_UNREGISTERED", node.name, "", "pinned but not in the registry"))
         if node.registered and not node.pinned and node.mirror is not ws:
             findings.append(finding("TOPOLOGY_UNPINNED", node.name, "", "registered but not pinned"))
-        if node.pinned:
+        if node.pinned and not node.candidate:
             tip = node.mirror.default_tip()
             if tip and tip != node.commit:
                 findings.append(finding("PIN_SKEW", node.name, "", f"pinned {node.commit}, tip {tip}"))
@@ -332,29 +376,65 @@ def distinct(obj, keys, valid):
     return tuple(out)
 
 
-def json_references(obj, source, source_path, out):
+def hex40(value):
+    return isinstance(value, str) and bool(HEX40.match(value))
+
+
+def record_references(obj, repos, path, source, source_path, out, findings):
+    """The references one JSON record makes. A record that contradicts itself is reported."""
+    def report(cls, detail):
+        if findings is not None:
+            findings.append(finding(cls, name_of(repos[0]), path, detail, Reference(source, source_path, repos[0], path)))
+
+    owners = {owner_of(r).lower() for r in repos if "/" in r and owner_of(r)}
+    if len({name_of(r).lower() for r in repos}) > 1 or len(owners) > 1:
+        report("ALIAS_CONFLICT", f"the repository fields disagree: {', '.join(repos)}")
+        return
+    repo = max(repos, key=lambda r: "/" in r)  # prefer the owner-qualified alias
+    commits, named, malformed = [], [], []
+    for k in COMMIT_KEYS:
+        value = obj.get(k)
+        if value is None:
+            continue
+        if isinstance(value, str) and COMMITISH.match(value):
+            if value not in commits:
+                commits.append(value)
+        elif k == "ref" and isinstance(value, str) and REF_NAME.match(value):
+            named.append(value)  # a "ref" that names a branch: a live reference
+        else:
+            malformed.append(k)
+    checks = ((BLOB_KEYS, hex40), (SHA256_KEYS, lambda v: isinstance(v, str) and bool(HEX64.match(v))),
+              (BYTES_KEYS, is_int))
+    for keys, valid in checks:
+        malformed += [k for k in keys if obj.get(k) is not None and not valid(obj[k])]
+    for k in malformed:
+        report("MALFORMED_IDENTITY", f"{k} = {str(obj[k])[:60]!r} is not a valid value")
+    blobs = distinct(obj, BLOB_KEYS, hex40)
+    sha256s = distinct(obj, SHA256_KEYS, checks[1][1])
+    sizes = distinct(obj, BYTES_KEYS, is_int)
+    lines = (obj["line_start"], obj["line_end"]) if is_int(obj.get("line_start")) and is_int(obj.get("line_end")) else None
+    text = obj.get("text") if lines and isinstance(obj.get("text"), str) else None
+    if not (commits or named or blobs or sha256s or sizes):
+        return  # no identity is claimed, so there is nothing to check
+    # Each distinct commit is its own claim; a record without one is a live reference.
+    for commit in commits or [None]:
+        out.append(Reference(source, source_path, repo, path, commit, blobs, sha256s, sizes, "json", lines, text))
+    for key in sorted(k for k in obj if k.startswith(ALSO_AT_PREFIX) and hex40(obj[k])):
+        # A claim that the same identity also holds at a further commit.
+        out.append(Reference(source, source_path, repo, path, obj[key], blobs, sha256s, sizes, "json", lines, text))
+
+
+def json_references(obj, source, source_path, out, findings=None):
     if isinstance(obj, dict):
-        repo = next((obj[k] for k in REPO_KEYS if isinstance(obj.get(k), str)), None)
+        repos = distinct(obj, REPO_KEYS, lambda v: isinstance(v, str) and bool(v.strip()))
         path = obj.get("path")
-        if repo and isinstance(path, str) and path:
-            hex40 = lambda v: isinstance(v, str) and bool(HEX40.match(v))  # noqa: E731
-            commit = next((obj[k] for k in COMMIT_KEYS if hex40(obj.get(k))), None)
-            blobs = distinct(obj, BLOB_KEYS, hex40)
-            sha256s = distinct(obj, SHA256_KEYS, lambda v: isinstance(v, str) and bool(HEX64.match(v)))
-            sizes = distinct(obj, BYTES_KEYS, is_int)
-            lines = (obj["line_start"], obj["line_end"]) if is_int(obj.get("line_start")) and is_int(obj.get("line_end")) else None
-            text = obj.get("text") if lines and isinstance(obj.get("text"), str) else None
-            if commit or blobs or sha256s or sizes:
-                out.append(Reference(source, source_path, repo, path, commit, blobs, sha256s, sizes, "json", lines, text))
-                for key in sorted(k for k in obj if k.startswith(ALSO_AT_PREFIX) and hex40(obj[k])):
-                    # A claim that the same identity also holds at a further commit.
-                    out.append(Reference(source, source_path, repo, path, obj[key], blobs, sha256s, sizes,
-                                         "json", lines, text))
+        if repos and isinstance(path, str) and path:
+            record_references(obj, repos, path, source, source_path, out, findings)
         for value in obj.values():
-            json_references(value, source, source_path, out)
+            json_references(value, source, source_path, out, findings)
     elif isinstance(obj, list):
         for value in obj:
-            json_references(value, source, source_path, out)
+            json_references(value, source, source_path, out, findings)
 
 
 def text_references(text, source, source_path, owners, out):
@@ -381,8 +461,39 @@ def json_strings(obj):
             yield from json_strings(value)
 
 
+def strip_json_comments(text):
+    """JSON with // and /* */ comments and trailing commas, reduced to JSON. Strings are kept intact."""
+    pieces, i, n = [], 0, len(text)  # (is_string, text) pieces outside comments
+    while i < n:
+        if text[i] == '"':
+            j = i + 1
+            while j < n and text[j] != '"':
+                j += 2 if text[j] == "\\" else 1
+            pieces.append((True, text[i:j + 1]))
+            i = j + 1
+        elif text.startswith("//", i):
+            while i < n and text[i] != "\n":
+                i += 1
+        elif text.startswith("/*", i):
+            end = text.find("*/", i + 2)
+            i = n if end < 0 else end + 2
+        else:
+            pieces.append((False, text[i]))
+            i += 1
+    out = []
+    for k, (is_string, piece) in enumerate(pieces):
+        if not is_string and piece == ",":
+            j = k + 1
+            while j < len(pieces) and not pieces[j][0] and pieces[j][1].isspace():
+                j += 1
+            if j < len(pieces) and not pieces[j][0] and pieces[j][1] in "}]":
+                continue  # a trailing comma
+        out.append(piece)
+    return "".join(out)
+
+
 def json_documents(text, path):
-    """The parsed JSON documents of a file, and the text that did not parse."""
+    """The parsed JSON documents of a file, the text that did not parse, and whether comments were removed."""
     if path.endswith(JSON_LINES_SUFFIXES):
         docs, rest = [], []
         for line in text.splitlines():
@@ -391,11 +502,15 @@ def json_documents(text, path):
                     docs.append(json.loads(line))
                 except ValueError:
                     rest.append(line)
-        return docs, "\n".join(rest)
+        return docs, "\n".join(rest), False
     try:
-        return [json.loads(text)], ""
+        return [json.loads(text)], "", False
     except ValueError:
-        return [], text
+        pass
+    try:
+        return [json.loads(strip_json_comments(text))], "", True
+    except ValueError:
+        return [], text, False
 
 
 def file_references(text, path, source, owners, refs, findings):
@@ -403,9 +518,11 @@ def file_references(text, path, source, owners, refs, findings):
     if not path.endswith(JSON_SUFFIXES + JSON_LINES_SUFFIXES):
         text_references(text, source, path, owners, refs)
         return
-    docs, unparsed = json_documents(text, path)
+    docs, unparsed, with_comments = json_documents(text, path)
+    if with_comments:
+        findings.append(finding("JSON_WITH_COMMENTS", source, path, "read after removing comments and trailing commas"))
     for doc in docs:
-        json_references(doc, source, path, refs)
+        json_references(doc, source, path, refs, findings)
         for string in json_strings(doc):
             text_references(string, source, path, owners, refs)
     if unparsed:
@@ -415,7 +532,8 @@ def file_references(text, path, source, owners, refs, findings):
 
 
 def is_fixture(path):
-    return any(part in FIXTURE_SEGMENTS for part in path.split("/")[:-1])
+    parts = path.split("/")
+    return any(part in FIXTURE_SEGMENTS for part in parts[:-1]) or parts[-1].startswith(TEMPLATE_PREFIX)
 
 
 def collect(node, owners, findings, include_fixtures=False, skipped=None, binary=None):
@@ -426,7 +544,7 @@ def collect(node, owners, findings, include_fixtures=False, skipped=None, binary
             continue
         if not include_fixtures and is_fixture(path):
             if skipped is not None:
-                skipped[node.name] = skipped.get(node.name, 0) + 1
+                skipped.setdefault(node.name, []).append(path)
             continue
         size = node.mirror.size(node.commit, path)
         if size > MAX_TEXT_BYTES:
@@ -436,7 +554,7 @@ def collect(node, owners, findings, include_fixtures=False, skipped=None, binary
             text = node.mirror.blob(oid).decode("utf-8")
         except UnicodeDecodeError:
             if binary is not None:
-                binary[node.name] = binary.get(node.name, 0) + 1
+                binary.setdefault(node.name, []).append(path)
             continue
         file_references(text, path, node.name, owners, refs, findings)
     return refs
@@ -541,7 +659,7 @@ def python_signatures(text):
 
 
 def json_shape(value, depth=0):
-    """Flattened map of JSON path -> type, to depth SHAPE_DEPTH; list items are merged."""
+    """Flattened map of JSON path -> type, to depth SHAPE_DEPTH; every list item is merged."""
     shape = {}
 
     def walk(v, path, d):
@@ -555,7 +673,7 @@ def json_shape(value, depth=0):
             for k, child in v.items():
                 walk(child, f"{path}.{k}" if path else k, d + 1)
         elif isinstance(v, list):
-            for child in v[:50]:
+            for child in v:
                 walk(child, f"{path}[]", d + 1)
 
     walk(value, "", depth)
@@ -656,6 +774,8 @@ def check_reference(ref, nodes, owners, findings):
                 problems.append(f"text of lines {start}-{end} differs")
     elif (ref.sha256s or ref.sizes) and kind == "blob":
         problems += identity_problems(mirror.blob(oid), ref)
+    elif ref.sha256s or ref.sizes or ref.lines:
+        problems.append(f"a file identity is recorded, but the path is a {kind}")
     if problems:
         cls = "LIVE_DRIFT" if live else "IDENTITY_MISMATCH"
         findings.append(finding(cls, target.name, path, "; ".join(problems), ref))
@@ -678,7 +798,7 @@ def interface_changed(row):
 
 
 def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, include_fixtures=False, skipped=None,
-          binary=None):
+          binary=None, at=None):
     findings = []
     overrides = overrides or {}
 
@@ -697,7 +817,7 @@ def crawl(workspace, rev="HEAD", cache=None, overrides=None, offline=False, incl
                 raise CrawlError(f"cannot clone {node.name} from {node.url}: {proc.stderr.strip()[:200]}")
         return Mirror(node.name, path, offline)
 
-    nodes = discover(workspace, rev, mirror_for, findings)
+    nodes = discover(workspace, rev, mirror_for, findings, at)
     owners = {o.lower() for n in nodes.values() for o in (owner_of(n.full_name), owner_of(n.url)) if o}
     references = []
     for node in nodes.values():
@@ -718,14 +838,16 @@ def summarize(nodes, references, findings, strict=False, require_current_pins=Fa
     blocking = [row for row in findings if blocks(row)]
     return {
         "schema": "cbz.references.v1",
-        "topology": [{"name": n.name, "full_name": n.full_name, "commit": n.commit,
-                      "pinned": n.pinned, "registered": n.registered} for n in nodes.values()],
+        "topology": [{"name": n.name, "full_name": n.full_name, "commit": n.commit, "pinned": n.pinned,
+                      "registered": n.registered, "candidate": n.candidate} for n in nodes.values()],
         "references": len(references),
         "counts": dict(sorted(counts.items())),
         "blocking": len(blocking),
         "strict": strict, "require_current_pins": require_current_pins,
-        "skipped_fixture_files": dict(sorted((skipped or {}).items())),
-        "binary_files_not_read": dict(sorted((binary or {}).items())),
+        "skipped_fixture_files": {k: len(v) for k, v in sorted((skipped or {}).items())},
+        "binary_files_not_read": {k: len(v) for k, v in sorted((binary or {}).items())},
+        "skipped_fixture_paths": dict(sorted((skipped or {}).items())),
+        "binary_paths": dict(sorted((binary or {}).items())),
         "findings": findings,
     }
 
@@ -759,6 +881,8 @@ def main(argv=None):
     p.add_argument("--require-current-pins", action="store_true")
     p.add_argument("--include-fixtures", action="store_true",
                    help="also check references inside tests/, fixtures/ and examples/ directories")
+    p.add_argument("--at", action="append", default=[], metavar="NAME=REV",
+                   help="crawl repository NAME at REV, a candidate such as a PR head, instead of its pin")
     args = p.parse_args(argv)
     overrides = {}
     for item in args.repo:
@@ -766,10 +890,16 @@ def main(argv=None):
         if not sep:
             p.error(f"--repo expects NAME=PATH, got {item!r}")
         overrides[name] = path
+    at = {}
+    for item in args.at:
+        name, sep, rev = item.partition("=")
+        if not sep or not rev:
+            p.error(f"--at expects NAME=REV, got {item!r}")
+        at[name] = rev
     skipped, binary = {}, {}
     try:
         nodes, references, findings = crawl(args.workspace, args.workspace_rev, args.cache, overrides, args.offline,
-                                            args.include_fixtures, skipped, binary)
+                                            args.include_fixtures, skipped, binary, at)
     except (CrawlError, subprocess.CalledProcessError) as exc:  # workspace-level failure
         print(f"REFERENCE CRAWL ERROR: {exc}", file=sys.stderr)
         return 2

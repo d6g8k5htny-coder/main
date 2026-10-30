@@ -36,7 +36,7 @@ owner's CBZ-0 addendum. Credit 0. Scientific effect NONE.
 
 | | |
 |---|---|
-| When | 2026-10-30, 11:27:03Z to 11:29:54Z |
+| When | 2026-10-30, 12:17:16Z to 12:19:51Z |
 | Environment | CPython 3.11.17, git 2.43.0 |
 | Exit status | 1 |
 | Logs | `crawl.stdout`, `crawl.exit` |
@@ -51,11 +51,14 @@ python3 -B -S tools/cbz/reference_crawler.py --workspace <Universal-Law-Workspac
   missing is cloned from its `pins.json` URL.
 - **Outputs.**
   - `report.md` is the complete Markdown output.
-  - `summary.json` holds the full report's topology, counts and every finding except
-    the two `FROZEN_*` classes, which it gives as counts by source repository.
-  - The full JSON report (3,584,948 bytes, SHA-256
-    `32cbf7fc3ca8067241d0d2230c784dfbd4b61068f46ec47da5dd94ce06b1b1dc`) is reproduced by
-    the command above, against mirrors at the same heads.
+  - `summary.json` holds the full report's topology, counts, every skipped and binary path,
+    and every finding except the two `FROZEN_*` classes, which it gives as counts by source
+    repository.
+  - `report.json.gz` is the complete JSON report. It is gzip with `mtime=0`, so the
+    compression is deterministic. It decompresses to 3,615,116 bytes with SHA-256
+    `d8249fb0beda3b2da4c591b8610fce5aa7781a379d2028ea3a1607abf55beed0`. The `.gz` file
+    itself is 205,447 bytes, with SHA-256
+    `c26970fdb0fd26bf209cbf793499e7eb965b7b0b9eef0f55117affa4c5296a66`.
 
 **Topology.** It was discovered from Universal-Law-Workspace `a4b016820329afc1787d9c191572b05cd88236ac`, with no list in the tool:
 
@@ -76,7 +79,7 @@ in `refstats.txt`.
 
 | Kind | Count | Detail |
 |---|---|---|
-| JSON records | 13,397 | 13,380 commit-pinned and 17 live |
+| JSON records | 13,397 | 13,382 commit-pinned and 15 live |
 | GitHub URLs | 14,726 | commit and path checked |
 
 The JSON records carry these identity claims:
@@ -100,18 +103,42 @@ query- 38, governance- 27, google-drive 16, trial 1.
 | FROZEN_CHANGED | 2,435 | no |
 | FROZEN_REMOVED | 4,322 | no |
 | PIN_SKEW | 4 | no |
-| UNPARSEABLE | 1 | no |
+| JSON_WITH_COMMENTS | 1 | no |
 
-- **Skipped fixture files.** 311, all under `tests/`, `fixtures/` or `examples/`: main 188,
-  Math- 82, meta-framework 13, query- 13, Universal-Law-Workspace 8 and trial 7.
-- **Binary files counted, not read.** 185: main 183 and trial 2. No file exceeded the
-  read limit, so there is no `UNREAD` finding.
+- **Skipped fixture files.** 312: main 189, Math- 82, meta-framework 13, query- 13,
+  Universal-Law-Workspace 8 and trial 7. All are under `tests/`, `fixtures/` or `examples/`, apart
+  from main `formal/reviews/TEMPLATE_alignment_review.json`, whose placeholder `sha256` is not
+  a claim. `summary.json` lists every path.
+- **Binary files counted, not read.** 185: main 183 and trial 2, each listed in
+  `summary.json`. No file exceeded the read limit, so there is no `UNREAD` finding, and no file
+  is `UNPARSEABLE`.
 - **Pin skew** is in main, Math-, meta-framework and governance-, the same four repositories
   that #712 reports as `PIN-STALE`.
 - **Not blocking.**
-  - The `UNPARSEABLE` file is trial `.cursor/environment.json`.
+  - Trial `.cursor/environment.json` is JSON with `//` comments. It is read after the comments
+    are removed, and reported as `JSON_WITH_COMMENTS`.
   - The foreign reference is Math- `reviews/cap_i4_d3_spectral_adapter_20261005/SOURCES.json`,
     citing `leanprover-community/mathlib4`.
+
+### The same federation at current tips
+
+`--at` puts a candidate revision in place of a repository's pin, and the rest of the federation
+stays at its pins. A second run moved every repository with pin skew to its current tip:
+- main `11e28815`;
+- Math- `19a55750`;
+- meta-framework `0f5894f8`;
+- governance- `1b62ca2f`.
+
+The other five repositories' pins equal their tips. The tip values are in `tips.txt`; the run's
+logs are `crawl-tips.stdout` and `crawl-tips.exit`, its report is `report-tips.md`, and its
+compressed full report is `report-tips.json.gz`. That report decompresses to 3,710,986 bytes,
+SHA-256 `4039ef88b6dec1411d047d32763ae61b2ce86ff103d91441290f0d44c5167980`, and its summary is
+`summary-tips.json`.
+
+The result: 28,636 references, with **1 blocking** finding, the same Math- record (judged at main's
+tip). It reports 4 `CANDIDATE`, 2,529 `FROZEN_CHANGED`, 4,322 `FROZEN_REMOVED`, 1
+`JSON_WITH_COMMENTS` and 1 `FOREIGN_REPOSITORY`. The current federation therefore has one broken
+reference, and it is the same one at the pins and at the tips.
 
 ### The one blocking finding
 
@@ -159,6 +186,30 @@ reproducible evidence.
   `.ipynb` and `.log` files, mostly main's `docs/site` pages, were never checked. All of
   them now resolve.
 
+**Review of the first head (RC-721-F1 to F6, [#721/6521783951](https://github.com/d6g8k5htny-coder/main/pull/721#issuecomment-6521783951)), and the fix for each.**
+
+| Finding | Fix | Test and mutants |
+|---|---|---|
+| F1: the crawl could exit 0 while a file's JSON records stayed unchecked | `UNPARSEABLE` and `UNREAD` are blocking, so an incomplete census never exits 0. JSON with comments and trailing commas is read rather than left unparsed. | `test_unparseable_json_blocks_as_an_incomplete_census`, `test_json_with_comments_and_trailing_commas_is_read`; mutants "unparseable not blocking", "unread not blocking", "json comments not read", "comment stripping ignores strings", "trailing commas kept" |
+| F2: only the first repository and commit alias was used, and malformed identity values were dropped | Repository aliases that disagree are `ALIAS_CONFLICT`. Each distinct commit is checked. An invalid identity value is `MALFORMED_IDENTITY`; a null counts as absent. An abbreviated commit (7 to 39 hex digits) resolves through Git. A `ref` that names a branch is a live reference. | `test_record_aliases_commits_and_refs`, `test_records_with_an_identity_are_references_and_malformed_values_are_reported`, `test_named_refs_and_abbreviated_commits_are_checked_and_path_only_records_are_not_references`; mutants "alias conflict ignored", "malformed identity silent", "only the first commit checked", "abbreviated commits rejected", "named refs malformed", "named refs not references", "path-only records checked" |
+| F3: files over 2 MB, non-UTF-8 text and eight-suffix scanning | Every UTF-8 file is read. Binary paths are listed. A file over the 64 MB limit is a blocking `UNREAD`. | the head `708c70e2` tests and mutants, plus the path lists |
+| F4: JSON shapes ignored array elements after the 50th | Every element is walked. | `test_json_shape_walks_every_array_element`; mutant "json shape truncated" |
+| F5: a SHA-256, byte or excerpt claim on a directory path was accepted | It is an `IDENTITY_MISMATCH` ("a file identity is recorded, but the path is a tree"). | `test_file_identity_on_a_directory_is_a_mismatch`; mutant "file identity on a directory accepted" |
+| F6: a registered but unpinned repository had no clone URL | The URL is derived from the registered `owner/name`. A test resolves the repository through a real `--cache` mirror, with no override, and checks that the derived URL is what `--offline` refuses. | `test_registered_unpinned_repository_resolves_through_the_cache`; mutant "unpinned repositories get no url" |
+
+**A rule tried and withdrawn.** Treating a record with only a repository and a path as a live
+reference gave two false `LIVE_DRIFT` findings, on trial `needs_attention/SNAPSHOT.json`. Its cards
+name the repository they concern, while their `path` is local to trial. Such a record claims no
+file identity, so it is not a reference. A regression test and the mutant "path-only records
+checked" now pin this down. The identity-value census below found no record with two distinct
+commits and none with disagreeing repository aliases. It found 13 invalid values:
+
+| Count | Value | Where | Rule |
+|---|---|---|---|
+| 9 | `ref: "main"` | main `docs/NAVIGATION.json` | branch name, live |
+| 3 | abbreviated commits | main `docs/retro/GB-8g.agent7.node-candidates.json` | resolve through Git |
+| 1 | template placeholder | main `formal/reviews/TEMPLATE_alignment_review.json` | synthetic |
+
 **Key census.** Every key holding 40 hex characters in a reference-shaped object was
 counted across the eight pinned repositories. Before each key was adopted, its values in
 main, Math-, meta-framework and query- (outside fixtures) were checked against the Git
@@ -186,7 +237,7 @@ objects, without fetching:
 
 ## Self-verification (A8, B-006)
 
-**Tests.** `tests/test_cbz_reference_crawler.py` has 32 tests, run on local multi-repository
+**Tests.** `tests/test_cbz_reference_crawler.py` has 41 tests, run on local multi-repository
 Git fixtures with no network. The output is in `tests-normal.txt` and `tests-optimized.txt`.
 
 ```
@@ -194,7 +245,7 @@ python3 -B -S -m unittest -v tests.test_cbz_reference_crawler
 python3 -B -S -O -m unittest -v tests.test_cbz_reference_crawler
 ```
 
-**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 55 mutants, and
+**Mutation check.** `tools/cbz/reference_crawler_mutation_check.py` applies 75 mutants, and
 each must apply exactly once. A mutant counts as killed only if the suite ran at least one
 test and reported `FAILED`. There are two controls: the unmutated copy must pass, and a
 syntax-broken copy must come out invalid, never killed. The output is in `mutation.txt`.
@@ -212,7 +263,8 @@ The mutation check runs the suite in normal mode. Neither the tool nor its tests
 - Lean statement drift compares comment-stripped declaration text, not elaborated terms;
 - free-text fields such as `meaning` are not interpreted;
 - a nested identity sub-object is not attached to its parent;
-- binary files (not valid UTF-8, such as PDFs and images) are counted, not parsed.
+- binary files (not valid UTF-8, such as PDFs and images) are listed, not parsed;
+- a record with no identity key (only a repository and a path) is not a reference.
 
 A pass means every reference that was read resolved and matched. It is not a mathematical
 judgement.
@@ -226,17 +278,35 @@ judgement.
 > registries, and resolves every cross-repository reference record and commit-pinned URL it
 > finds, by commit, path, Git blob, SHA-256, byte count or line excerpt. It blocks on a
 > reference that does not resolve or does not match, and reports frozen-reference interface
-> drift as INFO. Its domain is in its docstring. Self-verification: 32 tests in both
-> interpreter modes, and 55 mutants with 100% required kills.
+> drift as INFO. An incomplete census (an unparseable or unread file) also blocks. Its domain
+> is in its docstring. `--at NAME=REV` crawls one repository at a candidate head, so a pull
+> request can be gated against the federation. Self-verification: 41 tests in both interpreter
+> modes, and 75 mutants with 100% required kills.
 
 **TOOLING.md.** Add this row, in the columns of the #695 candidate:
 
 | Tool | Usage/purpose | Actual verification/boundary | Owner/criterion |
 |---|---|---|---|
-| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 32 tests per mode; 55 of 55 intended source mutants killed (`reference_crawler_mutation_check.py`). Live run at ULW `a4b01682`: 28,123 references, 1 blocking. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
+| Main tools/cbz/reference_crawler.py | `python3 -B -S tools/cbz/reference_crawler.py --workspace ULW --cache DIR --json OUT`. Resolves every cross-repository reference record and commit-pinned URL in the federation. | 41 tests per mode; 75 of 75 intended source mutants killed (`reference_crawler_mutation_check.py`). Live runs at ULW `a4b01682`: 28,123 references at the pins and 28,636 at current tips, 1 blocking in each. Boundary: Git-object and text identity only; no Lean elaboration or mathematical certification. | none, self-contained; 8 (G7), 10 |
 
 **Gate matrix §10, G7.** Proposed wording: "PASS when, in the final run, both
-`tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0."
+`tools/cbz_drift/crawl.py --at pins` and `tools/cbz/reference_crawler.py` exit 0. A pull
+request to a federation repository passes its merge gate when
+`tools/cbz/reference_crawler.py --at NAME=HEAD` exits 0."
+
+**What blocks a merge, and what does not.** The owner's addendum asks for merge synchronization to
+be blocked when drift is detected. Here is how that maps onto this tool:
+- **Blocks, with or without `--strict`:**
+  - a reference that a candidate head breaks: `MISSING_*`, `IDENTITY_MISMATCH`, or a live
+    reference into the candidate whose content changed (`LIVE_DRIFT`);
+  - every check of the candidate's own records.
+- **Informational by default:** the 2,435 `FROZEN_CHANGED` rows. These are commit-pinned citations
+  whose file has changed since, by design. Blocking on them would block on history.
+- **`--strict`** makes interface drift in frozen citations block. That covers Lean statements,
+  Python signatures and JSON shapes.
+- **Shared Lean declarations** must agree across locations under #712's `LEAN-DRIFT`.
+
+The choice between the default and `--strict` for G7 is Root's (B-003).
 
 At this run the reference crawler exits 1 on the Math- record above. G7 is therefore RED
 until that record carries its commit. That is the federation's actual state.
