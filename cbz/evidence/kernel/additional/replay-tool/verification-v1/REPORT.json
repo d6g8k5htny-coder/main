@@ -1,0 +1,72 @@
+{
+  "schema": "cbz-replay-source-mutations-v1",
+  "source_sha256": "e6b96754a743bd10c2a5aa61559d888ef1e085d857b7dcfc301823046b08f334",
+  "test_sha256": "8e83aceab2dbfb65581c64a70119ddf7dc168d99223853a489377cb220feda5e",
+  "python": "3.11.16 (main, Sep 29 2026, 14:59:26) [Clang 22.1.3 ]",
+  "python_executable": "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/bin/python3.11",
+  "threshold": "100% of the three declared validator-source mutants in each Python mode",
+  "baseline": {
+    "normal": {
+      "exit_code": 0,
+      "stderr_sha256": "f8d9d7b68b85e4b22c9480cdf633f3e83f1b9b91f0df12e50692f0e4bb8c1abd"
+    },
+    "optimized": {
+      "exit_code": 0,
+      "stderr_sha256": "816544b590110965147f7af33cc0679c535a7e03fd9917b2ad6258e47bd860e4"
+    }
+  },
+  "mutants": {
+    "owned-names": {
+      "source_sha256": "78b16f682e264a541660b02c7d8eb2d9586f39a5e3b3f044fbd5716696ad30a0",
+      "modes": {
+        "normal": {
+          "exit_code": 1,
+          "expected_failed_test": "test_wrong_owned_name",
+          "reason_bound_kill": true,
+          "stderr_sha256": "c6e41b8e24954d15d68d263ca9ce413ff35acf2a9095880fa836f1e3d20087a3"
+        },
+        "optimized": {
+          "exit_code": 1,
+          "expected_failed_test": "test_wrong_owned_name",
+          "reason_bound_kill": true,
+          "stderr_sha256": "31ef51aae95e78bd74d0151cd114d6fbc6601f484eb3e225314fdd5a5c584c39"
+        }
+      }
+    },
+    "module-assignment": {
+      "source_sha256": "4fb2c1a6d183c657688692f69de3f4cd21651c7aa582cb14793187366e9f8309",
+      "modes": {
+        "normal": {
+          "exit_code": 1,
+          "expected_failed_test": "test_wrong_module_assignment",
+          "reason_bound_kill": true,
+          "stderr_sha256": "52abb79f640e9aaf794f4a1c356cddcd7948a5cd5b4f069a177a29e37a0ef749"
+        },
+        "optimized": {
+          "exit_code": 1,
+          "expected_failed_test": "test_wrong_module_assignment",
+          "reason_bound_kill": true,
+          "stderr_sha256": "3f5d13084ff3e5e1bf4c4e442f46a8b42232a0300b7a7adb4296f2505d937c05"
+        }
+      }
+    },
+    "axioms": {
+      "source_sha256": "10a8e567fa63eb45c1ee4bc8548f7fa01e0d5dd28c69ec0e2bc7ec3ac7bf5fc3",
+      "modes": {
+        "normal": {
+          "exit_code": 1,
+          "expected_failed_test": "test_forbidden_axiom",
+          "reason_bound_kill": true,
+          "stderr_sha256": "beecef3862fc693850d181f185ade7de3c2aaece4243c7a4b7ac6e3cf57a4137"
+        },
+        "optimized": {
+          "exit_code": 1,
+          "expected_failed_test": "test_forbidden_axiom",
+          "reason_bound_kill": true,
+          "stderr_sha256": "6122d41d2aee9a70ad4ff027343e3dfd8bbd9f626c4b5df6753919f710dc4528"
+        }
+      }
+    }
+  },
+  "status": "PASS_ALL_DECLARED_MUTANTS_KILLED"
+}

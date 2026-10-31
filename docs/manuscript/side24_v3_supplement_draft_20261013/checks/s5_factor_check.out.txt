@@ -1,0 +1,79 @@
+pins force f_111 = 2 kappa + O(r^2) -> PASS
+V0 contact limit = L0 (eq:selection-L0, with the eta^2 term) - c kappa eta^2/6 -> PASS
+V1 contact limit = L1 (eq:selection-L1s) - kappa eta^2/4, with f_111 = 2 kappa -> PASS
+collar, K0: det Cov(G_col|P) = rho^6 (4X^2+rho^2)  [eq:selection-coldet] -> PASS
+collar: axial random part = rho (X U1 + rho U2) -> PASS
+collar, K0: D = 4X^2 + rho^2 on |v| = 1  [eq:selection-Acol0] -> PASS
+K0: Sigma = Cov(U1,U2,W|P) = diag(2, 1/2, 6) on |v| = 1 -> PASS
+K0: det Cov(f_vv, f_vw | P) = 2 on |v| = 1 -> PASS
+sing, K0: conditional covariance of (L0, L1)  [eq:selection-C01] -> PASS
+sing, K0: det C_(L0,L1) = rho^6 Q_eta / 144  [eq:selection-det01] -> PASS
+sing, K0: det Cov(L0..L3|P) = rho^10 Q_eta / 72  [eq:selection-det4] -> PASS
+Q_0 = 3 (c^2+rho^2)(3c^2+rho^2) -> PASS
+sing: L0 = -(rho/12)((c^2 + 3 eta^2/4) U1 + 4 c rho U2 + rho^2 W)  [eq:selection-singlead] -> PASS
+sing: L1 = rho (c U1 + rho U2) -> PASS
+sing: the 2x2 minors of A are rho * (3eta^2/4 - 3c^2, -c rho, -rho^2) -> PASS
+collar, generic kernel 1: det C_col = rho^6 D -> PASS
+collar, generic kernel 1: D is a quadratic form in (X, rho) -> PASS
+collar, generic kernel 1: D positive definite at v = (1, 0) -> PASS
+collar, generic kernel 1: D positive definite at v = (0, 1) -> PASS
+collar, generic kernel 1: D positive definite at v = (3/5, 4/5) -> PASS
+sing, generic kernel 1: det C_sing = rho^10 Q_eta(K) det Cov(f_vv,f_vw|P) / 144 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 9/10 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 0 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 1/2 -> PASS
+sing, generic kernel 1: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 9/10 -> PASS
+collar, generic kernel 2: det C_col = rho^6 D -> PASS
+collar, generic kernel 2: D is a quadratic form in (X, rho) -> PASS
+collar, generic kernel 2: D positive definite at v = (1, 0) -> PASS
+collar, generic kernel 2: D positive definite at v = (0, 1) -> PASS
+collar, generic kernel 2: D positive definite at v = (3/5, 4/5) -> PASS
+sing, generic kernel 2: det C_sing = rho^10 Q_eta(K) det Cov(f_vv,f_vw|P) / 144 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle 0, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/7, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/3, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(1,0), angle pi/2, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle 0, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/7, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/3, eta 9/10 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 0 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 1/2 -> PASS
+sing, generic kernel 2: Q_eta det_perp > 0 at v=(3/5,4/5), angle pi/2, eta 9/10 -> PASS
+B0 = 14523826191; 6 B0 q + 9289 B0 q^2 < 10^-113 for q < 10^-125 -> PASS
+6 B0 < 8.72e10 and 9289 B0 < 1.35e14 -> PASS
+9289 B0 q^2 < 10^-230 for q < 10^-125 -> PASS
+ALL PASS
