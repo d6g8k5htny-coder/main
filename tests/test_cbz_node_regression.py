@@ -13,8 +13,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import types
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("CBZ_NODE_RUNNER_SOURCE", ROOT / "tools/cbz_node_regression.py"))
@@ -538,10 +540,15 @@ def loaded_bypass_observed(result):
                 "AssertionError: changed loaded source was accepted") == 1)
 
 
+def nested(output):
+    """Quote a child run's output so its summary and trace lines are not read as this run's."""
+    return textwrap.indent(output, "    | ")
+
+
 def assertion_kill(process, expected):
     text = process.stdout + process.stderr
     summary = re.search(r"^FAILED \(([^)]*)\)$", text, re.MULTILINE)
-    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):
+    if re.search(r"(?m)^(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):
         return False
     if process.returncode != 1 or not summary or not re.fullmatch(r"failures=[1-9][0-9]*", summary.group(1)):
         return False
@@ -769,7 +776,7 @@ class MutationHarnessTests(unittest.TestCase):
                         result = SourceMutationTests("test_unmodified_copied_source_passes").invoke(target, "test_child")
                 finally:
                     globals()["ROOT"] = original
-                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.assertEqual(result.returncode, 0, nested(result.stdout + result.stderr))
                 self.assertIn("CBZ_CHILD_SOURCE", result.stdout)
                 self.assertNotIn("CBZ_CHILD_POISON", result.stdout + result.stderr)
 
@@ -805,7 +812,7 @@ class MutationHarnessTests(unittest.TestCase):
                         [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
                          str(launcher), "--root", str(root)],
                         capture_output=True, text=True, env=dict(os.environ), timeout=30)
-                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertEqual(result.returncode, 0, nested(result.stdout + result.stderr))
                     self.assertIn("CBZ_OUTER_SOURCE", result.stdout)
                     self.assertNotIn("CBZ_OUTER_POISON", result.stdout + result.stderr)
 
@@ -826,7 +833,7 @@ class MutationHarnessTests(unittest.TestCase):
                         [sys.executable, *(["-O"] if sys.flags.optimize else []), "-I", "-B", "-S",
                          str(launcher), "--root", str(root)],
                         capture_output=True, text=True, timeout=30)
-                    self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+                    self.assertNotEqual(result.returncode, 0, nested(result.stdout + result.stderr))
 
     def test_source_loader_ignores_poisoned_bytecode(self):
         with tempfile.TemporaryDirectory(prefix="cbz-loader-control-") as directory:
@@ -979,7 +986,7 @@ class SourceMutationTests(unittest.TestCase):
             ("event", "if nonce and path and wanted == event:",
              "if nonce and path:", "test_control_receipt_requires_the_exact_subject"),
             ("import",
-             '    if re.search(r"(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
+             '    if re.search(r"(?m)^(?:ImportError|ModuleNotFoundError|SyntaxError|IndentationError|FileNotFoundError):", text):\n        return False\n',
              "", "test_import_trace_inside_assertion_cannot_kill"),
 
             ("exit", "process.returncode != 1 or not summary", "not summary",
