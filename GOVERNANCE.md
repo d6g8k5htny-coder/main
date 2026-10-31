@@ -122,6 +122,62 @@ Mission tools must be finished, documented with exact usage and verification,
 and registered here and in `TOOLING.md` before final admission. Tools are a
 means to closure, never a reason to open a general infrastructure project.
 
+### Finite MomentTail empirical component: bounded registration
+
+**Registered 2026-10-30 00:36:59 UTC; global admission remains pending.**
+[Math PR #545](https://github.com/d6g8k5htny-coder/Math-/pull/545) supplies
+`cbz/finite_moment_tail_20261030/adapter.py`, its self-tests and complete
+[CONTRACT.json](https://github.com/d6g8k5htny-coder/Math-/blob/e1cf617b6bc979b75d420f28df17ddad59426522/cbz/finite_moment_tail_20261030/CONTRACT.json)
+at head `e1cf617b6bc979b75d420f28df17ddad59426522`, tree
+`87cd19c612906a61bca7659fa24e50a3958e0eb3`. This registry entry does not
+represent that candidate as merged or update the federation's existing pins.
+
+Purpose: empirical falsification of the finite rational specialization of
+`ResearchFormalCoreR1.p02_lm009_moment40_tail`. It uses exact Fraction/integer
+decisions for normalized finite laws, signed jet values, any positive r and
+epsilon, an actually sufficient fortieth-moment bound, and the strict event.
+Actual Lean/test byte hashes are checked before evaluation. Invalid inputs,
+false premises, unsupported targets, altered source and empty coverage refuse
+success. The two source-file checks do not attest dependencies or run Lean.
+
+From an isolated checkout of that exact Math source, run:
+
+```
+python3 -B cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -O cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B -O -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+python3 -B -O cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+```
+
+Self-verification: [run 40980378198, attempt 1](https://github.com/d6g8k5htny-coder/Math-/actions/runs/40980378198),
+job `123818653248`, actually ran CPython 3.11.16 on merge
+`f38124cbef8f8950dcc59fe0e0155d45cd2b767b` with the same tree. Component
+20/20 and original MomentTail 12/12 tests passed in each mode; all six documented
+commands exited zero. Each campaign observed the same 10,019 distinct valid
+cases with zero violations/refusals. Five implementation mutants produced 20
+intended child assertion failures with zero errors across parent/child modes:
+three test wrong bounds on valid premises, one tests strict-event output, and
+one tests false-premise admission. The latter two are separate semantic/admission
+controls, not mathematical bound counterexamples. Artifact `12944860659` was
+whole-byte verified against SHA256
+`dcf13fa0124c51091731786aec81c03a32b5fe53a8e49f689b1e5901c17f415d`;
+its actual source hashes, outputs, counters and child identities were read back.
+
+Gate mapping: G0/G5/G6 use the documented self-tests, unchanged regressions and
+adverse controls; the native `finite-moment-tail-self-test` job runs on every PR,
+main push and manual dispatch and retains failed outcomes. G8/G9/G11 require
+this exact scope, runnable commands and self-verification record. G2-G4 retain
+the full axiom/build/kernel requirements, and G7 still requires federation
+pins and contextual AST/type/theorem synchronization. This component neither
+installs a global CLOSED guard nor supplies the general-real, Gaussian,
+weighted/family or remaining unsupported coverage. The full empirical harness,
+drift tool admission and common final G0-G11 run remain unfinished.
+Maintenance owner: none; self-contained. Actual executor: OpenAI/Codex chat
+`01a11d37` with delegated implementation and nonauthor engineering review;
+same provider, scientific effect NONE.
+
 ## Team structure and coordination
 
 **B-007 (owner expansion dated 2026-10-29):** Operate as a fluid team, not a
