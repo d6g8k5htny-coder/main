@@ -313,8 +313,21 @@ class Crawl:
         out = []
         for lm in sorted(p for p in tree if p.rsplit('/', 1)[-1] == 'lake-manifest.json' and '/.lake/' not in '/' + p):
             doc = self.json_at(repo, ref, lm)
-            for pkg in (doc or {}).get('packages', []) if isinstance(doc, dict) else []:
-                if not (isinstance(pkg, dict) and pkg.get('type') == 'git'):
+            if doc is None:
+                continue
+            packages = doc.get('packages', []) if isinstance(doc, dict) else None
+            if not isinstance(packages, list):
+                # dependencies that cannot be read cannot be checked: that is malformed, not empty
+                self.add(BLOCK, 'MALFORMED', '%s:%s has no readable packages list' % (key, lm), repo=key, path=lm)
+                continue
+            for pkg in packages:
+                kind = pkg.get('type') if isinstance(pkg, dict) else None
+                if kind == 'path':
+                    continue
+                if kind != 'git':
+                    # Lake writes only git and path packages; any other shape (or an older nested format) is unread
+                    self.add(BLOCK, 'MALFORMED', '%s:%s has a package that is neither git nor path: %.160r' % (
+                        key, lm, pkg), repo=key, path=lm)
                     continue
                 try:
                     if not isinstance(pkg.get('url'), str):
@@ -330,9 +343,9 @@ class Crawl:
                 self.urls.setdefault(dep, pkg['url'])
                 self.edges.append((key, dep, 'lake'))
                 rev = pkg.get('rev')
-                if not (isinstance(rev, str) and rev.strip()):
-                    # a git dependency with no usable revision pins nothing: that is a missing pin, not a skip
-                    self.add(BLOCK, 'PIN-MISSING', '%s:%s pins %s with no revision (%r)' % (key, lm, dep, rev),
+                if not (isinstance(rev, str) and re.fullmatch(r'[0-9a-f]{40}', rev)):
+                    # only a full commit id pins a git dependency; a branch, tag, short or empty rev is a missing pin
+                    self.add(BLOCK, 'PIN-MISSING', '%s:%s pins %s with no full commit id (%r)' % (key, lm, dep, rev),
                              repo=key, path=lm, target=dep, pin=rev)
                 else:
                     self.lake_records.append((key, ref, lm, pkg, dep))

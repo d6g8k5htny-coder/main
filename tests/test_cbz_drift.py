@@ -469,6 +469,58 @@ class TopologyTests(FedCase):
                     self.fail('crawl raised %r instead of reporting MALFORMED' % exc)
                 self.assertEqual(codes(rep, 'BLOCK'), ['MALFORMED'])
 
+    def test_lake_floating_revision_blocks(self):
+        # Only a full commit id pins: each of these resolves in fed/a, yet none pins a fixed commit.
+        for make_rev in (lambda pin: 'HEAD', lambda pin: 'main', lambda pin: 'origin/main', lambda pin: 'v1',
+                         lambda pin: pin[:7], lambda pin: pin.upper(), lambda pin: pin + '~0'):
+            self.tearDown()
+            self.setUp()
+            self.fed.build()
+            sh(self.fed.repo('a'), 'tag', 'v1', self.fed.pins['a'])
+            rev = make_rev(self.fed.pins['a'])
+            with self.subTest(rev=rev):
+                self.add_lake_edge('b', 'a', 'https://github.com/fed/a.git', rev)
+                try:
+                    rep = self.fed.crawl()
+                except Exception as exc:
+                    self.fail('crawl raised %r instead of reporting PIN-MISSING' % exc)
+                self.assertEqual(codes(rep, 'BLOCK'), ['PIN-MISSING'])
+                f = [f for f in rep['findings'] if f['code'] == 'PIN-MISSING'][0]
+                self.assertEqual((f.get('repo'), f.get('path'), f.get('target'), f.get('pin')),
+                                 ('fed/b', 'lake-manifest.json', 'fed/a', rev))
+
+    def test_unreadable_lake_packages_block(self):
+        git_a = {'type': 'git', 'url': 'https://github.com/fed/a.git', 'rev': '2' * 40, 'name': 'a'}
+        nested = {k: v for k, v in git_a.items() if k != 'type'}
+        cases = {
+            'packages object': {'packages': {'a': git_a}},
+            'top-level list': [git_a],
+            'string entry': {'packages': ['https://github.com/fed/a.git']},
+            'unknown type': {'packages': [dict(git_a, type='Git')]},
+            'untyped entry': {'packages': [nested]},
+            'older nested format': {'version': 4, 'packages': [{'git': nested}]},
+        }
+        for label, manifest in cases.items():
+            with self.subTest(case=label):
+                self.tearDown()
+                self.setUp()
+                self.fed.build()
+                self.fed.pins['b'] = self.fed.commit('b', {'lake-manifest.json': json.dumps(manifest)})
+                self.fed.write_seed()
+                try:
+                    rep = self.fed.crawl()
+                except Exception as exc:
+                    self.fail('crawl raised %r instead of reporting MALFORMED' % exc)
+                self.assertEqual(codes(rep, 'BLOCK'), ['MALFORMED'])
+        with self.subTest(case='path package control'):
+            self.tearDown()
+            self.setUp()
+            self.fed.build()
+            manifest = {'packages': [{'type': 'path', 'name': 'local', 'dir': './local'}]}
+            self.fed.pins['b'] = self.fed.commit('b', {'lake-manifest.json': json.dumps(manifest)})
+            self.fed.write_seed()
+            self.assertEqual(codes(self.fed.crawl(), 'BLOCK'), [])
+
     def test_lake_dependency_reached_only_by_lake_is_scanned(self):
         self.fed.build()
         self.add_lake_edge('b', 'c', 'https://github.com/fed/c.git', self.lean_c())
@@ -755,8 +807,18 @@ MUTANTS = [
      'TopologyTests.test_missing_lake_revision_blocks'),
     ('lake identity dropped', "key, lm, dep, pkg['rev'], drepo.where()), repo=key, path=lm, target=dep, pin=pkg['rev'])",
      "key, lm, dep, pkg['rev'], drepo.where()), repo=key)", 'crawl.py', 'TopologyTests.test_missing_lake_revision_blocks'),
-    ('revisionless package skipped', "                if not (isinstance(rev, str) and rev.strip()):", "                if not (isinstance(rev, str) and rev.strip()) and False:", 'crawl.py',
+    ('revisionless package skipped', "                if not (isinstance(rev, str) and re.fullmatch(r'[0-9a-f]{40}', rev)):",
+     "                if not (isinstance(rev, str) and re.fullmatch(r'[0-9a-f]{40}', rev)) and False:", 'crawl.py',
      'TopologyTests.test_lake_package_without_usable_revision_blocks'),
+    ('floating revision accepted', "                if not (isinstance(rev, str) and re.fullmatch(r'[0-9a-f]{40}', rev)):",
+     "                if not (isinstance(rev, str) and rev.strip()):", 'crawl.py',
+     'TopologyTests.test_lake_floating_revision_blocks'),
+    ('unknown package shape skipped', "                    self.add(BLOCK, 'MALFORMED', '%s:%s has a package that is neither git nor path",
+     "                    (lambda *a, **k: None)(BLOCK, 'MALFORMED', '%s:%s has a package that is neither git nor path", 'crawl.py',
+     'TopologyTests.test_unreadable_lake_packages_block'),
+    ('unreadable packages list skipped', "                self.add(BLOCK, 'MALFORMED', '%s:%s has no readable packages list'",
+     "                (lambda *a, **k: None)(BLOCK, 'MALFORMED', '%s:%s has no readable packages list'", 'crawl.py',
+     'TopologyTests.test_unreadable_lake_packages_block'),
     ('url-less package skipped', "                    self.add(BLOCK, 'MALFORMED', '%s:%s has a git package", "                    (lambda *a, **k: None)(BLOCK, 'MALFORMED', '%s:%s has a git package", 'crawl.py',
      'TopologyTests.test_lake_git_package_without_url_blocks'),
     ('lake targets not queued', "                out.append(dep)\n", "", 'crawl.py',
