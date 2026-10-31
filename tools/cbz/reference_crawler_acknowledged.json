@@ -1,0 +1,93 @@
+{
+ "schema": "cbz.drift-acknowledgements.v1",
+ "description": "Reviewed historical citations for reference_crawler.py --strict, the G7 gate. Each entry names citing files that record a file at a commit on purpose, so the cited file's later interface drift is expected there. All other interface drift blocks. Add an entry only with a reason that a reviewer can check against the citing files.",
+ "entries": [
+  {
+   "source": "Math-:frontiers/regular_superlevel_geometry_20261020/",
+   "reason": "'The C296 dependency is fixed to commit 72edcf5b93be45c29f2d10a26f7d8e861a48f528'. The packet keeps its own byte-identical copy of the chart under project/."
+  },
+  {
+   "source": "Math-:reviews/",
+   "reason": "Dated reviews: every directory name carries its date, and each records the cut it reviewed (cap_i4_d3_spectral_adapter_20261005/SOURCES.json: its source_cut field)."
+  },
+  {
+   "source": "Universal-Law-Workspace:workspace/repositories.json",
+   "path": "architecture/scientific_state/v1/AUTHORITY_MAP.json",
+   "reason": "Its scientific_authority_map record says: 'historical source on a non-default branch; absent at the observed Main tip; not evidence of current authority'."
+  },
+  {
+   "source": "main:cbz/evidence/",
+   "reason": "CBZ-0 evidence directories. Under GOVERNANCE.md B-003, delegated discovery writes only its assigned evidence directory, and each directory records what it observed at the commits it names."
+  },
+  {
+   "source": "main:data/hypergraph/math_coverage_ledger_20261023.md",
+   "reason": "'Math coverage ledger: retroactive artifact binding, 2026-10-23'. It links 'The frozen 33-URL source index'."
+  },
+  {
+   "source": "main:docs/REPRODUCE.md",
+   "path": "engine/next_action.py",
+   "reason": "'That command was run successfully against source commit 2f7a5a9f10c9ed5f5b7792a8f2521318d9208532': the link records one run at that commit."
+  },
+  {
+   "source": "main:docs/agents/LEAN_AUDIT_OWNER.md",
+   "reason": "Its source-cut table says: 'These are dated identities, not assertions that branches will remain unchanged.'"
+  },
+  {
+   "source": "main:docs/public-math/",
+   "reason": "The public mathematics catalog. Every sources-NN.md says: 'Each link opens the full retained public file at an immutable commit.' The sources-NN.json files are the same lists in JSON."
+  },
+  {
+   "source": "main:docs/reports/",
+   "reason": "Dated reports: every directory name ends in the YYYYMMDD date of its observation."
+  },
+  {
+   "source": "main:docs/retro/",
+   "reason": "Retrospective records. The drifting ones carry their date in the file name (_20261023, _20261026) or state the source cuts they read (the cuts field of GB-8w.agent5.node-candidates.json)."
+  },
+  {
+   "source": "main:docs/site/current.json",
+   "reason": "A timestamped observation (its observed_at field). docs/site/README.md: 'the same observation becomes stale after two hours', and the generated pages label it current, stale or clock disagreement."
+  },
+  {
+   "source": "main:docs/site/evidence/",
+   "reason": "Retained original bytes. docs/site/README.md: 'Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.' Its source bridges declare themselves an 'explicit source-identity bridge to a historical arithmetic artifact'."
+  },
+  {
+   "source": "main:docs/site/nodes/",
+   "reason": "Static node pages. docs/site/README.md: their 'Resume this node' block 'names the snapshot's graph commit, path, SHA-256 and observation time, and warns readers to refresh from the live record'."
+  },
+  {
+   "source": "main:docs/site/research.html",
+   "reason": "docs/site/README.md: 'Research preserves its dated reading cuts and their source pins, with a separately identified current observation.'"
+  },
+  {
+   "source": "main:docs/site/snapshots/",
+   "reason": "Archived site snapshots, one directory per 64-hex digest, with their index. docs/site/README.md: 'Archived snapshot pages are unchanged.'"
+  },
+  {
+   "source": "main:incoming/",
+   "reason": "Dated intake directories: every directory name carries its YYYYMMDD date, and each IDENTITY.json records the sources it took in, by commit and SHA-256."
+  },
+  {
+   "source": "main:reviews/",
+   "reason": "Dated reviews: every directory name carries its date, and each pins its sources at the reviewed head (sard_g_successor_a1_a6_20260926: 'pinned in the source map at the reviewed head')."
+  },
+  {
+   "source": "meta-framework:docs/ARCHITECTURE_CONFORMANCE.md",
+   "path": "architecture/scientific_state/v1/AUTHORITY_MAP.json",
+   "reason": "Its dated 'Source-cut qualification, 7 October 2026' paragraph links 'a historical source at main ebedb780'."
+  },
+  {
+   "source": "meta-framework:registry.json",
+   "reason": "Each artifact entry pins one version to an exact commit. meta-framework README: 'Changed source bytes need a new exact identity and an explicit scope, not erasure of the earlier experiment.'"
+  },
+  {
+   "source": "meta-framework:replicas/",
+   "reason": "Versioned byte-identical replicas (each directory name ends in -v1). Each SOURCE.json records the source commit its replica copies."
+  },
+  {
+   "source": "query-:portable/history/",
+   "reason": "History stubs, each named by the commit it records (DOWNSTREAM_GATE_STUBS_<commit>.json)."
+  }
+ ]
+}
