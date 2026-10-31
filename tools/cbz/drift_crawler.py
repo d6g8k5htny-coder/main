@@ -44,7 +44,6 @@ MAX_JSON_BYTES = 8 * 1024 * 1024
 # Layer B rule (GOVERNANCE.md): JSON under these directory names is test data, not a federation pin.
 # Excluded records are counted in the report, never dropped silently.
 TEST_DATA_DIRS = {'tests', 'test', 'fixtures', 'examples', 'testdata', '__tests__'}
-ARCHIVE_TAGS = 'refs/tags/archive/'
 
 
 def run_git(path, *args, check=True, data=None):
@@ -66,9 +65,10 @@ def normalize_url(url):
 
 
 class Federation:
-    def __init__(self, cache, local, offline, owner=None):
+    def __init__(self, cache, local, offline, owner=None, heads=None):
         self.cache = Path(cache)
         self.local = {normalize_url(k)[0]: Path(v) for k, v in local.items()}
+        self.heads = {normalize_url(k)[0]: v for k, v in (heads or {}).items()}
         self.offline = offline
         self.owner = owner
         self.repos = {}      # key -> {'key','url','name','path','head','branch','error'}
@@ -88,7 +88,8 @@ class Federation:
             path = self.cache / f'{owner}__{name}'
             if not (path / '.git').exists() and not self.offline:
                 self.cache.mkdir(parents=True, exist_ok=True)
-                clone = subprocess.run(['git', 'clone', '-q', '--filter=blob:none', '--no-checkout', url, str(path)],
+                clone = subprocess.run(['git', 'clone', '-q', '--filter=blob:none', '--no-checkout', '--single-branch',
+                                        url, str(path)],
                                        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 if clone.returncode != 0:
                     info['error'] = 'unreachable repository: ' + clone.stderr.decode()[:200].strip()
@@ -101,7 +102,10 @@ class Federation:
             run_git(path, 'fetch', '-q', 'origin', check=False)
             self.fetched.add(key)
         head = None
-        for ref in ('refs/remotes/origin/HEAD', 'refs/remotes/origin/main', 'refs/remotes/origin/master', 'HEAD'):
+        refs = ('refs/remotes/origin/HEAD', 'refs/remotes/origin/main', 'refs/remotes/origin/master', 'HEAD')
+        if key in self.heads:
+            refs = (self.heads[key],)
+        for ref in refs:
             r = run_git(path, 'rev-parse', '--verify', '-q', ref + '^{commit}', check=False)
             if r.returncode == 0:
                 head = r.stdout.decode().strip()
@@ -123,12 +127,39 @@ class Federation:
             r = run_git(info['path'], 'cat-file', '-t', sha, check=False)
         return r.stdout.decode().strip() if r.returncode == 0 else None
 
+    def archive_refs(self, info):
+        """{refname: sha} of the remote's archive refs (`refs/heads/archive/*`, `refs/tags/archive/*`).
+
+        Only refs the remote publishes count; a local-only tag is not an archive.
+        Offline, the remote-tracking `refs/remotes/origin/archive/*` branches are used.
+        """
+        if 'archive_refs' in info:
+            return info['archive_refs']
+        refs = {}
+        if not self.offline and not info['key'].startswith('path:'):
+            r = run_git(info['path'], 'ls-remote', 'origin', 'refs/heads/archive/*', 'refs/tags/archive/*', check=False)
+            for line in r.stdout.decode().splitlines():
+                sha, _, name = line.partition('\t')
+                if name.endswith('^{}'):
+                    name = name[:-3]
+                refs[name] = sha
+            if refs:
+                run_git(info['path'], 'fetch', '-q', 'origin', *sorted(set(refs.values())), check=False)
+        else:
+            r = run_git(info['path'], 'for-each-ref', '--format=%(objectname) %(refname)', 'refs/remotes/origin/archive/',
+                        check=False)
+            for line in r.stdout.decode().splitlines():
+                sha, _, name = line.partition(' ')
+                refs['refs/heads/' + name[len('refs/remotes/origin/'):]] = sha
+        info['archive_refs'] = refs
+        return refs
+
     def archived(self, info, commit):
-        if not self.offline and ('tags', info['key']) not in self.fetched and not info['key'].startswith('path:'):
-            run_git(info['path'], 'fetch', '-q', '--tags', 'origin', check=False)
-            self.fetched.add(('tags', info['key']))
-        r = run_git(info['path'], 'for-each-ref', '--contains', commit, '--format=%(refname)', ARCHIVE_TAGS, check=False)
-        return sorted(r.stdout.decode().split()) if r.returncode == 0 else []
+        out = []
+        for name, sha in sorted(self.archive_refs(info).items()):
+            if run_git(info['path'], 'merge-base', '--is-ancestor', commit, sha, check=False).returncode == 0:
+                out.append(name)
+        return out
 
     def on_default_branch(self, info, commit):
         r = run_git(info['path'], 'merge-base', '--is-ancestor', commit, info['head'], check=False)
@@ -236,7 +267,11 @@ def crawl(root_url, fed, require_current_root_pins=False, allowlist=()):
         seen.add(key)
         info = fed.repos[key]
         if info['error']:
-            report['findings'].append({'check': 'P1', 'blocking': True, 'repository': info['url'], 'error': info['error']})
+            # Every repository but the root is reached through a pin, and check_pins reports it there with the
+            # citing file; only the root needs its own finding.
+            if key == root['key']:
+                report['findings'].append({'check': 'P1', 'blocking': True, 'repository': info['url'],
+                                           'error': info['error']})
             continue
         entries = tree(info, info['head'])
         modules = {}
@@ -485,17 +520,27 @@ def main(argv=None):
     parser.add_argument('--owner', help='federation owner (default: the root URL owner)')
     parser.add_argument('--allowlist', default=str(here / 'drift_allowlist.json'))
     parser.add_argument('--require-current-root-pins', action='store_true')
+    parser.add_argument('--head', action='append', default=[],
+                        help='URL=REV: check this revision instead of the default-branch head (a PR tested merge)')
+    parser.add_argument('--emit-repos', help='write NAME=PATH@COMMIT for every crawled repository, for G1 and G6')
     parser.add_argument('--json')
     args = parser.parse_args(argv)
     local = dict(item.split('=', 1) for item in args.local)
+    heads = dict(item.split('=', 1) for item in args.head)
     try:
-        fed = Federation(args.cache, local, args.offline, args.owner)
+        fed = Federation(args.cache, local, args.offline, args.owner, heads)
         report = crawl(args.root, fed, args.require_current_root_pins, load_allowlist(args.allowlist))
     except (ValueError, RuntimeError, OSError) as exc:
         print('DRIFT_ERROR: ' + str(exc), file=sys.stderr)
         return 2
     if args.json:
         Path(args.json).write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + '\n', encoding='utf-8')
+    if args.emit_repos:
+        lines = []
+        for info in fed.repos.values():
+            if info['path'] is not None and info['head'] and not info['error']:
+                lines.append(f"{info['name']}={info['path']}@{info['head']}")
+        Path(args.emit_repos).write_text(''.join(sorted(set(line + '\n' for line in lines))), encoding='utf-8')
     for repo in report['repositories']:
         print(f"crawled {repo['url']} @ {repo['head']}")
     for f in report['findings']:
