@@ -1,0 +1,398 @@
+diff --git a/.github/workflows/c8-lifetime-difference-constant.yml b/.github/workflows/c8-lifetime-difference-constant.yml
+index ba3b9c0..61d5ec4 100644
+--- a/.github/workflows/c8-lifetime-difference-constant.yml
++++ b/.github/workflows/c8-lifetime-difference-constant.yml
+@@ -5,6 +5,10 @@ name: C8 lifetime difference constant and second-order ledger (certified replay)
+     paths:
+       - 'frontiers/c8_lifetime_difference_constant_20261001/**'
+       - '.github/workflows/c8-lifetime-difference-constant.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+@@ -27,13 +31,20 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-lifetime-difference-constant'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest, main-resident pins and engine copies; replay the certificate in both interpreter modes; reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+         run: |
+           set -euo pipefail
+           python -B -S - <<'PY'
+-          import hashlib, json, os, pathlib, subprocess, sys
++          import hashlib, json, pathlib
+           root = pathlib.Path('frontiers/c8_lifetime_difference_constant_20261001').resolve()
+           manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+           present = sorted(p.name for p in root.iterdir())
+@@ -58,18 +69,9 @@ jobs:
+                   continue
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob(data) != entry['git_blob']:
+                   raise ValueError('pinned source identity mismatch: ' + entry['path'])
+-          script = str(root / 'theorem_b.py')
+-          procs = str(max(2, os.cpu_count() or 2))
+           # every cap band in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', procs], cwd=root, capture_output=True, timeout=10800)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-600:])
+-          for m in ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=3600).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-lifetime-difference-constant', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'cap_bands_replayed': 274, 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code
+diff --git a/.github/workflows/c8-theorem-a-constants-d3.yml b/.github/workflows/c8-theorem-a-constants-d3.yml
+index c315ed1..27a22e5 100644
+--- a/.github/workflows/c8-theorem-a-constants-d3.yml
++++ b/.github/workflows/c8-theorem-a-constants-d3.yml
+@@ -5,6 +5,10 @@ name: C8 Theorem A constants in d = 3 (certified replay)
+     paths:
+       - 'frontiers/c8_theorem_a_constants_d3_20261001/**'
+       - '.github/workflows/c8-theorem-a-constants-d3.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'frontiers/c8_cap_failure_coefficient_dims_20261001/RESULTS.json'
+@@ -24,13 +28,20 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-theorem-a-constants-d3'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest and main-resident pins, replay every band and the C table in both interpreter modes, reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+         run: |
+           set -euo pipefail
+           python -B -S - <<'PY'
+-          import hashlib, json, os, pathlib, subprocess, sys
++          import hashlib, json, pathlib
+           root = pathlib.Path('frontiers/c8_theorem_a_constants_d3_20261001').resolve()
+           manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+           present = sorted(p.name for p in root.iterdir())
+@@ -51,18 +62,9 @@ jobs:
+               blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob != entry['git_blob']:
+                   raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+-          script = str(root / 'theorem_a3.py')
+-          procs = str(max(2, os.cpu_count() or 2))
+           # every one of the 121 bands in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', procs], cwd=root, capture_output=True, timeout=5400)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-600:])
+-          for m in ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=2400).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-theorem-a-constants-d3', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'bands_replayed': 121, 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code
+diff --git a/tests/test_check_mode_workflows.py b/tests/test_check_mode_workflows.py
+index 560f3c9..ff0da17 100644
+--- a/tests/test_check_mode_workflows.py
++++ b/tests/test_check_mode_workflows.py
+@@ -30,6 +30,8 @@ WORKFLOWS = {
+     'c8-cap-failure-coefficient-planar': 'c8-cap-failure-coefficient-planar.yml',
+     'c8-theorem-a-constants-planar': 'c8-theorem-a-constants-planar.yml',
+     'c8-torus-vanishing-remainder': 'c8-torus-vanishing-remainder.yml',
++    'c8-lifetime-difference-constant': 'c8-lifetime-difference-constant.yml',
++    'c8-theorem-a-constants-d3': 'c8-theorem-a-constants-d3.yml',
+ }
+ ACTIVE = {k: v for k, v in CONTRACTS['families'].items()
+           if not os.environ.get('CHECK_MODE_TEST_FAMILY') or k == os.environ['CHECK_MODE_TEST_FAMILY']}
+@@ -42,15 +44,22 @@ ORDERS = {
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
+     'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
+     'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
++    'c8-lifetime-difference-constant': ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'),
++    'c8-theorem-a-constants-d3': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'),
+ }
+ MODES = ('normal', 'optimized')
+ FLAGS = {'normal': '-B -S', 'optimized': '-B -O -S'}
+-# The torus wrapper ran one interpreter mode per matrix job, from FLAGS, and its
+-# checker rejects with one stderr line and nothing on stdout.
++# The torus wrapper ran one interpreter mode per matrix job, from FLAGS. The
++# torus and lifetime checkers reject with one stderr line and nothing on stdout;
++# the lifetime checker's success line is plain text, matched byte for byte.
+ PER_JOB = {'c8-torus-vanishing-remainder'}
+-STDERR = {'c8-torus-vanishing-remainder'}
++STDERR = {'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant'}
++TEXT = {'c8-lifetime-difference-constant'}
++# The --procs of the serial wrappers: planar passed 2, the others the host's count.
++PROCS = {'c8-theorem-a-constants-planar': '2'}
+ # The packet files each checker loads besides itself.
+-LOADED = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++LOADED = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py'),
++          'c8-lifetime-difference-constant': ('engine_e2.py', 'engine_e3.py')}
+ VERIFY = '      - name: Verify manifest'
+ STEP = (
+     '      - name: Check trigger coverage and the complete shell rejection contract in both modes\n'
+@@ -74,10 +83,11 @@ def groups(family, job=None):
+     if family == 'c8-cap-failure-coefficient-planar':
+         return ([[('baseline', m, ['--check', '--procs', '2'])] for m in MODES]
+                 + [[(x, m, ['--check', '--procs', '1', '--mutant', x]) for m in MODES for x in labels]])
+-    if family == 'c8-theorem-a-constants-planar':
+-        return ([[('baseline', 'normal', ['--check-full', '--procs', '2'])],
+-                 [('baseline', 'optimized', ['--check', '--procs', '2'])]]
+-                + [[(x, 'normal', ['--check', '--procs', '2', '--mutant', x])] for x in labels])
++    if family in ('c8-theorem-a-constants-planar', 'c8-lifetime-difference-constant', 'c8-theorem-a-constants-d3'):
++        procs = PROCS.get(family, str(max(2, os.cpu_count() or 2)))
++        return ([[('baseline', 'normal', ['--check-full', '--procs', procs])],
++                 [('baseline', 'optimized', ['--check', '--procs', procs])]]
++                + [[(x, 'normal', ['--check', '--procs', procs, '--mutant', x])] for x in labels])
+     if family == 'c8-torus-vanishing-remainder':
+         return [[('baseline', job, ['--check'])], [(x, job, ['--mutant', x]) for x in labels]]
+     return [[(x, m, ['--check'] if x == 'baseline' else ['--check', '--mutant', x])]
+@@ -133,6 +143,7 @@ baselines = BASELINES
+ reports = REPORTS
+ expected = EXPECTED
+ stderr_rejections = STDERR_REJECTIONS
++text_baseline = TEXT_BASELINE
+ mode = 'optimized' if sys.flags.optimize else 'normal'
+ label = expected.get(mode, {}).get(tuple(sys.argv[1:]))
+ if label is None:
+@@ -142,7 +153,8 @@ with open(os.environ['CHECK_MODE_TRACE'], 'a') as f:
+     f.write(json.dumps([label, mode, os.getcwd()]) + '\n')
+ value, rc = (baselines[mode], 0) if label == 'baseline' else (reports[label], 1)
+ on_stderr = label != 'baseline' and stderr_rejections
+-output, errors = ('', value) if on_stderr else (json.dumps(value) + '\n', '')
++as_text = label == 'baseline' and text_baseline
++output, errors = ('', value) if on_stderr else (value if as_text else json.dumps(value) + '\n', '')
+ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_MODE') == mode:
+     kind = os.environ.get('CHECK_MODE_FAULT', '')
+     if kind == 'crash':
+@@ -163,10 +175,13 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'wrong-label':
+         output = json.dumps(dict(value, mutant='another-mutant')) + '\n'
+     if kind == 'wrong-value':
+-        name = next(k for k in value if k not in ('check', 'mutant'))
+-        output = json.dumps(dict(value, **{name: 'unrelated value'})) + '\n'
++        if as_text:
++            output = 'CHECK PASSED (unrelated)\n'
++        else:
++            name = next(k for k in value if k not in ('check', 'mutant'))
++            output = json.dumps(dict(value, **{name: 'unrelated value'})) + '\n'
+     if kind == 'format':
+-        output = ' \n' + json.dumps(value, indent=4, sort_keys=True) + '\n\t'
++        output = ' \n' + (value.strip() if as_text else json.dumps(value, indent=4, sort_keys=True)) + '\n\t'
+     if kind == 'duplicate':
+         output = output.rstrip()[:-1] + ', "check": ' + json.dumps(value['check']) + '}\n'
+     if kind == 'nonfinite':
+@@ -176,7 +191,7 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'extra':
+         output = json.dumps(dict(value, unexpected='x')) + '\n'
+     if kind == 'missing':
+-        output = json.dumps({k: v for k, v in value.items() if k != 'check'}) + '\n'
++        output = value.rstrip('\n') if as_text else json.dumps({k: v for k, v in value.items() if k != 'check'}) + '\n'
+     if kind == 'malformed':
+         output = 'not JSON\n'
+ sys.stdout.write(output)
+@@ -207,7 +222,8 @@ class CheckModeWorkflowTests(unittest.TestCase):
+                     for x, m, arguments in group:
+                         expected.setdefault(m, {})[tuple(arguments)] = x
+             script = (CHILD.replace('BASELINES', repr(baselines)).replace('REPORTS', repr(entry['mutants']))
+-                      .replace('EXPECTED', repr(expected)).replace('STDERR_REJECTIONS', repr(family in STDERR)))
++                      .replace('EXPECTED', repr(expected)).replace('STDERR_REJECTIONS', repr(family in STDERR))
++                      .replace('TEXT_BASELINE', repr(family in TEXT)))
+             data = script.encode()
+             loaded = {name: ('# synthetic %s; no scientific authority\n' % name).encode()
+                       for name in LOADED.get(family, ())}
+@@ -273,7 +289,7 @@ class CheckModeWorkflowTests(unittest.TestCase):
+ 
+     def test_reference_custody(self):
+         canonical = json.dumps(CONTRACTS['families'], sort_keys=True, separators=(',', ':')).encode()
+-        self.assertEqual(digest(canonical), '30f3b2f43f18082b0b60509747e1525fb84afb1aa8e0db0ac8b9b1818697cd1a')
++        self.assertEqual(digest(canonical), 'deb792872f43c33c68c359fae453eabe76c4ddb875b626dec4fc55cae81b217d')
+         for family, entry in ACTIVE.items():
+             with self.subTest(family=family):
+                 packet = ROOT / entry['directory']
+@@ -304,7 +320,8 @@ class CheckModeWorkflowTests(unittest.TestCase):
+     def test_formatting_alone_is_accepted(self):
+         for family in ACTIVE:
+             label = ORDERS[family][0]
+-            cases = [('baseline', 'optimized')]
++            # A plain success line is matched byte for byte (test_text_baseline_contract).
++            cases = [] if family in TEXT else [('baseline', 'optimized')]
+             if family not in STDERR:
+                 cases.append((label, 'optimized' if (label, 'optimized') in runs(family) else 'normal'))
+             for label, mode in cases:
+@@ -372,6 +389,19 @@ class CheckModeWorkflowTests(unittest.TestCase):
+                     with self.subTest(family=family, fault=fault, mode=mode):
+                         self.rejected(family, label, mode, fault)
+ 
++    def test_text_baseline_contract(self):
++        # A plain success line admits no reformatting and no extra output; test_baseline_contract
++        # covers its stderr, wrong-value, wrong-exit, missing-newline and malformed faults.
++        for family in ACTIVE:
++            if family not in TEXT:
++                continue
++            for label, mode in runs(family):
++                if label != 'baseline':
++                    continue
++                for fault in ('format', 'stdout'):
++                    with self.subTest(family=family, fault=fault, mode=mode):
++                        self.rejected(family, label, mode, fault)
++
+     def test_source_guards_run_before_any_child(self):
+         for family in ACTIVE:
+             for tamper in ('packet', 'upstream'):
+diff --git a/tools/check_mode_contracts.json b/tools/check_mode_contracts.json
+index e16c68c..f18445b 100644
+--- a/tools/check_mode_contracts.json
++++ b/tools/check_mode_contracts.json
+@@ -1 +1 @@
+-{"families":{"c8-cap-failure-coefficient-dims":{"baseline":{"cG3_0":{"1":["2803036.717892","2803338.074669"],"1/2":["358497.545122","619756.489477"],"2":["22424320.655069","22424320.655072"],"3/2":["9460258.333462","9460258.334033"],"3/4":["1182683.064519","1201290.889423"]},"check":"ok","mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_dims_20261001","mutants":{"frob-omega-off":{"check":"FAIL","mutant":"frob-omega-off","reason":"certified values differ from RESULTS.json"},"no-bp":{"check":"FAIL","mutant":"no-bp","reason":"certified values differ from RESULTS.json"},"no-y-tail":{"check":"FAIL","mutant":"no-y-tail","reason":"certified values differ from RESULTS.json"},"r3-one":{"check":"FAIL","mutant":"r3-one","reason":"certified values differ from RESULTS.json"}},"results_bytes":6837,"results_sha256":"1406d5138ac3d33bcb0358f6a3005a67e3a4a2dbfc2c43bc3ac2593667550608","script":"cap_coefficient_dims.py","script_git_blob":"af7e9d103f962f613c57f5e695f030165e348beb"},"c8-cap-failure-coefficient-planar":{"baseline":{"c_G(0,2)":["5324360.4426","5324360.4427"],"c_G(6/5,1/6)":["35736.7352","35736.8785"],"check":"ok","k_values":6,"mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_planar_20260930","mutants":{"no-third-jet":{"check":"FAIL","mutant":"no-third-jet","reason":"certified record for k = 1/6 differs from RESULTS.json"},"sign-lo":{"check":"FAIL","mutant":"sign-lo","reason":"certified record for k = 1/6 differs from RESULTS.json"},"variance-yyy":{"check":"FAIL","mutant":"variance-yyy","reason":"certified record for k = 1/6 differs from RESULTS.json"}},"results_bytes":6427,"results_sha256":"d3de1a20793fbbcbb051b5740af45628627b905827fe2e0d4758ac9e37c36088","script":"cap_coefficient.py","script_git_blob":"cfdaa4d7ceaaf707ed7c066570215862879cce65"},"c8-normalizer-floor-planar":{"baseline":{"check":"ok","mutant":null,"z_star_combined":"3.5044542729","z_star_high":"3.5044542729","z_star_low":"7.0499921959"},"directory":"frontiers/c8_normalizer_floor_planar_20260930","mutants":{"drop-torus-error":{"check":"FAIL","mutant":"drop-torus-error","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"sign-saddle":{"check":"FAIL","mutant":"sign-saddle","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"swap-minmax":{"check":"FAIL","mutant":"swap-minmax","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"}},"results_bytes":1874499,"results_sha256":"a2c4d6890cc9ab0984605f78ccf89b38d93b9515b8d70a6d5e5c3d417b4b3882","script":"floor.py","script_git_blob":"29f1b512062fda6b3565429e9fe53e91b9b3c2f8"},"c8-theorem-a-constants-planar":{"baselines":{"normal":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":153,"check":"ok","mutant":null},"optimized":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":11,"check":"ok","mutant":null}},"directory":"frontiers/c8_theorem_a_constants_planar_20260930","mutants":{"cap-half":{"check":"FAIL","mutant":"cap-half","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-delta":{"check":"FAIL","mutant":"no-delta","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-om-term":{"check":"FAIL","mutant":"no-om-term","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-zfloor-correction":{"check":"FAIL","mutant":"no-zfloor-correction","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"}},"results_bytes":150257,"results_sha256":"b4a77fd298297f6dfe077748d32b66f1fd209130443d2eaceea4463ef063c0fe","script":"theorem_a.py","script_git_blob":"ae279e9015483a666ece8deb2544cbc458a5e270"},"c8-torus-vanishing-remainder":{"baselines":{"normal":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"},"optimized":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"}},"directory":"frontiers/c8_torus_vanishing_remainder_20261001","loaded_git_blobs":{"engine_e2.py":"ae279e9015483a666ece8deb2544cbc458a5e270","engine_e3.py":"267890232119b35206be7a8cc74d730de9a68644","theorem_b.py":"36b39dbd33ef2e6d277ce1c3820b3f0d6659d779"},"mutants":{"coupling-half":"FAIL: replay differs from RESULTS.json\n","exp-radius":"FAIL: replay differs from RESULTS.json\n","no-lin":"FAIL: replay differs from RESULTS.json\n","no-om-term":"FAIL: replay differs from RESULTS.json\n","torus-const-only":"FAIL: replay differs from RESULTS.json\n"},"results_bytes":405837,"results_sha256":"395171fac7e6656c8fa4e6ef518633f99e0921d2d83bf7317608fe0cd73983a6","script":"theorem_v.py","script_git_blob":"5fd6b75df48940f293f0c112c1005418dcd75bde"}},"provenance":"Native unchanged check-mode verdicts of the C8 checkers, measured for Math-#322 (C8-WRAPPERS-REPAIR-C8-20261026) in both modes from each packet directory. This file is an engineering reference, not mathematical acceptance.","schema":1,"source_cut":"f0f90857dcf7586e5195fcb05c0058657fba4003"}
++{"families":{"c8-cap-failure-coefficient-dims":{"baseline":{"cG3_0":{"1":["2803036.717892","2803338.074669"],"1/2":["358497.545122","619756.489477"],"2":["22424320.655069","22424320.655072"],"3/2":["9460258.333462","9460258.334033"],"3/4":["1182683.064519","1201290.889423"]},"check":"ok","mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_dims_20261001","mutants":{"frob-omega-off":{"check":"FAIL","mutant":"frob-omega-off","reason":"certified values differ from RESULTS.json"},"no-bp":{"check":"FAIL","mutant":"no-bp","reason":"certified values differ from RESULTS.json"},"no-y-tail":{"check":"FAIL","mutant":"no-y-tail","reason":"certified values differ from RESULTS.json"},"r3-one":{"check":"FAIL","mutant":"r3-one","reason":"certified values differ from RESULTS.json"}},"results_bytes":6837,"results_sha256":"1406d5138ac3d33bcb0358f6a3005a67e3a4a2dbfc2c43bc3ac2593667550608","script":"cap_coefficient_dims.py","script_git_blob":"af7e9d103f962f613c57f5e695f030165e348beb"},"c8-cap-failure-coefficient-planar":{"baseline":{"c_G(0,2)":["5324360.4426","5324360.4427"],"c_G(6/5,1/6)":["35736.7352","35736.8785"],"check":"ok","k_values":6,"mutant":null},"directory":"frontiers/c8_cap_failure_coefficient_planar_20260930","mutants":{"no-third-jet":{"check":"FAIL","mutant":"no-third-jet","reason":"certified record for k = 1/6 differs from RESULTS.json"},"sign-lo":{"check":"FAIL","mutant":"sign-lo","reason":"certified record for k = 1/6 differs from RESULTS.json"},"variance-yyy":{"check":"FAIL","mutant":"variance-yyy","reason":"certified record for k = 1/6 differs from RESULTS.json"}},"results_bytes":6427,"results_sha256":"d3de1a20793fbbcbb051b5740af45628627b905827fe2e0d4758ac9e37c36088","script":"cap_coefficient.py","script_git_blob":"cfdaa4d7ceaaf707ed7c066570215862879cce65"},"c8-lifetime-difference-constant":{"baselines":{"normal":"CHECK PASSED (full)\n","optimized":"CHECK PASSED (sample)\n"},"directory":"frontiers/c8_lifetime_difference_constant_20261001","loaded_git_blobs":{"engine_e2.py":"ae279e9015483a666ece8deb2544cbc458a5e270","engine_e3.py":"267890232119b35206be7a8cc74d730de9a68644"},"mutants":{"cap-half":"FAIL: cap band 0 differs (d = 2)\n","no-bad-set":"FAIL: rate sweep differs (d = 2)\n","no-det":"FAIL: rate sweep differs (d = 2)\n","no-om-term":"FAIL: rate sweep differs (d = 2)\n","no-torus":"FAIL: Taylor-model law differs (d = 2)\n"},"results_bytes":463344,"results_sha256":"77703dbdd7969ab62c179aa49391c6cddb545d37e0d59654476a09166a0b938f","script":"theorem_b.py","script_git_blob":"36b39dbd33ef2e6d277ce1c3820b3f0d6659d779"},"c8-normalizer-floor-planar":{"baseline":{"check":"ok","mutant":null,"z_star_combined":"3.5044542729","z_star_high":"3.5044542729","z_star_low":"7.0499921959"},"directory":"frontiers/c8_normalizer_floor_planar_20260930","mutants":{"drop-torus-error":{"check":"FAIL","mutant":"drop-torus-error","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"sign-saddle":{"check":"FAIL","mutant":"sign-saddle","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"},"swap-minmax":{"check":"FAIL","mutant":"swap-minmax","reason":"exact replay of low r=[63/512,1/8],b=[0,1/8],k=[1/2,3/4]"}},"results_bytes":1874499,"results_sha256":"a2c4d6890cc9ab0984605f78ccf89b38d93b9515b8d70a6d5e5c3d417b4b3882","script":"floor.py","script_git_blob":"29f1b512062fda6b3565429e9fe53e91b9b3c2f8"},"c8-theorem-a-constants-d3":{"baselines":{"normal":{"C_table":{"1/1024":"5743533573/250","1/128":"699713600177629/10000","1/2048":"57060167561/2500","1/256":"3714819319587/625","1/4096":"56887004491/2500","1/512":"14583076547/625","1/64":"21567943821121309/1250"},"bands_replayed":121,"check":"ok","mutant":null,"z_star":{"1/1024":"5951763/1000000","1/128":"661831/125000","1/2048":"1199601/200000","1/256":"88631/15625","1/4096":"6021091/1000000","1/512":"1171801/200000","1/64":"1130157/250000"}},"optimized":{"C_table":{"1/1024":"5743533573/250","1/128":"699713600177629/10000","1/2048":"57060167561/2500","1/256":"3714819319587/625","1/4096":"56887004491/2500","1/512":"14583076547/625","1/64":"21567943821121309/1250"},"bands_replayed":11,"check":"ok","mutant":null,"z_star":{"1/1024":"5951763/1000000","1/128":"661831/125000","1/2048":"1199601/200000","1/256":"88631/15625","1/4096":"6021091/1000000","1/512":"1171801/200000","1/64":"1130157/250000"}}},"directory":"frontiers/c8_theorem_a_constants_d3_20261001","mutants":{"cap-half":{"check":"FAIL","mutant":"cap-half","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-delta":{"check":"FAIL","mutant":"no-delta","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-lambda2":{"check":"FAIL","mutant":"no-lambda2","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-om-term":{"check":"FAIL","mutant":"no-om-term","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-zfloor-correction":{"check":"FAIL","mutant":"no-zfloor-correction","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"}},"results_bytes":159177,"results_sha256":"9d9e889018b197ef4d997744d05bb1e7b84881abd29ae14874d452343d9b67c0","script":"theorem_a3.py","script_git_blob":"267890232119b35206be7a8cc74d730de9a68644"},"c8-theorem-a-constants-planar":{"baselines":{"normal":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":153,"check":"ok","mutant":null},"optimized":{"C_table":{"1/1024":"2151134031/400","1/128":"87390113247/250","1/2048":"53623024479/10000","1/256":"93707999311/10000","1/4096":"26776575319/5000","1/512":"54156592391/10000","1/64":"14397396179923/10000"},"C_table_side24":{"1/1024":"1604824613/1250","1/128":"815443379659/5000","1/2048":"215461191/5000","1/256":"815443379659/5000","1/4096":"19661409/500","1/512":"1173169654911/10000","1/64":"5553365927589/5000"},"bands_replayed":11,"check":"ok","mutant":null}},"directory":"frontiers/c8_theorem_a_constants_planar_20260930","mutants":{"cap-half":{"check":"FAIL","mutant":"cap-half","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-delta":{"check":"FAIL","mutant":"no-delta","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-om-term":{"check":"FAIL","mutant":"no-om-term","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"},"no-zfloor-correction":{"check":"FAIL","mutant":"no-zfloor-correction","reason":"band 0 (['0', '1/536870912']) differs from RESULTS.json"}},"results_bytes":150257,"results_sha256":"b4a77fd298297f6dfe077748d32b66f1fd209130443d2eaceea4463ef063c0fe","script":"theorem_a.py","script_git_blob":"ae279e9015483a666ece8deb2544cbc458a5e270"},"c8-torus-vanishing-remainder":{"baselines":{"normal":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"},"optimized":{"check":"passed","object":"CL-C8-TORUS-VANISHING-REMAINDER-20261001-v1","scientific_effect":"NONE"}},"directory":"frontiers/c8_torus_vanishing_remainder_20261001","loaded_git_blobs":{"engine_e2.py":"ae279e9015483a666ece8deb2544cbc458a5e270","engine_e3.py":"267890232119b35206be7a8cc74d730de9a68644","theorem_b.py":"36b39dbd33ef2e6d277ce1c3820b3f0d6659d779"},"mutants":{"coupling-half":"FAIL: replay differs from RESULTS.json\n","exp-radius":"FAIL: replay differs from RESULTS.json\n","no-lin":"FAIL: replay differs from RESULTS.json\n","no-om-term":"FAIL: replay differs from RESULTS.json\n","torus-const-only":"FAIL: replay differs from RESULTS.json\n"},"results_bytes":405837,"results_sha256":"395171fac7e6656c8fa4e6ef518633f99e0921d2d83bf7317608fe0cd73983a6","script":"theorem_v.py","script_git_blob":"5fd6b75df48940f293f0c112c1005418dcd75bde"}},"provenance":"Native unchanged check-mode verdicts of the C8 checkers, measured for Math-#322 (C8-WRAPPERS-REPAIR-C8-20261026) in both modes from each packet directory. This file is an engineering reference, not mathematical acceptance.","schema":1,"source_cut":"f0f90857dcf7586e5195fcb05c0058657fba4003"}
+diff --git a/tools/check_mode_replay.py b/tools/check_mode_replay.py
+index fd4385d..3efd16e 100644
+--- a/tools/check_mode_replay.py
++++ b/tools/check_mode_replay.py
+@@ -5,16 +5,17 @@ Called AFTER each workflow's unchanged source and pin guards. Each checker runs
+ from its packet directory with the arguments its original wrapper passed, and
+ reports one verdict. Most print one JSON verdict on stdout: {"check": "ok", ...}
+ with exit 0, or, from their require(), {"check": "FAIL", "reason": ...,
+-"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS print a JSON
+-success line whose "check" is "passed", and reject with exit 1, nothing on
+-stdout and the one line "FAIL: <reason>" on stderr. The reference file holds
++"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS reject with exit
++1, nothing on stdout and the one line "FAIL: <reason>" on stderr; their success
++line is JSON whose "check" is "passed" or, in TEXT_BASELINES, the plain line
++"CHECK PASSED (...)". The reference file holds
+ complete verdicts measured from the unchanged checkers, never outputs learned
+ from the invocation being tested, with the identities of each checker, the
+ packet files it loads (LOADS) and its RESULTS.json. Parsing and comparison are
+ those of tools/legacy_json_replay.py: formatting may differ, but every key,
+-type, value and list must match, and a stderr rejection must match byte for
+-byte. This is an engineering protocol, not a sandbox or mathematical acceptance
+-test.
++type, value and list must match, and a stderr rejection or a plain success line
++must match byte for byte. This is an engineering protocol, not a sandbox or
++mathematical acceptance test.
+ """
+ from __future__ import annotations
+ 
+@@ -22,6 +23,7 @@ import concurrent.futures
+ import functools
+ import hashlib
+ import json
++import os
+ from pathlib import Path
+ import re
+ import subprocess
+@@ -36,6 +38,8 @@ INVENTORIES = {
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
+     'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
+     'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
++    'c8-lifetime-difference-constant': ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'),
++    'c8-theorem-a-constants-d3': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'),
+ }
+ MODES = (('normal', ('-B', '-S')), ('optimized', ('-B', '-O', '-S')))
+ # Families whose original wrapper passed extra checker arguments and ran its
+@@ -48,26 +52,41 @@ POOLED = {
+ }
+ # Families whose original wrapper ran another child list, restated by _plan()
+ # with each child's arguments and timeout. Their reference file holds one
+-# baseline verdict per mode. PER_JOB_MODE families ran one interpreter mode per
+-# matrix job; replay() then takes that job's flags.
+-PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder')
++# baseline verdict per mode. SERIAL families ran, one child at a time, every
++# band with --check-full in normal mode, the sampled --check in optimized mode,
++# then each mutant in normal mode only: (--procs value, baseline timeout, mutant
++# timeout), where None is the wrapper's own max(2, cpu_count), read when the
++# plan is made. PER_JOB_MODE families ran one interpreter mode per matrix job;
++# replay() then takes that job's flags.
++PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant',
++           'c8-theorem-a-constants-d3')
++SERIAL = {
++    'c8-theorem-a-constants-planar': ('2', 3600, 1800),
++    'c8-lifetime-difference-constant': (None, 10800, 3600),
++    'c8-theorem-a-constants-d3': (None, 5400, 2400),
++}
+ PER_JOB_MODE = {'c8-torus-vanishing-remainder'}
+-STDERR_REJECTIONS = {'c8-torus-vanishing-remainder'}
++STDERR_REJECTIONS = {'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant'}
++# Families whose checker reports success as one plain stdout line, not JSON; the
++# baseline must then match the measured line byte for byte.
++TEXT_BASELINES = {'c8-lifetime-difference-constant'}
+ # Packet files a checker loads besides itself. The reference file binds them
+ # like the checker, so a change to any of them needs a new characterization.
+-LOADS = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++LOADS = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py'),
++         'c8-lifetime-difference-constant': ('engine_e2.py', 'engine_e3.py')}
+ 
+ 
+ def _plan(family: str,
+           modes: tuple[str, ...]) -> list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]]:
+     """Return the stages (workers, children); a child is (mode, label, arguments, timeout)."""
+     labels = INVENTORIES[family]
+-    if family == 'c8-theorem-a-constants-planar':
+-        # One at a time: every band with --check-full in normal mode, the
+-        # sampled --check in optimized mode, then each mutant in normal mode only.
+-        return [(1, [('normal', None, ('--check-full', '--procs', '2'), 3600),
+-                     ('optimized', None, ('--check', '--procs', '2'), 3600),
+-                     *[('normal', m, ('--check', '--procs', '2', '--mutant', m), 1800) for m in labels]])]
++    if family in SERIAL:
++        procs, baseline_timeout, mutant_timeout = SERIAL[family]
++        if procs is None:
++            procs = str(max(2, os.cpu_count() or 2))
++        return [(1, [('normal', None, ('--check-full', '--procs', procs), baseline_timeout),
++                     ('optimized', None, ('--check', '--procs', procs), baseline_timeout),
++                     *[('normal', m, ('--check', '--procs', procs, '--mutant', m), mutant_timeout) for m in labels]])]
+     if family == 'c8-torus-vanishing-remainder':
+         # In each job: the baseline, then all five mutants at once, which take
+         # no --check.
+@@ -80,6 +99,9 @@ def _plan(family: str,
+ 
+ 
+ def _accepts(family: str, report: Any) -> bool:
++    if family in TEXT_BASELINES:
++        return (type(report) is str and report.startswith('CHECK PASSED (') and report.endswith(')\n')
++                and report.count('\n') == 1)
+     if family in STDERR_REJECTIONS:
+         return type(report) is dict and report.get('check') == 'passed'
+     return type(report) is dict and report.get('check') == 'ok' and report.get('mutant', '') is None
+@@ -96,6 +118,8 @@ def _rejects(family: str, label: str, report: Any) -> bool:
+ def _contract(family: str) -> dict[str, Any]:
+     if (family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES)
+             or not set(PLANNED) <= set(INVENTORIES) or set(POOLED) & set(PLANNED)
++            or set(PLANNED) != set(SERIAL) | PER_JOB_MODE or set(SERIAL) & PER_JOB_MODE
++            or not STDERR_REJECTIONS | TEXT_BASELINES <= set(INVENTORIES)
+             or not set(LOADS) <= set(INVENTORIES)):
+         raise ProtocolError('unknown checker family')
+     data = strict_json(Path(__file__).with_name('check_mode_contracts.json').read_bytes())
+@@ -152,6 +176,8 @@ def _child(family: str, root: Path, script: Path, mode: str, flags: tuple[str, .
+               'stderr_sha256': hashlib.sha256(child.stderr).hexdigest()}
+     if label is not None and family in STDERR_REJECTIONS:
+         ok = child.returncode == 1 and not child.stdout and child.stderr == reference.encode()
++    elif label is None and family in TEXT_BASELINES:
++        ok = child.returncode == 0 and not child.stderr and child.stdout == reference.encode()
+     else:
+         ok = child.returncode == (0 if label is None else 1) and not child.stderr
+         if ok:

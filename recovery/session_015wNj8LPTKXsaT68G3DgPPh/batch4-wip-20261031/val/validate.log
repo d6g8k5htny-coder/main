@@ -1,0 +1,58 @@
+23:12:13 merge: restoring the contract file, then merging run A
+families_digest deb792872f43c33c68c359fae453eabe76c4ddb875b626dec4fc55cae81b217d (was 1766c164ce9147479092efe144e1ec90e67b4cebaf6f7d338adc8de9f1543947)
+file 8283 ec23b1e5182250f658e62f4e84603ffc0ba26cdf3cac0b79968de66788c08508
+23:12:23 GREEN Ran 16 tests in 8.752s OK :: SUMMARY family=c8-lifetime-difference-constant mode=normal source=self exit=0 seconds=9 python=3.11.17
+23:12:31 GREEN Ran 16 tests in 8.129s OK :: SUMMARY family=c8-lifetime-difference-constant mode=optimized source=self exit=0 seconds=8 python=3.11.17
+23:12:42 GREEN Ran 16 tests in 10.251s OK :: SUMMARY family=c8-theorem-a-constants-d3 mode=normal source=self exit=0 seconds=11 python=3.11.17
+23:12:52 GREEN Ran 16 tests in 9.463s OK :: SUMMARY family=c8-theorem-a-constants-d3 mode=optimized source=self exit=0 seconds=10 python=3.11.17
+23:14:24 GREEN Ran 16 tests in 91.862s OK :: SUMMARY family=all mode=normal source=self exit=0 seconds=91 python=3.11.17
+23:15:56 GREEN Ran 16 tests in 91.829s OK :: SUMMARY family=all mode=optimized source=self exit=0 seconds=92 python=3.11.17
+23:16:07 RED Ran 16 tests in 10.932s FAILED (failures=40) :: SUMMARY family=c8-lifetime-difference-constant mode=normal source=/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/pristine4 exit=1 seconds=11 python=3.11.17
+23:16:19 RED Ran 16 tests in 11.416s FAILED (failures=40) :: SUMMARY family=c8-lifetime-difference-constant mode=optimized source=/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/pristine4 exit=1 seconds=12 python=3.11.17
+23:16:30 RED Ran 16 tests in 11.008s FAILED (failures=41) :: SUMMARY family=c8-theorem-a-constants-d3 mode=normal source=/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/pristine4 exit=1 seconds=11 python=3.11.17
+23:16:41 RED Ran 16 tests in 11.153s FAILED (failures=41) :: SUMMARY family=c8-theorem-a-constants-d3 mode=optimized source=/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/pristine4 exit=1 seconds=11 python=3.11.17
+/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/char/b4/val/red_c8-lifetime-difference-constant_normal.log failing subtests: 40
+  test_baseline_contract                                         8
+  test_contract_step_runs_in_both_modes_before_the_replay        1
+  test_crashes_each_mutant_each_mode                             5
+  test_paths_cover_the_helper_its_inputs_and_these_tests         7
+  test_rebound_sources_need_a_new_characterization               2
+  test_silent_exits_each_mutant_each_mode                        5
+  test_stderr_contract                                           2
+  test_text_baseline_contract                                    4
+  test_the_replay_is_the_only_import_and_names_its_family        1
+  test_wrong_reasons_each_mutant_each_mode                       5
+/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/char/b4/val/red_c8-lifetime-difference-constant_optimized.log failing subtests: 40
+  test_baseline_contract                                         8
+  test_contract_step_runs_in_both_modes_before_the_replay        1
+  test_crashes_each_mutant_each_mode                             5
+  test_paths_cover_the_helper_its_inputs_and_these_tests         7
+  test_rebound_sources_need_a_new_characterization               2
+  test_silent_exits_each_mutant_each_mode                        5
+  test_stderr_contract                                           2
+  test_text_baseline_contract                                    4
+  test_the_replay_is_the_only_import_and_names_its_family        1
+  test_wrong_reasons_each_mutant_each_mode                       5
+/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/char/b4/val/red_c8-theorem-a-constants-d3_normal.log failing subtests: 41
+  test_baseline_contract                                         8
+  test_contract_step_runs_in_both_modes_before_the_replay        1
+  test_crashes_each_mutant_each_mode                             5
+  test_json_contract                                             7
+  test_paths_cover_the_helper_its_inputs_and_these_tests         7
+  test_rebound_sources_need_a_new_characterization               1
+  test_silent_exits_each_mutant_each_mode                        5
+  test_the_replay_is_the_only_import_and_names_its_family        1
+  test_wrong_mutant_label                                        1
+  test_wrong_reasons_each_mutant_each_mode                       5
+/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C14/char/b4/val/red_c8-theorem-a-constants-d3_optimized.log failing subtests: 41
+  test_baseline_contract                                         8
+  test_contract_step_runs_in_both_modes_before_the_replay        1
+  test_crashes_each_mutant_each_mode                             5
+  test_json_contract                                             7
+  test_paths_cover_the_helper_its_inputs_and_these_tests         7
+  test_rebound_sources_need_a_new_characterization               1
+  test_silent_exits_each_mutant_each_mode                        5
+  test_the_replay_is_the_only_import_and_names_its_family        1
+  test_wrong_mutant_label                                        1
+  test_wrong_reasons_each_mutant_each_mode                       5
+23:16:41 validate done: merge tests red

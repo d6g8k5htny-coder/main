@@ -1,0 +1,145 @@
+[
+ {
+  "args": [
+   "--check-full",
+   "--procs",
+   "4"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": null,
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 0,
+  "seconds": 2683.2,
+  "started": "22:20:20",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "CHECK PASSED (full)\n",
+  "stdout_sha256": "a8cdf12ea45c68168b434373518769c27c691eb27457647d100d4ed71f30587c"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": null,
+  "mode": "optimized",
+  "procs": "4",
+  "returncode": 0,
+  "seconds": 308.4,
+  "started": "23:05:03",
+  "stderr": "",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout": "CHECK PASSED (sample)\n",
+  "stdout_sha256": "5356dcb0b0abdffab8c3b7066e1aebcdd259df289ace8e3e83a89915d10c7305"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4",
+   "--mutant",
+   "no-om-term"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": "no-om-term",
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 1,
+  "seconds": 8.4,
+  "started": "23:10:11",
+  "stderr": "FAIL: rate sweep differs (d = 2)\n",
+  "stderr_sha256": "c844b880cd7417244e10ac8aa87ebe1c8750aa092c582ee675ad68cca468eb7a",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4",
+   "--mutant",
+   "no-bad-set"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": "no-bad-set",
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 1,
+  "seconds": 8.3,
+  "started": "23:10:20",
+  "stderr": "FAIL: rate sweep differs (d = 2)\n",
+  "stderr_sha256": "c844b880cd7417244e10ac8aa87ebe1c8750aa092c582ee675ad68cca468eb7a",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4",
+   "--mutant",
+   "no-det"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": "no-det",
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 1,
+  "seconds": 8.2,
+  "started": "23:10:28",
+  "stderr": "FAIL: rate sweep differs (d = 2)\n",
+  "stderr_sha256": "c844b880cd7417244e10ac8aa87ebe1c8750aa092c582ee675ad68cca468eb7a",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4",
+   "--mutant",
+   "no-torus"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": "no-torus",
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 1,
+  "seconds": 0.3,
+  "started": "23:10:36",
+  "stderr": "FAIL: Taylor-model law differs (d = 2)\n",
+  "stderr_sha256": "a6b8da78faa100ad98163e496cbefc7d37efd6e2d46930060f2c2debf1e3c9fb",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ },
+ {
+  "args": [
+   "--check",
+   "--procs",
+   "4",
+   "--mutant",
+   "cap-half"
+  ],
+  "cpu_count": 4,
+  "family": "c8-lifetime-difference-constant",
+  "label": "cap-half",
+  "mode": "normal",
+  "procs": "4",
+  "returncode": 1,
+  "seconds": 59.9,
+  "started": "23:10:37",
+  "stderr": "FAIL: cap band 0 differs (d = 2)\n",
+  "stderr_sha256": "f2612a80a1f58fb7bb04144b27aebe292dc8288c3616f1f740279c5154e38267",
+  "stdout": "",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+ }
+]

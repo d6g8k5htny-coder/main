@@ -1,0 +1,17 @@
+resumed 0 recorded children; procs 4
+resumed 0 recorded children; procs 4
+resumed 1 recorded children; procs 4
+c8-lifetime-difference-constant normal None 0 22:20:20 2683.2 20 0 CHECK PASSED (full)
+c8-lifetime-difference-constant optimized None 0 23:05:03 308.4 22 0 CHECK PASSED (sample)
+c8-lifetime-difference-constant normal no-om-term 1 23:10:11 8.4 0 33 FAIL: rate sweep differs (d = 2)
+c8-lifetime-difference-constant normal no-bad-set 1 23:10:20 8.3 0 33 FAIL: rate sweep differs (d = 2)
+c8-lifetime-difference-constant normal no-det 1 23:10:28 8.2 0 33 FAIL: rate sweep differs (d = 2)
+c8-lifetime-difference-constant normal no-torus 1 23:10:36 0.3 0 39 FAIL: Taylor-model law differs (d = 2)
+c8-lifetime-difference-constant normal cap-half 1 23:10:37 59.9 0 33 FAIL: cap band 0 differs (d = 2)
+c8-theorem-a-constants-d3 normal None 0 19:13:46 2568.2 483 0 {"check": "ok", "bands_replayed": 121, "C_table": {"1/1024": "5743533573/250", "1/128": "699713600177629/10000", "1/2048": "57060167561/2500", "1/256": "3714819319587/625", "1/4096": "56887004491/2500
+c8-theorem-a-constants-d3 optimized None 0 22:20:20 345.1 482 0 {"check": "ok", "bands_replayed": 11, "C_table": {"1/1024": "5743533573/250", "1/128": "699713600177629/10000", "1/2048": "57060167561/2500", "1/256": "3714819319587/625", "1/4096": "56887004491/2500"
+c8-theorem-a-constants-d3 normal no-delta 1 22:26:05 153.4 109 0 {"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-delta"}
+c8-theorem-a-constants-d3 normal cap-half 1 22:28:38 161.0 109 0 {"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "cap-half"}
+c8-theorem-a-constants-d3 normal no-zfloor-correction 1 22:31:19 158.6 121 0 {"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-zfloor-correction"}
+c8-theorem-a-constants-d3 normal no-om-term 1 22:33:58 166.1 111 0 {"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-om-term"}
+c8-theorem-a-constants-d3 normal no-lambda2 1 22:36:44 154.3 111 0 {"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-lambda2"}
