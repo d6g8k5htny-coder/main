@@ -1,0 +1,382 @@
+diff --git a/.github/workflows/c8-lifetime-difference-constant.yml b/.github/workflows/c8-lifetime-difference-constant.yml
+index ba3b9c0..61d5ec4 100644
+--- a/.github/workflows/c8-lifetime-difference-constant.yml
++++ b/.github/workflows/c8-lifetime-difference-constant.yml
+@@ -5,6 +5,10 @@ name: C8 lifetime difference constant and second-order ledger (certified replay)
+     paths:
+       - 'frontiers/c8_lifetime_difference_constant_20261001/**'
+       - '.github/workflows/c8-lifetime-difference-constant.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+@@ -27,13 +31,20 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-lifetime-difference-constant'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest, main-resident pins and engine copies; replay the certificate in both interpreter modes; reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+         run: |
+           set -euo pipefail
+           python -B -S - <<'PY'
+-          import hashlib, json, os, pathlib, subprocess, sys
++          import hashlib, json, pathlib
+           root = pathlib.Path('frontiers/c8_lifetime_difference_constant_20261001').resolve()
+           manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+           present = sorted(p.name for p in root.iterdir())
+@@ -58,18 +69,9 @@ jobs:
+                   continue
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob(data) != entry['git_blob']:
+                   raise ValueError('pinned source identity mismatch: ' + entry['path'])
+-          script = str(root / 'theorem_b.py')
+-          procs = str(max(2, os.cpu_count() or 2))
+           # every cap band in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', procs], cwd=root, capture_output=True, timeout=10800)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-600:])
+-          for m in ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=3600).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-lifetime-difference-constant', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'cap_bands_replayed': 274, 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code
+diff --git a/.github/workflows/c8-theorem-a-constants-d3.yml b/.github/workflows/c8-theorem-a-constants-d3.yml
+index c315ed1..27a22e5 100644
+--- a/.github/workflows/c8-theorem-a-constants-d3.yml
++++ b/.github/workflows/c8-theorem-a-constants-d3.yml
+@@ -5,6 +5,10 @@ name: C8 Theorem A constants in d = 3 (certified replay)
+     paths:
+       - 'frontiers/c8_theorem_a_constants_d3_20261001/**'
+       - '.github/workflows/c8-theorem-a-constants-d3.yml'
++      - 'tools/**'
++      - 'tools.py'
++      - 'tests/test_check_mode_workflows.py'
++      - 'tests/test_legacy_workflow_triggers.py'
+       - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+       - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+       - 'frontiers/c8_cap_failure_coefficient_dims_20261001/RESULTS.json'
+@@ -24,13 +28,20 @@ jobs:
+       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+         with:
+           python-version: '3.11.16'
++      - name: Check trigger coverage and the complete shell rejection contract in both modes
++        env:
++          CHECK_MODE_TEST_FAMILY: 'c8-theorem-a-constants-d3'
++          PYTHONDONTWRITEBYTECODE: '1'
++        run: |
++          python -B -S tests/test_check_mode_workflows.py
++          python -B -O -S tests/test_check_mode_workflows.py
+       - name: Verify manifest and main-resident pins, replay every band and the C table in both interpreter modes, reject mutants
+         env:
+           PYTHONDONTWRITEBYTECODE: '1'
+         run: |
+           set -euo pipefail
+           python -B -S - <<'PY'
+-          import hashlib, json, os, pathlib, subprocess, sys
++          import hashlib, json, pathlib
+           root = pathlib.Path('frontiers/c8_theorem_a_constants_d3_20261001').resolve()
+           manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+           present = sorted(p.name for p in root.iterdir())
+@@ -51,18 +62,9 @@ jobs:
+               blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+               if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob != entry['git_blob']:
+                   raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+-          script = str(root / 'theorem_a3.py')
+-          procs = str(max(2, os.cpu_count() or 2))
+           # every one of the 121 bands in one mode, the sampled replay in the other
+-          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+-              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', procs], cwd=root, capture_output=True, timeout=5400)
+-              if out.returncode != 0:
+-                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+-              print(flags, mode, out.stdout.decode().strip()[-600:])
+-          for m in ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'):
+-              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=2400).returncode
+-              if rc != 1:
+-                  raise RuntimeError('mutant ' + m + ' not rejected')
++          from tools.check_mode_replay import replay
++          replay('c8-theorem-a-constants-d3', root)
+           print(json.dumps({'scientific_effect': 'NONE', 'bands_replayed': 121, 'mutants_rejected': 5}))
+           PY
+           git diff --exit-code
+diff --git a/tests/test_check_mode_workflows.py b/tests/test_check_mode_workflows.py
+index 560f3c9..62adc99 100644
+--- a/tests/test_check_mode_workflows.py
++++ b/tests/test_check_mode_workflows.py
+@@ -30,6 +30,8 @@ WORKFLOWS = {
+     'c8-cap-failure-coefficient-planar': 'c8-cap-failure-coefficient-planar.yml',
+     'c8-theorem-a-constants-planar': 'c8-theorem-a-constants-planar.yml',
+     'c8-torus-vanishing-remainder': 'c8-torus-vanishing-remainder.yml',
++    'c8-lifetime-difference-constant': 'c8-lifetime-difference-constant.yml',
++    'c8-theorem-a-constants-d3': 'c8-theorem-a-constants-d3.yml',
+ }
+ ACTIVE = {k: v for k, v in CONTRACTS['families'].items()
+           if not os.environ.get('CHECK_MODE_TEST_FAMILY') or k == os.environ['CHECK_MODE_TEST_FAMILY']}
+@@ -42,15 +44,22 @@ ORDERS = {
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
+     'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
+     'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
++    'c8-lifetime-difference-constant': ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'),
++    'c8-theorem-a-constants-d3': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'),
+ }
+ MODES = ('normal', 'optimized')
+ FLAGS = {'normal': '-B -S', 'optimized': '-B -O -S'}
+-# The torus wrapper ran one interpreter mode per matrix job, from FLAGS, and its
+-# checker rejects with one stderr line and nothing on stdout.
++# The torus wrapper ran one interpreter mode per matrix job, from FLAGS. The
++# torus and lifetime checkers reject with one stderr line and nothing on stdout;
++# the lifetime checker's success line is plain text, matched byte for byte.
+ PER_JOB = {'c8-torus-vanishing-remainder'}
+-STDERR = {'c8-torus-vanishing-remainder'}
++STDERR = {'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant'}
++TEXT = {'c8-lifetime-difference-constant'}
++# The --procs of the serial wrappers: planar passed 2, the others the host's count.
++PROCS = {'c8-theorem-a-constants-planar': '2'}
+ # The packet files each checker loads besides itself.
+-LOADED = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++LOADED = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py'),
++          'c8-lifetime-difference-constant': ('engine_e2.py', 'engine_e3.py')}
+ VERIFY = '      - name: Verify manifest'
+ STEP = (
+     '      - name: Check trigger coverage and the complete shell rejection contract in both modes\n'
+@@ -74,10 +83,11 @@ def groups(family, job=None):
+     if family == 'c8-cap-failure-coefficient-planar':
+         return ([[('baseline', m, ['--check', '--procs', '2'])] for m in MODES]
+                 + [[(x, m, ['--check', '--procs', '1', '--mutant', x]) for m in MODES for x in labels]])
+-    if family == 'c8-theorem-a-constants-planar':
+-        return ([[('baseline', 'normal', ['--check-full', '--procs', '2'])],
+-                 [('baseline', 'optimized', ['--check', '--procs', '2'])]]
+-                + [[(x, 'normal', ['--check', '--procs', '2', '--mutant', x])] for x in labels])
++    if family in ('c8-theorem-a-constants-planar', 'c8-lifetime-difference-constant', 'c8-theorem-a-constants-d3'):
++        procs = PROCS.get(family, str(max(2, os.cpu_count() or 2)))
++        return ([[('baseline', 'normal', ['--check-full', '--procs', procs])],
++                 [('baseline', 'optimized', ['--check', '--procs', procs])]]
++                + [[(x, 'normal', ['--check', '--procs', procs, '--mutant', x])] for x in labels])
+     if family == 'c8-torus-vanishing-remainder':
+         return [[('baseline', job, ['--check'])], [(x, job, ['--mutant', x]) for x in labels]]
+     return [[(x, m, ['--check'] if x == 'baseline' else ['--check', '--mutant', x])]
+@@ -133,6 +143,7 @@ baselines = BASELINES
+ reports = REPORTS
+ expected = EXPECTED
+ stderr_rejections = STDERR_REJECTIONS
++text_baseline = TEXT_BASELINE
+ mode = 'optimized' if sys.flags.optimize else 'normal'
+ label = expected.get(mode, {}).get(tuple(sys.argv[1:]))
+ if label is None:
+@@ -142,7 +153,8 @@ with open(os.environ['CHECK_MODE_TRACE'], 'a') as f:
+     f.write(json.dumps([label, mode, os.getcwd()]) + '\n')
+ value, rc = (baselines[mode], 0) if label == 'baseline' else (reports[label], 1)
+ on_stderr = label != 'baseline' and stderr_rejections
+-output, errors = ('', value) if on_stderr else (json.dumps(value) + '\n', '')
++as_text = label == 'baseline' and text_baseline
++output, errors = ('', value) if on_stderr else (value if as_text else json.dumps(value) + '\n', '')
+ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_MODE') == mode:
+     kind = os.environ.get('CHECK_MODE_FAULT', '')
+     if kind == 'crash':
+@@ -163,10 +175,13 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'wrong-label':
+         output = json.dumps(dict(value, mutant='another-mutant')) + '\n'
+     if kind == 'wrong-value':
+-        name = next(k for k in value if k not in ('check', 'mutant'))
+-        output = json.dumps(dict(value, **{name: 'unrelated value'})) + '\n'
++        if as_text:
++            output = 'CHECK PASSED (unrelated)\n'
++        else:
++            name = next(k for k in value if k not in ('check', 'mutant'))
++            output = json.dumps(dict(value, **{name: 'unrelated value'})) + '\n'
+     if kind == 'format':
+-        output = ' \n' + json.dumps(value, indent=4, sort_keys=True) + '\n\t'
++        output = ' \n' + (value.strip() if as_text else json.dumps(value, indent=4, sort_keys=True)) + '\n\t'
+     if kind == 'duplicate':
+         output = output.rstrip()[:-1] + ', "check": ' + json.dumps(value['check']) + '}\n'
+     if kind == 'nonfinite':
+@@ -176,7 +191,7 @@ if os.environ.get('CHECK_MODE_TARGET') == label and os.environ.get('CHECK_MODE_M
+     if kind == 'extra':
+         output = json.dumps(dict(value, unexpected='x')) + '\n'
+     if kind == 'missing':
+-        output = json.dumps({k: v for k, v in value.items() if k != 'check'}) + '\n'
++        output = value.rstrip('\n') if as_text else json.dumps({k: v for k, v in value.items() if k != 'check'}) + '\n'
+     if kind == 'malformed':
+         output = 'not JSON\n'
+ sys.stdout.write(output)
+@@ -207,7 +222,8 @@ class CheckModeWorkflowTests(unittest.TestCase):
+                     for x, m, arguments in group:
+                         expected.setdefault(m, {})[tuple(arguments)] = x
+             script = (CHILD.replace('BASELINES', repr(baselines)).replace('REPORTS', repr(entry['mutants']))
+-                      .replace('EXPECTED', repr(expected)).replace('STDERR_REJECTIONS', repr(family in STDERR)))
++                      .replace('EXPECTED', repr(expected)).replace('STDERR_REJECTIONS', repr(family in STDERR))
++                      .replace('TEXT_BASELINE', repr(family in TEXT)))
+             data = script.encode()
+             loaded = {name: ('# synthetic %s; no scientific authority\n' % name).encode()
+                       for name in LOADED.get(family, ())}
+@@ -304,7 +320,8 @@ class CheckModeWorkflowTests(unittest.TestCase):
+     def test_formatting_alone_is_accepted(self):
+         for family in ACTIVE:
+             label = ORDERS[family][0]
+-            cases = [('baseline', 'optimized')]
++            # A plain success line is matched byte for byte (test_text_baseline_contract).
++            cases = [] if family in TEXT else [('baseline', 'optimized')]
+             if family not in STDERR:
+                 cases.append((label, 'optimized' if (label, 'optimized') in runs(family) else 'normal'))
+             for label, mode in cases:
+@@ -372,6 +389,19 @@ class CheckModeWorkflowTests(unittest.TestCase):
+                     with self.subTest(family=family, fault=fault, mode=mode):
+                         self.rejected(family, label, mode, fault)
+ 
++    def test_text_baseline_contract(self):
++        # A plain success line admits no reformatting and no extra output; test_baseline_contract
++        # covers its stderr, wrong-value, wrong-exit, missing-newline and malformed faults.
++        for family in ACTIVE:
++            if family not in TEXT:
++                continue
++            for label, mode in runs(family):
++                if label != 'baseline':
++                    continue
++                for fault in ('format', 'stdout'):
++                    with self.subTest(family=family, fault=fault, mode=mode):
++                        self.rejected(family, label, mode, fault)
++
+     def test_source_guards_run_before_any_child(self):
+         for family in ACTIVE:
+             for tamper in ('packet', 'upstream'):
+diff --git a/tools/check_mode_replay.py b/tools/check_mode_replay.py
+index fd4385d..3efd16e 100644
+--- a/tools/check_mode_replay.py
++++ b/tools/check_mode_replay.py
+@@ -5,16 +5,17 @@ Called AFTER each workflow's unchanged source and pin guards. Each checker runs
+ from its packet directory with the arguments its original wrapper passed, and
+ reports one verdict. Most print one JSON verdict on stdout: {"check": "ok", ...}
+ with exit 0, or, from their require(), {"check": "FAIL", "reason": ...,
+-"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS print a JSON
+-success line whose "check" is "passed", and reject with exit 1, nothing on
+-stdout and the one line "FAIL: <reason>" on stderr. The reference file holds
++"mutant": LABEL} with exit 1. The families in STDERR_REJECTIONS reject with exit
++1, nothing on stdout and the one line "FAIL: <reason>" on stderr; their success
++line is JSON whose "check" is "passed" or, in TEXT_BASELINES, the plain line
++"CHECK PASSED (...)". The reference file holds
+ complete verdicts measured from the unchanged checkers, never outputs learned
+ from the invocation being tested, with the identities of each checker, the
+ packet files it loads (LOADS) and its RESULTS.json. Parsing and comparison are
+ those of tools/legacy_json_replay.py: formatting may differ, but every key,
+-type, value and list must match, and a stderr rejection must match byte for
+-byte. This is an engineering protocol, not a sandbox or mathematical acceptance
+-test.
++type, value and list must match, and a stderr rejection or a plain success line
++must match byte for byte. This is an engineering protocol, not a sandbox or
++mathematical acceptance test.
+ """
+ from __future__ import annotations
+ 
+@@ -22,6 +23,7 @@ import concurrent.futures
+ import functools
+ import hashlib
+ import json
++import os
+ from pathlib import Path
+ import re
+ import subprocess
+@@ -36,6 +38,8 @@ INVENTORIES = {
+     'c8-cap-failure-coefficient-planar': ('no-third-jet', 'sign-lo', 'variance-yyy'),
+     'c8-theorem-a-constants-planar': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term'),
+     'c8-torus-vanishing-remainder': ('torus-const-only', 'exp-radius', 'no-lin', 'no-om-term', 'coupling-half'),
++    'c8-lifetime-difference-constant': ('no-om-term', 'no-bad-set', 'no-det', 'no-torus', 'cap-half'),
++    'c8-theorem-a-constants-d3': ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'),
+ }
+ MODES = (('normal', ('-B', '-S')), ('optimized', ('-B', '-O', '-S')))
+ # Families whose original wrapper passed extra checker arguments and ran its
+@@ -48,26 +52,41 @@ POOLED = {
+ }
+ # Families whose original wrapper ran another child list, restated by _plan()
+ # with each child's arguments and timeout. Their reference file holds one
+-# baseline verdict per mode. PER_JOB_MODE families ran one interpreter mode per
+-# matrix job; replay() then takes that job's flags.
+-PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder')
++# baseline verdict per mode. SERIAL families ran, one child at a time, every
++# band with --check-full in normal mode, the sampled --check in optimized mode,
++# then each mutant in normal mode only: (--procs value, baseline timeout, mutant
++# timeout), where None is the wrapper's own max(2, cpu_count), read when the
++# plan is made. PER_JOB_MODE families ran one interpreter mode per matrix job;
++# replay() then takes that job's flags.
++PLANNED = ('c8-theorem-a-constants-planar', 'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant',
++           'c8-theorem-a-constants-d3')
++SERIAL = {
++    'c8-theorem-a-constants-planar': ('2', 3600, 1800),
++    'c8-lifetime-difference-constant': (None, 10800, 3600),
++    'c8-theorem-a-constants-d3': (None, 5400, 2400),
++}
+ PER_JOB_MODE = {'c8-torus-vanishing-remainder'}
+-STDERR_REJECTIONS = {'c8-torus-vanishing-remainder'}
++STDERR_REJECTIONS = {'c8-torus-vanishing-remainder', 'c8-lifetime-difference-constant'}
++# Families whose checker reports success as one plain stdout line, not JSON; the
++# baseline must then match the measured line byte for byte.
++TEXT_BASELINES = {'c8-lifetime-difference-constant'}
+ # Packet files a checker loads besides itself. The reference file binds them
+ # like the checker, so a change to any of them needs a new characterization.
+-LOADS = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py')}
++LOADS = {'c8-torus-vanishing-remainder': ('theorem_b.py', 'engine_e2.py', 'engine_e3.py'),
++         'c8-lifetime-difference-constant': ('engine_e2.py', 'engine_e3.py')}
+ 
+ 
+ def _plan(family: str,
+           modes: tuple[str, ...]) -> list[tuple[int, list[tuple[str, str | None, tuple[str, ...], float]]]]:
+     """Return the stages (workers, children); a child is (mode, label, arguments, timeout)."""
+     labels = INVENTORIES[family]
+-    if family == 'c8-theorem-a-constants-planar':
+-        # One at a time: every band with --check-full in normal mode, the
+-        # sampled --check in optimized mode, then each mutant in normal mode only.
+-        return [(1, [('normal', None, ('--check-full', '--procs', '2'), 3600),
+-                     ('optimized', None, ('--check', '--procs', '2'), 3600),
+-                     *[('normal', m, ('--check', '--procs', '2', '--mutant', m), 1800) for m in labels]])]
++    if family in SERIAL:
++        procs, baseline_timeout, mutant_timeout = SERIAL[family]
++        if procs is None:
++            procs = str(max(2, os.cpu_count() or 2))
++        return [(1, [('normal', None, ('--check-full', '--procs', procs), baseline_timeout),
++                     ('optimized', None, ('--check', '--procs', procs), baseline_timeout),
++                     *[('normal', m, ('--check', '--procs', procs, '--mutant', m), mutant_timeout) for m in labels]])]
+     if family == 'c8-torus-vanishing-remainder':
+         # In each job: the baseline, then all five mutants at once, which take
+         # no --check.
+@@ -80,6 +99,9 @@ def _plan(family: str,
+ 
+ 
+ def _accepts(family: str, report: Any) -> bool:
++    if family in TEXT_BASELINES:
++        return (type(report) is str and report.startswith('CHECK PASSED (') and report.endswith(')\n')
++                and report.count('\n') == 1)
+     if family in STDERR_REJECTIONS:
+         return type(report) is dict and report.get('check') == 'passed'
+     return type(report) is dict and report.get('check') == 'ok' and report.get('mutant', '') is None
+@@ -96,6 +118,8 @@ def _rejects(family: str, label: str, report: Any) -> bool:
+ def _contract(family: str) -> dict[str, Any]:
+     if (family not in INVENTORIES or not set(POOLED) <= set(INVENTORIES)
+             or not set(PLANNED) <= set(INVENTORIES) or set(POOLED) & set(PLANNED)
++            or set(PLANNED) != set(SERIAL) | PER_JOB_MODE or set(SERIAL) & PER_JOB_MODE
++            or not STDERR_REJECTIONS | TEXT_BASELINES <= set(INVENTORIES)
+             or not set(LOADS) <= set(INVENTORIES)):
+         raise ProtocolError('unknown checker family')
+     data = strict_json(Path(__file__).with_name('check_mode_contracts.json').read_bytes())
+@@ -152,6 +176,8 @@ def _child(family: str, root: Path, script: Path, mode: str, flags: tuple[str, .
+               'stderr_sha256': hashlib.sha256(child.stderr).hexdigest()}
+     if label is not None and family in STDERR_REJECTIONS:
+         ok = child.returncode == 1 and not child.stdout and child.stderr == reference.encode()
++    elif label is None and family in TEXT_BASELINES:
++        ok = child.returncode == 0 and not child.stderr and child.stdout == reference.encode()
+     else:
+         ok = child.returncode == (0 if label is None else 1) and not child.stderr
+         if ok:
