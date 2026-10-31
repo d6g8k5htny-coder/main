@@ -45,6 +45,27 @@ not full AST/type/theorem synchronization. New gating tools require documented
 commands and self-verification before admission; unavailable or unsupported
 coverage remains explicit. No documented command here runs all G0-G11 yet.
 
+The finite MomentTail component is a registered bounded candidate in
+[Math PR #545](https://github.com/d6g8k5htny-coder/Math-/pull/545), exact source
+`e1cf617b6bc979b75d420f28df17ddad59426522`. In an isolated checkout of that Math
+source, run all six commands:
+
+```
+python3 -B cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -O cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B -O -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+python3 -B -O cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+```
+
+The [contract](https://github.com/d6g8k5htny-coder/Math-/blob/e1cf617b6bc979b75d420f28df17ddad59426522/cbz/finite_moment_tail_20261030/CONTRACT.json)
+and [bounded governance registration](GOVERNANCE.md#finite-momenttail-empirical-component-bounded-registration)
+record the six-command hosted job, exact source/test evidence and limits.
+Its CPython 3.11.16 run actually passed; it covers one finite specialization,
+not a federation-wide empirical gate or a new CLOSED decision. Existing pins
+and the global unsupported inventory are unchanged by this registration.
+
 ## Team and reconstitution
 
 Use the discovery, proof-closure, tooling, verification, integration and

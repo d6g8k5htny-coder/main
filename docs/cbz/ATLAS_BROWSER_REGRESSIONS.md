@@ -49,6 +49,24 @@ retried by this contribution.
 
 ## Self-verification
 
+The qualified environment for these controls is the existing `public-shop`
+CPython 3.12 environment. At Main `11e28815163e15223e8827fe6ff47a1faaf36ebd`,
+[push run 40976675758, attempt 1](https://github.com/d6g8k5htny-coder/main/actions/runs/40976675758)
+and [browser-smoke job 123806316839](https://github.com/d6g8k5htny-coder/main/actions/runs/40976675758/job/123806316839)
+used CPython 3.12.15: 31 controls passed in each mode, followed by both required
+Atlas browser methods passing in each mode. This is bounded source/runtime
+evidence; a later composition requires its own execution.
+
+The retained CPython 3.9.6 runs produced nine assertion/subtest failure records
+across two grader-control methods, including on the unchanged base. That unittest
+version feeds stored errors to the result after teardown, while this grader checks
+the active body phase at the callback. Its different callback protocol therefore
+refuses those genuine body failures. Keep those negative results at their actual
+source/runtime. Run the documented control population in the qualified hosted
+environment; a runtime change requires fresh qualification. Current 31-method
+counts follow the code-object correction below; earlier 30/45-method receipts
+remain historical.
+
 ```
 python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v
 python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner -v
@@ -67,8 +85,9 @@ controls establish these contracts, not universal test-runner soundness.
 
 ## Canonical registration addendum for the integrator
 
-Shared canonical files remain owned by the current baseline writer. Compose these
-facts into their current versions rather than restoring the historical STATUS:
+Use the fluid roles and guarded composition in [GOVERNANCE.md](../../GOVERNANCE.md).
+Ownership coordinates compatible work; it is not an exclusive lock. Compose
+these facts into current canonical versions while preserving historical evidence:
 
 - GOVERNANCE/TOOLING: `tools/run_atlas_browser_regressions.py`; purpose: fixed-ID,
   zero-skip execution of two Atlas UI regressions; criterion: G5 execution coverage
