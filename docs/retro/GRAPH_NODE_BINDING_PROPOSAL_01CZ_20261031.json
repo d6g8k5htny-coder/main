@@ -1,0 +1,104 @@
+{
+ "object": "GRAPH-NODE-BINDING-PROPOSAL-01CZ-20261031",
+ "credit": 0,
+ "scientific_effect": "NONE",
+ "obl": "OPEN",
+ "input": "data/hypergraph/graph_binding_report_20261023.json unbound_nodes (16), node fingerprints from Math- frontiers/downstream_gate_20260925/GRAPH.json",
+ "repository": "d6g8k5htny-coder/Math-",
+ "commit": "19a55750451b8016b50d1d20be6a18c021807ecb",
+ "method": "Each node's GRAPH.json fingerprint (sha256, or a 40-hex git blob for math.rn-fixed-annulus-window) was located by git grep over Math- JSON manifests; the named file at Math- main was hashed and matched exactly.",
+ "verification": "python3 tools/graph_binding_check.py --root <Math- files at the commit> --bindings <these, v1 keys> --graph-nodes <the 12 ids>: exit 0, bindings 12; the same with one sha256 zeroed: exit 1.",
+ "bindings": [
+  {
+   "node_id": "math.d1-component.congruence-erratum",
+   "artifact_path": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "sha256": "bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028",
+   "git_blob": "213594d6ca6a86fb938110f4d166d9ce275a02d0"
+  },
+  {
+   "node_id": "math.d1-component.marked-cylinder-cap",
+   "artifact_path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "sha256": "0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc",
+   "git_blob": "0633aca3c2a2882b0de4399da0a75d64c2e6b2e1"
+  },
+  {
+   "node_id": "math.d1-component.section9-replacement-v1_1",
+   "artifact_path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+   "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+   "git_blob": "fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a"
+  },
+  {
+   "node_id": "math.d5-component.remote-window-proof",
+   "artifact_path": "frontiers/remote_window_20260924/PROOF.md",
+   "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7",
+   "git_blob": "b383bfcc88ec4ad497dff01fb6640e429ba24a84"
+  },
+  {
+   "node_id": "math.rn-fixed-remote-window",
+   "artifact_path": "frontiers/remote_window_20260924/PROOF.md",
+   "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7",
+   "git_blob": "b383bfcc88ec4ad497dff01fb6640e429ba24a84"
+  },
+  {
+   "node_id": "math.lifetime-remainder",
+   "artifact_path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+   "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a",
+   "git_blob": "247b3ecf80bfbe896948d5d489b2d5842a81c481"
+  },
+  {
+   "node_id": "math.p15-price-boundary",
+   "artifact_path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+   "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b",
+   "git_blob": "1d6946658e00e2446d68e8a4884425d4bcec62fb"
+  },
+  {
+   "node_id": "math.rn-count-interface",
+   "artifact_path": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+   "sha256": "aa993f5217bd70e6d1060402d121ab659f6582a098e29042c67585a345a8e3ab",
+   "git_blob": "371fd6d17920f2eb3b1c5ec30297acf6daf1d385"
+  },
+  {
+   "node_id": "math.side24-coefficient",
+   "artifact_path": "coefficients/side24_v1/PROOF.md",
+   "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+   "git_blob": "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+  },
+  {
+   "node_id": "math.uniform-matrix-cap-lifetime",
+   "artifact_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+   "git_blob": "dfed3b8d318a3ab1950957f393307733a4bef3f2"
+  },
+  {
+   "node_id": "math.rn-fixed-annulus-window",
+   "artifact_path": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+   "sha256": "1fd9fe7141e464fd1c09ebf0318d8a701729c9c61ea24f73f7e20a9cf10c552b",
+   "git_blob": "081abc13c5e66342c13df2af2bd6b114f320486f"
+  },
+  {
+   "node_id": "eng.d0-packet-allowlist-fix",
+   "artifact_path": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+   "sha256": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a",
+   "git_blob": "f09b248b10d6a8f229bd21bb3a53a97ca16525f2"
+  }
+ ],
+ "not_bound": [
+  {
+   "node_id": "hist.lemma_closed",
+   "reason": "register flag (lemma_closed=false), not an artifact; binding it to bytes would be a category error"
+  },
+  {
+   "node_id": "math.d5-pin-neighborhood-first-moment",
+   "reason": "no fingerprint in GRAPH.json; reviews/d5_reconciliation_20260929/RECONCILIATION.md says the id 'stands for the STATUS row'"
+  },
+  {
+   "node_id": "math.p15-full-price",
+   "reason": "fingerprint is the label token full-price-20260924, not a byte identity"
+  },
+  {
+   "node_id": "math.rn-selector-region-crosswalk",
+   "reason": "fingerprint is the label token rn-selector-region-crosswalk-20260925-v1, not a byte identity"
+  }
+ ],
+ "does_not_establish": "Byte identity of a node's fingerprinted artifact only. It does not edit GRAPH.json, the binding report or the hypergraph; changes no node classification; and is no review, acceptance or custody statement. The owner of the binding report decides adoption."
+}

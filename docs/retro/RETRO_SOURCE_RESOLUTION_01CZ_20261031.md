@@ -77,3 +77,24 @@ resolves neither on main nor in that path's history.
 - It is Anthropic/Claude work (session 01CZ) at zero organizational-independence credit.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+## Addendum: binding proposals for the unbound graph nodes
+
+The #527 binding report (`data/hypergraph/graph_binding_report_20261023.json`) lists 16
+unbound graph nodes. Each node in Math- `frontiers/downstream_gate_20260925/GRAPH.json` carries a
+fingerprint. For **12** of them, the fingerprint matches the exact bytes of a named file on Math-
+main `19a55750`: ten match by sha256, one by Git blob (`math.rn-fixed-annulus-window`), and one is
+an engineering patch (`eng.d0-packet-allowlist-fix`). The proposals are in
+[`GRAPH_NODE_BINDING_PROPOSAL_01CZ_20261031.json`](GRAPH_NODE_BINDING_PROPOSAL_01CZ_20261031.json).
+
+The repository's own `tools/graph_binding_check.py` accepts all 12, exiting 0. With one sha256
+corrupted it exits 1.
+
+The other **4** are not bindable by byte identity, and are left unbound on purpose:
+
+- `hist.lemma_closed` is a register flag, not an artifact.
+- `math.d5-pin-neighborhood-first-moment` has no fingerprint; it stands for a STATUS row.
+- `math.p15-full-price` and `math.rn-selector-region-crosswalk` carry label tokens only.
+
+These are proposals for the binding report's owner. Nothing is edited, and no node
+classification changes.
