@@ -2,71 +2,357 @@
   "schema_version": 1,
   "record_kind": "SOURCE_BOUND_COMPOSED_COMPONENT_EVIDENCE",
   "tool": "kernel_replay",
-  "source_parent": {
-    "commit": "15b534674ef9caf78b2ac42c8bebaa8f7faeb238",
-    "repository": "d6g8k5htny-coder/main"
-  },
-  "status": "PASS_SCOPED_COMPOSED_COMPONENTS",
+  "generation": "p696-v2-oracle-assertion-origin-landing",
+  "status": "PASS_SCOPED_ENGINEERING_REFRESH",
+  "scientific_claim": "NONE",
+  "credit": 0,
+  "new_mathematical_checks": 0,
+  "project_proof_replayed": false,
+  "production_mutant_rerun": false,
+  "full_suite_rerun_this_landing": true,
+  "full_suite_scope": "run_tests.py discovery of this contribution only; not a project proof replay and not mutations.py",
+  "g2_production_audit": "NOT_ASSESSED",
+  "hosted_CI": "NOT_ASSESSED_BY_THIS_RECEIPT",
+  "federation_CBZ_claim": false,
+  "actual_repository_G1": "NOT_APPLICABLE",
+  "note": "Engineering integrate of p696 v2 on this checkout. Counts below are observations from the commands listed. The predecessor identity review stays bound to the predecessor source hashes and is not a review of this patch. Historical canonical real-*.json and fixture-g2-rejection.json bytes were retained; refreshed fixture reports are copies under evidence/oracle-assertion-origin/real-fixtures/.",
   "source_bindings": {
-    "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+    "run_tests.py": "e361824fdf82d12cafdd264167f9a33add20bdcae21847f837168bbd5b240191",
     "mutations.py": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
     "kernel_replay.py": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
-    "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+    "tests/test_mutation_harness.py": "84fc026cf8891bd1902ff591765ba5b9d535d2be244c0f3a90f0774e1bdf915e",
     "ExactReplay.lean": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
   },
-  "identity_review": {
-    "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
-    "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4",
-    "verdict": "CLEAR_SCOPED_ENGINEERING"
+  "changed_from_predecessor": [
+    "run_tests.py",
+    "tests/test_mutation_harness.py"
+  ],
+  "unchanged_from_predecessor": [
+    "ExactReplay.lean",
+    "kernel_replay.py",
+    "mutations.py"
+  ],
+  "environment": {
+    "python": "3.12.3",
+    "lean": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+    "CBZ_TEST_LEAN": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+    "working_directory": "cbz/contributions/math514/kernel_replay"
   },
-  "current_method_inventory": 67,
-  "full_suite_rerun": false,
-  "production_mutant_rerun": false,
-  "new_Lean_runs": 0,
-  "new_mathematical_checks": 0,
-  "hosted_CI": "NOT_ASSESSED_BY_METADATA",
-  "actual_repository_G1": "NOT_APPLICABLE",
-  "identity_component": {
-    "document": "GRADER_IDENTITY_FIX.md",
-    "receipt": "evidence/grader-identity-fix/CURRENT_COMPOSED_ADMISSION.json",
-    "new_methods": 7,
-    "affected_methods_per_mode": 27,
-    "source_bindings": {
-      "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
-      "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022"
-    },
-    "review_status": "CLEAR_SCOPED_ENGINEERING",
-    "safeguards": {
-      "distinct_themes_per_tool": 14,
-      "observations_this_tool": 28,
-      "observations_both_tools": 56,
-      "stage_sizes_both_tools": [
-        32,
-        8,
-        4,
-        12
-      ],
-      "all_assertion_killed": true,
-      "zero_errors": true,
-      "rule": "Earlier source-bound observations reused after specific predicate/ordinary-source applicability; not a single final-source full campaign",
-      "production_scanner_or_replay_mutants": false
+  "commands": {
+    "population_list": "python3 -B -S run_tests.py --list --output evidence/oracle-assertion-origin/population-list.json",
+    "harness_normal": "python3 -B -S run_tests.py --test test_mutation_harness.MutationHarnessTests --output evidence/oracle-assertion-origin/harness-normal.json",
+    "harness_optimized": "PYTHONOPTIMIZE=1 python3 -B -S -O run_tests.py --test test_mutation_harness.MutationHarnessTests --output evidence/oracle-assertion-origin/harness-optimized.json",
+    "real_lean_normal": "python3 -B -S run_tests.py --test test_real_lean.RealLeanTests --output evidence/oracle-assertion-origin/real-lean-normal.json",
+    "real_lean_optimized": "PYTHONOPTIMIZE=1 python3 -B -S -O run_tests.py --test test_real_lean.RealLeanTests --output evidence/oracle-assertion-origin/real-lean-optimized.json",
+    "suite_normal": "python3 -B -S run_tests.py --output evidence/oracle-assertion-origin/suite-normal.json",
+    "suite_optimized": "PYTHONOPTIMIZE=1 python3 -B -S -O run_tests.py --output evidence/oracle-assertion-origin/suite-optimized.json"
+  },
+  "command_exits": {
+    "population_list": 0,
+    "harness_normal": 0,
+    "harness_optimized": 0,
+    "real_lean_normal": 0,
+    "real_lean_optimized": 0,
+    "suite_normal": 0,
+    "suite_optimized": 0
+  },
+  "observed_population": {
+    "selected_ids": 68,
+    "invalid_population": [],
+    "parts": {
+      "test_kernel_replay.WrapperTests": 31,
+      "test_mutation_harness.IdentityHarnessTests": 7,
+      "test_mutation_harness.LazyBodyHarnessTests": 6,
+      "test_mutation_harness.MutationHarnessTests": 15,
+      "test_real_lean.RealLeanTests": 9
     }
   },
-  "predecessor_metadata": "evidence/pre-review-identity-metadata/",
-  "method_inventory_parts": {
-    "wrapper_reused": 31,
-    "real_lean_reused": 9,
-    "harness_prior": 20,
-    "harness_new_identity": 7
+  "runs": {
+    "harness_normal": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 15,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 53,
+      "lifecycle_failures": 0,
+      "selected_ids": 15,
+      "sha256": "28470ffc9ffd055e84f5e1b7c34675962b83b57f710501d0ffd52e452881dbdb"
+    },
+    "harness_optimized": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 15,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 53,
+      "lifecycle_failures": 0,
+      "selected_ids": 15,
+      "sha256": "28470ffc9ffd055e84f5e1b7c34675962b83b57f710501d0ffd52e452881dbdb"
+    },
+    "real_lean_normal": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 9,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 0,
+      "lifecycle_failures": 0,
+      "selected_ids": 9,
+      "sha256": "a1063cc5f6bcd9fee6292561b1080211e68d34e6d4bbfbda637b8059a1d7169d"
+    },
+    "real_lean_optimized": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 9,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 0,
+      "lifecycle_failures": 0,
+      "selected_ids": 9,
+      "sha256": "a1063cc5f6bcd9fee6292561b1080211e68d34e6d4bbfbda637b8059a1d7169d"
+    },
+    "suite_normal": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 68,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 135,
+      "lifecycle_failures": 0,
+      "selected_ids": 68,
+      "sha256": "df68040c64f6bae87cbceb3bf1067006863e917fa894049743a61aafaf5fab59"
+    },
+    "suite_optimized": {
+      "receipt_schema": "cbz-unittest-lifecycle-v1",
+      "tests_run": 68,
+      "successful": true,
+      "skipped": 0,
+      "errors": 0,
+      "assertion_failures": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "subtests": 135,
+      "lifecycle_failures": 0,
+      "selected_ids": 68,
+      "sha256": "df68040c64f6bae87cbceb3bf1067006863e917fa894049743a61aafaf5fab59"
+    }
   },
-  "unchanged_production_mutation_definitions": 25,
-  "source_binding_origin": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
-  "source_binding_scope": "Actual combined changed/runtime sources listed in Root source-composition-final.json; other retained source-parent objects and predecessor evidence remain exact. This is scoped composition, not a fresh full-suite run.",
-  "source_composition_record": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
-  "composition_partition": {
-    "identity_functions_classes_AST_exact": true,
-    "manifest_68_MUTATIONS_literal_exact": "NOT_APPLICABLE",
-    "evidence": "evidence/final-review-identity/SOURCE_COMPOSITION.json"
+  "real_lean_fixture_receipts": {
+    "historical_canonical_files_retained": true,
+    "historical_sha256": {
+      "evidence/real-Good.json": "3d7235b9907ac2cbbb51f551ea76d048d128bae4f464bf5f7e73179e11a9291e",
+      "evidence/real-BadPublic.json": "063b0a4aafc60508b84a24a7cd1c72cfd44b3bbaab6af7875af70ea1f8a8245f",
+      "evidence/real-BadPrivate.json": "7b02c2721ff007ff732ff8df02378d5694b2e66bd5f0ec9dd369deda17757018",
+      "evidence/real-UnapprovedAxiom.json": "66a899b0efe864a74696bc7e0bb273cb33d93ba01e152289a82a709361d46e85",
+      "evidence/fixture-g2-rejection.json": "c727db806e98e7b6d053236ed54f20742862152f0e7f98a6262d68dec9457f83"
+    },
+    "normal": {
+      "real-Good.json": {
+        "ok": true,
+        "module": "Good",
+        "status": "PASS",
+        "returncode": 0,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "4ca93fd9bf6ec6bcb027ee4dbc6960868077cc2f0f61d6fbb4fd44f7f915cb4a"
+      },
+      "real-BadPublic.json": {
+        "ok": false,
+        "module": "BadPublic",
+        "status": "FAIL",
+        "returncode": 1,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "8145049dbad99c9c7f7e501aa459f8c1ad53e0ac24e65bbbdf96fa401ae4d51b"
+      },
+      "real-BadPrivate.json": {
+        "ok": false,
+        "module": "BadPrivate",
+        "status": "FAIL",
+        "returncode": 1,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "bb617c80a07468fa1534651a371e35e09836d030cf82593d02acc850709ac194"
+      },
+      "real-UnapprovedAxiom.json": {
+        "ok": true,
+        "module": "UnapprovedAxiom",
+        "status": "PASS",
+        "returncode": 0,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "b141658263aa7e02bf18890c5667c017dcb926c9f69ef5801dff8e7f85625de2"
+      },
+      "fixture-g2-rejection.json": {
+        "returncode": 1,
+        "scope": "one explicit unapproved fixture axiom; not a production all-declaration G2 auditor",
+        "sha256": "773c94586129e658181d6520ca9b8f615be604f2a56db0f57b266d1bebd61b4b"
+      }
+    },
+    "optimized": {
+      "real-Good.json": {
+        "ok": true,
+        "module": "Good",
+        "status": "PASS",
+        "returncode": 0,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "b11d19e066bb02fb618948b5f3c6345482f56a2a75c3c70a27738d4cab7aaf8d"
+      },
+      "real-BadPublic.json": {
+        "ok": false,
+        "module": "BadPublic",
+        "status": "FAIL",
+        "returncode": 1,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "90fff51e75408275d995f0f56921aa006cafa6fc9a22e696d49f5794b7143214"
+      },
+      "real-BadPrivate.json": {
+        "ok": false,
+        "module": "BadPrivate",
+        "status": "FAIL",
+        "returncode": 1,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "3979d2c7776628f1de00f7835c1599f7a7550de092d1de2c360853a1f598db39"
+      },
+      "real-UnapprovedAxiom.json": {
+        "ok": true,
+        "module": "UnapprovedAxiom",
+        "status": "PASS",
+        "returncode": 0,
+        "g2_status": "NOT_ASSESSED",
+        "sha256": "31864b00d14806d4b339a8863e2c32e0fd58d61d0a8a80f8b55c49eadf0f3d00"
+      },
+      "fixture-g2-rejection.json": {
+        "returncode": 1,
+        "scope": "one explicit unapproved fixture axiom; not a production all-declaration G2 auditor",
+        "sha256": "773c94586129e658181d6520ca9b8f615be604f2a56db0f57b266d1bebd61b4b"
+      }
+    }
   },
-  "source_composition_record_sha256": "4ae680e692f96730089a369457462066269a0386b50a595936813e39fbdad675"
+  "evidence_sha256": {
+    "evidence/oracle-assertion-origin/harness-normal.json": "28470ffc9ffd055e84f5e1b7c34675962b83b57f710501d0ffd52e452881dbdb",
+    "evidence/oracle-assertion-origin/harness-optimized.json": "28470ffc9ffd055e84f5e1b7c34675962b83b57f710501d0ffd52e452881dbdb",
+    "evidence/oracle-assertion-origin/population-list.json": "670553200700b8c6189e5cfb21ff78385469b948f34fba286d68b147abbec959",
+    "evidence/oracle-assertion-origin/real-fixtures/normal/fixture-g2-rejection.json": "773c94586129e658181d6520ca9b8f615be604f2a56db0f57b266d1bebd61b4b",
+    "evidence/oracle-assertion-origin/real-fixtures/normal/real-BadPrivate.json": "bb617c80a07468fa1534651a371e35e09836d030cf82593d02acc850709ac194",
+    "evidence/oracle-assertion-origin/real-fixtures/normal/real-BadPublic.json": "8145049dbad99c9c7f7e501aa459f8c1ad53e0ac24e65bbbdf96fa401ae4d51b",
+    "evidence/oracle-assertion-origin/real-fixtures/normal/real-Good.json": "4ca93fd9bf6ec6bcb027ee4dbc6960868077cc2f0f61d6fbb4fd44f7f915cb4a",
+    "evidence/oracle-assertion-origin/real-fixtures/normal/real-UnapprovedAxiom.json": "b141658263aa7e02bf18890c5667c017dcb926c9f69ef5801dff8e7f85625de2",
+    "evidence/oracle-assertion-origin/real-fixtures/optimized/fixture-g2-rejection.json": "773c94586129e658181d6520ca9b8f615be604f2a56db0f57b266d1bebd61b4b",
+    "evidence/oracle-assertion-origin/real-fixtures/optimized/real-BadPrivate.json": "3979d2c7776628f1de00f7835c1599f7a7550de092d1de2c360853a1f598db39",
+    "evidence/oracle-assertion-origin/real-fixtures/optimized/real-BadPublic.json": "90fff51e75408275d995f0f56921aa006cafa6fc9a22e696d49f5794b7143214",
+    "evidence/oracle-assertion-origin/real-fixtures/optimized/real-Good.json": "b11d19e066bb02fb618948b5f3c6345482f56a2a75c3c70a27738d4cab7aaf8d",
+    "evidence/oracle-assertion-origin/real-fixtures/optimized/real-UnapprovedAxiom.json": "31864b00d14806d4b339a8863e2c32e0fd58d61d0a8a80f8b55c49eadf0f3d00",
+    "evidence/oracle-assertion-origin/real-lean-normal.json": "a1063cc5f6bcd9fee6292561b1080211e68d34e6d4bbfbda637b8059a1d7169d",
+    "evidence/oracle-assertion-origin/real-lean-optimized.json": "a1063cc5f6bcd9fee6292561b1080211e68d34e6d4bbfbda637b8059a1d7169d",
+    "evidence/oracle-assertion-origin/suite-normal.json": "df68040c64f6bae87cbceb3bf1067006863e917fa894049743a61aafaf5fab59",
+    "evidence/oracle-assertion-origin/suite-optimized.json": "df68040c64f6bae87cbceb3bf1067006863e917fa894049743a61aafaf5fab59"
+  },
+  "predecessor_admission": {
+    "path": "evidence/final-review-identity/current-composed-admission.json",
+    "sha256_before_this_refresh": "5161ee5967a99038004caf114a3c158f86d0d3af9e46a9ca4427cf03a65094fa",
+    "source_parent_commit": "15b534674ef9caf78b2ac42c8bebaa8f7faeb238",
+    "status": "PASS_SCOPED_COMPOSED_COMPONENTS",
+    "current_method_inventory": 67,
+    "identity_review": {
+      "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
+      "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4",
+      "verdict": "CLEAR_SCOPED_ENGINEERING"
+    },
+    "applicability": "Bound to predecessor source hashes only. Not a review of p696 v2.",
+    "record": {
+      "schema_version": 1,
+      "record_kind": "SOURCE_BOUND_COMPOSED_COMPONENT_EVIDENCE",
+      "tool": "kernel_replay",
+      "source_parent": {
+        "commit": "15b534674ef9caf78b2ac42c8bebaa8f7faeb238",
+        "repository": "d6g8k5htny-coder/main"
+      },
+      "status": "PASS_SCOPED_COMPOSED_COMPONENTS",
+      "source_bindings": {
+        "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+        "mutations.py": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+        "kernel_replay.py": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+        "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+        "ExactReplay.lean": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+      },
+      "identity_review": {
+        "path": "evidence/grader-identity-fix/shared/independent-review-final.json",
+        "sha256": "f47d13cc789829966ebf60e7b5e5a9e45059e5ed5db4a5089a3b2ca7534993b4",
+        "verdict": "CLEAR_SCOPED_ENGINEERING"
+      },
+      "current_method_inventory": 67,
+      "full_suite_rerun": false,
+      "production_mutant_rerun": false,
+      "new_Lean_runs": 0,
+      "new_mathematical_checks": 0,
+      "hosted_CI": "NOT_ASSESSED_BY_METADATA",
+      "actual_repository_G1": "NOT_APPLICABLE",
+      "identity_component": {
+        "document": "GRADER_IDENTITY_FIX.md",
+        "receipt": "evidence/grader-identity-fix/CURRENT_COMPOSED_ADMISSION.json",
+        "new_methods": 7,
+        "affected_methods_per_mode": 27,
+        "source_bindings": {
+          "run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+          "tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022"
+        },
+        "review_status": "CLEAR_SCOPED_ENGINEERING",
+        "safeguards": {
+          "distinct_themes_per_tool": 14,
+          "observations_this_tool": 28,
+          "observations_both_tools": 56,
+          "stage_sizes_both_tools": [
+            32,
+            8,
+            4,
+            12
+          ],
+          "all_assertion_killed": true,
+          "zero_errors": true,
+          "rule": "Earlier source-bound observations reused after specific predicate/ordinary-source applicability; not a single final-source full campaign",
+          "production_scanner_or_replay_mutants": false
+        }
+      },
+      "predecessor_metadata": "evidence/pre-review-identity-metadata/",
+      "method_inventory_parts": {
+        "wrapper_reused": 31,
+        "real_lean_reused": 9,
+        "harness_prior": 20,
+        "harness_new_identity": 7
+      },
+      "unchanged_production_mutation_definitions": 25,
+      "source_binding_origin": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
+      "source_binding_scope": "Actual combined changed/runtime sources listed in Root source-composition-final.json; other retained source-parent objects and predecessor evidence remain exact. This is scoped composition, not a fresh full-suite run.",
+      "source_composition_record": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
+      "composition_partition": {
+        "identity_functions_classes_AST_exact": true,
+        "manifest_68_MUTATIONS_literal_exact": "NOT_APPLICABLE",
+        "evidence": "evidence/final-review-identity/SOURCE_COMPOSITION.json"
+      },
+      "source_composition_record_sha256": "4ae680e692f96730089a369457462066269a0386b50a595936813e39fbdad675"
+    }
+  },
+  "source_composition_predecessor": {
+    "path": "evidence/final-review-identity/SOURCE_COMPOSITION.json",
+    "sha256": "4ae680e692f96730089a369457462066269a0386b50a595936813e39fbdad675",
+    "retained_unchanged": true
+  },
+  "not_run_this_landing": [
+    "python3 mutations.py --output evidence/g0-mutations.json",
+    "python3 mutations.py --group wrapper --output evidence/g0-wrapper-mutations-current.json",
+    "project Math-core replay"
+  ]
 }

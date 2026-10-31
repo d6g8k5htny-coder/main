@@ -1,0 +1,129 @@
+{
+  "schema": "cbz-kernel-replay/v1",
+  "gate": "G4-scoped-adapter",
+  "started": "2026-10-31T23:02:53.886092+00:00",
+  "ok": true,
+  "results": [
+    {
+      "module": "UnapprovedAxiom",
+      "command": [
+        "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "-j1",
+        "/workspace/cbz/contributions/math514/kernel_replay/ExactReplay.lean"
+      ],
+      "started": "2026-10-31T23:02:53.888894+00:00",
+      "status": "PASS",
+      "ok": true,
+      "returncode": 0,
+      "memory_mib": 8192,
+      "timeout_seconds": 60,
+      "source": {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+        "sha256": "24a4ed0e582c2cfc1a5113da5cf0215bf1adcfcd0e885db6448ee31428f34547"
+      },
+      "parts": [
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean",
+          "sha256": "cf6f7c946ba00133f89ddad1ae6638b1eee298406ef3e98ab94c9148b47f5498"
+        },
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean.server",
+          "sha256": "7377e93c142feadf6d87719868c4adc2df6e7e759e8bf617b51970680444afff"
+        },
+        {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean.private",
+          "sha256": "04cafad3cdea7af357c1440cf4967b20df05b5bdbb12dc6a87c4ffeab111ad0f"
+        }
+      ],
+      "pid": 4191,
+      "stdout": "CBZ_KERNEL_REPLAY_OK UnapprovedAxiom\n",
+      "stdout_bytes": 37,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "ended": "2026-10-31T23:02:54.506436+00:00",
+      "elapsed_seconds": 0.6175603649999744
+    }
+  ],
+  "completed_count": 1,
+  "expected_count": 1,
+  "manifest": {
+    "schema": "cbz-kernel-replay/v1",
+    "lean": {
+      "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    "sysroot": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1",
+    "lean_path": [
+      "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures"
+    ],
+    "expected_modules": [
+      "UnapprovedAxiom"
+    ],
+    "modules": [
+      {
+        "name": "UnapprovedAxiom",
+        "source": {
+          "path": "/workspace/cbz/contributions/math514/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+          "sha256": "24a4ed0e582c2cfc1a5113da5cf0215bf1adcfcd0e885db6448ee31428f34547"
+        },
+        "parts": [
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean",
+            "sha256": "cf6f7c946ba00133f89ddad1ae6638b1eee298406ef3e98ab94c9148b47f5498"
+          },
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean.server",
+            "sha256": "7377e93c142feadf6d87719868c4adc2df6e7e759e8bf617b51970680444afff"
+          },
+          {
+            "path": "/workspace/cbz/contributions/math514/kernel_replay/evidence/compiled-fixtures/UnapprovedAxiom.olean.private",
+            "sha256": "04cafad3cdea7af357c1440cf4967b20df05b5bdbb12dc6a87c4ffeab111ad0f"
+          }
+        ]
+      }
+    ],
+    "context": [],
+    "tool": [
+      {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/kernel_replay.py",
+        "sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce"
+      },
+      {
+        "path": "/workspace/cbz/contributions/math514/kernel_replay/ExactReplay.lean",
+        "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+        "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+        "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+        "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+        "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+        "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+      },
+      {
+        "path": "/home/ubuntu/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+        "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+      }
+    ]
+  },
+  "g2_status": "NOT_ASSESSED",
+  "full_cbz": false,
+  "resource_limits": {
+    "memory_mib_max": 8796093022207,
+    "timeout_seconds_max": 2147483,
+    "cleanup_timeout_seconds": 1.0
+  },
+  "ended": "2026-10-31T23:02:54.508470+00:00"
+}
