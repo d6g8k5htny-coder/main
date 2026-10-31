@@ -193,6 +193,27 @@ class LeanDriftTests(FedCase):
         self.assertEqual(f['name'], 'Fed.t')
         self.assertEqual(len(f['variants']), 2)
 
+    def test_evidence_copies_are_counted_not_compared(self):
+        self.fed.build()
+        stale = LEAN_A.replace('n + 0 = n', '0 + n = n')
+        self.fed.pins['b'] = self.fed.commit('b', {'cbz/evidence/run/Copy/A.lean': stale,
+                                                   'kernel/cbz-evidence/A.lean': stale})
+        self.fed.write_seed()
+        rep = self.fed.crawl()
+        self.assertEqual(codes(rep, 'BLOCK'), [])
+        self.assertIn('LEAN-EVIDENCE', codes(rep, 'INFO'))
+        self.assertEqual(rep['stats']['lean_evidence_files'], 2)
+        # a live copy with the same change still blocks
+        self.fed.pins['b'] = self.fed.commit('b', {'Copy/A.lean': stale})
+        self.fed.write_seed()
+        self.assertEqual(codes(self.fed.crawl(), 'BLOCK'), ['LEAN-DRIFT'])
+
+    def test_evidence_paths_are_matched_by_segment(self):
+        for path in ('cbz/evidence/x/A.lean', 'a/kernel/cbz-evidence/A.lean', 'formal-evidence/A.lean', 'evidence/A.lean'):
+            self.assertTrue(crawl.EVIDENCE_SEGMENT.search(path), path)
+        for path in ('formal/Evidenced.lean', 'tools/evidence_check.lean', 'formal/UniversalLaw/A.lean'):
+            self.assertFalse(crawl.EVIDENCE_SEGMENT.search(path), path)
+
     def test_changed_definition_value_blocks(self):
         rep = self.drift(LEAN_A.replace('def f : Nat := 3', 'def f : Nat := 4'))
         self.assertEqual([f['name'] for f in rep['findings'] if f['code'] == 'LEAN-DRIFT'], ['Fed.f'])
@@ -838,6 +859,10 @@ MUTANTS = [
     ('case-sensitive identity', "        return ('%s/%s' % (m.group(1), m.group(2))).lower()", "        return '%s/%s' % (m.group(1), m.group(2))", 'crawl.py',
      'TopologyTests.test_identity_normalization'),
     ('exit ignores blocks', "    return 1 if rep['blocking'] else 0", "    return 0", 'crawl.py', 'CleanFederationTests.test_cli_exit_status'),
+    ('evidence copies compared', "                if EVIDENCE_SEGMENT.search(path):", "                if False:", 'crawl.py',
+     'LeanDriftTests.test_evidence_copies_are_counted_not_compared'),
+    ('every evidence-like name skipped', "EVIDENCE_SEGMENT = re.compile(r'(^|/)([^/]*-)?evidence(/|$)')",
+     "EVIDENCE_SEGMENT = re.compile(r'evidence')", 'crawl.py', 'LeanDriftTests.test_evidence_paths_are_matched_by_segment'),
 ]
 
 
