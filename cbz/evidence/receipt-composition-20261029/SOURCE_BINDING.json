@@ -1,0 +1,53 @@
+{
+  "schema": "cbz-receipt-composition-v1",
+  "source_commit": "c964f8748f3ee416f36cad6034c9c3c2f209e591",
+  "source_tree": "6bbe99052722c6e6ab8e7790b00d03a4f650eddb",
+  "constituents": {
+    "main": "27c89b05bd2503c580b692f57146d608a7f0f668",
+    "main_pr692": "5aa6fbac2c66fac0e6e2332b7e95cacc3c37350e",
+    "main_pr689": "50575e9823b883f7d766e0d9a45008c5e49c2fc6"
+  },
+  "focused_per_mode": 196,
+  "focused_skips": 0,
+  "policy_mutants": {
+    "declared": 7,
+    "killed": 7,
+    "threshold": "7/7",
+    "baseline_controls": 26,
+    "reason_bound": true
+  },
+  "harness_mutant": {
+    "declared": 1,
+    "killed": 1,
+    "intended_assertion_failures_per_mode": 6
+  },
+  "attempt_mutant": {
+    "declared": 1,
+    "killed": 1,
+    "intended_assertion_failures_per_mode": 11
+  },
+  "kernel": {
+    "receipt_path": "cbz/evidence/kernel/main-composition-20261029/receipt.json",
+    "target_count": 31,
+    "all_constant_count": 45,
+    "closure_count": 365,
+    "axioms": [],
+    "ir_ownership_count": 11
+  },
+  "scientific_effect": "NONE",
+  "federation_CBZ0": "NOT_ESTABLISHED",
+  "full_top_level_regression": "NOT_RUN_BY_THIS_REVIEW",
+  "hosted_composed_head": "NOT_RUN_BY_THIS_REVIEW",
+  "source_sha256": {
+    "tools/formal_gate_check.py": "60e33e3c768ce7bf39189184d077f810ec4408e5bfc90f0a10932d1cb2adff51",
+    "tools/required_formal_check.py": "9f22c9c9b21d521dd889a72b480524e3a37d8320c5236e52700fa602cb0f990d",
+    "tools/atlas_formal_evidence_build.py": "43e580dd720b55ec30033fbe39bb85c53813f7c43abe0fab92b9f3f8bd924689",
+    "tools/atlas_formal_source_bridge.py": "63d8795be8739d91c554565225a92460ef451c0834effa9a8b9da4b37c523b7c",
+    "tools/formal_compiled_inventory.py": "094ae0294bfa10f6af5a797cc7939909ab0094194c2b01b468b33e0d3aac1bab",
+    "tests/test_formal_gate.py": "304b84f6bf4af77c75f397307a32488ebe9554c9d9e436ddba49f3c4bcf54113",
+    "tests/test_formal_compiled_inventory.py": "e6b7e8f45c5fbb3da48ff957f0846ad73f06416c0af2c5e523ed461bb66e57e5",
+    "tests/test_formal_negative_diagnostics.py": "3847f5382966e39e951e54d8558387227540cff775d96eb33ce3d6396f52107d",
+    "formal/manifest.json": "8d1dcb2a842e3cdb7a700d3f0f50cc2bca91c524c3298f6029ae5b1a81bae996",
+    "formal/COMPILED_INVENTORY.md": "ffe22290279b6c2d5dd62202e4cde9680547fbd279f8ff5af332e1c1c8663ba5"
+  }
+}
