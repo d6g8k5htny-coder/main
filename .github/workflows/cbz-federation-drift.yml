@@ -1,15 +1,6 @@
 name: CBZ federation drift
 'on':
   pull_request:
-    paths:
-      - '**/*.lean'
-      - '**/lakefile.lean'
-      - '**/lakefile.toml'
-      - '**/lake-manifest.json'
-      - '**/lean-toolchain'
-      - 'tools/cbz_drift/**'
-      - 'tests/test_cbz_drift.py'
-      - '.github/workflows/cbz-federation-drift.yml'
   push:
     branches: [main]
   schedule:
@@ -37,7 +28,7 @@ jobs:
           cd tests
           for mode in normal optimized; do
             flag=""; [ "$mode" = optimized ] && flag="-O"
-            python -B $flag -m unittest test_cbz_drift test_cbz_drift_adversarial_01a103c8 test_cbz_drift_canonical_input -v 2>&1 | tee "$RUNNER_TEMP/drift-$mode.log"
+            python -B $flag -m unittest test_cbz_drift test_cbz_drift_adversarial_01a103c8 test_cbz_drift_canonical_input test_cbz_drift_pr_trigger_01a11c48 -v 2>&1 | tee "$RUNNER_TEMP/drift-$mode.log"
             grep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/drift-$mode.log" || { echo "::error::drift $mode run collected 0 tests"; exit 1; }
           done
   crawl:
