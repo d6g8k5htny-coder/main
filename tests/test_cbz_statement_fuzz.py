@@ -77,6 +77,15 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(self.ev('1 * 3 * 5 = 15').status, 'PASS')
         self.assertEqual(self.ev('1 * 3 * 5 = 16').status, 'FAIL')
 
+    def test_a_bound_gives_a_finite_domain_only_for_a_nat_binder(self):
+        # x : Int with only an upper bound ranges over all negative integers; x = -4 falsifies these
+        for text in ('∀ x : Int, x ≤ 3 → x * x ≤ 9', '∀ x : ℤ, x < 3 → x + 10 > 0',
+                     '∀ x, x ≤ 3 → x * x ≤ (9 : Int)'):
+            with self.subTest(text=text):
+                self.assertEqual(self.ev(text).status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('∀ x : Nat, x ≤ 3 → x * x ≤ 9').status, 'PASS')
+        self.assertEqual(self.ev('∀ x : ℕ, x < 4 → x * x ≤ 8').status, 'FAIL')
+
     def test_nat_subtraction_truncates_and_int_does_not(self):
         self.assertEqual(self.ev('2 - 5 + 5 = 5').status, 'PASS')        # Nat: (2 - 5) = 0
         self.assertEqual(self.ev('(2 : Int) - 5 + 5 = 2').status, 'PASS')

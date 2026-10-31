@@ -1034,7 +1034,10 @@ def _domain_of(forall: Forall, ev: Evaluator, env=None):
             lst = ev.num(hyp.right, env, 'Nat')
             if isinstance(lst, list):
                 return lst, body.right
-        if isinstance(hyp, BinOp) and hyp.op in ('≤', '<') and isinstance(hyp.left, Var) and hyp.left.name == forall.var:
+        # A bound gives a finite domain only for an explicit Nat binder: an Int or Rat binder, or an
+        # untyped one that Lean may unify with Int elsewhere in the body, is unbounded below.
+        if (isinstance(hyp, BinOp) and hyp.op in ('≤', '<') and isinstance(hyp.left, Var)
+                and hyp.left.name == forall.var and forall.type in _NAT_TYPES):
             bound = ev.num(hyp.right, env, 'Nat')
             if isinstance(bound, int) and not isinstance(bound, bool) and bound <= 100000:
                 return list(range(bound + 1 if hyp.op == '≤' else bound)), body.right
