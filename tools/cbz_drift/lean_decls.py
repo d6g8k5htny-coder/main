@@ -13,6 +13,19 @@ hidden), and header plus value for every definition-like declaration, whose valu
 of its meaning. Equal interfaces mean equal source text, not equal elaborated terms;
 unequal interfaces mean the source differs.
 
+The source text of a statement includes the commands in scope that change what it
+means: `open`, `variable`, `universe`, `export`, `include` and `omit`, in the enclosing
+`namespace` and `section` blocks and at file level, plus any `open … in` or `variable … in`
+prefix of the declaration itself. They are part of the interface (its `context`), so
+`variable (x : Nat)` against `variable (x : Int)`, or `open Real` against `open NNReal`,
+is drift. A variable the statement does not use still counts: that errs on the side of
+reporting drift. Notation, macros and `set_option` are not tracked.
+
+Inside a declaration, `open … in` and `set_option … in` are term or tactic combinators.
+They end the declaration only when they start a line that is not indented deeper than
+the declaration, so a tactic block's `set_option maxRecDepth 100 in` stays in the value.
+Every other command ends it wherever it appears. `mutual … end` is a scope like `section`.
+
 Fails closed: an unterminated comment, string or quoted name, an unbalanced `end`, or a
 declaration keyword with no name raises LeanSyntaxError.
 """
@@ -35,6 +48,10 @@ COMMANDS = DECL_KEYWORDS | MODIFIERS | frozenset({
     'declare_syntax_cat', 'initialize', 'builtin_initialize', 'export', 'local', 'scoped',
     'omit', 'include', 'deriving',
 })
+# commands whose text, in scope, is part of every declaration's interface
+CONTEXT = frozenset({'open', 'variable', 'universe', 'export', 'include', 'omit'})
+# commands that also have a `… in` term or tactic form, so may appear inside a declaration
+COMBINATORS = frozenset({'open', 'set_option'})
 OPEN = {'(': ')', '[': ']', '{': '}', '⟨': '⟩', '⦃': '⦄', '⟪': '⟫'}
 CLOSE = {v: k for k, v in OPEN.items()}
 RAW_OPEN = re.compile(r'r(#*)"')
@@ -159,10 +176,20 @@ def declarations(text, unit=''):
     `unit` disambiguates `private` names, which are file-local and never compared.
     """
     toks = list(tokens(text))
+    indents = [len(l) - len(l.lstrip(' \t')) for l in text.split('\n')]
     out, scopes, i, n = [], [], 0, len(toks)
+    root, prefix = [], []   # file-level context commands; pending `… in` prefixes
 
     def current_ns():
-        return [p for kind, parts in scopes if kind == 'namespace' for p in parts]
+        return [p for kind, parts, _ in scopes if kind == 'namespace' for p in parts]
+
+    def context():
+        return root + [c for _, _, ctx in scopes for c in ctx] + prefix
+
+    def inner(j, indent):
+        # a combinator inside a declaration: mid-line, or on a line indented deeper than it
+        k, t, ln, fst = toks[j]
+        return k == 'ident' and t in COMBINATORS and not (fst and indents[ln - 1] <= indent)
 
     while i < n:
         kind, tx, line, first = toks[i]
@@ -170,18 +197,50 @@ def declarations(text, unit=''):
             name = toks[i + 1][1] if i + 1 < n and toks[i + 1][0] == 'ident' and toks[i + 1][2] == line else ''
             if tx == 'namespace' and not name:
                 raise LeanSyntaxError('namespace without a name on line %d' % line)
-            scopes.append((tx, name.split('.') if name else []))
+            scopes.append((tx, name.split('.') if name else [], []))
+            prefix.clear()
             i += 2 if name else 1
+            continue
+        if kind == 'ident' and tx == 'mutual':
+            scopes.append(('mutual', [], []))
+            prefix.clear()
+            i += 1
+            continue
+        if kind == 'ident' and (tx in CONTEXT or tx == 'set_option'):
+            # a context command runs to the next command; with a trailing `in` it prefixes the next one
+            indent, cmd, depth, j = indents[line - 1], [tx], 0, i + 1
+            while j < n:
+                k, t, ln, fst = toks[j]
+                if depth == 0 and not inner(j, indent) and (
+                        (k == 'ident' and t in COMMANDS)
+                        or (k == 'sym' and t == '@' and j + 1 < n and toks[j + 1][1] == '[')
+                        or (k == 'sym' and t == '#' and fst and j + 1 < n and toks[j + 1][0] == 'ident')):
+                    break
+                if k == 'sym' and t in OPEN:
+                    depth += 1
+                elif k == 'sym' and t in CLOSE:
+                    depth = max(depth - 1, 0)
+                cmd.append(t)
+                j += 1
+            if cmd[-1] == 'in':
+                if tx in CONTEXT:
+                    prefix.append(' '.join(cmd[:-1]))
+            else:
+                if tx in CONTEXT:
+                    (scopes[-1][2] if scopes else root).append(' '.join(cmd))
+                prefix.clear()
+            i = j
             continue
         if kind == 'ident' and tx == 'end':
             name = toks[i + 1][1] if i + 1 < n and toks[i + 1][0] == 'ident' and toks[i + 1][2] == line and toks[i + 1][1] not in COMMANDS else ''
             parts = name.split('.') if name else []
             if not scopes:
                 raise LeanSyntaxError('unbalanced end on line %d' % line)
-            skind, sparts = scopes[-1]
+            skind, sparts, _ = scopes[-1]
             if sparts != parts:
                 raise LeanSyntaxError('end %s on line %d closes %s %s' % (name or '(anonymous)', line, skind, '.'.join(sparts) or '(anonymous)'))
             scopes.pop()
+            prefix.clear()
             i += 2 if name else 1
             continue
         if kind == 'ident' and (tx in DECL_KEYWORDS or tx in MODIFIERS):
@@ -193,7 +252,7 @@ def declarations(text, unit=''):
             if j >= n or toks[j][0] != 'ident' or toks[j][1] not in DECL_KEYWORDS:
                 i = max(j, i + 1)
                 continue
-            dkind, dline = toks[j][1], toks[j][2]
+            dkind, dline, indent = toks[j][1], toks[j][2], indents[line - 1]
             j += 1
             if dkind == 'instance' and j < n and toks[j][1] == '(':
                 depth = 0
@@ -212,7 +271,7 @@ def declarations(text, unit=''):
             hdr, depth = [], 0
             while j < n:
                 k, t, ln, fst = toks[j]
-                if depth == 0:
+                if depth == 0 and not inner(j, indent):
                     if k == 'ident' and t in COMMANDS and not (t == 'deriving' and dkind in BODY_KEYWORDS):
                         break
                     if k == 'sym' and t == '@' and j + 1 < n and toks[j + 1][1] == '[':
@@ -232,7 +291,7 @@ def declarations(text, unit=''):
             body = []
             while j < n:
                 k, t, ln, fst = toks[j]
-                if depth == 0 and (
+                if depth == 0 and not inner(j, indent) and (
                         (k == 'ident' and t in COMMANDS and t != 'deriving')
                         or (k == 'sym' and t == '@' and j + 1 < n and toks[j + 1][1] == '[')
                         or (k == 'sym' and t == '#' and fst and j + 1 < n and toks[j + 1][0] == 'ident')):
@@ -253,8 +312,14 @@ def declarations(text, unit=''):
                     # what must agree across copies: the statement of a proposition, the
                     # statement and value of a definition (its value is part of its meaning)
                     'interface': header if dkind in STATEMENT_ONLY else ' '.join(hdr + body),
+                    'context': context(),
                 })
+                if out[-1]['context']:
+                    out[-1]['interface'] = ' ; '.join(out[-1]['context']) + ' ⊢ ' + out[-1]['interface']
+            prefix.clear()
             i = j
             continue
+        if kind == 'ident' and tx in COMMANDS:
+            prefix.clear()   # any other command consumes a pending `… in` prefix
         i += 1
     return out
