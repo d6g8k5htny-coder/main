@@ -31,7 +31,7 @@ TRIGGER = ('test_paths_cover_the_helper_its_inputs_and_these_tests', 'test_contr
 
 
 def minutes(s):
-    return '%.1f' % (s / 60)
+    return '%.1f minutes' % (s / 60) if s >= 120 else ('%d s' % round(s) if s >= 10 else '%.1f s' % s)
 
 
 def main():
@@ -70,11 +70,11 @@ def main():
             full = recs[('normal', None)]['seconds']
             sample = recs[('optimized', None)]['seconds']
             muts = [r['seconds'] for k, r in recs.items() if k[1] is not None]
-            return ('%s\'s `--check-full` took %s minutes beside the other family\'s children, its sampled `--check` %s '
-                    'minutes, and each mutant %s to %s minutes' % (SHORT[fam], minutes(full), minutes(sample),
-                                                                    minutes(min(muts)), minutes(max(muts))))
+            return ('%s\'s `--check-full` took %s beside the other family\'s children, its sampled `--check` %s, '
+                    'and each mutant %s to %s' % (SHORT[fam], minutes(full), minutes(sample),
+                                                  minutes(min(muts)), minutes(max(muts))))
         fills['@@TIMINGS@@'] = timing(LIFETIME, lt) + '; ' + timing(D3, d3) + '.'
-        fills['@@TIMINGS_SHORT@@'] = ('Side by side, the lifetime `--check-full` took %s minutes and the d3 `--check-full` %s minutes.'
+        fills['@@TIMINGS_SHORT@@'] = ('Side by side, the lifetime `--check-full` took %s and the d3 `--check-full` %s.'
                                       % (minutes(lt[('normal', None)]['seconds']), minutes(d3[('normal', None)]['seconds'])))
         fills['@@RUNA_STARTED@@'] = min(r['started'] for recs in records.values() for r in recs.values())
     else:
@@ -192,6 +192,24 @@ def main():
         fills['@@FULL_SUITE_SAME_AS_BASE@@'] = str(failing == base_failing)
         fills['@@FULL_SUITE_NEW_FAILS@@'] = json.dumps(sorted(set(failing) - set(base_failing or [])))
         fills['@@FULL_SUITE_SECONDS@@'] = str(round(sec))
+        # every failing block must be the old-git capability failure
+        blocks = re.split(r'^=+$', text, flags=re.M)
+        fail_blocks = [b for b in blocks if re.match(r'\s*(FAIL|ERROR): test_', b)]
+        lazy = sum('no-lazy-fetch' in b for b in fail_blocks)
+        fills['@@FULL_SUITE_LAZY@@'] = '%d/%d' % (lazy, len(fail_blocks))
+        same = failing == base_failing
+        base_n = re.search(r'^Ran (\d+) tests', base.read_text(errors='replace'), re.M).group(1) if base.exists() else '?'
+        if same and lazy == len(fail_blocks):
+            fills['@@FULL_SUITE@@'] = ('%s tests on this tree against %s on the unchanged tree of `19a55750` (the batch-3 head\'s tree, '
+                                       'run on 29 October). The same %d tests fail on both, all at git\'s `--no-lazy-fetch` capability '
+                                       'check (local git is too old). None is in this PR\'s files; all 16 check-mode tests and the '
+                                       'legacy trigger tests pass.' % (format(n, ','), format(int(base_n), ','), len(failing)))
+            fills['@@FULL_SUITE_SHORT@@'] = ('%s tests, the same %d failing as on the unchanged tree, all at git\'s `--no-lazy-fetch` check'
+                                             % (format(n, ','), len(failing)))
+        else:
+            fills['@@FULL_SUITE@@'] = 'SUITE DIFFERS FROM BASE: inspect (%d failing, %d base, lazy %d/%d, new %s)' % (
+                len(failing), len(base_failing or []), lazy, len(fail_blocks), fills['@@FULL_SUITE_NEW_FAILS@@'])
+            fills['@@FULL_SUITE_SHORT@@'] = 'SUITE DIFFERS FROM BASE: inspect'
     else:
         missing += ['full suite log']
     out.write_text(json.dumps(fills, indent=1, sort_keys=True) + '\n')
