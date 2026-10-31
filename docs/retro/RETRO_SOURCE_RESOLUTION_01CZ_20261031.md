@@ -62,8 +62,11 @@ session can read.** Its original author, an OpenAI lane, may still hold it. Reco
 re-deriving the check from `ELDER_LOWER_AND_DENSITY_GAP.md` as a clearly labelled successor, is
 open work.
 
-**One in `imports/hardening_ebedb780`:** `reviews/records/REV-P15-B.md` at blob `0579a10c`
-resolves neither on main nor in that path's history.
+**One in `imports/hardening_ebedb780`:** `reviews/records/REV-P15-B.md` at blob `0579a10c`.
+This one is a documented exclusion, not a gap. The import's own README (line 44) says the file
+"was not copied". It is the P15-B prize-track review, which is HOLD and not for submission, and
+under which `original_prize_closed` stays false. It must stay outside the q0 graph, so it is
+correctly absent.
 
 ## What this does not establish
 
@@ -81,7 +84,8 @@ credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
 ## Addendum: binding proposals for the unbound graph nodes
 
 The #527 binding report (`data/hypergraph/graph_binding_report_20261023.json`) lists 16
-unbound graph nodes. Each node in Math- `frontiers/downstream_gate_20260925/GRAPH.json` carries a
+unbound graph nodes. The ledger's figure of 28 unbound nodes also counts the 7 historical, 3 absent
+and 2 external-unverified nodes, which the report already classifies. Each node in Math- `frontiers/downstream_gate_20260925/GRAPH.json` carries a
 fingerprint. For **12** of them, the fingerprint matches the exact bytes of a named file on Math-
 main `19a55750`: ten match by sha256, one by Git blob (`math.rn-fixed-annulus-window`), and one is
 an engineering patch (`eng.d0-packet-allowlist-fix`). The proposals are in
