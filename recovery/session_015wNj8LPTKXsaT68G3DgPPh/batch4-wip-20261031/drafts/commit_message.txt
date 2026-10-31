@@ -1,0 +1,17 @@
+Authenticate the C8 lifetime-difference and d = 3 Theorem A wrapper verdicts (batch 4)
+
+The two wrappers accepted their baselines on exit status 0 alone and each
+mutant on exit status 1 alone, with the children's output discarded. Each
+now calls tools/check_mode_replay.py, which requires the exact verdict
+measured from the unchanged checker: for c8-lifetime-difference-constant
+the plain success line CHECK PASSED (full|sample) byte for byte and the
+measured FAIL: stderr line of each mutant, with the two loaded engine files
+bound; for c8-theorem-a-constants-d3 the JSON verdicts with the stored C and
+z_star tables. The helper gains a SERIAL plan table (each wrapper's own
+--procs, read when the plan is made), TEXT_BASELINES and the two families'
+inventories and LOADS; the tests gain the text-baseline contract. Packet
+bytes unchanged; scientific effect NONE. Batches 1 to 3 are Math- PR 519,
+Math- PR 520 and Math- PR 544.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015wNj8LPTKXsaT68G3DgPPh
