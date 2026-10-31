@@ -1,0 +1,656 @@
+% Supplement section S12: the parent theorem (transcription of the companion record).
+% Sources, notation conversions, the corrections C1--C4, added steps and issues: CONCORDANCE.md, section "CONC_s12".
+\section{The parent theorem}\label{sec:parent}
+
+This section transcribes the companion record \cite{parentP}, so that the statements which Sections~\ref{sec:selection}--\ref{sec:third} quote from it are stated and proved in this supplement. The record is read as reconciled in \cite{parentREC}: with its congruence erratum and the reconciled wording of the Hessian limit in the proof of Proposition~\ref{prop:parent-normalizer}, with its Section~9 replaced by the repaired Kac--Rice section in Proposition~\ref{prop:parent-KR}, and with the explicit embedding radius of Definition~\ref{def:parent-pinned}. Lemma~\ref{lem:parent-generic}(b) is added here: \cite{parentP} uses it without proof. It holds in every fixed dimension $d\ge2$ and for every fixed side $L>0$. Subsection~\ref{ssec:parent-setting} fixes the setting and states the three theorems of \cite{parentP}: uniform elder selection of contact pairs on compact birth and gap windows (Theorem~\ref{thm:parent-A}), the lifetime densities of these pairs (Theorem~\ref{thm:parent-B}), and the leading law of the unrestricted densities (Theorem~\ref{thm:parent-C}). Subsections~\ref{ssec:parent-spectrum}--\ref{ssec:parent-coef} give the lemmas, identities and estimates of their proofs in the order of \cite{parentP}, and Subsection~\ref{ssec:parent-scope} records what is not proved. The deterministic separating-cylinder theorem used for selection is proved in Section~\ref{sec:cap}. Where \cite{parentP} only sketches a step, the step is given here as sketched there; the proofs of Lemmas~\ref{lem:parent-frame} and~\ref{lem:parent-endpoint}, the averaging formulas in the proof of Lemma~\ref{lem:parent-contact}(a), the measurability in Lemma~\ref{lem:parent-mark}(a) and the Hermite identity of Lemma~\ref{lem:cap-forced} are written out in full. All constants are existential.
+
+\subsection{Setting and the three theorems}\label{ssec:parent-setting}
+
+\begin{definition}[the field and the windows]\label{def:parent-model}
+Fix $d\ge2$ and $L>0$, and put $m=d-1$. Let $f$ be the centred stationary Gaussian field of variance one on the flat torus $\T^d_L=\R^d/(L\Z^d)$ with covariance
+\begin{equation}\label{eq:parent-KL}
+K_L(z)=\frac{\sum_{n\in\Z^d}\exp\bigl(-|z+Ln|^2/2\bigr)}{\sum_{n\in\Z^d}\exp\bigl(-|Ln|^2/2\bigr)} .
+\end{equation}
+No replacement by a nonperiodic covariance is made; for $d=3$ and $L=24$ this is the side-$24$ field of the main text. Fix compact intervals $\mathcal B=[b_-,b_+]$ of births and $\mathcal K=[k_-,k_+]$ of gap marks, with $0<k_-\le k_+<\infty$. Unless stated otherwise, constants $C<\infty$ and $c>0$ may depend on $d$, $L$, $\mathcal B$ and $\mathcal K$, and may change from line to line; they do not depend on the radius, on the birth $b\in\mathcal B$, on the gap mark $k\in\mathcal K$ or on the orientation.
+\end{definition}
+
+\begin{definition}[pinned pairs, typed weight and selection probability]\label{def:parent-pinned}
+Let $R$ be an orthonormal frame of $\R^d$ with axial unit vector $t=Re_1$. Write $x$ for the axial coordinate and $y=(y_1,\dots,y_m)$ for the transverse coordinates in the frame $R$, centred at the origin, and denote derivatives in these coordinates by the subscripts $x$ and $y_j$; $\nabla_y$ and $D_y^2$ are the transverse gradient and the transverse $m\times m$ Hessian. Let $0<r<L/(4\sqrt2)$. Then the local cylinder $\mathcal D_r$ of Definition~\ref{def:cap-norms}, centred at the origin in these coordinates, is embedded in $\T^d_L$: it lies in the closed ball of radius $2\sqrt2\,r$ about the origin, the exponential chart of $\T^d_L$ at any point is injective on the open ball of radius $L/2$, and $2\sqrt2\,r<L/2$. For $b\in\R$ and $k>0$ the pins are
+\begin{equation}\label{eq:parent-pins}
+M=-\tfrac r2\,t,\quad S=\tfrac r2\,t,\qquad f(M)=b,\quad f(S)=s:=b-kr^3,\qquad \nabla f(M)=\nabla f(S)=0 .
+\end{equation}
+The law $\Prob^0=\Prob^0_{r,b,k,R}$, with expectation $\E^0$, is the continuous Gaussian regression law of $f$ at these $2(d+1)$ observations; it is not a conditioning on an event of positive probability. The index $\Ind(H)$ of a symmetric matrix $H$ is its number of negative eigenvalues: a maximum has $d$ negative Hessian eigenvalues, and the relevant saddle has $d-1$ negative eigenvalues and one positive eigenvalue. With $H_z=D^2f(z)$ put
+\begin{equation}\label{eq:parent-W}
+W_r=|\det H_M\,\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}},\qquad Z_r=\E^0[W_r],\qquad d\Prob^{MS}_r=\frac{W_r}{Z_r}\,d\Prob^0 ,
+\end{equation}
+and write $\E^{MS}_r$ for the expectation under $\Prob^{MS}_r$. The normalizer $Z_r$ is the full one: it carries no further pin density, coordinate Jacobian or adjacency condition. Finally, $p_r(b,k,R)$ is the $\Prob^{MS}_r$-probability that the global ordinary superlevel elder death partner of $M$ is $S$; the event is made precise in Lemma~\ref{lem:parent-mark}.
+\end{definition}
+
+\begin{theorem}[Theorem A: uniform selection]\label{thm:parent-A}
+There are $r_*\in\bigl(0,L/(4\sqrt2)\bigr)$ and $C<\infty$ such that, for all $0<r\le r_*$, $b\in\mathcal B$, $k\in\mathcal K$ and all orthonormal frames $R$,
+\begin{equation}\label{eq:parent-A}
+0\le1-p_r(b,k,R)\le Cr^3 .
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Theorem B: compact-mark densities]\label{thm:parent-B}
+Suppose that $\mathcal B$ and $\mathcal K$ have positive lengths. Count the ordered pairs $(M,S)$ of a local maximum $M$ and a critical point $S$ of index $d-1$ with $0<\dist(M,S)\le r_*$, birth $f(M)\in\mathcal B$ and scaled gap $(f(M)-f(S))/\dist(M,S)^3\in\mathcal K$. Let $\nu_\cand(\ell)$ be their expected density per unit volume in the lifetime $\ell=f(M)-f(S)$, and let $\nu_\eld(\ell)$ count only the pairs in which $S$ is the ordinary superlevel elder death partner of $M$. These densities admit versions with
+\begin{equation}\label{eq:parent-B}
+\begin{gathered}
+\nu_\cand(\ell)\sim c_{\mathcal B,\mathcal K}\,\ell^{-1/3},\qquad \nu_\eld(\ell)\sim c_{\mathcal B,\mathcal K}\,\ell^{-1/3},\qquad c_{\mathcal B,\mathcal K}>0,\\
+0\le\nu_\cand(\ell)-\nu_\eld(\ell)\le C_{\mathcal B,\mathcal K}\,\ell^{2/3},
+\end{gathered}
+\end{equation}
+as $\ell\downarrow0$. An exact finite-dimensional Gaussian integral for $c_{\mathcal B,\mathcal K}$ is \eqref{eq:parent-113}.
+\end{theorem}
+
+\begin{theorem}[Theorem C: unrestricted leading densities]\label{thm:parent-C}
+Let $\nu^{\rm all}_\cand(\ell)$ count all ordered pairs of a local maximum and a critical point of index $d-1$ with height difference $\ell>0$, and let $\nu^{\rm all}_\eld(\ell)$ count all finite ordinary superlevel $H_0$ persistence bars of lifetime $\ell$, both in expectation per unit volume. These densities admit versions, the sums of the near versions \eqref{eq:parent-135} and of the far Kac--Rice versions of Lemma~\ref{lem:parent-far}, for which there is a constant $c_{d,L}$ with $0<c_{d,L}<\infty$ such that, as $\ell\downarrow0$,
+\begin{equation}\label{eq:parent-C}
+\nu^{\rm all}_\cand(\ell)\sim c_{d,L}\,\ell^{-1/3},\qquad \nu^{\rm all}_\eld(\ell)\sim c_{d,L}\,\ell^{-1/3}.
+\end{equation}
+All birth heights, all positive scaled-gap marks and all spatial separations on the torus are included in \eqref{eq:parent-C}; the essential class of the global maximum is excluded from the finite-lifetime count.
+\end{theorem}
+
+\begin{remark}[scope of Theorems~\ref{thm:parent-A}--\ref{thm:parent-C}]\label{rem:parent-scopeABC}
+The proof of Theorem~\ref{thm:parent-A} includes a positive lower bound $Z_r\ge z_*r^2$ for the full normalizer (Proposition~\ref{prop:parent-normalizer}) and the full transverse-matrix boundary layer, including simultaneous small transverse eigenvalues (Proposition~\ref{prop:parent-layer}); it does not presume isotropy under arbitrary rotations of the torus. Theorem~\ref{thm:parent-B} is a compact-window result, in particular its quantitative difference estimate. Theorem~\ref{thm:parent-C} removes the mark and distance restrictions for the leading asymptotics only; the difference estimate $O(\ell^{2/3})$ of \eqref{eq:parent-B} is not asserted for the unrestricted densities. Theorem~\ref{thm:parent-C} has its own domination and off-diagonal proof (Subsections~\ref{ssec:parent-majorant} and~\ref{ssec:parent-far}); it is not Theorem~\ref{thm:parent-B} under a new label. Its constant $c_{d,L}$ is an explicitly identified finite Gaussian and angular integral, in which the birth and gap integrals are eliminated analytically (Proposition~\ref{prop:parent-coef}); no elementary closed form or numerical enclosure of it is claimed. No numerical value of $C$, $r_*$, $z_*$ or $c_{\mathcal B,\mathcal K}$ is stated.
+\end{remark}
+
+\subsection{Positive spectrum and finite-jet rank}\label{ssec:parent-spectrum}
+
+\begin{lemma}[positive spectrum]\label{lem:parent-spectrum}
+\textup{(a)} The covariance has the Fourier expansion
+\begin{equation}\label{eq:parent-an}
+K_L(z)=\sum_{n\in\Z^d}a_n\,e^{2\pi i\,n\cdot z/L},\qquad a_n=\frac{\exp(-2\pi^2|n|^2/L^2)}{\sum_{j\in\Z^d}\exp(-2\pi^2|j|^2/L^2)}>0 .
+\end{equation}
+\textup{(b)} Every Fourier mode has positive variance, and $\sum_{n\in\Z^d}\sqrt{a_n}\,(1+|n|)^q<\infty$ for every $q$.
+
+\textup{(c)} A real sine and cosine expansion of $f$ converges in every $C^q$ norm in every finite $L^p$ norm. In particular $f$ has a smooth version, and all finite moments of its global derivative suprema exist.
+\end{lemma}
+
+\begin{proof}
+Poisson summation gives (a); (b) is read off \eqref{eq:parent-an}; and (c) follows from (b).
+\end{proof}
+
+\begin{lemma}[finite-jet rank]\label{lem:parent-jetrank}
+Any finite list of distinct derivative-evaluation functionals, at finitely many distinct sites and with several functionals allowed at each site, is linearly independent under $f$: no nontrivial linear combination of them has variance zero, so the covariance matrix of the list is positive definite. At one site the same holds for derivatives taken in a rotated orthonormal frame. Here a list is called distinct if it repeats no derivative functional, and a Hessian is parametrized by its independent symmetric entries, not by $d^2$ entries.
+\end{lemma}
+
+\begin{proof}
+A linear combination of vanishing variance must annihilate every Fourier mode, because every $a_n$ is positive (Lemma~\ref{lem:parent-spectrum}). As a distribution it is a finite sum of derivatives of point masses with every Fourier coefficient zero, so it is zero. Smooth test functions supported at one site, with arbitrarily prescribed finite jets there, show that every coefficient is zero. At one site in a rotated frame $R$ the assertion also follows from a polynomial $P(R^{\top}n)$ that vanishes for all $n\in\Z^d$: the invertible rotation reduces this to a polynomial vanishing on the full integer lattice, hence the polynomial is zero.
+\end{proof}
+
+Lemma~\ref{lem:parent-jetrank} gives positive covariance for the original pins at each pair of distinct points, and for every residual jet list modulo the pins used below. Finitely many observed modes, or a numerically positive sampled covariance, would not suffice for these arguments.
+
+\subsection{The contact frame}\label{ssec:parent-frame}
+
+Throughout, $x$ and $y_1,\dots,y_m$ are the axial and transverse coordinates of Definition~\ref{def:parent-pinned}, so that $M$ and $S$ are the points $x=-r/2$ and $x=r/2$ of the line $y=0$.
+
+\begin{definition}[observations and contact rows]\label{def:parent-rows}
+For $r>0$ order the original observations as
+\[
+O_r=\bigl(f(M),\,f_x(M),\,f(S),\,f_x(S),\,f_{y_1}(M),\,f_{y_1}(S),\,\dots,\,f_{y_m}(M),\,f_{y_m}(S)\bigr);
+\]
+this is a permutation and orthogonal re-expression of the pinned values and gradients. Define $U_r=T_rO_r$ by the four axial rows
+\begin{equation}\label{eq:parent-rows}
+\begin{gathered}
+U^{(0)}=\frac{f(M)+f(S)}2,\qquad U^{(1)}=\frac{f(S)-f(M)}r,\qquad U^{(2)}=\frac{f_x(S)-f_x(M)}r,\\
+U^{(3)}=\frac6{r^2}\Bigl[f_x(M)+f_x(S)-\frac{2\,(f(S)-f(M))}r\Bigr],
+\end{gathered}
+\end{equation}
+followed, for each transverse direction $j=1,\dots,m$, by the two rows
+\[
+V^{(0)}_j=\frac{f_{y_j}(M)+f_{y_j}(S)}2,\qquad V^{(1)}_j=\frac{f_{y_j}(S)-f_{y_j}(M)}r ;
+\]
+thus $U_r=\bigl(U^{(0)},U^{(1)},U^{(2)},U^{(3)},V^{(0)}_1,V^{(1)}_1,\dots,V^{(0)}_m,V^{(1)}_m\bigr)$.
+\end{definition}
+
+\begin{lemma}[the exact contact transformation]\label{lem:parent-frame}
+For $r>0$ the linear map $T_r$ is invertible, with absolute determinant exactly
+\begin{equation}\label{eq:parent-detT}
+|\det T_r|=\frac{12}{r^4}\Bigl(\frac1r\Bigr)^{m}=12\,r^{-(d+3)} .
+\end{equation}
+The prescribed pins \eqref{eq:parent-pins} become exactly $U_r=v_r$, where
+\begin{equation}\label{eq:parent-target}
+v_r=\bigl(b-kr^3/2,\ -kr^2,\ 0,\ 12k,\ 0,\dots,0\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In the order $(f(M),f(S),f_x(M),f_x(S))$ the four axial rows of Definition~\ref{def:parent-rows} have the matrix
+\[
+\begin{pmatrix}\tfrac12&\tfrac12&0&0\\[2pt] -\tfrac1r&\tfrac1r&0&0\\[2pt] 0&0&-\tfrac1r&\tfrac1r\\[2pt] \tfrac{12}{r^3}&-\tfrac{12}{r^3}&\tfrac6{r^2}&\tfrac6{r^2}\end{pmatrix}.
+\]
+It is block lower triangular, with diagonal blocks of determinants $1/r$ and $-12/r^3$, so its determinant is $-12r^{-4}$. Each transverse pair $(V^{(0)}_j,V^{(1)}_j)$ has determinant $1/r$ in $(f_{y_j}(M),f_{y_j}(S))$. Reordering the observations changes only the sign of the determinant, and the frame is orthonormal, so $|\det T_r|=12r^{-4}r^{-m}$. At the pins \eqref{eq:parent-pins}, $U^{(0)}=b-kr^3/2$, $U^{(1)}=-kr^2$, $U^{(2)}=0$ and $U^{(3)}=\frac6{r^2}\cdot\frac{2kr^3}r=12k$, and the transverse rows vanish.
+\end{proof}
+
+The transformation is exact, not approximate, and the factor $12$ in \eqref{eq:parent-detT} is retained in the lifetime ledger (Proposition~\ref{prop:parent-ledger}).
+
+\begin{lemma}[contact limit and uniform nondegeneracy]\label{lem:parent-contact}
+\textup{(a)} As $r\to0$, $U_r$ converges in mean square, uniformly over frames, to the contact jet
+\begin{equation}\label{eq:parent-U0}
+U_0=\bigl(f,\ f_x,\ f_{xx},\ f_{xxx},\ f_{y_1},\ f_{xy_1},\ \dots,\ f_{y_m},\ f_{xy_m}\bigr)(0).
+\end{equation}
+The covariances of $U_r$, and its cross-covariances with any fixed finite derivative order, converge uniformly. The target $v_r$ converges uniformly on $\mathcal B\times\mathcal K$ to $v_0=(b,0,0,12k,0,\dots,0)$.
+
+\textup{(b)} The covariance $\Sigma_0(R)$ of $U_0$ is positive definite, its entries are continuous in $R$, and its least eigenvalue has a positive minimum over all frames. Consequently the covariance $\Sigma_r(R)$ of $U_r$ is uniformly positive definite for all sufficiently small $r$, and $\Sigma_r$ and $\Sigma_r^{-1}$ converge uniformly.
+
+\textup{(c)} Let $A_M=D_y^2f(M)$, represented by its $m(m+1)/2$ independent entries, and append these entries to $U_r$. The enlarged covariance is uniformly positive definite at contact, where the appended entries are those of $D_y^2f(0)$, and for small $r$. Under $\Prob^0$ the matrix $A_M$ has covariance uniformly bounded above and uniformly bounded away from zero, and a uniformly bounded mean. In the Lebesgue coordinates of symmetric matrices its density $\rho_r$ satisfies
+\begin{equation}\label{eq:parent-Adens}
+\rho_r(A)\le C_0\exp\bigl(-c_0\|A\|_F^2\bigr)
+\end{equation}
+for fixed $C_0,c_0>0$. This bound remains valid after any change of eigenvector orientation; orthogonal invariance of the density is not required.
+\end{lemma}
+
+\begin{proof}
+(a) Taylor formulas with integral remainders give the mean-square convergence, uniformly over frames. Explicitly, with $\varphi(s)=f(st)$ along the axis, $U^{(1)}$ and $U^{(2)}$ are the averages of $\varphi'$ and $\varphi''$ over the pin interval $[-r/2,r/2]$, $V^{(1)}_j$ is the average of $f_{xy_j}$ along the axis, $U^{(0)}$ and $V^{(0)}_j$ are means of the two endpoint values, and
+\[
+U^{(3)}=\int_{-r/2}^{r/2}\frac6{r^3}\Bigl(\frac{r^2}4-s^2\Bigr)\varphi'''(s)\,ds,
+\]
+an average of $\varphi'''$ against a probability density on the pin interval. So the potentially dangerous cancellation in $U^{(3)}$ is an averaged third derivative, not a subtraction of uncontrolled random values. Uniform convergence of its covariances, and of its cross-covariances with any fixed finite derivative order, follows either from those integral formulas or from the rapidly summable Fourier series of Lemma~\ref{lem:parent-spectrum}.
+
+(b) The functionals in \eqref{eq:parent-U0} are distinct. Hence $\Sigma_0(R)$ is positive definite by Lemma~\ref{lem:parent-jetrank}. Its entries are continuous in $R$, and the orthogonal group is compact, so its least eigenvalue has a positive uniform minimum. Consequently $\Sigma_r(R)$ remains uniformly positive definite for all sufficiently small $r$, and $\Sigma_r$, $\Sigma_r^{-1}$ converge uniformly. In detail, each coordinate of $U_r$, and of $U_r$ extended by the entries of $A_M$ as in (c), is an integral $\int\partial^\alpha f(s't)\,\eta_r(ds')$ of a derivative of $f$ along the axis against a measure $\eta_r$ with $\eta_r\to\delta_0$ as $r\to0$; so the covariance is jointly continuous on $[0,\bar r]\times O(d)$ for a fixed $\bar r>0$, it is positive definite at $r=0$ by Lemma~\ref{lem:parent-jetrank}, and compactness gives a positive lower bound for its least eigenvalue. This compactness argument establishes existence, not an evaluated interval enclosure. It never equates $\Sigma_r$ at different orientations; full rotational invariance of the torus is neither assumed nor true in general.
+
+(c) At $r=0$ the appended functionals are $f_{y_iy_j}(0)$, $i\le j$, and none of them duplicates a functional in \eqref{eq:parent-U0}. The enlarged covariance is therefore uniformly positive definite at contact and for small $r$. Its Schur complement shows that the $\Prob^0$-law of $A_M$ has covariance uniformly bounded above and uniformly bounded away from zero. Its mean is uniformly bounded, and \eqref{eq:parent-Adens} follows.
+\end{proof}
+
+\subsection{Conditional moments and the independent residual}\label{ssec:parent-residual}
+
+Fix $r_1\in\bigl(0,L/(4\sqrt2)\bigr)$ such that the conclusions of Lemma~\ref{lem:parent-contact}(b),(c) hold for $0<r\le r_1$. In this subsection and the next three, ``uniformly'' means uniformly in $0<r\le r_1$, $b\in\mathcal B$, $k\in\mathcal K$ and the frame.
+
+\begin{lemma}[uniform conditional moments]\label{lem:parent-moments}
+For every finite $p$ and every derivative order $q$,
+\begin{equation}\label{eq:parent-41}
+\sup_{r,b,k,R}\Bigl\|\,\|f\|_{C^q(\T^d_L)}\Bigr\|_{L^p(\Prob^0)}<\infty .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Because $\Sigma_r^{-1}$ and $v_r$ are uniformly bounded, the regression energy $v_r^{\top}\Sigma_r^{-1}v_r$ is uniformly bounded. For each unconditioned standardized Fourier coefficient $\xi$ of $f$, the Cauchy--Schwarz inequality for covariances bounds its conditional mean by the square root of this energy, and its conditional centred variance by one. Minkowski's inequality and the summable Fourier coefficients of Lemma~\ref{lem:parent-spectrum}(b) then give \eqref{eq:parent-41}.
+\end{proof}
+
+\begin{lemma}[the independent residual]\label{lem:parent-residual}
+In one full-field Gaussian coupling under $\Prob^0$,
+\begin{equation}\label{eq:parent-42}
+f(z)=\mu_r(z)+B_r(z)\cdot\bigl(A_M-\E^0A_M\bigr)+g_r(z),
+\end{equation}
+where $\mu_r=\E^0f$, $B_r(z)$ is the regression coefficient of $f(z)$ on the entries of $A_M$, and the centred residual $g_r$ is jointly independent of the entire symmetric matrix $A_M$. The coefficient $B_r$ and its derivatives through order four are uniformly bounded, and $g_r$ has uniformly bounded $C^4$ moments of every finite order. Let $J_r=1+\|g_r\|_{C^4(\T^d_L)}$, with a fixed coordinate norm, and let $M_3$, $M_4$ be the partial-block norms \eqref{eq:cap-Mj} of $f$ on the local cylinder $\mathcal D_r$. Then, with a constant $K_0$,
+\begin{equation}\label{eq:parent-43}
+\begin{gathered}
+M_3\le K_0\bigl(J_r+\|A_M\|_F\bigr),\qquad M_4\le K_0\bigl(J_r+\|A_M\|_F\bigr),\\
+J_r\ge1,\qquad J_r\ \text{is independent of}\ A_M,\qquad \sup\|J_r\|_{L^p}<\infty\ \text{for every finite }p .
+\end{gathered}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The proof of Lemma~\ref{lem:parent-moments} applies to a centred residual after further conditioning on $A_M$. The regression coefficient $B_r$ and its derivatives through order four are uniformly bounded, by the uniform inverse covariance of Lemma~\ref{lem:parent-contact}(c) and bounded derivative cross-covariances. Independence in \eqref{eq:parent-42} is not asserted separately for Hessian entries, endpoint variables or sampled derivative maxima: all residual evaluations are orthogonal to $A_M$, and Gaussian independence on a countable dense collection together with continuity gives independence of the random smooth field. The internal correlations of the residual are retained. The partial-block operator norms of Section~\ref{sec:cap} differ from the coordinate norm by finite constants depending only on $d$; hence \eqref{eq:parent-43}.
+\end{proof}
+
+No inverse Hessian moment is used. Gaussian pin covariances and random field Hessians are different objects.
+
+\subsection{Endpoint identities and the full normalizer}\label{ssec:parent-normalizer}
+
+\begin{lemma}[endpoint identities]\label{lem:parent-endpoint}
+Let $f$ be a $C^4$ function on a neighbourhood of $\mathcal D_r$ that satisfies the pins \eqref{eq:parent-pins}, with partial-block norms $M_3$, $M_4$ on $\mathcal D_r$. For $i\in\{M,S\}$ put
+\[
+\alpha_i=\frac{f_{xx}(i)}r,\qquad \beta_i=\frac{\nabla_yf_x(i)}r,\qquad A_i=D_y^2f(i),\qquad\text{so that}\quad H_i=\begin{pmatrix}r\alpha_i&r\beta_i^{\top}\\ r\beta_i&A_i\end{pmatrix}.
+\]
+Then
+\begin{gather}
+|\alpha_i|\le\frac{M_3}2,\qquad \|\beta_i\|\le\frac{M_3}2,\qquad \|A_S-A_M\|_{\rm op}\le rM_3,\label{eq:parent-51}\\
+|\alpha_M+6k|\le\frac{rM_4}2,\qquad |\alpha_S-6k|\le\frac{rM_4}2,\label{eq:parent-52}\\
+\frac{\det H_i}r=\alpha_i\det A_i-r\,\beta_i^{\top}\adj(A_i)\,\beta_i ,\label{eq:parent-53}
+\end{gather}
+and the block identity \eqref{eq:parent-53} is valid also when $\alpha_i$ or $A_i$ is zero.
+\end{lemma}
+
+\begin{proof}
+Write $a=-r/2$ and $c=r/2$ for the axial coordinates of $M$ and $S$. The gradient pins give $f_x(a,0)=f_x(c,0)=0$, so integration by parts yields
+\[
+f_{xx}(a,0)=-\frac1r\int_a^c(c-x)f_{xxx}(x,0)\,dx,\qquad f_{xx}(c,0)=\frac1r\int_a^c(x-a)f_{xxx}(x,0)\,dx,
+\]
+and $\int_a^cf_{xx}(x,0)\,dx=0$. By the last identity $f_{xx}(\cdot,0)$ has mean zero on the pin interval, so at an endpoint $e\in\{a,c\}$
+\[
+|f_{xx}(e,0)|\le\frac1r\int_a^c|f_{xx}(e,0)-f_{xx}(x,0)|\,dx\le\frac{M_3}r\int_a^c|x-e|\,dx=\frac{rM_3}2 ,
+\]
+which is the bound on $\alpha_i$. The vector $\nabla_yf_x(\cdot,0)$ also has mean zero on the pin interval, since its integral is $\nabla_yf(S)-\nabla_yf(M)=0$; the same argument, with $\|\partial_x\nabla_yf_x\|\le M_3$, bounds $\|\beta_i\|$. It uses no simultaneous vector Rolle zero. Finally $A_S-A_M=\int_a^c\partial_xD_y^2f(x,0)\,dx$, so $\|A_S-A_M\|_{\rm op}\le rM_3$. This proves \eqref{eq:parent-51}.
+
+For \eqref{eq:parent-52}, the Hermite identity \eqref{eq:cap-hermite} and $f(S)-f(M)=-kr^3$ say that the average of $f_{xxx}(\cdot,0)$ against the weight $(x-a)(c-x)$, whose mass is $r^3/6$, equals $12k$. Hence $f_{xxx}(x_0,0)=12k$ for some $x_0\in[a,c]$, and $|f_{xxx}(x,0)-12k|\le rM_4$ on $[a,c]$. Inserting this in the two identities displayed first, with $\int_a^c(c-x)\,dx=\int_a^c(x-a)\,dx=r^2/2$, gives $|\alpha_M+6k|\le rM_4/2$ and $|\alpha_S-6k|\le rM_4/2$. The block identity \eqref{eq:parent-53} is the expansion of $\det H_i$ along its first row and column, written with the adjugate so that it holds also for singular $A_i$.
+\end{proof}
+
+\begin{proposition}[the full normalizer]\label{prop:parent-normalizer}
+\textup{(a)} Under $\Prob^0$ the quantities $\det H_i/r$, $i\in\{M,S\}$, and $W_r/r^2$ have uniformly bounded moments of every finite order.
+
+\textup{(b)} Let $A_0$ be $D_y^2f(0)$ under the regression on $U_0=v_0$; its law is a full-support nondegenerate Gaussian law on symmetric matrices. Then, uniformly on the compact parameter set $\mathcal B\times\mathcal K\times\{\text{frames}\}$,
+\begin{equation}\label{eq:parent-54}
+\frac{Z_r}{r^2}\longrightarrow z_0(b,k,R):=(6k)^2\,\E\bigl[\det(A_0)^2\,\ind_{\{A_0\prec0\}}\bigr]\qquad(r\to0).
+\end{equation}
+
+\textup{(c)} The right side of \eqref{eq:parent-54} is continuous and strictly positive, and after reducing $r_*$ if needed,
+\begin{equation}\label{eq:parent-55}
+0<z_*\le\frac{Z_r}{r^2}\le z^*<\infty\qquad\bigl(0<r\le r_*,\ b\in\mathcal B,\ k\in\mathcal K,\ \text{all frames}\bigr).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+(a) holds by \eqref{eq:parent-41}, \eqref{eq:parent-51} and \eqref{eq:parent-53}. In particular $\sup\E^0(W_r/r^2)^2<\infty$, by \eqref{eq:parent-53}, \eqref{eq:parent-51}, $\|A_S\|\le\|A_M\|+rM_3$ and Subsection~\ref{ssec:parent-residual}; this is the uniform integrability of $W_r/r^2$ used in (b).
+
+(b) Here the congruence is $H_i\mapsto\Delta_r^{-1}H_i\Delta_r^{-1}$ with $\Delta_r=\operatorname{diag}(\sqrt r,I_m)$, because
+\begin{equation}\label{eq:parent-congr}
+\Delta_r^{-1}H_i\Delta_r^{-1}=\begin{pmatrix}\alpha_i&\sqrt r\,\beta_i^{\top}\\ \sqrt r\,\beta_i&A_i\end{pmatrix},\qquad \det\bigl(\Delta_r^{-1}H_i\Delta_r^{-1}\bigr)=\frac{\det H_i}r,
+\end{equation}
+which is exactly the determinant normalization of \eqref{eq:parent-53}. Finite-dimensional Gaussian regression gives uniform convergence of the means and covariances of $A_M$ to those of $A_0$, so $A_M\to A_0$ in law. By \eqref{eq:parent-51}, \eqref{eq:parent-52} and $\|A_S-A_M\|\le rM_3$, the differences
+\[
+\Delta_r^{-1}H_M\Delta_r^{-1}-\operatorname{diag}(-6k,A_M),\qquad \Delta_r^{-1}H_S\Delta_r^{-1}-\operatorname{diag}(6k,A_M),
+\]
+whose entries are $\alpha_M+6k$, $\alpha_S-6k$, $\sqrt r\,\beta_i$ and $A_S-A_M$, tend to zero in probability, uniformly over the parameters. Slutsky's theorem then gives joint convergence in law of the congruence-scaled endpoint Hessians to
+\[
+\operatorname{diag}(-6k,A_0)\ \text{at }M,\qquad \operatorname{diag}(6k,A_0)\ \text{at }S ,
+\]
+and the continuous mapping theorem applies off the null set $\{\det A_0=0\}$. The limiting matrices are almost surely nonsingular; this follows from the full matrix density and $k\ge k_->0$. Thus the type indicator in \eqref{eq:parent-W} converges in law to $\ind_{\{A_0\prec0\}}$. Uniform integrability from \eqref{eq:parent-53}, as in (a), gives \eqref{eq:parent-54}, uniformly on the compact parameter set. Uniformity can be checked by a subsequence argument in law: any allegedly bad sequence of parameters has a convergent subsequence, and continuous Gaussian means and covariances, \eqref{eq:parent-52} and uniform integrability give the stated limit along that subsequence. The discontinuity set of the type indicator has Gaussian probability zero, and \eqref{eq:parent-Adens} supplies a common integrable majorant.
+
+(c) The right side of \eqref{eq:parent-54} is continuous, and it is strictly positive because the Gaussian law of $A_0$ has positive density on an open ball of negative definite matrices. Compactness therefore yields \eqref{eq:parent-55} after reducing $r_*$ if needed. The bound involves neither an added pin density nor a restricted good-event normalization.
+\end{proof}
+
+\subsection{The double soft-eigenvalue factor}\label{ssec:parent-soft}
+
+\begin{lemma}[the two soft factors]\label{lem:parent-soft}
+In the setting of Lemma~\ref{lem:parent-endpoint}, suppose that $H_M\prec0$, put $B=-A_M\succ0$ and let $0<\lambda_1\le\dots\le\lambda_m=\Lambda$ be the eigenvalues of $B$. Then $\alpha_M<0$, the negative transverse Schur complement $B-(r/(-\alpha_M))\,\beta_M\beta_M^{\top}$ is positive definite, and
+\begin{equation}\label{eq:parent-61}
+|\det H_M|\le r\,\frac{M_3}2\,\det B .
+\end{equation}
+Moreover, with the empty product equal to one when $m=1$,
+\begin{equation}\label{eq:parent-HS}
+|\det H_S|\le r\,\frac{M_3}2\Bigl[\lambda_1+\frac32\,rM_3\Bigr]\prod_{j=2}^m\bigl(\lambda_j+rM_3\bigr),
+\end{equation}
+and the typed weight \eqref{eq:parent-W} satisfies
+\begin{equation}\label{eq:parent-62}
+W_r\le\frac{r^2M_3^2}4\,\lambda_1\Bigl[\lambda_1+\frac32\,rM_3\Bigr]\prod_{j=2}^m\lambda_j\bigl(\lambda_j+rM_3\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Since $H_M\prec0$, we have $\alpha_M<0$, and the negative transverse Schur complement satisfies
+\[
+B-\frac r{-\alpha_M}\,\beta_M\beta_M^{\top}\succ0 .
+\]
+Indeed $\det H_M=r\alpha_M\det B'$ with $B'=A_M-(r/\alpha_M)\,\beta_M\beta_M^{\top}$, and $0\prec-B'\preceq B$ on the typed support. Determinant monotonicity on positive definite matrices therefore gives \eqref{eq:parent-61}, with $|\alpha_M|\le M_3/2$ from \eqref{eq:parent-51}. This is a cancelled-pivot bound: no estimate of $1/\alpha_M$ is taken. From $\|A_S+B\|\le rM_3$, the ordered singular values of $A_S$ are at most $\lambda_j+rM_3$, and the norm of $\adj(A_S)$ is at most the product of the largest $m-1$ of these bounds. With the empty product equal to one when $m=1$, \eqref{eq:parent-53} and \eqref{eq:parent-51} give \eqref{eq:parent-HS}. Hence the actual typed weight satisfies \eqref{eq:parent-62}.
+\end{proof}
+
+The second soft factor $\lambda_1+\frac32rM_3$ includes the mixed-square term of the saddle. Omitting it, or replacing it by an unrelated factor of order one, changes the power of the radius. No independence of Gaussian entries is needed for \eqref{eq:parent-62}.
+
+\subsection{Boundary-layer integration, including the corank intersections}\label{ssec:parent-layer}
+
+The cap event is
+\begin{equation}\label{eq:parent-G}
+\mathcal G_r=\Bigl\{\lambda_{\min}(-A_M)>\frac4{3k}\,rM_3^2\Bigr\}\cap\Bigl\{rM_4\le\frac{3k}{10}\Bigr\}.
+\end{equation}
+By the deterministic separating-cylinder theorem (Theorem~\ref{thm:cap-main}), elder pairing and the one-branch conclusion hold on $\mathcal G_r$ (Lemma~\ref{lem:parent-capimpl}). On the typed support $A_M\prec0$ automatically. It suffices to control $\mathcal G_r^c$ directly; no converse is inferred from a bound on a local path event.
+
+\begin{lemma}[eigenvalue coordinates]\label{lem:parent-eigen}
+In the eigenvalue coordinates $B=O\operatorname{diag}(\lambda)O^{\top}$ of symmetric $m\times m$ matrices, Lebesgue measure has volume factor equal to a fixed constant times $\prod_{i<j}|\lambda_j-\lambda_i|$ times the angular volume. Consequently, by \eqref{eq:parent-Adens}, on the typed support the $\Prob^0$-law of the eigenvalues $0<\lambda_1\le\dots\le\lambda_m=\Lambda$ of $B=-A_M$ is bounded by
+\begin{equation}\label{eq:parent-72}
+C\exp\Bigl(-c\sum_{i=1}^m\lambda_i^2\Bigr)\,\Lambda^{m(m-1)/2}\,d\lambda_1\cdots d\lambda_m .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+One way to see the volume factor is to differentiate $B=O\operatorname{diag}(\lambda)O^{\top}$: an infinitesimal rotation in the $ij$-plane changes the off-diagonal coordinate by $(\lambda_j-\lambda_i)$ times that angular increment. The angular space is compact, repeated-eigenvalue strata are Lebesgue null, and the finite multiplicity of the parametrization is absorbed into the constant. This is a change of variables for Lebesgue measure, not a claim that the conditional matrix is a GOE matrix. Using \eqref{eq:parent-Adens}, angular integration and $0\le\lambda_i\le\Lambda$ gives \eqref{eq:parent-72}.
+\end{proof}
+
+\begin{proposition}[the pairing-defect bound]\label{prop:parent-layer}
+For $0<r\le r_*$, with $r_*$ reduced if needed, $b\in\mathcal B$, $k\in\mathcal K$ and all frames,
+\begin{equation}\label{eq:parent-78}
+\Prob^{MS}_r\bigl(\mathcal G_r^c\bigr)\le C_3r^3+C_4r^4\le Cr^3 .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\emph{Depth failure, $m\ge2$.} In \eqref{eq:parent-43} absorb $\sqrt m$ into a constant $K_*$ and set $\Upsilon=J_r+\Lambda\ge1$; since $\|A_M\|_F\le\sqrt m\,\Lambda$ on the typed support, $M_3\le K_*\Upsilon$. Failure of the depth condition is contained in
+\begin{equation}\label{eq:parent-71}
+0<\lambda_1\le D_*\,r\,\Upsilon^2,\qquad D_*=\frac{4K_*^2}{3k_-}.
+\end{equation}
+Unlike a scalar strip argument, this width may depend on the largest eigenvalue, and that dependence is retained in the integral. The variable $J_r$, but not the eigenvalues within $B$, is independent of $B$. In \eqref{eq:parent-62}, with $r\le1$, all factors other than $\lambda_1[\lambda_1+\frac32rM_3]$ are bounded by $Cr^2\Upsilon^{2m}$, and $\frac32rM_3\le E_*r\Upsilon$ with $E_*=\frac32K_*$. Condition on $J_r$ and $\lambda_2,\dots,\lambda_m$, and extend the $\lambda_1$-integration of the positive majorant from the actual interval to $[0,D_*r\Upsilon^2]$. Then
+\begin{equation}\label{eq:parent-73}
+\int_0^{D_*r\Upsilon^2}\lambda_1\,(\lambda_1+E_*r\Upsilon)\,d\lambda_1=r^3\Bigl[\frac{D_*^3}3\,\Upsilon^6+\frac{E_*D_*^2}2\,\Upsilon^5\Bigr]\le Cr^3\Upsilon^6 .
+\end{equation}
+The Gaussian factor involving $\lambda_1$ can be dropped for this upper bound. Equations \eqref{eq:parent-62}, \eqref{eq:parent-72} and \eqref{eq:parent-73} give
+\begin{equation}\label{eq:parent-74}
+\begin{aligned}
+\E^0\bigl[W_r\,\ind_{\{\text{depth failure}\}}\bigr]&\le Cr^5\,\E\int(J_r+\Lambda)^{2m+6}\,\Lambda^{m(m-1)/2}\exp\Bigl(-c\sum_{j=2}^m\lambda_j^2\Bigr)\,d\lambda_2\cdots d\lambda_m\\
+&\le C'r^5 .
+\end{aligned}
+\end{equation}
+The last integral is finite by Gaussian polynomial integrability and the uniform moment of $J_r$ of order $2m+6$. All of $\lambda_2,\dots,\lambda_m$ are integrated over their ordered positive domain; in particular $\lambda_2$ is not bounded away from zero. The possible intersections of corank two and higher are included, with only nonnegative polynomial powers, and no angular singularity or inverse-eigenvalue moment remains.
+
+\emph{Depth failure, $m=1$.} Now the largest and the smallest eigenvalue coincide, and using \eqref{eq:parent-73} with $\Lambda$ held fixed would be invalid. Write $\lambda=-A_M>0$ and use $M_3\le K_*(J_r+\lambda)$. Depth failure implies $\lambda\le D_*r(J_r+\lambda)^2\le2D_*rJ_r^2+2D_*r\lambda^2$, so it is contained in the union
+\begin{equation}\label{eq:parent-75}
+\bigl\{0<\lambda\le4D_*rJ_r^2\bigr\}\cup\bigl\{\lambda>1/(4D_*r)\bigr\}.
+\end{equation}
+The branch of large $\lambda$ is retained. On the near branch, $M_3\le K_*(1+4D_*)J_r^2$ for $r\le1$ and $J_r\ge1$; the bounded scalar density, \eqref{eq:parent-62} and direct integration in $\lambda$ give a numerator at most $Cr^5\,\E J_r^{10}$. On the far branch the fourth-moment Markov inequality with the actual weight gives
+\begin{equation}\label{eq:parent-76}
+\E^0\bigl[(W_r/r^2)\,\ind_{\rm far}\bigr]\le(4D_*r)^4\,\E^0\bigl[(W_r/r^2)\,\lambda^4\bigr]\le Cr^4 .
+\end{equation}
+Thus the scalar numerator is at most $Cr^5+C'r^6$. This separate argument is why the statement for all dimensions does not drop the scalar far branch.
+
+\emph{Fourth-derivative exception.} For every dimension the exception $\{rM_4>3k/10\}$ is contained in $\{rM_4>3k_-/10\}$, and it is bounded directly by
+\begin{equation}\label{eq:parent-77}
+\E^0\bigl[(W_r/r^2)\,\ind_{\{rM_4>3k_-/10\}}\bigr]\le\Bigl[\frac{10r}{3k_-}\Bigr]^4\,\E^0\bigl[(W_r/r^2)\,M_4^4\bigr]\le Cr^4 .
+\end{equation}
+This is a pointwise Markov bound followed by a joint moment estimate, not a Cauchy--Schwarz bound with a missing square root. All joint moments in \eqref{eq:parent-76} and \eqref{eq:parent-77} are finite by Subsections~\ref{ssec:parent-residual} and~\ref{ssec:parent-normalizer}.
+
+\emph{Normalization.} Divide the numerators by the full lower bound \eqref{eq:parent-55}. The result is \eqref{eq:parent-78}.
+\end{proof}
+
+\subsection{Pinned genericity, the elder mark and the proof of Theorem~A}\label{ssec:parent-generic}
+
+\begin{lemma}[genericity]\label{lem:parent-generic}
+\textup{(a)} Fix $r>0$ as in Definition~\ref{def:parent-pinned}, $b\in\R$, $k>0$ and a frame. Then $f$ is $\Prob^0$-almost surely a Morse function on $\T^d_L$ with pairwise distinct critical values. If $0<Z_r<\infty$, the same holds $\Prob^{MS}_r$-almost surely.
+
+\textup{(b)} Without pins, $f$ is almost surely a Morse function on $\T^d_L$ with pairwise distinct critical values.
+\end{lemma}
+
+\begin{proof}
+(a) The argument applies at every fixed positive $r$ and parameter; no common probability-one set for uncountably many laws is asserted. Away from the pins consider $(\nabla f(x),D^2f(x)v)$ with $\|v\|=1$: its range has dimension $2d$, and its parameter manifold has dimension $2d-1$. Modulo the pin observations these functionals have full covariance rank: gradient and Hessian orders are distinct, and the map $H\mapsto Hv$ from symmetric matrices onto $\R^d$ is surjective. For two distinct unpinned points the map $(\nabla f(x),\nabla f(y),f(x)-f(y))$ has range dimension $2d+1$ and parameter dimension $2d$. For a tie with a pinned height use $(\nabla f(x),f(x)-b)$, or the analogous map with $s$, of dimensions $d+1$ and $d$.
+
+Exhaust the relevant domains by compact sets separated from the pins and from coincident points, using finitely many sphere charts where $v$ occurs. Covariance positivity (Lemma~\ref{lem:parent-jetrank}) and compactness give bounded Gaussian densities on each such set. An elementary overdetermined-zero lemma applies: on a mesh of size $\varepsilon$, a random $C^1$ map from dimension $q$ to dimension $p>q$ whose derivative has norm at most $N$ could have a zero only if one of $O(\varepsilon^{-q})$ mesh values has norm $O(N\varepsilon)$. The density bound makes the probability $O(N^p\varepsilon^{p-q})$, which tends to zero. First fix $N$, then let $N$ increase; the random derivative norm is almost surely finite. This proves the absence of all these zeros.
+
+The pinned Hessians have a full density on their symmetric entries for fixed distinct pins, so their determinants are almost surely nonzero. The pinned heights differ because $k,r>0$. Countable exhaustion now proves that $f$ is $\Prob^0$-almost surely Morse with distinct critical values. The transfer to $\Prob^{MS}_r$ follows by absolute continuity and $0<Z_r<\infty$.
+
+(b) This part is not in \cite{parentP}, whose proof of Theorem~C uses it (Theorem~\ref{thm:parent-C}). The argument of (a) applies with no pin observations. The map $(x,v)\mapsto(\nabla f(x),D^2f(x)v)$ on $\T^d_L\times S^{d-1}$ has range dimension $2d$ and parameter dimension $2d-1$. Its covariance is positive definite at every $(x,v)$: by Lemma~\ref{lem:parent-jetrank} the gradient and the symmetric Hessian entries at one site have a positive definite covariance, and $H\mapsto Hv$ maps the symmetric matrices onto $\R^d$. The covariance does not depend on $x$ and is continuous in $v$, so compactness of $S^{d-1}$ gives a uniform eigenvalue floor. For $\delta>0$, the map $(x,y)\mapsto(\nabla f(x),\nabla f(y),f(x)-f(y))$ on the compact set $\{(x,y):\dist(x,y)\ge\delta\}$ has range dimension $2d+1$ and parameter dimension $2d$. Its covariance is positive definite at every point by Lemma~\ref{lem:parent-jetrank} at the two sites $x\ne y$, and it is continuous, so compactness again gives a uniform floor. The overdetermined-zero lemma, applied in finitely many charts, shows that almost surely neither map vanishes. Thus $f$ is almost surely Morse, and taking $\delta=1/n$, $n\in\mathbb N$, no two distinct critical points have the same value. For $d=3$ and $L=24$ this is Proposition~1.1 of the main text.
+\end{proof}
+
+\begin{lemma}[the elder mark]\label{lem:parent-mark}
+For $f\in C^2(\T^d_L)$ and $M\in\T^d_L$ define the maximin connection level
+\begin{equation}\label{eq:parent-df}
+d_f(M)=\sup\Bigl\{\min_{s'\in[0,1]}f(\gamma(s'))\ :\ \gamma\in C([0,1];\T^d_L),\ \gamma(0)=M,\ f(\gamma(1))>f(M)\Bigr\},
+\end{equation}
+with $\sup\varnothing=-\infty$, and the elder mark $e(f;M,S)=\ind_{\{d_f(M)=f(S)\}}$.
+\begin{enumerate}[(a),leftmargin=2em]
+\item For every level $h$, the event $\{d_f(M)>h\}$ is a Borel set of $(M,f)$. Thus the equality $d_f(M)=f(S)$ is a Borel event.
+\item On the locus of Morse functions with pairwise distinct critical values, $d_f(M)=f(S)$ expresses ordinary superlevel elder death of $M$ at $S$. An essential maximum has no older endpoint.
+\item On that locus each finite superlevel $H_0$ bar has exactly one birth, at a local maximum, and one death, at a merging saddle of index $d-1$. Thus the pairs with $e=1$ are precisely the finite bars, not just a local proxy, and the essential class of the global maximum is not counted.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For fixed pins, the event $\{d_f(M)>h\}$ can be represented by a countable union of polygonal-path tests, with rational interior vertices and endpoints, all staying strictly above $h$ and with endpoint value above $f(M)$; strict clearances allow approximation by such paths. For variable $M$, use countably many coordinate charts and an initial segment depending continuously on $M$. These are Borel tests in $(M,f)$. A complete argument is the measurability part of the proof of Lemma~\ref{lem:selection-mark}, which uses neither $d=3$ nor $L=24$: for a fixed path $\gamma$ from $0$, the functional equal to $\min_sg(\gamma(s))$ on the open set $\{g(\gamma(1))>g(0)\}$ and to $-\infty$ elsewhere is lower semicontinuous on $C(\T^d_L)$; $d_g(0)$ is the supremum of these functionals; and $d_g(x)=d_{g(\cdot+x)}(0)$. Hence $(g,x)\mapsto d_g(x)$ is lower semicontinuous on $C(\T^d_L)\times\T^d_L$. The inclusion $C^2(\T^d_L)\subset C(\T^d_L)$ is continuous, so $\{d_f(M)>h\}$ is open in $(f,M)$, and $\{d_f(M)=f(S)\}$ is Borel in $(f,M,S)$. (b) and (c) are the elder rule of ordinary superlevel $H_0$ persistence for Morse functions with distinct critical values; see \cite[\S3]{Curry} for background.
+\end{proof}
+
+\begin{lemma}[the cap implication]\label{lem:parent-capimpl}
+Let $r$, $b$, $k$ and the frame be as in Definition~\ref{def:parent-pinned} (so $0<r<L/(4\sqrt2)$, $b\in\R$ and $k>0$), and let $f$ be a $C^4$ Morse function on $\T^d_L$ with pairwise distinct critical values that satisfies the pins \eqref{eq:parent-pins} and whose norms satisfy the two inequalities defining $\mathcal G_r$ in \eqref{eq:parent-G}. Then the global ordinary superlevel elder partner of $M$ is $S$, that is, $e(f;M,S)=1$, and exactly one actual ascending branch of $S$ ends at $M$.
+\end{lemma}
+
+\begin{proof}
+On $\mathcal G_r$ the deterministic cap theorem (Theorem~\ref{thm:cap-main}, with the gap mark $k$) controls every boundary exit and supplies a connection through $S$ to a point higher than $b$. Therefore the global ordinary elder partner of $M$ is $S$, not merely a local adjacency candidate. The cap theorem also gives exactly one actual ascending branch to $M$; it does not identify that branch with the transverse ridge.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:parent-A}]
+By Lemma~\ref{lem:parent-generic}(a), $f$ is $\Prob^{MS}_r$-almost surely Morse with distinct critical values, and by Lemma~\ref{lem:parent-capimpl} the elder partner of $M$ is then $S$ on $\mathcal G_r$. Hence $0\le1-p_r(b,k,R)\le\Prob^{MS}_r(\mathcal G_r^c)$, and \eqref{eq:parent-78} gives \eqref{eq:parent-A}.
+\end{proof}
+
+\subsection{The marked Kac--Rice identity}\label{ssec:parent-KR}
+
+This subsection gives the weighted pair Kac--Rice identity for the global elder mark. The Borel elder mark is reached by a finite-measure argument, not by a claim that it is lower semicontinuous. No local cap event is substituted for the global mark; the cap theorem is used only to estimate the probability that the global mark fails (Proposition~\ref{prop:parent-layer}).
+
+\begin{proposition}[marked Kac--Rice identity]\label{prop:parent-KR}
+Let $\Omega\subset\T^d_L\times\T^d_L$ be a compact set of ordered pairs at positive distance from the diagonal, and write $\mathsf G(x,y)=(\nabla f(x),\nabla f(y))\in\R^{2d}$.
+
+\textup{(a)} For $(x,y)\in\Omega$ and $z\in\R^{2d}$, Gaussian regression gives a regular conditional law $\mathcal P_{x,y,z}$ of the whole field $f\in C^2(\T^d_L)$ given $\mathsf G(x,y)=z$, and $(x,y,z)\mapsto\int F\,d\mathcal P_{x,y,z}$ is continuous for every bounded continuous cylinder functional $F$. For every bounded Borel function $h$ on $\Omega\times C^2(\T^d_L)$,
+\begin{multline}\label{eq:parent-KR}
+\E\sum_{(x,y)\in\Omega:\ \nabla f(x)=\nabla f(y)=0}h\bigl((x,y),f\bigr)\\
+=\int_\Omega p_{x,y}(0)\,\E\Bigl[|\det H_x\,\det H_y|\,h\bigl((x,y),f\bigr)\Bigm|\nabla f(x)=\nabla f(y)=0\Bigr]\,dx\,dy,
+\end{multline}
+where $p_{x,y}$ is the Gaussian density of $\mathsf G(x,y)$ and the conditional expectation is taken under $\mathcal P_{x,y,0}$. For $h=\ind_A$, $A$ a Borel set of $\Omega\times C^2(\T^d_L)$, both sides of \eqref{eq:parent-KR} are finite Borel measures in $A$.
+
+\textup{(b)} The elder mark $e$ of Lemma~\ref{lem:parent-mark}, the Hessian index indicators and their product are bounded Borel weights on $\Omega\times C^2(\T^d_L)$, so \eqref{eq:parent-KR} applies to them. Disintegrating the two endpoint heights at the prescribed values $f(M)=b$, $f(S)=b-kr^3$, the Jacobian $|\det H_M\det H_S|$ and the type indicators give exactly the endpoint weight $W_r$ of \eqref{eq:parent-W}. Thus the intensity of the typed pairs contains the full-pin density times $\E^0[W_r]$, and the selected intensity contains the same factor times the global elder probability $p_r$. There is no second determinant factor.
+
+\textup{(c)} Exhausting the off-diagonal domain towards the diagonal gives the near-diagonal formula.
+\end{proposition}
+
+\begin{proof}
+\emph{Setting.} By the positive Fourier spectrum and the distinct-site argument of Lemmas~\ref{lem:parent-spectrum} and~\ref{lem:parent-jetrank}, the covariance of $\mathsf G(x,y)$ is positive definite at every pair, uniformly on $\Omega$. The sample field is smooth. The derivative of $\mathsf G$ with respect to $(x,y)$ is block diagonal, so its normal Jacobian is $|\det H_x\det H_y|$. Theorem~2.2 of \cite{AAL} therefore gives the unweighted zero-count formula for $\mathsf G=0$ on $\Omega$, and finiteness on the compact set $\Omega$. Theorem~7.1 of \cite{AAL} is used only for bounded nonnegative continuous cylinder weights, for which its lower-semicontinuity hypotheses hold automatically.
+
+\emph{A regular conditional law on the whole $C^2$ field.} Give $C^2(\T^d_L)$ its usual separable Banach topology. For $(x,y)\in\Omega$ and $z\in\R^{2d}$, finite-dimensional Gaussian regression gives a smooth conditional mean $\bar f_{x,y,z}$ and a centred residual Gaussian field $\mathsf R_{x,y}$ such that, as random elements of $C^2(\T^d_L)$,
+\[
+\operatorname{law}\bigl(f\bigm|\mathsf G(x,y)=z\bigr)=\operatorname{law}\bigl(\bar f_{x,y,z}+\mathsf R_{x,y}\bigr).
+\]
+The residual can be constructed from the full Gaussian field by subtracting
+\[
+\Cov\bigl(f,\mathsf G(x,y)\bigr)\,\Cov\bigl(\mathsf G(x,y)\bigr)^{-1}\,\mathsf G(x,y).
+\]
+Uniform nonsingularity on $\Omega$ and the smooth covariance imply that this subtraction is continuous in $(x,y,z)$ in every finite $C^q$ mean norm needed here. In particular
+\[
+\mathcal P_{x,y,z}(A)=\Prob\bigl\{\bar f_{x,y,z}+\mathsf R_{x,y}\in A\bigr\},\qquad A\ \text{a Borel set of}\ C^2(\T^d_L),
+\]
+is a regular conditional probability kernel, and $(x,y,z)\mapsto\int F\,d\mathcal P_{x,y,z}$ is continuous for every bounded continuous cylinder functional $F$. This is a law of the whole field, not merely a family of conditional laws of finitely many cylinder coordinates.
+
+\emph{Two finite measures.} For Borel sets $A$ of $\Omega\times C^2(\T^d_L)$ define, on the almost-sure zero set of $\mathsf G$,
+\begin{gather*}
+\mu_1(A)=\E\sum_{(x,y)\in\Omega:\ \mathsf G(x,y)=0}\ind_A\bigl((x,y),f\bigr),\\
+\mu_2(A)=\int_\Omega p_{x,y}(0)\int|\det D^2\varphi(x)\,\det D^2\varphi(y)|\,\ind_A\bigl((x,y),\varphi\bigr)\,\mathcal P_{x,y,0}(d\varphi)\,dx\,dy .
+\end{gather*}
+Theorem~2.2 of \cite{AAL} makes $\mu_1$ finite. The total mass of $\mu_2$ equals the finite unweighted Kac--Rice integral, so $\mu_2$ is finite. For every bounded nonnegative continuous cylinder function $h$, Theorem~7.1 of \cite{AAL}, or equivalently the ordinary Gaussian regression proof of its continuous case, gives $\int h\,d\mu_1=\int h\,d\mu_2$; this is \eqref{eq:parent-KR} for such $h$.
+
+\emph{Cylinder functions generate the Borel $\sigma$-algebra.} Choose a countable dense set $\mathcal Q\subset\T^d_L$. The maps $\varphi\mapsto\partial^\alpha\varphi(q)$, $q\in\mathcal Q$, $|\alpha|\le2$, together with a countable coordinate basis on $\Omega$, separate the points of $\Omega\times C^2(\T^d_L)$. Because the $C^2$ norm on the compact torus is recovered from suprema over the dense set for derivatives through order two, these evaluations generate the Borel $\sigma$-algebra of $\Omega\times C^2(\T^d_L)$. Let $\mathcal H$ be the set of bounded real Borel functions $h$ with $\int h\,d\mu_1=\int h\,d\mu_2$. Since $\mu_1$ and $\mu_2$ are finite, $\mathcal H$ is a vector space, contains the constants, and is closed under bounded pointwise convergence by dominated convergence. It contains the algebra of bounded continuous cylinder functions. The functional monotone-class theorem therefore implies that $\mathcal H$ contains every bounded Borel function on $\Omega\times C^2(\T^d_L)$, which proves (a). This does not extend the lower-semicontinuity hypothesis of \cite[Theorem~7.1]{AAL} by assertion: equality of the two finite measures is first obtained on a generating algebra and then identified on the full Borel $\sigma$-algebra.
+
+\emph{The elder and type marks.} Lemma~\ref{lem:parent-mark}(a) represents the maximin connection event by countably many strict rational polygonal-path tests in finitely many torus charts. Hence $((x,y),\varphi)\mapsto\ind_{\{d_\varphi(x)=\varphi(y)\}}$ is Borel on the locus of Morse functions with pairwise distinct critical values, with the convention for the essential maximum preserved. The Hessian index indicators are Borel functions of the $2$-jet, and their product with the elder mark is therefore a bounded Borel weight on $\Omega\times C^2(\T^d_L)$, so (a) applies. Disintegrating the two endpoint heights with their nondegenerate joint Gaussian density conditional on $\mathsf G(x,y)=0$ gives (b).
+
+\emph{Exhaustion.} Finally, exhaust $\Omega$ towards the diagonal. The bound of Proposition~\ref{prop:parent-ledger}, whose proof uses only parts~(a) and~(b) above, is locally $r\,dr$, hence integrable at zero, and nonnegative monotone convergence gives the near-diagonal formula (c). This step uses the estimates of Subsections~\ref{ssec:parent-frame}, \ref{ssec:parent-normalizer} and~\ref{ssec:parent-ledger}.
+\end{proof}
+
+\subsection{The exact radial ledger}\label{ssec:parent-ledger}
+
+\begin{proposition}[radial ledger: the dimension cancels]\label{prop:parent-ledger}
+Let $\pi_r(R;v)$ denote the Lebesgue density of $U_r$ at $v$.
+
+\textup{(a)} The density of $O_r$ at the specified pins is
+\begin{equation}\label{eq:parent-101}
+12\,r^{-(d+3)}\,\pi_r(R;v_r).
+\end{equation}
+
+\textup{(b)} In the midpoint $z$, the directed separation $S-M=rt$, the birth $b$ and the gap mark $k$, the candidate intensity per unit midpoint volume is
+\begin{equation}\label{eq:parent-102}
+r\,\mathcal A_r(b,k,t)\,dr\,db\,dk\,d\sigma(t),\qquad \mathcal A_r=12\,\pi_r(R;v_r)\,\frac{Z_r}{r^2},
+\end{equation}
+where $\sigma$ is the ordinary surface measure on $S^{d-1}$, not normalized to total mass one. The selected intensity is $r\,\mathcal A_r\,p_r$ with the same measures.
+
+\textup{(c)} $\mathcal A_r$ is invariant under rotations of the transverse frame, so it is a function of $t$ alone.
+
+\textup{(d)} Uniformly on $\mathcal B\times\mathcal K\times S^{d-1}$, and with a uniform finite upper bound $\mathcal A^*$,
+\begin{equation}\label{eq:parent-103}
+\mathcal A_r\longrightarrow\mathcal A_0=12\,\pi_0(R;v_0)\,z_0(b,k,R)>0\qquad(r\to0).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+(a) holds because $U_r=T_rO_r$, by \eqref{eq:parent-detT}. (b) The change from the ordered pair $(M,S)$ to $(z,rt)$ has absolute determinant one. Polar coordinates for the separation contribute $r^{d-1}\,dr\,d\sigma(t)$, and the height change $(f(M),f(S))=(b,b-kr^3)$ at fixed $r$ contributes $r^3\,db\,dk$. There is no factor $1/2$: maximum--saddle pairs are ordered by their different roles. With (a) and Proposition~\ref{prop:parent-KR}(a),(b) (this proof does not use its part~(c), whose proof uses the present proposition), the powers of $r$ are
+\[
+\text{spatial }(d-1)+\text{height mark }3+\text{pin }\bigl(-(d+3)\bigr)+\text{determinant normalizer }2=1 .
+\]
+(c) Although frames are used in the proof, the original zero-gradient law and the determinant weight are unchanged by an orthogonal change of the transverse coordinates. Uniformity was proved on the compact orthogonal group and descends to the sphere; no global continuous transverse frame on the sphere, which does not exist in general, is assumed. (d) holds by Subsections~\ref{ssec:parent-frame} and~\ref{ssec:parent-normalizer}.
+\end{proof}
+
+The selected intensity $r\,\mathcal A_r\,p_r$ supplies the domination needed below; it is not assumed that a fixed-axis statement can be integrated.
+
+\subsection{Lifetime pushforward and the proof of Theorem~B}\label{ssec:parent-B}
+
+\begin{proposition}[lifetime pushforward on compact windows]\label{prop:parent-push}
+For $\ell<k_-r_*^3$, every $k\in\mathcal K$ gives $r=(\ell/k)^{1/3}<r_*$, and at fixed $k$
+\begin{equation}\label{eq:parent-111}
+r\,\frac{dr}{d\ell}=\frac13\,k^{-2/3}\,\ell^{-1/3}.
+\end{equation}
+Hence a version of the candidate density of Theorem~\ref{thm:parent-B} is
+\begin{equation}\label{eq:parent-112}
+\nu_\cand(\ell)=\ell^{-1/3}\int_{\mathcal B\times\mathcal K\times S^{d-1}}\frac{\mathcal A_{(\ell/k)^{1/3}}(b,k,t)}{3k^{2/3}}\,db\,dk\,d\sigma(t),
+\end{equation}
+and $\nu_\eld$ has the additional factor $p_{(\ell/k)^{1/3}}$ in the integrand.
+\end{proposition}
+
+\begin{proof}
+For $k\in\mathcal K$, $k\ge k_-$, so $\ell<k_-r_*^3$ gives $r^3=\ell/k<r_*^3$. At fixed $k$, $dr/d\ell=\frac13k^{-1/3}\ell^{-2/3}$, and multiplying by $r=k^{-1/3}\ell^{1/3}$ gives \eqref{eq:parent-111}. The candidate intensity \eqref{eq:parent-102} is $r\,\mathcal A_r\,dr\,db\,dk\,d\sigma(t)$ per unit midpoint volume; its pushforward under $\ell=kr^3$ at fixed $(b,k,t)$ replaces $r\,dr$ by $\frac13k^{-2/3}\ell^{-1/3}\,d\ell$, by \eqref{eq:parent-111}, and integrating over $\mathcal B\times\mathcal K\times S^{d-1}$ gives \eqref{eq:parent-112}. The selected intensity is $r\,\mathcal A_r\,p_r$ with the same measures (Proposition~\ref{prop:parent-ledger}(b)), whence the factor $p_{(\ell/k)^{1/3}}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:parent-B}]
+Uniform convergence \eqref{eq:parent-103}, the selection bound of Theorem~\ref{thm:parent-A} and compact domination give the common positive leading coefficient
+\begin{equation}\label{eq:parent-113}
+c_{\mathcal B,\mathcal K}=4\int_{\mathcal B\times\mathcal K\times S^{d-1}}k^{-2/3}\,\pi_0(R;v_0)\,z_0(b,k,R)\,db\,dk\,d\sigma(t),
+\end{equation}
+where $z_0=(6k)^2\,\E[\det(A_0)^2\ind_{\{A_0\prec0\}}]$ with the actual conditional covariance of $A_0$. The pointwise selection estimate \eqref{eq:parent-A}, with $r^3=\ell/k$, supplies the stronger difference statement
+\begin{equation}\label{eq:parent-diff}
+0\le\nu_\cand(\ell)-\nu_\eld(\ell)\le C\,\ell^{2/3}\int_{\mathcal B\times\mathcal K\times S^{d-1}}\frac{\mathcal A^*}{3k^{5/3}}\,db\,dk\,d\sigma(t),
+\end{equation}
+which is finite because $k\ge k_->0$. This proves \eqref{eq:parent-B}.
+\end{proof}
+
+Formula \eqref{eq:parent-113} is an identified Gaussian integral, not an evaluated closed form; there is no isotropic GOE substitution and no unexamined truncation of image tails. The bound \eqref{eq:parent-diff} is a difference of order $\ell^{2/3}$, not a claim that either density separately has a second-order expansion with that remainder; the convergence of $\mathcal A_r$ to $\mathcal A_0$ is not assigned a numerical rate.
+
+\subsection{Short bars and moments}\label{ssec:parent-moments}
+
+\begin{corollary}[short bars and moments]\label{cor:parent-moments}
+For the spatially and mark-restricted populations of Theorem~\ref{thm:parent-B}, let $N_\eld(0,\varepsilon]$ and $N_\cand(0,\varepsilon]$ be the numbers of selected and of candidate pairs with lifetime at most $\varepsilon$. Per unit volume, as $\varepsilon\downarrow0$,
+\begin{equation}\label{eq:parent-121}
+\E N_\eld(0,\varepsilon]\sim\tfrac32\,c_{\mathcal B,\mathcal K}\,\varepsilon^{2/3},\qquad 0\le\E\bigl[N_\cand(0,\varepsilon]-N_\eld(0,\varepsilon]\bigr]\le C\varepsilon^{5/3}.
+\end{equation}
+For every real $q>-2/3$,
+\begin{equation}\label{eq:parent-122}
+\E\sum_{\text{selected},\ \ell\le\varepsilon}\ell^q\sim c_{\mathcal B,\mathcal K}\,\frac{\varepsilon^{q+2/3}}{q+2/3},
+\end{equation}
+and the same leading expression holds for the candidates. For $q>-5/3$ the nonselected pairs alone satisfy
+\begin{equation}\label{eq:parent-123}
+\E\sum_{\text{candidate, not selected},\ \ell\le\varepsilon}\ell^q\le C_q\,\varepsilon^{q+5/3}.
+\end{equation}
+For $q\le-2/3$ the two individual expectations in \eqref{eq:parent-122} are infinite for every sufficiently small $\varepsilon>0$. For the populations of Theorem~\ref{thm:parent-C}, with $c_{d,L}$ in place of $c_{\mathcal B,\mathcal K}$, the first relation of \eqref{eq:parent-121}, the asymptotics \eqref{eq:parent-122} and the divergence for $q\le-2/3$ hold, for the selected and for the candidate pairs separately.
+\end{corollary}
+
+\begin{proof}
+Integrate the density versions of Theorem~\ref{thm:parent-B}. For $q\le-2/3$ the individual expectations are infinite because the densities have a positive leading term $\ell^{-1/3}$. The unrestricted statements follow from Theorem~\ref{thm:parent-C} by the same integrable-power argument.
+\end{proof}
+
+Equation \eqref{eq:parent-123} concerns the counting measure of the nonselected pairs directly, not a subtraction of two infinities. On compact windows the inverse lifetime power $\ell^{-p}$ is integrable over the selected, or the candidate, pairs exactly when $p<2/3$, by \eqref{eq:parent-122}, and over the nonselected pairs alone at least when $p<5/3$, by \eqref{eq:parent-123}. The compact-window bounds on the nonselected pairs, the second relation of \eqref{eq:parent-121} and \eqref{eq:parent-123}, fail for the unrestricted populations: there the nonselected density does not vanish as $\ell\downarrow0$, because far candidate pairs of small height difference do not vanish (Remark~2.5 of the main text).
+
+\subsection{Removing the birth and gap cutoffs by a direct intensity majorant}\label{ssec:parent-majorant}
+
+The covariance $\Sigma_r$ of $U_r$ depends on the radius and the frame, not on the imposed target. Lemma~\ref{lem:parent-contact} therefore supplies a fixed $r_0>0$, independent of $b$ and $k$, such that for $0<r\le r_0$ the eigenvalues of $\Sigma_r$ are bounded above and away from zero. Reduce $r_0$ below the injectivity scale of the torus, below the embedding radius $L/(4\sqrt2)$ of Definition~\ref{def:parent-pinned}, and below one. Neither a lower bound for $Z_r$ uniform over all marks nor a constant in \eqref{eq:parent-A} uniform over all marks is required.
+
+\begin{lemma}[target growth]\label{lem:parent-growth}
+For every $b\in\R$, $k>0$, $0<r\le r_0$ and every frame, the exact target \eqref{eq:parent-target} satisfies
+\begin{equation}\label{eq:parent-131}
+|v_r|\le C(|b|+k),\qquad |v_r|^2\ge c\,(b^2+k^2),
+\end{equation}
+with fixed $c,C>0$; consequently
+\begin{equation}\label{eq:parent-132}
+\pi_r(R;v_r)\le C\exp\bigl[-c\,(b^2+k^2)\bigr].
+\end{equation}
+For every fixed finite $p$, uniformly over $0<r\le r_0$ and the frames,
+\begin{equation}\label{eq:parent-133}
+\E^0\bigl(1+\|f\|_{C^3}\bigr)^p\le C_p\,(1+|b|+k)^p .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For the second inequality of \eqref{eq:parent-131} it suffices to use the two coordinates $b-kr^3/2$ and $12k$ of $v_r$: if $r\le1$, then $b^2\le2(b-kr^3/2)^2+k^2/2$. The invertible covariance bound then yields \eqref{eq:parent-132}. Conditional means of the Fourier coefficients are bounded by $C|v_r|$ and their centred variances by one, and the summability and Minkowski argument of Lemma~\ref{lem:parent-moments} gives the target-growth bound \eqref{eq:parent-133}. This is not the compact-target bound \eqref{eq:parent-41} applied outside its scope; it is its explicit polynomial-growth version.
+\end{proof}
+
+\begin{lemma}[unnormalized intensity majorant]\label{lem:parent-majorant}
+\textup{(a)} For every $C^4$ function satisfying the pins \eqref{eq:parent-pins} with $r\le1$, and $i\in\{M,S\}$,
+\begin{equation}\label{eq:parent-detbound}
+\frac{|\det H_i|}r\le C\bigl(1+\|f\|_{C^3}\bigr)^d,\qquad 0\le\frac{W_r}{r^2}\le C\bigl(1+\|f\|_{C^3}\bigr)^{2d}.
+\end{equation}
+\textup{(b)} For $b\in\R$, $k>0$, $0<r\le r_0$ and every frame,
+\begin{equation}\label{eq:parent-134}
+0\le\mathcal A_r(b,k,t)=12\,\pi_r(R;v_r)\,\frac{Z_r}{r^2}\le C\,(1+|b|+k)^{2d}\exp\bigl[-c\,(b^2+k^2)\bigr]=:\Psi(b,k).
+\end{equation}
+\textup{(c)} For every fixed $r\in(0,r_0]$, every $b\in\R$ and every $k>0$, $Z_r$ is positive and finite, so $p_r$ is defined. For every fixed $b\in\R$ and $k>0$, $p_r\to1$ as $r\to0$.
+\end{lemma}
+
+\begin{proof}
+(a) follows from \eqref{eq:parent-51} and \eqref{eq:parent-53}. These inequalities remain true when $k$ is arbitrarily small: no division by $k$ or by $Z_r$ occurs. Combining (a) with \eqref{eq:parent-132} and \eqref{eq:parent-133} gives the full unnormalized intensity majorant \eqref{eq:parent-134}. (c) Append both endpoint Hessians to the distinct-site pins: the full residual Gaussian density is positive on a product of an open cone of maxima and an open cone of index $d-1$. Thus $p_r$ is defined, although no lower floor for $Z_r$ uniform over all marks has been used. For fixed $b$ and $k>0$, Theorem~\ref{thm:parent-A} on a compact neighbourhood implies $p_r\to1$.
+\end{proof}
+
+\begin{proposition}[near densities and the unrestricted coefficient]\label{prop:parent-near}
+At a fixed lifetime $\ell>0$ the near-pair restriction $r\le r_0$ is exactly $k\ge\ell/r_0^3$, and after the exact change of variables \eqref{eq:parent-111},
+\begin{equation}\label{eq:parent-135}
+\ell^{1/3}\,\nu^{\rm near}_\cand(\ell)=\int_{\R\times(0,\infty)\times S^{d-1}}\ind_{\{k\ge\ell/r_0^3\}}\,\frac{\mathcal A_{(\ell/k)^{1/3}}(b,k,t)}{3k^{2/3}}\,db\,dk\,d\sigma(t),
+\end{equation}
+with the integrand defined to be zero where the indicator vanishes. The selected near density $\nu^{\rm near}_\eld$ has the additional factor $p_{(\ell/k)^{1/3}}$ in the integrand. Both integrands are dominated by the integrable function $\Psi(b,k)/(3k^{2/3})$. As $\ell\downarrow0$, both $\ell^{1/3}\nu^{\rm near}_\cand(\ell)$ and $\ell^{1/3}\nu^{\rm near}_\eld(\ell)$ converge to
+\begin{equation}\label{eq:parent-136}
+c_{d,L}=4\int_{\R\times(0,\infty)\times S^{d-1}}k^{-2/3}\,\pi_0(R;v_0)\,z_0(b,k,R)\,db\,dk\,d\sigma(t),\qquad 0<c_{d,L}<\infty .
+\end{equation}
+In particular $c_{\mathcal B,\mathcal K}$ increases to $c_{d,L}$ along an exhausting sequence of mark rectangles.
+\end{proposition}
+
+\begin{proof}
+The majorant $\Psi(b,k)/(3k^{2/3})$ is integrable: the exponent $-2/3$ of $k$ is strictly greater than $-1$ at zero, and Gaussian tails absorb the polynomial at infinity and in $b$. This handles the shrinking-$k$ boundary, where a compact-window selection constant can blow up. For fixed $b\in\R$, $k>0$ and $t$, the indicator tends to one, $\mathcal A_r\to\mathcal A_0$ and $p_r\to1$. Dominated convergence therefore gives the same limit \eqref{eq:parent-136} for the two near densities. The step uses the unnormalized product $\pi_rZ_r$, not a bound for the normalized law $\Prob^{MS}_r$ uniform over all marks. It proves an unrestricted leading limit; it does not produce a quantitative unrestricted remainder from dominated convergence.
+\end{proof}
+
+\subsection{The off-diagonal contribution and the proof of Theorem~C}\label{ssec:parent-far}
+
+\begin{lemma}[far pairs]\label{lem:parent-far}
+On the compact set of spatial pairs at torus distance at least $r_0$, the original full-pin covariance, of the values and gradients at the two points, is uniformly positive definite, and its inverse is uniformly bounded. For $0<\ell\le1$ and $b\in\R$, the original target $(b,0,\dots,0,b-\ell,0,\dots,0)$ has squared norm at least $b^2$, so its Gaussian density is at most $C\exp(-cb^2)$; the conditional endpoint determinant-product moments on this set are at most $C(1+|b|)^{2d}$; and the height transformation $(f(M),f(S))=(b,b-\ell)$ has absolute determinant one. Consequently the densities $\nu^{\rm far}_\cand$ and $\nu^{\rm far}_\eld$ of the pairs at torus distance at least $r_0$ satisfy
+\begin{equation}\label{eq:parent-141}
+0\le\nu^{\rm far}_\eld(\ell)\le\nu^{\rm far}_\cand(\ell)\le C,\qquad 0<\ell\le1 .
+\end{equation}
+The near and far populations cover all distinct pairs; a distance boundary may be assigned to either, as it is spatially null.
+\end{lemma}
+
+\begin{proof}
+Every distinct-site jet list has full rank by Lemma~\ref{lem:parent-jetrank}, and compactness applies without a diagonal singularity; this gives the covariance statements. Integrating over $b$ and over the compact domain of relative positions gives \eqref{eq:parent-141}. No bound on remote critical counts conditional on a rare cap failure is inferred: \eqref{eq:parent-141} is an unconditional off-diagonal height-density bound, proved directly from a nonsingular covariance on a fixed compact set.
+\end{proof}
+
+The proof uses only the compactness of the set of pairs and the full rank of distinct-site jet lists, so \eqref{eq:parent-141} holds, with a constant depending on $\rho$, for the pairs at torus distance at least any fixed $\rho>0$. For $d=3$ and $L=24$ this is Proposition~\ref{prop:limit-far}.
+
+\begin{proof}[Proof of Theorem~\ref{thm:parent-C}]
+The near and far populations cover all distinct pairs (Lemma~\ref{lem:parent-far}), and stationarity converts the spatial integral into a density per unit volume. Combining \eqref{eq:parent-135}--\eqref{eq:parent-136} with $\ell^{1/3}$ times \eqref{eq:parent-141} proves \eqref{eq:parent-C}. On the almost-sure locus of Morse functions with distinct critical values (Lemma~\ref{lem:parent-generic}(b)), the selected full-pair count is precisely the count of finite bars, by Lemma~\ref{lem:parent-mark}(c), and the essential class of the global maximum is not counted.
+\end{proof}
+
+\subsection{Elimination of birth and gap from the leading coefficient}\label{ssec:parent-coef}
+
+This simplification uses the inversion symmetry, or parity, of a stationary real covariance, not rotational isotropy.
+
+\begin{lemma}[parity factorization]\label{lem:parent-parity}
+At the contact point write $G=\nabla f(0)$; let $V_t=D^2f(0)\,t$, expressed in the frame $R$, with the $d$ coordinates $(f_{xx},f_{xy_1},\dots,f_{xy_m})(0)$; and let $A_t=D_y^2f(0)$ be the transverse Hessian block on $t^\perp$. All odd derivatives $(G,\partial_t^3f(0))$ are jointly independent of the even derivatives $(f(0),V_t,A_t)$. Put
+\begin{equation}\label{eq:parent-151}
+\tau_t^2=\Var\bigl(\partial_t^3f(0)\bigm|G=0\bigr)>0,\qquad D_t=\E\bigl[(\det A_t)^2\,\ind_{\{A_t\prec0\}}\bigm|V_t=0\bigr].
+\end{equation}
+Given $V_t=0$, $A_t$ is an actual centred nondegenerate Gaussian symmetric matrix, not automatically a GOE matrix. The variance $\tau_t^2$, the densities $p_G(0)$ and $p_{V_t}(0)$, and $D_t$ are positive; all are continuous in the frame and invariant under changes of the transverse frame. With $\phi_\tau$ the centred scalar Gaussian density of standard deviation $\tau$, the contact density and the cone moment factor as
+\begin{equation}\label{eq:parent-factor}
+\pi_0(R;v_0)=p_{(f,V_t)}(b,0)\,p_G(0)\,\phi_{\tau_t}(12k),\qquad z_0=(6k)^2\,\E\bigl[(\det A_t)^2\,\ind_{\{A_t\prec0\}}\bigm|f=b,\ V_t=0\bigr].
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Every odd derivative of the even covariance $K_L$ vanishes at zero, so the odd and the even derivatives at $0$ are uncorrelated, hence independent. Finite-jet rank (Lemma~\ref{lem:parent-jetrank}) proves $\tau_t>0$, the positivity of $p_G(0)$ and $p_{V_t}(0)$, and $D_t>0$. The factorization \eqref{eq:parent-factor} follows from this independence and the target $v_0=(b,0,0,12k,0,\dots,0)$.
+\end{proof}
+
+\begin{proposition}[the leading coefficient]\label{prop:parent-coef}
+Integrating $b$ by ordinary Gaussian disintegration turns \eqref{eq:parent-136} into
+\begin{equation}\label{eq:parent-15a}
+c_{d,L}=144\int_{S^{d-1}}p_G(0)\,p_{V_t}(0)\,D_t\Bigl[\int_0^\infty k^{4/3}\,\phi_{\tau_t}(12k)\,dk\Bigr]\,d\sigma(t).
+\end{equation}
+The scalar integral can be evaluated exactly: with $w=12k$ and the elementary gamma integral,
+\begin{equation}\label{eq:parent-15b}
+144\int_0^\infty k^{4/3}\,\phi_\tau(12k)\,dk=\frac{\Gamma(7/6)\,\tau^{4/3}}{24^{1/3}\sqrt\pi}.
+\end{equation}
+Consequently the full leading coefficient is
+\begin{equation}\label{eq:parent-152}
+c_{d,L}=\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}\int_{S^{d-1}}p_G(0)\,p_{V_t}(0)\,\tau_t^{4/3}\,D_t\,d\sigma(t).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:parent-factor}, the integral over $b$ of $p_{(f,V_t)}(b,0)\,\E[(\det A_t)^2\ind_{\{A_t\prec0\}}\mid f=b,V_t=0]$ is $p_{V_t}(0)\,D_t$, and $4\cdot(6k)^2k^{-2/3}=144\,k^{4/3}$; this gives \eqref{eq:parent-15a}. The substitution $w=12k$ and the gamma integral give \eqref{eq:parent-15b}, and \eqref{eq:parent-152} follows.
+\end{proof}
+
+This eliminates both unbounded mark integrals. The remaining angular integral and the expectation over the negative definite cone are finite, strictly positive and specified by derivatives of the exact periodized covariance. Formula \eqref{eq:parent-152} is an explicit finite-dimensional Gaussian representation, not an elementary closed form or a numerical enclosure. The factor $24$ in it is a numerical Jacobian and gamma factor, not the side length $L$; it is the same for every $L$. Changing the field amplitude by $a>0$ scales the coefficient by $a^{-2/3}$, consistently with $\nu_{af}(\ell)=a^{-1}\nu_f(\ell/a)$; this is an additional normalization check.
+
+\subsection{Scope}\label{ssec:parent-scope}
+
+\begin{remark}[what is not proved]\label{rem:parent-scope}
+This section gives no numerical value of $r_*$ or $C$ on a prescribed band; no bound $1-p_r\le Cr^3$ with a constant uniform over unbounded $b$ and $k$; no unrestricted remainder of order $\ell^{2/3}$ for the difference of the densities, which is proved only on compact windows; no elementary closed form or numerical enclosure of \eqref{eq:parent-152}; and no evaluated lower coefficient for the failure of pairing.
+\end{remark}
+
+\begin{remark}[background]\label{rem:parent-sources}
+\cite[\S\S2 and 7]{AAL} supplies the Gaussian Kac--Rice and expected-integral background; the extension to the full field and to Borel marks, and its application to pairs, are those of Proposition~\ref{prop:parent-KR}. \cite[\S3]{Curry} supplies elder-rule background. The separating cap in every dimension is Section~\ref{sec:cap}.
+\end{remark}
