@@ -87,11 +87,24 @@ class EvaluationTests(unittest.TestCase):
         self.assertEqual(self.ev('7 / 2 = 3 ∧ 7 % 2 = 1').status, 'PASS')
         self.assertEqual(self.ev('2 ^ 3 * 2 = 16').status, 'PASS')
 
-    def test_int_division_with_a_negative_operand_is_unsupported_when_conventions_disagree(self):
-        # T-division gives -2, Euclidean/floor give -3: the harness must not guess
-        r = self.ev('(-7 : Int) / 3 = -2')
-        self.assertEqual(r.status, 'UNSUPPORTED')
-        self.assertIn('division', r.detail.lower())
+    def test_int_division_and_modulus_follow_lean_core_euclidean_convention(self):
+        # Lean 4 core: `/` on Int is Int.ediv and `%` is Int.emod (Euclidean: 0 ≤ r < |b|), and both are
+        # totalized at b = 0 (q = 0, r = a). Golden controls from main#684/6511137449; the two cases with a
+        # negative divisor are exactly where Python's floor division disagrees.
+        goldens = [((5, -2), (-2, 1)), ((-5, -2), (3, 1)), ((-5, 2), (-3, 1)),
+                   ((5, 2), (2, 1)), ((5, 0), (0, 5)), ((-5, 0), (0, -5))]
+        for (a, b), (q, r) in goldens:
+            with self.subTest(a=a, b=b):
+                self.assertEqual(self.ev(f'({a} : Int) / {b} = {q} ∧ ({a} : Int) % {b} = {r}').status, 'PASS')
+                self.assertEqual(self.ev(f'({a} : Int) / {b} = {q + 1}').status, 'FAIL')
+        # Python semantics would read (5, -2) as (-3, -1): that reading must be reported FAIL, not PASS
+        self.assertEqual(self.ev('(5 : Int) / -2 = -3').status, 'FAIL')
+        self.assertEqual(self.ev('(5 : Int) % -2 = -1').status, 'FAIL')
+        # T-division (toward zero) would read (-5, 2) as (-2, -1): also FAIL
+        self.assertEqual(self.ev('(-5 : Int) / 2 = -2').status, 'FAIL')
+
+    def test_nat_division_and_modulus_are_totalized_at_zero(self):
+        self.assertEqual(self.ev('7 / 0 = 0 ∧ 7 % 0 = 7').status, 'PASS')
 
     def test_recursive_def_with_patterns(self):
         self.assertEqual(self.ev('fact 6 = 720', LEDGER).status, 'PASS')

@@ -12,12 +12,13 @@ reports PASS / FAIL / UNSUPPORTED per target.
 
 A FAIL is a misstatement or a transcription defect in the Lean text; it is never evidence about the
 kernel. UNSUPPORTED is fail-closed: the construct is outside the interpreter (Mathlib, reals,
-unbounded quantifiers, ambiguous Int division) and the target cannot count as fuzz-validated.
+unbounded quantifiers, notation the subset does not define) and the target cannot count as fuzz-validated.
 
-Lean semantics implemented: Nat subtraction truncates at 0; Nat and Int division by zero is 0;
-Nat division floors; Int division is evaluated only when the T-rounding and Euclidean conventions
-agree (otherwise UNSUPPORTED); numerals default to Nat unless an ascription or a definition's result
-type makes the arithmetic Int, following the maximal-type rule of Lean's `binop%` elaborator.
+Lean semantics implemented: Nat subtraction truncates at 0; Nat and Int division by zero is 0 and
+x % 0 = x (totalized); Nat division floors; Int `/` and `%` are Euclidean (`Int.ediv`/`Int.emod`:
+0 ≤ r < |b|), which is Lean 4 core's convention — not Python's floor division and not T-rounding;
+numerals default to Nat unless an ascription or a definition's result type makes the arithmetic Int,
+following the maximal-type rule of Lean's `binop%` elaborator.
 
 Usage:
     python3 tools/cbz/statement_fuzz.py --package formal [--json report.json] [--selftest]
@@ -736,26 +737,16 @@ class Evaluator:
             if typ == 'Rat':
                 return Fraction(0) if b == 0 else a / b
             if b == 0:
-                return 0
+                return 0                      # totalized: x / 0 = 0 (Nat.div, Int.ediv)
             if typ == 'Nat':
                 return a // b
-            t_div = int(a / Fraction(b)) if (a * b) >= 0 else -((-a) // b if a < 0 else a // (-b))
-            # T-rounding (toward zero) and Euclidean division
-            tdiv = (abs(a) // abs(b)) * (1 if (a >= 0) == (b > 0) else -1)
-            ediv = a // b if b > 0 else -(a // (-b))
-            if tdiv != ediv:
-                raise Unsupported('Int division with a negative operand: T-rounding and Euclidean conventions disagree')
-            return ediv
+            return _ediv(a, b)
         if op == '%':
             if b == 0:
-                return a
+                return a                      # totalized: x % 0 = x (Nat.mod, Int.emod)
             if typ == 'Nat':
                 return a % b
-            tmod = a - ((abs(a) // abs(b)) * (1 if (a >= 0) == (b > 0) else -1)) * b
-            emod = a - (a // b if b > 0 else -(a // (-b))) * b
-            if tmod != emod:
-                raise Unsupported('Int modulus with a negative operand: conventions disagree')
-            return emod
+            return a - b * _ediv(a, b)        # Int.emod: 0 ≤ r < |b|
         raise Unsupported(f'operator {op}')
 
     def apply(self, node: App, env, typ):
@@ -979,6 +970,14 @@ class Evaluator:
         if isinstance(node, Ascribe):
             return self.prop(node.expr, env)
         raise Unsupported(f'proposition of form {type(node).__name__}')
+
+
+def _ediv(a: int, b: int) -> int:
+    """Lean 4 core `Int./` is `Int.ediv` (Euclidean): the quotient q with a = b*q + r and 0 ≤ r < |b|.
+    For b > 0 this is floor division; for b < 0 it is -(a // -b). Python's `//` floors for every sign of
+    b and T-division rounds toward zero, so both differ from this for some sign combination
+    (goldens: 5 / -2 = -2, -5 / -2 = 3, -5 / 2 = -3; main#684/6511137449)."""
+    return a // b if b > 0 else -(a // (-b))
 
 
 def _max_type(a, b):
