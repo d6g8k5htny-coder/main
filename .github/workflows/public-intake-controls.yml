@@ -4,10 +4,10 @@ name: Public intake checker controls
 on:
   pull_request:
     branches: [main]
-    paths: ['tools/public_intake_check.py', 'tests/test_public_intake.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
+    paths: ['tools/public_intake_check.py', 'tests/test_public_intake*.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
   push:
     branches: [main]
-    paths: ['tools/public_intake_check.py', 'tests/test_public_intake.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
+    paths: ['tools/public_intake_check.py', 'tests/test_public_intake*.py', '.github/workflows/public-intake.yml', '.github/workflows/public-intake-controls.yml']
 permissions:
   contents: read
 jobs:
@@ -21,5 +21,5 @@ jobs:
           persist-credentials: false
       - name: Run positive and refusal controls without network
         run: |
-          python3 -B -S -m unittest discover -s tests -p test_public_intake.py -v
-          python3 -B -O -S -m unittest discover -s tests -p test_public_intake.py -v
+          python3 -B -S -m unittest discover -s tests -p 'test_public_intake*.py' -v
+          python3 -B -O -S -m unittest discover -s tests -p 'test_public_intake*.py' -v
