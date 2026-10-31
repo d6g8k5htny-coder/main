@@ -16,6 +16,10 @@ name: Current research site
       - 'tests/test_node_status_refresh.py'
       - 'tests/test_node_status_freshness.py'
       - 'cbz/evidence/node-status-freshness/run_mutations.py'
+      # inputs of the freshness suite and its mutation runner
+      - 'tools/validate_node_status.py'
+      - 'records/node_status/**'
+      - 'architecture/node-status.schema.json'
       - 'tests/fixtures/node_status_refresh/**'
       - '.github/workflows/current-site.yml'
   schedule:
