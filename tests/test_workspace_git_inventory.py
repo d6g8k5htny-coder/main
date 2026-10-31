@@ -292,6 +292,40 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual(result.returncode,0,result.stderr)
         self.assertTrue({str(nested),str(deep)}.issubset(json.loads(out.read_bytes())['discovered_roots']))
 
+    def test_stash_enumeration_does_not_run_signature_verifier(self):
+        repo=self.repo('signed');(repo/'tracked').write_text('stashed\n');self.git(repo,'stash','push','-q')
+        header,_,message=self.git(repo,'cat-file','commit','refs/stash').decode().partition('\n\n')
+        signed=header+'\ngpgsig -----BEGIN PGP SIGNATURE-----\n \n iQ==\n -----END PGP SIGNATURE-----\n\n'+message
+        commit=subprocess.run(['git','-C',str(repo),'hash-object','-t','commit','-w','--stdin'],input=signed.encode(),
+                              capture_output=True,check=True).stdout.decode().strip()
+        self.git(repo,'update-ref','-m','signed stash','refs/stash',commit)
+        marker=Path(self.temp.name)/'verifier-ran';verifier=Path(self.temp.name)/'verifier.sh'
+        verifier.write_text('#!/bin/sh\ntouch '+shlex.quote(str(marker))+'\nexit 1\n');verifier.chmod(0o755)
+        self.git(repo,'config','log.showSignature','true');self.git(repo,'config','gpg.program',str(verifier))
+        subprocess.run(['git','-C',str(repo),'stash','list'],capture_output=True)
+        self.assertTrue(marker.exists(),'control: plain Git verifies the signed stash');marker.unlink()
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertFalse(marker.exists(),'the census ran the repository-configured signature verifier')
+        self.assertEqual(len(next(s for s in d['stores']if s['path']==str(repo/'.git'))['stashes']),2)
+
+    def test_conflicted_submodule_reports_every_index_stage(self):
+        repo=self.repo('conflicted')
+        stages=''.join('160000 %s %d\tmodule\n'%(digit*40,stage)for digit,stage in (('1',1),('2',2),('3',3)))
+        subprocess.run(['git','-C',str(repo),'update-index','--index-info'],input=stages.encode(),check=True)
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        work=next(r for r in d['worktrees']if r['path']==str(repo))
+        self.assertEqual([(m['index_stage'],m['object'])for m in work['submodules']if m['path']=='module'],
+                         [(1,'1'*40),(2,'2'*40),(3,'3'*40)])
+
+    def test_separate_git_dir_metadata_is_not_a_worktree_candidate(self):
+        metadata=self.root/'metadata';work=self.root/'work'
+        subprocess.check_call(['git','init','-q','--separate-git-dir',str(metadata),str(work)])
+        self.git(work,'config','user.name','Census Test');self.git(work,'config','user.email','census@example.invalid')
+        (work/'tracked').write_text('initial\n');self.git(work,'add','tracked');self.git(work,'commit','-qm','initial')
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertEqual([w['path']for w in d['worktrees']],[str(work)])
+        self.assertTrue(any(s['path']==str(metadata)for s in d['stores']))
+
     def test_remote_redaction_preserves_all_filesystem_identity_fields(self):
         self.root=self.root/'root?token=root-value';self.root.mkdir()
         repo=self.repo('repo?token=first');second=self.repo('repo?token=second')

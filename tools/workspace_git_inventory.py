@@ -75,7 +75,7 @@ class Git:
         self.env.update(GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0', GIT_NO_LAZY_FETCH='1')
         self.base = ['core.fsmonitor=false', 'core.untrackedCache=false',
                      'core.hooksPath=/dev/null', 'maintenance.auto=false', 'gc.auto=0',
-                     'core.quotePath=false', 'protocol.allow=never']
+                     'core.quotePath=false', 'protocol.allow=never', 'log.showSignature=false']
         self.base += ['protocol.' + name + '.allow=never'
                       for name in ['http', 'https', 'ssh', 'git', 'file', 'ext']]
 
@@ -387,8 +387,10 @@ def _submodules(git, path, settings, bare, head):
                 git.error('parse', path, 'submodule index/tree', message='Invalid entry')
                 continue
             if fields[0] == b'160000':
-                modules[_text(name)] = {'path': _text(name), 'object': _text(fields[2] if bare else fields[1]),
-                                       'index_stage': None if bare else int(fields[2])}
+                stage = None if bare else int(fields[2])
+                key = (_text(name), stage or 0)  # a conflicted gitlink has one entry per stage
+                modules[key] = {'path': _text(name), 'object': _text(fields[2] if bare else fields[1]),
+                                'index_stage': stage}
     source = ('--blob', 'HEAD:.gitmodules') if bare else ('--file', str(path / '.gitmodules'))
     if (bare and modules) or (not bare and (path / '.gitmodules').exists()):
         config = _config(git, path, r'^submodule\..*\.(path|url)$', source, settings)
@@ -396,12 +398,14 @@ def _submodules(git, path, settings, bare, head):
             if key.endswith('.path'):
                 name = key[len('submodule.'):-len('.path')]
                 for module_path in values:
-                    row = modules.setdefault(module_path, {'path': module_path, 'object': None, 'index_stage': None})
-                    row['name'] = name
-                    row['urls'] = [_remote_url(url) for url in config.get('submodule.' + name + '.url', [])]
+                    rows = [row for row in modules.values() if row['path'] == module_path] or [
+                        modules.setdefault((module_path, 0), {'path': module_path, 'object': None, 'index_stage': None})]
+                    for row in rows:
+                        row['name'] = name
+                        row['urls'] = [_remote_url(url) for url in config.get('submodule.' + name + '.url', [])]
     for row in modules.values():
         row['initialized'] = False if bare else os.path.lexists(path / row['path'] / '.git')
-    return sorted(modules.values(), key=lambda row: os.fsencode(row['path']))
+    return sorted(modules.values(), key=lambda row: (os.fsencode(row['path']), row['index_stage'] or 0))
 
 
 def _preflight_submodule_settings(reader, candidates, settings):
@@ -479,7 +483,7 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
         'policy': {'walk_exclusions': ['Validated exact Git metadata internals only; node_modules is searched'],
                    'symlinks': 'Follow internal directory targets once by device/inode; record all links; external directory targets are uncovered/incomplete',
                    'paths': 'NUL Git records; filesystem surrogateescape; JSON ensure_ascii=true',
-                   'read_only': 'Optional locks, hooks, filters, maintenance and lazy network fetch disabled; no Git mutation commands',
+                   'read_only': 'Optional locks, hooks, filters, signature verification, maintenance and lazy network fetch disabled; no Git mutation commands',
                    'status': 'porcelain v1 -z --untracked-files=all; Git ignore rules still apply',
                    'url_redaction': 'Remote URLs and diagnostic values only; filesystem identities preserved'},
         'limits': {'git_timeout_seconds': command_timeout, 'total_timeout_seconds': total_timeout,
@@ -521,7 +525,11 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                                             for i in range(0, len(fields), 2)]
             stores[common_path] = store, settings
             for row in registered:
-                candidates[str(Path(row['worktree']).resolve())] = common_path
+                worktree = Path(row['worktree'])
+                # A separate-git-dir repository lists its metadata directory as its main worktree.
+                if not row.get('bare') and worktree.is_dir() and _is_git_metadata(worktree, reader):
+                    continue
+                candidates[str(worktree.resolve())] = common_path
         inside = reader.run(path, 'rev-parse', '--is-inside-work-tree')
         if inside is not None and _line(inside[1]) == 'true':
             candidates[path] = common_path
