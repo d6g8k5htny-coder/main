@@ -1,0 +1,312 @@
+\section{Proof of Theorem~\ref{thm:main}}\label{sec:proof}
+
+The technical lemmas used below are proved in the Supplement \rec{supp}. It assembles the exact technical appendix and its gap-fill supplement of July and August 2026, with the corrections recorded there. Statements quoted from it carry their Supplement numbers (S1.1, S1.2, \dots).
+
+\subsection{Ordered pair coordinates and unit multiplicity}\label{ssec:pairs}
+
+For a maximum $M$ and an index-two saddle $S$ at distance $r<12$, let
+\begin{equation}\tag{3.1}
+x=\frac{M+S}{2},\qquad S-M=rt,\qquad t\in S^2 .
+\end{equation}
+The inverse local Euclidean map is
+\begin{equation}\tag{3.2}
+(x,u)\longmapsto(M,S)=(x-u/2,\,x+u/2).
+\end{equation}
+Its determinant has absolute value one, and therefore
+\begin{equation}\tag{3.3}\label{eq:dMdS}
+dM\,dS=dx\,du=dx\,r^2dr\,d\sigma_2(t).
+\end{equation}
+The antipodal direction $-t$ exchanges $M$ and $S$; it does not represent the same typed ordered pair. Thus the full directed sphere $S^2$ counts each maximum--saddle pair once, with no factor $1/2$.
+
+For a Morse function with distinct critical values, each finite nonessential superlevel $H_0$ bar has one creating maximum and one merging death saddle. An index-two merge reduces $\beta_0$ by one, so the elder pairing has unit multiplicity. Counting critical-point pairs, rather than unstable-branch incidences, introduces no branch factor.
+
+\subsubsection*{Palm law and the elder mark}
+Write $\Pi_{r,x,t}=(f(M),f(S),\nabla f(M),\nabla f(S))$ for the pins of the pair and $z_r(b,\kappa)=(b,\,b-\kappa r^3/6,\,0,\,0)$ for their target (cf.~\eqref{eq:pins} below).
+
+\begin{definition}[Palm law and elder mark; Supplement Definitions S5.1 and S5.2]\label{def:palm}
+The corrected-pin covariance is nondegenerate (by \eqref{eq:VarT}; Supplement Lemma S2.3(i)), so the regular conditional Gaussian law $\E^0=\E[\,\cdot\mid\Pi_{r,x,t}=z_r(b,\kappa)]$ exists. With
+\begin{equation}\tag{3.3a}
+W_r=|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}},\qquad Z_r=\E^0[W_r]>0
+\end{equation}
+(Supplement Lemma S2.9(i)), the determinant-weighted Palm law is $\E^{MS}_r[F]=\E^0[W_rF]/Z_r$. For continuous $g$ on $\T^3_{24}$, the \emph{maximin connection level} of a point $x$ is
+\[
+d_g(x)=\sup\Bigl\{\min_{s\in[0,1]}g(\gamma(s)):\ \gamma\ \text{a path with}\ \gamma(0)=x,\ g(\gamma(1))>g(x)\Bigr\},
+\]
+with $\sup\emptyset=-\infty$. The \emph{elder mark} of a typed pair $(M,S)$ with $f(S)<f(M)$ is $e(f;M,S)=\ind\{d_f(M)=f(S)\}$.
+\end{definition}
+
+\begin{lemma}[Supplement Lemma S5.3 and Definition S5.4]\label{lem:measurable}
+The elder mark is Borel measurable. On the Morse locus, $e(f;M,S)=1$ if and only if the two upper sectors of $S$ lie in distinct components of $\{f>f(S)\}$ and $M$ is the younger of the two birth maxima; this is the elder-pair condition of Proposition~\ref{prop:density}. With $p_\Pi$ the Gaussian density of the pins $\Pi_{r,x,t}$ and the all-typed contact intensity $K^{\mathrm{all}}_r=p_\Pi(z_r(b,\kappa))\,Z_r$, the selected contact intensity is
+\begin{equation}\tag{3.3b}
+K^{\mathrm{sel}}_r=p_r\,K^{\mathrm{all}}_r,\qquad p_r=\E^{MS}_r[e].
+\end{equation}
+\end{lemma}
+
+\subsection{Contact scaling and the universal radial measure}\label{ssec:contact}
+
+Put
+\begin{equation}\tag{3.4}
+M=x-\frac r2t,\qquad S=x+\frac r2t,
+\end{equation}
+and impose
+\begin{equation}\tag{3.5}\label{eq:pins}
+f_{24}(M)=b,\qquad f_{24}(S)=b-\frac{\kappa r^3}{6},\qquad \nabla f_{24}(M)=\nabla f_{24}(S)=0,
+\end{equation}
+with $\kappa>0$. The change from the saddle value $h=f_{24}(S)$ to $\kappa$ has the exact Jacobian
+\begin{equation}\tag{3.6}
+|dh|=\frac{r^3}{6}\,d\kappa .
+\end{equation}
+
+Use the corrected divided-difference pin frame
+\begin{equation}\tag{3.7}
+V^+=\frac{f(S)+f(M)}2,\qquad V^-_{\rm corr}=\frac{f(S)-f(M)-\frac r2(\partial_tf(S)+\partial_tf(M))}{r^3},
+\end{equation}
+\begin{equation}\tag{3.8}
+G_e^+=\frac{\partial_ef(S)+\partial_ef(M)}2,\qquad G_e^-=\frac{\partial_ef(S)-\partial_ef(M)}r,
+\end{equation}
+for $e\in\{t,n_1,n_2\}$. The exact determinant of the raw-to-corrected pin map is $r^{-6}$. Hence the raw pin density contributes $r^{-6}$.
+
+At a generic fold, one eigenvalue of each endpoint Hessian is soft. Conditionally on the pins,
+\begin{equation}\tag{3.9}\label{eq:soft}
+\det H_M=rD_M,\qquad \det H_S=rD_S,
+\end{equation}
+with conditional Gaussian moments bounded by a polynomial in $|b|+\kappa$, uniformly in $t$ and in $r$ below any fixed $\varrho<12$, and hence uniformly bounded on compact mark sets (the proof of Supplement Proposition S6.4); consequently the two endpoint determinant weights contribute $r^2$.
+
+Combining \eqref{eq:dMdS}, (3.6), the corrected-pin density and \eqref{eq:soft} gives
+\begin{equation}\tag{3.10}\label{eq:radial}
+\frac{r^3}{6}\,r^{-6}\,r^2\,r^2\,dr=\frac16\,r\,dr .
+\end{equation}
+No additional ordering, antipodal, branch or merge multiplicity occurs.
+
+\subsection{Lifetime pushforward}\label{ssec:pushforward}
+
+The lifetime in \eqref{eq:pins} is
+\begin{equation}\tag{3.11}
+\ell=\frac{\kappa r^3}{6}.
+\end{equation}
+For fixed $\kappa>0$,
+\begin{equation}\tag{3.12}\label{eq:rdr}
+r\,dr=\frac{6^{2/3}}{3}\,\kappa^{-2/3}\,\ell^{-1/3}\,d\ell .
+\end{equation}
+Equations \eqref{eq:radial}--\eqref{eq:rdr} already determine the exponent $-1/3$. It remains to prove that elder selection has a nonzero limiting mass and to evaluate the coefficient. Fix $\varrho\in(0,12)$ and split $\nu_{3,24}=\nu^{\mathrm{near}}_\varrho+\nu^{\mathrm{far}}_\varrho$ according to whether the elder pair has separation $r<\varrho$ or $r\ge\varrho$.
+
+\begin{proposition}[exact near pushforward; Supplement Proposition S6.1]\label{prop:near}
+Put $G^{\mathrm{sel}}_r=r^4K^{\mathrm{sel}}_r$ and $G^{\mathrm{all}}_r=r^4K^{\mathrm{all}}_r$. For every nonnegative test function $\psi$,
+\begin{equation}\tag{3.12a}
+\int\psi(\ell)\,\nu^{\mathrm{near}}_\varrho(\ell)\,d\ell=\int_{S^2}\int_{\R}\int_0^\infty\int_0^\varrho\psi\bigl(\kappa r^3/6\bigr)\,K^{\mathrm{sel}}_r\,\frac{r^3}{6}\,r^2\,dr\,d\kappa\,db\,d\sigma_2(t),
+\end{equation}
+and therefore, with $r_\ell(\kappa)=(6\ell/\kappa)^{1/3}$,
+\begin{equation}\tag{3.12b}\label{eq:near}
+\nu^{\mathrm{near}}_\varrho(\ell)=\frac{6^{2/3}}{18}\,\ell^{-1/3}\int_{\{\kappa>6\ell/\varrho^3\}}\kappa^{-2/3}\,G^{\mathrm{sel}}_{r_\ell(\kappa)}\,d\kappa\,db\,d\sigma_2(t).
+\end{equation}
+\end{proposition}
+
+\subsection{Elder selection}\label{ssec:selection}
+
+Let $p_r(t,b,\kappa)$ be the Palm probability (Lemma~\ref{lem:measurable}) that the typed maximum--index-two-saddle contact pair in \eqref{eq:pins} is the actual elder persistence pair.
+
+\begin{lemma}[trichotomy; Supplement Lemma S5.7]\label{lem:trichotomy}
+On the Morse event, for an ordered typed pair $(M,S)$ at distance $r$ with midpoint $x$,
+\[
+A_r\cap E_r^c\subset B_r\cup L_{\mathrm{same},r},
+\]
+where $A_r$ is gradient adjacency, $E_r=\{e=1\}$, $L_{\mathrm{same},r}$ is same-maximum self-attachment (both ascending half-branches of $S$ end at $M$), and $B_r$ is the existence of a third critical point with value in the pair window $[h,b]$ in one of three spatial regions measured from $x$: the collar $\{|y-x|\le C_1r\}$, the singular-near region $\{C_1r<|y-x|\le\delta\}$, or at fixed distance $\{|y-x|>\delta\}$. If the two upper sectors of $S$ lie in one component of $\{f>h\}$ and not both half-branches end at $M$, that component contains a critical point other than $M$ and $S$ with value in $(h,b)$ (Supplement Lemma S5.7, Case~0, with the merge-level Lemma S5.6), so that case lies in $B_r$. When $M$ is the older birth maximum but $e=0$, the witness is the younger component's own birth maximum $M_2$, with $h<f(M_2)<f(M)$.
+\end{lemma}
+
+\begin{corollary}[the selection loss has exact order $r^3$]\label{cor:selection}
+Uniformly for $t\in S^2$ and compact $b,\kappa>0$,
+\begin{equation}\tag{3.13}\label{eq:selection}
+1-p_r(t,b,\kappa)\le Cr^3,
+\end{equation}
+and, for constants $c,r_*>0$ depending on the compact mark set,
+\begin{equation}\tag{3.13a}\label{eq:selection-lower}
+1-p_r(t,b,\kappa)\ge c\,r^3,\qquad 0<r\le r_* .
+\end{equation}
+\end{corollary}
+
+Corollary~\ref{cor:selection} is proved after Theorem~\ref{thm:escape}; its upper bound \eqref{eq:selection} is Supplement Theorem~S12.3, which states Theorem~A of \rec{parent} and proves it in Supplement Part~III. The rest of this subsection describes a second, three-dimensional route to \eqref{eq:selection} through explicit witnesses, written out in Supplement~\S S5 (Theorem~S5.36). A provider-distinct read of the eighth draft of that section found a gap in it: the collar and singular-near counts (Supplement Lemmas S5.19 and S5.23) passed from contact-limit densities to the densities at a fixed positive scale without a proof that is uniform near the pair axis. Supplement draft~9 repairs it in \S S5.8 (Lemmas S5.39--S5.41), by a radial blow-up of the parameters at the axis with explicit limit functionals, and proves the two counts again from it (\S\ref{sec:disclosure} records the reads of this repair). The proof of the corollary does not use this route.
+
+The three witness families are controlled as follows.
+
+First, the collar and singular-near third-critical-point charts retain their exact vanishing factors under the side-24 periodized jet (Supplement Lemmas S5.18 and S5.21). In collar variables $y=x+r(Xt+\rho v)$, with $v$ a unit vector orthogonal to $t$, the scaled conditional gradient covariance factors as
+\begin{equation}\tag{3.14}
+\det C_{\rm col}=\rho^6(X^2+\rho^2)A_{\rm col},\qquad A_{\rm col}>0 .
+\end{equation}
+In the singular-near chart $y=x+s(ct+\rho v)$, with $c^2+\rho^2=1$ and $s=|y-x|$, the corrected value--gradient covariance factors as
+\begin{equation}\tag{3.15}
+\det C_{\rm sing}=\rho^{10}(3c^2+\rho^2)A_{\rm sing},\qquad A_{\rm sing}>0 .
+\end{equation}
+Together with the anisotropic triple-determinant envelope
+\begin{equation}\tag{3.16}
+[r(r+s^2)]^2(r^2+s^3),
+\end{equation}
+which bounds $|\det H_M\,\det H_S\,\det H_y|$ up to $C\rho^{-6}$ times the cube of a derivative bound (Supplement Lemma S5.22), these give Palm expectations $O(r^3)$ for collar and singular-near witnesses (Supplement Lemmas S5.19 and S5.23), with the finite-scale densities of Supplement \S S5.8. The envelope is proved from Taylor's formula, the pins and the value window, uniformly in the angle. It does not use the per-Hessian formulas of the exact triple-contact elimination (Supplement Lemma S5.15; Remark~\ref{rem:B1}).
+
+Second, complete positive Fourier support of \eqref{eq:K24} implies strict covariance positivity for every linearly independent finite family of derivative-evaluation distributions. Compactness then gives uniform eigenvalue floors for the corrected pair pins joined to a fixed-distance remote value-gradient block. The endpoint determinant factor $r^2$, the remote value window of width $\kappa r^3/6$ and the Palm normalizer $Z_r\asymp r^2$ give, uniformly for $t\in S^2$ and compact $b,\kappa>0$,
+\begin{equation}\tag{3.17}
+\E_r^{MS}N_{\rm far}\le Cr^3 .
+\end{equation}
+The count is conditional on the pins, so the argument needs the pin density to be bounded below; it gives no Gaussian factor in $(b,\kappa)$.
+
+Third, the local unstable-manifold comparison is performed in the correctly scaled transverse matrix
+\begin{equation}\tag{3.18}\label{eq:Tr}
+T_r=-\frac{Q_\perp}{\kappa r},
+\end{equation}
+where $Q_\perp$ is the physical transverse Hessian at the contact saddle (Supplement (S5.95)). The inward branch is captured by the maximum, and the outward branch crosses a forward section at a level strictly above $f(M)$; this is Theorem~\ref{thm:escape}. Shallow-eigenvalue, finite-jet and fifth-derivative failures have Palm probability $O(r^3)$ or $o(r^3)$.
+
+\begin{theorem}[energy-adapted capture and escape; Supplement Theorem S5.31]\label{thm:escape}
+On a fixed compact convex chart, with $X\in\R$ along the pair and $Y\in\R^2$ across it, consider the normalized potential
+\begin{equation}\tag{3.18a}
+P(X,Y)=p_0(X)+\tfrac12\bigl(X^2-\tfrac14\bigr)a\cdot Y-\tfrac12Y^{\top}TY+\tfrac12X\,Y^{\top}WY+\tfrac16C[Y,Y,Y]+r\,Q(X,Y),
+\end{equation}
+with $p_0(X)=X^3/3-X/4-1/12$, $T\succ0$ and $W$ symmetric, $C$ a symmetric cubic tensor, and $Q$ with $Q=0$ and $\nabla Q=0$ at $M=(-\tfrac12,0)$ and $S=(\tfrac12,0)$; for the conditioned side-24 field, $T=T_r$ of \eqref{eq:Tr}. Put $R=1+|a|+\|W\|+\|C\|+\|Q\|_{C^2}$ and $\tau=\lambda_{\min}(T)$, and fix $K=4096$, $\varepsilon_0=1/(1024K)$. If $rR^5\le\varepsilon_0$, $\tau\ge2KR^5+2R$ and $r\le r_{\rm mat}$, the explicit radius of Supplement (S5.94), then:
+\begin{enumerate}[(i)]
+\item the $M$-ward unstable half-branch of $S$ converges to $M$ through the tapered tube $|Y|\le(2R/\tau)(\tfrac14-X^2)$;
+\item the outward branch stays in an energy cone and strip and reaches $X=5/4$ at a level greater than $49/192-1/768=65/256>1/4$, strictly above the level of $M$, so it cannot terminate at $M$;
+\item both conclusions hold for the exact conditioned field on the fifth-derivative good event.
+\end{enumerate}
+No bound on $\lambda_{\max}(T)$ is assumed or used. The four numerical margins of the proof are verified in exact rational arithmetic.
+\end{theorem}
+
+Supplement~\S S5.5 proves Theorem~\ref{thm:escape}. Its proof contains five local repairs of detail to the version of 1 August 2026, none of which changes the statement: the bound on $r\,Q_X$, the sign of the tangent eigenvector, containment near $S$, the position of the capture section, and the $rQ$ part of the energy remainder.
+
+
+
+\begin{proof}[Proof of Corollary~\ref{cor:selection}]
+The bound \eqref{eq:selection} is Supplement Theorem~S12.3 at $d=3$ and $L=24$; it is Theorem~A of \rec{parent}, with its proof in Supplement Part~III. That theorem is proved for every fixed $d\ge2$ and $L>0$, uniformly over compact birth and gap windows and over all orthonormal frames, with existential constants. Its selection probability is the probability that the global superlevel elder partner of $M$ is $S$, which is $p_r$. The witness route above outlines a second, three-dimensional argument (Supplement Theorem~S5.36), with the repair noted at the start of this subsection: by Lemma~\ref{lem:trichotomy}, selection failure produces a collar witness, a singular-near witness, a fixed-distance witness or a same-maximum self-attachment, and by the three estimates above and Theorem~\ref{thm:escape} each of these events has Palm probability $O(r^3)$. For \eqref{eq:selection-lower}: on an event of Palm probability at least $cr^3$ --- the planar polygonal-path obstruction, embedded in the soft eigenplane of the pair with the remaining transverse directions hard --- the component born at $M$ is already joined, within $\{f>f(S)\}$, to a component with an older birth maximum, so the elder rule rejects the pair \rec{lower}.
+\end{proof}
+
+By \eqref{eq:rdr}, the elder-selected lifetime density on any compact mark window therefore differs from the all-typed one by exactly $\Theta(\ell^{2/3})$. The leading constant $c_{3,24}$ is unaffected. The constants in \eqref{eq:selection}--\eqref{eq:selection-lower} are existential.
+
+\begin{remark}[the rejection mechanism]\label{rem:mechanism}
+The mechanism of rejection is local and explicit. At scale $r$ the pair sees, in the limit, a pinned planar cubic; in that limiting model the pair is rejected exactly when the cubic carries an extra critical point at a height between $f(S)$ and $f(M)$, in which case $M$ dies at the highest such saddle. For the actual field this decision transfers from the model only up to exceptional sets and under the conditions recorded in \S\S\ref{ssec:d3selection} and \ref{ssec:plane}. The coefficient of the $\Theta(\ell^{2/3})$ selection loss is then a Gaussian integral of the corresponding local cluster mass \rec{mech}; see also \S\ref{ssec:d3selection}.
+\end{remark}
+
+\begin{remark}[the triple-contact elimination]\label{rem:B1}
+An independent exact elimination \rec{supp} confirms the first line of the display (B.1) of 1 August 2026 and corrects two transcription slips. In the variables of Supplement Lemma S5.15 ($c$ and $\rho$ the cosine and sine of the angle between $t$ and $y-x$, $\eta=r/|y-x|$, and $q_M$, $q_S$ the in-plane transverse curvatures at the endpoints), the $\kappa$-linear bracket of $-\det H_S$ carries a minus sign,
+\[
+-\det H_S=\frac{\kappa^2(4c^2-\eta^2)^2-4\kappa\rho^2\bigl((4c^2-\eta^2)q_M+(12c^2+\eta^2)q_S\bigr)+4\rho^4(q_M-q_S)^2}{64c^2\rho^2},
+\]
+and the $\kappa$-free term of the numerator $N_y$ of $\det H_y=N_y/(64c^2\eta\rho^2)$ is $-16c(q_M^2-q_S^2)\rho^4+4\eta(q_M-q_S)^2\rho^4$. Both $\kappa^2$ coefficients equal $(4c^2-\eta^2)^2/(64c^2\rho^2)$. Supplement Lemma S5.15 prints the corrected formulas. The envelope (3.16) does not use them.
+\end{remark}
+
+\subsection{All-mark domination, the near/far decomposition and the limit}\label{ssec:limit}
+
+The corrected pair target is uniformly injective in $(b,\kappa)$. Gaussian regression and bounded conditional polynomial moments give the common majorant
+\begin{equation}\tag{3.19}\label{eq:majorant}
+C\bigl[1+(|b|+\kappa)^N\bigr]e^{-c(b^2+\kappa^2)}\,\kappa^{-2/3},
+\end{equation}
+valid for all $0<r<\varrho$ and integrable on $S^2\times\R\times(0,\infty)$. Since $0\le p_r\le1$, \eqref{eq:selection} and dominated convergence show that the selected and all-typed contact integrals have the same limit.
+
+\begin{theorem}[limit interchange; Supplement Theorem S6.3]\label{thm:interchange}
+Assume (H1) $G^{\mathrm{sel}}_r\to G^{\mathrm{sel}}_0$ pointwise as $r\downarrow0$; (H2) one integrable majorant for $\kappa^{-2/3}G^{\mathrm{sel}}_r$, $0<r<\varrho$, including $\kappa\downarrow0$; (H3) $G^{\mathrm{sel}}_0=G^{\mathrm{all}}_0$, the pointwise limit (3.19a) of $G^{\mathrm{all}}_r$. Then
+\[
+\nu^{\mathrm{near}}_\varrho(\ell)=c_{3,24}\,\ell^{-1/3}(1+o(1)),\qquad c_{3,24}=\frac{6^{2/3}}{18}\int\kappa^{-2/3}\,G^{\mathrm{all}}_0\,d\kappa\,db\,d\sigma_2(t).
+\]
+All three hypotheses are verified in Supplement Proposition S6.4: the majorant \eqref{eq:majorant} supplies (H2), and the contact limit (3.19a) together with \eqref{eq:selection}, which gives $p_r\to1$, supplies (H1) and (H3). The same proposition gives $0<c_{3,24}<\infty$.
+\end{theorem}
+
+\begin{proposition}[far elder pairs; Supplement Proposition S6.2]\label{prop:far}
+For fixed $\varrho\in(0,12)$ there is $\ell_0>0$ such that $\sup_{0<\ell\le\ell_0}\nu^{\mathrm{far}}_\varrho(\ell)<\infty$. In particular $\nu^{\mathrm{far}}_\varrho(\ell)=o(\ell^{-1/3})$.
+\end{proposition}
+
+\begin{proof}
+This is Supplement Proposition~S6.2. Its proof bounds the elder mark by one and applies the marked two-point Kac--Rice formula (Supplement Proposition~S12.22) on the compact set of pairs at distance at least $\varrho$, where the value--gradient covariance is nonsingular; it cites no result of \rec{parent} that the Supplement does not itself prove. For $0<\ell\le1$ and pairs at distance at least the small radius $r_0$ of \rec{parent}, the same bound is its (14.1) (Supplement Lemma~S12.29).
+\end{proof}
+
+Theorem~\ref{thm:interchange} and Proposition~\ref{prop:far} give the leading term of \eqref{eq:main}. Independently, the far elder contribution tends to zero as $\ell\downarrow0$ \rec{far}. Two rates are on record \rec{far}: $O(\ell^{2/3})$, because a bar of lifetime $\ell$ is born at a maximum of weakest curvature $O(\ell^{1/3})$ (reviewed and merged; proved in Supplement Proposition S8.13); and $O(\ell^N)$ for every $N$, because on the superlevel component of a living bar the gradient is $O((K(b-f))^{1/2})$, so that a far death forces $N$ separated near-critical sites (one provider's nonauthor review). A reviewed quantitative extension allows the separation to shrink like a small power of $\ell$ \rec{far}. The bound $O(\ell)$ asserted for the far density in the amendment of 1 August 2026 (its Proposition A.3.2) is withdrawn: its proof bounded the far \emph{candidate} density, which does not vanish (Remark~\ref{rem:cand}).
+
+\subsection{Exact coefficient reduction}\label{ssec:coefficient}
+
+Conditionally on the pins, as $r\downarrow0$, we have $r^{-1}\det H_M\to-\kappa\det Q_t(q_t)$ and $r^{-1}\det H_S\to\kappa\det Q_t(q_t)$, and the type indicators converge to $\ind_{\{Q_t(q_t)\prec0\}}$ (Supplement Proposition S2.8). The corrected pins (3.7)--(3.8) have the contact limit $Y_t=(f,u_t,g_t,h_t)$, with target $(b,-\kappa/6,0,0)$. Hence $G^{\mathrm{all}}_r$ has the pointwise limit
+\begin{equation}\tag{3.19a}
+G^{\mathrm{all}}_0(t,b,\kappa)=p_{Y_t}(b,-\kappa/6,0,0)\,\kappa^2\,\E\bigl[F(q_t)\mid Y_t=(b,-\kappa/6,0,0)\bigr]
+\end{equation}
+(Supplement (S3.27)), where $F(q)=(\det Q_t(q))^2\ind_{\{Q_t(q)\prec0\}}$. Even and odd covariance derivatives are independent because $K_{24}$ is even, so (3.19a) is the product of $p_{(f,h_t)}(b,0)\,\E[F(q_t)\mid f=b,\ h_t=0]$ and $p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^2$. Integrating over the birth height removes the field-value coordinate:
+\begin{equation}\tag{3.20}
+\int_{\R}p_{(f,h_t)}(b,0)\,\E\bigl[F(q_t)\mid f=b,\ h_t=0\bigr]\,db=p_{h_t}(0)\,\E\bigl[F(q_t)\mid h_t=0\bigr].
+\end{equation}
+Conditionally on $g_t=0$, the variable $u_t$ is centered Gaussian with variance $\sigma_t^2$. The remaining normalized-gap integral, with the weight $\kappa^{-2/3}$ of Theorem~\ref{thm:interchange}, is
+\begin{equation}\tag{3.21}
+\int_0^\infty p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^{4/3}\,d\kappa=p_{g_t}(0)\,\frac{\Gamma(7/6)\,72^{7/6}\,(\sigma_t^2)^{2/3}}{2\sqrt{2\pi}}.
+\end{equation}
+Inserting (3.19a), (3.20) and (3.21) in the formula for $c_{3,24}$ of Theorem~\ref{thm:interchange} gives exactly \eqref{eq:c}.
+
+Equivalently, if $A_tA_t^{\top}=\Gamma_t$ and $\mathcal Q_t(v)=Q_t(A_tv)$, then
+\begin{equation}\tag{3.22}
+D_t=\frac{15}{4\pi}\int_{S^2}[\det\mathcal Q_t(v)]^2\,\ind_{\{\tr\mathcal Q_t(v)<0,\ \det\mathcal Q_t(v)>0\}}\,dv .
+\end{equation}
+Thus $c_{3,24}$ is a deterministic nested angular integral involving only the order-six covariance jet at the origin.
+
+\subsection{The value on \texorpdfstring{$\R^3$}{R3}}\label{ssec:flat}
+
+At the jet of the (non-periodized) Bargmann--Fock covariance $e^{-|z|^2/2}$,
+\begin{equation}\tag{3.23}
+\Sigma_g=I_3,\qquad \Sigma_h=\operatorname{diag}(3,1,1),\qquad \sigma_t^2=\frac1{24},
+\end{equation}
+and
+\begin{equation}\tag{3.24}
+Q\mid h_t=0\ \stackrel{d}{=}\ G_2+\sqrt{\tfrac23}\,Z\,I_2,\qquad D_t=\frac{29}{6}-\sqrt6,
+\end{equation}
+where $G_2$ is a $2\times2$ GOE matrix (diagonal entries $N(0,2)$, off-diagonal entry $N(0,1)$, all independent) and $Z\sim N(0,1)$ is independent of $G_2$. The value of $D_t$ is proved in closed form in Supplement Theorem S3.16: in trace and difference coordinates $T\sim N(0,4)$ is independent of $\Delta\ge0$, $\det Q=(W^2-\Delta^2)/4$, and the cone condition is $W<-\Delta$ for the single Gaussian $W=T+2\sqrt{2/3}\,Z\sim N(0,20/3)$. Substitution in \eqref{eq:c} gives \eqref{eq:cinf}.
+
+\subsection{Side-24 correction}\label{ssec:correction}
+
+Let $J_0$ be the even covariance jet of $e^{-|z|^2/2}$ through order six, $J_{24}$ the corresponding jet of \eqref{eq:K24}, and
+\begin{equation}\tag{3.25}
+F(J)=\frac{\Phi(J)}{\Phi(J_0)},
+\end{equation}
+where $\Phi$ is the coefficient functional in \eqref{eq:c}. The bound $|\varepsilon_{24}|<10^{-216}$ in \eqref{eq:correction} is proved in Supplement Theorem S4.4, which follows \rec{eps}; see also the end of this subsection. Displays (3.26)--(3.33) outline a shorter route to the weaker bound $10^{-180}$. Its bounds (3.29) are Supplement Lemma S4.29, while the derivative bounds (3.27) are quoted from the technical appendix of 30 July 2026 (Modules D and H) and are not reproved in the Supplement. On the explicit jet ball
+\begin{equation}\tag{3.26}
+\|J-J_0\|_{\max}\le10^{-110},
+\end{equation}
+the covariance and Schur-complement matrices have uniform positive lower and finite upper bounds. Fixed-cone Gaussian differentiation gives
+\begin{equation}\tag{3.27}
+\sup\|DF\|<10^{16},\qquad \sup\|D^2F\|<10^{42}.
+\end{equation}
+
+Put $q=e^{-288}$. The normalized periodized jet has the decomposition
+\begin{equation}\tag{3.28}
+J_{24}-J_0=J^{(1)}_{\rm near}+R_{\rm jet},
+\end{equation}
+where the linear term $J^{(1)}_{\rm near}$ is the jet of $2e^{-288}e^{-|z|^2/2}\sum_{i=1}^3(\cosh(24z_i)-1)$: the six images $\pm24e_i$ together with their share $6e^{-288}$ of the normalizer $Z_{24}$ (Supplement Definition S4.22). Exact rational Hermite bounds give (Supplement Lemma S4.29)
+\begin{equation}\tag{3.29}
+\|J_{24}-J_0\|_{\max}<10^{-113},\qquad \|R_{\rm jet}\|_{\max}<10^{-230}.
+\end{equation}
+Rotational projection of the six-image orbit yields
+\begin{equation}\tag{3.30}
+DF(J_0)\bigl[J^{(1)}_{\rm near}\bigr]=P_3(24)\,e^{-288},
+\end{equation}
+where
+\begin{equation}\tag{3.31}
+P_3(L)=-\frac{L^2(10L^4-147L^2+315)}{105},\qquad P_3(24)=-\frac{620813376}{35}.
+\end{equation}
+The first variation (3.30) is derived from first principles in Supplement Proposition S4.24 and Corollary S4.25. In the jet coordinates $a$, $m_4$, $\chi$, $\Omega$ of the technical appendix (Module~H; Supplement Lemma S4.20 and Corollary S4.25), the variations per unit $e^{-L^2/2}$, $\delta a=-2L^2$, $\delta m_4=6L^4/5-12L^2$ and $\delta\chi=-6L^6/7+18L^4-90L^2$ and the display $\delta\log c=\delta\Omega/9+\delta m_4/6-\tfrac{13}{6}\delta a=P_3(L)$ follow from kernel differentiation of the periodized kernel and Haar projection, with the pure partials $\partial_a=\partial_{m_4}=-1/2$, $\partial_\chi=1/9$ taken through the full nonlinear functional (including the homogeneity term of $D(\Gamma)$), and the scale check $d\log c/d\log\lambda=3/2$ for the kernel $e^{-\lambda|z|^2/2}$ (Supplement Remark S4.26); the regrouped display is an algebraic identity via $\delta\Omega=\chi\,\delta a+a\,\delta\chi-2m_4\,\delta m_4$. Both $P_3(24)=-620813376/35$ and the first variation are also derived independently in \rec{eps}. Taylor's theorem, (3.27) and (3.29) give, with $R_{\rm quad}$ the second-order Taylor remainder of $F$ at $J_0$ along $J_{24}-J_0$,
+\begin{equation}\tag{3.32}
+\bigl|DF(J_0)[R_{\rm jet}]\bigr|<10^{-210},\qquad |R_{\rm quad}|<5\cdot10^{-185},
+\end{equation}
+and therefore, as a bound weaker than \eqref{eq:correction},
+\begin{equation}\tag{3.33}
+F(J_{24})-1=P_3(24)\,e^{-288}+\varepsilon_{24},\qquad |\varepsilon_{24}|<10^{-180}.
+\end{equation}
+The second-order remainder admits two sharper and independent bounds \rec{eps}. (i) A second-order Taylor expansion of the coefficient functional along the periodization perturbation, using a Gaussian-section representation of the coefficient as an angular integral and an exact Haar first order, gives $|\varepsilon_{24}|<10^{-218}$, with a remainder ledger below $6\cdot10^{-235}$. (ii) A derivation with exact $\chi^2_\nu$ radial moments gives $|\varepsilon_{24}|<10^{-216}$ for $d=2,3$ (Supplement Theorem S4.4), and identifies the general polynomial
+\[
+P_d(L)=-\frac{10L^6}{3(d+2)(d+4)}+\frac{(d+4)L^4}{d+2}-dL^2,
+\]
+which reduces to $P_3$ at $d=3$. Either bound gives \eqref{eq:correction}; we state the weaker one. This completes the proof of the leading term of Theorem~\ref{thm:main} and of \eqref{eq:correction}.
+
+\begin{remark}[torus and reference contact coefficients]\label{rem:c104}
+The near-contact quantities themselves move very little under periodization. On the torus of side $L=24$, for birth heights in $[0,1]$ and gaps in $[1/2,2]$, the $d=3$ near-contact numerators and normalizer differ from their reference-kernel values by less than $10^{-26}$, and the compact-band contact integral differs by less than $10^{-19}$ in absolute value \rec{c104}.
+\end{remark}
+
+\subsection{The rate}\label{ssec:rate}
+
+\begin{proposition}[bounded remainder]\label{prop:rate}
+There are $C,\ell_*>0$ such that $|\nu_{3,24}(\ell)-c_{3,24}\ell^{-1/3}|\le C$ for $0<\ell\le\ell_*$.
+\end{proposition}
+
+\begin{proof}
+This is Theorem~R of \rec{thmR} at $d=3$ and $L=24$, proved in Supplement Theorem~S7.9; Supplement Remark~S7.22 identifies its density and its constant with those of Theorem~\ref{thm:main}. Theorem~R holds for every fixed $d\ge2$ and $L>0$, for all marks and separations, with existential constants.
+\end{proof}
+
+Proposition~\ref{prop:rate} is the rate in \eqref{eq:main}. In Theorem~R the near-contact error, the near pairing loss, and the far pairs each contribute $O(1)$ to that bound, and Theorem~R does not prove that the remainder tends to zero. The far elder density tends to zero at the rates above; the rejected density tends to a positive constant. Theorem~\ref{thm:three-term} identifies the next terms of the elder density. \qed
