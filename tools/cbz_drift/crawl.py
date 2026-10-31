@@ -30,6 +30,8 @@ commit, different Lean toolchains); it never fails the run.
   LEAN-DRIFT      one fully qualified Lean declaration has different interfaces     BLOCK
                   in two crawled locations (see lean_decls for the exact domain)
   LEAN-SYNTAX     a Lean file could not be lexed or its scopes do not balance       BLOCK
+  LEAN-EVIDENCE   Lean files under an evidence directory are frozen copies, not     INFO
+                  compared (sealed checker inputs, snapshots, mutation controls)
   LAKE-DEP        a lake dependency on a crawled repository pins another rev        INFO
   PIN-DIVERGENT   two reached repositories pin one repository differently           INFO
   FETCH-FAILED    --fetch could not refresh a repository, so its tips are not current BLOCK
@@ -63,6 +65,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lean_decls  # noqa: E402
 
 BLOCK, INFO = 'BLOCK', 'INFO'
+# A path segment named `evidence` or ending in `-evidence` (cbz/evidence/<slice>/, kernel/cbz-evidence/,
+# formal-evidence/) holds frozen copies: sealed checker inputs, snapshots of earlier commits and mutation
+# controls. They are deliberately different from the live sources, so they are not compared.
+EVIDENCE_SEGMENT = re.compile(r'(^|/)([^/]*-)?evidence(/|$)')
 
 
 class CrawlError(RuntimeError):
@@ -585,8 +591,12 @@ class Crawl:
             for root in roots:
                 tc = repo.read(ref, (root + '/' if root else '') + 'lean-toolchain')
                 packages[(key, root)] = tc.decode(errors='replace').strip() if tc else None
+            evidence = 0
             for path, (mode, typ, sha) in sorted(tree.items()):
                 if typ != 'blob' or not path.endswith('.lean') or '/.lake/' in '/' + path:
+                    continue
+                if EVIDENCE_SEGMENT.search(path):
+                    evidence += 1
                     continue
                 pkg = max((r for r in roots if r == '' or path.startswith(r + '/')), key=len, default=None)
                 self.stats['lean_files'] += 1
@@ -601,6 +611,10 @@ class Crawl:
                         continue
                     decls[d['name']].append({'repo': key, 'ref': ref, 'path': path, 'line': d['line'],
                                              'package': pkg, 'kind': d['kind'], 'interface': d['interface']})
+            if evidence:
+                self.stats['lean_evidence_files'] += evidence
+                self.add(INFO, 'LEAN-EVIDENCE', '%d Lean files under evidence directories are frozen copies and '
+                         'are not compared' % evidence, repo=key, ref=ref)
         shared = 0
         coupled = collections.defaultdict(set)
         for name, locs in sorted(decls.items()):

@@ -54,6 +54,7 @@ lag a moving tip (INFO).**
 | `INPUT-OBSERVED` | INFO | a canonical input's recorded blob differs at the crawled ref |
 | `LEAN-DRIFT` | BLOCK | one fully qualified Lean declaration has different interfaces in two crawled locations |
 | `LEAN-SYNTAX` | BLOCK | a Lean file cannot be lexed, or its `namespace`/`section`/`end` do not balance |
+| `LEAN-EVIDENCE` | INFO | Lean files under an evidence directory (a path segment `evidence` or `*-evidence`) are frozen copies — sealed checker inputs, snapshots of earlier commits, mutation controls — and are counted but not compared |
 | `LAKE-DEP` | INFO | a lake dependency on a crawled repository pins a present, different full commit id (any other rev, such as an absent, empty, short or floating one like a branch or tag, is `PIN-MISSING`; a git package with no repository URL, a package that is neither git nor path, and a `packages` value that is not a list are `MALFORMED`) |
 | `PIN-DIVERGENT` | INFO | two reached repositories pin one repository differently; the first in breadth-first order is read |
 | `FETCH-FAILED` | BLOCK | `--fetch` could not refresh a repository, so its tips are not current |
