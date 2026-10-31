@@ -75,7 +75,7 @@ class Git:
         self.env.update(GIT_OPTIONAL_LOCKS='0', GIT_TERMINAL_PROMPT='0', GIT_NO_LAZY_FETCH='1')
         self.base = ['core.fsmonitor=false', 'core.untrackedCache=false',
                      'core.hooksPath=/dev/null', 'maintenance.auto=false', 'gc.auto=0',
-                     'core.quotePath=false', 'protocol.allow=never']
+                     'core.quotePath=false', 'protocol.allow=never', 'log.showSignature=false']
         self.base += ['protocol.' + name + '.allow=never'
                       for name in ['http', 'https', 'ssh', 'git', 'file', 'ext']]
 
@@ -387,8 +387,10 @@ def _submodules(git, path, settings, bare, head):
                 git.error('parse', path, 'submodule index/tree', message='Invalid entry')
                 continue
             if fields[0] == b'160000':
-                modules[_text(name)] = {'path': _text(name), 'object': _text(fields[2] if bare else fields[1]),
-                                       'index_stage': None if bare else int(fields[2])}
+                stage = None if bare else int(fields[2])
+                key = (_text(name), stage or 0)  # a conflicted gitlink has one entry per stage
+                modules[key] = {'path': _text(name), 'object': _text(fields[2] if bare else fields[1]),
+                                'index_stage': stage}
     source = ('--blob', 'HEAD:.gitmodules') if bare else ('--file', str(path / '.gitmodules'))
     if (bare and modules) or (not bare and (path / '.gitmodules').exists()):
         config = _config(git, path, r'^submodule\..*\.(path|url)$', source, settings)
@@ -396,12 +398,76 @@ def _submodules(git, path, settings, bare, head):
             if key.endswith('.path'):
                 name = key[len('submodule.'):-len('.path')]
                 for module_path in values:
-                    row = modules.setdefault(module_path, {'path': module_path, 'object': None, 'index_stage': None})
-                    row['name'] = name
-                    row['urls'] = [_remote_url(url) for url in config.get('submodule.' + name + '.url', [])]
+                    rows = [row for row in modules.values() if row['path'] == module_path] or [
+                        modules.setdefault((module_path, 0), {'path': module_path, 'object': None, 'index_stage': None})]
+                    for row in rows:
+                        row['name'] = name
+                        row['urls'] = [_remote_url(url) for url in config.get('submodule.' + name + '.url', [])]
     for row in modules.values():
         row['initialized'] = False if bare else os.path.lexists(path / row['path'] / '.git')
-    return sorted(modules.values(), key=lambda row: os.fsencode(row['path']))
+    return sorted(modules.values(), key=lambda row: (os.fsencode(row['path']), row['index_stage'] or 0))
+
+
+def _preflight_submodule_settings(reader, candidates, settings):
+    """Collect initialized submodule config before recursive worktree status."""
+    all_settings = list(dict.fromkeys(settings))
+    submodules_by_path = {}
+    pending = list(sorted(candidates))
+    visited = set()
+    while pending:
+        path = pending.pop()
+        try:
+            path = str(Path(path).resolve())
+        except (OSError, RuntimeError) as exc:
+            reader.error('filesystem', path, 'submodule configuration', message=str(exc))
+            reader.configuration_complete = False
+            continue
+        if path in visited:
+            continue
+        visited.add(path)
+        if reader.expired():
+            reader.error('deadline', path, 'submodule configuration')
+            reader.configuration_complete = False
+            break
+        if not Path(path).is_dir():
+            continue
+        bare_result = reader.run(path, 'rev-parse', '--is-bare-repository',
+                                 settings=all_settings)
+        head_result = reader.run(path, 'rev-parse', '--verify', '--quiet', 'HEAD',
+                                 allowed=(0, 1), settings=all_settings)
+        if bare_result is None or head_result is None:
+            reader.configuration_complete = False
+            continue
+        bare = _line(bare_result[1]) == 'true'
+        head = _line(head_result[1]) if head_result[0] == 0 else None
+        errors_before = len(reader.errors)
+        modules = _submodules(reader, Path(path), all_settings, bare, head)
+        submodules_by_path[path] = modules
+        if len(reader.errors) != errors_before:
+            reader.configuration_complete = False
+        for module in modules:
+            if not module['initialized']:
+                continue
+            relative = Path(module['path'])
+            if relative.is_absolute() or '..' in relative.parts or relative == Path('.'):
+                reader.error('unsafe_submodule_path', path, 'submodule configuration',
+                             module_path=module['path'])
+                reader.configuration_complete = False
+                continue
+            child_path = Path(path) / relative
+            try:
+                child = str(child_path.resolve())
+            except (OSError, RuntimeError) as exc:
+                reader.error('filesystem', child_path, 'submodule configuration',
+                             message=str(exc))
+                reader.configuration_complete = False
+                continue
+            if child in visited:
+                continue
+            child_settings, _ = _settings_and_remotes(reader, child)
+            all_settings = list(dict.fromkeys([*all_settings, *child_settings]))
+            pending.append(child)
+    return all_settings, submodules_by_path
 
 
 def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_command_bytes=32 * 1024 * 1024):
@@ -417,7 +483,7 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
         'policy': {'walk_exclusions': ['Validated exact Git metadata internals only; node_modules is searched'],
                    'symlinks': 'Follow internal directory targets once by device/inode; record all links; external directory targets are uncovered/incomplete',
                    'paths': 'NUL Git records; filesystem surrogateescape; JSON ensure_ascii=true',
-                   'read_only': 'Optional locks, hooks, filters, maintenance and lazy network fetch disabled; no Git mutation commands',
+                   'read_only': 'Optional locks, hooks, filters, signature verification, maintenance and lazy network fetch disabled; no Git mutation commands',
                    'status': 'porcelain v1 -z --untracked-files=all; Git ignore rules still apply',
                    'url_redaction': 'Remote URLs and diagnostic values only; filesystem identities preserved'},
         'limits': {'git_timeout_seconds': command_timeout, 'total_timeout_seconds': total_timeout,
@@ -427,6 +493,7 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                   directories_visited=directory_count, empty_discovery=not roots)
     stores = {}
     candidates = {}
+    metadata_worktrees = []
     for path in roots:
         if reader.expired():
             reader.error('deadline', path, 'repository census')
@@ -459,10 +526,31 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                                             for i in range(0, len(fields), 2)]
             stores[common_path] = store, settings
             for row in registered:
-                candidates[str(Path(row['worktree']).resolve())] = common_path
+                worktree = Path(row['worktree'])
+                # Git lists a metadata directory as the main worktree when the work tree
+                # is configured (core.worktree, absorbed submodules) or unknown to the
+                # metadata (--separate-git-dir). Decide after discovery, below.
+                if not row.get('bare') and worktree.is_dir() and _is_git_metadata(worktree, reader):
+                    metadata_worktrees.append((str(worktree.resolve()), common_path, settings))
+                    continue
+                candidates[str(worktree.resolve())] = common_path
         inside = reader.run(path, 'rev-parse', '--is-inside-work-tree')
         if inside is not None and _line(inside[1]) == 'true':
             candidates[path] = common_path
+    unlocated = {}
+    for metadata, common_path, settings in metadata_worktrees:
+        top = reader.run(metadata, 'rev-parse', '--show-toplevel', allowed=(0, 128),
+                         expected_stderr_on=(128,), settings=settings)
+        if top is None:
+            continue
+        if top[0] == 0:
+            # A configured work tree that discovery did not reach is censused through
+            # its metadata directory, where Git honors core.worktree; one already
+            # discovered for the same store is not censused twice.
+            if candidates.get(str(Path(_line(top[1])).resolve())) != common_path:
+                candidates[metadata] = common_path
+        else:
+            unlocated[common_path] = metadata
     # Include worktree-specific config, then propagate safe filter/remote
     # overrides through Git's own recursive submodule status subprocesses too.
     per_worktree_settings = {}
@@ -477,6 +565,8 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                                       for setting in settings))
     all_settings += list(dict.fromkeys(setting for settings in per_worktree_settings.values()
                                        for setting in settings))
+    all_settings, pre_status_submodules = _preflight_submodule_settings(
+        reader, candidates, all_settings)
     for path, common in sorted(candidates.items()):
         if reader.expired():
             reader.error('deadline', path, 'worktree census')
@@ -505,10 +595,19 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
             reader.error('unresolved_head', path, 'HEAD identity')
         if work['bare'] is False:
             work['status'] = _status(reader, Path(path), settings)
-        work['submodules'] = _submodules(reader, Path(path), settings, work['bare'], work['head'])
+        work['submodules'] = pre_status_submodules.get(path)
+        if work['submodules'] is None:
+            work['submodules'] = _submodules(reader, Path(path), settings, work['bare'], work['head'])
         final_head = reader.run(path, 'rev-parse', '--verify', '--quiet', 'HEAD', allowed=(0, 1), settings=settings)
         if head is not None and final_head is not None and head != final_head:
             reader.error('changed_during_observation', path, 'HEAD identity')
+    # A --separate-git-dir store records no work tree; its main worktree is covered
+    # only if a censused worktree uses that store as its own Git directory.
+    for common_path, metadata in sorted(unlocated.items()):
+        if not any(work['common_store'] == common_path and work.get('git_dir') and
+                   str(Path(work['git_dir']).resolve()) == common_path for work in report['worktrees']):
+            reader.error('unlocated_worktree', metadata, 'worktree census',
+                         message='Main worktree is not recorded by its separate Git directory and was not discovered under the root')
     report['stores'] = [stores[path][0] for path in sorted(stores)]
     report.update(finished_at=_now(), git_commands=reader.commands, complete=not reader.errors)
     return report

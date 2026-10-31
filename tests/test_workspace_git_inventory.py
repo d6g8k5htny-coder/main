@@ -131,6 +131,90 @@ class InventoryTests(unittest.TestCase):
         (repo/'.gitattributes').write_text('tracked filter=audit\n');(repo/'tracked').write_text('changed\n')
         d=self.census();self.assertTrue(d['complete'],d['errors']);self.assertFalse(marker.exists())
 
+        nested_source=self.repo('nested-source')
+        (nested_source/'.gitattributes').write_text('tracked filter=nested-audit\n')
+        self.git(nested_source,'add','.gitattributes','tracked')
+        self.git(nested_source,'commit','-qm','configure nested filter')
+
+        source=self.repo('source')
+        (source/'.gitattributes').write_text('tracked filter=audit\n')
+        self.git(source,'add','.gitattributes','tracked')
+        self.git(source,'commit','-qm','configure direct submodule filter')
+        self.git(source,'-c','protocol.file.allow=always','submodule','add','-q',
+                 '--name','nested',str(nested_source),'nested')
+        self.git(source,'commit','-qm','add nested submodule')
+        self.git(source,'submodule','deinit','-f','nested')
+
+        parent=self.repo('parent')
+        self.git(parent,'-c','protocol.file.allow=always','submodule','add','-q',
+                 '--name','module',str(source),'module')
+        self.git(parent,'commit','-qm','add external-worktree submodule')
+        self.git(parent,'submodule','deinit','-f','module')
+
+        linked=Path(self.temp.name)/'external-linked'
+        self.git(parent,'worktree','add','-qb','external-linked',str(linked))
+        self.git(linked,'-c','protocol.file.allow=always','submodule',
+                 'update','--init','--recursive')
+        child=linked/'module'
+        nested=child/'nested'
+        markers=[Path(self.temp.name)/'SUBMODULE-FILTER-RAN',
+                 Path(self.temp.name)/'NESTED-SUBMODULE-FILTER-RAN']
+        for path,name,marker in [(child,'audit',markers[0]),
+                                 (nested,'nested-audit',markers[1])]:
+            script=Path(self.temp.name)/(name+'-filter.py')
+            script.write_text(
+                'import pathlib,sys\n'
+                'pathlib.Path('+repr(str(marker))+').write_text("ran")\n'
+                'sys.stdout.buffer.write(sys.stdin.buffer.read())\n')
+            command=shlex.quote(sys.executable)+' '+shlex.quote(str(script))
+            self.git(path,'config','filter.'+name+'.clean',command)
+            self.git(path,'config','filter.'+name+'.required','true')
+            # Keep size and mtime unchanged: ctime changes, forcing Git to
+            # inspect content and execute the configured clean filter. A mere
+            # size/mtime change can be reported without exercising the filter.
+            stat_before=(path/'tracked').stat()
+            (path/'tracked').write_text('changed\n')
+            os.utime(path/'tracked',ns=(stat_before.st_atime_ns,stat_before.st_mtime_ns))
+
+        self.git(linked,'status','--porcelain=v1','-z','--ignore-submodules=none')
+        self.assertTrue(markers[0].exists(),
+                        'Native parent status did not run the direct submodule filter')
+        markers[0].unlink()
+        self.assertTrue(markers[1].exists(),
+                        'Native parent status did not run the nested submodule filter')
+        markers[1].unlink()
+        self.git(child,'status','--porcelain=v1','-z','--ignore-submodules=none')
+        self.assertTrue(markers[1].exists(),
+                        'Native child status did not run the nested submodule filter')
+        for marker in markers:
+            if marker.exists():
+                marker.unlink()
+
+        spec=importlib.util.spec_from_file_location('git_inventory_preflight',TOOL)
+        module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+        reader=module.Git('git',10,30,32*1024*1024)
+        settings,submodules=module._preflight_submodule_settings(
+            reader,{str(linked.resolve()):str(parent/'.git')},[])
+        self.assertTrue(reader.configuration_complete,reader.errors)
+        self.assertIn(str(linked.resolve()),submodules)
+        self.assertIn(str(child.resolve()),submodules)
+        self.assertIn(str(nested.resolve()),submodules)
+        self.assertIn('filter.audit.clean=',settings)
+        self.assertIn('filter.nested-audit.clean=',settings)
+
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        linked_path=str(linked.resolve())
+        linked_row=next((row for row in d['worktrees'] if row['path']==linked_path),None)
+        self.assertIsNotNone(linked_row,
+                             'Collector omitted the registered external linked worktree')
+        module_row=(next((row for row in linked_row['submodules'] if row['path']=='module'),None)
+                    if linked_row is not None else None)
+        self.assertIsNotNone(module_row,'Collector omitted the direct module submodule')
+        self.assertIs(module_row['initialized'],True,
+                      'Collector did not report the direct module submodule initialized')
+        self.assertFalse(any(marker.exists() for marker in markers),
+                         'Collector executed an external submodule clean filter')
+
     def test_output_limit_and_total_deadline_are_explicit(self):
         self.repo('repo');fake=Path(self.temp.name)/'git-noisy'
         fake.write_text('#!/usr/bin/env python3\nimport sys\nsys.stdout.write("x"*100000)\n');fake.chmod(0o700)
@@ -207,6 +291,87 @@ class InventoryTests(unittest.TestCase):
         result=subprocess.run([sys.executable,'-S','-B',str(TOOL),'--root',str(self.root),'--output',str(out)],capture_output=True)
         self.assertEqual(result.returncode,0,result.stderr)
         self.assertTrue({str(nested),str(deep)}.issubset(json.loads(out.read_bytes())['discovered_roots']))
+
+    def test_stash_enumeration_does_not_run_signature_verifier(self):
+        repo=self.repo('signed');(repo/'tracked').write_text('stashed\n');self.git(repo,'stash','push','-q')
+        header,_,message=self.git(repo,'cat-file','commit','refs/stash').decode().partition('\n\n')
+        signed=header+'\ngpgsig -----BEGIN PGP SIGNATURE-----\n \n iQ==\n -----END PGP SIGNATURE-----\n\n'+message
+        commit=subprocess.run(['git','-C',str(repo),'hash-object','-t','commit','-w','--stdin'],input=signed.encode(),
+                              capture_output=True,check=True).stdout.decode().strip()
+        self.git(repo,'update-ref','-m','signed stash','refs/stash',commit)
+        marker=Path(self.temp.name)/'verifier-ran';verifier=Path(self.temp.name)/'verifier.sh'
+        verifier.write_text('#!/bin/sh\ntouch '+shlex.quote(str(marker))+'\nexit 1\n');verifier.chmod(0o755)
+        self.git(repo,'config','log.showSignature','true');self.git(repo,'config','gpg.program',str(verifier))
+        subprocess.run(['git','-C',str(repo),'stash','list'],capture_output=True)
+        self.assertTrue(marker.exists(),'control: plain Git verifies the signed stash');marker.unlink()
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertFalse(marker.exists(),'the census ran the repository-configured signature verifier')
+        self.assertEqual(len(next(s for s in d['stores']if s['path']==str(repo/'.git'))['stashes']),2)
+
+    def test_conflicted_submodule_reports_every_index_stage(self):
+        repo=self.repo('conflicted')
+        stages=''.join('160000 %s %d\tmodule\n'%(digit*40,stage)for digit,stage in (('1',1),('2',2),('3',3)))
+        subprocess.run(['git','-C',str(repo),'update-index','--index-info'],input=stages.encode(),check=True)
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        work=next(r for r in d['worktrees']if r['path']==str(repo))
+        self.assertEqual([(m['index_stage'],m['object'])for m in work['submodules']if m['path']=='module'],
+                         [(1,'1'*40),(2,'2'*40),(3,'3'*40)])
+
+    def test_separate_git_dir_metadata_is_not_a_worktree_candidate(self):
+        metadata=self.root/'metadata';work=self.root/'work'
+        subprocess.check_call(['git','init','-q','--separate-git-dir',str(metadata),str(work)])
+        self.git(work,'config','user.name','Census Test');self.git(work,'config','user.email','census@example.invalid')
+        (work/'tracked').write_text('initial\n');self.git(work,'add','tracked');self.git(work,'commit','-qm','initial')
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertEqual([w['path']for w in d['worktrees']],[str(work)])
+        self.assertTrue(any(s['path']==str(metadata)for s in d['stores']))
+
+    def test_core_worktree_metadata_reports_configured_worktree_status(self):
+        outside=Path(self.temp.name)/'outside-work';outside.mkdir()
+        layouts={}
+        for name,work in (('inside-metadata',self.root/'inside-work'),('outside-metadata',outside)):
+            work.mkdir(exist_ok=True);metadata=self.root/name
+            subprocess.check_call(['git','init','-q','--bare',str(metadata)])
+            for key,value in (('core.bare','false'),('core.worktree',str(work)),
+                              ('user.name','Census Test'),('user.email','census@example.invalid')):
+                subprocess.check_call(['git','--git-dir',str(metadata),'config',key,value])
+            (work/'tracked').write_text('initial\n')
+            for args in (('add','tracked'),('commit','-qm','initial')):
+                subprocess.check_call(['git','--git-dir',str(metadata),'--work-tree',str(work),*args])
+            (work/'tracked').write_text('dirty\n');(work/'untracked').write_text('new\n')
+            self.assertFalse((work/'.git').exists(),'control: the work tree is configured, not discoverable')
+            layouts[str(metadata)]=work
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        found={w['path']:w for w in d['worktrees']}
+        self.assertEqual(sorted(found),sorted(layouts))
+        for metadata in layouts:
+            self.assertEqual(sorted((r['xy'],r['path'])for r in found[metadata]['status']),
+                             [(' M','tracked'),('??','untracked')])
+
+    def test_absorbed_submodule_metadata_is_not_a_second_worktree(self):
+        upstream=Path(self.temp.name)/'upstream';upstream.mkdir();self.git(upstream,'init','-q')
+        self.git(upstream,'config','user.name','Census Test');self.git(upstream,'config','user.email','census@example.invalid')
+        (upstream/'file').write_text('upstream\n');self.git(upstream,'add','file');self.git(upstream,'commit','-qm','upstream')
+        top=self.repo('top');self.git(top,'-c','protocol.file.allow=always','submodule','add','-q',str(upstream),'sub')
+        self.git(top,'commit','-qm','add submodule');(top/'sub/file').write_text('dirty\n')
+        metadata=top/'.git/modules/sub'
+        self.assertEqual(self.git(metadata,'rev-parse','--show-toplevel').decode().strip(),str(top/'sub'),
+                         'control: the absorbed metadata configures its work tree')
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertEqual(sorted(w['path']for w in d['worktrees']),[str(top),str(top/'sub')])
+        sub=next(w for w in d['worktrees']if w['path']==str(top/'sub'))
+        self.assertEqual([(r['xy'],r['path'])for r in sub['status']],[(' M','file')])
+
+    def test_separate_git_dir_outside_root_is_incomplete(self):
+        metadata=self.root/'metadata';work=Path(self.temp.name)/'outside-work'
+        subprocess.check_call(['git','init','-q','--separate-git-dir',str(metadata),str(work)])
+        self.git(work,'config','user.name','Census Test');self.git(work,'config','user.email','census@example.invalid')
+        (work/'tracked').write_text('initial\n');self.git(work,'add','tracked');self.git(work,'commit','-qm','initial')
+        (work/'tracked').write_text('dirty\n')
+        d=self.census();self.assertFalse(d['complete'])
+        self.assertEqual([(e['kind'],e['path'])for e in d['errors']],[('unlocated_worktree',str(metadata))])
+        self.assertEqual(d['worktrees'],[])
+        self.assertTrue(any(s['path']==str(metadata)for s in d['stores']))
 
     def test_remote_redaction_preserves_all_filesystem_identity_fields(self):
         self.root=self.root/'root?token=root-value';self.root.mkdir()
