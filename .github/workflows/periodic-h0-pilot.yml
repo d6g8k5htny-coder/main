@@ -1,0 +1,88 @@
+name: periodic-h0-pilot
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/periodic_h0/**'
+      - '.github/workflows/periodic-h0-pilot.yml'
+      - 'tools/periodic_pilot_custody.py'
+      - 'tests/test_periodic_pilot_custody.py'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/periodic_h0/**'
+      - '.github/workflows/periodic-h0-pilot.yml'
+      - 'tools/periodic_pilot_custody.py'
+      - 'tests/test_periodic_pilot_custody.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: periodic-h0-pilot-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Initialize exclusive pilot custody and source identity
+        id: pilot_custody_init
+        run: python -B -S tools/periodic_pilot_custody.py init
+      - name: Exercise pilot custody controls in both Python modes
+        run: |
+          python -B -S -m unittest discover -s tests -p 'test_periodic_pilot_custody.py' -v
+          python -B -O -S -m unittest discover -s tests -p 'test_periodic_pilot_custody.py' -v
+      - name: Install pinned experiment dependencies
+        run: python -m pip install -r experiments/periodic_h0/requirements.txt
+      - name: Controls and stored observation audit in both modes
+        run: |
+          python -B -m unittest discover -s experiments/periodic_h0 -p 'test_*.py' -v
+          python -B -O -m unittest discover -s experiments/periodic_h0 -p 'test_*.py' -v
+      - name: Audit the stored refinement observations
+        run: python -B experiments/periodic_h0/run_refinement.py --verify experiments/periodic_h0/results/refinement8/observations.json
+      - name: Replay exact finite-polynomial derivative bounds
+        run: python -B -S experiments/periodic_h0/finite_certificate.py --verify experiments/periodic_h0/results/certificate8
+      - name: Replay the new finite-field nodal snapshot
+        run: python -B -S experiments/periodic_h0/nodal_certificate.py --verify experiments/periodic_h0/results/nodal1
+      - name: Replay the sharper finite-field Hessian and fine-grid bound
+        run: python -B -S experiments/periodic_h0/hessian_grid_certificate.py --verify experiments/periodic_h0/results/hessian1
+      - name: Replay exact integer H0 and independent connectivity witnesses
+        run: python -B -S experiments/periodic_h0/exact_barcode_certificate.py --verify experiments/periodic_h0/results/exact_h0_1
+      - name: Replay the ideal Gaussian spectral tail and conditional coupling boundary
+        run: python -B -S experiments/periodic_h0/gaussian_tail_certificate.py --verify experiments/periodic_h0/results/gaussian_tail1
+      - name: Replay the prospective finite-word coupling under its input model
+        run: python -B -S experiments/periodic_h0/gaussian_coupling_certificate.py --verify experiments/periodic_h0/results/gaussian_coupling1
+      - name: Replay explicit words through the finite-polynomial barcode bridge
+        run: python -B -S experiments/periodic_h0/word_polynomial_certificate.py --verify experiments/periodic_h0/results/word_polynomial1
+      - name: Replay finite-cutoff count caps and exact expected clipping losses
+        run: python -B -S experiments/periodic_h0/finite_count_loss_certificate.py --verify experiments/periodic_h0/results/finite_count_loss1
+      - name: Replay fixed-sample confidence plans and exact finite-law controls
+        run: python -B -S experiments/periodic_h0/count_confidence_certificate.py --verify experiments/periodic_h0/results/count_confidence1
+      - name: Execute the fixed pilot with bounded raw output custody
+        id: fresh_pilot
+        run: python -B -S tools/periodic_pilot_custody.py run
+      - name: Seal actual output and failure state without retries
+        if: ${{ always() }}
+        env:
+          PILOT_JOB_STATUS: ${{ job.status }}
+          PILOT_STEP_OUTCOME: ${{ steps.fresh_pilot.outcome || 'skipped' }}
+        run: python -B -S tools/periodic_pilot_custody.py seal --job-status "$PILOT_JOB_STATUS" --pilot-outcome "$PILOT_STEP_OUTCOME"
+      - name: Upload the guarded run-attempt-source custody package
+        if: ${{ always() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: periodic-h0-custody-${{ github.run_id }}-${{ github.run_attempt }}-${{ github.sha }}
+          path: ${{ runner.temp }}/periodic-h0-custody-${{ github.run_id }}-${{ github.run_attempt }}/upload/
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+          include-hidden-files: false
+          overwrite: false
+      - name: State scientific scope
+        run: echo 'Tests, exact finite-field barcode bounds, ideal Gaussian tail bounds and a fresh discrete periodic H0 pilot passed. Coupling the historical coefficients to the ideal ensemble, lifetime-law confirmation and scientific acceptance remain separate.' >> "$GITHUB_STEP_SUMMARY"

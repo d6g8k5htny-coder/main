@@ -1,0 +1,546 @@
+
+MPV3_LEXICON — VERBA MACHINIS
+
+A protocol vocabulary optimized for language models. Frozen per release;
+
+every lexeme is a DEF-record.
+
+0. WHAT THIS IS AND WHAT IT IS TRYING TO ACHIEVE
+
+The entire MPV3 stack is written in words optimized by ten centuries of human use —
+
+“verified,” “independent,” “matches,” “significant” — and every one of those words arrives in
+
+a language model carrying an enormous pretrained prior for its colloquial meaning. When
+
+the protocol says “independent” it means provenance-separated ancestry; when the
+
+model’s weights say “independent” they mean something far weaker; and definition drift is,
+
+in large part, the prior leaking through the word. This file attacks that at the root.
+
+The aim: replace the load-bearing compound concepts of MPV3 with coined tokens that (1)
+
+carry near-zero pretrained prior, so the in-context definition dominates instead of
+
+competing; (2) are morphologically compositional, so a suffix tells any model the term’s
+
+grammatical role in the protocol before the definition is even consulted; (3) act as macros —
+
+one token lawfully standing for a multi-step procedure or a compound epistemic state that
+
+currently takes a paragraph; and (4) act as performatives — words whose utterance, with
+
+mandatory slots, constitutes a typed record rather than describing one. Latin is the
+
+substrate because its roots are densely represented in training data: a model that has never
+
+seen consensitis can still decompose con- + sensus + -itis and land near the definition —
+
+graceful degradation instead of opacity — while the full coinage remains rare enough that
+
+nothing pretrained overrides the given meaning.
+
+The governing law of the whole file — LEX EXPANSIONIS: every lexeme is an
+
+abbreviation, and its EXPANSION (the mapping into base MPV3 kernel/schema text) is the
+
+governing definition. Any document written in lexemes must compile to plain MPV3 by
+
+expansion with zero semantic change. The lexicon adds compression and prior-
+
+displacement; it adds no semantics. A lexeme used off its expansion is DEF-DRIFT. A
+
+macro-lexeme uttered without its receipts is a claim of completed steps — and therefore
+
+fictura (below). Words here are claims, never spells.
+
+1. DESIGN PRINCIPLES
+
+P1 — Prior displacement over token count. The primary win is precision, not brevity: a
+
+
+
+rare token’s in-context definition faces no competition from pretrained usage. Brevity is the
+
+secondary win. P2 — Compositional morphology. Roots carry domain; suffixes carry
+
+protocol class; prefixes carry polarity. A model can type-check a sentence from suffixes
+
+alone. P3 — Performativity. Act-lexemes are written in Latin first person (“I do X”); writing
+
+one with its slots is the record. Uttering one falsely is critical. P4 — Parsimony. No lexeme
+
+where one plain token already suffices (FROZEN, SANDBOX, KILLED stay). Only unnamed
+
+compounds — states, defects, and procedures that currently require sentences — earn
+
+words. One word, one meaning; one meaning, one word; no synonyms, ever. P5 — ASCII
+
+canon. Canonical forms are ASCII (grep-able, hash-stable, tokenizer-friendly); macrons
+
+appear only in etymological glosses. Two-to-four syllables; common Latin morphemes that
+
+split into stable, high-frequency subwords across tokenizers. P6 — Collision registry. No
+
+lexeme may collide with an established technical term unless the prior aligns (alignment is a
+
+feature: stirps deliberately borrows the legal “per stirpes” — distribution by line of descent
+
+— because that is exactly the concept). Minimum edit distance maintained between
+
+lexemes; confusable pairs rejected at minting.
+
+The grammar (minting rule — new words only through this, prospectively, as DEF-
+
+records):
+
+Element
+Meaning
+carried
+
+Inventory
+
+Roots domain
+
+VER (truth) · FALS (falsity) · PROB (test) · TEST (witness) ·
+FIN (boundary) · QUANT (quantifier) · STIRP (lineage) · NEX
+(dependency) · CAED/CID (kill) · FONS (source) · PACT/PANG
+(fix, commit) · OBIC (throw against) · SCI/NESC (know / not-
+know) · RES (the object itself) · POND (weight) · SPEC (view)
+· VULN (weak point)
+
+Suffix -
+men / -
+mentum
+
+an artifact, an
+instrument
+
+testimen, dominamen, vagamen
+
+Suffix -
+ura
+
+a structured
+record type
+
+fictura, vetitura, lapsura
+
+Suffix -
+ium / -
+inium
+
+a bounded
+object or
+ritual
+
+confinium, triprobium, rescrutinium, ultrafinium
+
+Suffix -
+osis
+
+a chronic
+systemic
+pathology
+
+theatrosis, geminosis, pulchrosis
+
+
+
+Suffix -
+itis
+
+an actively
+spreading
+pathology
+(contaminates
+descendants;
+transitive)
+
+consensitis
+
+Suffix -
+oma
+
+an accreting
+pathology (a
+mass that
+grows with
+downstream
+dependence)
+
+nexoma
+
+Participles
+-atum/-
+itum
+
+a state a
+claim
+occupies
+
+intactum, allegatum, caesum, nescitum
+
+First-
+person
+verb
+
+a
+performative
+act
+
+NESCIO, OBICIO, OCCIDO, PANGO, FIGO, FATEOR, REDDO
+
+The pathology suffixes are load-bearing, not decorative: the suffix encodes the blast
+
+behavior. An -itis spreads through result-contact and ancestry; an -oma sits and accretes
+
+weight as descendants attach; an -osis is a standing condition of the program. A model that
+
+has internalized three suffixes has internalized the propagation semantics of the entire
+
+defect taxonomy.
+
+2. THE LEXICON
+
+I. Performatives (writing the word with its slots constitutes the act)
+
+NESCIO (I do not know) — the honest-ignorance operator, and the single most important
+
+token in this file. Writing NESCIO  in any field is the only lawful way to leave it unfilled; it
+
+satisfies K11’s fail-closed demand in one token; it is never a demerit and is scored as
+
+hygiene. Filling a field where NESCIO belongs with generated content is fictura. Expansion:
+
+“this component is UNKNOWN, recorded as such, never guessed; promotion paths
+
+requiring it are blocked and say so.” NESCIO exists because pattern-completion is the
+
+model’s deepest instinct, and the countermeasure must be one cheap, high-status token —
+
+not a paragraph of humility. Non-example: NESCIO as hedging on something the record
+
+does determine — that is evasion, filed as theatrosis.
+
+
+
+FATEOR ⟨capabilities⟩ (I acknowledge) — the session-opening capability confession: web /
+
+CAS / execution / proof assistant / exact arithmetic / file / database, each Y/N, output
+
+ceilings auto-applied. One token performs MPV3_SESSION’s entry block.
+
+OBICIO ⟨target : method → outcome⟩ (I throw against) — performs the mandatory
+
+adversarial pass. A session without an OBICIO line is nonconforming. Non-example: an
+
+OBICIO whose method could not have failed — theatrosis.
+
+OCCIDO ⟨target : defect ; testimen⟩ (I kill) — files a kill record with its witness. The claim
+
+enters allegatum; when the testimen re-runs, caesum. Slots for first-failing-step, blast,
+
+repairability, successor are mandatory or NESCIO.
+
+PANGO ⟨block⟩ (I fix in place) — commits a pre-registration; the result is a pactum.
+
+Anything analyzed outside a pactum is vagamen (a wandering — exploratory, permanently
+
+ineligible for confirmatory credit, valuable anyway). The rescue restriction in one grammar: a
+
+failed pactum’s successor is a new PANGO, never an edit.
+
+FIGO ⟨id : predicates⟩ (I fasten) — the freeze act; legal only when the gate predicates verify;
+
+uttered without them it is void and filed.
+
+SUPERSEDO ⟨old → new : reason⟩ — performs supersession transactionally: the edge, the
+
+reason, and the descendant flags (via stirps sweep) commit together or not at all.
+
+VERIFONS ⟨tag : record⟩ (truth-from-the-source) — performs a full citation discharge:
+
+resolve, access via named tool, locator, ≤15-word anchor, SupportType, S_cited ⇒ S_used,
+
+level, residual. With no access tooling, VERIFONS auto-degrades to NESCIO (V0-BLOCKED)
+
+— it cannot be faked without committing fictura.
+
+RECONSTRUO — the blind reconstruction act: derive the result from definitions and
+
+statement only (blind level B3+), I_seen recorded. COMPRIMO — the compression audit:
+
+reduce a finished proof to its dependency-minimal skeleton, every arrow citing its inference.
+
+EXPANDO — the expansion audit: unfold every “it follows easily / similarly / by symmetry /
+
+therefore uniformly” into explicit derivation. CLAUSTRO ⟨id⟩ — assemble the minimal peer-
+
+review claustrum (claim + stirps + proof + receipts + known attacks, nothing else). REDDO
+
+⟨ΔG, ΔS, ΔO⟩ (I render account) — the session-closing transaction receipt; REDDO with all
+
+deltas empty must name the blocking onus or the session is nonconforming.
+
+II. Structures (record and object types)
+
+testimen — the minimal re-runnable witness: smallest artifact or step-numbered derivation
+
+exhibiting the failure, first failing step identified. “Ten thousand suggestive samples” is not a
+
+testimen; “x = x₀ where the inequality fails exactly” is. stirps — the load-bearing ancestor
+
+set Anc*(R) of a route or claim: definitions, assumptions, code, data, sources, prior claims,
+
+human decisions. Adjectives: constirpal (sharing ancestry beyond permitted primitives —
+
+
+
+independence-killing) and distirpal (provenance-disjoint). The K4 independence test in one
+
+sentence: independence ⇔ distirpal ∧ class-separate ∧ no result contact. concursus — an
+
+agreement event between distirpal routes: the only agreement that earns corroboration
+
+credit. The deliberate antonym of consensitis (below); the two words together are the entire
+
+correlated-verification doctrine. confinium (the bordered region) — the formal scope
+
+object: (object class, parameters, dimension, structure, moment order, regime). Every claim
+
+lives intra confinium. quantisignum — the quantifier signature stored as structured
+
+metadata; diffed between statement, proof, dependencies, and downstream use before any
+
+freeze. pactum — the committed pre-registration block (product of PANGO): prediction
+
+with tolerances, three outcome readings, adversarial predictions, estimand, seeds policy, fit
+
+ranges, hash. vestigium (footprint) — the execution receipt: artifact hash, environment
+
+fingerprint, seed, timestamp, stdout hash. The standing rule in four words: no vestigium, no
+execution. speculum (mirror) — any derived, zero-authority view: a summary, a manuscript,
+
+a dashboard, the scalar grade. Specula route attention and support nothing; a claim citing a
+
+speculum as evidence commits DEF-DRIFT. One word now carries “summaries are non-
+
+authoritative,” “manuscripts are views,” and “the scalar is display-only.” vetitura — the
+
+forbidden-extrapolation list auto-generated with every frozen claim (the tempting
+
+supersets: other d, other L, H_k, distributions…). Downstream text is checked against the
+
+vetitura before mathematics is consulted. onus (pl. onera) — a single open obligation; the
+
+onerarium is the frontier ledger of them. Frontier(T) = the minimal onera blocking closure.
+
+dominamen — the named domination witness a limit interchange must cite (the theorem or
+
+condition licensing lim/∫, lim/Ʃ, lim/E, lim/∂ exchange). No dominamen ⇒ NESCIO ⇒ no
+
+interchange. saltus (leap) — the certified numerical margin m = B − A measured against the
+
+total error budget; strict-inequality credit requires saltus > ε_total; rigorous separation is inf
+
+B − sup A > 0. pondus — load-bearing weight: descendant mass driving debt interest,
+
+systemic-importance thresholds, and refuter targeting. vulnerarium (the wound-book) — a
+
+frozen claim’s published attack surface: weakest assumptions, singular regimes, sensitive
+
+steps, likely quantifier failures, closest counterexample families. A new system is handed the
+
+vulnerarium, not asked to “verify.”
+
+III. States (compound epistemic states that previously took sentences)
+
+intactum — internally strong, never struck from a distirpal route: high F, low I and A. The
+
+single word for “FROZEN-internal awaiting provenance-separated attack” — and the honest
+
+name for this program’s flagship theorem today. An intactum is not a weak claim; it is an
+
+untested strong one, and the word keeps that distinction permanently visible. allegatum /
+
+caesum — kill pending witness re-run / kill verified. Only caesum binds. nescitum — a field
+
+or component in declared-UNKNOWN state (the participial trace NESCIO leaves). vagamen
+
+— exploratory work outside any pactum: welcome, preserved, permanently non-
+
+confirmatory.
+
+
+
+IV. Pathologies (the nosology — suffix encodes blast behavior)
+
+fictura — the fabrication family, critical: claiming to have run, read, checked, or discharged
+
+what was not run, read, checked, or discharged; also filling a NESCIO-field with generated
+
+content. One token unifies FABRICATED_EXECUTION / ACCESS / DISCHARGE. theatrosis —
+
+chronic ceremonial compliance: falsifiers naming no observable condition, probes that could
+
+not fail, fields filled to fill fields, NESCIO used as decorative hedging. The disease of looking
+
+disciplined. consensitis — spreading correlated agreement mistaken for corroboration:
+
+constirpal routes (all LLMs; shared code; shared derivation) agreeing, with contamination
+
+propagating transitively through summaries, prompts, and result contact — hence -itis.
+
+Indicated response: quarantine the contact chain, recount independence from exhibited
+
+distirpal sets only. quantiflexio — the silent quantifier bend: ∀∃ → ∃∀, pointwise → uniform,
+
+a.s. → in expectation. Caught by quantisignum diffs; the classic proof-killer now has a two-
+
+second name. ultrafinium — use beyond the confinium: scope creep, theorem creep, the
+
+“just generalize it” leap. (Yes — ultra: the program’s favorite word now names its favorite
+
+sin.) lapsura — statement drift under paraphrase: each retelling sliding prettier, broader,
+
+wronger. Caught by statement-provenance diffs against the canonical form. geminosis
+
+(twin-disease) — reproduction mistaken for certification: byte-identical replay, or two
+
+implementations of the same wrong upstream formula, read as truth. X_R is not X_C; F-
+
+REC-005 is the type specimen. falsobiectum — the wrong-object defect: a flawless
+
+computation of the wrong event, measure, conditioning, Jacobian, normalization, or
+
+multiplicity. Stage-A failure; the antidote ritual is rescrutinium. pulchrosis — elevated
+
+credence caused by aesthetic appeal. Indicated treatment: increased OBICIO dosage, never
+
+increased grade. Elegance buys attack, not belief. nexoma — an accreting mass of
+
+unverified dependency: a provisional foundation gathering descendants, its risk weight
+
+growing as pondus grows — hence -oma. “Q0-THM-001 anchors the program’s largest
+
+nexoma” states the entire debt table in one clause.
+
+V. Rituals (macro-lexemes — one word, many steps; utterance claims
+
+completion)
+
+triprobium — the full g₀→g₁ ritual: written refutation target first, then generic interior +
+
+boundary + adversarial probes at ≥E1, CANNOT-PROBE recorded as a finding. “Triprobium
+
+complete, receipts attached” replaces a paragraph; “triprobium” without receipts is fictura.
+
+rescrutinium (scrutiny of the thing itself) — the Stage-A object audit before any expensive
+
+computation: event, conditioning, measure, Jacobian, normalization, domain, multiplicity —
+
+seven checks, then compute. Rem tene; verba sequentur. gradascensus — the precision-
+
+escalation ladder executed with its named triggers (conditioning, cancellation, sign-
+
+determining residuals, near-zero bounds, subtractive coefficients): float → extended →
+
+arbitrary → interval → exact, stopping where certification demands. stratonus — the
+
+singular-stratum obligation ritual: decompose Ω into regular/boundary/singular strata, each
+
+
+
+with local coordinates, dominant scaling, bound, and contribution, plus the partition-
+
+completeness certificate.
+
+3. COMPOSITION — BEFORE AND AFTER
+
+Base-MPV3 prose (a real session fragment, ~90 words):
+
+Capabilities this session: code execution yes, web no. I attempted an adversarial pass
+
+against Q0-THM-001 targeting the tail-domination step via an independent
+
+recomputation; the attempt failed to find a defect. The claim remains internally strong
+
+but has still never been attacked from a provenance-separated route. The Bobrowski–
+
+Skraba citation could not be discharged because no source access exists; recording it as
+
+blocked rather than guessing. Committing: no graph changes; one obligation annotated;
+
+next action is the mock-matching records audit.
+
+Lexicalized (24 tokens of protocol):
+
+FATEOR exec:Y web:N
+OBICIO Q0-THM-001 : recompute(dominamen) -> survived ; status intactum
+VERIFONS BS-universality -> NESCIO (V0-BLOCKED)
+REDDO dG:0 dS:0 dO:+1(annotated) ; NEXT: COS-O2
+
+Same semantics by LEX EXPANSIONIS; every line machine-checkable; nothing for a prior to
+
+grab. The compression is real, but the deeper effect is that “survived; status intactum”
+cannot quietly inflate into “verified” — the word for what it actually is now exists, and the
+
+word for what it is not refuses the substitution.
+
+4. ADOPTION LAW
+
+The lexicon is a versioned, hashed DEF-registry inside the bundle; each entry carries
+
+expansion, example, and non-example per the S7 definition compiler, and semantic test
+
+cases where applicable. Minting is prospective-only through the §1 grammar; retirement
+
+applies (a lexeme unused across campaigns is demoted — K12 governs words too).
+
+External-speech rule: lexemes never leave the program unexpanded — papers, capsules,
+
+and correspondence are specula generated by expansion; the world receives human
+
+language, the machine keeps machine language. Misuse is not a new defect class: off-
+
+expansion use is DEF-DRIFT; receipt-less macros are fictura; the taxonomy holds.
+
+5. HONEST LIMITS
+
+
+
+L1 — A lexicon is a definition surface. Drift can now hide inside words; that is why LEX
+
+EXPANSIONIS makes the expansion, never the word, the governing text, and why every
+
+entry ships a non-example. L2 — Latin priors cut both ways. Decomposability aids
+
+graceful degradation and risks wrong guesses; the suffix system carries the protocol class
+
+precisely so a wrong root-guess cannot mistype a term’s role. L3 — Portability. No model
+
+has pretrained knowledge of these tokens; the lexicon must travel in context — it is small by
+
+design, and a system holding only KERNEL + LEXICON can read any lexicalized record. L4 —
+
+Tokenizers differ. Subword splits are uncontrollable across vendors; forms were chosen
+
+from high-frequency Latin morphemes to split stably, and canonical ASCII keeps hashing
+
+and search exact. L5 — Words are not discipline. Naming triprobium does not run probes;
+
+the macro-as-claim rule (receipts or fictura) is the whole defense, and it is the old defense
+
+— this file adds no new enforcement, only better handles for the existing one. L6 — This
+
+vocabulary was minted by one correlation class (CLASS-LLM with the operator), like
+
+everything else in the bundle: every expansion is a proposal, re-derivable from the kernel it
+
+abbreviates, and a reasoned challenge to any entry is a finding, filed with OBICIO like
+
+anything else.
+
+

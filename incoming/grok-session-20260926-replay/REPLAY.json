@@ -1,0 +1,76 @@
+{
+  "object": "GROK-SESSION-REPLAY-20260926",
+  "date": "2026-09-26",
+  "author_lane": "xAI/Grok + teammates Harper/Benjamin/Lucas",
+  "scientific_effect": "NONE",
+  "scientific_acceptance": false,
+  "lemma_closed": false,
+  "status_md_edited": false,
+  "landing_claims_edited": false,
+  "side24": {
+    "package": "Math-/coefficients/side24_v1",
+    "engineering_tests": {"ran": true, "passed": 30, "total": 30, "seconds": 1.073},
+    "formula": "c_{d,ref} = Gamma(7/6) * (3/2)^{1/3} * D_{d-1} / (2 * sqrt(3) * pi^{d-1} * sqrt(pi))",
+    "cone_moments": {"D1": "4/3", "D2": "29/6 - sqrt(6)"},
+    "identities_checked": [
+      "E[A^2 1{A<0}] = (1/2) Var(A) = 4/3 when Var(A)=8/3",
+      "8*sqrt(3/8) = 2*sqrt(6)",
+      "D2 = 1/2 * (25/3 - 20/3 + 8 - 2*sqrt(6)) = 29/6 - sqrt(6)"
+    ],
+    "mpmath_dps80_reference": {
+      "c2": "0.07340691930603427103013596295777405001766",
+      "c3": "0.04177593184059834334293666542857555646668",
+      "c2_inside_claimed_interval": true,
+      "c3_inside_claimed_interval": true
+    },
+    "claimed_intervals": {
+      "c2": ["0.07340691930603427103", "0.07340691930603427104"],
+      "c3": ["0.04177593184059834334", "0.04177593184059834335"]
+    },
+    "ieee_float_can_sit_outside_1e-16": true,
+    "persistence_interpretation": "HOLD_WITH_DOMAIN; parent main#63 Eq 15.2 unreviewed"
+  },
+  "d2_remainder": {
+    "lemma_R3_2": {
+      "statement": "det K_t = alpha det A - t beta^T adj(A) beta; |F_j(K_t)-F_j(K_0)| <= t |beta^T adj(A) beta|",
+      "sympy_det_identity": "0 residual for m=1,2,3",
+      "numpy_random_trials": {"n": [2, 3, 4], "trials_per_n": 300, "failures": 0, "max_lhs_over_bound": 1.0},
+      "closes_theorem_R": false
+    },
+    "fold_ledger": {
+      "product": "r^{-(d+3)} * r^3 * r^2 * r^{d-1} dr = r dr",
+      "checked_d": [1, 2, 3, 4, 5, 6, 7],
+      "exponent": "ell ~ r^3 pushes r dr to ell^{-1/3}"
+    },
+    "imports_open_parent": ["main#63 marked Kac-Rice", "elder convention", "full normalizer Z", "Theorem A selection chain"]
+  },
+  "p15": {
+    "engineering_tests": {"ran": true, "passed": 36, "total": 36, "seconds": 3.53},
+    "rho_star_numeric": "0.845479817248986720678747537631331753703",
+    "claimed_window": ["0.84547981724898672067", "0.84547981724898672068"],
+    "inside_claimed_window": true,
+    "rho_star_lt_6_over_7": true,
+    "ascii_disambiguation": {
+      "written": "3 - log(3e-2)",
+      "correct_reading": "3e-2 means 3*e - 2, so h_star = 3 - log(3*e - 2) = -log(3*e^{-2} - 2*e^{-3})",
+      "false_reading": "3e-2 as 3*e^{-2} gives h=5-log(3)~3.901 and rho~0.256, which is NOT the displayed constant",
+      "displayed_constant_correct": true,
+      "action": "disambiguate ASCII in PROOF.md; do not change rho window"
+    },
+    "demand_one": {
+      "status": "EXACT_COUNTEREXAMPLE remains",
+      "checks": {
+        "phi_half_gt_2_over_3": true,
+        "covercost_4_over_9_gt_log_4_over_3": true
+      }
+    },
+    "not_a_prize_theorem": true
+  },
+  "still_open": [
+    "D1 Theorem A sections 2-7 and congruence erratum (main#63)",
+    "D5 inner microdisk bound, collar to reviewed annulus, shrinking-collision moments (Math-#58)",
+    "SARD-G A1 open-chart / relative-interior first-hit premise (main#122)",
+    "D0 ABSENT carriers",
+    "lifetime interpretation of SIDE24"
+  ]
+}

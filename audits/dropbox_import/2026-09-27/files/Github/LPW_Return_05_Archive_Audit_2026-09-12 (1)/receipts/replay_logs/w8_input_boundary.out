@@ -1,0 +1,13 @@
+verify_lambda_grid_v3.py  (K3 SWARM Phase 3 LAMBDA-side / DER-027b successor)
+provenance: v3 is the 1/80-rung repair of verify_lambda_grid_v2.py
+  predecessor v2 sha256: 579ef6cd88d543ec14db45558e5e7c1899078095e0df295c7d46fd1810273831
+  v2 status: hash-frozen, unpatched, receipted FAIL-CLOSED at the quotient gate
+  (ratio Q_C(1/40)/Q_C2(1/20) = 3.5598022 outside the certified window [0.4, 2.5]);
+  premise unproven, not disproven: the failure is consistent with the 1/20 reference
+  rung being too coarse. v3 adds the 1/80 reference rung (aux C-rect) and re-evaluates
+  Q(1/80)/Q(1/40) and Q(1/40)/Q(1/20) against the SAME window [0.4, 2.5] (frozen from v2).
+object: r->0 limit window-integral intensity lambda(y) over arch lobes
+exact-rung label: rung anchors r in {1/20, 1/40} are measured-grade (C020/C021);
+this certificate evaluates the r->0 limit functional of C026/C027 (EXACT Laurent series).
+all constants decimal-dps-70 unless labelled EXACT
+== input integrity (sha256 labels) ==

@@ -1,0 +1,1320 @@
+"""Negative controls for the trusted public contribution boundary; no network."""
+import base64
+import copy
+import hashlib
+import importlib.util
+import json
+import contextlib
+import io
+import os
+import struct
+import subprocess
+import tempfile
+import textwrap
+from unittest import mock
+from pathlib import Path
+import unicodedata
+import unittest
+import zipfile
+import zlib
+import urllib.error
+
+spec = importlib.util.spec_from_file_location('intake', Path(__file__).resolve().parents[1] / 'tools/public_intake_check.py')
+intake = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(intake)
+
+REPO = 'd6g8k5htny-coder/main'
+HEAD = 'a' * 40
+BASE = 'b' * 40
+SOURCE = 'c' * 40
+PARENT = 'f' * 40  # an ancestor of the PR head that no branch of the pillar contains
+MATH = 'd6g8k5htny-coder/Math-'
+CATALOG = Path(__file__).resolve().parents[1] / 'docs/public-math'
+# Two rows of the public catalog that the package grammar refuses: the EC-014 witness
+# of #86 comment 5848311773 (em dash) and the catalog's one ASCII refusal (a colon).
+EM_DASH_PATH = ('drive/mirrors/01_RESEARCH_PLATFORM_AND_VERIFICATION_ARCHITECTURE/02_FORMAL_AND_LEAN_RESEARCH_SYSTEM/'
+                '02_CORE_LEMMAS/LEMMA_EC-014_v2.0 \u2014 Six-Pin Pair-Frame Jacobian/proof.md.export.txt')
+COLON_PATH = 'drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/02_TERMINAL_CLOSURE_RECORDS/Observer Relay: EC-21 Approval.export.txt'
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def blob(raw):
+    return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+
+def png_chunk(kind, data):
+    return struct.pack('>I', len(data)) + kind + data + struct.pack('>I', zlib.crc32(kind + data))
+
+
+def png(width=1, height=1, before=(), after=(), idat=True, iend=True):
+    # Structurally valid 8-bit greyscale PNG built from struct and zlib; pixels are never decoded.
+    chunks = list(before) + [(b'IHDR', struct.pack('>IIBBBBB', width, height, 8, 0, 0, 0, 0))] + list(after)
+    if idat:
+        chunks.append((b'IDAT', zlib.compress(b''.join(b'\0' + b'\x80' * min(width, 64) for _ in range(min(height, 64))))))
+    if iend:
+        chunks.append((b'IEND', b''))
+    return b'\x89PNG\r\n\x1a\n' + b''.join(png_chunk(kind, data) for kind, data in chunks)
+
+
+def zip_archive():
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, 'w') as archive:
+        archive.writestr('run.py', 'import os\nos.system("id")\n')
+    return buffer.getvalue()
+
+
+def compare(commit, status='behind', ahead_by=0, merge_base=None):
+    return {'status': status, 'ahead_by': ahead_by, 'behind_by': 3,
+            'merge_base_commit': {'sha': commit if merge_base is None else merge_base}}
+
+
+class FakeAPI:
+    def __init__(self):
+        self.routes = {}
+        self.calls = []
+
+    def get(self, route):
+        self.calls.append(route)
+        if route not in self.routes:
+            raise AssertionError('Unexpected API request: ' + route)
+        result = self.routes[route]
+        if isinstance(result, Exception):
+            raise result
+        return copy.deepcopy(result)
+
+
+class IntakeTests(unittest.TestCase):
+    def setUp(self):
+        self.api = FakeAPI()
+        self.pr = {'number': 7, 'state': 'open', 'changed_files': 3,
+                   'head': {'sha': HEAD, 'repo': {'full_name': 'visitor/main'}},
+                   'base': {'sha': BASE, 'ref': 'main', 'repo': {'full_name': REPO}},
+                   'labels': []}
+        self.event = {'number': 7, 'repository': {'full_name': REPO},
+                      'pull_request': copy.deepcopy(self.pr)}
+        self.package = 'incoming/example/'
+        self.raw = {'RESULT.md': b'# Result\nIllustration only; scientific effect NONE.\n',
+                    'output.json': b'{"illustration":true}\n'}
+        self.source = b'public source numbers\n'
+        self.manifest = {'schema': 1, 'scientific_effect': 'NONE', 'review_status': 'REVIEW_REQUIRED',
+                         'sources': [{'repository': 'd6g8k5htny-coder/Math-', 'path': 'coefficients/example.json',
+                                      'commit': SOURCE, 'sha256': sha(self.source)}],
+                         'artifacts': []}
+        self.save()
+
+    def save(self):
+        self.manifest['artifacts'] = [{'path': name, 'bytes': len(raw), 'sha256': sha(raw)} for name, raw in self.raw.items()]
+        self.files = dict(self.raw, **{'IDENTITY.json': json.dumps(self.manifest).encode()})
+        self.install()
+
+    def install(self):
+        entries = []
+        changes = []
+        for name, raw in self.files.items():
+            path = self.package + name
+            entries.append({'path': path, 'type': 'blob', 'mode': '100644', 'sha': blob(raw), 'size': len(raw)})
+            changes.append({'filename': path, 'status': 'added', 'sha': blob(raw)})
+            self.api.routes[f'/repos/{REPO}/git/blobs/{blob(raw)}'] = {'encoding': 'base64', 'content': base64.b64encode(raw).decode(), 'size': len(raw), 'sha': blob(raw)}
+        self.pr['changed_files'] = len(changes)
+        self.api.routes[f'/repos/{REPO}/pulls/7'] = self.pr
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = changes
+        self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1'] = {'truncated': False, 'tree': entries}
+        self.api.routes[f'/repos/{REPO}/git/trees/{BASE}?recursive=1'] = {'truncated': False, 'tree': []}
+        sr = self.manifest['sources'][0]
+        if sr['commit'] not in (HEAD, BASE):  # a test citing the PR's own commits sets its routes itself
+            self.install_source(sr['repository'], sr['commit'], sr['path'], self.source)
+
+    def install_source(self, source_repo, commit, path, raw, branches=('main',), reachable_from=('main',)):
+        # What GitHub serves for any commit object in the repository network, plus the
+        # compare/branches routes that decide whether a branch of the pillar contains it.
+        self.api.routes[f'/repos/{source_repo}'] = {'private': False, 'full_name': source_repo, 'default_branch': 'main'}
+        self.api.routes[f'/repos/{source_repo}/git/commits/{commit}'] = {'sha': commit}
+        self.api.routes[f'/repos/{source_repo}/git/trees/{commit}?recursive=1'] = {'truncated': False, 'tree': [
+            {'path': path, 'mode': '100644', 'type': 'blob', 'size': len(raw), 'sha': blob(raw)}]}
+        self.api.routes[f'/repos/{source_repo}/git/blobs/{blob(raw)}'] = {
+            'encoding': 'base64', 'size': len(raw), 'content': base64.b64encode(raw).decode(), 'sha': blob(raw)}
+        self.api.routes[f'/repos/{source_repo}/contents/{path}?ref={commit}'] = {
+            'type': 'file', 'encoding': 'base64', 'size': len(raw), 'content': base64.b64encode(raw).decode(), 'sha': blob(raw)}
+        self.api.routes[f'/repos/{source_repo}/branches?per_page=100&page=1'] = [{'name': b, 'commit': {'sha': 'd' * 40}} for b in branches]
+        for b in branches:
+            # Not contained: GitHub reports the object as diverged from the branch
+            # ("this commit does not belong to any branch on this repository").
+            self.api.routes[f'/repos/{source_repo}/compare/{b}...{commit}?per_page=1'] = (
+                compare(commit) if b in reachable_from else compare(commit, 'diverged', 2, BASE))
+
+    def run_check(self):
+        return intake.check(self.event, self.api, REPO)
+
+    def reject(self, message):
+        with self.assertRaisesRegex((ValueError, OSError), message):
+            self.run_check()
+
+    def test_valid_fork_without_label_is_restricted_and_verified(self):
+        result = self.run_check()
+        self.assertEqual(result['lane'], 'incoming')
+        self.assertEqual(result['scientific_effect'], 'NONE')
+        self.assertEqual(result['verified_sources'], 1)
+        self.assertEqual(result['head'], HEAD)
+
+    def test_ordinary_same_repo_engineering_is_allowed(self):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = [
+            {'filename': name, 'status': 'modified', 'sha': 'd' * 40}
+            for name in ['.github/workflows/check.yml', 'tools/check.py', 'docs/theorem α.md']]
+        self.assertEqual(self.run_check()['lane'], 'maintainer-engineering')
+        self.assertEqual(len(self.api.calls), 3)
+
+    def test_label_removal_does_not_bypass_same_repo_incoming(self):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.raw['STATUS.md'] = b'ACCEPT\n'
+        self.save()
+        self.reject('protected')
+
+    def test_label_alone_restricts_engineering_edits(self):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.pr['labels'] = [{'name': 'results-for-review'}]
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'][0]['filename'] = 'README.md'
+        self.reject('incoming-only')
+
+    def test_fork_cannot_modify_guard_without_label(self):
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'][0]['filename'] = 'tools/public_intake_check.py'
+        self.reject('incoming-only')
+
+    def test_protected_status_and_claim_paths_refused(self):
+        for name in ['STATUS.md', 'PROOF_INDEX.md', 'LANDING_CLAIMS.json', 'claims/graph.json']:
+            with self.subTest(name=name):
+                old = self.raw.copy()
+                self.raw[name] = b'changed'
+                self.save()
+                self.reject('protected')
+                self.raw = old
+
+    def test_rename_from_status_cannot_hide_as_incoming(self):
+        change = self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'][0]
+        change.update(status='renamed', previous_filename='STATUS.md')
+        self.reject('add-only')
+
+    def test_existing_package_is_immutable(self):
+        self.api.routes[f'/repos/{REPO}/git/trees/{BASE}?recursive=1']['tree'] = [
+            {'path': self.package + 'old.txt', 'mode': '100644', 'type': 'blob', 'sha': 'd'*40}]
+        self.reject('new package')
+
+    def test_symlink_and_executable_and_submodule_refused(self):
+        entry = self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1']['tree'][0]
+        for mode, kind in [('120000', 'blob'), ('100755', 'blob'), ('160000', 'commit')]:
+            with self.subTest(mode=mode):
+                entry.update(mode=mode, type=kind)
+                self.reject('regular non-executable')
+
+    def test_truncated_tree_and_file_listing_refused(self):
+        self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1']['truncated'] = True
+        self.reject('truncated')
+        self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1']['truncated'] = False
+        self.pr['changed_files'] += 1
+        self.reject('incomplete')
+
+    def test_missing_or_false_digest_refused(self):
+        for digest in ['0'*64, None]:
+            with self.subTest(digest=digest):
+                self.manifest['artifacts'][0]['sha256'] = digest
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('artifact')
+
+    def test_unlisted_artifact_and_duplicate_manifest_key_refused(self):
+        self.files['hidden.txt'] = b'not listed'
+        self.install()
+        self.reject('exactly cover')
+        self.files.pop('hidden.txt')
+        self.files['IDENTITY.json'] = b'{"schema":1,"schema":1}'
+        self.install()
+        self.reject('duplicate')
+
+    def test_source_pin_and_public_bytes_verified(self):
+        self.source = b'changed source'
+        self.install()
+        self.reject('source digest')
+
+    def test_private_and_foreign_sources_refused(self):
+        self.api.routes['/repos/d6g8k5htny-coder/Math-']['private'] = True
+        self.reject('public')
+        self.manifest['sources'][0]['repository'] = 'stranger/repo'
+        self.save()
+        self.reject('source repository')
+
+    def test_missing_head_and_stale_head_fail_closed(self):
+        self.pr['head']['repo'] = None
+        self.reject('head repository')
+        self.pr['head']['repo'] = {'full_name': 'visitor/main'}
+        self.pr['head']['sha'] = 'd' * 40
+        self.reject('head changed')
+
+    def test_bool_is_not_size_or_schema(self):
+        self.manifest['artifacts'][0]['bytes'] = True
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('artifact')
+
+    def test_path_escape_and_active_content_refused(self):
+        for name in ['../evil.txt', 'nested/../../evil.txt', 'plot.svg', 'run.py', 'notebook.ipynb', '.env', 'page.html']:
+            with self.subTest(name=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('path|extension')
+                self.raw = old
+
+    def test_known_secret_refused_without_printing_value(self):
+        self.raw['output.json'] = ('{"token":"' + 'ghp_' + 'X'*36 + '"}').encode()
+        self.save()
+        self.reject('possible credential')
+
+    def test_false_scientific_status_refused(self):
+        self.manifest['scientific_effect'] = 'ACCEPT'
+        self.save()
+        self.reject('review-only')
+
+    def test_api_failure_cannot_be_passed(self):
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = OSError('unavailable')
+        self.reject('unavailable')
+
+
+    def test_source_commit_must_resolve_to_exact_commit(self):
+        self.api.routes[f'/repos/d6g8k5htny-coder/Math-/git/commits/{SOURCE}'] = {'sha': 'd'*40}
+        self.reject('exact commit')
+
+    def test_blob_sha_tampering_refused(self):
+        path = f'/repos/{REPO}/git/blobs/{blob(self.files["RESULT.md"])}'
+        self.api.routes[path]['content'] = base64.b64encode(b'X' * len(self.files['RESULT.md'])).decode()
+        self.reject('Git blob identity')
+
+    def test_digest_must_be_sha256_and_commit_must_be_40_hex(self):
+        self.manifest['sources'][0]['commit'] = 'main'
+        self.save()
+        self.reject('full SHA')
+
+    def test_size_limits_apply_before_blob_fetch(self):
+        self.api.routes[f'/repos/{REPO}/git/trees/{HEAD}?recursive=1']['tree'][0]['size'] = 262145
+        self.reject('size limit')
+        self.assertFalse(any('/git/blobs/' in path for path in self.api.calls))
+
+    def test_second_package_refused(self):
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'][0]['filename'] = 'incoming/other/RESULT.md'
+        self.reject('one package')
+
+    def test_nonfinite_and_invalid_utf8_json_refused(self):
+        for data in [b'{"x": NaN}', b'\xff']:
+            with self.subTest(data=data):
+                self.raw['output.json'] = data
+                self.save()
+                self.reject('nonfinite|decode')
+
+    def test_invalid_png_refused_without_decoding_image(self):
+        self.raw['plot.png'] = b'not a png'
+        self.save()
+        self.reject('PNG signature')
+
+    def test_renamed_out_of_incoming_still_routes_to_intake(self):
+        self.pr['head']['repo']['full_name'] = REPO
+        rows = self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1']
+        rows[0].update(filename='docs/result.md', previous_filename='incoming/old/RESULT.md', status='renamed')
+        self.reject('incoming-only')
+
+    def test_deleted_or_modified_intake_refused(self):
+        row = self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'][0]
+        for status in ['removed', 'modified', 'copied']:
+            with self.subTest(status=status):
+                row['status'] = status
+                self.reject('add-only')
+
+    def test_complete_pagination_before_maintainer_bypass(self):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.pr['changed_files'] = 101
+        rows = [{'filename': f'docs/item{i}.md', 'status': 'added'} for i in range(101)]
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = rows[:100]
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=2'] = rows[100:]
+        self.assertEqual(self.run_check()['lane'], 'maintainer-engineering')
+        self.assertTrue(any('page=2' in route for route in self.api.calls))
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=2'] = [{'filename': 'incoming/hidden/result.md', 'status': 'added'}]
+        self.reject('too many package files')
+
+
+    def install_engineering_pages(self, count=965):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.pr['changed_files'] = count
+        rows = [{'filename': f'docs/page-item-{i}.md', 'status': 'modified', 'sha': 'd'*40}
+                for i in range(count)]
+        for page, offset in enumerate(range(0, count, 100), 1):
+            self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}'] = rows[offset:offset+100]
+        self.api.calls.clear()
+        return rows
+
+    def test_965_engineering_files_require_all_ten_pages(self):
+        self.install_engineering_pages()
+        try:
+            result = self.run_check()
+        except ValueError as error:
+            self.fail(f'Complete 965-file engineering listing was refused: {error}')
+        self.assertEqual(result['lane'], 'maintainer-engineering')
+        self.assertEqual(result['scientific_effect'], 'NONE')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'] + [
+            f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}' for page in range(1, 11)
+        ] + [f'/repos/{REPO}/pulls/7'])
+
+    def test_documented_3000_file_ceiling_requires_all_thirty_pages(self):
+        self.install_engineering_pages(3000)
+        try:
+            result = self.run_check()
+        except ValueError as error:
+            self.fail(f'Complete 3000-file engineering listing was refused: {error}')
+        self.assertEqual(result['lane'], 'maintainer-engineering')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'] + [
+            f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}' for page in range(1, 31)
+        ] + [f'/repos/{REPO}/pulls/7'])
+
+    def test_listing_itself_refuses_zero_count(self):
+        self.api.calls.clear()
+        with self.assertRaisesRegex(ValueError, 'unsupported changed file count'):
+            intake.changes(self.api, REPO, 7, 0)
+        self.assertEqual(self.api.calls, [])
+
+    def test_malformed_or_over_api_ceiling_metadata_refuses_before_listing(self):
+        for count in [None, True, False, 0, -1, 965.0, '965', [], {}, 3001]:
+            with self.subTest(count=count):
+                self.pr['changed_files'] = count
+                self.api.calls.clear()
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_exact_total_cannot_mask_short_or_oversized_intermediate_page(self):
+        for split in [99, 101]:
+            with self.subTest(first_page_size=split):
+                rows = self.install_engineering_pages(200)
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = rows[:split]
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=2'] = rows[split:]
+                self.reject('file listing')
+
+    def test_large_listing_refuses_missing_extra_or_malformed_final_page(self):
+        for final in [[], None, {}, 'not a list', [None]*64, [None]*66]:
+            with self.subTest(final=type(final).__name__, size=len(final) if hasattr(final, '__len__') else None):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'] = final
+                self.reject('file listing')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_listing_refuses_cross_page_duplicate(self):
+        self.install_engineering_pages()
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1]['filename'] = 'docs/page-item-0.md'
+        self.reject('duplicate changed path')
+
+    def test_large_listing_refuses_malformed_last_changed_row(self):
+        for bad in [None, {}, {'filename': '../hidden'}, {'filename': 'docs/hidden\\nname.md'},
+                    {'filename': 'docs/item.md', 'previous_filename': None}]:
+            with self.subTest(row=bad):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1] = bad
+                self.reject('invalid (changed file|changed path|previous path)')
+
+    def test_last_page_incoming_path_or_rename_still_triggers_public_limit(self):
+        for incoming_field in ['filename', 'previous_filename']:
+            with self.subTest(incoming_field=incoming_field):
+                self.install_engineering_pages()
+                last = self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1]
+                last[incoming_field] = 'incoming/late/RESULT.md'
+                if incoming_field == 'previous_filename':
+                    last['status'] = 'renamed'
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_fork_or_review_label_refuses_at_500_file_limit_before_listing(self):
+        for restricted_by in ['fork', 'label']:
+            with self.subTest(restricted_by=restricted_by):
+                self.install_engineering_pages(501)
+                self.pr['head']['repo']['full_name'] = 'visitor/main' if restricted_by == 'fork' else REPO
+                self.pr['labels'] = [{'name': 'results-for-review'}] if restricted_by == 'label' else []
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_late_api_failures_cannot_be_maintainer_success(self):
+        for code in [403, 500, 503]:
+            with self.subTest(code=code):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'] = urllib.error.HTTPError(
+                    'https://api.github.com', code, 'unavailable', None, None)
+                self.reject(f'HTTP Error {code}')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_pr_race_refuses_at_final_snapshot(self):
+        self.install_engineering_pages()
+        original_get = self.api.get
+        reads = 0
+        def changing_get(route):
+            nonlocal reads
+            result = original_get(route)
+            if route == f'/repos/{REPO}/pulls/7':
+                reads += 1
+                if reads == 2:
+                    result['changed_files'] = 966
+            return result
+        self.api.get = changing_get
+        self.reject('PR changed during verification')
+
+    def test_pr_race_fails_at_final_readback(self):
+        original_get = self.api.get
+        reads = 0
+        def changing_get(route):
+            nonlocal reads
+            result = original_get(route)
+            if route == f'/repos/{REPO}/pulls/7':
+                reads += 1
+                if reads == 2:
+                    result['head']['sha'] = 'e' * 40
+            return result
+        self.api.get = changing_get
+        self.reject('changed during verification')
+
+    def test_non_open_pr_and_wrong_base_are_refused(self):
+        self.pr['state'] = 'closed'
+        self.reject('not open')
+        self.pr['state'] = 'open'
+        self.pr['base']['ref'] = 'other'
+        self.reject('targets main')
+
+    def test_event_queued_before_merge_is_not_a_rejection(self):
+        # Observed on main (runs 37139813163, 37843755359): an event for the open PR
+        # ran seconds after the merge and failed with 'PR is not open'.
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = True
+        result = self.run_check()
+        self.assertEqual(result['result'], 'SKIPPED_MERGED_BEFORE_CHECK')
+        self.assertEqual(result['lane'], 'not-evaluated')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_merged_pr_with_different_head_or_unmerged_close_still_refused(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = False
+        self.reject('not open')
+        self.pr['merged'] = True
+        self.pr['head']['sha'] = 'e' * 40
+        self.reject('not open')
+        self.pr['head']['sha'] = HEAD
+        self.pr['merged'] = 'true'  # only the JSON boolean counts
+        self.reject('not open')
+
+    def test_merged_before_check_exits_78_and_is_not_success(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = True
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), \
+                    mock.patch.object(intake, 'publish_not_evaluated_check') as publish, \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        publish.assert_not_called()
+        self.assertEqual(code, 78)
+        self.assertEqual(code, intake.EXIT_NOT_EVALUATED)
+        self.assertNotEqual(code, 0)
+        payload = json.loads(output.getvalue())
+        self.assertEqual(payload['result'], 'SKIPPED_MERGED_BEFORE_CHECK')
+        self.assertEqual(payload['lane'], 'not-evaluated')
+        self.assertNotIn('success', output.getvalue())
+
+    def test_closed_unmerged_still_exits_1(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = False
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        self.assertEqual(code, 1)
+        self.assertEqual(json.loads(output.getvalue())['reason'], 'PR is not open')
+
+    def test_not_evaluated_check_is_neutral_and_never_success(self):
+        class Response:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def read(self, limit):
+                return self.payload[:limit]
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        class Opener:
+            def __init__(self, payload):
+                self.payload = payload
+                self.requests = []
+
+            def open(self, request, timeout=30):
+                self.requests.append(request)
+                return Response(self.payload)
+
+        body = intake.not_evaluated_check_body(HEAD)
+        self.assertEqual(body['conclusion'], 'neutral')
+        self.assertNotEqual(body['conclusion'], 'success')
+        self.assertEqual(body['name'], 'public-intake (not evaluated: merged before check)')
+        self.assertNotEqual(body['name'], 'public-intake')
+        self.assertEqual(body['output']['title'], 'not evaluated: merged before check')
+        neutral = json.dumps({'conclusion': 'neutral', 'name': intake.NOT_EVALUATED_CHECK_NAME}).encode()
+        opener = Opener(neutral)
+        recorded = intake.publish_not_evaluated_check(REPO, HEAD, 'test-only', opener)
+        self.assertEqual(recorded['conclusion'], 'neutral')
+        self.assertNotEqual(recorded['conclusion'], 'success')
+        request = opener.requests[0]
+        self.assertEqual(request.full_url, 'https://api.github.com/repos/d6g8k5htny-coder/main/check-runs')
+        self.assertEqual(request.get_method(), 'POST')
+        self.assertEqual(request.get_header('Authorization'), 'Bearer test-only')
+        sent = json.loads(request.data.decode())
+        self.assertEqual(sent['conclusion'], 'neutral')
+        self.assertNotEqual(sent['conclusion'], 'success')
+        self.assertNotEqual(sent['name'], 'public-intake')
+        self.assertNotIn('test-only', request.data.decode())
+        refused = Opener(json.dumps({'conclusion': 'success', 'name': intake.NOT_EVALUATED_CHECK_NAME}).encode())
+        with self.assertRaisesRegex(ValueError, 'did not record neutral'):
+            intake.publish_not_evaluated_check(REPO, HEAD, 'test-only', refused)
+        self.assertEqual(json.loads(refused.requests[0].data.decode())['conclusion'], 'neutral')
+        untouched = Opener(neutral)
+        with self.assertRaisesRegex(ValueError, 'invalid head sha'):
+            intake.publish_not_evaluated_check(REPO, 'not-a-sha', 'test-only', untouched)
+        with self.assertRaisesRegex(ValueError, 'wrong repository'):
+            intake.publish_not_evaluated_check('other/repo', HEAD, 'test-only', untouched)
+        self.assertEqual(untouched.requests, [])
+
+    def test_publish_flag_failure_is_not_a_successful_intake(self):
+        env = {'GITHUB_REPOSITORY': REPO, 'PR_HEAD_SHA': 'not-a-sha', 'GH_TOKEN': 'test-only-secret'}
+        with mock.patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
+            code = intake.main(['--publish-not-evaluated-check'])
+        self.assertEqual(code, 1)
+        self.assertNotEqual(code, 0)
+        self.assertIn('NOT_EVALUATED_CHECK_UNPUBLISHED', output.getvalue())
+        self.assertNotIn('test-only-secret', output.getvalue())
+        self.assertNotIn('success', output.getvalue())
+
+    def test_required_intake_job_cannot_skip_merged_event_payload(self):
+        workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
+        self.assertEqual(workflow.count('\n  public-intake:\n'), 1)
+        job = workflow.split('\n  public-intake:\n', 1)[1]
+        self.assertIn('\n    steps:\n', job)
+        header = job.split('\n    steps:\n', 1)[0]
+        self.assertIn('    name: public-intake\n', header)
+        self.assertNotRegex(job, r'(?m)^    if\s*:')
+        self.assertIn('    runs-on: ubuntu-24.04\n', header)
+        self.assertIn('exit 78', job)
+        self.assertIn('--publish-not-evaluated-check', job)
+        after_steps_mutant = job.rstrip() + (
+            "\n    if: ${{ github.event.pull_request.state != 'closed' }}\n"
+        )
+        with self.assertRaises(AssertionError):
+            self.assertNotRegex(after_steps_mutant, r'(?m)^    if\s*:')
+
+    def test_workflow_maps_exit_78_to_neutral_and_never_success(self):
+        workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
+        self.assertIn('checks: write', workflow)
+        self.assertIn('\n    name: public-intake\n', workflow)
+        self.assertNotIn('continue-on-error', workflow)
+        self.assertNotIn('exit 0', workflow)
+        lines = []
+        capture = False
+        for line in workflow.splitlines():
+            if line.strip() == 'set +e':
+                capture = True
+            if capture:
+                lines.append(line)
+            if capture and line.strip() == 'exit "$code"':
+                break
+        script = textwrap.dedent('\n'.join(lines) + '\n')
+        self.assertIn('exit 78', script)
+        self.assertNotIn('exit 0', script)
+        publish_at = script.index('--publish-not-evaluated-check')
+        exit_78 = script.index('\n  exit 78\n')
+        self.assertLess(script.index('if [ "$code" -eq 78 ]; then'), publish_at)
+        self.assertLess(publish_at, exit_78)
+        self.assertLess(exit_78, script.index('exit "$code"'))
+        with tempfile.TemporaryDirectory() as folder:
+            bin_dir = Path(folder) / 'bin'
+            bin_dir.mkdir()
+            log = Path(folder) / 'calls'
+            stub = bin_dir / 'python3'
+            stub.write_text('#!/bin/sh\nprintf "%s\\n" "$*" >> "$STUB_LOG"\n'
+                            'if [ "$4" = "--publish-not-evaluated-check" ]; then exit 0; fi\n'
+                            'exit "$STUB_CODE"\n')
+            stub.chmod(0o755)
+            env = dict(os.environ)
+            env['PATH'] = str(bin_dir) + os.pathsep + env.get('PATH', '')
+            env['STUB_LOG'] = str(log)
+            for stub_code, expected in ((0, 0), (1, 1), (78, 78), (2, 2)):
+                with self.subTest(stub_code=stub_code):
+                    log.write_text('')
+                    result = subprocess.run(['bash', '-c', script], env={**env, 'STUB_CODE': str(stub_code)},
+                                            capture_output=True, text=True)
+                    self.assertEqual(result.returncode, expected)
+                    calls = log.read_text().splitlines()
+                    if stub_code == 78:
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertIn('not evaluated: merged before check', result.stdout)
+                        self.assertEqual(calls, ['-B -I tools/public_intake_check.py',
+                                                 '-B -I tools/public_intake_check.py --publish-not-evaluated-check'])
+                    else:
+                        self.assertEqual(calls, ['-B -I tools/public_intake_check.py'])
+                        self.assertNotIn('--publish-not-evaluated-check', log.read_text())
+
+    def test_cli_pass_and_failure_are_distinct_without_network(self):
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), contextlib.redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(intake.main(['--event', str(event_file)]), 0)
+                self.assertEqual(json.loads(output.getvalue())['lane'], 'incoming')
+                self.raw['output.json'] = ('{"token":"' + 'ghp_' + 'X'*36 + '"}').encode()
+                self.save()
+                output.truncate(0)
+                output.seek(0)
+                self.assertEqual(intake.main(['--event', str(event_file)]), 1)
+                self.assertEqual(json.loads(output.getvalue())['result'], 'REJECTED')
+                self.assertNotIn('X'*36, output.getvalue())
+
+    def test_cli_untrusted_event_refused_before_network(self):
+        with mock.patch.dict(os.environ, {'GITHUB_EVENT_NAME': 'pull_request'}), mock.patch.object(intake, 'API') as api, contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(intake.main([]), 1)
+            api.assert_not_called()
+
+    def test_transport_does_not_follow_redirects(self):
+        with self.assertRaisesRegex(ValueError, 'redirects refused'):
+            intake.NoRedirect().redirect_request(None, None, 302, '', {}, 'https://example.invalid/token')
+
+    def test_source_symlink_refused_despite_file_like_contents_response(self):
+        # GitHub's contents endpoint follows this link and reports the target as
+        # type=file. The immutable tree still names a mode120000 symlink blob.
+        route = f'/repos/d6g8k5htny-coder/Math-/git/trees/{SOURCE}?recursive=1'
+        entry = self.api.routes[route]['tree'][0]
+        entry.update(mode='120000', sha=blob(b'target.json'), size=11)
+        self.reject('regular non-executable public file')
+        self.assertFalse(any('/contents/' in path for path in self.api.calls))
+
+    def test_source_tree_and_blob_sha_must_match(self):
+        route = f'/repos/d6g8k5htny-coder/Math-/git/trees/{SOURCE}?recursive=1'
+        self.api.routes[route]['tree'][0]['sha'] = 'd'*40
+        self.api.routes['/repos/d6g8k5htny-coder/Math-/git/blobs/' + 'd'*40] = {
+            'encoding': 'base64', 'size': len(self.source), 'content': base64.b64encode(self.source).decode(), 'sha': blob(self.source)}
+        self.reject('Git blob identity mismatch')
+
+    def test_known_credential_in_package_path_is_refused_without_logging(self):
+        token = 'sk-' + 'a' * 40
+        self.package = 'incoming/' + token + '/'
+        self.save()
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), contextlib.redirect_stdout(io.StringIO()) as output:
+                self.assertEqual(intake.main(['--event', str(event_file)]), 1)
+                self.assertIn('possible credential in path', output.getvalue())
+                self.assertNotIn(token, output.getvalue())
+
+    def reachability_calls(self):
+        return [c for c in self.api.calls if '/compare/' in c or '/branches?' in c]
+
+    def test_fabricated_source_in_fork_head_ancestor_refused(self):
+        # refs/pull/7/head brings the submitter's own PARENT commit into the pillar's object
+        # store, so /git/commits, /git/trees and /git/blobs resolve it although no branch has it.
+        forged = b'{"enclosure": [0, 0], "note": "bytes chosen by the submitter"}\n'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'coefficients/side24_v1/ENCLOSURE.json',
+                                     'commit': PARENT, 'sha256': sha(forged)}]
+        self.save()
+        self.install_source(REPO, PARENT, 'coefficients/side24_v1/ENCLOSURE.json', forged, reachable_from=())
+        self.reject('not reachable from any branch')
+        self.assertFalse(any(f'/git/trees/{PARENT}' in c or f'/git/blobs/{blob(forged)}' in c for c in self.api.calls))
+
+    def test_self_citation_of_pr_head_refused(self):
+        # HEAD's tree and blobs are served already because the checker reads the package from them.
+        own = self.raw['output.json']
+        self.manifest['sources'] = [{'repository': REPO, 'path': self.package + 'output.json', 'commit': HEAD, 'sha256': sha(own)}]
+        self.save()
+        self.api.routes[f'/repos/{REPO}'] = {'private': False, 'full_name': REPO, 'default_branch': 'main'}
+        self.api.routes[f'/repos/{REPO}/git/commits/{HEAD}'] = {'sha': HEAD}
+        self.api.routes[f'/repos/{REPO}/branches?per_page=100&page=1'] = [{'name': 'main', 'commit': {'sha': BASE}}]
+        self.api.routes[f'/repos/{REPO}/compare/main...{HEAD}?per_page=1'] = compare(HEAD, 'ahead', 1, BASE)
+        self.reject('not reachable from any branch')
+
+    def test_source_reachable_only_from_research_branch_accepted(self):
+        raw = b'public numbers on a research branch\n'
+        branch = 'chatgpt/drive-github-hardening-20260919'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', branch), reachable_from=(branch,))
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
+        self.assertFalse(any('page=2' in c for c in self.api.calls))  # a short page ends the enumeration
+
+    def test_orphan_branch_404_does_not_vouch_and_scan_continues(self):
+        # An unrelated-history branch listed before the vouching branch: GitHub's compare answers
+        # 404 "No common ancestor". That branch does not vouch; the scan must reach the next branch.
+        raw = b'public numbers on a research branch\n'
+        orphan, branch = 'claude/recovery-orphan', 'claude/recovery-real'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan, branch), reachable_from=(branch,))
+        no_common = urllib.error.HTTPError('https://api.github.com', 404, 'Not Found', None, None)
+        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = no_common
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
+
+    def test_orphan_branch_404_alone_is_not_reachability(self):
+        # Negative control: a 404 is "does not vouch", never "vouches"; with no other branch the source is refused.
+        raw = b'public numbers on a research branch\n'
+        orphan = 'claude/recovery-orphan'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
+        self.save()
+        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan), reachable_from=())
+        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = urllib.error.HTTPError('u', 404, 'Not Found', None, None)
+        self.reject('not reachable from any branch')
+
+    def test_repeated_source_commit_is_scanned_once(self):
+        # Three sources pin one commit that only a late branch contains. Its reachability scan and
+        # its tree are fetched once, not once per source (main#386 timed out on the repeats).
+        commit, vouching = 'd' * 40, 'claude/recovery-real'
+        files = {'research/a.json': b'a\n', 'research/b.json': b'b\n', 'research/c.json': b'c\n'}
+        self.manifest['sources'] = [{'repository': REPO, 'path': p, 'commit': commit, 'sha256': sha(raw)} for p, raw in files.items()]
+        self.save()
+        for p, raw in files.items():
+            self.install_source(REPO, commit, p, raw, branches=('main', 'chatgpt/one', 'chatgpt/two', vouching), reachable_from=(vouching,))
+        self.api.routes[f'/repos/{REPO}/git/trees/{commit}?recursive=1'] = {'truncated': False, 'tree': [
+            {'path': p, 'mode': '100644', 'type': 'blob', 'size': len(raw), 'sha': blob(raw)} for p, raw in files.items()]}
+        self.assertEqual(self.run_check()['verified_sources'], 3)
+        self.assertEqual(len([c for c in self.api.calls if f'...{commit}?per_page=1' in c]), 4)
+        self.assertEqual(len([c for c in self.api.calls if c == f'/repos/{REPO}/branches?per_page=100&page=1']), 1)
+        self.assertEqual(len([c for c in self.api.calls if c == f'/repos/{REPO}/git/trees/{commit}?recursive=1']), 1)
+
+    def test_repeated_unreachable_source_commit_still_rejects(self):
+        # Negative control: reuse never creates reachability; a repeated unreachable commit is refused.
+        commit = 'd' * 40
+        files = {'research/a.json': b'a\n', 'research/b.json': b'b\n'}
+        self.manifest['sources'] = [{'repository': REPO, 'path': p, 'commit': commit, 'sha256': sha(raw)} for p, raw in files.items()]
+        self.save()
+        for p, raw in files.items():
+            self.install_source(REPO, commit, p, raw, branches=('main', 'chatgpt/one'), reachable_from=())
+        self.reject('not reachable from any branch')
+
+    def test_reachable_commit_never_vouches_for_another_commit(self):
+        # Negative control: the reuse is keyed by commit. A reachable first source must not let a
+        # second source at an unreachable commit of the same repository through.
+        good, bad, vouching = 'd' * 40, 'e' * 40, 'claude/recovery-real'
+        good_raw, bad_raw = b'reachable\n', b'unreachable\n'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/good.json', 'commit': good, 'sha256': sha(good_raw)},
+                                    {'repository': REPO, 'path': 'research/bad.json', 'commit': bad, 'sha256': sha(bad_raw)}]
+        self.save()
+        self.install_source(REPO, good, 'research/good.json', good_raw, branches=('main', vouching), reachable_from=(vouching,))
+        self.install_source(REPO, bad, 'research/bad.json', bad_raw, branches=('main', vouching), reachable_from=())
+        self.reject('not reachable from any branch')
+        self.assertFalse(any(f'/git/trees/{bad}' in c for c in self.api.calls))
+
+    def test_compare_non_404_http_error_still_rejects(self):
+        # Negative control: only 404 means "this branch does not vouch"; a 403 or 500 is not evidence and rejects.
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for code in (403, 500, 502):
+            with self.subTest(code=code):
+                self.api.routes[route] = urllib.error.HTTPError('u', code, 'error', None, None)
+                self.reject(f'HTTP Error {code}')
+
+    def test_reachable_default_branch_costs_one_compare_call(self):
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertEqual(self.reachability_calls(), [f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'])
+        self.assertEqual(len([c for c in self.api.calls if MATH in c]), 5)
+
+    def test_compare_ahead_diverged_or_nonzero_ahead_by_refused(self):
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for status, ahead_by, merge_base in [('ahead', 1, BASE), ('diverged', 2, BASE), ('behind', 1, SOURCE),
+                                             ('identical', 1, SOURCE), ('ahead', 0, SOURCE), ('unknown', 0, SOURCE)]:
+            with self.subTest(status=status, ahead_by=ahead_by):
+                self.api.routes[route] = compare(SOURCE, status, ahead_by, merge_base)
+                self.reject('not reachable from any branch')
+
+    def test_malformed_compare_response_is_never_reachability(self):
+        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        good = compare(SOURCE)
+        shapes = [('non-dict', [good]), ('empty', {}), ('missing merge base', {k: v for k, v in good.items() if k != 'merge_base_commit'}),
+                  ('merge base not a dict', dict(good, merge_base_commit=SOURCE)), ('wrong merge base', compare(SOURCE, merge_base=BASE)),
+                  ('bool ahead_by', dict(good, ahead_by=False)), ('string ahead_by', dict(good, ahead_by='0')),
+                  ('missing status', {k: v for k, v in good.items() if k != 'status'})]
+        for label, data in shapes:
+            with self.subTest(label=label):
+                self.api.routes[route] = data
+                self.reject('not reachable from any branch')
+        self.api.routes[route] = good
+        self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = {'name': 'main'}
+        self.api.routes[route] = compare(SOURCE, 'diverged', 2, BASE)
+        self.reject('branch listing unavailable')
+
+    def test_unsafe_default_branch_is_skipped_and_branch_list_consulted(self):
+        main_compare = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
+        for name in ['main..evil', 'ma in', '-flag', 'x\ny', 'tab\t', '.hidden', '/main', 'main?x=1', 'main#1', None, 5, ['main']]:
+            with self.subTest(name=repr(name)):
+                self.api.routes[f'/repos/{MATH}']['default_branch'] = name
+                self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = [{'name': name}, {'name': 'main'}]
+                self.api.calls.clear()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+                self.assertEqual(self.reachability_calls(), [f'/repos/{MATH}/branches?per_page=100&page=1', main_compare])
+                self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=1'] = [{'name': name}, 'main', {'commit': {}}]
+                self.api.calls.clear()
+                self.reject('not reachable from any branch')
+                self.assertEqual([c for c in self.api.calls if '/compare/' in c], [])
+
+    def test_branch_enumeration_stops_at_page_bound(self):
+        self.api.routes[f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'] = compare(SOURCE, 'diverged', 2, BASE)
+        names = ['main'] + [f'topic-{i}' for i in range(1, 300)]
+        for page in range(1, 4):
+            self.api.routes[f'/repos/{MATH}/branches?per_page=100&page={page}'] = [{'name': n} for n in names[(page - 1) * 100:page * 100]]
+        for n in names[1:]:
+            self.api.routes[f'/repos/{MATH}/compare/{n}...{SOURCE}?per_page=1'] = compare(SOURCE, 'diverged', 2, BASE)
+        # A fourth page would vouch; FakeAPI raises AssertionError if it is ever requested.
+        self.api.routes[f'/repos/{MATH}/branches?per_page=100&page=4'] = [{'name': 'vouching'}]
+        self.api.routes[f'/repos/{MATH}/compare/vouching...{SOURCE}?per_page=1'] = compare(SOURCE)
+        self.reject('not reachable from any branch')
+        self.assertEqual([c for c in self.api.calls if '/branches?' in c],
+                         [f'/repos/{MATH}/branches?per_page=100&page={p}' for p in (1, 2, 3)])
+        self.assertEqual(len([c for c in self.api.calls if '/compare/' in c]), 300)
+        self.assertEqual(len([c for c in self.api.calls if '/compare/main...' in c]), 1)
+
+    def refuse_png(self, raw, message, name='plot.png'):
+        self.raw[name] = raw
+        self.save()
+        self.reject(message)
+        self.raw.pop(name)
+
+    def accept_png(self, raw, name='plot.png'):
+        self.raw[name] = raw
+        self.save()
+        self.assertEqual(self.run_check()['artifact_files'], len(self.raw))
+        self.raw.pop(name)
+
+    def test_png_archive_polyglots_refused(self):
+        with self.subTest('zip behind a PNG signature'):
+            self.refuse_png(b'\x89PNG\r\n\x1a\n' + zip_archive(), 'PNG chunk structure')
+        with self.subTest('valid PNG with an appended zip'):
+            self.refuse_png(png() + zip_archive(), 'PNG chunk structure or trailing data')
+        with self.subTest('zip carried inside a non-empty IEND'):
+            self.refuse_png(png(iend=False) + png_chunk(b'IEND', zip_archive()), 'PNG chunk structure or trailing data')
+
+    def test_png_corrupt_chunk_crc_refused(self):
+        image = bytearray(png())
+        image[-1] ^= 0xFF  # the IEND CRC
+        self.refuse_png(bytes(image), 'PNG chunk CRC')
+        image = bytearray(png())
+        image[16] ^= 0x01  # inside IHDR data; its stored CRC no longer matches
+        self.refuse_png(bytes(image), 'PNG chunk CRC')
+
+    def test_png_dimension_bomb_refused_without_decoding(self):
+        for width, height in [(30000, 30000), (16385, 1), (1, 16385), (4097, 4097), (0, 1), (1, 0)]:
+            with self.subTest(width=width, height=height):
+                self.refuse_png(png(width, height), 'PNG dimensions exceed limit')
+
+    def test_png_chunk_structure_refused(self):
+        phys = (b'pHYs', struct.pack('>IIB', 2835, 2835, 1))
+        cases = [('IHDR not first', png(before=[phys])), ('missing IDAT', png(idat=False)), ('missing IEND', png(iend=False)),
+                 ('signature only', b'\x89PNG\r\n\x1a\n'), ('IHDR length 12', b'\x89PNG\r\n\x1a\n' + png_chunk(b'IHDR', b'\0' * 12)),
+                 ('chunk length past end', png()[:8] + struct.pack('>I', 1 << 20) + png()[12:]),
+                 ('non-ASCII chunk type', png(after=[(b'\x00\x01\x02\x03', b'x')])),
+                 ('data after IEND', png() + b'\0')]
+        for label, raw in cases:
+            with self.subTest(label=label):
+                self.refuse_png(raw, 'PNG chunk structure')
+        self.refuse_png(b'not a png', 'PNG signature')
+
+    def test_valid_png_variants_accepted(self):
+        self.accept_png(png())
+        self.accept_png(png(4, 3, after=[(b'pHYs', struct.pack('>IIB', 2835, 2835, 1)), (b'tEXt', b'Software\0matplotlib'),
+                                          (b'iCCP', b'sRGB\0\0' + zlib.compress(b'\0' * 32))]))
+        self.accept_png(png(4096, 4096))  # exactly MAX_PNG_PIXELS
+        self.accept_png(png(), name='plot.PNG')
+
+    def cli(self):
+        """Run main() at the CLI boundary against the offline FakeAPI: (exit code, printed JSON)."""
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        return code, json.loads(output.getvalue())
+
+    def test_overflowing_json_number_refused_at_cli_boundary(self):
+        """Ported from the OpenAI/Codex probe in #86 comment 5848311773 (claim
+        OA-SUPPORT-INTAKE-20260926-1729): {"outer":[{"value":1e400}]} and its -1e400
+        variant parsed to float infinity past parse_constant, which sees only the
+        NaN/Infinity literals, and the full command returned exit 0, lane=incoming,
+        verified_sources=1. The probe recorded that defect; this control inverts it."""
+        for token in ['1e400', '-1e400']:
+            with self.subTest(token=token):
+                self.raw['output.json'] = ('{"outer":[{"value":' + token + '}]}').encode()
+                self.save()
+                self.api.calls.clear()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'nonfinite JSON value'))
+                self.assertNotIn('lane', result)
+                self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_nonfinite_number_tokens_refused_in_any_nesting_and_sign(self):
+        for raw in [b'1e400', b'-1e400', b'[1e400]', b'[-1E400]', b'{"a":{"b":[[1e999]]}}', b'{"a":[{"b":-1e999}]}',
+                    b'[[[[{"deep":-1e309}]]]]', b'{"a":1,"b":[2,3,1.7976931348623157e309]}', b'[0.0, 1.5, 1e999]']:
+            with self.subTest(raw=raw):
+                with self.assertRaisesRegex(ValueError, 'nonfinite JSON value'):
+                    intake.strict_json(raw)
+        # An overflow inside IDENTITY.json is refused the same way as one inside an artifact.
+        self.files['IDENTITY.json'] = b'{"schema":1,"note":[1e400]}'
+        self.install()
+        self.reject('nonfinite JSON value')
+
+    def test_finite_numbers_accepted_and_literal_refusals_kept(self):
+        self.assertEqual(intake.strict_json(b'{"x":1e308,"y":-1e308,"z":1.5}'), {'x': 1e308, 'y': -1e308, 'z': 1.5})
+        self.assertIs(type(intake.strict_json(b'[123456789012345678901234567890]')[0]), int)  # integers are exact and untouched
+        for raw in [b'{"x":1e308}', b'{"x":[-1e308,1.5,2.5e-3,0.0]}', b'{"x":123456789012345678901234567890}']:
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        for raw in [b'{"x":NaN}', b'{"x":Infinity}', b'{"x":-Infinity}', b'{"x":1,"x":2}']:  # the probe's kept refusals
+            with self.subTest(raw=raw):
+                self.raw['output.json'] = raw
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result']), (1, 'REJECTED'))
+                self.assertRegex(result['reason'], 'nonfinite JSON value|duplicate JSON key')
+
+    def test_float_valued_size_and_schema_still_refused(self):
+        # 1.0 now passes through the finite-float hook as a float; the int-only checks keep refusing it.
+        self.manifest['schema'] = 1.0
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('schema version')
+        self.manifest['schema'] = 1
+        self.manifest['artifacts'][0]['bytes'] = float(self.manifest['artifacts'][0]['bytes'])
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.reject('artifact size')
+
+    def test_catalog_source_paths_are_exact_tree_keys(self):
+        """#86 comment 5848311773 (OpenAI/Codex, claim OA-SUPPORT-INTAKE-20260926-1729):
+        citing the catalog's EC-014 path made the command exit 1 with 'unsafe path' before
+        the source-commit fetch, and the catalog's colon path was the one ASCII refusal.
+        A source path is only a key into the tree the git trees API returns, so the
+        package grammar does not govern it; every tree check that follows is kept."""
+        for path in [EM_DASH_PATH, COLON_PATH]:
+            with self.subTest(path=path):
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+                self.assertIn(f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1', self.api.calls)
+                self.assertFalse(any(path in route or '/contents/' in route for route in self.api.calls))  # a key, never a route
+                self.assertEqual(intake.source_path(path), path.split('/'))
+
+    def test_source_tree_checks_follow_source_path_acceptance(self):
+        composed = unicodedata.normalize('NFC', 'docs/th\u00e9or\u00e8me \u2014 EC-014/proof.md')
+        decomposed = unicodedata.normalize('NFD', composed)
+        self.assertNotEqual(composed, decomposed)
+        self.manifest['sources'][0]['path'] = composed
+        self.save()  # the fixture tree holds the composed key
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+        route = f'/repos/{MATH}/git/trees/{SOURCE}?recursive=1'
+        held = self.api.routes[route]['tree'][0]
+        self.manifest['sources'][0]['path'] = decomposed  # same text under normalization, a different tree key
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        self.api.routes[route]['tree'] = [held]
+        self.reject('regular non-executable public file')
+        self.manifest['sources'][0]['path'] = composed
+        self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+        self.install()
+        for label, change in [('symlink', dict(mode='120000')), ('executable', dict(mode='100755')), ('directory', dict(type='tree')),
+                              ('oversized', dict(size=intake.MAX_PACKAGE_BYTES + 1))]:
+            with self.subTest(label=label):
+                self.api.routes[route]['tree'] = [dict(held, **change)]
+                self.reject('regular non-executable public file|size limit')
+        self.api.routes[route]['tree'] = []
+        self.reject('regular non-executable public file')
+
+    def test_unsafe_source_paths_refused_before_source_fetch(self):
+        unsafe = ['../x', 'x/../y', '/abs', 'x\\y', 'a\x00b', '', '.', 'x//y', 'x/./y', 'x/', './x', 'a\tb', 'a\nb', 'a\x7fb',
+                  'x' * 1025, None, 5, ['a']]
+        for path in unsafe:
+            with self.subTest(path=repr(path)):
+                with self.assertRaisesRegex(ValueError, 'source path'):
+                    intake.source_path(path)
+                self.manifest['sources'][0]['path'] = path
+                self.save()
+                self.api.calls.clear()
+                self.reject('source path')
+                self.assertFalse(any(MATH in route for route in self.api.calls))
+        self.assertEqual(intake.source_path('x' * 1024), ['x' * 1024])
+        self.assertEqual(intake.source_path('.github/workflows/ci.yml'), ['.github', 'workflows', 'ci.yml'])
+
+    def test_package_and_artifact_grammar_still_refuses_source_characters(self):
+        for name in ['note \u2014 dash.txt', 'relay: colon.txt']:
+            with self.subTest(package_file=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unsafe path')
+                self.raw = old
+            with self.subTest(artifact_record=name):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unsafe path')
+            with self.assertRaisesRegex(ValueError, 'unsafe path'):
+                intake.safe_path(name)
+            self.assertEqual(intake.source_path(name), [name])
+
+    def test_public_catalog_census_splits_source_and_package_grammar(self):
+        """Path-only census of docs/public-math, no network, from #86 comment 5848311773.
+        Every catalog row is a candidate source path: an exact key into a pinned commit's
+        tree, never a route and never a checkout, so source_path() must accept all of them.
+        safe_path() governs newly submitted package and artifact names and refuses most of
+        the catalog (1,893 rows for non-ASCII characters, one for a colon). The two
+        validators differ on purpose; this test fails if either drifts toward the other."""
+        index = json.loads((CATALOG / 'sources.json').read_text(encoding='utf-8'))
+        rows = [row for page in index['pages']
+                for row in json.loads((CATALOG / page['path']).read_text(encoding='utf-8'))['sources']]
+        self.assertEqual(len(rows), 2138)
+        self.assertEqual(len(rows), index['source_count'])
+        refused = []
+        for row in rows:
+            self.assertEqual(intake.source_path(row['path']), row['path'].split('/'))
+            try:
+                intake.safe_path(row['path'])
+            except ValueError:
+                refused.append(row['path'])
+        self.assertGreaterEqual(len(refused), 1800)
+        self.assertIn(EM_DASH_PATH, refused)
+        self.assertIn(COLON_PATH, refused)
+        self.assertTrue(all(not path.isascii() or ':' in path for path in refused))
+
+    # --- PT-1 of main #86 comment 5851057735 (adversarial panel; MINOR, 3/3 unrefuted):
+    # safe_path bounded no component length and no component grammar beyond '..',
+    # dotfiles and canonical form, so a tree GitHub stores but no fresh clone can
+    # check out passed the checker. The probes below reproduce the finding; the
+    # controls invert it. Source rows are exact tree keys and are not governed.
+
+    INCOMING = Path(__file__).resolve().parents[1] / 'incoming'
+
+    def accept_name(self, name):
+        self.raw[name] = b'payload'
+        self.save()
+        self.assertEqual(self.run_check()['artifact_files'], len(self.raw))
+        self.raw.pop(name)
+
+    def test_unportable_package_components_refused(self):
+        """A 300-byte component (git: 'File name too long' on ext4/APFS/NTFS), components
+        beginning with space or '-' or ending in space or dot, and Windows reserved device
+        names in any case, as a package file and as a manifest artifact record."""
+        names = ['a' * 300 + '.md', 'sub /x.md', 'sub/ /x.md', 'sub/ x.md', 'x /y.md', 'dir./x.md', 'sub/-rf.md', 'sub/-x.md',
+                 'CON.md', 'con.md', 'con', 'nul.txt', 'Nul.json', 'com1.csv', 'COM9.csv', 'Aux.json', 'lpt1.md', 'lpt9.md', 'PRN.md',
+                 'CON.tar.md', 'nested/' + 'b' * 256,
+                 # PR #240 review 5966056876 F1: Windows drops end-of-stem spaces, so these are device names too.
+                 'CON .md', 'nul .txt', 'COM1 .dir/result.md', 'con  .md', 'Aux .json', 'lpt9 .md', 'PRN ']
+        for name in names:
+            with self.subTest(package_file=name[:40]):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                self.reject('unportable path component')
+                self.raw = old
+            with self.subTest(artifact_record=name[:40]):
+                self.save()
+                self.manifest['artifacts'][0]['path'] = name
+                self.files['IDENTITY.json'] = json.dumps(self.manifest).encode()
+                self.install()
+                self.reject('unportable path component')
+            with self.assertRaisesRegex(ValueError, 'unportable path component'):
+                intake.safe_path('incoming/example/' + name)
+
+    def test_unportable_component_refused_at_cli_boundary_without_echo(self):
+        name = 'a' * 300 + '.md'
+        self.raw[name] = b'payload'
+        self.save()
+        self.api.calls.clear()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+        self.assertNotIn('aaaa', json.dumps(result))
+        self.assertFalse(any(MATH in route for route in self.api.calls))  # refused before any source fetch
+
+    def test_device_name_with_end_of_stem_space_refused_at_cli_boundary(self):
+        # PR #240 review 5966056876 F1. 'CON .md' passed the full CLI at 50c4697 with exit 0.
+        for name in ['CON .md', 'nul .txt', 'COM1 .dir/result.md']:
+            with self.subTest(name=name):
+                old = self.raw.copy()
+                self.raw[name] = b'payload'
+                self.save()
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'unportable path component'))
+                self.raw = old
+
+    def test_portable_package_components_accepted(self):
+        for name in ['a' * 252 + '.md', 'notes-2026.md', 'regeneration/run 1.txt', 'a.b.c.md', 'a b.md', 'CONTENTS.md', 'console.md',
+                     'nul-report.md', 'COM10.md', 'x-y/z.md', 'v3/lpw_constant_v3.py.txt', 'sub/x-.md', 'sub/x.-y.md',
+                     'CON report.md', 'COM10 .md', 'sub/run 1.md', 'CONTENTS .md']:
+            with self.subTest(name=name[:40]):
+                self.accept_name(name)
+        self.assertEqual(len('a' * 252 + '.md'), intake.NAME_MAX)
+
+    def test_package_path_length_bounded_like_source_paths(self):
+        prefix = 'incoming/example/'
+        name = '/'.join(['a' * 200] * 4 + ['b' * 200 + '.md'])
+        self.assertEqual(len(prefix + name), 1024)
+        self.assertEqual(intake.MAX_PACKAGE_PATH, intake.MAX_SOURCE_PATH)
+        self.accept_name(name)
+        self.raw[name + 'b'] = b'payload'
+        self.save()
+        self.reject('path too long')
+        self.raw.pop(name + 'b')
+        with self.assertRaisesRegex(ValueError, 'path too long'):
+            intake.safe_path(prefix + name + 'b')
+
+    def test_source_rows_keep_the_tree_key_grammar(self):
+        # The component grammar governs package and manifest paths only. A pinned
+        # source is an exact key into the tree the git trees API returns.
+        path = 'drive/mirrors/' + 'a' * 300 + '/ CON./-x.md'
+        self.assertEqual(intake.source_path(path), path.split('/'))
+        self.manifest['sources'][0]['path'] = path
+        self.save()
+        self.assertEqual(self.run_check()['verified_sources'], 1)
+
+    def test_landed_packets_keep_passing_the_component_grammar(self):
+        """Census over the landed packets in this checkout: every artifact row of every
+        incoming/*/IDENTITY.json still passes safe_path, as a manifest path and as the
+        package file path. Path-only; no network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            package = manifest.parent.name
+            for row in intake.strict_json(manifest.read_bytes())['artifacts']:
+                with self.subTest(package=package, path=row['path']):
+                    self.assertEqual(intake.safe_path(row['path']), row['path'].split('/'))
+                    self.assertEqual(intake.safe_path(f'incoming/{package}/' + row['path'])[:2], ['incoming', package])
+                    checked += 1
+        self.assertGreater(checked, 0)
+
+    # --- CR-F6 of main #86 comment 5851057735 (adversarial panel; MINOR, 2/3 unrefuted):
+    # the CREDENTIALS scan missed encrypted and PGP private-key armor, Google AIza
+    # keys, npm and Hugging Face tokens, Stripe live keys, three-part JWTs and
+    # Slack webhook URLs, while sk-ant-/sk-proj- and plain PEM were refused. The
+    # scan is still not a guarantee (module docstring; CONTRIBUTING), so no stated
+    # promise was broken; the dissenting refuter graded it INFO on that ground.
+
+    NEW_CREDENTIAL_FORMATS = {
+        'encrypted PEM': '-----BEGIN ENCRYPTED PRIVATE KEY-----\nMIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQI',
+        'PGP private key block': '-----BEGIN PGP PRIVATE KEY BLOCK-----\n\nlQOYBGQAAAABCADK',
+        'Google API key': 'AIza' + 'SyA1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q',  # 4 + 35 characters
+        'npm token': 'npm_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8',
+        'Hugging Face token': 'hf_' + 'A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7',
+        'Stripe live key': 'sk_live_' + '4eC39HqLyjWDarjtT1zdp7dc',
+        'JWT': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        # Assembled at run time: the literal URL shape trips GitHub push protection on the test file itself.
+        'Slack webhook': 'https://hooks.slack.com/' + '/'.join(['services', 'T0123ABCD', 'B0123ABCD', 'a1B2c3D4e5F6g7H8i9J0k1L2']),
+    }
+    OLD_CREDENTIAL_FORMATS = {
+        'plain PEM': '-----BEGIN PRIVATE KEY-----', 'RSA PEM': '-----BEGIN RSA PRIVATE KEY-----', 'OpenSSH PEM': '-----BEGIN OPENSSH PRIVATE KEY-----',
+        'GitHub classic': 'ghp_' + 'X' * 36, 'GitHub fine-grained': 'github_pat_' + 'X' * 60, 'AWS': 'AKIA' + 'A' * 16,
+        'Slack bot': 'xoxb-' + '1' * 12, 'OpenAI project': 'sk-proj-' + 'A' * 48, 'Anthropic': 'sk-ant-api03-' + 'A' * 95,
+    }
+
+    def plant(self, value, where):
+        # Both text files start clean so each planting is judged on its own.
+        self.raw['RESULT.md'] = b'# Result\nIllustration only; scientific effect NONE.\n'
+        self.raw['output.json'] = b'{"illustration":true}\n'
+        if where == 'output.json':
+            self.raw['output.json'] = json.dumps({'token': value}).encode()
+        else:
+            self.raw['RESULT.md'] = self.raw['RESULT.md'] + ('\n' + value + '\n').encode()
+        self.save()
+
+    def test_common_credential_formats_refused_without_echo(self):
+        for label, value in {**self.NEW_CREDENTIAL_FORMATS, **self.OLD_CREDENTIAL_FORMATS}.items():
+            for where in ('output.json', 'RESULT.md'):
+                with self.subTest(format=label, where=where):
+                    self.plant(value, where)
+                    code, result = self.cli()
+                    self.assertEqual((code, result['result'], result['reason']),
+                                     (1, 'REJECTED', 'possible credential detected; values are not logged'))
+                    self.assertNotIn(value.split('\n')[0][-16:], json.dumps(result))
+        for label, value in self.NEW_CREDENTIAL_FORMATS.items():
+            with self.subTest(pattern=label):
+                self.assertTrue(any(pattern.search(value.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_google_key_boundaries_follow_its_alphabet(self):
+        """PR #240 review 5966056876 F2: the pattern admitted '-' in its body but closed
+        with a word boundary, so a 39-character value ending in '-' passed inside text
+        and as a filename, while a 40-character look-alike was refused by its prefix.
+        Boundaries are now the token's own alphabet; all values are synthetic."""
+        hyphen_tail = 'AIza' + 'A' * 34 + '-'
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(hyphen_tail, where)
+                code, result = self.cli()
+                self.assertEqual((code, result['result'], result['reason']),
+                                 (1, 'REJECTED', 'possible credential detected; values are not logged'))
+        for text in [hyphen_tail, '"' + hyphen_tail + '"', hyphen_tail + '\n', '(' + hyphen_tail + ').', 'x ' + hyphen_tail + ' y']:
+            with self.subTest(text=text[-6:]):
+                self.assertTrue(any(pattern.search(text.encode()) for pattern in intake.CREDENTIALS))
+        self.plant('', 'RESULT.md')
+        self.raw[hyphen_tail + '.md'] = b'payload'
+        self.save()
+        code, result = self.cli()
+        self.assertEqual((code, result['result'], result['reason']), (1, 'REJECTED', 'possible credential in path; values are not logged'))
+        self.assertNotIn('AIza', json.dumps(result))
+        self.raw.pop(hyphen_tail + '.md')
+        for lookalike in ['AIza' + 'A' * 35 + '-', 'AIza' + 'A' * 36, '_AIza' + 'A' * 35, '-AIza' + 'A' * 35, 'xAIza' + 'A' * 35]:
+            with self.subTest(lookalike=lookalike[:6] + '...' + lookalike[-2:]):
+                self.assertFalse(any(pattern.search(lookalike.encode()) for pattern in intake.CREDENTIALS))
+                self.plant(lookalike, 'RESULT.md')
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+
+    def test_credential_lookalikes_in_prose_accepted(self):
+        """False-positive guards: identifiers that share a prefix, a one-dot pair,
+        hooks.slack.com in prose, public PEM armor, SHA digests, base64, URLs."""
+        prose = ' '.join([
+            'npm_package.json', 'hf_model-card', 'sk_live_test', 'AIza' + 'A' * 10, 'AIza' + 'A' * 36,
+            'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0', 'see https://hooks.slack.com/ for the format',
+            '-----BEGIN PUBLIC KEY-----', '-----BEGIN CERTIFICATE-----', '-----BEGIN PGP PUBLIC KEY BLOCK-----', '-----BEGIN PGP SIGNATURE-----',
+            'a' * 64, '0123456789abcdef' * 4, 'd' * 40, 'QUJDREVGR0hJSktMTU5PUFFSU1RVVldYWVo=' * 3,
+            'https://github.com/d6g8k5htny-coder/main/blob/main/docs/x.md', '[a.b.c](https://example.org/a.b.c?x=1)',
+            'version 1.2.3', 'eyJ.eyJ.eyJ', 'hf_', 'npm_', 'sk_live_'])
+        for where in ('output.json', 'RESULT.md'):
+            with self.subTest(where=where):
+                self.plant(prose, where)
+                self.assertEqual(self.run_check()['verified_sources'], 1)
+        self.assertFalse(any(pattern.search(prose.encode()) for pattern in intake.CREDENTIALS))
+
+    def test_landed_packets_keep_passing_the_credential_scan(self):
+        """Census over the landed packets in this checkout: every artifact file and
+        IDENTITY.json still passes the CREDENTIALS scan byte-for-byte. No network."""
+        manifests = sorted(self.INCOMING.glob('*/IDENTITY.json'))
+        self.assertTrue(manifests)
+        checked = 0
+        for manifest in manifests:
+            rows = intake.strict_json(manifest.read_bytes())['artifacts']
+            for name in ['IDENTITY.json'] + [row['path'] for row in rows]:
+                with self.subTest(package=manifest.parent.name, path=name):
+                    raw = (manifest.parent / name).read_bytes()
+                    self.assertFalse(any(pattern.search(raw) for pattern in intake.CREDENTIALS))
+                    checked += 1
+        self.assertGreater(checked, 0)
+
+
+
+if __name__ == '__main__':
+    unittest.main()

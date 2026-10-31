@@ -1,0 +1,30 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser_executable": "/usr/bin/chromium",
+    "GPU": "Chromium SwiftShader software WebGL; not physical mobile GPU",
+    "dataset_bytes": 962639,
+    "browser": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "failed-activation-history-no-webgl"
+    }
+  ],
+  "source_payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+  "source_repositories": [
+    {
+      "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+    },
+    {
+      "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+    }
+  ],
+  "checked_commit": "fc2b05f17f78f968925d92cac9c7bf27cbf7b7e7",
+  "failure": "Renderer failure trapped Back in fallback loop",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 76, in main\n    original=page.url;page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');failed=page.url;length=page.evaluate('history.length');page.go_back();require(page.url==original,'Renderer failure trapped Back in fallback loop');require(page.evaluate('history.length')==length,'Failure added history during traversal');page.go_forward();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');require(page.url==failed,'Forward rewrote failed3D intent');require(page.evaluate('history.length')==length,'Forward failure added history');row['passed']=True;context.close();continue\n                                                                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 13, in require\n    if not value:raise AssertionError(message)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Renderer failure trapped Back in fallback loop\n"
+}

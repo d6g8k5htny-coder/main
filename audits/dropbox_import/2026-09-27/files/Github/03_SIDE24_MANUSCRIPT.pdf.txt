@@ -1,0 +1,714 @@
+
+Short-lifetime H0 persistence for the 
+three-dimensional side-24 periodized 
+Bargmann–Fock field
+
+Dylan Roy
+Current manuscript core: 30 July 2026 revision
+
+Manuscript status. Consolidated noncanonical submission draft, revised 2026-07-30. This text 
+states only the fixed-side result supported by the current closed proof chain. It does not assert a 
+theorem for other side lengths, arbitrary Gaussian fields, an infinite-volume persistence process, or 
+an interchange of the limits L→∞ and ℓ ↓0.
+
+Abstract
+Let f 24 be the normalized periodization to the cubic torus T 24
+
+3  of the real Bargmann–Fock field with 
+
+covariance exp (−|x− y )2 / 2). We consider finite, nonessential superlevel-set H 0 persistence bars 
+and their first-moment lifetime density per unit volume. We prove the short-lifetime law
+
+ν3 ,24 (ℓ )=c3 ,24 ℓ
+−1 / 3 (1+o (1 ) ) , ℓ ↓0 ,
+
+where c3 ,24>0 is given by an explicit finite-dimensional Gaussian-cone integral. The proof identifies 
+the dimension-cancelling local fold mechanism, proves that elder-rule selection changes the all-
+typed local contact count by only O (r3 ), and fixes all ordered-pair, directed-sphere, Kac–Rice, and 
+lifetime-Jacobian normalizations. The coefficient is related to its planar Bargmann–Fock value by
+
+c3 ,24
+c3 ,∞
+
+−1=− 620813376
+35
+
+e−288+ ε24 ,|ε24 )<10−180 ,
+
+with
+
+c3 ,∞=2
+−23 / 63−8 / 3 (29√6−36 )Γ (1 / 6 ) π−5 / 2 .
+
+1. Field, filtration, and lifetime intensity
+Write T 24
+
+3 = (ℝ / 24ℤ )3. The normalized periodized Bargmann–Fock covariance is
+
+K 24 ( z )=Z24
+−1 ∑
+
+n∈ℤ3
+exp(−|z+24 n )
+
+2
+
+2 ) , Z24= ∑n∈ℤ3 e−288|n )
+2
+
+.
+
+Let f 24 be a centered stationary Gaussian field with covariance K 24.
+
+Proposition 1.1 (genericity of the side-24 field)
+The field f 24 has real-analytic sample paths and, with probability one, is Morse and has pairwise 
+distinct critical values.
+
+
+
+Proof. In the Fourier basis em ( z )=exp (2π im ⋅ z / 24 ), Poisson summation gives
+
+K̂ 24 (m )=
+(2π )3 / 2
+
+243Z24
+exp(− 2π2|m )
+
+2
+
+242 )>0 ,m∈ℤ3 .
+Write the sample series using standard Gaussian Fourier coefficients with amplitudes K̂ 24 (m )
+
+1 / 2. 
+For every R>0,
+
+∑
+m∈ℤ3
+
+E|ξm ) K̂ 24 (m )1 / 2exp (2π R|m ) / 24 )<∞.
+
+Fubini therefore gives almost-sure absolute and locally uniform convergence on every complex 
+strip {z∈ℂ3 :|Im z )≤ R }. The sample series has an entire periodic extension, so its restriction to 
+the real torus is real analytic.
+
+If T  is a finite linear combination of derivative evaluations, then
+
+Var (T f 24 )= ∑
+m∈ℤ3
+
+K̂ 24 (m )|T̂ (m ) )
+2
+.
+
+Because every K̂ 24 (m ) is positive and Fourier coefficients determine distributions on the torus, this 
+variance vanishes only when the corresponding finite derivative distribution is zero. At one point, 
+the derivatives of the Dirac distribution indexed by distinct multi-indices are linearly independent. 
+Hence the gradient and symmetric-Hessian coordinate vector is nondegenerate at every point. The 
+smoothness, density, and modulus conditions in Adler–Taylor, Theorem 11.3.4, follow from the 
+analytic covariance, this nondegeneracy, and compactness. That theorem implies that f 24 is Morse 
+almost surely.
+
+For distinct critical values, fix δ >0 and consider the compact six-dimensional configuration set
+
+T δ= {( x , y )∈ (T 243 )
+2
+:dist ( x , y )≥δ }.
+
+Define the seven-dimensional Gaussian field
+
+H ( x , y )= (∇ f 24 ( x ) ,∇ f 24 ( y ) , f 24 ( x )− f 24 ( y ) ) .
+
+For x ≠ y, the derivative distributions in (1.5) are linearly independent: distributions supported at 
+distinct points have disjoint supports, and the coefficient of δ x−δ y must vanish separately from all 
+derivative coefficients. Equation (1.3) therefore makes the covariance of H ( x , y ) positive definite. 
+On T δ, compactness gives a uniform covariance eigenfloor and hence uniformly bounded one-
+point densities. Apply Adler–Taylor, Lemma 11.2.10, in each member of a finite coordinate cover of 
+T δ. Since H  is a C1 field from a six-dimensional compact set to ℝ7,
+
+P {H−1 (0 )∩T δ≠⌀ }=0 .
+
+Taking the countable union over δ =1 / n shows that no two distinct critical points have the same 
+value. ▫
+
+
+
+For the superlevel filtration
+
+X a= {x∈T 24
+3 : f 24 ( x )≥a },
+
+each non-global local maximum creates an H 0 class and each finite class dies at a unique index-
+two merging saddle. If M  is the creating maximum and S its death saddle, its lifetime is
+
+ℓ= f 24 (M )− f 24 (S )>0 .
+
+Proposition 1.2 (existence of the first-moment lifetime density)
+Let M * be the global maximum and let D f (M ) be the elder-rule death saddle of a non-global 
+maximum M . The finite measure
+
+Λ3 ,24 ( A )=24
+−3E ∑
+
+M≠M *
+
+1{f 24 (M )−f 24 (D f (M ) )∈ A }, A⊂ (0 ,∞ ) ,
+
+is absolutely continuous with respect to Lebesgue measure.
+
+Proof. Proposition 1.1 makes the elder pairing unambiguous almost surely. A Morse function on 
+the compact torus has finitely many critical points, and the one-point Kac–Rice formula gives finite 
+expected critical-point count. Hence (1.9) is a finite measure.
+
+For δ >0, restrict the ordered maximum–index-two-saddle pair process to dist (M ,S )≥δ. The elder-
+pair indicator is a bounded measurable mark of the finite Morse filtration. On that compact 
+configuration set, complete positive Fourier support makes
+
+( f 24 ( x ) , f 24 ( y ) ,∇ f 24 ( x ) ,∇ f 24 ( y ) )
+
+nondegenerate uniformly in x ≠ y. The two-point Kac–Rice formula, with the bounded measurable 
+mark that the ordered pair is the elder pair, therefore expresses the expected birth–death measure 
+as an integral against d bd h. Thus the restricted measure is absolutely continuous on 
+{(b ,h ) :b>h }.
+
+Every distinct critical pair belongs to one of the sets {dist (M ,S )≥1 / n }. Monotone convergence 
+over this countable cover shows that the full expected birth–death measure is absolutely 
+continuous. Finally, if A⊂ℝ has one-dimensional Lebesgue measure zero, then
+
+{(b ,h ) :b−h∈ A }
+
+has two-dimensional Lebesgue measure zero by Fubini after the linear change of variables 
+(b ,h )↦ (b ,b−h ). The lifetime pushforward is therefore absolutely continuous. ▫
+
+Let ν3 ,24 (ℓ )d ℓ=d Λ3 ,24 (ℓ ). In the proof below, ν3 ,24 denotes the pointwise Kac–Rice representative 
+obtained from the pair coordinates and lifetime pushforward.
+
+
+
+2. Main theorem
+
+Theorem 2.1 (fixed-side short-lifetime law)
+For the normalized side-24 field (1.1), the finite nonessential superlevel H 0 first-moment lifetime 
+density satisfies
+
+ν3 ,24 (ℓ )=c3 ,24 ℓ
+−1 / 3 (1+o (1 ) ) , ℓ ↓0 ,
+
+where 0<c3 ,24<∞.
+
+Fix t∈S2 and an orthonormal transverse frame n1 , n2. Define
+
+ut=−
+∂t
+3 f 24
+12
+
+, gt= (∂t f 24 , ∂n1 f 24 , ∂n2 f 24 ) ,
+
+ht= (∂t t f 24 , ∂t n1 f 24 , ∂t n2 f 24 ) ,
+
+and
+
+qt= (∂n1n1 f 24 , ∂n1n2 f 24 , ∂n2n2 f 24 ) ,Qt (q )=(q1 q2q2 q3) .
+Put
+
+Σg ( t )=Cov (gt ) , Σh ( t )=Cov (ht ) ,
+
+σ t
+2=Var (ut )−Cov (ut , gt )Σg ( t )
+
+−1Cov (gt ,ut ) ,
+
+Γ t=Cov (qt )−Cov (qt , ht )Σh ( t )
+−1Cov (ht , qt ) ,
+
+and
+
+Dt=E [ (det Qt (qt ) )21{Qt (qt )<0 }∣ht=0 ) .
+Then
+
+c3 ,24=B3∫
+S2
+
+(σ t2 )
+2 / 3
+
+Dt
+√det Σg ( t )det Σh ( t )
+
+d t , B3=
+3 Γ (7 / 6 )
+24 / 3 π7 / 2
+
+.
+
+The formula is independent of the transverse-frame choice.
+
+Moreover,
+
+c3 ,24
+c3 ,∞
+
+−1=− 620813376
+35
+
+e−288+ ε24 ,|ε24 )<10−180 ,
+
+where
+
+c3 ,∞=2
+−23 / 63−8 / 3 (29√6−36 )Γ (1 / 6 ) π−5 / 2
+
+
+
+=0.0417759318405983433429366654285755564666815196….
+
+In particular, c3 ,24<c3 ,∞, and the relative discrepancy has order 10−118.
+
+3. Proof of Theorem 2.1
+The technical lemmas used below are reproduced, with their current amendments, in the 
+accompanying exact technical appendix.
+
+3.1. Ordered pair coordinates and unit multiplicity
+For a maximum M  and an index-two saddle S at distance r<12, let
+
+x= M +S
+2
+
+, S−M = r t , t∈S2 .
+
+The inverse local Euclidean map is
+
+( x ,u )↦ (M ,S )= ( x−u / 2 , x+u / 2 ) .
+
+Its determinant has absolute value one, and therefore
+
+d M d S=d x d u=d x r2d r d σ 2 ( t ) .
+
+The antipodal direction −t  exchanges M  and S; it does not represent the same typed ordered pair. 
+Thus the full directed sphere S2 counts each maximum–saddle pair once, with no factor 1 / 2.
+
+For a Morse function with distinct critical values, each finite nonessential superlevel H 0 bar has 
+one creating maximum and one merging death saddle. An index-two merge reduces β0 by one, so 
+the elder pairing has unit multiplicity. Counting critical-point pairs, rather than unstable-branch 
+incidences, introduces no branch factor.
+
+3.2. Contact scaling and the universal radial measure
+Put
+
+M = x− r
+2
+t , S= x+ r
+
+2
+t ,
+
+and impose
+
+f 24 (M )=b , f 24 (S )=b−
+κ r3
+
+6
+,∇ f 24 (M )=∇ f 24 (S )=0 ,
+
+with κ>0. The change from the saddle value h= f 24 (S ) to κ  has the exact Jacobian
+
+|d h )= r
+3
+
+6
+d κ .
+
+Use the corrected divided-difference pin frame
+
+
+
+V += f
+(S )+ f (M )
+
+2
+,V c o r r
+
+− =
+f (S )− f (M )− r
+
+2 (∂t f (S )+∂t f (M ) )
+
+r3
+,
+
+Ge
++=
+
+∂e f (S )+∂e f (M )
+2
+
+,Ge
+−=
+
+∂e f (S )−∂e f (M )
+r
+
+,
+
+for e∈{t , n1 , n2}. The exact determinant of the raw-to-corrected pin map is r−6. Hence the raw pin 
+density contributes r−6.
+
+At a generic fold, one eigenvalue of each endpoint Hessian is soft. Conditionally on the pins,
+
+det HM= r DM , det H S= r DS ,
+
+with uniformly bounded conditional Gaussian moments; consequently the two endpoint 
+determinant weights contribute r2.
+
+Combining (3.3), (3.6), the corrected-pin density, and (3.9) gives
+
+r3
+
+6
+r−6 r2r2d r= 1
+
+6
+r d r .
+
+No additional ordering, antipodal, branch, or merge multiplicity occurs.
+
+3.3. Lifetime pushforward
+The lifetime in (3.5) is
+
+ℓ= κ r
+3
+
+6
+.
+
+For fixed κ>0,
+
+r d r= 6
+2 / 3
+
+3
+κ−2 / 3 ℓ−1 / 3d ℓ .
+
+Equations (3.10)–(3.12) already determine the exponent −1 / 3. It remains to prove that elder 
+selection has a nonzero limiting mass and to evaluate the coefficient.
+
+3.4. Elder selection
+Let pr ( t , b ,κ ) be the Palm probability that the typed maximum–index-two-saddle contact pair in 
+(3.5) is the actual elder persistence pair. The side-24 selection analysis proves, uniformly for t∈S2 
+and compact b ,κ>0,
+
+1− pr ( t , b ,κ )≤C r
+3 .
+
+The proof has three components.
+
+First, the collar and singular-near third-critical-point charts retain their exact vanishing factors under 
+the side-24 periodized jet. In collar variables y= x+ r (X t + ρ v ), the scaled conditional gradient 
+covariance factors as
+
+
+
+det C c o l= ρ
+6 (X 2+ ρ2 ) Ac o l , Ac o l>0 .
+
+In the singular-near chart, the corrected covariance factors as
+
+det C s i n g= ρ
+10 (3 c2+ ρ2 ) A s i n g , A s i n g>0 .
+
+Together with the anisotropic triple-determinant envelope
+
+[r (r+ s2 ) )2 (r2+ s3 ) ,
+these give Palm expectations O (r3 ) for collar and singular-near witnesses.
+
+Second, complete positive Fourier support of (1.1) implies strict covariance positivity for every 
+linearly independent finite family of derivative-evaluation distributions. Compactness then gives 
+uniform eigenvalue floors for the corrected pair pins joined to a fixed-distance remote value-
+gradient block. The endpoint determinant factor r2, the remote value window of width κ r3 / 6, and 
+the Palm normalizer Z r≍r
+
+2 give
+
+Er
+M SN f a r≤C r
+
+3 [1+ (|b )+κ )10 )e−c (b2+κ2 ) .
+Third, the local unstable-manifold comparison is performed in the correctly scaled transverse 
+matrix
+
+T r=−
+Q⊥
+κ r
+
+.
+
+The outward trajectory is controlled by T r-energy-adapted cone and strip regions, so no upper 
+bound on λmax (T r ) is required. The inward branch is captured by the maximum, while the outward 
+branch crosses a forward section at a level strictly above f (M ). Shallow-eigenvalue, finite-jet, and 
+fifth-derivative failures have Palm probability O (r3 ) or o (r3 ).
+
+The elder-rule trichotomy now implies that selection failure produces either a collar witness, a 
+singular-near witness, a fixed-distance witness, or a same-maximum self-attachment. Each event 
+has Palm probability O (r3 ), proving (3.13).
+
+3.5. All-mark domination and selected/all-typed equality
+The corrected pair target is uniformly injective in (b ,κ ). Gaussian regression and bounded 
+conditional polynomial moments give the common majorant
+
+C [1+ (|b )+κ )N )e−c (b2+κ2 )κ−2 / 3 ,
+which is integrable on
+
+S2×ℝ× (0 ,∞ ) .
+
+Since 0≤ pr≤1, (3.13) and dominated convergence show that the selected and all-typed contact 
+integrals have the same limit.
+
+
+
+3.6. Exact coefficient reduction
+Even and odd covariance derivatives are independent because K 24 is even. Integrating over the 
+birth height removes the field-value coordinate:
+
+∫
+ℝ
+p( f ,ht ) (b ,0 )E [F (qt )∣ f =b ,ht=0 )d b= pht (0 )E [F (qt )∣ht=0 ) ,
+
+where
+
+F (q )= (det Qt (q ) )
+21{Qt (q )<0 }.
+
+Conditionally on gt=0, the variable ut is centered Gaussian with variance σ t
+2. The remaining 
+
+normalized-gap integral is
+
+∫
+0
+
+∞
+
+p(ut , gt ) (−κ / 6 ,0 )κ
+4 / 3d κ= pgt (0 )
+
+Γ (7 / 6 )727 / 6 (σ t2 )
+2 / 3
+
+2√2π
+.
+
+Combining (3.10), (3.12), (3.20), and (3.21) gives exactly (2.9).
+
+Equivalently, if A t A t
+⊤=Γ t and Qt (v )=Qt (A t v ), then
+
+Dt=
+15
+4 π∫S2
+
+[det Qt (v ) )
+2
+1{tr Qt (v )<0 , det Qt (v )>0 }d v .
+
+Thus c3 ,24 is a deterministic nested angular integral involving only the order-six covariance jet at 
+the origin.
+
+3.7. Planar value
+At the planar Bargmann–Fock jet,
+
+Σg= I 3 , Σh=diag (3 ,1 ,1 ) , σ t
+2= 1
+
+24
+,
+
+and
+
+Q∣ht=0=
+d
+
+G2+√ 23 Z I 2 , Dt= 296 −√6 ,
+where G2 is standard 2×2 GOE and Z∼N (0 ,1 ) is independent. Substitution in (2.9) gives (2.11).
+
+3.8. Side-24 correction
+Let J 0 be the planar even covariance jet through order six, J 24 the corresponding jet of (1.1), and
+
+F (J )= Φ
+(J )
+
+Φ (J 0 )
+,
+
+where Φ is the coefficient functional in (2.9). On the explicit jet ball
+
+∥ J −J 0∥max≤10
+−110 ,
+
+
+
+the covariance and Schur-complement matrices have uniform positive lower and finite upper 
+bounds. Fixed-cone Gaussian differentiation gives
+
+sup∥DF∥<1016 ,sup∥D2F∥<1042 .
+
+Put q=e−288. The normalized periodized jet has the decomposition
+
+J 24−J 0= J ne a r
+(1 ) +R j e t ,
+
+where the linear term comes from the six images ±24 ei, and exact rational Hermite bounds give
+
+∥ J 24−J 0∥max<10
+−113 ,∥R j e t∥max<10
+
+−230 .
+
+Rotational projection of the six-image orbit yields
+
+DF (J 0 ) [J ne a r(1 ) )=P3 (24 ) e−288 ,
+where
+
+P3 (L )=−
+L2 (10 L4−147 L2+315 )
+
+105
+, P3 (24 )=−
+
+620813376
+35
+
+.
+
+Taylor’s theorem, (3.27), and (3.29) give
+
+|DF (J 0 ) [R j e t ) )<10−210 ,|Rquad )<5 ⋅10−185 .
+Therefore
+
+F (J 24 )−1=P3 (24 ) e
+−288+ ε24 ,|ε24 )<10−180 ,
+
+which is (2.10). This completes the proof. ▫
+
+4. Exact scope
+Theorem 2.1 is restricted to:
+
+• ambient dimension 3;
+
+• torus side 24;
+
+• the normalized periodized Bargmann–Fock covariance (1.1);
+
+• finite nonessential superlevel H 0 bars;
+
+• the first-moment lifetime density as ℓ ↓0;
+
+• the ordered maximum–index-two-saddle, directed-S2, and Palm conventions used above.
+
+It does not imply:
+
+• a theorem for other side lengths;
+
+• a theorem for arbitrary isotropic or stationary Gaussian fields;
+
+
+
+• a result for H k, k >0;
+
+• an L→∞, ℓ ↓0 limit interchange;
+
+• an infinite-volume persistence process;
+
+• a directed-rounding certificate for the full nonlinear quadrature.
+
+5. Literature position and remaining submission checks
+The closest located literature separates into three groups. Adler–Bobrowski–Borman–Subag–
+Weinberger and Pranav study persistent homology of random or Gaussian fields, principally 
+through general structure and computation. Chazal–Divol prove existence of expected persistence-
+diagram densities for broad classes of random filtrations, but not the present smooth-field near-
+diagonal asymptotic. Klein–Agam and Ancona–Gass–Letendre–Stecconi analyze critical-point 
+correlations and Kac–Rice singularities without imposing the elder persistence pairing. The 
+targeted search through 2026-07-30 did not locate a prior theorem giving the fixed-side three-
+dimensional Bargmann–Fock near-diagonal H 0 density (2.1), the exact coefficient reduction (2.9), 
+or the correction (2.10). This is evidence of novelty, not a substitute for a systematic MathSciNet, 
+zbMATH, and citation-network search.
+
+Before journal submission:
+
+1. complete the systematic database and backward/forward citation search for short-lifetime 
+persistence asymptotics of smooth Gaussian fields and local maximum–saddle Kac–Rice 
+pair laws;
+
+2. convert the exact technical appendix into conventionally numbered lemmas and proofs, 
+eliminating provenance labels from the submitted version;
+
+3. have a human specialist independently check the local elder-selection topology and the 
+energy-adapted matrix escape lemma;
+
+4. complete a journal-specific notation, bibliography, and style pass;
+
+5. optionally produce directed-rounding bounds for the nonlinear integral (2.9). This would 
+strengthen numerical certification but is not used in the analytic estimate (2.10).
+
+References for the literature audit
+1. R. J. Adler and J. E. Taylor, Random Fields and Geometry, Springer Monographs in 
+
+Mathematics, Springer, 2007.
+
+2. R. J. Adler, O. Bobrowski, M. S. Borman, E. Subag, and S. Weinberger, “Persistent 
+homology for random fields and complexes,” IMS Collections 6 (2010), 124–143. 
+https://projecteuclid.org/ebooks/institute-of-mathematics-statistics-collections/Borrowing-
+Strength--Theory-Powering-Applications--A-Festschrift-for/chapter/Persistent-homology-for-
+random-fields-and-complexes/10.1214/10-IMSCOLL609
+
+3. F. Chazal and V. Divol, “The density of expected persistence diagrams and its kernel based 
+estimation,” Journal of Computational Geometry 10(2) (2019), 127–153. 
+https://jocg.org/index.php/jocg/article/download/3090/2817/
+
+
+
+
+
+
+
+4. A. Klein and O. Agam, “Critical point correlations in random Gaussian fields,” Journal of 
+Physics A: Mathematical and Theoretical 45 (2012), 025001. 
+https://arxiv.org/abs/1111.5286
+
+5. P. Pranav, “Topology and geometry of Gaussian random fields II: on critical points, 
+excursion sets, and persistent homology,” arXiv:2109.08721 (2021). 
+https://arxiv.org/abs/2109.08721
+
+6. C. Hirsch and R. Lachièze-Rey, “Functional central limit theorem for topological functionals 
+of Gaussian critical points,” arXiv:2411.11429 (2024). https://arxiv.org/abs/2411.11429
+
+7. M. Ancona, L. Gass, T. Letendre, and M. Stecconi, “Zeros and critical points of Gaussian 
+fields: cumulants asymptotics and limit theorems,” arXiv:2501.10226 (2025), revised 2025. 
+https://arxiv.org/abs/2501.10226
+
+
+
+
+
+
+	Abstract
+	1. Field, filtration, and lifetime intensity
+	Proposition 1.1 (genericity of the side-24 field)
+	Proposition 1.2 (existence of the first-moment lifetime density)
+
+	2. Main theorem
+	Theorem 2.1 (fixed-side short-lifetime law)
+
+	3. Proof of Theorem 2.1
+	3.1. Ordered pair coordinates and unit multiplicity
+	3.2. Contact scaling and the universal radial measure
+	3.3. Lifetime pushforward
+	3.4. Elder selection
+	3.5. All-mark domination and selected/all-typed equality
+	3.6. Exact coefficient reduction
+	3.7. Planar value
+	3.8. Side-24 correction
+
+	4. Exact scope
+	5. Literature position and remaining submission checks
+	References for the literature audit
+

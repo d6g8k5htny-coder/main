@@ -1,0 +1,31 @@
+/* Reading navigation is separate from the preserved dated research text. */
+.reader-research .reading-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: -4px 0 24px;
+  padding: 8px 0;
+  border-block: 1px solid var(--ul-border);
+  font-size: .85rem;
+}
+.reader-research .reading-jump a,
+.reader-research .reading-return a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 8px;
+  border-radius: var(--ul-radius-s);
+  color: var(--ul-link);
+}
+.reader-research .reading-return {
+  margin: 24px 0 0;
+  font-size: .85rem;
+}
+.reader-research .reading-jump a:hover,
+.reader-research .reading-return a:hover {
+  background: var(--ul-raised);
+}
+@media print {
+  .reader-research .reading-jump,
+  .reader-research .reading-return { display: none; }
+}

@@ -1,0 +1,33 @@
+H3 BAND CEIL (U2D-UPPER, LPW_CONSTANT v4 normalizer denominator)
+mode dps=100 both-modes-deterministic MUTATION=none
+CB0 PASS: H2 library hashes match MANIFEST
+CB1 PASS: moments a_{2m}, m<=40, exact finite torus (1-a2 = [9.65254179895991305500968634889155569818652119632390800082887438481172750287524569773572114326599837546376e-123, 9.65254179895991305500968634889155569818652119632390800082887438481172750287524569773572114326599837546376e-123])
+CB2 series built in 0.1s
+CB2 PASS: corrected-basis poles cancel exactly; genuine soft poles z^-1, z^-2 isolated
+CB3 G0 inverse residual 6.07e-98
+CB3 series division done
+CB3 poles of mu (z^-1) and Sigma (z^-2, z^-1) annihilated by conditioning
+CB3 PASS: limit identities mu(0), Sigma(0) match the independent blow-up analysis
+CB4 literal entry maxima on |z|=0.11: GP 2.96e+06 GY 3.44e+02 GYV 1.95e+04
+CB4 majorant growth R = 30.4545  (rho*R = 3.350)  theta = 0.485
+CB4 PASS: series tails on (0,0.005]: Sig 4.68e-62 mu 6.39e-66
+CC6 (0,0.0025]     hi.b = 3.66282864761  (p-win 2.6678197 0.0049376239 0.56235074; fails 0.0e+00 0.047 0.0246 0.3566 0.0e+00)
+CC6 (0,0.0025] CERTIFIED: E[G_r] <= 3.66282864761194
+CC6 (0.0025,0.005] hi.b = 3.66435028046  (p-win 2.667822 0.0049385578 0.56234822; fails 0.0e+00 0.047 0.0247 0.3571 0.0e+00)
+CC6 (0.0025,0.005] CERTIFIED: E[G_r] <= 3.66435028046302
+CC6 (0.005,0.01]   hi.b = 3.67360595202  (p-win 2.6713733 0.0049696104 0.56292046; fails 0.0e+00 0.051 0.0250 0.3585 0.0e+00)
+CC6 (0.005,0.01] CERTIFIED: E[G_r] <= 3.67360595202419
+CC6 (0.01,0.02]    hi.b = 3.69805856645  (p-win 2.6785506 0.0050411675 0.5640545; fails 0.0e+00 0.063 0.0255 0.3615 0.0e+00)
+CC6 (0.01,0.02] CERTIFIED: E[G_r] <= 3.69805856644731
+CC6 (0.02,0.03]    hi.b = 3.71138266686  (p-win 2.6781237 0.005045062 0.56391022; fails 1.5e-119 0.075 0.0260 0.3635 0.0e+00)
+CC6 (0.02,0.03] CERTIFIED: E[G_r] <= 3.71138266685765
+CC6 (0.03,0.04]    hi.b = 3.72414748332  (p-win 2.6772316 0.005037735 0.56366194; fails 2.9e-68 0.086 0.0266 0.3656 0.0e+00)
+CC6 (0.03,0.04] CERTIFIED: E[G_r] <= 3.72414748332433
+CC6 (0.04,0.05]    hi.b = 3.74767948916  (p-win 2.6762151 0.0050357768 0.56340642; fails 1.9e-43 0.108 0.0272 0.3677 0.0e+00)
+CC6 (0.04,0.05] CERTIFIED: E[G_r] <= 3.74767948915996
+CC6 PASS: uniform certified ceiling on (0, 0.05]: max hi = 3.74767948915996
+CB7 PASS: Neumann (mu, Sigma) at r=0.05 contain the independent direct point law
+CC7 MC DIAGNOSTIC r=0.05: E[G] = 3.21876 +- 0.00709 (<= certified hi 3.74768 OK; NOT load-bearing)
+CC7 MC DIAGNOSTIC r=0.01: E[G] = 3.23339 +- 0.00709 (<= certified hi 3.74768 OK; NOT load-bearing)
+ALL_CHECKS_PASS
+sha256(transcript-above) = 1642236cf8e0a8346c17d00b345a9690733e64b941af741354aa9316c59eda5a

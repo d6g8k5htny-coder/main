@@ -1,0 +1,43 @@
+[
+  {
+    "command": [
+      "python3",
+      "-B",
+      "-S",
+      "tools/formal_gate_check.py",
+      "--help"
+    ],
+    "exit_code": 0,
+    "stdout": "usage: formal_gate_check.py [-h] [--root ROOT] [--manifest MANIFEST]\n                            [--run-lean] [--axioms-output AXIOMS_OUTPUT]\n                            [--alignment ALIGNMENT]\n                            [--alignment-table ALIGNMENT_TABLE]\n                            [--write-alignment] [--refresh-hashes]\n\nSource-bound Lean evidence gate for the main-side formal package (stdlib only).\n\nFollows the contract of the Math- formal lane (docs/FORMAL_VERIFICATION.md,\nwork item #95): a manifest is an evidence sidecar, not a scientific register.\n\nDefault (source-only, no Lean run): the manifest is well formed and cannot\nself-award execution or review; every bound file matches its SHA-256; every\nLean module is registered; no `sorry`, `native_decide` or `axiom` appears\noutside comments; the root module imports exactly the registered modules; the\ntarget inventory equals the theorem declarations found in those modules; every\npinned informal source has a local byte copy with the recorded size and hash;\nevery target's informal anchor is a verbatim substring of its source.\n\n`--run-lean`: additionally performs a fresh build of the pinned package, runs a\ntransitive `#print axioms` audit restricted to propext / Classical.choice /\nQuot.sound, captures elaborated types, executes real negative controls\n(tightened inequalities, a wrong constant, `sorry`, an indirect custom axiom,\n`native_decide`) and writes logs plus a receipt under `.lake/formal-evidence/`.\nOnly that receipt carries `kernel-checked`; the committed manifest says\n`proved`. A receipt from arbitrary input is untrusted until matched to the\nactual workflow run and checked Git commit.\n\n`--axioms-output FILE`: audit a captured `#print axioms` output without running\nLean (for tests and split CI steps).\n\n`--alignment REVIEW.json`: validate an independently authored alignment record\nagainst the current manifest and scope digests. This checks structure,\nidentity, coverage and lineage independence; it does not authenticate that the\nreview happened and never promotes scientific status.\n\nNothing here edits STATUS.md, PROOF_INDEX.md or any review verdict.\n\noptions:\n  -h, --help            show this help message and exit\n  --root ROOT\n  --manifest MANIFEST\n  --run-lean            fresh build, leanchecker, axiom audit, negative\n                        controls, receipt\n  --axioms-output AXIOMS_OUTPUT\n                        audit a captured #print axioms output without running\n                        Lean\n  --alignment ALIGNMENT\n                        validate an independently authored alignment record;\n                        never promotes science\n  --alignment-table ALIGNMENT_TABLE\n                        generated table to compare against the manifest\n  --write-alignment     regenerate the alignment table and exit\n  --refresh-hashes      rewrite manifest file hashes from disk and exit\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "-S",
+      "tools/atlas_formal_evidence_build.py",
+      "--help"
+    ],
+    "exit_code": 0,
+    "stdout": "usage: atlas_formal_evidence_build.py [-h] --snapshot SNAPSHOT [--root ROOT]\n                                      [--check]\n\nReproduce one source-identity connection; no network or proof execution. The\nfixed artifact was retrieved from its actual trusted run. Byte/log validation\ndoes not authenticate arbitrary caller-supplied evidence or semantic\nalignment.\n\noptions:\n  -h, --help           show this help message and exit\n  --snapshot SNAPSHOT\n  --root ROOT\n  --check\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "python3",
+      "-B",
+      "-S",
+      "tools/atlas_formal_evidence_build.py",
+      "--root",
+      "/tmp/tmp8tv6y8tc",
+      "--snapshot",
+      "/workspace/scratch/db6428847655/cbz/worktrees/main-cbz/tests/fixtures/atlas_formal_projection.json",
+      "--check"
+    ],
+    "historical_projection_preparation": "Existing FormalConnectionAssembly.setUp fixture plus original archive and published comparison module",
+    "exit_code": 0,
+    "stdout": "{\"source_connection\": \"math.side24-coefficient\", \"declaration\": \"UniversalLaw.Side24.pairing_sum_six\", \"receipt_sha256\": \"1ae8341c86a043ba917ec1fe68bf7e66ec528cd94b15170528487009f090c7e0\", \"submitted_alignment\": \"REJECTED\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": ""
+  }
+]

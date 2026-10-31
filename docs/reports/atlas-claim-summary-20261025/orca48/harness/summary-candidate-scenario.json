@@ -1,0 +1,102 @@
+[
+  {
+    "action": "phase",
+    "name": "claim-heading-and-scope"
+  },
+  {
+    "action": "click",
+    "selector": "#atlas-list button:has-text(\"math.uniform-matrix-cap-lifetime\")",
+    "delay": 2
+  },
+  {
+    "action": "key",
+    "sequence": "KP_Add",
+    "delay": 30
+  },
+  {
+    "action": "key",
+    "sequence": "Control_L",
+    "delay": 1
+  },
+  {
+    "action": "snapshot",
+    "name": "claim-summary",
+    "selectors": [
+      "#atlas-inspector h3",
+      "#atlas-claim-summary",
+      "#atlas-status",
+      "#atlas-space-status"
+    ]
+  },
+  {
+    "action": "phase",
+    "name": "source-identity"
+  },
+  {
+    "action": "click",
+    "selector": "#atlas-source-details > summary",
+    "delay": 2
+  },
+  {
+    "action": "key",
+    "sequence": "KP_Add",
+    "delay": 12
+  },
+  {
+    "action": "key",
+    "sequence": "Control_L",
+    "delay": 1
+  },
+  {
+    "action": "phase",
+    "name": "formal-declaration-execution-alignment"
+  },
+  {
+    "action": "click",
+    "selector": "#atlas-formal-details > summary",
+    "delay": 2
+  },
+  {
+    "action": "key",
+    "sequence": "KP_Add",
+    "delay": 40
+  },
+  {
+    "action": "key",
+    "sequence": "Control_L",
+    "delay": 1
+  },
+  {
+    "action": "snapshot",
+    "name": "formal-details",
+    "selectors": [
+      "#atlas-formal-details"
+    ]
+  },
+  {
+    "action": "phase",
+    "name": "review-and-continuation"
+  },
+  {
+    "action": "click",
+    "selector": "#atlas-review-details > summary",
+    "delay": 2
+  },
+  {
+    "action": "key",
+    "sequence": "KP_Add",
+    "delay": 15
+  },
+  {
+    "action": "key",
+    "sequence": "Control_L",
+    "delay": 1
+  },
+  {
+    "action": "snapshot",
+    "name": "review-details",
+    "selectors": [
+      "#atlas-review-details"
+    ]
+  }
+]

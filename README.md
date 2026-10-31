@@ -1,167 +1,48 @@
-# q0 Research Program — git home
+[![Universal Law — mathematics, evidence and verification](docs/site/brand/banner.svg)](https://d6g8k5htny-coder.github.io/main/site/)
 
-Git-side home of a multi-model mathematics research program that until now
-lived entirely in a Google Drive shared drive. This repository carries the
-program's **architecture** — its registers, governance protocols, package
-structure, quarantine discipline and content-addressed source map — plus the
-machine-readable inventory of all 4,456 Drive items, so that the same work can
-be run, reviewed and verified with ordinary git and CI.
+# Universal Law
 
-> **Status discipline.** Nothing here promotes, closes or reclassifies any
-> mathematical claim. Every status label is carried verbatim from the source
-> registers as exported on **2026-09-17**. Packaging is not premise discharge;
-> a display is not a certified enclosure; a draft is not an operator promotion;
-> registration is not review.
+**The mathematics of random landscapes, critical points, and the features that persist.**
 
-## What the research is
+Imagine lowering a waterline over a landscape. Peaks emerge, islands grow, and connections form. This research studies how those changes behave in Gaussian random fields—and which statements we can establish under precise assumptions.
 
-Two independent tracks plus a platform.
+**[Explore the mathematics →](https://d6g8k5htny-coder.github.io/main/site/)**
 
-**1. The q0 / SIDE24 spine (main track).** For a periodized Gaussian field on a
-side-24 torus, let `q(r)` be the typed pair-Palm probability that a marked
-six-pin configuration at separation `r` behaves correctly. The program's central
-object is the failure rate `1 − q(r)` and its cubic law.
-
-| Object | Statement | Status as written |
-|---|---|---|
-| Q0-C101 qualitative rate | `0 ≤ 1 − q(r, 6/5) ≤ C_Q0 · r³` for `0 < r ≤ 0.025` (as the Canon writes it), `q → 1`; no typing division, no decimals | live-root theorem in the frozen Q0 core; "No numerical value of C_Q0 is certified" |
-| Theorem B (Q0-C104) | `ν_B(ℓ) = C*·ℓ^(−1/3)(1 + o(1))`, conditional-MS form | **unconditional `PROVEN-HERE` RETRACTED** (GP-AUD-187, 2026-07-24: "THEOREM NOT KILLED / NO PROMOTION"); candidate; exact Jacobian proved; conditional B0 proved under A1–A5; seven repair gates TB-G1…G7 open; no numerical `C*` |
-| Theorem D1 v2.2(1) | certified rung at `r = 0.05` | certified under named hypotheses H5-RIM / H5-AXIS and D3-LEMMA-RN-UNIF at the rung |
-| Theorem D1 v2.2(2) | all-small-r `1 − q(r, 6/5) ≤ C r³` | **CONDITIONAL** on five named validity premises (see below) |
-| SIDE24 3D (AO48-OPR-045) | for the normalized periodized Bargmann–Fock field on the side-24 three-torus, uniformly on compact (b,κ) subsets: `sup(1 − p_r) ≤ C r³`, and with it `ν₃,₂₄(ℓ) = c₃,₂₄ ℓ^(−1/3)(1 + o(1))` with a closed-form constant | register status **RATIFIED-AT-STATED-SCOPE** (operator_decisions row AO48-OPR-045, 2026-08-02; a record authored by the AO48 line relaying the operator's one-line sign-off, with carried dependencies and reopening conditions stated); 3D track only, never composed with the 2D tracks |
-| LPW qualitative | `∃ c, r₀ > 0 : 1 − q ≥ c r³` (2D six-pin typed pair-Palm) | accepted at review scope; not a two-sided law |
-
-The Canon's four-file core is `Q0_MASTER.md`, `Q0_LEDGER.md`, `q0_machine.json`,
-`q0_verify.py`; canonical promotion enters only through `Q0_LEDGER.md` by the
-owner's decision.
-
-**Standing firewall:** the 2D upper track and the 3D lifetime track must never be
-composed into a two-sided law. `ERRATA_AND_CLARIFICATIONS_2026-09-13` withdraws
-exactly that composition.
-
-**2. The prize reconnaissance track (independent).** Restricted-scope work on
-discrete Talagrand / convexity (PR-TAL-001…019), Erdős problems 3, 39, 142 and
-169, Riemann and Collatz probes, plus the P14/P15 structural-localization
-results. Every carrier is author-side, external review pending, historical
-novelty unestablished. **Original prize problems solved: 0.** This track is
-HOLD / not for submission and must not be merged into the q0 packages.
-
-**3. The research platform.** The coupled registers (exported and checked here),
-the evidence-gated governance protocols, the accessibility source map, and the
-Drive's platform lane: metrics and defect interception, the Fresh Start 2.0
-"LEAN VERIFIED RESEARCH SYSTEM" (eight Core capsules of Markdown statements,
-sympy hostile tests and PDFs — it holds no Lean sources), and two sandbox
-verification prototypes at "LIVE MIGRATION HOLD". This repository carries the
-registers, the source map and its own checkers; the lane's verifiers, control
-plane and capsule statuses are indexed, not carried, run or reused.
-
-## The five open validity premises
-
-These block unconditional promotion of Theorem D1 v2.2(2). The frozen v2.2 body
-still lists all five; the register note and the v2.3 DRAFT propose reductions
-that take effect only at the next issuance. **Both layers are recorded; they are
-not collapsed.**
-
-| # | Premise | Frozen v2.2 / HOLD | Register note + addenda (effective at v2.3) |
-|---|---|---|---|
-| 1 | `OBL-D1-PROMOTE` | OPEN (chart + sub-obligations) | normalizer sub-part **DISCHARGED** by the H3 band floor; **chart side still OPEN**, "and now also the uniform-band extension of the B4LOC/B2-far/far-route certificates" (register note §5: the obligation is reduced on one side and enlarged on the other) |
-| 2 | `D3-LEMMA-RN-UNIF` | NOT closed | still OPEN; receipts carry `lemma_closed: false` |
-| 3 | `PERC-DECAY` | OPEN | listed **CLOSED "in its RESTATED form"** (Θ(r³) with certified constants; register note §5); `PD-CONN` moved to the note's **REFINEMENT/constants register** ("named; constants-not-order"); engine complete and frozen |
-| 4 | `OBL-B1-BRANCH(loop\|B1)` | OPEN | demoted to **REFINEMENT** for v2.3 |
-| 5 | `B4.loc` dam-line tube certificate | OPEN (asserted-not-established identification) | **CLOSED 2026-09-15** (B4LOC-R1); wrap/remote reconciliation **ADJUDICATED YES** — "B4.rem is CLOSED by B4LOC-R1 for the O(r³) validity grade" (register note §2, §5) |
-
-Chart-side sub-obligations of premise 1: `OBL-H5-JETMOD` (certified 24-jet band
-enclosure — OPEN, display only), `OBL-H5-ZBAND` (lo side rides the frozen H3
-floor; **hi side OPEN**), `OBL-H5-REMOTE-THRESHOLD` (OPEN, rides premise 2).
-
-## Repository layout
-
-```
-governance/     operator protocols (reading copies — see PROVENANCE.json) + git mapping
-registers/      the 44 coupled register tabs as JSON and CSV, plus the source exports
-drive/          complete source map: inventory.jsonl (4,456 items) + accessibility CSVs;
-                deltas/ (what changed after the snapshot, byte-exact, dated) and
-                mirrors/ (byte-exact copies of selected lane objects, manifest-verified)
-claims/         the machine-checked claim graph and its firewalls
-engine/         the active layer: lanes, bound carriers, the recovered RN engine, runner;
-                bridge/ (work-order and run-receipt schemas of the PROPOSED, NOT DEPLOYED
-                Drive–GitHub execution contract; holds no orders and no receipts)
-research/       the mathematics: certified intervals and the per-lane drivers
-reviews/        R17 §4 nonauthor technical reviews, all at zero independence credit
-recovery/       recovered accessibility exceptions, with provenance and what is missing
-packages/       PKG-01..05 peer-review submission packages and the HOLD sibling
-quarantine/     non-authoritative material and the logical-exclusion list
-sandbox/        drafts, no authority
-legacy/         zero evidentiary authority / inspiration only
-tools/          the checkers CI runs
-tests/          CI-enforced invariants and negative controls
-docs/           research map, open problems, contribution plan, findings, ported reports
-```
-
-**Of the seven artifacts under `governance/`, `docs/` and `registers/source/`
-that mirror a Drive object, three are byte-identical to it and four are not.**
-Until 2026-09-22 this sentence named only the first two directories, leaving
-`registers/source/GP-REG-032_v1.2_export_2026-09-17.md` — one of the four with
-no declared digest — out of the account it is part of. The three are
-proved by a full SHA-256 match to a digest the corpus declares; the four have
-no payload digest anywhere in the corpus, so their exactness is unverifiable —
-and two of them have known content divergences. Until 2026-09-18 the count was
-zero: `OP-PROT-019-v1.1_R17.md` had the same byte count as the object the
-register names and a different digest, so a byte-count check confirmed the
-wrong bytes. `governance/PROVENANCE.json` records every digest and outcome and
-`tools/provenance_check.py` refuses to let any file call a non-exact copy
-verbatim.
-
-Start with [`docs/RESEARCH_MAP.md`](docs/RESEARCH_MAP.md), then
-[`docs/OPEN_PROBLEMS.md`](docs/OPEN_PROBLEMS.md), then
-[`governance/GIT_ADAPTATION.md`](governance/GIT_ADAPTATION.md). What the
-active layer has found so far, defects in this repository's own work first, is
-in [`docs/FINDINGS_2026-09-18.md`](docs/FINDINGS_2026-09-18.md).
-
-## What CI enforces
-
-```bash
-python3 tools/registers_import.py --check   # registers still match the source export
-python3 tools/registers_check.py            # structural invariants, modulo documented findings
-python3 tools/provenance_check.py           # no reading copy is presented as the object
-python3 tools/claims_check.py               # claim-graph: no claim rests on an open premise
-python3 tools/quarantine_check.py           # no excluded payload appears in any manifest
-python3 tools/verify_manifests.py           # every SHA-256 / byte count in every manifest
-python3 tools/reviews_check.py              # zero independence credit, no gate moved
-python3 tools/recovery_check.py             # candidates never stored as recoveries
-python3 tools/collision_proposal_check.py   # additive only, exported registers untouched
-python3 tools/lanes_check.py                # no lane's status is stronger than the claim graph's
-python3 tools/carriers_verify.py            # every bound carrier blob matches its manifest digest
-python3 tools/receipts_check.py             # receipts: schema, append-only, none claims a status change
-python3 tools/slack_check.py                # bound-slack registry bookkeeping; utility never correctness
-python3 tools/frozen_check.py               # frozen-object register vs source-map digests, offline; classes B/C not comparable
-python3 tools/bridge_check.py               # execution-bridge orders/receipts: schema, digests, git freeze; no enforcement
-python3 tools/consumers_check.py            # which register tabs anything here actually reads
-python3 tools/operations_check.py           # reusable-operations registry and trial ledger bookkeeping
-python3 tools/mirror_quotes_check.py        # mirror README quotations are verbatim in the mirrored bytes
-python3 tools/mirrors_index_check.py        # drive/MIRRORS.md still matches the manifests
-python3 tools/operator_directive_check.py   # an asserted operator directive cites its source
-python3 tools/noncertifying_check.py        # every float path is labelled, or declared with a reason
-python3 tools/drive_index.py stats          # the source-map overlay still resolves
-python3 -m pytest -q                        # negative controls throughout
-```
-
-Every checker prints a one-line summary and exits nonzero on failure. Every
-claimed bound and every checker has tests that fail when it is weakened —
-those negative controls have found real defects in this repository's own
-verifiers three times, which is what they are for.
-
-## Provenance
-
-| | |
+| Start with… | What you will find |
 |---|---|
-| Drive items covered | 4,456 (3,714 files, 742 folders), 319 MB |
-| Archive carriers / members | 77 carriers — recomputable from the committed files: the 76 inventory rows `ARCHIVE_INDEXED` plus the `BINARY_UNRENDERED` `S2-DATA-002-v1.0_result_carrier.zip`, which `Archive_Members.csv` lists members for (72 of the 76 have member rows; the other four are single-file `.gz` uploads); 11,649 member occurrences; 2,974 distinct member payload digests (the five `READ_FAILED` members carry an empty digest cell; until 2026-09-19 that cell was counted as a 2,975th); 4,020 distinct payloads over the whole source map |
-| Source-map snapshot | 2026-09-17 accessibility publication |
-| Register export | GP-REG-032-v1.2, 44 tabs, xlsx export of 2026-09-18 (the 2026-09-17 markdown rendering is retained beside it; it truncated seven tabs) |
-| Control plane at export | AI-DRIVE-AUTONOMY-R17 (OP-PROT-019-v1.1) |
-| Owner / final authority | Dylan Roy |
+| [Interactive examples](https://d6g8k5htny-coder.github.io/main/site/explore.html) | Change a peak, bring two points closer, or test a tiny partition problem. No setup required. |
+| [A research reading path](https://d6g8k5htny-coder.github.io/main/site/research.html) | The questions, selected arguments, and their conditions in plain language. |
+| [Reproduce one calculation](https://d6g8k5htny-coder.github.io/main/site/reproduce.html) | A pinned exact coefficient example, standard-library commands and expected output. |
+| [Cite a source](https://d6g8k5htny-coder.github.io/main/site/cite.html) | Citation metadata and an offline tool for immutable source references. |
+| [The technical library](https://d6g8k5htny-coder.github.io/main/site/workspace.html#inventory) | Searchable full texts, exact source identities, and reproducibility records. |
 
-The owner remains the single final authority for canonical promotion, external
-release, permanent deletion and machine-root replacement. This repository
-changes none of that.
+The interactive models teach defined examples. Results retain the hypotheses and review scope of their sources. This is research in progress; an illustration or passing computation is not a theorem.
+
+## Read more deeply
+
+- [Research guide](docs/RESEARCH_INDEX.md) — start with the topic-by-topic route to sources, review records, successor results and remaining work.
+- [Full mathematics](docs/PUBLIC_MATHEMATICS.md) — public proof texts, repaired reading contracts and exact-source provenance.
+- [Research status snapshot](STATUS.md) — claims and reviews recorded on 29 September 2026; its source date is preserved, so use the guide for the current reading route.
+- [Proof index in Math-](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) — selected 26–29 September coverage with scoped later reading guidance. The [October reachability supplement](https://github.com/d6g8k5htny-coder/Math-/blob/79cb314d5b9f6b8b410bfd0df200414314f6b8c7/docs/integration/2026-10-02-proof-reachability.md) records availability through its 3 October cut, not current acceptance; the guide links later work by source and scope.
+- [Source records and historical exhibits](https://d6g8k5htny-coder.github.io/main/site/museum.html) — fixed snapshots with traceable evidence.
+- [Formal verification](docs/FORMAL_VERIFICATION.md) — what the Lean checks establish and what remains outside them.
+
+The public display and the current proof repository may use different source dates. Each technical view names its snapshot; source dates and review labels retain their stated scope, and newer reading routes do not transfer acceptance. The [public source inventory](docs/public-math/sources.json) preserves 2,138 frozen file identities, not a theorem count.
+
+<details>
+<summary><strong>For researchers and contributors</strong></summary>
+
+The [research workspace](https://d6g8k5htny-coder.github.io/main/site/workspace.html) contains exact coefficient endpoints, dated status records and source lookup. The [workspace guide](docs/WORKSPACE.md) explains execution, repositories and coordination. [Contribution options](CONTRIBUTING.md) remain open, from improving an explanation to submitting a source-bound result.
+
+| Repository | Role |
+|---|---|
+| [main](https://github.com/d6g8k5htny-coder/main) | Public reading experience and shared project guidance |
+| [Math-](https://github.com/d6g8k5htny-coder/Math-) | Proofs, mathematical calculations, tests and reviews |
+| [query-](https://github.com/d6g8k5htny-coder/query-) | Read-only exact-source lookup |
+| [Universal-Law-Workspace](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace) | Repository map |
+
+[Reproduction guide](docs/REPRODUCE.md) · [Agent entry](AGENTS.md) · [Current workflow](governance/OP-WORKFLOW-20260930.md) · [Active coordination board, main #619](https://github.com/d6g8k5htny-coder/main/issues/619) · [Prior board #539 (history)](https://github.com/d6g8k5htny-coder/main/issues/539) · [Prior board #475 (history)](https://github.com/d6g8k5htny-coder/main/issues/475) · [Prior board #419 (history)](https://github.com/d6g8k5htny-coder/main/issues/419) · [Prior board #307 (history)](https://github.com/d6g8k5htny-coder/main/issues/307) · [Historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880) · [Architecture discussion, main #666](https://github.com/d6g8k5htny-coder/main/issues/666) · [Closure-evidence decision record, main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
+
+</details>
+
+Released under the [MIT License](LICENSE). [Citation metadata](CITATION.cff).

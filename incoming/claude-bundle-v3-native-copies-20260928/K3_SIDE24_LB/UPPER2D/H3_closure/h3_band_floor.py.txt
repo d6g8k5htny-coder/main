@@ -1,0 +1,794 @@
+#!/usr/bin/env python3
+# h3_band_floor.py -- STAGE E / OBL-D1-PROMOTE normalizer band:
+#   CERTIFIED uniform normalizer floor  Z_r >= c_Z r^2  for ALL r in (0, 0.05].
+#
+# Method (no whitening, no MC in the certificate):
+#   1. Exact Taylor series at r = 0 of the corrected-pin Gram, cross and soft
+#      Grams (Laurent-series algebra on certified kernel series; moments
+#      a_{2m} by the Poisson-Hermite identity, exact finite torus).
+#   2. Exact series division -> Taylor coefficients of mu(r), Sigma(r)
+#      (conditional law of the six soft variables under Q_r), with crude
+#      certified majorant tails (literal triangle bounds on |z| = rho).
+#   3. Interval evaluation of mu, Sigma on sub-intervals covering (0, 0.05].
+#   4. Band lower bound  E[G_r] >= E[p 1_{q in I'}] - sum of exact bad pieces
+#      (Wick / conditional-Wick polynomial Gaussian algebra; certified Phi
+#      series + Gordon-Mills bounds), valid because the box
+#      B_cert = {q_M in I'} {|dq| <= eta} {a_M <= -0.8} {a_S >= 0.8} {|b_M| <= 2}
+#      certifies the type event for every r <= 0.05 with slack.
+# Fail-closed ck -> SystemExit; both modes byte-identical; MUTATION harness.
+import os, sys, time, hashlib
+from fractions import Fraction
+from collections import defaultdict
+from functools import lru_cache
+from mpmath import mp, iv, mpf
+
+mp.dps = 100
+iv.dps = 100
+sys.path.insert(0, '/mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations')
+import cov_exact as ce
+
+MUT = os.environ.get('MUTATION', '')
+OUT = []
+def emit(s):
+    OUT.append(s)
+    print(s)
+def ck(cond, msg):
+    if not cond:
+        emit('CK_FAIL: ' + msg)
+        sys.exit(1)
+def fmpf(fr):
+    return mpf(fr.numerator) / mpf(fr.denominator)
+
+t0 = time.time()
+emit('H3 BAND FLOOR (U2D-UPPER, STAGE E / OBL-D1-PROMOTE)')
+print('t=' + time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()), file=sys.stderr)
+emit('mode dps=100 both-modes-deterministic MUTATION=' + (MUT if MUT else 'none'))
+
+REQ = mpf('1.615489267643502474048123284509081575382')   # c_Z of record
+RMAX = mpf('1') / 20                                      # the rung 0.05
+
+# ---------------------------------------------------------------- CB0: hashes
+def sha(path):
+    h = hashlib.sha256()
+    with open(path, 'rb') as f:
+        h.update(f.read())
+    return h.hexdigest()
+H2D = '/mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations'
+h_cov = sha(H2D + '/cov_exact.py'); h_pin = sha(H2D + '/pin_transform.py')
+man = {}
+with open(H2D + '/MANIFEST.sha256') as f:
+    for ln in f:
+        hh, fn = ln.split()
+        man[fn] = hh
+ck(h_cov == man['cov_exact.py'], 'CB0 cov_exact hash')
+ck(h_pin == man['pin_transform.py'], 'CB0 pin_transform hash')
+emit('CB0 PASS: H2 library hashes match MANIFEST')
+
+# ------------------------------------------------- CB1: exact-torus moments
+# a_{2m} = (-1)^m sum_n He_{2m}(24 n) e^{-288 n^2} / sum_n e^{-288 n^2}  (Poisson)
+def He_iv(n, x):
+    if n == 0: return iv.mpf(1)
+    if n == 1: return iv.mpf(x)
+    a, b = iv.mpf(1), iv.mpf(x)
+    for k in range(2, n + 1):
+        a, b = b, x * b - (k - 1) * a
+    return b
+def moment_a2m(m):
+    num = iv.mpf(0); den = iv.mpf(0)
+    for n in range(-3, 4):
+        w = iv.e ** (-iv.mpf(288) * n * n)
+        num += (-1) ** m * He_iv(2 * m, iv.mpf(24 * n)) * w
+        den += w
+    # certified tail |n| >= 4: e^{-288*16} < 1e-1997, He polynomial growth: < 1e-1500
+    return num / den
+MMAX = 40
+A2 = [moment_a2m(m) for m in range(MMAX + 1)]
+# certified separated deviations (Poisson path, summandwise positive)
+DEV2 = ce.one_minus_a2_poisson(mode='iv')
+num4 = iv.mpf(0); den4 = iv.mpf(0)
+for n in range(-3, 4):
+    w = iv.e ** (-iv.mpf(288) * n * n)
+    t = iv.mpf(24 * n)
+    num4 += (He_iv(4, t) - 3) * w   # He_4(t)-3 = t^2(t^2-6) >= 0
+    den4 += w
+DEV4 = num4 / den4
+if MUT == 'planar_moments':
+    from math import factorial as _fact
+    A2 = [iv.mpf(_fact(2 * m)) / iv.mpf(_fact(m) * 2 ** m) for m in range(MMAX + 1)]
+    DEV2 = iv.mpf(0); DEV4 = iv.mpf(0)
+    emit('CB1 MUTATION planar_moments applied (must be caught downstream)')
+ck(DEV2.a > 0 and DEV2.b < mpf('1e-100'), 'CB1a exact-torus 0 < 1-a2 < 1e-100 (mutation guard)')
+ck(DEV4.a > 0 and DEV4.b < mpf('1e-100'), 'CB1b exact-torus 0 < a4-3 < 1e-100')
+emit('CB1 PASS: moments a_{2m}, m<=%d, exact finite torus (1-a2 = %s)' % (MMAX, mp.nstr(DEV2.b, 3)))
+
+# ------------------------------------------------- CB2: series machinery
+# Taylor series at r=0 of all Gram entries (Laurent window [LMIN, J]).
+J = 60                       # Taylor order kept exactly
+LMIN = -8
+RHO = mpf('0.11')            # majorant circle radius (det floor scan-verified)
+def ser_zero():
+    return defaultdict(lambda: iv.mpf(0))
+def ser_monom(c, k):
+    s = ser_zero(); s[k] = iv.mpf(c); return s
+def ser_mul(A, B):
+    C = ser_zero()
+    for ja, ca in A.items():
+        if ca == 0: continue
+        for jb, cb in B.items():
+            if cb == 0: continue
+            C[ja + jb] += ca * cb
+    return C
+def ser_add(A, B):
+    C = ser_zero()
+    for j, c in A.items(): C[j] += c
+    for j, c in B.items(): C[j] += c
+    return C
+def ser_scale(A, c):
+    C = ser_zero()
+    for j, v in A.items(): C[j] = v * c
+    return C
+def ser_trim(A):
+    return defaultdict(lambda: iv.mpf(0),
+                       {j: c for j, c in A.items() if j >= LMIN and j <= J + 2 and not (c.a == 0 and c.b == 0)})
+
+# kernel series K1^{(n)}( +/- z ): coeff[j] = (-1)^{(n+j)/2} a_{n+j} / j!  (n+j even)
+from math import factorial
+def kernel_ser(n, parity):
+    s = ser_zero()
+    for j in range(0, J + 8 - n):
+        m = n + j
+        if m % 2 == 1: continue
+        if m // 2 > MMAX: break
+        val = ((-1) ** (m // 2)) * A2[m // 2] / factorial(j)
+        if parity < 0 and j % 2 == 1: val = -val
+        s[j] = val
+    return s
+KSER = {}
+def get_kser(n, parity):
+    key = (n, parity)
+    if key not in KSER:
+        KSER[key] = kernel_ser(n, parity)
+    return KSER[key]
+
+# 2D covariance series for displacement d * z, d in {-1,0,1}, matching ce.cov:
+# cov(alpha,beta,dx,0) = (-1)^{|beta|} K1^{(n1)}(dx) K1^{(n2)}(0)   [no s-flip]
+def cov_ser(alpha, beta, d):
+    n1 = alpha[0] + beta[0]; n2 = alpha[1] + beta[1]
+    sgn = (-1) ** (beta[0] + beta[1])
+    if d == 0:
+        v1 = ser_zero()
+        if n1 % 2 == 0:
+            v1[0] = ((-1) ** (n1 // 2)) * A2[n1 // 2]
+    else:
+        v1 = get_kser(n1, d)
+    k0 = iv.mpf(0)
+    if n2 % 2 == 0:
+        k0 = ((-1) ** (n2 // 2)) * A2[n2 // 2]
+    return ser_scale(v1, sgn * k0)
+
+# functionals: list of (station, multiindex, Laurent coeff series)
+def L(c, k):
+    return ser_monom(mpf(c), k)
+PinsV = [
+    [('M', (0, 0), L(1, 0))],
+    [('M', (1, 0), L(1, 0))],
+    [('M', (0, 1), L(1, 0))],
+    [('S', (1, 0), L(1, -1)), ('M', (1, 0), L(-1, -1))],
+    [('S', (0, 1), L(1, -1)), ('M', (0, 1), L(-1, -1))],
+    [('S', (0, 0), L(1, -3)), ('M', (0, 0), L(-1, -3)),
+     ('S', (1, 0), L(mpf(-1) / 2, -2)), ('M', (1, 0), L(mpf(-1) / 2, -2))],
+]
+SoftY = [
+    [('M', (0, 2), L(1, 0))],
+    [('S', (0, 2), L(1, 0))],
+    [('M', (2, 0), L(1, -1))],
+    [('S', (2, 0), L(1, -1))],
+    [('M', (1, 1), L(1, -1))],
+    [('S', (1, 1), L(1, -1))],
+]
+DISP = {('M', 'M'): 0, ('S', 'S'): 0, ('S', 'M'): 1, ('M', 'S'): -1}
+def gram_entry_ser(FA, FB):
+    tot = ser_zero()
+    for (xa, aa, ca) in FA:
+        for (xb, ab, cb) in FB:
+            tot = ser_add(tot, ser_mul(ser_mul(ca, cb), cov_ser(aa, ab, DISP[(xa, xb)])))
+    return ser_trim(tot)
+
+t1 = time.time()
+GP_ser = [[gram_entry_ser(PinsV[i], PinsV[j]) for j in range(6)] for i in range(6)]
+GY_ser = [[gram_entry_ser(SoftY[i], SoftY[j]) for j in range(6)] for i in range(6)]
+GYV_ser = [[gram_entry_ser(SoftY[i], PinsV[j]) for j in range(6)] for i in range(6)]
+emit('CB2 series built in %.1fs' % (time.time() - t1))
+# Laurent coefficients: pin Gram regular; GYV regular below z^-1; GY below z^-2
+bad = 0
+for i in range(6):
+    for j in range(6):
+        for k, c in GP_ser[i][j].items():
+            if k < 0 and max(abs(mpf(c.a)), abs(mpf(c.b))) > 1e-60: bad += 1
+        for k, c in GYV_ser[i][j].items():
+            if k <= -2 and max(abs(mpf(c.a)), abs(mpf(c.b))) > 1e-60: bad += 1
+        for k, c in GY_ser[i][j].items():
+            if k <= -3 and max(abs(mpf(c.a)), abs(mpf(c.b))) > 1e-60: bad += 1
+ck(bad == 0, 'CB2 Laurent pole pattern (GP regular; GYV, GY only genuine poles)')
+emit('CB2 PASS: corrected-basis poles cancel exactly; genuine soft poles z^-1, z^-2 isolated')
+
+# ------------------------------------------- CB3: series division -> mu, Sigma
+def mat_coeff(Gser, j):
+    return [[Gser[a][b].get(j, iv.mpf(0)) for b in range(6)] for a in range(6)]
+def iv_solve6(GG, rhs):
+    # interval Gauss with partial pivoting + residual check outside
+    A = [GG[i][:] + [rhs[i]] for i in range(6)]
+    for c in range(6):
+        p = max(range(c, 6), key=lambda rr: abs(A[rr][c].a + A[rr][c].b))
+        A[c], A[p] = A[p], A[c]
+        for rr in range(6):
+            if rr != c:
+                f = A[rr][c] / A[c][c]
+                A[rr] = [A[rr][j] - f * A[c][j] for j in range(7)]
+    return [A[i][6] / A[i][i] for i in range(6)]
+def matvec(G, v):
+    return [sum((G[i][k] * v[k] for k in range(6)), iv.mpf(0)) for i in range(6)]
+def matmul(A, B):
+    return [[sum((A[i][k] * B[k][j] for k in range(6)), iv.mpf(0)) for j in range(6)] for i in range(6)]
+def matneg(A):
+    return [[-A[i][j] for j in range(6)] for i in range(6)]
+
+G0 = mat_coeff(GP_ser, 0)
+zV = [iv.mpf(6) / 5, iv.mpf(0), iv.mpf(0), iv.mpf(0), iv.mpf(0), iv.mpf(-1) / 6]
+if MUT == 'wrong_window':
+    zV[5] = iv.mpf(-1) / 12
+    emit('CB3 MUTATION wrong_window applied (must be caught downstream)')
+Ginv0_cols = [iv_solve6(G0, [iv.mpf(1) if l == k else iv.mpf(0) for l in range(6)]) for k in range(6)]
+Ginv0 = [[Ginv0_cols[k][i] for k in range(6)] for i in range(6)]
+# residual check ||G Ginv0 - I|| small
+res = max(abs((sum((G0[i][k] * Ginv0[k][j] for k in range(6)), iv.mpf(0)) - (iv.mpf(1) if i == j else iv.mpf(0))).b)
+          for i in range(6) for j in range(6))
+ck(res < 1e-70, 'CB3 G0 inverse residual')
+emit('CB3 G0 inverse residual %.2e' % float(res))
+
+Gj = [mat_coeff(GP_ser, j) for j in range(J + 3)]
+GYj = [mat_coeff(GY_ser, j) for j in range(J + 1)]
+GYVj = [mat_coeff(GYV_ser, j) for j in range(J + 2)]
+GYV_m1 = mat_coeff(GYV_ser, -1)
+GY_m2 = mat_coeff(GY_ser, -2); GY_m1 = mat_coeff(GY_ser, -1)
+
+W = [None] * (J + 3)
+W[0] = matvec(Ginv0, zV)
+H = [None] * (J + 3)
+H[0] = Ginv0
+for j in range(1, J + 3):
+    acc = [[iv.mpf(0)] * 6 for _ in range(6)]
+    for i in range(1, j + 1):
+        acc = [[acc[a][b] + sum((Gj[i][a][k] * H[j - i][k][b] for k in range(6)), iv.mpf(0)) for b in range(6)] for a in range(6)]
+    H[j] = matneg(matmul(Ginv0, acc))
+    # W[j] = -Ginv0 * sum_i G_i W[j-i]
+    W[j] = matvec(Ginv0, [-sum((Gj[i][a][l] * W[j - i][l] for i in range(1, j + 1) for l in range(6)), iv.mpf(0)) for a in range(6)])
+# extended GYV coefficient list including the genuine z^-1 pole
+def GYVc(i):
+    return GYV_m1 if i == -1 else GYVj[i]
+mu_ser = [None] * (J + 1)
+for j in range(J + 1):
+    mu_ser[j] = [sum((GYVc(i)[a][k] * W[j - i][k] for i in range(-1, j + 1) for k in range(6)), iv.mpf(0)) for a in range(6)]
+Sig_ser = [None] * (J + 1)
+for j in range(J + 1):
+    acc = [[iv.mpf(0)] * 6 for _ in range(6)]
+    for a_ in range(-1, j + 2):
+        for c_ in range(-1, j + 2):
+            b_ = j - a_ - c_
+            if b_ < 0: continue
+            prod = matmul(matmul(GYVc(a_), H[b_]), [[GYVc(c_)[l][k] for l in range(6)] for k in range(6)])  # GYV_c^T
+            acc = [[acc[x][y] + prod[x][y] for y in range(6)] for x in range(6)]
+    Sig_ser[j] = [[GYj[j][x][y] - acc[x][y] for y in range(6)] for x in range(6)]
+emit('CB3 series division done')
+# rotated coordinates (q_M, delta=q_S-q_M, alpha_M, alpha_S, beta_M, beta_S) at SERIES level:
+# the rotation cancellations (var_delta = S00 - 2 S01 + S11) must happen exactly in the
+# coefficients, not in interval arithmetic at evaluation time.
+LR = [[1, 0, 0, 0, 0, 0], [-1, 1, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 1, 0], [0, 0, 0, 0, 0, 1]]
+mu2_ser = [None] * (J + 1)
+Sig2_ser = [None] * (J + 1)
+for j in range(J + 1):
+    mu2_ser[j] = [sum((iv.mpf(LR[i][k]) * mu_ser[j][k] for k in range(6)), iv.mpf(0)) for i in range(6)]
+    Sig2_ser[j] = [[sum((iv.mpf(LR[i][k]) * Sig_ser[j][k][l] * iv.mpf(LR[x][l]) for k in range(6) for l in range(6)), iv.mpf(0)) for x in range(6)] for i in range(6)]
+
+# regularity of mu, Sigma at r=0: the genuine poles of GYV (z^-1) and GY (z^-2)
+# must be annihilated by the conditioning.  Check the pole coefficients of the
+# products explicitly (they are dropped from the non-negative series below).
+mu_pole = matvec(GYV_m1, W[0])
+for a in range(6):
+    ck(abs(mu_pole[a].a) < 1e-55 and abs(mu_pole[a].b) < 1e-55, 'CB3 mu pole z^-1 vanishes, coord %d' % a)
+def mmT(A):
+    return matmul(matmul(GYV_m1, H[0]), [[A[l][k] for l in range(6)] for k in range(6)])
+Sig_pole2 = [[GY_m2[x][y] - mmT(GYV_m1)[x][y] for y in range(6)] for x in range(6)]
+p1 = matmul(matmul(GYV_m1, H[0]), [[GYVj[0][l][k] for l in range(6)] for k in range(6)])
+p2 = matmul(matmul(GYVj[0], H[0]), [[GYV_m1[l][k] for l in range(6)] for k in range(6)])
+p3 = matmul(matmul(GYV_m1, H[1]), [[GYV_m1[l][k] for l in range(6)] for k in range(6)])
+Sig_pole1 = [[GY_m1[x][y] - p1[x][y] - p2[x][y] - p3[x][y] for y in range(6)] for x in range(6)]
+for x in range(6):
+    for y in range(6):
+        ck(abs(Sig_pole2[x][y].a) < 1e-50 and abs(Sig_pole2[x][y].b) < 1e-50, 'CB3 Sigma pole z^-2 vanishes %d %d' % (x, y))
+        ck(abs(Sig_pole1[x][y].a) < 1e-50 and abs(Sig_pole1[x][y].b) < 1e-50, 'CB3 Sigma pole z^-1 vanishes %d %d' % (x, y))
+emit('CB3 poles of mu (z^-1) and Sigma (z^-2, z^-1) annihilated by conditioning')
+
+# limit identities (independent LPW cross-checks; catches wrong-window)
+ck(abs(mu_ser[0][0].a + mpf(6) / 5) < 1e-60 and abs(mu_ser[0][0].b + mpf(6) / 5) < 1e-60, 'CB3 mu_qM(0) = -b a2')
+ck(abs(mu_ser[0][1].a + mpf(6) / 5) < 1e-60, 'CB3 mu_qS(0) = -b a2')
+ck(abs(mu_ser[0][2].a + 1) < 1e-60, 'CB3 mu_aM(0) = -1 (window identity; mutation guard)')
+ck(abs(mu_ser[0][3].a - 1) < 1e-60, 'CB3 mu_aS(0) = +1')
+ck(abs(Sig_ser[0][2][2].a) < 1e-60 and abs(Sig_ser[0][2][2].b) < 1e-60, 'CB3 Var(aM)(0) = 0')
+ck(abs(Sig_ser[0][0][0].a - 2) < 1e-55, 'CB3 Var(qM)(0) = a4-a2^2 = 2')
+emit('CB3 PASS: limit identities mu(0), Sigma(0) match the independent blow-up analysis')
+
+# ------------------------------------------------- CB4: majorant tails
+# crude certified kernel sup: |K1^{(n)}(z)| <= A_n(rho) on |z| <= rho,
+# A_n(rho) = sum_{|k|<=K} w |k|^n e^{|k|rho} / Z + certified tail.
+ce._build_lattice()
+_k = [mpf(x.a) for x in ce._LATT_IV[2]]
+_w = [iv.mpf(x) for x in ce._LATT_IV[3]]
+_Z1 = ce._LATT_IV[4]
+def abs_sum_A(n, rho):
+    tot = iv.mpf(0)
+    for kk, ww in zip(_k, _w):
+        tot += ww * abs(kk) ** n * iv.e ** (abs(kk) * rho)
+    # certified tail |k| > 17: e^{-k^2/2 + k rho} <= e^{-k^2/4} (k >= 4 rho),
+    # |k|^n e^{-k^2/4} <= e^{-k^2/8} (8n/e)^{n/2}; geometric sum <= e^{-17^2/8}/(1-e^{-2})
+    tail = iv.e ** (-iv.mpf(17 * 17) / 8) * (8 * n / iv.e) ** (n / 2) / (1 - iv.e ** (-2))
+    return (tot + iv.mpf((0, float(tail.b)))) / _Z1
+A_rho = [abs_sum_A(n, RHO) for n in range(9)]
+# literal-curse entry maxima on |z| = rho
+def entry_max2(FA, FB):
+    tot = mpf(0)
+    for (xa, aa, ca) in FA:
+        for (xb, ab, cb) in FB:
+            n1 = aa[0] + ab[0]; n2 = aa[1] + ab[1]
+            ma = sum(max(abs(mpf(c.a)), abs(mpf(c.b))) * RHO ** j for j, c in ca.items())
+            mb = sum(max(abs(mpf(c.a)), abs(mpf(c.b))) * RHO ** j for j, c in cb.items())
+            tot += ma * mb * mpf(A_rho[n1].b) * mpf(A_rho[n2].b)
+    return tot
+M_GP = max(entry_max2(PinsV[i], PinsV[j]) for i in range(6) for j in range(6))
+M_GY = max(entry_max2(SoftY[i], SoftY[j]) for i in range(6) for j in range(6))
+M_GYV = max(entry_max2(SoftY[i], PinsV[j]) for i in range(6) for j in range(6))
+emit('CB4 literal entry maxima on |z|=%.2f: GP %.2e GY %.2e GYV %.2e' % (RHO, M_GP, M_GY, M_GYV))
+
+def matmax(M):
+    return max(mpf(M[i][j].b) if hasattr(M[i][j], 'b') else abs(M[i][j]) for i in range(6) for j in range(6))
+def vecmax(v):
+    return max(mpf(x.b) if hasattr(x, 'b') else abs(x) for x in v)
+G_m = [matmax(Gj[j]) for j in range(J + 1)]
+GY_m = [matmax(GYj[j]) for j in range(J + 1)]
+GYV_m = [matmax(GYVj[j]) for j in range(len(GYVj))]
+G_m_full = [matmax(Gj[j]) for j in range(J + 3)]
+H_m = [matmax(H[j]) for j in range(J + 3)]
+W_m = [vecmax(W[j]) for j in range(J + 3)]
+Ginv0_m = matmax(Ginv0)
+
+# majorant growth R: smallest R with 36*Ginv0_m*(S_G(R)+T_G(R)) <= 1/2, rho*R > 1
+def S_G(R):
+    return sum(G_m[i] / R ** i for i in range(1, J + 1))
+def T_G(R):
+    x = 1 / (RHO * R)
+    return M_GP * x ** (J + 1) / (1 - x)
+def theta(R):
+    return 36 * Ginv0_m * (S_G(R) + T_G(R))
+R = 1 / RHO * 1.001
+for _ in range(400):
+    if theta(R) > 0.5: R *= 1.02
+    else: break
+ck(theta(R) <= 0.5, 'CB4 majorant growth R found')
+for _ in range(400):
+    Rl = R / 1.02
+    if theta(Rl) <= 0.5: R = Rl
+    else: break
+emit('CB4 majorant growth R = %.4f  (rho*R = %.3f)  theta = %.3f' % (R, RHO * R, theta(R)))
+# R-majorant only needs to converge on the FIRST sub-interval (0, 0.005]:
+ck(R * mpf('0.005') < 0.2, 'CB4 majorant converges on first sub-interval')
+C_W = max(W_m[j] / R ** j for j in range(J + 3)); C_W = max(C_W, mpf(1))
+C_H = max(H_m[j] / R ** j for j in range(J + 3)); C_H = max(C_H, mpf(1))
+# Sigma tail: scalar majorant series values
+def maj_series_val(coeffs, M, t):
+    v = sum(coeffs[j] * t ** j for j in range(J + 1))
+    x = t / RHO
+    v += M * x ** (J + 1) / (1 - x)
+    return v
+def maj_partial_GHGYV(t):
+    tot = mpf(0)
+    for a_ in range(J + 1):
+        for b_ in range(J + 1 - a_):
+            for c_ in range(J + 1 - a_ - b_):
+                if a_ + b_ + c_ <= J:
+                    tot += GYV_m[a_] * H_m[b_] * GYV_m[c_] * t ** (a_ + b_ + c_)
+    return tot
+def maj_partial_GYVW(t):
+    return sum(GYV_m[a_] * W_m[b_] * t ** (a_ + b_) for a_ in range(J + 1) for b_ in range(J + 1 - a_))
+def maj_full_R(coeffs, C, t):
+    # majorant anchored on computed coefficients + R-growth tail (recursion-consistent)
+    n = len(coeffs) - 1
+    return sum(coeffs[j] * t ** j for j in range(n + 1)) + C * (R * t) ** (n + 1) / (1 - R * t)
+def Sig_tail(t):
+    fullGY = maj_series_val(GY_m, M_GY, t)
+    fullA = maj_series_val(GYV_m, M_GYV, t)
+    fullH = maj_full_R(H_m, C_H, t)
+    partGY = sum(GY_m[j] * t ** j for j in range(J + 1))
+    tailGY = fullGY - partGY
+    tailProd = 36 * (fullA * fullH * fullA - maj_partial_GHGYV(t))
+    # pole-index terms a=-1 or c=-1 (GYV_{-1} max entry 3)
+    partHA = sum(H_m[b] * GYV_m[c] * t ** (b + c) for b in range(J + 2) for c in range(J + 2 - b))
+    T2 = fullH * fullA - partHA
+    tailPole = 216 * T2 / t
+    partH = sum(H_m[b] * t ** b for b in range(J + 3))
+    tailPole2 = 324 * (fullH - partH) / (t * t)
+    return tailGY + tailProd + tailPole + tailPole2
+def mu_tail(t):
+    fullA = maj_series_val(GYV_m, M_GYV, t)
+    fullW = maj_full_R(W_m, C_W, t)
+    main = 6 * (fullA * fullW - maj_partial_GYVW(t))
+    pole = 18 * C_W * R * (R * t) ** (J + 1) / (1 - R * t)
+    return main + pole
+ST = Sig_tail(mpf('0.0025')); MT = mu_tail(mpf('0.0025'))
+ck(ST < 1e-5, 'CB4 Sigma tail small on first sub-interval')
+ck(MT < 1e-5, 'CB4 mu tail small on first sub-interval')
+emit('CB4 PASS: series tails on (0,0.005]: Sig %.2e mu %.2e' % (ST, MT))
+def gram_tail(M, t):
+    # certified Cauchy tail of a Gram-block series beyond kept order J+2
+    return M * (t / RHO) ** (J + 3) / (1 - t / RHO)
+
+# ------------------------------------------- CB5: certified Phi, moments, Wick
+SQRT2PI = iv.sqrt(2 * iv.pi)
+def iv_phi(x):
+    return iv.e ** (-(x * x) / 2) / SQRT2PI
+def iv_Phi(x):
+    # standard normal CDF, interval x.
+    # |x| <= 6: power series Phi = 1/2 + phi(0) sum_k (-1)^k x^{2k+1}/(2^k k!(2k+1))
+    # with certified geometric tail; |x| > 6: Gordon-Mills bounds (both monotone).
+    # intervals straddling +-6 are split by monotonicity of Phi.
+    if (x.a < 6 < x.b) or (x.a < -6 < x.b):
+        lo = iv_Phi(iv.mpf(x.a))
+        hi = iv_Phi(iv.mpf(x.b))
+        return iv.mpf((mpf(lo.a), mpf(hi.b)))
+    if x.a >= 6:
+        # Q(x) = 1 - Phi(x) in (phi(x)(1/x - 1/x^3), phi(x)/x); both bounds decreasing
+        hi = iv_phi(iv.mpf(x.a)) / iv.mpf(x.a)
+        lo = iv_phi(iv.mpf(x.b)) * (1 / iv.mpf(x.b) - 1 / iv.mpf(x.b) ** 3)
+        return iv.mpf(1) - iv.mpf((float(lo.a), float(hi.b)))
+    if x.b <= -6:
+        # Phi increasing; Phi(x) = Q(-x)
+        hi = iv_phi(iv.mpf(x.b)) / iv.mpf(-x.b)
+        lo = iv_phi(iv.mpf(x.a)) * (1 / iv.mpf(-x.a) - 1 / iv.mpf(-x.a) ** 3)
+        return iv.mpf((float(lo.a), float(hi.b)))
+    ck(x.a >= -6 and x.b <= 6, 'CB5 Phi series domain x=[%s,%s]' % (mp.nstr(mpf(x.a), 6), mp.nstr(mpf(x.b), 6)))
+    # |x| <= 6: series with certified geometric tail
+    # ratio T_{k+1}/T_k = -x^2(2k+1)/(2(k+1)(2k+3)); |ratio| <= 18(2k+1)/((k+1)(2k+3)) < 0.9 for k >= 21
+    tot = iv.mpf(0)
+    K = 0
+    term = x  # k = 0 term
+    while K < 120:
+        tot += term
+        K += 1
+        term = -term * x * x * (2 * K - 1) / (2 * K * (2 * K + 1))
+        if K >= 22 and abs(term.b) < 1e-90 and abs(term.a) < 1e-90:
+            break
+    tail = max(abs(term.a), abs(term.b)) / (1 - mpf('0.9'))
+    return iv.mpf(1) / 2 + (tot + iv.mpf((-tail, tail))) / SQRT2PI
+
+def trunc_mom_iv(mu, var, a, b, kmax):
+    # E[X^k 1_{a <= X <= b}], X ~ N(mu, var), all intervals; a,b mpf (exact rationals)
+    s = iv.sqrt(var)
+    al = (iv.mpf(a) - mu) / s
+    be = (iv.mpf(b) - mu) / s
+    I = [iv.mpf(0)] * (kmax + 1)
+    I[0] = iv_Phi(be) - iv_Phi(al)
+    I[1] = iv_phi(al) - iv_phi(be)
+    for e in range(2, kmax + 1):
+        I[e] = al ** (e - 1) * iv_phi(al) - be ** (e - 1) * iv_phi(be) + (e - 1) * I[e - 2]
+    from math import comb
+    out = []
+    for k in range(kmax + 1):
+        tot = iv.mpf(0)
+        for j in range(k + 1):
+            tot += comb(k, j) * s ** j * I[j] * mu ** (k - j)
+        out.append(tot)
+    return out
+
+def make_wick_iv(mu, Sig):
+    @lru_cache(maxsize=None)
+    def wick(state):
+        if len(state) == 0: return iv.mpf(1)
+        if len(state) == 1: return mu[state[0]]
+        i = state[0]; rest = state[1:]
+        tot = mu[i] * wick(rest)
+        for k, j in enumerate(rest):
+            tot += Sig[i][j] * wick(rest[:k] + rest[k + 1:])
+        return tot
+    return wick
+def poly_expect_iv(P, wick):
+    tot = iv.mpf(0)
+    for e, c in P.items():
+        st = []
+        for i, pp in enumerate(e): st += [i] * pp
+        tot += c * wick(tuple(st))
+    return tot
+# polynomial algebra (iv coefficients, 6 variables)
+def p_affine(idx):
+    P = defaultdict(lambda: iv.mpf(0))
+    P[tuple(1 if k == idx else 0 for k in range(6))] = iv.mpf(1)
+    return P
+def p_mul(A, B):
+    C = defaultdict(lambda: iv.mpf(0))
+    for ea, ca in A.items():
+        for eb, cb in B.items():
+            C[tuple(x + y for x, y in zip(ea, eb))] += ca * cb
+    return C
+def p_scale(A, s):
+    C = defaultdict(lambda: iv.mpf(0))
+    for e, c in A.items(): C[e] = c * s
+    return C
+def p_add(A, B):
+    C = defaultdict(lambda: iv.mpf(0))
+    for e, c in A.items(): C[e] += c
+    for e, c in B.items(): C[e] += c
+    return C
+# polynomial-in-t Wick (conditional on one coordinate); means affine in t (iv coefficients)
+def tp_add(A, B):
+    n = max(len(A), len(B))
+    return [(A[i] if i < len(A) else iv.mpf(0)) + (B[i] if i < len(B) else iv.mpf(0)) for i in range(n)]
+def tp_mul(A, B):
+    C = [iv.mpf(0)] * (len(A) + len(B) - 1)
+    for i, a in enumerate(A):
+        for j, b in enumerate(B): C[i + j] += a * b
+    return C
+def tp_scale(A, s):
+    return [s * a for a in A]
+def conditional_wick_iv(mu, Sig, cond):
+    i0 = cond
+    s00 = Sig[i0][i0]
+    means = [[mu[i] - Sig[i][i0] / s00 * mu[i0], Sig[i][i0] / s00] for i in range(6)]
+    Sc = [[Sig[i][j] - Sig[i][i0] * Sig[i0][j] / s00 for j in range(6)] for i in range(6)]
+    @lru_cache(maxsize=None)
+    def wick(state):
+        if len(state) == 0: return (iv.mpf(1),)
+        if len(state) == 1: return tuple(means[state[0]])
+        i = state[0]; rest = state[1:]
+        tot = tp_mul(list(means[i]), list(wick(rest)))
+        for k, j in enumerate(rest):
+            tot = tp_add(tot, tp_scale(list(wick(rest[:k] + rest[k + 1:])), Sc[i][j]))
+        return tuple(tot)
+    return wick
+def cond_expect_poly_iv(P, cw):
+    tot = (iv.mpf(0),)
+    for e, c in P.items():
+        st = []
+        for i, pp in enumerate(e): st += [i] * pp
+        tot = tp_add(list(tot), tp_scale(list(cw(tuple(st))), c))
+    return tot
+
+# ------------------------------------------------- CB6: band evaluation
+def ser_eval(coeffs, t_iv, tail):
+    # Horner over interval t + symmetric tail
+    v = iv.mpf(0)
+    for j in range(len(coeffs) - 1, -1, -1):
+        v = v * t_iv + coeffs[j]
+    return v + iv.mpf((-tail, tail))
+
+I_LO = mpf('-3.9'); I_HI = mpf('-0.4'); ETA = mpf('0.3'); BB = mpf('2'); AB = mpf('0.8')
+def gram_block_eval(Gjlist, pole_mat, t_iv, Mblock):
+    # interval evaluation of a Gram-block series (kept order J+2) + Cauchy tail;
+    # pole_mat (or None) is the genuine z^-1 coefficient (requires t_iv.a > 0).
+    r_hi = mpf(t_iv.b)
+    tail = gram_tail(Mblock, r_hi)
+    n = len(Gjlist) - 1
+    out = []
+    for a in range(6):
+        row = []
+        for b in range(6):
+            v = iv.mpf(0)
+            for j in range(n, -1, -1):
+                v = v * t_iv + Gjlist[j][a][b]
+            if pole_mat is not None:
+                v = v + pole_mat[a][b] / t_iv
+            row.append(v + iv.mpf((-tail, tail)))
+        out.append(row)
+    return out
+def mp_inverse6(GG):
+    A = [GG[i][:] + [mpf(1) if l == i else mpf(0) for l in range(6)] for i in range(6)]
+    for c in range(6):
+        p = max(range(c, 6), key=lambda rr: abs(A[rr][c]))
+        A[c], A[p] = A[p], A[c]
+        for rr in range(6):
+            if rr != c:
+                f = A[rr][c] / A[c][c]
+                A[rr] = [A[rr][j] - f * A[c][j] for j in range(12)]
+    return [[A[i][6 + j] / A[i][i] for j in range(6)] for i in range(6)]
+def neumann_law(r1, r2):
+    # certified (mu, Sigma) enclosures on [r1, r2]:
+    #   heavy part  = pole-cancelled regular series (order J+2), interval Horner
+    #   correction  = certified bound on (law - partial series), via
+    #     Ginv - Ginv_partial = Ginv * (G - G_partial) * Ginv_partial   (Gram tail tiny)
+    #     with ||Ginv|| Neumann-certified on the sub-interval
+    t_iv = iv.mpf((r1, r2))
+    r_hi = mpf(r2)
+    GP_iv = gram_block_eval(Gj, None, t_iv, M_GP)
+    mid = [[(mpf(GP_iv[i][j].a) + mpf(GP_iv[i][j].b)) / 2 for j in range(6)] for i in range(6)]
+    B = mp_inverse6(mid)
+    Biv = [[iv.mpf(B[i][j]) for j in range(6)] for i in range(6)]
+    E = [[ (iv.mpf(1) if i == j else iv.mpf(0)) - sum((Biv[i][k] * GP_iv[k][j] for k in range(6)), iv.mpf(0)) for j in range(6)] for i in range(6)]
+    rho = mp.sqrt(sum(max(abs(mpf(E[i][j].a)), abs(mpf(E[i][j].b))) ** 2 for i in range(6) for j in range(6)))
+    ck(rho < 0.5, 'CB6 Neumann contraction on [%s,%s]' % (r1, r2))
+    BF = mp.sqrt(sum(mpf(B[i][j]) ** 2 for i in range(6) for j in range(6)))
+    delta = BF * rho / (1 - rho)
+    Gnorm = BF + 6 * delta                          # ||Ginv(z)||_F on the sub-interval
+    GinvPnorm = 6 * sum(H_m[j] * r_hi ** j for j in range(len(H_m)))  # ||Ginv_partial||_F
+    tailG = gram_tail(M_GP, r_hi)
+    tailGY = gram_tail(M_GY, r_hi)
+    tailGYV = gram_tail(M_GYV, r_hi)
+    dGinv = Gnorm * 6 * tailG * GinvPnorm           # ||Ginv - Ginv_partial||_F
+    GYV_H = gram_block_eval(GYVj, GYV_m1, t_iv, M_GYV)   # pole-included partial
+    GYVmax = max(max(abs(mpf(GYV_H[a][b].a)), abs(mpf(GYV_H[a][b].b))) for a in range(6) for b in range(6))
+    zVmax = max(abs(mpf(x.a)) for x in zV) + 1e-50
+    T_mu = 6 * GYVmax * dGinv * zVmax + 6 * tailGYV * Gnorm * zVmax
+    T_Sig = tailGY + 36 * GYVmax ** 2 * dGinv + 2 * 36 * tailGYV * Gnorm * GYVmax + 36 * tailGYV ** 2 * Gnorm
+    ck(T_mu < 1e-2 and T_Sig < 1e-2, 'CB6 law correction small on [%s,%s]' % (r1, r2))
+    mu = [ser_eval([mu_ser[j][a] for j in range(J + 1)], t_iv, T_mu) for a in range(6)]
+    Sig = [[ser_eval([Sig_ser[j][a][b] for j in range(J + 1)], t_iv, T_Sig) for b in range(6)] for a in range(6)]
+    return mu, Sig, T_mu, T_Sig
+def band_lo(r1, r2, label):
+    t_iv = iv.mpf((r1, r2))
+    r_hi = mpf(r2)
+    if r1 > 0:
+        mu, Sig, Tm, Ts = neumann_law(r1, r2)
+    else:
+        mu = [ser_eval([mu_ser[j][a] for j in range(J + 1)], t_iv, MT) for a in range(6)]
+        Sig = [[ser_eval([Sig_ser[j][a][b] for j in range(J + 1)], t_iv, ST) for b in range(6)] for a in range(6)]
+        Tm, Ts = MT, ST
+    mu2 = [ser_eval([mu2_ser[j][a] for j in range(J + 1)], t_iv, 2 * Tm) for a in range(6)]
+    Sig2 = [[ser_eval([Sig2_ser[j][a][b] for j in range(J + 1)], t_iv, 4 * Ts) for b in range(6)] for a in range(6)]
+    r_iv = t_iv
+    # type margins (law-independent): B_cert subset of the type event
+    DM_lo = AB * (-I_HI) - r_hi * BB * BB
+    DS_hi = AB * (I_HI + ETA)
+    ck(DM_lo > 0.05, 'CB6 type margin D_M>0 ' + label)
+    ck(DS_hi < -0.05, 'CB6 type margin D_S<0 ' + label)
+    ck(I_HI + ETA < 0, 'CB6 q_S<0 ' + label)
+    # polynomials p = -D_MD_S and pbar (majorant with (x^2+1)/2 >= |x|)
+    aqM = p_affine(0); aqS = p_affine(1); aaM = p_affine(2); aaS = p_affine(3); abM = p_affine(4); abS = p_affine(5)
+    DM = p_add(p_mul(aaM, aqM), p_scale(p_mul(abM, abM), -r_iv))
+    DS = p_add(p_mul(aaS, aqS), p_scale(p_mul(abS, abS), -r_iv))
+    P = p_scale(p_mul(DM, DS), -1)
+    one = defaultdict(lambda: iv.mpf(0)); one[(0,) * 6] = iv.mpf(1)
+    u1 = p_add(p_scale(p_mul(p_mul(aaM, aqM), p_mul(aaM, aqM)), iv.mpf(1) / 2), p_scale(one, iv.mpf(1) / 2))
+    u1 = p_add(u1, p_scale(p_mul(abM, abM), r_iv))
+    u2 = p_add(p_scale(p_mul(p_mul(aaS, aqS), p_mul(aaS, aqS)), iv.mpf(1) / 2), p_scale(one, iv.mpf(1) / 2))
+    u2 = p_add(u2, p_scale(p_mul(abS, abS), r_iv))
+    PBAR = p_mul(u1, u2)
+    wick = make_wick_iv(tuple(mu), tuple(tuple(row) for row in Sig))
+    # piece 1: E[p 1_{qM in [I_LO, I_HI]}]
+    cw0 = conditional_wick_iv(mu, Sig, 0)
+    cp0 = cond_expect_poly_iv(P, cw0)
+    tm0 = trunc_mom_iv(mu[0], Sig[0][0], I_LO, I_HI, len(cp0) - 1)
+    EqI = sum((c * t for c, t in zip(cp0, tm0)), iv.mpf(0))
+    # rotated coords (delta = qS - qM) already built from the series above
+    aqS2 = p_add(p_affine(0), p_affine(1))
+    v1 = p_add(p_scale(p_mul(p_mul(aaM, aqM), p_mul(aaM, aqM)), iv.mpf(1) / 2), p_scale(one, iv.mpf(1) / 2))
+    v1 = p_add(v1, p_scale(p_mul(abM, abM), r_iv))
+    v2 = p_add(p_scale(p_mul(p_mul(aaS, aqS2), p_mul(aaS, aqS2)), iv.mpf(1) / 2), p_scale(one, iv.mpf(1) / 2))
+    v2 = p_add(v2, p_scale(p_mul(abS, abS), r_iv))
+    PBAR2 = p_mul(v1, v2)
+    Ebar = poly_expect_iv(PBAR, wick)
+    wick2 = make_wick_iv(tuple(mu2), tuple(tuple(row) for row in Sig2))
+    Ebar2 = poly_expect_iv(PBAR2, wick2)
+    ck(Ebar.a <= Ebar2.b and Ebar2.a <= Ebar.b, 'CB6 pbar enclosures intersect ' + label)
+    Epbar2 = poly_expect_iv(p_mul(PBAR, PBAR), wick)
+    def piece_outside(PP, muX, SigX, cond, a, b, Etot, oneside=None, force_chern=False):
+        s00 = SigX[cond][cond]
+        if (not force_chern) and s00.a > 1e-4:
+            cw = conditional_wick_iv(muX, SigX, cond)
+            cp = cond_expect_poly_iv(PP, cw)
+            tm = trunc_mom_iv(muX[cond], SigX[cond][cond], a, b, len(cp) - 1)
+            return Etot - sum((c * t for c, t in zip(cp, tm)), iv.mpf(0))
+        # near-singular: exact Gaussian tail (certified Mills via iv_Phi) + Cauchy-Schwarz
+        sb = mp.sqrt(mpf(s00.b))
+        if oneside == 'gt':     # P(X > b), b below mean
+            t0 = (mpf(b) - mpf(muX[cond].b)) / sb
+        elif oneside == 'lt':   # P(X < a), a above mean
+            t0 = (mpf(muX[cond].a) - mpf(a)) / sb
+        else:                   # P(|X| > b), b = eta, a = -eta
+            m = max(abs(mpf(muX[cond].a)), abs(mpf(muX[cond].b)))
+            t0 = (mpf(b) - m) / sb
+        ck(t0 > 2, 'CB6 Chernoff tail margin ' + label)
+        P = iv_Phi(iv.mpf(-t0)).b
+        val = mp.sqrt(mpf(Epbar2.b) * mpf(P))
+        return iv.mpf((0, val))
+    Edelta = piece_outside(PBAR2, mu2, Sig2, 1, -ETA, ETA, Ebar2, force_chern=True)
+    Ebeta = piece_outside(PBAR, mu, Sig, 4, -BB, BB, Ebar)
+    EaM = piece_outside(PBAR, mu, Sig, 2, mpf('-100'), -AB, Ebar, oneside='gt', force_chern=True)
+    EaS = piece_outside(PBAR, mu, Sig, 3, AB, mpf('100'), Ebar, oneside='lt', force_chern=True)
+    ck(Edelta.b > -1e-6 and Ebeta.b > -1e-6, 'CB6 piece enclosures sane ' + label)
+    lo = EqI - Edelta - Ebeta - EaM - EaS
+    emit('CB6 %-14s lo in [%s, %s]  (EqI %s, deltas %.2e %.2e %.1e %.1e)' % (
+        label, mp.nstr(mpf(lo.a), 12), mp.nstr(mpf(lo.b), 6), mp.nstr(mpf(EqI.a), 8),
+        float(mpf(Edelta.b)), float(mpf(Ebeta.b)), float(mpf(EaM.b)), float(mpf(EaS.b))))
+    return lo
+
+SUBS = [(mpf('0'), mpf('0.0025')), (mpf('0.0025'), mpf('0.005')), (mpf('0.005'), mpf('0.01')), (mpf('0.01'), mpf('0.02')),
+        (mpf('0.02'), mpf('0.03')), (mpf('0.03'), mpf('0.04')), (mpf('0.04'), mpf('0.05'))]
+glomin = None
+for (r1, r2) in SUBS:
+    lab = '(%s,%s]' % (mp.nstr(r1, 4), mp.nstr(r2, 4)) if r1 > 0 else '(0,%s]' % mp.nstr(r2, 4)
+    lo = band_lo(r1, r2, lab)
+    ck(lo.a > REQ, 'CB6 band lo > c_Z on ' + lab)
+    mrg = (mpf(lo.a) - REQ) / REQ
+    emit('CB6 %s CERTIFIED: E[G_r] >= %s > c_Z = 1.6154892676..., margin %.2f%%' % (
+        lab, mp.nstr(mpf(lo.a), 15), float(mrg * 100)))
+    glomin = lo.a if glomin is None else min(glomin, lo.a)
+emit('CB6 PASS: uniform certified floor on (0, 0.05]: min lo = %s' % mp.nstr(mpf(glomin), 15))
+
+# ------------------------------------------------- CB7: rung cross-check + MC
+# independent cross-check of the band formula at the rung point r = 0.05
+# (direct point law from ce.cov + same Wick formula, no series machinery)
+def direct_point_law(rpt):
+    M = (-rpt / 2, mpf(0)); S = (rpt / 2, mpf(0))
+    V = [[(M, (0, 0), mpf(1))], [(M, (1, 0), mpf(1))], [(M, (0, 1), mpf(1))],
+         [(S, (1, 0), 1 / rpt), (M, (1, 0), -1 / rpt)], [(S, (0, 1), 1 / rpt), (M, (0, 1), -1 / rpt)],
+         [(S, (0, 0), 1 / rpt ** 3), (M, (0, 0), -1 / rpt ** 3), (S, (1, 0), -1 / (2 * rpt ** 2)), (M, (1, 0), -1 / (2 * rpt ** 2))]]
+    Yv = [[(M, (0, 2), mpf(1))], [(S, (0, 2), mpf(1))],
+          [(M, (2, 0), 1 / rpt)], [(S, (2, 0), 1 / rpt)],
+          [(M, (1, 1), 1 / rpt)], [(S, (1, 1), 1 / rpt)]]
+    def lc(FA, FB):
+        tot = mpf(0)
+        for (xa, aa, ca) in FA:
+            for (xb, ab, cb) in FB:
+                tot += ca * cb * ce.cov(aa, ab, xa[0] - xb[0], xa[1] - xb[1], mode='mpf')
+        return tot
+    GP = [[lc(V[i], V[j]) for j in range(6)] for i in range(6)]
+    GY = [[lc(Yv[i], Yv[j]) for j in range(6)] for i in range(6)]
+    GYV = [[lc(Yv[i], V[j]) for j in range(6)] for i in range(6)]
+    zVd = [mpf(6) / 5, 0, 0, 0, 0, mpf(-1) / 6]
+    def solve6(GG, rhs):
+        A = [GG[i][:] + [rhs[i]] for i in range(6)]
+        for c in range(6):
+            p = max(range(c, 6), key=lambda rr: abs(A[rr][c]))
+            A[c], A[p] = A[p], A[c]
+            for rr in range(6):
+                if rr != c:
+                    f = A[rr][c] / A[c][c]
+                    A[rr] = [A[rr][j] - f * A[c][j] for j in range(7)]
+        return [A[i][6] / A[i][i] for i in range(6)]
+    csol = solve6(GP, zVd)
+    muD = [sum(GYV[i][k] * csol[k] for k in range(6)) for i in range(6)]
+    Gic = [solve6(GP, [1 if l == k else 0 for l in range(6)]) for k in range(6)]
+    SigD = [[GY[i][j] - sum(GYV[i][k] * sum(Gic[k][l] * GYV[j][l] for l in range(6)) for k in range(6)) for j in range(6)] for i in range(6)]
+    return muD, SigD
+muD, SigD = direct_point_law(RMAX)
+muN, SigN, TmN, TsN = neumann_law(RMAX, RMAX)
+for a in range(6):
+    ck(muN[a].a <= muD[a] <= muN[a].b, 'CB7 Neumann mu contains direct mu at rung, coord %d' % a)
+for a in range(6):
+    for b in range(6):
+        ck(SigN[a][b].a <= SigD[a][b] <= SigN[a][b].b, 'CB7 Neumann Sigma contains direct, %d %d' % (a, b))
+emit('CB7 PASS: Neumann (mu, Sigma) at r=0.05 contain the independent direct point law')
+
+import numpy as np
+rng = np.random.default_rng(90210)
+for rpt in [0.05, 0.01]:
+    muMc, SigMc, _Tm, _Ts = neumann_law(mpf(rpt), mpf(rpt))
+    muNp = np.array([float(mpf(x.a) + mpf(x.b)) / 2 for x in muMc])
+    SigNp = np.array([[float(mpf(SigMc[a][b].a) + mpf(SigMc[a][b].b)) / 2 for b in range(6)] for a in range(6)])
+    SigNp = (SigNp + SigNp.T) / 2
+    LA = np.linalg.cholesky(SigNp + 1e-14 * np.eye(6))
+    NMC = 400000
+    U = rng.standard_normal((NMC, 6))
+    Y = muNp[None, :] + U @ LA.T
+    qM, qS, aM, aS, bM, bS = Y.T
+    DMv = aM * qM - rpt * bM ** 2
+    DSv = aS * qS - rpt * bS ** 2
+    G = np.where((qM < 0) & (DMv > 0) & (DSv < 0), -DMv * DSv, 0.0)
+    est = G.mean(); sig = G.std(ddof=1) / np.sqrt(NMC)
+    ck(est + 6 * sig >= float(mpf(glomin)), 'CB7 MC consistency (est >= certified lo) at r=%g' % rpt)
+    emit('CB7 MC DIAGNOSTIC r=%.2f: E[G] = %.5f +- %.5f (>= certified lo %.5f OK; NOT load-bearing)' % (
+        rpt, est, sig, float(mpf(glomin))))
+
+# ------------------------------------------------- CB8: receipts
+print('CB8 total runtime %.1fs' % (time.time() - t0), file=sys.stderr)
+emit('ALL_CHECKS_PASS')
+body = '\n'.join(OUT) + '\n'
+with open('band_out.txt', 'w') as f:
+    f.write(body)
+emit('sha256(transcript-above) = ' + hashlib.sha256(body.encode()).hexdigest())

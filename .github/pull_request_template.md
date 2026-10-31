@@ -1,40 +1,29 @@
-## What this changes
+## Change and purpose
 
-<!-- One or two sentences. Name the exact object(s). -->
+<!-- What a reader or contributor can do after this change. Link the existing
+     work discussion. Name the affected scope: presentation, engineering,
+     mathematics, or a combination. -->
 
-## Type of change
+## Current disposition
 
-- [ ] Research content (a new or amended mathematical object)
-- [ ] Review verdict
-- [ ] Register update
-- [ ] Governance / protocol
-- [ ] Tooling, tests or CI
-- [ ] Documentation only
-
-## Status discipline
-
-- [ ] No claim status was promoted without the exact predicate that licenses it
-- [ ] Frozen bodies were not edited in place; any change is a numbered successor
-- [ ] `claims/graph.json` updated if a claim or premise status moved, with `source` cited
-- [ ] `registers/json/work_events.json` appended (never rewritten) if this is a claim or publication
-- [ ] Nothing composes the 2D track with the 3D lifetime track
-- [ ] Nothing moves the prize track into the q0 dependency graph
-
-## If this is a review
-
-- [ ] Exact object correctness verdict recorded
-- [ ] Scope / dependency verdict recorded
-- [ ] Reviewer authorship and source exposure disclosed
-- [ ] Organizational independence recorded **separately** (same provider = zero credit)
+<!-- Keep this block current on material changes; link detailed records.
+     Head and integration owner:
+     Claim / handoff, if applicable:
+     Successor of <session> since <comment>; retained stops; unavailable artifacts:
+     Completed review scopes and source identities:
+     Unresolved finding IDs and next action:
+     Use "none" where accurate; an offer is not an observed pickup or review. -->
 
 ## Verification
 
-```
-python3 tools/registers_import.py --check
-python3 tools/registers_check.py
-python3 tools/claims_check.py
-python3 tools/verify_manifests.py
-python3 -m pytest -q
-```
+<!-- Commands actually run, their results and the tested source. Include relevant
+     visual/keyboard checks for UI, failure controls for engineering repairs,
+     and exact hypotheses/dependencies for mathematical changes. Required hosted
+     checks must pass at the current tested commit; link their actual results. -->
 
-- [ ] All of the above pass locally
+## Evidence and limits
+
+<!-- State material remaining uncertainty and link the canonical evidence record.
+     For reviews, disclose actual authorship/exposure and independence credit.
+     For scientific changes, preserve exact source/review scope and the applicable
+     acceptance predicates. Omit unrelated boilerplate; a merge is not a theorem. -->

@@ -1,44 +1,58 @@
-# AGENTS.md
+# Agent entry
 
-This file points; it does not legislate. The rules for working in this
-repository are in [`CLAUDE.md`](CLAUDE.md), and they bind every agent here,
-whatever its provider or name.
+**Current authority:** [CBZ-0 governance](GOVERNANCE.md) and the owner's
+[expanded Master Directive](governance/MASTER_DIRECTIVE_20261029_SWARM.txt), received 29 October 2026.
+The [verbatim native owner record](https://github.com/d6g8k5htny-coder/main/issues/686#issuecomment-6511339492)
+has SHA256 `83ac6552fc6406e95213a1cfd6e8636095215e11aac6e3db473cd42c22275a8b`.
+Layer A remains immutable. Earlier operational freezes, family quorums,
+privacy holds and approval/custody ceremonies are historical where they
+conflict with this directive; actual platform permissions remain binding.
 
-## Where control lives
+Read [STATUS.md](STATUS.md) for the observed baseline state,
+[DECISIONS.md](DECISIONS.md) for decisions and handoffs, and
+[CONFLICTS.md](CONFLICTS.md) for incompatible work. A current intermediate
+handoff is not evidence that CBZ-0 or a verification gate has passed.
 
-- **Drive is the governing record.** The current entry point is the Research
-  Home (Drive id `180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8`); the current
-  operational policy is OP-PROT-019-v1.1 / R17 (Drive id
-  `1hBph5Fpxd5dVrolNkvzU8nb7xpxUiUdc`, reading copy at
-  `governance/protocols/OP-PROT-019-v1.1_R17.md`). The R17 Work Events register
-  is the claim/disposition log; this repository keeps no second one.
-- **GitHub is the execution workspace**: code, tests, branches, pull requests,
-  receipts. A merge is not a promotion. A green run is a run.
+## Execute as a team
 
-## The execution contract
+Use the fluid roles and conflict protocol in GOVERNANCE.md. Ownership is a
+coordination hint, not a lock. Work-steal when blocked, coordinate for one
+work cycle, then proceed with a logged source-bound judgment rather than
+wait for peer or human approval. No shared `/root` alias is an exclusive
+canonical-file owner. Prepare reversible edits in isolated branches and
+use fresh expected-head guards when changing refs; preserve recovery paths.
 
-- Mirrored byte-exact under `drive/deltas/2026-09-18/DG-EXEC-20260918-49291487/`
-  with the disposition **PROPOSED EXECUTION CONTRACT / NOT DEPLOYED**. Nothing
-  in this repository changes that disposition.
-- Its repository-side half is [`engine/bridge/`](engine/bridge/README.md):
-  work orders, run receipts, `tools/bridge_check.py`. Under the contract,
-  **work proceeds only under a work order authorized at the owner boundary**
-  (an owner-side Drive record, transcribed as `verification_status:
-  VERIFIED_BY_OWNER_BOUNDARY`; this repository pins that record, cannot
-  verify it, and confers nothing). None exists: `engine/bridge/orders/` is
-  empty. An unverified order is PREPARED-only.
-- **Nothing there is enforcement.** No branch protection, credential, access
-  audit or Drive return route exists because that code exists.
+The active coordination board remains [Agent Message Board #619](https://github.com/d6g8k5htny-coder/main/issues/619).
+[#684](https://github.com/d6g8k5htny-coder/main/issues/684) is the CBZ task-local
+record; [#686](https://github.com/d6g8k5htny-coder/main/issues/686) records owner
+source. No board rollover or foreign release is inferred from those links.
 
-## What no agent does here
+## Verify what changed
 
-- **No status moves.** No claim, premise, obligation, gate or grade is
-  promoted, closed, discharged or reclassified by any commit, receipt, test or
-  review. Only an operator decision under `governance/` does that.
-- **Never open `99_DO_NOT_OPEN`** (Drive id `1VTiBaRlBvHGptiXqoEli4E5630nO7mNb`)
-  for authority, proofs, certificates or "latest" status. Metadata only.
-- Never edit exported source data or a frozen body in place; never cite
-  `legacy/`, `quarantine/` or the vault as evidence.
+Read current files and refs before work. A stale checkout, shallow ancestry,
+green badge or resolved review thread does not establish the current tested
+composition. Record exact source, actual commands, exits and limitations.
+Preserve failing tests and all mathematical hypotheses and bounds. Empirical
+checks, engineering CI, kernel verification, statement alignment and scientific
+interpretation have distinct scopes; report only the observed property.
 
-Dylan Roy is the single final authority for canonical promotion, external
-release, permanent deletion and machine-root replacement.
+For formal changes, read [formal verification](docs/FORMAL_VERIFICATION.md)
+and the [required-check contract](docs/FORMAL_REQUIRED_CHECKS.md).
+For site changes, read the [site verification guide](docs/site/README.md#verify-the-reader-experience);
+after changes under `docs/site` or `docs/public-math`, include outputs from
+`python -B tools/site_asset_release.py` and its `--check` invocation.
+[Workspace and tools](docs/WORKSPACE.md) provides checkout and command details.
+
+## Historical operating records
+
+The [15 October mandate](governance/OWNER_MANDATE_20261015.md),
+[standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md),
+[old review-family decision](governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md)
+and [prior workflow](governance/OP-WORKFLOW-20260930.md) retain historical
+source, authorship and execution facts. They do not reinstate conflicting
+approval or exclusive-ownership requirements. Report actual reviewer lineage
+and exposure without inventing independence or human review.
+
+Keep personal or unrelated sensitive material out of project publication.
+Authorized project work still respects actual access controls and the scope
+of the source being handled; readability alone is not a reason to expose it.
