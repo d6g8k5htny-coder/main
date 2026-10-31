@@ -1,0 +1,78 @@
+{
+  "schema": "cbz.public-intake-discovery-tool.v1",
+  "path": "tools/public_intake_check.py",
+  "purpose": "Read-only complete bounded changed-path/lane discovery with original public intake package/source/artifact controls; no scientific status promotion.",
+  "base_commit": "c93cec70223281492709ff74ca84fed5dc6e40e8",
+  "source_hashes": [
+    {
+      "path": "tools/public_intake_check.py",
+      "sha256": "94f8a6fec3b4d68aaa677c278533c6aa75c0e2b1217b87787480319d64d1f492"
+    },
+    {
+      "path": "tests/test_public_intake_discovery.py",
+      "sha256": "7bf2ca353956c624b060db05cd5de593ff96ea280e7a9df2c84a1d03cebc0f19"
+    },
+    {
+      "path": "tests/test_public_intake.py",
+      "sha256": "d4c28d0972de547b3f262659e863170b085aad3a170afc3cbd1a125e3d140152"
+    },
+    {
+      "path": "tests/test_public_intake_artifact_identity_control.py",
+      "sha256": "51a7b8c70c1b06ebf092de3e32af53f8dd48d5efc5dd7480efd85e3064c431e0"
+    },
+    {
+      "path": ".github/workflows/public-intake.yml",
+      "sha256": "c8ee83ad38db05d8f0ce0a8ad944408ebac7e4f3a12b0d31fe4e270c46890c87"
+    },
+    {
+      "path": ".github/workflows/public-intake-controls.yml",
+      "sha256": "c5df17775ab9591a2984b2f61b7bc7e8342dcd0251148616a161338ca8c076f3"
+    }
+  ],
+  "self_test": [
+    "python",
+    "-B",
+    "-S",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_public_intake*.py"
+  ],
+  "optimized_self_test": [
+    "python",
+    "-B",
+    "-O",
+    "-S",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_public_intake*.py"
+  ],
+  "self_verification": {
+    "original_tests": 89,
+    "new_tests": 19,
+    "red_assertion_failures": 13,
+    "focused_tests_normal": 108,
+    "focused_tests_optimized": 108,
+    "strict_source_mutants_normal": 14,
+    "strict_source_mutants_optimized": 14,
+    "review": "PASS_SCOPED_ENGINEERING; same-family engineering review only",
+    "scope": "Finite engineering routing/package controls only, not mathematical certification or full regression/hosted CI.",
+    "hosted_controls_selection": "Public intake checker controls runs all108focused controls in normal/optimized modes; trusted-default pull_request_target workflow unchanged; actual hosted outcome not inferred."
+  },
+  "usage": "CI invokes python3 -B -I tools/public_intake_check.py with the existing trusted GitHub event and read-only API configuration. Local no-network self-tests are listed above.",
+  "maintenance_owner": "none \u2014 self-contained existing checker",
+  "criteria_served": [
+    "G5",
+    "G6",
+    "G10",
+    "G11"
+  ],
+  "documentation": "tools/PUBLIC_INTAKE_DISCOVERY.md"
+}
