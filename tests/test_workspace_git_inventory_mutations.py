@@ -66,13 +66,13 @@ class MutationRunnerTests(unittest.TestCase):
             control += 'InventoryTests.setUp=_controlled_setup\n'
         with copied.open('a') as stream:
             stream.write(control)
-        # All ten scratch sources deliberately survive. Only the lifecycle
+        # All thirteen scratch sources deliberately survive. Only the lifecycle
         # assertion fails; no canonical test or production source is weakened.
         result = self.run_cli(override='m.CASES=[(n,o,o,t) for n,o,_new,t in m.CASES]')
         self.assertEqual(result.returncode, 1, result.stderr + result.stdout)
         report = self.report()
         self.assertTrue(report['baseline']['passed'])
-        self.assertEqual(len(report['mutations']), 10)
+        self.assertEqual(len(report['mutations']), 13)
         self.assertFalse(report['all_detected'])
         self.assertFalse(report['complete'])
         for row in report['mutations']:
@@ -156,7 +156,7 @@ class MutationRunnerTests(unittest.TestCase):
         report = self.report()
         self.assertTrue(report['baseline']['passed'])
         self.assertFalse(report['complete'])
-        self.assertEqual(len(report['mutations']), 10)
+        self.assertEqual(len(report['mutations']), 13)
         self.assertTrue(all(not r['detected_by_assertion'] for r in report['mutations']))
         return report
 
@@ -192,16 +192,16 @@ class MutationRunnerTests(unittest.TestCase):
         self.output = self.root / 'passing-baseline-subtests'
         result = self.run_cli()
         self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
-        self.assertEqual(self.report()['baseline']['subtests'], 17)
+        self.assertEqual(self.report()['baseline']['subtests'], 20)
         self.assertFalse(self.report()['baseline']['passed'])
         self.assertEqual(self.report()['mutations'], [])
 
     def test_loader_cannot_replace_population_with_duplicate_method(self):
         baseline = self.reject_population(
             'def load_tests(loader,tests,pattern):\n'
-            '    return unittest.TestSuite(InventoryTests("test_unborn_and_detached_heads_are_observations_not_errors") for _ in range(17))\n',
+            '    return unittest.TestSuite(InventoryTests("test_unborn_and_detached_heads_are_observations_not_errors") for _ in range(20))\n',
             loaded_valid=False)
-        self.assertEqual(baseline['tests_run'], 17)
+        self.assertEqual(baseline['tests_run'], 20)
         self.assertEqual(len(set(baseline['loaded_tests'])), 1)
         self.assertEqual(len(set(baseline['body_completed_tests'])), 1)
 
@@ -232,12 +232,12 @@ class MutationRunnerTests(unittest.TestCase):
             'class RepeatedExecution(unittest.TestSuite):\n'
             '    def run(self,result,debug=False):\n'
             '        case=next(c for c in self._tests[0] if c._testMethodName=="test_unborn_and_detached_heads_are_observations_not_errors")\n'
-            '        for _ in range(17):case.run(result)\n'
+            '        for _ in range(20):case.run(result)\n'
             '        return result\n'
             'def load_tests(loader,tests,pattern):return RepeatedExecution(tests)\n', loaded_valid=True)
-        self.assertEqual(baseline['tests_run'], 17)
-        self.assertEqual(baseline['body_calls'], 17)
-        self.assertEqual(len(set(baseline['loaded_tests'])), 17)
+        self.assertEqual(baseline['tests_run'], 20)
+        self.assertEqual(baseline['body_calls'], 20)
+        self.assertEqual(len(set(baseline['loaded_tests'])), 20)
         self.assertEqual(len(set(baseline['started_tests'])), 1)
         self.assertEqual(len(set(baseline['body_completed_tests'])), 1)
 
@@ -250,8 +250,8 @@ class MutationRunnerTests(unittest.TestCase):
         report = self.report()
         self.assertTrue(report['complete'])
         self.assertTrue(report['baseline']['passed'])
-        self.assertEqual(report['baseline']['tests_run'], 17)
-        self.assertEqual(len(report['mutations']), 10)
+        self.assertEqual(report['baseline']['tests_run'], 20)
+        self.assertEqual(len(report['mutations']), 13)
         self.assertTrue(all(row['detected_by_assertion'] for row in report['mutations']))
         self.assertEqual(stat.S_IMODE(self.output.stat().st_mode), 0o700)
         for path in self.output.iterdir():

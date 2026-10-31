@@ -326,6 +326,53 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual([w['path']for w in d['worktrees']],[str(work)])
         self.assertTrue(any(s['path']==str(metadata)for s in d['stores']))
 
+    def test_core_worktree_metadata_reports_configured_worktree_status(self):
+        outside=Path(self.temp.name)/'outside-work';outside.mkdir()
+        layouts={}
+        for name,work in (('inside-metadata',self.root/'inside-work'),('outside-metadata',outside)):
+            work.mkdir(exist_ok=True);metadata=self.root/name
+            subprocess.check_call(['git','init','-q','--bare',str(metadata)])
+            for key,value in (('core.bare','false'),('core.worktree',str(work)),
+                              ('user.name','Census Test'),('user.email','census@example.invalid')):
+                subprocess.check_call(['git','--git-dir',str(metadata),'config',key,value])
+            (work/'tracked').write_text('initial\n')
+            for args in (('add','tracked'),('commit','-qm','initial')):
+                subprocess.check_call(['git','--git-dir',str(metadata),'--work-tree',str(work),*args])
+            (work/'tracked').write_text('dirty\n');(work/'untracked').write_text('new\n')
+            self.assertFalse((work/'.git').exists(),'control: the work tree is configured, not discoverable')
+            layouts[str(metadata)]=work
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        found={w['path']:w for w in d['worktrees']}
+        self.assertEqual(sorted(found),sorted(layouts))
+        for metadata in layouts:
+            self.assertEqual(sorted((r['xy'],r['path'])for r in found[metadata]['status']),
+                             [(' M','tracked'),('??','untracked')])
+
+    def test_absorbed_submodule_metadata_is_not_a_second_worktree(self):
+        upstream=Path(self.temp.name)/'upstream';upstream.mkdir();self.git(upstream,'init','-q')
+        self.git(upstream,'config','user.name','Census Test');self.git(upstream,'config','user.email','census@example.invalid')
+        (upstream/'file').write_text('upstream\n');self.git(upstream,'add','file');self.git(upstream,'commit','-qm','upstream')
+        top=self.repo('top');self.git(top,'-c','protocol.file.allow=always','submodule','add','-q',str(upstream),'sub')
+        self.git(top,'commit','-qm','add submodule');(top/'sub/file').write_text('dirty\n')
+        metadata=top/'.git/modules/sub'
+        self.assertEqual(self.git(metadata,'rev-parse','--show-toplevel').decode().strip(),str(top/'sub'),
+                         'control: the absorbed metadata configures its work tree')
+        d=self.census();self.assertTrue(d['complete'],d['errors'])
+        self.assertEqual(sorted(w['path']for w in d['worktrees']),[str(top),str(top/'sub')])
+        sub=next(w for w in d['worktrees']if w['path']==str(top/'sub'))
+        self.assertEqual([(r['xy'],r['path'])for r in sub['status']],[(' M','file')])
+
+    def test_separate_git_dir_outside_root_is_incomplete(self):
+        metadata=self.root/'metadata';work=Path(self.temp.name)/'outside-work'
+        subprocess.check_call(['git','init','-q','--separate-git-dir',str(metadata),str(work)])
+        self.git(work,'config','user.name','Census Test');self.git(work,'config','user.email','census@example.invalid')
+        (work/'tracked').write_text('initial\n');self.git(work,'add','tracked');self.git(work,'commit','-qm','initial')
+        (work/'tracked').write_text('dirty\n')
+        d=self.census();self.assertFalse(d['complete'])
+        self.assertEqual([(e['kind'],e['path'])for e in d['errors']],[('unlocated_worktree',str(metadata))])
+        self.assertEqual(d['worktrees'],[])
+        self.assertTrue(any(s['path']==str(metadata)for s in d['stores']))
+
     def test_remote_redaction_preserves_all_filesystem_identity_fields(self):
         self.root=self.root/'root?token=root-value';self.root.mkdir()
         repo=self.repo('repo?token=first');second=self.repo('repo?token=second')

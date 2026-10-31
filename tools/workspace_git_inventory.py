@@ -493,6 +493,7 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
                   directories_visited=directory_count, empty_discovery=not roots)
     stores = {}
     candidates = {}
+    metadata_worktrees = []
     for path in roots:
         if reader.expired():
             reader.error('deadline', path, 'repository census')
@@ -526,13 +527,30 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
             stores[common_path] = store, settings
             for row in registered:
                 worktree = Path(row['worktree'])
-                # A separate-git-dir repository lists its metadata directory as its main worktree.
+                # Git lists a metadata directory as the main worktree when the work tree
+                # is configured (core.worktree, absorbed submodules) or unknown to the
+                # metadata (--separate-git-dir). Decide after discovery, below.
                 if not row.get('bare') and worktree.is_dir() and _is_git_metadata(worktree, reader):
+                    metadata_worktrees.append((str(worktree.resolve()), common_path, settings))
                     continue
                 candidates[str(worktree.resolve())] = common_path
         inside = reader.run(path, 'rev-parse', '--is-inside-work-tree')
         if inside is not None and _line(inside[1]) == 'true':
             candidates[path] = common_path
+    unlocated = {}
+    for metadata, common_path, settings in metadata_worktrees:
+        top = reader.run(metadata, 'rev-parse', '--show-toplevel', allowed=(0, 128),
+                         expected_stderr_on=(128,), settings=settings)
+        if top is None:
+            continue
+        if top[0] == 0:
+            # A configured work tree that discovery did not reach is censused through
+            # its metadata directory, where Git honors core.worktree; one already
+            # discovered for the same store is not censused twice.
+            if candidates.get(str(Path(_line(top[1])).resolve())) != common_path:
+                candidates[metadata] = common_path
+        else:
+            unlocated[common_path] = metadata
     # Include worktree-specific config, then propagate safe filter/remote
     # overrides through Git's own recursive submodule status subprocesses too.
     per_worktree_settings = {}
@@ -583,6 +601,13 @@ def inventory(root, *, git='git', command_timeout=10, total_timeout=1800, max_co
         final_head = reader.run(path, 'rev-parse', '--verify', '--quiet', 'HEAD', allowed=(0, 1), settings=settings)
         if head is not None and final_head is not None and head != final_head:
             reader.error('changed_during_observation', path, 'HEAD identity')
+    # A --separate-git-dir store records no work tree; its main worktree is covered
+    # only if a censused worktree uses that store as its own Git directory.
+    for common_path, metadata in sorted(unlocated.items()):
+        if not any(work['common_store'] == common_path and work.get('git_dir') and
+                   str(Path(work['git_dir']).resolve()) == common_path for work in report['worktrees']):
+            reader.error('unlocated_worktree', metadata, 'worktree census',
+                         message='Main worktree is not recorded by its separate Git directory and was not discovered under the root')
     report['stores'] = [stores[path][0] for path in sorted(stores)]
     report.update(finished_at=_now(), git_commands=reader.commands, complete=not reader.errors)
     return report

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the Git census baseline and ten adverse mutations, not Git cleanliness.
+"""Verify the Git census baseline and thirteen adverse mutations, not Git cleanliness.
 
 Requires a NEW --output directory. Retains private logs, hashes and results there;
 mutant sources exist only in an owned temporary directory. Uses Python stdlib.
@@ -18,8 +18,8 @@ import sys
 import tempfile
 
 
-REQUIRED_BASELINE_TESTS = 17
-REQUIRED_MUTATIONS = 10
+REQUIRED_BASELINE_TESTS = 20
+REQUIRED_MUTATIONS = 13
 EXPECTED_BASELINE_METHODS = (
     'test_nested_linked_state_refs_stash_and_redacted_remotes',
     'test_submodule_bare_store_shallow_and_internal_symlink',
@@ -38,6 +38,9 @@ EXPECTED_BASELINE_METHODS = (
     'test_stash_enumeration_does_not_run_signature_verifier',
     'test_conflicted_submodule_reports_every_index_stage',
     'test_separate_git_dir_metadata_is_not_a_worktree_candidate',
+    'test_core_worktree_metadata_reports_configured_worktree_status',
+    'test_absorbed_submodule_metadata_is_not_a_second_worktree',
+    'test_separate_git_dir_outside_root_is_incomplete',
 )
 
 CASES = [
@@ -64,6 +67,16 @@ CASES = [
     ('metadata-worktree-candidate',
      "if not row.get('bare') and worktree.is_dir() and _is_git_metadata(worktree, reader):", 'if False:',
      'test_separate_git_dir_metadata_is_not_a_worktree_candidate'),
+    ('drop-configured-metadata-worktree',
+     'if candidates.get(str(Path(_line(top[1])).resolve())) != common_path:', 'if False:',
+     'test_core_worktree_metadata_reports_configured_worktree_status'),
+    ('duplicate-configured-metadata-worktree',
+     'if candidates.get(str(Path(_line(top[1])).resolve())) != common_path:', 'if True:',
+     'test_absorbed_submodule_metadata_is_not_a_second_worktree'),
+    ('ignore-unlocated-main-worktree',
+     "        if not any(work['common_store'] == common_path and work.get('git_dir') and",
+     "        if False and not any(work['common_store'] == common_path and work.get('git_dir') and",
+     'test_separate_git_dir_outside_root_is_incomplete'),
 ]
 
 DRIVER = r'''
