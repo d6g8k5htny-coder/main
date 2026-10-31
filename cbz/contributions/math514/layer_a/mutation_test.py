@@ -177,6 +177,26 @@ def classify_test_result(value, code, expected_ids=None):
     return 'ERROR'
 
 
+def oracle_assertion(test,err):
+    """Credit an AssertionError only when the selected test's own module raised it.
+
+    The innermost traceback frame outside unittest and its mock assertion helpers
+    must lie in that module's file; an AssertionError raised inside the checker
+    under test is a crash, not an oracle.
+    """
+    if not issubclass(err[0],AssertionError):
+        return False
+    frame=None;tb=err[2]
+    while tb is not None:
+        scope=tb.tb_frame.f_globals
+        if '__unittest' not in scope and scope.get('__name__')!='unittest.mock':
+            frame=tb.tb_frame
+        tb=tb.tb_next
+    path=getattr(sys.modules.get(type(test).__module__),'__file__',None)
+    return (frame is not None and path is not None
+            and Path(frame.f_code.co_filename).resolve()==Path(path).resolve())
+
+
 def ordinary_sync_method(method):
     """Only ordinary synchronous methods, including every wraps-linked layer."""
     try:
@@ -517,7 +537,7 @@ def execute_test_suite(suite, bindings=None, invalid=()):
             super().stopTest(test)
         def addFailure(self,test,err):
             phase=getattr(test,'_cbz_phase','unknown')
-            is_body=(phase == 'body' and issubclass(err[0],AssertionError)
+            is_body=(phase == 'body' and oracle_assertion(test,err)
                      and err[1] is getattr(test,'_cbz_body_exception',None))
             if is_body:
                 receipt['body_assertion_ids'].append(test.id())
@@ -533,7 +553,7 @@ def execute_test_suite(suite, bindings=None, invalid=()):
             receipt['subtests']+=1
             phase=getattr(test,'_cbz_phase','unknown')
             outcome=('success' if err is None else
-                     'assertion' if issubclass(err[0],AssertionError) else 'error')
+                     'assertion' if oracle_assertion(test,err) else 'error')
             scoped=(phase=='body' and getattr(test,'_cbz_body_active',False)
                     and getattr(subtest,'test_case',None) is test)
             if not scoped:

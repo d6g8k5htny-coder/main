@@ -41,6 +41,14 @@ class MutationHarnessRules(unittest.TestCase):
             r=mutation_test.run_one('crash','source_checks.py',lambda s:'raise RuntimeError("crash")\n'+s,Path(tmp))
             self.assertEqual(r['outcome'],'ERROR',r)
 
+    def test_checker_assertion_crash_is_not_counted_as_behavioral_kill(self):
+        # An AssertionError raised inside the checker is a crash, not a test oracle.
+        crash='def check_python(text, mathematical=True):\n'
+        with tempfile.TemporaryDirectory() as tmp:
+            r=mutation_test.run_one('assertion-crash','source_checks.py',
+                lambda s:s.replace(crash,crash+'    raise AssertionError("checker runtime crash")\n',1),Path(tmp))
+            self.assertEqual(r['outcome'],'ERROR',r)
+
 
 class LifecycleHarnessRules(unittest.TestCase):
     """Catch false kills from lifecycle assertions and incomplete body execution."""
@@ -65,6 +73,18 @@ class LifecycleHarnessRules(unittest.TestCase):
         self.assertEqual(killed['outcome'],'KILLED',killed)
         self.assertEqual(killed['tests']['body_entered_ids'],['test_auditor.C.test_one','test_auditor.C.test_two'])
         self.assertEqual(killed['tests']['body_assertion_ids'],['test_auditor.C.test_one'])
+
+    def test_assertion_origin_is_the_selected_test_module(self):
+        checker=("CHECKER={}\nexec(compile('def check(value):\\n    raise AssertionError(\"checker runtime crash\")\\n',"
+                 "'checker.py','exec'),CHECKER)\n")
+        for body in (' def test_one(self): CHECKER["check"](1)\n',
+                     ' def test_one(self):\n  with self.subTest(i=1): CHECKER["check"](1)\n'):
+            with self.subTest(body=body):
+                r=self.run_fixture('import unittest\n'+checker+'class C(unittest.TestCase):\n'+body)
+                self.assertEqual(r['outcome'],'ERROR',r)
+        mocked=self.run_fixture('import unittest\nfrom unittest import mock\nclass C(unittest.TestCase):\n'
+                                ' def test_one(self):\n  m=mock.Mock();m(1);m.assert_called_once_with(2)\n')
+        self.assertEqual(mocked['outcome'],'KILLED',mocked)
 
     def test_setup_teardown_cleanup_assertions_cannot_kill(self):
         fixtures=[
