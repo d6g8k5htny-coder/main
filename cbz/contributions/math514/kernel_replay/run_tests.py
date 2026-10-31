@@ -245,6 +245,27 @@ def supported_method_shape(method):
         current = current.__wrapped__
 
 
+def oracle_assertion(test, err):
+    """Credit an AssertionError only when the selected test's own module raised it.
+
+    The innermost traceback frame outside unittest and its mock assertion helpers
+    must lie in that module's file; an AssertionError raised inside the code under
+    test is a crash, not an oracle.
+    """
+    if not isinstance(err[1], AssertionError):
+        return False
+    frame = None
+    tb = err[2]
+    while tb is not None:
+        scope = tb.tb_frame.f_globals
+        if '__unittest' not in scope and scope.get('__name__') != 'unittest.mock':
+            frame = tb.tb_frame
+        tb = tb.tb_next
+    path = getattr(sys.modules.get(type(test).__module__), '__file__', None)
+    return (frame is not None and path is not None
+            and Path(frame.f_code.co_filename).resolve() == Path(path).resolve())
+
+
 def selected_cases(suite):
     for test in suite:
         if isinstance(test, unittest.TestSuite):
@@ -285,7 +306,7 @@ class LifecycleResult(unittest.TextTestResult):
     def addFailure(self, test, err):
         if (self.phase.get(id(test)) == 'body'
                 and self.body_exception.get(id(test)) is err[1]
-                and isinstance(err[1], AssertionError)):
+                and oracle_assertion(test, err)):
             self.body_assertion_ids.append(method_id(test))
             self.assertion_events.append({'parent_id': method_id(test), 'origin': 'body'})
         else:
@@ -299,7 +320,7 @@ class LifecycleResult(unittest.TextTestResult):
             phase = 'outside-body'
         if getattr(subtest, 'test_case', None) is not test:
             phase = 'foreign-parent'
-        outcome = 'success' if err is None else 'assertion' if isinstance(err[1], AssertionError) else 'error'
+        outcome = 'success' if err is None else 'assertion' if oracle_assertion(test, err) else 'error'
         self.subtest_events.append({'parent_id': method_id(test), 'phase': phase, 'outcome': outcome})
         if err is not None and outcome == 'assertion':
             if phase == 'body':

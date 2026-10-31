@@ -49,6 +49,25 @@ class MutationHarnessTests(unittest.TestCase):
         self.assertEqual(value['body_finished_ids'], ['fixture.Case.test_one', 'fixture.Case.test_two'])
         self.assertEqual(value['body_assertion_ids'], ['fixture.Case.test_one'])
 
+    def test_checker_origin_assertion_is_not_a_kill(self):
+        # Code under test compiled from another file: its AssertionError is a crash, not an oracle.
+        tail = ("CHECKER = {}\n"
+                "exec(compile('def check(value):\\n    raise AssertionError(\"checker runtime crash\")\\n',"
+                " 'checker.py', 'exec'), CHECKER)\n")
+        for methods in ("def test_one(self): CHECKER['check'](1)",
+                        "def test_one(self):\n    with self.subTest(i=1): CHECKER['check'](1)"):
+            with self.subTest(methods=methods):
+                outcome, value, _ = self.run_fixture(methods, module_tail=tail)
+                self.assertEqual(outcome, 'ERROR', value)
+                self.assertEqual(value['body_assertion_ids'], [])
+        outcome, value, _ = self.run_fixture(
+            "def test_one(self):\n    try: CHECKER['check'](1)\n    except AssertionError: pass\n    self.fail('oracle')",
+            module_tail=tail)
+        self.assertEqual(outcome, 'KILLED', value)
+        outcome, value, _ = self.run_fixture(
+            "def test_one(self):\n    from unittest import mock\n    m = mock.Mock(); m(1); m.assert_called_once_with(2)")
+        self.assertEqual(outcome, 'KILLED', value)
+
     def test_dispatch_hook_assertion_without_selected_method_is_error(self):
         outcome, value, _ = self.run_fixture("def _callTestMethod(self, method): self.fail('dispatch hook only')\ndef test_one(self): raise RuntimeError('selected body was entered')")
         self.assertEqual(outcome, 'ERROR', value)
