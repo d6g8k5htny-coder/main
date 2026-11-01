@@ -1,0 +1,17 @@
+controls/NegNoIndep.lean:10:43: error: Tactic `assumption` failed
+
+Ω : Type u_1
+inst✝¹ : MeasurableSpace Ω
+P : Measure Ω
+inst✝ : IsProbabilityMeasure P
+n : ℕ
+T : Type u_2
+X : Ω → Fin n → ℝ
+R : Ω → T → ℝ
+hX : AEMeasurable X P
+hR : AEMeasurable R P
+c : (Fin n → ℝ) → T → ℝ
+hc : Measurable c
+mX : Fin n → ℝ
+mY : T → ℝ
+⊢ X ⟂ᵢ[P] R
