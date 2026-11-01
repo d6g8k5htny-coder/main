@@ -1,0 +1,717 @@
+{
+ "records": [
+  {
+   "object": "coefficients/lm006_wrong_sign_oned_20261006_a62c",
+   "classification": "OBLIGATION",
+   "classification_reason": "RESULTS.json line 1 and NOTE.md lines 244-246 state an outward-rounded enclosure of the LM006 leading coefficient C_(24,6/5). NOTE.md sections 2-5 state the lemmas it rests on: the analytic D-reduction (lines 50-89), the uniform fourth-derivative bound (lines 91-149), the support-aware tail (lines 166-188) and the signed normal-tail series (lines 206-232). That is a numerical certificate of a coefficient. No Lean declaration is indexed for it, RESULTS.json records independently_reviewed=false, and mentioned_by is empty.",
+   "title": "LM006 wrong-sign coefficient, one-dimensional enclosure: Math- coefficients/lm006_wrong_sign_oned_20261006_a62c at 19a55750; 0.001321995248726 <= C_(24,6/5) <= 0.001321995413271 (n=1024 composite Simpson, |F''''|<=1100)",
+   "statements": [
+    {
+     "file": "coefficients/lm006_wrong_sign_oned_20261006_a62c/NOTE.md",
+     "line_start": 244,
+     "line_end": 246,
+     "text": "For n=1024, the two completed author commands produce the inclusive enclosure\n\n       0.001321995248726 <= C_(24,6/5) <= 0.001321995413271. (12)"
+    },
+    {
+     "file": "coefficients/lm006_wrong_sign_oned_20261006_a62c/RESULTS.json",
+     "line_start": 1,
+     "line_end": 1,
+     "text": "{\"coefficient\": [\"0.001321995248726\", \"0.001321995413271\"], \"evaluations\": 1025, \"gamma\": [\"0.021702757242874\", \"0.021702759944149\"], \"independently_reviewed\": false, \"method\": \"analytic D integration; composite Simpson with proved |f4|<=1100; rational outward arithmetic\", \"omitted_tail_gamma_upper\": \"0.00000000000007444285\", \"panels\": 1024, \"quadrature_error_gamma_upper\": \"0.00000000135059963214\", \"scientific_effect\": \"NONE\", \"scope\": \"leading coefficient only; d2 L24 b6/5 original axes and pins; no finite-r remainder or radius\", \"source_commit\": \"64c0a203b94105f0fccbe6f8116a94e13431f84e\"}"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) #358's coefficient definition: C = p0 Gamma/z0, Gamma = E[J(D,B^2)], D~N(0,v) and B~N(0,v/4) independent untilted Gaussian inputs, Q~N(-m2*b,delta), z0 = E(Q_-)^2, p0 = density_Q(0) (NOTE.md lines 11-21). (b) The fixed original-axis periodized field d=2, L=24, b=6/5 with six pins and gap r^3/6 (lines 14-16). (c) The parent #362 bounds m2 in [1-1e-24,1] and m4 in [3,3+1e-24], outward delta, v, p0, z0 intervals, and v inside [199/100,3] (lines 192-197). (d) The derivative bounds hold on 3/2<=v<=3, u>=0 (line 93). (e) The composite Simpson remainder for C^4 integrands, per DLMF 3.5.7-3.5.8 (lines 153-156). (f) Independence of D and B before tilting, for the tail bound (10) (lines 166-168).",
+   "dependencies": "#358 coefficient definition at 64c0a203 (reviews/lm006_wrong_sign_asymptotic_20261006/, NOTE blob ea914c1b); its limit theorem is not re-proved (NOTE.md lines 23-25). #362 parent coefficients/lm006_wrong_sign_20261006_r20/enclose.py (7215 bytes, SHA256 157e02ee...), loaded by hash (oned.py lines 18, 66-86), supplies the pi, exp, density, sqrt, inv_sqrt_2pi and parameter bounds. NIST DLMF 3.5(ii) and 7.6(i). The earlier analytic reduction in Math-#362 comment 6016901181 (PRIOR_WORK.md lines 8-24). #372 is not consumed (NOTE.md lines 42-44).",
+   "finite_checks": "The source records test_oned.py with 15 methods passing in normal and -O modes (NOTE.md lines 273-282). The tests cover: independent 335/334-term series enclosures; exact symbolic third and fourth derivatives and the 12 product-derivative coefficients; exact rational Simpson identities; signed outward operations; B scaling; a nonzero-tail lower bound; and normalizer attachment. Eight source mutants each fail the suite in both modes (lines 284-294): missing symmetry, wrong B variance, halved kernel, wrong Simpson weights, omitted tail, wrong normalizer endpoint, inward rounding and wrong lower-error sign. The last optimized variant completed separately after a 60-second tool deadline. The source describes nesting inside the prior 2048/4096/8192 records as corroboration only (lines 261-263). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certifying code oned.py is exact integer/Fraction arithmetic. exact() rejects other types (lines 24-27). Outward rounding at scale 10^36 uses integer floor and ceiling (lines 34-63). The normal-tail series runs at integer scale 10^100 with directed endpoints (lines 102-129). The hash-bound parent enclose.py, which is not in this object, supplies the exp/sqrt/density/pi bounds. test_oned.py uses math.erfc and float midpoint comparisons only as binary64 sanity checks (test_oned.py lines 54-56, 88-91; NOTE.md lines 279-281).",
+   "source_self_limits": "NOTE.md lines 23-27: independence after tilting is not asserted; #358's limit theorem is not re-proved; there is no finite-r bound, numerical remainder, radius, orientation/mark extension or capture/elder/persistence conclusion. Lines 147-149: the constant 1100 and the coefficient are not claimed optimal. Lines 296-302: CI does not run these files; no Lean target; a nonauthor numerical/source read is required. Lines 307-310: no finite-r probability, numerical radius or persistence theorem. RESULTS.json: independently_reviewed false; scope 'leading coefficient only'. PRIOR_WORK.md lines 8-24: no first-discovery claim for the analytic reduction.",
+   "exact_boundary": "Quarantined exactly: the inclusive enclosure 0.001321995248726 <= C_(24,6/5) <= 0.001321995413271 (NOTE.md line 246; RESULTS.json coefficient). Also quarantined: Gamma in [0.021702757242874, 0.021702759944149], the quadrature error upper 0.00000000135059963214, the tail upper 0.00000000000007444285, and the supporting statements (3), (5)-(8), (10)-(11). Scope: #358's coefficient at d=2, L=24, b=6/5, original axes and six pins, conditional on #358's definition and #362's parameter bounds. Excluded: #358's limit theorem, any finite-r statement, any radius, other orientations/marks, and persistence/elder consequences. This record closes nothing.",
+   "layer_a_status": "A1: 'certified' and 'proof' are the source's labels; nothing here is presented as CLOSED. A2: #358 and #362 enter as hypotheses, not admitted axioms. A3: the enclosure path is exact Fraction/integer arithmetic, and binary64 appears only in test sanity checks. A4: no bound is loosened; the published decimals are rounded outward (NOTE.md lines 254-255). A5: the eight failing mutants remain recorded source evidence. A6: not vacuous; the source exhibits a positive-integrand rectangle showing the omitted tail is nonzero (lines 177-180). A7: describes recorded author execution only. A8: the Python run and the parent enclose.py are not A8-qualified certifying tools.",
+   "blocking_reason": "Missing: a kernel-checked proof of the closed form (3) for g_v and its derivatives (6); the uniform bound |F_v''''| <= 1100 on 3/2 <= v <= 3 (8); the Simpson remainder (9); the support-aware tail bound (10); and the signed Taylor bounds (11) for the normal tail on [0,13]. Also missing: a kernel-checked evaluation of the 1025-node interval Simpson sum. #358's coefficient identity and limit theorem, and #362's bounds on m2, m4, p0, z0 and v, are unproved inputs.",
+   "attempted": "The source records the analytic D-integration, a written fourth-derivative argument, a rational outward-rounded implementation, 15 test methods and eight failing mutants, plus nesting checks against prior grid records (NOTE.md lines 50-294). This proposal extracted the headline statement and lemmas verbatim and ran no packet code.",
+   "resumption_cost": "High. It requires formal Gaussian truncated-moment identities, formula (3), the derivative bounds (5)-(8), the composite Simpson error and the alternating exp Taylor bounds. It also requires a kernel-checked rational certificate for the 1025 nodes and formal versions of the #358/#362 inputs. Dormant until deliberately reopened."
+  },
+  {
+   "object": "coefficients/side24_d4_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 19-26 state enclosures of the cone moment D_3, the reference coefficient c_{4,ref} and the torus coefficient c_{4,24} in d=4. RESULTS.json line 4 records 'certified': true, and lines 35-64 give the intervals. These are numerical certificates of constants. No Lean declaration states them, and mentioned_by is empty.",
+   "title": "SIDE24 d=4 cone moment D_3 and coefficients c_{4,ref}, c_{4,24}: Math- coefficients/side24_d4_20260930 at 19a55750; D_3 = 5.3231802688898968949... (width 6.5e-47), |c_{4,24}/c_{4,ref} - 1| <= 1.5702e-108",
+   "statements": [
+    {
+     "file": "coefficients/side24_d4_20260930/NOTE.md",
+     "line_start": 19,
+     "line_end": 26,
+     "text": "**Certified.** `D_3 = 5.3231802688898968949231987396872606357843885294...` (enclosure width `6.5e-47`), whence, by [LP]\n(15.2) with `|S^3| = 2 pi^2`, `p_G(0) p_V(0) = (2 pi)^-4/sqrt3`, `tau^2 = 6`,\n\n    c_{4,ref} = Gamma(7/6) (3/2)^(1/3) D_3 / (8 sqrt3 pi^(5/2)) = 0.023321666002952835094521194952856885153101372363...\n\nand for the torus kernel `K_24` in `d = 4`, by the covariance sandwich of SIDE24 sections 3-4 with the `d = 4` constants,\n\n    |c_{4,24} / c_{4,ref} - 1| <= delta = 1.5702e-108,       c_{4,24} = 0.023321666002952835094521194952856885153101372363..."
+    },
+    {
+     "file": "coefficients/side24_d4_20260930/RESULTS.json",
+     "line_start": 35,
+     "line_end": 38,
+     "text": "  \"D_3\": [\n   \"5.32318026888989689492319873968726063578438852940845576405060\",\n   \"5.32318026888989689492319873968726063578438852947338433618854\"\n  ],"
+    },
+    {
+     "file": "coefficients/side24_d4_20260930/RESULTS.json",
+     "line_start": 61,
+     "line_end": 64,
+     "text": "  \"c_4_24\": [\n   \"0.0233216660029528350945211949528568851531013723630981034059898\",\n   \"0.0233216660029528350945211949528568851531013723633825654059791\"\n  ]"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) SIDE24's reference law in d=m+1: A = Q + sqrt(2/3) Z I_m, Q the m x m GOE with density proportional to exp(-tr Q^2/4), Z an independent standard normal, and D_m = E[det(A)^2 1{A negative definite}] (NOTE.md lines 12-17). (b) [LP] (15.2) for the coefficient, with |S^3| = 2 pi^2, p_G(0)p_V(0) = (2 pi)^-4/sqrt3 and tau^2 = 6 (lines 19-22, 140-144). (c) SIDE24 sections 2-4 are dimension-generic except for three constants, restated for d=4: image bound, sandwich and ratios (lines 150-171). (d) Mehta's integral for Z_m (lines 35-40, 223-225).",
+   "dependencies": "[LP] imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (15.1)-(15.2) (pin dfed3b8d). SIDE24 coefficients/side24_v1/PROOF.md (44b66f04) sections 1-4 and ENCLOSURE.json (57af39a0) (NOTE.md lines 211-212, 221-222). Mehta, Random Matrices ch. 17. The interval class of Math-#190 v1.3 / Math-#197 (lines 226-227). The Python decimal module's exp and sqrt.",
+   "finite_checks": "Thirteen rules (NOTE.md lines 195-204): FLOAT_INSIDE, D1_EXACT, D2_EXACT (encloses 29/6 - sqrt6), WIDTHS, SIDE24_CONSISTENT, CLOSED_FORM_D4, TRUNCATION_NESTING (K=20, h=1 re-run), MONOTONE, IMAGE_BOUND, TRANSFER_BOUND (13 eps <= delta <= 15 eps), MEHTA_Z3, LIBRARY_EXACT and PINNED. Nine mutants each must exit 1. Floating controls: orthant and (p,q) midpoint quadratures, Richardson-extrapolated to 5.3231802687 (lines 187-191). RESULTS.json lines 7-21 record every check true. Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certifying path is decimal interval arithmetic at 60 digits with ROUND_FLOOR/ROUND_CEILING contexts (cone_moment_d4.py lines 46-47; Iv class lines 67-140). exp and sqrt use correctly rounded decimal widened by 2 ulp (lines 124-132), checked by LIBRARY_EXACT. math.factorial and math.comb are integer-exact. Binary64 math.exp, math.erfc and float literals appear only in the float_orthant, float_Z3 and float_D3_pq controls (lines 682-738) and in rule FLOAT_INSIDE. That rule gates the exit status but does not enter the enclosures.",
+   "source_self_limits": "NOTE.md lines 209-217: this is not a proof or review of [LP] or of SIDE24 sections 1-4, which are consumed at their scope. It does not cover d>=5, window coefficients, finite-radius quantities, C, r_* or z_*. It gives no closed form for D_3; Math-#201's form is cited but neither proved nor certified here. C8 stays OPEN. Lines 165-169: 14 eps <= delta is not claimed. Lines 170-171: the periodic constant is enclosed, not claimed equal to the reference constant.",
+   "exact_boundary": "Quarantined exactly: the RESULTS.json enclosures of D_3 (lines 35-38), c_4_ref and c_4_24 (lines 53-64); the transfer constants E_4, epsilon and delta (lines 66-78); and the d=2,3 consistency values. Scope: SIDE24's reference law and the K_24 torus in d=4, conditional on [LP] (15.2) identifying the coefficient and on SIDE24 sections 2-4. Excluded: [LP] and SIDE24 themselves, d>=5, any closed form for D_3, window coefficients and finite-radius quantities.",
+   "layer_a_status": "A1: 'Certified' is the author's label; nothing is CLOSED. A2: [LP], SIDE24 and Mehta's integral are hypotheses. A3: the enclosures use directed decimal interval arithmetic, and binary64 appears only in controls. A4: v1.2 repaired TRANSFER_BOUND to the proving direction; nothing is loosened. A6: not vacuous. A7: describes the recorded run (RESULTS.json passed true). A8: the decimal library's correct rounding and the Python run are not A8-qualified tools.",
+   "blocking_reason": "Missing: a kernel-checked proof of the reduction of D_3 to the one-dimensional integral (2.1), covering the shifted-GOE integral, the a-integration, the s = 2p+q decoupling and the J_k recurrences. Also missing: the Cauchy-estimate Taylor remainder per cell, the tail beyond T=60, Mehta's Z_3 = 48 sqrt2 pi, and the d=4 SIDE24 sandwich constants E_4, eps and delta. [LP] (15.2), identified as the persistence coefficient, is an unproved input.",
+   "attempted": "The source records three revisions (NOTE.md lines 229-240): v1.1 introduced the centre-based Cauchy remainder after Codex review 4148001628; v1.2 moved TRANSFER_BOUND to the proving direction; v1.3 followed nonauthor read S1 (Grok Bot agent 1, all findings P3). It also records 13 rules and 9 mutants in both modes. This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires formal GOE eigenvalue integrals and Mehta's integral at m=3, the explicit reduction, a kernel-checked interval quadrature with Cauchy remainders (or a formal closed form such as Math-#201's), and the d=4 SIDE24 transfer lemma. Dormant until deliberately reopened."
+  },
+  {
+   "object": "coefficients/side24_d5_closed_form_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 13-18 state a Proposition giving D_4 in closed form, and lines 26-29 a Corollary for c_{5,ref}. RESULTS.json line 30 records the exact form, and lines 36-48 the interval evaluations, with 'certified': true (line 4). NOTE.md lines 38-39 and 182-184 make the Proposition conditional on the unmerged Math-#200 reduction. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "SIDE24 cone moment D_4 closed form (d=5) and c_{5,ref}: Math- coefficients/side24_d5_closed_form_20260930 at 19a55750; D_4 = 6695/54 - (405/32)sqrt6 - (1/pi)[(1375/72)sqrt21 + (6695/27)arctan sqrt(3/7) + (405/16)sqrt6 arctan(1/sqrt14)], conditional on the Math-#200 reduction",
+   "statements": [
+    {
+     "file": "coefficients/side24_d5_closed_form_20260930/NOTE.md",
+     "line_start": 13,
+     "line_end": 18,
+     "text": "**Proposition (closed form of `D_4`).** For SIDE24's reference law in `d = 5` (`A = Q + √(2/3) Z I_4`, `Q` the `4×4` GOE of\ndensity `∝ exp(−tr Q²/4)`, `Z` an independent standard normal), the cone moment `D_4 = E[det(A)² 1{A ≺ 0}]` of [LP] (15.1) is\n\n```\nD_4 = 6695/54 − (405/32)√6 − (1/π) [ (1375/72)√21 + (6695/27) arctan√(3/7) + (405/16)√6 arctan(1/√14) ]\n    = 14.2187634589773576013064656778740783173406023160820215842…"
+    },
+    {
+     "file": "coefficients/side24_d5_closed_form_20260930/RESULTS.json",
+     "line_start": 37,
+     "line_end": 40,
+     "text": "  \"D_4\": [\n   \"14.2187634589773576013064656778740783173406023160820215841833\",\n   \"14.2187634589773576013064656778740783173406023160820215842323\"\n  ],"
+    },
+    {
+     "file": "coefficients/side24_d5_closed_form_20260930/RESULTS.json",
+     "line_start": 45,
+     "line_end": 48,
+     "text": "  \"c_5_ref\": [\n   \"0.0132193193800849680760334875146413965210528901256999054505140\",\n   \"0.0132193193800849680760334875146413965210528901256999054539727\"\n  ],"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) SIDE24's reference law in d=5: A = Q + sqrt(2/3) Z I_4, Q the 4x4 GOE with density proportional to exp(-tr Q^2/4), Z an independent standard normal (NOTE.md lines 13-14). (b) The Math-#200 reduction of D_4 to the integral of lines 53-56; it is unmerged, and the Proposition is conditional on it (lines 38-39). (c) For the Corollary: [LP] (15.2) as written out in Math-#200 section 4, with |S^4| = 8 pi^2/3 (line 26). (d) Lemmas L1-L4 (section 2). (e) The d<=5 coefficient table is conditional on Math-#199/#200/#201 and on SIDE24 at its stated scope (lines 34-36, 165-168).",
+   "dependencies": "Math-#200 coefficients/side24_d5_20260930 at 74b1310: NOTE blob 7d12f050 for the reduction, and RESULTS.json blob b67c00f4 for the enclosures quoted in the script, which are not byte-checked (NOTE.md lines 159-161, 199-201). Math-#201 closed_form_d3.py blob 5e7e4e59 (the arithmetic and L1, L3-L4, reused). [LP] blob dfed3b8d. SIDE24 coefficients/side24_v1/PROOF.md blob 44b66f04. Mehta's Z_4 = 1536 pi.",
+   "finite_checks": "Sixteen rules (NOTE.md lines 136-151): STRUCTURE, GAUSS_MOMENTS, JK_EXACT, CUMULATIVE_EXACT, D1/D2/D3_EXACT, MEHTA_Z4_EXACT, D4_FORM, BASE_INTEGRALS_FLOAT, MOMENTS_FLOAT, D4_INSIDE_CERTIFIED (the closed form lies inside Math-#200's enclosure, 43 common digits), SIMPLIFIED_FORM, C5_CLOSED, LIBRARY_EXACT and PINNED. Fourteen mutants exit 1 in both modes (lines 153-157). Nonauthor read S4 (Grok Bot agent 13) gave AMEND with no BLOCK and an independent float route agreeing to 1.5e-15 relative (lines 212-213). RESULTS.json lines 7-24 record every check true. Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the identity is computed exactly, in a Q-vector space with Fraction coefficients over the basis sqrt r . pi^(k/2) . A (NOTE.md lines 40-42). The containment uses 60-digit decimal interval arithmetic with directed contexts. Binary64 appears only in fl_eval, labelled 'controls only' (closed_form_d4.py lines 378-387), in float_moment (line 887ff.), and in the BASE_INTEGRALS_FLOAT/MOMENTS_FLOAT controls (NOTE.md line 147).",
+   "source_self_limits": "NOTE.md lines 182-192: the Proposition is conditional on the unmerged Math-#200 reduction; [LP] (15.1)-(15.2) and SIDE24 section 1 are consumed, not reviewed; no closed form for D_5 is claimed or expected; C8 stays OPEN; executed: false. Lines 159-161: 'certified' means exact arithmetic plus containment against Math-#200's author-side enclosure, not a review or acceptance. Lines 177-178: the d=4,5 torus enclosures are in unmerged companions.",
+   "exact_boundary": "Quarantined exactly: the identity for D_4 at NOTE.md line 17 (raw-basis form at RESULTS.json line 30) and its 60-digit interval evaluation (RESULTS.json lines 37-40). Also quarantined: c_{5,ref} = Gamma(7/6)(3/2)^{1/3} D_4/(12 sqrt3 pi^{7/2}) with the interval at RESULTS.json lines 45-48. All are conditional on Math-#200's reduction and on [LP] (15.2) and SIDE24 at their scope; the d<=5 table in section 5 is conditional on Math-#199/#200/#201. Excluded: c_{5,24} (Math-#200's enclosure is only cited), D_5, and any [LP] or SIDE24 theorem.",
+   "layer_a_status": "A1: 'Proposition' and 'certified' are author labels; nothing is CLOSED. A2: the Math-#200 reduction is an unproved hypothesis, not an axiom. A3: exact arithmetic plus directed decimal intervals; floats appear only in controls. A6: not vacuous. A7: describes recorded author runs (16/16 rules, NOTE.md line 216). A8: the Python run is not an A8-qualified tool, and Math-#200's enclosure is quoted without a byte check.",
+   "blocking_reason": "Missing: a kernel-checked proof of the Math-#200 reduction of D_4, namely the a-integral, the coordinates, the decoupled exponents and the polynomials e_{a,k}. Also missing are lemmas L1-L4: the Gaussian moments, the J_k recurrences, the cumulative integrals G_n, and the erf/arctan base integrals. The exact symbolic integration and the atom simplification arctan(sqrt14/4) - arctan(sqrt14/7) = arctan(1/sqrt14) are also unchecked. For the Corollary, [LP] (15.2) is an unproved input.",
+   "attempted": "The source records Codex review 5371784947 (one finding taken, one declined), nonauthor read S4 with F1-F7 applied in v1.2, and readback v1.3 (NOTE.md lines 204-240). It also records 16 rules and 14 mutants in both modes. This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "Medium-high. The identity lives in a finite-dimensional algebra, so it can be checked symbolically in Lean, or by a kernel-checked CAS certificate, once the Math-#200 reduction and L1-L4 are formalized. The [LP] identification is a separate, larger obligation. Dormant until deliberately reopened."
+  },
+  {
+   "object": "docs/integration",
+   "classification": "NOT_OBLIGATION",
+   "classification_reason": "Only the two gap files are in scope, and both are navigation/source-availability indexes with no mathematical claim of their own. docs/integration/2026-10-02-proof-reachability.md line 5 states 'Scope: source availability only'. It records where each frontier PROOF.md lives, its blob, its PR and its integration commit, 'contains no verdict, grade, summary or quotation of any review' and 'changes no claim'; lines 9-16 derive every column from git. docs/integration/2026-10-23-postcut-proof-sources.md line 3 states 'Scientific effect: NONE. Source availability and Git identity only; no mathematical verdict'. Its line 202 says it is 'not a comprehensive theorem catalogue or semantic dependency index'. mentioned_by lists Q-10028, but that record (catalog at 32ab7d90) cites a different file, docs/integration/2026-09-29-reviewed-dimension-and-pair.md, as the review link of legacy record D1-LOWER-DIM. It disposes of no claim in these two gap files, so the object is not a PINNING_AMENDMENT.",
+   "title": "docs/integration proof-reachability (2 Oct) and post-cut proof-source delta (23 Oct): Math- docs/integration at 19a55750; navigation and Git-identity indexes only, no mathematical claim",
+   "statements": [],
+   "hypotheses": "n/a",
+   "dependencies": "n/a",
+   "finite_checks": "n/a (the source names tools/check_proof_reachability.py as an engineering re-derivation of the table columns, proof-reachability.md line 16)",
+   "floating_point": "NO_SCRIPTS: the two gap files are Markdown; no Python script belongs to this object.",
+   "source_self_limits": "proof-reachability.md line 5: source availability only; no verdict; a row here is not mathematical acceptance. postcut-proof-sources.md line 3 and line 202: no mathematical verdict; not a theorem catalogue.",
+   "exact_boundary": "n/a",
+   "layer_a_status": "n/a (no mathematical claim; A7: the indexes describe recorded Git state only)",
+   "blocking_reason": "n/a",
+   "attempted": "n/a",
+   "resumption_cost": "n/a"
+  },
+  {
+   "object": "frontiers/c2_torus_transfer_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "The source states three results with numerical certificates. NOTE.md lines 37-47 state Theorem C2T: explicit bounds on |c2[K_L,u] - c2[phi]| for d=1,2,3 and every real L >= L0. Lines 53-61 state a SIDE24 corollary. Lines 73-84 state Lemma E for every stationary kernel. RESULTS.json bounds.*.eps records the twelve bounds. The disposition is author-side (NOTE.md line 8); there is no Lean declaration and mentioned_by is empty.",
+   "title": "c2 torus transfer, d=1,2,3, every L>=10: Math- frontiers/c2_torus_transfer_20261001 at 19a55750; Theorem C2T |c2[K_L,u]-c2[phi]| <= eps_d(L0) (eps_3(10) = 1.00039e-10) and Lemma E (no r^1 term)",
+   "statements": [
+    {
+     "file": "frontiers/c2_torus_transfer_20261001/NOTE.md",
+     "line_start": 37,
+     "line_end": 47,
+     "text": "**Theorem C2T.** For `d in {1, 2, 3}`, every `L0` in the table, every real `L >= L0` and every orthonormal frame,\n\n    |c2[K_L, u] - c2[phi]| <= eps_d(L0),   hence   |c2[K_L] - c2[phi]| <= eps_d(L0),\n\nwith these values (rounded up):\n\n| `d` | `L >= 10` | `L >= 12` | `L >= 16` | `L >= 24` |\n|---|---|---|---|---|\n| `1` | `1.41035e-13` | `1.42699e-22` | `5.66439e-46` | `4.09547e-114` |\n| `2` | `2.09404e-12` | `2.02307e-21` | `7.57841e-45` | `5.20139e-113` |\n| `3` | `1.00039e-10` | `9.20576e-20` | `3.23748e-43` | `2.09418e-111` |"
+    },
+    {
+     "file": "frontiers/c2_torus_transfer_20261001/NOTE.md",
+     "line_start": 73,
+     "line_end": 80,
+     "text": "**Lemma E (no `r^1` term for every stationary kernel).** Let `K` be any smooth stationary covariance (no isotropy or\nevenness needed) whose pin and transverse covariances are nondegenerate at `r = 0`. Then `A~_r(b, k)` is smooth in `r` up\nto `r = 0`, and at fixed `v_1 = b - k r^3/2` its Taylor expansion in `r` contains only even powers: for every `N`,\n`A~_r(b, k) = sum_{j<N} r^(2j) a_j(b - k r^3/2, k) + O(r^(2N))`. If `K` is moreover real-analytic, as the Gaussian `phi`\nand the torus kernels `K_L` are, then `A~_r(b, k) = Atilde(r^2, b - k r^3/2, k)` exactly near `r = 0`, with `Atilde`\nreal-analytic. In either case\n\n    A~_r = A_0 + r^2 A_2 - (k/2) r^3 d_b A_0 + O(r^4):"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The torus kernel K_L(z) = sum_n phi(z+Ln)/sum_n phi(Ln) with phi(z) = exp(-|z|^2/2), any real L and d in {1,2,3}. (b) An orthonormal frame with axial u and pins at M=-ru/2, S=ru/2 (NOTE.md lines 20-25). (c) The fixed-cone surrogate A~_r of [R] sections 2-4 / [C2X] section 1, with expansion A~_r = A_0 + r^2 A_2 + O(r^3) (lines 24-26). (d) c2 is defined by the finite-part integral T(F) (lines 28-30). (e) For Lemma E: K is a smooth stationary covariance whose pin and transverse covariances are nondegenerate at r=0; the exact-analytic form additionally needs real-analytic K (lines 73-78).",
+   "dependencies": "[C2X] frontiers/c2_exact_20261001 (exact.py and pseries.py are carried byte-identical). [SIDE24] coefficients/side24_v1/PROOF.md (1)-(2). [T] Math-#218 (0.1) and Lemma F, a candidate theorem for d>=2. [CU] Math-#219 RESULTS.json for the c1/c interval. [D] Math-#216 section 2.2, A_r = A~_r + O(r^3), unmerged. [E3] Math-#220, cited for the identification only. [CT] Math-#224 (T1). Sources: NOTE.md lines 94-103, 288-300.",
+   "finite_checks": "transfer.py --check recomputes reference_checks and the 12 bounds against RESULTS.json under -B -S and -B -O -S. Five seeded defects must exit 1: no-image, no-theta, drop-ratio, eta-half and fp-const. controls.py is not part of the certificate. It runs Lemma E exactly on six anisotropic kernels, uses a floating integrator to reproduce c2 inside [C2X]'s intervals, and runs 12 mixture-kernel cases in which the bound must exceed |c2[K]-c2[phi]| (NOTE.md lines 249-267). RESULTS.json reference_checks are true for d=1,2,3. Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certifying code uses rational ball arithmetic. Centers are exact Fractions, and radii are rounded up to dyadic rationals with 64 bits (ball.py lines 1-6, 13-25). exp_up/exp_dn give rational bounds, and transfer.py uses integer math.factorial and Fraction constants. float appears only in ball.py __repr__ (line 79) and in controls.py, which NOTE.md line 259 marks 'not part of the certificate'.",
+   "source_self_limits": "NOTE.md lines 269-286. The definition of c2 and its identification as a density coefficient are consumed ([T] is a candidate theorem for d>=2; [E3]), as is A_r = A~_r + O(r^3). Lemma E and Theorem C2T are statements about the surrogate. Only d=1,2,3 and LZ^d are covered. The constants are conservative, with slack 1e4-1e8 (lines 245-247). [C2X], [T], [D], [SIDE24], [CU], [E3], [L'], [FJ] and Math-#224 are not reviewed. Lines 34-35: in d=1 the result transfers the fixed-cone expression only. Lines 86-88: #227's beta r allowance is not removed and C8 is not closed.",
+   "exact_boundary": "Quarantined exactly, for the fixed-cone surrogate expression as defined and conditional on [C2X], [T] and [D]: Theorem C2T with the twelve bounds eps_d(L0) (NOTE.md lines 43-47; RESULTS.json bounds.d*_L*.eps); the relative bounds (lines 49-51); the SIDE24 corollary intervals for c2[K_24] in d=2,3 and their quotient intervals (lines 53-61); and Lemma E (lines 73-84). Excluded: the identification of c2 as a density coefficient, the typed A_r, the three-term law's c1/c, other lattices, and d>=4.",
+   "layer_a_status": "A1: author-side; nothing is CLOSED. A2: the [C2X], [T] and [D] interfaces are hypotheses. A3: rational ball arithmetic. A4: the bounds are rounded up and none is loosened. A5: the five seeded defects are kept as failing variants. A6: not vacuous; in d=1 the statement concerns a defined expression, not #218's density theorem. A7: describes recorded runs. A8: the Python ball-arithmetic run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of Lemma J (the jet balls of K_L) and Lemma P (the ball pipeline through elimination and Isserlis that encloses the A_2 integrand). Lemma E (evenness in r at fixed v_1) and Lemmas F and G (finite-part control and Gaussian moment bounds) also lack kernel-checked proofs. The finite rational ball computation is also unchecked, and the definition-level inputs from [C2X] sections 1-2 and [T] are unproved here.",
+   "attempted": "The source records review 5383099127 items 2-3 and the v1.3 analyticity correction (5938497821) (NOTE.md lines 34-35, 82-84, 278-279), together with the check, five defects and the controls. This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires formal periodized-Gaussian jet bounds, the surrogate's series derivation, finite-part integrals and Gaussian moment bounds, plus a kernel-checked ball certificate (H has 1006 monomials in d=3). Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c6_microscopic_tail_numerics_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md section 3 (lines 74-124) and RESULTS.json state numerical values of constants of the planar microscopic measure: C_*, G_max, G_2, B_2, c = C_2/C_*, kappa c and B_sign. NOTE.md line 4 and RESULTS.json line 3 record that they are not certified. A stated value of a mathematical constant is a claim that is not CLOSED; being uncertified sets its boundary, not its classification. mentioned_by is empty.",
+   "title": "Planar microscopic radius-tail constants (parent kernel, d=2): Math- frontiers/c6_microscopic_tail_numerics_20260930 at 19a55750; floating Gauss-Legendre values, e.g. C_* = 52.621 at k=1, b=0; source states not an enclosure",
+   "statements": [
+    {
+     "file": "frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md",
+     "line_start": 3,
+     "line_end": 5,
+     "text": "**Object:** `CL-C6-MICRO-TAIL-NUMERICS-20260930-v1`. **Author lane:** Anthropic / Claude. **Kind:** numerical note.\n**Scientific effect:** NONE. **Certified:** no (deterministic Gauss quadrature with reported convergence; not an\nenclosure). Third of the planar numerics notes after Math-#168 (near coefficients `alpha_1, alpha_2`) and"
+    },
+    {
+     "file": "frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md",
+     "line_start": 87,
+     "line_end": 91,
+     "text": "| `k` | `b` | `C_*` | `G_max` | `G_2` | `B_2` | singleton | `c = C_2/C_*` | `kappa c` | `B_sign` |\n|---|---|---|---|---|---|---|---|---|---|\n| `0.5` | `0.0` | 1.9297 | 1.8996 | 1.0601 | 0.030073 | 0.83957 | 9.7826 | 0.6 | 1.058 |\n| `1.0` | `0.0` | 52.621 | 51.801 | 28.907 | 0.82006 | 22.894 | 6.9042 | 0.424 | 0.5045 |\n| `2.0` | `0.0` | 1615.7 | 1590.5 | 887.55 | 25.179 | 702.95 | 6.2011 | 0.381 | 0.2477 |"
+    },
+    {
+     "file": "frontiers/c6_microscopic_tail_numerics_20260930/RESULTS.json",
+     "line_start": 216,
+     "line_end": 222,
+     "text": "  \"k=1.0,b=0.0\": {\n   \"B2_coeff\": 0.82006047733282,\n   \"B_sign\": 0.50453278357996,\n   \"C0_per_shape\": 0.007470719215507359,\n   \"C2\": 363.3047025936172,\n   \"C2_over_C0\": 6.904152846784693,\n   \"C_star\": 52.62118476458853,"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The values are values of formula (R13) of [R], of [E] (E6) and of [Q] (13), (16), (19). (b) They are taken in d=2 for the parent kernel K(z) = exp(-|z|^2/2), with continuum jet covariances, the aligned frame and the r->0 limit taken first. (c) They are applied at L>=12 through Math-#168's lattice deviation of at most 1.4e-13 (NOTE.md lines 10-37). (d) They are conditional on [E] and [Q] (lines 148-153).",
+   "dependencies": "[R] Math-#166 (R12)-(R13). [SC] spectral measure (17). [NUM] Math-#168 exact regression and alpha values. [CUB]. [LP] section 2. [E] Math-#169 (E5), (E6), (E20)-(E21). [Q] Math-#176 (12), (13), (16), (19), (21)-(22). The corollary bounds of Math-#176 comment 5903080058. Math-#190 is cited as information only (NOTE.md lines 130-141, 165-167).",
+   "finite_checks": "The source records the following (NOTE.md lines 104-145, 160-164). 48- and 96-point Gauss-Legendre results agree to <=1.3e-14 relative. The shape integrals are exact rationals. Three exact identities are --check rules and hold at machine precision: T_2 = -T_1/12, T_b sqrt(192 pi^3) = (12k^2+1)/(36k^3), and the factor 66451/11128. The near-mass identity (N) matches Math-#168's GH60/MC values within 2.7e-4 relative. Mutants shape-integral, gamma-power and cusp-shift exit 1. Math-#190 reportedly finds each value within 9e-16 relative of its enclosures; that is a separate record and is not consumed (lines 137-141). Nothing was rerun for this proposal.",
+   "floating_point": "USED: tail_constants.py evaluates the cusp integrals and constants in binary64, with 24 math.* uses, 92 float literals and 96-point Gauss-Legendre on [0,14]. RESULTS.json stores binary64 values (C_star 52.62118476458853). Only the shape integrals I, U_2, B, U_abs, J and E eta are exact rationals (NOTE.md lines 54-59). NOTE.md line 126 says the precision is empirical, not bounds.",
+   "source_self_limits": "NOTE.md lines 146-156: not a proof and not an enclosure. The values are conditional on [E] and [Q]. They cover only the plane, the parent kernel and the aligned frame. There is no rate as r->0, no finite-r statement and nothing about the remote singleton population, and no finite-L correction is made. Line 4: Certified: no. Line 126: the precision is empirical. Lines 98-99 and 134-136: the bounds from Math-#176 and Math-#190 are information only.",
+   "exact_boundary": "Quarantined exactly: the floating values in the NOTE.md tables (lines 78-94, 104-110) and in RESULTS.json (e.g. C_star 52.62118476458853 at k=1.0, b=0.0). The source presents them as uncertified values of formulas (R13), (E6), (13), (16) and (19) at k in {1/2,1,2}, b in {0,1}, d=2 and the parent kernel. Also quarantined: the exact rational shape integrals (lines 54-60). No enclosure, error bound or theorem is admitted. The formulas of [R], [E] and [Q] lie outside this record.",
+   "layer_a_status": "A1: the source labels the values uncertified; nothing is CLOSED. A2: the [R], [E] and [Q] formulas are hypotheses. A3: the values are binary64 approximations and may not certify any bound. A4: no bound is stated. A6: not vacuous. A7: describes recorded floating outputs only. A8: no certifying tool is claimed.",
+   "blocking_reason": "The values have no rigorous enclosure. A proof would need certified error bounds for the one-dimensional Gaussian cusp integrals (J_cusp, T_1, T_2 and the |A| integral) and for the four-dimensional near-mass integral. It would also need kernel-checked forms of (R13), (E6) and [Q] (13), (16), (19), and the lattice deviation bound for L>=12.",
+   "attempted": "The source records the v3/v3.1 revisions, including Slice C review 5974193134 (F1-F8, wording only), a correction of the ns resolution, and the exact identities added as --check rules (NOTE.md lines 117-118, 130-136, 169-170). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "Medium. The constants are one-dimensional Gaussian integrals of explicit integrands, so they need directed-interval quadrature plus formal statements of the defining formulas; the near-mass control is four-dimensional with a corner singularity. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c6_remote_coefficient_numerics_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md section 4 (lines 121-192) and RESULTS.json state numerical values: the far-field density Lambda_inf, the correlation-hole constant c_hole, the remote singleton mass k integral_X Lambda, and the assembled nu(1) and nu(2)/nu(1). The NOTE.md line 4 'Certified: no' and RESULTS.json line 2 certified false. A stated value of a coefficient is a claim that is not CLOSED. mentioned_by is empty.",
+   "title": "Remote singleton coefficient k integral_X Lambda (planar, parent kernel): Math- frontiers/c6_remote_coefficient_numerics_20260930 at 19a55750; floating values, e.g. R = 15.0863 at k=1, b=0, L=12; source states not an enclosure",
+   "statements": [
+    {
+     "file": "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md",
+     "line_start": 3,
+     "line_end": 5,
+     "text": "**Object:** `CL-C6-REMOTE-COEFF-NUMERICS-20260930-v1`. **Author lane:** Anthropic / Claude. **Kind:** numerical\nnote. **Scientific effect:** NONE. **Certified:** no (floating-point quadrature with convergence checks; not an\nenclosure). Companion of the near-coefficient note `frontiers/c6_cluster_coefficients_numerics_20260930`"
+    },
+    {
+     "file": "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md",
+     "line_start": 13,
+     "line_end": 13,
+     "text": "    nu(1) = nu_near(1) + k integral_X Lambda(x; b, k, u) dx,        Lambda = sum_j Lambda_j,"
+    },
+    {
+     "file": "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md",
+     "line_start": 155,
+     "line_end": 162,
+     "text": "| `k` | `b` | `L` | `integral_X Lambda` | `R = k integral_X Lambda` | `alpha_1` (#168) | `nu(1) = alpha_1 + R` | `nu(2) = alpha_2` | `nu(2)/nu(1)` |\n|---|---|---|---|---|---|---|---|---|\n| `0.5` | `0.0` | `6` (direct) | 3.05732 | 1.52866 | 1.11821 | 2.64687 | 0.0347454 | 0.0131 |\n| `0.5` | `0.0` | `12` | 15.6333 | 7.81666 | 1.11821 | 8.93487 | 0.0347454 | 0.00389 |\n| `0.5` | `0.0` | `24` | 65.7857 | 32.8929 | 1.11821 | 34.0111 | 0.0347454 | 0.00102 |\n| `1.0` | `0.0` | `6` (direct) | 2.54206 | 2.54206 | 1.32906 | 3.87112 | 0.0255091 | 0.00659 |\n| `1.0` | `0.0` | `12` | 15.0863 | 15.0863 | 1.32906 | 16.4154 | 0.0255091 | 0.00155 |\n| `1.0` | `0.0` | `24` | 65.2387 | 65.2387 | 1.32906 | 66.5678 | 0.0255091 | 0.000383 |"
+    },
+    {
+     "file": "frontiers/c6_remote_coefficient_numerics_20260930/RESULTS.json",
+     "line_start": 3800,
+     "line_end": 3808,
+     "text": "  \"k=1.0,b=0.0\": {\n   \"L=12\": {\n    \"integral_X_Lambda_approx\": 15.086314346932143,\n    \"k_integral\": 15.086314346932143\n   },\n   \"L=24\": {\n    \"integral_X_Lambda_approx\": 65.23870038141997,\n    \"k_integral\": 65.23870038141997\n   },"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) [CL] (1.4): nu(1) = nu_near(1) + k integral_X Lambda, with Lambda_j the contact kernel of [RM] (13). (b) The field is the centered unit-variance Gaussian field on R^2/(LZ^2) with kernel K_L of [LP] section 2. (c) Continuum values hold for every pin direction; periodized values are for u = e_1, aligned with a lattice axis. (d) Integrability at the pin comes from [CL] section 5.1's integral bound (NOTE.md lines 11-44).",
+   "dependencies": "[CL] (1.4) and section 5.1, nonauthor-accepted and merged. [RM] (10), (11), (13), an accepted source. [LP] section 2 and (5.4). [NUM] Math-#168 RESULTS.json, alpha_1 and alpha_2 (GH60) (NOTE.md lines 152-153, 222-225).",
+   "finite_checks": "The source records the following (NOTE.md lines 194-218, 228-232; README.md lines 13-15). Quadrature order (24,32,24) is compared with (32,48,32). Exact controls: the unconditional Hessian to 9.7e-11 and the far field to 9e-13. A grid study at k=1, b=0 measures 1.88e-4, with a nonrigorous power-law model. At L=12 the direct integral and far field plus hole agree to 2.0e-5. A Monte Carlo cross-check gives E|det H| = 2.3032 +- 0.0058 against 4/sqrt3. --check replays the controls and samples with a 1e-6 relative tolerance. Mutants hermite-sign, det-abs and weight-indicator exit 1. Nothing was rerun for this proposal.",
+   "floating_point": "USED: remote.py computes in binary64, with 64 math.* uses (math.exp, math.erfc, math.sqrt), 309 float literals and Gauss-Legendre rules. Decimal dispatch is used only for one regression point (remote.py lines 62-67). RESULTS.json stores binary64 values, and the replay tolerance is 1e-6 relative (README.md line 14).",
+   "source_self_limits": "NOTE.md lines 220-226: not a proof and not an enclosure. The values are planar only, with no rate and no finite-r statement, and nu(1) inherits #168's empirical precision. Line 218: 'These are observed discrepancies. No error bound is claimed.' Lines 176-183: the L=6 additive form is invalid, and no direct L=24 integral was run. Lines 39-44: the Euler-identity scaling is a heuristic, and no uniform pointwise bound Lambda = O(1) is claimed.",
+   "exact_boundary": "Quarantined exactly: the floating values of Lambda_inf, c_hole, integral_X Lambda, R = k integral_X Lambda, nu(1) and nu(2)/nu(1) in NOTE.md lines 125-174 and in RESULTS.json (far_field, hole, torus, remote_total). Scope: k in {1/2,1,2}, b in {0,1}, L in {6,12,24}, and u = e_1 for periodized values. Also quarantined: the far-field closed forms of NOTE.md section 2. No enclosure or error bound is admitted. [CL] and [RM] lie outside this record.",
+   "layer_a_status": "A1: the source labels the values uncertified; nothing is CLOSED. A2: [CL] and [RM] are hypotheses. A3: the values are binary64 approximations and may not certify any bound. A6: not vacuous. A7: describes recorded floating outputs only. A8: no certifying tool is claimed.",
+   "blocking_reason": "The values have no rigorous enclosure. One would need certified bounds for the conditional Gaussian expectations defining Lambda_j on R^2 and on the torus: 13-vector jet covariances and index-restricted |det H| moments. One would also need bounds for the exterior tail beyond the integration box and for the L=24 additive approximation, which the source expects but did not measure. The far-field closed forms have no kernel-checked proof.",
+   "attempted": "The source records exact controls, convergence studies and a Monte Carlo cross-check (NOTE.md lines 194-218). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "Medium-high. It requires a directed-interval two-dimensional integration of a conditional Gaussian determinant moment over R^2 and the torus, with a rigorous exterior tail and formal statements of [CL] (1.4) and [RM] (13). Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_cap_failure_coefficient_planar_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 38-57 state Theorem G, an author-side limit theorem for Q^W(G_r^c) (line 4). Lines 59-64 state rational enclosures of c_G, and lines 66-79 a corollary on cap-route constants. RESULTS.json records the 'statement' (line 393), the c_G, J and R enclosures, and 'certified': true (line 326). Its 'kind' field calls the limit theorem author-side. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "C8 planar cap-failure coefficient: Math- frontiers/c8_cap_failure_coefficient_planar_20260930 at 19a55750; Theorem G Q^W(G_r^c) = c_G(b,k) r^3 + o(r^3), c_G(0,2) in [5324360.4426, 5324360.4427] (reference kernel)",
+   "statements": [
+    {
+     "file": "frontiers/c8_cap_failure_coefficient_planar_20260930/NOTE.md",
+     "line_start": 38,
+     "line_end": 45,
+     "text": "**Theorem G.** Fix `b in R`, `k > 0`, `L`, `R`. Then\n\n    Q^W(G_r^c) = c_G(b, k) r^3 + o(r^3),        r -> 0,\n\n    c_G(b, k) = R(b) J(k),\n    R(b) = p_w(0) / E[w^2 1{w < 0}],\n    J(k) = (216 k^3)^(-1) E[ integral_{max(a, c)}^{8 M^2} (s - a)(s - c) ds ],\n    a = v^2,   c = 6k om - v^2,   M = max(12k, 2|v|, |om|, |Y|),"
+    },
+    {
+     "file": "frontiers/c8_cap_failure_coefficient_planar_20260930/NOTE.md",
+     "line_start": 62,
+     "line_end": 62,
+     "text": "    c_G(0, 2)     in  [5324360.4426, 5324360.4427]      (the maximum over the Math-#195 band B = [0, 1], K = [1/2, 2] among the grid points),"
+    },
+    {
+     "file": "frontiers/c8_cap_failure_coefficient_planar_20260930/RESULTS.json",
+     "line_start": 393,
+     "line_end": 393,
+     "text": " \"statement\": \"Q^W(G_r^c) = c_G(b, k) r^3 + o(r^3) as r -> 0 for the planar six-pin law of [LP] with the good event G_r of [LP] section 7 / [CAP] (1); reference-kernel jet law\""
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The [LP] section 1 setting in d=2: the torus (R/LZ)^2, kernel K_L, frame R with axial u, and pins M=-(r/2)u, S=(r/2)u with f(M)=b, f(S)=b-kr^3 and zero gradients. (b) The regression law Q, typed weight W_r, Z_r and Q^W. (c) D = [-2r,2r]^2, the partial-block norms M_3, M_4, and the good event G_r (NOTE.md lines 23-36). (d) b is real and k>0 is fixed (line 38). (e) w and (v,om,Y) follow their stated laws under the unconditioned field, and the numbers are for the reference kernel only (lines 47-64). (f) [LP] (5.4), (5.5), (7.6)-(7.7), coupling (4.2) and moments (4.1) are consumed as statements (lines 308-309).",
+   "dependencies": "[LP] UNIFORM_MATRIX_CAP_AND_LIFETIME.md sections 1, 3, 4, 5, 7. [CAP] MARKED_CYLINDER_CAP_PROOF.md: D, M_3, M_4, condition (1) and constants (2)-(3). [NUM] frontiers/c6_cluster_coefficients_numerics_20260930/RESULTS.json. [S] frontiers/local_elder_geometry_20260930/PROOF.md (S2), for comparison. [Z] Math-#195, read but not consumed (NOTE.md lines 13-19).",
+   "finite_checks": "cap_coefficient.py --check --procs 2, in -B -S and -B -O -S, recomputes every enclosure and compares the decimal records exactly with RESULTS.json. Mutants no-third-jet, sign-lo and variance-yyy exit 1 (NOTE.md lines 320-323). RESULTS.json float_controls hold Monte Carlo and 2D-quadrature values of J(k). Reviews: Codex 5372193385 (v1.1) and OpenAI 5372981851, confirmed by xAI 5373266293 (v1.2) (lines 327-330). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: cap_coefficient.py uses exact rational interval arithmetic with outward rounding to 2^-160. exp(-t) is a fixed-point alternating series with an integer rounding budget, pi comes from Machin's formula, and Phi from a fixed-point series (NOTE.md lines 217-218). Floats appear only in __repr__ (line 71) and in the float controls _Phi_f, _phi_f, float_mc, float_quad2d and float_R (lines 507-717).",
+   "source_self_limits": "NOTE.md lines 306-316: this is not a proof or review of [LP] Theorem A, [CAP] or [S], which are consumed as statements. It gives no C, no C_cap upper bound, no r_*, no lower bound for the constant of [LP] (1.1) and no rate in o(r^3). The numbers are for the reference kernel only; the torus deviation O(L^6 e^{-L^2/2}) is not enclosed; the result is planar only. Lines 55-57: delta(k)->0 holds without a uniform rate. Lines 5-9: C8 stays OPEN.",
+   "exact_boundary": "Quarantined exactly: Theorem G (NOTE.md lines 38-57), an author-side limit statement for fixed b, k>0, L and R in d=2. Also quarantined are the rational enclosures in RESULTS.json J, R and c_G: J(k) at k in {1/6,1/2,3/4,1,3/2,2}, R(b) at b in {0,1/4,1/2,3/4,1,6/5}, and c_G, e.g. c_G(0,2) in [5324360.4426, 5324360.4427] and c_G(6/5,1/6) in [35736.7352, 35736.8785]. Also quarantined is the reference-kernel corollary C_cap >= c_G for cap-route constants (lines 66-79). Excluded: torus-kernel values, any constant of [LP] (1.1), C and r_*.",
+   "layer_a_status": "A1: Theorem G is author-side; nothing is CLOSED. A2: the [LP] and [CAP] statements are hypotheses. A3: exact rational interval arithmetic. A4: nothing is loosened; v1.2 narrowed the corollary to cap-route constants. A5: the mutants are retained. A6: not vacuous; the corollary concerns cap-route constants only. A7: describes recorded runs. A8: the Python run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of Theorem G's exact identities (section 1), its domination step and its limit (section 2), including the consumed [LP] (5.4), (5.5), (7.6)-(7.7), (4.1) and (4.2). The reduction of J(k) to three one-dimensional integrals (section 3) is also unchecked. So are the cell-wise mean-value quadrature with forward-mode interval derivatives and the closed-form tail bounds (section 4).",
+   "attempted": "The source records three review rounds (v1.1, v1.2), the check in both modes and three mutants (NOTE.md lines 318-330). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires a formal Gaussian regression for the six-pin law, the small-r limit with domination, and a kernel-checked rational quadrature certificate for J(k) on the grid. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_elder_failure_coefficient_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 23-41 state a Theorem of certified enclosures for J_1, J_2, J_fail, alpha_1, alpha_2 and a_fail. Lines 43-55 state Corollary 1 (C_fail^{B,K}), lines 57-81 Corollary 2 (d=3, conditional), and lines 283-308 Lemma T (torus transfer for L>=10). RESULTS.json line 4 is 'certified': true. The gap files are RESULTS.json and certificate.py. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Planar near cluster coefficients alpha_1, alpha_2 and elder-failure constant C_fail^{B,K} (source-labelled certified enclosures): Math- frontiers/c8_elder_failure_coefficient_20261001 at 19a55750; C_fail^{B,K} in [0.00272445, 0.00273116] on [0,1] x [1/2,2] (binary64 interval arithmetic)",
+   "statements": [
+    {
+     "file": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+     "line_start": 23,
+     "line_end": 24,
+     "text": "**Theorem (certified enclosures).** The following intervals contain the exact values for the reference kernel. By Lemma T\n(§6a) they also contain them for the torus model of [LP] and [S], with every side `L >= 10` and every frame. The torus"
+    },
+    {
+     "file": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+     "line_start": 31,
+     "line_end": 31,
+     "text": "| `1` | `[172.84636, 172.86021]` | `[169.58395, 169.60709]` | `[3.25312, 3.26241]` | `[0.018819, 0.018875]` | `[0.036941, 0.037052]` |"
+    },
+    {
+     "file": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+     "line_start": 52,
+     "line_end": 52,
+     "text": "    I_k in [0.4421366, 0.4432234],      C_fail^{B,K} in [0.00272445, 0.00273116]."
+    },
+    {
+     "file": "frontiers/c8_elder_failure_coefficient_20261001/RESULTS.json",
+     "line_start": 497,
+     "line_end": 500,
+     "text": "   \"C_fail^{B,K}\": [\n    \"0.002724454687\",\n    \"0.002731151043\"\n   ]"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The planar reference kernel exp(-|z|^2/2), with (a,beta,c) ~ N(0, diag(2,2,6)). (b) I_1 and I_2 are the near failure integrals of [NUM] sections 2-3, and alpha_j = (p_b(0)/z_0) J_j(k) by [NUM] section 2 from [CL] Theorem N or [CUB] Theorem F (NOTE.md lines 14-21). (c) Lemma T covers every torus side L>=10 and every frame (lines 283-308). (d) Corollary 1 uses the coefficient formula of [S] section 9. (e) Corollary 2 is conditional on [FIB] Math-#175 and [HD] Math-#184 and holds for the reference kernel only (lines 57-73).",
+   "dependencies": "[NUM] Math-#168. [CL] Theorem N. [CUB] Theorems C and F. [S] section 9 (AUTHOR_SIDE/HOLD). [LP]. [FIB] Math-#175 (open, AUTHOR_SIDE/HOLD). [HD] Math-#184 (open). The remote part from [RM] is not evaluated. Math-#215 is used for comparison (NOTE.md lines 383-399).",
+   "finite_checks": "--check runs under -B -S and -B -O -S. It self-tests box enclosures on 13 3D and 2 4D boxes against pure-Python Gauss-Legendre values and replays the full computation (NOTE.md lines 326-349). The packet also contains test_replay_metadata.py and the floating comparisons of controls.py (lines 350-382). Nonauthor reads at b54ea71: Slices A and C ACCEPT (5378890193), Slice B ACCEPT (5379043497) (lines 6-8). RESULTS.json leaves records about 7.8 million boxes. Nothing was rerun for this proposal.",
+   "floating_point": "USED: the certificate runs in binary64. ia.py rounds +, -, *, / and sqrt to nearest and then widens outward by one ulp with math.nextafter (lines 1-6, 14-57). exp(-y) is a reduced Taylor polynomial with an a priori floating error bound (56u + 1e-19) e^0.75 (NOTE.md lines 318-319). Root brackets rest on an a priori binary64 rounding-error bound in _sgn_f (boxes.py lines 81-94). libm pow, acos and cos supply only seeds (lines 97-136). Published intervals are widened by 1e-7 relative (certificate.py line 40). The IEEE-basic-operation widening is directed; the a priori error bounds are hand analysis.",
+   "source_self_limits": "NOTE.md lines 383-399. Lemma T covers L>=10 only, and Corollary 2 holds for the reference kernel only. The identification of a_fail and C_fail^{B,K} as [S]'s constants is consumed (AUTHOR_SIDE/HOLD), and the remote part of nu(1) is not evaluated. Corollary 2 is conditional on [FIB] and [HD], with pointwise values at b=0 only. Coverage is k = 1/2, 1, 2 and b = 0, 1, plus the band integral. There is no k->0, no d>=4, no rate and no finite-r statement.",
+   "exact_boundary": "Quarantined exactly, as Gaussian integrals defined by [NUM] and [S] section 9: the interval tables of NOTE.md lines 28-41 and Corollary 1, I_k in [0.4421366, 0.4432234] and C_fail^{B,K} in [0.00272445, 0.00273116] (line 52; RESULTS.json lines 497-500). Also quarantined: Corollary 2 (lines 63-81), conditional on Math-#175/#184, and Lemma T's transfer to every L>=10 and frame (lines 283-308). Excluded: the identification with selector-failure and lifetime constants, L<10, d>=4 and rates.",
+   "layer_a_status": "A1: author-side; the nonauthor ACCEPTs are scoped reads, not kernel closure. A2: [NUM], [CL], [CUB], [S], [FIB] and [HD] are hypotheses. A3: the certificate is binary64 with outward widening and a priori rounding bounds; it is admissible only as justified interval reasoning once those bounds are independently checked. A4: published intervals are widened outward. A6: not vacuous. A7: describes recorded runs. A8: the Python/IEEE/libm run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of Lemma 1 (reduction to one root), Lemma 2 (the (B,w)-calculus), Lemma 3 (box enclosures), the section 5 tails and the section 6 k-integral. Lemma T is also unchecked: delta <= 2.86e-14, the chi^2 bound and the Cauchy-Schwarz transfer. So is the soundness of the binary64 scheme (one-ulp widening, the exp bound, the Phi series, the continued-fraction brackets and the _sgn_f bound) over the evaluated leaves.",
+   "attempted": "The source records v1.3 clarifications from three nonauthor slices, a self-test and replay, and controls (NOTE.md lines 5-8, 326-382). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires a formal box-enclosure calculus for |det|-weighted Gaussian integrals plus a kernel-checked replacement of about 7.8 million binary64 leaf evaluations (or a rational re-certification), and formal Lemma T. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_theorem_a_constants_planar_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 49-72 state Theorem E on the band B=[0,1], K=[1/2,2] for every L>=10 and frame, with exact rational C(r_*): Q^W(G_r^c) <= C(r_*) r^3 and Z_r/r^2 >= z(r_*). Lines 74-88 state Theorem E' at (6/5,1/6), and lines 90-110 a corollary for [LP] Theorem A. RESULTS.json records C_table and C_table_side24 with 'certified': true. The theorem is author-side (line 4). No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Explicit planar cap-route constants for [LP] Theorem A: Math- frontiers/c8_theorem_a_constants_planar_20260930 at 19a55750; Theorem E C(1/4096) = 26776575319/5000 on B=[0,1], K=[1/2,2], L>=10; Theorem E' C'(1/4096) = 19661409/500 at (6/5,1/6)",
+   "statements": [
+    {
+     "file": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+     "line_start": 49,
+     "line_end": 52,
+     "text": "**Theorem E.** Let `B = [0, 1]` and `K = [1/2, 2]`. For every torus side `L >= 10`, every orthonormal frame `R`, every\n`b in B`, `k in K`, every `r_*` in the table, and every `0 < r <= r_*`,\n\n    Q^W(G_r^c) <= C(r_*) r^3        and        Z_r / r^2 >= z(r_*)."
+    },
+    {
+     "file": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+     "line_start": 62,
+     "line_end": 62,
+     "text": "| `1/4096` | `26776575319/5000 = 5355315.0638` | `1.005814` | `0.0000779301` | `8.995379` | `[31/131072, 1/4096]`; `[0, 1/64]`; `[63/32, 2]` |"
+    },
+    {
+     "file": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+     "line_start": 80,
+     "line_end": 80,
+     "text": "| `1/4096` | `19661409/500 = 39322.8180` | `1.100348` | `5.8 x 10^-7` | `3.226690` |"
+    },
+    {
+     "file": "frontiers/c8_theorem_a_constants_planar_20260930/RESULTS.json",
+     "line_start": 83,
+     "line_end": 86,
+     "text": "  \"1/4096\": {\n   \"C\": \"26776575319/5000\",\n   \"C_over_cG02\": \"1.005814\",\n   \"C_rstar3\": \"0.0000779301\","
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The [LP] section 1 setting in d=2: torus, kernel K_L, frame, pins, Q, W_r, Z_r and Q^W, with D = [-2r,2r]^2, the norms M_j and the good event G_r (NOTE.md lines 35-47). (b) B=[0,1], K=[1/2,2], L>=10, every frame and 0<r<=r_*, plus the reference kernel (lines 49-55). (c) Theorem E' holds at (6/5,1/6). (d) The 1-p_r consequence uses [LP] section 8: on G_r the global elder partner of M is S (lines 29-31, 91-92).",
+   "dependencies": "[LP] sections 1, 3, 7, 8. [CAP] section 1. [G] Math-#203 at a388580, whose c_G lower ends are used for comparison. [Z] Math-#195 at 6e7746b, for comparison. [LP] (4.1), (4.2), (5.4), (5.5) and (7.5)-(7.7) are not consumed (NOTE.md lines 17-31). frontiers/c8_torus_vanishing_remainder_20261001/engine_e2.py is a byte-identical copy of theorem_a.py (blob ae279e90).",
+   "finite_checks": "theorem_a.py --check --procs N, in both modes, replays the parameters, the band list, 11 sampled bands, both C tables, and C > c_G(0,2) and C' > c_G(6/5,1/6) (NOTE.md lines 465-470). Monte Carlo controls, floating and outside the certificate, are run at (1/512,0,2), (1/1024,0,2) and (1/512,0,1/2) (lines 425-448). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certificate uses exact rationals. exp, Phi, pi and sqrt are enclosed by series with remainders, rounded outward to 2^-160. Upper bounds are rounded up to 200 bits, and Gaussian elimination and Cholesky run in intervals (NOTE.md lines 413-423). Floats appear only in __repr__ and in the --mc controls (lines 425-448).",
+   "source_self_limits": "NOTE.md lines 450-463. This is not a proof or review of [LP]'s Theorem A or of [CAP], and the 1-p_r consequence uses [LP] section 8 as a statement. It is planar only and covers only the band and the SIDE24 point. It gives no lower bound for the constant of (1.1). For r_* >= 1/128 (band) and r_* >= 1/256 (SIDE24 point) the values exceed 1 at r=r_*, so the method is not informative there. c_{B,K} and c_{d,L} are not addressed, the Monte Carlo controls are not part of the certificate, and C8 stays OPEN.",
+   "exact_boundary": "Quarantined exactly, for d=2, L>=10, every frame and the reference kernel: Theorem E with the exact rational pairs (C(r_*), r_*) and floors z(r_*) of NOTE.md lines 60-68 (RESULTS.json C_table); Theorem E' with lines 78-85 (C_table_side24); and the corollary for [LP] (1.1) via 1-p_r <= Q^W(G_r^c) (lines 90-110). Rows with C r_*^3 >= 1 give a trivial probability bound at r=r_*. Excluded: d>=3, other bands, lower bounds for (1.1), c_{B,K} and c_{d,L}.",
+   "layer_a_status": "A1: author-side; nothing is CLOSED. A2: the [LP] definitions and the section 8 implication are hypotheses. A3: exact rational intervals. A4: nothing is loosened; v1.1 lowered C(1/256) (NOTE.md lines 70-72). A6: marked; the rows with C r_*^3 > 1 are vacuous probability bounds at r=r_* (lines 84-85, 458-459). A7: describes recorded runs. A8: the Python run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of Lemma 1 (the Gaussian law on an r-band), Lemmas 2-3 (averaging identities and fourth-derivative bounds), Lemma 4 (regression and the failure set), the section 5 main term, Lemma 5 (normalizer floor), the section 7 rare branches and the section 8 band/box assembly. The rational computation over all bands is also unchecked. The corollary's [LP] section 8 implication rests on [CAP]'s deterministic cap theorem.",
+   "attempted": "The source records v1.1 tightening via Hölder exponents, replay in both modes and Monte Carlo controls (NOTE.md lines 70-72, 425-470). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires formal Gaussian regression on r-bands, the explicit lemma chain and a kernel-checked rational certificate across all bands and boxes. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_torus_vanishing_remainder_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 20-42 state Theorem L': two-sided bounds on A_r/A_0 - 1 with exact rational constants. Lines 58-78 state Corollary L'1 and lines 80-105 Corollary L'2. RESULTS.json line 2 is 'certified': true. The disposition is 'author-side theorem with certified constants; no review yet' (line 5). No Lean declaration exists, and mentioned_by is empty.",
+   "title": "C8 radial ledger on the torus with a vanishing remainder (Theorem L'): Math- frontiers/c8_torus_vanishing_remainder_20261001 at 19a55750; -(a_dn r^2 + beta_dn r) <= A_r/A_0 - 1 <= a_up r^2 + beta_up r, d=2,3, L>=10, beta_2 <= 1.036e-9",
+   "statements": [
+    {
+     "file": "frontiers/c8_torus_vanishing_remainder_20261001/NOTE.md",
+     "line_start": 20,
+     "line_end": 23,
+     "text": "**Theorem L′.** For `d = 2, 3`, every torus side `L >= 10`, every frame, every `b in B`, `k in K`, every `R` in the\ntable and every `0 < r <= R`,\n\n    -(a_dn(R) r^2 + beta_dn r)  <=  A_r(b, k, u) / A_0(b, k, u) - 1  <=  a_up(R) r^2 + beta_up r."
+    },
+    {
+     "file": "frontiers/c8_torus_vanishing_remainder_20261001/NOTE.md",
+     "line_start": 39,
+     "line_end": 42,
+     "text": "    beta_2 <= 1.036 x 10^-9,        beta_3 <= 1.914 x 10^-7        (every R in the table).\n\n**For the Gaussian kernel the first-order coefficients vanish identically** (`rate_reference_kernel`: `beta = 0` exactly),\nand the `a` columns are the same: `|A_r / A_0^ref - 1| <= a(R) r^2`, with no additive remainder."
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The notation of Math-#215 [B] and [LP]: A_r = 12 pi_r(R; v_r) Z_r/r^2 is the radial ledger of [LP] (10.2), on the band [0,1] x [1/2,2], and A_0 is the limit for the same kernel (NOTE.md lines 15-18). (b) d=2,3, L>=10, every frame, R <= 1/64 and 0<r<=R (lines 20-23). (c) The corollaries assume 0 < ell < min(r_pop,R)^3/2 and use [LP] Theorem B (11.2), [B]'s C_{B,K}(R) and eps_0, with the four scopes listed in lines 107-112.",
+   "dependencies": "[B] Math-#215, Theorem L (theorem_b.py copy; author-side, unmerged). [E] Math-#206 engine_e2.py, byte-identical to c8_theorem_a_constants_planar_20260930/theorem_a.py. [E3] Math-#212 engine_e3.py. [LP] sections 8-12, [CAP], [E1], [E2] and [REC] (NOTE.md lines 107-112, 301-315).",
+   "finite_checks": "theorem_v.py --check, in both modes, recomputes the TV laws, the 2x7x96 box bounds per kernel, the reference integrals, the r^1 weights, eps_0 and the corollaries. Five mutants exit 1: torus-const-only, exp-radius, no-lin, no-om-term and coupling-half. The results are consistent with [B] to within 5e-4 (NOTE.md lines 273-299). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: theorem_v.py, theorem_b.py, engine_e2.py and engine_e3.py use exact rational interval arithmetic and integer fixed-point Taylor models with outward rounding to 2^-160 (the theorem_b.py and engine_e3.py docstrings). Floats appear only in controls: theorem_b.py controls() and mc_ratio (lines 1016-1134) and engine_e3.py mc_event (lines 1594-1702).",
+   "source_self_limits": "NOTE.md lines 301-317. Coverage is the compact window only, with L>=10, d=2,3 and R<=1/64. beta is not the true first-order coefficient, and whether the torus A_r has an r^1 term is not decided. [LP] sections 8-12, [B]'s algebra and the [E]/[E3] contracts are consumed with scoped review, and [B]'s Theorem L is not accepted as a whole. [B], [E] and [E3] are author-side and unmerged. Line 5: no review yet. Line 105: the counts are per unit volume, for the compact-window population only.",
+   "exact_boundary": "Quarantined exactly, for d=2,3, L>=10, every frame, the band and R<=1/64, each item in the scope given at lines 107-112: Theorem L' with exact rational a_up, a_dn (NOTE.md lines 27-35; RESULTS.json rate_torus), beta_2 <= 1.036e-9 and beta_3 <= 1.914e-7; the Gaussian-kernel case beta = 0 (lines 41-42); and Corollaries L'1 (lines 58-75) and L'2 (lines 80-105). Excluded: the true r^1 coefficient, other windows, d>=4, and [B]'s Theorem L as a whole.",
+   "layer_a_status": "A1: author-side, with no review yet; nothing is CLOSED. A2: [B], [E], [E3] and [LP] are hypotheses. A3: exact rational intervals. A4: a(R) is never below [B]'s value (NOTE.md line 50); nothing is loosened. A5: the mutants are retained. A6: not vacuous. A7: describes recorded runs. A8: the Python run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of Lemmas V1-V2 (interval-coefficient Taylor models and the torus part, via Cauchy estimates), V3 (pin density), V4-V6 (normalizer terms and the far set) and the section 5 assembly. The consumed [B] algebra, the [E]/[E3] band laws and moment routines, and [LP] sections 8-12 are also unchecked. So is the rational computation over all boxes.",
+   "attempted": "The source records replay in both modes, five mutants and consistency with [B] (NOTE.md lines 273-299). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High, because the record stacks on [B], [E] and [E3], each of which needs its own formalization. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_window_coefficient_d4_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 18-30 state a Proposition: c^(4)_{B,K} = c_{4,ref} F^(4)_B G_K for the reference kernel, plus a torus enclosure for every L>=10 and frame. RESULTS.json line 4 is 'certified': true, with the c8_band and windows intervals. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "C8 compact-window coefficient c_{B,K} in d=4: Math- frontiers/c8_window_coefficient_d4_20261001 at 19a55750; reference 0.000241816107038247274..., torus (every L>=10, every frame) in [0.00024181608774072626, 0.00024181612633576979] on [0,1] x [1/2,2]",
+   "statements": [
+    {
+     "file": "frontiers/c8_window_coefficient_d4_20261001/NOTE.md",
+     "line_start": 18,
+     "line_end": 20,
+     "text": "**Proposition (d = 4 window coefficient).** For the reference kernel `e^{−|z|²/2}`, `c^(4)_{B,K} = c_{4,ref} F^(4)_B G_K` with the\nbirth factor `F^(4)_B` the one-dimensional integral (2.4) below. For the torus, for every `L ≥ 10` and every frame,\n`c^(4)_{B,K}` lies in the interval computed by `window_coefficient_d4.py` from the entry box of radius `E^(4)_10 ≈ 1.501·10⁻¹⁰`."
+    },
+    {
+     "file": "frontiers/c8_window_coefficient_d4_20261001/RESULTS.json",
+     "line_start": 30,
+     "line_end": 33,
+     "text": "  \"c4_reference\": [\n   \"0.000241816107038247274210322215843921349422155120948079032849318\",\n   \"0.000241816107038247274210322215843921349422155120948110908719951\"\n  ],"
+    },
+    {
+     "file": "frontiers/c8_window_coefficient_d4_20261001/RESULTS.json",
+     "line_start": 39,
+     "line_end": 42,
+     "text": "  \"c4_torus_every_L_ge_10_every_frame\": [\n   \"0.000241816087740726263040393844830860066879773490482745244022762\",\n   \"0.000241816126335769789563608070288481985320113442074139170361672\"\n  ],"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The unit-variance stationary Gaussian field on R^4/(LZ^4) with the parent kernel K_L. (b) B and K compact, of positive length, with a positive gap floor, which is [LP] Theorem B's hypothesis (NOTE.md lines 12-16). (c) c^(4)_{B,K} is the leading coefficient of [LP] Theorem B ((11.3), section 15). (d) Lemma S (Math-#205 section 2) extends to d=4 (section 4). (e) The D_3 closed form of Math-#201 and c_{4,ref} of Math-#199 (lines 52-56).",
+   "dependencies": "[LP] Theorem B (11.3) and section 15. Math-#205 (Lemma S). Math-#197 (interval toolkit, d=3 reference, G_K). Math-#199 (D_3 reduction, quadrature, c_{4,ref}). Math-#201 (D_3 closed form). The companions are not on main (NOTE.md lines 4-6).",
+   "finite_checks": "RESULTS.json checks are all true. The eighteen rules are REFERENCE_EXACT, LAMBDA_FLOOR, INNER_LAYERS, D3_EXACT, QUAD_COARSE, M2_CROSSCHECK, FLOAT_CONTROL, IMAGE_BOUND, EPSILON, SANDWICH_EXACT_SCALING, TILTED_EXACT, FACTORIZATION, C4_CONSISTENT, NESTING, WIDTHS, SANDWICH_ORDERED, LIBRARY_EXACT and PINNED (NOTE.md lines 226-269). Mutants run in both interpreter modes. Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certifying path is decimal interval arithmetic with ROUND_FLOOR/ROUND_CEILING contexts (window_coefficient_d4.py lines 50-52). Binary64 appears only in F_float, F3_direct_float, M3_float and I3_float (lines 591-869), which feed FLOAT_CONTROL and INNER_LAYERS.",
+   "source_self_limits": "NOTE.md lines 270-288. [LP] Theorem B and section 15 are not revalidated, and Math-#197/#199/#201/#205 are not reviewed. d>=5 is not covered. Windows outside Theorem B's hypothesis carry only the integrals (1.1); singleton windows give zero and are not tabulated. C, r_* and z_* are not addressed, and C8 stays OPEN. Line 3: declarative record, executed: false.",
+   "exact_boundary": "Quarantined exactly: the Proposition (NOTE.md lines 18-30), namely the reference-kernel factorization with F^(4)_B the integral (2.4), and the torus enclosure for every L>=10 and frame from the entry box radius E^(4)_10 ≈ 1.501e-10. Also quarantined: the C8-band intervals in RESULTS.json lines 30-33 and 39-42, and the other section 5 windows with relative half-width <= 9.0e-8. Windows outside Theorem B carry only (1.1). Excluded: d>=5, C, r_*, z_* and [LP] Theorem B.",
+   "layer_a_status": "A1: nothing is CLOSED. A2: [LP] Theorem B and the companions are hypotheses. A3: directed decimal intervals. A6: marked; singleton windows give (1.1) = 0 and inherit no positive coefficient (NOTE.md lines 282-283). A7: describes the recorded run. A8: the Python/decimal run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of the reference law (1.2) and the reduction of the birth integral to (2.4), the section 3 quadrature, and Lemma S in d=4 with the eigenvalue floor and image bound (section 4). Also unproved here: [LP] Theorem B (11.3) identifying c_{B,K}, and the companions' D_3 and G_K.",
+   "attempted": "The source records eighteen rules, mutants and companion cross-checks (NOTE.md sections 6 and 9-10). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires formal GOE conditional laws in d=4, a kernel-checked quadrature and the Lemma S transfer, on top of [LP] Theorem B. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/c8_window_coefficient_d7_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 25-44 state a Proposition in d=7. It gives D_6 and c_{7,ref} with an enclosure width of 7.9e-54, the reference-kernel factorization, and a torus enclosure for every L>=10 and frame. RESULTS.json line 4 is 'certified': true, with full_window, c8_band and windows. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "C8 cone moment D_6, c_{7,ref} and window coefficient c_{B,K} in d=7: Math- frontiers/c8_window_coefficient_d7_20261001 at 19a55750; D_6 = 155.8639107879976764976861..., torus c^(7)_{B,K} in [2.9251167313955031078e-7, 2.9258886381073425720e-7]",
+   "statements": [
+    {
+     "file": "frontiers/c8_window_coefficient_d7_20261001/NOTE.md",
+     "line_start": 25,
+     "line_end": 28,
+     "text": "**Proposition (d = 7).**\n- **Cone moment.** `D_6 = E[det(A)² 1{A ≺ 0}]` for the `6×6` reference law `A = Q + √(2/3) Z I` is\n  `D_6 = 155.863910787997676497686120415688971584094975568794349…` (width `7.9·10⁻⁵⁴`), and\n  `c_{7,ref} = Γ(7/6)(3/2)^{1/3} D_6/(120√3 π^{9/2}) = 0.00461256991604821842117208474152043651029078658329251280…`."
+    },
+    {
+     "file": "frontiers/c8_window_coefficient_d7_20261001/RESULTS.json",
+     "line_start": 52,
+     "line_end": 55,
+     "text": "  \"D_6\": [\n   \"155.863910787997676497686120415688971584094975568794349194384\",\n   \"155.863910787997676497686120415688971584094975568794349202247\"\n  ],"
+    },
+    {
+     "file": "frontiers/c8_window_coefficient_d7_20261001/RESULTS.json",
+     "line_start": 41,
+     "line_end": 44,
+     "text": "  \"c7_torus_every_L_ge_10_every_frame\": [\n   \"2.92511673139550310781675884632610563917748378572238411869945E-7\",\n   \"2.92588863810734257199041907231081733276057111931114841822148E-7\"\n  ],"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The unit-variance stationary Gaussian field on R^7/(LZ^7) with the parent kernel K_L. (b) Compact windows of positive length with a positive gap floor, which is [LP] Theorem B's hypothesis (NOTE.md lines 19-23). (c) SIDE24's reference law A = Q + sqrt(2/3) Z I for 6x6 matrices (line 26). (d) Lemma S applies verbatim to the 22-vector (f, A) (line 190). (e) SIDE24's (15.2) route to c_{d,ref} is consumed (lines 332-333).",
+   "dependencies": "Math-#222 (d=6 layer recursion, cumulative layer, Owen's T rule). Math-#213 and #209 (d=5 and d=4 records). Math-#205 (Lemma S). Math-#197 (toolkit and Owen's T). Math-#204 (cumulative Owen layer and D_5). Math-#202 and #201 (D_4, D_3 closed forms) (NOTE.md lines 6-12). [LP] Theorem B and section 15. The companions are not on main.",
+   "finite_checks": "RESULTS.json checks are all true. The twenty rules are REFERENCE_EXACT, LAMBDA_FLOOR, INNER_LAYERS, MEHTA_Z6, OWEN_EXACT, D6_CERTIFIED, QUAD_COARSE, CROSSCHECK_M2_M5, FLOAT_CONTROL, IMAGE_BOUND, EPSILON, SANDWICH_EXACT_SCALING, TILTED_EXACT, FACTORIZATION, C7_CONSISTENT, NESTING, WIDTHS, SANDWICH_ORDERED, LIBRARY_EXACT and PINNED (NOTE.md lines 271-329). Mutants run in both modes. Nothing was rerun for this proposal.",
+   "floating_point": "NONE: the certifying path is decimal interval arithmetic with ROUND_FLOOR/ROUND_CEILING contexts (window_coefficient_d7.py lines 63-65). Binary64 appears only in K_float, F_float, Fm_direct_float and Im_float (lines 745-1108), which feed FLOAT_CONTROL and layers_interval_vs_float.",
+   "source_self_limits": "NOTE.md lines 330-349. [LP] Theorem B, section 15 and SIDE24's (15.2) are not revalidated, and Math-#197 through #222 are not reviewed. d>=8 is not covered. Windows outside Theorem B carry only (1.1), and singleton windows are zero and not tabulated. C, r_* and z_* are not addressed, and C8 stays OPEN. Line 3: declarative record, executed: false.",
+   "exact_boundary": "Quarantined exactly: the Proposition (NOTE.md lines 25-44). It comprises D_6 and c_{7,ref} (RESULTS.json full_window, lines 52-55), the reference-kernel factorization with F^(7)_B the integral (2.3), and the torus enclosures for every L>=10 and frame from E^(7)_10 ≈ 2.198e-8, including the C8-band interval at RESULTS.json lines 41-44. It also covers the other section 5 windows with relative half-width <= 1.5e-4. Windows outside Theorem B carry only (1.1). Excluded: d>=8, C, r_*, z_* and [LP] Theorem B.",
+   "layer_a_status": "A1: nothing is CLOSED. A2: the companions and [LP] are hypotheses. A3: directed decimal intervals. A6: marked; singleton windows give (1.1) = 0. A7: describes the recorded run. A8: the Python/decimal run is not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of the m=6 layer recursion and cumulative Owen-type layer (section 2), Mehta's Z_6 (2.5), the certified quadrature with remainders (section 3), and Lemma S in d=7 with the eigenvalue floor and image bound (section 4). Also unproved here: [LP] Theorem B and SIDE24's (15.2) identification.",
+   "attempted": "The source records twenty rules and cross-checks of m=2..5 against the companions (NOTE.md section 6). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "Very high. The record stacks on seven unmerged companions, and m=6 is a six-dimensional sector integral. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/equal_height_mass_value_20261001",
+   "classification": "OBLIGATION",
+   "classification_reason": "NOTE.md lines 44-49 state Proposition V, a volume law for B_{d,L} proved in section 1 (lines 65-146). Lines 51-60 give exploration values for beta_2, beta_3, gamma_3 and B_{3,24}, which RESULTS.json and GAMMA.json record. The disposition is AUTHOR-SIDE CANDIDATE for Proposition V and EXPLORATION for the numbers (line 20). No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Equal-height mass B_{d,L} volume law and SIDE24 value: Math- frontiers/equal_height_mass_value_20261001 at 19a55750; Proposition V B_{d,L} = beta_d L^d + gamma_d + eps_L with |eps_L| <= C L^N e^{-L^2/8}; exploration B_{3,24} ≈ 10.21 (source: not certified)",
+   "statements": [
+    {
+     "file": "frontiers/equal_height_mass_value_20261001/NOTE.md",
+     "line_start": 44,
+     "line_end": 46,
+     "text": "**Proposition V (volume law).** There are `C, N, L₀` such that for `L ≥ L₀`\n\n    B_{d,L} = β_d L^d + γ_d + ε_L,   |ε_L| ≤ C L^N e^{−L²/8},   β_d := ∫_R ρ_d(b) ρ_{d−1}(b) db,"
+    },
+    {
+     "file": "frontiers/equal_height_mass_value_20261001/RESULTS.json",
+     "line_start": 31,
+     "line_end": 36,
+     "text": "  \"Q4_beta_two_resolutions\": {\n   \"info\": {\n    \"24^3 beta_3\": 10.23061,\n    \"beta_2\": 0.003122769186,\n    \"beta_3\": 0.0007400614572\n   },"
+    },
+    {
+     "file": "frontiers/equal_height_mass_value_20261001/GAMMA.json",
+     "line_start": 2,
+     "line_end": 2,
+     "text": " \"B_3_24\": 10.2097,"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) [Z], frontiers/c7_zero_gap_limit_20260929/PROOF.md (blob 5b6328ea), for the [P] field on X_L = R^d/(LZ^d) with the normalized periodized Gaussian kernel. (b) B_{d,L} is defined by (Z2)-(Z3) with W = |det H_0 det H_y| 1{H_0<0, index H_y = d-1} (NOTE.md lines 30-36). (c) C, N and L_0 are existential (line 49). (d) The [P], [R] and [Z] interfaces are consumed (lines 15, 22).",
+   "dependencies": "[Z] c7_zero_gap_limit_20260929: Theorem Z, (Z2)-(Z4). [R] and [P]. [C7-K] is cited only. Math-#191, #207, #218 and #229 are cited for interpretation (NOTE.md lines 7-26, 197-210).",
+   "finite_checks": "equal_height_mass.py runs controls Q1-Q4, all passed (RESULTS.json lines 2-39). gamma_explore.py runs two Monte Carlo explorations (GAMMA.json: 200000 samples per separation, gamma_3 = -0.02095 with batch s.e. 0.0013, not_a_control true). Codex gave a scoped Slice A ACCEPT of Proposition V at v1.1 (5379568217) (NOTE.md lines 14-15). Nothing was rerun for this proposal.",
+   "floating_point": "USED: equal_height_mass.py computes beta_2 and beta_3 by binary64 quadrature (24 math.* uses, 19 float literals). gamma_explore.py computes gamma_3 by binary64 Monte Carlo (14 math.* uses, 39 float literals). NOTE.md line 51 says the values are exploration and not certified. Proposition V itself is analytic.",
+   "source_self_limits": "NOTE.md lines 49 and 62-63: C and N are existential and not computed; gamma_3 and B_{3,24} have no certified value; nothing covers other covariances; Theorem Z is unchanged. Lines 56-60: B_{3,24} ≈ 10.21 is the formula's value at L=24, not an enclosure. Line 20: nonauthor review is required.",
+   "exact_boundary": "Quarantined exactly: Proposition V (NOTE.md lines 44-49) with existential C, N and L_0, for the normalized periodized Gaussian kernel and conditional on [Z], [R] and [P]. Separately quarantined: the exploration values beta_2 = 3.122769186e-3, beta_3 = 7.400614572e-4, gamma_3 = -0.020 ± 0.002 and B_{3,24} = 10.21 ± 0.002 + eps_24 (lines 51-60; RESULTS.json Q4; GAMMA.json), which the source leaves uncertified. Excluded: numerical C and N, other kernels, and Theorem Z.",
+   "layer_a_status": "A1: an author-side candidate plus exploration; nothing is CLOSED. A2: [Z], [R] and [P] are hypotheses. A3: the numbers are binary64 quadrature and Monte Carlo and may not certify bounds. A6: marked; with C and N existential, the eps_24 bound has no numerical content. A7: describes recorded outputs. A8: no certifying tool is claimed.",
+   "blocking_reason": "Missing: a kernel-checked proof of Proposition V. That covers the lattice decomposition of B_{d,L}, the far-part rate, the near-diagonal Step 5 via a uniformly nondegenerate rescaled jet vector, and the absolute convergence of gamma_d. The consumed [Z], [R] and [P] interfaces are unproved here. gamma_3 has only a Monte Carlo estimate, and beta_2, beta_3 only floating quadrature.",
+   "attempted": "The source records v1.1 (Codex P1 and P2), v1.2 and v1.2.1 wording updates, a clean-context referee pass and Slice A ACCEPT (NOTE.md lines 3-26). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High for Proposition V, which needs formal Kac-Rice equal-height kernels on the torus. Medium for directed-interval enclosures of beta_d. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/local_pairing_20260930",
+   "classification": "OBLIGATION",
+   "classification_reason": "LOCAL_PAIRING.md states Lemmas 2.1-2.2, Lemma P (lines 171-...), Lemma P' (line 231), Proposition 3.3 (line 244), Lemmas 4.1-4.2, Theorem LP (lines 324-327, conditional), Conjecture LP= with obligation (O1) (section 5), and Lemma 5.1 (line 404). RESULTS.json records exact controls. The disposition is AUTHOR-SIDE PROOF CANDIDATE (line 5). No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Local pairing: Math- frontiers/local_pairing_20260930 at 19a55750; Lemmas P, P', Proposition 3.3 on the pinned planar cubic and Theorem LP liminf r^-3(1-p_r) >= a1 + a2 = nu1 + nu2 - beta_far (conditional on [SC], [P], [CUB])",
+   "statements": [
+    {
+     "file": "frontiers/local_pairing_20260930/LOCAL_PAIRING.md",
+     "line_start": 171,
+     "line_end": 173,
+     "text": "**Lemma P.** Let `θ = (s, a, β, c)` be typed with `n(θ) ≥ 1`, and let `(u₁, Z₁)` be an extra strict-window\ncritical point. Then there is an explicit path `γ` from `M` to a point with `P > 0` whose minimum exceeds\n`−k`; consequently `d_P(M) > −k`, and `(M,S)` is **not** the elder pair of `P`. The path is one of:"
+    },
+    {
+     "file": "frontiers/local_pairing_20260930/README.md",
+     "line_start": 13,
+     "line_end": 15,
+     "text": "* **Theorem LP** (conditional on [SC] and [P] at their scope): `liminf r⁻³(1 − p_r) ≥ a₁ + a₂ = ν₁ + ν₂ − β_far`,\n  the local nonempty cluster mass — a lower bound for the `Θ(r³)` selection loss of [P] Theorem A / [ELDER] /\n  [E_d] by an explicit functional of the cluster measure."
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) Theorem LP is conditional on [SC] sections 1, 2, 4 (15), 5 and (17)-(20) at fixed d, L, b, k and frame, on [P] section 4 (4.1), section 5 (5.5), section 8 and maximin (E1), and on [CUB] Theorem C (LOCAL_PAIRING.md lines 324-325). (b) The deterministic lemmas concern a typed theta = (s,a,beta,c) for the pinned planar cubic P_theta, off the null tie set {s <= B, D^2 = T} (lines 46-49, 171-173). (c) Conjecture LP= depends on (O1), and (O1') ⇒ (O1) is conditional on Lemma 5.1 from QS-E (README.md lines 33-38).",
+   "dependencies": "[SC] (merged), [CUB] Theorem C and (C1)-(C13), [P] Theorem A and sections 4-8, [TSL] Theorems L and T, [ELDER], [E_d], [C6] moments, QS-E (main#229 5961415030), Math-#170 Theorem S and Math-#175 Theorem F (for LP=), and [RES] Math-#173 (LOCAL_PAIRING.md lines 10-20, 38-45).",
+   "finite_checks": "pairing_check.py uses stdlib exact rationals. It checks the I0-I3 identities, the P1 path inequalities on 6840 chart points (minimum margin 1/1200), the P2 [ELDER] witness, and the N1 typed n=0 grid (135 points). Its JSON output is byte-identical under -O. Mutants M1-M4 exit 1 and an unknown label exits 2 (LOCAL_PAIRING.md lines 529-544; RESULTS.json lines 2-36). The source also records clean-context referee passes and Codex Slice C review C85 (5396856086) (lines 5-8, 22-29, 553-560). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: pairing_check.py uses exact Fraction arithmetic; its float-literal matches are in comments (e.g. line 68). The exploration/ grid computation that README.md mentions is not in this object's file list at this ref.",
+   "source_self_limits": "LOCAL_PAIRING.md lines 546-551: there is no acceptance of [SC], [CUB], [TSL] or [P], no numerical constant, no uniformity as k↓0 or in L or d, no rate, no finite-r spatial law and no d>=3 hard-direction statement. Lines 60-63: the lower bound concerns the Θ(ell^{2/3}) compact-window loss only. v1.2 (lines 22-29): the section 5 sketch is withdrawn as a proof.",
+   "exact_boundary": "Quarantined exactly: Lemmas 2.1, 2.2, P, P' and Proposition 3.3 on the pinned planar cubic (sections 2-3); Lemmas 4.1-4.2 and Theorem LP (4.1) at the conditional scope of lines 324-325; and Conjecture LP= with (O1) and Lemma 5.1 (section 5). Excluded: the equality LP=, which the source attributes to Math-#170/#175, and any rate, uniformity, finite-r or d>=3 hard-direction statement.",
+   "layer_a_status": "A1: an author-side proof candidate; nothing is CLOSED. A2: [SC], [P] and [CUB] are hypotheses. A3: exact rationals in the controls. A5: the withdrawn v1.1 sketch remains recorded. A6: the bound is nontrivial when a1+a2 > 0. A7: describes the source's statements. A8: the Python controls are not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of the deterministic cubic lemmas: growth at infinity, the death level as a critical value, paths V and U with margins, and Proposition 3.3. Lemmas 4.1-4.2 and the compact-jet transfer in Theorem LP's proof are also unchecked. [SC], [P] and [CUB] are unproved inputs here. Conjecture LP= remains open pending (O1) and Lemma 5.1.",
+   "attempted": "The source records two referee passes, three review slices, v1.2 answering C-01, and exact controls with mutants (LOCAL_PAIRING.md lines 5-29, 529-560). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "Medium for the deterministic cubic lemmas, which are elementary real-algebraic statements. High for Theorem LP, which needs the Gaussian transfer and [SC]/[P]. Dormant until deliberately reopened."
+  },
+  {
+   "object": "frontiers/two_scale_cluster_geometry_20260929",
+   "classification": "OBLIGATION",
+   "classification_reason": "TWO_SCALE_LAW.md states Theorem T (lines 135-148), Theorem L (lines 245-251) and a d>=3 spatial-TV obstruction (section 6). RADIAL_TAIL.md states Theorem R (lines 29-41) and Theorem H (lines 208-215). RESULTS.json records exact identities. README.md lines 3-6 call it an author-side conditional packet, and its reviews are scoped reads (lines 53-61), not kernel closure. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Two-scale cluster geometry and eleven-power microscopic tail: Math- frontiers/two_scale_cluster_geometry_20260929 at 19a55750; Theorem T (weak two-scale law), Theorem L (factorial localization), Theorem R F(t) ~ C_star t^-11, Theorem H (Pareto(11) marks, height mean 5771/7062)",
+   "statements": [
+    {
+     "file": "frontiers/two_scale_cluster_geometry_20260929/TWO_SCALE_LAW.md",
+     "line_start": 135,
+     "line_end": 138,
+     "text": "**Theorem T (two-scale marked law).** Conditional on the exact inputs above,\nfor every cutoff satisfying (T1),\n\n    L_r -> L=L_micro+L_remote weakly as finite measures       (T5)"
+    },
+    {
+     "file": "frontiers/two_scale_cluster_geometry_20260929/README.md",
+     "line_start": 16,
+     "line_end": 22,
+     "text": "RADIAL_TAIL.md computes the tail of the resulting limiting MICROSCOPIC point\nintensity. The tail is C_star t^-11 with a finite positive Gaussian coefficient;\nits geometric factor is exactly 53250048/385 times k^7. The radial moment threshold\nis p<11. An intensity-selected point far out in this limiting local law has an\nindependent Pareto(11) radial ratio and a universal downward-height density, with\nmean 5771/7062. This is NOT a finite-r uniform tail or a global law including\nremote singletons; the order is r->0 first, radius->infinity second."
+    },
+    {
+     "file": "frontiers/two_scale_cluster_geometry_20260929/RESULTS.json",
+     "line_start": 4,
+     "line_end": 10,
+     "text": "  \"radial_factor_at_k1\": \"53250048/385\",\n  \"scientific_effect\": \"NONE\",\n  \"scope\": \"exact finite identities, not Gaussian or limiting-law verification\",\n  \"shape_integral\": \"246528/35\",\n  \"stationary_map_cases\": 648,\n  \"tail_exponent\": 11,\n  \"universal_height_mean\": \"5771/7062\""
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The exact inputs of TWO_SCALE_LAW.md section 1: the exact spectral proof of Math-#162 and the scalar classifier of #158 at its algebraic scope; #159 is not a premise and #157 is not consumed. (b) Cutoffs satisfy (T1) (TWO_SCALE_LAW.md lines 135-137; README.md lines 9-10, 24-27). (c) RADIAL_TAIL.md concerns the limiting microscopic measure, with r->0 taken before t->infinity (lines 25-27).",
+   "dependencies": "The Math-#162 exact spectral proof, the #158 scalar classifier, and the SOURCES.json pins (six named source objects, README.md line 34).",
+   "finite_checks": "verify.py checks six source objects and the inventory, runs 61 unit tests in each mode (52 earlier), checks deterministic output, runs eight negative controls and refuses unknown labels. The exact controls are 648 rational stationary-point substitutions, the signed Jacobian, the raw-jet inverse, shape-strip integrals, seven height moments computed two ways, and localization inequalities (README.md lines 29-49, 71-77). The source says no Gaussian coefficient is numerically estimated. One Claude session wrote reviews A, B and C (lines 51-61). Nothing was rerun for this proposal.",
+   "floating_point": "NONE: geometry.py uses Fraction and integer math.factorial (line 105). test_geometry.py uses a float only to test rejection (line 43). verify.py and test_custody.py do no arithmetic bearing on claims.",
+   "source_self_limits": "README.md lines 20-22: no finite-r uniform tail and no global law including remote singletons. RADIAL_TAIL.md lines 40-41: no numerical C_star. TWO_SCALE_LAW.md lines 145-148: weak convergence only, not spatial TV; section 5 notes that the order of limits restricts the result. RESULTS.json: mathematical_acceptance false. README.md lines 41-44: the arguments are not Lean-formalized.",
+   "exact_boundary": "Quarantined exactly, conditional on Math-#162 and #158 at their scope: Theorems T and L (TWO_SCALE_LAW.md lines 135-148, 245-251) and the section 6 obstruction; Theorems R and H with (R13), the threshold p<11 and (R3) (RADIAL_TAIL.md lines 29-41, 208-215); and the RESULTS.json exact identities. Excluded: finite-r uniform tails, remote-singleton global laws and any numerical C_star.",
+   "layer_a_status": "A1: an author-side conditional packet; nothing is CLOSED. A2: Math-#162 and #158 are hypotheses. A3: exact rationals. A6: not vacuous. A7: describes the source's statements; the summary reports remote_review_authenticity_checked=false. A8: the Python controls are not an A8-qualified tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of the fixed-radius limits and regional sandwich for Theorem T, the localization argument for Theorem L, the change of variables with multiplicity, Gaussian majorant and tail coefficient for Theorem R, the extreme-mark limit for Theorem H, and the d>=3 obstruction. The consumed Math-#162 spectral proof is an unproved input.",
+   "attempted": "The source records three scoped reviews and a custody repair with 61 tests (README.md lines 51-96). This proposal extracted the statements and ran no packet code.",
+   "resumption_cost": "High. It requires a formal weak convergence of marked point configurations built on a formalized Math-#162. Dormant until deliberately reopened."
+  },
+  {
+   "object": "imports/hardening_ebedb780/main_issue_59",
+   "classification": "OBLIGATION",
+   "classification_reason": "ISSUE_BODY_TRANSCRIPTION.md is a transcription. Its span (lines 34-81) is the only repository-resident carrier of main issue 59's combinatorial claims: the loopless-matroid palette formula (lines 43-51), the uniform-rank formula and construction (lines 55-59), and the K*=816 six-block witness (line 61). A search of the catalog at 32ab7d90 for 'matroid', 'palette', 'hardening_ebedb780' and 'main_issue_59' found no quarantine record for these claims; 'palette' hits only the P15 covers/price records. Treating the file as a NOT_OBLIGATION transcription would leave the claims without any disposition, so it is classified OBLIGATION. Line 32 records that the transcriber does not accept the argument. If root treats transcriptions as NOT_OBLIGATION, the same claims need a record against main issue 59 itself.",
+   "title": "P15-B matroid palette specialization and 816-label six-block witness (transcription of main issue 59): Math- imports/hardening_ebedb780/main_issue_59 at 19a55750; K* = max_A ceil(sum_{i in A} d_i/rank_M(A)) for loopless matroids",
+   "statements": [
+    {
+     "file": "imports/hardening_ebedb780/main_issue_59/ISSUE_BODY_TRANSCRIPTION.md",
+     "line_start": 43,
+     "line_end": 45,
+     "text": "If these independent sets form a LOOPLESS MATROID M, the new source-bound application gives\n\nK*=max_{nonempty A subset[n]} ceil(sum_{i in A}d_i/rank_M(A))."
+    },
+    {
+     "file": "imports/hardening_ebedb780/main_issue_59/ISSUE_BODY_TRANSCRIPTION.md",
+     "line_start": 55,
+     "line_end": 57,
+     "text": "If ALL (rank+1)-subsets are crossing supports, then\n\nK*=max(max_i d_i,ceil(sum_i d_i/rank))."
+    }
+   ],
+   "hypotheses": "The transcribed source states these hypotheses. (a) P15-B palettes P_i of sizes at least d_i, with empty intersection over every crossing witness support (line 41). (b) The independent sets form a loopless matroid M (line 43). (c) For the uniform-rank case, all (rank+1)-subsets are crossing supports (line 55). (d) The 816 application requires compatible local 408-demand covers and complete crossing-support identification (line 61). (e) Edmonds' partition theorem (line 49).",
+   "dependencies": "Edmonds, Minimum Partition of a Matroid Into Independent Subsets, J. Res. NBS 69B (1965), Theorem 1 (line 49). P15-PALETTE-OPTIMIZER-20260924-v1 (line 37). A Drive-hosted proof (9418 bytes, SHA256 9eafbf8b...) and package (lines 71-76), which are not in the repository.",
+   "finite_checks": "The transcribed body reports 17 unittest methods in normal and optimized Python 3.13.5, 270 demand instances compared against a residual-demand DP, 1638 uniform-rank instances, and augmentation-axiom checks for n<=9 with stated rejections (lines 65-67). It also reports a package replay of 33 tests and 6 mutations (line 76). None of this code is in the object.",
+   "floating_point": "NO_SCRIPTS: the object holds only the Markdown transcription.",
+   "source_self_limits": "Line 3: a transcription, not the original bytes. Line 32: the argument is not accepted, and no prize, lemma_closed or premise changes. Line 37: no prize closure and no novelty of matroid coloring. Line 51: no integer rounding for general hypergraphs. Line 61: the code does not prove the application hypotheses. Line 76: finite implementation evidence, not scientific review.",
+   "exact_boundary": "Quarantined exactly, each only under its stated hypotheses: main issue 59's transcribed claims (body SHA256 a1ef86f9...). They are the loopless-matroid formula with its dual witness (lines 43-51), the uniform-rank formula with its cyclic construction (lines 55-59), and the six-block demand-408 witness K* = 816 (line 61). The P15-B transfer to an 816-color hazard/obstruction-cover conclusion is conditional on application hypotheses that the source says are unproved. Excluded: prize closure, general hypergraphs and P15-D.",
+   "layer_a_status": "A1: a transcribed author-side claim; nothing is CLOSED. A2: Edmonds' theorem is cited established mathematics, used here as a hypothesis and not admitted as an axiom. A3: no numerical bounds. A6: the formulas are conditional on the matroid property and are not vacuous for the stated witness. A7: describes the transcribed text only. A8: the Drive code is not in the repository.",
+   "blocking_reason": "Missing: kernel-checked proofs of the reduction from P15-B palettes to matroid partition (parallel color-demand copies and |U| <= K rank_M(supp U)), of Edmonds' theorem as used, and of the uniform-rank cyclic construction. Also missing: a kernel-checked identification of the six-block instance, with all 15 four-block supports crossing and rank 3, as K* = 816. The P15-B application hypotheses are unproved.",
+   "attempted": "The transcription records the issue body exactly between markers, with its body SHA256 and comment identities (lines 3-33). The body reports finite tests. This proposal extracted the claims; the object contains no code.",
+   "resumption_cost": "Medium. Matroid partition is within reach of Mathlib-level work, and the specialization and the 816 instance are finite combinatorics. The P15-B hypotheses need their own source. Dormant until deliberately reopened."
+  },
+  {
+   "object": "imports/transverse_contact_library_20260927",
+   "classification": "OBLIGATION",
+   "classification_reason": "TRANSVERSE_CONTACT_ASYMPTOTIC.md lines 38-54 state a proposed refined theorem (2.1)-(2.3), with explicit kernels in section 6. GEOMETRY_AND_CUBIC_INDEX.md states a quantitative simplex theorem (lines 12-29), an explicit planar chart constant (section 3) and an exact cubic theorem (lines 122-138). These recovered originals carry author-side claims (README.md lines 3, 7-8); README.md and SOURCE_BINDING.json describe custody only. No catalog record names OA-TYPED-TRANSVERSE-CONTACT-20260925-v1, OA-SIMPLEX-CUBIC-20260925-v1 or this path (catalog searched at 32ab7d90). No Lean declaration exists.",
+   "title": "Recovered transverse-contact exposition: Math- imports/transverse_contact_library_20260927 at 19a55750; proposed six-pin fixed-transverse count asymptotic (2.1) with Lambda_0=Lambda_2=0, Lambda_1>0; quantitative simplex theorem; cubic intermediate-saddle theorem det B_X < 0",
+   "statements": [
+    {
+     "file": "imports/transverse_contact_library_20260927/TRANSVERSE_CONTACT_ASYMPTOTIC.md",
+     "line_start": 40,
+     "line_end": 43,
+     "text": "There are nonnegative continuous kernels Lambda_j(u,v;b,k,frame) and epsilon(r)->0, uniform on these compact parameters, such that\n\n    |E_Qr^W N_j(rE)-r^3 integral_E Lambda_j(u,v)du dv|\n        <= epsilon(r) r^3 area(E).                          (2.1)"
+    },
+    {
+     "file": "imports/transverse_contact_library_20260927/GEOMETRY_AND_CUBIC_INDEX.md",
+     "line_start": 138,
+     "line_end": 138,
+     "text": "**Exact cubic theorem:** a noncollinear third critical point at a strictly intermediate height in the six-pin cubic model is necessarily a nondegenerate saddle. This conclusion needs no presumed endpoint index. It is an exact polynomial result; for a smooth non-cubic field it describes the leading contact model, not an automatic pointwise assertion at finite r."
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) A fixed two-dimensional torus of side L>0 with the normalized periodized Gaussian kernel, compact ranges 0<kmin<=k<=kmax, and an orthonormal frame. (b) Six pins M=(-r/2,0), S=(r/2,0), with f(M)=b and f(S)=b-kr^3, and the weighted law Q_r^W. (c) A compact chart K = {A0 <= sqrt(u^2+v^2) <= B, |v| >= eta} with 1<A0<B and 0<eta<B (TRANSVERSE_CONTACT_ASYMPTOTIC.md lines 10-36). (d) For the simplex theorem: f is C^{2,1} with Hessian Lipschitz constant L on a convex K, and E has full column rank (GEOMETRY_AND_CUBIC_INDEX.md lines 14-21). (e) For the cubic theorem: the six-pin cubic model with a noncollinear third critical point at intermediate height.",
+   "dependencies": "Math- PR16 TRANSVERSE_BOUND_CANDIDATE.md at 32b80ee0 (TRANSVERSE_CONTACT_ASYMPTOTIC.md line 6). Armentano-Azais-Leon arXiv:2304.07424v3, Theorem 7.1. Gass-Stecconi arXiv:2305.17586 (line 195). GEOMETRY_AND_CUBIC_INDEX.md for the scaled-Hessian formulas (README.md line 8).",
+   "finite_checks": "The source mentions polynomial identities 'checked by the delivered standard-library script' (TRANSVERSE_CONTACT_ASYMPTOTIC.md line 191), which is not in this directory. It gives a rational example with explicit Hessians (GEOMETRY_AND_CUBIC_INDEX.md lines 149-159). Byte-custody checks are in README.md lines 26-28 and SOURCE_BINDING.json. Nothing was rerun for this proposal.",
+   "floating_point": "NO_SCRIPTS: this directory contains no Python script.",
+   "source_self_limits": "TRANSVERSE_CONTACT_ASYMPTOTIC.md line 4: an author-side extension for separate review. Line 29: an endpoint-weighted law, not persistence adjacency. Line 54: no uniformity as kmin->0 or eta->0 and no lower bound. Lines 189-193: separate review is needed; this is a proposed local count asymptotic only. GEOMETRY_AND_CUBIC_INDEX.md lines 3-4 and 161-165: no persistence-pairing, thin-belt or d=3 claim. README.md line 3: source availability only.",
+   "exact_boundary": "Quarantined exactly, as recovered author-side statements: the proposed theorem (2.1)-(2.3) with the section 6 kernels on fixed compact charts and parameter sets (TRANSVERSE_CONTACT_ASYMPTOTIC.md lines 38-54); the simplex bounds (2.1)-(2.2) with their consequences (GEOMETRY_AND_CUBIC_INDEX.md section 2); the section 3 chart constant; and the exact cubic theorem det B_X < 0 (lines 122-138). Excluded: eta->0, kmin->0, persistence/elder consequences, d=3 and global RN.",
+   "layer_a_status": "A1: an author-side proposal; nothing is CLOSED. A2: the Kac-Rice framework sources are hypotheses. A3: no numerical bounds. A6: Lambda_0 = Lambda_2 = 0 is stated as a vanishing leading coefficient, not as a ban on extrema at finite r (line 54). A7: describes the recovered bytes. A8: no in-object tool.",
+   "blocking_reason": "Missing: kernel-checked proofs of the six-pin marked Kac-Rice disintegration, the uniform Gaussian regression, the scaled-Hessian passage, the normalizer, and the one-free-jet formula for Lambda_j (TRANSVERSE_CONTACT_ASYMPTOTIC.md sections 3-6). The simplex theorem and the cubic identity are elementary but not formalized.",
+   "attempted": "The source records byte-identical recovery from the original archive (README.md lines 12-30; SOURCE_BINDING.json). This proposal extracted the statements and ran no code.",
+   "resumption_cost": "Medium for the simplex and cubic statements (linear algebra and polynomial identities). High for the Gaussian count asymptotic. Dormant until deliberately reopened."
+  },
+  {
+   "object": "imports/upper2d_h5_ledgers_20260926",
+   "classification": "OBLIGATION",
+   "classification_reason": "The 48 raw JSONL ledgers record numerical hi, rho_hi and c1 values per H5 closure cell and probe (e.g. h5_results_r0.05_s0p1_rimprobes.jsonl line 39). The STAGE_E consumers use the rho_hi maxima as envelope constants (REVIEW.md lines 26-48, 60-78). These are numerical bound data for the historical H5 envelope claim, and no catalog record dispositions that claim (catalog searched for upper2d/H5/STAGE_E keywords). The gap files README.md and REVIEW.md make no claim themselves (README.md lines 70-71), but the directory carries the ledger values. mentioned_by is empty.",
+   "title": "Recovered UPPER2D H5 closure ledgers: Math- imports/upper2d_h5_ledgers_20260926 at 19a55750; 48 raw JSONL files of per-cell hi/rho_hi values (H5 envelope inputs), bound meaning unestablished; angle-175 rim literal exponent discrepancy",
+   "statements": [
+    {
+     "file": "imports/upper2d_h5_ledgers_20260926/raw/H5_closure/h5_results_r0.05_s0p1_rimprobes.jsonl",
+     "line_start": 39,
+     "line_end": 39,
+     "text": "{\"part\": \"rimprobe\", \"th\": 175, \"hi\": \"6.223161331331198063325240037315998416499e-44\", \"rho_hi\": \"1.728655925369777239812566677032221782361e-35\"}"
+    },
+    {
+     "file": "imports/upper2d_h5_ledgers_20260926/raw/H5_closure/h5_results_r0.05_s0p2.jsonl",
+     "line_start": 1,
+     "line_end": 1,
+     "text": "{\"part\": \"R1\", \"cell\": \"th160_dl0.050\", \"hi\": \"0.0003889148863441527735618219452362609445117\", \"boxes\": 6, \"c1\": \"0.00001273383325594286324188982235958892943356\"}"
+    },
+    {
+     "file": "imports/upper2d_h5_ledgers_20260926/README.md",
+     "line_start": 60,
+     "line_end": 62,
+     "text": "The rim script uses a literal dictionary instead of reading these ledgers. At\nangle 175 its literal is `1.72865592536977723981`; the final ledger row is\n`1.728655925369777239812566677032221782361e-35`. The exponent is absent from the"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The ledgers are the direct H5_closure/h5_results_*.jsonl input glob of the STAGE_E hunts (README.md lines 9-12). (b) The meaning of rho_hi and the envelope rho_w <= C, with C = 2x the edge probes, are historical (header of stage_e certify_axis_break.py). (c) The C1 engine, QMC, covariance clipping, bounds and flatness assumptions lie outside the review's scope (REVIEW.md lines 44-48).",
+   "dependencies": "imports/upper2d_stage_e_20260926/raw/STAGE_E/hunt_wedges.py and hunt_rim.py (REVIEW.md lines 15-18). C1_alpha_intensity/c1_grid.py and H2_foundations. The historical H5_CLOSURE.md and h5_run, which are not in the repository. repairs/h5_rim_contract_20260926/REPAIR.md (README.md lines 26-28).",
+   "finite_checks": "verify.py checks 48 identities and regenerates the selection receipt. It runs the hash-pinned merged_constants loader with Decimal in place of mpf, plus an independent selector (README.md lines 30-43; REVIEW.md lines 26-48). The audit finds 903 rows, 156 probe rows and 111 site keys after 45 overwrites, and keeps 11 failure rows (lines 50-58). The hunt is not rerun (README.md line 49).",
+   "floating_point": "USED: the ledger values that form the claim came from the historical C1 engine/QMC route. REVIEW.md lines 44-48 and the stage_e REVIEW.md describe that route as mpf multiprecision with QMC and eigenvalue clipping, with no directed rounding recorded. The object's own verify.py does only Decimal bookkeeping and no float arithmetic (lines 102-144).",
+   "source_self_limits": "README.md lines 7, 38-49, 70-71: verify.py does not validate numerical bounds, and no theorem, flatness hypothesis, Palm transfer, continuum enclosure or acceptance is established. REVIEW.md lines 3-7, 76-78 and 83-89: custody only; neither value is accepted as a certified bound; the hunt remains unverified. README.md lines 68-69: failure rows do not certify zero intensity.",
+   "exact_boundary": "Quarantined exactly: the raw ledger values (hi, rho_hi, c1) in the 48 files under raw/H5_closure, as historical outputs whose bound meaning is unestablished. This includes the angle-175 rho_hi = 1.728655925369777239812566677032221782361e-35, its conflict with the hunt_rim.py literal (README.md lines 60-66), and the four envelope maxima taken from radius-0.05 rows (lines 53-58). Nothing is asserted about the truth of the H5 envelope claim.",
+   "layer_a_status": "A1: the historical labels are not presented as closed. A3: unreviewed multiprecision/QMC values may not certify bounds. A4: the missing exponent would inflate the threshold (REVIEW.md lines 73-77); no corrected bound is adopted. A5: the failure rows are retained. A6: absent probe entries are not zeros. A7: describes recorded bytes and loader behavior. A8: the generating code is unverified.",
+   "blocking_reason": "The intended meaning of each hi/rho_hi value, an upper bound of rho_w on a cell, has no derivation in the repository. Rigorous enclosures are needed for the H5 closure construction, the C1 engine's covariance conditioning, the QMC error, the eigenvalue clipping and the flatness assumptions. The angle-175 rim bound must be re-derived from its construction.",
+   "attempted": "The source records 48-file recovery, hash checks, original-loader reproduction with Decimal, an independent selector, and detection of the missing exponent (README.md, REVIEW.md). This proposal extracted the statements and ran no code.",
+   "resumption_cost": "High. It requires the missing H5 closure construction, a rigorous recomputation of the per-cell bounds, and re-running the consumers. Dormant until deliberately reopened."
+  },
+  {
+   "object": "imports/upper2d_stage_e_20260926",
+   "classification": "OBLIGATION",
+   "classification_reason": "raw/STAGE_E/t_attack_normal.txt lines 1-5 and 17 record a 'certified quiet counterexample' to the older H4-JC inequality in a frozen discrete model, replayed per REPLAY.json. The headers of certify_axis_break.py and isserlis_break.py claim certified violations of the named lemma H5-AXIS v1. README.md lines 23-32 and REVIEW.md lines 55-65 decline to endorse the numerical labels. These are mathematical claims, a counterexample and claimed bounds, with no catalog disposition. mentioned_by is empty.",
+   "title": "Recovered UPPER2D STAGE_E falsifier sources: Math- imports/upper2d_stage_e_20260926 at 19a55750; discrete H4-JC counterexample N_qual + N_loop = 2 > N_w = 1 (frozen 40x40 model) and unendorsed claimed H5-AXIS v1 violations",
+   "statements": [
+    {
+     "file": "imports/upper2d_stage_e_20260926/raw/STAGE_E/t_attack_normal.txt",
+     "line_start": 1,
+     "line_end": 5,
+     "text": "== Part 1: certified quiet counterexample ==\n   pair classification: failure A  D(M) = 574 (y = 574)\n   N_w = 1  N_qual(D2,frozen,own-level) = 1  N_loop(C2,frozen,level-s) = 1\n   double-counted saddles (qual AND loop): [574]\n   H4-JC: N_qual + N_loop = 2  > N_w = 1  -> INEQUALITY VIOLATED: True"
+    },
+    {
+     "file": "imports/upper2d_stage_e_20260926/raw/STAGE_E/t_attack_normal.txt",
+     "line_start": 17,
+     "line_end": 17,
+     "text": "STAGE-E H4-JC COUNTEREXAMPLE CERTIFIED digest=51b2bd7c078aef92d1992d43b04c10454f23af0c760716e0674bbc4274987dbf"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) The discrete witness lives in the frozen B1 model: a 40x40 six-neighbor triangulated torus with lexicographic (binary floating-point height, vertex index) keys and the implemented H4-JC predicates (README.md line 7; REVIEW.md line 35). (b) The numerical claims concern H5-AXIS v1, with wedge {d_M<0.074, theta_M>170 deg} and envelope rho_w <= mbwd_C = 1.6522e-05, using station laws from cov_exact.py (certify_axis_break.py lines 1-25).",
+   "dependencies": "raw/B1_taxonomy/b1_falsifier.py, raw/C1_alpha_intensity/c1_grid.py, raw/H2_foundations/cov_exact.py and pin_transform.py. NumPy, SciPy, mpmath and SymPy, with unlocked versions (README.md line 32). The H5 ledgers in imports/upper2d_h5_ledgers_20260926. The H4/C2/D2 target texts are not included (REVIEW.md line 39).",
+   "finite_checks": "REPLAY.json records attack_h4jc.py under CPython 3.12.14 in both modes: exit 0, with a 1025-byte stdout (SHA256 bc9bcca0...) matching both transcripts. The transcript reports 427 pairs, 175 A-pairs, 132 violations and 1612 two-cluster checks (t_attack_normal.txt lines 9-16). verify.py prints 'CUSTODY VERIFIED: 11 raw files' (REVIEW.md lines 71-75). A TypeError in the isserlis_break Isserlis class was reproduced (lines 41-53). The numerical scripts were not rerun.",
+   "floating_point": "USED: the numerical violation scripts convert box endpoints with float (certify_axis_break.py lines 145-146, per REVIEW.md line 60) and use mpmath without directed rounding, plus NumPy QMC in the hunts. The discrete model itself uses binary floating-point heights (README.md line 7).",
+   "source_self_limits": "README.md lines 3 and 21: the CERTIFIED/PASS labels are historical text, and the finite replay certifies no Gaussian continuum theorem, failure probability, repaired successor or Palm rate. README.md lines 23-32: the enclosures are not endorsed. REVIEW.md lines 39 and 55-65: no continuum counterexample; no fresh numerical replay. REPLAY.json scope: the finite discrete model as implemented.",
+   "exact_boundary": "Quarantined exactly: (i) the finite discrete statement that, in the frozen B1 40x40 model with its implemented D2/C2 predicates, the quiet witness has N_qual + N_loop = 2 > N_w = 1 and 132 of 175 A-pairs violate the implemented H4-JC inequality (t_attack_normal.txt lines 1-16); (ii) the unendorsed historical claims of certify_axis_break.py and isserlis_break.py that rho_w(y0) > mbwd_C; (iii) the hunt scripts' exploratory outputs. Excluded: any Gaussian continuum counterexample, Palm rate or repaired-successor statement.",
+   "layer_a_status": "A1: the historical CERTIFIED labels are not presented as closed. A3: float endpoint conversion, mpmath without directed rounding and QMC cannot certify bounds. A5: the reproduced isserlis defect and the failed formulation are retained. A6: the discrete counterexample refutes only the implemented predicates of a superseded formulation. A7: describes the recorded replay and source inspection. A8: the tools are unverified.",
+   "blocking_reason": "For (i): a kernel-checked statement of the discrete model and predicates and a checked replay of the finite witness are missing; because binary floating heights define the model, a formal version must fix exact heights. For (ii): a rigorous lower bound on rho_w(y0) needs enclosed station means and covariances, a complete degree-six mean-shift bound and directed tail bounds. The H5-AXIS v1 text is not in the repository.",
+   "attempted": "The source records a fresh replay of the discrete witness in both modes, source inspection, custody verification and the reproduced isserlis defect (README.md; REVIEW.md; REPLAY.json). This proposal extracted the statements and ran no code.",
+   "resumption_cost": "Medium for (i), as a finite computation with exact heights. High for (ii), which requires the H5 lemma text and certified Gaussian bounds. Dormant until deliberately reopened."
+  },
+  {
+   "object": "incoming/grok-cycle4-20260926/harper",
+   "classification": "OBLIGATION",
+   "classification_reason": "SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md states Lemma RI (lines 19-38) and Lemma OPEN (lines 40-44), with a proof sketch (lines 46-49) and an analytic witness (lines 61-73). CLOSED_FORMS_FTS_FTT.md states exact identities TS and TT with their series (lines 14-100). D5_OBSTRUCTION_LEDGER.md states conditional-moment series and records open obligations. README.md line 5 calls the variances certified. No catalog record names this packet; SARD records Q-1086 to Q-1089 concern other frontiers packets. No Lean declaration exists, and mentioned_by is empty.",
+   "title": "Harper cycle-4 packet: Math- incoming/grok-cycle4-20260926/harper at 19a55750; SARD-G A1 Lemma RI / Lemma OPEN (U_chi open in C^2); planar Bargmann-Fock six-pin identities TS Var(f_ts(M)|pins) = (e^{r^2}-1-r^2)/(e^{r^2}-1) and TT series r^4/6 - r^6/30 + r^8/360 - ...; D5 obstruction ledger",
+   "statements": [
+    {
+     "file": "incoming/grok-cycle4-20260926/harper/SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md",
+     "line_start": 40,
+     "line_end": 44,
+     "text": "## Lemma OPEN (openness of a chart that uses only robust hits)\n\nLet `U_chi` be the set of `C^2` fields (on the compact domain of the successor argument) for which a labeled chart `chi` is assembled from branches and sections that satisfy Condition 1, Condition 4, and Lemma RI at every declared hit, including branch-label sections.\n\nThen `U_chi` is open in the `C^2` topology."
+    },
+    {
+     "file": "incoming/grok-cycle4-20260926/harper/CLOSED_FORMS_FTS_FTT.md",
+     "line_start": 16,
+     "line_end": 18,
+     "text": "```\nVar(f_ts(M) | six pins) = (e^{r^2} - 1 - r^2) / (e^{r^2} - 1).\n```"
+    },
+    {
+     "file": "incoming/grok-cycle4-20260926/harper/CLOSED_FORMS_FTS_FTT.md",
+     "line_start": 72,
+     "line_end": 76,
+     "text": "Exact series of this rational function:\n\n```\nr^4/6 - r^6/30 + r^8/360 - r^{10}/12600 + O(r^{12}).\n```"
+    }
+   ],
+   "hypotheses": "The source states these hypotheses. (a) Lemma RI: Sigma is a compact nondegenerate segment in R^2 with endpoint set {a,b}, T an open tube, and gamma a C^1 embedded arc with gamma(0) not in Sigma (SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md lines 21-23). (b) Lemma OPEN: C^2 fields on the successor's compact domain, with charts satisfying Conditions 1 and 4 and Lemma RI at every declared hit (line 42). (c) The identities: a stationary centered Gaussian on R^2 with covariance exp(-|x-y|^2/2) and pins {f, f_t, f_s} at M=(0,0) and S=(r,0) (CLOSED_FORMS_FTS_FTT.md lines 6-9). (d) The D5 ledger: planar BF, six pins and a transverse cone (D5_OBSTRUCTION_LEDGER.md lines 9-13).",
+   "dependencies": "main/reviews/sard_g_successor_a1_a6_20260926/REVIEW.md, the cited source of the AMEND. The SARD-G successor author source, which is not edited. Math- 9a6f8a66 (PR53), 4e188e25, Math-#58 and the PR16/PR22/PR28 scopes (D5_OBSTRUCTION_LEDGER.md lines 15-21). Review 5332391136, bound to 05c20b67.",
+   "finite_checks": "test_closed_forms.py checks float evaluations against series prefixes, the TS/TT coefficients as exact rational series, and the denominator and numerator orders. test_ftt_conditional_mean.py checks exact series through r^5. schur_diagnostic.py computes 80-digit decimal Schur complements, cross-checking to 1e-60 and through r^8. test_schur_diagnostic.py tests the diagnostic (README.md lines 9-21). Nothing was rerun for this proposal.",
+   "floating_point": "USED: test_closed_forms.py compares binary64 evaluations of the closed forms with series prefixes, and schur_diagnostic.py uses 80-digit round-to-nearest decimal (not directed) with float conversions. The TS/TT coefficients are also checked as exact Fraction series in test_closed_forms.py and test_ftt_conditional_mean.py.",
+   "source_self_limits": "SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md lines 6, 46, 59 and 90: the author source is not edited, the proof is only a sketch, and A1 remains AMEND. CLOSED_FORMS_FTS_FTT.md lines 4 and 102-106: not a parent mixed-block statement, not a SIDE24 landing and not a D5 count lemma. D5_OBSTRUCTION_LEDGER.md lines 5 and 173-215: power counting only; the product claims are withdrawn or open. README.md lines 51 and 55-58: D5, A1 and A6 remain AMEND.",
+   "exact_boundary": "Quarantined exactly: Lemma OPEN (U_chi open in C^2) under RI1-RI4 (SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md lines 19-44), an author-side lemma with only a proof sketch. Also quarantined: identities TS and TT with their exact series (CLOSED_FORMS_FTS_FTT.md lines 16-100) for planar Bargmann-Fock with six pins, and the D5 conditional-moment series and same-law Taylor transport identity (sections 3 and 8) as stated, with the cone and pin-neighborhood obligations open. Excluded: SARD-G A1/A6 closure, any D5 count lemma, and SIDE24 statements.",
+   "layer_a_status": "A1: AMEND is retained; nothing is CLOSED. A2: none. A3: the coefficients are checked in exact Fractions; the float and round-to-nearest decimal checks are diagnostics only. A5: the withdrawn claims and the amended denominator error remain recorded (README.md lines 32-49). A7: describes the source's statements. A8: the tools are unverified.",
+   "blocking_reason": "Missing: a kernel-checked proof of Lemma OPEN, covering the continuous dependence of the gradient flow on f in C^1 where min|grad f| > eta, the implicit-function arrival times, and the persistence of the strict predicates. The Schur-complement identities TS and TT, their series and the D5 conditional-moment series are also unchecked. The D5 same-law transport estimate is open in the source.",
+   "attempted": "The source records the 2026-09-27 amendments, the follow-through on review 5332391136 and a second revision with the 80-digit diagnostic (README.md lines 32-51). This proposal extracted the statements and ran no code.",
+   "resumption_cost": "Medium. TS and TT are finite-dimensional Gaussian Schur complements that a CAS certificate or Lean could check, and Lemma OPEN is standard ODE-perturbation analysis. The D5 transport estimate is open research. Dormant until deliberately reopened."
+  }
+ ]
+}
