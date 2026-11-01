@@ -1,0 +1,58 @@
+name: A8 mutation admission repair controls
+on:
+  push:
+    branches: [cbz/auditor-mutation-admission-repair-20261030]
+permissions:
+  contents: read
+jobs:
+  controls:
+    name: A8 admission ${{ matrix.mode }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Bind source and runtime
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python -VV
+          git status --porcelain
+      - name: Admission regression controls (first commit deliberately RED)
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          flags=()
+          if [ "$MODE" = optimized ]; then flags=(-O); fi
+          python -B -S "${flags[@]}" -m unittest tests.test_cbz_mutation_admission -v 2>&1 | tee "$RUNNER_TEMP/a8-admission-$MODE.log"
+      - name: Capture full original mutant failure populations
+        if: ${{ always() }}
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          flags=()
+          if [ "$MODE" = optimized ]; then flags=(-O); fi
+          python -B -S "${flags[@]}" cbz/evidence/a8-admission-repair-20261101/characterize.py "$RUNNER_TEMP/a8-capture-$MODE" 2>&1 | tee "$RUNNER_TEMP/a8-capture-$MODE.log"
+      - name: Preserve all results including RED and unsupported outcomes
+        if: ${{ always() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: a8-admission-${{ matrix.mode }}-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/a8-admission-*.log
+            ${{ runner.temp }}/a8-capture-*.log
+            ${{ runner.temp }}/a8-capture-*/
+          if-no-files-found: error
+          retention-days: 90
