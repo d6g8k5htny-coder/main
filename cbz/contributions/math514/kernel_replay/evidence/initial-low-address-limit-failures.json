@@ -1,0 +1,497 @@
+{
+  "observation": "2 GiB RLIMIT_AS caused Lean runtime thread-creation failure before replay; never G4 green",
+  "results": [
+    {
+      "schema": "cbz-kernel-replay/v1",
+      "gate": "G4-scoped-adapter",
+      "started": "2026-10-29T17:44:16.175513+00:00",
+      "ok": false,
+      "results": [
+        {
+          "module": "BadPrivate",
+          "command": [
+            "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+            "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+          ],
+          "started": "2026-10-29T17:44:16.178164+00:00",
+          "status": "FAIL",
+          "ok": false,
+          "returncode": -6,
+          "memory_mib": 2048,
+          "timeout_seconds": 60,
+          "source": {
+            "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPrivate.lean",
+            "sha256": "8bfbbc22b30cae5c06f461b8794eb23fa3b46737ff3179d90a258720f1bbf022"
+          },
+          "parts": [
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean",
+              "sha256": "5866a6393bb6a5096ba4df704bf5b37929e00b96fef148ac447b4232af821b54"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean.server",
+              "sha256": "cf93f6bc88fd4fa19439767fa35f8a928d4d8aa80ceac1dbcdaf304a2faf904a"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean.private",
+              "sha256": "ee71ee16ed119b9090e9162e84905ea59d317da4a7d461442529ffa860e64649"
+            }
+          ],
+          "pid": 5869,
+          "stdout": "",
+          "stdout_bytes": 0,
+          "stderr": "libc++abi: terminating due to uncaught exception of type lean::exception: failed to create thread: Resource temporarily unavailable\n",
+          "stderr_bytes": 132,
+          "ended": "2026-10-29T17:44:16.186762+00:00",
+          "elapsed_seconds": 0.008620387000519258
+        }
+      ],
+      "completed_count": 0,
+      "expected_count": 1,
+      "manifest": {
+        "schema": "cbz-kernel-replay/v1",
+        "lean": {
+          "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+          "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+        },
+        "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+        "lean_path": [
+          "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o"
+        ],
+        "expected_modules": [
+          "BadPrivate"
+        ],
+        "modules": [
+          {
+            "name": "BadPrivate",
+            "source": {
+              "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPrivate.lean",
+              "sha256": "8bfbbc22b30cae5c06f461b8794eb23fa3b46737ff3179d90a258720f1bbf022"
+            },
+            "parts": [
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean",
+                "sha256": "5866a6393bb6a5096ba4df704bf5b37929e00b96fef148ac447b4232af821b54"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean.server",
+                "sha256": "cf93f6bc88fd4fa19439767fa35f8a928d4d8aa80ceac1dbcdaf304a2faf904a"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPrivate.olean.private",
+                "sha256": "ee71ee16ed119b9090e9162e84905ea59d317da4a7d461442529ffa860e64649"
+              }
+            ]
+          }
+        ],
+        "context": [],
+        "tool": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+            "sha256": "b7445b89a03fb95e9fa859afa9da7cae7396b2e34819bbb7aaa76df7e3b69c6b"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+            "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+            "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+            "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+            "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+            "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+            "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+            "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+          }
+        ]
+      },
+      "g2_status": "NOT_ASSESSED",
+      "full_cbz": false,
+      "ended": "2026-10-29T17:44:16.188348+00:00"
+    },
+    {
+      "schema": "cbz-kernel-replay/v1",
+      "gate": "G4-scoped-adapter",
+      "started": "2026-10-29T17:44:16.190374+00:00",
+      "ok": false,
+      "results": [
+        {
+          "module": "BadPublic",
+          "command": [
+            "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+            "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+          ],
+          "started": "2026-10-29T17:44:16.193113+00:00",
+          "status": "FAIL",
+          "ok": false,
+          "returncode": -6,
+          "memory_mib": 2048,
+          "timeout_seconds": 60,
+          "source": {
+            "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPublic.lean",
+            "sha256": "35b45c63cdfd6f48fd5820d1c48e9e101bfd87c582ef0b5112543c533d597fbe"
+          },
+          "parts": [
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean",
+              "sha256": "d7fa376fa71a436b9663d2a87c40e32760f2d124085c304831b84be9c51e6e7a"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean.server",
+              "sha256": "5d56f60c99151b5065cb151c7aa90306548bda7948d4ec1e42b0961c08f9273a"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean.private",
+              "sha256": "84f3851d24c95669b7e632062e5c0233873d4a7733e1501597765d2faea7be3a"
+            }
+          ],
+          "pid": 5871,
+          "stdout": "",
+          "stdout_bytes": 0,
+          "stderr": "libc++abi: terminating due to uncaught exception of type lean::exception: failed to create thread: Resource temporarily unavailable\n",
+          "stderr_bytes": 132,
+          "ended": "2026-10-29T17:44:16.201642+00:00",
+          "elapsed_seconds": 0.008529789000021992
+        }
+      ],
+      "completed_count": 0,
+      "expected_count": 1,
+      "manifest": {
+        "schema": "cbz-kernel-replay/v1",
+        "lean": {
+          "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+          "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+        },
+        "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+        "lean_path": [
+          "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o"
+        ],
+        "expected_modules": [
+          "BadPublic"
+        ],
+        "modules": [
+          {
+            "name": "BadPublic",
+            "source": {
+              "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPublic.lean",
+              "sha256": "35b45c63cdfd6f48fd5820d1c48e9e101bfd87c582ef0b5112543c533d597fbe"
+            },
+            "parts": [
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean",
+                "sha256": "d7fa376fa71a436b9663d2a87c40e32760f2d124085c304831b84be9c51e6e7a"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean.server",
+                "sha256": "5d56f60c99151b5065cb151c7aa90306548bda7948d4ec1e42b0961c08f9273a"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/BadPublic.olean.private",
+                "sha256": "84f3851d24c95669b7e632062e5c0233873d4a7733e1501597765d2faea7be3a"
+              }
+            ]
+          }
+        ],
+        "context": [],
+        "tool": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+            "sha256": "b7445b89a03fb95e9fa859afa9da7cae7396b2e34819bbb7aaa76df7e3b69c6b"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+            "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+            "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+            "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+            "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+            "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+            "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+            "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+          }
+        ]
+      },
+      "g2_status": "NOT_ASSESSED",
+      "full_cbz": false,
+      "ended": "2026-10-29T17:44:16.203913+00:00"
+    },
+    {
+      "schema": "cbz-kernel-replay/v1",
+      "gate": "G4-scoped-adapter",
+      "started": "2026-10-29T17:44:16.160197+00:00",
+      "ok": false,
+      "results": [
+        {
+          "module": "Good",
+          "command": [
+            "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+            "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+          ],
+          "started": "2026-10-29T17:44:16.163043+00:00",
+          "status": "FAIL",
+          "ok": false,
+          "returncode": -6,
+          "memory_mib": 2048,
+          "timeout_seconds": 60,
+          "source": {
+            "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/Good.lean",
+            "sha256": "399a84340143a41948b838d33fdb7a60491c7d6827f40970115d24c0bc7bc728"
+          },
+          "parts": [
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean",
+              "sha256": "71850802d7719967a07397afd42a3dce1eb3fc5f6ef915556c1e6c3ce6cca27c"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean.server",
+              "sha256": "64aad674a938d54c40e51c647380eb937e6e22075b72c32162a584f7871ba07b"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean.private",
+              "sha256": "92c9f15ad23e16f22580d6c41581cf0df79d84c9177e88388dac55d83323d698"
+            }
+          ],
+          "pid": 5867,
+          "stdout": "",
+          "stdout_bytes": 0,
+          "stderr": "libc++abi: terminating due to uncaught exception of type lean::exception: failed to create thread: Resource temporarily unavailable\n",
+          "stderr_bytes": 132,
+          "ended": "2026-10-29T17:44:16.171688+00:00",
+          "elapsed_seconds": 0.00864493799963384
+        }
+      ],
+      "completed_count": 0,
+      "expected_count": 1,
+      "manifest": {
+        "schema": "cbz-kernel-replay/v1",
+        "lean": {
+          "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+          "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+        },
+        "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+        "lean_path": [
+          "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o"
+        ],
+        "expected_modules": [
+          "Good"
+        ],
+        "modules": [
+          {
+            "name": "Good",
+            "source": {
+              "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/Good.lean",
+              "sha256": "399a84340143a41948b838d33fdb7a60491c7d6827f40970115d24c0bc7bc728"
+            },
+            "parts": [
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean",
+                "sha256": "71850802d7719967a07397afd42a3dce1eb3fc5f6ef915556c1e6c3ce6cca27c"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean.server",
+                "sha256": "64aad674a938d54c40e51c647380eb937e6e22075b72c32162a584f7871ba07b"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/Good.olean.private",
+                "sha256": "92c9f15ad23e16f22580d6c41581cf0df79d84c9177e88388dac55d83323d698"
+              }
+            ]
+          }
+        ],
+        "context": [],
+        "tool": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+            "sha256": "b7445b89a03fb95e9fa859afa9da7cae7396b2e34819bbb7aaa76df7e3b69c6b"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+            "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+            "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+            "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+            "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+            "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+            "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+            "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+          }
+        ]
+      },
+      "g2_status": "NOT_ASSESSED",
+      "full_cbz": false,
+      "ended": "2026-10-29T17:44:16.173320+00:00"
+    },
+    {
+      "schema": "cbz-kernel-replay/v1",
+      "gate": "G4-scoped-adapter",
+      "started": "2026-10-29T17:44:16.205967+00:00",
+      "ok": false,
+      "results": [
+        {
+          "module": "UnapprovedAxiom",
+          "command": [
+            "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+            "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+          ],
+          "started": "2026-10-29T17:44:16.208834+00:00",
+          "status": "FAIL",
+          "ok": false,
+          "returncode": -6,
+          "memory_mib": 2048,
+          "timeout_seconds": 60,
+          "source": {
+            "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+            "sha256": "24a4ed0e582c2cfc1a5113da5cf0215bf1adcfcd0e885db6448ee31428f34547"
+          },
+          "parts": [
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean",
+              "sha256": "cf6f7c946ba00133f89ddad1ae6638b1eee298406ef3e98ab94c9148b47f5498"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean.server",
+              "sha256": "7377e93c142feadf6d87719868c4adc2df6e7e759e8bf617b51970680444afff"
+            },
+            {
+              "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean.private",
+              "sha256": "04cafad3cdea7af357c1440cf4967b20df05b5bdbb12dc6a87c4ffeab111ad0f"
+            }
+          ],
+          "pid": 5873,
+          "stdout": "",
+          "stdout_bytes": 0,
+          "stderr": "libc++abi: terminating due to uncaught exception of type lean::exception: failed to create thread: Resource temporarily unavailable\n",
+          "stderr_bytes": 132,
+          "ended": "2026-10-29T17:44:16.217433+00:00",
+          "elapsed_seconds": 0.008599818000220694
+        }
+      ],
+      "completed_count": 0,
+      "expected_count": 1,
+      "manifest": {
+        "schema": "cbz-kernel-replay/v1",
+        "lean": {
+          "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+          "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+        },
+        "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+        "lean_path": [
+          "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o"
+        ],
+        "expected_modules": [
+          "UnapprovedAxiom"
+        ],
+        "modules": [
+          {
+            "name": "UnapprovedAxiom",
+            "source": {
+              "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/UnapprovedAxiom.lean",
+              "sha256": "24a4ed0e582c2cfc1a5113da5cf0215bf1adcfcd0e885db6448ee31428f34547"
+            },
+            "parts": [
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean",
+                "sha256": "cf6f7c946ba00133f89ddad1ae6638b1eee298406ef3e98ab94c9148b47f5498"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean.server",
+                "sha256": "7377e93c142feadf6d87719868c4adc2df6e7e759e8bf617b51970680444afff"
+              },
+              {
+                "path": "/workspace/cbz-0/tools/kernel_replay/evidence/tmp_yngox4o/UnapprovedAxiom.olean.private",
+                "sha256": "04cafad3cdea7af357c1440cf4967b20df05b5bdbb12dc6a87c4ffeab111ad0f"
+              }
+            ]
+          }
+        ],
+        "context": [],
+        "tool": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+            "sha256": "b7445b89a03fb95e9fa859afa9da7cae7396b2e34819bbb7aaa76df7e3b69c6b"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+            "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+            "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+            "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+            "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+            "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+            "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+          },
+          {
+            "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+            "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+          }
+        ]
+      },
+      "g2_status": "NOT_ASSESSED",
+      "full_cbz": false,
+      "ended": "2026-10-29T17:44:16.219051+00:00"
+    }
+  ]
+}

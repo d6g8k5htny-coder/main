@@ -1,0 +1,417 @@
+{
+  "new_obligation": "Ordinary synchronous None-return load_tests method alias/same-name class replacement after discovery; original declared bodies retained but omitted",
+  "execution_mode": "normal only; no old tests rerun",
+  "source_bindings": {
+    "kernel_replay/run_tests.py": {
+      "sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "bytes": 10420
+    },
+    "kernel_replay/mutations.py": {
+      "sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+      "bytes": 15771
+    },
+    "layer_a/mutation_test.py": {
+      "sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "bytes": 30300
+    }
+  },
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "case": "alias-pass",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/run.json"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "source_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "fixture_sha256": "562b11ed6f4097250316e8b4cbbe7525cacdd4af7fbb8db64f758bacbccc42f2",
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 0,
+      "errors": 0,
+      "body_trace": [
+        "original-first",
+        "original-first"
+      ],
+      "original_second_executed": false
+    },
+    {
+      "tool": "kernel_replay",
+      "case": "named-class-control",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-pass/named.json",
+        "--test",
+        "test_alias.AliasTests"
+      ],
+      "exit_code": 1,
+      "selected_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_trace": [
+        "original-first",
+        "original-second"
+      ],
+      "assertion_failures": 1,
+      "errors": 0,
+      "original_second_executed": true
+    },
+    {
+      "tool": "kernel_replay",
+      "case": "alias-kill",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-kill/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-kill/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-kill/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/alias-kill/run.json"
+          ],
+          "exit_code": 1
+        }
+      ],
+      "source_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "fixture_sha256": "562b11ed6f4097250316e8b4cbbe7525cacdd4af7fbb8db64f758bacbccc42f2",
+      "outcome": "KILLED",
+      "selected_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 2,
+      "errors": 0,
+      "body_trace": [
+        "original-first",
+        "original-first"
+      ],
+      "original_second_executed": false
+    },
+    {
+      "tool": "kernel_replay",
+      "case": "same-name-subclass",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/same-name-subclass/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/same-name-subclass/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/same-name-subclass/run_tests.py",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/kernel_replay/same-name-subclass/run.json"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "source_sha256": "f0a67f6cb3a2e0232d1cb7ff61cd7e5c21ae4c414a8c74c3a3225712b3a74ba3",
+      "fixture_sha256": "c75334c2cd7a0e5847ae1f97625151bca76be8a534fa4919c6b52566a577b67f",
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_alias.AliasTests.test_first",
+        "test_alias.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 0,
+      "errors": 0,
+      "body_trace": [
+        "replacement",
+        "replacement"
+      ],
+      "original_second_executed": false
+    },
+    {
+      "tool": "layer_a",
+      "case": "alias-pass",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/run.json"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "source_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "fixture_sha256": "562b11ed6f4097250316e8b4cbbe7525cacdd4af7fbb8db64f758bacbccc42f2",
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 0,
+      "errors": 0,
+      "body_trace": [
+        "original-first",
+        "original-first"
+      ],
+      "original_second_executed": false
+    },
+    {
+      "tool": "layer_a",
+      "case": "named-class-control",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-pass/named.json",
+        "--test",
+        "test_auditor.AliasTests"
+      ],
+      "exit_code": 1,
+      "selected_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_trace": [
+        "original-first",
+        "original-second"
+      ],
+      "assertion_failures": 1,
+      "errors": 0,
+      "original_second_executed": true
+    },
+    {
+      "tool": "layer_a",
+      "case": "alias-kill",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/alias-kill/run.json"
+          ],
+          "exit_code": 1
+        }
+      ],
+      "source_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "fixture_sha256": "562b11ed6f4097250316e8b4cbbe7525cacdd4af7fbb8db64f758bacbccc42f2",
+      "outcome": "KILLED",
+      "selected_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 2,
+      "errors": 0,
+      "body_trace": [
+        "original-first",
+        "original-first"
+      ],
+      "original_second_executed": false
+    },
+    {
+      "tool": "layer_a",
+      "case": "same-name-subclass",
+      "commands": [
+        {
+          "phase": "list",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/list.json",
+            "--list"
+          ],
+          "exit_code": 0
+        },
+        {
+          "phase": "run",
+          "command": [
+            "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+            "-B",
+            "-S",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/mutation_test.py",
+            "--internal-test-runner",
+            "--test-root",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/tests",
+            "--output",
+            "/workspace/cbz-0/delivery/grader-identity-preflight/fixtures/layer_a/same-name-subclass/run.json"
+          ],
+          "exit_code": 0
+        }
+      ],
+      "source_sha256": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+      "fixture_sha256": "c75334c2cd7a0e5847ae1f97625151bca76be8a534fa4919c6b52566a577b67f",
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_entered_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "body_finished_ids": [
+        "test_auditor.AliasTests.test_first",
+        "test_auditor.AliasTests.test_second"
+      ],
+      "invalid_population": [],
+      "assertion_failures": 0,
+      "errors": 0,
+      "body_trace": [
+        "replacement",
+        "replacement"
+      ],
+      "original_second_executed": false
+    }
+  ]
+}

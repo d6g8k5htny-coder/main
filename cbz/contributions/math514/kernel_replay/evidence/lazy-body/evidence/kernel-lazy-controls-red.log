@@ -1,0 +1,145 @@
+test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) ... 
+  test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="def test_a_lazy(self):\n    record('lazy advanced')\n    yield None") ... FAIL
+  test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None") ... FAIL
+  test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="async def test_a_lazy(self): record('lazy advanced')") ... FAIL
+test_decorator_without_wrapped_metadata_cannot_hide_lazy_return (test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return) ... FAIL
+test_ordinary_synchronous_body_positives_remain_supported (test_mutation_harness.LazyBodyHarnessTests.test_ordinary_synchronous_body_positives_remain_supported) ... ok
+test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) ... 
+  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='generator()') ... FAIL
+  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='coroutine()') ... FAIL
+  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='async_generator()') ... FAIL
+  test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='Awaitable()') ... FAIL
+test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) ... 
+  test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="def test_a_lazy(self):\n    record('lazy advanced')\n    yield None") ... FAIL
+  test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None") ... FAIL
+  test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="async def test_a_lazy(self): record('lazy advanced')") ... FAIL
+
+======================================================================
+FAIL: test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="def test_a_lazy(self):\n    record('lazy advanced')\n    yield None")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 226, in test_declared_lazy_method_shapes_refuse_mixed_population_before_execution
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp3luwqy53/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body assertion\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 226, in test_declared_lazy_method_shapes_refuse_mixed_population_before_execution
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpaz47zyw3/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body assertion\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_declared_lazy_method_shapes_refuse_mixed_population_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_declared_lazy_method_shapes_refuse_mixed_population_before_execution) (shape="async def test_a_lazy(self): record('lazy advanced')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 227, in test_declared_lazy_method_shapes_refuse_mixed_population_before_execution
+    self.assertEqual(events, [], value)
+AssertionError: Lists differ: ['ordinary assertion'] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+'ordinary assertion'
+
+- ['ordinary assertion']
++ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpyquzg2ry/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body assertion\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_decorator_without_wrapped_metadata_cannot_hide_lazy_return (test_mutation_harness.LazyBodyHarnessTests.test_decorator_without_wrapped_metadata_cannot_hide_lazy_return)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 282, in test_decorator_without_wrapped_metadata_cannot_hide_lazy_return
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp0y4ucml3/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='generator()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp5d1vppyz/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='coroutine()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpoh_wc1nh/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='async_generator()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpixpepvd0/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_sync_lazy_returns_refuse_without_advancing_suspended_work (test_mutation_harness.LazyBodyHarnessTests.test_sync_lazy_returns_refuse_without_advancing_suspended_work) (expression='Awaitable()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 268, in test_sync_lazy_returns_refuse_without_advancing_suspended_work
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_return (fixture.Case.test_a_return) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp1wrshjar/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_return', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="def test_a_lazy(self):\n    record('lazy advanced')\n    yield None")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 247, in test_wrapped_lazy_method_shapes_refuse_before_execution
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpm4xdxdy2/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="async def test_a_lazy(self):\n    record('lazy advanced')\n    yield None")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 247, in test_wrapped_lazy_method_shapes_refuse_before_execution
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpyr56dlub/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+======================================================================
+FAIL: test_wrapped_lazy_method_shapes_refuse_before_execution (test_mutation_harness.LazyBodyHarnessTests.test_wrapped_lazy_method_shapes_refuse_before_execution) (shape="async def test_a_lazy(self): record('lazy advanced')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/lazy-body-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 247, in test_wrapped_lazy_method_shapes_refuse_before_execution
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_a_lazy (fixture.Case.test_a_lazy) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmph7frt73n/run_tests.py", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: body\n\nRan 2 tests\n', 'started_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_entered_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_finished_ids': ['fixture.Case.test_a_lazy', 'fixture.Case.test_b_assertion'], 'body_assertion_ids': ['fixture.Case.test_b_assertion'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_b_assertion', 'origin': 'body'}]}
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.839s
+
+FAILED (failures=11)
