@@ -296,8 +296,10 @@ class PackageTests(unittest.TestCase):
 
     def test_main_formal_package_targets_all_pass(self):
         report = sf.check_package(ROOT / 'formal')
-        self.assertEqual(report['targets'], 31)
-        self.assertEqual(report['status_counts'].get('PASS'), 31)
+        registered = len(json.loads((ROOT / 'formal' / 'manifest.json').read_text())['targets'])
+        self.assertGreaterEqual(registered, 31)
+        self.assertEqual(report['targets'], registered)
+        self.assertEqual(report['status_counts'].get('PASS'), registered)
         self.assertEqual(report['status_counts'].get('FAIL', 0), 0)
         self.assertEqual(report['status_counts'].get('UNSUPPORTED', 0), 0)
         self.assertEqual(sorted(report['per_target']), sorted(t['name'] for t in report['manifest_targets']))
@@ -317,7 +319,8 @@ class PackageTests(unittest.TestCase):
             report = sf.check_package(root)
             self.assertEqual(report['per_target']['Y.a']['status'], 'UNSUPPORTED')
             self.assertEqual(report['per_target']['Y.b']['status'], 'PASS')
-            self.assertEqual(report['per_target']['Y.c']['status'], 'UNSUPPORTED')
+            # `(x : ℝ)` before the colon is sampled, never PASS: the package still fails on Y.a
+            self.assertEqual(report['per_target']['Y.c']['status'], 'CORROBORATED')
             self.assertEqual(report['exit_code'], 1)
 
     def test_manifest_targets_may_be_bare_names(self):
@@ -341,6 +344,399 @@ class PackageTests(unittest.TestCase):
             report = sf.check_package(root)
             self.assertEqual(report['status_counts'], {'UNSUPPORTED': 1})
             self.assertEqual(report['exit_code'], 1)
+
+
+
+D2 = '''
+namespace Demo
+def d2DetV (m2 m4 q : ℝ) : ℝ := (1 - 4 * q) * (m2 ^ 2 * m4) + 4 * q * ((m4 - m2 ^ 2) * (m4 + 3 * m2 ^ 2) / 4)
+def d2Numerator (m2 m4 : ℝ) : ℝ := m2 ^ 2 * (m4 - m2 ^ 2)
+def d2Schur (m2 m4 q : ℝ) : ℝ := d2Numerator m2 m4 / d2DetV m2 m4 q
+end Demo
+'''
+
+
+class RealBinderTests(unittest.TestCase):
+    """Sampled falsification of statements with real binders: exact rationals, Lean's totalized
+    division and sqrt, hypothesis filtering, pathological boundary values, interval-decided sqrt."""
+
+    def ev(self, binders, text, defs='', seed=1, samples=64):
+        module = sf.parse_module(defs + f'\ntheorem t {binders} : {text} := by sorry\n')
+        return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
+
+    def test_true_real_identity_is_corroborated_with_sample_counts(self):
+        r = self.ev('(a b : ℝ)', '(a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertGreaterEqual(r.instances, 64)
+        self.assertIn('admitted', r.detail)
+
+    def test_false_real_identity_is_refuted_with_an_exact_witness(self):
+        r = self.ev('(a b : ℝ)', '(a + b) ^ 2 = a ^ 2 + b ^ 2')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('a =', r.detail)
+        self.assertIn('b =', r.detail)
+        self.assertTrue(all(not isinstance(v, float) for v in r.values))
+
+    def test_hypotheses_filter_samples(self):
+        self.assertEqual(self.ev('(r : ℝ) (hr0 : 0 ≤ r) (hr1 : r ≤ 1)', 'r ^ 4 ≤ r ^ 3').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(r : ℝ) (hr0 : 0 ≤ r)', 'r ^ 4 ≤ r ^ 3').status, 'FAIL')     # r = 2
+
+    def test_lean_real_division_is_totalized(self):
+        self.assertEqual(self.ev('(x : ℝ)', 'x / 0 = 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(x : ℝ) (hx : x ≠ 0)', 'x / x = 1').status, 'CORROBORATED')
+        r = self.ev('(x : ℝ)', 'x / x = 1')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('x = 0', r.detail)                                           # 0 / 0 = 0 ≠ 1
+
+    def test_unsatisfiable_hypotheses_are_not_a_pass(self):
+        r = self.ev('(x : ℝ) (h1 : x < 0) (h2 : 0 < x)', 'x = 1')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('no sample', r.detail)
+
+    def test_sqrt_is_exact_on_squares_and_totalized_on_negatives(self):
+        self.assertEqual(self.ev('', '(1 : ℝ) = Real.sqrt 4 * Real.sqrt (1 / 4 : ℝ)').status, 'PASS')
+        self.assertEqual(self.ev('', 'Real.sqrt (-1 : ℝ) = 0').status, 'PASS')
+        self.assertEqual(self.ev('', '¬ (1 : ℝ) ≤ Real.sqrt 4 * (1 / 4 : ℝ)').status, 'PASS')
+
+    def test_sqrt_of_a_non_square_is_decided_by_outward_rounded_intervals(self):
+        self.assertEqual(self.ev('', 'Real.sqrt 2 < 3 / 2').status, 'PASS')
+        self.assertEqual(self.ev('', 'Real.sqrt 2 = 3 / 2').status, 'FAIL')
+        self.assertEqual(self.ev('', '(7 : ℝ) / 5 < Real.sqrt 2 ∧ Real.sqrt 2 < 141422 / 100000').status, 'PASS')
+
+    def test_sqrt_identity_with_sampled_arguments_is_corroborated(self):
+        r = self.ev('(r cW cZ q : ℝ) (hr : r ≠ 0) (hcZ : cZ ≠ 0)',
+                    '(Real.sqrt cW * r ^ 2 * Real.sqrt q) / (cZ * r ^ 2) = (Real.sqrt cW / cZ) * Real.sqrt q')
+        self.assertEqual(r.status, 'CORROBORATED')
+        r2 = self.ev('(cW : ℝ)', 'Real.sqrt cW * Real.sqrt cW = cW')
+        self.assertEqual(r2.status, 'FAIL')                                         # cW < 0: 0 ≠ cW
+
+    def test_abs_max_and_ne(self):
+        self.assertEqual(self.ev('', '|(-3 : ℝ)| = 3 ∧ max (1 : ℝ) 2 = 2').status, 'PASS')
+        self.assertEqual(self.ev('(a b z t δ : ℝ) (hz : 0 < z) (ht : 0 < t) (ha : 0 ≤ a) (haz : a ≤ z) (hab : |a - b| ≤ δ) (hzt : |z - t| ≤ δ)',
+                                 '|a / z - b / t| ≤ 2 * δ / t').status, 'CORROBORATED')
+
+    def test_local_real_defs_with_parameters(self):
+        self.assertEqual(self.ev('(m2 m4 : ℝ)', 'd2DetV m2 m4 0 = m2 ^ 2 * m4', D2).status, 'CORROBORATED')
+        self.assertEqual(self.ev('', 'd2DetV 1 1 (1 / 4) = 0 ∧ d2Schur 1 1 (1 / 4) = 0 ∧ d2Numerator 1 1 / d2DetV 1 1 (1 / 4) = 0', D2).status, 'PASS')
+        self.assertEqual(self.ev('(m2 m4 q : ℝ) (hm2 : 0 < m2) (hm4 : m2 ^ 2 < m4) (hq0 : 0 ≤ q) (hq1 : q ≤ 1 / 4)',
+                                 '0 < d2DetV m2 m4 q', D2).status, 'CORROBORATED')
+
+    def test_non_numeric_binders_stay_unsupported(self):
+        for b in ('(μ : Measure Ω)', '(f : Ω → ℝ)', '[IsProbabilityMeasure μ] (μ : Measure Ω)', '(A : Set Ω)'):
+            with self.subTest(b=b):
+                self.assertEqual(self.ev(b, '(1 : ℝ) = 1').status, 'UNSUPPORTED')
+
+    def test_boundary_values_from_hypotheses_are_sampled(self):
+        # true only strictly inside (0, 1): fails at the boundary r = 1 exactly, which the sampler must try
+        r = self.ev('(r : ℝ) (hr0 : 0 ≤ r) (hr1 : r ≤ 1)', 'r ^ 4 < r ^ 3')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertTrue('r = 1' in r.detail or 'r = 0' in r.detail)
+
+    def test_sampling_is_deterministic_for_a_seed(self):
+        a = self.ev('(a b : ℝ)', '(a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2', seed=7)
+        b = self.ev('(a b : ℝ)', '(a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2', seed=7)
+        self.assertEqual((a.status, a.instances, a.detail), (b.status, b.instances, b.detail))
+
+    def test_mutation_contract_applies_to_sampled_statements(self):
+        module = sf.parse_module(D2 + '\ntheorem t (m2 m4 : ℝ) : d2DetV m2 m4 0 = m2 ^ 2 * m4 := by ring\n'
+                                 '\ntheorem u (r : ℝ) (hr0 : 0 ≤ r) (hr1 : r ≤ 1) : r ^ 4 ≤ r ^ 3 := by nlinarith\n')
+        report = sf.mutation_selftest(module)
+        self.assertTrue(report['control_passed'])
+        self.assertEqual(report['killed'], report['mutants'])
+        self.assertGreaterEqual(report['mutants'], 2)
+        self.assertEqual(report['weakenings_rejected'], [])
+        self.assertTrue(report['harness_ok'])
+
+
+class ExactRealAlgebraTests(unittest.TestCase):
+    """Closed statements over ℝ are decided exactly in ℚ(√d₁, …, √dₖ): never a float, never an approximation."""
+
+    def ev(self, text, defs=''):
+        module = sf.parse_module(defs + f'\ntheorem t : {text} := by norm_num\n')
+        return sf.evaluate_theorem(module, module.theorems[-1])
+
+    def test_quadratic_identities_and_inverses_are_exact(self):
+        for text in ('Real.sqrt 2 * Real.sqrt 2 = 2', 'Real.sqrt 2 + Real.sqrt 8 = 3 * Real.sqrt 2',
+                     '1 / (Real.sqrt 2 + Real.sqrt 3) = Real.sqrt 3 - Real.sqrt 2',
+                     '(Real.sqrt 2 + Real.sqrt 3) ^ 2 = 5 + 2 * Real.sqrt 6',
+                     '(Real.sqrt 2 + Real.sqrt 3 + Real.sqrt 5 + Real.sqrt 30)⁻¹ * (Real.sqrt 2 + Real.sqrt 3 + Real.sqrt 5 + Real.sqrt 30) = 1',
+                     'Real.sqrt (Real.sqrt 2 * Real.sqrt 2) = Real.sqrt 2', '√2 * √2 = 2 ∧ √(2 : ℝ) ^ 2 = 2',
+                     'Real.sqrt (1 / 2) = Real.sqrt 2 / 2', 'Real.sqrt 12 * Real.sqrt 3 = 6'):
+            with self.subTest(text=text):
+                r = self.ev(text)
+                self.assertEqual(r.status, 'PASS', r.detail)
+                self.assertFalse(any(isinstance(v, float) for v in r.values))
+
+    def test_orderings_near_zero_are_decided_by_refinement_not_floats(self):
+        self.assertEqual(self.ev('Real.sqrt 2 + Real.sqrt 3 < Real.sqrt 10').status, 'PASS')     # 3.1462… < 3.1622…
+        self.assertEqual(self.ev('Real.sqrt 2 + Real.sqrt 3 > Real.sqrt 10').status, 'FAIL')
+        self.assertEqual(self.ev('Real.sqrt 2 > 1.41421356 ∧ Real.sqrt 2 < 1.41421357').status, 'PASS')
+        self.assertEqual(self.ev('Real.sqrt 1000001 - 1000 > 1 / 2001 ∧ Real.sqrt 1000001 - 1000 < 1 / 2000').status, 'PASS')
+
+    def test_scientific_literals_need_a_field_context(self):
+        self.assertEqual(self.ev('(0.5 : ℝ) = 1 / 2').status, 'PASS')
+        self.assertEqual(self.ev('(1 : ℝ) / 3 = 0.3333').status, 'FAIL')
+        self.assertEqual(self.ev('0.5 = 1 / 2').status, 'UNSUPPORTED')    # Lean would default 0.5 to Float
+
+    def test_exponent_typing_follows_lean(self):
+        self.assertEqual(self.ev('(2 : ℝ) ^ (-2 : ℤ) = 1 / 4 ∧ (0 : ℝ) ^ (-2 : ℤ) = 0').status, 'PASS')   # zpow, 0⁻¹ = 0
+        self.assertEqual(self.ev('(9 : ℝ) ^ (1 / 2) = 1').status, 'PASS')          # the exponent 1/2 is a Nat: 0
+        self.assertEqual(self.ev('(9 : ℝ) ^ (1 / 2 : ℝ) = 3').status, 'UNSUPPORTED')   # rpow
+
+    def test_transcendental_and_nested_radicals_stay_unsupported(self):
+        self.assertEqual(self.ev('Real.exp 0 = 1').status, 'UNSUPPORTED')
+        self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 2').status, 'UNSUPPORTED')
+        self.assertIn('nested radical', self.ev('Real.sqrt (Real.sqrt 2) < 2').detail)
+
+    def test_roots_of_radicands_beyond_exact_factoring_stay_exact_but_never_guess_zero(self):
+        # 10^47 + 3 cannot be split into square and squarefree parts within the deterministic primality range;
+        # its root is kept exactly, orderings are decided by enclosures, and an exact zero is refused
+        big = '(10 ^ 47 + 3 : ℝ)'
+        self.assertEqual(self.ev(f'Real.sqrt {big} > 316227766016837933199889 ∧ Real.sqrt {big} < 316227766016837933199890').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt (2 * {big}) = Real.sqrt 2 * Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = 316227766016837933199889').status, 'FAIL')
+        r = self.ev(f'Real.sqrt ((10 ^ 6 + 3) ^ 2 * {big}) = (10 ^ 6 + 3) * Real.sqrt {big}')   # true, but not recognisable
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('unsplit radicand', r.detail)
+
+    def test_ascription_scopes_the_elaboration_type(self):
+        # binop% pushes the cast to the leaves: `((7 : ℕ) / 2 : ℝ)` is `↑7 / 2 = 7/2`; only an inner ascription
+        # on the quotient keeps Nat division
+        self.assertEqual(self.ev('((7 : ℕ) / 2 : ℝ) = 7 / 2 ∧ (7 / 2 : ℝ) = 7 / 2 ∧ ((7 / 2 : ℕ) : ℝ) = 3').status, 'PASS')
+        self.assertEqual(self.ev('((7 : ℕ) / 2 : ℝ) = 3').status, 'FAIL')
+
+
+class SampledBinderSemanticsTests(unittest.TestCase):
+    def ev(self, binders, text, defs='', seed=1, samples=64):
+        module = sf.parse_module(defs + f'\ntheorem t {binders} : {text} := by sorry\n')
+        return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
+
+    def test_nat_and_int_binders_are_sampled_with_lean_semantics(self):
+        self.assertEqual(self.ev('(n : ℕ)', 'n * (n + 1) % 2 = 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(n : ℤ)', 'n ^ 2 ≥ n').status, 'CORROBORATED')
+        r = self.ev('(n : ℤ)', 'n ^ 3 ≥ n')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('n = -', r.detail)
+        self.assertEqual(self.ev('(a b : ℤ) (hb : b ≠ 0)', 'a = b * (a / b) + a % b ∧ 0 ≤ a % b ∧ a % b < |b|').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(n : ℕ)', '((n - 1 : ℕ) : ℝ) = (n : ℝ) - 1').status, 'FAIL')       # truncation at n = 0
+        self.assertEqual(self.ev('(n : ℕ)', '(n - 1 : ℝ) = (n : ℝ) - 1').status, 'CORROBORATED')
+
+    def test_infeasible_instances_are_skipped_and_counted_not_approximated(self):
+        r = self.ev('(n : ℕ)', '2 ^ n > n')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertGreater(r.sampling['infeasible'], 0)       # n = 2^63 and friends: no 2^(2^63) is attempted
+        self.assertEqual(self.ev('(n : ℕ)', 'Nat.factorial n ≥ 1').status, 'CORROBORATED')
+        self.assertEqual(self.ev('', '2 ^ (2 ^ 40) > 0').status, 'UNSUPPORTED')    # closed: infeasible is fail-closed
+
+    def test_interval_membership_hypotheses_desugar(self):
+        self.assertEqual(self.ev('(x : ℝ) (hx : x ∈ Set.Icc (0 : ℝ) 1)', 'x ^ 2 ≤ x').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(x : ℝ) (hx : x ∈ Set.Icc (0 : ℝ) 1)', 'x ^ 2 < x').status, 'FAIL')
+        self.assertEqual(self.ev('(x : ℝ) (hx : x ∈ Set.Ioo (0 : ℝ) 1)', 'x ^ 2 < x').status, 'CORROBORATED')
+
+    def test_hypothesis_boundaries_between_variables_are_found(self):
+        self.assertEqual(self.ev('(x y : ℝ) (h : x < y)', 'x < (x + y) / 2 ∧ (x + y) / 2 < y').status, 'CORROBORATED')
+        r = self.ev('(x y : ℝ) (h : x ≤ y)', 'x < (x + y) / 2')
+        self.assertEqual(r.status, 'FAIL')                     # x = y
+
+    def test_inner_finite_quantifier_under_a_sampled_binder(self):
+        self.assertEqual(self.ev('(n : ℕ)', '∀ k, k ∈ [0, 1, 2] → k ≤ n + 2').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(n : ℕ)', '∀ k : ℕ, k ≤ 3 → k ≤ n + 3').status, 'CORROBORATED')
+        r = self.ev('(n : ℕ)', '∀ k : ℕ, k ≤ 3 → k ≤ n + 2')
+        self.assertEqual(r.status, 'FAIL')                     # n = 0, k = 3
+        self.assertIn('n = 0', r.detail)
+        self.assertEqual(self.ev('(ε : ℝ) (hε : 0 < ε)', '∃ n, 1 / n < ε').status, 'UNSUPPORTED')
+
+    def test_undefined_predicates_in_hypotheses_name_the_binder(self):
+        r = self.ev('(p : ℕ) (hp : Nat.Prime p)', 'p ≥ 2')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('hp', r.detail)
+        r = self.ev('(x : ℝ) (hx : Real.exp x > 0)', 'x = x')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('Real.exp', r.detail)
+
+    def test_type_tokens_inside_a_binder_type_are_types_not_hypotheses(self):
+        for b in ('(x : ℝ≥0)', '(n : ℕ+)', '(v : Fin 3 → ℝ)'):
+            with self.subTest(b=b):
+                r = self.ev(b, '(1 : ℝ) = 1')
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('neither a sampled numeric type', r.detail)
+
+    def test_a_comparison_of_scientific_literals_alone_has_no_exact_type(self):
+        # `1.5 = 1.5` elaborates at Float in Lean; the interpreter refuses rather than reading it as ℝ
+        r = self.ev('', '1.5 = 1.5')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('Float', r.detail)
+        self.assertEqual(self.ev('(x : ℝ)', 'x * 1.5 = 3 * x / 2').status, 'CORROBORATED')
+
+    def test_abs_is_an_application_argument_only_without_whitespace(self):
+        self.assertEqual(self.ev('(x : ℝ)', 'max |x| 0 = |x|').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(x y : ℝ)', '|x * y| = |x| * |y| ∧ |x + y| ≤ |x| + |y|').status, 'CORROBORATED')
+
+    def test_sampled_witness_is_exact_and_hypotheses_hold_at_it(self):
+        r = self.ev('(x : ℝ) (hx : 0 < x)', 'x ^ 2 ≤ x')
+        self.assertEqual(r.status, 'FAIL')
+        self.assertEqual(r.sampling['witness']['x'], '2')
+        self.assertFalse(any(isinstance(v, float) for v in r.values))
+
+
+class AdmitCorroboratedPackageTests(unittest.TestCase):
+    def test_exit_code_is_strict_by_default_and_admits_sampled_verdicts_on_request(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = pathlib.Path(d)
+            (root / 'W').mkdir()
+            (root / 'W' / 'R.lean').write_text('import Mathlib\nnamespace W\n'
+                                              'theorem a (x : ℝ) : x ^ 2 ≥ 0 := by positivity\n'
+                                              'theorem b : (2 : ℝ) + 2 = 4 := by norm_num\nend W\n')
+            (root / 'manifest.json').write_text(json.dumps({'source_modules': ['W/R.lean'], 'targets': ['W.a', 'W.b']}))
+            strict = sf.check_package(root)
+            self.assertEqual(strict['status_counts'], {'CORROBORATED': 1, 'PASS': 1})
+            self.assertEqual(strict['exit_code'], 1)                    # the registered contract: PASS only
+            self.assertEqual(strict['per_target']['W.a']['sampling']['accepted'], 64)
+            admitting = sf.check_package(root, admit_corroborated=True)
+            self.assertEqual(admitting['exit_code'], 0)
+            self.assertTrue(admitting['sampling']['admit_corroborated'])
+            totals = admitting['sampling_totals']          # a8's #742 nit: infeasible draws are reported, per package
+            self.assertEqual(totals['sampled_targets'], 1)
+            self.assertEqual(totals['accepted_total'], 64)
+            self.assertEqual(totals['infeasible_total'], 0)
+            self.assertEqual(totals['targets_with_infeasible_draws'], [])
+            self.assertEqual(sf.main(['--package', str(root)]), 1)
+            self.assertEqual(sf.main(['--package', str(root), '--admit-corroborated', '--seed', '3', '--samples', '16']), 0)
+
+
+FM = '''
+import Mathlib
+namespace FM
+open MeasureTheory
+open scoped ENNReal
+variable {Ω : Type*} [MeasurableSpace Ω]
+
+noncomputable def weightedLaw (μ : Measure Ω) (W : Ω → ℝ) : Measure Ω :=
+  (ENNReal.ofReal (∫ x, W x ∂μ))⁻¹ •
+    μ.withDensity (fun x => ENNReal.ofReal (W x))
+
+def badJetEvent (R : Ω → ℝ) (r ε : ℝ) : Set Ω :=
+  {x | ε < r * R x ^ 5}
+end FM
+'''
+
+
+class FiniteModelTests(unittest.TestCase):
+    """Measure-theoretic statements are tested on finite discrete models: Ω = Fin n, nonnegative rational
+    weights, functions as tables, sets as subsets. Integrals are finite sums; a.e. relations hold off the
+    null points; measurability and integrability are automatic; measure equality and ≪ are pointwise."""
+
+    def ev(self, binders, text, seed=1, samples=64):
+        module = sf.parse_module(FM + f'\ntheorem t {binders} : {text} := by sorry\n')
+        return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
+
+    MARKOV = ('(μ : Measure Ω) [IsFiniteMeasure μ] (Y : Ω → ℝ) (A : Set Ω) (hY : Integrable Y μ) (hY0 : 0 ≤ᵐ[μ] Y) '
+              '(a : ℝ) (ha : 0 < a) (hsub : A ⊆ {x | a ≤ Y x})')
+
+    def test_markov_event_is_corroborated_and_its_misstatements_refuted(self):
+        r = self.ev(self.MARKOV, '(μ A).toReal ≤ (∫ x, Y x ∂μ) / a')
+        self.assertEqual(r.status, 'CORROBORATED', r.detail)
+        self.assertGreaterEqual(r.instances, 64)
+        self.assertEqual(self.ev(self.MARKOV, '(μ A).toReal ≤ (∫ x, Y x ∂μ) / (2 * a)').status, 'FAIL')
+        r = self.ev('(μ : Measure Ω) [IsFiniteMeasure μ] (Y : Ω → ℝ) (A : Set Ω) (hY0 : 0 ≤ᵐ[μ] Y) (a : ℝ) (ha : 0 < a)',
+                    '(μ A).toReal ≤ (∫ x, Y x ∂μ) / a')          # without A ⊆ {a ≤ Y}: false
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('μ =', r.detail)
+        self.assertIn('A =', r.detail)
+        self.assertIn('Fin', r.detail)
+
+    def test_integral_cauchy_schwarz_with_exact_square_roots(self):
+        cs = '(μ : Measure Ω) (f g : Ω → ℝ) (hf : MemLp f 2 μ) (hg : MemLp g 2 μ) (hf0 : 0 ≤ᵐ[μ] f) (hg0 : 0 ≤ᵐ[μ] g)'
+        self.assertEqual(self.ev(cs, '(∫ x, f x * g x ∂μ) ≤ Real.sqrt (∫ x, f x ^ 2 ∂μ) * Real.sqrt (∫ x, g x ^ 2 ∂μ)').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev(cs, '(∫ x, f x * g x ∂μ) < Real.sqrt (∫ x, f x ^ 2 ∂μ) * Real.sqrt (∫ x, g x ^ 2 ∂μ)').status,
+                         'FAIL')                                   # equality at f = g, or on one point
+
+    def test_set_integral_and_event_mass(self):
+        ev_cs = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (A : Set Ω) (hW : MemLp W 2 μ) (hW0 : 0 ≤ᵐ[μ] W) '
+                 '(hA : MeasurableSet A)')
+        self.assertEqual(self.ev(ev_cs, '(∫ x in A, W x ∂μ) ≤ Real.sqrt (∫ x, W x ^ 2 ∂μ) * Real.sqrt ((μ A).toReal)').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev(ev_cs, '0 ≤ (∫ x in A, W x ∂μ) ∧ (∫ x in A, W x ∂μ) ≤ ∫ x, W x ∂μ').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (A : Set Ω)',
+                                 '(∫ x in A, W x ∂μ) ≤ ∫ x, W x ∂μ').status, 'FAIL')     # W may be negative off A
+
+    def test_weighted_law_apply_needs_the_ae_nonnegativity_and_ennreal_semantics(self):
+        apply = 'weightedLaw μ W A = (ENNReal.ofReal (∫ x, W x ∂μ))⁻¹ * ENNReal.ofReal (∫ x in A, W x ∂μ)'
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (A : Set Ω) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W) (hA : MeasurableSet A)',
+                                 apply).status, 'CORROBORATED')
+        # `ofReal` clips negative values: with a signed W the two sides differ (∞ · 0 = 0 on one side only)
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (A : Set Ω) (hW : Integrable W μ) (hA : MeasurableSet A)',
+                                 apply).status, 'FAIL')
+
+    def test_weighted_law_is_a_probability_measure_zero_one_and_absolute_continuity(self):
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W) (hz : 0 < ∫ x, W x ∂μ)',
+                                 'IsProbabilityMeasure (weightedLaw μ W)').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W)',
+                                 'IsProbabilityMeasure (weightedLaw μ W)').status, 'FAIL')      # ∫ W = 0
+        self.assertEqual(self.ev('(μ : Measure Ω)', 'weightedLaw μ (fun _ : Ω => (0 : ℝ)) = 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]', 'weightedLaw μ (fun _ : Ω => (1 : ℝ)) = μ').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω)', 'weightedLaw μ (fun _ : Ω => (1 : ℝ)) = μ').status, 'FAIL')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ)', 'weightedLaw μ W ≪ μ').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W V : Ω → ℝ) (h : W =ᵐ[μ] V)', 'weightedLaw μ W = weightedLaw μ V').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W V : Ω → ℝ)', 'weightedLaw μ W = weightedLaw μ V').status, 'FAIL')
+
+    def test_set_builder_events_and_subsets(self):
+        self.assertEqual(self.ev('(R : Ω → ℝ) (r ε : ℝ) (hr : 0 < r) (hε : 0 < ε)',
+                                 'badJetEvent R r ε ⊆ {x | (ε / r) ^ 8 ≤ R x ^ 40}').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(R : Ω → ℝ) (r ε : ℝ) (hr : 0 < r) (hε : 0 < ε)',
+                                 'badJetEvent R r ε ⊆ {x | 1 ≤ R x}').status, 'FAIL')
+        tail = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (R : Ω → ℝ) (r ε M : ℝ) (hr : 0 < r) (hε : 0 < ε) '
+                '(hRi : Integrable (fun x => R x ^ 40) μ) (hMbound : (∫ x, R x ^ 40 ∂μ) ≤ M)')
+        self.assertEqual(self.ev(tail, '(μ (badJetEvent R r ε)).toReal ≤ (M / ε ^ 8) * r ^ 8').status, 'CORROBORATED')
+        # without the moment bound on M the tail bound is false (M = 0 under a nonempty event)
+        no_bound = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (R : Ω → ℝ) (r ε M : ℝ) (hr : 0 < r) (hε : 0 < ε) '
+                    '(hRi : Integrable (fun x => R x ^ 40) μ)')
+        self.assertEqual(self.ev(no_bound, '(μ (badJetEvent R r ε)).toReal ≤ (M / ε ^ 8) * r ^ 8').status, 'FAIL')
+
+    def test_structural_hypotheses_are_not_assumed_on_infinite_mass_measures(self):
+        # `(ENNReal.ofReal 0)⁻¹ • μ` has infinite mass wherever μ does not vanish: finiteness is decided false and
+        # integrability is not taken for granted (a8, 743/5729046258 N2)
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]',
+                                 'IsFiniteMeasure ((ENNReal.ofReal 0)⁻¹ • μ)').status, 'FAIL')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]', 'IsFiniteMeasure ((2 : ENNReal) • μ)').status,
+                         'CORROBORATED')
+        r = self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (h : Integrable W ((ENNReal.ofReal 0)⁻¹ • μ))',
+                    '0 ≤ ∫ x, W x ∂μ')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('infinite mass', r.detail)
+
+    def test_quantifier_over_all_subsets_is_enumerated(self):
+        r = self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal ≤ (μ Set.univ).toReal')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal < (μ Set.univ).toReal').status, 'FAIL')
+
+    def test_structural_conclusions_and_real_indexed_families_stay_unsupported(self):
+        r = self.ev('(R : Ω → ℝ) (hR : Measurable R) (r ε : ℝ)', 'MeasurableSet (badJetEvent R r ε)')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('trivial on finite discrete models', r.detail)
+        r = self.ev('(μ : ℝ → Measure Ω) [∀ r, IsProbabilityMeasure (μ r)] (W : ℝ → Ω → ℝ) (M : ℝ)', '0 ≤ M')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('μ : ℝ → Measure Ω', r.detail)
+
+    def test_model_witness_is_exact_and_sampling_is_seeded(self):
+        a = self.ev('(μ : Measure Ω) (W : Ω → ℝ)', '0 ≤ ∫ x, W x ∂μ', seed=5)
+        b = self.ev('(μ : Measure Ω) (W : Ω → ℝ)', '0 ≤ ∫ x, W x ∂μ', seed=5)
+        self.assertEqual(a.status, 'FAIL')
+        self.assertEqual((a.detail, a.instances), (b.detail, b.instances))
+        self.assertIn('W = [', a.detail)
+        self.assertFalse(any(isinstance(v, float) for v in a.values))
+
+    def test_mutation_contract_holds_on_finite_model_statements(self):
+        module = sf.parse_module(FM + '\ntheorem t ' + self.MARKOV + ' : (μ A).toReal ≤ (∫ x, Y x ∂μ) / a := by sorry\n')
+        report = sf.mutation_selftest(module)
+        self.assertTrue(report['control_passed'])
+        self.assertEqual(report['killed'], report['mutants'])
+        self.assertGreaterEqual(report['mutants'], 1)
+        self.assertTrue(report['harness_ok'])
 
 
 if __name__ == '__main__':

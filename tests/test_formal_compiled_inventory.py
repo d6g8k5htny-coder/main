@@ -881,8 +881,8 @@ class PinnedLeanInventoryTests(unittest.TestCase):
                     transcript = run(['env','lean',str(audit)])
                     if not expected:
                         report = gate.audit_inventory(transcript, targets, modules, bound=bound, codegen=gate.bound_codegen(manifest['codegen_inventory'], modules))
-                        self.assertEqual(report['declarations'],45)
-                        self.assertEqual(len(report['public_theorems']),31)
+                        self.assertEqual(report['declarations'],93)   # 59 targets + 34 bound non-target constants
+                        self.assertEqual(len(report['public_theorems']),59)
                         self.assertEqual(report['axioms'],[])
                     else:
                         with self.assertRaises(gate.InventoryRejected) as caught:
