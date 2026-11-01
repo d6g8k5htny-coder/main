@@ -678,7 +678,7 @@ def _parse_theorem_binders(toks, start, end, defs):
         except (SyntaxError, Unsupported):
             node = None
         if node is not None and _is_prop_shape(node):
-            known = declared | set(defs) | _BUILTIN_NAMES
+            known = declared | set(defs) | _BUILTIN_NAMES | _TRANSCENDENTAL
             unknown = sorted(v for v in _free_vars(node) if v not in known and v.split('.')[0] not in known)
             if not unknown:
                 node = _desugar(node)
@@ -686,6 +686,8 @@ def _parse_theorem_binders(toks, start, end, defs):
                     binders.append(Binder('hyp', nm, node, txt))
                 k = close + 1
                 continue
+            if any(u in _SAMPLED_TYPE_TOKENS for u in unknown):
+                return binders, f'binder {txt} is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis'
             return binders, f'hypothesis {txt} mentions undeclared names {unknown}'
         return binders, f'binder {txt} is neither a sampled numeric type (ℕ ℤ ℚ ℝ) nor a decidable hypothesis'
     return binders, None
@@ -1287,6 +1289,8 @@ class Evaluator:
                 typ = _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
                 if typ == 'Bool':
                     typ = 'Nat'
+                if typ == 'Sci':
+                    raise Unsupported('scientific literal outside a rational or real context (Lean defaults it to Float)')
                 a = self.num(node.left, env, typ)
                 b = self.num(node.right, env, typ)
                 if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
@@ -1762,7 +1766,7 @@ _NAT_POOL = [0, 1, 2, 3, 4, 5, 10 ** 6, 6, 7, 8, 9, 10, 16, 31, 32, 63, 64, 100,
 _POOLS = {'Real': _REAL_POOL, 'Rat': _REAL_POOL, 'Int': _INT_POOL, 'Nat': _NAT_POOL}
 _DIAGONAL = 8                   # structured points first: every variable takes pool[i] for i < _DIAGONAL
 _DRAW_RETRIES = 24              # redraws of one variable against the hypotheses it completes
-_MAX_ATTEMPTS_PER_SAMPLE = 64
+_MAX_ATTEMPTS_PER_SAMPLE = 16
 
 
 def _fmt(v) -> str:

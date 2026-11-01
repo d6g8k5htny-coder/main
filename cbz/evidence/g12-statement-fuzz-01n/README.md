@@ -61,7 +61,7 @@ evaluates the body just outside the domain (`min − 1`, `max + 1`, `0`, `2·max
 the claim still holds there. A probe that fails shows the hypothesis is doing work (tightness); an
 empty domain is flagged **vacuous** (A6). Probes never change the verdict.
 
-**Self-verification (A8).** `tests/test_cbz_statement_fuzz.py` (35 tests at #726, 64 with the ℝ backend; normal and `-O`, `-W error`
+**Self-verification (A8).** `tests/test_cbz_statement_fuzz.py` (35 tests at #726, 66 with the ℝ backend; normal and `-O`, `-W error`
 clean) covers the tokenizer, Lean semantics, definitions, folds, pairs, quantifiers, the vacuity and
 tightness probes, fail-closed behaviour on Mathlib syntax, bare-name manifests, the mutation contract
 and the real `formal/` package. `--selftest` runs the **mutation contract** on every module, in the
@@ -167,23 +167,24 @@ The gap recorded above is closed for the algebraic part of the Math- core. The t
   PASS. `--admit-corroborated` admits CORROBORATED as well (recorded in the report under
   `sampling.admit_corroborated`); `--seed` and `--samples` (default 1 and 64) are recorded too.
 
-Self-verification grew to **64 tests** (`tests/test_cbz_statement_fuzz.py`, normal and `-O`, `-W error`
+Self-verification grew to **66 tests** (`tests/test_cbz_statement_fuzz.py`, normal and `-O`, `-W error`
 clean): the 35 landed cases unchanged except one expectation (`lemma c (x : ℝ) : x ^ 2 ≥ 0` is now
 CORROBORATED, not UNSUPPORTED; the package it sits in still exits 1 on its Mathlib target), plus the real
 binders (`RealBinderTests`, 14: identities corroborated with counts, refutations with exact witnesses,
 hypothesis filtering, totalized division, unsatisfiable hypotheses as UNSUPPORTED "no sample", exact and
 totalized `Real.sqrt`, non-square radicands decided, `|·|`/`max`/`≠`, local ℝ `def`s with parameters,
 non-numeric binders UNSUPPORTED, hypothesis boundaries sampled, seed determinism, the mutation contract),
-exact algebra (`ExactRealAlgebraTests`, 6), sampled-binder semantics (`SampledBinderSemanticsTests`, 8:
+exact algebra (`ExactRealAlgebraTests`, 6), sampled-binder semantics (`SampledBinderSemanticsTests`, 10:
 ℕ/ℤ binders with truncation and Euclidean division, infeasible instances counted not approximated,
 interval membership, boundaries between variables, inner finite quantifiers under a sampled binder,
-undefined predicates naming the binder, `|·|` as an application argument, exact witnesses at which the
-hypotheses hold) and the exit-code flag (`AdmitCorroboratedPackageTests`, 1). Two of the author's own
+undefined predicates naming the binder, type tokens such as `ℝ≥0` inside a binder type reported as types, a
+comparison of bare scientific literals refused as Float, `|·|` as an application argument, exact witnesses at
+which the hypotheses hold) and the exit-code flag (`AdmitCorroboratedPackageTests`, 1). Two of the author's own
 first expectations were wrong and the tool was right — `((7 : ℕ) / 2 : ℝ) = 3` (Lean gives 7/2) and
 `∀ k ≤ 3, k ≤ n + 2` at `n = 0` — which is the behaviour one wants from an independent reader.
 
 ```sh
-python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 64 tests OK; same with -O -W error
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 66 tests OK; same with -O -W error
 python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json main_formal_ec6962ff_r2.json
 git -C <Math- clone> archive 19a55750 formal | tar -x -C <tmp>
 python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --selftest --json math_formal_19a55750_r2.json
@@ -217,7 +218,7 @@ samples numeric binders before the colon (ℕ ℤ ℚ ℝ) under decidable hypot
 exactly in ℚ(√d₁, …, √dₖ); a sampled statement is CORROBORATED or FAIL, never PASS. The 31 Math-
 statements with measure-theoretic binders, nested radicals, transcendental functions and unbounded
 quantifiers inside a statement remain explicitly unsupported; an interval backend for `Real.exp`/`log`
-(Claude017's offer, main#684/6532742483) is the recorded gap."; the test count becomes 64; and the gate
+(Claude017's offer, main#684/6532742483) is the recorded gap."; the test count becomes 66; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
 SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is

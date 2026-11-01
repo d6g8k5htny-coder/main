@@ -543,6 +543,20 @@ class SampledBinderSemanticsTests(unittest.TestCase):
         self.assertEqual(r.status, 'UNSUPPORTED')
         self.assertIn('Real.exp', r.detail)
 
+    def test_type_tokens_inside_a_binder_type_are_types_not_hypotheses(self):
+        for b in ('(x : ℝ≥0)', '(n : ℕ+)', '(v : Fin 3 → ℝ)'):
+            with self.subTest(b=b):
+                r = self.ev(b, '(1 : ℝ) = 1')
+                self.assertEqual(r.status, 'UNSUPPORTED')
+                self.assertIn('neither a sampled numeric type', r.detail)
+
+    def test_a_comparison_of_scientific_literals_alone_has_no_exact_type(self):
+        # `1.5 = 1.5` elaborates at Float in Lean; the interpreter refuses rather than reading it as ℝ
+        r = self.ev('', '1.5 = 1.5')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('Float', r.detail)
+        self.assertEqual(self.ev('(x : ℝ)', 'x * 1.5 = 3 * x / 2').status, 'CORROBORATED')
+
     def test_abs_is_an_application_argument_only_without_whitespace(self):
         self.assertEqual(self.ev('(x : ℝ)', 'max |x| 0 = |x|').status, 'CORROBORATED')
         self.assertEqual(self.ev('(x y : ℝ)', '|x * y| = |x| * |y| ∧ |x + y| ≤ |x| + |y|').status, 'CORROBORATED')
