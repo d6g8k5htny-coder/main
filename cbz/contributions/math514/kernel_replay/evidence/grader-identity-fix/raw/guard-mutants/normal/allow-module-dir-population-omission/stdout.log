@@ -1,0 +1,15 @@
+test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution) ... FAIL
+
+======================================================================
+FAIL: test_module_alias_subclass_and_population_hooks_refused_before_execution (test_mutation_harness.IdentityHarnessTests.test_module_alias_subclass_and_population_hooks_refused_before_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/allow-module-dir-population-omission/run_tests.py", line 323, in dispatch
+    return original_dispatch(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'SURVIVED' != 'KILLED'
+- SURVIVED
++ KILLED
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.Visible.test_visible'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_visible (test_identity.Visible.test_visible) ... ok\n\nRan 1 tests\n', 'started_ids': ['test_identity.Visible.test_visible'], 'finished_ids': ['test_identity.Visible.test_visible'], 'body_entered_ids': ['test_identity.Visible.test_visible'], 'body_finished_ids': ['test_identity.Visible.test_visible'], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}
+
+Ran 1 tests

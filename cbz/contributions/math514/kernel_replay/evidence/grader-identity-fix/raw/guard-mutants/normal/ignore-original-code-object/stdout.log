@@ -1,0 +1,15 @@
+test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) ... 
+  test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='code') ... FAIL
+
+======================================================================
+FAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_harness.IdentityHarnessTests.test_class_fixture_function_and_code_substitutions_are_refused) (change='code')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/ignore-original-code-object/tests/test_mutation_harness.py", line 372, in test_class_fixture_function_and_code_substitutions_are_refused
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['discover:test_*.py'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_identity.C.test_one) ... ok\n\nRan 1 tests\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}
+
+Ran 1 tests

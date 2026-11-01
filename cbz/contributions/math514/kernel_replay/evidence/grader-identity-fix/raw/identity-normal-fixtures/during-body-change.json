@@ -1,0 +1,60 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpuxp_q7be/run_tests.py",
+    "--output",
+    "/tmp/tmpuxp_q7be/receipt.json"
+  ],
+  "events": [
+    "first"
+  ],
+  "exit_code": 1,
+  "fixture_sha256": "e5c81716c4c3a5138be35d89313b5d036103392b0ce696bffa4692b003835161",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpuxp_q7be/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self):\n  record(\"first\")\n  type(self).test_second=type(self).test_first\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\n",
+  "label": "during-body-change",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [
+      "test_identity.C.test_first"
+    ],
+    "body_finished_ids": [
+      "test_identity.C.test_first"
+    ],
+    "errors": 1,
+    "expected_failures": 0,
+    "finished_ids": [
+      "test_identity.C.test_first"
+    ],
+    "invalid_population": [
+      "selected class/function/code identity changed during execution",
+      "selected class/function/code identity changed during execution"
+    ],
+    "lifecycle_failures": 0,
+    "log": "test_first (test_identity.C.test_first) ... ERROR\n\n======================================================================\nERROR: test_first (test_identity.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 275, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 304, in body\n    require_identities(result.identity_cases,result.identity_bindings,result.invalid_execution)\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 154, in require_identities\n    raise IdentityMismatch('selected body identity changed')\nIdentityMismatch: selected body identity changed\n\nRan 1 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "selection": [
+      "discover:test_*.py"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_identity.C.test_first"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 1,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_first (test_identity.C.test_first) ... ERROR\n\n======================================================================\nERROR: test_first (test_identity.C.test_first)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 275, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/case.py\", line 589, in _callTestMethod\n    if method() is not None:\n       ^^^^^^^^\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 304, in body\n    require_identities(result.identity_cases,result.identity_bindings,result.invalid_execution)\n  File \"/tmp/tmpuxp_q7be/run_tests.py\", line 154, in require_identities\n    raise IdentityMismatch('selected body identity changed')\nIdentityMismatch: selected body identity changed\n\nRan 1 tests\n"
+}

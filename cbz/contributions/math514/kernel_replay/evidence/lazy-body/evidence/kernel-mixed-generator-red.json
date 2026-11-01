@@ -1,0 +1,56 @@
+{
+  "published_commit": "7b50d2b4c433a8f3b5442925e1ac9ff664880166",
+  "runner_sha256": "de089e08688ffb2c236cdc34ccc095eb421d5162dde6d8eff24af7fdc3c91baa",
+  "fixture": "mixed generator method plus ordinary body assertion",
+  "returncode": 1,
+  "outcome": "KILLED",
+  "generator_body_executed": false,
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "fixture.Case"
+    ],
+    "selected_ids": [
+      "fixture.Case.test_a_generator",
+      "fixture.Case.test_b_assertion"
+    ],
+    "invalid_population": [],
+    "tests_run": 2,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_a_generator (fixture.Case.test_a_generator) ... ok\ntest_b_assertion (fixture.Case.test_b_assertion) ... FAIL\n\n======================================================================\nFAIL: test_b_assertion (fixture.Case.test_b_assertion)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/tmpcgmu99r8/run_tests.py\", line 112, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: genuine ordinary body assertion\n\nRan 2 tests\n",
+    "started_ids": [
+      "fixture.Case.test_a_generator",
+      "fixture.Case.test_b_assertion"
+    ],
+    "finished_ids": [
+      "fixture.Case.test_a_generator",
+      "fixture.Case.test_b_assertion"
+    ],
+    "body_entered_ids": [
+      "fixture.Case.test_a_generator",
+      "fixture.Case.test_b_assertion"
+    ],
+    "body_finished_ids": [
+      "fixture.Case.test_a_generator",
+      "fixture.Case.test_b_assertion"
+    ],
+    "body_assertion_ids": [
+      "fixture.Case.test_b_assertion"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "assertion_events": [
+      {
+        "parent_id": "fixture.Case.test_b_assertion",
+        "origin": "body"
+      }
+    ]
+  },
+  "stderr": ""
+}
