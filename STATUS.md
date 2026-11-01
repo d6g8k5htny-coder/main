@@ -15,9 +15,10 @@ cross-repository synchronization and final common G0-G11 pass remain unfinished.
 Source-only checks and individual successful jobs do not complete the twelve
 baseline criteria. The [foundation candidate #695](https://github.com/d6g8k5htny-coder/main/pull/695)
 is a candidate handoff, not the current default-branch baseline.
-At this observation, current Main is `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
-PR #713 is pending integration; its replay sources, controls and this documentation
-must be qualified at their final composed source. The proof catalogue and other
+The pre-integration Main source was `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
+[PR #713](https://github.com/d6g8k5htny-coder/main/pull/713) merged on 2026-10-31 at 10:18:44 UTC
+as `9abd2c100ae105103945073a7fa6c47b15679269`; its qualification evidence
+remains bound to the sources actually checked, not automatically to later compositions. The proof catalogue and other
 foundation material in #695 are pending, not an admitted default-branch baseline.
 This intermediate entry is not a completed cold-start acceptance test.
 
