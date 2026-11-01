@@ -39,6 +39,11 @@ class SourceBridgeCLI(unittest.TestCase):
                 # the current validator runs, never these historical Python bytes.
                 source=profile_root/(Path(relative).name+'.txt')
                 self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),manifest['files'][relative])
+            elif relative in {'formal/UniversalLaw.lean','formal/SCOPE.md','formal/reviews/TEMPLATE_alignment_review.json'}:
+                # Historical bytes frozen when the live package grew its P15 modules (main#740);
+                # identical across the 3b39, 8228 and a22f profiles.
+                source=ROOT/'tests/fixtures/atlas_formal_build_3b39'/(Path(relative).name+'.txt')
+                self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(),manifest['files'][relative])
             else:
                 source=ROOT/relative
             shutil.copyfile(source,target)

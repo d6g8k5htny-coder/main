@@ -257,7 +257,11 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
         require(m["package"] == "side24-arithmetic-skeleton" and set(controls) == {
             "false_exponent_bound_d3", "false_covariance_bound", "false_exp_partial_sum",
             "wrong_image_constant", "false_eigenvalue_third", "false_trace_variance",
-            "false_endpoint_adjacency"}, "incomplete main negative control inventory")
+            "false_endpoint_adjacency",
+            # P15 modules (recomposed from #358): one statement control per displayed arithmetic family
+            "false_price_boundary_third", "wrong_generator_prices", "false_palette_815_count",
+            "wrong_transversal_count", "wrong_whole_ground_chromatic", "false_rho_endpoint_adjacency",
+            "false_rho_upper_six_sevenths", "wrong_taylor_certificate"}, "incomplete main negative control inventory")
     compiled.bound_inventory(m.get("compiled_inventory"), target_names, [p[:-5].replace("/", ".") for p in modules])
     compiled.bound_codegen(m.get("codegen_inventory"), [p[:-5].replace("/", ".") for p in modules])
     return m, sha(raw), pkg
