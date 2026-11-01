@@ -31,6 +31,15 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           python -VV
           git status --porcelain
+      - name: Direct script entry point compatibility
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          flags=()
+          if [ "$MODE" = optimized ]; then flags=(-O); fi
+          python -B -S "${flags[@]}" tests/test_cbz_auditor_hardening.py MutationKillClassification -v 2>&1 | tee "$RUNNER_TEMP/a8-direct-$MODE.log"
       - name: Admission regression controls
         env:
           PYTHONDONTWRITEBYTECODE: '1'
@@ -57,5 +66,6 @@ jobs:
           path: |
             ${{ runner.temp }}/a8-admission-*.log
             ${{ runner.temp }}/a8-components-*.log
+            ${{ runner.temp }}/a8-direct-*.log
           if-no-files-found: error
           retention-days: 90
