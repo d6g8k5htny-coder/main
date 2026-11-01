@@ -227,7 +227,8 @@ Why this is sound: every such model *is* an instance of the Lean statement. The 
 table against a finite measure is the finite sum Σ wᵢ f(i) (every function is integrable); `∫ x in A, …`
 is the sum over A; `μ A` is the partial sum; `0 ≤ᵐ[μ] W` holds iff W ≥ 0 at every point of nonzero weight;
 `MeasurableSet`, `Measurable`, `Integrable`, `MemLp` hold for everything the model carries (discrete
-σ-algebra, finite measure); `IsProbabilityMeasure ν` is total mass 1; `ν ≪ μ` is "every μ-null point is
+σ-algebra, finite measure) — except on a derived measure with a point of infinite mass (`(ENNReal.ofReal 0)⁻¹ • μ`),
+where `IsFiniteMeasure` is decided false and integrability is not assumed (a8's N2); `IsProbabilityMeasure ν` is total mass 1; `ν ≪ μ` is "every μ-null point is
 ν-null"; measures are equal iff their weight vectors are; `ENNReal` follows Mathlib (`0⁻¹ = ∞`, `∞⁻¹ = 0`,
 `∞ · 0 = 0`, truncated subtraction, `ENNReal.toReal ∞ = 0`, `ENNReal.ofReal` clips at 0); `c • μ` and
 `μ.withDensity f` are pointwise products; a quantifier `∀ A : Set Ω, …` enumerates all 2ⁿ subsets. A
@@ -242,7 +243,7 @@ shared across a package's modules (`weightedLaw` is defined in `WeightedLaw.lean
 `WeightPerturbation.lean`). The class-1 literal-shift mutant is now typing-aware: `weightedLaw μ W = 0`
 compares measures, and `= 1` there is not a Lean term, so it is not generated.
 
-Tests: 66 → **77** (`FiniteModelTests`, 10: Markov with and without its subset hypothesis, integral
+Tests: 66 → **78** (`FiniteModelTests`, 11: Markov with and without its subset hypothesis, integral
 Cauchy–Schwarz with exact square roots and its strict misstatement, set integrals and event masses, the
 `weightedLaw` identity and its signed-W refutation, probability/zero/one/≪/a.e.-congruence, set-builder
 events and the moment tail with and without the moment bound, `∀ A : Set Ω` enumeration, structural and
@@ -250,7 +251,7 @@ family UNSUPPORTED, exact seeded model witnesses, the mutation contract). The 58
 match; main `formal/` is unchanged.
 
 ```sh
-python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 77 tests OK; same with -O -W error
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 78 tests OK; same with -O -W error
 python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json main_formal_ec6962ff_r3.json
 python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --selftest --json math_formal_19a55750_r3.json
 python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --admit-corroborated --seed 2 --samples 128 --json math_formal_19a55750_r3_seed2_s128.json
@@ -281,7 +282,7 @@ exactly in ℚ(√d₁, …, √dₖ), and samples measure-theoretic statements 
 rational weights, tables, subsets); a sampled statement is CORROBORATED or FAIL, never PASS. Structural
 conclusions, real-indexed families, nested radicals, transcendental functions and unbounded quantifiers
 inside a statement remain explicitly unsupported; no registered statement uses `Real.exp`/`log`, so no
-interval backend is pending."; the test count becomes 77; and the gate
+interval backend is pending."; the test count becomes 78; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
 SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is

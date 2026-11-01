@@ -697,6 +697,18 @@ class FiniteModelTests(unittest.TestCase):
                     '(hRi : Integrable (fun x => R x ^ 40) μ)')
         self.assertEqual(self.ev(no_bound, '(μ (badJetEvent R r ε)).toReal ≤ (M / ε ^ 8) * r ^ 8').status, 'FAIL')
 
+    def test_structural_hypotheses_are_not_assumed_on_infinite_mass_measures(self):
+        # `(ENNReal.ofReal 0)⁻¹ • μ` has infinite mass wherever μ does not vanish: finiteness is decided false and
+        # integrability is not taken for granted (a8, 743/5729046258 N2)
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]',
+                                 'IsFiniteMeasure ((ENNReal.ofReal 0)⁻¹ • μ)').status, 'FAIL')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]', 'IsFiniteMeasure ((2 : ENNReal) • μ)').status,
+                         'CORROBORATED')
+        r = self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (h : Integrable W ((ENNReal.ofReal 0)⁻¹ • μ))',
+                    '0 ≤ ∫ x, W x ∂μ')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('infinite mass', r.detail)
+
     def test_quantifier_over_all_subsets_is_enumerated(self):
         r = self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal ≤ (μ Set.univ).toReal')
         self.assertEqual(r.status, 'CORROBORATED')

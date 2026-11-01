@@ -741,8 +741,8 @@ _SAMPLED_TYPE_TOKENS = {'Nat': 'Nat', 'ℕ': 'Nat', 'Int': 'Int', 'ℤ': 'Int', 
 # Predicates on finite discrete models. Structural ones hold automatically there (discrete σ-algebra, finite
 # measure, finite sums): as hypotheses they filter nothing; as a whole conclusion they are reported UNSUPPORTED.
 _STRUCTURAL_PREDICATES = {'Measurable', 'MeasurableSet', 'Integrable', 'MemLp', 'AEMeasurable', 'AEStronglyMeasurable',
-                          'IsFiniteMeasure', 'StronglyMeasurable', 'Memℒp'}
-_MEASURE_PREDICATES = {'IsProbabilityMeasure'} | _STRUCTURAL_PREDICATES
+                          'StronglyMeasurable', 'Memℒp'}
+_MEASURE_PREDICATES = {'IsProbabilityMeasure', 'IsFiniteMeasure'} | _STRUCTURAL_PREDICATES   # the first two are decided
 _IGNORED_INSTANCES = {'MeasurableSpace', 'MeasurableSingletonClass', 'TopologicalSpace', 'BorelSpace', 'Nonempty',
                       'DecidableEq', 'Fintype', 'Countable'}
 
@@ -1716,11 +1716,26 @@ class Evaluator:
             if not isinstance(m, Meas):
                 raise Unsupported('IsProbabilityMeasure of a non-measure')
             return m.mass() == ENN(Fraction(1))
+        if name == 'IsFiniteMeasure':
+            if len(node.args) != 1:
+                raise Unsupported('IsFiniteMeasure with an unexpected arity')
+            m = self.num(node.args[0], env, 'Measure')
+            if not isinstance(m, Meas):
+                raise Unsupported('IsFiniteMeasure of a non-measure')
+            return not any(w.inf for w in m.weights)
         if name in _STRUCTURAL_PREDICATES:
+            measures = []
             for a in node.args:            # the arguments must at least be values the model carries
                 t = self.arith_type(a, env)
                 if t not in ('Measure', 'Set', 'Func', 'Nat', 'Real', 'ENNReal') and not isinstance(a, Lambda):
                     raise Unsupported(f'{name} of a {t}')
+                if t == 'Measure':
+                    measures.append(self.num(a, env, 'Measure'))
+            # a derived measure (`c • μ` with c = ∞) may carry a point of infinite mass: finiteness is then false
+            # and integrability is not automatic, so nothing is assumed there (a8, 743/5729046258 N2)
+            infinite = any(isinstance(m, Meas) and any(w.inf for w in m.weights) for m in measures)
+            if infinite:
+                raise Unsupported(f'{name} on a measure with a point of infinite mass is not decided by the finite-model backend')
             return True
         raise Unsupported(f'predicate {name}')
 
