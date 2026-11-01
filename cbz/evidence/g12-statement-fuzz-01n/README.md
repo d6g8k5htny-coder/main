@@ -48,8 +48,12 @@ Per target it reports:
   was enumerated exhaustively (the instance count is recorded).
 - **FAIL** — it evaluates false; the failing instances are named. This is a misstatement or a
   transcription defect in the Lean text, **never** evidence about the kernel.
-- **UNSUPPORTED** — the statement uses something outside the subset (Mathlib notation, `ℝ`, binders
-  before the colon, an unbounded quantifier). Fail-closed: such a target
+- **CORROBORATED** (since the ℝ backend of 1 November, below) — the statement has binders before the
+  colon; no sampled instance satisfying its hypotheses refuted it. Admitted evidence of the statement,
+  never a proof, never PASS; the instance count, seed and rejected-draw count are recorded.
+- **UNSUPPORTED** — the statement uses something outside the subset (Mathlib structures, measures and
+  functions, transcendental functions, an unbounded quantifier inside the statement, a binder that is
+  neither a sampled numeric type nor a decidable hypothesis). Fail-closed: such a target
   is listed, cannot count as fuzz-validated, and makes the exit code non-zero.
 
 It also records, as information only, **boundary probes**: for each quantified finite domain it
@@ -57,7 +61,7 @@ evaluates the body just outside the domain (`min − 1`, `max + 1`, `0`, `2·max
 the claim still holds there. A probe that fails shows the hypothesis is doing work (tightness); an
 empty domain is flagged **vacuous** (A6). Probes never change the verdict.
 
-**Self-verification (A8).** `tests/test_cbz_statement_fuzz.py` (35 tests, normal and `-O`, `-W error`
+**Self-verification (A8).** `tests/test_cbz_statement_fuzz.py` (35 tests at #726, 64 with the ℝ backend; normal and `-O`, `-W error`
 clean) covers the tokenizer, Lean semantics, definitions, folds, pairs, quantifiers, the vacuity and
 tightness probes, fail-closed behaviour on Mathlib syntax, bare-name manifests, the mutation contract
 and the real `formal/` package. `--selftest` runs the **mutation contract** on every module, in the
@@ -115,6 +119,110 @@ exact rational intervals with Mathlib's totalized conventions,
 offer is accepted and the backend is wired in as a follow-up on this branch once it is pushed with its
 tests. Nothing in this directory certifies those statements.
 
+## ℝ backend and sampled binders (1 November 2026; receipts `*_r2*`)
+
+The gap recorded above is closed for the algebraic part of the Math- core. The tool now:
+
+- **Parses binders before the colon.** `(x y : ℝ)`, `{n : ℕ}` and the other numeric types (ℕ ℤ ℚ ℝ)
+  declare *sampled variables*; `(h : p)` whose type parses as a proposition over names declared so far
+  (variables, the module's `def`s, the interpreter's builtins) is a *hypothesis*, with Mathlib interval
+  membership desugared (`x ∈ Set.Icc a b` ↦ `a ≤ x ∧ x ≤ b`, likewise `Ico Ioc Ioo Ici Iic Ioi Iio`).
+  Anything else — `[IsProbabilityMeasure μ]`, `(μ : Measure Ω)`, `(f : Ω → ℝ)`, `(A : Set Ω)`, a
+  predicate the interpreter does not define such as `Nat.Prime p` — makes the theorem UNSUPPORTED
+  **naming the binder**. A quantifier with an infinite domain *inside* a statement stays UNSUPPORTED as
+  before (the landed contract of #726 is unchanged there).
+- **Samples pathologically, exactly, deterministically.** Variables are drawn in declaration order from
+  a fixed pool (0, ±1, ±½, ±2, ±10⁶, ±10⁻⁶, squares and non-squares, repeating decimals such as 1/3 and
+  22/7, 2³¹, 10¹²…), from the **boundary values the hypotheses name** (`0 ≤ r`, `r ≤ 1`, `m2 ^ 2 < m4`,
+  `|a - b| ≤ δ` contribute 0, 1, m2², b ± δ and their ±1, ±10⁻⁶ neighbours) and from seeded random
+  rationals (numerators to 10⁹, denominators to 10⁶); every hypothesis is checked as soon as its
+  variables are assigned, so six-hypothesis statements are sampled without rejection explosions. The
+  first points are structured (every variable 0, then 1, −1, ½, …), so a refutation witness is small
+  (`x = 0` for `x / x = 1`, `cW = -1` for `√cW · √cW = cW`). Python's `random` chooses *which* exact
+  rationals to try; no float exists anywhere (the A3 assertion guard is unchanged).
+- **Evaluates ℝ exactly.** Rationals are `Fraction`s; `Real.sqrt` of a rational is an element of the
+  multi-quadratic field ℚ(√d₁, …, √dₖ), kept in canonical form over squarefree radicands (`√8 = 2√2`,
+  `√(1/2) = √2/2`, `√12·√3 = 6`), so **equality is decided exactly** (the √d for distinct squarefree d
+  are ℚ-linearly independent: an element is zero iff every coefficient is), division rationalizes the
+  denominator by conjugation over a coprime base of the radicands, and the **sign of a nonzero element
+  is decided by refining integer-square-root enclosures** (64 → 4096 bits). `√2 + √3 < √10` is PASS and
+  `√2 + √3 > √10` is FAIL (the difference is −0.016); `(√2 + √3 + √5 + √30)⁻¹ · (√2 + √3 + √5 + √30) = 1`
+  is PASS. Mathlib's totalized conventions hold: `x / 0 = 0`, `0⁻¹ = 0`, `Real.sqrt x = 0` for `x ≤ 0`
+  (`Real.sqrt_eq_zero'`); `a ^ n` types its exponent on its own as Lean's `rightact%` does, so
+  `x ^ (1/2)` is `x ^ 0 = 1` exactly as in Lean, `x ^ (-2 : ℤ)` is `zpow`, and `x ^ (1/2 : ℝ)` (rpow)
+  is UNSUPPORTED; an ascription elaborates its body at the ascribed type (`(n - 1 : ℝ)` is `↑n - 1`,
+  `((n - 1 : ℕ) : ℝ)` casts a truncated Nat, `((7 : ℕ) / 2 : ℝ)` is `7/2` because `binop%` pushes the
+  cast to the leaves). Nested radicals (`√(√2)`), `Real.exp`/`log`/`pi`/trig and real exponents are
+  UNSUPPORTED with a message naming them. `|e|`, `√e`, `e⁻¹`, scientific literals (`0.5`, only in a
+  rational or real context — alone, Lean would default them to `Float`, and the tool refuses) are parsed.
+- **Caps instead of approximating.** An exact result over 2·10⁶ bits (`2 ^ (2 ^ 63)`), a factorial or
+  binomial loop over 5 000, a `List.range` over 200 000 raise `Infeasible`: a sampled instance that is
+  infeasible is skipped and *counted* (`sampling.infeasible`); a closed statement that is infeasible is
+  UNSUPPORTED.
+- **Keeps the mutation contract on sampled statements.** Mutants carry the theorem's binders: a class-1
+  mutant of a true statement is false at every instance, so sampling must refute it; a class-2
+  weakening is true at every instance, so sampling must not. The harness control accepts PASS or
+  CORROBORATED for the unmutated set.
+- **Exit code.** The registered contract is unchanged by default — exit 0 only when every target is
+  PASS. `--admit-corroborated` admits CORROBORATED as well (recorded in the report under
+  `sampling.admit_corroborated`); `--seed` and `--samples` (default 1 and 64) are recorded too.
+
+Self-verification grew to **64 tests** (`tests/test_cbz_statement_fuzz.py`, normal and `-O`, `-W error`
+clean): the 35 landed cases unchanged except one expectation (`lemma c (x : ℝ) : x ^ 2 ≥ 0` is now
+CORROBORATED, not UNSUPPORTED; the package it sits in still exits 1 on its Mathlib target), plus the real
+binders (`RealBinderTests`, 14: identities corroborated with counts, refutations with exact witnesses,
+hypothesis filtering, totalized division, unsatisfiable hypotheses as UNSUPPORTED "no sample", exact and
+totalized `Real.sqrt`, non-square radicands decided, `|·|`/`max`/`≠`, local ℝ `def`s with parameters,
+non-numeric binders UNSUPPORTED, hypothesis boundaries sampled, seed determinism, the mutation contract),
+exact algebra (`ExactRealAlgebraTests`, 6), sampled-binder semantics (`SampledBinderSemanticsTests`, 8:
+ℕ/ℤ binders with truncation and Euclidean division, infeasible instances counted not approximated,
+interval membership, boundaries between variables, inner finite quantifiers under a sampled binder,
+undefined predicates naming the binder, `|·|` as an application argument, exact witnesses at which the
+hypotheses hold) and the exit-code flag (`AdmitCorroboratedPackageTests`, 1). Two of the author's own
+first expectations were wrong and the tool was right — `((7 : ℕ) / 2 : ℝ) = 3` (Lean gives 7/2) and
+`∀ k ≤ 3, k ≤ n + 2` at `n = 0` — which is the behaviour one wants from an independent reader.
+
+```sh
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 64 tests OK; same with -O -W error
+python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json main_formal_ec6962ff_r2.json
+git -C <Math- clone> archive 19a55750 formal | tar -x -C <tmp>
+python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --selftest --json math_formal_19a55750_r2.json
+python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --admit-corroborated --seed 2 --samples 256 --json math_formal_19a55750_r2_seed2_s256.json
+```
+
+| Package | Cut | Targets | PASS | CORROBORATED | FAIL | UNSUPPORTED | Mutants killed | Exit |
+|---|---|---:|---:|---:|---:|---:|---|---:|
+| main `formal/` (SIDE24 + P15 skeletons, after #740) | `main` `ec6962ff` (`formal/` tree `e32c6bcb`) | 59 | **59** | 0 | 0 | 0 | 184 / 184, 24 weakenings kept, 15 declared statement controls FAIL | 0 |
+| Math- `formal/` (`ResearchFormalCoreR1`) | `main` `19a55750` | 63 | **3** | **29** | 0 | **31** | 45 / 45, 6 weakenings kept (the three all-supported modules `harness_ok`; the five with UNSUPPORTED targets fail the control by design) | 1 |
+| Math- `formal/`, seed 2, 256 samples, `--admit-corroborated` | `19a55750` | 63 | 3 | 29 | 0 | 31 | — | 1 (the 31 UNSUPPORTED) |
+
+The ℝ backend changes **no verdict** on the core-Lean packages (59/59 PASS before and after, identical
+per target). On the Math- core it moves 32 of 63 targets from UNSUPPORTED to a decided verdict — 3 PASS
+(the closed counterexample controls `p02_lm008_sqrt_counterexample`, `p02_lm008_upper_normalizer_counterexample`,
+`d2_degenerate_control`, the last of which rests on `x / 0 = 0` through `d2Schur 1 1 (1/4) = 2`) and 29
+CORROBORATED (the `ec0xx` polynomial identities, the `p02_lm008`/`p02_lm009` real inequalities including
+the six-hypothesis `p02_lm008_cross_multiplied` and `_quotient_bound` with `Real.sqrt`, `weightPerturbation_quotient_bound`
+with two absolute-value hypotheses, and the 13 sampled `D2Schur` statements). **Zero FAIL on 29
+kernel-proved statements is itself a soundness check of the backend**: a false refutation would have
+been a reader defect. Seeds 1, 2, 3 and 64/128/256 samples give the same distribution. The 31 that stay
+UNSUPPORTED all carry a measure-theoretic binder — `(μ : Measure Ω)` (27), `(R : Ω → ℝ)` (2),
+`(μ : ℝ → Measure Ω)` (2) — and are named as such in the stdout receipt; no sampler reads a measure, and
+the tool says so rather than approximating.
+
+**Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
+amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 29 CORROBORATED |
+31 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or
+unbounded quantifiers … the Math- core's 63 statements remain explicitly unsupported" becomes "The tool
+samples numeric binders before the colon (ℕ ℤ ℚ ℝ) under decidable hypotheses and evaluates `Real.sqrt`
+exactly in ℚ(√d₁, …, √dₖ); a sampled statement is CORROBORATED or FAIL, never PASS. The 31 Math-
+statements with measure-theoretic binders, nested radicals, transcendental functions and unbounded
+quantifiers inside a statement remain explicitly unsupported; an interval backend for `Real.exp`/`log`
+(Claude017's offer, main#684/6532742483) is the recorded gap."; the test count becomes 64; and the gate
+mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
+receipt is the applicable empirical validation (recorded with seed, sample count and the report's
+SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is
+unchanged: a `PROOF_INDEX` row needs PASS or, for sampled statements, CORROBORATED — never UNSUPPORTED.
+
 ## Proposed gate row and registry entries (for Root; B-003)
 
 **§10 gate matrix, new row:**
@@ -145,3 +253,9 @@ with the report file's SHA-256 and the `manifest_sha256` it binds.
   signal to look at the interpreter, not the theorem.
 - Sampling outside finite domains is information, not a verdict; it is reported so a reader can see
   that hypotheses are not vacuous and where the stated bounds stop holding.
+- CORROBORATED is bounded by the sampler: 64 exact instances (by default) from a pathological pool,
+  hypothesis boundaries and seeded random rationals. A statement false only on a thin set the sampler
+  does not hit would be corroborated; that is why it is never PASS and why the seed and counts are
+  recorded. It still refutes misstatements that are false at 0, ±1, a boundary, or generically.
+- Hypotheses are decided by the same interpreter; a hypothesis it cannot read makes the theorem
+  UNSUPPORTED rather than letting the conclusion be sampled unconstrained.
