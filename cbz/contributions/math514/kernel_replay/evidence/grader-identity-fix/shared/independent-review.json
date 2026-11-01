@@ -1,0 +1,54 @@
+{
+  "scope": "Independent bounded source/evidence review of loader identity repair; no mathematical/scanner/Lean/full-suite replay",
+  "verdict": "AMEND",
+  "runtime_probe_hashes": {
+    "kernel_replay": "c77ee122e788fbb2a88ffaba12e0b4de75209b6f18ce2b6053fed68a5a4ce4d5",
+    "layer_a": "50c0e2d64fecbaa232fa867eb7c9e4a1a4f02ed1ea163389c1111ba700c729cc"
+  },
+  "reviewed_files": {
+    "kernel_replay/proposed/run_tests.py": "c77ee122e788fbb2a88ffaba12e0b4de75209b6f18ce2b6053fed68a5a4ce4d5",
+    "kernel_replay/proposed/tests/test_mutation_harness.py": "da9bb463c0675be7729067c8a46e55b5171293c15be598c5e891051818c49850",
+    "layer_a/proposed/mutation_test.py": "50c0e2d64fecbaa232fa867eb7c9e4a1a4f02ed1ea163389c1111ba700c729cc",
+    "layer_a/proposed/tests/test_mutation_runner.py": "4e33dcb77a0f897976462e8c10b46de65bc2eeddba8d2b0f3604f3b3832f2b19"
+  },
+  "findings": [
+    {
+      "id": "IDENTITY-REVIEW-F1",
+      "severity": "P1",
+      "title": "Freeze declarations before TestCase construction",
+      "locations": [
+        "kernel_replay/proposed/run_tests.py:IdentityLoader.loadTestsFromTestCase",
+        "layer_a/proposed/mutation_test.py:IdentityLoader.loadTestsFromTestCase"
+      ],
+      "cause": "super().loadTestsFromTestCase instantiates TestCases before remember captures function and code identities. A custom __init__ can alias the second declared method to the first before either snapshot.",
+      "observed": "Both exact proposed runners return SURVIVED/exit0, invalid_population=[], two distinct selected identities and trace first,first, while the retained failing second method never executes.",
+      "evidence": "review-probes/constructor-alias/RESULTS.json",
+      "fix": "Capture class/declaration function/code identities before construction and compare afterward; alternatively refuse custom __init__/__new__/metaclasses before instantiating unsupported TestCases."
+    },
+    {
+      "id": "IDENTITY-REVIEW-F2",
+      "severity": "P1",
+      "title": "Enumerate actual module declarations instead of module __dir__",
+      "locations": [
+        "kernel_replay/proposed/run_tests.py:IdentityLoader.loadTestsFromModule",
+        "layer_a/proposed/mutation_test.py:IdentityLoader.loadTestsFromModule"
+      ],
+      "cause": "dir(module) invokes a module-owned __dir__, so the advertised declaration-derived population can omit an actual TestCase declaration before any snapshot.",
+      "observed": "Both exact proposed runners return SURVIVED/exit0 with only Visible.test_first selected, invalid_population=[], and trace first; declared Hidden.test_hidden retains a failing body but never executes.",
+      "evidence": "review-probes/module-dir-omission/RESULTS.json",
+      "fix": "Enumerate actual module.__dict__ keys/values without module __dir__/__getattr__, or explicitly refuse such population hooks. Refuse custom TestCase metaclasses or derive class method names from actual declarations to avoid the analogous class-dir hook."
+    }
+  ],
+  "evidence_review": "evidence-binding-review.json",
+  "observed_evidence_summary": {
+    "guard_executions": 32,
+    "distinct_guard_themes_per_tool_mode": 8,
+    "all_assertion_killed": true,
+    "errors": 0,
+    "kernel_distinct_affected_methods_per_mode": 27,
+    "layer_a_distinct_affected_methods_per_mode": 19,
+    "composition": "Staged applicable passing method union; not a new whole run. Original failed layer normal receipt retained; one strengthened canonical-population test rerun alone."
+  },
+  "new_execution": "Exactly four new isolated CLI probes, one constructor-alias and one module-dir omission in each runner; normal mode only. No completed verification repeated.",
+  "limits": "Trusted ordinary Python test-source/runtime custody remains required. This is not arbitrary malicious-code isolation or universal scanner correctness. Existing mathematical and source-specific evidence is not invalidated."
+}

@@ -1,0 +1,124 @@
+{
+  "schema": "cbz-kernel-replay/v1",
+  "gate": "G4-scoped-adapter",
+  "started": "2026-10-29T17:46:52.961267+00:00",
+  "ok": false,
+  "results": [
+    {
+      "module": "Good",
+      "command": [
+        "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "-j1",
+        "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+      ],
+      "started": "2026-10-29T17:46:52.964569+00:00",
+      "status": "FAIL",
+      "ok": false,
+      "returncode": 1,
+      "memory_mib": 8192,
+      "timeout_seconds": 60,
+      "source": {
+        "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/Good.lean",
+        "sha256": "399a84340143a41948b838d33fdb7a60491c7d6827f40970115d24c0bc7bc728"
+      },
+      "parts": [
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean",
+          "sha256": "71850802d7719967a07397afd42a3dce1eb3fc5f6ef915556c1e6c3ce6cca27c"
+        },
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean.server",
+          "sha256": "64aad674a938d54c40e51c647380eb937e6e22075b72c32162a584f7871ba07b"
+        },
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean.private",
+          "sha256": "92c9f15ad23e16f22580d6c41581cf0df79d84c9177e88388dac55d83323d698"
+        }
+      ],
+      "pid": 6310,
+      "stdout": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean:7:0: error: failed to read file '/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/LeanChecker.olean', invalid header\n",
+      "stdout_bytes": 186,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "ended": "2026-10-29T17:46:53.084312+00:00",
+      "elapsed_seconds": 0.11974903999998787
+    }
+  ],
+  "completed_count": 0,
+  "expected_count": 1,
+  "manifest": {
+    "schema": "cbz-kernel-replay/v1",
+    "lean": {
+      "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+    "lean_path": [
+      "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures"
+    ],
+    "expected_modules": [
+      "Good"
+    ],
+    "modules": [
+      {
+        "name": "Good",
+        "source": {
+          "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/Good.lean",
+          "sha256": "399a84340143a41948b838d33fdb7a60491c7d6827f40970115d24c0bc7bc728"
+        },
+        "parts": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean",
+            "sha256": "71850802d7719967a07397afd42a3dce1eb3fc5f6ef915556c1e6c3ce6cca27c"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean.server",
+            "sha256": "64aad674a938d54c40e51c647380eb937e6e22075b72c32162a584f7871ba07b"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/Good.olean.private",
+            "sha256": "92c9f15ad23e16f22580d6c41581cf0df79d84c9177e88388dac55d83323d698"
+          }
+        ]
+      }
+    ],
+    "context": [],
+    "tool": [
+      {
+        "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+        "sha256": "33a97a3aa093a062266d2413e150c183d9af83af179e54c9cbe18cf210f1ea7b"
+      },
+      {
+        "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+        "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+        "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+        "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+        "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+        "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+        "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+        "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+      }
+    ]
+  },
+  "g2_status": "NOT_ASSESSED",
+  "full_cbz": false,
+  "ended": "2026-10-29T17:46:53.086088+00:00"
+}

@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpvd3ua1h1/run_tests.py",
+    "--output",
+    "/tmp/tmpvd3ua1h1/receipt.json",
+    "--test",
+    "test_identity.C.helper"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "065d6e6484174adf0c40fdd0f15062b76b6832ce7b33f6377e4d332389ac58b8",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpvd3ua1h1/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Alias(staticmethod):\n def __get__(self,instance,owner):\n  record(\"helper-descriptor\")\n  return owner.test_one.__get__(instance,owner)\nclass C(unittest.TestCase):\n def test_one(self): record(\"test\")\n def helper(self):\n  record(\"retained-helper\")\n  self.fail(\"original helper body\")\n helper=Alias(helper)\n",
+  "label": "selector-helper-descriptor",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported test selector: test_identity.C.helper (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.C.helper"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}
