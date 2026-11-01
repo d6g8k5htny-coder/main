@@ -132,7 +132,7 @@ analytic statement that must consume the actual `e` under the actual `Q`.
 | Relation `I`, attainment | Math-#487 (open draft), `frontiers/critical_level_attainment_20261020/` | Conditional attainment at the actual death height | Local path connectivity of the closed death superlevel is an explicit hypothesis (OPEN) |
 | `Q`, finite-dimensional | `frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianRegressionKernel.lean` (blob `face5de8`) `gaussianRegression_hasCondDistrib`, `gaussianRegressionKernel_spec` | Canonical Gaussian conditional law, with the literal pushforward at **every** observation, for `Fin k → ℝ` residuals | Only finite-dimensional residuals |
 | `Q`, source endpoints | `frontiers/source_derivative_gaussian_20261025/SourceEndpointEstimates.lean` (blob `5beba8ed`) `sourcePhysicalEndpointKernel_eventually_hasCondDistrib`, `sourcePhysicalEndpointWeightedProbability` | For `d = 2`, the conditional law of the 6-vector endpoint data given the confluent pins, eventually in small `r`, and its `W`-weighted version | The law of endpoint jets, not of the whole field, so it cannot evaluate `e` |
-| `Q`, whole field (T2) | **None in Lean.** Informal: `PERSISTENCE_BRIDGE.md` §4.1 display (12) | — | — |
+| `Q`, whole field (T2) | **Update, 1 November 2026:** main `experiments/whole_field_regression_kernel_20261101/` (Lean 4.34.1, Mathlib `d13f23b7`, standard axioms only). As of 31 October there was none in Lean. Informal source: `PERSISTENCE_BRIDGE.md` §4.1 display (12) | The field regression kernel, defined at every pin value, is a conditional law under pin/residual independence, and finite-restriction independence implies whole-field independence (product σ-algebra) | The actual Gaussian field's independence (only `Fin k` in Math-), a smooth-function Borel σ-algebra, continuity in the pins |
 | `e` measurable (T3) | **None in Lean.** Informal: `PERSISTENCE_BRIDGE.md` §3.2, §4.2; `AXIAL_FIRST_MOMENT.md` (A7)–(A8) (blob `4cc3ef7d`) | — | — |
 | `Z > 0` (T4) | Informal: Appendix B (`Z ≥ z_* r²` floor); the Lean weighted measure `prwMeasure` (`PalmReweighting.lean`) | — | Whether `prwMeasure` requires or proves a positive normalizer was not audited for this note |
 | A ↔ B link | Informal: `PERSISTENCE_BRIDGE.md` §4.3, the selected-pair measure with one determinant product | — | No formal statement exists in either direction |
@@ -143,6 +143,9 @@ analytic statement that must consume the actual `e` under the actual `Q`.
    pattern from `Fin k → ℝ` residuals to a field-valued residual, the infinite-dimensional
    form of (12), with the literal pushforward at every pin value. This is the only node in §6
    with neither a formal nor a source-verified Lean predecessor. It is also exactly T2.
+   *Update, 1 November 2026:* the structural part is now formalized (see the §6 row). Two
+   things remain open: the actual field's pin/residual independence beyond `Fin k`
+   coordinates, and a smooth-function σ-algebra.
 2. **Measurability of `e` on the Morse distinct-value locus** (T3), following the countable
    cover in §3.2 of the bridge.
 3. **State `TetheredPairLaw`** and re-run the #543 construction against it and against its

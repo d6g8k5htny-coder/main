@@ -1,0 +1,6 @@
+controls/NegSign.lean:8:2: error: Type mismatch
+  reconstructionKernel_apply ν (fieldReconstruction_measurable hc mX mY) x
+has type
+  (reconstructionKernel ν (fieldReconstruction c mX mY)) x = Measure.map (fun r => fieldReconstruction c mX mY (x, r)) ν
+but is expected to have type
+  (fieldRegressionKernel ν c mX mY) x = Measure.map (fun r t => r t + mY t - c (x - mX) t) ν

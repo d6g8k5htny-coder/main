@@ -1,0 +1,10 @@
+import WholeFieldRegression
+open WholeFieldRegression
+#print axioms reconstructionKernel_isMarkov
+#print axioms reconstructionKernel_apply
+#print axioms independent_reconstruction_hasCondDistrib
+#print axioms fieldReconstruction_measurable
+#print axioms fieldRegressionKernel_apply
+#print axioms fieldRegression_hasCondDistrib
+#print axioms indepFun_pi_of_finite
+#print axioms fieldRegression_hasCondDistrib_of_finite
