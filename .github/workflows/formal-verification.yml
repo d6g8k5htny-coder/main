@@ -73,8 +73,8 @@ jobs:
           "$HOME/.elan/bin/elan" toolchain install "$(cat formal/lean-toolchain)"
       - name: Gate controls in both interpreter modes
         run: |
-          python -B -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory -v 2>&1 | tee /tmp/tests-normal.log
-          python -B -O -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory -v 2>&1 | tee /tmp/tests-optimized.log
+          python -B -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory tests.test_formal_source_custody -v 2>&1 | tee /tmp/tests-normal.log
+          python -B -O -S -m unittest tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory tests.test_formal_source_custody -v 2>&1 | tee /tmp/tests-optimized.log
       - name: Kernel lane — build, leanchecker, axiom audit, negative controls, receipt
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}

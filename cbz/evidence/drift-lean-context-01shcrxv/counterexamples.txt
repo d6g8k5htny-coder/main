@@ -1,0 +1,40 @@
+Counterexamples from #712/6511042057, run through lean_decls.declarations() at #712 head 15e8f689 (before) and at this head (after).
+Drift is caught when copy A's and copy B's interfaces differ.
+
+C1 before: MISSED (equal)
+    A: : x = x
+    B: : x = x
+C1 after : DRIFT CAUGHT
+    A: variable ( x : Nat ) ⊢ : x = x
+    B: variable ( x : Int ) ⊢ : x = x
+
+C1b before: MISSED (equal)
+    A: ( m : Measure O ) : m = m
+    B: ( m : Measure O ) : m = m
+C1b after : DRIFT CAUGHT
+    A: variable { O : Type * } [ MeasurableSpace O ] ⊢ ( m : Measure O ) : m = m
+    B: variable { O : Type * } [ MeasurableSpace O ] [ Fintype O ] ⊢ ( m : Measure O ) : m = m
+
+C2 before: MISSED (equal)
+    A: : π = π
+    B: : π = π
+C2 after : DRIFT CAUGHT
+    A: open Real ⊢ : π = π
+    B: open NNReal ⊢ : π = π
+
+C3 before: MISSED (equal)
+    A: : Nat := by
+    B: : Nat := by
+C3 after : DRIFT CAUGHT
+    A: : Nat := by set_option maxRecDepth 100 in exact 1
+    B: : Nat := by set_option maxRecDepth 100 in exact 2
+
+C3b before: MISSED (equal)
+    A: : Nat := by
+    B: : Nat := by
+C3b after : DRIFT CAUGHT
+    A: : Nat := by open Nat in exact 1
+    B: : Nat := by open Nat in exact 2
+
+C4 before: LeanSyntaxError: end (anonymous) on line 5 closes namespace A
+C4 after : [('A.f', 'def'), ('A.g', 'def')]
