@@ -296,8 +296,10 @@ class PackageTests(unittest.TestCase):
 
     def test_main_formal_package_targets_all_pass(self):
         report = sf.check_package(ROOT / 'formal')
-        self.assertEqual(report['targets'], 31)
-        self.assertEqual(report['status_counts'].get('PASS'), 31)
+        registered = len(json.loads((ROOT / 'formal' / 'manifest.json').read_text())['targets'])
+        self.assertGreaterEqual(registered, 31)
+        self.assertEqual(report['targets'], registered)
+        self.assertEqual(report['status_counts'].get('PASS'), registered)
         self.assertEqual(report['status_counts'].get('FAIL', 0), 0)
         self.assertEqual(report['status_counts'].get('UNSUPPORTED', 0), 0)
         self.assertEqual(sorted(report['per_target']), sorted(t['name'] for t in report['manifest_targets']))
