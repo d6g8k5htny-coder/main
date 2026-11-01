@@ -210,15 +210,74 @@ UNSUPPORTED all carry a measure-theoretic binder — `(μ : Measure Ω)` (27), `
 `(μ : ℝ → Measure Ω)` (2) — and are named as such in the stdout receipt; no sampler reads a measure, and
 the tool says so rather than approximating.
 
+## Finite discrete models for measure-theoretic statements (1 November 2026; receipts `*_r3*`)
+
+The 31 statements the ℝ backend left UNSUPPORTED are all over a carrier `variable {Ω : Type*} [MeasurableSpace Ω]`
+with binders `(μ : Measure Ω)`, `(W R V : Ω → ℝ)`, `(A : Set Ω)`, instance hypotheses `[IsProbabilityMeasure μ]` /
+`[IsFiniteMeasure μ]`, integrals `∫ x, f x ∂μ` and `∫ x in A, …`, event masses `(μ A).toReal`, a.e. relations
+`0 ≤ᵐ[μ] W` / `W =ᵐ[μ] V`, set-builders `{x | p x}`, `⊆`, `≪`, and two local definitions
+(`weightedLaw μ W := (ENNReal.ofReal (∫ x, W x ∂μ))⁻¹ • μ.withDensity (fun x => ENNReal.ofReal (W x))`,
+`badJetEvent R r ε := {x | ε < r * R x ^ 5}`). The tool now samples them on **finite discrete models**:
+Ω = Fin n with n ∈ {1, 2, 3, 4} and the discrete σ-algebra, μ a vector of non-negative rational weights
+(normalised to total mass 1 when `IsProbabilityMeasure μ` is hypothesised, allowed to be zero otherwise),
+functions as tables of exact rationals, sets as subsets, with neighbour sampling (W equal to or one entry
+away from an already drawn V) so that perturbation hypotheses such as `∫ |W x - V x| ∂μ ≤ δ` are hit.
+
+Why this is sound: every such model *is* an instance of the Lean statement. The Bochner integral of a
+table against a finite measure is the finite sum Σ wᵢ f(i) (every function is integrable); `∫ x in A, …`
+is the sum over A; `μ A` is the partial sum; `0 ≤ᵐ[μ] W` holds iff W ≥ 0 at every point of nonzero weight;
+`MeasurableSet`, `Measurable`, `Integrable`, `MemLp` hold for everything the model carries (discrete
+σ-algebra, finite measure); `IsProbabilityMeasure ν` is total mass 1; `ν ≪ μ` is "every μ-null point is
+ν-null"; measures are equal iff their weight vectors are; `ENNReal` follows Mathlib (`0⁻¹ = ∞`, `∞⁻¹ = 0`,
+`∞ · 0 = 0`, truncated subtraction, `ENNReal.toReal ∞ = 0`, `ENNReal.ofReal` clips at 0); `c • μ` and
+`μ.withDensity f` are pointwise products; a quantifier `∀ A : Set Ω, …` enumerates all 2ⁿ subsets. A
+refutation on a finite model is therefore a refutation of the Lean text's reading — and the test
+`weightedLaw_apply` without `0 ≤ᵐ[μ] W` shows one: with a signed W, `ofReal` clips on one side only and
+`∞ · 0 = 0` makes the two sides differ. Points of infinite mass are not generated (every statement in scope
+hypothesises finiteness or integrability that would exclude them), and a conclusion that is only a
+structural predicate (`MeasurableSet (badJetEvent R r ε)`) is reported UNSUPPORTED as trivial on discrete
+models rather than CORROBORATED. Real-indexed families `(μ : ℝ → Measure Ω)` with `∀ r, 0 < r → r ≤ r0 → …`
+hypotheses stay UNSUPPORTED (an infinite quantifier inside a hypothesis). Definitions and the carrier are
+shared across a package's modules (`weightedLaw` is defined in `WeightedLaw.lean` and used in
+`WeightPerturbation.lean`). The class-1 literal-shift mutant is now typing-aware: `weightedLaw μ W = 0`
+compares measures, and `= 1` there is not a Lean term, so it is not generated.
+
+Tests: 66 → **76** (`FiniteModelTests`, 10: Markov with and without its subset hypothesis, integral
+Cauchy–Schwarz with exact square roots and its strict misstatement, set integrals and event masses, the
+`weightedLaw` identity and its signed-W refutation, probability/zero/one/≪/a.e.-congruence, set-builder
+events and the moment tail with and without the moment bound, `∀ A : Set Ω` enumeration, structural and
+family UNSUPPORTED, exact seeded model witnesses, the mutation contract). The 58 adversarial probes still
+match; main `formal/` is unchanged.
+
+```sh
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 76 tests OK; same with -O -W error
+python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json main_formal_ec6962ff_r3.json
+python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --selftest --json math_formal_19a55750_r3.json
+python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --admit-corroborated --seed 2 --samples 128 --json math_formal_19a55750_r3_seed2_s128.json
+```
+
+| Package | Cut | Targets | PASS | CORROBORATED | FAIL | UNSUPPORTED | Mutants killed | Exit |
+|---|---|---:|---:|---:|---:|---:|---|---:|
+| main `formal/` (SIDE24 + P15) | `ec6962ff` | 59 | **59** | 0 | 0 | 0 | 184 / 184, 24 weakenings kept, 15 declared statement controls FAIL | 0 |
+| Math- `formal/` | `19a55750` | 63 | **3** | **56** | 0 | **4** | 72 / 72, 6 weakenings kept; the two modules with UNSUPPORTED targets fail the control by design | 1 |
+| Math- `formal/`, seed 2, 128 samples, `--admit-corroborated` | `19a55750` | 63 | 3 | 56 | 0 | 4 | — | 1 (the 4) |
+
+Seeds 1, 2 and 3 give the same distribution, 72/72 kills and zero survivors; every CORROBORATED statement
+reached the full 64 accepted instances. The 4 UNSUPPORTED are named in the stdout receipt:
+`p02_lm009_badJet_measurable` (structural conclusion) and the three `moment40_family_r3*` statements
+(real-indexed family). **Zero FAIL on 56 kernel-proved statements** remains the soundness check of the
+reader; the class-1 kills (every negated conclusion refuted on the models) show the evaluation has content.
+
 **Proposed registration amendment (for Root; the landed GOVERNANCE.md section of #741 governs until
-amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 29 CORROBORATED |
-31 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or
+amended):** the coverage row for Math- `formal/` at `19a55750` becomes `63 | 3 PASS | 56 CORROBORATED |
+4 UNSUPPORTED`; the sentence "The tool does not cover Mathlib real analysis, binders before the colon or
 unbounded quantifiers … the Math- core's 63 statements remain explicitly unsupported" becomes "The tool
-samples numeric binders before the colon (ℕ ℤ ℚ ℝ) under decidable hypotheses and evaluates `Real.sqrt`
-exactly in ℚ(√d₁, …, √dₖ); a sampled statement is CORROBORATED or FAIL, never PASS. The 31 Math-
-statements with measure-theoretic binders, nested radicals, transcendental functions and unbounded
-quantifiers inside a statement remain explicitly unsupported; an interval backend for `Real.exp`/`log`
-(Claude017's offer, main#684/6532742483) is the recorded gap."; the test count becomes 66; and the gate
+samples numeric binders before the colon (ℕ ℤ ℚ ℝ) under decidable hypotheses, evaluates `Real.sqrt`
+exactly in ℚ(√d₁, …, √dₖ), and samples measure-theoretic statements on finite discrete models (Ω = Fin n,
+rational weights, tables, subsets); a sampled statement is CORROBORATED or FAIL, never PASS. Structural
+conclusions, real-indexed families, nested radicals, transcendental functions and unbounded quantifiers
+inside a statement remain explicitly unsupported; no registered statement uses `Real.exp`/`log`, so no
+interval backend is pending."; the test count becomes 76; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
 SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is
