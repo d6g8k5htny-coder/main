@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-29T17:15:22.473254+00:00",
+  "defect": "Local wrapper discarded production main return1; original negative reports still contain43/45 but wrapper process exited0. No claim those old processes enforced failure.",
+  "root_cause": "try:m.main() rather than raise SystemExit(m.main())",
+  "isolated_stub_exit_observations": [
+    0,
+    1
+  ],
+  "before_sha256": "5b5795b435836c1484b56d9feb99ca2f372c6c725aed310146acf67a5021ff24",
+  "after_sha256": "388ace531730bf764b88c9b94ea379f4fa5105639b4b78c4ef71616a730db787",
+  "preserved_original": "run-integrated-atlas-admission-discarded-exit.py",
+  "fresh_controls": [
+    "integrated-e1-red-exit",
+    "integrated-blocked-three-red-exit"
+  ]
+}

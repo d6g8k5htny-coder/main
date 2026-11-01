@@ -1,0 +1,135 @@
+{
+  "source_head_at_review": "420bc28134ad495257a167af31b88748a48c95c8",
+  "source_state": "helper is modified working-tree content, not the committed HEAD helper",
+  "helper_sha256": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+  "runner_sha256": "ced49ece18704510b8e4e70936fc04fd43f471cb6973d1fd0dccc37791b863a2",
+  "working_tree_diff_sha256": "9704b9bb8340da0b7a49f64f2f759f4f89f38efbc78ac9969f937b944b8925ee",
+  "A1_disposition": "FIX VERIFIED for these exact helper bytes; original finding/control preserved",
+  "parent_reports": [
+    {
+      "run": "no-reflow-before",
+      "cases": 45,
+      "passed": 45,
+      "helper_sha256": "ab39e80222e2b70d05c60ccc00b43d0f41f6e46ec1e293a65590ba19f65c6965",
+      "report_sha256": "5a0ac8eed55cfaf3529bb0731f17a5aadbf5011f1278e6f8768dcb2f7ca9c362",
+      "binding_sha256": "f30a8132fca7d1147190c19dd3759b62f917f371f24e61deeae54ed4d7f36de0",
+      "failed": []
+    },
+    {
+      "run": "correct-after",
+      "cases": 45,
+      "passed": 45,
+      "helper_sha256": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+      "report_sha256": "17d0cf79f235690c496430d1e67191687c6d88102660839ef1113447a3e6c727",
+      "binding_sha256": "43ab1d38db25b25d0797420d72359f53c08750a2c067c9856ddf069c35179769",
+      "failed": []
+    },
+    {
+      "run": "no-reflow-after",
+      "cases": 45,
+      "passed": 42,
+      "helper_sha256": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+      "report_sha256": "8fe8c1984eb6fa07e1f12ae07cec2d38e56abe6a9e7564cdf7550740e97d70af",
+      "binding_sha256": "3423069b5a59470cf03fb2dfadf6154dc8285a5e2122c38b46f4517494ef14a5",
+      "failed": [
+        {
+          "case": "hosted-spatial-render-pick-recovery-1200",
+          "last_error_line": "AssertionError: Restored graph cards overlap: [{'a': 'math.d1-component.congruence-erratum', 'b': 'math.d1-component.section9-replacement-v1_1', 'width': 230, 'height': 41.734375}, {'a': 'math.d1-component.section9-replacement-v1_1', 'b': 'math.d1-component.reconciliation-record', 'width': 230, 'height': 41.734375}]",
+          "route": {
+            "view_before": "graph",
+            "browse_navigation": false,
+            "graph_selection_dispatched": false
+          }
+        },
+        {
+          "case": "hosted-spatial-module-fallback-390",
+          "last_error_line": "AssertionError: Restored graph cards overlap: [{'a': 'math.d1-component.congruence-erratum', 'b': 'math.d1-component.section9-replacement-v1_1', 'width': 220, 'height': 41.734375}, {'a': 'math.d1-component.section9-replacement-v1_1', 'b': 'math.d1-component.marked-cylinder-cap', 'width': 220, 'height': 41.734375}, {'a': 'math.d1-component.marked-cylinder-cap', 'b': 'math.d1-component.reconciliation-record', 'width': 220, 'height': 41.734375}]",
+          "route": {
+            "view_before": "graph",
+            "browse_navigation": false,
+            "graph_selection_dispatched": false
+          }
+        },
+        {
+          "case": "hosted-spatial-no-webgl-fallback-1200",
+          "last_error_line": "AssertionError: Restored graph cards overlap: [{'a': 'math.d1-component.congruence-erratum', 'b': 'math.d1-component.section9-replacement-v1_1', 'width': 230, 'height': 41.734375}, {'a': 'math.d1-component.section9-replacement-v1_1', 'b': 'math.d1-component.marked-cylinder-cap', 'width': 230, 'height': 41.734375}, {'a': 'math.d1-component.marked-cylinder-cap', 'b': 'math.d1-component.reconciliation-record', 'width': 230, 'height': 41.734375}]",
+          "route": {
+            "view_before": "graph",
+            "browse_navigation": false,
+            "graph_selection_dispatched": false
+          }
+        }
+      ]
+    },
+    {
+      "run": "e1-after",
+      "cases": 45,
+      "passed": 43,
+      "helper_sha256": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+      "report_sha256": "289b9fa801d7459ac3ae0886ae3aff95f85987133b02e0fff643098fda3daa08",
+      "binding_sha256": "300dbfb55575f43ee1239f617202529d28caeb092634da7402ca9c9260d7a273",
+      "failed": [
+        {
+          "case": "hosted-spatial-render-pick-recovery-1200",
+          "last_error_line": "AssertionError: Context loss detached, blurred or closed the ORIGINAL metadata SUMMARY",
+          "route": null
+        },
+        {
+          "case": "hosted-spatial-render-pick-recovery-390",
+          "last_error_line": "AssertionError: Context loss detached, blurred or closed the ORIGINAL metadata SUMMARY",
+          "route": null
+        }
+      ]
+    },
+    {
+      "run": "blocked-three-after",
+      "cases": 45,
+      "passed": 43,
+      "helper_sha256": "f1552c954e711cfcb8281723f2579425df16af2aea7ee9dcde5cd8f23684ab02",
+      "report_sha256": "2356611513a798c6136ebcd30a6f2f16897269414550fc6239aa24fbd09a3fb0",
+      "binding_sha256": "c891449624217ed50a9010b7281522c6a3885396fe38fe1c392e481fdab92604",
+      "failed": [
+        {
+          "case": "hosted-spatial-render-pick-recovery-1200",
+          "last_error_line": "AssertionError: Positive 3D admission requires rendering, not fallback: 3D unavailable: Failed to fetch dynamically imported module: http://127.0.0.1:42329/site/atlas-spatial.mjs?site-release=93a2035d59ca963df2099d61bcfa1ba499bc82c8a4d21b383f28cea264a84d5b. Use Graph or List to continue.",
+          "route": null
+        },
+        {
+          "case": "hosted-spatial-render-pick-recovery-390",
+          "last_error_line": "AssertionError: Positive 3D admission requires rendering, not fallback: 3D unavailable: Failed to fetch dynamically imported module: http://127.0.0.1:42329/site/atlas-spatial.mjs?site-release=93a2035d59ca963df2099d61bcfa1ba499bc82c8a4d21b383f28cea264a84d5b. Use Graph or List to continue.",
+          "route": null
+        }
+      ]
+    }
+  ],
+  "parent_unit_results": [
+    {
+      "path": "/workspace/cbz-20261029/atlas-admission-strengthening/unit-normal.log",
+      "sha256": "c4a03298d7558513ca3d2b3e1adb3db85a6d331c1fc651dc87578e726752b760",
+      "tests": 13,
+      "observed": "OK",
+      "attribution": "parent execution"
+    },
+    {
+      "path": "/workspace/cbz-20261029/atlas-admission-strengthening/unit-optimized.log",
+      "sha256": "d1d5eccaa6e7f3d093c943af6db7c716719c63e71290eac8363746324233ea0a",
+      "tests": 13,
+      "observed": "OK",
+      "attribution": "parent execution"
+    }
+  ],
+  "own_checks": {
+    "six_case_no_reflow": "3pass/3expectedgeometryrejections",
+    "normal_tests": 13,
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "full_integrated45_rerun": false
+  },
+  "process_exits": "Parent reports correct0 and no-reflow1; report/log outcomes and SystemExit(main()) propagation inspected. This reviewer did not independently execute each full45 process.",
+  "limits": [
+    "Original helper/report source identities not relabelled",
+    "Mobile browse navigation and List-to-Graph switching intentionally may render; recorded route flags qualify them",
+    "Remote c47 identity and Python3.11 TAR restoration not independently audited",
+    "No formal/accessibility/hardware/performance certification",
+    "No source edits, new approval gate or remote mutations"
+  ]
+}

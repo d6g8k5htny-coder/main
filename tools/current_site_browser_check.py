@@ -439,19 +439,23 @@ def exercise_static_reading_destinations(browser,origin,report,data,expect):
         finally:context.close()
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
-    report={'scientific_effect':'NONE','checked_commit':None,'source_payload_sha256':None,'source_repositories':[],'cases':[],'limitations':['Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established.']}
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);parser.add_argument('--browser',type=Path,help='Optional local Chromium executable; CI defaults to packaged Chrome');args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
+    report={'browser_request':{'kind':'executable' if args.browser else 'channel','value':str(args.browser) if args.browser else 'chrome','chromium_sandbox':True,'software_webgl_requested':True},'scientific_effect':'NONE','checked_commit':None,'source_payload_sha256':None,'source_repositories':[],'cases':[],'limitations':['Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established.']}
     try:
         report['checked_commit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
         raw=(ROOT/'docs/site/current.json').read_bytes();data=json.loads(raw)
         report['source_payload_sha256']=sha256(raw).hexdigest();report['source_repositories']=data['repositories']
         from playwright.sync_api import sync_playwright,expect
         with serve() as origin,sync_playwright() as p:
-            browser=p.chromium.launch(channel='chrome',chromium_sandbox=True);report['browser']=browser.version
+            browser_options={'chromium_sandbox':True,'args':['--enable-unsafe-swiftshader']}
+            browser_options.update(executable_path=str(args.browser)) if args.browser else browser_options.update(channel='chrome')
+            browser=p.chromium.launch(**browser_options);report['browser']=browser.version
             exercise_atlas_shell(browser,origin,args.output,report,data,expect)
             exercise_hosted_amendments(browser,origin,args.output,report,data,expect)
             exercise_resume_parity(browser,origin,report,data,expect)
             exercise_static_reading_destinations(browser,origin,report,data,expect)
+            from atlas_spatial_admission import exercise_spatial_admission
+            exercise_spatial_admission(browser,origin,args.output,report,data,expect)
             for width in [1200,320]:
                 for scheme in ['light','dark']:
                     case={'width':width,'color_scheme':scheme,'passed':False};report['cases'].append(case)
