@@ -29,6 +29,17 @@ multi-quadratic field ℚ(√d₁, …, √dₖ) (canonical form over squarefree
 exactly; the sign of a nonzero element is decided by refining integer-square-root enclosures). Nested
 radicals, `Real.exp`/`log`/`pi` and real exponents are UNSUPPORTED (an interval backend may admit them).
 
+Measure-theoretic statements — binders `(μ : Measure Ω)`, `(W : Ω → ℝ)`, `(A : Set Ω)` over a carrier
+declared by `variable {Ω : Type*}`, instance hypotheses `[IsProbabilityMeasure μ]`, integrals `∫ x, f x ∂μ`
+and `∫ x in A, …`, event masses `(μ A).toReal`, a.e. relations `0 ≤ᵐ[μ] W`, set-builders `{x | p x}`,
+`⊆`, `≪`, `μ.withDensity`, `c • μ`, `ENNReal.ofReal`/`⁻¹`/`.toReal` — are sampled on *finite discrete
+models*: Ω = Fin n (n ≤ 4) with the discrete σ-algebra, non-negative rational weights (normalised when the
+measure is hypothesised to be a probability measure), functions as tables, sets as subsets. Every such
+model is an instance of the Lean statement: integrals are finite sums, measurability and integrability are
+automatic, a.e. relations hold off the null points, measure equality and `≪` are pointwise. A conclusion
+that is only a structural predicate (`MeasurableSet …`) is UNSUPPORTED, since it is trivial there; a
+real-indexed family `(μ : ℝ → Measure Ω)` is UNSUPPORTED. The mutation contract applies unchanged.
+
 Lean semantics implemented: Nat subtraction truncates at 0; Nat and Int division by zero is 0 and
 x % 0 = x (totalized); Nat division floors; Int `/` and `%` are Euclidean (`Int.ediv`/`Int.emod`:
 0 ≤ r < |b|), which is Lean 4 core's convention — not Python's floor division and not T-rounding;
@@ -71,7 +82,7 @@ class Token:
 
 
 _MULTI_OPS = ('<=', '>=', '!=', '->', ':=', '=>', '/\\', '\\/', '<->', '||', '&&', '..', '⁻¹')
-_SINGLE = set('+-*/%^=<>()[],:|.{}!∀∃∧∨¬→↔≤≥≠∈∉λ√')
+_SINGLE = set('+-*/%^=<>()[],:|.{}!∀∃∧∨¬→↔≤≥≠∈∉λ√∫∂ᵐ•⊆≪∩∪ᶜ∅')
 _IDENT_START = re.compile(r'[A-Za-z_α-ωΑ-Ωℕℤℚℝℂ«]')
 _IDENT_CHAR = re.compile(r'[A-Za-z0-9_\'!?α-ωΑ-Ωℕℤℚℝℂ₀-₉»]')
 
@@ -215,12 +226,32 @@ class Forall:
     domain: object | None   # expression whose value is a list, when written `∀ x ∈ l, …`
     body: object
 
+@dataclasses.dataclass
+class Integral:
+    var: str
+    domain: object | None   # `∫ x in A, body ∂μ` restricts to the set A
+    body: object
+    measure: object
+
+@dataclasses.dataclass
+class SetBuilder:
+    var: str
+    body: object            # `{x | body}` on the model's points
+
+@dataclasses.dataclass
+class AERel:
+    op: str                 # `f ≤ᵐ[μ] g`: the relation holds at every point of nonzero mass
+    left: object
+    right: object
+    measure: object
+
 
 _NORMALIZE = {'<=': '≤', '>=': '≥', '!=': '≠', '->': '→', '/\\': '∧', '\\/': '∨', '<->': '↔'}
 _PREC = {'→': 25, '↔': 20, '∨': 30, '∧': 35, '||': 30, '&&': 35, '=': 50, '≠': 50, '<': 50, '>': 50, '≤': 50, '≥': 50,
-         '∈': 50, '∉': 50, '+': 65, '-': 65, '*': 70, '/': 70, '%': 70, '^': 75}
-_RIGHT = {'→', '↔', '∨', '∧', '||', '&&', '^'}
-_COMPARISONS = {'=', '≠', '<', '>', '≤', '≥', '∈', '∉'}
+         '∈': 50, '∉': 50, '⊆': 50, '≪': 50, '+': 65, '-': 65, '∪': 65, '*': 70, '/': 70, '%': 70, '∩': 70, '•': 73, '^': 75}
+_RIGHT = {'→', '↔', '∨', '∧', '||', '&&', '^', '•'}
+_COMPARISONS = {'=', '≠', '<', '>', '≤', '≥', '∈', '∉', '⊆', '≪'}
+_AE_OPS = {'=', '≠', '<', '>', '≤', '≥'}
 _LOGIC = {'→', '↔', '∨', '∧'}
 
 
@@ -263,6 +294,15 @@ class Parser:
                 break
             prec = _PREC[op]
             self.i += 1
+            if op in _AE_OPS and self.at('ᵐ'):
+                # Mathlib `f ≤ᵐ[μ] g` (`Filter.EventuallyLE` along `ae μ`)
+                self.eat('ᵐ')
+                self.eat('[')
+                measure = self.parse_expr(0)
+                self.eat(']')
+                right = self.parse_expr(prec + 1)
+                left = AERel(op, left, right, measure)
+                continue
             right = self.parse_expr(prec if op in _RIGHT else prec + 1)
             left = BinOp(op, left, right)
         return left
@@ -292,6 +332,8 @@ class Parser:
             # Mathlib `prefix:100 "√" => Real.sqrt`: binds tighter than `^` (75), looser than application
             self.i += 1
             return App(Var('Real.sqrt'), [self.parse_expr(100)])
+        if t.value == '∫':
+            return self.parse_integral()
         if t.value in ('∀', '∃'):
             return self.parse_quantifier()
         if t.value in ('fun', 'λ'):
@@ -306,13 +348,40 @@ class Parser:
         typ, domain = None, None
         if self.at(':'):
             self.eat(':')
-            typ = self.eat().value
+            parts = []
+            while not self.at(','):
+                parts.append(self.eat().value)
+            typ = ' '.join(parts)
         elif self.at('∈'):
             self.eat('∈')
             domain = self.parse_expr(51)
         self.eat(',')
         body = self.parse_expr(0)
         return Forall(var, typ, domain, body)
+
+    def parse_integral(self):
+        """`∫ x, f x ∂μ` and `∫ x in A, f x ∂μ` (the Bochner integral and the set integral); the binder may be
+        typed, `∫ (x : Ω), …`. The measure after `∂` is one application (`μ`, `(μ r)`, `μ.restrict A`)."""
+        self.eat('∫')
+        if self.at('('):
+            self.eat('(')
+            var = self.eat().value
+            if self.at(':'):
+                self.eat(':')
+                while not self.at(')'):
+                    self.eat()
+            self.eat(')')
+        else:
+            var = self.eat().value
+        domain = None
+        if self.at('in'):
+            self.eat('in')
+            domain = self.parse_expr(51)
+        self.eat(',')
+        body = self.parse_expr(0)
+        self.eat('∂')
+        measure = self.parse_application()
+        return Integral(var, domain, body, measure)
 
     def parse_lambda(self):
         self.eat()
@@ -322,10 +391,16 @@ class Parser:
             if t.value == '(':
                 params.append(self.eat().value)
                 if self.at(':'):
-                    self.eat(':'); self.eat()
+                    self.eat(':')
+                    while not self.at(')'):
+                        self.eat()
                 self.eat(')')
             else:
                 params.append(t.value)
+                if self.at(':'):
+                    self.eat(':')
+                    while not self.at('=>'):
+                        self.eat()
         self.eat('=>')
         return Lambda(params, self.parse_expr(0))
 
@@ -336,7 +411,7 @@ class Parser:
             t = self.peek()
             if t is None:
                 break
-            if t.kind == 'ident' and t.value in ('if', 'then', 'else', 'fun', 'λ'):
+            if t.kind == 'ident' and t.value in ('if', 'then', 'else', 'fun', 'λ', 'in'):
                 break
             if t.kind in ('num', 'ident') or (t.kind == 'op' and t.value in ('(', '[')):
                 args.append(self.parse_atom())
@@ -362,6 +437,10 @@ class Parser:
             if t is not None and t.kind == 'op' and t.value == '⁻¹':
                 self.i += 1
                 atom = App(Var('Inv.inv'), [atom])
+                continue
+            if t is not None and t.kind == 'op' and t.value == 'ᶜ':
+                self.i += 1
+                atom = App(Var('.compl'), [atom])
                 continue
             if t is not None and t.kind == 'op' and t.value == '.' and self.peek(1) is not None:
                 nxt = self.peek(1)
@@ -389,6 +468,24 @@ class Parser:
                 self.i -= 1
                 return self.parse_lambda()
             return Var(t.value)
+        if t.value == '∅':
+            return Var('∅')
+        if t.value == '{':
+            # set-builder `{x | p x}` / `{x : Ω | p x}` over the model's points; other brace terms are outside
+            nxt, nxt2 = self.peek(), self.peek(1)
+            if nxt is not None and nxt.kind == 'ident' and nxt2 is not None and nxt2.value in ('|', ':'):
+                var = self.eat().value
+                if self.at(':'):
+                    self.eat(':')
+                    while not self.at('|'):
+                        self.eat()
+                self.eat('|')
+                self.abs_depth += 1
+                body = self.parse_expr(0)
+                self.abs_depth -= 1
+                self.eat('}')
+                return SetBuilder(var, body)
+            raise Unsupported('brace term that is not a set-builder')
         if t.value == '|':
             # Mathlib absolute value `|e|`; the inner expression stops at the closing bar because `|` is
             # not an infix operator of the subset (`||x| - |y||` is not parsed: Lean needs parentheses too)
@@ -458,6 +555,7 @@ class Module:
     namespace: str
     defs: dict
     theorems: list
+    point_types: set = dataclasses.field(default_factory=set)   # `variable {Ω : Type*}`: finite-model carriers
 
 
 _DECL_KEYWORDS = {'theorem', 'lemma', 'def', 'abbrev', 'example', 'instance', 'structure', 'inductive',
@@ -521,6 +619,7 @@ def _parse_binders(toks, start, end):
 def parse_module(source: str) -> Module:
     toks = tokenize(source)
     namespace, defs, theorems = '', {}, []
+    point_types = set()
     for start, end in _split_declarations(toks):
         kw = toks[start].value
         k = start
@@ -529,6 +628,18 @@ def parse_module(source: str) -> Module:
         kw = toks[k].value if k < end else kw
         if kw == 'namespace':
             namespace = toks[k + 1].value
+            continue
+        if kw == 'variable':
+            # `variable {Ω : Type*} [MeasurableSpace Ω]`: a type variable becomes a finite-model carrier
+            j = k + 1
+            while j < end and toks[j].value in ('(', '{', '['):
+                close = _matching(toks, j, end)
+                if close == -1:
+                    break
+                colon = _find(toks, ':', j + 1, close)
+                if toks[j].value in ('(', '{') and colon != -1 and toks[colon + 1].value == 'Type':
+                    point_types.update(x.value for x in toks[j + 1:colon] if x.kind == 'ident')
+                j = close + 1
             continue
         if kw in ('def', 'abbrev'):
             name = toks[k + 1].value
@@ -576,7 +687,7 @@ def parse_module(source: str) -> Module:
             text = ' '.join(t.value for t in toks[colon + 1:assign])
             if binder_text:
                 text = f'{binder_text} : {text}'
-            binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, defs)
+            binders, binder_error = _parse_theorem_binders(toks, k + 2, colon, defs, point_types)
             if binder_error:
                 theorems.append(Theorem(full, None, binder_error, text, binders))
                 continue
@@ -591,7 +702,7 @@ def parse_module(source: str) -> Module:
             except SyntaxError as e:
                 theorems.append(Theorem(full, None, f'unparsed statement: {e}', text, binders))
             continue
-    return Module(namespace, defs, theorems)
+    return Module(namespace, defs, theorems, point_types)
 
 
 def _split_patterns(toks):
@@ -627,14 +738,51 @@ def _pattern(toks):
 _SAMPLED_TYPE_TOKENS = {'Nat': 'Nat', 'ℕ': 'Nat', 'Int': 'Int', 'ℤ': 'Int', 'Rat': 'Rat', 'ℚ': 'Rat',
                         'Real': 'Real', 'ℝ': 'Real'}
 
+# Predicates on finite discrete models. Structural ones hold automatically there (discrete σ-algebra, finite
+# measure, finite sums): as hypotheses they filter nothing; as a whole conclusion they are reported UNSUPPORTED.
+_STRUCTURAL_PREDICATES = {'Measurable', 'MeasurableSet', 'Integrable', 'MemLp', 'AEMeasurable', 'AEStronglyMeasurable',
+                          'StronglyMeasurable', 'Memℒp'}
+_MEASURE_PREDICATES = {'IsProbabilityMeasure', 'IsFiniteMeasure'} | _STRUCTURAL_PREDICATES   # the first two are decided
+_IGNORED_INSTANCES = {'MeasurableSpace', 'MeasurableSingletonClass', 'TopologicalSpace', 'BorelSpace', 'Nonempty',
+                      'DecidableEq', 'Fintype', 'Countable'}
+
 _BUILTIN_NAMES = {'true', 'false', 'True', 'False', 'abs', 'min', 'max', 'Real.sqrt', 'Inv.inv', 'List.range',
                   'List.foldl', 'List.filter', 'List.sum', 'List.length', 'List.map', 'Nat.choose', 'Nat.factorial',
                   'Nat.succ', 'Nat.pred', 'Nat.min', 'Nat.max', 'Nat.add', 'Nat.mul', 'Nat.sub', 'Int.natAbs',
                   'Int.toNat', 'Int.ofNat', 'Set.Icc', 'Set.Ico', 'Set.Ioc', 'Set.Ioo', 'Set.Ici', 'Set.Iic',
-                  'Set.Ioi', 'Set.Iio'}
+                  'Set.Ioi', 'Set.Iio', 'Set.univ', '∅', 'ENNReal.ofReal', 'ENNReal.toReal'} | _MEASURE_PREDICATES
+
+_MODEL_KINDS = ('Measure', 'Func', 'Set')     # binder kinds sampled as finite discrete models
 
 
-def _parse_theorem_binders(toks, start, end, defs):
+def _kind_of_type(t: str, point_types) -> str | None:
+    """The interpreter's kind for a Lean type written as a string: a numeric type ('Nat', 'Int', 'Rat', 'Real'),
+    'ENNReal', 'Bool', 'Point' (a finite-model carrier Ω), 'Measure' (`Measure Ω`), 'Set' (`Set Ω`), 'Func'
+    (`Ω → ℝ`, a table on the carrier), or None when the type is outside the interpreter (`ℝ → Measure Ω`,
+    `Fin n → ℝ`, `Ω → Ω`, structures)."""
+    t = t.strip()
+    parts = [x.strip() for x in t.split('→')]
+    if len(parts) == 2 and parts[0] in point_types:
+        return 'Func' if parts[1] in _SAMPLED_TYPE_TOKENS or parts[1] in ('ENNReal', 'ℝ≥0∞') else None
+    if len(parts) >= 2:
+        return None
+    if t in _SAMPLED_TYPE_TOKENS:
+        return _SAMPLED_TYPE_TOKENS[t]
+    if t in ('ENNReal', 'ℝ≥0∞'):
+        return 'ENNReal'
+    if t == 'Bool':
+        return 'Bool'
+    if t in point_types:
+        return 'Point'
+    words = t.split()
+    if len(words) == 2 and words[0] == 'Measure' and words[1] in point_types:
+        return 'Measure'
+    if len(words) == 2 and words[0] == 'Set' and words[1] in point_types:
+        return 'Set'
+    return None
+
+
+def _parse_theorem_binders(toks, start, end, defs, point_types=frozenset()):
     """Binder groups between the theorem name and its colon → ([Binder], error or None).
 
     `(x y : ℝ)` / `{x : ℕ}` with a sampled numeric type declare variables; `(h : p)` whose type parses as a
@@ -643,12 +791,32 @@ def _parse_theorem_binders(toks, start, end, defs):
     `(f : Ω → ℝ)`, `(μ : Measure Ω)`, a predicate the interpreter does not define — makes the theorem
     UNSUPPORTED, fail-closed, naming the binder."""
     binders, declared = [], set()
+    point_types = set(point_types)
     k = start
     while k < end:
         t = toks[k]
         if t.value == '[':
             close = _matching(toks, k, end)
             txt = ' '.join(x.value for x in toks[k:close + 1 if close != -1 else end])
+            if close == -1:
+                return binders, 'unbalanced binder brackets'
+            # `[IsProbabilityMeasure μ]` is a hypothesis on a declared measure; `[MeasurableSpace Ω]` is structure
+            inner = toks[k + 1:close]
+            if inner and inner[0].kind == 'ident' and inner[0].value in _IGNORED_INSTANCES:
+                k = close + 1
+                continue
+            if inner and inner[0].kind == 'ident' and inner[0].value in _MEASURE_PREDICATES:
+                try:
+                    parser = Parser(toks, k + 1, close)
+                    node = parser.parse_expr(0)
+                    ok = parser.i == close and isinstance(node, App) and all(
+                        isinstance(a, Var) and a.name in declared for a in node.args)
+                except (SyntaxError, Unsupported):
+                    ok = False
+                if ok:
+                    binders.append(Binder('hyp', '_inst', node, txt))
+                    k = close + 1
+                    continue
             return binders, f'instance binder {txt} cannot be sampled'
         if t.value not in ('(', '{'):
             return binders, f'binder {t.value!r} without a type is outside the interpreter'
@@ -663,10 +831,14 @@ def _parse_theorem_binders(toks, start, end, defs):
         if not names or any(x.kind != 'ident' for x in toks[k + 1:colon]):
             return binders, f'binder pattern {txt} is outside the interpreter'
         type_toks = toks[colon + 1:close]
-        if len(type_toks) == 1 and type_toks[0].value in _SAMPLED_TYPE_TOKENS:
-            typ = _SAMPLED_TYPE_TOKENS[type_toks[0].value]
+        if type_toks and type_toks[0].value == 'Type':
+            point_types.update(names)          # `{Ω : Type*}` declared on the theorem itself
+            k = close + 1
+            continue
+        kind = _kind_of_type(' '.join(x.value for x in type_toks), point_types)
+        if kind in _SAMPLED_TYPE_TOKENS.values() or kind in _MODEL_KINDS:
             for nm in names:
-                binders.append(Binder('var', nm, typ, txt))
+                binders.append(Binder('var', nm, kind, txt))
                 declared.add(nm)
             k = close + 1
             continue
@@ -678,7 +850,7 @@ def _parse_theorem_binders(toks, start, end, defs):
         except (SyntaxError, Unsupported):
             node = None
         if node is not None and _is_prop_shape(node):
-            known = declared | set(defs) | _BUILTIN_NAMES | _TRANSCENDENTAL
+            known = declared | set(defs) | _BUILTIN_NAMES | _TRANSCENDENTAL | point_types
             unknown = sorted(v for v in _free_vars(node) if v not in known and v.split('.')[0] not in known)
             if not unknown:
                 node = _desugar(node)
@@ -694,13 +866,18 @@ def _parse_theorem_binders(toks, start, end, defs):
 
 
 def _is_prop_shape(node) -> bool:
-    """A syntactic proposition: comparisons and membership, closed under ¬ ∧ ∨ → ↔ and ∀."""
+    """A syntactic proposition: comparisons, membership, a.e. relations and the model predicates, closed
+    under ¬ ∧ ∨ → ↔ and ∀."""
     if isinstance(node, BinOp):
         if node.op in _COMPARISONS:
             return True
         if node.op in _LOGIC:
             return _is_prop_shape(node.left) and _is_prop_shape(node.right)
         return False
+    if isinstance(node, AERel):
+        return True
+    if isinstance(node, App):
+        return isinstance(node.fn, Var) and node.fn.name in _MEASURE_PREDICATES
     if isinstance(node, Not):
         return _is_prop_shape(node.expr)
     if isinstance(node, Forall):
@@ -716,6 +893,11 @@ def _free_vars(node, bound=frozenset()) -> set:
         return inner | (_free_vars(node.domain, bound) if node.domain is not None else set())
     if isinstance(node, Lambda):
         return _free_vars(node.body, bound | set(node.params))
+    if isinstance(node, Integral):
+        out = _free_vars(node.body, bound | {node.var}) | _free_vars(node.measure, bound)
+        return out | (_free_vars(node.domain, bound) if node.domain is not None else set())
+    if isinstance(node, SetBuilder):
+        return _free_vars(node.body, bound | {node.var})
     out = set()
     for child in _children(node):
         out |= _free_vars(child, bound)
@@ -741,6 +923,12 @@ def _children(node):
         return [node.body]
     if isinstance(node, Forall):
         return ([node.domain] if node.domain is not None else []) + [node.body]
+    if isinstance(node, Integral):
+        return ([node.domain] if node.domain is not None else []) + [node.body, node.measure]
+    if isinstance(node, SetBuilder):
+        return [node.body]
+    if isinstance(node, AERel):
+        return [node.left, node.right, node.measure]
     return []
 
 
@@ -794,6 +982,13 @@ def _desugar(node):
         return Lambda(node.params, _desugar(node.body))
     if isinstance(node, Forall):
         return Forall(node.var, node.type, None if node.domain is None else _desugar(node.domain), _desugar(node.body))
+    if isinstance(node, Integral):
+        return Integral(node.var, None if node.domain is None else _desugar(node.domain), _desugar(node.body),
+                        _desugar(node.measure))
+    if isinstance(node, SetBuilder):
+        return SetBuilder(node.var, _desugar(node.body))
+    if isinstance(node, AERel):
+        return AERel(node.op, _desugar(node.left), _desugar(node.right), _desugar(node.measure))
     return node
 
 
@@ -801,7 +996,7 @@ def _desugar(node):
 # Evaluation
 # --------------------------------------------------------------------------------------------
 
-_LIST_METHODS = {'foldl', 'filter', 'map', 'sum', 'length'}
+_LIST_METHODS = {'foldl', 'filter', 'map', 'sum', 'length', 'withDensity', 'restrict', 'toReal', 'compl'}
 _INT_TYPES = {'Int', 'ℤ'}
 _NAT_TYPES = {'Nat', 'ℕ'}
 _RAT_TYPES = {'Rat', 'ℚ'}
@@ -824,6 +1019,128 @@ class Infeasible(Unsupported):
 class Closure:
     def __init__(self, params, body, env):
         self.params, self.body, self.env = params, body, env
+
+
+# --------------------------------------------------------------------------------------------
+# Finite discrete models: ENNReal values, measures as weight vectors, functions as tables, sets as subsets
+# --------------------------------------------------------------------------------------------
+# Ω = Fin n with the discrete σ-algebra. Every set is measurable, every function measurable, every function
+# integrable against a finite measure, so the structural hypotheses of a Mathlib statement hold and the
+# numeric content is a finite sum. An instance refuted here is refuted in Lean's reading of the statement.
+
+@dataclasses.dataclass(frozen=True)
+class ENN:
+    """An extended non-negative real: a non-negative Fraction, or ∞ (`value is None`). Mathlib's conventions:
+    `0⁻¹ = ∞`, `∞⁻¹ = 0`, `∞ * 0 = 0`, truncated subtraction, `ENNReal.toReal ∞ = 0`."""
+    value: object = Fraction(0)
+
+    @property
+    def inf(self):
+        return self.value is None
+
+    def __repr__(self):
+        return '∞' if self.inf else _fmt(self.value)
+
+    def __add__(self, other):
+        other = _enn(other)
+        return ENN(None) if self.inf or other.inf else ENN(self.value + other.value)
+
+    __radd__ = __add__
+
+    def __mul__(self, other):
+        other = _enn(other)
+        if (self.inf and other.value == 0) or (other.inf and self.value == 0):
+            return ENN(Fraction(0))
+        return ENN(None) if self.inf or other.inf else ENN(self.value * other.value)
+
+    __rmul__ = __mul__
+
+    def __sub__(self, other):
+        other = _enn(other)
+        if other.inf:
+            return ENN(Fraction(0))
+        if self.inf:
+            return ENN(None)
+        return ENN(max(self.value - other.value, Fraction(0)))
+
+    def inverse(self):
+        if self.inf:
+            return ENN(Fraction(0))
+        return ENN(None) if self.value == 0 else ENN(1 / self.value)
+
+    def __truediv__(self, other):
+        return self * _enn(other).inverse()
+
+    def to_real(self):
+        return Fraction(0) if self.inf else self.value
+
+    def _key(self):
+        return (1, Fraction(0)) if self.inf else (0, self.value)
+
+    def __lt__(self, other):
+        return self._key() < _enn(other)._key()
+
+    def __le__(self, other):
+        return self._key() <= _enn(other)._key()
+
+    def __gt__(self, other):
+        return self._key() > _enn(other)._key()
+
+    def __ge__(self, other):
+        return self._key() >= _enn(other)._key()
+
+
+def _enn(x):
+    if isinstance(x, ENN):
+        return x
+    if isinstance(x, bool) or isinstance(x, (list, tuple, frozenset)):
+        raise Unsupported('ENNReal arithmetic on a non-numeric value')
+    x = _exact(x)
+    if isinstance(x, Alg):
+        if x.sign() < 0:
+            raise Unsupported('a negative value where an ENNReal is expected')
+        raise Unsupported('an irrational ENNReal value is outside the finite-model backend')
+    if x < 0:
+        raise Unsupported('a negative value where an ENNReal is expected')
+    return ENN(Fraction(x))
+
+
+@dataclasses.dataclass(frozen=True)
+class Meas:
+    """A measure on Fin n: one ENNReal weight per point."""
+    weights: tuple
+
+    def mass(self, points=None):
+        total = ENN(Fraction(0))
+        for i, w in enumerate(self.weights):
+            if points is None or i in points:
+                total = total + w
+        return total
+
+    def __repr__(self):
+        return '[' + ', '.join(repr(w) for w in self.weights) + ']'
+
+
+@dataclasses.dataclass(frozen=True)
+class Func:
+    """A function on Fin n as a table; `codomain` is the interpreter type of its values."""
+    table: tuple
+    codomain: str = 'Real'
+
+    def __repr__(self):
+        return '[' + ', '.join(_fmt(v) if not isinstance(v, ENN) else repr(v) for v in self.table) + ']'
+
+
+def _fmt_set(points, n=None) -> str:
+    return '{' + ', '.join(str(i) for i in sorted(points)) + '}'
+
+
+def _fmt_value(v) -> str:
+    if isinstance(v, frozenset):
+        return _fmt_set(v)
+    if isinstance(v, (Meas, Func, ENN)):
+        return repr(v)
+    return _fmt(v)
 
 
 _BUILTIN_BINARY = {
@@ -849,6 +1166,12 @@ class Evaluator:
         self.vacuous = False
         self.failures = []
         self.probes = []
+        self.model_n = None          # the carrier size of the current finite model, when one is in force
+
+    def points(self):
+        if self.model_n is None:
+            raise Unsupported('a measure, set or function value without a finite model in force')
+        return range(self.model_n)
 
     # ---- typing: the maximal numeric type among the leaves of an arithmetic tree
     def arith_type(self, node, env) -> str:
@@ -870,15 +1193,27 @@ class Evaluator:
             if node.name in env:
                 v = env[node.name]
                 return v.type if isinstance(v, Bound) else 'Nat'
+            if node.name in ('Set.univ', '∅'):
+                return 'Set'
             d = self.module.defs.get(node.name)
             if d is not None and d.result_type:
                 return self._type_name(d.result_type)
             return 'Nat'
+        if isinstance(node, (Integral,)):
+            return 'Real'
+        if isinstance(node, SetBuilder):
+            return 'Set'
+        if isinstance(node, AERel):
+            return 'Prop'
         if isinstance(node, (BinOp,)):
             if node.op in _COMPARISONS or node.op in _LOGIC:
                 return 'Prop'
             if node.op == '^':
                 return self.arith_type(node.left, env)      # the exponent is typed on its own (Lean `rightact%`)
+            if node.op == '•':
+                return self.arith_type(node.right, env)
+            if node.op in ('∩', '∪'):
+                return 'Set'
             return _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
         if isinstance(node, Neg):
             return 'Int' if self.arith_type(node.expr, env) == 'Nat' else self.arith_type(node.expr, env)
@@ -889,11 +1224,30 @@ class Evaluator:
         if isinstance(node, App):
             fn = node.fn
             if isinstance(fn, Var):
+                if fn.name in env and isinstance(env[fn.name], Bound):
+                    b = env[fn.name]
+                    if b.type == 'Measure':
+                        return 'ENNReal'                      # `μ A`
+                    if b.type == 'Func':
+                        return b.value.codomain if isinstance(b.value, Func) else 'Real'
                 d = self.module.defs.get(fn.name)
                 if d is not None and d.result_type:
-                    return self._type_name(d.result_type)
+                    rt = self._type_name(d.result_type)
+                    if rt == 'Measure' and len(node.args) == len(d.params) + 1:
+                        return 'ENNReal'                      # a defined measure applied to a set
+                    return rt
                 if fn.name == 'Real.sqrt':
                     return 'Real'
+                if fn.name in ('.toReal', 'ENNReal.toReal'):
+                    return 'Real'
+                if fn.name in ('ENNReal.ofReal',):
+                    return 'ENNReal'
+                if fn.name in ('.withDensity', '.restrict'):
+                    return 'Measure'
+                if fn.name in ('.compl',):
+                    return 'Set'
+                if fn.name in _MEASURE_PREDICATES:
+                    return 'Prop'
                 if fn.name in ('abs', 'min', 'max', 'Inv.inv') and node.args:
                     out = 'Nat'
                     for a in node.args:
@@ -907,8 +1261,10 @@ class Evaluator:
             return 'Nat'
         return 'Nat'
 
-    @staticmethod
-    def _type_name(t: str) -> str:
+    def _type_name(self, t: str) -> str:
+        kind = _kind_of_type(t, self.module.point_types)
+        if kind is not None:
+            return kind
         last = t.split('→')[-1].strip()
         if last in _INT_TYPES:
             return 'Int'
@@ -922,6 +1278,9 @@ class Evaluator:
             return 'Bool'
         if last.startswith('List') or '×' in last:
             return 'Nat'   # containers: element arithmetic defaults to Nat
+        kind = _kind_of_type(last, self.module.point_types)
+        if kind is not None:
+            return kind
         raise Unsupported(f'result type {t}')
 
     # ---- numeric evaluation at a given type
@@ -929,9 +1288,21 @@ class Evaluator:
         if isinstance(node, Num):
             if typ in _FIELD_TYPES:
                 return self._rec(Fraction(node.value))
+            if typ == 'ENNReal':
+                return ENN(Fraction(node.value))
+            if typ == 'Measure':
+                if node.value == 0:
+                    return Meas(tuple(ENN(Fraction(0)) for _ in self.points()))
+                raise Unsupported('a nonzero numeral where a measure is expected')
             if not isinstance(node.value, int):
                 raise Unsupported('scientific literal outside a rational or real context (Lean defaults it to Float)')
             return self._rec(node.value)
+        if isinstance(node, Integral):
+            return self._rec(self.integral(node, env))
+        if isinstance(node, SetBuilder):
+            return frozenset(i for i in self.points() if self.prop(node.body, {**env, node.var: Bound(i, 'Point')}))
+        if isinstance(node, Lambda) and typ == 'Func':
+            return self.materialize(Closure(node.params, node.body, env))
         if isinstance(node, Ascribe):
             # `(e : T)` elaborates e at T (Lean pushes the expected type to the leaves: `(n - 1 : ℝ)` is real
             # subtraction of ↑n, `((n - 1 : ℕ) : ℝ)` casts a truncated Nat); the value is then used at typ
@@ -940,6 +1311,10 @@ class Evaluator:
         if isinstance(node, Var):
             if node.name in ('true', 'false'):
                 return node.name == 'true'
+            if node.name == 'Set.univ':
+                return frozenset(self.points())
+            if node.name == '∅':
+                return frozenset()
             if node.name in env:
                 v = env[node.name]
                 return self._rec(v.value if isinstance(v, Bound) else v)
@@ -963,6 +1338,17 @@ class Evaluator:
         if isinstance(node, BinOp):
             if node.op == '^':
                 return self._rec(self._power(node, env, typ))
+            if node.op == '•':
+                c = self.num(node.left, env, 'ENNReal')
+                m = self.num(node.right, env, 'Measure')
+                if not isinstance(m, Meas):
+                    raise Unsupported('scalar action on a non-measure')
+                return Meas(tuple(_enn(c) * w for w in m.weights))
+            if node.op in ('∩', '∪'):
+                a, b = self.num(node.left, env, 'Set'), self.num(node.right, env, 'Set')
+                if not isinstance(a, frozenset) or not isinstance(b, frozenset):
+                    raise Unsupported('set operation on non-sets')
+                return a & b if node.op == '∩' else a | b
             a = self.num(node.left, env, typ)
             b = self.num(node.right, env, typ)
             return self._rec(self._arith(node.op, a, b, typ))
@@ -1016,6 +1402,19 @@ class Evaluator:
     def _arith(op, a, b, typ):
         if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
             raise Unsupported('arithmetic on a non-numeric value')
+        if typ == 'ENNReal' or isinstance(a, ENN) or isinstance(b, ENN):
+            a, b = _enn(a), _enn(b)
+            if op == '+':
+                return a + b
+            if op == '-':
+                return a - b
+            if op == '*':
+                return a * b
+            if op == '/':
+                return a / b
+            raise Unsupported(f'operator {op} on ENNReal')
+        if isinstance(a, (Meas, Func, frozenset)) or isinstance(b, (Meas, Func, frozenset)):
+            raise Unsupported(f'operator {op} on a measure, function or set')
         if op == '+':
             return a + b
         if op == '-':
@@ -1079,8 +1478,41 @@ class Evaluator:
                 return self.apply(App(Var('.' + method), [Var(recv)] + list(args)), env, typ)
         if name in env and isinstance(env[name], Closure):
             return self.call_closure(env[name], args, env, typ)
+        if name in env and isinstance(env[name], Bound) and env[name].type == 'Measure' and len(args) == 1:
+            return self.measure_apply(env[name].value, args[0], env)
+        if name in env and isinstance(env[name], Bound) and env[name].type == 'Func' and len(args) == 1:
+            return self.func_apply(env[name].value, args[0], env)
         if name in _TRANSCENDENTAL:
             raise Unsupported(f'transcendental {name} is outside the exact algebraic backend')
+        if name in ('.toReal', 'ENNReal.toReal') and len(args) == 1:
+            v = self.num(args[0], env, 'ENNReal')
+            return _enn(v).to_real()
+        if name == 'ENNReal.ofReal' and len(args) == 1:
+            v = self.num(args[0], env, 'Real')
+            if isinstance(v, Alg):
+                if v.sign() <= 0:
+                    return ENN(Fraction(0))
+                raise Unsupported('an irrational ENNReal value is outside the finite-model backend')
+            return ENN(max(_exact(v), Fraction(0)))
+        if name == '.withDensity' and len(args) == 2:
+            m = self.num(args[0], env, 'Measure')
+            f = self.num(args[1], env, 'Func')
+            if not isinstance(m, Meas) or not isinstance(f, Func):
+                raise Unsupported('withDensity on a non-measure or non-function')
+            return Meas(tuple(w * _enn(f.table[i]) for i, w in enumerate(m.weights)))
+        if name == '.restrict' and len(args) == 2:
+            m = self.num(args[0], env, 'Measure')
+            a = self.num(args[1], env, 'Set')
+            if not isinstance(m, Meas) or not isinstance(a, frozenset):
+                raise Unsupported('restrict on a non-measure or non-set')
+            return Meas(tuple(w if i in a else ENN(Fraction(0)) for i, w in enumerate(m.weights)))
+        if name == '.compl' and len(args) == 1:
+            a = self.num(args[0], env, 'Set')
+            if not isinstance(a, frozenset):
+                raise Unsupported('complement of a non-set')
+            return frozenset(self.points()) - a
+        if name in _MEASURE_PREDICATES:
+            raise Unsupported(f'predicate {name} used as a value')
         if name == 'Real.sqrt' and len(args) == 1:
             return _real_sqrt(self.num(args[0], env, 'Real'))
         if name == 'abs' and len(args) == 1:
@@ -1090,6 +1522,8 @@ class Evaluator:
                 raise Unsupported('abs of a non-numeric value')
             return _abs(v)
         if name == 'Inv.inv' and len(args) == 1:
+            if typ == 'ENNReal':
+                return _enn(self.num(args[0], env, 'ENNReal')).inverse()
             if typ not in _FIELD_TYPES:
                 raise Unsupported(f'inverse at type {typ}')
             return _inv(self.num(args[0], env, typ))
@@ -1163,6 +1597,9 @@ class Evaluator:
         if d is None:
             raise Unsupported(f'unknown function {name}')
         dtyp = self._type_name(d.result_type) if d.result_type else typ
+        if dtyp == 'Measure' and not d.clauses and len(args) == len(d.params) + 1:
+            measure = self.apply(App(fn, list(args[:-1])), env, 'Measure')
+            return self.measure_apply(measure, args[-1], env)
         if d.clauses:
             n_lead = len(d.params)
             n_pats = len(d.clauses[0][0])
@@ -1198,6 +1635,125 @@ class Evaluator:
             local[pname] = Bound(self.num(a, env, pt), pt)
         return self.num(d.body, local, dtyp)
 
+    # ---- finite models
+    def integral(self, node: Integral, env):
+        """`∫ x, f x ∂μ` on a finite model: Σ w_i f(i) over the points of nonzero mass (restricted to the set
+        for `∫ x in A, …`). A point of infinite mass makes the integral undefined here (Lean's Bochner integral
+        of a non-integrable function is 0; the hypotheses of the statements in scope exclude it): UNSUPPORTED."""
+        m = self.num(node.measure, env, 'Measure')
+        if not isinstance(m, Meas):
+            raise Unsupported('integral against a non-measure')
+        domain = None
+        if node.domain is not None:
+            domain = self.num(node.domain, env, 'Set')
+            if not isinstance(domain, frozenset):
+                raise Unsupported('set integral over a non-set')
+        total = Fraction(0)
+        for i, w in enumerate(m.weights):
+            if domain is not None and i not in domain:
+                continue
+            if w.inf:
+                raise Unsupported('integral against a point of infinite mass')
+            if w.value == 0:
+                continue
+            v = self.num(node.body, {**env, node.var: Bound(i, 'Point')}, 'Real')
+            if isinstance(v, (bool, list, tuple, frozenset, Meas, Func, ENN)):
+                raise Unsupported('integrand is not real-valued')
+            total = total + w.value * _exact(v)
+        return total
+
+    def measure_apply(self, measure, set_node, env):
+        if not isinstance(measure, Meas):
+            raise Unsupported('application of a non-measure')
+        a = self.num(set_node, env, 'Set')
+        if not isinstance(a, frozenset):
+            raise Unsupported('a measure applied to a non-set')
+        return measure.mass(a)
+
+    def func_apply(self, func, point_node, env):
+        if not isinstance(func, Func):
+            raise Unsupported('application of a non-function')
+        i = self.num(point_node, env, 'Point')
+        if not isinstance(i, int) or isinstance(i, bool) or not 0 <= i < len(func.table):
+            raise Unsupported('a function applied to a non-point')
+        return func.table[i]
+
+    def materialize(self, closure: Closure) -> Func:
+        """A lambda on the carrier as a table, typed by its body."""
+        if len(closure.params) != 1:
+            raise Unsupported('a function of several arguments on the carrier')
+        table, codomain = [], 'Real'
+        for i in self.points():
+            scope = dict(closure.env)
+            scope[closure.params[0]] = Bound(i, 'Point')
+            codomain = self.arith_type(closure.body, scope)
+            if codomain in ('Prop', 'Measure', 'Set', 'Func'):
+                raise Unsupported('a function on the carrier with a non-numeric codomain')
+            table.append(self.num(closure.body, scope, codomain if codomain != 'Nat' else 'Real'))
+        return Func(tuple(table), codomain if codomain != 'Nat' else 'Real')
+
+    def at_point(self, node, env, i, typ='Real'):
+        """The value at point i of a function-or-constant expression (`0 ≤ᵐ[μ] W` compares 0 with W i)."""
+        if isinstance(node, Var) and node.name in env and isinstance(env[node.name], Bound) \
+                and env[node.name].type == 'Func':
+            return env[node.name].value.table[i]
+        if isinstance(node, Lambda):
+            return self.func_apply(self.materialize(Closure(node.params, node.body, env)), Num(i), env)
+        t = self.arith_type(node, env)
+        if t == 'Func':
+            f = self.num(node, env, 'Func')
+            return f.table[i] if isinstance(f, Func) else f
+        return self.num(node, env, typ if t in ('Nat', 'Int', 'Sci') else t)
+
+    def predicate(self, node: App, env) -> bool:
+        """Mathlib predicates on a finite discrete model. `IsProbabilityMeasure μ` is total mass 1; the
+        structural ones (measurability, integrability, finiteness) hold for every value the model can carry."""
+        name = node.fn.name
+        if name == 'IsProbabilityMeasure':
+            if len(node.args) != 1:
+                raise Unsupported('IsProbabilityMeasure with an unexpected arity')
+            m = self.num(node.args[0], env, 'Measure')
+            if not isinstance(m, Meas):
+                raise Unsupported('IsProbabilityMeasure of a non-measure')
+            return m.mass() == ENN(Fraction(1))
+        if name == 'IsFiniteMeasure':
+            if len(node.args) != 1:
+                raise Unsupported('IsFiniteMeasure with an unexpected arity')
+            m = self.num(node.args[0], env, 'Measure')
+            if not isinstance(m, Meas):
+                raise Unsupported('IsFiniteMeasure of a non-measure')
+            return not any(w.inf for w in m.weights)
+        if name in _STRUCTURAL_PREDICATES:
+            measures = []
+            for a in node.args:            # the arguments must at least be values the model carries
+                t = self.arith_type(a, env)
+                if t not in ('Measure', 'Set', 'Func', 'Nat', 'Real', 'ENNReal') and not isinstance(a, Lambda):
+                    raise Unsupported(f'{name} of a {t}')
+                if t == 'Measure':
+                    measures.append(self.num(a, env, 'Measure'))
+            # a derived measure (`c • μ` with c = ∞) may carry a point of infinite mass: finiteness is then false
+            # and integrability is not automatic, so nothing is assumed there (a8, 743/5729046258 N2)
+            infinite = any(isinstance(m, Meas) and any(w.inf for w in m.weights) for m in measures)
+            if infinite:
+                raise Unsupported(f'{name} on a measure with a point of infinite mass is not decided by the finite-model backend')
+            return True
+        raise Unsupported(f'predicate {name}')
+
+    def ae_rel(self, node: AERel, env) -> bool:
+        m = self.num(node.measure, env, 'Measure')
+        if not isinstance(m, Meas):
+            raise Unsupported('a.e. relation along a non-measure')
+        for i, w in enumerate(m.weights):
+            if not w.inf and w.value == 0:
+                continue
+            a = _exact(self.at_point(node.left, env, i))
+            b = _exact(self.at_point(node.right, env, i))
+            if isinstance(a, (bool, frozenset, Meas, Func)) or isinstance(b, (bool, frozenset, Meas, Func)):
+                raise Unsupported('a.e. relation between non-numeric values')
+            if not {'=': a == b, '≠': a != b, '<': a < b, '>': a > b, '≤': a <= b, '≥': a >= b}[node.op]:
+                return False
+        return True
+
     def _closure(self, f, env):
         if isinstance(f, Lambda):
             return Closure(f.params, f.body, env)
@@ -1229,6 +1785,14 @@ class Evaluator:
     def forall(self, node: 'Forall', env) -> bool:
         var_type = 'Int' if node.type in _INT_TYPES else 'Nat'
         if node.type is not None and node.type not in _INT_TYPES | _NAT_TYPES:
+            kind = _kind_of_type(node.type, self.module.point_types)
+            if kind == 'Set':
+                # every subset of the finite carrier: 2^n instances
+                pts = list(self.points())
+                subsets = [frozenset(i for i in pts if mask >> i & 1) for mask in range(1 << len(pts))]
+                return self._forall_over(node, env, subsets, 'Set')
+            if kind == 'Point':
+                return self._forall_over(node, env, list(self.points()), 'Point')
             raise Unsupported(f'quantifier over {node.type}')
         domain, body = _domain_of(node, self, env)
         if domain is None:
@@ -1257,12 +1821,27 @@ class Evaluator:
                 self.probes.append({'var': node.var, 'value': cand, 'holds': holds})
         return ok
 
+    def _forall_over(self, node: 'Forall', env, domain, var_type) -> bool:
+        self.instances += len(domain)
+        ok = True
+        for v in domain:
+            scope = dict(env)
+            scope[node.var] = Bound(v, var_type)
+            if not self.prop(node.body, scope):
+                self.failures.append(f'{node.var} = {_fmt_value(v)}')
+                ok = False
+        return ok
+
     # ---- propositions
     def prop(self, node, env) -> bool:
         if isinstance(node, Not):
             return not self.prop(node.expr, env)
         if isinstance(node, Forall):
             return self.forall(node, env)
+        if isinstance(node, AERel):
+            return self.ae_rel(node, env)
+        if isinstance(node, App) and isinstance(node.fn, Var) and node.fn.name in _MEASURE_PREDICATES:
+            return self.predicate(node, env)
         if isinstance(node, (BoolNot, Var)) or (isinstance(node, BinOp) and node.op in ('&&', '||')):
             if isinstance(node, Var) and node.name not in ('true', 'false'):
                 v = self.num(node, env, 'Nat')
@@ -1280,17 +1859,44 @@ class Evaluator:
             if node.op == '↔':
                 return self.prop(node.left, env) == self.prop(node.right, env)
             if node.op in ('∈', '∉'):
+                rt = self.arith_type(node.right, env)
+                if rt == 'Set':
+                    a = self.num(node.right, env, 'Set')
+                    if not isinstance(a, frozenset):
+                        raise Unsupported('membership in a non-set')
+                    i = self.num(node.left, env, 'Point')
+                    return (i in a) if node.op == '∈' else (i not in a)
                 lst = self.num(node.right, env, 'Nat')
                 if not isinstance(lst, list):
                     raise Unsupported('membership in a non-list')
                 v = self.num(node.left, env, 'Nat')
                 return (v in lst) if node.op == '∈' else (v not in lst)
+            if node.op == '⊆':
+                a, b = self.num(node.left, env, 'Set'), self.num(node.right, env, 'Set')
+                if not isinstance(a, frozenset) or not isinstance(b, frozenset):
+                    raise Unsupported('⊆ between non-sets')
+                return a <= b
+            if node.op == '≪':
+                nu, mu = self.num(node.left, env, 'Measure'), self.num(node.right, env, 'Measure')
+                if not isinstance(nu, Meas) or not isinstance(mu, Meas):
+                    raise Unsupported('≪ between non-measures')
+                # absolute continuity on a finite carrier: every μ-null point is ν-null
+                return all(w_nu == ENN(Fraction(0)) for w_nu, w_mu in zip(nu.weights, mu.weights)
+                           if w_mu == ENN(Fraction(0)))
             if node.op in _COMPARISONS:
                 typ = _max_type(self.arith_type(node.left, env), self.arith_type(node.right, env))
                 if typ == 'Bool':
                     typ = 'Nat'
                 if typ == 'Sci':
                     raise Unsupported('scientific literal outside a rational or real context (Lean defaults it to Float)')
+                if typ in ('Measure', 'Set', 'Func'):
+                    a = self.num(node.left, env, typ)
+                    b = self.num(node.right, env, typ)
+                    if node.op == '=':
+                        return a == b
+                    if node.op == '≠':
+                        return a != b
+                    raise Unsupported(f'ordering of {typ} values')
                 a = self.num(node.left, env, typ)
                 b = self.num(node.right, env, typ)
                 if isinstance(a, (list, tuple, bool)) or isinstance(b, (list, tuple, bool)):
@@ -1319,7 +1925,8 @@ def _ediv(a: int, b: int) -> int:
 
 
 def _max_type(a, b):
-    order = {'Sci': -2, 'Bool': -1, 'Nat': 0, 'Int': 1, 'Rat': 2, 'Real': 3, 'Prop': 4}
+    order = {'Sci': -2, 'Bool': -1, 'Nat': 0, 'Int': 1, 'Rat': 2, 'Real': 3, 'ENNReal': 4, 'Point': 5, 'Set': 6,
+             'Func': 7, 'Measure': 8, 'Prop': 9}
     if 'Prop' in (a, b):
         raise Unsupported('arithmetic on propositions')
     return a if order[a] >= order[b] else b
@@ -1449,50 +2056,136 @@ def _isqrt(n: int) -> int:
 
 _SQUAREFREE_CACHE = {}
 
+_MR_BASES = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41)
+_MR_DETERMINISTIC_BELOW = 3_317_044_064_679_887_385_961_981       # Miller–Rabin with these bases is exact below this
 
-def _squarefree_split(n: int):
-    """n = s² · d with d squarefree, for n ≥ 1, exactly: trial division by primes up to B removes the small
-    square factors; the cofactor m then has all prime factors > B, so when m < B³ it is either a perfect
-    square, a prime, or a product of two distinct primes — in every case its squarefree part is known. A
-    cofactor outside that range is infeasible (not approximated)."""
-    if n in _SQUAREFREE_CACHE:
-        return _SQUAREFREE_CACHE[n]
+
+def _is_prime(n: int) -> bool:
+    """Deterministic Miller–Rabin for n < 3.3·10²⁴ (Sorenson–Webster bases); larger n is infeasible here."""
+    if n < 2:
+        return False
+    for p in (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41):
+        if n % p == 0:
+            return n == p
+    if n >= _MR_DETERMINISTIC_BELOW:
+        raise Infeasible(f'primality of {n} is beyond the deterministic Miller–Rabin range')
+    d, r = n - 1, 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+    for a in _MR_BASES:
+        x = pow(a, d, n)
+        if x in (1, n - 1):
+            continue
+        for _ in range(r - 1):
+            x = x * x % n
+            if x == n - 1:
+                break
+        else:
+            return False
+    return True
+
+
+def _pollard_brent(n: int) -> int:
+    """A nontrivial factor of a composite n (Brent's variant of Pollard's rho, deterministic parameters)."""
+    if n % 2 == 0:
+        return 2
+    for c in range(1, 1000):
+        y, m, g, r, q = 2, 128, 1, 1, 1
+        x = ys = y
+        while g == 1:
+            x = y
+            for _ in range(r):
+                y = (y * y + c) % n
+            k = 0
+            while k < r and g == 1:
+                ys = y
+                for _ in range(min(m, r - k)):
+                    y = (y * y + c) % n
+                    q = q * abs(x - y) % n
+                g = _gcd(q, n)
+                k += m
+            r *= 2
+        if g == n:
+            g = 1
+            while g == 1:
+                ys = (ys * ys + c) % n
+                g = _gcd(abs(x - ys), n)
+        if g != n:
+            return g
+    raise Infeasible(f'no factor of {n} found')       # pragma: no cover - rho with 999 polynomials
+
+
+def _prime_factors(n: int) -> dict:
+    """Exact prime factorization with multiplicities (trial division, then Miller–Rabin + Brent rho)."""
     global _SMALL_PRIMES
     if _SMALL_PRIMES is None:
         _SMALL_PRIMES = _primes_up_to(100_000)
-    s, d, m = 1, 1, n
-    cofactor_is_prime = False
+    out = {}
+    for p in _SMALL_PRIMES:
+        if p * p > n:
+            break
+        while n % p == 0:
+            out[p] = out.get(p, 0) + 1
+            n //= p
+    stack = [n] if n > 1 else []
+    while stack:
+        m = stack.pop()
+        if m == 1:
+            continue
+        if _is_prime(m):
+            out[m] = out.get(m, 0) + 1
+            continue
+        r = _isqrt_exact(m)
+        if r is not None:
+            stack.extend([r, r])
+            continue
+        f = _pollard_brent(m)
+        stack.extend([f, m // f])
+    return out
+
+
+def _small_square_split(n: int):
+    """n = s² · m with every prime below 100000 appearing in m at most once; m need not be squarefree."""
+    global _SMALL_PRIMES
+    if _SMALL_PRIMES is None:
+        _SMALL_PRIMES = _primes_up_to(100_000)
+    s, m = 1, n
     for p in _SMALL_PRIMES:
         if p * p > m:
-            cofactor_is_prime = m > 1       # every smaller prime has been removed
             break
-        if m % p == 0:
-            e = 0
-            while m % p == 0:
-                m //= p
-                e += 1
-            s *= p ** (e // 2)
-            if e % 2:
-                d *= p
-    if m > 1:
-        r = _isqrt_exact(m)
-        if cofactor_is_prime or r is None and m < 100_000 ** 3:
-            d *= m           # a prime, or a product of two distinct primes > 100000: squarefree
-        elif r is not None:
-            s *= r
-        else:
-            raise Infeasible(f'radicand cofactor {m} is too large to split into square and squarefree parts exactly')
+        while m % (p * p) == 0:
+            m //= p * p
+            s *= p
+    return s, m
+
+
+def _squarefree_split(n: int):
+    """n = s² · d with d squarefree, for n ≥ 1, exactly, from the prime factorization."""
+    if n in _SQUAREFREE_CACHE:
+        return _SQUAREFREE_CACHE[n]
+    s, d = 1, 1
+    for p, e in _prime_factors(n).items():
+        s *= p ** (e // 2)
+        if e % 2:
+            d *= p
     _SQUAREFREE_CACHE[n] = (s, d)
     return s, d
 
 
 class Alg:
     """Σ c_d √d over squarefree d ≥ 1 (d = 1 is the rational part), coefficients nonzero Fractions. Always
-    irrational: results that collapse to a rational are returned as a Fraction by ``_alg``."""
-    __slots__ = ('terms',)
+    irrational: results that collapse to a rational are returned as a Fraction by ``_alg``.
 
-    def __init__(self, terms):
+    ``canonical`` is False when some radicand could not be split into square and squarefree parts exactly
+    (its cofactor is beyond the deterministic primality range): the value is still exact and every
+    ordering is still decided by enclosures, but equality by form is unavailable and an exact zero cannot
+    be recognised — those cases are reported Infeasible, never guessed."""
+    __slots__ = ('terms', 'canonical')
+
+    def __init__(self, terms, canonical=True):
         self.terms = terms
+        self.canonical = canonical
 
     def __repr__(self):
         return ' + '.join(f'{c}' if d == 1 else f'{c}·√{d}' for d, c in sorted(self.terms.items()))
@@ -1514,12 +2207,12 @@ class Alg:
         out = dict(self.terms)
         for d, c in Alg._terms(other).items():
             out[d] = out.get(d, Fraction(0)) + c
-        return _alg(out)
+        return _alg(out, self.canonical and _canonical(other))
 
     __radd__ = __add__
 
     def __neg__(self):
-        return Alg({d: -c for d, c in self.terms.items()})
+        return Alg({d: -c for d, c in self.terms.items()}, self.canonical)
 
     def __sub__(self, other):
         return self + (-other if isinstance(other, Alg) else -Fraction(other))
@@ -1532,9 +2225,9 @@ class Alg:
         for d1, c1 in self.terms.items():
             for d2, c2 in Alg._terms(other).items():
                 g = _gcd(d1, d2)
-                d = (d1 // g) * (d2 // g)
+                d = (d1 // g) * (d2 // g)          # √d₁√d₂ = g·√(d₁d₂/g²) holds for any d₁, d₂
                 out[d] = out.get(d, Fraction(0)) + c1 * c2 * g
-        return _alg(out)
+        return _alg(out, self.canonical and _canonical(other))
 
     __rmul__ = __mul__
 
@@ -1544,7 +2237,7 @@ class Alg:
         other = Fraction(other)
         if other == 0:
             return Fraction(0)                         # Lean: x / 0 = 0
-        return Alg({d: c / other for d, c in self.terms.items()})
+        return Alg({d: c / other for d, c in self.terms.items()}, self.canonical)
 
     def __rtruediv__(self, other):
         return Fraction(other) * self.inverse()
@@ -1556,6 +2249,8 @@ class Alg:
         """x⁻¹ by conjugation over a coprime base of the radicands: x = A + B√b with A, B free of √b, so
         x · (A − B√b) = A² − b·B² lies in the smaller field (and is nonzero when x is), and recursion ends at
         a rational."""
+        if not self.canonical:
+            raise Infeasible('inverse of a value with an unsplit radicand')
         radicands = [d for d in self.terms if d != 1]
         b = _coprime_base(radicands)[0]
         conj = Alg({d: (-c if d % b == 0 else c) for d, c in self.terms.items()})
@@ -1588,7 +2283,8 @@ class Alg:
                 return 1
             if hi < 0:
                 return -1
-        raise Unsupported('sign of an algebraic value undecided at 4096 bits')
+        raise Infeasible('sign of an algebraic value undecided at 4096 bits'
+                         + ('' if self.canonical else ' (an unsplit radicand: the value may be exactly zero)'))
 
     def _cmp(self, other):
         diff = self - other
@@ -1597,7 +2293,12 @@ class Alg:
         return (diff > 0) - (diff < 0)
 
     def __eq__(self, other):
-        return isinstance(other, Alg) and self.terms == other.terms
+        if self.canonical and _canonical(other):
+            return isinstance(other, Alg) and self.terms == other.terms
+        diff = self - other                   # no canonical form: equal iff the difference is exactly zero
+        if not isinstance(diff, Alg):
+            return diff == 0
+        return diff.sign() == 0              # never 0: a decided sign means unequal, otherwise Infeasible
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -1621,13 +2322,17 @@ def _gcd(a: int, b: int) -> int:
     return a
 
 
-def _alg(terms: dict):
+def _alg(terms: dict, canonical: bool = True):
     terms = {d: c for d, c in terms.items() if c != 0}
     if not terms:
         return Fraction(0)
     if set(terms) == {1}:
         return terms[1]
-    return Alg(terms)
+    return Alg(terms, canonical)
+
+
+def _canonical(x) -> bool:
+    return x.canonical if isinstance(x, Alg) else True
 
 
 def _coprime_base(radicands: list) -> list:
@@ -1660,9 +2365,24 @@ def _real_sqrt(v):
         raise Unsupported('Real.sqrt of a non-numeric value')
     if v <= 0:
         return Fraction(0)
-    s, d = _squarefree_split(v.numerator * v.denominator)
-    coeff = Fraction(s, v.denominator)
-    return coeff if d == 1 else Alg({d: coeff})
+    # √(a/b) = √a / √b = (sₐ√dₐ)/(s_b√d_b) with dₐ·d_b = g²·d, g = gcd(dₐ, d_b): the numerator and the
+    # denominator are split separately (each is far smaller than their product)
+    ra, rb = _isqrt_exact(v.numerator), _isqrt_exact(v.denominator)
+    if ra is not None and rb is not None:
+        return Fraction(ra, rb)
+    canonical = True
+    try:
+        sa, da = _squarefree_split(v.numerator)
+        sb, db = _squarefree_split(v.denominator)
+    except Infeasible:
+        # beyond exact factoring: remove the small square factors only; the radicand may keep a square part
+        canonical = False
+        sa, da = _small_square_split(v.numerator)
+        sb, db = _small_square_split(v.denominator)
+    g = _gcd(da, db)
+    d = (da // g) * (db // g)
+    coeff = Fraction(sa * g, sb * db)
+    return coeff if d == 1 else Alg({d: coeff}, canonical)
 
 
 # --------------------------------------------------------------------------------------------
@@ -1775,6 +2495,83 @@ def _fmt(v) -> str:
     return str(v)
 
 
+# Finite-model sampling: carrier sizes, weights, tables and subsets. n = 1 is the degenerate model every
+# statement must survive; n ≤ 4 keeps 2^n subset enumeration and witness printing small.
+_MODEL_SIZES = [1, 2, 2, 3, 1, 3, 4, 2]
+_WEIGHT_POOL = [_F(1), _F(0), _F(1, 2), _F(1, 3), _F(2), _F(1, 4), _F(3, 4), _F(1, 10 ** 6), _F(10 ** 6), _F(1, 8), _F(5), _F(3)]
+_TABLE_POOL = [_F(0), _F(1), _F(-1), _F(1, 2), _F(2), _F(-2), _F(10), _F(1, 10), _F(3), _F(-1, 2), _F(10 ** 6),
+               _F(1, 10 ** 6), _F(999999, 1000000), _F(4), _F(9), _F(1, 4), _F(22, 7), _F(-3)]
+
+
+def _structured_model_value(kind, i, n, probability):
+    """The i-th structured model value of a kind on a carrier of size n (deterministic, no RNG)."""
+    if kind == 'Measure':
+        if probability:
+            return Meas(tuple(ENN(Fraction(1, n)) for _ in range(n)))
+        w = [_F(1), _F(1, 2), _F(2), _F(0), _F(1), _F(1, 3), _F(10 ** 6), _F(1)][i % 8]
+        return Meas(tuple(ENN(w) for _ in range(n)))
+    if kind == 'Func':
+        c = [_F(1), _F(0), _F(-1), _F(1, 2), _F(2), _F(-2), _F(10), _F(1, 10)][i % 8]
+        return Func(tuple(c + (k if i % 3 == 2 else 0) for k in range(n)))
+    if kind == 'Set':
+        return [frozenset(range(n)), frozenset(), frozenset(range(n)), frozenset([0]), frozenset(range(n)),
+                frozenset(range(1, n)), frozenset([0]), frozenset(range(n))][i % 8]
+    raise Unsupported(f'model kind {kind}')
+
+
+def _neighbour_model_value(base, rng: random.Random):
+    """A value next to an already drawn one of the same kind: the same table with one entry moved by a
+    pathological amount (or unchanged), a subset with one point flipped, a measure with one weight moved.
+    Perturbation statements (`∫ |W - V| ∂μ ≤ δ`) are tight exactly there."""
+    deltas = [_F(0), _F(1, 10 ** 6), _F(-1, 10 ** 6), _F(1), _F(-1), _F(1, 2), _F(-1, 2), _F(10)]
+    if isinstance(base, Func):
+        table = list(base.table)
+        if table:
+            i = rng.randrange(len(table))
+            d = rng.choice(deltas)
+            table[i] = table[i] + d if not isinstance(table[i], ENN) else table[i] + _enn(abs(d))
+        return Func(tuple(table), base.codomain)
+    if isinstance(base, frozenset):
+        return base
+    if isinstance(base, Meas):
+        w = list(base.weights)
+        if w:
+            i = rng.randrange(len(w))
+            d = rng.choice(deltas)
+            if not w[i].inf and w[i].value + d >= 0:
+                w[i] = ENN(w[i].value + d)
+        return Meas(tuple(w))
+    return base
+
+
+def _random_model_value(kind, rng: random.Random, n, probability):
+    if kind == 'Measure':
+        for _ in range(16):
+            w = [rng.choice(_WEIGHT_POOL) if rng.random() < 0.8 else Fraction(rng.randint(0, 10 ** 6), rng.randint(1, 10 ** 3))
+                 for _ in range(n)]
+            total = sum(w)
+            if probability:
+                if total == 0:
+                    continue
+                w = [x / total for x in w]
+            return Meas(tuple(ENN(x) for x in w))
+        return Meas(tuple(ENN(Fraction(1, n)) for _ in range(n)))
+    if kind == 'Func':
+        r = rng.random()
+        if r < 0.2:
+            c = rng.choice(_TABLE_POOL)
+            return Func(tuple(c for _ in range(n)))
+        return Func(tuple(rng.choice(_TABLE_POOL) if rng.random() < 0.8 else _random_value(rng, 'Real') for _ in range(n)))
+    if kind == 'Set':
+        r = rng.random()
+        if r < 0.15:
+            return frozenset(range(n))
+        if r < 0.3:
+            return frozenset()
+        return frozenset(i for i in range(n) if rng.random() < 0.5)
+    raise Unsupported(f'model kind {kind}')
+
+
 def _coerce_sample(v, typ):
     """A pool value as a sample of ``typ`` (None when it is not representable there)."""
     if typ in _FIELD_TYPES:
@@ -1862,6 +2659,16 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
     accepted, rejected, infeasible, draws = 0, 0, 0, 0
     seen = set()
     probes = []
+    model = any(t in _MODEL_KINDS for _, t in variables)
+    if model:
+        conjuncts = _split_conjuncts(thm.statement)
+        if all(isinstance(c, App) and isinstance(c.fn, Var) and c.fn.name in _STRUCTURAL_PREDICATES for c in conjuncts):
+            names = sorted({c.fn.name for c in conjuncts})
+            return EvalResult('UNSUPPORTED', f'conclusion is a structural predicate {names}: trivial on finite discrete '
+                              'models (every set is measurable, every function measurable and integrable), so sampling '
+                              'has no content here', 0, False, [], [])
+    probability = {h.args[0].name for h in hyps if isinstance(h, App) and isinstance(h.fn, Var)
+                   and h.fn.name == 'IsProbabilityMeasure' and len(h.args) == 1 and isinstance(h.args[0], Var)}
     try:
         if not variables:
             # hypotheses only: a closed statement under closed hypotheses
@@ -1895,6 +2702,17 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
 
         def draw(index, env):
             name, typ = variables[index]
+            if typ in _MODEL_KINDS:
+                others = [env[n].value for n, t in variables[:index] if t == typ and n in env] if typ != 'Measure' else []
+                for _ in range(_DRAW_RETRIES):
+                    if others and rng.random() < 0.4:
+                        v = _neighbour_model_value(rng.choice(others), rng)      # W near (or equal to) V
+                    else:
+                        v = _random_model_value(typ, rng, ev.model_n, name in probability)
+                    env[name] = Bound(v, typ)
+                    if hyps_hold(completed[index], env):
+                        return True
+                return False
             pool = _POOLS[typ]
             boundaries = _boundary_candidates(name, typ, hyps, ev, env, var_names)
             for _ in range(_DRAW_RETRIES):
@@ -1915,7 +2733,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
         def check(env):
             nonlocal accepted, rejected, infeasible, draws
             draws += 1
-            key = tuple(env[n].value for n, _ in variables)
+            key = (ev.model_n,) + tuple(env[n].value for n, _ in variables)
             if key in seen:
                 return None
             seen.add(key)
@@ -1928,17 +2746,27 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
             return ok
 
         def refuted(env):
-            witness = ', '.join(f'{n} = {_fmt(env[n].value)}' for n, _ in variables)
+            witness = ', '.join(f'{n} = {_fmt_value(env[n].value)}' for n, _ in variables)
+            if model:
+                witness = f'Ω = Fin {ev.model_n}, ' + witness
             detail = (f'refuted at {witness} (sample {draws}; {accepted - 1} sampled instances held before it); '
                       'the hypotheses hold at the witness')
+            record = {n: _fmt_value(env[n].value) for n, _ in variables}
+            if model:
+                record['Ω'] = f'Fin {ev.model_n}'
             return EvalResult('FAIL', detail, accepted, False, probes, ev.values_seen,
                               {'seed': seed, 'draws': draws, 'accepted': accepted, 'rejected': rejected,
-                               'infeasible': infeasible, 'witness': {n: _fmt(env[n].value) for n, _ in variables}})
+                               'infeasible': infeasible, 'witness': record})
 
-        # structured points: every variable takes the i-th pool value
+        # structured points: every variable takes the i-th pool value (and the i-th carrier size)
         for i in range(_DIAGONAL):
             env = {}
+            if model:
+                ev.model_n = _MODEL_SIZES[i]
             for name, typ in variables:
+                if typ in _MODEL_KINDS:
+                    env[name] = Bound(_structured_model_value(typ, i, ev.model_n, name in probability), typ)
+                    continue
                 v = _coerce_sample(_POOLS[typ][i], typ)
                 if v is None:
                     break
@@ -1956,6 +2784,8 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
         while accepted < samples and attempts < samples * _MAX_ATTEMPTS_PER_SAMPLE:
             attempts += 1
             env = {}
+            if model:
+                ev.model_n = rng.choice(_MODEL_SIZES)
             if not all(draw(i, env) for i in range(len(variables))):
                 rejected += 1
                 continue
@@ -1964,7 +2794,7 @@ def _evaluate_sampled(module: Module, thm: Theorem, seed: int, samples: int) -> 
                 return refuted(env)
         # information only (A6): the conclusion at hypothesis boundaries the hypotheses exclude
         for name, typ in variables:
-            if len(probes) >= 8:
+            if len(probes) >= 8 or model:
                 break
             env = {n: Bound(_coerce_sample(_POOLS[t][1], t), t) for n, t in variables}
             for v in _boundary_candidates(name, typ, hyps, ev, env, var_names):
@@ -2017,18 +2847,38 @@ def _walk_comparisons(stmt, visit):
     walk(stmt, lambda s: s)
 
 
-def required_mutants(stmt):
+def required_mutants(stmt, typing=None):
     """Class 1 — guaranteed-false mutants: false whenever the original is true. A comparison replaced by
-    its negation (one conjunct at a time), and the right-hand literal of an equality shifted by one.
-    Every one of these must be reported FAIL."""
+    its negation (one conjunct at a time), and the right-hand literal of an equality shifted by one — only
+    where the left-hand side is numeric (``typing(node)``): `weightedLaw μ W = 0` compares measures, and
+    `= 1` there is not a Lean term. Every one of these must be reported FAIL."""
     out = []
 
     def visit(node, rebuild):
         out.append((f'negate {node.op}', rebuild(BinOp(_NEGATE[node.op], node.left, node.right))))
         if node.op == '=' and isinstance(node.right, Num):
-            out.append(('shift rhs literal +1', rebuild(BinOp('=', node.left, Num(node.right.value + 1)))))
+            t = typing(node.left) if typing is not None else None
+            if t not in ('Measure', 'Set', 'Func', 'Prop', 'Point'):
+                out.append(('shift rhs literal +1', rebuild(BinOp('=', node.left, Num(node.right.value + 1)))))
     _walk_comparisons(stmt, visit)
     return out
+
+
+def _static_typing(module: Module, thm: Theorem):
+    """A best-effort type oracle for mutant generation: the theorem's binders as placeholder values."""
+    ev = Evaluator(module)
+    env = {}
+    for b in thm.binders:
+        if b.kind == 'var':
+            placeholder = Func((), 'Real') if b.type == 'Func' else None
+            env[b.name] = Bound(placeholder, b.type)
+
+    def typing(node):
+        try:
+            return ev.arith_type(node, env)
+        except Unsupported:
+            return None
+    return typing
 
 
 def weakening_mutants(stmt):
@@ -2056,7 +2906,7 @@ def mutation_selftest(module: Module, evaluate=evaluate_theorem):
     for thm, res in baseline:
         if res.status not in HOLDS or thm.statement is None:
             continue
-        for label, mutated in required_mutants(thm.statement):
+        for label, mutated in required_mutants(thm.statement, _static_typing(module, thm)):
             mutants += 1
             r = evaluate(module, dataclasses.replace(thm, statement=mutated, error=None))
             if r.status != 'FAIL':
@@ -2123,6 +2973,15 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
         p = root / rel
         module_hashes[rel] = _sha256(p)
         modules[rel] = parse_module(p.read_text(encoding='utf-8'))
+    # a package's modules import one another: definitions and carrier types are visible package-wide
+    shared_defs, shared_points = {}, set()
+    for m in modules.values():
+        for name, d in m.defs.items():
+            shared_defs.setdefault(name, d)
+        shared_points |= m.point_types
+    for m in modules.values():
+        m.defs = shared_defs
+        m.point_types = shared_points
     per_target = {}
     counts = {}
     selftests = {}
@@ -2171,10 +3030,19 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
     allowed = set(HOLDS) if admit_corroborated else {'PASS'}
     exit_code = 0 if counts and set(counts) <= allowed and not unregistered and controls_ok and all(
         s['harness_ok'] for s in selftests.values()) else 1
+    sampled = {name: r['sampling'] for name, r in per_target.items() if r.get('sampling')}
+    sampling_totals = {
+        'sampled_targets': len(sampled),
+        'accepted_total': sum(x.get('accepted', 0) for x in sampled.values()),
+        'rejected_total': sum(x.get('rejected', 0) for x in sampled.values()),
+        'infeasible_total': sum(x.get('infeasible', 0) for x in sampled.values()),
+        # a8 (742/5728819617 nit 1): an infeasible draw is skipped, never approximated — say where it happened
+        'targets_with_infeasible_draws': sorted(n for n, x in sampled.items() if x.get('infeasible', 0))}
     return {'package_root': str(root), 'manifest_sha256': _sha256(manifest_path), 'module_sha256': module_hashes,
             'targets': len(per_target), 'status_counts': counts, 'per_target': per_target,
             'unregistered_theorems': unregistered, 'manifest_targets': normalized_targets,
             'sampling': {'seed': seed, 'samples': samples, 'admit_corroborated': admit_corroborated},
+            'sampling_totals': sampling_totals,
             'selftest': selftests, 'declared_controls': controls_report, 'exit_code': exit_code,
             'note': ('G12 empirical statement check: PASS means the closed statement, read independently of Lean, '
                      'evaluates true in exact arithmetic; CORROBORATED means no sampled instance of a statement with '
@@ -2196,7 +3064,8 @@ def main(argv=None):
                            admit_corroborated=a.admit_corroborated)
     if a.json:
         pathlib.Path(a.json).write_text(json.dumps(report, indent=1, default=str) + '\n')
-    summary = {k: report[k] for k in ('package_root', 'targets', 'status_counts', 'unregistered_theorems', 'sampling', 'exit_code')}
+    summary = {k: report[k] for k in ('package_root', 'targets', 'status_counts', 'unregistered_theorems', 'sampling',
+                                      'sampling_totals', 'exit_code')}
     if a.selftest:
         summary['selftest'] = {rel: {k: v for k, v in s.items() if k not in ('survivors', 'weakenings_rejected')}
                                | {'survivors': len(s['survivors']), 'weakenings_rejected': len(s['weakenings_rejected'])}

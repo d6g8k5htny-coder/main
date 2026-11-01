@@ -488,6 +488,18 @@ class ExactRealAlgebraTests(unittest.TestCase):
         self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 2').status, 'UNSUPPORTED')
         self.assertIn('nested radical', self.ev('Real.sqrt (Real.sqrt 2) < 2').detail)
 
+    def test_roots_of_radicands_beyond_exact_factoring_stay_exact_but_never_guess_zero(self):
+        # 10^47 + 3 cannot be split into square and squarefree parts within the deterministic primality range;
+        # its root is kept exactly, orderings are decided by enclosures, and an exact zero is refused
+        big = '(10 ^ 47 + 3 : ℝ)'
+        self.assertEqual(self.ev(f'Real.sqrt {big} > 316227766016837933199889 ∧ Real.sqrt {big} < 316227766016837933199890').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt (2 * {big}) = Real.sqrt 2 * Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = 316227766016837933199889').status, 'FAIL')
+        r = self.ev(f'Real.sqrt ((10 ^ 6 + 3) ^ 2 * {big}) = (10 ^ 6 + 3) * Real.sqrt {big}')   # true, but not recognisable
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('unsplit radicand', r.detail)
+
     def test_ascription_scopes_the_elaboration_type(self):
         # binop% pushes the cast to the leaves: `((7 : ℕ) / 2 : ℝ)` is `↑7 / 2 = 7/2`; only an inner ascription
         # on the quotient keeps Nat division
@@ -584,8 +596,147 @@ class AdmitCorroboratedPackageTests(unittest.TestCase):
             admitting = sf.check_package(root, admit_corroborated=True)
             self.assertEqual(admitting['exit_code'], 0)
             self.assertTrue(admitting['sampling']['admit_corroborated'])
+            totals = admitting['sampling_totals']          # a8's #742 nit: infeasible draws are reported, per package
+            self.assertEqual(totals['sampled_targets'], 1)
+            self.assertEqual(totals['accepted_total'], 64)
+            self.assertEqual(totals['infeasible_total'], 0)
+            self.assertEqual(totals['targets_with_infeasible_draws'], [])
             self.assertEqual(sf.main(['--package', str(root)]), 1)
             self.assertEqual(sf.main(['--package', str(root), '--admit-corroborated', '--seed', '3', '--samples', '16']), 0)
+
+
+FM = '''
+import Mathlib
+namespace FM
+open MeasureTheory
+open scoped ENNReal
+variable {Ω : Type*} [MeasurableSpace Ω]
+
+noncomputable def weightedLaw (μ : Measure Ω) (W : Ω → ℝ) : Measure Ω :=
+  (ENNReal.ofReal (∫ x, W x ∂μ))⁻¹ •
+    μ.withDensity (fun x => ENNReal.ofReal (W x))
+
+def badJetEvent (R : Ω → ℝ) (r ε : ℝ) : Set Ω :=
+  {x | ε < r * R x ^ 5}
+end FM
+'''
+
+
+class FiniteModelTests(unittest.TestCase):
+    """Measure-theoretic statements are tested on finite discrete models: Ω = Fin n, nonnegative rational
+    weights, functions as tables, sets as subsets. Integrals are finite sums; a.e. relations hold off the
+    null points; measurability and integrability are automatic; measure equality and ≪ are pointwise."""
+
+    def ev(self, binders, text, seed=1, samples=64):
+        module = sf.parse_module(FM + f'\ntheorem t {binders} : {text} := by sorry\n')
+        return sf.evaluate_theorem(module, module.theorems[-1], seed=seed, samples=samples)
+
+    MARKOV = ('(μ : Measure Ω) [IsFiniteMeasure μ] (Y : Ω → ℝ) (A : Set Ω) (hY : Integrable Y μ) (hY0 : 0 ≤ᵐ[μ] Y) '
+              '(a : ℝ) (ha : 0 < a) (hsub : A ⊆ {x | a ≤ Y x})')
+
+    def test_markov_event_is_corroborated_and_its_misstatements_refuted(self):
+        r = self.ev(self.MARKOV, '(μ A).toReal ≤ (∫ x, Y x ∂μ) / a')
+        self.assertEqual(r.status, 'CORROBORATED', r.detail)
+        self.assertGreaterEqual(r.instances, 64)
+        self.assertEqual(self.ev(self.MARKOV, '(μ A).toReal ≤ (∫ x, Y x ∂μ) / (2 * a)').status, 'FAIL')
+        r = self.ev('(μ : Measure Ω) [IsFiniteMeasure μ] (Y : Ω → ℝ) (A : Set Ω) (hY0 : 0 ≤ᵐ[μ] Y) (a : ℝ) (ha : 0 < a)',
+                    '(μ A).toReal ≤ (∫ x, Y x ∂μ) / a')          # without A ⊆ {a ≤ Y}: false
+        self.assertEqual(r.status, 'FAIL')
+        self.assertIn('μ =', r.detail)
+        self.assertIn('A =', r.detail)
+        self.assertIn('Fin', r.detail)
+
+    def test_integral_cauchy_schwarz_with_exact_square_roots(self):
+        cs = '(μ : Measure Ω) (f g : Ω → ℝ) (hf : MemLp f 2 μ) (hg : MemLp g 2 μ) (hf0 : 0 ≤ᵐ[μ] f) (hg0 : 0 ≤ᵐ[μ] g)'
+        self.assertEqual(self.ev(cs, '(∫ x, f x * g x ∂μ) ≤ Real.sqrt (∫ x, f x ^ 2 ∂μ) * Real.sqrt (∫ x, g x ^ 2 ∂μ)').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev(cs, '(∫ x, f x * g x ∂μ) < Real.sqrt (∫ x, f x ^ 2 ∂μ) * Real.sqrt (∫ x, g x ^ 2 ∂μ)').status,
+                         'FAIL')                                   # equality at f = g, or on one point
+
+    def test_set_integral_and_event_mass(self):
+        ev_cs = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (A : Set Ω) (hW : MemLp W 2 μ) (hW0 : 0 ≤ᵐ[μ] W) '
+                 '(hA : MeasurableSet A)')
+        self.assertEqual(self.ev(ev_cs, '(∫ x in A, W x ∂μ) ≤ Real.sqrt (∫ x, W x ^ 2 ∂μ) * Real.sqrt ((μ A).toReal)').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev(ev_cs, '0 ≤ (∫ x in A, W x ∂μ) ∧ (∫ x in A, W x ∂μ) ≤ ∫ x, W x ∂μ').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (A : Set Ω)',
+                                 '(∫ x in A, W x ∂μ) ≤ ∫ x, W x ∂μ').status, 'FAIL')     # W may be negative off A
+
+    def test_weighted_law_apply_needs_the_ae_nonnegativity_and_ennreal_semantics(self):
+        apply = 'weightedLaw μ W A = (ENNReal.ofReal (∫ x, W x ∂μ))⁻¹ * ENNReal.ofReal (∫ x in A, W x ∂μ)'
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (A : Set Ω) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W) (hA : MeasurableSet A)',
+                                 apply).status, 'CORROBORATED')
+        # `ofReal` clips negative values: with a signed W the two sides differ (∞ · 0 = 0 on one side only)
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (A : Set Ω) (hW : Integrable W μ) (hA : MeasurableSet A)',
+                                 apply).status, 'FAIL')
+
+    def test_weighted_law_is_a_probability_measure_zero_one_and_absolute_continuity(self):
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W) (hz : 0 < ∫ x, W x ∂μ)',
+                                 'IsProbabilityMeasure (weightedLaw μ W)').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ) (hW : Integrable W μ) (hW0 : 0 ≤ᵐ[μ] W)',
+                                 'IsProbabilityMeasure (weightedLaw μ W)').status, 'FAIL')      # ∫ W = 0
+        self.assertEqual(self.ev('(μ : Measure Ω)', 'weightedLaw μ (fun _ : Ω => (0 : ℝ)) = 0').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]', 'weightedLaw μ (fun _ : Ω => (1 : ℝ)) = μ').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω)', 'weightedLaw μ (fun _ : Ω => (1 : ℝ)) = μ').status, 'FAIL')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W : Ω → ℝ)', 'weightedLaw μ W ≪ μ').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W V : Ω → ℝ) (h : W =ᵐ[μ] V)', 'weightedLaw μ W = weightedLaw μ V').status,
+                         'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω) (W V : Ω → ℝ)', 'weightedLaw μ W = weightedLaw μ V').status, 'FAIL')
+
+    def test_set_builder_events_and_subsets(self):
+        self.assertEqual(self.ev('(R : Ω → ℝ) (r ε : ℝ) (hr : 0 < r) (hε : 0 < ε)',
+                                 'badJetEvent R r ε ⊆ {x | (ε / r) ^ 8 ≤ R x ^ 40}').status, 'CORROBORATED')
+        self.assertEqual(self.ev('(R : Ω → ℝ) (r ε : ℝ) (hr : 0 < r) (hε : 0 < ε)',
+                                 'badJetEvent R r ε ⊆ {x | 1 ≤ R x}').status, 'FAIL')
+        tail = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (R : Ω → ℝ) (r ε M : ℝ) (hr : 0 < r) (hε : 0 < ε) '
+                '(hRi : Integrable (fun x => R x ^ 40) μ) (hMbound : (∫ x, R x ^ 40 ∂μ) ≤ M)')
+        self.assertEqual(self.ev(tail, '(μ (badJetEvent R r ε)).toReal ≤ (M / ε ^ 8) * r ^ 8').status, 'CORROBORATED')
+        # without the moment bound on M the tail bound is false (M = 0 under a nonempty event)
+        no_bound = ('(μ : Measure Ω) [IsProbabilityMeasure μ] (R : Ω → ℝ) (r ε M : ℝ) (hr : 0 < r) (hε : 0 < ε) '
+                    '(hRi : Integrable (fun x => R x ^ 40) μ)')
+        self.assertEqual(self.ev(no_bound, '(μ (badJetEvent R r ε)).toReal ≤ (M / ε ^ 8) * r ^ 8').status, 'FAIL')
+
+    def test_structural_hypotheses_are_not_assumed_on_infinite_mass_measures(self):
+        # `(ENNReal.ofReal 0)⁻¹ • μ` has infinite mass wherever μ does not vanish: finiteness is decided false and
+        # integrability is not taken for granted (a8, 743/5729046258 N2)
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]',
+                                 'IsFiniteMeasure ((ENNReal.ofReal 0)⁻¹ • μ)').status, 'FAIL')
+        self.assertEqual(self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ]', 'IsFiniteMeasure ((2 : ENNReal) • μ)').status,
+                         'CORROBORATED')
+        r = self.ev('(μ : Measure Ω) [IsProbabilityMeasure μ] (W : Ω → ℝ) (h : Integrable W ((ENNReal.ofReal 0)⁻¹ • μ))',
+                    '0 ≤ ∫ x, W x ∂μ')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('infinite mass', r.detail)
+
+    def test_quantifier_over_all_subsets_is_enumerated(self):
+        r = self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal ≤ (μ Set.univ).toReal')
+        self.assertEqual(r.status, 'CORROBORATED')
+        self.assertEqual(self.ev('(μ : Measure Ω)', '∀ A : Set Ω, MeasurableSet A → (μ A).toReal < (μ Set.univ).toReal').status, 'FAIL')
+
+    def test_structural_conclusions_and_real_indexed_families_stay_unsupported(self):
+        r = self.ev('(R : Ω → ℝ) (hR : Measurable R) (r ε : ℝ)', 'MeasurableSet (badJetEvent R r ε)')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('trivial on finite discrete models', r.detail)
+        r = self.ev('(μ : ℝ → Measure Ω) [∀ r, IsProbabilityMeasure (μ r)] (W : ℝ → Ω → ℝ) (M : ℝ)', '0 ≤ M')
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('μ : ℝ → Measure Ω', r.detail)
+
+    def test_model_witness_is_exact_and_sampling_is_seeded(self):
+        a = self.ev('(μ : Measure Ω) (W : Ω → ℝ)', '0 ≤ ∫ x, W x ∂μ', seed=5)
+        b = self.ev('(μ : Measure Ω) (W : Ω → ℝ)', '0 ≤ ∫ x, W x ∂μ', seed=5)
+        self.assertEqual(a.status, 'FAIL')
+        self.assertEqual((a.detail, a.instances), (b.detail, b.instances))
+        self.assertIn('W = [', a.detail)
+        self.assertFalse(any(isinstance(v, float) for v in a.values))
+
+    def test_mutation_contract_holds_on_finite_model_statements(self):
+        module = sf.parse_module(FM + '\ntheorem t ' + self.MARKOV + ' : (μ A).toReal ≤ (∫ x, Y x ∂μ) / a := by sorry\n')
+        report = sf.mutation_selftest(module)
+        self.assertTrue(report['control_passed'])
+        self.assertEqual(report['killed'], report['mutants'])
+        self.assertGreaterEqual(report['mutants'], 1)
+        self.assertTrue(report['harness_ok'])
 
 
 if __name__ == '__main__':
