@@ -59,9 +59,9 @@ python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json rep
 It evaluates every registered Lean statement of a formal package independently in exact
 arithmetic with Lean-core semantics and grades itself by a mutation contract; the
 [registration](GOVERNANCE.md#empirical-statement-check-for-core-lean-arithmetic-skeletons-bounded-registration)
-records commands, hosted self-verification and limits. Observed: main `formal/` 31/31
+records commands, hosted self-verification and limits. At [registration #741](https://github.com/d6g8k5htny-coder/main/pull/741): main `formal/` 31/31
 PASS; the Math- core's 63 real-analysis statements are UNSUPPORTED, which is the honest
-coverage of the empirical layer today, not a pass. A PASS is statement-level evidence
+coverage at that source cut, not a pass. A PASS is statement-level evidence
 only: not kernel evidence, not scientific acceptance, not the common G0-G11 run.
 
 The finite MomentTail component is a registered bounded candidate in
