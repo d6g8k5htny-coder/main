@@ -1,0 +1,148 @@
+test_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives) ... ERROR
+test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) ... 
+  test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def test_one(self): self.fail("body")\ndef load_tests(loader, tests, pattern): return unittest.TestSuite([C("test_one"), C("test_one")])\n') ... FAIL
+  test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def id(self): return "forged.method"\n def test_one(self): self.fail("body")\n') ... FAIL
+test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) ... 
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.skip("skip")\n def test_one(self): pass\n') ... FAIL
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): self.fail("expected")\n') ... FAIL
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' def test_one(self):\n  with self.subTest(x=1): pass\n') ... FAIL
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' def test_one(self):\n  with self.subTest(x=1): self.fail("subtest")\n') ... FAIL
+test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... ERROR
+test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) ... 
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.fail("setup")\n def test_one(self): pass\n') ... FAIL
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): pass\n def tearDown(self): self.fail("teardown")\n') ... FAIL
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): self.addCleanup(self.fail,"cleanup")\n') ... FAIL
+  test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): self.addCleanup(self.fail,"cleanup"); self.fail("body")\n') ... FAIL
+
+======================================================================
+ERROR: test_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 64, in test_body_assertion_kills_and_identity_survives
+    self.assertEqual(killed['tests']['body_entered_ids'],['test_auditor.C.test_one','test_auditor.C.test_two'])
+                     ~~~~~~^^^^^^^^^
+KeyError: 'tests'
+
+======================================================================
+ERROR: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 112, in test_missing_forged_or_noninteger_receipts_fail_closed
+    self.assertEqual(mutation_test.classify_test_result(trusted,1),'KILLED')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'mutation_test' has no attribute 'classify_test_result'. Did you mean: 'parse_test_result'?
+
+======================================================================
+FAIL: test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def test_one(self): self.fail("body")\ndef load_tests(loader, tests, pattern): return unittest.TestSuite([C("test_one"), C("test_one")])\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 106, in test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 2, 'assertion_failures': 2, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpjbsjfl34/logs/fixture.log', 'log_sha256': '5c3511a042faa87303f33f909fb808fdb5bc236738af6868aaa743e85d1808ea'}
+
+======================================================================
+FAIL: test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) (fixture='import unittest\nclass C(unittest.TestCase):\n def id(self): return "forged.method"\n def test_one(self): self.fail("body")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 106, in test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp2686u8jo/logs/fixture.log', 'log_sha256': 'a2b7df5d7a014f4f9cc0be8ba37b1968ae466ca87ea1af5930327a191ec2ec7c'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.skip("skip")\n def test_one(self): pass\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'SURVIVED', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp0zfwad_c/logs/fixture.log', 'log_sha256': '710078a06d09928ad85ac5188699cd2589d6932d75791054283ed350626b8ff5'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): self.fail("expected")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'SURVIVED', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpecdpiffk/logs/fixture.log', 'log_sha256': '2581a9395cac27a59187d8c7ea87eff9ed323b16823d222855c67aadc97bd418'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' def test_one(self):\n  with self.subTest(x=1): pass\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'SURVIVED', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpijxwur4r/logs/fixture.log', 'log_sha256': 'c8197fbd8cb083e8802892806bc1fc4b8d28a2b00eac033daae03fd440b16de2'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' def test_one(self):\n  with self.subTest(x=1): self.fail("subtest")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpg1gcridt/logs/fixture.log', 'log_sha256': 'e614fe6248d9115e2f057c3d159df21a663b9fc98f2f74fc11c5d0dff9ee0241'}
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def setUp(self): self.fail("setup")\n def test_one(self): pass\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 80, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpqyacegyo/logs/fixture.log', 'log_sha256': 'b5a491b5ff2a906ea0284df5bb8d4ae49a4d7ac2bc28a1ce6f2e8945a921503d'}
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): pass\n def tearDown(self): self.fail("teardown")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 80, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpy94f7h7k/logs/fixture.log', 'log_sha256': '1f42fa9447ee134e3514e73f200f576c34c40537befab1d64cd781069e6cf4a0'}
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): self.addCleanup(self.fail,"cleanup")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 80, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmphvjct7r5/logs/fixture.log', 'log_sha256': 'ba8d925cd49a24c82257532f33433ff69529631b5acbbb36957a0b140feb39da'}
+
+======================================================================
+FAIL: test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) (body=' def test_one(self): self.addCleanup(self.fail,"cleanup"); self.fail("body")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 80, in test_setup_teardown_cleanup_assertions_cannot_kill
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 2, 'errors': 0, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmpolwd06ya/logs/fixture.log', 'log_sha256': 'fe9682758d23507db40af4a557dc4b438ef250cb0b20c64486eaa05f82a322f4'}
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.183s
+
+FAILED (failures=10, errors=2)

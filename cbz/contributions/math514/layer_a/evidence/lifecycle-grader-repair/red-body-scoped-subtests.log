@@ -1,0 +1,58 @@
+test_body_assertion_kills_and_identity_survives (test_mutation_runner.LifecycleHarnessRules.test_body_assertion_kills_and_identity_survives) ... ok
+test_body_scoped_subtests_have_exact_parent_assertion_events (test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events) ... FAIL
+test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected (test_mutation_runner.LifecycleHarnessRules.test_empty_duplicate_synthetic_and_rewritten_method_ids_are_rejected) ... ok
+test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) ... 
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): self.fail("expected")\n') ... FAIL
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): pass\n') ... FAIL
+test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... 
+  test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (missing='subtest_events') ... FAIL
+test_setup_teardown_cleanup_assertions_cannot_kill (test_mutation_runner.LifecycleHarnessRules.test_setup_teardown_cleanup_assertions_cannot_kill) ... ok
+
+======================================================================
+FAIL: test_body_scoped_subtests_have_exact_parent_assertion_events (test_mutation_runner.LifecycleHarnessRules.test_body_scoped_subtests_have_exact_parent_assertion_events)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 98, in test_body_scoped_subtests_have_exact_parent_assertion_events
+    self.assertEqual(passed['outcome'],'SURVIVED',passed)
+AssertionError: 'ERROR' != 'SURVIVED'
+- ERROR
++ SURVIVED
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'ERROR', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 1, 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmplmvi6e5h/logs/fixture.log', 'log_sha256': 'c8197fbd8cb083e8802892806bc1fc4b8d28a2b00eac033daae03fd440b16de2'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): self.fail("expected")\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'KILLED', 'returncode': 1, 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (test_auditor.C.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/mutation_test.py", line 178, in body\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/tmp/cbz-layer-a-mutant-jdyshgcl/tests/test_auditor.py", line 4, in test_one\n    def test_one(self): self.fail("expected")\n                        ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: expected\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nFAILED (failures=1)\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp7vqpeq93/logs/fixture.log', 'log_sha256': '0b9f08f22b1d3270dfe6b2859ea7f42654ef8ea1049f8d3bb09a0c35a00bca30'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_runner.LifecycleHarnessRules.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (body=' @unittest.expectedFailure\n def test_one(self): pass\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 94, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(value['outcome'],'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'name': 'fixture', 'file': 'source_checks.py', 'outcome': 'SURVIVED', 'returncode': 0, 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'tests': {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nOK\n'}, 'original_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'mutated_sha256': '6023a0f8f40b2fdd390fcae068b4839bf6885551df997b37927f779eb022d6cf', 'log': '/tmp/tmp8sy99y8h/logs/fixture.log', 'log_sha256': 'c8197fbd8cb083e8802892806bc1fc4b8d28a2b00eac033daae03fd440b16de2'}
+
+======================================================================
+FAIL: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (missing='subtest_events')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 125, in test_missing_forged_or_noninteger_receipts_fail_closed
+    self.assertEqual(mutation_test.classify_test_result(forged,1),'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.596s
+
+FAILED (failures=4)

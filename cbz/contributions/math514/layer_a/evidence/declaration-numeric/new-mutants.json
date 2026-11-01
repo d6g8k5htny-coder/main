@@ -1,0 +1,20 @@
+[
+  [
+    "restore-metadata-generic-numeral-swallowing",
+    "source_checks.py",
+    "        elif c.isdigit():\n            # Preserve the canonical numeral boundary: valid Lean permits a\n            # numeral immediately before a declaration keyword (0theorem).\n            # Keep spelling/location for literal-hypothesis checks; no numeric\n            # evaluation or independent numeral grammar is introduced here.\n            match = canonical_numeral_spelling.match(text, i)\n            end = match.end() if match is not None else i + 1\n            tokens.append(Token(text[i:end], line, column)); advance(end)\n        elif c.isalpha() or c == '_':",
+    "        elif c.isalpha() or c == '_' or c.isdigit():"
+  ],
+  [
+    "discard-metadata-numeral-tokens",
+    "source_checks.py",
+    "tokens.append(Token(text[i:end], line, column)); advance(end)",
+    "advance(end)"
+  ],
+  [
+    "overshoot-metadata-numeral-boundary",
+    "source_checks.py",
+    "tokens.append(Token(text[i:end], line, column)); advance(end)",
+    "tokens.append(Token(text[i:end], line, column)); advance(min(end + 1, n))"
+  ]
+]

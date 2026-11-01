@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpiqztsvqm/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpiqztsvqm/tests",
+    "--output",
+    "/tmp/tmpiqztsvqm/receipt.json",
+    "--test",
+    "test_auditor.C"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "248675e2847d75e3e4caba1148978b994c1ec47847e244abdcc6cca9c34db01d",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpiqztsvqm/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Meta(type):\n def __call__(cls,*a,**k):\n  record(\"metaclass\")\n  return super().__call__(*a,**k)\nclass C(unittest.TestCase,metaclass=Meta):\n def test_one(self): record(\"body\")\n",
+  "label": "construction-metaclass-1-class",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported TestCase constructor/metaclass/attribute dispatch"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

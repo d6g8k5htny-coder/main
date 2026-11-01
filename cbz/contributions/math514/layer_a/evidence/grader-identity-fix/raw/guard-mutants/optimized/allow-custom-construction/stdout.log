@@ -1,0 +1,179 @@
+test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) ... 
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=('test_auditor.C.test_first',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=('test_auditor.C.test_one',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='metaclass', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='metaclass', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=('test_auditor.C.test_one',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=('test_auditor.C.test_one',)) ... FAIL
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 361, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(events,[],value)
+AssertionError: Lists differ: ['constructor', 'constructor'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'constructor'
+
+- ['constructor', 'constructor']
++ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': [], 'finished_ids': [], 'body_entered_ids': [], 'body_finished_ids': [], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': ['selected declaration changed during construction'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 0, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'Refused unsupported selected test population before execution.\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 361, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(events,[],value)
+AssertionError: Lists differ: ['constructor', 'constructor'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'constructor'
+
+- ['constructor', 'constructor']
++ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': [], 'finished_ids': [], 'body_entered_ids': [], 'body_finished_ids': [], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': ['selected declaration changed during construction'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 0, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'Refused unsupported selected test population before execution.\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='init', selector=('test_auditor.C.test_first',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first'], 'started_ids': ['test_auditor.C.test_first'], 'finished_ids': ['test_auditor.C.test_first'], 'body_entered_ids': ['test_auditor.C.test_first'], 'body_finished_ids': ['test_auditor.C.test_first'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_first (test_auditor.C.test_first) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='new', selector=('test_auditor.C.test_one',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='metaclass', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='metaclass', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='getattribute', selector=('test_auditor.C.test_one',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='setattr', selector=('test_auditor.C.test_one',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-custom-construction/tests/test_mutation_runner.py", line 360, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\n\nRan 1 tests\n'}
+
+Ran 1 tests

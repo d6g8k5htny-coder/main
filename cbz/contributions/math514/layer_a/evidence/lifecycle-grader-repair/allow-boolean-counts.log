@@ -1,0 +1,30 @@
+test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) ... 
+  test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (noninteger='tests_run') ... FAIL
+  test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (noninteger='assertion_failures') ... FAIL
+
+======================================================================
+FAIL: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (noninteger='tests_run')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-lifecycle-control-dycrewh3/tests/test_mutation_runner.py", line 131, in test_missing_forged_or_noninteger_receipts_fail_closed
+    self.assertEqual(mutation_test.classify_test_result(forged,1),'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_missing_forged_or_noninteger_receipts_fail_closed (test_mutation_runner.LifecycleHarnessRules.test_missing_forged_or_noninteger_receipts_fail_closed) (noninteger='assertion_failures')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-lifecycle-control-dycrewh3/tests/test_mutation_runner.py", line 131, in test_missing_forged_or_noninteger_receipts_fail_closed
+    self.assertEqual(mutation_test.classify_test_result(forged,1),'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.150s
+
+FAILED (failures=2)
