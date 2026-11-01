@@ -31,6 +31,7 @@ def record(proc, label, expected=None):
         "label": label, "returncode": proc.returncode,
         "expected_method_historical": expected,
         "failure_headers": data["failure_headers"], "errors": data["errors"],
+        "stdout": proc.stdout, "stderr": proc.stderr,
         "trace": re.findall(r'(?m)^  File .*$|^    self\..*$|^AssertionError:.*$', output)
     }), flush=True)
     return data
