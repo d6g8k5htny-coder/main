@@ -115,16 +115,10 @@ def run_suite(scanner_path):
                           cwd=WORKSPACE, env=env, capture_output=True, text=True, timeout=600)
 
 
-def killed(r, expected_test=None):
-    """Only a named assertion failure kills; launch/import/errors do not."""
-    out = r.stdout + r.stderr
-    summary = re.search(r"^FAILED \(([^)]*)\)$", out, re.M)
-    if r.returncode == 0 or not summary or "errors=" in summary.group(1):
-        return False
-    if not re.search(r"^Ran [1-9][0-9]* tests?", out, re.M):
-        return False
-    failures = re.findall(r"^FAIL: (test_[A-Za-z0-9_]+) \(", out, re.M)
-    return bool(failures) and (expected_test is None or expected_test in failures)
+def killed(r, expected_test=None, *, tool_path=None):
+    """Require the complete source-bound assertion-failure contract."""
+    from tests.cbz_mutation_admission import matches_report
+    return matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
 
 
 class ScannerMutants(unittest.TestCase):
@@ -136,6 +130,9 @@ class ScannerMutants(unittest.TestCase):
     def test_unmutated_scanner_passes_its_suite(self):
         r = run_suite(SCANNER)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        from tests.cbz_mutation_admission import matches_report, profile_for
+        self.assertTrue(matches_report(r, profile_for("scanner_baseline"),
+                                       required_returncode=0, tool_path=SCANNER), r.stdout + r.stderr)
 
     def test_every_mutant_is_killed(self):
         survivors = []
@@ -147,7 +144,8 @@ class ScannerMutants(unittest.TestCase):
                     with open(path, "w", encoding="utf-8") as fh:
                         fh.write(self.source.replace(old, new))
                     r = run_suite(path)
-                    if not killed(r, EXPECTED_FAILURE[name]):
+                    from tests.cbz_mutation_admission import profile_for
+                    if not killed(r, profile_for(f"scanner_{i:02d}"), tool_path=path):
                         survivors.append(name)
         self.assertEqual(survivors, [], f"surviving mutants: {survivors}")
         self.assertGreaterEqual(len(MUTANTS), 39)

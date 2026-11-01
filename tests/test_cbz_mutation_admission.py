@@ -42,7 +42,8 @@ class AdmissionAdverseControls(unittest.TestCase):
         proc = subprocess.CompletedProcess([], returncode, stdout="", stderr=transcript)
         for mod in self.harnesses:
             with self.subTest(harness=mod.__name__, returncode=returncode):
-                self.assertFalse(mod.killed(proc, "test_expected"))
+                self.assertFalse(mod.killed(proc, {"stderr": report().replace("0.001", "<ELAPSED>"),
+                                                   "tests": 3, "failures": 1, "skipped": 0}))
 
     def test_wrong_exit_cannot_kill(self):
         for code in [0, 2, 7, -9]:
@@ -72,6 +73,59 @@ class AdmissionAdverseControls(unittest.TestCase):
     def test_malformed_population_cannot_kill(self):
         for count in ["0", "-1", "x", "3garbage"]:
             self.check_rejected(report().replace("Ran 3 tests", "Ran " + count + " tests"))
+
+
+    def test_complete_intended_report_is_accepted(self):
+        proc = subprocess.CompletedProcess([], 1, stdout="", stderr=report())
+        profile = {"stderr": report().replace("0.001", "<ELAPSED>"),
+                   "tests": 3, "failures": 1, "skipped": 0}
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertTrue(mod.killed(proc, profile))
+
+    def test_complete_multiple_failure_profile_is_accepted(self):
+        from tests.cbz_mutation_admission import profile_for
+        profile = profile_for("census_14")
+        proc = subprocess.CompletedProcess([], 1, stdout="", stderr=profile["stderr"])
+        self.assertEqual(profile["failures"], 7)
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertTrue(mod.killed(proc, profile))
+
+    def test_same_site_wrong_mismatch_is_rejected(self):
+        from tests.cbz_mutation_admission import profile_for
+        profile = profile_for("census_15")
+        self.assertIn("AssertionError: 0 != 2", profile["stderr"])
+        bad = profile["stderr"].replace("AssertionError: 0 != 2", "AssertionError: 1 != 2")
+        proc = subprocess.CompletedProcess([], 1, stdout="", stderr=bad)
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertFalse(mod.killed(proc, profile))
+
+    def test_same_named_foreign_class_is_rejected(self):
+        from tests.cbz_mutation_admission import profile_for
+        profile = profile_for("census_15")
+        bad = profile["stderr"].replace("InputCoverage.", "ForeignCoverage.")
+        self.assertNotEqual(bad, profile["stderr"])
+        proc = subprocess.CompletedProcess([], 1, stdout="", stderr=bad)
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertFalse(mod.killed(proc, profile))
+
+    def test_missing_profile_never_admits_a_result(self):
+        proc = subprocess.CompletedProcess([], 1, stdout="", stderr=report())
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertFalse(mod.killed(proc))
+                self.assertFalse(mod.killed(proc, "test_expected"))
+
+    def test_output_in_wrong_channel_is_rejected(self):
+        profile = {"stderr": report().replace("0.001", "<ELAPSED>"),
+                   "tests": 3, "failures": 1, "skipped": 0}
+        proc = subprocess.CompletedProcess([], 1, stdout=report(), stderr="")
+        for mod in self.harnesses:
+            with self.subTest(harness=mod.__name__):
+                self.assertFalse(mod.killed(proc, profile))
 
 
 if __name__ == "__main__":

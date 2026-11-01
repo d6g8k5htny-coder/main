@@ -2,6 +2,11 @@ name: A8 mutation admission repair controls
 on:
   push:
     branches: [cbz/auditor-mutation-admission-repair-20261030]
+    paths:
+      - 'tests/test_cbz_*.py'
+      - 'tests/cbz_mutation_admission.py'
+      - 'cbz/evidence/a8-admission-repair-20261101/profiles.json'
+      - '.github/workflows/cbz-a8-admission-controls.yml'
 permissions:
   contents: read
 jobs:
@@ -26,7 +31,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           python -VV
           git status --porcelain
-      - name: Admission regression controls (first commit deliberately RED)
+      - name: Admission regression controls
         env:
           PYTHONDONTWRITEBYTECODE: '1'
           MODE: ${{ matrix.mode }}
@@ -35,8 +40,7 @@ jobs:
           flags=()
           if [ "$MODE" = optimized ]; then flags=(-O); fi
           python -B -S "${flags[@]}" -m unittest tests.test_cbz_mutation_admission -v 2>&1 | tee "$RUNNER_TEMP/a8-admission-$MODE.log"
-      - name: Capture full original mutant failure populations
-        if: ${{ always() }}
+      - name: Preserve all original component tests and 89 mutants
         env:
           PYTHONDONTWRITEBYTECODE: '1'
           MODE: ${{ matrix.mode }}
@@ -44,7 +48,7 @@ jobs:
           set -euo pipefail
           flags=()
           if [ "$MODE" = optimized ]; then flags=(-O); fi
-          python -B -S "${flags[@]}" cbz/evidence/a8-admission-repair-20261101/characterize.py "$RUNNER_TEMP/a8-capture-$MODE" 2>&1 | tee "$RUNNER_TEMP/a8-capture-$MODE.log"
+          python -B -S "${flags[@]}" -m unittest -v tests.test_cbz_layer_a_scan tests.test_cbz_layer_a_scan_mutants tests.test_cbz_a3_float_census tests.test_cbz_auditor_hardening 2>&1 | tee "$RUNNER_TEMP/a8-components-$MODE.log"
       - name: Preserve all results including RED and unsupported outcomes
         if: ${{ always() }}
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
@@ -52,7 +56,6 @@ jobs:
           name: a8-admission-${{ matrix.mode }}-${{ github.sha }}
           path: |
             ${{ runner.temp }}/a8-admission-*.log
-            ${{ runner.temp }}/a8-capture-*.log
-            ${{ runner.temp }}/a8-capture-*/
+            ${{ runner.temp }}/a8-components-*.log
           if-no-files-found: error
           retention-days: 90

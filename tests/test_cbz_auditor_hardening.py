@@ -189,7 +189,13 @@ class MutationKillClassification(unittest.TestCase):
                 with self.subTest(module=mod.__name__,out=out):
                     self.assertFalse(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=out),'test_expected'))
             good='Ran 3 tests in 0.0s\nFAILED (failures=1)\nFAIL: test_expected (tests.C)\n'
-            self.assertTrue(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),'test_expected'))
+            # Preserve the old incomplete sample as a negative control.
+            self.assertFalse(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),'test_expected'))
+            from tests.test_cbz_mutation_admission import report
+            good = report()
+            expected = {"stderr": good.replace("0.001", "<ELAPSED>"),
+                        "tests": 3, "failures": 1, "skipped": 0}
+            self.assertTrue(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),expected))
     def test_actual_syntax_broken_tool_is_not_a_kill(self):
         with tempfile.TemporaryDirectory() as d:
             broken=Path(d)/'broken.py';broken.write_text('def broken(:\n')

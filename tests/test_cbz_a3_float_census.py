@@ -188,15 +188,10 @@ def run_suite(tool_path):
                           cwd=WORKSPACE, env=env, capture_output=True, text=True, timeout=600)
 
 
-def killed(r, expected_test=None):
-    out = r.stdout + r.stderr
-    summary = re.search(r"^FAILED \(([^)]*)\)$", out, re.M)
-    if r.returncode == 0 or not summary or "errors=" in summary.group(1):
-        return False
-    if not re.search(r"^Ran [1-9][0-9]* tests?", out, re.M):
-        return False
-    failures = re.findall(r"^FAIL: (test_[A-Za-z0-9_]+) \(", out, re.M)
-    return bool(failures) and (expected_test is None or expected_test in failures)
+def killed(r, expected_test=None, *, tool_path=None):
+    """Require the complete source-bound assertion-failure contract."""
+    from tests.cbz_mutation_admission import matches_report
+    return matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
 
 
 @unittest.skipIf(os.environ.get("CBZ_A3_CENSUS"), "mutant run: do not recurse")
@@ -208,6 +203,9 @@ class SelfMutation(unittest.TestCase):
             shutil.copyfile(REAL, path)
             r = run_suite(path)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            from tests.cbz_mutation_admission import matches_report, profile_for
+            self.assertTrue(matches_report(r, profile_for("census_baseline"),
+                                           required_returncode=0, tool_path=path), r.stdout + r.stderr)
 
     def test_every_mutant_is_killed(self):
         with open(REAL, encoding="utf-8") as fh:
@@ -219,7 +217,8 @@ class SelfMutation(unittest.TestCase):
                 path = os.path.join(d, f"m{i:02d}.py")
                 with open(path, "w", encoding="utf-8") as fh:
                     fh.write(src.replace(old, new))
-                if not killed(run_suite(path), EXPECTED_FAILURE[name]):
+                from tests.cbz_mutation_admission import profile_for
+                if not killed(run_suite(path), profile_for(f"census_{i:02d}"), tool_path=path):
                     survivors.append(name)
         self.assertEqual(survivors, [])
 
