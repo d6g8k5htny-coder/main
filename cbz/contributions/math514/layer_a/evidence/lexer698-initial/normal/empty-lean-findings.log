@@ -1,0 +1,811 @@
+test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code (test_auditor.ManifestRules.test_archived_source_suffixes_and_wrong_explicit_language_cannot_hide_code) ... ok
+test_binary_source_language_mismatch_is_a_finding_not_a_crash (test_auditor.ManifestRules.test_binary_source_language_mismatch_is_a_finding_not_a_crash) ... ok
+test_closed_import_cannot_reach_quarantine_directly_or_transitively (test_auditor.ManifestRules.test_closed_import_cannot_reach_quarantine_directly_or_transitively) ... ok
+test_complete_manifest_counts_every_file_and_is_deterministic (test_auditor.ManifestRules.test_complete_manifest_counts_every_file_and_is_deterministic) ... ok
+test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first) ... FAIL
+test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned) ... FAIL
+test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection) ... FAIL
+test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) ... 
+  test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='propext') ... FAIL
+  test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Classical.choice') ... FAIL
+  test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Quot.sound') ... FAIL
+test_known_unsupported_source_suffix_cannot_claim_a_supported_language (test_auditor.ManifestRules.test_known_unsupported_source_suffix_cannot_claim_a_supported_language) ... ok
+test_malformed_vacuity_and_status_types_are_explicit_findings (test_auditor.ManifestRules.test_malformed_vacuity_and_status_types_are_explicit_findings) ... ok
+test_missing_unreadable_invalid_utf8_files_are_not_skipped (test_auditor.ManifestRules.test_missing_unreadable_invalid_utf8_files_are_not_skipped) ... ok
+test_modules_cannot_point_to_documentation_in_place_of_source (test_auditor.ManifestRules.test_modules_cannot_point_to_documentation_in_place_of_source) ... ok
+test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean) ... FAIL
+test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass (test_auditor.ManifestRules.test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass) ... FAIL
+test_nonvacuity_certificate_and_not_run_status_have_positive_binding_cases (test_auditor.ManifestRules.test_nonvacuity_certificate_and_not_run_status_have_positive_binding_cases) ... ok
+test_nonvacuous_claim_requires_content_bound_certificate (test_auditor.ManifestRules.test_nonvacuous_claim_requires_content_bound_certificate) ... ok
+test_numeral_adjoining_owned_axiom_cannot_receive_static_pass (test_auditor.ManifestRules.test_numeral_adjoining_owned_axiom_cannot_receive_static_pass) ... FAIL
+test_pin_hash_and_foundation_allowlist_cannot_be_weakened (test_auditor.ManifestRules.test_pin_hash_and_foundation_allowlist_cannot_be_weakened) ... ok
+test_primed_lean_module_after_valid_import_cannot_hide_quarantine (test_auditor.ManifestRules.test_primed_lean_module_after_valid_import_cannot_hide_quarantine) ... ok
+test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source) ... FAIL
+test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) ... 
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.«addDeclWithoutChecking»') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := «sorryAx»') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.«ofReduceBool»') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\n := /- nested /- c -/ -/\n true })') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source="def c := 'a") ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='/- unterminated') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := "unterminated') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := r#"unterminated') ... FAIL
+  test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def «unterminated') ... FAIL
+test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module) ... FAIL
+test_source_relabeling_to_docs_or_binary_is_not_silent (test_auditor.ManifestRules.test_source_relabeling_to_docs_or_binary_is_not_silent) ... ok
+test_unknown_module_alias_and_dynamic_import_fail_closed (test_auditor.ManifestRules.test_unknown_module_alias_and_dynamic_import_fail_closed) ... ok
+test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected (test_auditor.ManifestRules.test_vacuity_missing_stale_and_false_nonvacuity_annotations_are_rejected) ... ok
+test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) ... 
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Elab.admitGoal') ... FAIL
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Meta.mkSorry') ... FAIL
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='set_option debug.skipKernelTC true') ... FAIL
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def sorryλ := 1') ... FAIL
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def f (x : Float) := x') ... FAIL
+  test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='@[extern "c"] def f := 1') ... FAIL
+test_axiom_audit_print_command_is_not_a_new_axiom_declaration (test_auditor.SourceRules.test_axiom_audit_print_command_is_not_a_new_axiom_declaration) ... ok
+test_canonical_metadata_and_error_channels_fail_closed (test_auditor.SourceRules.test_canonical_metadata_and_error_channels_fail_closed) ... FAIL
+test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) ... 
+  test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0') ... FAIL
+  test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0b0') ... FAIL
+  test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0o0') ... FAIL
+  test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='1e1') ... FAIL
+  test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='1.0E+1') ... FAIL
+test_comment_strings_nested_comments_raw_strings_and_char_are_not_code (test_auditor.SourceRules.test_comment_strings_nested_comments_raw_strings_and_char_are_not_code) ... ok
+test_import_module_primes_and_identifier_suffixes_are_extracted_completely (test_auditor.SourceRules.test_import_module_primes_and_identifier_suffixes_are_extracted_completely) ... ok
+test_lean_block_comment_separator_cannot_join_identifiers_into_escape (test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape) ... FAIL
+test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) ... 
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='axiom fake : False') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='constant fake : False') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='native_decide') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='decide +native') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceBool') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceNat') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceInt') ... FAIL
+  test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.trustCompiler') ... FAIL
+test_lean_explicit_imports_are_extracted_across_lines (test_auditor.SourceRules.test_lean_explicit_imports_are_extracted_across_lines) ... ok
+test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses (test_auditor.SourceRules.test_lean_no_semantic_sat_claim_from_uninterpreted_hypotheses) ... ok
+test_lean_vacuity_candidates_have_declaration_location (test_auditor.SourceRules.test_lean_vacuity_candidates_have_declaration_location) ... ok
+test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) ... 
+  test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='/- unclosed') ... FAIL
+  test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := "open') ... FAIL
+  test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def r := r##"open"#') ... FAIL
+  test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def «open := 1') ... FAIL
+  test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := s!"{by sorry}"') ... FAIL
+test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) ... 
+  test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='"Q.Bad"') ... FAIL
+  test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='r"Q.Bad"') ... FAIL
+  test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand="'q'") ... FAIL
+test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) ... 
+  test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='macro "magic" : term => `(by trivial)') ... FAIL
+  test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='elab "magic" : term => pure ()') ... FAIL
+  test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='unsafe def x := 1') ... FAIL
+  test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='syntax "magic" : term') ... FAIL
+  test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='run_elab pure ()') ... FAIL
+test_nested_string_placeholder_and_benign_literal_boundaries (test_auditor.SourceRules.test_nested_string_placeholder_and_benign_literal_boundaries) ... FAIL
+test_new_kernel_escape_names_inside_comments_and_strings_are_not_code (test_auditor.SourceRules.test_new_kernel_escape_names_inside_comments_and_strings_are_not_code) ... ok
+test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) ... 
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.addDeclWithoutChecking') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Environment.addDeclWithoutChecking') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.«addDeclWithoutChecking»') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := «addDeclWithoutChecking»') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide +native') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide + native') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native := true })') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := {\n native\n :=\n true\n})') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native /- gap /- nested -/ -/ := /- gap -/ true })') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { «native» /- gap -/ := true })') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.«ofReduceBool»') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := «sorryAx»') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.«admitGoal»') ... FAIL
+  test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.«mkSorry»') ... FAIL
+test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape) ... FAIL
+test_unsupported_import_tail_is_a_gap_after_a_valid_prefix (test_auditor.SourceRules.test_unsupported_import_tail_is_a_gap_after_a_valid_prefix) ... FAIL
+test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) ... 
+  test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := 'a") ... FAIL
+  test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '\\n") ... FAIL
+  test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '\\") ... FAIL
+  test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '") ... FAIL
+
+======================================================================
+FAIL: test_each_file_is_really_scanned_not_only_first (test_auditor.ManifestRules.test_each_file_is_really_scanned_not_only_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 299, in test_each_file_is_really_scanned_not_only_first
+    self.assertIn('LEAN_PLACEHOLDER', self.codes())
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_external_source_needs_immutable_pin_and_is_still_scanned (test_auditor.ManifestRules.test_external_source_needs_immutable_pin_and_is_still_scanned)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 381, in test_external_source_needs_immutable_pin_and_is_still_scanned
+    self.assertIn('LEAN_AXIOM',self.codes())
+AssertionError: 'LEAN_AXIOM' not found in {'VACUITY_COVERAGE'}
+
+======================================================================
+FAIL: test_file_hash_failure_does_not_prevent_violation_detection (test_auditor.ManifestRules.test_file_hash_failure_does_not_prevent_violation_detection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 420, in test_file_hash_failure_does_not_prevent_violation_detection
+    self.assertTrue({'FILE_HASH','LEAN_PLACEHOLDER'}<=self.codes())
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='propext')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 328, in test_foundation_names_cannot_authorize_new_owned_axioms
+    self.assertIn('LEAN_AXIOM',self.codes())
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Classical.choice')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 328, in test_foundation_names_cannot_authorize_new_owned_axioms
+    self.assertIn('LEAN_AXIOM',self.codes())
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_foundation_names_cannot_authorize_new_owned_axioms (test_auditor.ManifestRules.test_foundation_names_cannot_authorize_new_owned_axioms) (name='Quot.sound')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 328, in test_foundation_names_cannot_authorize_new_owned_axioms
+    self.assertIn('LEAN_AXIOM',self.codes())
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_negative_fixture_retains_exact_violation_and_never_counts_as_clean (test_auditor.ManifestRules.test_negative_fixture_retains_exact_violation_and_never_counts_as_clean)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 342, in test_negative_fixture_retains_exact_violation_and_never_counts_as_clean
+    self.assertEqual(r['result'],'STATIC_PASS',r)
+AssertionError: 'FAIL' != 'STATIC_PASS'
+- FAIL
++ STATIC_PASS
+ : {'schema_version': 1, 'result': 'FAIL', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '0c385d0513a2e0db6027e623cdf637d65c08d7e3f3246ad711961cb9a62afbc6', 'inventory_sha256': {'r': 'b0cd6aa4c373d2363edb84f21b412b28099ebc10f77c7ffdc8f7430c24b46c6c'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'RETAINED_FINDING_MISMATCH', 'root': 'r', 'path': 'Negative.lean', 'line': 0, 'detail': "expected {'LEAN_PLACEHOLDER': 1} actual {}"}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Negative.lean', 'kind': 'negative_fixture', 'expected_sha256': '33282dc03af5bd50a08ba427d1d14e3ec3689ab6872498cf0e4234b5ebaf21ab', 'actual_sha256': '33282dc03af5bd50a08ba427d1d14e3ec3689ab6872498cf0e4234b5ebaf21ab'}]}
+
+======================================================================
+FAIL: test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass (test_auditor.ManifestRules.test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 256, in test_nested_quoted_throwerror_placeholder_cannot_receive_static_pass
+    self.assertIn('LEAN_PLACEHOLDER', {f['code'] for f in result['findings']}, result)
+AssertionError: 'LEAN_PLACEHOLDER' not found in set() : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '0e6d1e71cd19e119117f651c9a52231be20934fc041deba2d964e2d5fc176b58', 'inventory_sha256': {'r': 'f82cfa092e209b8313c310701bb5c357f6c322fda4592286bc889b89fe1a9383'}, 'classified_count': 2, 'scanned_count': 2, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '8ac3a070483d0a0b1679db84ea243e2c3465fe700d227c5405c4ab6f23fb2555', 'actual_sha256': '8ac3a070483d0a0b1679db84ea243e2c3465fe700d227c5405c4ab6f23fb2555'}, {'root': 'r', 'path': 'Lean.lean', 'kind': 'project_lean', 'expected_sha256': '77721549f1c9b1dbdda76f63f7e48bf54682bf8d6bed435f536f5a31807d7703', 'actual_sha256': '77721549f1c9b1dbdda76f63f7e48bf54682bf8d6bed435f536f5a31807d7703'}]}
+
+======================================================================
+FAIL: test_numeral_adjoining_owned_axiom_cannot_receive_static_pass (test_auditor.ManifestRules.test_numeral_adjoining_owned_axiom_cannot_receive_static_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 247, in test_numeral_adjoining_owned_axiom_cannot_receive_static_pass
+    self.assertIn('LEAN_AXIOM', {f['code'] for f in result['findings']}, result)
+AssertionError: 'LEAN_AXIOM' not found in set() : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '809a3609dbe5123287adea3e71277bc74e0f288e139bca9f0f20ce94bc60218f', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [{'root': 'r', 'path': 'Hazard.lean', 'declaration': 'bad@2', 'status': 'conditional', 'contradiction_candidates': []}], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'f9f3bbbffd6c7e03732f8305473e3ed657089b2a23ad84ddf3511c0687a35075', 'actual_sha256': 'f9f3bbbffd6c7e03732f8305473e3ed657089b2a23ad84ddf3511c0687a35075'}]}
+
+======================================================================
+FAIL: test_quarantine_requires_exact_boundary_and_scans_retained_source (test_auditor.ManifestRules.test_quarantine_requires_exact_boundary_and_scans_retained_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 350, in test_quarantine_requires_exact_boundary_and_scans_retained_source
+    self.assertEqual(self.runaudit()['result'],'STATIC_PASS',self.runaudit())
+AssertionError: 'FAIL' != 'STATIC_PASS'
+- FAIL
++ STATIC_PASS
+ : {'schema_version': 1, 'result': 'FAIL', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '7c3e3775e4ede2a288e2bcb9c3aaf7fad831ab6027a92803def2ba7e03221bef', 'inventory_sha256': {'r': '53cf276f25d905af6a4ec10a82a64a9a84974b5e7076ccbf6fd1964b805da4ea'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'RETAINED_FINDING_MISMATCH', 'root': 'r', 'path': 'Q/Bad.lean', 'line': 0, 'detail': "expected {'LEAN_PLACEHOLDER': 1} actual {}"}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Q/Bad.lean', 'kind': 'quarantined_source', 'expected_sha256': '0cb207672674996c2ad21efef4212f6c4f64bf660a955c80e1985a8d1e69096d', 'actual_sha256': '0cb207672674996c2ad21efef4212f6c4f64bf660a955c80e1985a8d1e69096d'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.addDeclWithoutChecking')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'ca159b6cd76d56ee417ceebffbf9968f880c3e1ebe442e4df99f37f209866ab8', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'c0cb61b943690415f9905659eb79269a0703cbdf7b88f00edd7d6c64893e2d15', 'actual_sha256': 'c0cb61b943690415f9905659eb79269a0703cbdf7b88f00edd7d6c64893e2d15'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Environment.«addDeclWithoutChecking»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '309938607f0521f4d1a61ceaedff97e4a977652390731ae00c5410f91c9d876e', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '67288bf0fa0363e54a12a380c08def1b71548e82712c70eeef36513d02983af8', 'actual_sha256': '67288bf0fa0363e54a12a380c08def1b71548e82712c70eeef36513d02983af8'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := «sorryAx»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'e232ebc1aca627ebe7d5418fe59c83ed59673fc8043dac140b087d5b1c70c169', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '5a0ba46b47f99a1e08a09aab3204e666cb6f1e42714509faa19ad2dbc2916238', 'actual_sha256': '5a0ba46b47f99a1e08a09aab3204e666cb6f1e42714509faa19ad2dbc2916238'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := Lean.«ofReduceBool»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '32e5f9af433ba3090082f20fa0633713b0a0b88b83f1dd807ef6ee1362ba0b30', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'dd384778dced1a706c970b6c986e03f06d30814e8755e40ca5f0c50742ee048c', 'actual_sha256': 'dd384778dced1a706c970b6c986e03f06d30814e8755e40ca5f0c50742ee048c'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide +native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'cff4d78864dc9769e722cfd26cbcd649b15eaef3c1f12a026991efb407064302', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '15404fc99a68c88d8f263cb3c1a362ffd1c4a4fc20759abc90bd1faecd60cb3e', 'actual_sha256': '15404fc99a68c88d8f263cb3c1a362ffd1c4a4fc20759abc90bd1faecd60cb3e'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native /- gap -/ := true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '93b5bfab007c0ba27586e9f252bdc6a14327ccffcc896cad205229496a64431b', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '92785311216c5d3594df5ce80540bf34337710676330961fad37efa562c15785', 'actual_sha256': '92785311216c5d3594df5ce80540bf34337710676330961fad37efa562c15785'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def x := by decide (config := { native\n := /- nested /- c -/ -/\n true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '903b18e6c17e14b2298ae8a445dec31167d328a59c534bfa01c49e34e67df42c', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '4e027309f6aebddab73d0dbca5c93fb27f5431b5e349ae4914e06b8515915f84', 'actual_sha256': '4e027309f6aebddab73d0dbca5c93fb27f5431b5e349ae4914e06b8515915f84'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source="def c := 'a")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '032f49d0de7ee1bc0ee8be9d08ba8c02fd394f5ade43c13f9026221b5f451ac0', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'b4df7b74a5335c0aaa6f35ad25203c8e51badb2c6867596f8a92f71020c37059', 'actual_sha256': 'b4df7b74a5335c0aaa6f35ad25203c8e51badb2c6867596f8a92f71020c37059'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='/- unterminated')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': 'dea2fcc4cd62d90a73ce31efa7c3ff620e16ae6f8b8c8d283f63a9e0f70ce84f', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '2ca47c243b103c403518d3af5b4505ed937e67b4f35953af8d5f2df5e9f10bf3', 'actual_sha256': '2ca47c243b103c403518d3af5b4505ed937e67b4f35953af8d5f2df5e9f10bf3'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := "unterminated')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '827881ce42bd6bc32feb5081bc264d79f314f98249812c3512445751d545f5ec', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'bcec77686cffbfca85319f405f2c528c5d504d17d28b0b7d6f4e6a8e90b27c40', 'actual_sha256': 'bcec77686cffbfca85319f405f2c528c5d504d17d28b0b7d6f4e6a8e90b27c40'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def s := r#"unterminated')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '35b74664a1424e0275ca6408b24e31b783054da60b1dfbdbfbe65c1a17c565ba', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': '9b14d041175ed48374c8b1bb9b1d234bc6edfc983fef02a41f39cca204843757', 'actual_sha256': '9b14d041175ed48374c8b1bb9b1d234bc6edfc983fef02a41f39cca204843757'}]}
+
+======================================================================
+FAIL: test_reported_hazards_fail_through_actual_manifest_auditor_interface (test_auditor.ManifestRules.test_reported_hazards_fail_through_actual_manifest_auditor_interface) (source='def «unterminated')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 237, in test_reported_hazards_fail_through_actual_manifest_auditor_interface
+    self.assertEqual(result['result'],'FAIL',result)
+AssertionError: 'STATIC_PASS' != 'FAIL'
+- STATIC_PASS
++ FAIL
+ : {'schema_version': 1, 'result': 'STATIC_PASS', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '5429b5886ea0a00c3da5044f1148cc49503624b1708a957dfaaa2805eebeabb0', 'inventory_sha256': {'r': 'cc91ef62c0b7fa823241b9baa2a191221e2428dbd3a49287527822368a1734f4'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Hazard.lean', 'kind': 'project_lean', 'expected_sha256': 'b6ab1aff48da73291df6101f396baf65002ce916b9cc37f30fb66c43d852af89', 'actual_sha256': 'b6ab1aff48da73291df6101f396baf65002ce916b9cc37f30fb66c43d852af89'}]}
+
+======================================================================
+FAIL: test_retained_text_source_requires_language_then_a_registered_module (test_auditor.ManifestRules.test_retained_text_source_requires_language_then_a_registered_module)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 274, in test_retained_text_source_requires_language_then_a_registered_module
+    self.assertEqual(self.runaudit()['result'],'STATIC_PASS',self.runaudit())
+AssertionError: 'FAIL' != 'STATIC_PASS'
+- FAIL
++ STATIC_PASS
+ : {'schema_version': 1, 'result': 'FAIL', 'claim': 'bounded static rules only; not CBZ-0 or mathematical proof closure', 'manifest_sha256': '20893a63cd1898cf52bf065c0f11af04a29fb5f20697f8edbae0607271d7afc2', 'inventory_sha256': {'r': 'b0a7b52eb69842f784a6c4644bec66f5dca66d3d8c6b911dbb8d530f48f49d64'}, 'classified_count': 1, 'scanned_count': 1, 'retained_count': 0, 'findings': [{'code': 'RETAINED_FINDING_MISMATCH', 'root': 'r', 'path': 'Q.txt', 'line': 0, 'detail': "expected {'LEAN_PLACEHOLDER': 1} actual {}"}], 'fatal_gaps': [], 'retained_findings': [], 'vacuity_observations': [], 'remaining_obligations': [{'gate': 'G2', 'required_work': 'All elaborated owned declarations, private/generated/import-expanded declarations included; approved imported axioms exactly propext/Classical.choice/Quot.sound.'}, {'gate': 'G3', 'required_work': 'Actual Lean build and no sorry warnings; source scanning does not execute Lean.'}, {'gate': 'G4', 'required_work': 'Kernel recheck every closed declaration and all bound binary proof objects.'}, {'gate': 'G5', 'required_work': 'Execute retained regression tests; source profile does not establish runtime success or historical test retention.'}, {'gate': 'G7', 'required_work': 'Authenticate immutable dependency revisions and Python exact-runtime/fractions implementation; verify cross-repository consistency.'}, {'gate': 'G8', 'required_work': 'Authenticate command receipts, review/certificate content, semantic status truth, statement nonvacuity and historical bound strength.'}, {'gate': 'G10', 'required_work': 'Authenticate full final tracked-file inventory and actual immutable tree identifiers; scanner does not run Git.'}], 'files': [{'root': 'r', 'path': 'Q.txt', 'kind': 'quarantined_source', 'expected_sha256': '0cb207672674996c2ad21efef4212f6c4f64bf660a955c80e1985a8d1e69096d', 'actual_sha256': '0cb207672674996c2ad21efef4212f6c4f64bf660a955c80e1985a8d1e69096d'}]}
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Elab.admitGoal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def x := Lean.Meta.mkSorry')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='set_option debug.skipKernelTC true')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def sorryλ := 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='def f (x : Float) := x')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_FLOAT_REVIEW_GAP' not found in set()
+
+======================================================================
+FAIL: test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries (test_auditor.SourceRules.test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries) (text='@[extern "c"] def f := 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 81, in test_adopted_public_lexer_covers_helpers_compiler_options_and_unicode_boundaries
+    self.assertIn(code,self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_canonical_metadata_and_error_channels_fail_closed (test_auditor.SourceRules.test_canonical_metadata_and_error_channels_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 131, in test_canonical_metadata_and_error_channels_fail_closed
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes('def x := 1'))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 141, in test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens
+    self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0b0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 141, in test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens
+    self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='0o0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 141, in test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens
+    self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='1e1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 141, in test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens
+    self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens (test_auditor.SourceRules.test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens) (numeral='1.0E+1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 141, in test_canonical_numeric_boundaries_preserve_complete_owned_axiom_tokens
+    self.assertIn('LEAN_AXIOM', self.lean_codes('def harmless := ' + numeral + 'axiom hiddenPremise : False\n'))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_lean_block_comment_separator_cannot_join_identifiers_into_escape (test_auditor.SourceRules.test_lean_block_comment_separator_cannot_join_identifiers_into_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 159, in test_lean_block_comment_separator_cannot_join_identifiers_into_escape
+    self.assertIn('LEAN_PLACEHOLDER',self.lean_codes('theorem t : True := by /-x-/sorry'))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorry')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='admit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='sorryAx')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='axiom fake : False')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='constant fake : False')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_AXIOM' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='native_decide')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='decide +native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceBool')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceNat')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.ofReduceInt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected (test_auditor.SourceRules.test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected) (word='Lean.trustCompiler')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 44, in test_lean_each_logical_escape_and_qualified_compiler_axiom_is_detected
+    self.assertIn(code, self.lean_codes('theorem t : True := by ' + word))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='/- unclosed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 65, in test_lexical_incompleteness_and_interpolation_are_fatal_not_silent
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := "open')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 65, in test_lexical_incompleteness_and_interpolation_are_fatal_not_silent
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def r := r##"open"#')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 65, in test_lexical_incompleteness_and_interpolation_are_fatal_not_silent
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def «open := 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 65, in test_lexical_incompleteness_and_interpolation_are_fatal_not_silent
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_lexical_incompleteness_and_interpolation_are_fatal_not_silent (test_auditor.SourceRules.test_lexical_incompleteness_and_interpolation_are_fatal_not_silent) (text='def s := s!"{by sorry}"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 65, in test_lexical_incompleteness_and_interpolation_are_fatal_not_silent
+    self.assertIn('LEAN_LEXICAL_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='"Q.Bad"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 174, in test_literal_import_operands_are_explicit_gaps_after_valid_prefix
+    self.assertIn('LEAN_IMPORT_GAP', self.lean_codes('import Good ' + operand + '\n'))
+AssertionError: 'LEAN_IMPORT_GAP' not found in set()
+
+======================================================================
+FAIL: test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand='r"Q.Bad"')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 174, in test_literal_import_operands_are_explicit_gaps_after_valid_prefix
+    self.assertIn('LEAN_IMPORT_GAP', self.lean_codes('import Good ' + operand + '\n'))
+AssertionError: 'LEAN_IMPORT_GAP' not found in set()
+
+======================================================================
+FAIL: test_literal_import_operands_are_explicit_gaps_after_valid_prefix (test_auditor.SourceRules.test_literal_import_operands_are_explicit_gaps_after_valid_prefix) (operand="'q'")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 174, in test_literal_import_operands_are_explicit_gaps_after_valid_prefix
+    self.assertIn('LEAN_IMPORT_GAP', self.lean_codes('import Good ' + operand + '\n'))
+AssertionError: 'LEAN_IMPORT_GAP' not found in set()
+
+======================================================================
+FAIL: test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='macro "magic" : term => `(by trivial)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 71, in test_macro_expansion_and_unsafe_trust_require_separate_certifier
+    self.assertIn('LEAN_EXPANSION_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='elab "magic" : term => pure ()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 71, in test_macro_expansion_and_unsafe_trust_require_separate_certifier
+    self.assertIn('LEAN_EXPANSION_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='unsafe def x := 1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 71, in test_macro_expansion_and_unsafe_trust_require_separate_certifier
+    self.assertIn('LEAN_EXPANSION_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='syntax "magic" : term')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 71, in test_macro_expansion_and_unsafe_trust_require_separate_certifier
+    self.assertIn('LEAN_EXPANSION_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_macro_expansion_and_unsafe_trust_require_separate_certifier (test_auditor.SourceRules.test_macro_expansion_and_unsafe_trust_require_separate_certifier) (text='run_elab pure ()')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 71, in test_macro_expansion_and_unsafe_trust_require_separate_certifier
+    self.assertIn('LEAN_EXPANSION_GAP', self.lean_codes(text))
+AssertionError: 'LEAN_EXPANSION_GAP' not found in set()
+
+======================================================================
+FAIL: test_nested_string_placeholder_and_benign_literal_boundaries (test_auditor.SourceRules.test_nested_string_placeholder_and_benign_literal_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 145, in test_nested_string_placeholder_and_benign_literal_boundaries
+    self.assertIn('LEAN_PLACEHOLDER', self.lean_codes('def f := throwError "bad {let x := "safe"; (sorry : Nat)}"'))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.addDeclWithoutChecking')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_KERNEL_BYPASS' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Environment.addDeclWithoutChecking')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_KERNEL_BYPASS' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Environment.«addDeclWithoutChecking»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_KERNEL_BYPASS' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := «addDeclWithoutChecking»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_KERNEL_BYPASS' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide +native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide + native')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native := true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := {\n native\n :=\n true\n})')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { native /- gap /- nested -/ -/ := /- gap -/ true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='theorem t : True := by decide (config := { «native» /- gap -/ := true })')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.«ofReduceBool»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_NATIVE' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := «sorryAx»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Elab.«admitGoal»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_reported_kernel_escape_names_and_native_config_layouts (test_auditor.SourceRules.test_reported_kernel_escape_names_and_native_config_layouts) (source='def x := Lean.Meta.«mkSorry»')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 102, in test_reported_kernel_escape_names_and_native_config_layouts
+    self.assertIn(code,self.lean_codes(source))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape (test_auditor.SourceRules.test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 58, in test_unicode_boundaries_and_escaped_identifiers_do_not_hide_exact_escape
+    self.assertIn('LEAN_PLACEHOLDER', self.lean_codes('theorem λ : True := by\n\u2003sorry'))
+AssertionError: 'LEAN_PLACEHOLDER' not found in set()
+
+======================================================================
+FAIL: test_unsupported_import_tail_is_a_gap_after_a_valid_prefix (test_auditor.SourceRules.test_unsupported_import_tail_is_a_gap_after_a_valid_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 168, in test_unsupported_import_tail_is_a_gap_after_a_valid_prefix
+    self.assertIn('LEAN_IMPORT_GAP',self.lean_codes('import Good ; Q.Bad\n'))
+AssertionError: 'LEAN_IMPORT_GAP' not found in set()
+
+======================================================================
+FAIL: test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := 'a")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 107, in test_unterminated_character_literals_are_never_silent
+    self.assertIn('LEAN_LEXICAL_GAP',self.lean_codes(source))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '\\n")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 107, in test_unterminated_character_literals_are_never_silent
+    self.assertIn('LEAN_LEXICAL_GAP',self.lean_codes(source))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '\\")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 107, in test_unterminated_character_literals_are_never_silent
+    self.assertIn('LEAN_LEXICAL_GAP',self.lean_codes(source))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+======================================================================
+FAIL: test_unterminated_character_literals_are_never_silent (test_auditor.SourceRules.test_unterminated_character_literals_are_never_silent) (source="def x := '")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/cbz-layer-a-mutant-fmeawfjr/tests/test_auditor.py", line 107, in test_unterminated_character_literals_are_never_silent
+    self.assertIn('LEAN_LEXICAL_GAP',self.lean_codes(source))
+AssertionError: 'LEAN_LEXICAL_GAP' not found in set()
+
+----------------------------------------------------------------------
+Ran 45 tests in 0.069s
+
+FAILED (failures=81)

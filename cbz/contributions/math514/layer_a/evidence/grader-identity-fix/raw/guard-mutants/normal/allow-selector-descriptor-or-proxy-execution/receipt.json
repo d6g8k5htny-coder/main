@@ -1,0 +1,46 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selected_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "started_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "finished_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_entered_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_finished_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_assertion_ids": [
+    "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "assertion_events": [
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "source": "direct"
+    }
+  ],
+  "invalid_population": [],
+  "lifecycle_failures": 0,
+  "subtests": 0,
+  "subtest_events": [],
+  "failure_events": [
+    {
+      "id": "test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "phase": "body",
+      "kind": "assertion"
+    }
+  ],
+  "tests_run": 1,
+  "assertion_failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": false,
+  "log": "test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) ... FAIL\n\n======================================================================\nFAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/mutation_test.py\", line 476, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'SURVIVED' != 'ERROR'\n- SURVIVED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_auditor.C.test_one) ... ok\\n\\nRan 1 tests\\n'}\n\nRan 1 tests\n"
+}

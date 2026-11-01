@@ -1,0 +1,121 @@
+{
+  "actual_repository_G1": "NOT_RUN",
+  "added_checker_mutants": [
+    {
+      "assertion_failures": 6,
+      "errors": 0,
+      "file": "source_checks.py",
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-hardening-mutation-logs/disable-unchecked-declaration-refusal.log",
+      "log_sha256": "8686edc6ae1fe32a14b9aa66d66c8bf2022786daf0f6572ec04b2475858cf83a",
+      "mutated_sha256": "8c3ad8a49859e066e5996374c9d1cb6cf302728f6014967905809ace409f8821",
+      "name": "disable-unchecked-declaration-refusal",
+      "original_sha256": "0f03cc4c182c8a10c839be30d59bec70f545e10fd7660642b672ed782c5cd786",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 57
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "file": "source_checks.py",
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-hardening-mutation-logs/skip-malformed-character-refusal.log",
+      "log_sha256": "55d3acd966c7d9384d0db2c6f420437a08af5060cf0357d59916ca641c9f248c",
+      "mutated_sha256": "a537ae85d66e2050c44a4ccf82fced17b676ce4c300adcc16662644fad755d0a",
+      "name": "skip-malformed-character-refusal",
+      "original_sha256": "0f03cc4c182c8a10c839be30d59bec70f545e10fd7660642b672ed782c5cd786",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 57
+    },
+    {
+      "assertion_failures": 2,
+      "errors": 0,
+      "file": "source_checks.py",
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-hardening-mutation-logs/miss-escaped-placeholder-helpers.log",
+      "log_sha256": "e0c33cc66d79032b41ead944f8b1cda358a2a3c3c34552bce21687fb1495ca25",
+      "mutated_sha256": "4737b4058424677eaace85a4df2d2bd4e73b9c579ffdcf179db20b8a5fd19d1d",
+      "name": "miss-escaped-placeholder-helpers",
+      "original_sha256": "0f03cc4c182c8a10c839be30d59bec70f545e10fd7660642b672ed782c5cd786",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 57
+    },
+    {
+      "assertion_failures": 11,
+      "errors": 0,
+      "file": "source_checks.py",
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-hardening-mutation-logs/drop-escaped-constant-normalization.log",
+      "log_sha256": "6a9f4b5c4b918bda1d53303d7b48648fff9b4804fda88523c6bcc5587883dcaf",
+      "mutated_sha256": "98ce8a041cab675654cd49551717e71933a7ea318321f254298bb361e9902072",
+      "name": "drop-escaped-constant-normalization",
+      "original_sha256": "0f03cc4c182c8a10c839be30d59bec70f545e10fd7660642b672ed782c5cd786",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 57
+    },
+    {
+      "assertion_failures": 5,
+      "errors": 0,
+      "file": "source_checks.py",
+      "log": "/workspace/cbz-0/tools/layer_a/evidence/g0-hardening-mutation-logs/miss-multiline-commented-native-config.log",
+      "log_sha256": "211ec1bab634374be7a3ca12dff211e293059f11cb2ac1c1f9b814f1ed0a217f",
+      "mutated_sha256": "bc8a3da868f3d88ef15d0bf29c7be9898f6b711b9bd137cfa59eefcf0b18d28b",
+      "name": "miss-multiline-commented-native-config",
+      "original_sha256": "0f03cc4c182c8a10c839be30d59bec70f545e10fd7660642b672ed782c5cd786",
+      "outcome": "KILLED",
+      "returncode": 1,
+      "tests_run": 57
+    }
+  ],
+  "additional_newly_planted_defect": {
+    "after": "LEAN_PLACEHOLDER; adopted-lexer marker normalization and helper policy tested",
+    "before": "source-check interface missed escaped helper constants",
+    "shape": "Lean.Elab.\u00abadmitGoal\u00bb and Lean.Meta.\u00abmkSorry\u00bb"
+  },
+  "already_blocked_before_change": [
+    "decide +native",
+    "decide + native",
+    "decide(config := {native := true})",
+    "native/config across newlines",
+    "native/config separated by nested block comments",
+    "Lean.\u00abofReduceBool\u00bb",
+    "\u00absorryAx\u00bb",
+    "unterminated block comments",
+    "unterminated ordinary/raw strings",
+    "unterminated escaped identifiers"
+  ],
+  "conservative_native_rule": "Every exact native identifier is refused independent of following-text layout/regex; this also rejects harmless uses of native. Whitespace, line break and nested-comment variants are explicitly planted tests.",
+  "current_G0": "evidence/g0-hardening.json",
+  "current_G0_sha256": "9bd3dee4b424b17b5580e7cc26af5d161418fadb93477825f22f45be7d1c3619",
+  "current_baseline_tests": 60,
+  "current_declared_mutants": 44,
+  "current_killed_mutants": 44,
+  "current_source_unchanged": true,
+  "green_development_evidence": "evidence/hardening-reported-cases-green.log",
+  "limits": [
+    "Finite planted layouts and source mutants, not proof of universal Lean parsing or scanner correctness.",
+    "No arbitrary alias/macro expansion or semantic native-dataflow certification.",
+    "G2 all-declaration axiom collection and G4 kernel recheck remain mandatory."
+  ],
+  "mathematical_verification": "NOT_RUN; prior applicable mathematical evidence remains reusable",
+  "old_56_39_receipt": "evidence/g0-final.json",
+  "old_56_39_source_generation": "evidence/pre-hardening-source/",
+  "old_receipt_is_not_current": true,
+  "reason_for_new_verification": "Concrete newly reported unchecked-declaration and malformed-character integration defects, plus newly planted escaped-helper cases. No historical repository mathematics repeated.",
+  "red_evidence": "evidence/hardening-reported-cases-red.log",
+  "red_evidence_sha256": "b10aa79b55cad06abbba23dc452d84dd2087882a891e7f2a8b8f945c209d80cf",
+  "reported_core_defects": [
+    {
+      "after": "FAIL with LEAN_KERNEL_BYPASS",
+      "before": "actual manifest STATIC_PASS; source scanner lacked unchecked insertion category",
+      "shape": "Environment.addDeclWithoutChecking and qualified/escaped constant variants"
+    },
+    {
+      "after": "FAIL with LEAN_LEXICAL_GAP",
+      "before": "actual manifest STATIC_PASS",
+      "shape": "unterminated character literal: def c := 'a"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Bounded source checks and actual manifest auditor interface on isolated fixtures only."
+}

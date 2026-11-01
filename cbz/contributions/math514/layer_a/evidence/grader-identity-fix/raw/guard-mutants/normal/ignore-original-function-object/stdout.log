@@ -1,0 +1,15 @@
+test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused) ... 
+  test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused) (change='same-code-function') ... FAIL
+
+======================================================================
+FAIL: test_class_fixture_function_and_code_substitutions_are_refused (test_mutation_runner.IdentityHarnessRules.test_class_fixture_function_and_code_substitutions_are_refused) (change='same-code-function')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/normal/ignore-original-function-object/tests/test_mutation_runner.py", line 350, in test_class_fixture_function_and_code_substitutions_are_refused
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_one'], 'started_ids': ['test_auditor.C.test_one'], 'finished_ids': ['test_auditor.C.test_one'], 'body_entered_ids': ['test_auditor.C.test_one'], 'body_finished_ids': ['test_auditor.C.test_one'], 'body_assertion_ids': ['test_auditor.C.test_one'], 'assertion_events': [{'id': 'test_auditor.C.test_one', 'source': 'direct'}], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [{'id': 'test_auditor.C.test_one', 'phase': 'body', 'kind': 'assertion'}], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (test_auditor.C.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (test_auditor.C.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp096e_56n/mutation_test.py", line 427, in dispatch\n    return _original(*args,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: original body retained\n\nRan 1 tests\n'}
+
+Ran 1 tests

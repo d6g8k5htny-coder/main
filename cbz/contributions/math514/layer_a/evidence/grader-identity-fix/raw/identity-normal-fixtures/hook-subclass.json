@@ -1,0 +1,50 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpa5qy3yxd/mutation_test.py",
+    "--internal-test-runner",
+    "--test-root",
+    "/tmp/tmpa5qy3yxd/tests",
+    "--output",
+    "/tmp/tmpa5qy3yxd/receipt.json"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "77a32c6bf3fadf9432a6cb2b45d88547314d7240d93c96c76182a36873f2b78e",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpa5qy3yxd/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self):\n  record(\"second\")\n  self.fail(\"retained second body\")\ndef load_tests(loader, tests, pattern):\n record(\"hook\")\n def replacement(self): record(\"replacement\")\n R=type(\"C\",(C,),{\"test_first\":replacement,\"test_second\":replacement,\"__module__\":__name__,\"__qualname__\":\"C\"})\n globals()[\"C\"]=R\n return loader.loadTestsFromTestCase(R)\n",
+  "label": "hook-subclass",
+  "optimize": 0,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "failure_events": [],
+    "finished_ids": [],
+    "invalid_population": [
+      "unsupported module load_tests hook: test_auditor"
+    ],
+    "lifecycle_failures": 0,
+    "log": "Refused unsupported selected test population before execution.\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_auditor.C.test_first",
+      "test_auditor.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": false,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "Refused unsupported selected test population before execution.\n"
+}

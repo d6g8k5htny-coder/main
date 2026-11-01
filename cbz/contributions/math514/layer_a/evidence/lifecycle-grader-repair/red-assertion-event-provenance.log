@@ -1,0 +1,17 @@
+test_assertion_event_provenance_rejects_duplicate_direct_failures (test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures) ... FAIL
+
+======================================================================
+FAIL: test_assertion_event_provenance_rejects_duplicate_direct_failures (test_mutation_runner.LifecycleHarnessRules.test_assertion_event_provenance_rejects_duplicate_direct_failures)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/layer_a/tests/test_mutation_runner.py", line 126, in test_assertion_event_provenance_rejects_duplicate_direct_failures
+    self.assertEqual(mutation_test.classify_test_result(forged,1),'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.150s
+
+FAILED (failures=1)

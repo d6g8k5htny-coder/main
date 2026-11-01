@@ -1,0 +1,51 @@
+test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) ... 
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-staticmethod', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-staticmethod', selector=('test_auditor.C',)) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-classmethod', selector=()) ... FAIL
+  test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-classmethod', selector=('test_auditor.C',)) ... FAIL
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-staticmethod', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-static-descriptor-subclasses/tests/test_mutation_runner.py", line 370, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_entered_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 2, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-staticmethod', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-static-descriptor-subclasses/tests/test_mutation_runner.py", line 370, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_entered_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 2, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-classmethod', selector=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-static-descriptor-subclasses/tests/test_mutation_runner.py", line 370, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_entered_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 2, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n'}
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_runner.IdentityHarnessRules.test_callable_factory_selector_is_refused_before_factory_or_body) (constructor='descriptor-classmethod', selector=('test_auditor.C',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/layer_a/evidence/guard-mutants/optimized/allow-static-descriptor-subclasses/tests/test_mutation_runner.py", line 370, in test_callable_factory_selector_is_refused_before_factory_or_body
+    self.assertEqual(outcome,'ERROR',value)
+AssertionError: 'SURVIVED' != 'ERROR'
+- SURVIVED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selected_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'started_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_entered_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_finished_ids': ['test_auditor.C.test_first', 'test_auditor.C.test_second'], 'body_assertion_ids': [], 'assertion_events': [], 'invalid_population': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'failure_events': [], 'tests_run': 2, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_first (test_auditor.C.test_first) ... ok\ntest_second (test_auditor.C.test_second) ... ok\n\nRan 2 tests\n'}
+
+Ran 1 tests

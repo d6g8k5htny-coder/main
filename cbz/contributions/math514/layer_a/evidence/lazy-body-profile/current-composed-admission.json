@@ -1,0 +1,85 @@
+{
+  "actual_repository_G1": "NOT_RUN",
+  "checker_mutants": {
+    "current_repair_executions": 0,
+    "definitions_unchanged": 57,
+    "reused_predecessor_composition": {
+      "affected_prior_scope": 19,
+      "historical_prior_scope": 38
+    }
+  },
+  "claim": "finite scoped evidence composed from reusable predecessor and new lazy-body obligations; no fresh full G0 result",
+  "evidence": {
+    "final_guard_mutants": "evidence/lazy-body-profile/new-guard-source-controls.json",
+    "frozen_manifest": "evidence/lazy-body-profile/frozen-manifest.json",
+    "independent_review": "evidence/lazy-body-profile/shared/independent-lazy-body-review.json",
+    "normal": "evidence/lazy-body-profile/normal-lazy-controls.log",
+    "optimized": "evidence/lazy-body-profile/optimized-lazy-controls.log",
+    "original_method_applicability": "evidence/lazy-body-profile/shared/original-method-shape-applicability.json",
+    "source_bound_report": "evidence/lazy-body-profile/REPORT.md",
+    "superseded_type_generation": "evidence/lazy-body-profile/lazy-types-generation/"
+  },
+  "gate": "G0_COMPONENT_COMPOSITION",
+  "independent_review_sha256": "8e6c0de322cb2296d2ac9bf472bcb29c3fcdfaa941541539e1fc467d5a47c933",
+  "method_inventory": {
+    "auditor": 72,
+    "current": 87,
+    "fresh_new_methods_normal": 4,
+    "fresh_new_methods_optimized": 4,
+    "new_lazy_body_profile": 4,
+    "predecessor_reused": 83,
+    "retained_harness": 11
+  },
+  "new_CI_run": false,
+  "new_Lean_or_math_run": false,
+  "new_fixture_observations_per_mode": {
+    "ERROR": 16,
+    "KILLED": 1,
+    "SURVIVED": 1,
+    "count": 18,
+    "lazy_sentinels_executed": 0
+  },
+  "new_full_checker_mutant_run": false,
+  "new_full_suite_run": false,
+  "new_grader_controls": {
+    "final_none_profile_distinct_mutations": 3,
+    "final_none_profile_mode_executions": 6,
+    "generation_mode_executions_total": 16,
+    "initial_type_generation_distinct_mutations": 5,
+    "initial_type_generation_mode_executions": 10,
+    "reused_guard_theme_mode_executions": 6,
+    "reused_unchanged_guard_themes": [
+      "pristine lazy method refusal",
+      "each wraps-linked method layer",
+      "fresh native coroutine disposal without advancement"
+    ],
+    "these_are_distinct_production_mutants": false
+  },
+  "new_method_ids": [
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_bodies_require_none_and_refuse_other_returns_without_iteration",
+    "test_mutation_runner.LazyBodyHarnessRules.test_mixed_lazy_function_shapes_are_refused_before_any_body",
+    "test_mutation_runner.LazyBodyHarnessRules.test_wraps_decorated_lazy_functions_are_refused_at_population",
+    "test_mutation_runner.LazyBodyHarnessRules.test_sync_lazy_returns_are_rejected_without_advancing_objects"
+  ],
+  "observed_status": "PASS",
+  "predecessor_composed_receipt": {
+    "path": "evidence/composed-admission.json",
+    "scope": "83 methods; inherited 56 affected +27 unaffected; no new execution",
+    "sha256": "2dace92015ee5d777d403282971f67281f267f7fca71c88659c57678f693a5ac"
+  },
+  "provider_distinct_requirement": "tracked separately; this receipt does not claim new provider-distinct credit",
+  "published_predecessor_file_count": 521,
+  "published_predecessor_head": "95a4f81e6e1fb02481238b9f91a9ce4ec259ecc2",
+  "schema_version": 1,
+  "source_sha256": {
+    "README.md": "38ef29a8d8a3bc41cd52eba41affb499c40475f76c605c019a12e8255f5ab7ea",
+    "SPEC.md": "f3f72bced46b1713f3c2efc5eddf5835d85670609ca71f27af49a710485cd69b",
+    "auditor.py": "c0a32e827279dfb9164d540c1f99c2269e3c49446a3fbeae23afefb53af54710",
+    "canonical_lean.py": "9ed661b1490f73c4dc3664a33ed688e937c1c7d8fecfb4d48c5349fa41823818",
+    "mutation_test.py": "840d2c86b9c7b1fb934c6fae0f300afa17aca6de5551ca8db70ac47147073b7f",
+    "source_checks.py": "931a6ee9ad92b3833c342af52d978b732faa692f2a0fd819f75e9941790c647c",
+    "tests/test_auditor.py": "94532912255f92250046e0e85d2633b438245e635499d815340edfe4bb29890e",
+    "tests/test_mutation_runner.py": "9190916dea425ab71aad73acbb70b4100890592f2a462375cb3a922ff62a1ff3"
+  },
+  "type": "composed_scoped_admission"
+}
