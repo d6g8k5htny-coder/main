@@ -115,10 +115,19 @@ def run_suite(scanner_path):
                           cwd=WORKSPACE, env=env, capture_output=True, text=True, timeout=600)
 
 
+def _admission():
+    """Resolve the sibling helper for module, file and dynamic-load entry points."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "cbz_admission_under_test", os.path.join(HERE, "cbz_mutation_admission.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def killed(r, expected_test=None, *, tool_path=None):
     """Require the complete source-bound assertion-failure contract."""
-    from tests.cbz_mutation_admission import matches_report
-    return matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
+    return _admission().matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
 
 
 class ScannerMutants(unittest.TestCase):
@@ -130,8 +139,8 @@ class ScannerMutants(unittest.TestCase):
     def test_unmutated_scanner_passes_its_suite(self):
         r = run_suite(SCANNER)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-        from tests.cbz_mutation_admission import matches_report, profile_for
-        self.assertTrue(matches_report(r, profile_for("scanner_baseline"),
+        admission = _admission()
+        self.assertTrue(admission.matches_report(r, admission.profile_for("scanner_baseline"),
                                        required_returncode=0, tool_path=SCANNER), r.stdout + r.stderr)
 
     def test_every_mutant_is_killed(self):
@@ -144,8 +153,8 @@ class ScannerMutants(unittest.TestCase):
                     with open(path, "w", encoding="utf-8") as fh:
                         fh.write(self.source.replace(old, new))
                     r = run_suite(path)
-                    from tests.cbz_mutation_admission import profile_for
-                    if not killed(r, profile_for(f"scanner_{i:02d}"), tool_path=path):
+                    admission = _admission()
+                    if not killed(r, admission.profile_for(f"scanner_{i:02d}"), tool_path=path):
                         survivors.append(name)
         self.assertEqual(survivors, [], f"surviving mutants: {survivors}")
         self.assertGreaterEqual(len(MUTANTS), 39)

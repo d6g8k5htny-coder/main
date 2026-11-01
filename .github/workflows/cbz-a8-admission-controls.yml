@@ -40,6 +40,9 @@ jobs:
           flags=()
           if [ "$MODE" = optimized ]; then flags=(-O); fi
           python -B -S "${flags[@]}" tests/test_cbz_auditor_hardening.py MutationKillClassification -v 2>&1 | tee "$RUNNER_TEMP/a8-direct-$MODE.log"
+          python -B -S "${flags[@]}" tests/test_cbz_layer_a_scan_mutants.py ScannerMutants.test_unmutated_scanner_passes_its_suite -v 2>&1 | tee -a "$RUNNER_TEMP/a8-direct-$MODE.log"
+          python -B -S "${flags[@]}" tests/test_cbz_a3_float_census.py SelfMutation.test_harness_control_unmutated_copy_passes -v 2>&1 | tee -a "$RUNNER_TEMP/a8-direct-$MODE.log"
+          python -B -S "${flags[@]}" tests/test_cbz_mutation_admission.py AdmissionAdverseControls.test_complete_multiple_failure_profile_is_accepted -v 2>&1 | tee -a "$RUNNER_TEMP/a8-direct-$MODE.log"
       - name: Admission regression controls
         env:
           PYTHONDONTWRITEBYTECODE: '1'

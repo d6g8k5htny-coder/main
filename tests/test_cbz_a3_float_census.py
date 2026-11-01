@@ -188,10 +188,19 @@ def run_suite(tool_path):
                           cwd=WORKSPACE, env=env, capture_output=True, text=True, timeout=600)
 
 
+def _admission():
+    """Resolve the sibling helper for module, file and dynamic-load entry points."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "cbz_admission_under_test", os.path.join(HERE, "cbz_mutation_admission.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def killed(r, expected_test=None, *, tool_path=None):
     """Require the complete source-bound assertion-failure contract."""
-    from tests.cbz_mutation_admission import matches_report
-    return matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
+    return _admission().matches_report(r, expected_test, required_returncode=1, tool_path=tool_path)
 
 
 @unittest.skipIf(os.environ.get("CBZ_A3_CENSUS"), "mutant run: do not recurse")
@@ -203,8 +212,8 @@ class SelfMutation(unittest.TestCase):
             shutil.copyfile(REAL, path)
             r = run_suite(path)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-            from tests.cbz_mutation_admission import matches_report, profile_for
-            self.assertTrue(matches_report(r, profile_for("census_baseline"),
+            admission = _admission()
+            self.assertTrue(admission.matches_report(r, admission.profile_for("census_baseline"),
                                            required_returncode=0, tool_path=path), r.stdout + r.stderr)
 
     def test_every_mutant_is_killed(self):
@@ -217,8 +226,8 @@ class SelfMutation(unittest.TestCase):
                 path = os.path.join(d, f"m{i:02d}.py")
                 with open(path, "w", encoding="utf-8") as fh:
                     fh.write(src.replace(old, new))
-                from tests.cbz_mutation_admission import profile_for
-                if not killed(run_suite(path), profile_for(f"census_{i:02d}"), tool_path=path):
+                admission = _admission()
+                if not killed(run_suite(path), admission.profile_for(f"census_{i:02d}"), tool_path=path):
                     survivors.append(name)
         self.assertEqual(survivors, [])
 

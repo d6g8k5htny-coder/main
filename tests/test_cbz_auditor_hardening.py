@@ -191,7 +191,7 @@ class MutationKillClassification(unittest.TestCase):
             good='Ran 3 tests in 0.0s\nFAILED (failures=1)\nFAIL: test_expected (tests.C)\n'
             # Preserve the old incomplete sample as a negative control.
             self.assertFalse(mod.killed(subprocess.CompletedProcess([],1,stdout='',stderr=good),'test_expected'))
-            from tests.test_cbz_mutation_admission import report
+            report = load(ROOT/'tests/test_cbz_mutation_admission.py', 'admission_fixture').report
             good = report()
             expected = {"stderr": good.replace("0.001", "<ELAPSED>"),
                         "tests": 3, "failures": 1, "skipped": 0}

@@ -84,7 +84,7 @@ class AdmissionAdverseControls(unittest.TestCase):
                 self.assertTrue(mod.killed(proc, profile))
 
     def test_complete_multiple_failure_profile_is_accepted(self):
-        from tests.cbz_mutation_admission import profile_for
+        profile_for = load_harness("cbz_mutation_admission.py").profile_for
         profile = profile_for("census_14")
         proc = subprocess.CompletedProcess([], 1, stdout="", stderr=profile["stderr"])
         self.assertEqual(profile["failures"], 7)
@@ -93,7 +93,7 @@ class AdmissionAdverseControls(unittest.TestCase):
                 self.assertTrue(mod.killed(proc, profile))
 
     def test_same_site_wrong_mismatch_is_rejected(self):
-        from tests.cbz_mutation_admission import profile_for
+        profile_for = load_harness("cbz_mutation_admission.py").profile_for
         profile = profile_for("census_15")
         self.assertIn("AssertionError: 0 != 2", profile["stderr"])
         bad = profile["stderr"].replace("AssertionError: 0 != 2", "AssertionError: 1 != 2")
@@ -103,7 +103,7 @@ class AdmissionAdverseControls(unittest.TestCase):
                 self.assertFalse(mod.killed(proc, profile))
 
     def test_same_named_foreign_class_is_rejected(self):
-        from tests.cbz_mutation_admission import profile_for
+        profile_for = load_harness("cbz_mutation_admission.py").profile_for
         profile = profile_for("census_15")
         bad = profile["stderr"].replace("InputCoverage.", "ForeignCoverage.")
         self.assertNotEqual(bad, profile["stderr"])
