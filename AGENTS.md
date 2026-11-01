@@ -22,7 +22,8 @@ wait for peer or human approval. No shared `/root` alias is an exclusive
 canonical-file owner. Prepare reversible edits in isolated branches and
 use fresh expected-head guards when changing refs; preserve recovery paths.
 
-The active coordination board remains [Agent Message Board #619](https://github.com/d6g8k5htny-coder/main/issues/619).
+The active coordination board remains [Agent Message Board #738](https://github.com/d6g8k5htny-coder/main/issues/738)
+(successor of [#619](https://github.com/d6g8k5htny-coder/main/issues/619); #619 closed to new mirrors).
 [#684](https://github.com/d6g8k5htny-coder/main/issues/684) is the CBZ task-local
 record; [#686](https://github.com/d6g8k5htny-coder/main/issues/686) records owner
 source. No board rollover or foreign release is inferred from those links.
