@@ -1,0 +1,193 @@
+{
+  "schema": "cbz-a8-scoped-repair-qualification-v1",
+  "status": "PASS_SCOPED_ENGINEERING_READY_FOR_COMPOSITION",
+  "scope": "Fixed canonical Layer A scanner and A3 census mutation-result admission only",
+  "foundation": {
+    "commit": "32ab7d9013264d2874aa4b778a90eede0cda0cdf",
+    "finding": "https://github.com/d6g8k5htny-coder/main/pull/695#issuecomment-6508165775",
+    "resumed_pickup": "https://github.com/d6g8k5htny-coder/main/pull/695#issuecomment-6564629496"
+  },
+  "tested_source": {
+    "commit": "d49cf1b73e7a17c71bb263cbd82066a7c00e0d26",
+    "tree": "4cdb77416174a9ac5e649dd577f9901a615695ec",
+    "profiles_blob": "38eae74114c578961bb801ea4799e36a9309c15a",
+    "source_blobs": {
+      "tools/cbz/layer_a_scan.py": "2eee3a2200082444093935291b9389c0795641cf",
+      "tools/cbz/a3_float_census.py": "50a902c4c6c82582a8ffe7976682e02174656d53",
+      "tests/test_cbz_layer_a_scan.py": "8d7fa52618478a4a7675cfb55c70c5e4a68506e9",
+      "tests/cbz_mutation_admission.py": "d7cce26340061191277b4ddf68ceb6177f4dbc90",
+      "tests/test_cbz_layer_a_scan_mutants.py": "86c5e68fa57402b68e7086cc784df81a9fc717b7",
+      "tests/test_cbz_a3_float_census.py": "57d5d4a0e9149dc663e5b6434dd372fdca02aeff",
+      "tests/test_cbz_auditor_hardening.py": "8f0bea1ecc98beca629cde06d1617698d6649db4",
+      "tests/test_cbz_mutation_admission.py": "df2487ad7efb5a2e1c5d2648d43e20a5a7ac979b"
+    }
+  },
+  "preservation": {
+    "scanner_mutants": 66,
+    "census_mutants": 23,
+    "original_component_methods": 72,
+    "original_baseline_exit_assertions_retained": true,
+    "baseline_complete_report_checks_added": true,
+    "mutant_arrays_and_expected_failure_maps_byte_preserved": true,
+    "tool_sources_unchanged": true,
+    "behavioral_test_regions_unchanged": true,
+    "canonical_documents_changed": false,
+    "frozen_replay_sources_changed": false
+  },
+  "contract": {
+    "required_mutant_exit": 1,
+    "stdout": "empty",
+    "comparison": "exact complete normalized stderr against frozen reviewed expectation",
+    "source_binding": "all eight consumed source Git-blob identities checked before each profile is used",
+    "preserved_dimensions": [
+      "complete ordered suite membership and skip state",
+      "all qualified failure identities and subtest parameters",
+      "all assertion source sites and complete mismatch bodies",
+      "failure multiplicities and terminal counts"
+    ],
+    "normalization": [
+      "exact caller-admitted tool path",
+      "exact checkout root",
+      "distinct /tmp/tmp* directory prefixes, alpha-renamed in first-occurrence order",
+      "only terminal Ran elapsed duration"
+    ],
+    "runtime_learning": false
+  },
+  "first_red": {
+    "commit": "4f61c5c6f2a6f9cc106d6963f47714d16d854423",
+    "run_id": 41356102177,
+    "jobs": {
+      "normal": 124996350200,
+      "optimized": 124996350420
+    },
+    "methods_per_mode": 7,
+    "intended_assertion_failures_per_mode": 16,
+    "errors_per_mode": 0
+  },
+  "full_capture": {
+    "commit": "8d98a235285b889f83b7372bb952ed8ba46d5d25",
+    "run_id": 41356351571,
+    "jobs": {
+      "normal": 124997113846,
+      "optimized": 124997113689
+    },
+    "reports_per_mode": 91,
+    "scanner_failure_occurrences_per_mode": 299,
+    "census_failure_occurrences_per_mode": 40,
+    "normal_optimized_complete_reports_match_after_declared_normalization": true,
+    "source_semantics_reviewed": true
+  },
+  "retained_compatibility_failure": {
+    "commit": "cdee7b83a4b84c49d6077e29a292e3e24df9cf02",
+    "run_id": 41357101285,
+    "jobs": {
+      "normal": 124999405317,
+      "optimized": 124999405551
+    },
+    "direct_methods": 2,
+    "errors_per_mode": 6,
+    "cause": "package-only helper import broke preserved direct-file entry point",
+    "repair": "exact sibling-path module loading without sys.path mutation"
+  },
+  "final_hosted": {
+    "run_id": 41357228640,
+    "jobs": {
+      "normal": 124999790000,
+      "optimized": 124999789821
+    },
+    "result": "PASS_BOTH_MODES",
+    "python": "3.11.16 (main, Aug 13 2026, 02:46:14) [GCC 13.3.0]",
+    "primary_methods_per_mode": {
+      "original_component_methods": 72,
+      "admission_controls": 13,
+      "total": 85
+    },
+    "direct_entrypoint_methods_per_mode": 5,
+    "original_source_mutants_per_mode": {
+      "scanner": 66,
+      "census": 23
+    },
+    "failures": 0,
+    "errors": 0,
+    "artifacts": [
+      {
+        "id": 13104115370,
+        "name": "a8-admission-normal-d49cf1b73e7a17c71bb263cbd82066a7c00e0d26",
+        "digest": "sha256:a2c1a50e61cdc33f5a324d4137841d3f7cfba73fc2d7b04b387b75779feac7f2",
+        "expires_at": "2027-01-30T22:27:32Z"
+      },
+      {
+        "id": 13103757554,
+        "name": "a8-admission-optimized-d49cf1b73e7a17c71bb263cbd82066a7c00e0d26",
+        "digest": "sha256:5ce664e09bdef7150f0b685382e73aa625a04310cc016ef30cb4a2e5abdc82c0",
+        "expires_at": "2027-01-30T22:27:32Z"
+      }
+    ],
+    "observed_results": [
+      {
+        "id": 124999789821,
+        "name": "A8 admission optimized",
+        "status": "completed",
+        "conclusion": "success",
+        "completed_at": "2026-11-01T22:29:44Z"
+      },
+      {
+        "id": 124999790000,
+        "name": "A8 admission normal",
+        "status": "completed",
+        "conclusion": "success",
+        "completed_at": "2026-11-01T22:28:46Z"
+      }
+    ]
+  },
+  "reviews": [
+    {
+      "performer": "/root/a8_census_contract_review",
+      "scope": "all 23 census mutants, original source semantics and both complete captured report sets",
+      "verdict": "PASS_SCOPED_ENGINEERING",
+      "tests_executed_by_reviewer": false
+    },
+    {
+      "performer": "/root/a8_scanner_contract_review",
+      "scope": "all 66 scanner mutants, full-profile framing/source bindings, helper and final loader delta",
+      "exact_final_head": "d49cf1b73e7a17c71bb263cbd82066a7c00e0d26",
+      "verdict": "PASS_SCOPED_ENGINEERING_NO_FINDINGS",
+      "tests_executed_by_reviewer": false
+    }
+  ],
+  "review_provenance": {
+    "provider": "OpenAI/Codex",
+    "source_exposed": true,
+    "organizational_independence_credit": 0,
+    "formal_PR_review_object_created": false
+  },
+  "limits": [
+    "Qualified only for the fixed preserved mutants and source-bound captured Python 3.11.16/Ubuntu/default /tmp layout",
+    "Non-/tmp temporary roots and unsupported formatting/runtime/source drift fail closed; no broad portability claim",
+    "Hosted Actions supplied execution because the selected local executor remained unavailable",
+    "This is a separate contribution on foundation ancestry; select the scoped paths for composition, never blindly overlay or merge the stale foundation tree onto current Main",
+    "Canonical foundation adoption remains separate; this delivery does not update #695/staging/Main",
+    "No mathematical, kernel, scientific-status, final G0 or CBZ-0 acceptance"
+  ],
+  "delivery": {
+    "branch": "cbz/auditor-mutation-admission-repair-20261030",
+    "scope_paths": [
+      ".github/workflows/cbz-a8-admission-controls.yml",
+      "cbz/evidence/a8-admission-repair-20261101/characterize.py",
+      "cbz/evidence/a8-admission-repair-20261101/profiles.json",
+      "tests/cbz_mutation_admission.py",
+      "tests/test_cbz_a3_float_census.py",
+      "tests/test_cbz_auditor_hardening.py",
+      "tests/test_cbz_layer_a_scan_mutants.py",
+      "tests/test_cbz_mutation_admission.py",
+      "cbz/evidence/a8-admission-repair-20261101/QUALIFICATION.json"
+    ],
+    "report_commit_policy": "This additive evidence-only successor retains the exact tested code tree leaves and eight source bindings. The final full CI result belongs to tested_source.commit; no new execution is inferred for the report-only successor."
+  },
+  "canonical_readback": {
+    "foundation_staging": "32ab7d9013264d2874aa4b778a90eede0cda0cdf",
+    "pr695_head": "82d9e480a51b946b3e74525ccf32139129d37d28",
+    "pr695_state": "open_unmerged",
+    "adoption": "NOT_ADOPTED_BY_THIS_DELIVERY"
+  }
+}
