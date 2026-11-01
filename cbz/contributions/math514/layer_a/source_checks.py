@@ -241,12 +241,141 @@ ALLOWED_AST = frozenset({
 })
 
 
+
+def _attach_parents(tree):
+    for parent in ast.walk(tree):
+        for child in ast.iter_child_nodes(parent):
+            child._cbz_parent = parent
+
+
+def _exact_integer_expr(node, names):
+    """Exact integer literal, pure integer operator, or module-level established name."""
+    if isinstance(node, ast.Constant) and type(node.value) is int:
+        return True
+    if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
+        return node.id in names and not _name_bound_in_enclosing_scope(node)
+    if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.UAdd, ast.USub, ast.Invert)):
+        return _exact_integer_expr(node.operand, names)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.FloorDiv, ast.Mod,
+                                                            ast.BitAnd, ast.BitOr, ast.BitXor, ast.LShift, ast.RShift)):
+        return _exact_integer_expr(node.left, names) and _exact_integer_expr(node.right, names)
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Pow):
+        return (_exact_integer_expr(node.left, names)
+                and isinstance(node.right, ast.Constant)
+                and type(node.right.value) is int and node.right.value >= 0)
+    return False
+
+
+def _name_bound_in_enclosing_scope(name_node):
+    """True when an enclosing function/comprehension/lambda binds the same name (fail closed)."""
+    parent = getattr(name_node, '_cbz_parent', None)
+    while parent is not None:
+        if isinstance(parent, ast.comprehension):
+            for target in ast.walk(parent.target):
+                if isinstance(target, ast.Name) and target.id == name_node.id:
+                    return True
+        elif isinstance(parent, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)):
+            gens = parent.generators
+            for gen in gens:
+                for target in ast.walk(gen.target):
+                    if isinstance(target, ast.Name) and target.id == name_node.id:
+                        return True
+        elif isinstance(parent, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            args = parent.args
+            if any(arg.arg == name_node.id for arg in args.args + args.posonlyargs + args.kwonlyargs):
+                return True
+            if args.vararg and args.vararg.arg == name_node.id:
+                return True
+            if args.kwarg and args.kwarg.arg == name_node.id:
+                return True
+            # Any Store/Del of this name in the function is a nested binding (fail closed).
+            for node in ast.walk(parent):
+                if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)) and node.id == name_node.id:
+                    return True
+        elif isinstance(parent, ast.Lambda):
+            if any(arg.arg == name_node.id for arg in parent.args.args + parent.args.posonlyargs + parent.args.kwonlyargs):
+                return True
+        elif isinstance(parent, ast.ClassDef):
+            pass
+        parent = getattr(parent, '_cbz_parent', None)
+    return False
+
+
+def _module_level_integer_names(tree):
+    """Uninterrupted module-level integer assignment chains; nested scopes are ignored here."""
+    # Fail closed: any binding outside an accepted top-level plain-Name chain
+    # statement (destructuring, for/with/except/walrus/match targets, nested
+    # bodies, del, global/nonlocal, def/class/import names) bans the name.
+    accepted = set()
+    for stmt in tree.body:
+        if isinstance(stmt, ast.Assign) and all(isinstance(t, ast.Name) for t in stmt.targets):
+            accepted.update(id(t) for t in stmt.targets)
+        elif isinstance(stmt, (ast.AnnAssign, ast.AugAssign)) and isinstance(stmt.target, ast.Name):
+            accepted.add(id(stmt.target))
+    banned = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and isinstance(node.ctx, (ast.Store, ast.Del)) and id(node) not in accepted:
+            banned.add(node.id)
+        elif isinstance(node, (ast.Global, ast.Nonlocal)):
+            banned.update(node.names)
+        elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            banned.add(node.name)
+        elif isinstance(node, ast.alias):
+            banned.add(node.asname or node.name.split('.')[0])
+        elif isinstance(node, ast.ExceptHandler) and node.name:
+            banned.add(node.name)
+        elif isinstance(node, (ast.MatchAs, ast.MatchStar)) if hasattr(ast, 'MatchAs') else False:
+            if node.name:
+                banned.add(node.name)
+        elif hasattr(ast, 'MatchMapping') and isinstance(node, ast.MatchMapping) and node.rest:
+            banned.add(node.rest)
+    names = set()
+    for stmt in tree.body:
+        if isinstance(stmt, ast.Assign):
+            if all(isinstance(t, ast.Name) and t.id not in banned for t in stmt.targets) and _exact_integer_expr(stmt.value, names):
+                for t in stmt.targets:
+                    names.add(t.id)
+            else:
+                for t in stmt.targets:
+                    if isinstance(t, ast.Name):
+                        names.discard(t.id)
+        elif isinstance(stmt, ast.AnnAssign) and isinstance(stmt.target, ast.Name):
+            if stmt.value is not None and _exact_integer_expr(stmt.value, names):
+                names.add(stmt.target.id)
+            else:
+                names.discard(stmt.target.id)
+        elif isinstance(stmt, ast.AugAssign) and isinstance(stmt.target, ast.Name):
+            ok = False
+            if isinstance(stmt.op, (ast.Add, ast.Sub, ast.Mult, ast.FloorDiv, ast.Mod,
+                                    ast.BitAnd, ast.BitOr, ast.BitXor, ast.LShift, ast.RShift)):
+                ok = stmt.target.id in names and _exact_integer_expr(stmt.value, names)
+            elif isinstance(stmt.op, ast.Pow):
+                ok = (stmt.target.id in names and isinstance(stmt.value, ast.Constant)
+                      and type(stmt.value.value) is int and stmt.value.value >= 0)
+            if not ok:
+                names.discard(stmt.target.id)
+    return names - banned
+
+
+def _exact_integer_mod_operands(node, names):
+    """Mod is exact remainder only for integer-origin operands; formatting fails closed."""
+    if isinstance(node, ast.BinOp):
+        return _exact_integer_expr(node.left, names) and _exact_integer_expr(node.right, names)
+    # AugAssign: established integer name %= integer-origin value
+    if isinstance(node.target, ast.Name):
+        return (node.target.id in names and not _name_bound_in_enclosing_scope(node.target)
+                and _exact_integer_expr(node.value, names))
+    return False
+
+
 def check_python(text, mathematical=True):
     findings, imports, import_candidates = [], [], []
     try:
         tree = ast.parse(text)
     except (SyntaxError, ValueError, RecursionError) as exc:
         return {'findings': [finding('PY_SYNTAX', str(exc), getattr(exc, 'lineno', 0) or 0)], 'imports': []}
+    _attach_parents(tree)
+    integer_names = _module_level_integer_names(tree)
     aliases = {'Fraction'}
     local_functions = {n.name for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)}
     dynamic_aliases = {'__import__', 'eval', 'exec', 'compile', 'globals', 'locals', '__builtins__', 'vars', 'getattr', 'setattr', 'delattr'}
@@ -311,6 +440,9 @@ def check_python(text, mathematical=True):
             exponent = node.right if isinstance(node, ast.BinOp) else node.value
             if not (isinstance(exponent, ast.Constant) and type(exponent.value) is int and exponent.value >= 0):
                 findings.append(finding('PY_INEXACT', '** requires nonnegative integer literal exponent', line))
+        if isinstance(node, (ast.BinOp, ast.AugAssign)) and isinstance(node.op, ast.Mod):
+            if not _exact_integer_mod_operands(node, integer_names):
+                findings.append(finding('PY_INEXACT', '% requires exact integer-origin operands; string/bytes formatting and unestablished values fail closed', line))
         if isinstance(node, ast.Import):
             findings.append(finding('PY_IMPORT_GAP', 'only from fractions import Fraction [as alias] is in the exact profile', line))
         if isinstance(node, ast.ImportFrom):

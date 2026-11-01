@@ -801,6 +801,54 @@ class ReviewBoundaryRules(unittest.TestCase):
         self.assertEqual(source_checks.check_python(exact)['findings'], [])
         self.assertEqual(source_checks.check_python('x = 1\nx /= 2\nx **= -1', False)['findings'], [])
 
+    def test_mod_rejects_floating_point_string_formatting(self):
+        # Review 4417912958: "%.0f" % n rounds through float before int().
+        reds = [
+            'n = 9007199254740993\nx = int("%.0f" % n)',
+            'fmt = "%.0f"\nn = 9007199254740993\nx = int(fmt % n)',
+            'x = "%s" % 3',
+            'n = 3\nx = [n % 2 for n in [9007199254740993]][0]',
+            'x = y % 3',
+        ]
+        for source in reds:
+            with self.subTest(source=source):
+                result = source_checks.check_python(source)
+                self.assertIn('PY_INEXACT', {f['code'] for f in result['findings']}, result)
+
+    def test_mod_rejects_non_chain_rebind_of_integer_name(self):
+        # a16 review 697/6551709929: non-plain or nested stores must evict the name.
+        head = 'n = 9007199254740993\nfmt = 0\n'
+        tail = 'x = int(fmt % n)\n'
+        rebinds = [
+            'fmt, k = "%.0f", 1\n',
+            '[fmt] = ["%.0f"]\n',
+            'for fmt in ["%.0f"]:\n    pass\n',
+            'if True:\n    fmt = "%.0f"\n',
+            'with open("f") as fmt:\n    pass\n',
+            'try:\n    pass\nexcept Exception as fmt:\n    pass\n',
+            'y = (fmt := "%.0f")\n',
+            '*fmt, = ["%.0f"]\n',
+            'del fmt\n',
+        ]
+        for rebind in rebinds:
+            source = head + rebind + tail
+            with self.subTest(source=source):
+                findings = source_checks.check_python(source)['findings']
+                self.assertTrue(any(f['code'] == 'PY_INEXACT' and '%' in f['detail'] for f in findings), findings)
+
+    def test_mod_keeps_exact_integer_remainder_positive(self):
+        positives = [
+            'x = 4\nx %= 3',
+            'x = 10 % 3',
+            'x = 4\nx += 1\nx -= 1\nx *= 3\nx //= 2\nx %= 3\nx **= 2',
+            'x = [10 % 3 for _ in [0]][0]',
+            'n = 5\ndef f():\n return n % 3\n',
+            'def f():\n return 10 % 3\n',
+        ]
+        for source in positives:
+            with self.subTest(source=source):
+                self.assertEqual(source_checks.check_python(source)['findings'], [])
+
     def test_math_from_import_candidate_cannot_acquire_engineering_values(self):
         self.add('fractions/__init__.py', '', 'math_python', module='python:fractions')
         self.engineering('fractions/Fraction.py', 'numerator = 0.5', 'fractions.Fraction')
