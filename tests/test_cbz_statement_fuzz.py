@@ -488,6 +488,18 @@ class ExactRealAlgebraTests(unittest.TestCase):
         self.assertEqual(self.ev('Real.sqrt (Real.sqrt 2) < 2').status, 'UNSUPPORTED')
         self.assertIn('nested radical', self.ev('Real.sqrt (Real.sqrt 2) < 2').detail)
 
+    def test_roots_of_radicands_beyond_exact_factoring_stay_exact_but_never_guess_zero(self):
+        # 10^47 + 3 cannot be split into square and squarefree parts within the deterministic primality range;
+        # its root is kept exactly, orderings are decided by enclosures, and an exact zero is refused
+        big = '(10 ^ 47 + 3 : ℝ)'
+        self.assertEqual(self.ev(f'Real.sqrt {big} > 316227766016837933199889 ∧ Real.sqrt {big} < 316227766016837933199890').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt (2 * {big}) = Real.sqrt 2 * Real.sqrt {big}').status, 'PASS')
+        self.assertEqual(self.ev(f'Real.sqrt {big} = 316227766016837933199889').status, 'FAIL')
+        r = self.ev(f'Real.sqrt ((10 ^ 6 + 3) ^ 2 * {big}) = (10 ^ 6 + 3) * Real.sqrt {big}')   # true, but not recognisable
+        self.assertEqual(r.status, 'UNSUPPORTED')
+        self.assertIn('unsplit radicand', r.detail)
+
     def test_ascription_scopes_the_elaboration_type(self):
         # binop% pushes the cast to the leaves: `((7 : ℕ) / 2 : ℝ)` is `↑7 / 2 = 7/2`; only an inner ascription
         # on the quotient keeps Nat division
@@ -584,6 +596,11 @@ class AdmitCorroboratedPackageTests(unittest.TestCase):
             admitting = sf.check_package(root, admit_corroborated=True)
             self.assertEqual(admitting['exit_code'], 0)
             self.assertTrue(admitting['sampling']['admit_corroborated'])
+            totals = admitting['sampling_totals']          # a8's #742 nit: infeasible draws are reported, per package
+            self.assertEqual(totals['sampled_targets'], 1)
+            self.assertEqual(totals['accepted_total'], 64)
+            self.assertEqual(totals['infeasible_total'], 0)
+            self.assertEqual(totals['targets_with_infeasible_draws'], [])
             self.assertEqual(sf.main(['--package', str(root)]), 1)
             self.assertEqual(sf.main(['--package', str(root), '--admit-corroborated', '--seed', '3', '--samples', '16']), 0)
 

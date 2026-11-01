@@ -242,7 +242,7 @@ shared across a package's modules (`weightedLaw` is defined in `WeightedLaw.lean
 `WeightPerturbation.lean`). The class-1 literal-shift mutant is now typing-aware: `weightedLaw μ W = 0`
 compares measures, and `= 1` there is not a Lean term, so it is not generated.
 
-Tests: 66 → **76** (`FiniteModelTests`, 10: Markov with and without its subset hypothesis, integral
+Tests: 66 → **77** (`FiniteModelTests`, 10: Markov with and without its subset hypothesis, integral
 Cauchy–Schwarz with exact square roots and its strict misstatement, set integrals and event masses, the
 `weightedLaw` identity and its signed-W refutation, probability/zero/one/≪/a.e.-congruence, set-builder
 events and the moment tail with and without the moment bound, `∀ A : Set Ω` enumeration, structural and
@@ -250,7 +250,7 @@ family UNSUPPORTED, exact seeded model witnesses, the mutation contract). The 58
 match; main `formal/` is unchanged.
 
 ```sh
-python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 76 tests OK; same with -O -W error
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz                         # 77 tests OK; same with -O -W error
 python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json main_formal_ec6962ff_r3.json
 python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --selftest --json math_formal_19a55750_r3.json
 python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --admit-corroborated --seed 2 --samples 128 --json math_formal_19a55750_r3_seed2_s128.json
@@ -263,7 +263,11 @@ python3 -B -S tools/cbz/statement_fuzz.py --package <tmp>/formal --admit-corrobo
 | Math- `formal/`, seed 2, 128 samples, `--admit-corroborated` | `19a55750` | 63 | 3 | 56 | 0 | 4 | — | 1 (the 4) |
 
 Seeds 1, 2 and 3 give the same distribution, 72/72 kills and zero survivors; every CORROBORATED statement
-reached the full 64 accepted instances. The 4 UNSUPPORTED are named in the stdout receipt:
+reached the full 64 accepted instances, and no draw was infeasible (`sampling_totals` in the report and the
+CLI summary — a8's #742 nit). Radicands are split by exact factorisation (trial division, deterministic
+Miller–Rabin below 3.3·10²⁴, Brent's rho); a root whose radicand lies beyond that range is kept exact but
+*non-canonical*: orderings are still decided by enclosures, while an exact zero between such roots cannot be
+recognised and is reported Infeasible/UNSUPPORTED rather than guessed (`ExactRealAlgebraTests`). The 4 UNSUPPORTED are named in the stdout receipt:
 `p02_lm009_badJet_measurable` (structural conclusion) and the three `moment40_family_r3*` statements
 (real-indexed family). **Zero FAIL on 56 kernel-proved statements** remains the soundness check of the
 reader; the class-1 kills (every negated conclusion refuted on the models) show the evaluation has content.
@@ -277,7 +281,7 @@ exactly in ℚ(√d₁, …, √dₖ), and samples measure-theoretic statements 
 rational weights, tables, subsets); a sampled statement is CORROBORATED or FAIL, never PASS. Structural
 conclusions, real-indexed families, nested radicals, transcendental functions and unbounded quantifiers
 inside a statement remain explicitly unsupported; no registered statement uses `Real.exp`/`log`, so no
-interval backend is pending."; the test count becomes 76; and the gate
+interval backend is pending."; the test count becomes 77; and the gate
 mapping gains: "For a statement with sampled binders, CORROBORATED at the same source cut as the kernel
 receipt is the applicable empirical validation (recorded with seed, sample count and the report's
 SHA-256); it is admitted evidence, not an exact check, and is marked as such." The B-007 statute is

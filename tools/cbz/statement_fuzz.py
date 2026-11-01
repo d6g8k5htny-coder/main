@@ -2041,50 +2041,136 @@ def _isqrt(n: int) -> int:
 
 _SQUAREFREE_CACHE = {}
 
+_MR_BASES = (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41)
+_MR_DETERMINISTIC_BELOW = 3_317_044_064_679_887_385_961_981       # Miller–Rabin with these bases is exact below this
 
-def _squarefree_split(n: int):
-    """n = s² · d with d squarefree, for n ≥ 1, exactly: trial division by primes up to B removes the small
-    square factors; the cofactor m then has all prime factors > B, so when m < B³ it is either a perfect
-    square, a prime, or a product of two distinct primes — in every case its squarefree part is known. A
-    cofactor outside that range is infeasible (not approximated)."""
-    if n in _SQUAREFREE_CACHE:
-        return _SQUAREFREE_CACHE[n]
+
+def _is_prime(n: int) -> bool:
+    """Deterministic Miller–Rabin for n < 3.3·10²⁴ (Sorenson–Webster bases); larger n is infeasible here."""
+    if n < 2:
+        return False
+    for p in (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41):
+        if n % p == 0:
+            return n == p
+    if n >= _MR_DETERMINISTIC_BELOW:
+        raise Infeasible(f'primality of {n} is beyond the deterministic Miller–Rabin range')
+    d, r = n - 1, 0
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+    for a in _MR_BASES:
+        x = pow(a, d, n)
+        if x in (1, n - 1):
+            continue
+        for _ in range(r - 1):
+            x = x * x % n
+            if x == n - 1:
+                break
+        else:
+            return False
+    return True
+
+
+def _pollard_brent(n: int) -> int:
+    """A nontrivial factor of a composite n (Brent's variant of Pollard's rho, deterministic parameters)."""
+    if n % 2 == 0:
+        return 2
+    for c in range(1, 1000):
+        y, m, g, r, q = 2, 128, 1, 1, 1
+        x = ys = y
+        while g == 1:
+            x = y
+            for _ in range(r):
+                y = (y * y + c) % n
+            k = 0
+            while k < r and g == 1:
+                ys = y
+                for _ in range(min(m, r - k)):
+                    y = (y * y + c) % n
+                    q = q * abs(x - y) % n
+                g = _gcd(q, n)
+                k += m
+            r *= 2
+        if g == n:
+            g = 1
+            while g == 1:
+                ys = (ys * ys + c) % n
+                g = _gcd(abs(x - ys), n)
+        if g != n:
+            return g
+    raise Infeasible(f'no factor of {n} found')       # pragma: no cover - rho with 999 polynomials
+
+
+def _prime_factors(n: int) -> dict:
+    """Exact prime factorization with multiplicities (trial division, then Miller–Rabin + Brent rho)."""
     global _SMALL_PRIMES
     if _SMALL_PRIMES is None:
         _SMALL_PRIMES = _primes_up_to(100_000)
-    s, d, m = 1, 1, n
-    cofactor_is_prime = False
+    out = {}
+    for p in _SMALL_PRIMES:
+        if p * p > n:
+            break
+        while n % p == 0:
+            out[p] = out.get(p, 0) + 1
+            n //= p
+    stack = [n] if n > 1 else []
+    while stack:
+        m = stack.pop()
+        if m == 1:
+            continue
+        if _is_prime(m):
+            out[m] = out.get(m, 0) + 1
+            continue
+        r = _isqrt_exact(m)
+        if r is not None:
+            stack.extend([r, r])
+            continue
+        f = _pollard_brent(m)
+        stack.extend([f, m // f])
+    return out
+
+
+def _small_square_split(n: int):
+    """n = s² · m with every prime below 100000 appearing in m at most once; m need not be squarefree."""
+    global _SMALL_PRIMES
+    if _SMALL_PRIMES is None:
+        _SMALL_PRIMES = _primes_up_to(100_000)
+    s, m = 1, n
     for p in _SMALL_PRIMES:
         if p * p > m:
-            cofactor_is_prime = m > 1       # every smaller prime has been removed
             break
-        if m % p == 0:
-            e = 0
-            while m % p == 0:
-                m //= p
-                e += 1
-            s *= p ** (e // 2)
-            if e % 2:
-                d *= p
-    if m > 1:
-        r = _isqrt_exact(m)
-        if cofactor_is_prime or r is None and m < 100_000 ** 3:
-            d *= m           # a prime, or a product of two distinct primes > 100000: squarefree
-        elif r is not None:
-            s *= r
-        else:
-            raise Infeasible(f'radicand cofactor {m} is too large to split into square and squarefree parts exactly')
+        while m % (p * p) == 0:
+            m //= p * p
+            s *= p
+    return s, m
+
+
+def _squarefree_split(n: int):
+    """n = s² · d with d squarefree, for n ≥ 1, exactly, from the prime factorization."""
+    if n in _SQUAREFREE_CACHE:
+        return _SQUAREFREE_CACHE[n]
+    s, d = 1, 1
+    for p, e in _prime_factors(n).items():
+        s *= p ** (e // 2)
+        if e % 2:
+            d *= p
     _SQUAREFREE_CACHE[n] = (s, d)
     return s, d
 
 
 class Alg:
     """Σ c_d √d over squarefree d ≥ 1 (d = 1 is the rational part), coefficients nonzero Fractions. Always
-    irrational: results that collapse to a rational are returned as a Fraction by ``_alg``."""
-    __slots__ = ('terms',)
+    irrational: results that collapse to a rational are returned as a Fraction by ``_alg``.
 
-    def __init__(self, terms):
+    ``canonical`` is False when some radicand could not be split into square and squarefree parts exactly
+    (its cofactor is beyond the deterministic primality range): the value is still exact and every
+    ordering is still decided by enclosures, but equality by form is unavailable and an exact zero cannot
+    be recognised — those cases are reported Infeasible, never guessed."""
+    __slots__ = ('terms', 'canonical')
+
+    def __init__(self, terms, canonical=True):
         self.terms = terms
+        self.canonical = canonical
 
     def __repr__(self):
         return ' + '.join(f'{c}' if d == 1 else f'{c}·√{d}' for d, c in sorted(self.terms.items()))
@@ -2106,12 +2192,12 @@ class Alg:
         out = dict(self.terms)
         for d, c in Alg._terms(other).items():
             out[d] = out.get(d, Fraction(0)) + c
-        return _alg(out)
+        return _alg(out, self.canonical and _canonical(other))
 
     __radd__ = __add__
 
     def __neg__(self):
-        return Alg({d: -c for d, c in self.terms.items()})
+        return Alg({d: -c for d, c in self.terms.items()}, self.canonical)
 
     def __sub__(self, other):
         return self + (-other if isinstance(other, Alg) else -Fraction(other))
@@ -2124,9 +2210,9 @@ class Alg:
         for d1, c1 in self.terms.items():
             for d2, c2 in Alg._terms(other).items():
                 g = _gcd(d1, d2)
-                d = (d1 // g) * (d2 // g)
+                d = (d1 // g) * (d2 // g)          # √d₁√d₂ = g·√(d₁d₂/g²) holds for any d₁, d₂
                 out[d] = out.get(d, Fraction(0)) + c1 * c2 * g
-        return _alg(out)
+        return _alg(out, self.canonical and _canonical(other))
 
     __rmul__ = __mul__
 
@@ -2136,7 +2222,7 @@ class Alg:
         other = Fraction(other)
         if other == 0:
             return Fraction(0)                         # Lean: x / 0 = 0
-        return Alg({d: c / other for d, c in self.terms.items()})
+        return Alg({d: c / other for d, c in self.terms.items()}, self.canonical)
 
     def __rtruediv__(self, other):
         return Fraction(other) * self.inverse()
@@ -2148,6 +2234,8 @@ class Alg:
         """x⁻¹ by conjugation over a coprime base of the radicands: x = A + B√b with A, B free of √b, so
         x · (A − B√b) = A² − b·B² lies in the smaller field (and is nonzero when x is), and recursion ends at
         a rational."""
+        if not self.canonical:
+            raise Infeasible('inverse of a value with an unsplit radicand')
         radicands = [d for d in self.terms if d != 1]
         b = _coprime_base(radicands)[0]
         conj = Alg({d: (-c if d % b == 0 else c) for d, c in self.terms.items()})
@@ -2180,7 +2268,8 @@ class Alg:
                 return 1
             if hi < 0:
                 return -1
-        raise Unsupported('sign of an algebraic value undecided at 4096 bits')
+        raise Infeasible('sign of an algebraic value undecided at 4096 bits'
+                         + ('' if self.canonical else ' (an unsplit radicand: the value may be exactly zero)'))
 
     def _cmp(self, other):
         diff = self - other
@@ -2189,7 +2278,12 @@ class Alg:
         return (diff > 0) - (diff < 0)
 
     def __eq__(self, other):
-        return isinstance(other, Alg) and self.terms == other.terms
+        if self.canonical and _canonical(other):
+            return isinstance(other, Alg) and self.terms == other.terms
+        diff = self - other                   # no canonical form: equal iff the difference is exactly zero
+        if not isinstance(diff, Alg):
+            return diff == 0
+        return diff.sign() == 0              # never 0: a decided sign means unequal, otherwise Infeasible
 
     def __ne__(self, other):
         return not self.__eq__(other)
@@ -2213,13 +2307,17 @@ def _gcd(a: int, b: int) -> int:
     return a
 
 
-def _alg(terms: dict):
+def _alg(terms: dict, canonical: bool = True):
     terms = {d: c for d, c in terms.items() if c != 0}
     if not terms:
         return Fraction(0)
     if set(terms) == {1}:
         return terms[1]
-    return Alg(terms)
+    return Alg(terms, canonical)
+
+
+def _canonical(x) -> bool:
+    return x.canonical if isinstance(x, Alg) else True
 
 
 def _coprime_base(radicands: list) -> list:
@@ -2252,9 +2350,24 @@ def _real_sqrt(v):
         raise Unsupported('Real.sqrt of a non-numeric value')
     if v <= 0:
         return Fraction(0)
-    s, d = _squarefree_split(v.numerator * v.denominator)
-    coeff = Fraction(s, v.denominator)
-    return coeff if d == 1 else Alg({d: coeff})
+    # √(a/b) = √a / √b = (sₐ√dₐ)/(s_b√d_b) with dₐ·d_b = g²·d, g = gcd(dₐ, d_b): the numerator and the
+    # denominator are split separately (each is far smaller than their product)
+    ra, rb = _isqrt_exact(v.numerator), _isqrt_exact(v.denominator)
+    if ra is not None and rb is not None:
+        return Fraction(ra, rb)
+    canonical = True
+    try:
+        sa, da = _squarefree_split(v.numerator)
+        sb, db = _squarefree_split(v.denominator)
+    except Infeasible:
+        # beyond exact factoring: remove the small square factors only; the radicand may keep a square part
+        canonical = False
+        sa, da = _small_square_split(v.numerator)
+        sb, db = _small_square_split(v.denominator)
+    g = _gcd(da, db)
+    d = (da // g) * (db // g)
+    coeff = Fraction(sa * g, sb * db)
+    return coeff if d == 1 else Alg({d: coeff}, canonical)
 
 
 # --------------------------------------------------------------------------------------------
@@ -2902,10 +3015,19 @@ def check_package(root, selftest=False, seed=1, samples=64, admit_corroborated=F
     allowed = set(HOLDS) if admit_corroborated else {'PASS'}
     exit_code = 0 if counts and set(counts) <= allowed and not unregistered and controls_ok and all(
         s['harness_ok'] for s in selftests.values()) else 1
+    sampled = {name: r['sampling'] for name, r in per_target.items() if r.get('sampling')}
+    sampling_totals = {
+        'sampled_targets': len(sampled),
+        'accepted_total': sum(x.get('accepted', 0) for x in sampled.values()),
+        'rejected_total': sum(x.get('rejected', 0) for x in sampled.values()),
+        'infeasible_total': sum(x.get('infeasible', 0) for x in sampled.values()),
+        # a8 (742/5728819617 nit 1): an infeasible draw is skipped, never approximated — say where it happened
+        'targets_with_infeasible_draws': sorted(n for n, x in sampled.items() if x.get('infeasible', 0))}
     return {'package_root': str(root), 'manifest_sha256': _sha256(manifest_path), 'module_sha256': module_hashes,
             'targets': len(per_target), 'status_counts': counts, 'per_target': per_target,
             'unregistered_theorems': unregistered, 'manifest_targets': normalized_targets,
             'sampling': {'seed': seed, 'samples': samples, 'admit_corroborated': admit_corroborated},
+            'sampling_totals': sampling_totals,
             'selftest': selftests, 'declared_controls': controls_report, 'exit_code': exit_code,
             'note': ('G12 empirical statement check: PASS means the closed statement, read independently of Lean, '
                      'evaluates true in exact arithmetic; CORROBORATED means no sampled instance of a statement with '
@@ -2927,7 +3049,8 @@ def main(argv=None):
                            admit_corroborated=a.admit_corroborated)
     if a.json:
         pathlib.Path(a.json).write_text(json.dumps(report, indent=1, default=str) + '\n')
-    summary = {k: report[k] for k in ('package_root', 'targets', 'status_counts', 'unregistered_theorems', 'sampling', 'exit_code')}
+    summary = {k: report[k] for k in ('package_root', 'targets', 'status_counts', 'unregistered_theorems', 'sampling',
+                                      'sampling_totals', 'exit_code')}
     if a.selftest:
         summary['selftest'] = {rel: {k: v for k, v in s.items() if k not in ('survivors', 'weakenings_rejected')}
                                | {'survivors': len(s['survivors']), 'weakenings_rejected': len(s['weakenings_rejected'])}
