@@ -1,0 +1,57 @@
+{
+  "sources": {
+    "/workspace/cbz-workspace-git-hygiene-20261029/tools/workspace_git_inventory_mutations.py": "918f434fb793259fc977ced8a3ce972e0ba3cefe4d1007d1d90bcddc1a59ea5f",
+    "/workspace/cbz-workspace-git-hygiene-20261029/tests/test_workspace_git_inventory_mutations.py": "4273fe5b946232f07751864a82e8773974c75663538744dcea79788d4923bebd"
+  },
+  "guards": [
+    {
+      "guard": "population",
+      "test": "test_loader_cannot_replace_population_with_duplicate_method",
+      "returncode": 1,
+      "detected_by_assertion": true,
+      "removed": [
+        "                              baseline.get('population_valid') is True and\n",
+        "                        row.get('population_valid') is True and\n"
+      ],
+      "mutant_sha256": "b6e4188590e2b93de1dd3cecfc37d974ce2472a283bcae4a86c62fc610e12172"
+    },
+    {
+      "guard": "escaping-assertion",
+      "test": "test_callback_without_escaping_assertion_cannot_kill",
+      "returncode": 1,
+      "detected_by_assertion": true,
+      "removed": [
+        " and issue['escaping_assertion']"
+      ],
+      "mutant_sha256": "fe4551c2d0322780fbee3807123b4938ce0752ec9d701ccce3e4dd9211d5d11a"
+    },
+    {
+      "guard": "subtests",
+      "test": "test_native_and_foreign_subtest_reports_are_unsupported",
+      "returncode": 1,
+      "detected_by_assertion": true,
+      "removed": [
+        "                              baseline.get('subtests') == 0 and\n",
+        "                        row.get('subtests') == 0 and\n"
+      ],
+      "mutant_sha256": "8ba594c75c20e4747bcb1eced7e7c95b087e57ad44055222a3f9a496756cc053"
+    },
+    {
+      "guard": "pristine-class",
+      "test": "test_loader_cannot_rebind_pristine_class_identity",
+      "returncode": 1,
+      "detected_by_assertion": true,
+      "removed": [],
+      "mutant_sha256": "9dcf793b1b39a8269047f56825ce35af3bb56f4c64f6d0efb26ca9430cee38f6"
+    },
+    {
+      "guard": "pristine-method",
+      "test": "test_loader_cannot_alias_expected_methods_to_one_body",
+      "returncode": 1,
+      "detected_by_assertion": true,
+      "removed": [],
+      "mutant_sha256": "50ddc5dd12ac142c5ea7e89a367272280db8c7d3701f424441735fe52dc36019"
+    }
+  ],
+  "all_detected": true
+}

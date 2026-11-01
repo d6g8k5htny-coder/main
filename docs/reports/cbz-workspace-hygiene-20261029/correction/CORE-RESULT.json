@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-29T19:58:55.845160+00:00",
+  "scope": "parent core verification only; runner correction remains in progress",
+  "before": {
+    "tools/workspace_git_inventory.py": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+    "tests/test_workspace_git_inventory.py": "b3d94e36111154fd255193c118d87128e39aca2aea1dcd8f5cc2f72837743844"
+  },
+  "after": {
+    "tools/workspace_git_inventory.py": "697f87e9184728b90caaf50e2fe9a71fbb950719c6d325987f114271c343c314",
+    "tests/test_workspace_git_inventory.py": "b3d94e36111154fd255193c118d87128e39aca2aea1dcd8f5cc2f72837743844"
+  },
+  "source_unchanged": true,
+  "runs": [
+    {
+      "label": "python312-normal",
+      "command": "python3.12 -S -B -m unittest tests.test_workspace_git_inventory -v",
+      "exit_observed": 0,
+      "log": "python312-normal.log",
+      "log_sha256": "2246408104fe88093c2404ad0ef5bbd78982be3a4a77b014a0edca567eb5e6cd"
+    },
+    {
+      "label": "python312-optimized",
+      "command": "python3.12 -S -B -O -m unittest tests.test_workspace_git_inventory -v",
+      "exit_observed": 0,
+      "log": "python312-optimized.log",
+      "log_sha256": "3af0ee856a7d07da397432b6f5b97a800ddb52c0fd56e074dde40b766e42b9e5"
+    },
+    {
+      "label": "python311-normal",
+      "command": "python3.11 -S -B -m unittest tests.test_workspace_git_inventory -v",
+      "exit_observed": 0,
+      "log": "python311-normal.log",
+      "log_sha256": "6c75e07be800ac8ea3290ca8698d409bfb5df35203e0dcee33c37e075a20de99"
+    },
+    {
+      "label": "python311-optimized",
+      "command": "python3.11 -S -B -O -m unittest tests.test_workspace_git_inventory -v",
+      "exit_observed": 0,
+      "log": "python311-optimized.log",
+      "log_sha256": "ae239c725d5a30966e1a1b47cfa2be21b54ac68369de6b8ba551a42d0c5bf488"
+    }
+  ]
+}

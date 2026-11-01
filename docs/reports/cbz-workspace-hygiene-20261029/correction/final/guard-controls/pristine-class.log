@@ -1,0 +1,17 @@
+test_loader_cannot_rebind_pristine_class_identity (test_workspace_git_inventory_mutations.MutationRunnerTests.test_loader_cannot_rebind_pristine_class_identity) ... FAIL
+
+======================================================================
+FAIL: test_loader_cannot_rebind_pristine_class_identity (test_workspace_git_inventory_mutations.MutationRunnerTests.test_loader_cannot_rebind_pristine_class_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/inventory-guard-mutations-1jn0wbvv/pristine-class/tests/test_workspace_git_inventory_mutations.py", line 215, in test_loader_cannot_rebind_pristine_class_identity
+    self.reject_population(
+  File "/tmp/inventory-guard-mutations-1jn0wbvv/pristine-class/tests/test_workspace_git_inventory_mutations.py", line 136, in reject_population
+    self.assertEqual(result.returncode, 1, result.stderr + result.stdout)
+AssertionError: 0 != 1 : {"output": "/tmp/tmpv5zjin6r/evidence", "baseline_passed": true, "mutations": 7, "all_detected": true, "complete": true}
+
+
+----------------------------------------------------------------------
+Ran 1 test in 9.461s
+
+FAILED (failures=1)

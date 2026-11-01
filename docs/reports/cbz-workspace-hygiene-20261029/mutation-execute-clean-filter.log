@@ -1,0 +1,15 @@
+test_status_does_not_execute_configured_clean_filter (census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter) ... FAIL
+
+======================================================================
+FAIL: test_status_does_not_execute_configured_clean_filter (census_tests.InventoryTests.test_status_does_not_execute_configured_clean_filter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-workspace-git-hygiene-20261029/tests/test_workspace_git_inventory.py", line 128, in test_status_does_not_execute_configured_clean_filter
+    d=self.census();self.assertTrue(d['complete'],d['errors']);self.assertFalse(marker.exists())
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.117s
+
+FAILED (failures=1)
