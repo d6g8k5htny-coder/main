@@ -56,7 +56,7 @@ disposed main or Math- location. This replaces the filename-pattern census, whic
 | T6-004 | governance- `amendments/20260925-mesoscopic-d2-chart-handoff.md` and `check_mesoscopic_d2_taylor.py` | d = 2 contact-chart Taylor rows, the J₀ divided-difference block and the r³ height row |
 | T6-005 | sandbox `experiments/cone_v1` | Closed form 29/6 − √6 for a truncated Gaussian cone moment; the only evidence is a Monte Carlo probe |
 | T6-006 | trial `experiments/p15_assumption_probe_20260925` | Hypothesis minimality for the P15 F5 curvature sign and F10 recurrence sign |
-| T6-007 | trial `portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05…` | LPW_CONSTANT decimal erratum and corrected fourth moment. **7 of its 8 files are byte-identical to main `audits/dropbox_import/2026-09-27/…/LPW_Return_05…`**, which tranche 4 covers, so the two should be reconciled into one record. |
+| T6-007 | trial `portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05…` | LPW_CONSTANT decimal erratum and corrected fourth moment. **7 of its 8 files are byte-identical to main `audits/dropbox_import/2026-09-27/…/LPW_Return_05…`**. Reconciled in tranche 4 (`../qp_c54_t4_main_20261102/reconciliation_t6.json`): main's QP-C54-T4-004 is primary for the shared bytes, and T6-007 stays only for the trial-only `04_RETURN_TO_KIMI.md`. |
 | T6-008 | trial `portable/review_packets/2026-09-27_pr160_lean_replay.md` | mpmath non-vacuity of the Γ(1/6) hypothesis window for PR #160 |
 
 Floating point: NO_SCRIPTS 4, NONE 3, USED 1 (T6-005, the Monte Carlo probe).

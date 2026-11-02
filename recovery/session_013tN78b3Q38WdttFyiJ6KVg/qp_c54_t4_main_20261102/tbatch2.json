@@ -1,0 +1,828 @@
+{
+ "batch": 2,
+ "kind": "math",
+ "ref": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
+ "objects": [
+  {
+   "object": "audits/exact_sample_shrinking_bin",
+   "dirs": [
+    "audits/exact_sample_shrinking_bin/2026-10-24",
+    "audits/exact_sample_shrinking_bin/2026-10-24/controls",
+    "audits/exact_sample_shrinking_bin/2026-10-24/sources"
+   ],
+   "n_files": 9,
+   "bytes": 55165,
+   "files": [
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/DELIVERY_MANIFEST.json",
+     "git_blob": "b32270a2c9efe5d884595ac0aefe078e6f027c2e",
+     "bytes": 1091,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/HANDOFF.json",
+     "git_blob": "aece789854eee0e08d979f5e1ae73b484fcada36",
+     "bytes": 3736,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/README.md",
+     "git_blob": "d085ee38b5a1749953289ff8a08c75f534448bb6",
+     "bytes": 5573,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/controls/esb_check.py",
+     "git_blob": "9244ccf6b058de9976bebe3c920d75786d545ff6",
+     "bytes": 9937,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/controls/esb_check.stdout.txt",
+     "git_blob": "da516097f05321a59625498ef0f3d409cd89799b",
+     "bytes": 536,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/sources/comment-5976299711.body.txt",
+     "git_blob": "6e38a15005c9dc86c7db7c0fe86ab72e93e8ca8e",
+     "bytes": 6104,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/sources/comment-5976527971.body.txt",
+     "git_blob": "b5b23d1d4771073c5339373d0d9636b8e7bbf896",
+     "bytes": 9103,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/sources/comment-5976979978.body.txt",
+     "git_blob": "cb24df0154936b9e57005cb78fe7a7ccf02c53f5",
+     "bytes": 7708,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "audits/exact_sample_shrinking_bin/2026-10-24/sources/comment-5976980568.body.txt",
+     "git_blob": "a543fb9a950d3d80216e0822c3c0c5e1d26391d0",
+     "bytes": 11377,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [],
+   "census_artifacts": [
+    {
+     "key": "EXACT-SAMPLE-SHRINKING-BIN-LEMMA",
+     "kind": "theorem-proof",
+     "statement": "For the smooth periodized Gaussian field on the L=24 torus with exact vertex samples and the vertex cubical superlevel filtration, if h^2 sqrt(log(1/h)) = o(tau_h) then E|N_h(I_h)-N(I_h)|/E N(I_h) -> 0 for shrinking lifetime bins I_h=[lambda tau_h, mu tau_h), so E N_h(I_h)/E N(I_h) -> 1; proved via a deterministic sharp-bin boundary-strip lemma under an eps-matching, the cubical displacement bound d_h <= h^2 H(f)/2, M4 boundary mass, and a Borell-TIS / marked Kac-Rice bad-event bound E[N_crit 1{H>T}] <= C exp(-cT^2).",
+     "status_in_post": "author-side analytic lemma, claim released; asymptotic exact-sample statement only (no FFT/roundoff/finite-grid certificate). The repo reading record later records nonauthor PASS_TECHNICAL_SCOPED (Codex 5976527971) and a Claude scoped review (5976979978)."
+    },
+    {
+     "key": "main-229/5976527971/shrinking-bin-explicit-threshold",
+     "kind": "review-verdict-with-new-math",
+     "statement": "Nonauthor PASS_TECHNICAL_SCOPED review of the exact-sample shrinking-bin lemma (main#229/5976299711). It adds two small pieces of mathematics.\n(a) An explicit sufficient constant replaces the lemma's 'choose fixed A large enough'. Let c be the smaller tail exponent of (5)-(6), and use tau_h >= h^2 sqrt(log(1/h)), which holds eventually. Then cA^2 > 10/3 suffices, because the bad-event ratio is at most C h^(cA^2-10/3) log(1/h)^(-1/3) = o(1).\n(b) An alternate route to (6): Fourier Theorem F (Math- c6_fourier_cutoff PROOF.md, blob 1d9177a2) gives E N_crit^2 < infinity for the unconditioned total ",
+     "status_in_post": "Borderline accept. The verdict is PASS_TECHNICAL_SCOPED with no required amendment, and both additions are minor and non-blocking. The later Anthropic review 5976979978 agrees with cA^2>10/3 and suggests recording it (N1). Organizational-independence credit 0. No Lean check or status change."
+    },
+    {
+     "key": "main-229/5976980568/esb_check",
+     "kind": "numeric-certificate",
+     "statement": "Inline reviewer-control script esb_check.py (SHA-256 01127db3ad48fb7a30f04afff99daad9a5f1e82c88cf0e4a9ce7430b646598e7) with its expected stdout (SHA-256 cf1ff68d9bd1c1759ffb1e8629e73b292ad268bca4f33f0ed02720796d4f8835), for the exact-sample shrinking-bin lemma. It checks six groups:\n- S: 21,227 tests of the sharp-bin injection |N_Q(I)-N_P(I)| <= N_P([a-d,a+d) u [b-d,b+d)) on random epsilon-matchings.\n- T: the necessity of a>d (a counterexample at a=d) and an equality case.\n- G: the barycentric identity sum lambda_i|v_i-x|^2 = x1(h-x1)+x2(h-x2) <= h^2/2 on all four triangles.\n- D: |det M| <= ||",
+     "status_in_post": "Reviewer controls cited by the ACCEPT (PASS_TECHNICAL_SCOPED) review 5976979978. Groups S, T, G and R use exact rationals; group D, group M and the R sanity loop use floating point. Scientific effect NONE. This classifier replayed it on CPython 3.13.16 with -I -B -S: the extracted script and stdout "
+    }
+   ]
+  },
+  {
+   "object": "experiments/periodic_h0/results",
+   "dirs": [
+    "experiments/periodic_h0/results/certificate8",
+    "experiments/periodic_h0/results/count_confidence1",
+    "experiments/periodic_h0/results/exact_h0_1",
+    "experiments/periodic_h0/results/finite_count_loss1",
+    "experiments/periodic_h0/results/gaussian_coupling1",
+    "experiments/periodic_h0/results/gaussian_tail1",
+    "experiments/periodic_h0/results/hessian1",
+    "experiments/periodic_h0/results/nodal1",
+    "experiments/periodic_h0/results/pilot32",
+    "experiments/periodic_h0/results/refinement8",
+    "experiments/periodic_h0/results/word_polynomial1"
+   ],
+   "n_files": 35,
+   "bytes": 2359759,
+   "files": [
+    {
+     "path": "experiments/periodic_h0/results/certificate8/CERTIFICATE.json",
+     "git_blob": "ae7e20037caa45e202e4c4182cf1ca1fd9de4708",
+     "bytes": 39969,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/certificate8/COEFFICIENTS.json",
+     "git_blob": "0866de6b9f2af1f42dcd0481ee8d4350a168897b",
+     "bytes": 857299,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/certificate8/RESULTS.md",
+     "git_blob": "7e19afecfdd5d107aa4e860b40f2e719b4be77f0",
+     "bytes": 1839,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/certificate8/RUN.json",
+     "git_blob": "d73a23a723afa2da899b6a6e7bc478a86b240f8c",
+     "bytes": 1751,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/count_confidence1/CERTIFICATE.json",
+     "git_blob": "050eb324f53e8fefba16d161aad3860c8963baa6",
+     "bytes": 4656,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/count_confidence1/RESULTS.md",
+     "git_blob": "3002d327c5df8fdbcda1dfe03e5aecfc65f84c3d",
+     "bytes": 2286,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/count_confidence1/RUN.json",
+     "git_blob": "37356728ca0a90565ab860390ba59d4b891b9768",
+     "bytes": 5566,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/exact_h0_1/CERTIFICATE.json",
+     "git_blob": "adbf8d872ecb7403dddd04767c8fd37662f9325a",
+     "bytes": 7635,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/exact_h0_1/RESULTS.md",
+     "git_blob": "0a3df629dc58ab728e7c2e34bc0f055f0b9a4937",
+     "bytes": 1864,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/exact_h0_1/RUN.json",
+     "git_blob": "65a1c7ca0bf018d82d4dbcc2b3e1af5f4df8f934",
+     "bytes": 2297,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/finite_count_loss1/CERTIFICATE.json",
+     "git_blob": "c309ff9020292d6dfacb30f6b8a0052ef1b3be81",
+     "bytes": 4997,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/finite_count_loss1/RESULTS.md",
+     "git_blob": "89bdb9988e6d01f018b3a2949b12953b155b8a7d",
+     "bytes": 2548,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/finite_count_loss1/RUN.json",
+     "git_blob": "b44ddc3ef70cf94966f875587027cca311d5cf1e",
+     "bytes": 4668,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_coupling1/CERTIFICATE.json",
+     "git_blob": "7c6e2c792ddc3246ac605344873b2fbb7c5f92e6",
+     "bytes": 18341,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_coupling1/RESULTS.md",
+     "git_blob": "0cda73e1d0ed3f6fe88729f7f96b8f398e11531c",
+     "bytes": 1742,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_coupling1/RUN.json",
+     "git_blob": "db17d90a025aaca2b2b13f7fdfeb22ca207058e4",
+     "bytes": 3851,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_tail1/CERTIFICATE.json",
+     "git_blob": "93829f89a201a2dd9125e1b88fbd23914c1d0cc2",
+     "bytes": 15004,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_tail1/RESULTS.md",
+     "git_blob": "4fc6c7f1254a7ac27dcdcdc37688b00e8f13092e",
+     "bytes": 1912,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/gaussian_tail1/RUN.json",
+     "git_blob": "551f454fe28eb68e4a158e68112e54505341953e",
+     "bytes": 3100,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/hessian1/CERTIFICATE.json",
+     "git_blob": "2d99e1c1a009b59f5c0f85159ad40875f0bb573a",
+     "bytes": 25301,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/hessian1/RESULTS.md",
+     "git_blob": "1dce8cf40a33be673951856483967db783c0f9e0",
+     "bytes": 1774,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/hessian1/RUN.json",
+     "git_blob": "02d9079888ddc8bb357a1a6b9617a95ce5d6abc0",
+     "bytes": 1573,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/nodal1/CERTIFICATE.json",
+     "git_blob": "2b72f3239860839409920fc6c9d3ad9f801b6609",
+     "bytes": 4352,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/nodal1/RESULTS.md",
+     "git_blob": "e3309391b4be98b0f3bca61721c3d37973855394",
+     "bytes": 1403,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/nodal1/RUN.json",
+     "git_blob": "b9342d019a8a2a548afa1834a1630edc94cca36b",
+     "bytes": 1688,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/nodal1/SAMPLES.json",
+     "git_blob": "339910b3e947b5430a36193c0b3cccb9136ac8e7",
+     "bytes": 385953,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/pilot32/RESULTS.md",
+     "git_blob": "bed2c4af14ee7afd9486a50562737c2a7090c4d9",
+     "bytes": 5051,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/pilot32/RUN.json",
+     "git_blob": "475bfc0b68211f1317d95e2b52be148cdf9facb2",
+     "bytes": 1126,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/pilot32/observations.json",
+     "git_blob": "d416db036a7808731dd580df019b926057a7e583",
+     "bytes": 622936,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/refinement8/RESULTS.md",
+     "git_blob": "085e42ed2d4c3ce3194d255ade64d4c66541407c",
+     "bytes": 3628,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/refinement8/RUN.json",
+     "git_blob": "09049357086cbf7e90a0bc608c4ee9e1bf2e5dec",
+     "bytes": 1293,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/refinement8/observations.json",
+     "git_blob": "a9fdf8d13ba99a3252df6789f858e9407fbd9d3d",
+     "bytes": 286986,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/word_polynomial1/CERTIFICATE.json",
+     "git_blob": "97c487b56edd8dec100dd845bff5df1d97fc057f",
+     "bytes": 28369,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/word_polynomial1/RESULTS.md",
+     "git_blob": "d5717a6067cd44809c5add020a034264534000c5",
+     "bytes": 2358,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "experiments/periodic_h0/results/word_polynomial1/RUN.json",
+     "git_blob": "cb4dc6acdcead755bf763e0f6c7abf69bf4e6e9d",
+     "bytes": 4643,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [
+    "Q-1160",
+    "Q-1161",
+    "Q-1162",
+    "Q-1163",
+    "Q-1164",
+    "Q-1165",
+    "Q-1166",
+    "Q-1167",
+    "Q-1168"
+   ],
+   "census_artifacts": []
+  },
+  {
+   "object": "formal/reviews",
+   "dirs": [
+    "formal/reviews"
+   ],
+   "n_files": 2,
+   "bytes": 2056,
+   "files": [
+    {
+     "path": "formal/reviews/README.md",
+     "git_blob": "67c3520befa391a0379b8edda2f356c2c99ef5f5",
+     "bytes": 906,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "formal/reviews/TEMPLATE_alignment_review.json",
+     "git_blob": "aa51b72ac1fde4c446e662d0d72e6d22dc95d3bd",
+     "bytes": 1150,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [],
+   "census_artifacts": []
+  },
+  {
+   "object": "incoming/chatgpt-q0-recovery-crosswalk-20260928",
+   "dirs": [
+    "incoming/chatgpt-q0-recovery-crosswalk-20260928"
+   ],
+   "n_files": 3,
+   "bytes": 10395,
+   "files": [
+    {
+     "path": "incoming/chatgpt-q0-recovery-crosswalk-20260928/IDENTITY.json",
+     "git_blob": "c3254292b82ab6fb990790c2b55073b026f0d7ac",
+     "bytes": 1185,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/chatgpt-q0-recovery-crosswalk-20260928/REPLAY_RECEIPT.json",
+     "git_blob": "60cd4659aab8a8be338c6d2809d58b208c3f9723",
+     "bytes": 3223,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/chatgpt-q0-recovery-crosswalk-20260928/RESULT.md",
+     "git_blob": "c25367a63ea4ae95b09e432150e46db52e53ded7",
+     "bytes": 5987,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [],
+   "census_artifacts": []
+  },
+  {
+   "object": "incoming/claude-audit-package-recovery-20260928",
+   "dirs": [
+    "incoming/claude-audit-package-recovery-20260928",
+    "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15",
+    "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT",
+    "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/H5_ZBAND",
+    "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16",
+    "incoming/claude-audit-package-recovery-20260928/06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES",
+    "incoming/claude-audit-package-recovery-20260928/HOLD_NOT_FOR_SUBMISSION_2026-09-16",
+    "incoming/claude-audit-package-recovery-20260928/QUARANTINED_Q-RN5-MOMENT-004"
+   ],
+   "n_files": 43,
+   "bytes": 332935,
+   "files": [
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/IDENTITY.json",
+     "git_blob": "a5de7358fd67e600ab94dd1525aa86d6c290a0cf",
+     "bytes": 11929,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/RESULT.md",
+     "git_blob": "989475a2f9b345a532c8a0961a1fc99bf470ee0e",
+     "bytes": 6146,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/SOURCE_MAP.json",
+     "git_blob": "db82ce8d1b4525705e6cbcc2c3828e4a490db259",
+     "bytes": 18296,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/00_LANDING_NOTE.md",
+     "git_blob": "43627ba6bf63c32e23d248ad18ff82f2c293ce36",
+     "bytes": 2011,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-AUD-001_THIRD_FAMILY_REEXEC_AND_CUSTODY_2026-09-15.md",
+     "git_blob": "b042dd5c780505fe0624616960cd20a103e7de15",
+     "bytes": 6532,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-ERR-001_RECORD_INTEGRITY_DEFECTS_2026-09-15.md",
+     "git_blob": "584079f62fe7c8fb5e92981051c42d0944eed6ee",
+     "bytes": 7938,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-GROK-CLOSE-001_PORTFOLIO_RECONCILIATION_2026-09-16.md",
+     "git_blob": "83507ade5960606c7abcced37336c13e4eea1687",
+     "bytes": 4088,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-LEDGER-001_DECISION_LEDGER_ADDENDUM_2026-09-13_to_16.md",
+     "git_blob": "e395bef5907b63a3be933bbdab53d9abef243667",
+     "bytes": 11932,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-OBL-001_H5-ZBAND_DISCHARGE_AND_RN-UNIF_WORK_ORDER_2026-09-15.md",
+     "git_blob": "156cf714ebc2c24a5579e6f492d9a289ffe921ab",
+     "bytes": 9361,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-PIN-001_H5_DRIVER_CODE_PINS_2026-09-15.txt",
+     "git_blob": "7ffb1ad0f5b8ba562461b3ab56ea6662728e95c2",
+     "bytes": 3734,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-REG-001_EXTRACTION_RULE_REGISTER_2026-09-15.md",
+     "git_blob": "ab8596e73444bd82e299c1c7d28cf507170b0946",
+     "bytes": 7153,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-STATE-001_CONSOLIDATED_STATE_2026-09-15.md",
+     "git_blob": "6f970c7ba30bc6ab034aeb6f969d6cbfa9d26ab1",
+     "bytes": 14471,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/_MANIFEST.jsonl.txt",
+     "git_blob": "244913ba73ab8daeb36a6f4e0d969666e9eb02d6",
+     "bytes": 15193,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT/D1_ASSEMBLY_v2_3_DRAFT.md",
+     "git_blob": "249971e852746311eb09f43bce461d701c309c63",
+     "bytes": 16141,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT/D1_V2_3_RECEIPTS.txt",
+     "git_blob": "23743f3151b84970775e9ab431637f6833edbe1d",
+     "bytes": 2312,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT/_MANIFEST.jsonl.txt",
+     "git_blob": "e6edce5ccbf487abdcc4ca9ac31997b576f48774",
+     "bytes": 4405,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/D1_v2_3_DRAFT/d1_falsify_v4.py.txt",
+     "git_blob": "3f6aad8d04723b43671dada811c440af25c35a15",
+     "bytes": 20558,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/H5_ZBAND/FREEZE_H5_ZBAND.txt",
+     "git_blob": "25c28c530fa1db9d76274006c26f77f339974546",
+     "bytes": 784,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/H5_ZBAND/H5_ZBAND_CONSUMPTION_2026-09-15.md",
+     "git_blob": "888907464633a2dd9ef013b293cdac3e805752e5",
+     "bytes": 3463,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/H5_ZBAND/_MANIFEST.jsonl.txt",
+     "git_blob": "312eccfac48fa4a75f1acc8b2746fae7442fda8c",
+     "bytes": 3992,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/H5_ZBAND/h5_zband_consume.py.txt",
+     "git_blob": "99897d4b2dc14b3ccbdc197d6ca05e82821024f1",
+     "bytes": 6488,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/CL-RNU-001_RN-UNIF_ENGINE_STATUS_AND_CLOSURE_PLAN_2026-09-16.md",
+     "git_blob": "a02bff6d6b87ee17cd0a833e2bad082ded8ffebc",
+     "bytes": 12291,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/CL-RNU-002_DS3_EXACT_THIRD_DERIVATIVES_2026-09-16.md",
+     "git_blob": "c70b942ed720e7b2a74ff6bca80f15814b3c629e",
+     "bytes": 4062,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/CL-RNU-003_T4_PUSH_2026-09-16.md",
+     "git_blob": "299fe6b4d53fa15dd78da8c7718045a550ae9124",
+     "bytes": 1713,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/RNU_EXECUTE_RECEIPT.json",
+     "git_blob": "235d4c20a783720d5a83fed55a2dfee38f17174e",
+     "bytes": 4815,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/RNU_EXECUTE_RECEIPT.md",
+     "git_blob": "37397d9e3a348eb8c26b8a5e81407abcc30e0379",
+     "bytes": 497,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/RNU_T4_PUSH_RECEIPT.json",
+     "git_blob": "778f9177b0e8c4f3dc14add58f5d113047601a55",
+     "bytes": 6225,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/_MANIFEST.jsonl.txt",
+     "git_blob": "66933a52a6bfd692d33452f7f14939c90923d4ef",
+     "bytes": 20021,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_chi2_white_v2.py.txt",
+     "git_blob": "5ca85d83a027697a93ff04c9d61a6a9e376bb866",
+     "bytes": 5005,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_ds3.py.txt",
+     "git_blob": "e0f51bf4d1e1f2955943b73a84005ab716066a0a",
+     "bytes": 9704,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_ds3_scalar_SUPERSEDED.py.txt",
+     "git_blob": "1b2dfa30f32553a0c44c54a6cdcc6740756513ce",
+     "bytes": 7201,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_execute.py.txt",
+     "git_blob": "b948fcf6671f078bc136c4791c727989996d0ab9",
+     "bytes": 12567,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_meanfix.py.txt",
+     "git_blob": "d733e8bed77dcd39860e7d56ccb23791fe4960be",
+     "bytes": 2800,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/RN_UNIF_2026-09-16/rnu_t4_push.py.txt",
+     "git_blob": "2f1c95fd944238a117a02f18aebd289a371c3826",
+     "bytes": 7924,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES/CL-MIRROR-001_MANIFEST.sha256.txt",
+     "git_blob": "759f547fc6e901120db6bde8db893f6de01400d3",
+     "bytes": 8073,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES/PERC_DECAY.md",
+     "git_blob": "665db9464f83ab1512e8f1e174a985e43b4bb498",
+     "bytes": 8041,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/06_UNMIRRORED_FROZEN_CARRIERS_BYTE_NATIVES/_MANIFEST.jsonl.txt",
+     "git_blob": "c14f0ee4a0061d56c72cda8dbd2b310c627c2492",
+     "bytes": 4663,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/HOLD_NOT_FOR_SUBMISSION_2026-09-16/CHART_SIDE_JETMOD_PLAN.md",
+     "git_blob": "9446daa2471b21f9eba68d2ebd2fd3b88c553cd2",
+     "bytes": 11663,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/HOLD_NOT_FOR_SUBMISSION_2026-09-16/MATH_PUSH_JETMOD_PROTOTYPE.md",
+     "git_blob": "19c1ca311ba608f29526b1455adf9b98429332ed",
+     "bytes": 3204,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/HOLD_NOT_FOR_SUBMISSION_2026-09-16/MATH_PUSH_RESULTS_2026-09-16_H5-JETMOD_RN-UNIF.export.txt",
+     "git_blob": "3fb1afe904fc24b11a2d63e35f35933319589e14",
+     "bytes": 2557,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/QUARANTINED_Q-RN5-MOMENT-004/CL-RNU-003_PIECE1_RUN_PIECE2_CHARACTERISED_2026-09-17.md",
+     "git_blob": "b5cb15d2e6470f7e090a8148a7cca8291f2270d8",
+     "bytes": 7407,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/QUARANTINED_Q-RN5-MOMENT-004/QUARANTINE_NOTE.md",
+     "git_blob": "bd11349e39a71d87236959813ae5723e2f1f2394",
+     "bytes": 1850,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "incoming/claude-audit-package-recovery-20260928/QUARANTINED_Q-RN5-MOMENT-004/RN5_NEAR_MOMENT_REPAIR.md",
+     "git_blob": "2d380ce5654a1268014a47e4af5d2c224f4d167e",
+     "bytes": 13725,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [],
+   "census_artifacts": []
+  },
+  {
+   "object": "reviews/grok_uploads_20260926",
+   "dirs": [
+    "reviews/grok_uploads_20260926",
+    "reviews/grok_uploads_20260926/checks"
+   ],
+   "n_files": 7,
+   "bytes": 364966,
+   "files": [
+    {
+     "path": "reviews/grok_uploads_20260926/PART1_MAIN_PACKETS_AND_MATH_DRAFTS.md",
+     "git_blob": "e8b9783f7ae9379afb3eb7389f672e946a9315ac",
+     "bytes": 122216,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/PART2_PROVENANCE_PR85_CYCLE4.md",
+     "git_blob": "7bec08982d442032f7c94ba2c31d1b3460fc49b6",
+     "bytes": 79640,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/PART3_CURSOR_REVIEW_LANE.md",
+     "git_blob": "291623ff58ca4d5b5d715de8e59e0d1e5e0328fe",
+     "bytes": 95632,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/PART4_STATUS_D3_D4.md",
+     "git_blob": "d2ff7a21d81549fc468ab1722d4dfb9b72fd8dc2",
+     "bytes": 44654,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/REVIEW.md",
+     "git_blob": "a1d82ac95f4a7f3b2e624807130162af6e63a4fe",
+     "bytes": 17465,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/checks/d5_detHS_scaling.py",
+     "git_blob": "724c78edc341b5d96f25c5d406dba41fc27d5431",
+     "bytes": 2986,
+     "copy_of": null,
+     "exact_location": false
+    },
+    {
+     "path": "reviews/grok_uploads_20260926/checks/pr82_quartic_det_check.py",
+     "git_blob": "ba36947818003d17a98636ba212dec787458d963",
+     "bytes": 2373,
+     "copy_of": null,
+     "exact_location": false
+    }
+   ],
+   "records_mentioning_object_path": [],
+   "census_artifacts": [
+    {
+     "key": "MAIN128-CLAUDE-REVIEW-FRAME-MEAN-20260926",
+     "kind": "review-verdict-with-new-math",
+     "statement": "Further review of the intermediate-scale note. (1) Scale check: at r=delta0 s the coupling error C delta0^2 s^2 exceeds sd(f_x1(x)) <= C s^(5/2) once s < delta0^4. (2) The section 4 remainder absorption omits a cross term bounded only by C s^10, against the floor c s^16. (3) The free-row conditional mean is m = 6k(x1^2 + tau x1 x2 + gamma x2^2) + O(s^3), with (6 tau, 12 gamma)k = Cov((T,C),U0) Cov(U0)^-1 v0. tau = gamma = 0 only in the lattice-aligned frame. Non-certifying lattice sums give tau ~ -2.31, gamma ~ -0.33 (L=2, 15 degrees) and tau ~ -0.63, gamma ~ -0.27 (L=3, 30 degrees), so m vani",
+     "status_in_post": "AMEND; zero independence credit; not a filed record"
+    }
+   ]
+  }
+ ]
+}

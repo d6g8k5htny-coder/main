@@ -1,0 +1,39 @@
+{
+ "schema": "claude54.t4-scope-addendum.v1",
+ "main_ref": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
+ "scope": "main files at REF outside the census file types and engineering directories that could carry mathematics",
+ "rows": [
+  {
+   "object": "docs/notebooks",
+   "item_id": "side24-public-coefficients-notebook",
+   "classification": "COPY_OR_EXPOSITION_OF",
+   "title": "SIDE24 public coefficient viewer notebook (NON-CERTIFYING display of published endpoints)",
+   "reason": "Cell 1 fetches Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca:coefficients/side24_v1/ENCLOSURE.json and refuses it unless it is 1090 bytes with SHA-256 72b6cd92... and scientific_acceptance false. Cell 2 keeps the published decimal endpoint strings, checks 0 < lower < upper, and prints them; Decimal is used only for a display midpoint. Cell 4 draws an optional Matplotlib chart of float midpoints, labelled NON-CERTIFYING. Nothing is computed beyond the published numbers, so the notebook states no mathematics of its own.",
+   "refers_to": [
+    {
+     "ref": "Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca:coefficients/side24_v1/ENCLOSURE.json",
+     "dispositions": [
+      "ADOPTED:Q-1170"
+     ]
+    }
+   ],
+   "source_binding": {
+    "repository": "d6g8k5htny-coder/main",
+    "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
+    "files": [
+     {
+      "path": "docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb",
+      "git_blob": "c7fcde5461305ff249384e873476d34a4f470976",
+      "bytes": 61961,
+      "sha256": "e348db8e9d667caff2a8da1d85ffd5ad599db34b34e542d9662d0bc1edc84024"
+     }
+    ]
+   },
+   "verification": {
+    "ok": true,
+    "problems_fixed": [],
+    "method": "read by hand (all six cells); no agent"
+   }
+  }
+ ]
+}

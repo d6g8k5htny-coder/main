@@ -1,0 +1,103 @@
+{
+ "schema": "claude54.cross-tranche-reconciliation.v1",
+ "sources": {
+  "t4": "records_verified_t4.json",
+  "t6": "records_verified_t6.json"
+ },
+ "rule": "main is primary for every shared blob; federation rows keep standing only for bytes main does not hold",
+ "reconciliations": [
+  {
+   "t6_record": "QP-C54-T6-007",
+   "t6_repository": "d6g8k5htny-coder/trial",
+   "t6_commit": "3738c859d519d2dbf1e388fe48fe0ae60c9487a3",
+   "primary_main_records": [
+    "QP-C54-T4-004"
+   ],
+   "shared_files": [
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/00_READ_FIRST.md",
+     "git_blob": "1e0b5d6d83c8e7f62bd2aa05d3cd6be8e06d30b4",
+     "main": [
+      {
+       "record": "QP-C54-T4-004",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/00_READ_FIRST.md"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/02_CONSTANT_FINDINGS_AND_REPAIR.md",
+     "git_blob": "0f2fbad209857d807a3ac31acab3a3ff917ef9ae",
+     "main": [
+      {
+       "record": "QP-C54-T4-004",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/02_CONSTANT_FINDINGS_AND_REPAIR.md"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/CURRENT_STATE.json",
+     "git_blob": "7f90f8aeada06c0dfd2be5f7f431226c56c84849",
+     "main": [
+      {
+       "item": "audits/dropbox_import/2026-09-27#lpw05-custody-receipts",
+       "classification": "NOT_OBLIGATION",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/CURRENT_STATE.json"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/receipts/FINAL_EXECUTION_RECEIPT.json",
+     "git_blob": "7c169ff1a8775717ca2df425cd8999749722f9b1",
+     "main": [
+      {
+       "item": "audits/dropbox_import/2026-09-27#lpw05-custody-receipts",
+       "classification": "NOT_OBLIGATION",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/receipts/FINAL_EXECUTION_RECEIPT.json"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/receipts/FINDINGS_NORMAL.json",
+     "git_blob": "f1f1568343afda5b965fef235525b918ece39779",
+     "main": [
+      {
+       "record": "QP-C54-T4-004",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/receipts/FINDINGS_NORMAL.json"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/receipts/LOCAL_MUTATION_RECEIPTS.json",
+     "git_blob": "4ef9ce34377d0eddb845c9b544b5028a707ea72b",
+     "main": [
+      {
+       "item": "audits/dropbox_import/2026-09-27#lpw05-custody-receipts",
+       "classification": "NOT_OBLIGATION",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/receipts/LOCAL_MUTATION_RECEIPTS.json"
+      }
+     ]
+    },
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/tools/check_findings.py",
+     "git_blob": "54123700fb2b79e32fbd574536bda0eb8e4cd03f",
+     "main": [
+      {
+       "record": "QP-C54-T4-004",
+       "path": "audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/tools/check_findings.py"
+      }
+     ]
+    }
+   ],
+   "federation_only_files": [
+    {
+     "path": "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/04_RETURN_TO_KIMI.md",
+     "git_blob": "38bc052191d5d07141a255f010eda511c1103aaf"
+    }
+   ],
+   "federation_only_statements": [
+    "portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05_Archive_Audit_2026-09-12/04_RETURN_TO_KIMI.md:49-49"
+   ],
+   "disposition": "T6 record SUPERSEDED_BY_MAIN for its shared bytes; it stays PROPOSED only for its federation-only files and statements"
+  }
+ ]
+}
