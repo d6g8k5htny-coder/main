@@ -86,3 +86,8 @@ have no disposition in the catalog as it stands:
   inside quoted classification reasons is left as it is, because those reasons are not checked statements.
 - One agent wrote two scratch files (`b8_items*.json`) outside this directory despite the no-write instruction. They are
   not used and not retained.
+- **Private repositories (added on 2 November 2026).** The two private federation repositories, `research-hosted-qualification`
+  (`a6b1e6a6`, 59 files) and `openclaw-custodian-validation` (`83e0ba03`, 1 file), were not in this census. I read them by hand.
+  Neither holds a mathematical claim of its own: the first is hosted-qualification tooling and evidence, including a
+  compiled-constant census of a Math- package, and the second holds operational fixtures. `private_repos_scope.json` records the
+  commits, file counts and reasons, with no private text. They add no record and are not in catalog candidate v2.
