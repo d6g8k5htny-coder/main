@@ -1,0 +1,439 @@
+{
+ "batch": 2,
+ "math_ref": "19a55750451b8016b50d1d20be6a18c021807ecb",
+ "records": [
+  {
+   "object": "reviews/c6_residual_closure_20260930",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "frontiers/spectral_cluster_closure_20260929/PROOF.md",
+    "frontiers/c6_cluster_law_20260929/PROOF.md",
+    "frontiers/c6_palm_route_20260929/PROOF.md",
+    "frontiers/two_scale_cluster_geometry_20260929/TWO_SCALE_LAW.md",
+    "frontiers/remote_collision_20260928/PROOF.md",
+    "Math-#160"
+   ],
+   "classification_reason": "Not a review of its sources: RECONCILIATION.md:45-46 says the reconciler 'reviewed none of them', and RECONCILIATION.md:34-39 says the record 'writes the four-line corollary that turns their reviewed statements into the residual' and proposes promoting the residual node. Math-#160 had defined (Res) as an open residual (RECONCILIATION.md:71-89). Section 3 (RECONCILIATION.md:109-185) states and argues (Res) by Routes A, B, C and by a diagonal argument from [TSL] (L1). Line 38 calls it 'elementary bookkeeping, not new mathematics', but the record states a theorem of its own (the residual limit), so it is a standalone claim.",
+   "title": "C6 leading-mass localization residual (Res) as a corollary",
+   "statements": [
+    {
+     "file": "reviews/c6_residual_closure_20260930/RECONCILIATION.md",
+     "line_start": 74,
+     "line_end": 75,
+     "text": "    lim_{R -> oo} limsup_{r -> 0} r^-3 E_{Q_r^W} #{ ordered pairs (X, X') of distinct window points :\n                                                     not both |X - o| <= R r and |X' - o| <= R r } = 0.       (Res)"
+    },
+    {
+     "file": "reviews/c6_residual_closure_20260930/RECONCILIATION.md",
+     "line_start": 131,
+     "line_end": 132,
+     "text": "Therefore `limsup_r r^-3 M_R = 2 a_2 - 2 a_2^R` (a full limit, by 1 and 2), which tends to `0` as `R -> oo` by 3. That is\n(Res). ∎"
+    }
+   ],
+   "hypotheses": "Source scope (RECONCILIATION.md:189-192): every fixed d >= 2, fixed torus L, fixed frame, compact birth and positive-gap marks (k_- > 0), height window I_r = (b - k r^3, b), original endpoint weight W_r and full normalizer Z_r, existential constants; conditional on the pinned inputs of [SC] and [CL] (and through them P, D5, C6, RM, RC, LM, CUB, RCL, LP, DL, EDL) at their reviewed scopes (RECONCILIATION.md:104-107). The limit is iterated: limsup over r -> 0 first, then R -> oo; Route C orders r -> 0, rho -> 0, R -> oo (RECONCILIATION.md:157). o is the pin midpoint and the count excludes the pins (RECONCILIATION.md:71-72).",
+   "dependencies": "[SC] frontiers/spectral_cluster_closure_20260929/PROOF.md Theorem (3), (18), (20), (26); [CL] frontiers/c6_cluster_law_20260929/PROOF.md Corollary Lambda (1.6), Proposition 4.4, Lemma 5.2 (5.4), (5.1); [PALM] frontiers/c6_palm_route_20260929/PROOF.md Theorem Q (q = 3, 4); [RC] frontiers/remote_collision_20260928/PROOF.md Corollary D; [DL] Theorem I_d via [CL] (5.1); [TSL] frontiers/two_scale_cluster_geometry_20260929/TWO_SCALE_LAW.md Theorem L (L1), (L2) through the diagonal argument of Math-#173 review 5360751376; the definition of (Res) in Math-#160 RECONCILIATION.md section 5. External review evidence is transcribed in EXTERNAL_REVIEWS.md and REVIEWED_SECTION_3_b3fac79.md.",
+   "finite_checks": "residual_check.py (stdlib), as the source describes it at RECONCILIATION.md:256-311: DEDUCTION checks the pair identity (D1) for 0 <= N_R, N_out <= 12, monotonicity of (n)_2, the Route C pathwise inequality (D2) for 0 <= A, B, C <= 8, the tail inequality n(n-1)(M-1) <= n(n-1)(n-2) for n > M >= 3, the Stirling identity for n^4, the exponent ledgers, a truncation error and the exact rational instance 2 - 2(1 - 1/R^2) of the iterated limit; IDENTITIES, VERDICTS (substring needles), LIVE, REVIEWED, TRANSITIONS, GATE and NEGATIVES are custody and register checks; fifteen named mutants must fail; RESULTS.json and RESULTS_INSTALLED.json hold the expected output per register state. These are finite and bookkeeping controls, not the Gaussian limits.",
+   "floating_point": "NONE: residual_check.py does its deduction arithmetic in fractions.Fraction (imported as F) and integers; no float literals, float() calls or math transcendental functions appear in its evaluation path.",
+   "source_self_limits": "RECONCILIATION.md:197-204: no rate of convergence; no numerical value of a_2, nu(1), nu(2), C_3 or of the localization scale; no uniformity as k -> 0, in L or in d; no all-height statement; nothing on elder selection or joint laws of clusters of distinct pin pairs; no d_TV statement; no historical numerical predicate discharged; [SC] and [CL] are not re-reviewed. RECONCILIATION.md:34-40: effect is declarative only (PROPOSED_TRANSITIONS.json executed: false), execution belongs to a non-Claude lane, scientific effect NONE. Section 0 (RECONCILIATION.md:42-67) records that the reconciler authored Math-#160 and [RC] and is source-exposed to both routes.",
+   "exact_boundary": "Exactly the iterated-limit statement (Res) of RECONCILIATION.md:74-75 for the window count under Q_r^W at the scope of RECONCILIATION.md:189-192, offered as a conditional implication of the cited reviewed limits: [SC] (26)/(18)/(20) with [PALM] Theorem Q (q = 3) for the tail (Route A), [CL] Corollary Lambda and Proposition 4.4 (Route B), the pathwise bound (D2) with [CL] (5.1), (5.4), [RC] Corollary D and Theorem Q (Route C), or [TSL] (L1) by the diagonal argument. No rate, constant, uniformity, all-height version or register execution is included; the proposed register transitions are declarative and unexecuted, and the deferred old-node transition presupposes Math-#160 step 3.",
+   "layer_a_status": "A1/A2: no Lean declaration states (Res) or any of its routes; no axiom is introduced; the record is source text plus references to external reviews. A3: no floating-point evaluation is involved. A4: the limit statement is transcribed without strengthening. A5: the fifteen mutant controls are kept as the source's required failures. A6 (vacuity): the hypotheses are inherited conditional interfaces; none is vacuous on its face, none is discharged here. A7: disposition recorded as the source's author-side reconciliation with a bounded non-Claude read (5360645884) of section 3 at b3fac79 and an OpenAI read of Route C (5360751376); no register promotion is adopted. A8: residual_check.py and the hard-gate replay are described from the source and its code, not executed here.",
+   "blocking_reason": "(Res) rests on Gaussian Kac-Rice factorial-moment limits ([SC] (26)/(18)/(20), [CL] Corollary Lambda and Proposition 4.4, [TSL] (L1)) and the uniform third/fourth factorial-moment bound of [PALM] Theorem Q, none of which exists as a Lean kernel declaration. A kernel statement needs either those limits formalized for the periodized fixed-d field under the tilted pin law Q_r^W, or an abstract lemma taking them as explicit hypotheses (identity (D1), the factorial tail bound and the exhaustion limit), whose hypotheses would then remain open.",
+   "attempted": "The source gives Routes A, B and C plus the direct statement from [TSL] Theorem L by a diagonal argument, finite exact controls in residual_check.py, the non-Claude reads 5360645884 and 5360751376, and the repair of Codex 5360636576's three checker findings in v1.3.",
+   "resumption_cost": "Low to moderate for an abstract Lean lemma deriving (Res) from stated limit hypotheses (bookkeeping over integer-valued counts); high for a self-contained kernel statement, which needs the cited Gaussian factorial-moment limits and Theorem Q. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/contact_kernel_tail_20260925",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "KERNEL_TAILS_AND_SMALL_GAP.md:3-4 describes 'new author-side analytic derivations'. :71-76, :113-127 and :154-181 state new bounds (2.1) and (3.2), the exact representation (4.2), the k^6 small-gap law (4.3)-(4.4) and the type mass 27392/315. ANNULUS_ASYMPTOTIC_BRIDGE.md:4 and :79-96 state a gluing lemma 'proved from its stated hypotheses'. COORDINATION.md:13-19 lists the distinctive additions, and README.md:3 calls the work 'OpenAI-authored research for separate review'.",
+   "title": "Typed contact kernel: exact type mass 27392/315, k^6 small-gap law, axis envelopes and conditional annulus gluing (OA-KERNEL-TAIL-SMALL-GAP-20260925-v1, OA-ANNULUS-TYPED-BRIDGE-20260925-v1)",
+   "statements": [
+    {
+     "file": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+     "line_start": 74,
+     "line_end": 76,
+     "text": "For sufficiently small |v|, |u|>=A1>1. For k in (0,kmax], uniformly in b/frames,\n\n    0<=Lambda_1 <= C k^6 |v|^-13 exp[-c k^2/v^2].        (2.1)"
+    },
+    {
+     "file": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+     "line_start": 124,
+     "line_end": 127,
+     "text": "and Gaussian decay improves(2.1) to\n\n    Lambda_1 <= C k^6 |v|^-13\n                    exp[-c k^2(u-1/2)^6/|v|^6].         (3.2)"
+    },
+    {
+     "file": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+     "line_start": 159,
+     "line_end": 165,
+     "text": "For each fixed (u,v) with v!=0, dominated convergence as k down to zero gives\n\n    Lambda_1 ~ C_L(b,E) k^6 |v|^-13,                     (4.3)\n\nwhere the coefficient is independent of u and\n\n    C_L(b,E) = (8875008/35) p_a0 C_odd/m2a > 0.          (4.4)"
+    },
+    {
+     "file": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+     "line_start": 177,
+     "line_end": 181,
+     "text": "The total area is2. Exact polynomial integration gives\n\n    integral_left P = 77248/945,\n    integral_right P = 704/135,\n    J=integral P = 27392/315."
+    },
+    {
+     "file": "reviews/contact_kernel_tail_20260925/ANNULUS_ASYMPTOTIC_BRIDGE.md",
+     "line_start": 81,
+     "line_end": 83,
+     "text": "Under H1–H4,\n\n    esssup_K |F_r-Lambda| -> 0.                          (4.1)"
+    }
+   ],
+   "hypotheses": "The model is the exact variance-one normalized L-periodized Gaussian covariance, fixed L>0, d=2, all orthonormal frames, with birth b in a fixed compact (KERNEL_TAILS:16-17). The six-pin contact observations are U0=(b,0,0,12k,0,0) with k>0 (:20), and the object is the limiting kernel (1.4) of PR25. The bounds use a fixed scaled annulus 1<A0<B and k in (0,kmax] (:73-75); (3.2) also needs u>=A1>1 (:115). They assume positive conditional jet covariance and a positive lower bound on m2a (:81, :95). The gluing lemma assumes H1-H4 (BRIDGE:49-72). The Gaussian conclusion (5.1)-(5.2) holds only if PR22 and PR25 survive review (BRIDGE:104-108).",
+   "dependencies": "PR25 reviews/collision_mechanism_20260925/NOTE.md Section C at ad35e46d (KERNEL_TAILS:8-10). PR22 frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md at 2804dc1d (BRIDGE:18-22). TRANSVERSE_CONTACT_ASYMPTOTIC.md is recorded as BLOCKED_ABSENT (KERNEL_TAILS:11). COORDINATION.md:3-11 notes overlap with the parallel PR33. Literature context: Gass-Stecconi arXiv:2305.17586v2, Armentano-Azais-Leon arXiv:2304.07424v3, Muirhead arXiv:1901.11336.",
+   "finite_checks": "README.md:17 reports 24 finite test methods and 7 deliberate broken variants, run in both modes (test_contact_tools.py, run_validation.py). contact_tools.py integrates the type region with exact Fraction polynomial arithmetic (integrate_type_pieces, normalized_prefactor). RESULTS.json records typed_shape_integral 27392/315 and small_gap_rational_multiplier 8875008/35. None of this was re-run here.",
+   "floating_point": "USED: contact_tools.py computes the type mass and multiplier in exact Fraction arithmetic. However, axis_tail_integral, gaussian_moments and gaussian_polynomial_integral (lines 155-192) use binary float (math exp, erf, erfc, sqrt). The source labels these as diagnostics, not interval enclosures (lines 3-5, 170-173), and no stated bound rests on them.",
+   "source_self_limits": "KERNEL_TAILS:12-14: the input theorem is not independently accepted, and there is no finite-r uniformity. :167-168 and :187-199: the k->0 and r->0 limits must not be interchanged. :206-208: (4.6) does not establish the small-mark moment of the full persistence intensity or a global lifetime law. :111 and :250-253: the floating helpers are not enclosures, and no numerical continuum certificate is claimed. :222: the Bargmann-Fock value is not the persistence coefficient. BRIDGE:5-6 and :128-130: the Gaussian application is conditional and is not a lower bound. BRIDGE:167-169 lists what is out of scope.",
+   "exact_boundary": "Exact claims in KERNEL_TAILS_AND_SMALL_GAP.md: the solved jets (1.1), the determinant factors (1.2) with the Hessian-determinant identities and the saddle type of the witness on the open contact region (:26-54), and the exact kernel formula (1.4) with prefactor 104976; the near-axis envelope (2.1) and the closed-form tail primitive (2.3) for the LIMITING contact kernel; the identity (3.1) and the saddle-side envelope (3.2) on u>=A1>1, with the stated point u=-2, theta=1/2, w=-76/45 (R=0) showing that (3.2) does not export to u<-1; the parity factorization (4.1), the exact representation (4.2) and the fixed-(u,v) small-gap law (4.3)-(4.4) with C_L=(8875008/35) p_a0 C_odd/m2a; the type mass J=27392/315 with pieces 77248/945 and 704/135; the bracket (4.5) and the moment bound (4.6) on fixed off-axis charts; the Bargmann-Fock diagnostic C_L=184896 sqrt(3)/(35 pi^2) at b=0, stated not to be the persistence coefficient; and the moment recurrence (5.1) reducing the (theta,w) quadrature to one theta integral. Exact claims in ANNULUS_ASYMPTOTIC_BRIDGE.md: the normalization identity (2.1); the deterministic gluing lemma (4.1) under H1-H4; and the error decomposition (6.1). BRIDGE's whole-annulus conclusion (5.1)-(5.2) holds only conditionally on PR22 and PR25. Excluded: finite-r uniformity, interchange of k↓0 with r↓0, persistence-pair moments, lifetime law, numerical C and c. reviews/pr36_kernel_tail_nonauthor_20260926/REVIEW.md records Q1-Q4 ACCEPT for blob 26890787 (10695 B). That blob differs from the current blob 4d03f110 (10870 B), so the review is evidence, not closure. Nothing is proved.",
+   "layer_a_status": "No Lean declaration exists for any statement. A3: the binary-float helpers are diagnostics only and are not admitted as evidence for (2.1)-(6.1); the rational type mass is a finite exact computation that is not kernel-checked. A7: literal source only; the annulus conclusion keeps its conditional status.",
+   "blocking_reason": "(2.1) and (3.2) rely on uniform Gaussian decay, which needs positive conditional jet covariance on the compact frame set and a positive lower bound on m2a; both are asserted but not written out in formal detail. (4.3) relies on dominated convergence in (4.2). The whole-annulus law needs H1-H3 from the unreviewed PR22 and PR25 analytic interfaces. None of the statements is formalized.",
+   "attempted": "The source integrates the three-determinant product exactly over the two-piece type region. It factorizes by parity (even/odd jets), applies Cauchy-Schwarz to the critical-gradient identity, uses the one-sided identity (3.1), completes the square and uses a seven-moment recurrence, and splits the annulus into three regions for gluing (KERNEL_TAILS §§2-5, BRIDGE §4).",
+   "resumption_cost": "Low for the type mass 27392/315 and the multiplier 8875008/35, which are finite polynomial integrations in Lean. Moderate for the limiting-kernel envelopes and the small-gap law, which need Gaussian conditional density bounds. High for the whole-annulus law, which depends on the PR22 and PR25 reviews."
+  },
+  {
+   "object": "reviews/d2_two_atom_floors_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:6-7 describes \"an ordinary mathematical derivation with finite rational controls\". NOTE.md:26-29 supplies a new atom-mass-to-scalar-floor interface. The note states its own moment floors (3.4), all-direction scalar floors (5.2)-(5.4) and separate sharpness laws (§4, NOTE.md:94-120). It is not a verdict on a named object: D2Schur.lean is consumed only for scalar definitions (NOTE.md:11-16).",
+   "title": "Two-atom moment floors and all-direction scalar D2 floors D_floor, S_floor, T_floor",
+   "statements": [
+    {
+     "file": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "line_start": 33,
+     "line_end": 41,
+     "text": "Let mu be a probability measure, X a measurable real random variable, and\nassume X^2, X^4 and X^6 are integrable. Write\n\n    s = E[X^2], m4 = E[X^4], m6 = E[X^6],\n    g = m4 - s^2, Delta = m6 - m4^2/s.\n\nChoose a,b != 0 with a^2 != b^2, and p,q>0 such that\n\n    mu{X=a} >= p, mu{X=b} >= q, p+q <= 1."
+    },
+    {
+     "file": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "line_start": 86,
+     "line_end": 86,
+     "text": "    s >= s0 > 0,   g >= g0 > 0,   Delta >= delta0 > 0. (3.4)"
+    },
+    {
+     "file": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "line_start": 139,
+     "line_end": 140,
+     "text": "    D(t) >= D_floor\n       := min(s0^2*(g0+s0^2), g0*(g0+4*s0^2)/4) > 0. (5.2)"
+    },
+    {
+     "file": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "line_start": 152,
+     "line_end": 152,
+     "text": "    S(t) >= S_floor := min(g0,2*s0^2) > 0.           (5.3)"
+    },
+    {
+     "file": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "line_start": 156,
+     "line_end": 157,
+     "text": "    T(t) >= T_floor\n       := min(delta0,(delta0+9*s0*g0)/4) > 0.         (5.4)"
+    }
+   ],
+   "hypotheses": "mu is a probability measure. X is a measurable real random variable with X^2, X^4 and X^6 integrable. a,b != 0 with a^2 != b^2, and p,q>0 with p+q<=1, mu{X=a}>=p, mu{X=b}>=q (NOTE.md:33-43). u=a^2, v=b^2, A=p*u, B=q*v, s0=A+B, g0=p*q*(u-v)^2/(p+q), delta0=A*B*(u-v)^2/(A+B) (NOTE.md:47-50). t ranges over [0,1/4], including the endpoints. D, S, T are the source's scalar formulas (5.1).",
+   "dependencies": "formal/ResearchFormalCoreR1/D2Schur.lean at Math- commit 2f8b6f37, blob b95460c0: ratio, determinant interpolation and tau endpoint identities (NOTE.md:11-14). companions/d2_moment_bridge_20261006/D2MomentBridge.lean (blob b3184107) is cited as a companion, not a premise (NOTE.md:18-24). The AUD-309-REVIEW-STRICTNESS-01 distinctions are cited at NOTE.md:116.",
+   "finite_checks": "two_atom_bounds.py with test_two_atom_bounds.py (twelve methods). NOTE.md:200-203 reports 216 square-completion cases, 64 probability laws, 384 directional evaluations, 16 Delta and 3 gap attainment cases, 2 mass-bound cases, 18 scaling checks and explicit countermodels. A wrapper, tests/test_d2_two_atom_floors.py (outside this directory), injects four code mutations (NOTE.md:185-196). Exact example p=q=1/4, a=1, b=2 with mass 1/2 at zero: D>=531/256, S>=9/8, T>=9/5 (NOTE.md:166-173).",
+   "floating_point": "NONE: two_atom_bounds.py accepts only int (not bool) or Fraction values and raises TypeError otherwise. test_two_atom_bounds.py uses fractions.Fraction and has a test that refuses float inputs. No float arithmetic.",
+   "source_self_limits": "NOTE.md:5-7: scientific effect NONE; \"NOT a Lean proof or a new numerical certificate for a periodic field\". NOTE.md:26-29 and 134: no identification with any Gaussian/Palm conditional covariance. NOTE.md:110-111: the sharpness claims are separate, not simultaneous for one law. NOTE.md:117-120: no family-uniform floor. NOTE.md:159: \"convenient lower bounds, not optimal\". NOTE.md:175-176: the example is not the periodic spectral law. NOTE.md:212-216: no new Lean targets, kernel receipt, periodic-law construction, Gaussian/Palm identification, interval-quadrature result, parent lifetime theorem or scientific acceptance.",
+   "exact_boundary": "Exactly the moment floors (3.4) and the scalar floors (5.2)-(5.4) for every t in [0,1/4], under the stated two-atom mass lower bounds on a probability measure with integrable X^6, plus the separate sharpness laws of §4. Scalar expressions only: no identification with a field quantity, no uniformity where masses or radii degenerate, no optimal constants. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states (3.4) or (5.2)-(5.4). A2: no axiom is introduced. A3: per the code read, the finite controls use exact int/Fraction arithmetic; no floating-point value supports any bound. A4: the floors are transcribed as stated, not loosened. A5: the source keeps its initial failing test and wrapper runs (NOTE.md:198-199). A6: the hypotheses are satisfiable (example law, NOTE.md:166-169), so not vacuous; degenerate cases are listed at NOTE.md:113-120. A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There are no literal kernel statements of: the two-square completion identity (3.1); the atom-integral lower bounds over the disjoint measurable events {X=a} and {X=b} under mass lower bounds, which give (3.3) and g>=g0; or the monotonicity/convex-interpolation endpoint arguments behind (5.2)-(5.4) over the D2Schur.lean definitions. The source itself names this as future formalization (NOTE.md:210-211).",
+   "attempted": "Written derivation (NOTE.md §§3-5), exact finite-model tests, and a wrapper with four code mutations. The source keeps its initial failing runs (NOTE.md:198-199). No Lean statement.",
+   "resumption_cost": "Low to moderate. (3.1) and the scalar floor algebra are short real-arithmetic Lean lemmas over the existing D2Schur.lean definitions. The integral lower bounds need Mathlib set-integral monotonicity over atoms. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/elder_dimension_lift_claude_20260928",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "OA-ELDER-DIMENSION-LIFT-20260928-v1",
+    "frontiers/elder_dimension_lift_20260928/PROOF.md"
+   ],
+   "classification_reason": "REVIEW.md:29-44 gives ACCEPT verdicts on every section of OA-ELDER-DIMENSION-LIFT-20260928-v1 (PROOF.md blob 7303bd79; path at SOURCE_FILES.json:10) with no defect, and §§1-6 (REVIEW.md:48-173) re-derive its displays. That part is review. Note N1 (REVIEW.md:177-178) goes beyond the reviewed text. PROOF.md:315 states only ||C_i||<=C r K_4 (A20), and PROOF.md:326 gives K_i/r=P_i+O(r K_4+r K_4^2) (A21). N1 states C_i=±(r/2)(τ_xxw; τ_xzw)+O(K_4 r²) and a Schur correction O(r²(εk+K_4 r)²). That is a sharper bound of the record's own, although REVIEW.md:178 says it is not needed. N2-N5 (REVIEW.md:179-187) and the D1-chain composition (REVIEW.md:171-173) delimit or compose reviewed results.",
+   "title": "Elder dimension-lift review note N1: endpoint cross block C_i = ±(r/2)(τ_xxw; τ_xzw) + O(K_4 r²) and Schur correction O(r²(εk + K_4 r)²)",
+   "statements": [
+    {
+     "file": "reviews/elder_dimension_lift_claude_20260928/REVIEW.md",
+     "line_start": 177,
+     "line_end": 178,
+     "text": "- **N1.** (A20)'s bound `‖C_i‖ ≤ CrK_4` can be read more finely as `C_i = ±(r/2)(τ_xxw; τ_xzw) + O(K_4 r²)`, so the\n  Schur correction is `O(r²(εk + K_4 r)²)`. Not needed, but it shows the correction is small even before `r_*` is fixed."
+    }
+   ],
+   "hypotheses": "The setting of the reviewed frontiers/elder_dimension_lift_20260928/PROOF.md: fixed d>=3; the exact pinned model of [LP] with compact marks and k bounded away from zero; all frames. It uses the Schur shear frame (x,z;w) of §3 (A8)-(A10), and the raw rare set (A11), on which the third-derivative coordinates lie in width-2εk boxes. It assumes the C^4 control ||f||_C4<=K_4 after conditioning on all physical jets (A14)-(A16), and the endpoint blocks (A20), with D_i=D+O(r K_4) uniformly negative and with bounded inverse. 0<r<=r_* small.",
+   "dependencies": "frontiers/elder_dimension_lift_20260928/PROOF.md, blob 7303bd79, at Math-#125 head e3f10b39: the §3 shear frame, (A11), (A14)-(A16), §6 (A17) and §8 (A20)-(A22). [LP] imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (blob dfed3b8d), as the PROOF.md consumes it (REVIEW.md:14). The review's own exact cubic-field computation of the endpoint blocks (REVIEW.md:121-126).",
+   "finite_checks": "dimension_lift_review_check.py, PHYSICAL group, on physical cubic fields in d=3,4,5 at r in {1/8, 1/32}. It checks exactly that the cross blocks equal ±(r/2)(τ_xxw; τ_xzw) with no remainder (endpoint_blocks_A20). It also checks that det H = det D_i det K_i with the stated inertia and that |K_i/r - P_i| <= r k (schur_det_inertia_A21_A22). The mutant no-cross-schur is rejected, and all PHYSICAL entries are true in RESULTS.json. N1's O(K_4 r²) remainder for non-cubic fields and its Schur-correction order have no finite check. The QUARTIC group tests (A17) and H_i u, not C_i. There are nine mutants in all.",
+   "floating_point": "USED: dimension_lift_review_check.py imports math and random. It uses floats in the QUARTIC group, where successive error ratios are converted with float() and compared with 1.6<x<2.4 (lines 643-648). It also uses floats in the SADDLES group: Newton roots with tolerances 1e-15, 1e-12 and 1e-4 (lines 658-766), which the module docstring labels NUMERIC and REVIEW.md:148-155 calls a numerical illustration. random.Random only seeds rational sample points. The cubic-field cross-block identity behind N1 is in the exact Fraction PHYSICAL group, and no floating-point value supports N1's bound.",
+   "source_self_limits": "REVIEW.md:3-5: scientific effect NONE; the record gives verdicts only. REVIEW.md:44: notes N1-N5 \"sharpen or delimit the text without changing it\". REVIEW.md:178: N1 is \"Not needed\". REVIEW.md:25: every Gaussian step was argued by hand, and the checks do not replace it. REVIEW.md:148-155: the SADDLES floating-point group is an illustration only. REVIEW.md:191-194: the record accepts no numerical c, r_* or cutoff, no uniform-in-d bound, no unrestricted-mark difference, no leading loss constant, no global factorial upper bound and no identification with historical symbols. It makes no register change.",
+   "exact_boundary": "Exactly N1. In the shear frame of the reviewed PROOF.md §8, on its rare set and C^4 event, the endpoint cross blocks satisfy C_i=±(r/2)(τ_xxw; τ_xzw)+O(K_4 r²), and the Schur correction C_i D_i^(-1) C_i^T is O(r²(εk+K_4 r)²). This refines (A20)'s ||C_i||<=C r K_4, and the reviewed argument does not need it. Existential constants only. The ACCEPT verdicts on PROOF.md are not part of this claim. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states N1 or (A20)-(A21). A2: no axiom. A3: floats appear only in the QUARTIC and SADDLES groups, which concern (A17), H_i u and the extra saddles. N1's cubic identity is checked in exact arithmetic and its remainder is argued in writing, so no floating-point value supports N1. A4: N1 is transcribed as stated, and the reviewed (A20) bound is kept as the source states it. A5: the nine mutants stay as failing controls. A6: non-vacuous: physical cubic fields in d=3,4,5 instantiate the setting (PHYSICAL group). A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There is no kernel statement of: the shear-frame endpoint Hessian blocks and their Taylor expansion C_i=±(r/2)(τ_xxw; τ_xzw)+O(K_4 r²) under the C^4 bound K_4; the rare-set bounds on τ_xxw and τ_xzw; or the resulting bound on C_i D_i^(-1) C_i^T, using the uniformly bounded inverse of D_i. The C^4 event itself rests on the unformalized Gaussian conditioning of PROOF.md §5.",
+   "attempted": "A written remark (REVIEW.md:177-178) and the exact cubic-field cross-block check in the PHYSICAL group. No Lean statement.",
+   "resumption_cost": "Low to moderate for the deterministic matrix and Taylor part, with the C^4 bound as a hypothesis (finite-dimensional real analysis in Mathlib). High if K_4 must come from the Gaussian conditioning of PROOF.md §5. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/iba2_012_log_cap_concentration_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:7 says 'Conditional author-side candidate; nonauthor review required'. :12-17 says the fixed-power bounds LT and CT are not claimed again, and that this note proves a new exponential bound for a shifted finite measure and allows growing count orders. :85-88 states the tail lemma, :119-122 theorem EC, :141-163 the envelope (G) and the growing-degree corollary, and :207-250 optimality from the numerical inputs. These are new statements.",
+   "title": "IBA2-012 log-cap concentration: shifted exponential bound EC and growing factorial orders (IBA2-012-LOG-CAP-CONCENTRATION-20261006-v1)",
+   "statements": [
+    {
+     "file": "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md",
+     "line_start": 85,
+     "line_end": 88,
+     "text": "**Tail lemma.** For every y>=1,\n\n    mu_r((y,infinity))\n       <= H_a exp[(beta+3-c y/2)u].                     (1)"
+    },
+    {
+     "file": "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md",
+     "line_start": 119,
+     "line_end": 122,
+     "text": "**Exponential theorem EC.** Uniformly in r and every allowed threshold,\n\n    integral exp[kappa_r (x-y0)_+] dmu_r(x)\n        <= A_a + H_a exp[-c u y0/4] <= A_a+H_a=:M_a.    (EC)"
+    },
+    {
+     "file": "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md",
+     "line_start": 159,
+     "line_end": 163,
+     "text": "**Growing-degree corollary.** Suppose Xi_r<=C_X r^B for some fixed B>0. For a\nfixed theta with 0<theta<=B/d set integer s(r)=floor(theta Lambda(r)), once it is\nat least1. Then\n\n    r^(-3) E_(P_r)[K^a (N_R)_(s(r)); S_r] -> 0.         (4)"
+    }
+   ],
+   "hypotheses": "FR's setting: fixed d>=3, torus side L, physical radius R>=1, compact birth interval, compact gap marks with k_->0, compact frame space. Gaussian pin law Q_r and full tilted law P_r=Q_r^W with D_r=W_r/Z_r (NOTE.md:34-38). 1<=q<=d-2 with ordered thresholds eta_j (:38-46). Inputs (F) from FR and (T) from SH (:50-56). Uniform L4 norms of D_r and K^a from P (:77-83). u>=u0>=8 and Lambda^d>=max(1,x0) (:65-67). The corollary also needs Xi_r<=C_X r^B, 0<theta<=B/d and s(r)=floor(theta Lambda(r)) (:159-161).",
+   "dependencies": "FR reviews/iba2_012_finite_radius_20261005/PROOF.md (blob 5ed684c9), SH frontiers/c6_sharpened_20260929/PROOF.md (blob 70ba1972) and P imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (blob dfed3b8d), at source cut 07ff1191 (NOTE.md:19-25). Provenance only: LT reviews/iba2_012_log_cap_transfer_20261006/NOTE.md (blob b158965f), whose abstract family is reused in §6, and CT (blob 752bc9da) (:27-32).",
+   "finite_checks": "concentration_check.py and test_concentration.py run eleven methods. Mutants M1-M6 must exit 1 with the listed failing-method sets, and UNKNOWN exits 2 (README.md:22-42). Arithmetic is exact Fraction/integer, and the dyadic strict-side tests use integer log2 brackets (NOTE.md:252-255, :266-271). None of this was re-run here.",
+   "floating_point": "NONE: concentration_check.py and test_concentration.py use fractions.Fraction and integers only; the logarithms in the endpoint ledger are supplied symbolic values (concentration_check.py:95-98).",
+   "source_self_limits": "NOTE.md:7: conditional candidate. :58-61: SH's qualifications are inherited, the complex-gradient argument is not re-audited, and the G_d/I5 assembly is not consumed. :73-75 and :195-199: mu_r is not a conditional probability. :179-181: no claim for every critical sequence. :188-191: no fixed-space process limit or elder theorem. :201-205: no sharpness for the field, and general IBA2-012/009 is not closed. :257-262: optimality holds only relative to the (F)/(T)/P inputs.",
+   "exact_boundary": "Exact claims: the tail lemma (1) for y>=1; the shifted bound (2); theorem EC; the quantitative tail-budget consequence of (2) with z_delta (NOTE.md:130-137); the envelope (G) under the order condition (O), with constants independent of s; the growing-degree corollary (4), including the endpoint theta=B/d for the precise floor(theta Lambda) convention; the example B=4 for d=3, q=1, eta=r; and the §6 rate (8) for the reused abstract family. All are conditional on (F), (T) and P's inputs at their scopes, concern the finite measure mu_r, and have existential constants. Nothing is proved.",
+   "layer_a_status": "No Lean declaration exists. A3: exact rational/integer checks only; the symbolic log values are not numerical certification (NOTE.md:270-271). A7: the source marks the §6 family as abstract, not a field construction (:226-228).",
+   "blocking_reason": "The bounds rest on (F) from FR, on SH's cap tail (T) with inherited moment/cover/Gram qualifications and an unaudited complex-gradient argument, and on P's uniform L4 normalizer floor. The Cauchy-Schwarz/Hölder, Tonelli layer-cake and second-order endpoint arguments are not formalized.",
+   "attempted": "The source applies Cauchy-Schwarz under the original Q_r and then Hölder, a Tonelli layer-cake identity for a finite measure, the scalar inequality (3), the second-order endpoint exponent (6), and LT's dyadic abstract family for (7)-(8).",
+   "resumption_cost": "Moderate: the measure-theoretic steps are standard and suit Lean if (F), (T) and the L4 bounds are taken as hypotheses. The inputs themselves carry their own review and formalization costs."
+  },
+  {
+   "object": "reviews/literature_classical_neighbors_20261001",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "reviews/literature_lifetime_law_recon_20260929/RECONNAISSANCE.md",
+    "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "frontiers/d1_third_order_law_20261001/PROOF.md"
+   ],
+   "classification_reason": "Sections 1-2 and 4-7 of ADDENDUM.md are a literature protocol extending reviews/literature_lifetime_law_recon_20260929/RECONNAISSANCE.md (ADDENDUM.md:6-10, 12-24) with no mathematical claim. Section 3 (ADDENDUM.md:45-79) states a d = 1 law of its own, f_H(h) ~ C h^(-1/3) with an explicit constant C, plus a numerical two-point Rice check; ADDENDUM.md:151-152 calls it 'a computation recorded for the attribution wording, not a reviewed theorem'. That computed law and constant are the standalone object; the status note (ADDENDUM.md:81-103) attributes the circle version to Theorem 1D of Math-#214, a separate object.",
+   "title": "d = 1 crest-to-trough small-amplitude law and constant (literature addendum, section 3)",
+   "statements": [
+    {
+     "file": "reviews/literature_classical_neighbors_20261001/ADDENDUM.md",
+     "line_start": 54,
+     "line_end": 59,
+     "text": "gives, for the crest-to-trough amplitude `H` (a maximum to the following minimum) under the Palm distribution of maxima,\n\n    f_H(h) ~ C h^{−1/3},     P(H ≤ h) ~ (3/2) C h^{2/3}     (h ↓ 0),\n    C = Γ(7/6) · 72^{−1/6} (2π)^{−1/2} · (λ₆ − λ₄²/λ₂)^{2/3} / λ₄,\n\ni.e. `C = 0.199718…` for the covariance `e^{−t²/2}` (`λ₂ = 1`, `λ₄ = 3`, `λ₆ = 15`)."
+    },
+    {
+     "file": "reviews/literature_classical_neighbors_20261001/ADDENDUM.md",
+     "line_start": 75,
+     "line_end": 79,
+     "text": "It is then integrated over separations `t ≤ 1.5`. `h^{1/3}f(h)/(Cν_max)` equals `1.0048, 0.9971, 0.9984, 0.99941, 0.99982,\n0.999951, 0.999989, 0.9999983, 1.0000003` at `h = 10⁻², …, 10⁻¹⁰`. The deviation shrinks by a factor of about `3.3–4.4`\nper decade, i.e. roughly as `h^{0.57}`, consistent with a relative correction of order `h^{7/12}` (the cusp scale).\nThis checks the constant's arithmetic through the exact two-point Rice formula. It is not an independent proof of the\nlaw, since intermediate extrema are not excluded, which affects only the regular part."
+    }
+   ],
+   "hypotheses": "A stationary Gaussian process with C^4 paths whose jets (X', X'', X''') at a point are jointly nondegenerate, in particular tau^2 = lambda6 - lambda4^2/lambda2 > 0, which excludes spectral measures carried by at most two points (ADDENDUM.md:51-53); the Palm distribution of maxima; H = a maximum minus the following minimum; h -> 0. The numerical check uses the covariance exp(-t^2/2) and separations t <= 1.5.",
+   "dependencies": "The contact computation of P (imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (15.2)) with an empty transverse block in d = 1 (ADDENDUM.md:47-49); the intensity of maxima (2pi)^(-1)(lambda4/lambda2)^(1/2) (ADDENDUM.md:64); Theorem 1D of Math-#214 (frontiers/d1_third_order_law_20261001/PROOF.md) on the circle under its hypothesis (H), for the status note only.",
+   "finite_checks": "d1_rice_check.py, with output D1_RICE.json. R1: exact spectral moments lambda2 = 1, lambda4 = 3, lambda6 = 15 and tau^2 = 6 (Fraction). R2: the two-point Rice ratio h^(1/3) f(h)/(C nu_max) at h = 10^-2 ... 10^-10, recorded as 1.0047933 ... 1.0000003, tested to lie within 5e-5 of 1 for h <= 1e-8 and to have a deviation that shrinks monotonically for h <= 1e-3. Mutants M1 (tau^2 = 5 in the prediction) and M2 (the factor 12 of the Jacobian dropped) must exit 1, and an unknown label exits 2 (d1_rice_check.py:18-21).",
+   "floating_point": "USED: d1_rice_check.py line 3 states 'Decimal for the covariance algebra, floating point for the final one-dimensional integrals'; it combines Decimal at prec 50 with binary64 math.cos (quadrature nodes), math.erfc, math.exp, math.sqrt, math.log, math.gamma(7/6) for C and float formatting of the results (lines 73-181).",
+   "source_self_limits": "ADDENDUM.md:5: no priority or novelty claim follows. ADDENDUM.md:65-67: the elder (persistence) lifetime constant is said not to be established there. ADDENDUM.md:78-79: the check is not an independent argument for the law, since intermediate extrema are not excluded. ADDENDUM.md:100-102: extending #214's near-pair argument to the line covariance is author-side and not claimed by #214. ADDENDUM.md:151-152: a computation for attribution wording, not a reviewed theorem. ADDENDUM.md:9-10: quotations are OCR/PDF extraction.",
+   "exact_boundary": "Only the computed asymptotic f_H(h) ~ C h^(-1/3), P(H <= h) ~ (3/2) C h^(2/3) with the displayed formula for C under the stated jet-nondegeneracy hypotheses for processes on the line, and the binary64 ratio table for exp(-t^2/2). Excluded: the circle theorem (Theorem 1D of Math-#214), the per-maximum persistence constant 2C and every literature verdict ('not found' statements are protocol statements, not mathematics).",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: the value C = 0.199718... and the ratio table come from binary64 and Decimal floating arithmetic and may not be used as bounds. A4: transcribed as stated. A5: mutants M1 and M2 are kept as the failing controls. A6 (vacuity): the hypothesis tau^2 > 0 excludes the degenerate two-point spectra the source names; not vacuous. A7: author-side computation, explicitly not a reviewed theorem; no promotion. A8: the check is described from its code, not executed here.",
+   "blocking_reason": "There is no argument for processes on the line. One needs the leading-order contact asymptotics for adjacent maximum/minimum pairs, including the exclusion of non-adjacent extrema (the regular part), and a rigorous evaluation of C (Gamma(7/6) and the spectral moments) without binary64. No Lean statement exists.",
+   "attempted": "Specialization of the parent's contact computation to d = 1, a deterministic two-point Rice evaluation, and comparison with Math-#214's circle theorem.",
+   "resumption_cost": "Moderate: adapt the circle argument of Math-#214 to stationary processes on the line under the stated hypotheses; a rigorous constant is routine with interval arithmetic."
+  },
+  {
+   "object": "reviews/lm006_normalizer_stability_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:5-6 describes \"an additive analytic companion\". NOTE.md:21-25 says \"Its contribution is an explicit scalar formula and constants for the particular six-coordinate normalizer\". The note states its own identity (2), Lipschitz bound (5), coupling bound (6) and Gaussian constants (8)-(10). It is not a verdict on a named object.",
+   "title": "LM006 normalized typed endpoint weight: exact identity, Lipschitz bound and Gaussian coupling normalizer bound with explicit constants",
+   "statements": [
+    {
+     "file": "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+     "line_start": 43,
+     "line_end": 46,
+     "text": "For r>0,\n\n    T_r(v) = r^-2 |det M_r(v) det S_r(v)|\n             1_{M_r(v) negative definite} 1_{det S_r(v)<0}.    (2)"
+    },
+    {
+     "file": "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+     "line_start": 82,
+     "line_end": 85,
+     "text": "For v,w in R^6 and r,s in [0,1],\n\n    |T_r(v)-T_s(w)|\n      <= (||v||+||w||)^3 ||v-w|| + |r-s| ||w||^4.             (5)"
+    },
+    {
+     "file": "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+     "line_start": 160,
+     "line_end": 164,
+     "text": "Consequently, with s=0,\n\n    |E T_r(X)-E T_0(Y)| <= B e_r + D r,                      (8)\n    B=sqrt(2048(M^6+480 Lambda^3)),\n    D=8(M^4+48 Lambda^2)."
+    }
+   ],
+   "hypotheses": "v=(a_-,a_+,b_-,b_+,c_-,c_+) in R^6 and 0<=r<=1, with M_r, S_r, F_r, G_r, T_r as in (1) (NOTE.md:28-34). For (6): any coupled R^6-valued X,Y on one probability space with E(||X||+||Y||)^6<infinity and E||X-Y||^2<infinity. For (8): Gaussian endpoint laws N(m_r,Sigma_r) and N(m_0,Sigma_0), possibly singular, coupled by a common standard Gaussian as in (7), with ||m_i||<=M and ||Sigma_i||_op<=Lambda. The concrete torus application is restricted to 0<r<=r0<24, r<=1 (NOTE.md:36-39).",
+   "dependencies": "The historical P02-LM-006 body (9,147 bytes, SHA256 239ed094) §§2 and 4 for the six-pin law and endpoint coordinates. Math-#301 reviews/lm006_endpoint_extension_20261005/NOTE.md (blob 551aa563) for the conditional endpoint law. frontiers/remote_window_20260924/PROOF.md (blob b383bfcc) §§3-4 is cited as prior work, not a premise (NOTE.md:10-25).",
+   "finite_checks": "test_stability.py has 12 methods: 2187 physical determinant/type identity cases (729 vectors x 3 radii), r=0 boundary values, 300 parameter comparisons, 500 paired-vector comparisons, the quartic envelope, Gaussian moment constants, an exact covariance-I coupling check, and CLI rejection. stability_check.py prints a deterministic count of 2606 controls. Mutants M1-M5 must exit 1 (NOTE.md:195-215).",
+   "floating_point": "NONE: stability_check.py and test_stability.py use fractions.Fraction. random.Random with fixed seeds only supplies integer indices, converted to Fraction (F(rng.randrange(...),4)). stability_check.py raises TypeError on float input, and NOTE.md:214-215 states no floating simulation.",
+   "source_self_limits": "NOTE.md:5-6: scientific effect NONE, not a Lean formalization or a revision of any proof. NOTE.md:21-23: no new general filtered-determinant continuity theorem or qualitative O(r) rate. NOTE.md:130-133: (6) bounds normalizers, not probabilities of arbitrary events. NOTE.md:179-181: the endpoint laws and factor/mean error must come from the application, and (9) does not establish that identification. NOTE.md:189: no K, alpha or numerical radius is supplied. NOTE.md:219-226: no parent theorem, unconditional LM006 acceptance, full-field event transfer, numerical coefficient, sharp constants, mark uniformity or higher-d analogue; a fresh nonauthor review is required.",
+   "exact_boundary": "Exactly: the deterministic identity (2) and the bounds (3)-(5) for the scalar T_r on R^6; the coupling bound (6); the Gaussian specialization (8) with B and D as displayed; and the sufficiency (10), given z0>0 and B e_r + D r <= z0/2. No construction of the actual endpoint coupling or of a rate for e_r, and no field result. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states (2), (5), (6) or (8). A2: no axiom. A3: per the code read, the finite controls are exact Fraction only, with seeded integer sampling; no floating-point value supports any bound. A4: the constants are transcribed as stated, not loosened. A5: the mutants M1-M5 stay as failing controls. A6: (2)-(5) are unconditional on R^6; (9)-(10) are implications needing application-supplied inputs (NOTE.md:179-182). A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There are no kernel statements of: the 2x2 type/determinant identity (2) at every singular boundary; the quadratic-form Lipschitz estimate and product split behind (5); the Cauchy–Schwarz coupling bound (6); or the Gaussian norm-moment constants 48, 480 and 5760 and the resulting (8). The application inputs (actual endpoint Gaussian laws and a rate for e_r) are external and unformalized.",
+   "attempted": "Written derivation (NOTE.md §§2-5) and exact finite controls with five mutants (§6). No Lean statement.",
+   "resumption_cost": "Low to moderate: (2), (3) and (5) are finite-dimensional real-analysis lemmas, while (6) and (8) need Mathlib integrability and Gaussian moment facts in R^6. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/lm006_tilted_endpoint_law_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "Math-#315",
+    "reviews/lm006_normalizer_stability_20261005/NOTE.md"
+   ],
+   "classification_reason": "NOTE.md:4-6: 'an additive analytic companion, not a Lean formalization or a change of any historical theorem'. NOTE.md:15-17: 'This companion proves conditional statements about endpoint laws on R^6 and records exactly why total variation can fail there.' NOTE.md:34-36: 'The present addition distinguishes a common latent law from TWO different pushforward maps, provides explicit endpoint/margin constants, and exhibits the singular-support obstruction'. New inequalities (3)-(12) and the obstruction (13).",
+   "title": "LM006 tilted endpoint laws: density, BL and margin bounds; singular-support TV obstruction",
+   "statements": [
+    {
+     "file": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+     "line_start": 46,
+     "line_end": 46,
+     "text": " E_gamma|a/z-b/z0| <= 2 Delta/z0.                           (3)"
+    },
+    {
+     "file": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+     "line_start": 149,
+     "line_end": 149,
+     "text": " d_BL(nu_r,nu0) <= min(2, [2(B e+D0 r)+H e]/z0).           (11)"
+    },
+    {
+     "file": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+     "line_start": 154,
+     "line_end": 155,
+     "text": " |nu_r(A)-nu0(A)| <= (B e+D0 r)/z0\n        +(C_A+sqrt(3)H/z0)e^(2 alpha/(alpha+2)).           (12)"
+    },
+    {
+     "file": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+     "line_start": 174,
+     "line_end": 174,
+     "text": " nu0(S)=1, nu_r(S)=0, TV(nu_r,nu0)=1.                     (13)"
+    }
+   ],
+   "hypotheses": "(3)-(4): a probability space (Omega, gamma) and measurable nonnegative integrable a, b with z = E a > 0, z0 = E b > 0. (5)-(7): measurable X, Y into R^6 with H and e finite; Borel A and t > 0. (8)-(12): X = m_r + A_r Z and Y = m_0 + A_0 Z with one standard Gaussian Z; means of norm <= M and covariance operator norms <= Lambda as in #315; a = T_r(X), b = T_0(Y), Y = v0(u,Q); z0 > 0 and B e + D0 r <= z0/2; for (12) a margin bound beta_A(t) <= C_A t^alpha on (0, t0] and e^(2/(alpha+2)) <= t0. (13): Y supported on the plane S, X_r with a Lebesgue density and a finite positive tilted normalizer.",
+   "dependencies": "Math-#315, reviews/lm006_normalizer_stability_20261005/NOTE.md (blob 5790aaa0): the endpoint function (1), the inequality (2) (its (5)) and the moment constants entering (10); formal/WeightPerturbation is credited as related; Latz and Sprungk abstracts as context only (NOTE.md:219-226).",
+   "finite_checks": "test_tilt.py runs 12 methods (676 weight-pair TV comparisons, 64 latent events, 300 clipped-Lipschitz cases, 400 padded inequalities, 150 threshold/margin inequalities, 81 Gaussian fourth-moment cases, edge cases and the movement-versus-TV counterexample) as one-dimensional finite analogues; tilt_check.py has 687 exact baseline controls; M1-M7 exit 1 with named TILT_FAIL diagnostics and invalid arguments exit 2 (NOTE.md:196-210).",
+   "floating_point": "NONE: tilt_check.py and test_tilt.py use fractions.Fraction; random.Random with fixed seeds only draws rational test cases; the float 1.0 at test_tilt.py:74 is an invalid input expected to be rejected.",
+   "source_self_limits": "NOTE.md:60-61: (3)-(4) apply to the same measurable function on Omega only. NOTE.md:83-85: no W1 claim for unbounded test functions. NOTE.md:107-109: a small marginal error does not supply beta_A(t). NOTE.md:157-162: a conditional rate, not an optimized constant; no margin exponent, factor-error rate, uniform normalizer or radius is supplied; full-field events are not automatically endpoint functions. NOTE.md:186-194: the example is not a six-pin field realization; this is a scope obstruction, not an error finding against #315. NOTE.md:202-210: the finite controls are one-dimensional analogues, not the R^6 or Gaussian claims; no Lean target.",
+   "exact_boundary": "The normalized-density lemma (3)-(4) on a common probability space, the moving-map bounded-Lipschitz and padded-event bounds (5)-(7), the Gaussian specialization (8)-(12) with the explicit constants B, D0, H in terms of the supplied M and Lambda, and the singular-support obstruction (13) with its Gaussian example; all conditional on the listed inputs, which the note does not supply for the actual field.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only. A4: constants transcribed as stated. A5: mutants M1-M7 are kept as failing controls. A6 (vacuity): (12) is meaningful only when a margin exponent alpha is available, which the note does not supply for any field event; marked. A7: author-side companion requiring its own nonauthor read; no promotion. A8: scripts are described from their code, not executed here.",
+   "blocking_reason": "No Lean declaration of (3)-(13); application to LM006 requires the actual-field density premise (later supplied by a separate note), margin exponents beta_A for concrete events and Gaussian factor-error rates, none supplied here.",
+   "attempted": "Complete elementary arguments for (3)-(13), an explicit Gaussian example for the obstruction, one-dimensional exact analogues and seven mutants.",
+   "resumption_cost": "Low to moderate for (3)-(7) in Mathlib measure theory; moderate for the Gaussian moment identity (8) and the constants (10); application-level inputs remain open."
+  },
+  {
+   "object": "reviews/periodic_tau_positive_floor_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:18-19 calls the note a disjoint supplement giving an orthogonal spectral-polynomial decomposition and explicit positive variance bounds. NOTE.md:12-14 says the #298 results are \"not republished or reviewed here\". It states Proposition P1 (NOTE.md:46-50), Corollary P2 (NOTE.md:81-92), a finite-period application (NOTE.md:111-118) and a control showing that Delta alone is not a dimension-free lower bound (NOTE.md:106-109), all of its own.",
+   "title": "Cubic jet variance tau_u^2: orthogonal decomposition and dimension-free band c_low <= tau_u^2 <= c_high (PERIODIC-TAU-POSITIVE-FLOOR-20261005-v1)",
+   "statements": [
+    {
+     "file": "reviews/periodic_tau_positive_floor_20261005/NOTE.md",
+     "line_start": 46,
+     "line_end": 50,
+     "text": "**Proposition P1.** For every unit direction in every finite dimension,\n\n    tau_u^2 = Delta sum_i t_i^3\n            + 9 m2 V2 sum_{i!=j} t_i^2 t_j\n            + 36 m2^3 sum_{i<j<k} t_i t_j t_k.          (1)"
+    },
+    {
+     "file": "reviews/periodic_tau_positive_floor_20261005/NOTE.md",
+     "line_start": 81,
+     "line_end": 89,
+     "text": "**Corollary P2.** Let\n\n    c_low = min{Delta, 3 m2 V2, 6 m2^3},\n    c_high = max{Delta, 3 m2 V2, 6 m2^3}.\n\nThen for EVERY finite d>=1 and every unit u,\n\n    c_low <= tau_u^2 <= c_high,                         (3)\n    tau_u^2 >= Delta/d^2.                               (4)"
+    },
+    {
+     "file": "reviews/periodic_tau_positive_floor_20261005/NOTE.md",
+     "line_start": 106,
+     "line_end": 109,
+     "text": "Do not use Delta alone as a dimension-free lower bound: for the symmetric\nlaw with total mass 99/100 on {-1,1} and 1/100 on {-10,10}, the equal two-support\ndirection has variance strictly below its axis value Delta. This is a control,\nnot a claim that that discrete law is P's spectrum."
+    }
+   ],
+   "hypotheses": "tau_u^2=Var(partial_u^3 f(0) | grad f(0)=0) for |u|=1, conditioning on the full gradient only, for jointly Gaussian field derivatives with a product spectral representation. X_1,...,X_d are independent copies of a symmetric real X with finite sixth moment and m2=E X^2>0. m4 and m6 are raw moments, Delta=m6-m4^2/m2, V2=m4-m2^2 and t_i=u_i^2 (NOTE.md:24-44). Application: P's variance-one covariance at a fixed L>0, with one-coordinate weights proportional to exp(-2 pi^2 n^2/L^2) at X=2 pi n/L (NOTE.md:111-118). The control (NOTE.md:106-109) uses the stated discrete symmetric law.",
+   "dependencies": "P imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md §§1-2 (product spectral model). Math-#297 (named computational interface). Math-#298 REPORT.md (commit 9deebd17, blob 2166869f), whose cumulant formula and sharp extrema are credited but not republished (NOTE.md:10-22). The SOURCES.json bindings are listed at NOTE.md:21-22.",
+   "finite_checks": "positive_tau.py is a standalone oracle: it expands E(Y^6) and E(Y^3 X_i) by multinomials and forms the full-gradient Schur complement. test_positive_tau.py has nine methods, including the ten polynomial summands on all 64 atoms of a three-coordinate {-2,-1,1,2} product law, and the invalid Delta-only floor. The standalone run reports 60 Schur identities, 462 convex-weight identities, 1848 band inequalities, 1848 floor inequalities and 1386 strict positive-law cases. Mutants M1-M4 must exit 1 (NOTE.md:136-161).",
+   "floating_point": "NONE: positive_tau.py uses fractions.Fraction and math.factorial and explicitly refuses float and bool inputs. Accepted decimal strings mean their exact rational value (NOTE.md:151-153). No float arithmetic.",
+   "source_self_limits": "NOTE.md:6: scientific effect NONE, author-side mathematics, not scientific acceptance. NOTE.md:31-33 and 74-77: the spectral coordinates are not the field derivatives, and their residual law is not the field's conditional law. NOTE.md:105-109: the band need not be sharp, and Delta alone is not a dimension-free lower bound; the discrete control law is not P's spectrum. NOTE.md:117-118: no numerical value of c_low and no uniform-in-L assertion. NOTE.md:120-125: no uniform full-jet covariance floor, finite-r pinned-law bound, selected weight normalizer, dimension-uniform lifetime coefficient or uniform parent constants. NOTE.md:162-164: the finite checks are not proofs, and no Lean execution.",
+   "exact_boundary": "Exactly the covariance identity (1) for the product spectral model, and the band (3) and floor (4) for every finite d and unit u. Also the symbolic statement that P's finite-L spectrum gives Delta>0, hence c_low>0, at each fixed L. Also the stated control: for the symmetric law with mass 99/100 on {-1,1} and 1/100 on {-10,10}, the equal two-support direction has variance strictly below its axis value Delta, so Delta alone is not a dimension-free lower bound (NOTE.md:106-109). No numerical constant, no sharpness, no uniformity in L, no full-jet or pinned-law floor. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states P1 or P2. A2: no axiom. A3: per the code read, the oracle and tests use exact rational arithmetic and refuse floats; no floating-point value supports any bound. A4: the bounds are transcribed as stated, not loosened. A5: the source reports its initial failing suite and keeps the mutants M1-M4 (NOTE.md:148-158). A6: non-vacuous for P's spectrum (Delta>0, NOTE.md:114-117); in the degenerate case V2=0, Delta=0 and c_low=0 (NOTE.md:101-103). A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There are no kernel statements of: the identification of tau_u^2 with the second moment of the spectral residual R through the product spectral representation and the Schur complement; the centeredness and pairwise L2-orthogonality of the three summand families in (2) under independence and symmetry; the convex-combination argument for (3) and the convexity bound for (4); Delta>0 for the periodized Gaussian spectral law; or the variance comparison for the discrete control law.",
+   "attempted": "Written argument for P1 and P2 (NOTE.md §§2-3) plus an exact-rational oracle and a nine-method test with four mutants (§4). No Lean statement.",
+   "resumption_cost": "Moderate: the algebraic identity and band (1)-(4) and the discrete control are finite polynomial and moment computations, suitable for Lean with moments as real parameters. Linking them to the Gaussian conditional variance needs Gaussian regression infrastructure. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/pr25_typed_transfer_nonauthor_20260925",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "Math- pull request 25",
+    "reviews/collision_mechanism_20260925/NOTE.md"
+   ],
+   "classification_reason": "R1 and R2 are ACCEPTed (REVIEW.md:56-62), which is review content. R3 is AMEND_REQUIRED: REVIEW.md:184-188 give an explicit counterexample (h = 2 kappa r^m with alpha = 1, m = 3, kappa = b = 1, R = 1/2, giving N^3 = 1/512 against the displayed 1/128) to the cumulative statement (D2) as written, and REVIEW.md:190-197 state the amended hypothesis list under which (D2) holds. A counterexample plus an erratum changing a statement is standalone content.",
+   "title": "PR25 review: counterexample and amended hypotheses for the cumulative transfer (D2)",
+   "statements": [
+    {
+     "file": "reviews/pr25_typed_transfer_nonauthor_20260925/REVIEW.md",
+     "line_start": 184,
+     "line_end": 188,
+     "text": "The cumulative statement (D2) needs an explicit retained hypothesis `h/(κ r^m)→1`. The paragraph that introduces (D2) drops \"the derivative hypotheses\" and invokes \"monotonicity and the same comparison/envelope assumptions.\" Comparison bounds do not fix the constant. If `h=2 κ r^m`, then `c_0=1` and `C_0=3` are legal, `h_r/(m κ r^{m-1})=2`, and both ratio limits fail. For `α=1`, `m=3`, `κ=b=1`, and `R=1/2`,\n\n`ℓ=1/4`, `N=R^2/2=1/8`, `N^3=1/512`,\n\nwhile the displayed constant `ℓ^{2/3}/2=2^{-7/3}` has cube `1/128`. The sharp constant is off by `2^{-2/3}`. The written proof passes from `∫_0^R r^α b dr ∼ b_0 R^{α+1}/(α+1)` to (D2) without the equivalence `R^{α+1}∼ℓ^β κ^{-β}`, which is exactly `(h(R)/(κ R^m))^β→1`."
+    },
+    {
+     "file": "reviews/pr25_typed_transfer_nonauthor_20260925/REVIEW.md",
+     "line_start": 190,
+     "line_end": 195,
+     "text": "Amendment required in the cumulative paragraph, and only there:\n\n- Retain `h(0+,z)=0`, monotonicity, `b(r,z)→b_0(z)`, the envelope `∫ G κ^{-β} dλ<∞`, and the limit `h/(κ r^m)→1`.\n- Retain a domination hypothesis that bounds `R^{α+1}` by a multiple of `(ℓ/κ)^β`. The existing lower comparison `h≥c_0 κ r^m` is enough for that bound.\n- The derivative limit `h_r/(m κ r^{m-1})→1` and the lower bound on `h_r` are not required for (D2). They remain required for (D1).\n- Insert the equivalence `R^{α+1}∼(ℓ/κ)^β` in the proof, before the constant `1/(α+1)` is identified with (D2)."
+    }
+   ],
+   "hypotheses": "Section D setting of reviews/collision_mechanism_20260925/NOTE.md: beta = (alpha+1)/m, lifetime map ell = h(r,z) with inverse r = R(ell,z) on (0, r_0). For the amended (D2): h(0+,z) = 0, monotonicity, b(r,z) -> b_0(z), the envelope integral of G kappa^(-beta) finite, h/(kappa r^m) -> 1, and a domination bound of R^(alpha+1) by a multiple of (ell/kappa)^beta, available from h >= c_0 kappa r^m (REVIEW.md:192-195).",
+   "dependencies": "reviews/collision_mechanism_20260925/NOTE.md at ad35e46d (blob 3ee30829), Sections B-D, (D1) and (D2).",
+   "finite_checks": "algebra_check.py (12 unittest methods, Laurent polynomials over Q): the six-pin null space and axial solution, the (B2) critical-point equations, the determinant identities (B4), the witness minor v^6/24, the endpoint quotient 36 k^2 a^2, the power 2+3-6+6-2 = 3, the cubes 1/512 != 1/128 for h = 2 r^3, the density limits 1/2 and 1/4, and the small-mark value 8 at ell = 1/64 (REVIEW.md:211-213).",
+   "floating_point": "NONE: algebra_check.py uses fractions.Fraction (Q) inside a Laurent-polynomial class; no float.",
+   "source_self_limits": "REVIEW.md:62: R1/R2 do not accept a probability lower bound, an elder-defect lower bound or a whole-annulus theorem. REVIEW.md:197: the rest of Section D needs no change of mathematical statement. REVIEW.md:201: the fixed chart K is the whole geometric domain of the R2 acceptance; nothing accepts PR22, a two-scale annulus or a shrinking gap. algebra_check.py:1-5: finite algebraic facts that do not establish the Gaussian continuum limit.",
+   "exact_boundary": "The counterexample showing that (D2) as printed does not follow from the comparison bounds alone, and the amended cumulative statement (D2), N(ell) ~ C ell^beta/beta under the retained hypotheses of REVIEW.md:192-195, with the derivative limit not required. The R1/R2 acceptances belong to the reviewed note.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only. A4: the counterexample values and amended hypotheses are transcribed as stated. A5: no mutant suite; the counterexample is itself a negative control. A6 (vacuity): not vacuous; the amended hypotheses are met by h = kappa r^m. A7: reviewer amendment; no promotion. A8: algebra_check.py is described from its code, not executed here.",
+   "blocking_reason": "The amended (D2) is a real-analysis change-of-variables statement with dominated convergence; no Lean declaration exists, and its use for the Gaussian collision mechanism depends on Section C's unformalized Kac-Rice kernel.",
+   "attempted": "An explicit counterexample with exact arithmetic, the derivative counterexample check, the phase-diagram check and the amended hypothesis list.",
+   "resumption_cost": "Low for the abstract (D2) lemma and the counterexample in Mathlib; high for the field application."
+  },
+  {
+   "object": "reviews/side24_d2_certified_small_L_claude_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:17 gives outward enclosures of coefficient (15.2) in d=2 at L in {24, 8, 2π, 4, 3, 2}, plus directional positivity of τ², det V and Σ_{A|V}. NOTE.md:15 says the small-L values were diagnostics only before this packet. These are new numerical bounds of the record's own, stated in the NOTE.md:61-79 results. Formula (15.2) is imported and, per NOTE.md:17, not reviewed here.",
+   "title": "SIDE24 d=2 coefficient c_{2,L}: outward rational enclosures at L in {24, 8, 2pi, 4, 3, 2} and directional positivity of tau^2, det V, Sigma_{A|V}",
+   "statements": [
+    {
+     "file": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+     "line_start": 17,
+     "line_end": 17,
+     "text": "This packet gives **rigorous outward enclosures** of the coefficient (15.2) in `d = 2` for P's SIDE24 family at `L ∈ {24, 8, 2π, 4, 3, 2}`. It also certifies that, in every direction, τ², `det V` and `Σ_{A|V}` are positive. Formula (15.2) itself is imported from P, as in `side24_v1`; this packet does not review it."
+    },
+    {
+     "file": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+     "line_start": 65,
+     "line_end": 73,
+     "text": "| `L` | `c_{2,L}` enclosure | `c_{2,L}/c_2` | `a`, `N` | lower bound of min τ² over directions |\n|---|---|---|---|---|\n| ref | `0.073406919306034271030135962957 … 958` | 1 | 1, 128 | 6 |\n| 24 | `0.073406919306034271030135962957 … 958` | `1 ± 1e-25` | 1, 128 | 5.9999999 |\n| 8 | `0.073406919277779905473535403534 … 535` | `0.99999999961509942354605845` | 1, 128 | 5.9999999 |\n| 2π | `0.073405684662965293708694735170 … 171` | `0.99998318083525845730400135` | 1, 128 | 5.9997420 |\n| 4 | `0.067568657600538789457649064979 … 980` | `0.92046714722959966550359775` | 1, 128 | 4.5857514 |\n| 3 | `0.049879432666614182044489927839 … 840` | `0.67949224866209501388496905` | 1/4, 512 | 0.76518609 |\n| 2 | `0.012617593130692105902277303954 … 955` | `0.17188561037535465056755305` | 1/64, 8192 | 1.8255735e-4 |"
+    },
+    {
+     "file": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+     "line_start": 78,
+     "line_end": 78,
+     "text": "- **Positivity.** τ², `det V` and `Σ_{A|V}` have certified positive minima at every `L`. At `L = 2` the minimum of τ² is `Δ ≈ 1.8256e-4`, attained on the axes."
+    },
+    {
+     "file": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+     "line_start": 79,
+     "line_end": 79,
+     "text": "- **Gram floors** (Astra, main#229 6002455230): `V2 ≥ 9h⁴p₁p₂` and `Δ ≥ 36h⁸p₁p₂/m2` hold at every `L` (check C7). At `L = 2` the `Δ` floor is nearly attained, with a margin of `5.6e-14`."
+    }
+   ],
+   "hypotheses": "P's SIDE24 family in d=2: K_L(z)=q_L(z_1)q_L(z_2), q_L=θ_L/θ_L(0), θ_L(t)=Σ_n e^{−(t+Ln)²/2}. Coefficient formula (15.2), imported from P and side24_v1, with c_{2,L}=Γ(7/6)/(24^{1/3}√π)·∫_0^{2π} Φ(q(θ)) dθ. The derivative covariance sign rule of reviews/iba1_periodic_jet_claude_20261005. The one-variable reduction with q(θ)=(1−cos 4θ)/8 (NOTE.md:19-46). Periods L ∈ {24, 8, 2π, 4, 3, 2}. Astra's Gram floors as stated in main#229 6002455230 (NOTE.md:79).",
+   "dependencies": "coefficients/side24_v1/coefficient.py (OpenAI): outward rational interval class and enclosures of π, log, exp, real roots and Γ(7/6), loaded only after a git-blob match to pin c2d3ff33. The side24_v1 pinned ENCLOSURE.json (published d=2 interval). Pinned #297 RESULTS.json (diagnostic small-L values). P imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (15.2). The Math-#298 tau formula. Trefethen–Weideman, SIAM Rev. 56 (2014), Thm 3.2 (analytic-strip trapezoid error bound). Astra's Gram floors, main#229 comment 6002455230 (NOTE.md:39, 50-59, 79).",
+   "finite_checks": "certified_d2.py runs checks C1-C9. C1: the Gaussian reference equals side24_v1's c_2. C2: the L=24 value lies inside side24_v1's published interval. C3: the image-sum and Poisson-dual moment enclosures intersect. C4: strip analyticity holds, with quadrature bound <1e-40. C5: τ², det V and Σ_{A|V} are positive in every direction. C6: agreement with #297 diagnostics at L ∈ {8, 2π, 4, 3}. C7: Astra's Gram floors hold. C8: relative width <1e-25. C9: a 4x coarser rule intersects. RESULTS.json records every check true: C1 once for the reference, C2 once for L=24, C6 for L ∈ {8, 2π, 4, 3}, and C3-C5 and C7-C9 for each L ∈ {24, 8, 2π, 4, 3, 2}. Mutants M1-M4 each fail a check (NOTE.md:81-104).",
+   "floating_point": "NONE: certified_d2.py imports hashlib, importlib.util, json, os, sys and fractions.Fraction. All bound arithmetic uses the outward-rounded rational interval class of coefficients/side24_v1/coefficient.py, which imports Fraction and math.factorial/isqrt only. NOTE.md:110 states that no floating point enters any reported bound. The ≈ values in the prose are display text only.",
+   "source_self_limits": "NOTE.md:6-7: scientific effect NONE; additive packet; no proof, status, register or formal change. NOTE.md:17: formula (15.2) is imported and not reviewed. NOTE.md:106-111: d=2 only, with d=3 and d=4 not attempted; (15.2), its prefactor and conventions are imported; no lifetime theorem, persistence pairing or uniform-in-L statement; rigor rests on side24_v1's interval library (outward rational grid 10^-80 with analytic series remainders) and Python integer arithmetic; the anisotropy measures and other invariants are not recomputed.",
+   "exact_boundary": "Exactly the outward enclosures of c_{2,L} at L ∈ {24, 8, 2π, 4, 3, 2} and the reference, the ratio intervals c_{2,L}/c_2, and positive lower bounds for τ², det V and Σ_{A|V} over all directions at each listed L. Also the check that Astra's Gram floors V2 ≥ 9h⁴p₁p₂ and Δ ≥ 36h⁸p₁p₂/m2 hold at each listed L (NOTE.md:79, check C7). All of this is conditional on formula (15.2) as imported from P and on the correctness of the side24_v1 interval library. No other L, no d>=3, no uniform-in-L or lifetime statement. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states any enclosure. A2: no axiom. A3: per the code read, the enclosures come from outward rational interval arithmetic (Fraction) with explicit tail and quadrature error terms; no floating-point value supports any bound. A4: the enclosures are transcribed as the source rounds them outward, not loosened. A5: the mutants M1-M4 stay as failing controls. A6: conditional on (15.2); if (15.2) were incorrect, the enclosures would bound a different quantity. A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "No kernel statement exists of: formula (15.2) for c_{2,L} (imported from P, unformalized); the one-variable reduction to Φ(q) through the product-theta covariance identities; the image-sum and Poisson-dual tail lemmas; the Trefethen–Weideman analytic-strip trapezoid error theorem with the maximum-modulus bound M; or the correctness of the side24_v1 interval library (π, log, exp, roots, the Γ(7/6) Stirling remainder). The enclosures are outputs of a Python rational-interval program, not kernel-checked statements.",
+   "attempted": "A standard-library rational-interval computation with two independent moment routes, an analytic-strip quadrature error bound, a coarse-rule cross-check, pinned comparisons and four mutants. A dedicated workflow replays both Python modes (NOTE.md:113-123). No Lean statement.",
+   "resumption_cost": "High: it needs a formal statement of (15.2) and a kernel-checked rational-bound pipeline (Taylor-model bounds for exp, log, π and Γ(7/6), theta-sum tails, and the quadrature error theorem). Dormant until deliberately reopened."
+  }
+ ]
+}

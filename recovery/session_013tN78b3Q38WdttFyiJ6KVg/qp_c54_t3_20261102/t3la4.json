@@ -1,0 +1,365 @@
+{
+ "batch": 4,
+ "math_ref": "19a55750451b8016b50d1d20be6a18c021807ecb",
+ "records": [
+  {
+   "object": "reviews/c7_nonvanishing_openai_20260929",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "CL-D1-UNRESTRICTED-DIFFERENCE-20260929-v3",
+    "frontiers/unrestricted_selection_difference_20260929/PROOF.md",
+    "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md"
+   ],
+   "classification_reason": "Mostly a nonauthor review. REVIEW.md:9-19 ACCEPTs Theorem U and (U2)-(U4) of CL-D1-UNRESTRICTED-DIFFERENCE-20260929-v3 (frontiers/unrestricted_selection_difference_20260929/PROOF.md), and REVIEW.md:30-143 re-derive the reviewed argument against the parent. It also asserts two results of its own. (i) REVIEW.md:154-163 presents 'a useful strengthening of the finite illustration' for every ell in [0,1/4], with a fixed square cos(a) = 7/16 and three exact slack values; the reviewed PROOF.md:147-154 checks its witness only 'for three values of ℓ', with cos a = -alpha/2. (ii) REVIEW.md:136-139 states that the parent leading density gives finiteness of the unrestricted nonselected moments for q > -2/3; PROOF.md states only divergence for q <= -1 (PROOF.md:34-35, 143-144). The far rejected density Theta(1) remark (REVIEW.md:126-128) matches PROOF.md:162 together with parent (14.1). The Theorem U acceptance is review content of the reviewed packet.",
+   "title": "C7 review: fixed-square separation of the author witness for all ell in [0,1/4]",
+   "statements": [
+    {
+     "file": "reviews/c7_nonvanishing_openai_20260929/REVIEW.md",
+     "line_start": 154,
+     "line_end": 163,
+     "text": "A useful strengthening of the finite illustration is checked for a WHOLE interval,\nnot a fit from samples. For the author's trigonometric polynomial, choose a fixed\nsquare with cos(a)=7/16. For every ell in [0,1/4], alpha=ell/2-1 is in [-1,-7/8].\nThe quadratic P(c)=alpha*c+c^2 is convex, so its maximum on [7/16,1] occurs at an\nendpoint. Every relevant shell-gap affine expression is minimized at alpha=-7/8;\nits three exact values are 17/256, 161/256 and 5/16, all positive. Endpoint Hessian\nsigns and the height difference hold throughout that interval. This verifies a\ndeterministic square-separation mechanism. It is not the arbitrary-rho spherical\nwitness or a numerical Gaussian probability lower bound. The mathematical proof\nuses the smooth localized construction, not this finite example."
+    },
+    {
+     "file": "reviews/c7_nonvanishing_openai_20260929/REVIEW.md",
+     "line_start": 136,
+     "line_end": 139,
+     "text": "Direct integration against ell^q gives infinite nonselected moments for q<=-1.\nIt says nothing by itself about finiteness above -1. The parent leading density\nsupplies finiteness for q>-2/3; this review does NOT close the intervening strip\n(-1,-2/3] or call -1 a sharp unrestricted threshold. The already reviewed compact"
+    }
+   ],
+   "hypotheses": "The author's trigonometric polynomial g(u,v) = alpha cos u + cos^2 u + cos v on (R/2piZ)^2, with alpha = ell/2 - 1 (PROOF.md:150); ell in [0,1/4]; the fixed square |u|,|v| <= a with cos(a) = 7/16 (REVIEW.md:156-157). The reduction relies on convexity of P(c) = alpha c + c^2 on [7/16,1] and on the assertion that every relevant shell-gap affine expression is minimized at alpha = -7/8 (REVIEW.md:157-159). The q > -2/3 remark relies on the parent's unrestricted leading asymptotics nu_cand^all ~ c_{d,L} ell^(-1/3) (Theorem C) and on nonnegativity of the nonselected measure (REVIEW.md:136-139).",
+   "dependencies": "The witness of frontiers/unrestricted_selection_difference_20260929/PROOF.md section 4 (lines 147-154); no Gaussian, Kac-Rice or parent input enters that finite statement. The q > -2/3 remark uses Theorem C (1.3) and (14.1) of imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md, as reconciled in Math-#126.",
+   "finite_checks": "check.py (Fraction only), WITNESS group: evaluates the three gap expressions -alpha(1+c)-c^2-1, -alpha(1+c)-c^2-c and -2alpha-1-c at alpha = -7/8, c = 7/16, and asserts that their minimum equals 17/256 > 0. It checks the height difference and Hessian-sign conditions only at ell = 0 and ell = 1/4. Two flags are constant predicates: 'alpha_endpoint_is_worst' is 1+c>0 and 2>0, and 'cosine_quadratic_convex' is F(2)>0 (check.py:19-20). So the interval reduction itself is argued in prose, not exercised. The MOMENT group checks only the predicate q <= -1 at q = -1, -2, -3/4 and does not test the q > -2/3 finiteness remark. Five mutants (above-level, bad-shell, missing-pin-correction, wrong-jacobian, omit-log-endpoint) must fail; RESULTS.json records passed: true.",
+   "floating_point": "NONE: check.py imports fractions.Fraction as F and uses rational arithmetic only; no float, math or Decimal use.",
+   "source_self_limits": "REVIEW.md:161-163: the example is not the arbitrary-rho spherical witness or a numerical Gaussian probability lower bound, and the reviewed proof uses the smooth localized construction instead. check.py's scope string says finite algebra and counterexample controls only, with no continuum support, topology or Kac-Rice check. REVIEW.md:147-152: the controls do not establish the Gaussian support theorem, persistence incidence, Kac-Rice applicability or the compact lower-semicontinuity argument. REVIEW.md:138-139: the strip (-1,-2/3] is not closed and -1 is not called a sharp unrestricted threshold. REVIEW.md:27-28: the author witness code was read but not executed by the reviewer.",
+   "exact_boundary": "Two items. (i) The deterministic statement of REVIEW.md:154-160 for the single polynomial g, for ell in [0,1/4] and cos(a) = 7/16: the three listed shell-gap affine expressions are positive, with values 17/256, 161/256 and 5/16 at alpha = -7/8, and the endpoint Hessian signs and the height difference hold throughout the interval. (ii) The remark of REVIEW.md:136-139 that the unrestricted nonselected moments are finite for q > -2/3, as a consequence of parent Theorem C, with the strip (-1,-2/3] left open. Not included: a derivation that the three expressions exhaust the square-boundary maximum (asserted, not derived in the review), any arbitrary-rho spherical witness, any probability bound, and Theorem U itself.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only. A4: values transcribed as stated, not loosened. A5: the five mutants are kept as the source's failing controls. A6 (vacuity): two WITNESS flags in check.py are constant-true predicates and give no evidence for the convexity/endpoint reduction; marked here. A7: reviewer-side finite illustration and moment remark, explicitly not load-bearing for Theorem U; status is source text only. A8: check.py is described from its code, not executed here.",
+   "blocking_reason": "The interval claim needs a written argument that, on the boundary of the square |u|,|v| <= a with cos a = 7/16, the maximum of g is controlled by exactly the three affine expressions in alpha for every ell in [0,1/4], together with the Hessian-type conditions at (0,0) and (pi,pi). It then needs a Lean statement over the reals involving cos. Neither is present. The q > -2/3 remark inherits parent Theorem C, an unformalized Gaussian Kac-Rice asymptotic.",
+   "attempted": "A prose reduction through convexity of alpha c + c^2 on [7/16,1] and affine monotonicity in alpha, with exact evaluation at the endpoint alpha = -7/8 and endpoint checks at ell = 0 and 1/4 in check.py. The q > -2/3 remark is a one-line comparison with the parent leading density.",
+   "resumption_cost": "Low for the polynomial claim: a compact finite-dimensional real inequality, which a Lean argument would handle with elementary trigonometric bounds on the square boundary and polynomial arithmetic. The moment remark is immediate given Theorem C but inherits its high Gaussian cost."
+  },
+  {
+   "object": "reviews/d2_remainder_full_depth_claude_20260930",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "LIFETIME-BOUNDED-REMAINDER-20260924-v1",
+    "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+    "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+    "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md"
+   ],
+   "classification_reason": "The verdict (REVIEW.md:21-36: ACCEPT R1-R6 of Theorem R in frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md) and sections R1-R6 (REVIEW.md:38-168) are review content. The non-blocking Remarks add statements the reviewed note does not make: REVIEW.md:177-183 assert that at fixed (b,k,u) the contact error is O(r^2), 'So A_r = A_0 + O(r²)', so that the note's (R10)-(R11) factor r(k+r) is 'valid but not sharp'; REVIEW.md:172-176 state the radius restriction r_0 < min(1, L/(4√2)) a successor should adopt. A sharper bound of its own makes this a standalone claim for those remarks only.",
+   "title": "D2 review remark: contact error O(r^2) at fixed (b,k,u)",
+   "statements": [
+    {
+     "file": "reviews/d2_remainder_full_depth_claude_20260930/REVIEW.md",
+     "line_start": 177,
+     "line_end": 183,
+     "text": "2. **Where the `O(1)` comes from.** At fixed `(b, k, u)` the contact error is in fact `O(r²)`, not `O(r)`: every\n   observation row is even in `r` (checker C1), the covariance and coupling are even, the only odd target\n   coordinate is `b − kr³/2` (an `O(r³)` shift that enters no Hessian and changes `Z_r` by `O(r⁵)`), and the\n   unsigned product `det H(−ru/2)·det H(ru/2)` is symmetric under the pin swap; the typed indicator's boundary\n   layer carries a vanishing determinant factor and is `o(r)`. So `A_r = A_0 + O(r²)`, and (R10)–(R11)'s\n   `r(k + r)` is valid but not sharp in `r` at fixed `k` (the pathwise (R7)/(R6) bounds are first-order; the\n   cancellation is one of expectations). This does not improve Theorem R: the near remainder is dominated by"
+    },
+    {
+     "file": "reviews/d2_remainder_full_depth_claude_20260930/REVIEW.md",
+     "line_start": 172,
+     "line_end": 176,
+     "text": "1. **Embedding radius.** §2 chooses `r_0 ≤ 1` \"inside the torus injectivity scale\"; for the cap implication\n   `A_r(1 − p_r) ≤ B_r` (the step before (R12)) the reconciled requirement is the cap cylinder's embedding,\n   `r < L/(4√2)` (RECONCILIATION §5), which matters only when `L < 4√2` (for `L = 24` it is implied by `r_0 ≤ 1`).\n   Since every constant here is existential, taking `r_0 < min(1, L/(4√2))` costs nothing; a successor should\n   say so."
+    }
+   ],
+   "hypotheses": "D2's model read under the reconciliation reading rule (REVIEW.md:14): parent P with the congruence erratum, the section 9 Borel replacement v1.1, W1 and the embedding radius r < L/(4√2); fixed (b, k, u). The sketch uses evenness in r of every observation row (checker C1), even covariance and coupling, the O(r^3) odd target shift b - kr^3/2, pin-swap symmetry of det H(-ru/2) det H(ru/2), and an o(r) typed-indicator boundary layer carrying a vanishing determinant factor (REVIEW.md:177-181).",
+   "dependencies": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (rows (3.1), section 3 positivity, (5.1)-(5.4)); imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md section 1; reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md sections 1, 5, 7; D2's (R10)-(R11). Theorem U (frontiers/unrestricted_selection_difference_20260929/PROOF.md) is cited as context only (REVIEW.md:185-190).",
+   "finite_checks": "remainder_review_check.py C1-C7 (Fraction). C1 expands the four axial rows of parent (3.1) on a degree-7 polynomial and checks their second-order coefficients (U3: f5/40). It asserts that every r-coefficient vanishes from the most negative power the row can carry (r^-3 for U3, r^-1 for U1 and U2) through r^3, except r^0 and r^2; the forbidden list includes the even power r^-2 in U3 (remainder_review_check.py:113-119; RESULTS.json vanishing_terms_asserted). The two transverse rows are checked on a second polynomial. This is the evenness premise used by Remark 2. C2-C7 cover the (R6)/(R7) determinant lemmas, the reference product, the soft integral and (R15) split, the exponent ledger and the eta-split model at ell = 10^-18m. Seven semantic mutants exit 1, an unknown label exits 2, and output is byte-identical under -O. No check addresses the expectation-level cancellation or the o(r) boundary layer of Remark 2.",
+   "floating_point": "NONE: remainder_review_check.py imports fractions.Fraction as F; fractional powers are bound by exact cube identities and the C7 ratios are stored as rationals (for example 3994923/3850000); decimal-looking text occurs only in comments and docstrings.",
+   "source_self_limits": "REVIEW.md:182-193: the remark does not improve Theorem R, is context only, no step of R1-R6 uses Theorem U, and a second coefficient is not claimed anywhere. REVIEW.md:201-208: no numerical C, ell_*, r_0, z_* or c_{d,L}; no convergence of the remainder; no second coefficient; no unrestricted O(ell^(2/3)) difference; no d >= 3 lower bound; no register change. REVIEW.md:19: the reviewer's checks are finite controls only, not the Gaussian argument.",
+   "exact_boundary": "Only (i) the pointwise-in-(b,k,u) statement A_r = A_0 + O(r^2) for D2's contact intensity, given as a sketch resting on the listed parity and symmetry facts and an o(r) boundary layer, with no uniformity in k and no effect on Theorem R; and (ii) the suggested restriction r_0 < min(1, L/(4√2)). The ACCEPT of R1-R6 belongs to the reviewed LIFETIME-BOUNDED-REMAINDER object, not to this record.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only in the checker. A4: the claimed order is transcribed as stated. A5: the seven mutants are kept as the source's failing controls. A6 (vacuity): the remark's boundary-layer premise is asserted without an estimate; not vacuous, but unsupported by a written bound. A7: reviewer remark, explicitly non-blocking and context only; no status promotion. A8: the checker is described from its code, not executed here.",
+   "blocking_reason": "Remark 2 needs a second-order expansion in r of the typed determinant expectation under the coupled pin laws, including a quantitative o(r) bound for the type-indicator boundary layer; the review states these facts without a written estimate, and no Lean statement exists.",
+   "attempted": "A parity and symmetry sketch (REVIEW.md:177-183) supported by checker C1's evenness of the axial rows.",
+   "resumption_cost": "Moderate to high: a written second-order Gaussian regression expansion with boundary-layer control is needed; formalization would also need the parent's Gaussian interfaces."
+  },
+  {
+   "object": "reviews/d5_dimension_lift_erratum_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "frontiers/d5_dimension_lift_20260929/PROOF.md",
+    "frontiers/c6_palm_route_20260929/PROOF.md"
+   ],
+   "classification_reason": "ERRATUM.md:1 and 18-45 are an erratum to frontiers/d5_dimension_lift_20260929/PROOF.md §6.4 line 524. It replaces the displayed bound |det H_M|, |det H_S| <= C r K^(d-1) (ERRATUM.md:23) with |det H_i| <= (L r/2) K^(d-1) <= (r/2) K^d (ERRATUM.md:36). It gives an explicit matrix diag(rA/2,A,...,A) showing that the printed display fails with an unbounded ratio A/2 (ERRATUM.md:39-45), and it repoints a mis-citation (ERRATUM.md:25-31). It also records the same citation-only slip at line 602 of the consumer frontiers/c6_palm_route_20260929/PROOF.md (ERRATUM.md:84-93). Under the task rule, an erratum that changes a statement is a standalone claim. This holds even though ERRATUM.md:12-13 and 47-62 state that no theorem, constant, exponent or consumed bound changes.",
+   "title": "Erratum DL-AXIS-K-01: corrected axis-safe endpoint determinant display of the D5 dimension lift §6.4 (line 524)",
+   "statements": [
+    {
+     "file": "reviews/d5_dimension_lift_erratum_20261005/ERRATUM.md",
+     "line_start": 33,
+     "line_end": 45,
+     "text": "Lemma D2 (line 116) is `|det H| <= ||H e|| K^(d-1)`. With `||H_i e_x|| <= L r/2`\nit gives\n\n    |det H_i| <= (L r / 2) K^(d-1) <= (r / 2) K^d,          i in {M, S},\n\nusing `L <= K` from §1.1 (line 28), where `L` is the Hessian Lipschitz\nconstant on the chart and `K` dominates `1 + ||f||_(C^6)`. `L` is not a fixed\nconstant and cannot be absorbed into `C`: for `0 < r <= 1` and `L = K = A`,\nthe matrix `H = diag(r A/2, A, ..., A)` has operator norm `A` and exactly the\npermitted short column, but `|det H| / (r K^(d-1)) = A/2` is unbounded in `A`.\nThe display as printed therefore omits the factor `L` (equivalently, after\n`L <= K`, one power of `K`): the discrepancy is unbounded, not a constant. The\ncorrected display is the one above."
+    }
+   ],
+   "hypotheses": "The chart setting of frontiers/d5_dimension_lift_20260929/PROOF.md §6.4 with 0<r<=1. The column bound ||H_i e_x|| <= L r/2 comes from the critical-segment identity ([PP] (P15)). Lemma D2 gives |det H| <= ||H e|| K^(d-1). L<=K from §1.1, where L is the chart Hessian Lipschitz constant and K dominates 1+||f||_(C^6) (ERRATUM.md:25-39).",
+   "dependencies": "frontiers/d5_dimension_lift_20260929/PROOF.md, blob 9d82c707 (§1.1, §4.6, §5, §6.4-6.5, Lemma D2). [PP] (P15) critical-segment identity. [LP] imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (5.3) and (5.5). Consumers named: frontiers/c6_palm_route_20260929/PROOF.md (blob 89eb8adf) §6.2 R3a line 602, and frontiers/spectral_cluster_closure_20260929/PROOF.md (blob 16c56821) (ERRATUM.md:61-93).",
+   "finite_checks": "None in this directory. The source reports a git grep at Math- main c08e8359 over frontiers/, reviews/ and imports/ that finds exactly two occurrences of the citation pointer (ERRATUM.md:90-93).",
+   "floating_point": "NO_SCRIPTS: the directory contains only ERRATUM.md.",
+   "source_self_limits": "ERRATUM.md:3: scientific effect NONE. ERRATUM.md:10-13: PROOF.md stays byte-identical, and \"No theorem, constant, exponent, status, index or review changes\". ERRATUM.md:47-62: the downstream K^(3d) bound and Theorems I_d and G_d are stated unchanged. ERRATUM.md:80-82: both slips are confined to line 524 within PROOF.md. ERRATUM.md:84-93: the Palm-route consumer has a citation-only occurrence.",
+   "exact_boundary": "Exactly the corrected intermediate display |det H_i| <= (L r/2) K^(d-1) <= (r/2) K^d for i in {M,S}, replacing the printed |det H_M|, |det H_S| <= C r K^(d-1). The diag(rA/2,A,...,A) example shows the printed form fails with an unbounded ratio. The column-bound citation moves from [LP] (5.3) to [PP] (P15) at [DL] line 524 and, citation only, at [CP] line 602. The source asserts no change to any theorem of [DL] or its consumers. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states the corrected display or Lemma D2. A2: no axiom. A3: no scripts and no floating-point use. A4: the corrected display has a larger right-hand side than the printed one (the extra factor L, one power of K after L<=K). The source's diag(rA/2,A,...,A) example (ERRATUM.md:39-42) shows the printed bound false, so this corrects a false display. It is transcribed as the source states it and does not loosen a valid bound. A5: no tests exist to keep. A6: non-vacuous: the counterexample matrix satisfies the permitted short column. A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "No kernel statement exists of Lemma D2 (|det H| <= ||H e|| K^(d-1) for a symmetric matrix with operator norm at most K and a unit vector e), of the corrected endpoint display, or of the counterexample family. The source's claim that nothing downstream changes (only W_r |det H_X| <= C r^2 K^(3d) is consumed) depends on the unformalized analytic chain of [DL] §§6.4-6.5.",
+   "attempted": "A written erratum with an explicit counterexample matrix and a repository-wide citation search. The record lists Codex review 5422003010 and the Astra read 6005725870 of Math-#308 (ERRATUM.md:95-103). No code and no Lean.",
+   "resumption_cost": "Low for the matrix inequality and counterexample (finite-dimensional linear algebra in Mathlib). High for the no-downstream-change claim, which needs the [DL] analytic chain. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/iba2_009_matching_20261005",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "REPORT.md:6-7 calls itself an 'Author-side analytical audit contribution'. :13-23 lists three new outputs: the exact moving-band formula (2.3), an abstract kernel family with half-power mass ell^(1/2)/3150 (3.3), and sufficient tail conditions (4.2). These are new mathematical statements, not re-derivations of N, T or K.",
+   "title": "IBA2-009: half-power moving-band formula, abstract obstruction ell^(1/2)/3150 and sufficient matching conditions (IBA2-009-MATCHING-20261005-v1)",
+   "statements": [
+    {
+     "file": "reviews/iba2_009_matching_20261005/REPORT.md",
+     "line_start": 70,
+     "line_end": 74,
+     "text": "For all sufficiently small ell (depending on a,b,r0), the whole band satisfies\n`r<=min(k,r0)` and `k<=1`. Substitution of (2.2), including `dr`, gives exactly\n\n    nu_[a,b](ell)\n      = ell^(1/2)/10 * integral_a^b J_ell(y) y^(-3/2) dy.              (2.3)"
+    },
+    {
+     "file": "reviews/iba2_009_matching_20261005/REPORT.md",
+     "line_start": 142,
+     "line_end": 150,
+     "text": "For ell sufficiently small that the whole support is inside `0<r<=r0` and\n`k<=1/2`, theta=1 on the support. It suffices to take\n`ell <= min(2^(-16), r0^(10/3))`, with `0<r0<=1`. Put\n`t=ell^(3/2)/r^5`; then `k^3/r=t^2` and\n\n    integral r^(-2) A_rej(r,ell/r^3) dr\n      = integral ell^2 r^(-6) h(ell^(3/2)/r^5) dr\n      = ell^(1/2)/5 * integral_1^2 (t-1)^4(2-t)^4 dt\n      = ell^(1/2)/3150.                                           (3.3)"
+    },
+    {
+     "file": "reviews/iba2_009_matching_20261005/REPORT.md",
+     "line_start": 196,
+     "line_end": 198,
+     "text": "Split (4.1) into those two tails and [a,b], divide by ell^(1/2), first let\nell tend to zero, then exhaust the interval. The compact part is O(ell^(1/4))\nafter division, and (4.2) controls the tails. Hence `R(ell)=o(ell^(1/2))`."
+    }
+   ],
+   "hypotheses": "The report uses the source conventions of K section 4 without dividing by the full normalizer (REPORT.md:51-57). It takes the cap implication 1-e<=1_{G_r^c}, K2 and the Gaussian pin-density envelope, which give (2.1) 0<=B_r(k)<=C r^3/k for 0<r<=min(k,r0), 0<k<=1 (:57-60). It fixes 0<a<b<infinity and small ell (:63-71). §3 uses the abstract C^3 bump kernel (3.1)-(3.2) with ell<=min(2^(-16), r0^(10/3)) (:142-145). §4 assumes the representation (4.1) of a correctly matched residual and compact control O_(a,b)(ell^(1/2)) (:177-187).",
+   "dependencies": "N frontiers/elder_cusp_parity_20261002/PROOF.md (blob 16a1db06), T frontiers/third_order_rate_20261001/PROOF.md (blob 110ed33a) and K frontiers/c7_total_bounded_20260929/PROOF.md (blob 28748b08), all read at Math- dcd2a886 (REPORT.md:34-41); main#259 IBA2-009.",
+   "finite_checks": "boundary_layer_check.py runs 25 moving-layer, 30 compact-cusp, 25 fixed-gap, 20 small-gap and 3 exact-integral cases. Mutants M1-M5 must exit 1 and invalid arguments exit 2; normal and optimized JSON are byte-identical (REPORT.md:214-237). None of this was re-run here.",
+   "floating_point": "NONE: boundary_layer_check.py uses fractions.Fraction, with math.comb and math.factorial on integers only.",
+   "source_self_limits": "REPORT.md:25-32 says 'Not proved: that the Gaussian field has this nonzero profile, that its half-power coefficient exists or vanishes', that 'This is not a counterexample to Theorem N or to the persistence law', and that IBA2-009 remains open. :85-86 assumes no limit of J. :170-175 says constructing the matched residual is itself missing analysis. :207-208 says the sufficient assumptions are not established kernel properties. :218-220 says the finite checks are not proofs.",
+   "exact_boundary": "Exact claims: (i) for the actual nonnegative rejected kernel, given (2.1), the moving-band identity (2.3) and nu_[a,b](ell)=O(ell^(1/2)), with (2.4) if J_ell converges a.e., and the band scaling (2.5). (ii) The abstract family (3.1)-(3.2) satisfies the listed compact-parity, fixed-gap, quadratic, CE-plus-plus and K2-scale bounds, and has exact half-power mass ell^(1/2)/3150; any nonzero nonnegative C-infinity bump supported in (1,2) and bounded by 1 preserves the estimates with coefficient (1/5) integral h>0 (REPORT.md:156-160). (iii) Under (4.1), compact control and the tail condition (4.2), R(ell)=o(ell^(1/2)). Under the stronger all-domain bound |E_ell|<=C ell^(1/2) kappa^(-1/2) M(kappa), with integral of M(kappa) kappa^(-7/4) finite, the integral in (4.1) is O(ell^(3/4)) (:200-208). The obstruction is estimate-level (abstract kernels) and says nothing about the Gaussian field. Nothing is proved.",
+   "layer_a_status": "No Lean declaration exists. A3: exact rational checks only. Vacuity is marked: the source states that the abstract family is not a Gaussian realization and not a counterexample to Theorem N (REPORT.md:26-29, :137-138). A7: literal source only.",
+   "blocking_reason": "The actual profile J_ell(y) of (2.2) on a fixed positive y-band is not determined: whether it has a limit, and whether that limit vanishes, is unknown. The correctly matched residual E_ell, with fold, cusp and common terms subtracted, is not constructed. (2.1) depends on K2 and the Gaussian pin-density envelope of K, which are consumed without re-audit.",
+   "attempted": "The report substitutes y=k^3/r exactly over the band with its Jacobian, builds a polynomial bump with explicit integral 1/630, and passes to the limit by dominated convergence under (4.2) (REPORT.md §§2-4).",
+   "resumption_cost": "Low for (2.3) and (3.3), which are a change of variables and a polynomial integral and suit Lean. High for the actionable target of determining the actual nonnegative profile (REPORT.md:239-245)."
+  },
+  {
+   "object": "reviews/iba2_012_marked_sector_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "reviews/iba2_012_finite_radius_20261005/PROOF.md",
+    "frontiers/c6_marked_fourier_20260929/PROOF.md"
+   ],
+   "classification_reason": "NOTE.md:7: 'Author-side conditional publication candidate; nonauthor review required.' NOTE.md:19-23 use the existing MF1 estimate together with FR 'rather than assert a new Fourier or Kac–Rice theorem', but the note states a new generic lemma (S)/(MT) with explicit constants (NOTE.md:55-129), a field corollary (MT-field) (NOTE.md:155-160), the power-law form (3), the tuple bound (4) and interface sharpness (section 5); README.md:8-17 presents the proposed consequence.",
+   "title": "Marked-Fourier sector transfer with a logarithmic penalty (IBA2-012)",
+   "statements": [
+    {
+     "file": "reviews/iba2_012_marked_sector_20261006/NOTE.md",
+     "line_start": 77,
+     "line_end": 81,
+     "text": "Then\n\n    E_P[N^u 1_E] <= C_u rho Xi L^(u/gamma),             (S)\n    E_P[K^a N^s 1_E]\n        <= sqrt(A2a C_(2s)) rho Xi L^(s/gamma).         (MT)"
+    },
+    {
+     "file": "reviews/iba2_012_marked_sector_20261006/NOTE.md",
+     "line_start": 155,
+     "line_end": 160,
+     "text": "Applying (MT) gives the candidate field corollary\n\n    E_(Q_r^W)[K^a N^s; E]\n      <= C r^3 Xi [log(e/Xi)]^(d s/2),                 (MT-field)\n    E_(Q_r^W)[K^a N_R^s; S]\n      <= C r^3 Xi [log(e/Xi)]^(d s/2)."
+    },
+    {
+     "file": "reviews/iba2_012_marked_sector_20261006/NOTE.md",
+     "line_start": 209,
+     "line_end": 213,
+     "text": "For a fixed integer j>=1, (N_R)_j<=N_R^j. Therefore an r^-3-scaled expected\npositive measure of ordered distinct local j-tuples changes, upon deleting S,\nby total mass at most\n\n    C Xi [log(e/Xi)]^(d j/2).                          (4)"
+    }
+   ],
+   "hypotheses": "Generic lemma: one probability measure P; N nonnegative integer-valued, K >= 1, E measurable; gamma > 0, theta > 0, rho > 0, 0 < Xi <= 1, a >= 0, s > 0; (M) E[N exp(theta N^gamma)] <= B rho and (F) E[1_E] <= A0 rho Xi, E[K^(2a) 1_E] <= A2a rho Xi with constants independent of rho and Xi; L = log(e/Xi) (NOTE.md:57-75). Field corollary: fixed d >= 3, torus side, R >= 1, compact birth heights, gap interval [k_-, k_+] with k_- > 0, frames on the compact orthogonal group, Q_r^W with the full endpoint normalizer, 1 <= q <= d-2, ordered deterministic thresholds in [0,1/2], MF1 with gamma = 2/d and a fixed theta, FR at powers 0 and 2a, rho = r^3 (NOTE.md:133-154).",
+   "dependencies": "FR reviews/iba2_012_finite_radius_20261005/PROOF.md sections 3 and 8 (blob 5ed684c9); MF frontiers/c6_marked_fourier_20260929/PROOF.md section 1 (MF1) (blob efb702f6) with its conditional and regional proof ancestry; comparison only with CT (#319), the #324 note and the #327 log-cap note (NOTE.md:43-46).",
+   "finite_checks": "marked_entropy_check.py supplies rational ledgers (log power, derivative order, envelope order, spike family, log bounds); test_marked_entropy.py runs 15 methods, M1-M5 exit 1 with intended assertion failures and UNKNOWN exits 2 (README.md:19-31). marked_entropy_check.py:1-5 says these do not evaluate an infinite covariance or establish a field statement.",
+   "floating_point": "NONE: both scripts use fractions.Fraction; math.ceil is applied to an exact Fraction and math.factorial to integers; test_marked_entropy.py:45 notes that theta = log 2 is handled through a rational bound.",
+   "source_self_limits": "README.md:41-43: no lower local/factorial normalizer, all-mark or growing-radius theorem, full spatial limit or elder/lifetime matching. NOTE.md:162-164: no licence for E[N^s;S] on remote-only outcomes. NOTE.md:204-205: no unconditional improvement of the underlying field and no fewer inherited MF obligations. NOTE.md:217-224: deletion stability only; no lower bound at orders >= 3. Section 5 and README.md:16-17: sharpness holds only for the numerical interfaces, not for the actual Gaussian field.",
+   "exact_boundary": "(S) and (MT) for arbitrary laws satisfying (M) and (F), with the explicit constants k_u, H_u, c_u, C_u; the field corollary (MT-field), the power-law form (3) and the tuple-deletion bound (4) only as consequences of MF1 and FR at fixed parameters; interface sharpness only for the abstract families of section 5. Growing-order control and Gaussian lower bounds are excluded.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only. A4: bounds transcribed as stated. A5: mutants M1-M5 are kept as failing controls. A6 (vacuity): the note treats Xi = 0 separately (F makes E null) and requires s > 0 for the second field line; marked. A7: conditional author-side candidate requiring nonauthor review; no promotion. A8: scripts are described from their code, not executed here.",
+   "blocking_reason": "No Lean declaration: (S)/(MT) need the truncation at T, the series bound y^k exp(-theta y/2) <= k!(2/theta)^k and Cauchy-Schwarz on an event; the field corollary depends on MF1 (a marked Fourier theorem with regional ancestry) and FR, both unformalized; nonauthor review is required by the note.",
+   "attempted": "A complete elementary argument for (S) and (MT) with explicit constants, the field application, comparison with predecessors, rational ledgers and a 15-method suite.",
+   "resumption_cost": "Low for the generic lemma in Mathlib; high for the field corollary."
+  },
+  {
+   "object": "reviews/lm006_cubic_sign_band_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "reviews/lm006_endpoint_extension_20261005/NOTE.md",
+    "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+    "reviews/lm006_quantified_regression_20261005/NOTE.md",
+    "reviews/lm006_typed_sign_suppression_20261005/NOTE.md"
+   ],
+   "classification_reason": "NOTE.md:5-6: 'an additive analytic companion, not a Lean formalization'. NOTE.md:23-28: 'We add a CONDITIONAL density bound ... Integrating the actual sign interval yields order r e^2+e^5 and hence O(r^3).' NOTE.md:34-37: 'It supplies the explicit one-dimensional endpoint-band formula, a sufficient 11-observation confluent Gram proof ... and the source-matched consequence for this particular sign event.' New bounds (2)-(7), (11)-(12), (14) and the attained-order example (15).",
+   "title": "LM006 cubic saddle-sign bound by conditional sign-band integration",
+   "statements": [
+    {
+     "file": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+     "line_start": 56,
+     "line_end": 60,
+     "text": "Integrating the nonnegative quadratic polynomial gives\n\n    int_0^infty T_r(h,t) dt\n      <= |a_minus| [r b_plus^2 g_+^2/2\n                          +(a_plus)_- g_+^3/6].            (3)"
+    },
+    {
+     "file": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+     "line_start": 123,
+     "line_end": 126,
+     "text": "If 0<z_*<=z_r and e<=K_e r, and K2<=C2, K6<=C6 on a fixed interval,\n\n nu_r(E) <= min(1, (L/z_*) [sqrt(3 C6) K_e^2 r^3\n             +(105*10395)^(1/4) sqrt(2 C2) K_e^5 r^5/12]). (7)"
+    },
+    {
+     "file": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+     "line_start": 252,
+     "line_end": 254,
+     "text": "of P's global theorems. We obtain constants C<infinity and r_*>0 such that\n\n  nu_r{ f_yy(S)>=0 } <= C r^3,             0<r<=r_*<24.    (14)"
+    },
+    {
+     "file": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+     "line_start": 279,
+     "line_end": 281,
+     "text": "Continuity of phi and integral_0^1(2-s)(1-s)ds=5/6 yield\n\n    lim_{r->0} nu_r(E)/r^3=5 phi(0)/3>0.                 (15)"
+    }
+   ],
+   "hypotheses": "(2)-(4): a measurable R^6-valued X, the typed weight T_r of (1) with 0 <= r <= 1, E = {c_plus >= 0}, and a conditional Lebesgue density of X_c_plus given H bounded by L a.e. (NOTE.md:70-75). (5)-(7): K2, K6 finite, U and G individually Gaussian, a coupling to Y with Y_a_plus = 1 and Y_c_plus = Y_c_minus, e^2 = E||X-Y||^2, 0 < z_* <= z_r, e <= K_e r, K2 <= C2, K6 <= C6 (NOTE.md:94-126). (11)-(12): mean-square regularity (F C5, H_y C3, Q C1) and a positive definite 12-jet covariance (NOTE.md:136-149). (14): the spectral class (13) with a finite tenth moment, specialized to P's field with d = 2, L = 24, b = 6/5, k = 1/6 and #329's coupling (NOTE.md:209-256). (15): the abstract rank-one Gaussian family of NOTE.md:266-273.",
+   "dependencies": "P sections 1-2 (model, pins, positive spectrum), with sections 6-7 credited as prior methodology only; E #301 (reviews/lm006_endpoint_extension_20261005/NOTE.md) adjusted coordinates; N #315 (reviews/lm006_normalizer_stability_20261005/NOTE.md) typed weight; R #329 (reviews/lm006_quantified_regression_20261005/NOTE.md) quantified regression coupling with e <= K_e r, C2, C6 and z_r >= z0/2; S #325 (reviews/lm006_typed_sign_suppression_20261005/NOTE.md) moment-only estimate (SOURCES.json).",
+   "finite_checks": "cubic_band.py: 2214 exact controls (2160 band integrations, 40 Hermite monomial recoveries, four conditional variances, four sharp cubic integrals, six isolated witnesses) and a finite Gaussian model with exact Schur value 1 + h^4/4 and the deleted-mode countercontrol h^4/4; test_cubic_band.py runs 12 methods in both modes; M1-M6 exit 1 with the named reasons and unknown arguments exit 2 (NOTE.md:291-304).",
+   "floating_point": "NONE: cubic_band.py and test_cubic_band.py use fractions.Fraction with integer math.factorial and comb; the float 0.5 at test_cubic_band.py:82 is an input expected to be rejected.",
+   "source_self_limits": "NOTE.md:131-132: (6) and (7) do not follow from a mere second-moment error. NOTE.md:256-262: existence constants only, fixed dimension, period, birth, direction and gap mark; not a result about 1 - p_r, the elder partner, extra critical points, capture, lifetimes, all marks or growing windows; the endpoint total-variation obstruction remains. NOTE.md:283-287: the rank-one family is not an actual six-pin periodic field. NOTE.md:303-314: numerical checks are not arguments for the continuum claims; no Lean target; a fresh nonauthor review is required.",
+   "exact_boundary": "The deterministic band bound (2)-(3); the conditional-density bound (4); the Gaussian-moment consequences (5)-(7) under the stated coupling; the confluent 11-observation conditional-variance floor (11)-(12) under the 12-jet Gram hypothesis; the spectral-class and P-field corollary nu_r{f_yy(S) >= 0} <= C r^3 for 0 < r <= r_* < 24 with existential C and r_*; and the abstract attained-order limit (15). Nothing about lifetimes, selection or all marks.",
+   "layer_a_status": "A1/A2: no Lean declaration; no axiom. A3: rational arithmetic only. A4: bounds transcribed as stated. A5: mutants M1-M6 are kept as failing controls, including MARGINAL_DENSITY_NOT_SUFFICIENT. A6 (vacuity): the source exhibits the attaining family (15) and the marginal-density counterexample, so the hypotheses are not vacuous; the 12-jet Gram premise is argued for the spectral class (13). A7: author-side analytic companion requiring a fresh nonauthor review; no promotion. A8: scripts are described from their code, not executed here.",
+   "blocking_reason": "No Lean declaration; the field corollary (14) depends on #329's regression coupling and the #301/#315 interfaces (unformalized), on mean-square derivative regularity of the periodized field and on the confluent L2 convergence (10); the note asks for a fresh nonauthor review of the conditional-density step and the constants.",
+   "attempted": "A full written argument (sections 2-7) and exact finite controls with six mutants.",
+   "resumption_cost": "Moderate for the deterministic and abstract parts (2)-(7) and (15); high for (14) because of Gaussian Hilbert-space regularity and the imported couplings."
+  },
+  {
+   "object": "reviews/lm006_product_transverse_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:3-5 calls it an 'Additive analytic companion', and :20 says 'The primary result is finite-radius'. :44-116 derives new exact identities: the independent residual R, the conditional law (3), the density cap (4) and the six-pin law (5). :119-166 gives the contact variance (6)-(8), the direct bound (9) and the conditional sign-event bound (10)-(11). :218 says 'This is an author-side result requiring its own nonauthor source-bound review'.",
+   "title": "LM006 exact transverse conditioning for an axial product covariance",
+   "statements": [
+    {
+     "file": "reviews/lm006_product_transverse_20261006/NOTE.md",
+     "line_start": 89,
+     "line_end": 91,
+     "text": "W is independent of (B,J), hence of (B,G). Consequently\n\n Q(S) | (B,G) ~ N(G/2-m2[F(S)+F(M)]/2, g[1+rho(r)]/2).     (3)"
+    },
+    {
+     "file": "reviews/lm006_product_transverse_20261006/NOTE.md",
+     "line_start": 102,
+     "line_end": 104,
+     "text": "The conditional density cap is exactly\n\n    D_r = [pi g(1+rho(r))]^(-1/2).                           (4)"
+    },
+    {
+     "file": "reviews/lm006_product_transverse_20261006/NOTE.md",
+     "line_start": 162,
+     "line_end": 166,
+     "text": "If K4<=C4,K6<=C6,z_r=E T_r>=z_*>0 and rho(r)>=0 on one interval, then\n\n nu_r{c_+>=0} <= min(1,\n   [sqrt(3 C6)Gamma/2+sqrt(15 C4)Gamma^(3/2)/6]\n                       r^3/[z_* sqrt(pi g)]).             (11)"
+    }
+   ],
+   "hypotheses": "A centered real jointly Gaussian field with ACTUAL covariance rho(x-s)kappa(y-t): real even factors, rho(0)=kappa(0)=1, enough mean-square derivatives, and g=m4-m2^2>0 (NOTE.md:11-23). Coordinate-axis separation only (:38-40). -1<rho(r)<1 and Cov(B) positive definite (:68-74). (7) needs b>=0. (9) needs a finite axial second moment s2, gap r^3/6 and 0<r<=1. (11) needs K4<=C4, K6<=C6, z_r>=z_*>0 and rho(r)>=0 on one interval (:162).",
+   "dependencies": "P imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md at 91821f92 (blob dfed3b8d), §§1-2, as the model/pin source. E: #301 NOTE at e31b6ad8 (blob 551aa563). N: #315 NOTE at 5e027afc (blob 5790aaa0). B: #341 NOTE at 771913a7 (blob 88dae06c), the general sign-band theorem this note specializes (NOTE.md:25-36).",
+   "finite_checks": "test_product_transverse.py has twelve methods with full 11-observation rational Schur regressions on 55 positive product spectral modes and three rational unit-circle phases. The standalone product_transverse_check.py runs 30 controls with six incorrect alternatives (PRODUCT_FAIL) (NOTE.md:203-216). None of this was re-run here.",
+   "floating_point": "NONE: product_transverse_check.py and test_product_transverse.py use fractions.Fraction only.",
+   "source_self_limits": "NOTE.md:38-40: no identities for arbitrary orientations. :106-108: the uniform cap needs rho>=0. :116-117: independence holds under the pin law, not the tilted law. :168-174: uniform moment bounds and the finite-r normalizer radius are separate input obligations. :194-201: non-separable spectra are excluded. :218-225: no novelty, event identity, uniformity, constant, alignment or gate is claimed.",
+   "exact_boundary": "Exact claims: (2), independence of R=Q+m2F from finite F,H families; the conditional law (3) and the exact density cap (4); the six-pin transverse law (5); the contact law (6), the floor (7) and the closed form (8); the direct bound (9); (10)-(11), conditional on the stated moment and normalizer inputs; and the model match (12) for P's d=2 axial covariance at every 0<r<L. The source also exhibits a positive even non-separable spectrum (product weights times (1+k_x^2 k_y^2/100)) with nonzero Cov(Q+m2F,F''), showing that (2) needs separability (NOTE.md:194-196). Excluded: rotated or non-separable covariances, independence under the tilted law, uniform moments, the normalizer radius, constants. Nothing is proved.",
+   "layer_a_status": "No Lean declaration exists. A3: exact rational checks only. A7: (11) is conditional on inputs that the source names as separate obligations.",
+   "blocking_reason": "(11) needs uniform bounds K4 and K6 and a positive finite-r normalizer floor z_*, which the note does not supply. The zero-cross-covariance and mean-square-limit independence arguments and the band integration (10) are not formalized.",
+   "attempted": "The note differentiates the product covariance, builds an orthogonal residual, derives the conditional law without a Schur inverse via the (J,W) decomposition, gets the closed form by integration by parts, and integrates the band with Cauchy-Schwarz.",
+   "resumption_cost": "Moderate: the covariance identities (2)-(5) are finite Gaussian algebra suitable for formalization; (11) waits on the separate moment and normalizer inputs."
+  },
+  {
+   "object": "reviews/lm006_wrong_sign_asymptotic_20261006",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:5-6 describes \"a new additive author-side analytic proposal requiring its own nonauthor review\". NOTE.md:60-63 states \"**Theorem (new actual-field asymptotic).**\". NOTE.md:75-78 says the new contribution is the product-covariance split, the exact disintegration of this field's sign layer, and a strictly positive leading coefficient.",
+   "title": "LM006 saddle-transverse sign layer: nu_r(f_yy(S)>=0) = C_{L,b} r^3 + o(r^3) with explicit positive Gaussian-integral coefficient (side-24 field)",
+   "statements": [
+    {
+     "file": "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md",
+     "line_start": 33,
+     "line_end": 35,
+     "text": "Here x_+=max(x,0), x_-=max(-x,0). The event under investigation is ONLY\n\n    E_r={f_yy(S)>=0}={c_+>=0},"
+    },
+    {
+     "file": "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md",
+     "line_start": 49,
+     "line_end": 58,
+     "text": "Let Q, B, D be mutually independent real Gaussians with\n\n    Q ~ N(-m_2 b,delta), B ~ N(0,s^2/4), D ~ N(0,s^2).\n\nThe variable B is one HALF of the conditioned f_xxy(0), not that derivative\nitself. Define\n\n    J(d,u)=int_0^{d_+} (d-u-t)_+ (u-t)_+ dt, u>=0,\n    Gamma=E J(D,B^2), z_0=E (Q_-)^2,\n    p_0(0)=exp(-(m_2 b)^2/(2 delta))/sqrt(2 pi delta)."
+    },
+    {
+     "file": "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md",
+     "line_start": 60,
+     "line_end": 63,
+     "text": "**Theorem (new actual-field asymptotic).** For exactly the object above,\n\n    nu_r(E_r)=C_{L,b} r^3+o(r^3),\n    C_{L,b}=p_0(0) Gamma/z_0,       0<C_{L,b}<infinity.     (4)"
+    }
+   ],
+   "hypotheses": "P's normalized periodized Gaussian field in d=2 with side L=24 and the original coordinate axes. b=6/5, h=r/2, M=(-h,0), S=(h,0). Canonical Gaussian regression on the six pins f(M)=b, f(S)=b-r^3/6, grad f(M)=grad f(S)=0, giving Q_r. W_r, Z_r, T_r, z_r and nu_r as in (1). r decreases to 0 within 0<r<=r_*<min(1,24) with r_* sufficiently small. m_j are the exact torus spectral moments, with delta=m_4-m_2^2>0 and s^2=m_2 delta (NOTE.md:11-48).",
+   "dependencies": "P imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (model, pins, spectral positivity and regularity only). E reviews/lm006_endpoint_extension_20261005/NOTE.md (conditional endpoint interface). N reviews/lm006_normalizer_stability_20261005/NOTE.md (exact weight formula (2) and normalizer interface). C reviews/lm006_cubic_sign_band_20261006/NOTE.md (#341), credited for the prior cubic upper bound and abstract sharpness. Roles are listed in SOURCES.json (NOTE.md:72-79, 320-324).",
+   "finite_checks": "sign_coefficient.py and test_sign_coefficient.py run twelve exact-rational methods: the clipped integral J against root-split polynomial integration, thresholds, homogeneity, the positive rectangle, physical determinant/type scaling, average/difference covariance, pin-target drift, and complete contact regression for three finite product spectra recovering diag(delta, m_2 delta, m_2 delta). A nonproduct finite spectral example gives covariance 9/4. Four source corruptions must fail in both modes (NOTE.md:296-318).",
+   "floating_point": "NONE: sign_coefficient.py imports fractions.Fraction, json and typing only, and the test file uses Fraction and itertools. NOTE.md:66-67 says the coefficient is not numerically evaluated. No float arithmetic.",
+   "source_self_limits": "NOTE.md:5-7: scientific effect NONE, nonauthor review required, no revision of historical bytes. NOTE.md:33-37: the event is only f_yy(S)>=0, not the maximum's sign, elder failure, adjacency, capture or persistence. NOTE.md:39: no numerical r_*. NOTE.md:65-67: Theta(r^3), but the coefficient is not numerically evaluated. NOTE.md:127-130: no independence under nu_r is asserted. NOTE.md:292: (20) is symbolic, not an outward numerical torus enclosure. NOTE.md:309-311: no arbitrary orientation, nonproduct covariance, varying mark, growing period or dimension. NOTE.md:317-318: the finite tests are diagnostic controls, not a computer proof or Lean. NOTE.md:326-333: a new nonauthor read is required, and nothing follows about elder failure, capture or persistence.",
+   "exact_boundary": "Exactly the asymptotic (4) for the one fixed object (L=24, b=6/5, original axes, six-pin regression law, full normalizer), with coefficient p_0(0) Gamma/z_0 in (0,infinity) and the optional denominator identity (5). Theta(r^3) holds for this sign probability only. No numerical value of C_{L,b}, no rate for the o(r^3) term, and no other events, orientations, marks or periods. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states (4). A2: no axiom. A3: per the code read, the finite diagnostics are exact rational only; no floating-point value supports any bound or the coefficient. A4: the statement is transcribed as given, not loosened. A5: the initial twelve failing assertions and four corruption controls stay as evidence (NOTE.md:313-317). A6: a concrete fixed object, with strict positivity argued via the rectangle bound (20); not flagged vacuous. A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There is no kernel formalization of: the product-line covariance factorization (6)-(7) and the independence of R=Q+m_2F from the joint line processes (F,H); the pre-tilt independence and laws (8)-(9); the exact finite-radius disintegration of the sign layer (§4, (14)); the limit of the rescaled numerator with uniform integrability (§5, (16)); the normalizer limit consumed from E/N; or strict positivity via (20). The required periodized Gaussian field, mean-square derivative and conditioning infrastructure is absent in Lean.",
+   "attempted": "Written argument (NOTE.md §§2-6) and exact-rational finite diagnostics with four corruption controls (§7). No Lean statement.",
+   "resumption_cost": "High: it needs periodized Gaussian fields, mean-square derivatives, Gaussian conditioning and dominated-convergence limits in Lean, plus the E and N interfaces. Dormant until deliberately reopened."
+  },
+  {
+   "object": "reviews/pin_neighborhood_recon_20260926",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [],
+   "classification_reason": "NOTE.md:5-18 ('Conclusion') states a new bound, E[N(M+r{κr≤|s|≤1/4})]≤C r^3, under the six pins and endpoint weight, at reconnaissance level; it replaces the withdrawn O(r^2 log(1/r)). :86-131 derives it for the transverse cone and the steep strips. :169 calls the note 'a nonauthor reconnaissance of the endpoint scaling', but it reviews no object's statement and asserts its own bound.",
+   "title": "Pin-neighborhood reconnaissance: O(r^3) ledger on the endpoint chart outside the inner microdisk",
+   "statements": [
+    {
+     "file": "reviews/pin_neighborhood_recon_20260926/NOTE.md",
+     "line_start": 14,
+     "line_end": 18,
+     "text": "What the ledger now supports: for the outer cone and the two steep strips, `κ r ≤ |s| ≤ 1/4`,\n\n`E[N(M+r{κ r ≤ |s| ≤ 1/4})] ≤ C r^3`\n\nunder the original six pins and the endpoint weight `W_r/Z_r`, all heights, at reconnaissance level (finite-jet identities checked, conditional-moment and uniform-integrability steps stated but not written out). The formerly displayed `E[N(0<|s|≤1/4)] ≤ C r^2 log(1/r)` is withdrawn: it is neither proved nor sharp. The symmetric chart at `S` has the same shape."
+    }
+   ],
+   "hypotheses": "The original six pins M=(-r/2,0) and S=(r/2,0), with f(M)=b, f(S)=b-kr^3, both critical; the Gaussian regression Q_r; the endpoint weight W_r=F_2(H_M)F_1(H_S) and Z_r>=c_Z r^2, taken from the endpoint normalizer and not re-proved (NOTE.md:24-29). The chart X=M+rs with large fixed κ on the region κr≤|s|≤1/4. The degree-4 pinned jet with a degree-5 remainder (:45-54). Distinct-site nondegeneracy of the periodic covariance (:62). The conditional-moment and uniform-integrability steps are stated but not written out (:18).",
+   "dependencies": "PR28 frontiers/rn_annulus_bridge_20260925/PROOF.md (blob 6f317515), as accepted by PR44, imported for the outer boundary only (NOTE.md:20-22); the merged Math- #82 and #90 microdisk notes (:129); the OpenAI and Claude nonauthor comments on PR #53 (:9-12).",
+   "finite_checks": "algebra_check.py checks the degree-4 pin expansion including the U, V, W, Z terms, both cubic drifts, the minor q^4((p-1/2)^2+q^2/4), the transverse minor 1/2, the Q-only axis ratio, the overlap inequality A-1/2>1/2 and the contact-limit determinant cancellation; --mutate must exit nonzero (NOTE.md:149-158). None of this was re-run here.",
+   "floating_point": "NONE: algebra_check.py uses fractions.Fraction only (no float or math import); the decimal figures quoted in NOTE.md:109 and :129 are stated as exact values on the degree-4 jet.",
+   "source_self_limits": "NOTE.md:3: no elder pairing, global count or numerical constant. :12 and :129-131: the inner disk |s|≤κr is open and no punctured-disk bound is given. :18: the O(r^2 log(1/r)) statement is withdrawn. :141: the region 1/4<|s|, ρ<A is left open. :145-147 is the 'Not claimed' list. :158: the script checks finite jet identities only.",
+   "exact_boundary": "Exact claim: E[N(M+r{κr≤|s|≤1/4})] ≤ C r^3 under the six pins and the endpoint weight W_r/Z_r, all heights, for the transverse cone and both steep strips, at reconnaissance level, and the same for the S chart; plus the stated finite-jet identities. Excluded: the inner disk |s|≤κr, any punctured-disk count, the gap region between |s|=1/4 and the annulus, a height window, lower bounds, constants. Nothing is proved.",
+   "layer_a_status": "No Lean declaration exists. A3: exact rational checks only. A7: the source itself labels the bound reconnaissance-level, with the conditional-moment steps not written out.",
+   "blocking_reason": "The conditional-moment and uniform-integrability steps are stated but not written out: L^p bounds for the remaining Gaussian jets, λ_min(Cov Y)≥c on the cone, and the applicability of Kac-Rice with the determinant product O(r^6(|q|+r)^2). The inner microdisk needs a two-point (M,X) critical-pair normalization, or a Schur lower bound with determinant compensation.",
+   "attempted": "The note expands the degree-4 pinned jet, keeps a rank ledger, shows the contact determinant cancellation after solving both witness-gradient equations, and splits into the cone and two steep strips. It was amended on 2026-09-27 after nonauthor comments (NOTE.md:9-12).",
+   "resumption_cost": "Moderate to high: the written outer-regime argument needs the full Gaussian moment and Kac-Rice details, and the inner disk is an open analytic problem (see the merged #82/#90)."
+  },
+  {
+   "object": "reviews/remote_mixed_inverse_claude_20260929",
+   "classification": "STANDALONE_CLAIM",
+   "reviewed_objects": [
+    "OA-REMOTE-MIXED-INVERSE-20260929-v1",
+    "frontiers/remote_mixed_inverse_20260929/PROOF.md"
+   ],
+   "classification_reason": "REVIEW.md:21-31 accepts Theorem M and (M1)-(M22) of OA-REMOTE-MIXED-INVERSE-20260929-v1 (frontiers/remote_mixed_inverse_20260929/PROOF.md per SOURCE_FILES.json) with no defect, and REVIEW.md:33-78 re-derives them. That part is review. Note N1 (REVIEW.md:82-90) states a conclusion the reviewed object deliberately does not assert. PROOF.md:102-105 says that for beta>=1 \"a positive distance cutoff need not regularize the height-gap singularity; (M8) is deliberately not asserted there\", and PROOF.md:318-327 treats only the total moment. N1 asserts that for beta>=1 every cutoff moment whose retained pair set has positive measure is infinite, and REVIEW.md:89 calls this an extension of the note's \"deliberately weaker\" remark. N2 (REVIEW.md:91-92) states that (M20) covers every beta>=2/3 and q>=0. These are results of the record's own; N3-N4 delimit.",
+   "title": "Remote mixed inverse review notes N1 (cutoff moments infinite for beta >= 1 at separated positions) and N2 ((M20) for every beta >= 2/3, q >= 0)",
+   "statements": [
+    {
+     "file": "reviews/remote_mixed_inverse_claude_20260929/REVIEW.md",
+     "line_start": 82,
+     "line_end": 90,
+     "text": "- **N1 (`β ≥ 1` at separated positions).** Consider a distance cutoff whose retained pair set in `E × E` has positive\n  measure; this holds for every sufficiently small fixed cutoff when `E` has positive volume. At separated sites\n  (`δ ≥ η_0`), the full weighted kernel is positive and continuous near the diagonal `y = y'`. That kernel is the\n  joint height density given zero gradients, times `E[W_r F_i(H_x) F_j(H_{x'}) | …]` with the actual endpoint weight\n  and witness determinants. Positivity comes from the distinct-jet support with the correct endpoint Hessian types and\n  nonzero witness determinants; a positive Gaussian height density alone would not control a weight that could vanish\n  on equal heights. Hence `∫∫_{I_r²}|y−y'|^{−β}(…) = ∞` for `β ≥ 1`, and every such cutoff moment is infinite. (A\n  cutoff larger than `diam E` retains no pairs and gives zero.) This extends the note's deliberately weaker \"need not\n  regularize\" remark; it is not a defect in Theorem M, and it gives a second route to the `β ≥ 1` part of (M20)."
+    },
+    {
+     "file": "reviews/remote_mixed_inverse_claude_20260929/REVIEW.md",
+     "line_start": 91,
+     "line_end": 92,
+     "text": "- **N2.** (M20) in fact covers every `β ≥ 2/3` and every `q ≥ 0`. For `2/3 ≤ β < 1` the positive diagonal (M7)\n  already gives this."
+    }
+   ],
+   "hypotheses": "The fixed-r setting of the reviewed PROOF.md (PROOF.md:11-35). The field is the variance-one periodized Gaussian field on a fixed torus of side L in fixed d>=2, with original pins M and S at heights b and b-kr^3 and zero gradients. Marks are compact, with k bounded away from zero, and all frames are allowed. The setting keeps the full weight W_r and normalizer Z_r, with Q_r^W=(W_r/Z_r)Q_r, a fixed positive-volume Borel E in D_rho, the window I_r, and the moment (M1) with weight delta^(-q) Delta^(-beta). N1 assumes: beta>=1; r fixed and sufficiently small; a distance cutoff whose retained pair set in E x E has positive measure (true for every sufficiently small fixed cutoff when E has positive volume); and separated sites delta>=eta_0. It also uses positivity and continuity near the diagonal y=y' of the full weighted kernel, the joint height density given zero gradients times E[W_r F_i(H_x) F_j(H_x') | ...], which comes from the distinct-jet support with the correct endpoint Hessian types and nonzero witness determinants. N2 assumes q>=0 and beta>=2/3, using (M7) for 2/3<=beta<1.",
+   "dependencies": "frontiers/remote_mixed_inverse_20260929/PROOF.md, blob 975d8211, at Math-#132 head e75b5e1e: (M1), (M7), (M8), the distinct-site support argument behind (M19) (PROOF.md:296-308) and (M20) (PROOF.md:318-327). Also the PROOF.md's own consumed sources RC, RP and RI; REVIEW.md:15 says the reviewer authored RC, reviewed RP and RI, and does not revalidate them independently. The v2 qualification of N1 follows comment 5890507179 (REVIEW.md:112-114).",
+   "finite_checks": "mixed_review_check.py checks six groups of exact identities for the reviewed object (ENVELOPE, OVERLAP, COEFF, HEIGHT, FIXEDR, RESIDUE; all true in RESULTS.json), with six mutants. FIXEDR's M20_monotone_comparison checks Delta^-(b-b0) >= l^-(b-b0) for integer exponents b-b0 in {0,1,2} at two rational (Delta, l) pairs (mixed_review_check.py:122-128). No finite check addresses N1's divergence of cutoff moments.",
+   "floating_point": "NONE: mixed_review_check.py imports argparse, json, sys and fractions.Fraction only; GRID and every check use Fraction or int values. N1 and N2 have no dedicated script.",
+   "source_self_limits": "REVIEW.md:3: scientific effect NONE; the record changes no register, status, graph node, lemma flag, prize or source. REVIEW.md:15: the reviewer authored RC and checks only how #132 uses RC, RP and RI. REVIEW.md:88-89: a cutoff larger than diam E retains no pairs and gives zero. REVIEW.md:89-90: N1 \"is not a defect in Theorem M\". REVIEW.md:99-102: the record does not cover C4's crossover, a same-index threshold, an event-conditioned law, arbitrary real two-exponent domains, coupled epsilon(r), q(r) or beta(r) limits, rho->0, numerical constants or status. REVIEW.md:112-114: N1 was qualified in v2 to positive-measure retained pair sets and to the full weighted determinant-height kernel.",
+   "exact_boundary": "Exactly two statements. (N1) At each fixed sufficiently small r, take beta>=1 and any distance cutoff whose retained pair set in E x E has positive measure. Then the cutoff-restricted moment over separated-site pairs is infinite, because the full weighted kernel is positive and continuous near y=y' and the double integral of |y-y'|^(-beta) over I_r^2 diverges. A cutoff larger than diam E gives zero. (N2) The comparison (M20) holds for every beta>=2/3 and q>=0. Both rest on the reviewed PROOF.md's setting and support argument. The ACCEPT verdicts on Theorem M and (M1)-(M22) are not part of this claim. No numerical constants, no coupled cutoff epsilon(r), no rho->0. Nothing about it is stated in Lean.",
+   "layer_a_status": "A1: no placeholder is admitted as CLOSED, and no Lean kernel declaration states N1, N2 or Theorem M. A2: no axiom. A3: per the code read, the only script is Fraction-only and does not test N1; no floating-point value supports any bound. A4: N1 is transcribed with the source's v2 qualification (positive-measure retained pair set), not widened. A5: the six mutants stay as failing controls. A6: N1 is empty for cutoffs that retain no pairs (larger than diam E), which the source excludes explicitly (REVIEW.md:88-89). For small cutoffs and E of positive volume, the source states that its hypothesis holds. A7: QUARANTINED with the exact boundary above; source-describing only.",
+   "blocking_reason": "There is no kernel statement of: the pair Kac-Rice representation of (M1) for the conditioned and tilted Gaussian field; positivity and continuity near the diagonal of the weighted kernel at separated sites, which rests on the distinct-jet Gaussian support argument of PROOF.md §6; the divergence, via Tonelli, of the double integral of |y-y'|^(-beta) for beta>=1 against a kernel bounded below near the diagonal; or the comparison (M20) on the range beta>=2/3.",
+   "attempted": "A written note (REVIEW.md:82-92), qualified in v2 after comment 5890507179 (REVIEW.md:112-114), alongside hand re-derivations of the reviewed steps and an exact-rational suite for the reviewed identities. No script or Lean statement addresses N1.",
+   "resumption_cost": "High for N1: Gaussian pair Kac-Rice and conditional-determinant positivity near the diagonal in Lean. Low for the elementary divergence step given a positive lower bound on the kernel, and for N2's monotone comparison. Dormant until deliberately reopened."
+  }
+ ]
+}
