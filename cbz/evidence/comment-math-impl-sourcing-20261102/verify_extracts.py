@@ -7,7 +7,8 @@ Read-only. Nothing in extracts/ is executed.
 
 checks that every file in extracts/ has the SHA-256 that MANIFEST.json records,
 that every git carrier in SOURCING.json resolves (`git rev-parse COMMIT:PATH`
-equals the recorded blob) in the clones given with --repo, as does every
+equals the recorded blob; for a zip carrier, the named member inside that zip
+also has the recorded git blob id) in the clones given with --repo, as does every
 committed_elsewhere carrier in MANIFEST.json, that SOURCING.json
 only references extracts that exist, and that the recorded summary equals a
 fresh count. Without --check it writes SOURCING.md; with --check it fails on
@@ -24,11 +25,13 @@ of the extract.
 import argparse
 import collections
 import hashlib
+import io
 import json
 import os
 import subprocess
 import sys
 import urllib.request
+import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANIFEST = os.path.join(HERE, 'MANIFEST.json')
@@ -91,7 +94,11 @@ def render(manifest, sourcing, summ):
                 w(f'  - `{e["file"]}`: {e["role"]}, {e["lines"]} lines, sha256 `{e["sha256"][:16]}`'
                   + (', matches a SHA-256 cited in the comment' if e['cited_sha_match'] else '') + f'. {e["implements"]}')
             for c in r['git_carriers']:
-                w(f'  - {c["repo"]} `{c["commit"][:8]}`:`{c["path"]}` blob `{c["blob"][:8]}` ({c["role"]})')
+                extra = ''.join(f', {c[k]}' for k in ('extent', 'relation') if c.get(k))
+                if 'on_default_branch' in c:
+                    extra += ', on default branch' if c['on_default_branch'] else ', not on default branch'
+                member = f' member `{c["member"]}` (blob `{c["member_blob"][:8]}`)' if c.get('member') else ''
+                w(f'  - {c["repo"]} `{c["commit"][:8]}`:`{c["path"]}` blob `{c["blob"][:8]}`{member} ({c["role"]}{extra})')
             for s in r['store_candidates']:
                 w(f'  - {s["store"]} `{s["id"]}`: {s["title"][:160]} ({s["match"]})')
         if not rows:
@@ -155,6 +162,15 @@ def offline(manifest, sourcing, repos, allow_missing):
             got = git(path, 'rev-parse', f'{c["commit"]}:{c["path"]}')
             if got != c['blob']:
                 errors.append(f'{r["key"]}: {c["repo"]}:{c["commit"][:8]}:{c["path"]} resolves to {got}, expected {c["blob"]}')
+            elif c.get('member'):
+                data = subprocess.run(['git', '-C', path, 'cat-file', 'blob', c['blob']], capture_output=True).stdout
+                try:
+                    body = zipfile.ZipFile(io.BytesIO(data)).read(c['member'])
+                except (KeyError, zipfile.BadZipFile):
+                    errors.append(f'{r["key"]}: member {c["member"]} not readable in zip {c["blob"][:8]}')
+                else:
+                    if gitblob(body) != c['member_blob']:
+                        errors.append(f'{r["key"]}: member {c["member"]} has blob {gitblob(body)[:8]}, expected {c["member_blob"][:8]}')
     if unchecked and not allow_missing:
         errors.append(f'{unchecked} git carriers need clones that were not supplied (use --repo or --allow-missing-repos)')
     if sourcing.get('summary') != summarize(sourcing):

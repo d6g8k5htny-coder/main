@@ -9,12 +9,13 @@
  "summary": {
   "rows": 274,
   "outcome": {
+   "COMMITTED_ELSEWHERE": 62,
    "DRIVE_OR_DROPBOX_CANDIDATE": 4,
    "INLINE_EXTRACTED": 75,
-   "NOT_LOCATED": 195
+   "NOT_LOCATED": 133
   },
   "extracts": 135,
-  "git_carriers": 0,
+  "git_carriers": 103,
   "store_candidates": 41
  },
  "limits": [
@@ -25,7 +26,11 @@
   "NOT_LOCATED is not proof of absence: the code may exist under another name, in an unsearched store, or only in a local workspace.",
   "Comment bodies are the versions the census recorded on 31 October. A comment edited later may differ; verify_extracts.py --live reports drift.",
   "Census correction, census left unchanged: four extracted Lean blocks (three for C212, one for I2-OrdinaryH0Split) match files committed at Math- 06bac48e under frontiers/compact_source_cutoff_baseline_20261009/ and reachable from eight codex/compact-cutoff-* and codex/source-smooth-realization-* branches, none on Math- main. Three are byte-identical; the I2 block has one extra final newline. MANIFEST.json records commit, path, blob and relation under committed_elsewhere. These are additional carriers, not the reviewed implementations of the artifacts' own claims.",
-  "DRIVE_OR_DROPBOX_CANDIDATE requires a match whose title indicates code, a checker or a certificate. Matches on data, archives or reviews are listed on the row but leave it NOT_LOCATED."
+  "DRIVE_OR_DROPBOX_CANDIDATE requires a match whose title indicates code, a checker or a certificate. Matches on data, archives or reviews are listed on the row but leave it NOT_LOCATED.",
+  "Pass 2 (content search) carriers were found by Anthropic Claude subagents searching for distinctive terms from each comment, and kept only when two further Claude subagents, a computation lens and a refutation lens, each judged that the code performs the comment's computation. Independence credit 0; a nonauthor check of a sample is the natural next step.",
+  "A carrier with extent partial computes an identifiable part of the reported checks, not all of them. relation says whether it is the work the comment describes (SAME_WORK), a separate program computing the same claim (INDEPENDENT_REIMPLEMENTATION) or code that uses the result (LATER_CONSUMER).",
+  "A carrier with on_default_branch false lives only on a recovery, session or packet branch, so pruning that branch would lose it. Such carriers are custody risks in their own right.",
+  "The pass-2 corpus is every code file (py, lean, sage, jl, gp, m, ipynb, sh, c, cpp, rs, js, mjs, ts, r, nb, wl, mpl; at most 2 MB) in the full history of all refs of the ten clones, plus code members of the 189 zip archives committed in main and Math-. Other archive formats, larger files and data files were not searched."
  ],
  "rows": [
   {
@@ -201,10 +206,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/59",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "00d2ac6ed33185ddea9ae9cd1663bd2c2f954589",
+     "path": "specifications/lean_statement_proofs_20261011/SpecificationProofs/P15Structure.lean",
+     "blob": "22fbee548e01e6400f278f0b55e8877d7c7b2163",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "paletteNumber_completeClutter (l.289) proves paletteNumber b (completeClutter b s) d = max (univ.sup d) ceil(sum d_i / s), using palette_lower_bounds (l.161) and the cyclic construction cycPalette/palette_witness (l.200, l.256). benchmark816Palette (l.1103) evaluates it at b=6, s=3, d=408 to get 816, so this is the comment's uniform-rank formula, its consecutive cyclic-segment realization and its six-block witness. Nothing computes the general loopless-matroid formula, the Edmonds partition step, the augmentation-axiom recognizer, the d=(100,1,1) in U(2,3) refusal, or the 270 DP and 1638 unifo"
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "B00-main#59-PALETTE-REFUSALS",
@@ -256,10 +274,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/121#issuecomment-5848715982",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "9fae1b350a4fc4f7a8c559a1d7c77b9f563da61a",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/s12_d5_ledger_comparison/work/lsder024/ledger.py",
+     "blob": "846131f8a9c69cc37fbd838035d1063ffe387224",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "The script asserts most of the review's 'arithmetic that checks'. Line 45 asserts that the limit of r^7*int_{sqrt15 r/2}^delta t^-5 dt / r^3 is Rational(4,225). Line 37 asserts tmin=sqrt(15)/2 r with (r/tmin)^2=4/15, and line 49 the collar ledger -2-3+6=1 with +2=3. Line 20 asserts the pinned cubic: P(M)=0, P(S)=-kappa eta^3/6, gradient zero. Lines 27-31 assert that each det vanishes to order eta^2 after station elimination of (a,Q,z), and line 10 asserts the Hermite pins H=b+k(2x^3-3rx^2). It never asserts the B_miss envelope: the strict decrease of the Hermite cubic, or sup|d4 f| >= 4/r (lin"
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "KIMI-LB-RATE-PACKET-REVIEW-20260926",
@@ -304,10 +335,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/128#issuecomment-5850654979",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "674f88cd60fdcae590b7b56699600bc3dd80b8a3",
+     "path": "notes/intermediate_scale_20260926/test_intermediate_scale.py",
+     "blob": "de66ff6f2a0b8271b7c1acd12d64bc83bdadd7e4",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "This is the subject's guard file, which the review names and ran. test_cubic_gram_matches_closed_form asserts gram_det over S,T,C,D == z**8*(9x**4+4x^2z^2+z**4)/576 (l.53-66), test_axial_minor_is_x_to_the_tenth asserts det3 == x**10/5760 (l.76-90), and the isolator test returns S (l.112-130), all in float assertAlmostEqual. Nothing computes the review's new content: the lattice-sum tau/gamma frame coefficients (-2.31, -0.33, -0.63, -0.27), the s < delta0^4 scale check, or the C s^10 cross-term bound."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file is named test_intermediate_scale.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "CBZ0-P1-B002-Math-58-5850921404",
@@ -337,10 +381,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/124#issuecomment-5879976522",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "2968c61281d7b3887d43823200e4da84f0d42c41",
+     "path": "reviews/p15_overlap_tail_claude_20260928/p15_exact_check.py",
+     "blob": "378aa17fb47738d047fd6e4913670f9c8f07e583",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "check_tail() (lines 419-425) computes markov_a3 = F(1,2)*F(5,16)**3 and direct_a3 = binom_le(13, p_lo, 3), and asserts markov_a3 > q9_hi and direct_a3 < q9_lo. Lines 364-366 and 390 also check the a>=4 chain against 625/131072 and 625/131072 < lo9 with l,u = F(1957,720), F(87,32). This is the P15 reviewer program the comment describes (Decimal concavity probe, mutant return codes), but the direct a=3 tail uses the 40-term e enclosure (p_lo = 1-1/el), not 1-1/l and 1-1/u, and there is no 1/250 separator, so the comment's own certificate is only partly computed."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "B03-Math146-R5355817385-B3-rate",
@@ -435,10 +492,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/174#issuecomment-5907931352",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "64c0a203b94105f0fccbe6f8116a94e13431f84e",
+     "path": "reviews/lm006_wrong_sign_asymptotic_20261006/sign_coefficient.py",
+     "blob": "c088c00736e6720a9cae399ee7da0b9aff34d0c7",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "contact_regression (lines 114-122) regresses the target (0,2)=f_yy on PINS=((0,0),(1,0),(0,1),(2,0),(1,1),(3,0)) using the separable product-spectrum covariance derivative_cov. diagnostics (lines 149-158) raises an error unless mean_q==-m2*b and variance_q==m4-m2^2 hold for three finite integer spectra, which is the comment's A0|U0 ~ N(-m2 b, v) sub-claim. It is a later LM006 program, and it has none of the angular saddle-determinant average, the total |det| mean m2^2(b^2-1)+2*saddle, the GOE comparison or the cut9 tail bound."
+    },
+    {
+     "repo": "Math-",
+     "commit": "64c0a203b94105f0fccbe6f8116a94e13431f84e",
+     "path": "reviews/lm006_wrong_sign_asymptotic_20261006/test_sign_coefficient.py",
+     "blob": "b614f6b388990a9167b38b00907e28fdeff7a29e",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "test_actual_contact_regression_in_finite_product_models (lines 90-98) asserts mean==[-m2*b,0,0] and the covariance first entry delta=m4-m2^2 for b in (6/5,-1,0) over three finite spectra. That is the six-pin contact law and nothing more: the saddle-mean formula, the decoupled Hessian reference density 1/(2pi m2) and the numeric controls are not tested."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#95/5908259383/transverse-covariance-cut9-counterexample",
@@ -512,10 +594,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/181#issuecomment-5911588678",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/r185/sliceA185.py",
+     "blob": "06933bceafa75bcdf5bb845bb4d92fd39a0ffd93",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "This is the same session's separate Math-#185 Slice A program, not a script for this #181 comment, and it was not shown to postdate the comment. On the same density K it checks the E0=888807/280 mass (l.44), the slice identity K dx = 10368 delta^6 Phi_delta(w) dw (l.95), A0 = 1/3-1/81 = 26/81 (l.101), c1 = (272/189-16/81)/sqrt3 = 704/(567 sqrt3) (l.105) and kappa = 8c1/(9A0) = 2816/(819 sqrt3) (l.106). It runs Gauss-Legendre/Newton quadrature of (A/(832 eps^4)-1)/sqrt(eps) at eps=1e-2..1e-6 (l.144-150). It has no second-order coefficient (1169/2916, 1169/936 or 1169/1170) and no f_eld coeffici"
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#203/review-5372981851/cap-vs-selection-constant-countermodel",
@@ -555,10 +650,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/216#issuecomment-5928793847",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "4f0927f0a91a597894d8fab17eaf878a1c68e699",
+     "path": "frontiers/third_order_coefficient_20261001/c2_check.py",
+     "blob": "41f745275db81f6332e791759db5858eec8c5365",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "In main, the T4 block (l.465-472) computes c2 with coefficients(3,'gauss',8,RS,nb=56,nt=120,nq=48) and requires abs(c2-c2_g) < 1e-8 and abs(c2-c2_r) < 1e-8 against the (40,80,32) grid and the RS_B second r-set. That is the v1.2 T4 comparison reported at head 4f0927f. The comment's main content is not computed by any code here: the Monte Carlo ratios 1.006/1.008, the chi^2 values, the 0.0922 rejected-adjacent coefficient, the |phi| 0.33-0.35 crossing, the full <1e-9 variation study and the theta > max(2/5,(N+1)/4) condition."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "B07-A02-Math-205-r5377957341-singleton-windows",
@@ -587,7 +695,20 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/217#pullrequestreview-5378890193",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "b54ea71afe5b7068853e3ec56940c452d6b415ee",
+     "path": "frontiers/c8_elder_failure_coefficient_20261001/controls.py",
+     "blob": "39613832228583a9eb81d3eb2a1ee12e2b791d39",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "Lines 64-70 of the reviewed packet's controls.py (at the review head b54ea71a) divide 402.5297 and 307.51 by the certified C_fail^{B,K} endpoints (val/Cf[1], val/Cf[0]), and do the same for d=3 with 1205.7089 and 540.97 against Cf3. That is the ratio bracket item (iii) recomputes as about [147384.636,147746.887], printed at %.4g with no outward rounding, which is the defect the review flags. Nothing computes E[Pi_4^2]=83781280/27+10370816/(9 sqrt(pi)), the Machin/isqrt check of 144E[Pi_4^2]<540451195.0947815, or the shell ratio (7/6)^7 exp(-650); section 6 (lines 76-103) only sums floating lat"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -599,8 +720,8 @@
      "is_implementation": false
     }
    ],
-   "note": "No torus.py copy is in either store. The only hit is a generic Drive data file named exactly RESULTS.json, which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "B07-A04-Math-207-r5378895166-lemmaL-guard",
@@ -649,7 +770,22 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/220#pullrequestreview-5379015767",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/frontiers_elder_third_order_20261001/referee_scratch/r5_lambda2_v2.py",
+     "member_blob": "9634ea201e5246680dc4d47afe996ccf883e8313",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "C2of (lines 18-20) takes max(18, 60, ..., 160/L, 2*(96/L)**2 [=18432/L^2], ..., 1280*C1, ...), which for C1>=1 reduces to the review's C2 >= max(1280 C1, 60, 18432/L^2, 160/L). Line 34 samples lambda = C2*(N*r + sqrt(N*r*g) + g*sqrt(N*r/kap)) and hyps() (lines 8-13) tests Q1-Q3, so it checks the review's explicit-constant claim. It is the v1 author-side referee's floating-point check of PROOF v1's listed Step E2 constants (REFEREE_1.md cites it), not the Codex reviewer's 96 exact Q1-Q3 instances. Nothing in it touches the headline OA-220-B-01 counterexample with nonintegrable E and E[H(E)]<inf"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -661,8 +797,8 @@
      "is_implementation": false
     }
    ],
-   "note": "The cited SHA-256 is in no Drive title and no e3_check.py copy turned up. The only hit is a generic Drive data file named exactly RESULTS.json, which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "B07-A06-Math-220-r5379186710-OA-220-C-01",
@@ -692,10 +828,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/221#pullrequestreview-5380803360",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/t221_check.py",
+     "blob": "6b0ddd489af37f995b35bbf90cc7a4ad34b8ddd6",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "full",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "Lines 9-21 draw 2000 random discrete laws and compute max TV/(D/n), then show the singular case pe=[1,0], pd=[0,1] gives TV equal to b=D/n exactly. Lines 25-28 compute the near-range k-integral (ell^(-1/3)/3)*3K^(1/3) against 1/rho, route_rk/route_lk (lines 33-52) evaluate the (r,k) and (ell,k) routes at the review's exact triples (1e-4,0.1,0.5) and (1e-6,0.02,0.3) against t/rho, and lines 55-56 check that t>rho^3 implies t/rho>=t^(2/3), which is the cutoff removal. This is the reviewing session's own scratch, and it performs every numeric check the comment reports."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "BIRTH-MARGINAL-FLOOR-8-SQRT58",
@@ -714,10 +863,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/224#issuecomment-5933888942",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "89117ea484c611bf28b568e2d7853b3660ebd42b",
+     "path": "frontiers/c2_finite_jet_transfer_20261001/controls.py",
+     "blob": "d6ee393a4f055d8d6dc554780ddd2cab0506b68f",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "This file belongs to a separate later packet (Math-#223 pickup), not the Math-#224 cusp_torus_transfer packet or the recovered archive. image_polynomial (l.208-211) computes 2*(3**d-1)*(d**4*L**8+28*d**3*L**6+210*d*d*L**4+420*d*L**2+210) for d in {1,2,3}, L>=10, which is E_d(L) without its exponential factor, and results() bounds 1e50*image_polynomial(d,24)/1e125 < 1e-60 (l.236) with exp_partial certifying the exponential factor. It does not compute the relative allowance (320N/3)E_d(L), the 1.3e-7 or 7e-108 common bounds, or the 8-sqrt(58) eigenvalue/Schur-complement floor."
+    },
+    {
+     "repo": "Math-",
+     "commit": "89117ea484c611bf28b568e2d7853b3660ebd42b",
+     "path": "frontiers/c2_finite_jet_transfer_20261001/test_controls.py",
+     "blob": "7e04344b48e423716a3e23dca2c1ab3f2379486f",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "test_SIDE24_budgets asserts exact image_polynomial(d,24) values for d=1..3 and the 1e-60 budget (l.219-223), test_L10_is_inside_covariance_box uses image_polynomial(3,10) (l.217-218), and exp_partial(288,400) > 10^125 certifies the exponential factor (l.211). Its 3/8 check is only the arithmetic F(3,8)-10/10^4 > 1/3 (l.207); no test computes the covariance floor, (320N/3)E_d(L), 1.3e-7 or 7e-108."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-232-review-5382589439-d3-ThmJ-reproduction",
@@ -725,10 +899,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/232#pullrequestreview-5382589439",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "0add03bb806b6237e6aa0b29b06bedec54863e79",
+     "path": "frontiers/candidate_parity_rate_20261001/parity_check.py",
+     "blob": "9138b55a7886ae031097b0cf099098b32c114df8",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "control_Q2_Q3 asserts q2 &= Pi.even() on exactly pinned rational fields for d=1..4 (l.317), which is the review's O(r^4)-remainder observation, plus Pi.co(0)==36k^2D^2 and Pi.co(2)==12kDV-U^2 (l.340-341). ref_H/control_Q4 compute H(k,A) for d=1,2,3 by Isserlis, assert that only the powers {0,2,4} occur and a==12, and pin the d=1 values -5/24, 9/2, 108 and the d=2 polynomials (l.564-573). It does not compute the d=3 conditional covariance, h4=108Delta^2 for d=3, the cone integrals, the (5/16)(33-7sqrt6) bracket or c2. It belongs to a separate later packet (Theorem P) that cites #232, not to the"
+    },
+    {
+     "repo": "Math-",
+     "commit": "a6b67882344cc39c76c29f5a6a6787a0e243c630",
+     "path": "frontiers/candidate_parity_rate_20261001/parity_check.py",
+     "blob": "3e0e1a38283b2472db9bfb8c683271002e65bb7d",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "This v1 blob differs from the v1.1 blob only in one docstring and one comment. It carries the same q2 &= Pi.even() evenness assertion (l.317) and the same ref_H/control_Q4 k-parity and d=1/d=2 polynomial pins (l.564-572). As in v1.1, nothing computes the review's new d=3 covariance, cone integrals (-1.5924..., -13.6345..., 257.455...), bracket or c2=0.16123404912696...."
+    }
+   ],
    "store_candidates": [],
-   "note": "None of refc2.py, refc2_d3.py, slicec_checks.py or verify_endpoint.py is in either store. The only near-miss, verify_quartic_endpoint_counterexample.py, is a different file and was dropped.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-234-review-5383466767-exclusion-counterexamples",
@@ -736,7 +935,20 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/234#pullrequestreview-5383466767",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/c5051/c51_check.py",
+     "blob": "b2c1f38a03ee3f0390087033f3d0763f993288e7",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "Over N=300 exact Fraction draws the script asserts check('3a det', det == -3k(Bs+4su) + 24k u L - 2 Bs C) (l.99) and check('3b HZ2', ...) (l.101-102), which become the review's det Hess P = -3k(B+4su) and HZ^2 = 3k(B+4su)^2 at critical points. It also asserts the pin determinants 3k(Bs-2s)/3k(Bs+2s) (l.109-113), the Lemma 2 Delta elimination (l.128) and a float maxcount_ne1 count of local maxima (l.154-179). Nowhere does it evaluate the review's two counterexamples (k=1,s=-1,B=1,D=1/2 with root (1/4,3/2) at height -9/8; s=-2,B=-3,D=3/2 with (1/2,1)). It is a Claude-session reviewer script, not"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -748,8 +960,8 @@
      "is_implementation": false
     }
    ],
-   "note": "No SHA-256 title match and no code found; the one same-name SOURCE_IDENTITIES.json on Drive is a data file in a 19 Sep CI-integrity-hardening delivery folder (next to ci_integrity_hardening.patch, HANDOFF.md), so it is probably not this review's file. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-233-review-5384157901-R1-discriminant-identity",
@@ -757,10 +969,47 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/233#pullrequestreview-5384157901",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/c5051/c51_check.py",
+     "blob": "b2c1f38a03ee3f0390087033f3d0763f993288e7",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "full",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "With N = 300 stdlib Fraction draws (l.72), checked as polynomial identities as the comment describes, the script asserts both of the comment's ideal-membership forms: '3a det' (l.99) and '3b HZ2' (l.101-102), with L = s+Bs u+Ds z and C = 6k(u^2-1/4)+(Bs/2)z^2 (l.94-95). It also asserts 'disc' A1^2-4A2A0 == 12k Ds^2 H for the elimination quadratic (Delta, 2Bs^2 s, Bs s^2-3kDs^2) (l.117-123). It sits in the commenting session's (017Mi3hx) own scratch directory; the Ds=0/Bs=0 branch checks and the 100,000-draw sweep are in the sibling c51_check_sign.py."
+    },
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/c5051/c51_check_sign.py",
+     "blob": "2a805a978a4b62b60586ddb4a5ea8f6c378df7f7",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "A range(100000) float sweep asserts disc == 12k Ds^2 H (l.8-14) and counts violations of (H>0) != (nextra==2) (l.17). This is the comment's '100,000-draw float sweep found no violation'. Exact Fraction loops check the Ds=0 branch ((Z2>0)==(H>0), l.22-27) and the Bs=0 branch (12k Ds^2 > 0, l.29-31). It does not check the two ideal-membership forms or the exact 300-draw discriminant identity, which are in c51_check.py in the same directory."
+    },
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/c5051/c50_types_check.py",
+     "blob": "a22d45654b9d71c233fd4c76ad545b6037b41bdc",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "Over 2000 exact draws it asserts (V1) A1^2-4A2A0 == 12kD^2H (l.37) and the D=0/B=0 degenerate branches (l.48-57). Those are the comment's discriminant identity and branch facts, but with 2000 rather than 300 draws, and alongside extra Vieta identities V2/V3 for root typing. It does not check the det Hess or HZ^2 ideal-membership forms; it is a sibling type-classification script in the same session scratch directory, not the script the comment describes."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-231-r5384221624",
@@ -801,10 +1050,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/233#issuecomment-5938972534",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "973f6ae10676c34c1fd82ee136d4c2004c1417fd",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/increment2/scratch/c5051/c50_ratio_mc.py",
+     "blob": "43350fad5fa04be61c1f52205ca64429f10b9fa1",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "This is the same 017Mi3hx session's C50 script (scratch timestamp 2026-10-01). Line 137 forms CR = sum of kw_k e^{-12k^2} J_fail(k) over gauss_legendre(16) nodes on K (lines 122-124), which is the I'_k quadrature, and lines 138-141 print C_U(1)/C_R for the bands [1/2,2] and [1/2,4]. The comment cites that ratio for C_U(1) ≈ C_R(1-5e-5). The script never prints I'_k and never computes const = 4/(sqrt2 (2pi)^{5/2} sqrt12), I_b, int A_0 a_fail, the absolute C_R values 2.06e-2 and 0.659, or the #217 I_k/C_fail validation. It also uses 16 nodes where the comment reports a 24-node, 2e6-draw run."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-227-r5384474393",
@@ -812,10 +1074,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5384474393",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "9b8eddb5591085f4b0636fb2a616916adccd9fe7",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_v.py",
+     "blob": "5fd6b75df48940f293f0c112c1005418dcd75bde",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "assemble_v (l.762) computes the review's bound: c2_up/dn = (1+eps0)*sum a_i*w2 (l.776), c1_up/dn = (1+eps0)*sum beta_i*w1 (l.778), the denominator cl = c_lo*(1-eps0) (l.780) and ell_max = R^3/2 (l.785), with k_weights (l.752) giving the int A_0^ref/(3k) weights; its docstring carries the repaired B x K x S^(d-1) integrals. The review's own checks are not in the code: the pushforward derivation, the 126 exact-Fraction outward-inequality checks, and the comparison against pinned B (369/500000, 161/500000 under 7.4e-4)."
+    },
+    {
+     "repo": "Math-",
+     "commit": "75b5fced3f6a2ede43b85273f1eb02e1fb524393",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_v.py",
+     "blob": "503fe83b4e252bbdc4ae2c655c540ec26c7cc8cf",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "The v1.1 commit 'explicit angular integrals (OA-227-C-01)' adopts the review's repair in the assemble_v docstring (l.751), and the assembly is unchanged: c2_up = f*sum a*w2 (l.765), cl = c_lo*(1-eps0) (l.769), ell_max = R^3/2 (l.774). Like the later version, it evaluates the review's bounded numerator and positive denominator, but none of the reviewer's 126 finite checks or pinned-B table comparisons."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file matches the cited hashes or theorem_v.py/theorem_b.py, and the 126 assembly checks remain unnamed.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-219-r5384863435",
@@ -834,10 +1121,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/237#pullrequestreview-5385136758",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a6b67882344cc39c76c29f5a6a6787a0e243c630",
+     "path": "frontiers/candidate_parity_rate_20261001/parity_check.py",
+     "blob": "3e0e1a38283b2472db9bfb8c683271002e65bb7d",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "control_Q1 (lines 577-603) builds the ledger at s=1/5 (rho^3->3s, l^(2/3), l^2 rho^-5, l^2 rho^-7, l rho^-2, l), whose exponents are 3/5,2/3,1,3/5,3/5,1. It asserts least==3/5 with optimal split 1/5, and line 600 asserts the closed form q^5/(5q^3)+q^3/q==(6/5)q^2 of int r min(k,1/k) dr. This is the packet's own checker at the reviewed head a6b6788, but nothing computes correction C55-C-N1 (72k|Delta_B|/|Delta| shifted windows versus 144k unshifted) or the review's Fraction window control."
+    },
+    {
+     "repo": "Math-",
+     "commit": "0add03bb806b6237e6aa0b29b06bedec54863e79",
+     "path": "frontiers/candidate_parity_rate_20261001/parity_check.py",
+     "blob": "9138b55a7886ae031097b0cf099098b32c114df8",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the v1.1 version after the C55 wording corrections, and it differs from a6b6788 only in comments. It keeps control_Q1 (line 578) with assertions least==3/5 and the optimal split 1/5 (line 590) and the (6/5)q^2 Lemma U closed form (line 601). It also has no window-length 72k/144k correction check."
+    }
+   ],
    "store_candidates": [],
-   "note": "The unnamed exact Fraction window control has no Drive title carrying its cited SHA-256.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-237-r5385169112",
@@ -866,7 +1178,20 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/237#pullrequestreview-5385194600",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "0add03bb806b6237e6aa0b29b06bedec54863e79",
+     "path": "frontiers/candidate_parity_rate_20261001/parity_check.py",
+     "blob": "9138b55a7886ae031097b0cf099098b32c114df8",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the author's parity_check.py in the reviewed packet. The review names it and says it did not read or run it. UV() (l.283-298) computes U = f4/12*D - gam^T J gam/4 + 3k*DB and the full V, and control_Q2_Q3 asserts Pi.co(0)==36k^2D^2, Pi.co(2)==12*k*D*V-U*U and KM.co(1)==U, KM.co(2)==-V (l.340-342), plus the U/V reflection parity and fixed-free-jet k-affinity by vanishing second differences (l.331-336). It never computes the review's own new math: the moving-free-jet falsifier p(x)=2kx^3-(3/2)kr^2x, A=a+kx with det K_M=-6ak+3rk^2, the (1+|k|) signed-moment correction, or the reviewer's e"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -878,8 +1203,8 @@
      "is_implementation": false
     }
    ],
-   "note": "The only hit is the same-name Drive exact_controls.py from the SIDE24 finite-radius weighted-control delivery, whose folder has no CONTROL_RESULTS.json, so it is probably not the parity-review script. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-227-r5386158110",
@@ -887,10 +1212,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5386158110",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "75b5fced3f6a2ede43b85273f1eb02e1fb524393",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_v.py",
+     "blob": "503fe83b4e252bbdc4ae2c655c540ec26c7cc8cf",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the exact reviewed source: 39,859 bytes, with SHA-256 3e659f64... matching the review. far_set (l.436-444) computes q4 = (nT c)^p R^(p-4) + (nt c)^p R^(2p-4) with MARKOV_P=64 (l.66), which gives the review's R^60/R^124 factors. bounds_d2_v computes g0c = P1n*P2n*M.sqrt_up(q4) (l.506-509), and combine_v returns the lower sum ab_add(p_dn, z_dn) (l.428-433). The review's own harness (447/66/834 checks) is not here, and neither are its diagonal-surplus I+H+E, omega-Theta cancellation or positivity case-split clarifications, so the match is partial."
+    },
+    {
+     "repo": "Math-",
+     "commit": "9b8eddb5591085f4b0636fb2a616916adccd9fe7",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_v.py",
+     "blob": "5fd6b75df48940f293f0c112c1005418dcd75bde",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This later version of the same reviewed file has unchanged far-event code: far_set q4 at l.450, g0c = P1n*P2n*M.sqrt_up(q4) at l.518/725 and combine_v's lower sum pd+zd at l.440. It therefore computes the same partial set of the review's far-event and composition bounds. The diff only adds comments citing review C58: the positivity case split in the combine_v docstring (l.434-436), Theta cancellation (l.492-493) and C_zz = D^(1/2)(I+H+E)D^(1/2) (l.666-667). These clarifications appear only as comments and are not computed."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file matches the cited hashes or theorem_v.py, and the executed-check harness is unnamed.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-227-r5386707554",
@@ -898,10 +1248,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5386707554",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "75b5fced3f6a2ede43b85273f1eb02e1fb524393",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_v.py",
+     "blob": "503fe83b4e252bbdc4ae2c655c540ec26c7cc8cf",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "eps0_215(d) (l.785-797) loops over all 96 SUBBOXES at R=R_STARS[0], calling TB.bounds_d2/bounds_d3, and keeps e=max(e, up[1], dn[1]). compute() emits 'eps0_215': dec_up(e0, 24) (l.810), which is the source of the review's 24-place values 0.000000000394295484178315 and 0.000000017776414193976447. It does not compute the review's new contact-limit verification: A_0=432k^2 pi_0 F_0, the C57 contact-interval inclusions and domination checks (3982/1694/2347 checks), or the Phi(1/sqrt2)>3/4 control. This is the reviewed packet file at head abe10213, named in the review."
+    },
+    {
+     "repo": "Math-",
+     "commit": "2d1ec7cd8fddaedafede5aa146b719d5d7a970a2",
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/theorem_b.py",
+     "blob": "f0e788cb01d9f2a434cbfef1d248a5b98dbf0681",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "Three functions compute the per-box constants the review analyzes. combine (l.454-458) returns pu+z+pu*zR and p_dn+z_dn (the step-5 product bound). pi_ratio (l.429-451) builds de/(24(1-xm)) + Ee/2 + n th1/2 and (Ee+th1 Eu)/2 (the step-2 pin log-ratio). bounds_d2 (l.461-482) builds Dae/Sae and Fae, including the 2*sb*Fr(3,4) factor. It does not perform the review's own checks that the C57 contact intervals are dominated by these constants, the contact-limit identity, or the Phi(1/sqrt2)>3/4 adverse control. This is the B file of the reviewed head, which the review names."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match for controls.py, check_contact_transfer.py, their JSON outputs or any cited SHA-256 in either store.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-215-r5386924911",
@@ -955,10 +1330,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387455963",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "eb797e4899df87bf8c860cb43bf33b4a6e06b83d",
+     "path": "frontiers/elder_cusp_parity_20261002/ecp_check.py",
+     "blob": "82e8e035ef44c41c293682ed7f3057cf628a3a70",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the author checker the review names and replayed at head eb797e48. control_X4 asserts the cofactor identity D*JB == DB*J - JBJ with a singular A (l.676), along with (C), (4.2), P1 == D^2 Q1 and (D) (l.679-689); control_X3 asserts the product coefficients at fixed k, Pi.co(2) == 12kDV - U^2 and Pi.co(1) == Pi.co(3) == 0 (l.652); and control_X5 asserts Ip0 == Psi/36 with the 1152 and 12 coefficients (l.733-734). It has no Gaussian-score bound for (5.5), no A=-eps soft-singularity family, no all-dimension or shared-cubic-Z argument, and none of the reviewer's controls.py/edge_controls.py "
+    },
+    {
+     "repo": "Math-",
+     "commit": "f21bba95f6150313d2b5caa44b62e44c92cdcdd8",
+     "path": "frontiers/elder_cusp_parity_20261002/ecp_check.py",
+     "blob": "af539e8764a5085aa1c0cd1cf0f9542bb3c7090c",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "A later version of the same packet checker; the diff only changes the docstring and adds a failed_controls JSON print for mutants (l.802-805). The identical control_X4 (l.676-689), control_X3 (l.652) and control_X5 (l.733-734) checks cover the cofactor, product-coefficient and moving-edge identities, but not items (4) and (5) of the review."
+    }
+   ],
    "store_candidates": [],
-   "note": "No real match: the only Drive hit, exact_controls.py, is a substring coincidence that has no continuation64 or algebra-review context, and Dropbox returned nothing.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "b09-Math-240-r5387638502",
@@ -977,10 +1377,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387686986",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "eb797e4899df87bf8c860cb43bf33b4a6e06b83d",
+     "path": "frontiers/elder_cusp_parity_20261002/ecp_check.py",
+     "blob": "82e8e035ef44c41c293682ed7f3057cf628a3a70",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the X6 blob the reviewer names. control_X6 (l.741) checks the substitution and (rp^3-rm^3)/3 <= rp^3/3 = kappa0^(-3/4) l^(3/4)/3 at rational points (l.749), the #229 ledger least exponent 3/7 at sf=2/7 with and without the elder-only rows (l.760), the Remark 1 value 1/2 at 3/10 (l.767), and 3/5>1/2>4/9>3/7 (l.772). Items (1), (4)'s exponent part aside, (5) and (6) are absent: the unsubtracted-kernel bound, the psi(s)=30(s-1)^2(2-s)^2 moving-support counterexample and the cubic interpolant 10hr^3-35h^2r^2+50h^3r-24h^4."
+    },
+    {
+     "repo": "Math-",
+     "commit": "f21bba95f6150313d2b5caa44b62e44c92cdcdd8",
+     "path": "frontiers/elder_cusp_parity_20261002/ecp_check.py",
+     "blob": "af539e8764a5085aa1c0cd1cf0f9542bb3c7090c",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "Against 82e8e035 this version changes only the docstring line 7 and adds failed-control JSON output in main, so control_X6 (l.741) keeps the same window-integral check (l.749), the 3/7 ledger at sigma 2/7 (l.760) and the 4/9 > 3/7 ordering (l.772). As in the earlier version, the review's moving-support counterexample and cubic-fit interpolant are not computed."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file named ecp_check.py was found.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#240/5944399633/window-selected-law",
@@ -1021,10 +1446,39 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5948352439",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/frontiers_soft_rejected_pairs_20261002/referee_checks_B/prop2p_sym.py",
+     "member_blob": "1538ad493389527731ea30ea53ab3ee25969697a",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It solves the pins symbolically and checks that there are no 'nonzero negative powers' (line 56), that the eps^0 term equals G_k - sum lam_i eta_i^2/(2k), and that the eps^1 term equals G_1/2 (lines 65-66). With r=eps^2, these are the review's q^0/q^1 coefficient checks for (2.6). Lines 76-84 check that the lowest-order det Hess coefficient at M/S equals stiff*(sgn*6*lt + Y) with Y = 3*k*B - gam**2/4, which gives the factor (lambda2...lambda_m)^2(36 lambda~^2 - Y^2). It is referee B's sympy script (README: 'second same-family referee'), not the reviewer's Fraction run. It omits the d=5 coeffic"
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/frontiers_soft_rejected_pairs_20261002/referee_checks_B/prop2p_num.py",
+     "member_blob": "a81b0f8c0fe9edd1442a59b2b04b83f2ed2e7f86",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It is identical to prop2p_sym.py except for line 75, where a seeded rational numsub of the c_ coefficients (k=3/2, lambdatilde=5/3, lam_i=2+i) is applied before the pin-Hessian check. It then compares the lowest eps coefficient with stiff*(sgn*6*lt + Y) at M and S, and it keeps the symbolic eps^0/eps^1 and negative-power checks of (2.6). Like its sibling, it is referee B's work. It covers only 1-2 stiff directions in d=3,4, not the review's d=5 counts, the 15 Schur identities or the retraction argument."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file named soft_check.py was found.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#242/review-5390555860/RV",
@@ -1043,10 +1497,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5390667993",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a6eb5085c8e82468e3c65befa56e2c9eb5886322",
+     "path": "frontiers/soft_closed_form_20261002/closed_form_check.py",
+     "blob": "4050199c769453feff5481fa626ffb68771e17e1",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "control_C3 computes the series of psi_e(t,0) = 3/2-2t+(3/2)sqrt(1-4t/3), which equals 1/phi_e with A = 3-4t (review C.6). It checks inv[:3] == [1/3, 1/3, 10/27] for phi_e and I_ser[:6] beginning [20/3, -20, 52/3] (C.7). control_C8 checks E[gamma^6]=120, 144*2*2 == 576, 120*20/3 == 800, (52/3)*576 == 9984 and 312/25-12 == 12/25 (C.8-C.9). It does not compute the (C.1) 8000/3 envelope, the -3/2 / -6 / -96 Jacobian normalizations, X_e(t), or the toy I_* = 20/3+(52/3)t^2 counterexample. It is the separate Claude-authored #244 closed-form packet, not the reviewer's independent_controls.py."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file matches the cited SHA-256 prefix or independent_controls.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "CE-1-WEIGHTED-COAREA-BOUND",
@@ -1054,10 +1521,39 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5950404012",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_242_ce_coarea_claude_20261002/coarea_error_controls.py",
+     "member_blob": "d90d1749bab81bfff23fbd7ee22dbf7d5b4a11ba",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "This member is byte-identical to the comment's inline 'Save as coarea_error_controls.py' program, and its check/reject counters give exactly the reported 702 exact checks and 21 rejects. Lines 52-57 assert CE.3's density_power=(delta-1)/3, cumulative_power=(delta+2)/3 and F(1,3)/cumulative_power == 1/(delta+2), with delta=3 giving the 2/3 power. Lines 20-50 check the CE-2 band margins, the CE.8 q<=2r^3 bound and the CE.10 integral F(3,40)/R."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_242_ce_coarea_claude_20261002/ce_independent.py",
+     "member_blob": "fc31ba8a1753ba50de233990abdbcfbc2eda0be2",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "full",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "Part A compares the CE.2 pushforward density of r*b dr dk under T=k r^3 with direct quadrature (line 88). It asserts the CE.3 cumulative bound M*t**((delta+2)/3)/(delta+2) (line 91) and the density bound (1/3)*M*ell**((delta-1)/3) (line 96). Part B checks the CE.5 C1 cubic-map bound with a0=1/2, a1=3/2 (line 146), and line 247 checks that delta=3 gives ell^(2/3). The docstring says it was written by the Claude reviewer and does not import Codex's controls, so it is an independent recomputation of the artifact's quantities."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "CE-2-MARGINAL-PROBABILITY-FALSIFIER",
@@ -1078,10 +1574,25 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5950717986",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_242_ce_coarea_claude_20261002/ce_independent.py",
+     "member_blob": "fc31ba8a1753ba50de233990abdbcfbc2eda0be2",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "full",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "Section C computes Remark 2 directly. Line 164 sets lo3,hi3 = max(ell,ln)/2, min(ell,ln); line 166 asserts the widened band |ell-ln|<=(ln/2)^2; line 179 computes nu_beta = 1/r_lo - 1/r_hi, which line 204 checks against piecewise integration; and lines 184-185 assert the MVT constant and good <= ln^(2/3)/15. Sections A, B and D cover (CE.2)-(CE.5) and the Remark 3 exponents, and the docstring ('Does not import Codex's controls') and the final 'independent_checks' JSON print match the comment's named 'Independent stdlib script (ce_independent.py, not importing Codex's)'."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox file matches the cited SHA-256 prefix, ce_independent.py or coarea_error_controls.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#242/review-5391485205/B5",
@@ -1100,10 +1611,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5391986303",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "555ef295070ba5bb74d795e136a12bced5c034a9",
+     "path": "frontiers/soft_fold_limit_20261002/fold_check.py",
+     "blob": "85f7af3afa8a2bb164dff60d1c336e175229b262",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "control_F7 is PR243's FL.7 checker (the prior comparison the review cites), not the review's 1067-predicate suite. It asserts Gk_poly == P170, i.e. G_k = P_theta(X,k zeta)/k (l.764), Y == 3kB' and 9k^2(4s^2-B'^2) == 36lt^2-Y^2 (l.768-769), the typed-domain equivalence, d mu/ds = -k (l.771), the hard factor V(0,mu)*prod mu^2 == prod mu^3 prod(mu_j-mu_i) for m=2,3,4 (l.794), and -8/3+1 == -5/3 (l.796). It computes neither the c_m Weyl normalizer and z_0 cancellation nor the negative-z window counterexample nor the 3x3 Schur example."
+    },
+    {
+     "repo": "Math-",
+     "commit": "ce8ae9f7b4bbd8c8350464123aa9558c277d26f6",
+     "path": "frontiers/soft_fold_limit_20261002/fold_check.py",
+     "blob": "c2e1e77e9f16bc7c62fbb855b55dc2f72e5a8cc2",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "The v1.2 file differs from v1.1 only in the object label (l.2 and l.817). control_F7 is identical: it asserts the cubic identification (l.764), the factor-k and typed-weight identities (l.768-771), the hard factor (l.794) and the -5/3 exponent (l.796), but none of the review's own counterexamples or normalizer checks."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: none of the cited SHA-256 prefixes appear in any Drive title, and the only Drive file named exactly RESULTS.json (1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC, 237 B, 2026-09-28) sits in the unrelated Remote_Singleton_Corollary_2026-09-28 packet next to finite_law.py, so it was dropped; Dropbox has no file with that exact name.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "D1-REVIEW-5954510413",
@@ -1124,10 +1660,53 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5957815904",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c81_random_width_pole_claude_20261002/sym_checks.py",
+     "member_blob": "f5b89311087284f3f8466d756ca50d1d1769f087",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "LATER_CONSUMER",
+     "on_default_branch": false,
+     "evidence": "The '# --- C81 Lemma 1 interface' block (l.13-25) asserts q'=6psi/sqrt(psi+c), h=(psi-c)(psi+c)^(3/2)/(6psi), dh/dq=(3+2x+x^2+2x^3)/72, p(-1)=0, p(1)=8, p(1/2)=9/2 and p'=6(x+1/6)^2+11/6. Lines 30-32 assert Theorem 2's bound (7) and h_c(0)=(3c)^(3/2)/12. The docstring names the successor C81-RANDOM-WIDTH-POLE v1 (5958036556), and Corollary 3's 500(1+12K)^2 ledger and Proposition 4's delta log(1/delta) obstruction are never computed."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c81_random_width_pole_claude_20261002/num_checks.py",
+     "member_blob": "13a282f21cf08313c9589fd48358338c11cdc55e",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "LATER_CONSUMER",
+     "on_default_branch": false,
+     "evidence": "T_def (l.32-39) computes T_eps(c,R) by inverting q_c=4(psi-2c)sqrt(psi+c) with q_min=-4sqrt2 c^(3/2), and T_grid (l.41-49) brute-forces the same tube. Lines 64-67 count violations of Theorem 2's bound (7), eps(3c_+)^1.5/6 + eps|R|/8 + 2eps^2/9, at 200000 points. That bound is the only part of this artifact it checks; the script itself is a numerical countercheck for the successor C81-RANDOM-WIDTH-POLE (docstring l.1), and its part 2 is the successor's p=7/2 threshold."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c81_random_width_pole_claude_20261002/num_checks2.py",
+     "member_blob": "03d9aaaf12c255fa6f46a4d172eacbcfed771bd1",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "LATER_CONSUMER",
+     "on_default_branch": false,
+     "evidence": "T_mp (l.22-28) recomputes the tube T_eps in 60-digit mpmath from q_mp=4(psi-2c)sqrt(psi+c) and W=psi^3/3-c^2 psi. Lines 37-43 re-evaluate the float-flagged points against Theorem 2's bound b = eps(3c_+)^1.5/6 + eps|R|/8 + 2eps^2/9. It covers only Theorem 2 and was written as a follow-up in the successor review (part (ii) is that review's p=7/2 threshold illustration)."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and neither store has a file named exactly check.py (only unrelated withdrawal_check.py, c7_mc_check.py, check_r04.py, CL-DATA-049_v1_blind_check.py, run_checks.py, check_review.py and similar).",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C81-CLIPPED-WIDTH-20261002-v1",
@@ -1181,10 +1760,35 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5959920397",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "ed0075523653a7a94baec4cc7b03b56b30af3c13",
+     "path": "frontiers/qs_d3_soft_layer_chain_20261005/A3_7/author_controls.py",
+     "blob": "9e8bc0598a4193c91084fbed483783c8342dfc01",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "LATER_CONSUMER",
+     "on_default_branch": true,
+     "evidence": "Group Y1_LB3prime checks the c=0 saddle Z=48psi/R (gradPQS == (0,0), hessdet < 0, v = 1-16psi^3/R^2, l.163-167) and band == x*R*R/24, C82's exact value (4) (l.161). It also checks C82's density bound 48(psi^2-c^2)/Z^2 <= (256/3)|c|^3+16R^2 at rational saddles with c != 0 and |v| <= 1/2 (l.186-201), and that (7) is the discriminant of (6) (l.298). Theorem LB's general bound (3) and Corollary GLB's P(K) and moments (20)-(21) are not checked. The docstring (l.5-6) says the file does not prove C82's Theorem LB, and l.177 uses the bound in gamma-rescaled form for A3.7's LB3'."
+    },
+    {
+     "repo": "Math-",
+     "commit": "8da62dcb06dbd45e5d95b6539edab069d909cc46",
+     "path": "frontiers/qs_d3_soft_layer_chain_20261005/A3_6/author_controls.py",
+     "blob": "44dbf898111c6acf2e73e1b0f76cc3fc5fb5fe6c",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "LATER_CONSUMER",
+     "on_default_branch": true,
+     "evidence": "Group X8_levelband (l.302-315) checks the c=0 extra saddle's zero gradient, negative Hessian and v = 1-16psi^3/R^2. It then checks val == dl*R*R/24, C82's exact value (4), and mutant M6 replaces the 24 with 12. Line 408 checks C82 (7)'s open condition, R^2+64c(psi^2-c^2) = -41472 Lambda^3 < 0, at a c<0 witness. The general bound (3), the branch analysis and Corollary GLB's P(K) are not computed. The docstring (l.4-5) says the file does not prove Theorem LB, and l.321-322 use its bound in gamma-rescaled form for A3.6."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and neither store has a file named exactly check.py or one with C82 context.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main229-5960011145-GW-REVIEW-AMEND",
@@ -1247,10 +1851,25 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5962071521",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_qs_tolerance_layer_claude_20261002/tol_layer_checks.py",
+     "member_blob": "7fee172c003c4b9b65a48fbd8ded9a34105587a1",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "full",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "The script computes the artifact's quantities in code and compares them. fail_mass_quad (l.19-31) brute-forces F_delta from the tau_j/mS/epsM tolerances; T1 (l.38-48) builds H(y)=y^2+y^3/3 from the u/v cubic roots; l.94-96 evaluates the c=-1, R=16, delta=27/16000 falsifier against W2_bound (4/3); T2/P1/P2 (l.56-67) are compared with the R-integral and with 6336sqrt3/35-736/105 (l.109-110); C_V and A0 are evaluated for T3/T4 (l.113-121); E[B_+^5]=32/sqrt(pi), 63pi/256 and 979776k^5 are checked for T5 (l.123-134); the W3 bound 14400|c|e2^2+576000e2^3 is checked (l.135-158); and Q_delta/delta^(5/"
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C86-CLIPPED-CUSP-CROSSOVER-20261002-v1",
@@ -1282,10 +1901,35 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967654152",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a345492a3a3e605400ccea004b05e9baafce2060",
+     "path": "frontiers/planar_soft_layer_chain_20261003/C103/author_controls.py",
+     "blob": "3e06d2875ea06564379c3bdfaca798eeecce19ff",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "Line 39 sets the (2.3) cutoff exponents a, u, beta = 1/12, 1/32, 1/4. Lines 43-53 compute the C101 admissibility quantities and the thirteen error-term powers, require them to equal the section 6 table (1/4, 7/8, 13/24, 49/48, ..., 1), and require a minimum of 1/4. Line 94 checks the (4.2) k-cancellation 48k^4 Dsh^2 == 48J^2/1152^2, and line 128 checks failure mass alpha1+alpha2 against a 'double-count' mutant. The tails (2.1)-(2.2) and the uniform bounds c_K <= M_F <= C_K are not computed, since alpha1 and alpha2 are placeholders 2 and 3. The file is the same author's C103-packet replacement "
+    },
+    {
+     "repo": "Math-",
+     "commit": "a345492a3a3e605400ccea004b05e9baafce2060",
+     "path": "frontiers/planar_soft_layer_chain_20261003/C103/checker.py",
+     "blob": "75f63d38e201fa4d76edca7fde7a6e0b58a86d84",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "Lines 204-238 compute every section 6 cutoff power from a monomial ledger with (r,H,w0,d) exponents (1,-1/12,-1/32,1/4), plus the admissibility powers 11/12, 31/32, 7/8, 17/24, 5/8, 15/16 and 1/4. Lines 88-92 check the CUB shear identities, lines 170-177 check the (3.3) numerator == 26/3 r^5 J^10 and a single full-normalizer division, and line 243 rejects alpha1+2alpha2 as the failure mass. It does not compute the analytic tails (2.1)-(2.2) or the uniform mass bounds. It is the c95_fresh_review nonauthor checker for the successor full proof 5967841127."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: neither cited SHA-256 prefix appears in any Drive title, and the row cites no file names to search.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C104-D3-TORUS-CONTACT-COEFFICIENT-TRANSFER-20261003",
@@ -1293,10 +1937,53 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967953399",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_exact.py",
+     "member_blob": "43eff41da56ceac547f658f488143a7c599adb72",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It exactly checks most of the finite algebra that C104 section 9 lists, plus the (21) constants and Lemma 4. These include Hermite diag(alpha!) (l.97-101), Q^2=0 (l.104), Frobenius 56 (l.106), trace 80 (l.107), Gamma in [I/56, 80I] by inertia (l.142-144), the reference mean and covariance (l.174, l.181), T(6)=76 and |D^aK(0)|<=15 (l.187-191), shell 24j^2+2 (l.196), 2366*2<5000 and 20 Delta<1/112 (l.200-202), 20323520 and 1646386580 (l.205-206), and g>=x^3/8 (l.231). It is the cross-provider reviewer's independent control, and it does not check the hard factor h^3, the theorem's estimates (10)/"
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_numeric.py",
+     "member_blob": "3f4aa0e20ca1fe3510eb4a5c45e0118522563bee",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It numerically compares the lattice perturbation max_pert(L,R) at L=24, 25, 30 against Delta=5000(1+L)^6 e^{-L^2/2} (l.44-69, Lemma 1/(12)). It also checks I12 with the exact (5) classifier against 384k^2|B|^3+2304k^3D^2 (l.79-110, (31)), the angular action |det|=1 (l.147-163, (33)), c_2=pi (l.166-181), (42) and N_+=phi_2 N_3 J_+ (l.209-231, (11)), and Lemma 3's (28) (l.235-258). These are sampled sanity checks of C104's lemmas by the cross-provider reviewer. They do not evaluate the theorem's constants or prove (10)/(48) at finite L."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_n5b.py",
+     "member_blob": "6b6f9409e7111f477c36f0983d554b9a142ac2dc",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It computes I12 with C104's (4)-(6) quantities B, D, w and Ts and the exact classifier (l.7-13). It then compares pred=phi(b,2)*N3b*I.mean() (l.18-19) against pi*int h^3 pA(O diag(0,-h) O^T) dh * I.mean() over 6 random O (l.21-24) at (b,k)=(0.4,1.3), which numerically checks the reference identity (11)/(42). This is only the reference-only part of C104 at one parameter point; it does not touch (10), (48) or any finite-L quantity."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: the only Drive file named exactly SOURCE_IDENTITIES.json (1tFqMy26kvTtngP5Jfo5DyHuX2iNgGGhQ, 995 B, 2026-09-19) belongs to the unrelated ci_integrity_hardening packet and predates C104, so it was dropped; Dropbox returned nothing.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C104-AUTHOR-EXACT-CONTROLS (5967956908)",
@@ -1343,10 +2030,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/216#pullrequestreview-5401550768",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "2b3d22722081e1bbbff94106c17947a6e5191568",
+     "path": "frontiers/equal_height_mass_value_20261001/equal_height_mass.py",
+     "blob": "92ba3cdecb4344771d6d8c3f1ba22ca4fc96e864",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "closed_densities(3) (lines 190-195) gives the BBKS n_max=(29-6sqrt6)/den and n_sad=(29+6sqrt6)/den for the exp(-|z|^2/2) kernel. Q3 (lines 239-243) checks the quadrature densities from densities_and_beta against these closed forms to 1e-8, which is the per-volume object behind D-3's 436.25 (n_sad times 16^3). It is a separate packet that predates the review, and it never scales to a 16^3 sample, forms the (29+6sqrt6)/(29-6sqrt6) ratio, or computes the SIDE24 crossings, the dense-seed counts or the D-6 ratio range."
+    }
+   ],
    "store_candidates": [],
-   "note": "No match: the only Drive file named exactly SOURCES.json is in the unrelated H3_solver_pilot_20260921 packet (2026-09-21), not the third-order-coefficient NOTE, so it was dropped; Dropbox has no file with that exact name.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#216/review-5401560065",
@@ -1365,10 +2065,39 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971201678",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_constants_stdlib.py",
+     "member_blob": "5123235ca386bf3d075c5f56ae5fb4c9086ab4b1",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "consts() (l.32-62) computes F1's log-domain table: lzs with the -((3+ms)**2/(2*a0)) floor (l.48), lCa = C_N/z_* + N_*C_z/z_*^2 (l.49), lCband (l.56), lD(L) (l.52), and the loop 'while lCa + lD(Lq) >= 0' (l.58-61) gives first_L_with_Ca_Delta_below_1 for the three ranges in res (l.65-67). This is the review's own named control for 'the F1 table'. It does not evaluate the replacement bound (C_N Delta + a_inf C_z Delta)/(z_inf - C_z Delta) of about 1e-27, and it does not touch E1's 3x^3/8 case."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_exact.py",
+     "member_blob": "43eff41da56ceac547f658f488143a7c599adb72",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "E1 is computed exactly: the loop at l.235-240 sets B=-x/2 and D2=x**3/(48k), so 12kD^2=x^3/4, and asserts ok('R6-extreme', g == Fr(3, 8) * x ** 3). The 4000-trial g >= x^3/8 check is at l.220-231. This is the review's named control rev_exact.py, whose R1-R5 and R7 (l.80-247) also cover the review's 'What I checked' list. It computes none of F1's log-domain constants, C_a Delta_L values, first-L threshold or replacement bound."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title has the cited SHA-256 or the names rev_exact.py, rev_constants_stdlib.py or rev_numeric.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/5971203987:rev_constants_stdlib.py",
@@ -1376,10 +2105,39 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971203987",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_constants_stdlib.py",
+     "member_blob": "5123235ca386bf3d075c5f56ae5fb4c9086ab4b1",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "full",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "The member is byte-identical to the comment's inline rev_constants_stdlib.py fence: I extracted it per the comment's rule and compared bytes, giving 2837 B and SHA-256 a18d832e, and the folder's rev_constants_stdlib.json has the stated stdout hash b48291c2. Its consts() (l.32-62) computes log10_CN_Delta, log10_Cz_Delta, log10_zstar, log10_Ca_Delta (l.53-54), log10_Cband_Delta (l.56-57) and first_L_with_Ca_Delta_below_1 (l.58-61), and l.65-67 evaluates them for the COEFF band (1,0.5,2,24,1,1.5) and the points (0,1/2) and (0,1), which is the reported F1 table."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/reviews_c104_torus_transfer_claude_20261003/rev_constants.py",
+     "member_blob": "01f72510ce7de6af63342632125d5c98a5a86310",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "It computes the same quantities directly in 50-digit mpmath (not in the log domain): zs with the exp(-(3+ms)**2/(2*a0)) floor (l.26), Ca = CN/zs + Ns*Cz/zs**2 (l.27), Cband (l.30), Delta (l.31) and the first L with Ca*Delta_L < 1 (l.36-39). The parameter tuples at l.43-45 are identical to the stdlib script's res (COEFF band 1, 1/2, 2, 1, 3/2 and the two single points). The folder README calls it 'the mpmath twin of the constants evaluator', so it is a sibling in the same reviewer packet, not the posted inline script itself."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/5971203987:rev_exact.py",
@@ -1401,10 +2159,47 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/252",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "ffd749e57402053b8432609f87dcd5129bef2f5f",
+     "path": "docs/manuscript/side24_v3_supplement_draft_20261013/checks/s12_parent_check.py",
+     "blob": "839d0a4ab769797fe171f58410bc47123343a0d3",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "In SymPy, lines 18-25 compute |Tax.det()|=12/r^4, line 33 the target (b-kr^3/2,-kr^2,0,12k), lines 59-63 the diag(r^-1/2,I) congruence, lines 96-98 the gamma factor 144*int k^(4/3)phi = Gamma(7/6)tau^(4/3)/(24^(1/3)sqrt(pi)), and lines 112-114 adverse==2554128/1771561 with 7/4-adverse==2184415/7086244>1/4. It is a later supplement checker, not the audit's own scripts, and it does not compute the 7/18 split, the 1/7<=alpha<=2/11 range, the band bound or the 0.0734069193060343 reference value."
+    },
+    {
+     "repo": "Math-",
+     "commit": "74fb27f98d82ff0344a21181dbee99dc5da6bccf",
+     "path": "coefficients/side24_d4_20260930/cone_moment_d4.py",
+     "blob": "3d9f42a833871e45c4a34152062238feb241154c",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "c_ref (line 760) evaluates Gamma(7/6)(3/2)^(1/3)|S^{d-1}|D/(sqrt3 sqrt pi (2pi)^d), and with tau^2=6 this is the audit's coefficient formula. Check D1_EXACT (line 789) encloses D_1=4/3, and SIDE24_CONSISTENT (line 794) matches c2 to the SIDE24 interval 0.07340691930603427103..104 (line 55), i.e. the audit's nonperiodic d=2 reference c=0.0734069193060343. It is a separate SIDE24 coefficient program that covers only item (f), not the audit's other items."
+    },
+    {
+     "repo": "Math-",
+     "commit": "5bea43bca2bd8163596375e2193510c1c342ae3a",
+     "path": "reviews/d1_cap_elder_partner_second_pass_claude_20260930/cap_maximin_check.py",
+     "blob": "1dcb58bb421bb0af8883d857ccfa244c9128524e",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "exact_constants (lines 52-124) replays the cap chain the audit rederives in exact Fractions: forced average 2, f_xxx floor 7/4, k=8m-5=11, u=24/121, adverse=mu(3+3u+u^2). Line 95 asserts adverse==2554128/1771561 and fpp==2184415/7086244, and lines 100-104 assert the 9/32 exterior integrals and the 11/96 surplus. This D1 cap checker predates the audit and covers only the cap-barrier item (a)."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/5973562375:C102-reviewer-controls-c102_exact",
@@ -1425,10 +2220,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973972756",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a7ce0e1f0d90220293b0efef24420120b0299506",
+     "path": "frontiers/planar_soft_layer_chain_20261003/C98/checker.py",
+     "blob": "ff70d872930c0eadc0467cf61a82cbd4997d5ec2",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "classify (lines 61-73) computes the extra critical points from roots((R^2-64c^3)/2304, ...) and sets mu to the maximum saddle value. It checks only the necessity direction (mu<0 implies psi>2c and R^2<16(psi-2c)^2(psi+c)) and that mu==0 implies R^2=q^2, so the converse trichotomy O1 is never tested. Lines 153-157 assert that the fixture c=1, psi=5/4, R=9/2 gives raw_polynomial==0 and mu>0 (not the value 243/245), and line 105 checks that the degree drop classify(1,2,8) has one point. Nothing compares the discriminant with 4R^2(R^2+64c(psi^2-c^2)) or enumerates the c>0 second saddle iff R^2<64c"
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title has the cited SHA-256 or the names c98_exact.py or c98_numeric.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/5974137504:C96-reviewer-controls-c96_discrete",
@@ -1449,10 +2257,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974184980",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a7ce0e1f0d90220293b0efef24420120b0299506",
+     "path": "frontiers/planar_soft_layer_chain_20261003/C93/checker.py",
+     "blob": "96360984b6f61573dff07340cd140ffcc6dc2df9",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "Lines 110-115 check frob = 1/3 + 1/(144u^2) + 1/(gamma^2 u^2) == loss/3 with a = 48 gamma^2 u^2 for gamma in {-3,-1/100,1/1000,1/2,2}, which is O2's identity ||T_i||_F^2 = L_i/3 across gamma. Line 154 rejects 'allow_beta_one_quarter', and lines 42-66 and 96-98 reproduce the review's (E1)/(E9) weight, the 1/12 Jacobian and the delta=epsilon split 2(eps^2+r eps). There is no O1 computation of lambda_max(T_i^T E T_i)/((2/3)L_i) at gamma=-12 with E=[[1,1],[1,1]] (0.903, 0.9952, 0.99999). The file is the first OpenAI reviewer's controls, not the Claude review's c93_exact.py."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title has the cited SHA-256 or the name c93_exact.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/5974188273:C93-reviewer-controls-c93_exact",
@@ -1497,10 +2318,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974283483",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "8da62dcb06dbd45e5d95b6539edab069d909cc46",
+     "path": "frontiers/qs_d3_soft_layer_chain_20261005/A3_6/author_controls.py",
+     "blob": "44dbf898111c6acf2e73e1b0f76cc3fc5fb5fe6c",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "X5_elder_floor (lines 194-199) sets R2 = 16(psi-2c)^2(psi+c) and checks R2*48^3/(3456^2 (psi+c)^3) == ASQ*(psi-2c)^2/(psi+c)^2, which is O2's equality case at which tau_S meets the W1 bound. X12_witness (lines 397-408) checks psi==12Lam, c==-6Lam, R==0 and R^2 < 16(psi-2c)^2(psi+c) at lam=Lam/2, gamma=1, matching O3's D<0 and Phi<0. This is a later d=3 QS A3.6 control packet, not c94_exact.py, and it never computes O1 (the l1 attainment of Rbox at the corner u=3/2, Z=-+30/sqrt(psi)) or the full iff of O2."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title has the cited SHA-256 or the name c94_exact.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#259/body:IBA2-001",
@@ -1636,10 +2470,39 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6001580409",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/audit_iba2_main259_20261005/author_checks/tl_check.py",
+     "member_blob": "5791d7b8e16532a5ee060eb7875ece73d00266b8",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "full",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "The (TL_a) scalings are computed in sympy. Line 10 asserts k^a/kappa == ell^(a-1) r^(4-3a); line 19 asserts the endpoint exponents (a+1)/4 and 2/3; line 22 integrates the a=5/3 log case; line 33 asserts (F0/kappa)(12/25)k^2 == (12/25)F0 kappa r^2 (p=1); lines 38-46 compute the ell^(3/10) balance, the K2-region integral and kappa1 = k0^(4/3) ell^(-1/3) with ell^(1/4)kappa1^(1/4). Its header ('Exploration checks (sympy) for the main#259 IBA2-009 reply') matches the comment's 'I checked the scalings above in sympy; that is exploration only'."
+    },
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/audit_iba2_main259_20261005/author_checks/band_check.py",
+     "member_blob": "b3ff61268337e6ce2cbc8b00bf2c69d76452cb38",
+     "role": "implementation",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "With r = ell^(3/10) y^(-1/10), line 6 asserts k^3/r == y and line 11 asserts the band integrand equals ell^(1/2)/10 F0 y^(-3/2). Line 13 computes the kappa^-2 correction, and lines 17 and 19 assert J = kappa N and kappa k^2 == y (H adds y psi(y)). These cover only the comment's Math-#296-variables band bullet, not (TL_a)'s consequence or the J_ell = F0 + O(ell^(1/5)+ell^(a/10)) rate, so it is a partial sibling sympy check in the same author_checks folder."
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "LM006-QL-SEVEN-PIN-GRAM-DET24-AND-SCHUR-FLOOR-20261005",
@@ -1702,10 +2565,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/pull/309#pullrequestreview-5422247279",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "71686961087542da8948a1f5634b057646491444",
+     "path": "formal/tests/test_d2_schur.py",
+     "blob": "2801b961b4521ee1f0f5ec9b0abb6e925f2c6333",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "test_independent_spectral_gram_rotations (lines 66-96) builds the raw Gram of the rotated features (u^2,uw,w^2) and asserts det3(gram)==m2^2(m4^2-m2^4) (line 90) and schur==numerator/D (line 94) over 35 cases. test_all_endpoint_inequalities (lines 98-113) asserts D==(1-4q)A+4qB, T=delta+q(9*m2*excess-3*delta) and N/max(A,B)<=N/D over 135 cases, which are the counts the review says it executed. Nothing in the file computes the feature-rotation determinant (c^2+s^2)^3 or the upper end N/min(A,B), and the reviewer's algebra_audit.py checks (4160 domain cases, 64 attainments, 66 rotations) are abs"
+    },
+    {
+     "repo": "Math-",
+     "commit": "71686961087542da8948a1f5634b057646491444",
+     "path": "formal/ResearchFormalCoreR1/D2Schur.lean",
+     "blob": "b95460c0d263a32ea274b347079cca6aaab3d2e9",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "d2_schur_numerator (line 40) proves alpha*D-gamma^3-(2gamma+alpha)k^2q(1-4q)=N, and d2_det_interpolation (line 55) proves D=(1-4q)A+4qB. d2Tau with d2_tau_axis/d2_tau_diagonal (lines 35, 136, 139) and d2_tau_cumulant_eq (line 128) give T and its endpoints Delta and (Delta+9x(y-x^2))/4, but d2_schur_endpoint_lower (line 116) proves only N/max<=S. The module has no Gram-rotation determinant and no N/min upper bound, so it covers only the reconstructed identities."
+    }
+   ],
    "store_candidates": [],
-   "note": "No real match: the SHA prefixes, algebra_audit.py and D2Schur.lean returned nothing, and every gate.py result was an unrelated file whose name only contains 'gate'.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "cbz0-b023-main229-6006686158-d3-2x2-weyl-csp",
@@ -1713,10 +2601,35 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6006686158",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "cf951abb2af938c0f3bbdae08be5139bc53820b6",
+     "path": "reviews/cap_i4_d3_spectral_adapter_20261005/test_adapter.py",
+     "blob": "72eb98c29af4ca3e83819c400bc35a032acb9850",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "These are the tests of the separate d=3 adapter packet (session cap-i4-explicit-d3-adapter, not the comment's envelope-audit session). They assert det3 of d(a,b,d)/d(lambda,Lambda,theta) == rho = (Lambda-lambda)/2 (l.26-30), a+d, ad-b^2 and a^2+2b^2+d^2 == lambda^2+Lambda^2 (l.32-40), the ledger constants 2, 1/2, 1 and Frobenius ratio^2 = 2 (l.42-51), A=K^2(1+K)/4 with D^3/3+ED^2/2 (l.84-95), and gaussian_half_moment(11) == 60/c^6 (l.105). They do not assemble the comment's pi*C0*...*512[M10/(2c)+60/c^6] envelope; the packet uses a ninth-moment variant instead, and the linear Jacobians are onl"
+    },
+    {
+     "repo": "Math-",
+     "commit": "176aab2e8d03579b3de30b3fe72a1d22d4cc1930",
+     "path": "reviews/cap_i4_d3_spectral_adapter_20261005/algebra.py",
+     "blob": "15105cfade673679f067586ad4012d7999340a7d",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "This helper library computes the comment's spectral map in spectral_entries (t+rho cos, rho sin, t-rho cos; l.18-22), the envelope factor A*(D^3/3+E*D^2/2) with A=K^2(1+K)/4 in post_soft_majorant (l.43-47), and the 60/c^6 half-moment in gaussian_half_moment (l.56-67). It performs no checks itself, and normalization_ledger (l.25-29) returns the 2, 1/2, 1 and 2 constants hard-coded rather than computed."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive title has either cited SHA-256 prefix, and the row cites no file names.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "cbz0-b023-main229-6007067368-d3-weighted-e4-moment",
@@ -1812,10 +2725,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/362#issuecomment-6016901181",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "6a2abb7a9bd8facecebca52de0b32d371645bfa5",
+     "path": "coefficients/lm006_wrong_sign_oned_20261006_a62c/oned.py",
+     "blob": "5015dee3a660b67c42ccab13a976626e6e2d02cc",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "conditional_integral (l.137-147) evaluates v*s*[(4a^2+2)(phi(2a)-phi(a))+(6a+4a^3)barPhi(a)-(6a+8a^3)barPhi(2a)]/6, which is sigma^3*h(u/sigma) with R23's closed form (3). integrand (l.156) is 2*p_B(b)*g(b^2), the folded reduction (2) in b = sigma z/2. It belongs to a separate claim (a62c, Math-362/6017509107) and uses its own Simpson and |B|>3 tail (omitted_tail, l.180), not R23's small-x series brackets (7)-(8), the bounds (9), or the A=8 tail (10) with its 1.5e-16."
+    },
+    {
+     "repo": "Math-",
+     "commit": "6a2abb7a9bd8facecebca52de0b32d371645bfa5",
+     "path": "coefficients/lm006_wrong_sign_oned_20261006_a62c/test_oned.py",
+     "blob": "62e54422726f1caffab62e2e3fe38d297013e52d",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "test_conditional_formula_against_positive_integral (l.83) compares the closed form with a numerical int_0^u (u-t)L(u+t)dt, the positive representation (4). test_reduction_from_truncated_moments (l.94) rebuilds it from the two piecewise-J branches on [u,2u] and [2u,inf) with truncated Gaussian moments, the second derivation (5). Nothing tests the series coefficients a_n, the brackets (8), h<=phi(0)/12, or the tail bound (10)."
+    }
+   ],
    "store_candidates": [],
-   "note": "Neither reduction_check.py nor test_reduction.py appears in any Drive or Dropbox title.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "JOINT-ENVELOPE-SUPPORT-01",
@@ -1847,10 +2785,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6019121717",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "a098484c737579b5e28aa1e352e025c5af8668d6",
+     "path": "companions/cap_i4_inner_integration_20261006/test_contract.py",
+     "blob": "8a21fa2852bd2d781678678049eba6b38a929ad3",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "This is the R19 source test the review names by blob. test_ninth_only_requires_unit_lower_bound (l.57-62) asserts (1/2)^8 > (1/2)^9 and evaluates primitive(3,1,1) < 0 (the uncut -63/4) and primitive(1,1,1) > 0 (the clipped 1/4), which is the signed-domain clause. The review's actual witness is not computed: C0=K=k0=1, r=T=1/2, j=0 giving I = 1/49152 = 54/2654208 against 43/2654208 and 70/2654208, and the c=1 gap 19 e^(-1/4)/5308416; test_actual_depth_slice_radius_ledger (l.39) never uses k0=1."
+    }
+   ],
    "store_candidates": [],
-   "note": "No real match: the SHA prefix returned nothing, and the replay.py results were only files whose names contain 'replay', with no connection to R19.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C144-C7-SLICE-A-CODEX-REVIEW",
@@ -1858,10 +2809,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6035984449",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "5b4bf2e4b557d1a1eb9cc61e16d808e5e83fcd17",
+     "path": "frontiers/c7_elder_two_thirds_20261007/C7/author_controls.py",
+     "blob": "eae00f30a3b534a14034922aa5b20b69e7be8169",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "The blob is 19,064 bytes with SHA-256 511a378f..., exactly the author program c7_exact.py that the review says it executed. In it, k1 (lines 48-74) checks min(a+b,c+d) <= min(a,d)+b+c on random rationals, k2 (lines 94-108) checks S <= 2y_j kappa and S <= r^2(2+n_plus), k3 (lines 158-168) asserts low+tail == F(9,8), and k7 (lines 414-426) checks the sigma=5/24 nine-row ledger with logarithms only at 3/4 and 5/6. It does not compute the review's own items: the a=100,b=0,c=1,d=0 counterexample, the S=37/800 > 2r^2 discriminator, the E' epsilon-uniform constants or the bad-region bound, and these "
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title has the reviewer's independent_checks.py hash prefix, the other searched prefixes, or the cited file names.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "CUB-ATTACK-GROK3-L1",
@@ -1946,10 +2910,35 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050974070",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "0b3363840081baee55881dbfdf0ae606f57c594d",
+     "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch/Side24Poisson.lean",
+     "blob": "e95ee437dcf8ea10a1287033976d8a2c7b8f3dee",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the W3Scratch.Side24Poisson module that the comment names as Side24Spectral's import, at the draft head 0b336384 the comment cites. It proves theta_eq_cos_series (line 26), iteratedDeriv_theta_zero_even (line 276) and imageMoment_even_eq_dualMoment (line 296, imageMoment L (2m) = dualMoment L (2m) for L != 0), which are the core of the two claimed theorems. The qL and ibaMoment definitions and the declarations ibaMoment_even_eq_dualMoment and qL_eq_dual_cos_transform do not appear."
+    },
+    {
+     "repo": "Math-",
+     "commit": "5735c10e6e327efc0423df1e69c0a16eb09d50ee",
+     "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch/Side24Poisson.lean",
+     "blob": "881e82f3aa0e8466db3baa6516ecf3faac551c28",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "This is the amend-1 version of the same file; the diff from e95ee437 changes only the header comment and one docstring. It still proves theta_eq_cos_series (line 31), iteratedDeriv_theta_zero_even (line 281) and imageMoment_even_eq_dualMoment (line 301), but it has no qL, ibaMoment, ibaMoment_even_eq_dualMoment or qL_eq_dual_cos_transform. The Side24Spectral module itself is therefore not present."
+    }
+   ],
    "store_candidates": [],
-   "note": "No matches: the only SHA-query result had neither prefix in its title, and every gate.py result was an unrelated substring coincidence (m1_quote_gate.py, math_integrity_gate.py, gate_kernel_v2_0.py and similar), with no exact title gate.py.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#229/6051067747:W2h-N3-lemmas",
@@ -2334,10 +3323,35 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6061970417",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "06bac48e476c825323a74efb7e80cdb5ad9e9bb6",
+     "path": "frontiers/compact_source_cutoff_baseline_20261009/ConeFootprint.lean",
+     "blob": "7784d14695de97039cd8ae6f3be923e9b2e07e8c",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "The blob's SHA-256 is 8082d117..., the same as the ConeFootprint.lean that the comment names as a bound dependency. For an abstract NormalForm it proves critical_cover, patch_pathConnected, zero_foot (coindex 0, empty footprint), higher_foot (rank>1, one class) and one_foot (two classes a, b). zero_event/higher_event/one_event then build birthEvent, neutralEvent, or mergeEvent when a≠b and neutralEvent when a=b. This is the generic coindex classification only: it does not instantiate the actual source chart, prove commutation with the stopped inclusions, or compute the field(30)/field(32) Frac"
+    },
+    {
+     "repo": "Math-",
+     "commit": "06bac48e476c825323a74efb7e80cdb5ad9e9bb6",
+     "path": "frontiers/compact_source_cutoff_baseline_20261009/OpenComponentGluing.lean",
+     "blob": "af03283122b8583ffa751431f27c789844561b21",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "The blob's SHA-256 is 5ae10bfd..., the same as the OpenComponentGluing.lean that the comment cites at lines 130-239. It proves inclusion_fiber (the exact old-fiber relation), component_coverage (the coverage map J is onto), the birthEvent/neutralEvent/mergeEvent constructors and componentMap_comp. Together these formally give the onto-coverage and fiber parts of the claim, and they match what the reviewer's 63 finite quotient cases check, but only for a generic open cover U ∪ V. Nothing here is specific to the actual critical band or the stopped-inclusion commutation."
+    }
+   ],
    "store_candidates": [],
-   "note": "Neither store has a title matching the cited SHA-256 prefixes or the cited Lean file names, and no script for the Fraction checks was found.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 2 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "I4-PIN-REPRODUCTION",
@@ -2494,10 +3508,25 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6180226921",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "d3c3799fb9c4725b8f9de98807c0db02cf1c4936",
+     "path": "recovery/session_01NMeKEismAyeqgdB4sy2NJU/archive/SIDE24_V2_2_2026-09-29.zip",
+     "blob": "d4e17447fe181e0e7f30241c6e4a22c80d81b7e9",
+     "member": "V2_2_2026-09-29/frontiers_remainder_rate_20260930/rate_ledger_check.py",
+     "member_blob": "3293ca22ab89bd650f361832c62b03724a976f03",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "ledger_v11 (l.128-130) returns the eight exponents [1/4, 3theta, 2-7theta, 1/4, 3theta, 1/3-theta, 4/3-5theta, 1/3]. check_E1 asserts the minimum at theta=1/12 is 1/4, that no grid or breakpoint theta exceeds it, the q^17/q^11/q^3 substitutions and the 7/12 relative exponent (l.142-173), and check_E4 asserts ell^2 r1^-7/7 + rho^3/3 and r1^5/(5 ell) = ell^(1/4)/5 (l.300-311). It is the earlier v1.1 source's control suite, not the comment's eight-unittest Fraction diagnostic; it uses 1/4 rather than max(1/4,alpha) for the first term and never asserts that alpha=1/12 is the unique cutoff, so it c"
+    }
+   ],
    "store_candidates": [],
-   "note": "None of the three cited SHA-256 prefixes appears in any Drive title.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#389/6180538023:S8-sign-window-diagnostic-verify_sign_window.py",
@@ -2575,10 +3604,47 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6240825785",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "834a3e34d615b92c6d7fd4de275ef6b5fd8a0db9",
+     "path": "frontiers/asymmetric_elder_bridge_20261017/ElderClearance.lean",
+     "blob": "bc6136ee5e6f676da8a1ca39467d4d25587f8c7e",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "elderTrap_strictTrace_isClopen, elderTrap_clearance_eq_Iio, elderTrap_death_eq and elderTrap_closed_path_attains prove the comment's Section 4 consequences (clopen separation, C_M=Iio d, death height = d, attained path) from a closed D whose frontier heights are <=d. This is a later formalization: the packet's review cites ASYMMETRIC_ELDER_TRAP_PROPOSAL.md at 28291 B, the comment's size. The header says the analytic fold construction of these hypotheses (F_yy<=-a/2, f'''>=tau/2, ell<min(aR^2/8, tau R^3/96)) is a separate obligation, so the boundary trap (4) itself is not proved."
+    },
+    {
+     "repo": "Math-",
+     "commit": "834a3e34d615b92c6d7fd4de275ef6b5fd8a0db9",
+     "path": "frontiers/asymmetric_elder_bridge_20261017/ElderInterval.lean",
+     "blob": "108f880b314bf9d5f21e8d30513f14a229808198",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "elderSection, elderRetraction, elderProjection_prebirth (the birth-crossing square), elderSection_retraction (q j = id) and elderDirectSummand (v -> (qv, v-jqv)) formalize the comment's Section 6 interval direct summand of actual singular H0, built from the ElderTrap structure. The ElderTrap fields active_clopen, height_ceiling and closed_path are premises, and the docstring says the analytic ridge estimates and Morse labeling are not proved."
+    },
+    {
+     "repo": "Math-",
+     "commit": "834a3e34d615b92c6d7fd4de275ef6b5fd8a0db9",
+     "path": "frontiers/asymmetric_elder_bridge_20261017/ElderBridge.lean",
+     "blob": "a59ee9daab7b67eafd7e4f806b27244bcc5caed1",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "elderTrap_of_boundary builds ElderTrap from IsClosed D, frontier heights <=d, the height ceiling and a path at level d. elderBoundaryDirectSummand and elderBoundary_death_eq then give the comment's (7) and (5) from those geometric inputs. Its header says no analytic fold, Morse uniqueness or torus theorem is assumed proved, so the chart-hypothesis trap of Section 3 and the Section 7 quantitative join are absent."
+    }
+   ],
    "store_candidates": [],
-   "note": "Neither store has a title matching the cited Lean companion files or the cited SHA-256 prefixes.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "main#419/6240826208:asymmetric-elder-trap-review-regular-sector-join",
@@ -2597,10 +3663,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6241687471",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "6fd9bba829dfa63b7ec223c578e87accb3e82878",
+     "path": "recovery/session_017Mi3hxjaxV45x6zo6o1ee3/rec3_reviews_20261019/rl/work/cG_check.py",
+     "blob": "5575771dce4a6c28dc0932838255b6c18b692b24",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "A later Claude reviewer scratch (its sibling own_verdict_pre_exposure.md is a review of this proof). It computes cG_37 = 144*(2pi)*(p_odd_const*I_k)*p_uv0*(p_uuvv_const*I_A) from integral (37), the closed form cG_39 = 2*G(7/6)*(1.5)**(1/3)/(3*sqrt(3)*pi**1.5), a midpoint-quadrature cG_num, the section-8 form cG_src with p_G(0)=1/(2pi), p_Vu(0)=1/(2pi sqrt3), tau^2=6 and s^2=8/3, and the 12^(-1/3) normalizations (l.7-28). It prints these values rather than asserting them, and it computes nothing of the localization/Poisson theorem or the author's 106 exact controls."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title matches the cited reverse-localization hashes or INPUT_IDENTITIES_BEFORE.json.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "A4-GAUSSIAN-ELDER-SECTOR-20261017",
@@ -2608,10 +3687,59 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242536232",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "22f6209c3f6ec2a8192a92ba7efa8e359e7775d0",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/a4_review_20261019/controls.py",
+     "blob": "3b89ea63948e722ac167e51edd9b0600acf5567b",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "C1/C2 compute P at (6,22,24), factor P' = xi(xi-1)(xi-2)(xi-3) and evaluate P(0..3). conds (C3) tests the section 6 root windows, the 1/8 gaps and 1/2<L0<3/2; C4/C5 compute Jacobians (10) and (13), C6 the SO(2) determinant on raw Sym^3-5, and C7 the ledger k/2-1/(k+1). These are a provider-distinct reviewer's controls, and nothing computes C_A4 (28), the density (26) or the ell^(4/5) asymptotics."
+    },
+    {
+     "repo": "main",
+     "commit": "22f6209c3f6ec2a8192a92ba7efa8e359e7775d0",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/a4_review_20261019/ridge.py",
+     "blob": "af319bda2edd91f27e5c8ea94b64da42a6b1b607",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It solves F_t(s,t(s))=0 as a power series for a general quintic jet and prints g3-F30, g4-(F40-3gam^2/a) and g5-(F50-10 eta gam/a+15 gam^2 B/a^2), which symbolically checks the ridge-derivative formulas (4) for Q4 and Q5. That is one identifiable step, separate from the theorem's density law and coefficient."
+    },
+    {
+     "repo": "main",
+     "commit": "22f6209c3f6ec2a8192a92ba7efa8e359e7775d0",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/a4_review_20261019/persist4.py",
+     "blob": "66f57b7da9698711692e0ebcc2028f8524a4281c",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "run() builds the local model at alpha,beta,q = 6,22,24 with F4=-36r+3gam^2/a and the Q5-corrected F5, plus a higher decoy bump. It computes the superlevel-H0 elder death of M by union-find and reports death/r^5 against the ridge minima near s1 and s3, which numerically tests the farther-saddle (global elder) death claim. It computes nothing for the measure, density or C_A4."
+    },
+    {
+     "repo": "main",
+     "commit": "22f6209c3f6ec2a8192a92ba7efa8e359e7775d0",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/a4_review_20261019/box_scan.py",
+     "blob": "b35526824008991d0903750346b2933ff08f8bf6",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "check() takes the roots of P'(xi)/xi and tests the xi1/xi2/xi3 windows, the gaps > 1/8 and 0.5 < -P(xi3) < 1.5 on an 11^3 grid of |alpha-6|,|beta-22|,|q-24| <= eps. That is a sampled check of the section 6 nonempty regular-box conditions, one part of the statement, and nothing about the density asymptotics or C_A4."
+    }
+   ],
    "store_candidates": [],
-   "note": "The single cited SHA-256 prefix and INPUT_MANIFEST.json have no title match in either store.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 4 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "NG-SMOOTHING-ADMISSION-20261017",
@@ -2619,10 +3747,47 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242848584",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "127a05168434631b6effcf23bfcbeadcc16cf281",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/kappa.py",
+     "blob": "35b6af5a54b0ee39dd4e8fbb5b9eb81cf4024926",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "This Claude review script evaluates formula (6) at d=1, p=0 for the admitted example F=G+eps(H^2-1). It computes kappa = mean(weights*q), where weights=phi(W1,l2)*phi(W2,l4) give the mixture-kernel pin density and q gives the conditional |F'''|^(4/3) moment (l.20-28), then outputs pred_coeff = V*1.5*12^(-1/3)*kappa and a covariance-matched Gaussian comparison (l.29-34). It is a Monte Carlo instance of the coefficient only and reproduces none of the author's 443 finite controls."
+    },
+    {
+     "repo": "main",
+     "commit": "127a05168434631b6effcf23bfcbeadcc16cf281",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/simulate.py",
+     "blob": "382e018ccc1521d8509d40641fe8cca3157b6c05",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It samples F=G+eps(H^2-1) on the circle, Newton-refines critical points (l.40-44), runs exact elder-rule H0 persistence by union-find (l.57-71), and reports rate_per_t23 = counts/nreal/ts**(2/3) (l.73-74), an empirical estimate of the left side of (5). It never computes C_p and never compares the rate with (3/2)C_p in code; the comment's own controls exclude asymptotic experiments of this kind."
+    },
+    {
+     "repo": "main",
+     "commit": "127a05168434631b6effcf23bfcbeadcc16cf281",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/ng_review_20261019/ng_controls.py",
+     "blob": "b3771c7a9c9afc0bc2e43bfb9febc46315e144cc",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "SymPy recomputes several of the comment's reported constants: |det dU/dO| against 12 r^-(d+3) of (14) for d=1,2,3 (C1, l.4-10), the block determinant identity (17) (C3, l.18-20), 144*12^(-7/3) == 12^(-1/3) (C4, l.22-24), E[(X^4-3)^3] = 9504 and E[(X^2-1)^3] = 8 (C5, l.26-28), the M>4/3 exponent (C6, l.30-31), and the N(1,1) cone-refusal example (C7, l.33-34). These values are printed rather than asserted, and there are no checks for Bayes weighting, shifted conditional means, coercivity/tail split, constant-shift invariance or antipodal averaging."
+    }
+   ],
    "store_candidates": [],
-   "note": "None of the four cited SHA-256 prefixes or INPUT_MANIFEST.json appears in a Drive or Dropbox title.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 3 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "I2-FINITE-L-ENCLOSURE-METHOD-V1",
@@ -2641,10 +3806,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6243294265",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "7e76218853b9bf93ace3f08b402b6194e5669c25",
+     "path": "recovery/session_015wNj8LPTKXsaT68G3DgPPh/flb_original_check_20261019/tensor_check.py",
+     "blob": "1d6eb3b544009fbd0108ac9b7f220bd78002c6f3",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "check(d) for d=3,4 asserts with sympy the fourth-moment tensor (8) (line 65), B(e)=a^2(I+2ee^T)+k4 diag(e_i^2) (11) (line 71), v_i(e) (9) (line 75), E(Q.e)^6 and V(e) (10) (lines 78-80), and R and C (12)-(13) (lines 86, 94). Lines 104-105 assert 6^(2/3)/24^(1/3)=(3/2)^(1/3) and 12^(-1/3)2^(-1/3)=24^(-1/3). This is a later, separate C8 correspondence check (README: ORIGINAL vs binding); it does not check GAD admission, the whole-law identification or the asymptotic coefficient statement."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title matches the cited GAD-binding hashes or INPUT_MANIFEST.json, so no off-git copy of the 58-check diagnostic was found.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "LPW-CONSTANT-V4-C-OUTWARD-CORRECTION",
@@ -2705,10 +3883,71 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6244609604",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_algebra/rederive.py",
+     "blob": "eeb6607e370228709ed7e03ded453057cdae7359",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "This is Claude01Cz's separate cross-family input program, not the author's PAPER_ALGEBRA_CHECKS_V1.py. It re-derives P1 (integral = 3/2(b^(2/3)-a^(2/3)), l.12-13), P3 (21**6==85766121 < 2*19**6==94091762, l.45) and the eta=1/10 failure qo**6>2 (l.52), plus the P8 brute-force sandwich for a>2delta (l.53-86), P9 (l.88-93) and the P13 identity (l.96). It also covers the P16 Hoeffding tilt (l.98-103), P18 (l.105-107), the P7 decomposition (l.110) and P20 (l.111-122), but leaves out P10-P12, P14, P19, P21-P22 and the V2 addendum."
+    },
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_matching/check_sec7.py",
+     "blob": "48e5593a67f1767b8eb4374277503af7fa4993ca",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "This Claude01Cz section-7 checker builds random exact-rational delta-matched diagrams (rand_pair). With a > 2delta it counts violations of the P8 sandwich N_F(I^-)<=N_P(I)<=N_F(I^+) and of the P9 clipped-count bound (viol dict, l.38-61). It also evaluates the P12 interval on a finite probability space (l.99-103) and a P13 notation check (l.105-108), so it covers only the section 7 statements."
+    },
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_ledger/chain_check.py",
+     "blob": "53dfa6dc1803bbe4fb52da317a5001767c4ec583",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "On random finite outcome spaces it asserts the protocol's P10 |E min(N,Q)/V - muP| <= B, P11 nu = E min/V + TQ, the P12 interval and P13 TQ <= S2/(4QV) (l.25-28), with B = H + Q*beta/V (l.24). Only the P10-P13 composition is computed."
+    },
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_ledger/ledger_checks.py",
+     "blob": "f9679b9915f407e9ab7d56e1596117a329df333e",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "Its docstring targets PROSPECTIVE_CORRECTIVE_PROTOCOL_V1 sections 7-9. It checks P20_subset_yhat_pm_D and P19_width_bound (l.26-27) and P22_implies_P21_in_open_tube (l.38-40) over random rationals, and re-asserts the P3 integers and q10**6>2 (l.57-60). It covers only the P19-P22 ledger, P3 and a Jensen infeasibility side check."
+    },
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_power/power_checks.py",
+     "blob": "d757befcfe876a86bf50ff3ec19f8a9d1b94aba6",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "It computes the P3 integers (l.13), the P16 tilt and P18 sample size (l.16-21), and the P19 width and P20 D_j identities (l.24-27). It also computes the P13+P16+P22 power floors at eta=1/20 (l.29-51) and the P14 dyadic shell ratio (l.91-103). A randomized P8 sandwich check follows (l.105-131). These are Claude01Cz's own feasibility floors beyond the protocol text, and P9-P12, P21 and the V2 uniformity statements are not computed."
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title matches any cited SHA-256 prefix, PAPER_ALGEBRA_CHECKS_V1.py or SOURCE_BINDINGS_V1.json.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 5 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "Math-#193/6244612457:PAPER_ALGEBRA_CHECKS_V1",
@@ -2729,10 +3968,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6251562000",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "0455404fb1d32923c58b8944dda9790d33b17275",
+     "path": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/protocol_input/work_obscoef/calg_l24.py",
+     "blob": "1e9e86eb196de72fc3ce88c0c5143eaeec1fa324",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "calg_from (lines 11-29) evaluates C_alg(2,L) by mpmath angular quadrature with prefactor Gamma(7/6)/(24^(1/3) sqrt(pi)(2pi)^2 a), and lines 31-39 run it at dps=170 and L=24 and print 40 digits. This is a separate 01Cz computation of the same C_alg(2,24) value the comment reports. It gives no 150-digit value, no containment check in #481's certified interval, and none of the comment's other new results."
+    }
+   ],
    "store_candidates": [],
-   "note": "No exact or contextual match for verify_coefficient.py or RESULT.json. The RESULT.json searches returned only unrelated *_result(s).json(l) names, which were dropped.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "FLB-XPROV-REVIEW-014K-20261019",
@@ -3145,10 +4397,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400020997",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "39b22f69bbc83878942375cca2d30f92b12947af",
+     "path": "custody/claude-01cz-20261025/external/codex_handoff_20261025/audit_605_claude01cz/v21_proof_challenge/independent_algebra.py",
+     "blob": "3a3fe7ee5f5ebafdadedc71b73ae2ef945be04fe",
+     "role": "test",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "On a general degree-5 field, sympy rebuilds the note's rows (5)-(6) and asserts the following: the limits (8) of the nine rows, with the -1/8 in A_g (l.61-65); E cubic part = nu*zeta*J21 and Q_g (l.68-70); q13=tau^3 lam^2(lam-1)/6 (l.71); Q_0=J31/12-J13/3 (l.72); beta_g=tau^3(lam-1)/4 (l.75); the A1/M/E targets kF_g and dF_g/dlam (l.80-85); and the six-pin |det|=12 r^-5 (l.86-93). It does not check the full-box rational bounds (14)/(20), the minor floor (17), the ten-row Jacobian (21), or the Gaussian numerator bound <= C r^5 itself. It was written by Claude01Cz from the note's definitions, se"
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive title matches either cited SHA-256 prefix, and with no cited code files no file-name searches were run.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C318-S06-GAUSSIAN-DERIVATIONS",
@@ -3167,7 +4432,20 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400428837",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "07a0a4803f998aff4265abd42dfeaea5252bd3bb",
+     "path": "research/parallel/h3/verify_h3_floor.py",
+     "blob": "24106701604b92f454b83a42fab6f378003ed024",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "full",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "law (lines 144-160) conditions on the six axis pins at R=1/20, HEIGHT=6/5 and gap 1/6, with target order (qM,qS,aM,aS,bM,bS) and interval_ldlt; safe_box (163-171) requires D_M>0 and D_S<0 on LOW/HIGH, which equal the frozen box B; and truncated, det_polynomial and integral (174-225) apply the I_n recursion to the degree-4 -D_M D_S polynomial (at most 210 monomials) times R^2. Line 295 asserts original.lo > IMPORTED = 0.0077592917375327855 on that same box. It is a separate, earlier (20 Sep) program using repo interval code at 256 bits, not Arb or check_h3_floor.py, and it does not separately a"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -3179,8 +4457,8 @@
      "is_implementation": false
     }
    ],
-   "note": "The only match is the RN3-20260917-b9c2 payload manifest JSON on Drive, which is a manifest data file and not the missing H3 checker (check_h3_floor.py is not a cited code name here, and no cited SHA prefix appears in any Drive title). The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C319-S03-RN3-REPLAY-ADDENDUM-FROZEN",
@@ -3188,7 +4466,20 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400428837",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "07a0a4803f998aff4265abd42dfeaea5252bd3bb",
+     "path": "research/parallel/c2/sources/rn_field.py",
+     "blob": "a99aa9d62f5a2ae8b023580478e0cee7b963674f",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "The blob hashes to d9167ae8..., the exact original/closure_round2/rn_field.py the addendum audits. cell_intersects (file line 289) applies the nonstrict predicate lo<=289*den^2 and hi>=25*den^2, and certified_cover (line 295) loops over range(-17*den,17*den), counts accepted_cells and checks that count against the predicate sum (line 318), which yields the clipped 13,604-cell cover. It does not compute the 13,612 unclipped count, the eight omitted axis-tangent boxes, or the final 0.88021<rho/rho_ref<1.12058 and 2.22542 r^3<I_far<2.83312 r^3 bounds (those belong to rn_joint.py)."
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -3200,8 +4491,8 @@
      "is_implementation": false
     }
    ],
-   "note": "No replay code or cited audit JSON was found in Drive or Dropbox; the only related hit is the RN3-20260917-b9c2 payload manifest (a data file) on Drive. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C319-S06-INDEPENDENT-REVIEW-SPECTRAL-H3-FROZEN",
@@ -3209,7 +4500,20 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400429135",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "07a0a4803f998aff4265abd42dfeaea5252bd3bb",
+     "path": "research/parallel/h3/verify_h3_floor.py",
+     "blob": "24106701604b92f454b83a42fab6f378003ed024",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": false,
+     "evidence": "This is an earlier (2026-09-20) author-side H3 reconstruction, not the review's check_spectral_h3.py and not the reviewed check_h3_floor.py (the sha256 differs). It computes the same r^2 E[-D_M D_S 1_B] at r=1/20, b=6/5: the six-pin plus six-soft SIDE24 Gram (l.146), regression with interval LDL (l.144-160), box typing dm.lo>0 and ds.hi<0 (l.170), the truncated-moment recurrence (l.175-182), det_polynomial (l.210) and integral*R^2 (l.217), with require(original.lo > IMPORTED) at l.295. It does not build the 512-bit Fourier-series Gram with erfc masses, the 13,604/13,612/13,596 cell counts with"
+    }
+   ],
    "store_candidates": [
     {
      "store": "drive",
@@ -3275,8 +4579,8 @@
      "is_implementation": false
     }
    ],
-   "note": "Drive holds the cited v21 supplement zip and the v20 zip as four .partNNN split pieces, each with a .sha256 sidecar; these are bundles rather than the spectral checker, and ORIGINAL_RN3.zip, v19, check_spectral_h3.py and the review JSONs were not found. The store matches listed are data, archives or reviews, not implementation code.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "C319-S11-RN-JOINT-001-FROZEN",
@@ -3447,10 +4751,23 @@
    "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402298236",
    "census_class": "CITED_NOT_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "fb2697fca5703b59e5f130715d54da0ba18256ff",
+     "path": "custody/claude-01cz-20261025/external/codex_handoff_20261025/audit_605_claude01cz/v22_height_mean/verify.py",
+     "blob": "b86b442fd2c807b9ffb325a873fd0919dfad263f",
+     "role": "implementation",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": false,
+     "evidence": "This is the author's verify.py in the frozen packet the review reads at fb2697fc. It solves the full 10-coefficient cubic system with sp.solve and checks cancel(val-Pi)==0 for the same Pi (l.13-17), along with the order-2 leading form (l.18-21) and the eta-roots of Pi (l.24-25). That covers the review's items 3 and 5. It does not compute the review's F1 counterexample (the bare leading form nonzero at eta=2qt/(2D-3dq), or the numerics at c=t=d=k=1, a=0, s=q=0.01) or the 10x10 determinant 144 d t^2 (at-cd)(t+d eta)^2."
+    }
+   ],
    "store_candidates": [],
-   "note": "The single cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "REVIEW-MATH514-CURVATURE-A-B",
@@ -3469,10 +4786,25 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6406504239",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "main",
+     "commit": "a38ad1edd04ce2451274811731819ea4e4661ceb",
+     "path": "drive/mirrors/2026-09-17_RN5_MOMENT_REPAIR_AND_REVIEW_ERRATUM/RN5_REPAIR_AND_ERRATUM_BUNDLE.zip",
+     "blob": "0002d3a76c147932afd979025aaeb7f221f2ac85",
+     "member": "round5/verify_round5.py",
+     "member_blob": "e6fdb37b7fdca67b9b8a07d8239fdc99abd0c81f",
+     "role": "test",
+     "basis": "content_search_zip_member",
+     "extent": "partial",
+     "relation": "INDEPENDENT_REIMPLEMENTATION",
+     "on_default_branch": true,
+     "evidence": "identity_and_erratum() re-extracts the same LM004 frozen body (l.17: 10416 B, sha256 d43179f3...), sets eta=Fraction(1,8192) and k=1/16 (l.21), and checks with exact Fractions the axis loss < (1/8000)^2 (l.22), the face loss < (1/7000)^2 (l.23), the sink margin 63/128-3/64-eta > 44/100 (l.24) and the transit coefficient -3+1/4 == -11/4 (l.25), all of which the review reports. It is the OpenAI ROUND5 erratum verifier for the superseded REV-AUTO review (oldreview.txt, l.26-27), not 01CZ's work. It does not compute the review's N1 Weyl/eigenvector-perturbation eigenline repair, the O(eta) angle o"
+    }
+   ],
    "store_candidates": [],
-   "note": "The comment names no file or hash to search for.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "ACTUAL-CANONICAL-CAPTURE-APPLICATION-20261026",
@@ -3480,10 +4812,23 @@
    "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6407376329",
    "census_class": "NONE_FOUND",
    "extracts": [],
-   "git_carriers": [],
+   "git_carriers": [
+    {
+     "repo": "Math-",
+     "commit": "396bdf3be0ce3550726ac231bbe4d95298272671",
+     "path": "frontiers/source_derivative_gaussian_20261025/SourcePinPreservingQuartic.lean",
+     "blob": "a078032d91d2d9e5a8bc80ffa9ccd241542d8193",
+     "role": "lean",
+     "basis": "content_search",
+     "extent": "partial",
+     "relation": "SAME_WORK",
+     "on_default_branch": true,
+     "evidence": "The file defines quarticEpsilonStar := 1/(1024*4096*5^5) and quarticKcap := 25600010 (l.899-900). It proves cutoff_raw_regularity (l.922, using R0<=5R), cutoff_adaptive_tolerance (l.954, 3*r^2*G <= R0*Fstar/(K0 R0^5)/4) and cutoff_curvature_threshold (l.982), and applies them in sourceQuartic_cutoff_estimates (l.2091); this is the comment's 'constants discharge the hypotheses' step. The file sits in the same source packet and is listed in capture-application/REUSED_SOURCES.json, but the new proof's own conclusions are conventional only: the probability law on a radius interval, the Borel captu"
+    }
+   ],
    "store_candidates": [],
-   "note": "No Drive or Dropbox title contains the cited SHA-256 prefix 6369fae0f5c746ed or the file name REUSED_SOURCES.json.",
-   "outcome": "NOT_LOCATED"
+   "note": "Content search (pass 2): 1 committed file(s) that implements part of the computation, kept by two independent verifier lenses.",
+   "outcome": "COMMITTED_ELSEWHERE"
   },
   {
    "key": "ACTUAL-ADAPTIVE-ELDER-PLANAR-PARENTS-20261026",

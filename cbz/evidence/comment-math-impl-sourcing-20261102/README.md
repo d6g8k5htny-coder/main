@@ -28,7 +28,7 @@ Census gap list D holds the artifacts whose posts make computational claims (scr
 Outcomes:
 
 - `INLINE_EXTRACTED`: the comment contains implementation code, now committed in `extracts/`.
-- `COMMITTED_ELSEWHERE`: a committed file whose SHA-256 the comment cites implements the computation.
+- `COMMITTED_ELSEWHERE`: a committed file implements the computation, either one whose SHA-256 the comment cites (pass 1) or one found by content search and kept by two verifier lenses (pass 2). A carrier inside a committed zip names the zip and the member.
 - `DRIVE_OR_DROPBOX_CANDIDATE`: a Drive or Dropbox file's title or name matches a cited SHA-256 or file name, and the title indicates code, a checker or a certificate.
 - `NOT_LOCATED`: none of the above. Store matches on data files, archives or reviews are still listed on the row.
 
@@ -37,7 +37,7 @@ Rows take the first outcome that applies, in the order above.
 ## Verify
 
 ```
-python3 -I verify_extracts.py --check --repo main=PATH --repo Math-=PATH [--repo NAME=PATH ...]
+python3 -I verify_extracts.py --check --repo main=PATH --repo Math-=PATH
 python3 -I verify_extracts.py --live --token-env GITHUB_TOKEN
 sha256sum -c SHA256SUMS
 ```
@@ -64,22 +64,56 @@ The live check re-fetches every source comment and checks its body SHA-256. It t
 2. **Committed elsewhere.**
    - Every blob, in the full history of all ten clones, whose base name matches a file cited by a gap-D comment was hashed.
    - Each match against a cited SHA-256 went to a subagent, which decided whether the blob implements the computation or is only the reviewed subject or an input.
-3. **Drive and Dropbox.**
+3. **Content search (pass 2, 2 November).**
+   - For each row still `NOT_LOCATED`, a search agent picked distinctive terms from the comment: script, function and theorem names, exact constants, assertion and print strings.
+   - It searched every code file in the full history of all refs of all ten clones, 18,179 blobs. The extracts of this addendum were excluded.
+   - A second corpus held the 1,117 unique code members of the 189 zip archives committed in main and Math-.
+   - Each proposed carrier then went to two independent verifier agents:
+     - a computation lens: does the code compute the reported quantities?
+     - a refutation lens: try to show it does not.
+   - Both default to "not an implementation" when unsure. A carrier is kept only if neither refutes it and `COMMIT:PATH` resolves to its blob; for a zip carrier the member's blob is also checked.
+   - Each kept carrier records:
+     - `extent`: `full` if both lenses judged it a complete implementation, else `partial`;
+     - `relation`: `SAME_WORK`, `INDEPENDENT_REIMPLEMENTATION` or `LATER_CONSUMER`;
+     - `on_default_branch`.
+4. **Drive and Dropbox.**
    - Subagents used only `search_files`, with content snippets excluded, and Dropbox title-only search, querying by cited SHA-256 prefix and by exact file name.
    - Substring coincidences were dropped. Owner names are not recorded.
 
 ## Results
 
-- 274 gap-D rows: 75 `INLINE_EXTRACTED`, 0 `COMMITTED_ELSEWHERE`, 4 `DRIVE_OR_DROPBOX_CANDIDATE`, 195 `NOT_LOCATED`.
-- 135 extracted blocks in 132 files: 63 `IMPLEMENTATION` and 72 `PARTIAL`; 70 Lean and 65 Python. 118 match a SHA-256 cited in the same comment.
-- Committed elsewhere: all 41 committed blobs whose SHA-256 a gap-D comment cites are the reviewed subject or an input, not the implementation.
-- Drive: the four implementation candidates are the 24 September folders cited by main#56 (two artifacts), main#57 and main#58. They hold the cited script names at the recorded sizes. They are candidates for cold recovery into git by a packet owner; nothing here fetched them.
+- 274 gap-D rows:
+
+  | Outcome | Rows |
+  |---|---:|
+  | `INLINE_EXTRACTED` | 75 |
+  | `COMMITTED_ELSEWHERE` | 62 |
+  | `DRIVE_OR_DROPBOX_CANDIDATE` | 4 |
+  | `NOT_LOCATED` | 133 |
+
+- 135 extracted blocks in 132 files:
+  - 63 `IMPLEMENTATION` and 72 `PARTIAL`;
+  - 70 Lean and 65 Python;
+  - 118 match a SHA-256 cited in the same comment.
+- Pass 1, committed files cited by SHA-256: all 41 committed blobs whose SHA-256 a gap-D comment cites are the reviewed subject or an input, not the implementation.
+- Pass 2, content search: 62 rows that pass 1 left `NOT_LOCATED` now have 103 committed carriers.
+  - 82 are loose files and 21 are members of 2 committed zips.
+  - 8 carriers are full implementations and 95 are partial.
+  - By relation: 43 `SAME_WORK`, 55 `INDEPENDENT_REIMPLEMENTATION`, 5 `LATER_CONSUMER`.
+  - 51 carriers are on a default branch and 52 are not.
+  - 31 of the 62 rows have carriers only off the default branch, so their code is held only by recovery, session or packet branches.
+  - The verifier lenses refuted 14 proposed carriers.
+- Drive:
+  - The four implementation candidates are the 24 September folders cited by main#56 (two artifacts), main#57 and main#58.
+  - They hold the cited script names at the recorded sizes.
+  - They are candidates for cold recovery into git by a packet owner; nothing here fetched them.
 
 ## Limits
 
 The authoritative list is `limits` in `SOURCING.json`, rendered in `SOURCING.md`. In short:
 
-- Classification and committed-elsewhere judgments are by Anthropic Claude subagents of this session (independence credit 0).
+- Classification, committed-elsewhere and pass-2 judgments are by Anthropic Claude subagents of this session (independence credit 0).
+- A `partial` carrier computes an identifiable part of the reported checks, not all of them. A carrier off the default branch is held only by a recovery, session or packet branch, so pruning that branch would lose it.
 - Compiling Python proves only that it parses. Running, adopting or replaying any extract is a packet owner's decision, and a `PARTIAL` extract needs the modules or sibling files its `dependencies` field names.
 - Store candidates are metadata matches only; no bytes were fetched or compared.
 - `NOT_LOCATED` does not prove absence.
