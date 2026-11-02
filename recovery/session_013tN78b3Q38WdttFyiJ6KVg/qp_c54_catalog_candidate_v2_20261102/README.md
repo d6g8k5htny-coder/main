@@ -112,8 +112,7 @@ python3 -I -B $C/mutate_v2.py /tmp/staging.json /tmp/cand.json $R CLONES.json
 13. **30 errata items** each set their value on exactly their target rows: a section target's tranche and object are checked, every
     `errata_applied` tag names an item, and a3 notes sit under audited ids.
 
-**Negative controls** (`mutate_v2_output.txt`): *the 39-mutant run on this build is in progress at this commit; its output and
-tally follow in the next commit.* (On the interim build without tranche 8, 31 of 31 earlier mutants were killed.) Every mutant also fails check 2,
+**Negative controls** (`mutate_v2_output.txt`): **39 of 39 mutants fail on their intended check.** Every mutant also fails check 2,
 because any change makes the candidate differ from a fresh build; check 2 is itself the intended check of mutants 2-4. The
 intended-check failure is the one that matters.
 
