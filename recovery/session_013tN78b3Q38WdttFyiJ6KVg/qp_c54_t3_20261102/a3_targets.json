@@ -1,0 +1,59 @@
+[
+ {
+  "record": "QP-C54-T2-008",
+  "object": "frontiers/c2_exact_20261001",
+  "floating_point": "USED: the closed forms come from exact Fraction series arithmetic (pseries.py, exact.py). The published enclosures, however, are computed by ia.py, elem.py and gam.py in IEEE binary64, with one-ulp outward widening via math.nextafter after each basic operation and hand-derived a priori bounds for the exp/log/atan series. Some remainder terms are evaluated in undirected binary64, for example the elem._atanh_series tail with a safety factor 2, and the publication margin MARGIN*abs(iv) in certificate.pub. certificate.py also compares the d=1 reductions in plain floats (d1_float). This is float-based interval reasoning whose soundness rests on unreviewed rounding analyses.",
+  "python_files": [
+   "frontiers/c2_exact_20261001/certificate.py",
+   "frontiers/c2_exact_20261001/controls.py",
+   "frontiers/c2_exact_20261001/elem.py",
+   "frontiers/c2_exact_20261001/exact.py",
+   "frontiers/c2_exact_20261001/gam.py",
+   "frontiers/c2_exact_20261001/ia.py",
+   "frontiers/c2_exact_20261001/pseries.py"
+  ],
+  "notes": [
+   "frontiers/c2_exact_20261001/NOTE.md",
+   "frontiers/c2_exact_20261001/README.md"
+  ]
+ },
+ {
+  "record": "QP-C54-T2-016",
+  "object": "frontiers/c8_elder_failure_coefficient_20261001",
+  "floating_point": "USED: the certificate runs in binary64. ia.py rounds +, -, *, / and sqrt to nearest and then widens outward by one ulp with math.nextafter (lines 1-6, 14-57). exp(-y) is a reduced Taylor polynomial with an a priori floating error bound (56u + 1e-19) e^0.75 (NOTE.md lines 318-319). Root brackets rest on an a priori binary64 rounding-error bound in _sgn_f (boxes.py lines 81-94). libm pow, acos and cos supply only seeds (lines 97-136). Published intervals are widened by 1e-7 relative (certificate.py line 40). The IEEE-basic-operation widening is directed; the a priori error bounds are hand analysis.",
+  "python_files": [
+   "frontiers/c8_elder_failure_coefficient_20261001/boxes.py",
+   "frontiers/c8_elder_failure_coefficient_20261001/certificate.py",
+   "frontiers/c8_elder_failure_coefficient_20261001/controls.py",
+   "frontiers/c8_elder_failure_coefficient_20261001/ia.py",
+   "frontiers/c8_elder_failure_coefficient_20261001/test_replay_metadata.py",
+   "frontiers/c8_elder_failure_coefficient_20261001/torus.py"
+  ],
+  "notes": [
+   "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+   "frontiers/c8_elder_failure_coefficient_20261001/README.md"
+  ]
+ },
+ {
+  "record": "QP-C54-T2-029",
+  "object": "frontiers/cusp_coefficient_certified_20261001",
+  "floating_point": "USED: the enclosures are computed by ia.py, elem.py, consts.py, cx.py and d3.py in IEEE binary64, with one-ulp outward widening (math.nextafter) per basic operation and hand-derived a priori bounds for the series (NOTE.md 254-270). gauss.py locates Gauss-Legendre nodes in exact rationals from float Newton seeds, but the weights, function bounds and sums are binary64 intervals. NOTE.md 365-374 records out-of-trajectory limits of this library: d3._sub can lose 2^-57, and ia.mul((0,0),(inf,inf)) returns NaN.",
+  "python_files": [
+   "frontiers/cusp_coefficient_certified_20261001/certificate.py",
+   "frontiers/cusp_coefficient_certified_20261001/consts.py",
+   "frontiers/cusp_coefficient_certified_20261001/controls.py",
+   "frontiers/cusp_coefficient_certified_20261001/cusp.py",
+   "frontiers/cusp_coefficient_certified_20261001/cx.py",
+   "frontiers/cusp_coefficient_certified_20261001/d3.py",
+   "frontiers/cusp_coefficient_certified_20261001/elem.py",
+   "frontiers/cusp_coefficient_certified_20261001/gauss.py",
+   "frontiers/cusp_coefficient_certified_20261001/ia.py",
+   "frontiers/cusp_coefficient_certified_20261001/side24.py"
+  ],
+  "notes": [
+   "frontiers/cusp_coefficient_certified_20261001/ERRATUM_20261013.md",
+   "frontiers/cusp_coefficient_certified_20261001/NOTE.md",
+   "frontiers/cusp_coefficient_certified_20261001/README.md"
+  ]
+ }
+]
