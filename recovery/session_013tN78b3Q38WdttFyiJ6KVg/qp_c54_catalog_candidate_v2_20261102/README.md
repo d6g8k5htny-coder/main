@@ -87,8 +87,9 @@ python3 -I -B $C/mutate_v2.py /tmp/staging.json /tmp/cand.json $R CLONES.json
 11. **Reconciliation.** The 7 reconciled federation files are byte-identical to their primary main bindings. Shared and
     federation-only files partition the row's binding, and the back-link is present.
 
-**Negative controls** (`mutate_v2_output.txt`): 22 mutants, each of which must fail on its intended check. *At this commit the
-run is still in progress; its output and tally follow in the next commit.* They cover:
+**Negative controls** (`mutate_v2_output.txt`): **22 of 22 mutants fail on their intended check.** Every mutant except the first
+also fails check 2, because any change makes the candidate differ from a fresh build; the intended-check failure is the one that
+matters. They cover:
 - a changed staging value, an edited proposal, a dropped accounting row and a wrong count;
 - an emptied required field, an owner, an unclassified floating-point field and a duplicate ID;
 - federation, Lean, accounting and tranche-4 bindings;
