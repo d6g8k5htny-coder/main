@@ -32,6 +32,7 @@ REPORT = os.path.join(HERE, 'CENSUS.md')
 
 CUSTODY = ('COMMITTED_ON_MAIN', 'COMMITTED_ON_BRANCH_ONLY', 'DRIVE_OR_DROPBOX_ONLY_CITED', 'INLINE_ONLY', 'UNKNOWN')
 IMPLEMENTATION = ('FOUND', 'CITED_NOT_FOUND', 'NONE_NEEDED', 'NONE_FOUND')
+FAMILIES = ('Anthropic', 'OpenAI', 'Grok', 'Google', 'Owner', 'Unknown')
 MAIN_TREES = ('main', 'Math-')
 HEX40 = set('0123456789abcdef')
 
@@ -133,6 +134,8 @@ def verify(census, chk):
         for v in a.get('versions', []):
             if not (isinstance(v.get('body_sha256'), str) and len(v['body_sha256']) == 64):
                 chk.fail(where, f'version {v.get("comment")} lacks a body SHA-256')
+        if a.get('family') not in FAMILIES:
+            chk.fail(where, f'unknown family {a.get("family")}')
         cus, imp = a['custody'], a['implementation']
         if cus['class'] not in CUSTODY:
             chk.fail(where, f'unknown custody class {cus["class"]}')
@@ -165,7 +168,11 @@ def verify(census, chk):
 
 def probe_uncommitted(census, chk):
     """Re-run the inline probe: no row outside COMMITTED_ON_MAIN may have two of its probe lines in one file at a cut."""
-    rows = [a for a in census['artifacts'] if a['custody']['class'] != 'COMMITTED_ON_MAIN' and (a.get('probe') or {}).get('lines')]
+    rows = [a for a in census['artifacts'] if a['custody']['class'] != 'COMMITTED_ON_MAIN']
+    for a in rows:
+        if not (a.get('probe') or {}).get('lines'):
+            chk.fail(a['key'], f'{a["custody"]["class"]} row has no probe lines')
+    rows = [a for a in rows if (a.get('probe') or {}).get('lines')]
     pats = sorted({p for a in rows for p in a['probe']['lines']})
     if not pats:
         return
@@ -215,7 +222,7 @@ def summarize(census):
         'custody': count(lambda a: a['custody']['class']),
         'implementation': count(lambda a: a['implementation']['class']),
         'kind': count(lambda a: a['kind']),
-        'family': count(lambda a: a['performer_family']),
+        'family': count(lambda a: a['family']),
         'gaps': gaps,
     }
 
@@ -266,7 +273,7 @@ def render(census, summ):
         for k in keys:
             a = by_key[k]
             v = a['versions'][0]
-            w(f'- `{k}`: {link(v["comment"], v.get("url"))}, {v["created"][:10]}, {a["performer_family"]}. {a["statement"]}')
+            w(f'- `{k}`: {link(v["comment"], v.get("url"))}, {v["created"][:10]}, {a["family"]}. {a["statement"]}')
         if not keys:
             w('- none')
         w('')
@@ -276,7 +283,7 @@ def render(census, summ):
     w('|---|---|---|---|---|---|---|')
     for a in census['artifacts']:
         v = a['versions'][0]
-        w(f'| `{a["key"]}` | {link(v["comment"], v.get("url"))} | {a["performer_family"]} | {a["kind"]} | {a["custody"]["class"]} | {a["implementation"]["class"]} | {len(a.get("records", []))} |')
+        w(f'| `{a["key"]}` | {link(v["comment"], v.get("url"))} | {a["family"]} | {a["kind"]} | {a["custody"]["class"]} | {a["implementation"]["class"]} | {len(a.get("records", []))} |')
     w('')
     w('## Limits')
     w('')
