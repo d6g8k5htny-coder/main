@@ -1,0 +1,13 @@
+PASS 1 d=2: 40 exact samples satisfy the three endpoint bounds and (S8.39)
+PASS 1 d=3: 40 exact samples satisfy the three endpoint bounds and (S8.39)
+PASS 1 d=4: 40 exact samples satisfy the three endpoint bounds and (S8.39)
+PASS 1e d=2: equality cases (aligned perturbation, |alpha| = a, ||beta_S|| = M_3/2)
+PASS 1e d=3: equality cases (aligned perturbation, |alpha| = a)
+PASS 1e d=4: equality cases (aligned perturbation, |alpha| = a)
+PASS 2a layer integral a * int_0^{D delta U^2} lambda [a lambda + a r K U + r K^2 U^2/4] d lambda
+PASS 2b term 1 / ((r^3/k) P Upsilon^8) = C_star**2*D**3/(3*P), bounded as k <= P, P >= 1, Upsilon >= 1
+PASS 2b term 2 / ((r^3/k) P Upsilon^8) = C_star**2*D**2*K*k/(2*P*Upsilon), bounded as k <= P, P >= 1, Upsilon >= 1
+PASS 2b term 3 / ((r^3/k) P Upsilon^8) = C_star*D**2*K**2/(8*P*Upsilon), bounded as k <= P, P >= 1, Upsilon >= 1
+PASS 3 delta^4 (2k)^2 = 4 delta r^3/k, and (k + r)^2 <= (2k)^2 for r <= k
+N_CHECKS 11
+ALL_CHECKS_PASS

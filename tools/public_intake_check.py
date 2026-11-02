@@ -20,7 +20,8 @@ import urllib.error
 import urllib.request
 import zlib
 
-MAX_FILES = 500  # Below the API's 3000-file ceiling; pagination is mandatory.
+MAX_FILES = 500  # Public-intake submission bound, unchanged.
+MAX_DISCOVERY_FILES = 3000  # GitHub files API hard ceiling; engineering discovery only.
 MAX_PACKAGE_FILES = 50
 MAX_FILE_BYTES = 262144
 MAX_PACKAGE_BYTES = 2097152
@@ -241,7 +242,7 @@ def reachable(api, repo, commit, default_branch):
     return False
 
 
-def snapshot(pr, repo):
+def snapshot(pr, repo, *, file_limit=MAX_FILES):
     require(isinstance(pr, dict) and pr.get('state') == 'open', 'PR is not open')
     base, head = pr.get('base'), pr.get('head')
     require(isinstance(base, dict) and isinstance(base.get('repo'), dict) and base['repo'].get('full_name') == repo,
@@ -253,14 +254,16 @@ def snapshot(pr, repo):
     labels = pr.get('labels')
     require(isinstance(labels, list) and all(isinstance(x, dict) and isinstance(x.get('name'), str) for x in labels), 'labels unavailable')
     return (sha40(head.get('sha'), 'invalid head SHA'), sha40(base.get('sha'), 'invalid base SHA'),
-            head_repo, tuple(sorted(x['name'] for x in labels)), integer(pr.get('changed_files'), 1, MAX_FILES, 'unsupported changed file count'))
+            head_repo, tuple(sorted(x['name'] for x in labels)), integer(pr.get('changed_files'), 1, file_limit, 'unsupported changed file count'))
 
 
 def changes(api, repo, number, count):
+    integer(count, 1, MAX_DISCOVERY_FILES, 'unsupported changed file count')
     rows = []
     for page in range(1, (count + 99)//100 + 1):
         batch = api.get(f'/repos/{repo}/pulls/{number}/files?per_page=100&page={page}')
         require(isinstance(batch, list), 'file listing unavailable')
+        require(len(batch) == min(100, count - len(rows)), 'incomplete file listing')
         rows.extend(batch)
     require(len(rows) == count, 'incomplete file listing')
     seen = set()
@@ -401,18 +404,24 @@ def check(event, api, repository):
         # still rejects.
         return {'head': pr['head']['sha'], 'scientific_effect': 'NONE', 'lane': 'not-evaluated',
                 'result': 'SKIPPED_MERGED_BEFORE_CHECK'}
-    original = snapshot(pr, repository)
+    # Metadata can identify an intake submission early, but cannot establish
+    # that a same-repository change has no incoming paths on a later page.
+    original = snapshot(pr, repository, file_limit=MAX_DISCOVERY_FILES)
     head, base, head_repo, labels, count = original
     event_pr = event.get('pull_request')
     require(isinstance(event_pr, dict) and isinstance(event_pr.get('head'), dict) and event_pr['head'].get('sha') == head,
             'head changed since event; rerun latest event')
+    known_intake = head_repo != repository or 'results-for-review' in labels
+    if known_intake:
+        integer(count, 1, MAX_FILES, 'unsupported changed file count')
     rows = changes(api, repository, number, count)
-    intake = head_repo != repository or 'results-for-review' in labels or any(
+    intake = known_intake or any(
         row['filename'].split('/')[0] == 'incoming' or row.get('previous_filename', '').split('/')[0] == 'incoming' for row in rows)
     result = {'head': head, 'base': base, 'scientific_effect': 'NONE', 'lane': 'incoming' if intake else 'maintainer-engineering'}
     if intake:
+        integer(count, 1, MAX_FILES, 'unsupported changed file count')
         result.update(verify_package(api, repository, head, base, rows))
-    require(snapshot(api.get(f'/repos/{repository}/pulls/{number}'), repository) == original,
+    require(snapshot(api.get(f'/repos/{repository}/pulls/{number}'), repository, file_limit=MAX_DISCOVERY_FILES) == original,
             'PR changed during verification; rerun latest event')
     return result
 

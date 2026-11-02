@@ -1,0 +1,225 @@
+% Section S6 of the SIDE24 V3 supplement: the near/far decomposition and the limit.
+% Source map and corrections: CONC_s6.md.
+\section{The near/far decomposition and the limit}\label{sec:limit}
+
+This section proves the leading term of Theorem~2.1 of the main text, $\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}(1+o(1))$ as $\ell\downarrow0$, with $c_{3,24}$ the coefficient (2.9) of the main text. The elder pairs are split at a fixed separation $\varrho$. The near part is pushed forward exactly to the lifetime variable (Proposition~\ref{prop:limit-near}), and the far part is bounded (Proposition~\ref{prop:limit-far}). Dominated convergence then gives the asymptotic under three hypotheses (Theorem~\ref{thm:limit-interchange}). These hypotheses hold for the side-24 field (Proposition~\ref{prop:limit-hypotheses}), and the limiting constant is the coefficient (2.9) of the main text (Corollary~\ref{cor:limit-coefficient}).
+
+\subsection*{Notation}
+Throughout, $f=f_{24}$ is the normalized side-24 periodized Bargmann--Fock field on $\T^3_{24}$, and ``density'' is meant as in Convention~2.2 of the main text. The following objects are taken from earlier sections.
+
+\emph{Pairs} (Section~\ref{sec:setting}). An ordered typed pair $(M,S)$ consists of a local maximum $M$ and an index-two critical point $S$ of $f$. For $0<\varrho<12$ the coordinates
+\[
+M=x-\tfrac r2\,t,\qquad S=x+\tfrac r2\,t,\qquad x\in\T^3_{24},\quad 0<r<\varrho,\quad t\in S^2,
+\]
+are a bijection onto the ordered pairs of points with $0<\dist(M,S)<\varrho$, with $r=\dist(M,S)$, and
+\begin{equation}\label{eq:limit-jacobian}
+dM\,dS=dx\,r^2\,dr\,d\sigma_2(t);
+\end{equation}
+integration over the full directed sphere counts each ordered typed pair once. Almost surely $f$ is Morse with pairwise distinct critical values (Proposition~1.1 of the main text). Then each finite nonessential superlevel $H_0$ bar has exactly one creating maximum $M\ne M_*$, where $M_*$ is the global maximum, and one death saddle $D_f(M)$, and $M\mapsto(M,D_f(M))$ is a bijection from the non-global maxima onto the elder pairs.
+
+\emph{Palm law and elder mark} (Section~\ref{sec:selection}). For $0<r<12$, $t\in S^2$, $b\in\R$ and $\kappa>0$, the pins of the pair are $\Pi_{r,x,t}=(f(M),f(S),\nabla f(M),\nabla f(S))\in\R^8$, and their target is $z_r(b,\kappa)=(b,\,b-\kappa r^3/6,\,0,\,0)$. Let $\E^0=\E^0_{r,t,b,\kappa}$ be the regular conditional Gaussian law given $\Pi_{r,x,t}=z_r(b,\kappa)$, let
+\[
+W_r=|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}},\qquad Z_r=\E^0[W_r]>0,
+\]
+and let $\E^{MS}_r[F]=\E^0[W_rF]/Z_r$ be the determinant-weighted Palm law. The elder mark $e(f;M,S)\in\{0,1\}$ is Borel measurable, and on the Morse locus it equals $1$ if and only if $S=D_f(M)$. The selection probability is $p_r(t,b,\kappa)=\E^{MS}_r[e]\in[0,1]$. With $p_\Pi$ the Gaussian density of $\Pi_{r,x,t}$, which by stationarity does not depend on $x$, put
+\begin{equation}\label{eq:limit-K}
+\begin{aligned}
+K^{\mathrm{all}}_r&=p_\Pi\bigl(z_r(b,\kappa)\bigr)\,Z_r, & K^{\mathrm{sel}}_r&=p_r\,K^{\mathrm{all}}_r,\\
+G^{\mathrm{all}}_r&=r^4K^{\mathrm{all}}_r, & G^{\mathrm{sel}}_r&=r^4K^{\mathrm{sel}}_r,
+\end{aligned}
+\end{equation}
+which for each $0<r<12$ are nonnegative functions of the mark $(t,b,\kappa)\in S^2\times\R\times(0,\infty)$.
+
+\emph{Contact variables} (Section~\ref{sec:contact}). At fixed $(x,t,r,b)$ the saddle value $h=b-\kappa r^3/6$ satisfies $|dh|=\frac{r^3}{6}\,d\kappa$. The lifetime of the pinned pair is $\ell=\kappa r^3/6$. For fixed $\kappa>0$ put $r_\ell(\kappa)=(6\ell/\kappa)^{1/3}$; then
+\begin{equation}\label{eq:limit-pushforward}
+r\,dr=\frac{6^{2/3}}{3}\,\kappa^{-2/3}\,\ell^{-1/3}\,d\ell .
+\end{equation}
+
+\subsection*{The split}
+Fix $\varrho\in(0,12)$. Split the expected lifetime measure $\Lambda_{3,24}$ of Proposition~1.2 of the main text according as the elder pair's own separation is less than $\varrho$ or not: for Borel $A\subset(0,\infty)$,
+\begin{equation}\label{eq:limit-Lambda}
+\Lambda^{\mathrm{near}}_\varrho(A)=24^{-3}\,\E\sum_{M\ne M_*}\ind_{\{f(M)-f(D_f(M))\in A,\ \dist(M,D_f(M))<\varrho\}},
+\end{equation}
+and $\Lambda^{\mathrm{far}}_\varrho(A)$ is defined in the same way with $\dist(M,D_f(M))\ge\varrho$. Both measures are bounded by $\Lambda_{3,24}$, hence absolutely continuous, and their densities satisfy
+\begin{equation}\label{eq:limit-split}
+\nu_{3,24}(\ell)=\nu^{\mathrm{near}}_\varrho(\ell)+\nu^{\mathrm{far}}_\varrho(\ell).
+\end{equation}
+In accordance with Convention~2.2 of the main text, pointwise statements below refer to the canonical marked Kac--Rice versions: \eqref{eq:limit-near-density} for $\nu^{\mathrm{near}}_\varrho$, \eqref{eq:limit-far-version} for $\nu^{\mathrm{far}}_\varrho$, and their sum for $\nu_{3,24}$, so that \eqref{eq:limit-split} holds for every $\ell>0$. The sum does not depend on $\varrho$. For $\varrho<\varrho'<12$ and fixed $\ell$, the substitution $\kappa=6\ell/r^3$ turns the part of \eqref{eq:limit-near-density} for $\nu^{\mathrm{near}}_{\varrho'}$ with $\kappa\le6\ell/\varrho^3$ into $\int_\varrho^{\varrho'}r^2\int_{S^2}\int_{\R}K^{\mathrm{sel}}_r(t,b,6\ell/r^3)\,db\,d\sigma_2(t)\,dr$, which is the part of \eqref{eq:limit-far-version} for $\nu^{\mathrm{far}}_\varrho$ with $\dist(x,y)<\varrho'$, written in the pair coordinates \eqref{eq:limit-jacobian}.
+
+\subsection*{The near part}
+
+\begin{proposition}[exact near-density pushforward]\label{prop:limit-near}
+Let $\varrho\in(0,12)$. For every nonnegative Borel function $\varphi$ on $(0,\infty)$,
+\begin{equation}\label{eq:limit-near-measure}
+\int_0^\infty\varphi(\ell)\,\nu^{\mathrm{near}}_\varrho(\ell)\,d\ell
+=\int_{S^2}\int_{\R}\int_0^\infty\int_0^\varrho\varphi\Bigl(\frac{\kappa r^3}{6}\Bigr)K^{\mathrm{sel}}_r(t,b,\kappa)\,\frac{r^3}{6}\,r^2\,dr\,d\kappa\,db\,d\sigma_2(t),
+\end{equation}
+where the factor $r^3/6$ is the gap Jacobian $|dh|=(r^3/6)\,d\kappa$. The density version is, for $\ell>0$,
+\begin{equation}\label{eq:limit-near-density}
+\nu^{\mathrm{near}}_\varrho(\ell)=\frac{6^{2/3}}{18}\,\ell^{-1/3}\int_{S^2}\int_{\R}\int_{6\ell/\varrho^3}^{\infty}\kappa^{-2/3}\,G^{\mathrm{sel}}_{r_\ell(\kappa)}(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By the bijection between non-global maxima and elder pairs, and since the elder mark equals $1$ exactly on the elder pairs, almost surely
+\[
+\sum_{M\ne M_*}\varphi\bigl(f(M)-f(D_f(M))\bigr)\,\ind_{\{\dist(M,D_f(M))<\varrho\}}=\sum_{(M,S)}\varphi\bigl(f(M)-f(S)\bigr)\,e(f;M,S),
+\]
+where the sum on the right runs over the ordered typed pairs with $0<\dist(M,S)<\varrho$; a pair with $e=1$ has $f(S)<f(M)$. Multiply by $24^{-3}$ and take expectations. The left side becomes $\int\varphi\,d\Lambda^{\mathrm{near}}_\varrho=\int_0^\infty\varphi(\ell)\,\nu^{\mathrm{near}}_\varrho(\ell)\,d\ell$. For the right side, the marked two-point Kac--Rice formula for the ordered typed pair process with the bounded Borel mark $e$ (Proposition~\ref{prop:parent-KR}, on the compact sets $\{\delta\le\dist(M,S)\le\varrho-\delta\}$ and by monotone convergence as $\delta\downarrow0$; the conditional expectation is the Gaussian-regression version, defined for every target and jointly measurable in $(r,t,b,\kappa)$) gives
+\begin{equation}\label{eq:limit-near-kr}
+24^{-3}\int_{\{0<\dist(M,S)<\varrho\}}\int_{\R}\int_{-\infty}^{b}\varphi(b-h)\,p_\Pi(b,h,0,0)\,\E\bigl[W_r\,e\bigm|\Pi=(b,h,0,0)\bigr]\,dh\,db\,dM\,dS,
+\end{equation}
+with $\Pi=(f(M),f(S),\nabla f(M),\nabla f(S))$ and $e=e(f;M,S)$. Pass to the pair coordinates by \eqref{eq:limit-jacobian}. By stationarity the integrand does not depend on the midpoint $x$, and $24^{-3}\int_{\T^3_{24}}dx=1$. At fixed $(t,r,b)$ substitute $h=b-\kappa r^3/6$: the range $h<b$ becomes $\kappa>0$, $|dh|=(r^3/6)\,d\kappa$, $b-h=\kappa r^3/6$, and $(b,h,0,0)=z_r(b,\kappa)$. By the definition of the Palm law,
+\[
+p_\Pi\bigl(z_r(b,\kappa)\bigr)\,\E^0[W_r\,e]=p_\Pi\bigl(z_r(b,\kappa)\bigr)\,Z_r\,\E^{MS}_r[e]=p_r\,K^{\mathrm{all}}_r=K^{\mathrm{sel}}_r .
+\]
+This proves \eqref{eq:limit-near-measure}.
+
+For \eqref{eq:limit-near-density}, write $K^{\mathrm{sel}}_r\,\frac{r^3}{6}\,r^2=(r^4K^{\mathrm{sel}}_r)\,\frac r6=G^{\mathrm{sel}}_r\,\frac r6$. For fixed $\kappa>0$ the map $r\mapsto\ell=\kappa r^3/6$ is an increasing bijection of $(0,\varrho)$ onto $(0,\kappa\varrho^3/6)$ with inverse $r=r_\ell(\kappa)$, and \eqref{eq:limit-pushforward} holds. The constraint $\ell<\kappa\varrho^3/6$ is $\kappa>6\ell/\varrho^3$, and $\frac16\cdot\frac{6^{2/3}}{3}=\frac{6^{2/3}}{18}$. All integrands are nonnegative, so Tonelli's theorem gives
+\[
+\int_0^\infty\varphi(\ell)\,\nu^{\mathrm{near}}_\varrho(\ell)\,d\ell=\int_0^\infty\varphi(\ell)\Bigl[\frac{6^{2/3}}{18}\,\ell^{-1/3}\int_{S^2}\int_{\R}\int_{6\ell/\varrho^3}^\infty\kappa^{-2/3}\,G^{\mathrm{sel}}_{r_\ell(\kappa)}(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t)\Bigr]d\ell
+\]
+for every nonnegative Borel $\varphi$. Hence the bracket is a density of $\Lambda^{\mathrm{near}}_\varrho$; it is the version obtained from the pair coordinates, which is \eqref{eq:limit-near-density}.
+\end{proof}
+
+\emph{The kernel in Part~II's notation.} In the notation of Part~II (Convention~\ref{conv:remainder-notation}), with $u=t$ and gap mark $k=\kappa/6$,
+\[
+G^{\mathrm{all}}_r(t,b,\kappa)=\mathcal A_r(b,\kappa/6,t),\qquad G^{\mathrm{sel}}_r(t,b,\kappa)=p_r(t,b,\kappa)\,\mathcal A_r(b,\kappa/6,t)=\mathcal A^{\eld}_r(b,\kappa/6,t).
+\]
+Indeed, the observation vector $U_r$ of Part~II is the image of the pins $\Pi_{r,x,t}$ under a linear map of absolute determinant $12r^{-6}$ that carries $z_r(b,\kappa)$ to $v_r$, so $p_\Pi(z_r(b,\kappa))=12r^{-6}\pi_r(v_r)$. The two conditional laws coincide, so $Z_r=\E_Q[W_r]$, and $G^{\mathrm{all}}_r=r^4p_\Pi(z_r)Z_r=12\pi_r(v_r)\E_Q[W_r/r^2]=\mathcal A_r$. Finally $p_r=\E_Q[W_re]/\E_Q[W_r]$ gives the selected identity. So the near-density version \eqref{eq:limit-near-density} and the near-pair formulas of Sections~\ref{sec:rate}--\ref{sec:third} are built from the same function.
+
+\subsection*{The far part}
+
+\begin{proposition}[far elder pairs]\label{prop:limit-far}
+Let $\varrho\in(0,12)$. For every $\ell_0\in(0,\infty)$,
+\begin{equation}\label{eq:limit-far-sup}
+\sup_{0<\ell\le\ell_0}\nu^{\mathrm{far}}_\varrho(\ell)<\infty .
+\end{equation}
+In particular $\nu^{\mathrm{far}}_\varrho(\ell)=O(1)=o(\ell^{-1/3})$ as $\ell\downarrow0$.
+\end{proposition}
+
+\begin{proof}
+Put $\mathcal T_\varrho=\{(x,y)\in(\T^3_{24})^2:\ \dist(x,y)\ge\varrho\}$, $\Xi_{x,y}=(f(x),f(y),\nabla f(x),\nabla f(y))$, $\xi_\ell(b)=(b,\,b-\ell,\,0,\,0)$ and $\ind_{\mathrm{types}}=\ind_{\{H_x\prec0,\ \Ind(H_y)=2\}}$. The marked two-point Kac--Rice formula for the ordered typed pairs $(M,S)=(x,y)$ with $(x,y)\in \mathcal T_\varrho$, with the bounded Borel mark $e$ (Proposition~\ref{prop:parent-KR} with $\Omega=\mathcal T_\varrho$), followed by the change of variables $(b,h)\mapsto(b,\ell)=(b,b-h)$, which has unit Jacobian, gives the version
+\begin{equation}\label{eq:limit-far-version}
+\nu^{\mathrm{far}}_\varrho(\ell)=24^{-3}\int_{\mathcal T_\varrho}\int_{\R}p_{\Xi_{x,y}}\bigl(\xi_\ell(b)\bigr)\,\E\bigl[|\det H_x\det H_y|\,\ind_{\mathrm{types}}\,e\bigm|\Xi_{x,y}=\xi_\ell(b)\bigr]\,db\,dx\,dy ,
+\end{equation}
+with $e=e(f;x,y)$. Since $e\le1$, $\nu^{\mathrm{far}}_\varrho(\ell)$ is bounded by the all-typed ordered pair density at height gap $\ell$ on $\mathcal T_\varrho$:
+\begin{equation}\label{eq:limit-far-alltyped}
+\nu^{\mathrm{far}}_\varrho(\ell)\le24^{-3}\int_{\mathcal T_\varrho}\int_{\R}p_{\Xi_{x,y}}\bigl(\xi_\ell(b)\bigr)\,\E\bigl[|\det H_x\det H_y|\,\ind_{\mathrm{types}}\bigm|\Xi_{x,y}=\xi_\ell(b)\bigr]\,db\,dx\,dy .
+\end{equation}
+This is the marked two-point Kac--Rice formula on a compact separated configuration set. By full-spectrum Gram positivity of the side-24 covariance (Section~\ref{sec:setting}), the value and gradient evaluations at the distinct points $x\ne y$ are linearly independent, so the covariance of $\Xi_{x,y}$ is positive definite on $\mathcal T_\varrho$, and by compactness its smallest eigenvalue is bounded below there. Its largest eigenvalue is bounded above, since its entries are derivatives of $K_{24}$ of order at most two. The mean-zero target satisfies $|\xi_\ell(b)|^2=b^2+(b-\ell)^2\ge b^2/2$. Hence
+\begin{equation}\label{eq:limit-far-density}
+p_{\Xi_{x,y}}\bigl(\xi_\ell(b)\bigr)\le C_\varrho\,e^{-c_\varrho b^2},\qquad (x,y)\in \mathcal T_\varrho,\ 0<\ell\le\ell_0 .
+\end{equation}
+Gaussian regression against this nondegenerate block gives conditional Hessian means affine in $(b,b-\ell)$ and uniformly bounded conditional covariances. Since $\det H_x\det H_y$ is a polynomial of degree six in the Hessian entries, the degree-six moment bound gives
+\begin{equation}\label{eq:limit-far-moment}
+\E\bigl[|\det H_x\det H_y|\bigm|\Xi_{x,y}=\xi_\ell(b)\bigr]\le C_\varrho\bigl(1+(|b|+\ell)^6\bigr).
+\end{equation}
+Insert \eqref{eq:limit-far-density} and \eqref{eq:limit-far-moment} in \eqref{eq:limit-far-alltyped}. This bounds the density slice at $\ell$, uniformly in $0<\ell\le\ell_0$:
+\begin{equation}\label{eq:limit-far-final}
+\nu^{\mathrm{far}}_\varrho(\ell)\le C_\varrho\int_{\R}\bigl(1+(|b|+\ell_0)^6\bigr)e^{-c_\varrho b^2}\,db\cdot24^{-3}\,|\mathcal T_\varrho| .
+\end{equation}
+The right side is finite and does not depend on $\ell$, since the separated pair domain has finite volume $|\mathcal T_\varrho|\le24^6$. This proves \eqref{eq:limit-far-sup}, and then $\ell^{1/3}\nu^{\mathrm{far}}_\varrho(\ell)\to0$ as $\ell\downarrow0$.
+\end{proof}
+
+The proof bounds the elder mark by one and so controls all typed far pairs at height gap $\ell$, elder or not; it gives boundedness and no rate in $\ell$. For $0<\ell\le1$, the same bound, for elder pairs and for all typed far pairs, is (14.1) of \cite{parentP} (Lemma~\ref{lem:parent-far}). There it is stated for the pairs at distance at least the small radius $r_0$ of \S\ref{sec:parent}; its proof is the one above, at every separation.
+
+\subsection*{The limit}
+
+\begin{theorem}[limit interchange]\label{thm:limit-interchange}
+Let $\varrho\in(0,12)$, and assume the following.
+\begin{enumerate}[label=(H\arabic*)]
+\item There is a function $G^{\mathrm{sel}}_0$ on $S^2\times\R\times(0,\infty)$ with $G^{\mathrm{sel}}_r\to G^{\mathrm{sel}}_0$ pointwise as $r\downarrow0$.
+\item There is one integrable majorant for $\kappa^{-2/3}G^{\mathrm{sel}}_r$ on the whole mark space, including $\kappa\downarrow0$: a function $\bar G\in L^1\bigl(S^2\times\R\times(0,\infty),\,d\sigma_2(t)\,db\,d\kappa\bigr)$ with $\kappa^{-2/3}G^{\mathrm{sel}}_r(t,b,\kappa)\le\bar G(t,b,\kappa)$ for all $0<r<\varrho$ and all $(t,b,\kappa)$.
+\item The selected and all-typed limiting integrands coincide: $G^{\mathrm{all}}_r\to G^{\mathrm{all}}_0$ pointwise as $r\downarrow0$, and $G^{\mathrm{sel}}_0=G^{\mathrm{all}}_0$.
+\end{enumerate}
+Then the constant
+\begin{equation}\label{eq:limit-const}
+c_{3,24}=\frac{6^{2/3}}{18}\int_{S^2}\int_{\R}\int_0^\infty\kappa^{-2/3}\,G^{\mathrm{all}}_0(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t)
+\end{equation}
+is finite, and as $\ell\downarrow0$
+\begin{equation}\label{eq:limit-asymp}
+\ell^{1/3}\,\nu^{\mathrm{near}}_\varrho(\ell)\to c_{3,24},\qquad \ell^{1/3}\,\nu_{3,24}(\ell)\to c_{3,24}.
+\end{equation}
+In particular, if $c_{3,24}>0$, then $\nu^{\mathrm{near}}_\varrho(\ell)=c_{3,24}\,\ell^{-1/3}(1+o(1))$ and $\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}(1+o(1))$.
+\end{theorem}
+
+\begin{proof}
+By (H1)--(H3), $\kappa^{-2/3}G^{\mathrm{all}}_0=\lim_{r\downarrow0}\kappa^{-2/3}G^{\mathrm{sel}}_r\le\bar G$ pointwise, so $c_{3,24}\le\frac{6^{2/3}}{18}\int\bar G<\infty$. By \eqref{eq:limit-near-density},
+\[
+\ell^{1/3}\,\nu^{\mathrm{near}}_\varrho(\ell)=\frac{6^{2/3}}{18}\int_{S^2}\int_{\R}\int_0^\infty\ind_{\{\kappa>6\ell/\varrho^3\}}\,\kappa^{-2/3}\,G^{\mathrm{sel}}_{r_\ell(\kappa)}(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t).
+\]
+Fix $(t,b,\kappa)$ with $\kappa>0$. As $\ell\downarrow0$ the lower limit $6\ell/\varrho^3$ decreases to $0$, so the indicator is eventually $1$, and $r_\ell(\kappa)=(6\ell/\kappa)^{1/3}\downarrow0$; by (H1) the integrand tends to $\kappa^{-2/3}G^{\mathrm{sel}}_0(t,b,\kappa)$. Where the indicator is $1$, $r_\ell(\kappa)<\varrho$, so by (H2) the integrand is at most $\bar G(t,b,\kappa)$. Dominated convergence, applied along an arbitrary sequence $\ell_n\downarrow0$, gives $\ell^{1/3}\nu^{\mathrm{near}}_\varrho(\ell)\to\frac{6^{2/3}}{18}\int\kappa^{-2/3}G^{\mathrm{sel}}_0$, and by (H3) the limit is $c_{3,24}$. By Proposition~\ref{prop:limit-far}, $\ell^{1/3}\nu^{\mathrm{far}}_\varrho(\ell)\to0$, and \eqref{eq:limit-split} gives the second limit in \eqref{eq:limit-asymp}. If $c_{3,24}>0$, the two limits are the stated asymptotics.
+\end{proof}
+
+\begin{proposition}[the hypotheses for the side-24 field]\label{prop:limit-hypotheses}
+Let $\varrho\in(0,12)$. For the side-24 field, (H1)--(H3) of Theorem~\ref{thm:limit-interchange} hold, with $G^{\mathrm{sel}}_0=G^{\mathrm{all}}_0$. More precisely, there are constants $C,c>0$ and an integer $N$, depending on $\varrho$, such that for all $0<r<\varrho$ and all $(t,b,\kappa)\in S^2\times\R\times(0,\infty)$
+\begin{equation}\label{eq:limit-majorant}
+0\le\kappa^{-2/3}G^{\mathrm{sel}}_r(t,b,\kappa)\le\kappa^{-2/3}G^{\mathrm{all}}_r(t,b,\kappa)\le C\bigl[1+(|b|+\kappa)^N\bigr]e^{-c(b^2+\kappa^2)}\,\kappa^{-2/3},
+\end{equation}
+and the right side is integrable on $S^2\times\R\times(0,\infty)$, including $\kappa\downarrow0$. Moreover $0<c_{3,24}<\infty$.
+\end{proposition}
+
+\begin{proof}
+\emph{Corrected pins.} Let $Y_r$ be the corrected divided-difference pin vector of the pair ((3.7)--(3.8) of the main text), the image of $\Pi_{r,x,t}$ under the raw-to-corrected linear map, whose determinant has absolute value $r^{-6}$ (Section~\ref{sec:contact}). On the target $z_r(b,\kappa)$,
+\begin{equation}\label{eq:limit-target}
+Y_r=y_r(b,\kappa):=\Bigl(b-\frac{\kappa r^3}{12},\,-\frac\kappa6,\,0,\dots,0\Bigr)\in\R^8 .
+\end{equation}
+Let $p^{\mathrm{corr}}_r(t,b,\kappa)$ be the density of $Y_r$ at $y_r(b,\kappa)$, so that $p_\Pi(z_r(b,\kappa))=r^{-6}\,p^{\mathrm{corr}}_r(t,b,\kappa)$, and put $\zeta_r=r^{-2}Z_r$. By \eqref{eq:limit-K},
+\begin{equation}\label{eq:limit-Gall}
+G^{\mathrm{all}}_r=r^4\cdot r^{-6}p^{\mathrm{corr}}_r\cdot r^2\zeta_r=p^{\mathrm{corr}}_r\,\zeta_r .
+\end{equation}
+By Section~\ref{sec:contact}, as $r\downarrow0$, locally uniformly on compact positive mark sets, $p^{\mathrm{corr}}_r\to p^{\mathrm{corr}}_0$, the density of the limiting corrected pin vector at $(b,-\kappa/6,0,0)$, and $\zeta_r\to\zeta_0=\kappa^2\,\E[(\det Q)^2\ind_{\{Q\prec0\}}\mid\text{limiting pins}]$, where $Q$ is the transverse Hessian at contact. Moreover $Z_r\ge c_Zr^2$ on each compact positive mark set, with $c_Z>0$ depending on the set, so $\zeta_0\ge c_Z>0$ there.
+
+\emph{(H1) and (H3).} By \eqref{eq:limit-Gall}, $G^{\mathrm{all}}_r\to G^{\mathrm{all}}_0:=p^{\mathrm{corr}}_0\,\zeta_0$ at every point of $S^2\times\R\times(0,\infty)$, since every point with $\kappa>0$ lies in a compact positive mark set. By Theorem~\ref{thm:parent-A} at $d=3$ and $L=24$, applied with gap mark $k=\kappa/6$, gap window $\{\kappa/6:\kappa\in I_\kappa\}$ for a compact $I_\kappa\subset(0,\infty)$ and any orthonormal frame $R$ with $Re_1=t$ (the conversion $k=\kappa/6$ of the paragraph \emph{The kernel in Part~II's notation} before Proposition~\ref{prop:limit-far}), and whose selection probability is $p_r$ (Remark~\ref{rem:selection-parent}), and also by Theorem~\ref{thm:selection-main}, $1-p_r\le Cr^3$ uniformly for $t\in S^2$ and $(b,\kappa)$ in a compact subset of $\R\times(0,\infty)$, so $p_r\to1$ pointwise. Hence $G^{\mathrm{sel}}_r=p_r\,G^{\mathrm{all}}_r\to G^{\mathrm{all}}_0$. This is (H1) with $G^{\mathrm{sel}}_0=G^{\mathrm{all}}_0$, which is (H3).
+
+\emph{(H2).} The first two inequalities in \eqref{eq:limit-majorant} hold because $0\le p_r\le1$. For the third we bound the two factors in \eqref{eq:limit-Gall}.
+
+Let $\Sigma_r(t)$ be the covariance of $Y_r$; its eigenvalues do not depend on the choice of transverse frame. For $0<r<12$ the points $M$ and $S$ are distinct, so the raw pins are nondegenerate by full-spectrum Gram positivity (Section~\ref{sec:setting}), and $\Sigma_r(t)$ is positive definite because the corrected map is invertible. As $r\downarrow0$, $\Sigma_r(t)$ extends continuously to the covariance of the limiting corrected pins, which is positive definite (Sections~\ref{sec:setting} and~\ref{sec:contact}). By compactness of $[0,\varrho]\times S^2$ there are $0<\lambda_0\le\lambda_1<\infty$ with $\lambda_0I\le\Sigma_r(t)\le\lambda_1I$ for $0<r\le\varrho$ and $t\in S^2$. The corrected pair target is uniformly injective in $(b,\kappa)$: with $\epsilon=r^3/12\le\varrho^3/12$, the quadratic form $|y_r(b,\kappa)|^2=b^2-2\epsilon b\kappa+(\epsilon^2+\tfrac1{36})\kappa^2$ has determinant $\frac1{36}$ and trace at most $1+\frac1{36}+\frac{\varrho^6}{144}$, so
+\[
+|y_r(b,\kappa)|^2\ge c_\varrho\,(b^2+\kappa^2),\qquad c_\varrho=\frac{1/36}{1+1/36+\varrho^6/144}.
+\]
+Therefore
+\[
+p^{\mathrm{corr}}_r(t,b,\kappa)\le(2\pi)^{-4}\lambda_0^{-4}\exp\Bigl(-\frac{|y_r(b,\kappa)|^2}{2\lambda_1}\Bigr)\le C\,e^{-c(b^2+\kappa^2)} .
+\]
+
+For the weight, under the pins $\det H_M=r\,D_M$ and $\det H_S=r\,D_S$ exactly, where $D_M$ and $D_S$ are polynomials of degree three, with coefficients bounded for $0<r\le\varrho$, in the transverse Hessian entries at $M$ and $S$ and in scaled variables that are linear functionals of the third-derivative process on the segment from $M$ to $S$, with uniformly bounded variances (Section~\ref{sec:contact}). Hence $\zeta_r=\E^0\bigl[|D_MD_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}}\bigr]$. Under $\E^0$ these variables are Gaussian. Gaussian regression on the corrected pins, whose covariance is at least $\lambda_0I$, gives conditional means that are linear in $y_r(b,\kappa)$ with coefficients bounded for $0<r\le\varrho$, and conditional covariances bounded by the unconditional ones. Since $D_MD_S$ has degree six and $|y_r(b,\kappa)|\le C(|b|+\kappa)$, bounded conditional polynomial moments give $\zeta_r\le C\bigl[1+(|b|+\kappa)^6\bigr]$. With \eqref{eq:limit-Gall}, this is the third inequality in \eqref{eq:limit-majorant}, with $N=6$.
+
+\emph{Integrability.} Since $1+(|b|+\kappa)^N\le2^{N-1}(1+|b|^N)(1+\kappa^N)$, the integral of the right side of \eqref{eq:limit-majorant} over $S^2\times\R\times(0,\infty)$ is at most a constant times
+\[
+4\pi\int_{\R}(1+|b|^N)\,e^{-cb^2}\,db\int_0^\infty(1+\kappa^N)\,\kappa^{-2/3}e^{-c\kappa^2}\,d\kappa<\infty :
+\]
+the singularity $\kappa^{-2/3}$ produced by the lifetime pushforward is integrable at $\kappa=0$, and the Gaussian factor controls $|b|\to\infty$ and $\kappa\to\infty$. So (H2) holds with $\bar G$ the right side of \eqref{eq:limit-majorant}. In particular one majorant controls every neighbourhood of $\kappa=0$, where the cubic contact degenerates; the degenerate (quartic) contacts themselves have $\kappa=0$, a null set of marks.
+
+\emph{The constant.} By (H2), $c_{3,24}<\infty$ (Theorem~\ref{thm:limit-interchange}). At every point of $S^2\times\R\times(0,\infty)$, $p^{\mathrm{corr}}_0>0$, a nondegenerate Gaussian density, and $\zeta_0>0$, so $G^{\mathrm{all}}_0>0$ and \eqref{eq:limit-const} gives $c_{3,24}>0$.
+\end{proof}
+
+\begin{corollary}[the selected coefficient]\label{cor:limit-coefficient}
+For $0<r<12$ let $\psi_r=\frac{6^{2/3}}{18}\,\kappa^{-2/3}G^{\mathrm{all}}_r$ be the nonnegative all-typed rescaled contact integrand on $S^2\times\R\times(0,\infty)$; the selected integrand is $p_r\,\psi_r=\frac{6^{2/3}}{18}\,\kappa^{-2/3}G^{\mathrm{sel}}_r$. Then, with integrals over $S^2\times\R\times(0,\infty)$ with respect to $d\kappa\,db\,d\sigma_2(t)$,
+\begin{equation}\label{eq:limit-ident}
+\lim_{r\downarrow0}\int p_r\,\psi_r=\lim_{r\downarrow0}\int\psi_r=c_{3,24},
+\end{equation}
+and the constant \eqref{eq:limit-const} is the coefficient (2.9) of the main text. Therefore the exact finite-side coefficient (2.9) is the selected short-lifetime coefficient of the finite nonessential superlevel $H_0$ bars:
+\begin{equation}\label{eq:limit-law}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}\bigl(1+o(1)\bigr),\qquad\ell\downarrow0 .
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Fix $\varrho\in(0,12)$. By Proposition~\ref{prop:limit-hypotheses}, $0\le p_r\le1$, $p_r\to1$ and $\psi_r\to\frac{6^{2/3}}{18}\kappa^{-2/3}G^{\mathrm{all}}_0$ pointwise, and for $0<r<\varrho$ the function $\frac{6^{2/3}}{18}$ times the right side of \eqref{eq:limit-majorant} is an integrable majorant common to $p_r\psi_r$ and $\psi_r$. Dominated convergence gives both limits in \eqref{eq:limit-ident}, equal to \eqref{eq:limit-const}.
+
+It remains to evaluate \eqref{eq:limit-const}. Fix $t\in S^2$, a transverse frame, and the contact variables $u_t,g_t,h_t,q_t$ of (2.2)--(2.4) of the main text. The limiting corrected pin vector is $(f,u_t,g_t,h_t)$ with target $(b,-\kappa/6,0,0)$, and $Q=Q_t(q_t)$. Because $K_{24}$ is even, $(f,h_t,q_t)$ is independent of $(u_t,g_t)$. Hence
+\[
+p^{\mathrm{corr}}_0=p_{(f,h_t)}(b,0)\,p_{(u_t,g_t)}(-\kappa/6,0),\qquad \zeta_0=\kappa^2\,\E\bigl[F(q_t)\bigm|f=b,\ h_t=0\bigr],
+\]
+with $F(q)=(\det Q_t(q))^2\ind_{\{Q_t(q)<0\}}$ as in (3.20) of the main text. The $b$-integral is (3.20) of the main text, and the $\kappa$-integral, with $\kappa^{-2/3}\kappa^2=\kappa^{4/3}$, is (3.21) of the main text:
+\[
+\int_{\R}\int_0^\infty\kappa^{-2/3}\,G^{\mathrm{all}}_0\,d\kappa\,db=p_{g_t}(0)\,\frac{\Gamma(7/6)\,72^{7/6}\,(\sigma_t^2)^{2/3}}{2\sqrt{2\pi}}\;p_{h_t}(0)\,D_t,
+\]
+where $p_{g_t}(0)=(2\pi)^{-3/2}(\det\Sigma_g(t))^{-1/2}$ and $p_{h_t}(0)=(2\pi)^{-3/2}(\det\Sigma_h(t))^{-1/2}$. Since
+\[
+\frac{6^{2/3}}{18}\cdot\frac{72^{7/6}}{2\sqrt{2\pi}}\cdot(2\pi)^{-3}=\frac{3}{2^{4/3}\pi^{7/2}},
+\]
+integration over $t\in S^2$ turns \eqref{eq:limit-const} into (2.9) of the main text, with $B_3=3\Gamma(7/6)/(2^{4/3}\pi^{7/2})$. Finally, \eqref{eq:limit-law} follows from Theorem~\ref{thm:limit-interchange} and Proposition~\ref{prop:limit-hypotheses}, since $0<c_{3,24}<\infty$.
+\end{proof}

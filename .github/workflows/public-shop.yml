@@ -68,6 +68,20 @@ jobs:
         run: python -B tools/public_shop_browser_check.py --output browser-evidence
       - name: Current mathematical atlas and static reading parity
         run: python -B tools/current_site_browser_check.py --output browser-evidence/current-atlas
+      - name: Exact Atlas browser runner controls
+        run: |
+          python -B -S -m unittest tests.test_atlas_browser_regressions_runner -v
+          python -B -O -S -m unittest tests.test_atlas_browser_regressions_runner -v
+      - name: Atlas focus and reader regressions in both modes
+        run: |
+          set -euo pipefail
+          mkdir -p browser-evidence/atlas-regressions
+          status=0
+          python -B tools/run_atlas_browser_regressions.py --output browser-evidence/atlas-regressions/normal > browser-evidence/atlas-regressions/normal.stdout 2> browser-evidence/atlas-regressions/normal.stderr || status=1
+          python -B -O tools/run_atlas_browser_regressions.py --output browser-evidence/atlas-regressions/optimized > browser-evidence/atlas-regressions/optimized.stdout 2> browser-evidence/atlas-regressions/optimized.stderr || status=1
+          cat browser-evidence/atlas-regressions/*.stdout
+          cat browser-evidence/atlas-regressions/*.stderr >&2
+          exit "$status"
       - name: Preserve original current-atlas report in bounded log frames
         if: always()
         timeout-minutes: 1

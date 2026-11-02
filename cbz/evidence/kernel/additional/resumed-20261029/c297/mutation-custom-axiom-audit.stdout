@@ -1,0 +1,291 @@
+'TorusRegularSuperlevel.closed_superlevel_regular_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TorusRegularSuperlevel.closed_superlevel_path_connected_basis' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TorusRegularSuperlevel.closed_superlevel_interior_basis' depends on axioms: [propext, Classical.choice, Quot.sound]
+@TorusRegularSuperlevel.closed_superlevel_regular_basis : ∀ {d : ℕ} {g : UniversalLaw.Spec.Lifetime.E d → ℝ},
+  UniversalLaw.Spec.Lifetime.IsSmooth d g →
+    ∀ (a : ℝ) (x : { y // a ≤ g y }),
+      ¬UniversalLaw.Spec.Lifetime.IsCriticalPoint d g ↑x →
+        (nhds x).HasBasis (fun V => V ∈ nhds x ∧ IsPathConnected V) id
+@TorusRegularSuperlevel.closed_superlevel_path_connected_basis : ∀ {d : ℕ} {g : UniversalLaw.Spec.Lifetime.E d → ℝ},
+  UniversalLaw.Spec.Lifetime.IsSmooth d g →
+    ∀ (a : ℝ) (x : { y // a ≤ g y }),
+      a < g ↑x ∨ ¬UniversalLaw.Spec.Lifetime.IsCriticalPoint d g ↑x →
+        (nhds x).HasBasis (fun V => V ∈ nhds x ∧ IsPathConnected V) id
+@TorusRegularSuperlevel.closed_superlevel_interior_basis : ∀ {d : ℕ} {g : UniversalLaw.Spec.Lifetime.E d → ℝ},
+  Continuous g →
+    ∀ (a : ℝ) (x : { y // a ≤ g y }), a < g ↑x → (nhds x).HasBasis (fun V => V ∈ nhds x ∧ IsPathConnected V) id
+SUPERLEVEL_AUDIT_MODULE Lifetime COUNT 103
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.E AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.FundDomain AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.HessianHasInertia AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsCandidatePair AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsCriticalPoint AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsFiniteBar AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsIndexSaddle AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsLPeriodic AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsMorseDistinct AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsNondegMax AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsSmooth AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsUnrestrictedPair AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsWindowElderPair AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsWindowPair AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.ParentUniformSelectionA AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PlanarDensityGapE11 AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PlanarElderLowerE2 AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4 AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.RemainderBoundedR1 AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.covQuadForm AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.heightGap AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.hessian AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.latticeVec AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.pairCount AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.pairSet AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.periodicCovariance AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.pinM AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.pinS AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.scaledGap AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.thetaSum AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.torusDist AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.F AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.P AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface._sizeOf_1 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface._sizeOf_inst AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.casesOn AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.covariance AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.ctorIdx AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.gaussian AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.isProb AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mΩ AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.noConfusionType AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.periodic AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.quad_nonneg AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.rec AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.recOn AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.smooth AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.summable AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.Ω AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion._proof_1 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface._sizeOf_1 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface._sizeOf_inst AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.casesOn AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.ctorIdx AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.noConfusionType AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.p AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.p_le_one AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.p_nonneg AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.rec AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.recOn AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB._proof_1 AXIOMS [propext]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.ElderPartner AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.IsEssential AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface._sizeOf_1 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface._sizeOf_inst AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.casesOn AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.ctorIdx AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.deathHeight AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.deathHeight_maximin AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.elderPartner_iff AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.essential_iff AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.noConfusionType AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.rec AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.recOn AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.thetaSum._proof_1 AXIOMS [propext]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk._flat_ctor AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk.inj AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk.injEq AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.GaussianFieldInterface.mk.sizeOf_spec AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk._flat_ctor AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk.inj AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk.injEq AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.PairLawInterface.mk.sizeOf_spec AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk._flat_ctor AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk.inj AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk.injEq AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk.noConfusion AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.SuperlevelBarInterface.mk.sizeOf_spec AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_MODULE RegularPointChart COUNT 8
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.mem_regularPointChart_source AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.mem_regularPointChart_target AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointChart AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointChart_fst AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointChart_self AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointDerivative_range_eq_top AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointHasStrictFDerivAt AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL UniversalLaw.Spec.Lifetime.regularPointChart._proof_1 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_MODULE RegularSuperlevel COUNT 18
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.closed_superlevel_basis_of_chart AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.closed_superlevel_interior_basis AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.path_connected_basis_of_open AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.path_connected_basis_of_openEmbedding AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.path_connected_basis_of_relative_chart AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph AXIOMS [propext, Classical.choice, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_1 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_10 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_11 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_12 AXIOMS [propext,
+ Classical.choice,
+ Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_2 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_3 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_4 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_5 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_6 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_7 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_8 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_DECL TorusRegularSuperlevel.relative_chart_homeomorph._proof_9 AXIOMS [propext, Quot.sound]
+SUPERLEVEL_AUDIT_MODULE RegularSuperlevelLiteral COUNT 4
+SUPERLEVEL_AUDIT_DECL CBZQualificationControl.hidden AXIOMS [CBZQualificationControl.hidden]
+SUPERLEVEL_AUDIT_PROGRESS Lifetime COUNT 103
+SUPERLEVEL_AUDIT_PROGRESS RegularPointChart COUNT 8
+SUPERLEVEL_AUDIT_PROGRESS RegularSuperlevel COUNT 18
+SUPERLEVEL_AUDIT_PROGRESS RegularSuperlevelLiteral COUNT 4
+/workspace/cbz/formal-qualification/frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevelAxiomAudit.lean:17:0: error: forbidden transitive axiom CBZQualificationControl.hidden in CBZQualificationControl.hidden

@@ -1,0 +1,537 @@
+{
+  "scope": "SOURCE_ONLY_DECLARATION_HEADERS; NOT_COMPILED_CENSUS_OR_KERNEL_EVIDENCE",
+  "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+  "module_source_declarations": {
+    "Lifetime": [
+      {
+        "name": "UniversalLaw.Spec.Lifetime.E",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 76,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "abbrev E (d : ℕ) : Type",
+        "kind": "abbrev",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.latticeVec",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 84,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def latticeVec (d : ℕ) (L : ℝ) (n : Fin d → ℤ) : E d",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.thetaSum",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 95,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def thetaSum (d : ℕ) (L : ℝ) (z : E d) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.periodicCovariance",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 107,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def periodicCovariance (d : ℕ) (L : ℝ) (z : E d) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.covQuadForm",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 118,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def covQuadForm (d : ℕ) (L : ℝ) {m : ℕ} (x : Fin m → E d) (a : Fin m → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsLPeriodic",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 127,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsLPeriodic (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsSmooth",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 136,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsSmooth (d : ℕ) (g : E d → ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.GaussianFieldInterface",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 150,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "structure GaussianFieldInterface (d : ℕ) (L : ℝ) where\n  /-- The underlying probability space (sample space). -/\n  Ω : Type\n  -- Its sigma-algebra (square-bracket field, as in Mathlib's bundled categories). It is not\n  -- registered for typeclass resolution after this declaration; consumers bring it into\n  -- scope with `haveI",
+        "kind": "structure",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.hessian",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 188,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def hessian (d : ℕ) (g : E d → ℝ) (x v w : E d) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsCriticalPoint",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 197,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsCriticalPoint (d : ℕ) (g : E d → ℝ) (x : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.HessianHasInertia",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 210,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def HessianHasInertia (d : ℕ) (g : E d → ℝ) (x : E d) (j : ℕ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsNondegMax",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 223,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsNondegMax (d : ℕ) (g : E d → ℝ) (x : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsIndexSaddle",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 233,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsIndexSaddle (d : ℕ) (g : E d → ℝ) (x : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.pinM",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 242,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def pinM (d : ℕ) (r : ℝ) (u : E d) : E d",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.pinS",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 251,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def pinS (d : ℕ) (r : ℝ) (u : E d) : E d",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.torusDist",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 262,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def torusDist (d : ℕ) (L : ℝ) (x y : E d) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.FundDomain",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 272,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def FundDomain (d : ℕ) (L : ℝ) : Set (E d)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.heightGap",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 281,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def heightGap (d : ℕ) (g : E d → ℝ) (M S : E d) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.scaledGap",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 290,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def scaledGap (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : ℝ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsCandidatePair",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 300,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsCandidatePair (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsMorseDistinct",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 311,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsMorseDistinct (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.SuperlevelBarInterface",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 326,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "structure SuperlevelBarInterface (d : ℕ) (L : ℝ) where\n  /-- Section 8 clause: the maximin connection level\n  `d_f(M)=sup_{gamma(0)=M, f(gamma(1))>f(M)} min_t f(gamma(t))`. -/\n  deathHeight : (E d → ℝ) → E d → ℝ\n  /-- The essential class: the global maximum, which \"has no older endpoint\" and whose\n  superlevel H0 bar is not finite. -/\n  IsEssential : (E d → ℝ) → E d → Prop\n  /-- Section 1 clause: \"the global ordinary superlevel elder death partner of M is S\". -/\n  ElderPartner : (E d → ℝ) → E d → E d → Prop\n  /-- `M` is essential exactly when no point is strictly higher (so the supremum in the\n  maximin is over an empty set, \"equal to -infinity\"). -/\n  essential_iff : ∀ (g : E d → ℝ), IsSmooth d g → IsLPeriodic d L g →\n    ∀ M : E d, IsEssential g M ↔ ∀ y : E d, g y ≤ g M\n  /-- Section 8 maximin clause, in the form `h < d_f(M)` iff some path from `M` to a strictly\n  higher point stays strictly above `h`. -/\n  deathHeight_maximin : ∀ (g : E d → ℝ), IsSmooth d g → IsLPeriodic d L g →\n    ∀ M : E d, ¬ IsEssential g M → ∀ h : ℝ,\n      h < deathHeight g M ↔\n        ∃ y : E d, g M < g y ∧ ∃ γ : Path M y, ∀ t : unitInterval, h < g (γ t)\n  /-- Section 8 / Section 14 clause: on the Morse distinct-value locus, \"equality\n  d_f(M)=f(S)\" with `M` a nondegenerate maximum and `S` an index-(d-1) saddle \"expresses\n  ordinary elder death at S\". -/\n  elderPartner_iff : ∀ (g : E d → ℝ), IsSmooth d g → IsLPeriodic d L g → IsMorseDistinct d L g →\n    ∀ M S : E d, ElderPartner g M S ↔\n      (IsNondegMax d g M ∧ IsIndexSaddle d g S ∧ ¬ IsEssential g M ∧ deathHeight g M = g S)\n\n/-- Finite ordinary superlevel H0 bar, as an ordered pair: a nondegenerate maximum `M`\n(birth) with its ordinary elder death partner `S`, an index-(d-1) saddle at positive torus\ndistance. The essential global-maximum class is excluded because `ElderPartner` requires\n`¬ IsEssential` on the Morse locus.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"each finite superlevel H0 bar has exactly one local-maximum birth and one index-(d-1) merging-saddle death.\"\nInterface: `I : SuperlevelBarInterface d L` is given.\nDoes not claim: the identification of these pairs with bars of a persistence module; that the count of such pairs equals the finite-bar count off the Morse locus. -/\ndef IsFiniteBar (d : ℕ) (L : ℝ) (I : SuperlevelBarInterface d L) (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "structure",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsFiniteBar",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 361,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsFiniteBar (d : ℕ) (L : ℝ) (I : SuperlevelBarInterface d L) (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.pairSet",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 371,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def pairSet (d : ℕ) (L : ℝ) (Pair : (E d → ℝ) → E d → E d → Prop) (g : E d → ℝ) (A : Set ℝ) :\n    Set (E d × E d)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.pairCount",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 382,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "noncomputable def pairCount (d : ℕ) (L : ℝ) (Pair : (E d → ℝ) → E d → E d → Prop)\n    (g : E d → ℝ) (A : Set ℝ) : ℕ",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 398,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsLifetimeDensityVersion (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (Pair : (E d → ℝ) → E d → E d → Prop) (ν : ℝ → ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsWindowPair",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 417,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsWindowPair (d : ℕ) (L ρ bLo bHi kLo kHi : ℝ) (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsWindowElderPair",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 428,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsWindowElderPair (d : ℕ) (L ρ bLo bHi kLo kHi : ℝ) (I : SuperlevelBarInterface d L)\n    (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 440,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsUnrestrictedPair (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.PairLawInterface",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 457,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "structure PairLawInterface (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) where\n  /-- Section 1 clause: \"Let p_r(b,k,R) be the Q^W probability that the global ordinary\n  superlevel elder death partner of M is S.\" -/\n  p : ℝ → ℝ → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → ℝ\n  /-- `p` is a probability: nonnegative. -/\n  p_nonneg : ∀ (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)), 0 ≤ p r b k R\n  /-- `p` is a probability: at most one. -/\n  p_le_one : ∀ (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)), p r b k R ≤ 1\n\n/-! ### The parent statements (1.1), (1.2), (1.3) -/\n\n/-- Shape of Theorem A (1.1), uniform selection candidate: for fixed `d ≥ 2`, `L > 0`,\ncompact `B = [bLo, bHi]` and `K = [kLo, kHi]` with `0 < kLo ≤ kHi`, there exist `r_* > 0`\nand `C` (quantified OUTSIDE the universal quantifiers over `r`, `b`, `k` and the frame)\nsuch that `0 <= 1 - p_r(b,k,R) <= C r^3` for all `0 < r ≤ r_*`, `b ∈ B`, `k ∈ K` and all\northonormal frames `R`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"There exist r_*>0 and C<infinity such that, for all 0<r<=r_*, b in B, k in K, and all orthonormal frames,\"\nInterface: `G` (field), `I` (elder relation) and `PL` (typed pair law probability `p`) are given objects; the statement is about any `p` satisfying `PairLawInterface`. The interface does not determine `p`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interfaces are inhabited (take `p ≡ 0`), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the parent result itself or its proof (full-normalizer floor `Z_r ≥ z_* r^2`, boundary-layer integration); identification of `PL.p` with the source's `p_r`; the reading-rule amendments (congruence erratum, Section 9 replacement, embedding radius); any numerical `C` or `r_*`; nonauthor review or acceptance. -/\ndef ParentUniformSelectionA (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (PL : PairLawInterface d L G I) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "structure",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 479,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def ParentUniformSelectionA (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (PL : PairLawInterface d L G I) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 498,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def ParentCompactWindowDensityB (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 522,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def IsUnrestrictedLeadingCoefficient (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (c : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 542,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def ParentUnrestrictedLeadingDensityC (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.RemainderBoundedR1",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 559,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def RemainderBoundedR1 (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.PlanarElderLowerE2",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 581,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def PlanarElderLowerE2 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 598,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def PlanarTwoSidedRateE4 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.PlanarDensityGapE11",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+        "line": 623,
+        "module_sha256": "90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6",
+        "literal_source_header": "def PlanarDensityGapE11 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      }
+    ],
+    "RegularPointChart": [
+      {
+        "name": "UniversalLaw.Spec.Lifetime.regularPointDerivative_range_eq_top",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 16,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem regularPointDerivative_range_eq_top (hx : ¬ IsCriticalPoint d g x) :\n    (fderiv ℝ g x).range = ⊤",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.regularPointHasStrictFDerivAt",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 28,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem regularPointHasStrictFDerivAt (hg : IsSmooth d g) :\n    HasStrictFDerivAt g (fderiv ℝ g x) x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.regularPointChart",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 33,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "noncomputable def regularPointChart (hg : IsSmooth d g) (hx : ¬ IsCriticalPoint d g x) :\n    OpenPartialHomeomorph (E d) (ℝ × (fderiv ℝ g x).ker)",
+        "kind": "def",
+        "modifiers": [
+          "noncomputable"
+        ]
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.regularPointChart_fst",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 40,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem regularPointChart_fst (hg : IsSmooth d g) (hx : ¬ IsCriticalPoint d g x) (y : E d) :\n    (regularPointChart hg hx y).1 = g y",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.regularPointChart_self",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 47,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem regularPointChart_self (hg : IsSmooth d g) (hx : ¬ IsCriticalPoint d g x) :\n    regularPointChart hg hx x = (g x, 0)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.mem_regularPointChart_source",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 53,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem mem_regularPointChart_source (hg : IsSmooth d g) (hx : ¬ IsCriticalPoint d g x) :\n    x ∈ (regularPointChart hg hx).source",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "UniversalLaw.Spec.Lifetime.mem_regularPointChart_target",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularPointChart.lean",
+        "line": 59,
+        "module_sha256": "5568c8d6e03f7064cd5924ebe2814ae746100505ae31789d5c975902528f9fa2",
+        "literal_source_header": "theorem mem_regularPointChart_target (hg : IsSmooth d g) (hx : ¬ IsCriticalPoint d g x) :\n    (g x, 0) ∈ (regularPointChart hg hx).target",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "RegularSuperlevel": [
+      {
+        "name": "TorusRegularSuperlevel.path_connected_basis_of_openEmbedding",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 17,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "theorem path_connected_basis_of_openEmbedding\n    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n    [LocallyPathConnectedSpace X] {e : X → Y}\n    (he : IsOpenEmbedding e) (x : X) :\n    (𝓝 (e x)).HasBasis\n      (fun V : Set Y => V ∈ 𝓝 (e x) ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.path_connected_basis_of_open",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 32,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "theorem path_connected_basis_of_open\n    {X : Type*} [TopologicalSpace X] {U : Set X}\n    (hU : IsOpen U) [LocallyPathConnectedSpace U] {x : X} (hx : x ∈ U) :\n    (𝓝 x).HasBasis (fun V : Set X => V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.relative_chart_homeomorph",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 40,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "def relative_chart_homeomorph\n    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n    (p : OpenPartialHomeomorph X Y) (S : Set X) (T : Set Y)\n    (hmem : ∀ y ∈ p.source, y ∈ S ↔ p y ∈ T) :\n    {y : S // y.val ∈ p.source} ≃ₜ {z : T // z.val ∈ p.target} where\n  toFun y",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.path_connected_basis_of_relative_chart",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 72,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "theorem path_connected_basis_of_relative_chart\n    {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]\n    (p : OpenPartialHomeomorph X Y) (S : Set X) (T : Set Y)\n    [LocallyPathConnectedSpace T]\n    (hmem : ∀ y ∈ p.source, y ∈ S ↔ p y ∈ T)\n    (x : S) (hx : x.val ∈ p.source) :\n    (𝓝 x).HasBasis (fun V : Set S => V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.closed_superlevel_basis_of_chart",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 93,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "theorem closed_superlevel_basis_of_chart\n    {d : ℕ} {g : E d → ℝ} {F : Type*}\n    [NormedAddCommGroup F] [NormedSpace ℝ F]\n    (a : ℝ) (x : {y : E d // a ≤ g y})\n    (p : OpenPartialHomeomorph (E d) (ℝ × F))\n    (hx : x.val ∈ p.source)\n    (hcoord : ∀ y ∈ p.source, (p y).fst = g y) :\n    (𝓝 x).HasBasis\n      (fun V : Set {y : E d // a ≤ g y} => V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.closed_superlevel_interior_basis",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevel.lean",
+        "line": 119,
+        "module_sha256": "0db6ce3ea7358a59c089680d774a6806f0fb747c24d9828850377458156e2f02",
+        "literal_source_header": "theorem closed_superlevel_interior_basis\n    {d : ℕ} {g : E d → ℝ} (hg : Continuous g)\n    (a : ℝ) (x : {y : E d // a ≤ g y}) (hx : a < g x.val) :\n    (𝓝 x).HasBasis\n      (fun V : Set {y : E d // a ≤ g y} => V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "RegularSuperlevelLiteral": [
+      {
+        "name": "TorusRegularSuperlevel.closed_superlevel_regular_basis",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevelLiteral.lean",
+        "line": 27,
+        "module_sha256": "334759063a3ae58b42b8cd4a45e3bfd6f3a31b668d18526aa6fdcb5ea65c13d3",
+        "literal_source_header": "theorem closed_superlevel_regular_basis\n    {d : ℕ} {g : E d → ℝ}\n    (hsmooth : IsSmooth d g)\n    (a : ℝ) (x : {y : E d // a ≤ g y})\n    (hregular : ¬ IsCriticalPoint d g x.val) :\n    (𝓝 x).HasBasis\n      (fun V : Set {y : E d // a ≤ g y} =>\n        V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "TorusRegularSuperlevel.closed_superlevel_path_connected_basis",
+        "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevelLiteral.lean",
+        "line": 43,
+        "module_sha256": "334759063a3ae58b42b8cd4a45e3bfd6f3a31b668d18526aa6fdcb5ea65c13d3",
+        "literal_source_header": "theorem closed_superlevel_path_connected_basis\n    {d : ℕ} {g : E d → ℝ}\n    (hsmooth : IsSmooth d g)\n    (a : ℝ) (x : {y : E d // a ≤ g y})\n    (hx : a < g x.val ∨ ¬ IsCriticalPoint d g x.val) :\n    (𝓝 x).HasBasis\n      (fun V : Set {y : E d // a ≤ g y} =>\n        V ∈ 𝓝 x ∧ IsPathConnected V) id",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ]
+  },
+  "source_counts": {
+    "Lifetime": {
+      "declarations": 38,
+      "theorems": 0
+    },
+    "RegularPointChart": {
+      "declarations": 7,
+      "theorems": 6
+    },
+    "RegularSuperlevel": {
+      "declarations": 6,
+      "theorems": 5
+    },
+    "RegularSuperlevelLiteral": {
+      "declarations": 2,
+      "theorems": 2
+    }
+  },
+  "literal_limits": [
+    "pointwise closed-superlevel path-connected neighborhood basis for a smooth scalar function at strict-interior or noncritical points",
+    "critical-boundary case and quotient transport outside source statements",
+    "no global closed-level LPC or critical-point Morse chart",
+    "not parent theorem or scientific acceptance"
+  ]
+}

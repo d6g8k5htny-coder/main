@@ -1,0 +1,423 @@
+% Supplement, Part II, section S9: the cusp term.
+% Sources and corrections: see CONC_s8s9.md.
+\section{The cusp term}\label{sec:cusp}
+
+This section proves the second term of Theorem~2.3 of the main text: $\nu_{\eld}(\ell)=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+o(\ell^{1/4})$ with the explicit constant $c_1<0$ of (2.13) of the main text (Theorem~\ref{thm:cusp-CU}), the corresponding expansions of the candidate and rejected densities (Theorem~\ref{thm:cusp-CUprime}), and enclosures of $c_1$ (\S\ref{ssec:cusp-value}). The mechanism is a cusp crossover. At separations $r\asymp\ell^{1/4}$ the gap $\ell=kr^3$ is comparable to $r^4$; rescaled, the pinned field converges to a universal random quartic (Theorem~\ref{thm:cusp-field}) whose superlevel topology reduces exactly to a one-dimensional ridge (Theorem~\ref{thm:cusp-model}). On that ridge the pair is typed if and only if $|\varphi|<1$ and the saddle is the elder partner of the maximum if and only if $|\varphi|<1/3$. The notation is that of Convention~\ref{conv:remainder-notation}; in particular $d\ge2$ and $L>0$ are fixed.
+
+\subsection{Statements}\label{ssec:cusp-statements}
+
+\begin{convention}[cusp variables, jets and kernels]\label{conv:cusp-notation}
+\begin{enumerate}[(a),leftmargin=2em,itemsep=2pt]
+\item \emph{Cusp variables.} $\kappa:=k/r=\ell/r^4$ and $s:=r\ell^{-1/4}=\kappa^{-1/4}$, so that $\ell=kr^3=\kappa r^4$. (In this section $\kappa$ is the cusp variable, as in \S5.2 of the main text, and not the gap mark of (3.5) of the main text.)
+\item \emph{Jets.} For a $C^5$ function $f$, in the frame $(u,\Theta)$ of the pair: $f_4:=\partial_u^4f(0)$, $\gamma:=\nabla_\Theta\partial_u^2f(0)\in\R^m$, $A:=D_\Theta^2f(0)\in\operatorname{Sym}(m)$, $\Delta:=\det A$, and
+\begin{equation}\label{eq:cusp-Y}
+Y:=\frac{f_4}{12}\,\Delta-\frac14\,\gamma^{\top}\adj(A)\,\gamma,\qquad \varphi:=\frac{Y}{6\kappa\Delta}=\frac{f_4-3\gamma^{\top}A^{-1}\gamma}{72\kappa}\quad(A\text{ invertible}).
+\end{equation}
+($Y$ is the scalar $Y$ of \eqref{eq:remainder-Y} at $k=0$.)
+\item \emph{The zero-gap contact law.} $\E_0[\,\cdot\mid b]$ is the expectation over the jets of the field under the contact law at the zero-gap target $v_0(b,0)$, that is, given $f(0)=b$, $\partial_uf(0)=\partial_u^2f(0)=\partial_u^3f(0)=0$ and $\nabla_\Theta f(0)=\nabla_\Theta\partial_uf(0)=0$; and $\pi_0(u;v_0(b,0))$ is the density of $U_0$ at $v_0(b,0)$ in the frame with axis $u$.
+\item \emph{Cusp kernels.} For $\kappa>0$ put $w^{\cand}:=(36\kappa^2\Delta^2-Y^2)\ind\{A\prec0,\ |Y|<6\kappa|\Delta|\}$, $w^{\eld}:=(36\kappa^2\Delta^2-Y^2)\ind\{A\prec0,\ |Y|<2\kappa|\Delta|\}$, $w^{\mathrm{con}}:=36\kappa^2\Delta^2\ind\{A\prec0\}$ and $\mathcal C^\bullet(b,\kappa,u):=12\,\pi_0(u;v_0(b,0))\,\E_0[w^\bullet\mid b]$.
+\end{enumerate}
+\end{convention}
+
+\begin{theorem}[Theorem CU: the cusp term of the elder law]\label{thm:cusp-CU}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of the elder density, as $\ell\downarrow0$,
+\begin{equation}\label{eq:cusp-CU1}
+\nu_{\eld}(\ell)=c_{d,L}\,\ell^{-1/3}+c_1\,\ell^{1/4}+o(\ell^{1/4}),
+\end{equation}
+\begin{equation}\label{eq:cusp-c1}
+c_1=-\frac{192}7\,2^{1/4}\int_{S^{d-1}}\int_\R\pi_0\bigl(u;v_0(b,0)\bigr)\,\E_0\Bigl[|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\Bigm|b\Bigr]\,db\,d\sigma(u),
+\end{equation}
+and $c_1\in(-\infty,0)$. Equivalently, with $G:=\nabla f(0)$, $V_u:=(\partial_u^2f,\nabla_\Theta\partial_uf)(0)$, $t_u:=\partial_u^3f(0)$ and $\tau_u^2:=\Var(t_u\mid G=0)$ (odd and even jets are independent \cite[\S15]{parentP}; Lemma~\ref{lem:parent-parity}),
+\begin{multline}\label{eq:cusp-c1parity}
+c_1=-\frac{192}7\,2^{1/4}\int_{S^{d-1}}p_G(0)\,p_{V_u}(0)\,(2\pi)^{-1/2}\tau_u^{-1}\\
+\times\E\Bigl[|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\Bigm|V_u=0,\ G=0,\ t_u=0\Bigr]\,d\sigma(u).
+\end{multline}
+So $\nu_{\eld}(\ell)=c_{d,L}\ell^{-1/3}\bigl(1+(c_1/c_{d,L})\ell^{7/12}+o(\ell^{7/12})\bigr)$.
+\end{theorem}
+
+For $d=3$, $L=24$, \eqref{eq:cusp-CU1} gives the first two terms of (2.12) of the main text, and \eqref{eq:cusp-c1} is (2.13) of the main text.
+
+\begin{theorem}[Theorem CU$'$: the candidate and rejected densities]\label{thm:cusp-CUprime}
+Under the hypotheses of Theorem~\ref{thm:cusp-CU}, as $\ell\downarrow0$,
+\begin{align}
+\nu_{\cand}(\ell)&=c_{d,L}\,\ell^{-1/3}+B_{d,L}+I^{\cand}\ell^{1/4}+o(\ell^{1/4}),\label{eq:cusp-CUp1}\\
+I^{\cand}&=-\frac{96}7\,6^{1/4}\int_{S^{d-1}}\int_\R\pi_0\bigl(u;v_0(b,0)\bigr)\,\E_0\Bigl[|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\Bigm|b\Bigr]\,db\,d\sigma(u)=\frac{3^{1/4}}2\,c_1<0,\label{eq:cusp-Icand}\\
+\rho_{\rej}(\ell)&=B_{d,L}+(I^{\cand}-c_1)\,\ell^{1/4}+o(\ell^{1/4}),\qquad I^{\cand}-c_1=\Bigl(1-\frac{3^{1/4}}2\Bigr)|c_1|>0 .\label{eq:cusp-CUp2}
+\end{align}
+Moreover, for every $r_0\in(0,r_0^*]$, $\nu_{\cand}^{\mathrm{far},r_0}(\ell)=\int_{\dist(0,y)\ge r_0}\int_\R\Psi_0(b,y)\,db\,dy+O(\ell)$.
+\end{theorem}
+
+Beyond their share of $B_{d,L}$ the far pairs contribute only $O(\ell)$; the $\ell^{1/4}$ terms are carried by the cusp scale, and the rejected density approaches $B_{d,L}$ from above. The candidate density needs no elder decision: \eqref{eq:cusp-CUp1} uses neither Proposition~\ref{prop:cusp-stable}, Lemma~\ref{lem:cusp-window} and Proposition~\ref{prop:remainder-K}, nor the conclusions of Lemmas~\ref{lem:remainder-B} and~\ref{lem:remainder-far} (it uses the uniform far facts established in the proof of the latter); \eqref{eq:cusp-CUp2} is \eqref{eq:cusp-CUp1} minus \eqref{eq:cusp-CU1}. Neither theorem gives a rate for its $o(\ell^{1/4})$ terms or any uniformity in $d$ or $L$; $B_{d,L}$ is not evaluated here, and enclosures of $c_1$ and $I^{\cand}$ for the Gaussian kernel and its periodizations are in \S\ref{ssec:cusp-value}.
+
+\subsection{The cusp limit field and the model}\label{ssec:cusp-model}
+
+\begin{theorem}[the cusp limit field]\label{thm:cusp-field}
+Let $f\in C^5(\T^d_L)$, $0<r\le1$, $\kappa>0$, and let $M=-ru/2$ and $S=ru/2$ be critical points of $f$ with $f(M)=b$ and $f(S)=b-\kappa r^4$. For $R\ge1$ with $2Rr\le L/4$ put $\mathcal W_R:=[-R,R]\times\{\Xi\in\R^m:|\Xi|\le R\}$ and $\mathfrak F(X,\Xi):=r^{-4}[f(rXu+r^2\Theta\Xi)-b]$, and let
+\begin{equation}\label{eq:cusp-P}
+\mathfrak P(X,\Xi):=2\kappa\bigl(X+\tfrac12\bigr)^2(X-1)+\frac{f_4}{24}\bigl(X^2-\tfrac14\bigr)^2+\tfrac12\bigl(X^2-\tfrac14\bigr)\gamma\cdot\Xi+\tfrac12\Xi^{\top}A\,\Xi
+\end{equation}
+with the jets $(f_4,\gamma,A)$ of $f$ at $0$. Then
+\begin{equation}\label{eq:cusp-FP}
+\|\mathfrak F-\mathfrak P\|_{C^2(\mathcal W_R)}\le C(d,R)\,r\,\|f\|_{C^5}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Write $\vartheta_j:=\partial_u^jf(0)$, $\psi_j:=\partial_u^j\nabla_\Theta f(0)$ (so $\vartheta_4=f_4$, $\psi_2=\gamma$), $h:=r/2$ and $N_f:=\|f\|_{C^5}$. Along the axis, $\vartheta(x):=f(xu)=\sum_{j\le4}\vartheta_jx^j/j!+\rho(x)$ with $|\rho|\le N_f|x|^5/120$ and $|\rho'|\le N_f|x|^4/24$. The pins $\vartheta'(\pm h)=0$, $\vartheta(-h)=b$, $\vartheta(h)=b-16\kappa h^4$ give successively $\vartheta'(h)-\vartheta'(-h)=2\vartheta_2h+\vartheta_4h^3/3+O(N_fh^4)=0$, $\vartheta'(h)+\vartheta'(-h)=2\vartheta_1+\vartheta_3h^2+O(N_fh^4)=0$, $\vartheta(h)-\vartheta(-h)=2\vartheta_1h+\vartheta_3h^3/3+O(N_fh^5)=-16\kappa h^4$ and $\vartheta(h)+\vartheta(-h)=2\vartheta_0+\vartheta_2h^2+\vartheta_4h^4/12+O(N_fh^5)=2b-16\kappa h^4$, hence
+\begin{equation}\label{eq:cusp-axial}
+\begin{gathered}
+\vartheta_2=-\frac{r^2}{24}f_4+O(N_fr^3),\qquad \vartheta_3=12\kappa r+O(N_fr^2),\\
+\vartheta_1=-\frac32\kappa r^3+O(N_fr^4),\qquad \vartheta_0-b=\Bigl(-\frac\kappa2+\frac{f_4}{384}\Bigr)r^4+O(N_fr^5).
+\end{gathered}
+\end{equation}
+The transverse pins $\psi(\pm h)=0$ for $\psi(x):=\nabla_\Theta f(xu)=\psi_0+\psi_1x+\gamma x^2/2+\psi_3x^3/6+O(N_f|x|^4)$ give $\psi_0=-\frac{r^2}8\gamma+O(N_fr^4)$ and $\psi_1=O(N_fr^2)$. Expand $f$ at $0$ to total order four in $(x,y)$: the remainder $\rho_5$ satisfies $|\partial^\alpha\rho_5(x,y)|\le CN_f(|x|+|y|)^{5-|\alpha|}$ for $|\alpha|\le2$, and at $(x,y)=(rX,r^2\Xi)$ with $(X,\Xi)\in\mathcal W_R$ we have $|x|+|y|\le2Rr$; since $\partial_X=r\partial_x$ and $\partial_\Xi=r^2\partial_y$, every derivative of order at most two of $r^{-4}\rho_5(rX,r^2\Xi)$ is $O(C_RN_fr)$. The Taylor monomials $x^iy^j$ of weighted degree $i+2|j|\ge5$ contribute $O(C_RN_fr)$ in $C^2(\mathcal W_R)$ likewise. The monomials of weighted degree at most four have $(i,|j|)\in\{(0,0),(1,0),(2,0),(3,0),(4,0),(0,1),(1,1),(2,1),(0,2)\}$; inserting the pinned values,
+\[
+\begin{aligned}
+&r^{-4}\Bigl[\vartheta_0-b+\vartheta_1rX+\tfrac12\vartheta_2r^2X^2+\tfrac16\vartheta_3r^3X^3+\tfrac1{24}f_4r^4X^4\\
+&\qquad\quad+\psi_0\cdot r^2\Xi+\psi_1\cdot r^3X\Xi+\tfrac12\gamma\cdot r^4X^2\Xi+\tfrac12r^4\Xi^{\top}A\Xi\Bigr]\\
+&\quad=\Bigl[-\frac\kappa2-\frac32\kappa X+2\kappa X^3\Bigr]+\frac{f_4}{24}\Bigl[\frac1{16}-\frac{X^2}2+X^4\Bigr]+\Bigl[-\frac{\gamma\cdot\Xi}8+\frac{\gamma\cdot X^2\Xi}2\Bigr]\\
+&\qquad\quad+\frac12\Xi^{\top}A\Xi+O(C_RN_fr),
+\end{aligned}
+\]
+and $-\frac\kappa2-\frac32\kappa X+2\kappa X^3=2\kappa(X+\frac12)^2(X-1)$, $\frac1{16}-\frac{X^2}2+X^4=(X^2-\frac14)^2$, $-\frac18\gamma\cdot\Xi+\frac12\gamma\cdot X^2\Xi=\frac12(X^2-\frac14)\gamma\cdot\Xi$.
+\end{proof}
+
+\begin{theorem}[the model: fibre reduction and the elder window]\label{thm:cusp-model}
+Let $\kappa>0$, $f_4\in\R$, $\gamma\in\R^m$ and $A\in\operatorname{Sym}(m)$ negative definite; let $\mathfrak P$ be \eqref{eq:cusp-P}, $Y,\varphi$ as in \eqref{eq:cusp-Y}, and $X_3:=-1/(2\varphi)$ for $\varphi\ne0$.
+\begin{enumerate}[(a),leftmargin=2em]
+\item (Fibre reduction.) $\mathfrak P(X,\Xi)=g(X)+\frac12(\Xi-\Xi^*(X))^{\top}A(\Xi-\Xi^*(X))$ with $\Xi^*(X):=-\frac12(X^2-\frac14)A^{-1}\gamma$ and
+\begin{equation}\label{eq:cusp-g}
+g(X)=\kappa\Bigl[2\bigl(X+\tfrac12\bigr)^2(X-1)+3\varphi\bigl(X^2-\tfrac14\bigr)^2\Bigr],\qquad g'(X)=6\kappa\bigl(X^2-\tfrac14\bigr)(1+2\varphi X).
+\end{equation}
+\item (Critical points and types.) The critical points of $\mathfrak P$ are the points $(X,\Xi^*(X))$ with $g'(X)=0$: $M=(-\frac12,0)$, $S=(\frac12,0)$ and, for $\varphi\notin\{0,\pm1\}$, $(X_3,\Xi^*(X_3))$. Further $\mathfrak P(M)=0$, $\mathfrak P(S)=-\kappa$, $\det\operatorname{Hess}\mathfrak P(M)=6\kappa(\varphi-1)\Delta=Y-6\kappa\Delta$ and $\det\operatorname{Hess}\mathfrak P(S)=6\kappa(\varphi+1)\Delta=Y+6\kappa\Delta$; $M$ is a nondegenerate maximum and $S$ a nondegenerate critical point of index $m$ if and only if $|\varphi|<1$.
+\item (The elder window.) Let $|\varphi|<1$, and let $d_{\mathfrak P}(M)$ be the maximin connection level of $M$ for $\mathfrak P$ on $\R^{1+m}$ (paths to points with $\mathfrak P>0$; $-\infty$ if there are none). Then
+\[
+d_{\mathfrak P}(M)=\begin{cases}-\kappa=\mathfrak P(S)&\text{if }|\varphi|<\frac13,\\ g(X_3)>-\kappa&\text{if }\frac13<\varphi<1,\\ -\infty&\text{if }-1<\varphi<-\frac13 .\end{cases}
+\]
+\item (Critical values.) $g(X_3)+\kappa=\kappa(\varphi+1)^3(3\varphi-1)/(16\varphi^3)$ and $g(X_3)=\kappa(\varphi-1)^3(3\varphi+1)/(16\varphi^3)$. At $\varphi=\frac13$, $g-g(\frac12)=\frac\kappa{16}(2X-1)^2(2X+3)^2$ (the saddles $\frac12$ and $-\frac32$ at equal height); at $\varphi=-\frac13$, $g=-\frac\kappa{16}(2X-3)^2(2X+1)^2$ (the maxima $-\frac12$ and $\frac32$ at equal height).
+\end{enumerate}
+\end{theorem}
+
+So the pair is typed if and only if $|Y|<6\kappa|\Delta|$, the sign window of Lemma~\ref{lem:remainder-W} at leading order, and $S$ is the elder partner of $M$ if and only if $|Y|<2\kappa|\Delta|$: the elder window is one third of the typed window.
+
+\begin{proof}
+(a) $\frac12(\Xi-\Xi^*)^{\top}A(\Xi-\Xi^*)=\frac12\Xi^{\top}A\Xi+\frac12(X^2-\frac14)\gamma\cdot\Xi+\frac18(X^2-\frac14)^2\gamma^{\top}A^{-1}\gamma$; subtracting this from \eqref{eq:cusp-P} leaves $2\kappa(X+\frac12)^2(X-1)+\frac1{24}(f_4-3\gamma^{\top}A^{-1}\gamma)(X^2-\frac14)^2$, and $\frac1{24}(f_4-3\gamma^{\top}A^{-1}\gamma)=3\kappa\varphi$. Direct differentiation gives $g'$.
+
+(b) In the coordinates $(X,Z)$, $Z:=\Xi-\Xi^*(X)$ (a smooth diffeomorphism with unit Jacobian), $\mathfrak P=g(X)+\frac12Z^{\top}AZ$. The critical points are $\{Z=0,\ g'=0\}$, and at a critical point the Hessian changes by a congruence of determinant one, so $\det\operatorname{Hess}_{(X,\Xi)}\mathfrak P=g''\Delta$ and the inertia is that of $\operatorname{diag}(g'',A)$. By \eqref{eq:cusp-g}, $g''(-\frac12)=6\kappa(\varphi-1)$ and $g''(\frac12)=6\kappa(\varphi+1)$, and $6\kappa\varphi\Delta=Y$.
+
+(c) For every $t$, $\{\mathfrak P>t\}=\{(X,\Xi^*(X)+Z):g(X)>t,\ Z^{\top}(-A)Z<2(g(X)-t)\}$: over each $X$ with $g(X)>t$ a nonempty open ellipsoid, and empty otherwise. Hence there is a point above $0$ over $X$ if and only if $g(X)>0$; every path has $\min\mathfrak P\le\min g(X(\cdot))$, and the lifted path $X\mapsto(X,\Xi^*(X))$ has $\mathfrak P=g$. So $d_{\mathfrak P}(M)=\max(d_-,d_+)$, where $d_-$ (resp.\ $d_+$) is the supremum, over $x<-\frac12$ (resp.\ $x>-\frac12$) with $g(x)>0$, of the minimum of $g$ on the segment between $-\frac12$ and $x$ ($\sup\emptyset=-\infty$). On $(-\frac12,\frac12)$, $g'<0$ (as $1+2\varphi X\ge1-|\varphi|>0$), so $g$ falls from $0$ to $-\kappa$.
+\emph{Case $0\le\varphi<\frac13$:} on $(\frac12,\infty)$, $g'>0$ and $g\to+\infty$, so $d_+=-\kappa$; on $(-\infty,-\frac12)$ either $\varphi=0$ and $g'>0$ (so $g<0$ there and $d_-=-\infty$), or $X_3<-\frac32$ is a local minimum with $g(X_3)<-\kappa$ by (d) and $g\to+\infty$ as $X\to-\infty$, so $d_-=g(X_3)<-\kappa$.
+\emph{Case $\frac13<\varphi<1$:} $d_+=-\kappa$ as before; $X_3\in(-\frac32,-\frac12)$ is a local minimum, $g\to+\infty$ to the left and $g(X_3)>-\kappa$ by (d), so $d_-=g(X_3)$.
+\emph{Case $-\frac13<\varphi<0$:} on $(-\infty,-\frac12)$, $g'>0$, so $d_-=-\infty$; on $(\frac12,\infty)$, $g$ rises to the local maximum $X_3>\frac32$ with $g(X_3)>0$ by (d), so $d_+=-\kappa$.
+\emph{Case $-1<\varphi<-\frac13$:} $d_-=-\infty$; now $X_3\in(\frac12,\frac32)$ and $g(X_3)<0$, so $g<0$ on $(-\frac12,\infty)$, $d_+=-\infty$, and $M$ is the unique global maximum.
+
+(d) Direct substitution of $X_3$ in \eqref{eq:cusp-g} and expansion.
+\end{proof}
+
+\subsection{Stability of the elder decision}\label{ssec:cusp-stable}
+
+\begin{proposition}[stability]\label{prop:cusp-stable}
+Fix $\delta\in(0,1/20)$, put $R_\delta:=30\delta^{-2}$ and $\mathcal W:=[-3,2]\times\{|\Xi|\le R_\delta\}$, and let $\mathcal K_\delta$ be the set of $(\kappa,f_4,\gamma,A)$ with $\kappa\in[\delta,\delta^{-1}]$, $A\preceq-\delta I$, $\|A\|+|\gamma|+|f_4|\le\delta^{-1}$ and $|\varphi|\in[0,\frac13-\delta]\cup[\frac13+\delta,1-\delta]$. There is $\varepsilon=\varepsilon(\delta,m)>0$ with the following property. Let $f\in C^2(\T^d_L)$, let $M=-ru/2$ and $S=ru/2$ be critical points of $f$ with $f(M)=b$ and $f(S)=b-\kappa r^4$, let the map $\Phi:(X,\Xi)\mapsto rXu+r^2\Theta\Xi$ be injective on $\mathcal W$ (so that, being a local diffeomorphism, it maps the interior and boundary of every subregion of $\mathcal W$ onto the interior and boundary of its image), let $(\kappa,f_4,\gamma,A)\in\mathcal K_\delta$, and let $\|\mathfrak F-\mathfrak P\|_{C^2(\mathcal W)}\le\varepsilon$, where $\mathfrak F=r^{-4}(f\circ\Phi-b)$ and $\mathfrak P=\mathfrak P_{\kappa,f_4,\gamma,A}$ is \eqref{eq:cusp-P} (operator norms on the derivatives). Then $M$ is a nondegenerate local maximum, $S$ is a nondegenerate critical point of index $m$, and
+\begin{equation}\label{eq:cusp-decision}
+e(f)=\ind\{d_f(M)=f(S)\}=\ind\{|\varphi|<1/3\}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Constants $C_\delta,\mu_\delta,c_\delta,\eta_\delta,\dots$ depend only on $\delta$ and $m$ (by continuity on the compact set $\mathcal K_\delta$).
+
+\emph{Step 1 (the ridge of $\mathfrak F$).} On $\mathcal W$, $\partial_\Xi^2\mathfrak F\preceq A+\varepsilon I\preceq-\frac\delta2I$ for $\varepsilon\le\delta/2$, and $|\Xi^*(X)|\le\frac{35}8\delta^{-2}$ for $X\in[-3,2]$. Since $\mathfrak F(X,\cdot)\le g(X)-\frac\delta2|\cdot-\Xi^*(X)|^2+\varepsilon$ and $\mathfrak F(X,\Xi^*(X))\ge g(X)-\varepsilon$, every maximizer of $\mathfrak F(X,\cdot)$ over $|\Xi|\le R_\delta$ lies within $2(\varepsilon/\delta)^{1/2}<1$ of $\Xi^*(X)$, hence in the interior; by strict concavity it is unique, $\Xi_{\mathfrak F}(X)$, and the first-order identity $A(\Xi_{\mathfrak F}-\Xi^*)=\partial_\Xi\mathfrak P(X,\Xi_{\mathfrak F})=\partial_\Xi(\mathfrak P-\mathfrak F)(X,\Xi_{\mathfrak F})$ improves this to $|\Xi_{\mathfrak F}-\Xi^*|\le\varepsilon/\delta$. By the implicit function theorem $\Xi_{\mathfrak F}\in C^1$, and $g_{\mathfrak F}(X):=\mathfrak F(X,\Xi_{\mathfrak F}(X))$ is $C^2$ with $g_{\mathfrak F}'=\partial_X\mathfrak F(\cdot,\Xi_{\mathfrak F})$ and $g_{\mathfrak F}''=[\partial_X^2\mathfrak F-\partial_{X\Xi}\mathfrak F(\partial_\Xi^2\mathfrak F)^{-1}\partial_{\Xi X}\mathfrak F](\cdot,\Xi_{\mathfrak F})$; the same formulas hold for $g$ with $(\mathfrak P,\Xi^*)$. Hence $\|g_{\mathfrak F}-g\|_{C^2([-3,2])}\le C_\delta\varepsilon$.
+
+\emph{Step 2 (connectivity reduces to one dimension).} For every $t$, each nonempty $X$-fibre of $\mathcal W\cap\{\mathfrak F>t\}$ is convex (a ball cut by a superlevel set of a concave function) and contains $\Xi_{\mathfrak F}(X)$, and it is nonempty if and only if $g_{\mathfrak F}(X)>t$. So the path components of $\mathcal W\cap\{\mathfrak F>t\}$ are the parts over the components of $\{X\in[-3,2]:g_{\mathfrak F}(X)>t\}$, and the supremum of $\mathfrak F$ over such a part is the supremum of $g_{\mathfrak F}$ over the interval.
+
+\emph{Step 3 (transverse boundary).} On $|\Xi|=R_\delta$, $|\Xi-\Xi^*|\ge25\delta^{-2}$, so $\mathfrak F\le\max_{[-3,2]}g-312\delta^{-3}+\varepsilon$; since $|g|\le280\kappa\le280\delta^{-1}$ on $[-3,2]$ and $\delta^{-2}>400$, $\mathfrak F<-2\kappa-1$ there.
+
+\emph{Step 4 (types).} The points $M\leftrightarrow(-\frac12,0)$ and $S\leftrightarrow(\frac12,0)$ are critical points of $\mathfrak F$, so $\Xi_{\mathfrak F}(\pm\frac12)=0$, $g_{\mathfrak F}'(\pm\frac12)=0$, $g_{\mathfrak F}(-\frac12)=0$ and $g_{\mathfrak F}(\frac12)=-\kappa$ exactly. As $g''(-\frac12)=6\kappa(\varphi-1)\le-6\delta^2$ and $g''(\frac12)\ge6\delta^2$, for $C_\delta\varepsilon<3\delta^2$ the Schur complement $g_{\mathfrak F}''$ of $\partial_\Xi^2\mathfrak F\prec0$ in $\operatorname{Hess}\mathfrak F$ is negative at $M$ and positive at $S$; by Haynsworth's inertia additivity $M$ is a nondegenerate maximum and $S$ has index $m$, for $\mathfrak F$ and hence for $f$.
+
+\emph{Step 5 (the decision).} Let $\tau_\delta:=\delta/10$ and let $Z_g$ be the set of \emph{all} real zeros of $g'$: $\pm\frac12$ and, for $\varphi\ne0$, $X_3$, wherever it lies. All are nondegenerate ($g''(X_3)=3\kappa(1-\varphi^2)/\varphi$), $|X_3\mp\frac12|\ge\delta/2$, $|g''|\ge c_\delta>0$ on the $\tau_\delta$-neighbourhoods of the points of $Z_g$, and $|g'|\ge\mu_\delta>0$ at the points of $[-3,2]$ at distance at least $\tau_\delta$ from $Z_g$. For $C_\delta\varepsilon<\frac12\min(\mu_\delta,c_\delta\tau_\delta)$, $g_{\mathfrak F}'$ has exactly the zeros $\pm\frac12$ and, when $X_3\in[-3+\tau_\delta,2-\tau_\delta]$, one more nondegenerate zero $X_3^{\mathfrak F}$ within $\tau_\delta$ of $X_3$, with the sign pattern of $g'$ elsewhere on $[-3,2]$ away from the $\tau_\delta$-neighbourhoods of $Z_g$.
+
+\emph{Case E, $|\varphi|\le\frac13-\delta$.} By Theorem~\ref{thm:cusp-model}, $g$ increases on $[-\frac32,-\frac12]$ (for $\varphi>0$ because $X_3<-\frac32-4\delta$), decreases on $[-\frac12,\frac12]$ and increases on $[\frac12,X_R]$, where $X_R:=2$ if $\varphi\ge0$ and $X_R:=\min(2,X_3-\tau_\delta)$ if $\varphi<0$; and $g(-\frac32)=\kappa(-5+12\varphi)\le-\kappa(1+12\delta)$, $g(X_R)\ge\eta_\delta>0$ ($g(2)=\kappa(12.5+42.1875\varphi)\ge1.9\kappa$ for $\varphi\ge-\frac14$, and for $\varphi<-\frac14$, $X_3\le2$ and $g(X_3-\tau_\delta)\ge g(X_3)-C\kappa\tau_\delta^2\ge11\kappa\delta$ since $g(X_3)\ge12\kappa\delta$ by Theorem~\ref{thm:cusp-model}(d)). The same holds for $g_{\mathfrak F}$, with $-\kappa(1+11\delta)$ and $\eta_\delta/2$. \emph{Path:} the ridge curve $X\mapsto\Phi(X,\Xi_{\mathfrak F}(X))$, $X\in[-\frac12,X_R]$, runs from $M$ through $S$ to a point where $f>b$, and along it $f-b=r^4g_{\mathfrak F}\ge-\kappa r^4=f(S)-b$; so $d_f(M)\ge f(S)$. \emph{Trap:} let $D:=(-\frac32,\frac12)\times\{|\Xi|<R_\delta\}$ and $D_{\mathrm{phys}}:=\Phi(D)$, so $\partial D_{\mathrm{phys}}=\Phi(\partial D)$. On $\partial D$: $\mathfrak F\le g_{\mathfrak F}(-\frac32)<-\kappa$ at $X=-\frac32$; $\mathfrak F<-2\kappa-1$ at $|\Xi|=R_\delta$; and $\mathfrak F(\frac12,\Xi)\le g_{\mathfrak F}(\frac12)=-\kappa$ at $X=\frac12$, with equality only at $\Xi=0$, that is, at $S$. So $f\le f(S)$ on $\partial D_{\mathrm{phys}}$. The path component $\mathcal C$ of $\{f>f(S)\}$ containing $M$ does not meet $\partial D_{\mathrm{phys}}$ (the first exit of a path in $\mathcal C$ from $D_{\mathrm{phys}}$ would land on it), hence $\mathcal C\subset D_{\mathrm{phys}}$, and by Step~2 its supremum is $b+r^4\sup g_{\mathfrak F}$ over the component of $\{g_{\mathfrak F}>-\kappa\}\cap(-\frac32,\frac12)$ containing $-\frac12$, which is $b+r^4g_{\mathfrak F}(-\frac12)=b$. So $\mathcal C$ contains no point above $b$, and every path from $M$ to a point above $b$ leaves $\mathcal C$ and meets $\{f\le f(S)\}$: $d_f(M)\le f(S)$. Hence $d_f(M)=f(S)$ and $e=1$.
+
+\emph{Case R$^+$, $\varphi\in[\frac13+\delta,1-\delta]$.} $X_3\in(-\frac32,-\frac12-\frac\delta2)$ is a nondegenerate local minimum of $g$; $g$ decreases on $[-3,X_3]$ and increases on $[X_3,-\frac12]$; $g(X_3)\ge-\kappa+0.44\delta\kappa$ by Theorem~\ref{thm:cusp-model}(d); $g(-3)=\kappa(-50+229.6875\varphi)\ge26\kappa$. For $g_{\mathfrak F}$ the same holds with $g_{\mathfrak F}(X_3^{\mathfrak F})\ge-\kappa+0.4\delta\kappa$. The ridge curve from $M$ to $X=-3$ ends where $f>b$ and has minimum $b+r^4g_{\mathfrak F}(X_3^{\mathfrak F})>f(S)$: $d_f(M)>f(S)$ and $e=0$.
+
+\emph{Case R$^-$, $\varphi\in[-1+\delta,-\frac13-\delta]$.} $X_3\in(\frac12+\frac\delta2,\frac32)$; $g$ increases on $[-\frac32,-\frac12]$, decreases on $[-\frac12,\frac12]$, increases on $[\frac12,X_3]$ and decreases on $[X_3,2]$; $g(-\frac32)\le-9\kappa$, $g(2)\le-1.5\kappa$ and $g(X_3)\le-1.5\delta\kappa<0$. Put $t_*:=-\frac54\kappa$ and $D':=(-\frac32,2)\times\{|\Xi|<R_\delta\}$. Then $\mathfrak F<t_*$ on $\partial D'$ (at the ends by the values of $g_{\mathfrak F}$, on the transverse boundary by Step~3), the component of $\{f>b+r^4t_*\}$ containing $M$ lies in $\Phi(D')$, and its supremum is at most $b+r^4\max(g_{\mathfrak F}(-\frac12),g_{\mathfrak F}(X_3^{\mathfrak F}))=b$. So $d_f(M)\le b+r^4t_*<f(S)$ (or $M$ is the global maximum and $d_f(M)=-\infty$), and $e=0$.
+\end{proof}
+
+Only window information is used: every conclusion is either an explicit path inside $\Phi(\mathcal W)$ or a trap whose boundary lies inside it, so the landscape outside the window cannot change the decision. No Morse--Smale, separatrix or genericity assumption is made, and $e$ is computed exactly. Theorems~\ref{thm:cusp-field}, \ref{thm:cusp-model} and Proposition~\ref{prop:cusp-stable} are deterministic statements about $C^5$ functions; only the law of $(f_4,\gamma,A)$, and hence $c_1$, depends on the field.
+
+\subsection{The kernels at the cusp scale}\label{ssec:cusp-kernels}
+
+\begin{theorem}[kernel limits at fixed $\kappa$]\label{thm:cusp-kernels}
+For fixed $b\in\R$, $u\in S^{d-1}$ and $\kappa>0$, as $r\downarrow0$,
+\begin{equation}\label{eq:cusp-kernellim}
+r^{-2}\mathcal A_r(b,\kappa r,u)\to\mathcal C^{\cand},\qquad r^{-2}\mathcal A^{\eld}_r(b,\kappa r,u)\to\mathcal C^{\eld},\qquad r^{-2}\mathcal A_0(b,\kappa r,u)\to\mathcal C^{\mathrm{con}}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Work under the coupling of Proposition~\ref{prop:remainder-R} with $k=\kappa r$ and the dominating variable $T$ of Convention~\ref{conv:remainder-notation}(h). The contact law of $F_0$ has target $v_0(b,\kappa r)$, which differs from $v_0(b,0)$ only in the coordinate $12k$; the regression mean is affine in the target and the covariance does not depend on it, so $F_0=F_0^0+12k\,\chi_0$ with $F_0^0$ of target $v_0(b,0)$ and $\chi_0$ a fixed smooth function. The variables of $\E_0$ are the jets of $F_0^0$, and those of $F_0$ differ from them by deterministic $O(\kappa r)$ vectors.
+
+(i) \emph{Weights.} By \eqref{eq:remainder-detK}, $\det K_M=r(Y_r-6\kappa\Delta_0)+R_M$ and $\det K_S=r(Y_r+6\kappa\Delta_0)+R_S$ with $|R_i|\le Cr^2(1+k)T^{N_1}$, $\Delta_0=\det A_0$ and $Y_r$ the $Y$ of \eqref{eq:remainder-Y}. As $r\to0$, $Y_r\to Y$ and $\Delta_0\to\Delta$ (the variables of $\E_0$) in every $L^p$, so $\det K_i/r\to Y\mp6\kappa\Delta$ in every $L^p$.
+
+(ii) \emph{Types.} $\{W_r>0\}=\{\Ind K_M=d,\ \Ind K_S=d-1\}$. On $\{A\prec0,\ |Y|\ne6\kappa|\Delta|\}$ and for small $r$, $A_M,A_S\prec0$ and, by Haynsworth's inertia additivity, the indices are $m+\ind\{\sigma_i<0\}$ with $\sigma_i=\det K_i/\det A_i$; with $\operatorname{sign}\Delta=(-1)^m$ this gives, in the limit, typed if and only if $|Y|<6\kappa|\Delta|$. Off $\{A\prec0\}$ a typed configuration needs $A_M\prec0$, hence $\lambda_{\max}(A_0)\le CrT$, an event whose probability tends to $0$ (the deterministic $O(\kappa r)$ shift between $A_0$ and $A$ included). So $\ind\{W_r>0\}\to\ind\{A\prec0,\ |Y|<6\kappa|\Delta|\}$ in probability.
+
+(iii) \emph{Marks.} By Theorem~\ref{thm:cusp-field}, $\|\mathfrak F_r-\mathfrak P_r\|_{C^2(\mathcal W)}\le C_\delta rT$ for the rescaled $F_r$ and the model $\mathfrak P_r$ built from the jets of $F_r$. On $\{(\kappa,\text{jets of }F_r)\in\mathcal K_\delta,\ C_\delta rT\le\varepsilon(\delta)\}$ Proposition~\ref{prop:cusp-stable} gives $e=\ind\{|\varphi_r|<1/3\}$, with $\varphi_r$ built from the jets of $F_r$, and $\varphi_r\to\varphi=Y/(6\kappa\Delta)$ in probability. The typed event minus this good event has probability at most
+\[
+\Prob(C_\delta rT>\varepsilon(\delta))+\Prob(|\mathrm{jets}(F_r)-\mathrm{jets}(F_0^0)|>\eta_\delta)+\Prob\bigl((\kappa,\mathrm{jets}(F_0^0))\notin\mathcal K_{2\delta},\ A\prec0,\ |Y|<6\kappa|\Delta|\bigr)+o(1),
+\]
+with $\eta_\delta$ so small that $\eta_\delta$-perturbations of points of $\mathcal K_{2\delta}$ stay in $\mathcal K_\delta$. The first two terms tend to $0$ as $r\to0$, and the third tends to $0$ as $\delta\to0$: the jets of $F_0^0$ form a nondegenerate Gaussian vector (finite-jet nondegeneracy, \S\ref{sec:setting}), and given $(A,\gamma)$ the variable $f_4$ has a nondegenerate Gaussian law, so $\varphi$ has a continuous distribution and $\Prob(|\varphi|\in(\frac13-2\delta,\frac13+2\delta)\cup(1-2\delta,1))$, $\Prob(\lambda_{\max}(A)\in(-2\delta,0))$ and the probability of large jets all vanish as $\delta\to0$.
+
+(iv) \emph{Expectations.} On the typed event $W_r/r^2=-\det K_M\det K_S$, and by \eqref{eq:remainder-window} $W_r/r^2\le C(\kappa^2r^2\Delta_0^2+r^4(1+k)^2T^{2N_1})$, so $(W_r/r^2)/r^2$ is bounded in $L^2$ and uniformly integrable. With (i)--(ii) for the candidate limit and (i)--(iii) for the elder limit (note $|\varphi|<\frac13\iff|Y|<2\kappa|\Delta|$), $\E_Q[W_r/r^2]/r^2\to\E_0[w^{\cand}\mid b]$ and $\E_Q[(W_r/r^2)e]/r^2\to\E_0[w^{\eld}\mid b]$.
+
+(v) \emph{Densities.} $\pi_r(v_r)\to\pi_0(u;v_0(b,0))$ by Proposition~\ref{prop:remainder-R}(ii) and the continuity of $\pi_0$ in the target, and $\mathcal A_0(b,\kappa r,u)/r^2=12\pi_0(v_0(b,\kappa r))\,36\kappa^2\,\E[\Delta^2\ind\{A\prec0\}\mid v_0(b,\kappa r)]\to\mathcal C^{\mathrm{con}}$.
+\end{proof}
+
+\begin{lemma}[the typed window has small probability]\label{lem:cusp-window}
+Let $\beta:=\min(1/8,1/(4m))$. There are $r_1>0$, $C$ and $N$ such that, for $0<r\le r_1$, $b\in\R$ and $0\le k\le1$,
+\begin{equation}\label{eq:cusp-window}
+\E_Q[W_r/r^2]\le C\bigl(k^2+r^4\bigr)\bigl(\min(1,k/r)^{1/2}+r^\beta\bigr)P^N .
+\end{equation}
+\end{lemma}
+
+Without the second factor, \eqref{eq:cusp-window} is \eqref{eq:remainder-W1}.
+
+\begin{proof}
+Let $J$ be the vector of all partial derivatives of $f=F_r$ at $0$ of orders at most $8$ in the frame $(u,\Theta)$, $J=(J_{\mathrm{pin}},f_4,J')$, where $J_{\mathrm{pin}}:=(f,\partial_uf,\partial_u^2f,\partial_u^3f,\nabla_\Theta f,\nabla_\Theta\partial_uf)(0)$ and $J'$ is the rest. ($J'$ must exclude the pinned jets: with $\partial_u^2f(0)$ in $J'$, the pin row $(\partial_xf(S)-\partial_xf(M))/r$ would determine $\frac{r^2}{24}f_4$ up to $O(r^7)$.)
+
+\emph{Conditional density of $f_4$.} Under $Q$, $(f_4,J')$ is Gaussian with the law of $(f_4,J')$ given $U_r=v_r$, so $\Var_Q(f_4\mid J')=\Var(f_4\mid J',U_r)$. As $r\to0$, $U_r\to U_0=J_{\mathrm{pin}}$ in $L^2$ of the field, and $(J',J_{\mathrm{pin}})$ and $(f_4,J',J_{\mathrm{pin}})$ are families of distinct partial derivatives at one point, hence nondegenerate. The Gram matrix of $(J',U_r)$ therefore stays uniformly invertible for $r\le r_1$ (uniformly over frames), and $\Var(f_4\mid J',U_r)\to\Var(f_4\mid J',J_{\mathrm{pin}})>0$. So the conditional density of $f_4$ given $J'$ under $Q$ is bounded by a constant $C_0$.
+
+\emph{Affine structure.} Expanding $\alpha_i$, $A_i$ and $\beta_i$ ($x_i=\mp r/2$) to order $8$ in $x_i$ and inserting the pin identities to the same order ($\partial_u^2f(0)=-\frac{r^2}{24}f_4+(\text{terms in }J')+\dots$, $\partial_u^3f(0)=12k-\frac{r^2}{40}\partial_u^5f(0)+\dots$, $\nabla_\Theta\partial_uf(0)=(\text{terms in }J')$; the transverse pins involve no $f_4$), $\det K_i=\alpha_i\det A_i-r\beta_i^{\top}\adj(A_i)\beta_i=d_i(J')f_4+c_i(J')+\rho_i$, with $d_i(J')=\frac r{12}\det A_i(J')$ and $|\rho_i|\le Cr^6(1+\|f\|_{C^9})^{N_2}$. Let $E_1:=\{\|F_r\|_{C^9}+T\le r^{-\eta}\}$ with $\eta:=1/(8\max(N_1,N_2))$ ($N_1,N_2\ge m+1$, enlarged if necessary, so that $m\eta<1/8$). On $E_1$, $|\rho_i|\le Cr^5$, and $\Prob(E_1^c)\le C_qr^qP^{N_q}$ for every $q$, by \eqref{eq:remainder-R4}.
+
+\emph{The window.} Let $\Delta:=\det D_\Theta^2f(0)$ (a function of $J'$) and $B_1:=\{|\Delta|\ge r^{1/2}\}$. On $B_1\cap E_1$ and for small $r$, $|\det A_i(J')-\Delta|\le Cr^{1-m\eta}\le|\Delta|/2$, so $\det A_M(J')$ and $\det A_S(J')$ have the sign of $\Delta$ and $|d_i|\ge\frac r{24}|\Delta|\ge r^{3/2}/24$. Write $\Lambda_i(x):=d_ix+c_i$, so that $\det K_i=\Lambda_i(f_4)+\rho_i$, and $z_i:=-c_i/d_i$. On the typed event the two determinants have opposite signs (proof of Lemma~\ref{lem:remainder-W}) while $d_M,d_S$ have the same sign, so $f_4$ lies within $\max_i|\rho_i|/|d_i|\le Cr^5/\min_i|d_i|$ of the segment between $z_M$ and $z_S$; hence $\{W_r>0\}\cap B_1\cap E_1\subset\{f_4\in I(J')\}$, where $I(J')$ is the $J'$-measurable interval spanned by $z_M,z_S$, enlarged by $Cr^5/\min_i|d_i|$. To bound its length, note $z_S-z_M=\Lambda_M(f_4)/d_M-\Lambda_S(f_4)/d_S$; on the typed event the sign window gives $|\det K_i|\le12k|\Delta_0|+2\max_j|R_j|$ (proof of Lemma~\ref{lem:remainder-W}), so $|\Lambda_i(f_4)|\le12k|\Delta|+Cr^{2-N_1\eta}$ on $E_1$ (the swap $\Delta_0\to\Delta$ costs $12k|\Delta_0-\Delta|\le Cr^2T^m\le Cr^{2-m\eta}$, absorbed as $N_1\ge m+1$, and $|\rho_i|\le Cr^5$). With $|d_i|\ge\frac r{24}|\Delta|$ and $|\Delta|\ge r^{1/2}$,
+\[
+|I(J')|\le\frac{48(12k|\Delta|+Cr^{2-N_1\eta})}{r|\Delta|}+Cr^{7/2}\le C\bigl(k/r+r^{1/2-N_1\eta}\bigr)\le\lambda:=C\bigl(k/r+r^{1/4}\bigr).
+\]
+Put $I(J'):=\R$ on the $J'$-measurable set $\{d_Md_S\le0\}$. The event $\{|I(J')|\le\lambda\}$ is $J'$-measurable, and $\{W_r>0\}\cap B_1\cap E_1\subset\{f_4\in I(J')\}\cap\{|I(J')|\le\lambda\}$; $E_1$ and the sign window involve the coupling variables $T$ and $\Delta_0$, so this inclusion holds on the coupling space, while the dominating event depends on $F_r$ alone. Therefore $\Prob_Q(\{W_r>0\}\cap B_1\cap E_1)\le\E[\ind\{|I(J')|\le\lambda\}\Prob_Q(f_4\in I(J')\mid J')]\le C_0\lambda$.
+
+\emph{Small determinant.} Under $Q$, $D_\Theta^2f(0)$ is a nondegenerate Gaussian symmetric matrix and $\Delta$ a polynomial of degree $m$ in it, with $\E_Q[\Delta^2]\ge c>0$ uniformly in $(r,b,k,\text{frame})$: the top ($m$-th) Wiener-chaos component of $\det(\mu+G)$ is the Wick product of $\det G$, which does not depend on the mean $\mu$. By the Carbery--Wright inequality \cite{CarberyWright}, $\Prob_Q(|\Delta|<r^{1/2})\le Cr^{1/(2m)}$.
+
+\emph{Weights.} On the typed event $W_r/r^2\le C(k^2\Delta_0^2+r^4(1+k)^2T^{2N_1})$ by \eqref{eq:remainder-window}, with $L^2$ norm at most $C(k^2+r^4)P^N$. By the Cauchy--Schwarz inequality,
+\[
+\begin{aligned}
+\E_Q\bigl[(W_r/r^2)\ind_{B_1\cap E_1}\bigr]&\le C(k^2+r^4)P^N\min(1,C_0\lambda)^{1/2}\le C(k^2+r^4)P^N\bigl(\min(1,k/r)^{1/2}+r^{1/8}\bigr),\\
+\E_Q\bigl[(W_r/r^2)\ind_{B_1^c}\bigr]&\le C(k^2+r^4)P^Nr^{1/(4m)},\qquad \E_Q\bigl[(W_r/r^2)\ind_{E_1^c}\bigr]\le C(k^2+r^4)P^Nr^q .
+\end{aligned}
+\]
+Summing gives \eqref{eq:cusp-window}.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:cusp-CU}}\label{ssec:cusp-proof}
+
+Fix $s_*\ge1$ and $\varepsilon_0\in(0,\beta/(12(3+\beta)))$, with $\beta$ as in Lemma~\ref{lem:cusp-window}; put $\rho_1:=\ell^{1/12-\varepsilon_0}$, and let $\ell$ be so small that $s_*\ell^{1/4}<\rho_1\le\min(r_1,r_0^*)$ and $s_*\ell^{1/4}\le r_K$. By \eqref{eq:remainder-sep} and \eqref{eq:remainder-lead},
+\[
+\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}=I_1+I_2+I_3+I_4+I_5,
+\]
+where, with all integrands evaluated at $(b,\ell/r^3,u)$ and integrated against $d\sigma(u)\,db\,dr$,
+\[
+\begin{gathered}
+I_1:=\int_{r<s_*\ell^{1/4}}r^{-2}(\mathcal A^{\eld}_r-\mathcal A_0),\qquad I_2:=\int_{s_*\ell^{1/4}\le r<\rho_1}r^{-2}(\mathcal A^{\eld}_r-\mathcal A_0),\qquad I_3:=\int_{\rho_1\le r<r_0^*}r^{-2}\mathcal A^{\eld}_r,\\
+I_4:=-\int_{r\ge\rho_1}r^{-2}\mathcal A_0,\qquad I_5:=\nu_{\eld}^{\mathrm{far},r_0^*}(\ell).
+\end{gathered}
+\]
+
+\emph{The term $I_1$.} With $r=s\ell^{1/4}$, $I_1=\ell^{1/4}\int\!\int\!\int_0^{s_*}[r^{-2}(\mathcal A^{\eld}_r-\mathcal A_0)](b,\ell/r^3,u)\,ds\,db\,d\sigma$, and at fixed $s$ the integrand is evaluated at $\kappa=s^{-4}$, so by Theorem~\ref{thm:cusp-kernels} it converges to $(\mathcal C^{\eld}-\mathcal C^{\mathrm{con}})(b,s^{-4},u)$. Domination: for $s\le1$ ($\kappa\ge1$, i.e.\ $r\le k$), $|r^{-2}(\mathcal A_r-\mathcal A_0)|\le H(b,k)\le Ce^{-cb^2}$ by Lemma~\ref{lem:remainder-even}, and $r^{-2}(\mathcal A_r-\mathcal A^{\eld}_r)=12\pi_r\E_Q[(W_r/r^2)(1-e)]/r^2\le Ce^{-c(b^2+k^2)}P^N(r^3/k)/r^2=Ce^{-c(b^2+k^2)}P^Ns^4\le Ce^{-c'b^2}$ by Proposition~\ref{prop:remainder-K} (valid as $r\le\min(k,r_K)$); for $1\le s\le s_*$, $r^{-2}\mathcal A_r\le C(\kappa^2+r^2)P^Ne^{-c(b^2+k^2)}\le Ce^{-c'b^2}$ by Lemma~\ref{lem:remainder-W} and Proposition~\ref{prop:remainder-R}(ii), and $r^{-2}\mathcal A_0\le C\kappa^2e^{-cb^2}$. By dominated convergence,
+\[
+I_1=\ell^{1/4}\Bigl[\int_{S^{d-1}}\int_\R\int_0^{s_*}(\mathcal C^{\eld}-\mathcal C^{\mathrm{con}})(b,s^{-4},u)\,ds\,db\,d\sigma(u)+o(1)\Bigr].
+\]
+
+\emph{The term $I_2$.} Here $\kappa=\ell r^{-4}\le1$. By Lemma~\ref{lem:cusp-window} with Proposition~\ref{prop:remainder-R}(ii) and $\mathcal A_0\le k^2H$, $r^{-2}(\mathcal A^{\eld}_r+\mathcal A_0)\le C[(\kappa^2+r^2)(\min(1,\kappa)^{1/2}+r^\beta)+\kappa^2]e^{-c'b^2}$. The integrals are $\int_{s_*\ell^{1/4}}^\infty\kappa^2dr=\ell^{1/4}s_*^{-7}/7$, $\int_{s_*\ell^{1/4}}^\infty\kappa^{5/2}dr=\ell^{1/4}s_*^{-9}/9$, $\int_{s_*\ell^{1/4}}^\infty\kappa^2r^\beta dr\le C\ell^{1/4+\beta/4}s_*^{-7+\beta}$, $\int_0^{\rho_1}r^2\kappa^{1/2}dr=\ell^{1/2}\rho_1$ and $\int_0^{\rho_1}r^{2+\beta}dr\le\rho_1^{3+\beta}$; the last two are $o(\ell^{1/4})$ because $(\frac1{12}-\varepsilon_0)(3+\beta)>\frac14$ by the choice of $\varepsilon_0$. So $|I_2|\le C\ell^{1/4}s_*^{-7}+o(\ell^{1/4})$.
+
+\emph{The terms $I_3,I_4,I_5$.} Lemma~\ref{lem:remainder-B} gives $0\le I_3\le C\ell^{1/3}(\rho_1^{-1}+\ell\rho_1^{-5})=O(\ell^{1/4+\varepsilon_0})$; $|I_4|\le C\ell^2\rho_1^{-7}=o(\ell^{1/4})$; Lemma~\ref{lem:remainder-far} gives $0\le I_5\le C\ell^{1/3}$.
+
+\emph{Conclusion.} The $\limsup$ and $\liminf$ of $\ell^{-1/4}(\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3})$ lie within $Cs_*^{-7}$ of $\int\!\int\!\int_0^{s_*}(\mathcal C^{\eld}-\mathcal C^{\mathrm{con}})\,ds\,db\,d\sigma$. The integrand equals $-12\pi_0\E_0[\mathrm{loss}(s)\mid b]$ with $\mathrm{loss}(s):=Y^2\ind\{|Y|<2s^{-4}|\Delta|\}+36s^{-8}\Delta^2\ind\{|Y|\ge2s^{-4}|\Delta|\}$ on $\{A\prec0\}$ (and $0$ off it); $\mathrm{loss}\ge0$, and with $s_1:=(2|\Delta|/|Y|)^{1/4}$, since $36\Delta^2s_1^{-8}=9Y^2$,
+\begin{equation}\label{eq:cusp-loss}
+\int_0^\infty\mathrm{loss}(s)\,ds=Y^2s_1+\frac{36}7\Delta^2s_1^{-7}=\frac{16}7\,Y^2s_1=\frac{16}7\,2^{1/4}|Y|^{7/4}|\Delta|^{1/4}.
+\end{equation}
+By Tonelli's theorem the $s$-integral over $(0,\infty)$ converges absolutely; letting $s_*\to\infty$ gives \eqref{eq:cusp-CU1} with $c_1=-12\int\!\int\pi_0\E_0[\frac{16}72^{1/4}|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\mid b]\,db\,d\sigma$, which is \eqref{eq:cusp-c1}. The expectation is finite (Gaussian moments; $\pi_0$ has Gaussian decay in $b$) and strictly positive, because $Y\ne0$ almost surely and $\{A\prec0\}$ has positive probability under the nondegenerate contact law; so $c_1<0$. The form \eqref{eq:cusp-c1parity} follows from the factorization $\pi_0(u;v_0(b,0))=p_{(f,V_u)}(b,0)\,p_G(0)\,(2\pi)^{-1/2}\tau_u^{-1}$ (the last factor is the density of $t_u$ given $G=0$, at $0$) and integration over $b$ \cite[\S15]{parentP} (Proposition~\ref{prop:parent-coef}). \qed
+
+\subsection{The candidate and rejected densities}\label{ssec:cusp-cand}
+
+For the candidate density no elder decision is needed, and the part of the remainder that is not carried by the cusp scale, the equal-height mass $B_{d,L}$, is reached at a Lipschitz rate in the gap, because the gap enters the pinned law affinely. By \eqref{eq:remainder-polar}, \eqref{eq:remainder-sep} and the definition of $B_{d,L}$, for every $r_0\in(0,r_0^*]$,
+\begin{equation}\label{eq:cusp-Bsplit}
+B_{d,L}=\int_0^{r_0}\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A_r(b,0,u)\,d\sigma\,db\,dr+\int_{\dist(0,y)\ge r_0}\int_\R\Psi_0\,db\,dy .
+\end{equation}
+
+\begin{lemma}[the gap enters Lipschitz]\label{lem:cusp-lipschitz}
+There are $C,c,N$ such that for $0<r\le r_0^*$, $b\in\R$, $u\in S^{d-1}$ and $0\le k\le1$,
+\begin{equation}\label{eq:cusp-L1}
+|\mathcal A_r(b,k,u)-\mathcal A_r(b,0,u)|\le C(k^2+kr^2)(1+|b|)^Ne^{-cb^2},
+\end{equation}
+and for every $r_0\in(0,r_0^*]$ there is $C_{r_0}$ such that, for $\dist(0,y)\ge r_0$ and $0\le\ell\le1$,
+\begin{equation}\label{eq:cusp-L2}
+|\Psi^{\cand}_\ell(b,y)-\Psi_0(b,y)|\le C_{r_0}\,\ell\,(1+|b|)^Ne^{-cb^2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+\emph{Affine structure.} The coupling of Proposition~\ref{prop:remainder-R}(i) realizes $Q_{r,b,k}$ as $F_r=F+C_r\Sigma_r^{-1}(v_r-U_r)$ with one unconditioned copy $F$ for all $(b,k)$, and the target $v_r=(b-kr^3/2,-kr^2,0,12k,0,\dots,0)$ is affine in $k$. Hence, writing $F_r^{(k)}$ for the field with gap mark $k$, $F_r^{(k)}=F_r^{(0)}+k\,\omega_r$, where $\omega_r:=C_r\Sigma_r^{-1}\delta v_r$ and $\delta v_r:=(-r^3/2,-r^2,0,12,0,\dots,0)$. The function $\omega_r$ is deterministic and pinned with $b=0$ and $k=1$ (that is, $U_r(\omega_r)=\delta v_r$), and $\|\omega_r\|_{C^7}\le\|C_r\|_{C^7}\|\Sigma_r^{-1}\|\,|\delta v_r|\le C$ uniformly in $r\le r_0^*$ and frames. Put $T_0:=1+\|F_r^{(0)}\|_{C^7}+\|\omega_r\|_{C^7}$; then $\|F_r^{(0)}\|_{C^7}\le\|F\|_{C^7}+C(|b|+|U_r|)$, so $\|T_0\|_{L^p}\le C_p(1+|b|)$, and $\|F_r^{(k')}\|_{C^7}\le T_0$ for $0\le k'\le1$.
+
+\emph{The typed product along the gap.} The scaled endpoint Hessians are linear in the field, so $K_i(k')=K_i(0)+k'K_i[\omega_r]$ with $\|K_i[\omega_r]\|\le C$ (by \eqref{eq:remainder-alpha} for the pinned $\omega_r$, $\alpha_i[\omega_r]=\mp6+O(r)$) and $\|K_i(k')\|\le CT_0$. Hence $\det K_i(k')$ is a polynomial in $k'$ with $|\partial_{k'}\det K_i|=|\tr(\adj K_i(k')\,K_i[\omega_r])|\le CT_0^{d-1}$. The typed product $w(k'):=F_d(K_M(k'))F_{d-1}(K_S(k'))$ is continuous on $[0,k]$: an index changes only where an eigenvalue crosses zero, where the corresponding determinant, hence $w$, vanishes. Between the finitely many zeros of the polynomial $p:=\det K_M\det K_S$ (if $p\equiv0$ then $w\equiv0$), $w=\pm p$ or $w=0$, so for every realization
+\[
+|w(k)-w(0)|\le\int_0^k\bigl|\partial_{k'}(\det K_M\det K_S)\bigr|\,\ind\{\mathrm{typed}(k')\}\,dk' .
+\]
+On $\mathrm{typed}(k')$ the two determinants have opposite signs, and Steps~1--3 of the proof of Lemma~\ref{lem:remainder-even} with the remainder bound of \eqref{eq:remainder-detK}, applied to the pinned $C^7$ function $F_r^{(k')}$ with $D_y^2F_r^{(k')}(0)$ in place of $A_0$, give $\det K_{M,S}(k')=\mp6k'\Delta'+rY'+R_{M,S}$ with $|R_i|\le Cr^2T_0^{N_1}$; so, as in the proof of Lemma~\ref{lem:remainder-W}, $|\det K_i(k')|\le12k'T_0^m+2Cr^2T_0^{N_1}$. Hence $|\partial_{k'}(\det K_M\det K_S)|\le C(k'+r^2)T_0^N$ on $\mathrm{typed}(k')$, so $|w(k)-w(0)|\le C(k^2+kr^2)T_0^N$, and taking expectations, $|Z_r/r^2(b,k,u)-Z_r/r^2(b,0,u)|\le C(k^2+kr^2)(1+|b|)^N$.
+
+\emph{The density factor.} $\pi_r(v_r(b,\cdot))$ is a Gaussian density with covariance uniformly invertible for $r\le r_0^*$, evaluated at a target affine in $k$: $|\pi_r(v_r(b,k))-\pi_r(v_r(b,0))|\le Ck(1+|b|)e^{-cb^2}$. With $Z_r/r^2\le C(k^2+r^4)(1+|b|)^N$ (Lemma~\ref{lem:remainder-W}) and $\mathcal A_r=12\pi_r(v_r)Z_r/r^2$, \eqref{eq:cusp-L1} follows ($k^3\le k^2$, $kr^4\le kr^2$).
+
+\emph{Proof of \eqref{eq:cusp-L2}.} The same argument with the two-site regression in place of the near one: by Proposition~\ref{prop:remainder-Z}(ii), $f_\ell=f_0+\ell h_y$ with $f_0$ of law $Q_{y,b,0}$ and $h_y$ deterministic. On the compact set $D_{r_0}=\{\dist(0,y)\ge r_0\}$ the uniform facts of the proof of Lemma~\ref{lem:remainder-far} apply: $\lambda_{\min}(\Cov O_y)\ge c_0>0$, the regression functions $\psi^y_j$ are bounded in $C^3$ uniformly (so $h_y=-\psi^y_{f(y)}$, the regression function of the coordinate $f(y)$, has $\sup_y\|h_y\|_{C^2}\le C_{r_0}$), the Hessian moments under $Q_{y,b,\ell}$ are at most $C_p(1+|b|)^p$ uniformly in $y\in D_{r_0}$ and $\ell\in[0,1]$ (\eqref{eq:remainder-Kmom} at $\ell=0$ by the same proof), and $|\partial_\ell p_y(v_{b,\ell})|=p_y(v_{b,\ell})|(\Gamma_y^{-1}v_{b,\ell})_{f(y)}|\le C_{r_0}(1+|b|)e^{-cb^2}$. The typed product $W(f_\ell)$ is continuous and piecewise polynomial in $\ell$ for the same reason, with $|\partial_\ell(\det H_0\det H_y)|\le C(\|f_0\|_{C^2}+\|h_y\|_{C^2})^{2d-1}\|h_y\|_{C^2}$.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cusp-CUprime}]
+Fix $s_*\ge1$ and $r_0\in(0,r_0^*]$, and let $\ell$ be so small that $s_*\ell^{1/4}<r_0$. By \eqref{eq:remainder-sep}, \eqref{eq:remainder-lead}, \eqref{eq:remainder-far} and \eqref{eq:cusp-Bsplit},
+\[
+\nu_{\cand}(\ell)-c_{d,L}\ell^{-1/3}-B_{d,L}=J_1-J_2+J_3-J_4+J_5,
+\]
+where, with the inner integrals over $d\sigma(u)\,db$,
+\[
+\begin{gathered}
+J_1:=\int_{r<s_*\ell^{1/4}}\!\int\!\!\int r^{-2}(\mathcal A_r-\mathcal A_0)(b,\ell/r^3,u),\qquad J_2:=\int_{r<s_*\ell^{1/4}}\!\int\!\!\int r^{-2}\mathcal A_r(b,0,u),\\
+J_3:=\int_{s_*\ell^{1/4}\le r<r_0}\!\int\!\!\int r^{-2}\bigl[\mathcal A_r(b,\ell/r^3,u)-\mathcal A_r(b,0,u)\bigr],\qquad J_4:=\int_{r\ge s_*\ell^{1/4}}\!\int\!\!\int r^{-2}\mathcal A_0(b,\ell/r^3,u),\\
+J_5:=\int_{\dist(0,y)\ge r_0}\int_\R(\Psi^{\cand}_\ell-\Psi_0)\,db\,dy .
+\end{gathered}
+\]
+The term $J_1$ is $I_1$ of \S\ref{ssec:cusp-proof} with $\mathcal A_r$ in place of $\mathcal A^{\eld}_r$: Lemma~\ref{lem:remainder-even} gives the majorant $|r^{-2}(\mathcal A_r-\mathcal A_0)|\le H(b,k)\le Ce^{-cb^2}$ on the whole range, and the pointwise limit is the candidate part of Theorem~\ref{thm:cusp-kernels} (steps (i), (ii), (iv), (v); Proposition~\ref{prop:cusp-stable} is not used), so $J_1=\ell^{1/4}[\int\!\int\!\int_0^{s_*}(\mathcal C^{\cand}-\mathcal C^{\mathrm{con}})(b,s^{-4},u)\,ds\,db\,d\sigma+o(1)]$.
+By \eqref{eq:remainder-W1} at $k=0$, $0\le r^{-2}\mathcal A_r(b,0,u)\le Cr^2(1+|b|)^Ne^{-cb^2}$, so $J_2=O(s_*^3\ell^{3/4})$.
+On $r\ge s_*\ell^{1/4}$ we have $k=\ell/r^3\le1$, and \eqref{eq:cusp-L1} gives $|J_3|\le C\int_{s_*\ell^{1/4}}^\infty(\ell^2r^{-8}+\ell r^{-3})\,dr\le C(\ell^{1/4}s_*^{-7}+\ell^{1/2}s_*^{-2})$.
+Since $\mathcal A_0\le k^2H$, $0\le J_4\le C\ell^{1/4}s_*^{-7}$, and $|J_5|\le C_{r_0}\ell$ by \eqref{eq:cusp-L2}, which is also the far statement of the theorem.
+Hence the $\limsup$ and $\liminf$ of $\ell^{-1/4}(\nu_{\cand}(\ell)-c_{d,L}\ell^{-1/3}-B_{d,L})$ lie within $Cs_*^{-7}$ of $\int\!\int\!\int_0^{s_*}(\mathcal C^{\cand}-\mathcal C^{\mathrm{con}})\,ds\,db\,d\sigma$. The integrand is $-12\pi_0\E_0[\min(Y^2,36s^{-8}\Delta^2)\ind\{A\prec0\}\mid b]$, because $w^{\cand}-w^{\mathrm{con}}=-\min(Y^2,36\kappa^2\Delta^2)$ on $\{A\prec0\}$; with $s_2:=(6|\Delta|/|Y|)^{1/4}$,
+\begin{equation}\label{eq:cusp-mininteg}
+\int_0^\infty\min\bigl(Y^2,36s^{-8}\Delta^2\bigr)\,ds=Y^2s_2+\frac{36}7\Delta^2s_2^{-7}=\frac87\,Y^2s_2=\frac87\,6^{1/4}|Y|^{7/4}|\Delta|^{1/4}.
+\end{equation}
+Letting $s_*\to\infty$ gives \eqref{eq:cusp-CUp1} with \eqref{eq:cusp-Icand}; $I^{\cand}/c_1=\frac87 6^{1/4}/(\frac{16}7 2^{1/4})=3^{1/4}/2$. Subtracting \eqref{eq:cusp-CU1} from \eqref{eq:cusp-CUp1} gives \eqref{eq:cusp-CUp2}.
+\end{proof}
+
+\begin{remark}[the rejected coefficient]\label{rem:cusp-rejected}
+The difference of the two losses, $(36\kappa^2\Delta^2-Y^2)\ind\{2\kappa|\Delta|\le|Y|<6\kappa|\Delta|\}\ge0$, is the weight of the typed cusp-scale pairs outside the elder window ($\frac13\le|\varphi|<1$), and $\int_0^\infty(\mathrm{loss}-\min(Y^2,36s^{-8}\Delta^2))\,ds=\frac{16}7Y^2s_1-\frac87Y^2s_2=\frac87(2^{5/4}-6^{1/4})|Y|^{7/4}|\Delta|^{1/4}$. So the excess of the rejected density over $B_{d,L}$ in \eqref{eq:cusp-CUp2} is the rejected part of the cusp-scale typed pairs.
+\end{remark}
+
+\begin{remark}[the crossover]\label{rem:cusp-crossover}
+At fixed $\kappa$ the elder share of the typed weight is the weight of $\{|\varphi|<\frac13\}$ inside $\{|\varphi|<1\}$, with weight $36\kappa^2\Delta^2(1-\varphi^2)$. As $\kappa\to\infty$ (the cap regime $r\ll k$) the rejected weighted mass concentrates on $|\Delta|\lesssim|Y|/\kappa$ and is of order $1/\kappa=r/k$, the scaling $r^3/k$ of the mass in Proposition~\ref{prop:remainder-K}. As $\kappa\to0$ the typed weight is $O(\kappa)$ of the contact weight, and within it the elder share tends to $13/27$, since $\int_{|y|<c\kappa|\Delta|}(36\kappa^2\Delta^2-y^2)\,dy=\kappa^3|\Delta|^3(72c-\frac23c^3)$ and $\frac{416/3}{288}=\frac{13}{27}$ for $c=2$ against $c=6$. The equal-height limit of Proposition~\ref{prop:remainder-Z}(i), in which all candidates are rejected, is the different limit $k\to0$ at fixed $r$, which does not commute with this one. The cusp scale $r\asymp k$ is the crossover between the two regimes, and the elder rule on it is the single number $1/3$.
+\end{remark}
+
+\subsection{The value of \texorpdfstring{$c_1$}{c1}}\label{ssec:cusp-value}
+
+The integral \eqref{eq:cusp-c1} is defined for every $d\ge1$; for $d=1$, $A$ is empty, $\Delta=1$ and $Y=f_4/12$, and \eqref{eq:cusp-c1} is the coefficient $C_1$ of the one-dimensional law of \S5.4 of the main text. We enclose it for the Gaussian kernel $e^{-|z|^2/2}$ on $\R^d$ and transfer the enclosure to the periodized fields of side $L\ge24$. Write $c_{d,\infty}$ for the leading coefficient $c_{d,L}$ computed for the Gaussian kernel on $\R^d$ (for $d=3$ it is (2.11) of the main text), and $c_1^{(\infty)}$, $c_1^{(L)}$ for \eqref{eq:cusp-c1} computed for the Gaussian kernel and for the field of Convention~\ref{conv:remainder-notation}(a).
+
+\begin{lemma}[the zero-gap contact law of the Gaussian kernel]\label{lem:cusp-gauss}
+For the Gaussian kernel on $\R^d$ and every direction $u$, under $\E_0[\,\cdot\mid b]$: $f_4\sim N(-3b,24)$; $\gamma\sim N(0,2I_m)$; $A=-bI_m+G$ with $G$ symmetric, $G_{jj}\sim N(0,2)$ and $G_{jk}\sim N(0,1)$ for $j<k$; all of these are independent; and $\pi_0(u;v_0(b,0))=(2\pi)^{-(d+1)}12^{-1/2}e^{-3b^2/4}$.
+\end{lemma}
+
+\begin{proof}
+For the Gaussian kernel $K$ and multi-indices $\mathsf a,\mathsf b$, $\Cov(\partial^{\mathsf a}f,\partial^{\mathsf b}f)=(-1)^{|\mathsf b|}\partial^{\mathsf a+\mathsf b}K(0)$, with $\partial^{\mathsf g}K(0)=\prod_i(-1)^{\mathsf g_i/2}(\mathsf g_i-1)!!$ for even $\mathsf g$ and $0$ otherwise. The odd jets $(\partial_uf,\nabla_\Theta f,\partial_u^3f,\gamma)$ are uncorrelated with the even jets. Each $\gamma_j$ has variance $3$, covariance $-1$ with $\partial_{\theta_j}f$ and no other correlation with the pinned odd jets or with the other $\gamma$'s, so given the pins its variance is $2$; $\tau_u^2=\Var(\partial_u^3f\mid\nabla f=0)=15-9=6$, so the density of $\partial_u^3f$ given $\nabla f=0$ is $(12\pi)^{-1/2}$ at $0$, and $p_G(0)=(2\pi)^{-d/2}$. The even vector $(f,V_u)$ has covariance $\bigl(\begin{smallmatrix}1&-1\\-1&3\end{smallmatrix}\bigr)\oplus I_m$, with determinant $2$ and inverse $(1,1)$ entry $3/2$, so $p_{(f,V_u)}(b,0)=(2\pi)^{-(d+1)/2}2^{-1/2}e^{-3b^2/4}$. Regression on $(f,V_u)=(b,0)$ gives $\E f_4=-3b$, $\Var f_4=105-81=24$, $\E A_{jj}=-b$, $\Var A_{jj}=3-1=2$, $\Cov(A_{jj},A_{kk})=1-1=0$, $\Var A_{jk}=1$ and $\Cov(f_4,A_{jj})=-3-(-3)=0$; all other covariances vanish by the parity of the individual indices. Multiplying the three density factors gives $\pi_0$.
+\end{proof}
+
+\begin{theorem}[enclosures for the Gaussian kernel]\label{thm:cusp-enclosure}
+For the Gaussian kernel on $\R^d$, the integral $c_1=c_1^{(\infty)}$ of \eqref{eq:cusp-c1} and $I^{\cand}=\frac{3^{1/4}}2c_1$ satisfy
+\begin{center}
+\begin{tabular}{@{}cll@{}}
+\toprule
+$d$ & quantity & enclosure\\
+\midrule
+$1$ & $c_1$ & $[-0.22760635877558,\,-0.22760635877504]$\\
+ & $I^{\cand}$ & $[-0.14977340698364,\,-0.14977340698328]$\\
+ & $I^{\cand}-c_1$ & $[0.077832951791707,\,0.077832951791985]$\\
+\midrule
+$2$ & $c_1$ & $[-0.269398825674,\,-0.269398825672]$\\
+ & $I^{\cand}$ & $[-0.177274396795,\,-0.177274396793]$\\
+ & $I^{\cand}-c_1$ & $[0.0921244288786,\,0.0921244288791]$\\
+\midrule
+$3$ & $c_1$ & $[-0.211848347,\,-0.211848346]$\\
+ & $I^{\cand}$ & $[-0.139404052,\,-0.139404051]$\\
+ & $I^{\cand}-c_1$ & $[0.0724442943,\,0.0724442950]$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Moreover $c_{2,\infty}\in[0.0734069193059,0.0734069193062]$, $c_{3,\infty}\in[0.0417759318405,0.0417759318407]$, and
+\[
+c_1/c_{2,\infty}\in[-3.66993776909,\,-3.66993776907],\qquad c_1/c_{3,\infty}\in[-5.07106215,\,-5.07106213].
+\]
+The ratios are enclosed from the unrounded enclosures of the computation,
+\[
+\begin{gathered}
+c_1\in[-0.2693988256731888,\,-0.2693988256725268]\quad(d=2),\\
+c_1\in[-0.2118483463910089,\,-0.2118483460317414]\quad(d=3),
+\end{gathered}
+\]
+and from $c_{2,\infty}=0.07340691930603427103\ldots$ and $c_{3,\infty}=0.04177593184059834334\ldots$, the values of the closed form of $c[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed}; dividing the rounded entries of the table gives slightly wider intervals.
+For $d=1$, $c_1=-\frac{384}7\,2^{1/4}\,12^{-9/4}(2\pi)^{-2}\sqrt{4\pi/3}\;30^{7/8}\,2^{7/8}\,\Gamma(11/8)/\sqrt\pi$.
+\end{theorem}
+
+\begin{lemma}[Gauss--Legendre error on an ellipse]\label{lem:cusp-quad}
+Let $F$ be analytic in the open Bernstein ellipse $\frac{a+b}2+hE_\rho$ of $[a,b]$, where $h=\frac{b-a}2$ and $E_\rho$ is the ellipse with foci $\pm1$ and sum of semi-axes $\rho>1$, and let $|F|\le M_F$ there. Then the $n$-point Gauss--Legendre rule $Q_n$ on $[a,b]$ satisfies
+\[
+\Bigl|\int_a^bF-Q_nF\Bigr|\le h\cdot4M_F\Bigl(1+\frac1{4n^2-1}\Bigr)\frac{\rho^{-2n}}{1-\rho^{-2}} .
+\]
+\end{lemma}
+
+\begin{proof}
+On $[-1,1]$ the Chebyshev coefficients of $F$ satisfy $|a_k|\le2M_F\rho^{-k}$. The rule $Q_n$ is exact up to degree $2n-1$ and, by symmetry, on odd $T_k$. For even $k$, $|\int_{-1}^1T_k|\le2/(k^2-1)$ and $|Q_nT_k|\le\sum w=2$. Summing over even $k\ge2n$ and scaling to $[a,b]$ gives the bound.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cusp-enclosure} (method)]
+The enclosures are computer-assisted; we describe the method, which is that of the certificate in record [R12] of the main text.
+
+\emph{Reduction.} The kernel is isotropic, so the $u$-integral is $|S^{d-1}|$ times the value at $u=e_1$ ($|S^0|=2$, $|S^1|=2\pi$, $|S^2|=4\pi$), and Lemma~\ref{lem:cusp-gauss} makes the inner expectation an explicit Gaussian integral. The power is written as $|y|^p=K_p^{-1}\int_0^\infty(1-\cos\omega y)\,\omega^{-1-p}\,d\omega$ for $0<p<2$, $K_p=\pi/(2\Gamma(1+p)\sin(\pi p/2))$, at $p=7/4$; by Tonelli's theorem, applied to the nonnegative function $(1-\cos\omega Y)\omega^{-11/4}$ times the nonnegative determinant and cone weight, $\E|Y|^{7/4}=K_{7/4}^{-1}\int_0^\infty(1-\operatorname{Re}\E e^{i\omega Y})\,\omega^{-11/4}\,d\omega$, the bounded characteristic function being integrated against the finite Gaussian weight at each fixed $\omega$, and the two terms are never split into separately divergent integrals. Given $(A,b)$, $Y$ is a Gaussian linear term in $f_4$ plus a quadratic form in $\gamma$, so its characteristic function is explicit, and the $b$-integral is Gaussian. For $d=1$, averaging over $b$ makes $f_4$ a centred normal of variance $30$, and $\E|Z|^{7/4}=2^{7/8}\Gamma(11/8)/\sqrt\pi$ gives the closed form. For $d=2$ the integrals over $b$ and over $a=-A>0$ are done in closed form, which leaves an explicit constant times a one-dimensional integral with an analytic integrand. For $d=3$, write $A\prec0$ through its eigenvalues $-a_1\le-a_2<0$ (Lebesgue measure on $2\times2$ symmetric matrices is $|\lambda_1-\lambda_2|\,d\lambda_1d\lambda_2d\theta$, $\theta\in[0,\pi)$); the substitution $a_1=s^4$, $a_2=a_1v^4$, $\omega=t^4/a_1$ gives
+\[
+\begin{gathered}
+c_1=-\frac{192}7\,2^{1/4}\cdot4\pi\,(2\pi)^{-11/2}\,12^{-1/2}\cdot\tfrac12\sqrt{4\pi/5}\cdot\pi\cdot K_{7/4}^{-1}\,T_3,\\
+T_3=64\int_0^\infty\!\!ds\int_0^1\!\!dv\int_0^\infty\!\!dt\;s^{20}v^4(1-v^4)\,e^{-s^8E(v)}\,\frac{1-\operatorname{Re}\Phi}{t^8},
+\end{gathered}
+\]
+with $E(v)=(2v^8-v^4+2)/10\ge3/16$ and $\Phi=(1-i\omega a_1)^{-1/2}(1-i\omega a_2)^{-1/2}\exp(-i\omega a_1a_2(a_1+a_2)/20-23\omega^2(a_1a_2)^2/240)$. The integrands are written in a cancellation-free form ($1-\operatorname{Re}\Phi=-(e^{\mathcal R}-1)+e^{\mathcal R}\,2\sin^2(\mathcal I/2)$ with $\mathcal R+i\mathcal I=\log\Phi$, expressed through the analytic functions $(e^x-1)/x$, $\log(1+x)/x$, $\arctan(x)/x$ and $\sin(x)/x$), so that no step divides by a small quantity.
+
+\emph{Quadrature with certified error.} Each one-dimensional integral is computed by Gauss--Legendre rules with the error bound of Lemma~\ref{lem:cusp-quad}. The bound $M_F$ is obtained by interval evaluation over complex boxes covering the closed Bernstein ellipse, with one representation of the integrand on all the boxes of an ellipse. If that representation evaluates without exception on every box, each principal branch being evaluated off its cut, it is analytic on a neighbourhood of the ellipse; since it agrees with the integrand on the real interval, it is the analytic continuation of the integrand there, by the identity theorem. On the real axis $\operatorname{Re}\Phi=\frac12(\Phi+\Phi^*)$ with $\Phi^*(z)=\overline{\Phi(\bar z)}$, and this form is the one continued. The nodes are certified in exact rational arithmetic and the weights are enclosed. For $d=3$ the region $s\le3$, $t\le15$ is cut into $247$ boxes adapted to the branch points at $|v|=1/t$: $76$ boxes, on which the nonnegative integrand is below $10^{-12}$ in total, are enclosed by $[0,\text{volume}\times\sup]$, and the other $171$ by tensor Gauss--Legendre rules, each to $10^{-11}$; the tails $t>15$ (through $|\Phi|\le t^{-2}$ on the real axis and $\int_0^\infty s^{20}e^{-s^8E}ds=\Gamma(21/8)/(8E^{21/8})$) and $s>3$ (below $10^{-280}$) are bounded explicitly. For $d=2$ fifteen panels are each computed to $5\cdot10^{-16}$, with an explicit tail. On a box of the $d=3$ cover, with $I_j$ the integral and $Q_j$ the rule in the $j$-th variable, $I_1I_2I_3-Q_1Q_2Q_3=(I_1-Q_1)I_2I_3+Q_1(I_2-Q_2)I_3+Q_1Q_2(I_3-Q_3)$, and each term is bounded by Lemma~\ref{lem:cusp-quad} in one variable, uniformly in the others, as the weights are positive.
+
+\emph{Arithmetic.} All operations are in binary64 interval arithmetic with one-ulp outward rounding; $\pi$, $\ln2$, $\exp$, $\log$, $\arctan$, $\sin$, $\cos$ and $\log\Gamma$ are computed from series with explicit remainder bounds, and no library transcendental function is trusted. The results are widened by $10^{-12}$ relative and rounded outward; the coefficients $c_{d,\infty}$ are enclosed from their closed forms. Floating-point recomputations by routes that avoid the Mellin identity give $-0.269398825672854$ ($d=2$) and $-0.211848346210999$ ($d=3$), inside the enclosures.
+\end{proof}
+
+\begin{lemma}[transfer to the torus]\label{lem:cusp-transfer}
+Let $d\in\{2,3\}$ and $L\ge24$, and let $C_L$ be the covariance matrix of the $N$ jets entering \eqref{eq:cusp-c1} for the field with covariance $\sum_{n\in\Z^d}e^{-|z+Ln|^2/2}$, normalized to variance one or not, in an orthonormal frame $(u,\Theta)$, and $C_0$ that of the Gaussian kernel; here $N=9$ for $d=2$ and $N=14$ for $d=3$, counting the $2d+2$ pinned coordinates and the free jets $(f_4,\gamma,A)$. Put $E:=(764\cdot24^8\cdot4374+105\cdot54)\cdot10^{-125}\le3.7\cdot10^{-108}$, $\mu:=1/4$, $\varepsilon:=NE/\mu$ and $\bar N:=N/2+1$. Then $(1-\varepsilon)C_0\preceq C_L\preceq(1+\varepsilon)C_0$ in every frame, and
+\[
+\bigl|c_1^{(L)}/c_1^{(\infty)}-1\bigr|\le\eta:=8\bar N\varepsilon,
+\]
+with $\varepsilon\le1.4\cdot10^{-106}$, $\eta\le5.9\cdot10^{-105}$ for $d=2$ and $\varepsilon\le2.1\cdot10^{-106}$, $\eta\le1.4\cdot10^{-104}$ for $d=3$.
+\end{lemma}
+
+\begin{proof}
+\emph{Image bound.} Every covariance entry is $(-1)^{|\mathsf b|}D^{|\mathsf a|+|\mathsf b|}K(0)$ contracted with frame vectors, of total order $q\le8$ ($\Cov(f_4,f_4)=\partial_u^8K(0)$). Let $K_\infty(x):=e^{-|x|^2/2}$. For unit $v_i$, $D^qK_\infty(x)[v_1,\dots,v_q]$ is $K_\infty(x)$ times a sum over the partial matchings of $\{1,\dots,q\}$ of products of the factors $-\langle v_i,v_j\rangle$ and $-\langle x,v_i\rangle$; so $|D^qK_\infty(x)[v]|\le T_8|x|^8K_\infty(x)$ for $|x|\ge1$, with $T_8=764$ partial matchings of eight points, and $|D^qK_\infty(0)[v]|\le7!!=105$. For $d\le3$ the shell $\max_i|n_i|=j$ has at most $27j^3$ points, all with $|n|^2\le3j^2$, and consecutive shell terms shrink by at least $\frac12$; so $\sum_{n\ne0}|n|^8e^{-288|n|^2}\le4374e^{-288}$ and $S_{24}-1\le54e^{-288}$, where $S_L=\sum_ne^{-L^2|n|^2/2}$. Also $e^{288/125}>10$, so $e^{-288}<10^{-125}$, and $L^8e^{-L^2|n|^2/2}$ decreases in $L$ once $L|n|\ge3$, so the bound at $L=24$ holds for every $L\ge24$. Writing $D^qK_L(0)-D^qK_\infty(0)=S_L^{-1}\sum_{n\ne0}D^qK_\infty(Ln)+D^qK_\infty(0)(S_L^{-1}-1)$, every entry of $C_L-C_0$ is at most $E$ in absolute value (the unnormalized periodization has only the first term).
+
+\emph{Sandwich.} $C_0-\frac14I$ is positive definite (an exact $LDL^{\top}$ factorization has all pivots positive; $\lambda_{\min}(C_0)\approx0.258$ for $d=3$), so $|x^{\top}(C_L-C_0)x|\le NE|x|^2\le\varepsilon\,x^{\top}C_0x$.
+
+\emph{Transfer.} Write the integral of \eqref{eq:cusp-c1} at direction $u$ as $I_u(C)=\int db\int dW\,\mathsf F(W)\,p_C(b,0,W)$, where $p_C$ is the centred Gaussian density with covariance $C$, $2d+1$ pinned coordinates are fixed at $0$, $W$ are the free jets and $\mathsf F=|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\ge0$; $\pi_0\E_0[\mathsf F\mid b]$ is exactly this slice integral of the joint density. $\mathsf F$ is homogeneous of degree $2d-\frac14$ in the free jets ($Y$ has degree $d$ and $\Delta$ degree $d-1$), so the substitution $(b,W)\mapsto\sqrt a\,(b,W)$ gives $I_u(aC_0)=a^{-5/8}I_u(C_0)$. From $(1-\varepsilon)C_0\preceq C\preceq(1+\varepsilon)C_0$ follow $\det C\ge(1-\varepsilon)^N\det C_0$, $C^{-1}\succeq C_0^{-1}/(1+\varepsilon)$ and symmetrically, hence the pointwise sandwich
+\[
+\Bigl(\frac{1-\varepsilon}{1+\varepsilon}\Bigr)^{N/2}p_{(1-\varepsilon)C_0}\le p_C\le\Bigl(\frac{1+\varepsilon}{1-\varepsilon}\Bigr)^{N/2}p_{(1+\varepsilon)C_0}.
+\]
+Integrating against $\mathsf F\ge0$ gives $I_u(C_L)/I_u(C_0)\in[\varrho^{-\bar N},\varrho^{\bar N}]$ with $\varrho=(1+\varepsilon)/(1-\varepsilon)$; as $\log\varrho\le4\varepsilon$ and $e^x\le1+2x$ on $[0,1]$, this lies within $8\bar N\varepsilon$ of $1$. Since $I_u(C_0)$ does not depend on $u$, integrating over $S^{d-1}$ preserves the bound.
+\end{proof}
+
+\begin{corollary}[the periodized fields]\label{cor:cusp-torus}
+Let $L\ge24$. For $d=3$,
+\[
+c_1^{(L)}\in[-0.211848347,\,-0.211848346],\qquad I^{\cand,(L)}\in[-0.139404052,\,-0.139404051],
+\]
+and, with the enclosure $c_{3,24}\in[0.04177593184059834334,\,0.04177593184059834335]$ quoted in Theorem~2.3(iii) of the main text,
+\[
+c_1^{(24)}/c_{3,24}\in[-5.07106215,\,-5.07106213].
+\]
+For $d=2$,
+\[
+c_1^{(L)}\in[-0.269398825674,\,-0.269398825672],\quad I^{\cand,(L)}\in[-0.177274396795,\,-0.177274396793],
+\]
+and, with $c_{2,24}\in[0.07340691930603427103,\,0.07340691930603427104]$,
+\[
+c_1^{(24)}/c_{2,24}\in[-3.66993776909,\,-3.66993776907].
+\]
+\end{corollary}
+
+\begin{proof}
+Theorem~\ref{thm:cusp-enclosure} and Lemma~\ref{lem:cusp-transfer}; in binary64 the factor $[1-\eta,1+\eta]$ is enclosed by the one-ulp interval around $1$, and the intervals are rounded outward. The ratios are formed, as in Theorem~\ref{thm:cusp-enclosure}, from the unrounded enclosures of $c_1$ stated there, the factor $[1-\eta,1+\eta]$ and the quoted enclosures of $c_{3,24}$ and $c_{2,24}$. The enclosure of $c_{2,24}$ is obtained as follows. By Definition~\ref{def:correction-coef} at $d=2$, $c_{2,24}$ and $c_{2,\mathrm{ref}}$ are the values of the coefficient expression $c_d[\,\cdot\,]$ at $K_{24}$ and at $\varphi$ (the symbol $c_2[\,\cdot\,]$ is reserved for Definition~\ref{def:ctwo-c2}), and Theorem~\ref{thm:correction-main} for $d=2$ gives $c_{2,24}=c_{2,\mathrm{ref}}\bigl(1+P_2(24)q+\varepsilon\bigr)$ with $|P_2(24)q|<3\cdot10^{-118}$ and $|\varepsilon|<10^{-216}$. For $d=2$ and $K=\varphi$, the quantities of Definition~\ref{def:correction-coef} do not depend on $t$: $\Cov g_t=I_2$, $\Cov h_t=\mathrm{diag}(3,1)$, $\tau_t^2=15-9=6$, and $A_t=\partial_n^2f(0)$ has conditional variance $3-\frac13=\frac83$ given $h_t=0$, so $D_t=\frac43$. Hence \eqref{eq:correction-coef} gives $c_{2,\mathrm{ref}}=\Gamma(\frac76)(\frac32)^{1/3}\frac43/(2\sqrt3\,\pi^{3/2})=\Gamma(\frac16)\,12^{-1/6}/(9\pi^{3/2})$, the value of $c[K_{\mathrm{ref}}]$ for $d=2$ in Theorem~\ref{thm:ctwo-closed}. Outward-rounded interval arithmetic at $300$ digits (\path{checks/s9_c2_d2_check.py}, which also derives these moments symbolically) encloses this number and the factor, and gives the stated enclosure of $c_{2,24}$.
+\end{proof}
+
+\begin{remark}[how the enclosed ratio is read]\label{rem:cusp-reading}
+What Corollary~\ref{cor:cusp-torus} encloses for $d=3$, $L=24$ is the ratio of the integral \eqref{eq:cusp-c1}, evaluated for the side-24 field, to $c_{3,24}$. Its reading as the relative correction $(c_1/c_{3,24})\ell^{7/12}$ in \eqref{eq:cusp-CU1}, that is, in (2.14) of the main text, uses two inputs that the enclosure itself does not supply: Theorem~\ref{thm:cusp-CU}, which identifies the integral as the coefficient of $\ell^{1/4}$ in $\nu_{3,24}$, and the enclosure of $c_{3,24}$ quoted in Corollary~\ref{cor:cusp-torus}. Likewise, the intervals for $I^{\cand}$ enclose $\frac{3^{1/4}}2$ times the integral; their reading as the coefficient of $\ell^{1/4}$ in $\nu_{\cand}$ uses Theorem~\ref{thm:cusp-CUprime}.
+\end{remark}

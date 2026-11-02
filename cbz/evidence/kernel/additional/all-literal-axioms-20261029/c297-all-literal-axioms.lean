@@ -1,0 +1,14 @@
+import RegularSuperlevelLiteral
+#print axioms UniversalLaw.Spec.Lifetime.regularPointDerivative_range_eq_top
+#print axioms UniversalLaw.Spec.Lifetime.regularPointHasStrictFDerivAt
+#print axioms UniversalLaw.Spec.Lifetime.regularPointChart_fst
+#print axioms UniversalLaw.Spec.Lifetime.regularPointChart_self
+#print axioms UniversalLaw.Spec.Lifetime.mem_regularPointChart_source
+#print axioms UniversalLaw.Spec.Lifetime.mem_regularPointChart_target
+#print axioms TorusRegularSuperlevel.path_connected_basis_of_openEmbedding
+#print axioms TorusRegularSuperlevel.path_connected_basis_of_open
+#print axioms TorusRegularSuperlevel.path_connected_basis_of_relative_chart
+#print axioms TorusRegularSuperlevel.closed_superlevel_basis_of_chart
+#print axioms TorusRegularSuperlevel.closed_superlevel_interior_basis
+#print axioms TorusRegularSuperlevel.closed_superlevel_regular_basis
+#print axioms TorusRegularSuperlevel.closed_superlevel_path_connected_basis

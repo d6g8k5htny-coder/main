@@ -32,6 +32,24 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Two explicit source paths (2026-10-30)
+
+Rows 67 and 258 now spell out their repository-root source paths. Their former
+unit-local `reviews/REVIEW_A_V2.md` and
+`companions/COLLISION_TRANSFER_THEOREM.md` spellings collided with configured
+repository-root prefixes, producing two incorrect derived source vertices.
+The [bounded repair record](../../docs/superpowers/plans/2026-10-29-source-path-repair.md)
+pins the actual Math `9f8dbb4d` blobs and SHA-256 identities. Neither former
+repository-root path exists at that cut; both intended unit-local sources do.
+
+Only those two source-member identities change. All 344 other rows, every
+non-source cell, existing implementation memberships, graph nodes, bounds and
+scientific qualifications remain. Counts stay 346 units / 1437 vertices /
+346 edges, source 220/126, implemented 298/48, placeholder 30 and bound 14.
+This is a path correction, not new proof coverage, implementation applicability
+or scientific acceptance. The builder, configuration, tests and gates are
+unchanged. Historical snapshots below retain their original source cuts.
+
 ## Determinant post-511 membership supplement (2026-10-28)
 
 346 ledger rows /1437 vertices /346 ordered hyperedges. Existing row345

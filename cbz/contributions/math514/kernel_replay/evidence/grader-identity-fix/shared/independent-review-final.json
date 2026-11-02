@@ -1,0 +1,64 @@
+{
+  "verdict": "CLEAR_SCOPED_ENGINEERING",
+  "scope": "Source/evidence review of final ordinary unittest declaration/identity loader repair; no full G0, scanner, Lean, mathematical, hosted or federation acceptance claim",
+  "final_bindings": {
+    "kernel_replay/run_tests.py": "2c54e05593641f0b20dc565d5b8e24cdd819f739d7f38b5130631402d5616efb",
+    "kernel_replay/tests/test_mutation_harness.py": "c16063e29d3e91b315120f1143ec6763608bb5ed33d90af6fa839f82ed489022",
+    "layer_a/mutation_test.py": "cf742de46c1e386deeb11b122ed5bccdcab0778666b0b2774fab78e57eed1ad2",
+    "layer_a/tests/test_mutation_runner.py": "9ecf6dbdc0cf30ecf1b9c4f72d6cda21bc8bfe4eac3a5383ebe4e8b1e93a2866"
+  },
+  "closed_findings": [
+    {
+      "id": "IDENTITY-REVIEW-F1",
+      "boundary": "Custom TestCase constructors/metaclasses/attribute dispatch are refused before instantiation; declared function/code chains are captured before standard construction and compared afterward."
+    },
+    {
+      "id": "IDENTITY-REVIEW-F2",
+      "boundary": "Default discovery enumerates actual ordinary-module dictionary declarations and does not invoke module __dir__ or __getattr__."
+    },
+    {
+      "id": "IDENTITY-REVIEW-F3",
+      "boundary": "Named selector traversal checks the supported TestCase profile before class attribute access, uses raw static declaration inspection, and refuses non-module/non-class proxy/factory traversal."
+    },
+    {
+      "id": "IDENTITY-REVIEW-F4",
+      "boundary": "Supported descriptors are exact built-in staticmethod/classmethod types; subclasses are refused. Constructor and dispatch-member inspection uses inspect.getattr_static, so the profile inspector does not invoke custom descriptors."
+    }
+  ],
+  "source_partition": "Compared with c77ee122/50c0e2d first reviewed generation, IdentityLoader is the only changed existing top-level definition in either runtime. The actual function/code binding, body lifecycle, exception identity, synchronous None-return profile, accounting and classifier logic remain unchanged. Shared nine-definition identity blocks match by AST across both tools.",
+  "test_partition": "Only the two existing identity methods for module population hooks and callable/constructor/descriptor factories expand; no identity-stage methods are deleted or added after the seven-method generation. All other methods retain exact AST identity.",
+  "verification_evidence": {
+    "fresh_current_guard_observations": 12,
+    "fresh_current_themes_per_tool_mode": 3,
+    "fresh_current_assertion_kills": 12,
+    "fresh_current_errors": 0,
+    "fresh_targeted_positive_receipts": 4,
+    "fresh_targeted_method_count_per_receipt": 1,
+    "fresh_targeted_modes": [
+      "normal",
+      "optimized"
+    ],
+    "preserved_prior_guard_observations": 44,
+    "preserved_prior_campaign_sizes": [
+      32,
+      8,
+      4
+    ],
+    "composed_guard_observations_all_generations": 56,
+    "distinct_guard_themes_per_tool": 14,
+    "not_production_mutant_count": true,
+    "composed_distinct_affected_methods_per_mode": {
+      "kernel_replay": 27,
+      "layer_a": 19
+    },
+    "binding_review": "evidence-binding-review-final.json"
+  },
+  "preservation": "All earlier AMEND reviews, failed omission probes, original failed normal run and generation-bound receipts remain intact. They are not overwritten or relabeled as final-source executions.",
+  "review_execution": "Final review used source, AST, hashes and saved receipts only; no completed test or probe was rerun. Earlier new-counterexample executions remain explicitly generation-bound.",
+  "limitations": [
+    "Trusted ordinary Python test source/runtime and source/runner custody are required; this is not an arbitrary malicious-code sandbox.",
+    "The finite controls verify declared supported discovery/identity/lifecycle behavior, not universal semantic test completeness or universal scanner correctness.",
+    "Canonical registration, portable documentation composition, current-head CI, integration and final federation gates remain the root integrator\u2019s separate obligations."
+  ],
+  "findings": []
+}

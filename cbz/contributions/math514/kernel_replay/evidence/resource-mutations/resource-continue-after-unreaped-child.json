@@ -1,0 +1,21 @@
+{
+  "name": "resource-continue-after-unreaped-child",
+  "file": "kernel_replay.py",
+  "test": "test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "27da13a9455a62c2b192ff62f6222266cb483d323cf680f3d81d3b19b260b8ce",
+  "mutated_sha256": "471565b98a54f7476c9db79944679fba89e527dfeb76ad809079036913ec6333",
+  "tests": {
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_resource_unreaped_child_stops_further_modules (test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules) ... FAIL\n\n======================================================================\nFAIL: test_resource_unreaped_child_stops_further_modules (test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-z9qkpxv4/kernel_replay/tests/test_kernel_replay.py\", line 314, in test_resource_unreaped_child_stops_further_modules\n    self.assertEqual(len(r['results']), 1, 'must stop serial scheduling when child cleanup failed')\nAssertionError: 2 != 1 : must stop serial scheduling when child cleanup failed\n\n----------------------------------------------------------------------\nRan 1 test in 0.019s\n\nFAILED (failures=1)\n"
+  },
+  "stdout": "test_resource_unreaped_child_stops_further_modules (test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules) ... FAIL\n\n======================================================================\nFAIL: test_resource_unreaped_child_stops_further_modules (test_kernel_replay.WrapperTests.test_resource_unreaped_child_stops_further_modules)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/tools/kernel_replay/evidence/mutant-z9qkpxv4/kernel_replay/tests/test_kernel_replay.py\", line 314, in test_resource_unreaped_child_stops_further_modules\n    self.assertEqual(len(r['results']), 1, 'must stop serial scheduling when child cleanup failed')\nAssertionError: 2 != 1 : must stop serial scheduling when child cleanup failed\n\n----------------------------------------------------------------------\nRan 1 test in 0.019s\n\nFAILED (failures=1)\n",
+  "stderr": ""
+}

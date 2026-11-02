@@ -1,0 +1,136 @@
+diff --git a/formal/UniversalLaw/Side24/Endpoints.lean b/formal/UniversalLaw/Side24/Endpoints.lean
+index adccc6c2..f9384dc3 100644
+--- a/formal/UniversalLaw/Side24/Endpoints.lean
++++ b/formal/UniversalLaw/Side24/Endpoints.lean
+@@ -40,3 +40,5 @@ theorem d3_below_d2 : d3Upper < d2Lower := by decide
+ theorem endpoints_in_unit_tenth : 0 < d3Lower ∧ d2Upper < 10 ^ 19 := by decide
+ 
+ end UniversalLaw.Side24
++
++-- Controlled source-custody probe: mathematical declarations unchanged.
+diff --git a/formal/manifest.json b/formal/manifest.json
+index a9a50415..5ab89f7a 100644
+--- a/formal/manifest.json
++++ b/formal/manifest.json
+@@ -34,7 +34,7 @@
+     "formal/UniversalLaw.lean": "cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e",
+     "formal/UniversalLaw/Side24/Ledger.lean": "ae4a14f3db8cf26668e55e2d2f80e0dcecb0703826b40396d91fb6e0d266d3f7",
+     "formal/UniversalLaw/Side24/ConeMoments.lean": "2bcd4a83683188856bce010c3dcdec6904e45a6d73b50b9f3891e632ff58985c",
+-    "formal/UniversalLaw/Side24/Endpoints.lean": "095102245297707316cfd7e244d5509f9b102fe5aa638b7acdbbcf9d3c9d52bd",
++    "formal/UniversalLaw/Side24/Endpoints.lean": "25e0d39b085f5d968a13bf5ac6e4fce64bddf6e16813735b6ed6e057e9388dd6",
+     "formal/sources/side24_v1/PROOF.md": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+     "formal/sources/side24_v1/ENCLOSURE.json": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
+     "formal/SCOPE.md": "fd06700628b1fbc81c5cfe3786aaa455032375bcb879914f068a66b726802a17",
+@@ -117,7 +117,7 @@
+     {
+       "name": "UniversalLaw.Side24.lattice_shell_constant",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "Shell constants 27\u00b727 = 729 and 729\u00b72 = 1458",
++      "title": "Shell constants 27·27 = 729 and 729·2 = 1458",
+       "source": "side24-proof",
+       "informal_anchor": "<=729 sum_{j>=1} j^9 e^(-288j^2)\n      <=1458 e^(-288).",
+       "does_not_claim": "the lattice-point count or the geometric tail sum"
+@@ -125,7 +125,7 @@
+     {
+       "name": "UniversalLaw.Side24.geometric_ratio_constants",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "Ratio constants 2^9 = 512 and 288\u00b73 = 864",
++      "title": "Ratio constants 2^9 = 512 and 288·3 = 864",
+       "source": "side24-proof",
+       "informal_anchor": "successive terms have ratio at most512e^(-864)<1/2",
+       "does_not_claim": "that the ratio is below 1/2"
+@@ -141,7 +141,7 @@
+     {
+       "name": "UniversalLaw.Side24.image_constant_value",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "Image constant 1458\u00b7(76\u00b724^6+15) = 21175738586478",
++      "title": "Image constant 1458·(76·24^6+15) = 21175738586478",
+       "source": "side24-proof",
+       "informal_anchor": "E := 1458*(76*24^6+15)*10^(-125)\n        = 21175738586478 *10^(-125).",
+       "does_not_claim": "the inequality |D^q K_24(0)-D^q K_infty(0)| < E"
+@@ -157,7 +157,7 @@
+     {
+       "name": "UniversalLaw.Side24.covariance_relative_bound",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "60E < 10^(-108) as the integer inequality 60\u00b721175738586478 < 10^17",
++      "title": "60E < 10^(-108) as the integer inequality 60·21175738586478 < 10^17",
+       "source": "side24-proof",
+       "informal_anchor": "epsilon=10^(-108),   since60E<epsilon.",
+       "does_not_claim": "the spectral-norm bound 20E or C_ref >= I/3"
+@@ -181,7 +181,7 @@
+     {
+       "name": "UniversalLaw.Side24.smaller_eigenvalue_exceeds_third",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "8 - sqrt(58) > 1/3 via 23^2 > 58\u00b79",
++      "title": "8 - sqrt(58) > 1/3 via 23^2 > 58·9",
+       "source": "side24-proof",
+       "informal_anchor": "Its smaller eigenvalue exceeds\n1/3",
+       "does_not_claim": "monotonicity of the square root"
+@@ -213,7 +213,7 @@
+     {
+       "name": "UniversalLaw.Side24.density_comparison_below_reported",
+       "module": "UniversalLaw/Side24/Ledger.lean",
+-      "title": "32\u00b710^(-108) < 10^(-106)",
++      "title": "32·10^(-108) < 10^(-106)",
+       "source": "side24-proof",
+       "informal_anchor": "|c_d,24/c_d,ref -1| < 10^(-106), d=2,3.",
+       "does_not_claim": "the multiplicative density comparison"
+@@ -253,7 +253,7 @@
+     {
+       "name": "UniversalLaw.Side24.fourth_moment_of_trace",
+       "module": "UniversalLaw/Side24/ConeMoments.lean",
+-      "title": "E s^4 = 3\u00b7(5/3)^2 = 25/3",
++      "title": "E s^4 = 3·(5/3)^2 = 25/3",
+       "source": "side24-proof",
+       "informal_anchor": "E s^2=5/3, E s^4=25/3",
+       "does_not_claim": "the Gaussian fourth-moment identity"
+@@ -269,7 +269,7 @@
+     {
+       "name": "UniversalLaw.Side24.cone_moment_m2_algebra",
+       "module": "UniversalLaw/Side24/ConeMoments.lean",
+-      "title": "D_2 algebra: rational part 29/6 and 4\u00b7sqrt(3/8) = sqrt(6)",
++      "title": "D_2 algebra: rational part 29/6 and 4·sqrt(3/8) = sqrt(6)",
+       "source": "side24-proof",
+       "informal_anchor": "D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]\n        = 29/6-sqrt(6).",
+       "does_not_claim": "the integral identity or the Rayleigh cone integration"
+@@ -277,7 +277,7 @@
+     {
+       "name": "UniversalLaw.Side24.cube_root_simplification",
+       "module": "UniversalLaw/Side24/ConeMoments.lean",
+-      "title": "6^2\u00b72 = 3\u00b724 behind 6^(2/3)/24^(1/3) = (3/2)^(1/3)",
++      "title": "6^2·2 = 3·24 behind 6^(2/3)/24^(1/3) = (3/2)^(1/3)",
+       "source": "side24-proof",
+       "informal_anchor": "simplifying 6^(2/3)/24^(1/3)=(3/2)^(1/3)",
+       "does_not_claim": "the analytic statement the arithmetic is attached to; the coefficient bound; the parent theorem"
+@@ -336,13 +336,13 @@
+       "module": "UniversalLaw/Side24/Ledger.lean",
+       "replace": "sixB d < 78",
+       "with": "sixB d < 77",
+-      "expected_diagnostic": "126:2: error: Tactic `decide` proved that the proposition\n  \u2200 (d : Nat), d \u2208 [2, 3] \u2192 sixA d + 2 * sixB d < 84 \u2227 2 * sixA d + sixB d < 77\nis false\n"
++      "expected_diagnostic": "126:2: error: Tactic `decide` proved that the proposition\n  ∀ (d : Nat), d ∈ [2, 3] → sixA d + 2 * sixB d < 84 ∧ 2 * sixA d + sixB d < 77\nis false\n"
+     },
+     "false_covariance_bound": {
+       "module": "UniversalLaw/Side24/Ledger.lean",
+       "replace": "60 * imageConstant < 10 ^ 17",
+       "with": "60 * imageConstant < 10 ^ 15",
+-      "expected_diagnostic": "97:57: error: Tactic `decide` proved that the proposition\n  2 * 10 * 3 = 60 \u2227 60 * imageConstant < 10 ^ 15\nis false\n"
++      "expected_diagnostic": "97:57: error: Tactic `decide` proved that the proposition\n  2 * 10 * 3 = 60 ∧ 60 * imageConstant < 10 ^ 15\nis false\n"
+     },
+     "false_exp_partial_sum": {
+       "module": "UniversalLaw/Side24/Ledger.lean",
+@@ -366,13 +366,13 @@
+       "module": "UniversalLaw/Side24/ConeMoments.lean",
+       "replace": "20 * 3 = 5 * 12",
+       "with": "20 * 3 = 6 * 12",
+-      "expected_diagnostic": "51:28: error: Tactic `decide` proved that the proposition\n  8 + 8 + 2 * 2 = 20 \u2227 20 * 3 = 6 * 12 \u2227 8 + 8 - 2 * 2 = 12 \u2227 12 = 1 * 12 \u2227 8 - 8 = 0\nis false\n"
++      "expected_diagnostic": "51:28: error: Tactic `decide` proved that the proposition\n  8 + 8 + 2 * 2 = 20 ∧ 20 * 3 = 6 * 12 ∧ 8 + 8 - 2 * 2 = 12 ∧ 12 = 1 * 12 ∧ 8 - 8 = 0\nis false\n"
+     },
+     "false_endpoint_adjacency": {
+       "module": "UniversalLaw/Side24/Endpoints.lean",
+       "replace": "d2Upper = d2Lower + 1",
+       "with": "d2Upper = d2Lower + 2",
+-      "expected_diagnostic": "31:80: error: Tactic `decide` proved that the proposition\n  d2Lower < d2Upper \u2227 d2Upper = d2Lower + 2\nis false\n"
++      "expected_diagnostic": "31:80: error: Tactic `decide` proved that the proposition\n  d2Lower < d2Upper ∧ d2Upper = d2Lower + 2\nis false\n"
+     }
+   },
+   "compiled_inventory": [

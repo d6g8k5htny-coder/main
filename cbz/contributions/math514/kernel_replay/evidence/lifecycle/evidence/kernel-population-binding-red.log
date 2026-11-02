@@ -1,0 +1,17 @@
+test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) ... FAIL
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 149, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, 'selection': ['fixture.Other']}, code, ['fixture.Other']), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.061s
+
+FAILED (failures=1)

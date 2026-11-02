@@ -14,6 +14,8 @@ name: Current research site
       - 'tests/test_current_site*'
       - 'tools/node_status_refresh.py'
       - 'tests/test_node_status_refresh.py'
+      - 'tests/test_node_status_freshness.py'
+      - 'cbz/evidence/node-status-freshness/run_mutations.py'
       - 'tests/fixtures/node_status_refresh/**'
       - '.github/workflows/current-site.yml'
   schedule:
@@ -56,8 +58,13 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - name: Offline freshness tests
-        run: python3 -B -m unittest tests.test_node_status_refresh
+      - name: Offline freshness tests and mutation controls
+        run: |
+          python3 -B -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v
+          python3 -B -O -S -m unittest tests.test_node_status_freshness tests.test_node_status_refresh -v
+          python3 -B -S cbz/evidence/node-status-freshness/run_mutations.py > "$RUNNER_TEMP/node-status-mutations.json"
+      # Pull requests run only the offline steps above. The live refresh reads the GitHub API,
+      # so it runs on main pushes, schedules and manual dispatch, never on a pull request.
       - name: Report-only freshness refresh (read-only GitHub API)
         if: github.event_name != 'pull_request'
         env:

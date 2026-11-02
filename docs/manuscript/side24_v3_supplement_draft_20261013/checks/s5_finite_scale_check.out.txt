@@ -1,0 +1,61 @@
+sing: with r = eta s the coefficients of V0..V3 have no negative power of s -> PASS
+sing, c sign +1: random parts of V0..V3 vanish at eps=0 -> PASS
+sing, c sign +1: eps^1 terms satisfy a0 + beta a1 = 0, beta = sign(c)(4+3eta^2)/48 -> PASS
+sing, c sign +1: W0 limit is eq:selection-Wlim -> PASS
+sing, c sign +1: W1 limit is eq:selection-Wlim -> PASS
+sing, c sign +1: W2 limit is eq:selection-Wlim -> PASS
+sing, c sign +1: W3 limit is eq:selection-Wlim -> PASS
+sing, c sign +1: sixth-order derivatives absent from the limits -> PASS
+sing, c sign +1: pin part of V1 is kappa*lambda + O(eps^2) -> PASS
+sing, c sign +1: pin part of V0 is -sign(c) kappa eta^2/6 + O(eps^2) -> PASS
+sing, c sign +1: pin parts of V2, V3 vanish to order eps -> PASS
+sing, c sign -1: random parts of V0..V3 vanish at eps=0 -> PASS
+sing, c sign -1: eps^1 terms satisfy a0 + beta a1 = 0, beta = sign(c)(4+3eta^2)/48 -> PASS
+sing, c sign -1: W0 limit is eq:selection-Wlim -> PASS
+sing, c sign -1: W1 limit is eq:selection-Wlim -> PASS
+sing, c sign -1: W2 limit is eq:selection-Wlim -> PASS
+sing, c sign -1: W3 limit is eq:selection-Wlim -> PASS
+sing, c sign -1: sixth-order derivatives absent from the limits -> PASS
+sing, c sign -1: pin part of V1 is kappa*lambda + O(eps^2) -> PASS
+sing, c sign -1: pin part of V0 is -sign(c) kappa eta^2/6 + O(eps^2) -> PASS
+sing, c sign -1: pin parts of V2, V3 vanish to order eps -> PASS
+collar: the coefficients of G have no negative power of r -> PASS
+collar: random parts of G vanish at eps=0 -> PASS
+collar: G2 limit is eq:selection-Glim -> PASS
+collar: G3 limit is eq:selection-Glim -> PASS
+collar: pin part of G1 is kappa (X^2-1/4) + O(eps^2) -> PASS
+collar: pin parts of G2, G3 vanish identically -> PASS
+collision at M: the coefficients of N have no negative power of r or tau -> PASS
+collision at M: at r = 0 the random part of N is sin a ((tau cos a + chi/2) f_ttv + (tau/2) sin a f_tvv, f_vv, f_vw) -> PASS
+collision at M, cos sign +1: random parts of N vanish at eps=0 -> PASS
+collision at M, cos sign +1: N2 limit is eq:selection-Nlim -> PASS
+collision at M, cos sign +1: N3 limit is eq:selection-Nlim -> PASS
+collision at M, cos sign +1: pin part of N1 is kappa(tau + vs sigma) + O(eps^2) -> PASS
+collision at M, cos sign +1: pin parts of N2, N3 vanish -> PASS
+collision at M, cos sign -1: random parts of N vanish at eps=0 -> PASS
+collision at M, cos sign -1: N2 limit is eq:selection-Nlim -> PASS
+collision at M, cos sign -1: N3 limit is eq:selection-Nlim -> PASS
+collision at M, cos sign -1: pin part of N1 is kappa(tau + vs sigma) + O(eps^2) -> PASS
+collision at M, cos sign -1: pin parts of N2, N3 vanish -> PASS
+collision at S: the coefficients of N have no negative power of r or tau -> PASS
+collision at S: at r = 0 the random part of N is sin a ((tau cos a + chi/2) f_ttv + (tau/2) sin a f_tvv, f_vv, f_vw) -> PASS
+collision at S, cos sign +1: random parts of N vanish at eps=0 -> PASS
+collision at S, cos sign +1: N2 limit is eq:selection-Nlim -> PASS
+collision at S, cos sign +1: N3 limit is eq:selection-Nlim -> PASS
+collision at S, cos sign +1: pin part of N1 is kappa(tau + vs sigma) + O(eps^2) -> PASS
+collision at S, cos sign +1: pin parts of N2, N3 vanish -> PASS
+collision at S, cos sign -1: random parts of N vanish at eps=0 -> PASS
+collision at S, cos sign -1: N2 limit is eq:selection-Nlim -> PASS
+collision at S, cos sign -1: N3 limit is eq:selection-Nlim -> PASS
+collision at S, cos sign -1: pin part of N1 is kappa(tau + vs sigma) + O(eps^2) -> PASS
+collision at S, cos sign -1: pin parts of N2, N3 vanish -> PASS
+pins give f(x) - (f(M)+f(S))/2 = (r^4/384) f_tttt + O(r^6) -> PASS
+elimination: kappa^6 coefficient of the product is (4c^2-eta^2)^6/(64c^2rho^2)^3 -> PASS
+elimination: at c=1/2, rho=sqrt3/2, eta=1, q=0 the cubic satisfies the ten conditions -> PASS
+elimination: and its three Hessian determinants vanish -> PASS
+elimination: the formulas give zero there as well -> PASS
+planar numerics: theta=10 deg, eta=0.3: det Cov(V|pins)/eps^10 = 0.10608489 vs limit 0.10608613 (rel. err. 1.2e-5) -> PASS
+planar numerics: theta=45 deg, eta=0.6: det Cov(V|pins)/eps^10 = 0.0078508685 vs limit 0.0078511031 (rel. err. 3.0e-5) -> PASS
+planar numerics: theta=80 deg, eta=0.9: det Cov(V|pins)/eps^10 = 1.4052067e-5 vs limit 1.4052663e-5 (rel. err. 4.2e-5) -> PASS
+planar numerics: theta=90 deg, eta=0.5: det Cov(V|pins)/eps^10 = 4.0011452e-5 vs limit 4.0013159e-5 (rel. err. 4.3e-5) -> PASS
+ALL PASS

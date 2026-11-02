@@ -1,0 +1,53 @@
+{
+  "name": "restore-summary-only-grading",
+  "file": "mutations.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+  "mutated_sha256": "cfbac22e1f3cce87e74b81472848e4f025c556b86bf964a0ac0f17b41dd13e33",
+  "guard_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_setup_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill) ... FAIL\n\n======================================================================\nFAIL: test_setup_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/kernel-harness-mutants/guard_run_tests.py\", line 103, in body\n    return original_body(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/kernel-harness-mutant-0pwphcni/kernel_replay/tests/test_mutation_harness.py\", line 40, in test_setup_assertion_is_not_a_kill\n    self.assertEqual(outcome, 'ERROR', value)\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\\n\\n======================================================================\\nFAIL: test_one (fixture.Case.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmptrdcfk30/run_tests.py\", line 93, in lifecycle\\n    return _original(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: setup only\\n\\nRan 1 tests\\n', 'started_ids': ['fixture.Case.test_one'], 'finished_ids': ['fixture.Case.test_one'], 'body_entered_ids': [], 'body_finished_ids': [], 'body_assertion_ids': [], 'lifecycle_failures': 1, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill",
+        "origin": "body"
+      }
+    ]
+  },
+  "stderr": ""
+}

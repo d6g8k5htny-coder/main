@@ -1,0 +1,59 @@
+{
+  "new_obligation": "Constructor aliases declared methods before existing snapshots",
+  "no_completed_verification_repeated": true,
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "source_sha256": "c77ee122e788fbb2a88ffaba12e0b4de75209b6f18ce2b6053fed68a5a4ce4d5",
+      "fixture_sha256": "09e99756efd44899aa0cb96cc63ff2f7478735dbe8cab5b5c06bea03c3b2b862",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/constructor-alias/kernel_replay/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/constructor-alias/kernel_replay/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_constructor.C.test_first",
+        "test_constructor.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "first",
+        "first"
+      ],
+      "receipt": "review-probes/constructor-alias/kernel_replay/receipt.json"
+    },
+    {
+      "tool": "layer_a",
+      "source_sha256": "50c0e2d64fecbaa232fa867eb7c9e4a1a4f02ed1ea163389c1111ba700c729cc",
+      "fixture_sha256": "732ae96329bbe88c287ae6bf30a605c035a255487de99bda7bb116641d5b5be8",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/constructor-alias/layer_a/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/constructor-alias/layer_a/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/constructor-alias/layer_a/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.C.test_first",
+        "test_auditor.C.test_second"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "first",
+        "first"
+      ],
+      "receipt": "review-probes/constructor-alias/layer_a/receipt.json"
+    }
+  ]
+}

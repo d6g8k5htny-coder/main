@@ -1,0 +1,823 @@
+% Supplement section S5: elder selection.
+\section{Elder selection}\label{sec:selection}
+
+This section proves the selection bound (3.13) of the main text: under the determinant-weighted Palm law of a typed maximum--index-two-saddle contact pair at separation $r$, the probability that the pair is not the elder persistence pair is at most $C_{\rm sel}r^3$, uniformly on compact positive marks (Theorem~\ref{thm:selection-main}). On the way it proves the statements that the main text quotes for the Palm law and the elder mark (Definitions~\ref{def:selection-palm}, \ref{def:selection-mark} and~\ref{def:selection-prob}, Lemma~\ref{lem:selection-mark}), the trichotomy (Lemma~\ref{lem:selection-trichotomy}), the regional witness counts behind (3.14)--(3.17) of the main text (\S\ref{ssec:selection-witness}), and the capture--escape theorem (Theorem~\ref{thm:selection-escape}).
+
+Throughout, $f=f_{24}$ is the normalized side-$24$ periodized Bargmann--Fock field on $\T^3_{24}$, $0<r<12$, $t\in S^2$, $b\in\R$ and $\kappa>0$; the pair is $M=x-\frac r2t$, $S=x+\frac r2t$, with midpoint $x$, and $h=f(S)$. We use an orthonormal frame $(e_1,e_2,e_3)=(t,v,w)$ whose first vector is $t$, and write $f_{ij\cdots}$ for partial derivatives in this frame. Constants $C,c$ depend only on the compact mark set and on the fixed charts, and may change from line to line.
+
+\subsection{The Palm law and the elder mark}\label{ssec:selection-palm}
+
+\begin{definition}[pins, weight and Palm law]\label{def:selection-palm}
+For $0<r<12$, $t\in S^2$, $b\in\R$ and $\kappa>0$ let
+\[
+\Pi_{r,x,t}=\bigl(f(M),f(S),\nabla f(M),\nabla f(S)\bigr),\qquad z_r(b,\kappa)=\bigl(b,\,b-\kappa r^3/6,\,0,\,0\bigr).
+\]
+The conditional law $\E^0_{r,t,b,\kappa}[\,\cdot\,]=\E[\,\cdot\mid\Pi_{r,x,t}=z_r(b,\kappa)]$ is the regular conditional Gaussian distribution. It exists because the pin vector is Gaussian, and since the corrected-pin covariance is nondegenerate (Section~\ref{sec:setting}), the conditional distributions have a version that is continuous in $(r,t,b,\kappa)$. Put
+\[
+W_r=|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}},\qquad Z_r(t,b,\kappa)=\E^0_{r,t,b,\kappa}[W_r].
+\]
+By Section~\ref{sec:contact}, $c_Zr^2\le Z_r\le C_Zr^2$ on compact positive mark sets; in particular $Z_r>0$. The \emph{all-typed determinant-weighted Palm law} is
+\begin{equation}\label{eq:selection-palm}
+\E^{MS}_{r,t,b,\kappa}[F]=\frac{\E^0_{r,t,b,\kappa}[W_rF]}{Z_r(t,b,\kappa)} .
+\end{equation}
+We write $\Prob^{MS}_r$ and $\Prob^0$ for the corresponding probabilities, and drop the subscripts $t,b,\kappa$ when they are fixed.
+\end{definition}
+
+\begin{definition}[connection level, birth level and elder mark]\label{def:selection-mark}
+Let $\Omega_{\rm Mo}$ be the event that $f$ is Morse with pairwise distinct critical values; $\Prob(\Omega_{\rm Mo})=1$ by Proposition~1.1 of the main text. For continuous $g:\T^3_{24}\to\R$ and $u,v\in\T^3_{24}$, the \emph{connection level} is
+\begin{equation}\label{eq:selection-connection}
+\mathfrak m_g(u,v)=\sup_{\gamma:u\to v}\ \min_{s\in[0,1]}g(\gamma(s)),
+\end{equation}
+the supremum being over continuous paths $\gamma:[0,1]\to\T^3_{24}$ from $u$ to $v$. Then $|\mathfrak m_g(u,v)-\mathfrak m_{g'}(u,v)|\le\|g-g'\|_\infty$, so $(g,u,v)\mapsto\mathfrak m_g(u,v)$ is continuous, hence Borel, on $C(\T^3_{24})\times(\T^3_{24})^2$. Fix a countable dense set $D\subset\T^3_{24}$ and define the \emph{birth level of the component of $u$ above height $a$},
+\begin{equation}\label{eq:selection-birth}
+\mathfrak b_g(u,a)=\sup_{z\in D}\ g(z)\,\ind_{\{\mathfrak m_g(u,z)\ge a\}},
+\end{equation}
+a countable supremum of Borel functions, hence Borel in $(g,u,a)$. Since $\{\mathfrak m_g(u,\cdot)\ge a\}$ is the closed superlevel component of $u$ and $g$ is continuous, the supremum over $D$ equals the maximum of $g$ on that component; on $\Omega_{\rm Mo}$ that maximum is attained at the unique birth maximum of the component.
+
+At an index-two saddle $S$ with $h=f(S)$, the unstable line is the positive eigenline of the axial Hessian direction. Choose a measurable unit vector $v(S)$ spanning it; this is possible because the eigenline is unique and varies measurably on the nondegenerate locus. Any Borel measurable selection works, and what follows does not depend on the choice of sign. Fix once and for all a small $\delta_{\rm sec}>0$ below the injectivity scale of the Morse local normal form and set $u_\pm(S)=S\pm\delta_{\rm sec}\,v(S)$. On $\Omega_{\rm Mo}$ the two points lie one in each upper local sector of $S$. The \emph{elder mark} is
+\begin{equation}\label{eq:selection-mark}
+e(f;M,S)=\ind\Bigl\{\mathfrak m_f(u_+,u_-)<h\ \ \text{and}\ \ f(M)=\min\bigl(\mathfrak b_f(u_+,h),\,\mathfrak b_f(u_-,h)\bigr)\Bigr\}.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[the mark is correct and Borel]\label{lem:selection-mark}
+On $\Omega_{\rm Mo}$, $e(f;M,S)=1$ if and only if
+\begin{enumerate}[(i)]
+\item the two upper sectors of $S$ lie in distinct superlevel components immediately above $h$;
+\item $M$ is the birth maximum of one of them; and
+\item the birth value at $M$ is the smaller of the two.
+\end{enumerate}
+Conditions (i)--(iii) are exactly the elder-pair condition $S=D_f(M)$ of Section~1 of the main text. Moreover, $(f,M,S)\mapsto e(f;M,S)$ is Borel measurable on the Morse locus.
+\end{lemma}
+
+\begin{proof}
+The points $u_+$ and $u_-$ are in the same component of $\{f>h\}$ if and only if $\mathfrak m_f(u_+,u_-)>h$; equality $\mathfrak m=h$ would force a degenerate or shared critical value, which is excluded on $\Omega_{\rm Mo}$. Hence (i) is the event $\{\mathfrak m_f(u_+,u_-)<h\}$. By construction of $\mathfrak b$, on $\Omega_{\rm Mo}$ the numbers $\mathfrak b_f(u_\pm,h)$ are the birth values of the two sector components; since critical values are distinct, $f(M)=\mathfrak b_f(u_\pm,h)$ identifies the birth maximum uniquely. So \eqref{eq:selection-mark} is equivalent to (i)--(iii). For measurability, $\mathfrak m$ and $\mathfrak b$ are Borel as shown, $v(S)$ is a measurable selection, and $h=f(S)$ and $f(M)$ are evaluations.
+\end{proof}
+
+\begin{definition}[selection probability]\label{def:selection-prob}
+Let $p_r(t,b,\kappa)=\E^{MS}_{r,t,b,\kappa}[e(f;M,S)]$. With $p_\Pi$ the Gaussian density of $\Pi_{r,x,t}$ and $K^{\rm all}_r=p_\Pi(z_r(b,\kappa))\,\E^0[W_r]$, the selected contact intensity is
+\begin{equation}\label{eq:selection-Ksel}
+K^{\rm sel}_r(t,b,\kappa)=p_r(t,b,\kappa)\,K^{\rm all}_r(t,b,\kappa).
+\end{equation}
+Neither adjacency nor selection enters the base law \eqref{eq:selection-palm}.
+\end{definition}
+
+\subsection{The trichotomy}\label{ssec:selection-trichotomy}
+
+\begin{definition}[selection events]\label{def:selection-events}
+On $\Omega_{\rm Mo}$ fix an ordered typed pair $(M,S)$ at distance $r$, and let $h=f(S)$ and $b=f(M)$.
+\begin{enumerate}[(a)]
+\item $A_r$ (\emph{adjacency}): at least one unstable half-branch of $S$ under gradient ascent converges to $M$. This is a Boolean mark: if both half-branches converge to $M$, the pair still counts once (Section~\ref{sec:setting}).
+\item $E_r=\{e(f;M,S)=1\}$ (\emph{actual elder selection}, \eqref{eq:selection-mark}).
+\item $L_{{\rm same},r}$ (\emph{same-component self-attachment}): the two upper sectors of $S$ coincide, that is, $\mathfrak m_f(u_+,u_-)>h$.
+\item $B_r$ (\emph{third-critical witness}): there is a critical point $y\notin\{M,S\}$ of $f$ with $f(y)\in[h,b]$ (value in the pair window), lying in exactly one of the regions
+\begin{enumerate}[(i)]
+\item \emph{collar}: $\dist(y,\{M,S\})\le C_1r$;
+\item \emph{singular-near}: $C_1r<\dist(y,x)\le\delta$, where $x$ is the pair midpoint (so that $\eta=r/\dist(y,x)\le1/C_1<1$, a compact $\eta$-chart);
+\item \emph{fixed-distance}: $\dist(y,\{M,S\})\ge\delta$.
+\end{enumerate}
+Here $C_1,\delta>0$ are fixed constants of the chart decomposition.
+\end{enumerate}
+\end{definition}
+
+\begin{lemma}[exhaustive trichotomy]\label{lem:selection-trichotomy}
+On $\Omega_{\rm Mo}$,
+\begin{equation}\label{eq:selection-trichotomy}
+A_r\cap E_r^c\subset B_r\cup L_{{\rm same},r}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Work on $A_r$. A half-branch of $S$ ascends to $M$, so $M$ is a maximum of the upper-sector component in which it lies. Call the two sector components $\mathcal U_1$ (the $M$-ward one) and $\mathcal U_2$. If $\mathcal U_1=\mathcal U_2$ we are in $L_{{\rm same},r}$. Assume $\mathcal U_1\ne\mathcal U_2$, with birth values $b_1,b_2$ and birth maxima $M_1,M_2$; distinct critical values make these unique.
+
+\emph{Case 1: $M\ne M_1$.} Then $M_1$ and $M$ are distinct maxima in one component of $\{f>h\}$. Any path in that component from $M$ to $M_1$ has minimum larger than $h$. Following the merge tree of the component downward from $\min(b_1,f(M))$, the two subcomponents containing $M_1$ and $M$ first merge at an index-two saddle $S'$ with $h<f(S')\le f(M)=b$. (Existence: a Morse component of a superlevel set containing two distinct local maxima contains an index-two merge saddle on every connecting route; take the highest threshold at which they disconnect.) Then $y=S'$ is a critical point with $f(y)\in(h,b]$, a window witness.
+
+\emph{Case 2: $M=M_1$ but $e=0$.} Since $\mathcal U_1\ne\mathcal U_2$ and condition~(ii) of Lemma~\ref{lem:selection-mark} holds, failure of \eqref{eq:selection-mark} forces $f(M)>\min(b_1,b_2)$, that is, $b_2<f(M)$: $\mathcal U_2$ is younger and is the component killed at $S$. The required witness is the birth maximum of $\mathcal U_2$. Indeed, $y=M_2$ is a critical point (a local maximum), and its value satisfies $h<b_2=f(M_2)<f(M)=b$; the lower bound holds because $\mathcal U_2$ is a component of the \emph{open} superlevel set $\{f>h\}$ containing an upper sector of $S$, so its birth value exceeds $h$. Moreover $M_2\notin\{M,S\}$: $M_2\ne M$ because they lie in distinct components, and $M_2\ne S$ because $f(S)=h<b_2$. So $y=M_2$ is a window witness. (The merge saddle of the surviving class of $M$ would not serve here: its value can lie below $h$, outside the window.)
+
+In both cases $y$ is a critical point with value in the pair window, and the spatial partition (i)--(iii) of Definition~\ref{def:selection-events} places it in $B_r$.
+\end{proof}
+
+\begin{corollary}[reduction of the selection loss]\label{cor:selection-reduction}
+Let $N_{\rm col}$ be the number of critical points $y\notin\{M,S\}$ of $f$ in the collar region~(i), and let $N_{\rm sing}$ and $N_{\rm far}$ be the numbers of critical points $y$ with $f(y)\in[h,b]$ in the singular-near region~(ii) and in the fixed-distance region~(iii). Under the Palm law \eqref{eq:selection-palm},
+\begin{equation}\label{eq:selection-reduction}
+1-p_r\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(B_r)+\Prob^{MS}_r(L_{{\rm same},r}),
+\end{equation}
+and
+\begin{equation}\label{eq:selection-markov}
+\Prob^{MS}_r(B_r)\le\E^{MS}_rN_{\rm col}+\E^{MS}_rN_{\rm sing}+\E^{MS}_rN_{\rm far}.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Since $e\in\{0,1\}$, $1-p_r=\Prob^{MS}_r(E_r^c)\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(E_r^c\cap A_r)$, and Lemma~\ref{lem:selection-trichotomy} gives \eqref{eq:selection-reduction}. On $B_r$ at least one of the three counts is at least one, so Markov's inequality gives \eqref{eq:selection-markov}.
+\end{proof}
+
+The three terms on the right of \eqref{eq:selection-reduction} are $O(r^3)$ uniformly on compact positive mark sets: the three regional expectations in \eqref{eq:selection-markov} by Lemmas~\ref{lem:selection-collar}, \ref{lem:selection-sing} and~\ref{lem:selection-far}, and the adjacency and self-attachment failures by Proposition~\ref{prop:selection-adjacency}, which rests on the capture--escape Theorem~\ref{thm:selection-escape}. The assembly is Theorem~\ref{thm:selection-main}.
+
+\subsection{The endpoint factor and the Palm normalization}\label{ssec:selection-endpoint}
+
+Recall from Section~\ref{sec:contact} that, on compact positive mark sets,
+\begin{equation}\label{eq:selection-normalizer}
+c_Zr^2\le Z_r=\E^0[W_r]\le C_Zr^2,\qquad\E^0[W_r^2]\le C_Wr^4 .
+\end{equation}
+Each Palm expectation below is an unnormalized expectation under $\E^0$ divided explicitly by $Z_r$; the lower bound in \eqref{eq:selection-normalizer} is the Palm normalization used in every witness count.
+
+\begin{lemma}[exact endpoint factor $r^2$]\label{lem:selection-endpoint}
+In the frame $(t,v,w)$ write
+\begin{equation}\label{eq:selection-frame}
+H_p=\begin{pmatrix}a_p&m_p^{\top}\\ m_p&Q_p\end{pmatrix},\qquad p\in\{M,S\}.
+\end{equation}
+Under the corrected pair pins $\nabla f(M)=\nabla f(S)=0$, $f(M)-f(S)=\kappa r^3/6$,
+\begin{equation}\label{eq:selection-scaled}
+a_M=r\alpha_M,\qquad m_M=r\beta_M,\qquad a_S=r\alpha_S,\qquad m_S=r\beta_S,
+\end{equation}
+where the scaled variables are linear functionals of the third-derivative process on the segment $\{x+\vartheta t:|\vartheta|\le r/2\}$, with conditional Gaussian moments uniformly bounded on compact marks. Moreover
+\begin{equation}\label{eq:selection-softdet}
+\det H_M=rD_M,\qquad\det H_S=rD_S,
+\end{equation}
+where $D_M,D_S$ are polynomials of degree three in the scaled endpoint variables and the transverse Hessian entries. In particular $W_r\le r^2|D_M|\,|D_S|$.
+\end{lemma}
+
+\begin{proof}
+For each coordinate direction $e_i$ put $g_i(\vartheta)=\partial_if(x+\vartheta t)$. Since $g_i(-r/2)=g_i(r/2)=0$, Taylor's integral formula gives the exact identities
+\begin{equation}\label{eq:selection-taylor}
+\begin{aligned}
+\partial_{ti}f(M)&=-\frac1r\int_{-r/2}^{r/2}\Bigl(\frac r2-\vartheta\Bigr)\,\partial_{tti}f(x+\vartheta t)\,d\vartheta,\\
+\partial_{ti}f(S)&=\frac1r\int_{-r/2}^{r/2}\Bigl(\vartheta+\frac r2\Bigr)\,\partial_{tti}f(x+\vartheta t)\,d\vartheta .
+\end{aligned}
+\end{equation}
+Thus the first row and column of each endpoint Hessian carry one exact factor $r$, which is \eqref{eq:selection-scaled}. The conditional Gaussian moments of the scaled variables are uniformly bounded on compact marks because the corrected pin covariance has a uniform eigenfloor and the side-$24$ field has finite derivative moments. Expanding \eqref{eq:selection-frame} along the first row gives \eqref{eq:selection-softdet}. Type indicators can only decrease absolute values, so $W_r\le|\det H_M|\,|\det H_S|=r^2|D_M|\,|D_S|$.
+\end{proof}
+
+This is the same endpoint soft-mode factor that yields the two-sided bound in \eqref{eq:selection-normalizer}.
+
+\begin{lemma}[conditional polynomial moments]\label{lem:selection-moments}
+Let $H$ be a Gaussian vector whose conditional law given $\mathcal A=a$ has mean $\mu(a)$ with $\|\mu(a)\|\le C(1+\|a\|)$ and covariance of operator norm at most $C$. Then for every polynomial $\Psi$ of degree at most nine,
+\begin{equation}\label{eq:selection-moment9}
+\E\bigl[|\Psi(H)|\bigm|\mathcal A=a\bigr]\le C_\Psi\bigl(1+\|a\|^9\bigr).
+\end{equation}
+The product $\det H_M\det H_S\det H_y$ of three $3\times3$ Hessian determinants is a polynomial of total degree nine in the concatenated Hessian coordinates, and the product $\det H_M\det H_S$ of two such determinants is a polynomial of degree six.
+\end{lemma}
+
+\begin{proof}
+Write $H=\mu(a)+G$, where $G$ is a centred Gaussian vector, possibly degenerate, with covariance of operator norm at most $C$. Expand $\Psi$ and use uniform Gaussian moments.
+\end{proof}
+
+\subsection{Regional witness counts}\label{ssec:selection-witness}
+
+The collar and singular-near charts are first computed at the planar Bargmann--Fock jet and then transferred to the side-$24$ field through structural factorizations that hold on an explicit jet ball; the fixed-distance count is proved directly for the side-$24$ field.
+
+\subsubsection{Standing hypotheses and the contact-limit pair law}
+
+Let $K_0(z)=e^{-|z|^2/2}$ be the planar Bargmann--Fock covariance and $J_0$ its even covariance jet through order six. For a stationary even kernel $\mathcal K$ let $J_6(\mathcal K)$ be its even jet through order six, with the max norm on coordinate entries.
+
+\begin{hypothesis}[jet ball and standing hypotheses]\label{hyp:selection-jet}
+\begin{enumerate}[(1)]
+\item (\emph{Jet ball.})
+\begin{equation}\label{eq:selection-jetball}
+B=\bigl\{J:\ \|J-J_0\|_{\max}\le10^{-110}\bigr\}.
+\end{equation}
+\item (\emph{Standing hypotheses.}) $\mathcal K$ is a stationary, even, real-analytic covariance kernel with $J_6(\mathcal K)\in B$; the associated centred Gaussian field has the finite-family derivative nondegeneracy of Section~\ref{sec:setting} (full positive Fourier support); and all compact charts, mark sets and constants are those of the planar charts below.
+\end{enumerate}
+\end{hypothesis}
+
+\begin{remark}\label{rem:selection-side24}
+The normalized side-$24$ kernel $K_{24}$ satisfies Hypothesis~\ref{hyp:selection-jet}: it has full positive Fourier support (Section~\ref{sec:setting}), and $\|J_6(K_{24})-J_0\|_{\max}<10^{-113}$ (Section~\ref{sec:correction}). Under Hypothesis~\ref{hyp:selection-jet}, the derivative envelope used below for the structural coefficients $A_{\rm col}$ and $A_{\rm sing}$ is the coarse coefficient-map bound
+\[
+\|dA_{\rm col}\|,\ \|dA_{\rm sing}\|\le10^{40}
+\]
+of Section~\ref{sec:correction}, applied to the analytic dependence of the conditional covariances on $J_6$.
+\end{remark}
+
+\begin{lemma}[contact-limit pair pin law at the planar jet]\label{lem:selection-pairlaw}
+In the contact limit the raw pin vector of the pair may be written
+\begin{equation}\label{eq:selection-P}
+P=(f,f_{111},f_1,f_{11},f_2,f_{12},f_3,f_{13}),
+\end{equation}
+all derivatives taken at $x$, with target
+\begin{equation}\label{eq:selection-Ptarget}
+(b,2\kappa,0,0,0,0,0,0),
+\end{equation}
+up to the invertible rescaling $f_{111}\mapsto-f_{111}/12$. For the planar Bargmann--Fock covariance
+\begin{equation}\label{eq:selection-detP}
+\det\Cov(P)=12,
+\end{equation}
+so the limiting pair pin law is nondegenerate. The corrected finite-$r$ pair frame converges analytically to \eqref{eq:selection-P}, so compact covariance eigenfloors and Gaussian density envelopes follow for sufficiently small $r$. Conditioned on \eqref{eq:selection-Ptarget}, the transverse Hessian
+\begin{equation}\label{eq:selection-Qlaw}
+Q=\begin{pmatrix}f_{22}&f_{23}\\f_{23}&f_{33}\end{pmatrix}\qquad\text{has law}\qquad Q=-bI_2+G_2,
+\end{equation}
+where $G_2$ is standard GOE$_2$: its diagonal entries are $N(0,2)$, its off-diagonal entry is $N(0,1)$, and these three variables are independent.
+\end{lemma}
+
+\begin{proof}
+All covariances follow from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-detP} and \eqref{eq:selection-Qlaw} are exact Gaussian computations from these covariances.
+\end{proof}
+
+\begin{lemma}[pair-pin stability on the jet ball]\label{lem:selection-pinstab}
+Let $P_r$ be the corrected pair pin vector. At contact its planar covariance has determinant $12$, and every entry is a contraction of $J_6$ with $\ell^1$ coefficient at most $3^6=729$. A crude row-sum bound of $120$ gives
+\begin{equation}\label{eq:selection-pinfloor}
+\lambda_{\min}\Cov_0(P)\ge\frac{12}{120^7}>3.34\times10^{-14}.
+\end{equation}
+On the jet ball \eqref{eq:selection-jetball} the operator perturbation of the $8\times8$ pin covariance is below
+\begin{equation}\label{eq:selection-pinpert}
+8\cdot729\cdot10^{-110}<5.84\times10^{-107}.
+\end{equation}
+Hence the pair pin covariance, its inverse, all conditional means and all conditional covariance blocks are analytic and uniformly bounded throughout the neighbourhood. This also gives uniform Gaussian polynomial moments and density envelopes.
+\end{lemma}
+
+\begin{proof}
+For a positive definite $8\times8$ matrix, $\lambda_{\min}\ge\det/\lambda_{\max}^7$, and the row-sum bound gives $\lambda_{\max}\le120$; with \eqref{eq:selection-detP} this is \eqref{eq:selection-pinfloor}. Each entry moves by at most $729\cdot10^{-110}$ on the jet ball, which gives \eqref{eq:selection-pinpert}. Since \eqref{eq:selection-pinpert} is far below \eqref{eq:selection-pinfloor}, Weyl's inequality keeps the covariance uniformly positive definite, and the remaining assertions follow from the analytic dependence of Gaussian regression on the covariance.
+\end{proof}
+
+\subsubsection{The two-dimensional triple-contact elimination}
+
+\begin{lemma}[exact triple-contact elimination]\label{lem:selection-elimination}
+Let $c,\rho\ne0$ with $c^2+\rho^2=1$, and let $\eta>0$, $\kappa>0$ and $q_M,q_S\in\R$. There is a unique real cubic polynomial $p(X,Y)$ on $\R^2$ such that $M=(-\frac12,0)$, $S=(\frac12,0)$ and $y=(c/\eta,\rho/\eta)$ are critical points, $p(M)=0$, $p(S)=-\kappa/6$, $p_{YY}(M)=q_M$ and $p_{YY}(S)=q_S$. Its Hessian determinants at the three critical points are
+\begin{gather}
+-\det H_M=\frac{\kappa^2(4c^2-\eta^2)^2+4\kappa\rho^2\bigl[(12c^2+\eta^2)q_M+(4c^2-\eta^2)q_S\bigr]+4\rho^4(q_M-q_S)^2}{64\,c^2\rho^2},\label{eq:selection-B1}\\
+-\det H_S=\frac{\kappa^2(4c^2-\eta^2)^2-4\kappa\rho^2\bigl[(4c^2-\eta^2)q_M+(12c^2+\eta^2)q_S\bigr]+4\rho^4(q_M-q_S)^2}{64\,c^2\rho^2},\label{eq:selection-B1S}\\
+\det H_y=\frac{N_y}{64\,c^2\eta\rho^2},\label{eq:selection-B1y}
+\end{gather}
+where
+\begin{multline}\label{eq:selection-Ny}
+N_y=\eta\kappa^2(4c^2-\eta^2)^2+4\kappa\rho^2(4c^2+\eta^2)\bigl[\eta(q_M-q_S)-2c(q_M+q_S)\bigr]\\
+-16c\rho^4(q_M^2-q_S^2)+4\eta\rho^4(q_M-q_S)^2 .
+\end{multline}
+In particular, the endpoint determinants are exactly quadratic in $(\kappa,q_M,q_S)$, with the common $\kappa^2$ coefficient $(4c^2-\eta^2)^2/(64c^2\rho^2)$ and the common $\kappa$-free term $4\rho^4(q_M-q_S)^2/(64c^2\rho^2)$; the product $\det H_M\det H_S\det H_y$ has exact degree six in $\kappa$; and the only angular singularities are the strata $c=0$ and $\rho=0$ and the collision strata $2c=\pm\eta$.
+\end{lemma}
+
+\begin{proof}
+The ten conditions (six station equations, two value equations and two curvature prescriptions) are linear in the ten coefficients of $p$. The determinant of this linear system is $-24c\rho^3/\eta^4\ne0$, so the solution is unique. Substituting it into the Hessians at $M$, $S$ and $y$ gives \eqref{eq:selection-B1}--\eqref{eq:selection-Ny} by direct exact computation, and the stated structure is read off from these formulas.
+\end{proof}
+
+In the witness charts below, the plane is spanned by the pair axis and the direction of the third point, the chart is centred at the pair midpoint, lengths are measured in units of $r$ and values in units of $r^3$ (so that the pair sits at $(\mp\frac12,0)$ and the value gap is $\kappa/6$), $\eta=r/\dist(y,x)$, and $q_M,q_S$ are the in-plane transverse curvatures at the endpoints; in the application they are the $O(1)$ contact-law blocks. Physical two-dimensional Hessian determinants are therefore $r^2$ times the chart determinants \eqref{eq:selection-B1}--\eqref{eq:selection-B1y}. In the chart the endpoint determinants are generically of order $\kappa^2$ as $\eta\to0$.
+
+\subsubsection{The collar count}
+
+\begin{lemma}[exact collar scaled-gradient chart at the planar jet]\label{lem:selection-collarchart}
+Let a third point be
+\begin{equation}\label{eq:selection-collarpt}
+y=x+r(Xe_1+Ye_2+Ze_3),\qquad\rho^2=Y^2+Z^2,
+\end{equation}
+and define the physical scaled third gradient
+\begin{equation}\label{eq:selection-Gcol}
+G_{\rm col}=\bigl(r^{-2}f_1(y),\,r^{-1}f_2(y),\,r^{-1}f_3(y)\bigr).
+\end{equation}
+The pair pins make \eqref{eq:selection-Gcol} converge to $(L_1,L_\perp)$, where
+\begin{gather}
+L_1=\tfrac12\bigl(X^2-\tfrac14\bigr)f_{111}+XYf_{112}+XZf_{113}+\tfrac{Y^2}2f_{122}+YZf_{123}+\tfrac{Z^2}2f_{133},\label{eq:selection-L1}\\
+L_\perp=Q(Y,Z)^{\top}.\label{eq:selection-Lperp}
+\end{gather}
+The axial and transverse blocks are conditionally independent. Their exact conditional means are
+\begin{equation}\label{eq:selection-colmeans}
+\E[L_1\mid P]=\kappa\bigl(X^2-\tfrac14\bigr),\qquad\E[L_\perp\mid P]=-b(Y,Z)^{\top},
+\end{equation}
+the exact conditional axial variance is
+\begin{equation}\label{eq:selection-colvar}
+\Var(L_1\mid P)=\frac{\rho^2(4X^2+\rho^2)}2,
+\end{equation}
+and the transverse covariance is
+\begin{equation}\label{eq:selection-Cperp}
+C_\perp=\begin{pmatrix}2Y^2+Z^2&YZ\\YZ&Y^2+2Z^2\end{pmatrix},\qquad\det C_\perp=2\rho^4,\qquad(Y,Z)\,C_\perp^{-1}(Y,Z)^{\top}=\tfrac12 .
+\end{equation}
+Therefore
+\begin{equation}\label{eq:selection-coldet}
+\det\Cov\bigl(\lim G_{\rm col}\bigm|P\bigr)=\rho^6(4X^2+\rho^2).
+\end{equation}
+For $\rho>0$ the exact limiting density at zero is
+\begin{equation}\label{eq:selection-coldens}
+\hat p_{\rm col}(X,Y,Z;b,\kappa)=(2\pi)^{-3}\bigl[\rho^6(4X^2+\rho^2)\bigr]^{-1/2}\exp\Bigl[-\frac{b^2}4-\frac{\kappa^2(X^2-\frac14)^2}{\rho^2(4X^2+\rho^2)}\Bigr],
+\end{equation}
+and consequently
+\begin{equation}\label{eq:selection-colscale}
+p_{\nabla f(y)\mid\text{pair pins}}(0)=r^{-4}\bigl[\hat p_{\rm col}+o(1)\bigr]
+\end{equation}
+uniformly on compact subcharts away from the removable collision and axis strata. If $X$ stays away from the pair endpoints, the mean mismatch supplies exponential suppression at least $\exp(-c/\rho^2)$, and at $X=0$ it supplies $\exp(-c/\rho^4)$. Near $X=\pm\frac12$, lack of mean suppression occurs only inside a collision cone $|X\mp\frac12|=O(\rho)$.
+\end{lemma}
+
+\begin{proof}
+The conditional moments \eqref{eq:selection-colmeans}--\eqref{eq:selection-Cperp} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-coldet} is the product of the axial variance \eqref{eq:selection-colvar} and $\det C_\perp$. The factor $r^{-4}$ in \eqref{eq:selection-colscale} is the Jacobian of the scaling \eqref{eq:selection-Gcol}. The suppression statements are read off from the exponent in \eqref{eq:selection-coldens}.
+\end{proof}
+
+\begin{lemma}[Hessian collision zero]\label{lem:selection-collision}
+If $\nabla f(p)=\nabla f(q)=0$ and $f$ has bounded third derivatives between $p$ and $q$, then
+\begin{equation}\label{eq:selection-collision}
+\|H_p(q-p)\|\le C|q-p|^2,\qquad\|H_q(q-p)\|\le C|q-p|^2 .
+\end{equation}
+Hence each Hessian has a singular value $O(|q-p|)$, and its determinant has an additional factor $|q-p|$ times a polynomial bound in the remaining Hessian entries. The statement is dimension independent.
+\end{lemma}
+
+\begin{proof}
+Subtract $\nabla f(q)-\nabla f(p)=0$ and use the integral formula $0=\int_0^1H_{p+s(q-p)}(q-p)\,ds$. Subtract $H_p(q-p)$ and use the Lipschitz continuity of $H$. The statement at $q$ is identical.
+\end{proof}
+
+\begin{lemma}[kernel-independent collar powers]\label{lem:selection-collarfactor}
+Write a third point in the pair-scale collar as
+\begin{equation}\label{eq:selection-collarpt2}
+y=x+r(Xt+\rho v),
+\end{equation}
+where $v$ is a unit transverse direction, $|X|$ is bounded on the collar chart and $\rho\ge0$, and let $C_{\rm col}(\mathcal K;t,X,\rho,v)$ be the contact-limit conditional covariance of the scaled third gradient
+\begin{equation}\label{eq:selection-colgrad}
+\bigl(r^{-2}\partial_tf(y),\ r^{-1}\partial_vf(y),\ r^{-1}\partial_wf(y)\bigr),
+\end{equation}
+with $w$ the second transverse direction. For every $\mathcal K$ satisfying Hypothesis~\ref{hyp:selection-jet},
+\begin{equation}\label{eq:selection-colfactor}
+\det C_{\rm col}=\rho^6(X^2+\rho^2)\,A_{\rm col}(\mathcal K;t,X,\rho,v),
+\end{equation}
+where $A_{\rm col}$ extends continuously to $\rho=0$ and to $(X,\rho)=(0,0)$ after the ordinary radial blow-up, and the extension is analytic in $J_6(\mathcal K)$. At the planar jet,
+\begin{equation}\label{eq:selection-Acol0}
+A_{\rm col}(K_0)=\frac{4X^2+\rho^2}{X^2+\rho^2},
+\end{equation}
+whose radial-blow-up minimum is one, and on the jet ball
+\begin{equation}\label{eq:selection-Acol}
+A_{\rm col}(\mathcal K)\ge1-10^{-70}>0.99 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The two transverse gradient residuals vanish linearly with the transverse displacement $\rho v$. Their $2\times2$ conditional covariance is therefore $\rho^2$ times a continuous matrix, and its determinant carries $\rho^4$ exactly. The axial residual has no constant or linear term after the pair station pins. Its random part is linear in $(X,\rho)$ at the scaled level, so its Schur variance is a quadratic form in $(X,\rho)$, contributing the factor $X^2+\rho^2$. These statements follow from Taylor identities and stationarity before any covariance is inserted; therefore the factors are unchanged by the kernel perturbation, and conditional regression only changes the continuous coefficient $A_{\rm col}$. At the planar jet, \eqref{eq:selection-coldet} gives \eqref{eq:selection-Acol0}. By Remark~\ref{rem:selection-side24}, the coefficient map $A_{\rm col}$ has the deliberately loose first-jet derivative bound $10^{40}$ on $B$, uniformly over the compact chart. Hence $A_{\rm col}(\mathcal K)\ge A_{\rm col}(K_0)-10^{40}\cdot10^{-110}\ge1-10^{-70}$, which is \eqref{eq:selection-Acol}.
+\end{proof}
+
+Equation \eqref{eq:selection-colfactor} is (3.14) of the main text.
+
+\begin{lemma}[collar count]\label{lem:selection-collar}
+For the side-$24$ field, uniformly for $t\in S^2$ and on compact positive mark sets,
+\begin{equation}\label{eq:selection-colcount}
+\E^{MS}_rN_{\rm col}\le C_{\rm col}\,r^3 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In a collar configuration with three critical points $M,S,y$, the points span a two-dimensional plane unless $\rho=0$. In the hard transverse direction orthogonal to that plane the Hessian block remains $O(1)$. The three station equations make the mixed hard/plane derivatives $O(r)$ after a fixed-chart divided-difference transformation. The Schur complement therefore reduces every full three-dimensional Hessian determinant to an $O(1)$ hard factor times the two-dimensional rank-two critical-contact determinant. By the exact elimination of Lemma~\ref{lem:selection-elimination}, read in physical units, each two-dimensional determinant is $r^2$ times the chart expression \eqref{eq:selection-B1}, \eqref{eq:selection-B1S} or \eqref{eq:selection-B1y}. This gives a factor $r^2$ in each of $\det H_M$, $\det H_S$ and $\det H_y$, and therefore
+\begin{equation}\label{eq:selection-colprod}
+|\det H_M\det H_S\det H_y|\le Cr^6\,\hat D(X,Y,Z,U),
+\end{equation}
+where $U$ collects the random jet coefficients and $\hat D$ has uniformly bounded Gaussian polynomial moments. Near collision with $M$ or $S$, Lemma~\ref{lem:selection-collision} supplies an additional normalized squared-distance factor. This cancels the $\rho^{-3}$ density singularity in \eqref{eq:selection-coldens}: after integrating $X$ over the collision cone and using the transverse volume $\rho\,d\rho$, the local radial power is at least $\rho$. Away from collisions, the exponential axis suppression of Lemma~\ref{lem:selection-collarchart} is integrable. Collecting powers, $r^{-4}$ from the third-gradient density \eqref{eq:selection-colscale}, $r^6$ from \eqref{eq:selection-colprod}, $r^{-2}$ from the pair Palm normalizer \eqref{eq:selection-normalizer} and $r^3$ from the physical collar volume multiply to $r^3$. This proves \eqref{eq:selection-colcount} at the planar jet.
+
+For the side-$24$ field, the Hessian collision zero, the two-dimensional plane elimination and the hard-complement Schur estimates are deterministic Taylor statements; they do not require the exact planar covariance. Under Hypothesis~\ref{hyp:selection-jet}, which $K_{24}$ satisfies by Remark~\ref{rem:selection-side24}, their random polynomial coefficients have uniformly bounded Gaussian moments, so the collar product bound $r^6$ times a Gaussian polynomial holds with changed constants only. By Lemmas~\ref{lem:selection-pinstab} and~\ref{lem:selection-collarfactor}, the collar zero-density estimate, the collision-cone integration and the $O(r^3)$ count remain uniform for every kernel in the jet ball.
+\end{proof}
+
+\subsubsection{The singular-near count}
+
+\begin{lemma}[singular-near corrected value--gradient frame at the planar jet]\label{lem:selection-singchart}
+Let
+\begin{equation}\label{eq:selection-singpt}
+y=x+s\,\omega,\qquad\omega=(c,Y,Z),\qquad c^2+\rho^2=1,\qquad\eta=r/s,
+\end{equation}
+with $\rho^2=Y^2+Z^2$ and $\eta$ in a fixed compact interval $[0,\eta_0]$, $\eta_0<1$. Let the third value lie in the pair window,
+\begin{equation}\label{eq:selection-window}
+f(y)=b-\alpha\kappa r^3/6,\qquad\alpha\in[0,1],
+\end{equation}
+and use the corrected variables
+\begin{gather}
+V_0=s^{-3}\Bigl[f(y)-f(x)-\frac s2\bigl(Yf_2(y)+Zf_3(y)\bigr)-\frac{sc}3f_1(y)\Bigr],\label{eq:selection-V0}\\
+V_1=s^{-2}f_1(y),\qquad V_2=s^{-1}f_2(y),\qquad V_3=s^{-1}f_3(y).\label{eq:selection-V123}
+\end{gather}
+The transformation from $(f(y),\nabla f(y))$ to $(V_0,V_1,V_2,V_3)$ has determinant of magnitude $s^{-7}$. At contact the random residual limits are
+\begin{gather}
+L_0=-\tfrac1{12}\bigl[Y\,f_{2ij}\omega_i\omega_j+Z\,f_{3ij}\omega_i\omega_j\bigr],\label{eq:selection-L0}\\
+L_1=\tfrac12f_{1ij}\omega_i\omega_j,\label{eq:selection-L1s}\\
+(L_2,L_3)=Q(Y,Z)^{\top},\label{eq:selection-L23}
+\end{gather}
+with summation over repeated indices. The $\eta$-dependent corrections in $V_1$ and the target of $V_0$ are multiples of the already pinned $f_{111}$, and therefore do not change the residual covariance. The exact conditional covariance of $(L_0,L_1)$ is
+\begin{equation}\label{eq:selection-C01}
+C_{00}=\frac{\rho^2(c^2+\rho^2)(c^2+3\rho^2)}{72},\qquad C_{01}=-\frac{c\rho^2(c^2+\rho^2)}6,\qquad C_{11}=\frac{\rho^2(4c^2+\rho^2)}2,
+\end{equation}
+so that
+\begin{equation}\label{eq:selection-det01}
+\det C_{(L_0,L_1)}=\frac{\rho^6(c^2+\rho^2)(3c^2+\rho^2)}{48}.
+\end{equation}
+Combining this with $\det C_\perp=2\rho^4$ gives
+\begin{equation}\label{eq:selection-det4}
+\det\Cov(L_0,L_1,L_2,L_3\mid P)=\frac{\rho^{10}(c^2+\rho^2)(3c^2+\rho^2)}{24},
+\end{equation}
+which on the unit sphere is
+\begin{equation}\label{eq:selection-det4sphere}
+\det\Cov(L_0,L_1,L_2,L_3\mid P)=\frac{\rho^{10}(3c^2+\rho^2)}{24}.
+\end{equation}
+The conditional mean mismatch in $V_1$ is
+\begin{equation}\label{eq:selection-mismatch}
+\kappa\bigl(c^2-\eta^2/4\bigr).
+\end{equation}
+Consequently the angular density satisfies, near the axis,
+\begin{equation}\label{eq:selection-pcorr}
+p_{\rm corr}\le C\rho^{-5}\exp(-c_*/\rho^4)
+\end{equation}
+for a constant $c_*>0$, and
+\begin{equation}\label{eq:selection-singdens}
+\int_{S^2}p_{(f(y),\nabla f(y))\mid\text{pair pins}}(u,0)\,d\omega\le C\,s^{-7}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The transformation \eqref{eq:selection-V0}--\eqref{eq:selection-V123} is triangular with diagonal scalings $s^{-3},s^{-2},s^{-1},s^{-1}$, whence the determinant $s^{-7}$. The covariances \eqref{eq:selection-C01}--\eqref{eq:selection-det4} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-det4sphere} uses $c^2+\rho^2=1$. Near the pair axis, $|c|$ tends to one and $\eta\le\eta_0<1$, so \eqref{eq:selection-mismatch} is bounded away from zero. Inverting \eqref{eq:selection-C01} gives a Mahalanobis penalty at least $c_0\kappa^2/\rho^4$; therefore the angular density has the uniform form \eqref{eq:selection-pcorr} near the axis, which is integrable against the $S^2$ area element $\rho\,d\rho\,d\phi$. Away from the axis, \eqref{eq:selection-det4sphere} has a positive compact eigenfloor. Thus the exact finite-$r$ corrected covariance extends continuously and, with the Jacobian $s^{-7}$, supplies \eqref{eq:selection-singdens}.
+\end{proof}
+
+The bound \eqref{eq:selection-singdens} is the density half of the singular-near witness bound; the determinant half is Lemma~\ref{lem:selection-envelope}.
+
+\begin{lemma}[kernel-independent extra $\rho^2$ cancellation]\label{lem:selection-singfactor}
+Write $y=x+s\omega$ with $\omega=(c,\rho v)$, $c^2+\rho^2=1$ and $\eta=r/s\in[0,\eta_0]$, $\eta_0<1$. Use the corrected variables $V_0,\dots,V_3$ of Lemma~\ref{lem:selection-singchart}, and let $C_{\rm sing}$ denote their contact-limit conditional covariance. For every $\mathcal K$ satisfying Hypothesis~\ref{hyp:selection-jet},
+\begin{equation}\label{eq:selection-singfactor}
+\det C_{\rm sing}=\rho^{10}(3c^2+\rho^2)\,A_{\rm sing}(\mathcal K;t,c,\rho,v),
+\end{equation}
+where $A_{\rm sing}$ extends continuously to $\rho=0$ and is analytic in $J_6(\mathcal K)$. At the planar jet,
+\begin{equation}\label{eq:selection-Asing0}
+A_{\rm sing}(K_0)=\frac1{24},
+\end{equation}
+and on the jet ball
+\begin{equation}\label{eq:selection-Asing}
+A_{\rm sing}(\mathcal K)\ge\frac1{24}-10^{-70}>\frac1{25}.
+\end{equation}
+Thus the $\rho^{-5}$ density factor and the $\exp(-c_*/\rho^4)$ axis suppression persist with changed constants. The mean mismatch $\kappa(c^2-\eta^2/4)$ is uniformly separated from zero in the axis chart because $\eta_0<1$, and the perturbation of its regression coefficient is below $10^{-70}$ on compact positive $\kappa$ sets.
+\end{lemma}
+
+\begin{proof}
+The transverse block $(L_2,L_3)$ again contributes $\rho^4$ exactly. The nontrivial point is the corrected $(L_0,L_1)$ block. Independently of $\mathcal K$, Taylor expansion and the pair station pins give, as $\rho\to0$,
+\begin{equation}\label{eq:selection-singlead}
+L_0=-\tfrac1{12}\bigl[Yf_{112}+Zf_{113}\bigr]+O(\rho^2),\qquad L_1^{\rm random}=c\bigl[Yf_{112}+Zf_{113}\bigr]+O(\rho^2).
+\end{equation}
+The leading random variables are proportional before any covariance is taken. Consequently the nominal $\rho^4$ term in the $2\times2$ determinant cancels identically for every stationary even kernel, leaving $\rho^6$. The remaining normalized coefficient is continuous in the jet and angular variables. Multiplication by the transverse determinant $\rho^4$ gives $\rho^{10}$. The positive quadratic angular factor may be normalized by $3c^2+\rho^2$, which is bounded away from zero on the unit sphere. At the planar jet, \eqref{eq:selection-det4sphere} gives \eqref{eq:selection-Asing0}. The derivative envelope $10^{40}$ of Remark~\ref{rem:selection-side24} and the jet ball \eqref{eq:selection-jetball} give \eqref{eq:selection-Asing}.
+\end{proof}
+
+Equation \eqref{eq:selection-singfactor} is (3.15) of the main text.
+
+\begin{lemma}[anisotropic triple-determinant envelope]\label{lem:selection-envelope}
+In the singular-near chart, for $\rho$ bounded away from zero,
+\begin{gather}
+|\det H_M|+|\det H_S|\le C\,r(r+s^2)\,\Psi(U),\label{eq:selection-endenv}\\
+|\det H_y|\le C\,(r^2+s^3)\,\Psi(U),\label{eq:selection-thirdenv}
+\end{gather}
+for a fixed polynomial $\Psi$ with uniformly bounded conditional Gaussian moments, where $U$ collects the random jet coefficients. Consequently
+\begin{equation}\label{eq:selection-envelope}
+\E\bigl[W_r|\det H_y|\bigm|\text{pins},\ f(y)=u,\ \nabla f(y)=0\bigr]\le C\,[r(r+s^2)]^2(r^2+s^3).
+\end{equation}
+The same bounds hold uniformly for every kernel in the jet ball, in particular for $K_{24}$, with changed constants only.
+\end{lemma}
+
+\begin{proof}
+For $\rho$ bounded away from zero, $M$, $S$ and $y$ span the plane $\Pi=\operatorname{span}(e_1,\omega)$. Restrict the cubic contact polynomial to $\Pi$. Its pair station pins and third station constraint form the two-dimensional pin system of Lemma~\ref{lem:selection-elimination}, with $\eta=r/s$ and with the in-plane transverse endpoint curvatures as $q_M,q_S$, and its third value lies in the window \eqref{eq:selection-window}, $\alpha\in[0,1]$. The exact elimination \eqref{eq:selection-B1}--\eqref{eq:selection-Ny} gives the three in-plane determinants explicitly; in physical units they are $r^2$ times these chart expressions.
+
+Let $e_h$ be the hard unit direction orthogonal to $\Pi$. The function $g=\partial_{e_h}f$ restricted to $\Pi$ vanishes at $M$, $S$ and $y$. Divided-difference interpolation on the noncollinear triangle gives the mixed hard/plane Hessian component along the short pair axis as $O(r)$, and the component in the long $M$-to-$y$ direction as $O(s)$, with constants polynomial in $1/\rho$. The hard curvature $f_{e_he_h}$ remains $O(1)$.
+
+Write each full Hessian in plane/hard block form. The pair-plane axial entry is $O(r)$, every plane entry is $O(s)$, and the exact two-dimensional determinant is $O(r^2)$. The Schur formula therefore gives \eqref{eq:selection-endenv} at $M$ and $S$ and \eqref{eq:selection-thirdenv} at $y$. The terms $s^2$ and $s^3$ are the possible hard-direction Schur corrections; they cannot be discarded when $s$ is much larger than $r$. Multiplying the three bounds and taking conditional expectations gives \eqref{eq:selection-envelope}.
+
+The Hessian collision zero, the two-dimensional plane elimination and the hard-complement Schur estimates are deterministic Taylor statements and do not require the exact planar covariance. Under Hypothesis~\ref{hyp:selection-jet} their random polynomial coefficients have uniformly bounded Gaussian moments, so \eqref{eq:selection-envelope} holds throughout the jet ball with changed constants only.
+\end{proof}
+
+The envelope \eqref{eq:selection-envelope} is (3.16) of the main text.
+
+\begin{lemma}[singular-near count]\label{lem:selection-sing}
+For the side-$24$ field, uniformly for $t\in S^2$ and on compact positive mark sets,
+\begin{equation}\label{eq:selection-singcount}
+\E^{MS}_rN_{\rm sing}\le C_{\rm sing}\,r^3 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Combining the density bound \eqref{eq:selection-singdens}, the envelope \eqref{eq:selection-envelope}, the pair normalizer $Z_r\ge c_Zr^2$ of \eqref{eq:selection-normalizer}, the value-window width $O(r^3)$ of \eqref{eq:selection-window} and the polar volume $s^2\,ds$ gives
+\begin{equation}\label{eq:selection-singint}
+\E^{MS}_rN_{\rm sing}\le C\,r\int_{C_1r}^{\delta}s^{-5}\,[r(r+s^2)]^2(r^2+s^3)\,ds .
+\end{equation}
+Expanding the polynomial produces the six terms
+\begin{equation}\label{eq:selection-sixterms}
+r^7s^{-5},\qquad r^6s^{-3},\qquad r^5s^{-2},\qquad r^5s^{-1},\qquad r^4,\qquad r^3s^2,
+\end{equation}
+up to fixed numerical factors. Integration from $C_1r$ to $\delta$ bounds them respectively by $O(r^3)$, $O(r^4)$, $O(r^4)$, $O(r^5\log(1/r))$, $O(r^4)$ and $O(r^3)$. This proves \eqref{eq:selection-singcount} at the planar jet. For the side-$24$ field, Lemma~\ref{lem:selection-singfactor} shows that the $\rho^{-5}$ density factor, the $\exp(-c_*/\rho^4)$ axis suppression and the separated mean mismatch persist, so \eqref{eq:selection-singdens} holds with changed constants; with Lemma~\ref{lem:selection-envelope} the same power count applies.
+\end{proof}
+
+\subsubsection{The fixed-distance count}
+
+\begin{lemma}[joint density block]\label{lem:selection-farblock}
+Let
+\begin{equation}\label{eq:selection-farblock}
+\mathcal A_r=\bigl(P^{\rm corr}_r,f(y),\nabla f(y)\bigr),\qquad\dist(y,\{M,S\})\ge\delta,
+\end{equation}
+where $P^{\rm corr}_r$ is the corrected pair pin vector. For the side-$24$ field, complete positive Fourier support and derivative-distribution independence give, uniformly on the compact separated configuration set,
+\begin{equation}\label{eq:selection-farfloor}
+c_\delta I\le\Sigma_{\mathcal A\mathcal A}\le C_\delta I .
+\end{equation}
+Let $L_r(b,\kappa)$ be the corrected pair-pin target and let the remote critical value be
+\begin{equation}\label{eq:selection-farwindow}
+u=b-\alpha\kappa r^3/6,\qquad\alpha\in[0,1].
+\end{equation}
+The full density target is
+\begin{equation}\label{eq:selection-fartarget}
+a_r(b,\kappa,\alpha)=\bigl(L_r(b,\kappa),u,0\bigr).
+\end{equation}
+After reducing $r_\delta$ if needed, the pair component obeys
+\begin{equation}\label{eq:selection-Lr}
+\|L_r(b,\kappa)\|^2\ge\tfrac12(b^2+\kappa^2),
+\end{equation}
+and the joint density satisfies
+\begin{equation}\label{eq:selection-fardens}
+p_{\mathcal A}(a_r)\le C\exp\bigl[-c\|a_r\|^2\bigr]\le C\exp\bigl[-c'(b^2+\kappa^2)\bigr].
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The contact-limit corrected pair frame consists of distinct derivative coordinates at $x$, and $(f(y),\nabla f(y))$ of derivative coordinates at $y$, so the associated distributions are linearly independent; full-spectrum Gram positivity (Section~\ref{sec:setting}) and compactness of the separated configuration set give \eqref{eq:selection-farfloor}. Since $\lambda_{\max}(\Sigma_{\mathcal A\mathcal A})\le C_\delta$, the joint density itself satisfies the first inequality in \eqref{eq:selection-fardens}, and \eqref{eq:selection-Lr} gives the second. No second conditioning step is needed to preserve the Gaussian penalty.
+\end{proof}
+
+\begin{lemma}[fixed-distance count]\label{lem:selection-far}
+Let $\mathcal Y_\delta$ be the compact side-$24$ configuration region with $\dist(y,\{M,S\})\ge\delta$, and let $H_y$ be the Hessian at $y$. Then
+\begin{equation}\label{eq:selection-threedet}
+\E\bigl[|\det H_M\det H_S\det H_y|\bigm|\mathcal A_r=a_r\bigr]\le Cr^2\bigl[1+(|b|+\kappa)^9\bigr],
+\end{equation}
+and
+\begin{equation}\label{eq:selection-farcount}
+\E^{MS}_rN_{\rm far}\le Cr^3\bigl[1+(|b|+\kappa)^{10}\bigr]\exp\bigl[-c(b^2+\kappa^2)\bigr].
+\end{equation}
+In particular $\E^{MS}_rN_{\rm far}\le C_{\rm far}r^3$ uniformly for $t\in S^2$ and on compact positive mark sets.
+\end{lemma}
+
+\begin{proof}
+Condition on $\mathcal A_r=a_r(b,\kappa,\alpha)$. All raw cross-covariances with the scaled endpoint variables of Lemma~\ref{lem:selection-endpoint} and with $H_y$ are bounded, and only $\Sigma_{\mathcal A\mathcal A}$ is inverted. Gaussian regression therefore gives a conditional mean bounded by $C(1+|b|+\kappa)$ and a bounded positive-semidefinite conditional covariance, even if the enlarged Hessian block is degenerate. Since the product of three $3\times3$ determinants has total degree nine, \eqref{eq:selection-softdet} and Lemma~\ref{lem:selection-moments} give \eqref{eq:selection-threedet}.
+
+The full target is $a_r=(L_r(b,\kappa),u,0)$ with $u\in[b-\kappa r^3/6,b]$, and \eqref{eq:selection-fardens} gives $p_{\mathcal A}(a_r)\le C\exp[-c(b^2+\kappa^2)]$. Using \eqref{eq:selection-threedet}, the unnormalized Kac--Rice numerator is bounded by
+\begin{equation}\label{eq:selection-farnum}
+\begin{aligned}
+\E^0[W_rN_{\rm far}]&\le Cr^2\,\frac{\kappa r^3}6\,\bigl[1+(|b|+\kappa)^9\bigr]\exp\bigl[-c(b^2+\kappa^2)\bigr]\\
+&\le Cr^5\bigl[1+(|b|+\kappa)^{10}\bigr]\exp\bigl[-c(b^2+\kappa^2)\bigr],
+\end{aligned}
+\end{equation}
+where the window width $\kappa r^3/6$ comes from the integration over $u$, the extra factor $\kappa$ is absorbed into the polynomial, and the finite volume of $\mathcal Y_\delta$ is absorbed into $C$. Dividing explicitly by $Z_r=\E^0[W_r]\ge c_Zr^2$ from \eqref{eq:selection-normalizer} gives \eqref{eq:selection-farcount}.
+\end{proof}
+
+The bound \eqref{eq:selection-farcount} is (3.17) of the main text. After the lifetime pushforward, multiplication by $\kappa^{-2/3}$ remains integrable at zero, and the Gaussian factor controls infinity.
+
+\subsection{Capture and escape}\label{ssec:selection-escape}
+
+\paragraph{Normalized potential.} On a fixed compact convex chart $D^+$ consider, for $X\in\R$ and $Y\in\R^2$,
+\begin{equation}\label{eq:selection-potential}
+P(X,Y)=p_0(X)+\tfrac12\bigl(X^2-\tfrac14\bigr)a\cdot Y-\tfrac12Y^{\top}TY+\tfrac12X\,Y^{\top}WY+\tfrac16C[Y,Y,Y]+r\,Q(X,Y),
+\end{equation}
+where $p_0(X)=X^3/3-X/4-1/12$, $T\succ0$ is symmetric, $W$ is symmetric, $C$ is a symmetric cubic tensor, and $Q(M)=Q(S)=0$, $\nabla Q(M)=\nabla Q(S)=0$ at $M=(-\frac12,0)$ and $S=(\frac12,0)$; note $P(M)=p_0(-\frac12)=0$. Put
+\begin{equation}\label{eq:selection-R}
+R=1+|a|+\|W\|+\|C\|+\|Q\|_{C^2(D^+)}\ge1,\qquad\tau=\lambda_{\min}(T).
+\end{equation}
+For the conditioned side-$24$ field, $T=-Q_\perp/(\kappa r)$ (see \eqref{eq:selection-Tr} below; the factor $1/r$ is essential). Fix
+\begin{equation}\label{eq:selection-assume}
+K=4096,\qquad\varepsilon_0=\frac1{1024K},\qquad\text{and assume}\qquad rR^5\le\varepsilon_0,\qquad\tau\ge2KR^5+2R .
+\end{equation}
+Write $E(Y)=Y^{\top}TY$ and $q(Y)=|TY|$; then $q^2\ge\tau E$ and $|Y|^2\le E/\tau$. The gradient of $P$ is
+\begin{equation}\label{eq:selection-gradient}
+\begin{aligned}
+F_X&=X^2-\tfrac14+Xa\cdot Y+\tfrac12Y^{\top}WY+rQ_X,\\
+F_Y&=\tfrac12\bigl(X^2-\tfrac14\bigr)a-TY+XWY+\tfrac12C[Y,Y,\cdot\,]+r\nabla_YQ,
+\end{aligned}
+\end{equation}
+and the half-branches below are trajectories of the gradient-ascent flow $(\dot X,\dot Y)=(F_X,F_Y)$.
+
+\begin{lemma}[endpoint energy slope]\label{lem:selection-slope}
+The Jacobian at $S$ has block form $J_S=\begin{pmatrix}A&B^{\top}\\B&-T+E_D\end{pmatrix}$ with $A\ge3/4$, $|B|\le R$ and $\|E_D\|\le3R/4$ (after one fixed small-$r$ reduction), and exactly one positive eigenvalue. Its positive eigenvector $v=(v_X,v_Y)$ satisfies
+\begin{equation}\label{eq:selection-slope}
+E(v_Y)\le4\,(R^2/\tau)\,|v_X|^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+From $J_Sv=\lambda_+v$, the transverse block gives $(\lambda_+I+T-E_D)v_Y=Bv_X$. Taking the inner product with $v_Y$,
+\[
+E(v_Y)=v_Y^{\top}Tv_Y\le|B|\,|v_X|\,|v_Y|+\|E_D\|\,|v_Y|^2\le R\,|v_X|\,|v_Y|+\tfrac{3R}4|v_Y|^2,
+\]
+using $\lambda_+>0$ and $v_Y^{\top}E_Dv_Y\le\|E_D\|\,|v_Y|^2$. Young's inequality $R|v_X||v_Y|\le\frac{R^2}\tau|v_X|^2+\frac\tau4|v_Y|^2$ and the energy bound $|v_Y|^2\le E(v_Y)/\tau$ give
+\[
+E(v_Y)\le\frac{R^2}\tau|v_X|^2+\Bigl(\frac\tau4+\frac{3R}4\Bigr)|v_Y|^2\le\frac{R^2}\tau|v_X|^2+\Bigl(\frac14+\frac38\Bigr)E(v_Y),
+\]
+where $\tau\ge2R$, from \eqref{eq:selection-assume}, gives $\frac{3R}4\cdot\frac1\tau\le\frac38$. Hence $\frac38E(v_Y)\le\frac{R^2}\tau|v_X|^2$, that is, $E(v_Y)\le\frac83(R^2/\tau)|v_X|^2\le4(R^2/\tau)|v_X|^2$. The strict final inequality leaves a fixed normalized margin, which persists under the exact $C^1$ perturbation of Lemma~\ref{lem:selection-robust}.
+\end{proof}
+
+\begin{lemma}[outward energy cone]\label{lem:selection-cone}
+Let $\xi=X-\frac12$, $\delta_R=1/(512R^3)$ and
+\[
+\mathcal C_E=\bigl\{0\le\xi\le\delta_R,\ E(Y)\le4(R^2/\tau)\xi^2\bigr\}.
+\]
+On $\mathcal C_E$: $q\ge2R\xi$ on the nonzero boundary, $|Y|\le\xi/K$, $F_X\ge3\xi/4$, and $G_E=E(Y)-4(R^2/\tau)\xi^2$ satisfies
+\begin{equation}\label{eq:selection-coneflux}
+\tfrac12\dot G_E\le-\tfrac23q^2<0\qquad\text{on }\{G_E=0\}.
+\end{equation}
+Hence the outward half-branch stays in $\mathcal C_E$ until $\xi=\delta_R$.
+\end{lemma}
+
+\begin{proof}
+On $G_E=0$ we have $E=4(R^2/\tau)\xi^2$, so $q\ge\sqrt{\tau E}=2R\xi$ and $|Y|\le\sqrt{E/\tau}=2R\xi/\tau\le\xi/(KR^4)$. (The full strength $\tau\ge2KR^5$ is used here, not merely $\tau\ge2KR$; this matters for the next bound when $R$ is large.) Then $|Xa\cdot Y|\le(\frac12+\delta_R)R|Y|\le(\frac12+\delta_R)\xi/(KR^3)\le\xi/16$, as $(\frac12+\delta_R)/(KR^3)\le1/K\le1/16$; next $\frac12|Y^{\top}WY|\le\frac R2|Y|^2\le\frac R2\cdot\frac{\xi^2}{K^2R^8}\le\frac\xi{16}\cdot\frac{8\xi}{K^2R^7}\le\xi/16$, as $8\xi\le8\delta_R\le1\le K^2R^7$; and $|rQ_X|\le rR\le\varepsilon_0/R^4\le\xi/16$, as $\xi\le\delta_R$ and $\varepsilon_0$ is small relative to $\delta_R$: precisely, $rR\le\varepsilon_0R^{-4}<3\delta_R/16$ since $\varepsilon_0R^{-4}<3/(16\cdot512R^3)$. Since $X^2-\frac14=\xi(1+\xi)\ge\xi$, we get $F_X\ge\xi-3\xi/16\ge3\xi/4$.
+
+For the flux, $\frac12\dot G_E=(TY)\cdot F_Y-4(R^2/\tau)\xi F_X$, and the moving-boundary term is nonpositive because $F_X\ge0$. In $(TY)\cdot F_Y$ the leading term is $-q^2$. We divide the four adverse terms by $q^2$, using $q\ge2R\xi$, $|Y|\le2R\xi/\tau$, $|X|\le\frac12+\delta_R$, $X^2-\frac14=\xi(1+\xi)$, and, for the last term, that $\nabla Q$ vanishes at $S$ by \eqref{eq:selection-potential}, so that $|\nabla_YQ|\le R(\xi+|Y|)$ on $\mathcal C_E$ by the $C^2$ bound:
+\begin{equation}\label{eq:selection-coneledger}
+\begin{aligned}
+\frac{|(TY)\cdot\frac12(X^2-\frac14)a|}{q^2}&\le\frac{\frac12\xi(1+\xi)Rq}{q^2}=\frac{\xi(1+\xi)R}{2q}\le\frac{1+\xi}4\le\frac{1+\delta_R}4\le\frac{257}{1024},\\
+\frac{|(TY)\cdot XWY|}{q^2}&\le\frac{|X|\,R\,|Y|}q\le\frac{(\frac12+\delta_R)R\,(2R\xi/\tau)}{2R\xi}=\frac{(\frac12+\delta_R)R}\tau\le\frac{257}{1024K},\\
+\frac{|(TY)\cdot\frac12C[Y,Y,\cdot\,]|}{q^2}&\le\frac{\frac12R|Y|^2q}{q^2}\le\frac{R(2R\xi/\tau)^2}{2\cdot2R\xi}=\frac{R^2\xi}{\tau^2}\le\frac{\delta_R}{4K^2R^8}\le\frac1{2048K^2},\\
+\frac{|(TY)\cdot r\nabla_YQ|}{q^2}&\le\frac{rR(\xi+|Y|)}q\le\frac{rR\xi(1+2R/\tau)}{2R\xi}=\frac{r(1+2R/\tau)}2\le2\varepsilon_0 .
+\end{aligned}
+\end{equation}
+Here the second line uses $q\ge2R\xi$ and $|Y|\le2R\xi/\tau$, the third uses $\tau\ge2KR^5$ and $\xi\le\delta_R=1/(512R^3)$, and the fourth uses $r\le\varepsilon_0/R^5\le\varepsilon_0$ and $2R/\tau\le1/(KR^4)\le1$. The four brackets $\frac{257}{1024}$, $\frac{257}{1024K}$, $\frac1{2048K^2}$ and $2\varepsilon_0$ sum to $\frac{8625610753}{34359738368}<\frac13$ (exact rational arithmetic). Hence $\frac12\dot G_E\le-(1-\frac13)q^2$.
+\end{proof}
+
+\begin{lemma}[outward energy strip and level bound]\label{lem:selection-strip}
+Let
+\[
+\mathcal S_E=\bigl\{\tfrac12+\delta_R\le X\le\tfrac54,\ E(Y)\le E_*\bigr\},\qquad E_*=\tfrac9{16}(R^2/\tau).
+\]
+On its lateral boundary, $q\ge3R/4$, $|Y|\le3R/(4\tau)$, $F_X\ge3\delta_R/4>0$, and
+\begin{equation}\label{eq:selection-stripflux}
+\tfrac12\dot E\le-\tfrac1{10}q^2<0\qquad\text{on }\{E=E_*\}.
+\end{equation}
+The branch therefore reaches $X=\frac54$ with
+\begin{equation}\label{eq:selection-level}
+P\bigl(\tfrac54,Y\bigr)>\frac{49}{192}-\frac1{768}=\frac{65}{256}>\frac14>0=P(M):
+\end{equation}
+it reaches a point strictly above the maximum level and cannot terminate at $M$.
+\end{lemma}
+
+\begin{proof}
+At $\xi=\delta_R$, $E\le4(R^2/\tau)\delta_R^2=\frac{4\delta_R^2}{9/16}E_*<E_*$, since $\delta_R=1/(512R^3)<3/8$. On $\{E=E_*\}$, $q\ge\sqrt{\tau E_*}=3R/4$, and the adverse-to-$q^2$ ratios are $\frac78$, $\frac5{8K}$, $\frac3{32K^2}$ and $\frac43\varepsilon_0$, which sum to $\frac{1409532425}{1610612736}<\frac9{10}$ (exact rational arithmetic); this gives \eqref{eq:selection-stripflux}. Invariance together with $F_X>0$ gives arrival at $X=\frac54$. For the level, $p_0(\frac54)=\frac{49}{192}$, and
+\[
+\tfrac12Y^{\top}TY\le\tfrac12E_*=\frac{9R^2}{32\tau}\le\frac9{64KR^3}<\frac1{4K};
+\]
+this is the point of the energy adaptation: no bound on $\lambda_{\max}(T)$ is needed, because $E_*$ itself is $O(R^2/\tau)$. The remaining adverse level terms total $\frac{21}{32K}+\frac1{K^2}+3\varepsilon_0+\frac3{8192}$, and the complete bracket is
+\[
+\frac{21}{32K}+\frac1{K^2}+3\varepsilon_0+\frac3{8192}+\frac1{4K}=\frac{9869}{16777216}<\frac1{768}
+\]
+(exact rational arithmetic), which gives \eqref{eq:selection-level}.
+\end{proof}
+
+\begin{lemma}[inward capture]\label{lem:selection-capture}
+Let $m=2R/\tau$, $\delta_0=1/(512R^4)$, and consider the tapered tube
+\[
+\mathcal T_{\rm in}=\bigl\{-\tfrac12<X<\tfrac12,\ |Y|\le m\bigl(\tfrac14-X^2\bigr)\bigr\}.
+\]
+\begin{enumerate}[(i)]
+\item The inward half-branch of $S$ enters $\mathcal T_{\rm in}$.
+\item (\emph{Lateral flux.}) On $\{|Y|=m(\frac14-X^2)\}$ with $\frac14-X^2\ge\delta_0$, the function $G=|Y|^2-m^2(\frac14-X^2)^2$ satisfies $\dot G<0$.
+\item (\emph{Capture.}) The inward half-branch converges to $M$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) The stable axial eigenvector at $S$ satisfies the slope bound $|v_Y|/|v_X|<2R/\tau=m$; this is the same Young-inequality computation as in Lemma~\ref{lem:selection-slope}, applied to the stable eigenvalue. Inside the tube, $F_X=X^2-\frac14+O(R|Y|,R|Y|^2,rR)<0$ whenever $\frac14-X^2\ge\delta_0$ (the arithmetic is displayed at the end of (iii) below), so the branch moves leftward into the tube.
+
+(ii) The threshold $\delta_0$ is chosen so that $2Kr\le\delta_0$: indeed $2Kr\le2K\varepsilon_0/R^5=\frac1{512R^5}\le\frac1{512R^4}=\delta_0$, using $rR^5\le\varepsilon_0$, $K\varepsilon_0=1/1024$ and $R\ge1$. This is what makes the $r$-adverse terms at most $1/(4K)$ below. On $G=0$,
+\[
+\dot G=2Y\cdot F_Y+4m^2X\bigl(\tfrac14-X^2\bigr)F_X .
+\]
+The leading term is $-2Y^{\top}TY\le-2\tau m^2(\frac14-X^2)^2$. The adverse terms, using $|Y|=m(\frac14-X^2)$, $|X|\le\frac12$, $\frac14-X^2\le\frac14$ and $|F_X|\le(\frac14-X^2)+\frac R2|Y|+\frac R2|Y|^2+rR$, are
+\begin{equation}\label{eq:selection-tubeterms}
+\begin{aligned}
+\bigl|2Y\cdot\tfrac12\bigl(X^2-\tfrac14\bigr)a\bigr|&\le R|Y|\bigl(\tfrac14-X^2\bigr)=mR\bigl(\tfrac14-X^2\bigr)^2,\\
+|2Y\cdot XWY|=2|X|\,|Y^{\top}WY|&\le2|X|\,m^2R\bigl(\tfrac14-X^2\bigr)^2\le m^2R\bigl(\tfrac14-X^2\bigr)^2,\\
+\bigl|Y\cdot C[Y,Y,\cdot\,]\bigr|&\le m^3R\bigl(\tfrac14-X^2\bigr)^3\le\tfrac14m^3R\bigl(\tfrac14-X^2\bigr)^2,\\
+|2Y\cdot r\nabla Q|&\le2mrR\bigl(\tfrac14-X^2\bigr),
+\end{aligned}
+\end{equation}
+and dividing the last by the leading term $2\tau m^2(\frac14-X^2)^2$ gives the ratio $rR/(\tau m(\frac14-X^2))\le rR/(2R\delta_0)=r/(2\delta_0)\le1/(4K)$, using $\tau m=2R$ and $2Kr\le\delta_0$. The moving-boundary term satisfies, factoring $(\frac14-X^2)^2$ out of the bound for $|F_X|$, with $\frac14-X^2\le\frac14$ in the quadratic term and $(\frac14-X^2)^{-1}\le\delta_0^{-1}$ in the last,
+\[
+\bigl|4m^2X\bigl(\tfrac14-X^2\bigr)F_X\bigr|\le2m^2\bigl(\tfrac14-X^2\bigr)^2\Bigl(1+\frac{Rm}2+\frac{Rm^2}8+\frac{rR}{\delta_0}\Bigr),
+\]
+where $rR/\delta_0\le rR\cdot512R^4=512rR^5\le512\varepsilon_0=\frac1{2K}=\frac1{8192}$. Collecting and dividing by $2\tau m^2(\frac14-X^2)^2$, the adverse ratio is at most
+\begin{equation}\label{eq:selection-tubeledger}
+\begin{aligned}
+&\frac R{2\tau m}+\frac R{2\tau}+\frac{mR}{8\tau}+\frac1{4K}+\frac1\tau\Bigl(1+\frac{Rm}2+\frac{Rm^2}8+\frac1{8192}\Bigr)\\
+&\qquad=\frac14+\frac R{2\tau}+\frac{R^2}{4\tau^2}+\frac1{4K}+\frac1\tau\Bigl(\frac{8193}{8192}+\frac{R^2}\tau+\frac{R^3}{2\tau^2}\Bigr),
+\end{aligned}
+\end{equation}
+where $R/(2\tau m)=R/(4R)=\frac14$ and $m=2R/\tau$. Since $\tau\ge2KR^5+2R$ and $K=4096$: $R/(2\tau)\le1/(4K)$, $R^2/(4\tau^2)\le1/(16K^2R^6)$, $1/\tau\le1/(2K)$, and the final bracket is at most $\frac{8193}{8192}+\frac1{2K}+\frac1{8K^2}\le\frac32$. So the total ratio is at most
+\[
+\frac14+\frac1{4K}+\frac1{16K^2}+\frac1{4K}+\frac1{2K}\Bigl(\frac32+\frac1{2K}+\frac1{8K^2}\Bigr)<\frac14+\frac3K<\frac13 .
+\]
+Hence $\dot G\le-\frac23\tau m^2(\frac14-X^2)^2<0$: trajectories cannot exit through the lateral walls.
+
+(iii) At $M$ the Jacobian $J_M=\begin{pmatrix}A_M&B_M^{\top}\\B_M&-T+E_D\end{pmatrix}$ is negative definite: for $w=(w_X,w_Y)$,
+\[
+w^{\top}J_Mw\le-\tfrac34w_X^2+2R|w_X||w_Y|-\tau|w_Y|^2+\tfrac{3R}4|w_Y|^2\le-\tfrac38w_X^2-\tfrac\tau2|w_Y|^2,
+\]
+by Young's inequality and $\tau\ge2KR^5+2R$. Hence, on the ball $B_{\rho_B}(M)$ with $\rho_B:=1/(16R)$, the Lyapunov function $V=(X+\frac12)^2+|Y|^2$ satisfies $\dot V\le-2\min(\frac38,\frac\tau2)V+O(RV^{3/2})<0$ on $\partial B_{\rho_B}(M)$, so the ball is forward invariant and every trajectory entering it converges to the sink $M$. The tube cross-section at $X=-\frac12+\delta_0$ (where $\frac14-X^2\ge\delta_0$ holds with room to spare) has half-width
+\[
+m\bigl(\tfrac14-X^2\bigr)\le2m\delta_0=\frac{2\cdot(2R/\tau)}{512R^4}=\frac1{128\,\tau R^3}<\frac1{16R}=\rho_B,
+\]
+and $\delta_0=\frac1{512R^4}<\frac1{16R}=\rho_B$. Since $X$ decreases monotonically along the inward branch inside the tube ($F_X<0$ there: the adverse-to-$(\frac14-X^2)$ ratio is at most $Rm+\frac{Rm^2}8+\frac{rR}{\delta_0}\le\frac1{KR^3}+\frac1{8K^2R^7}+\frac1{8192}<1$), the branch reaches the section $X=-\frac12+\delta_0$ inside $B_{\rho_B}(M)$ and is captured.
+\end{proof}
+
+\begin{lemma}[exact-field robustness]\label{lem:selection-robust}
+Every strict inequality in Lemmas~\ref{lem:selection-slope}--\ref{lem:selection-capture} has a margin of at least $\frac1{10}q^2$, $\frac23q^2$, $\frac13$ of the leading term, or a fixed fraction of $\rho_B^2$, and the adverse brackets are at most $\frac13$, $\frac9{10}$ and $\frac1{768}$ of their budgets. A pin-preserving $C^1$ perturbation of the gradient field of size $\eta_R=1/(8192R^3)$ changes each flux by less than half the margin, so the conclusions of these lemmas persist. For the conditioned side-$24$ field, $\|F_{\rm exact}-F\|_{C^1(D^+)}\le C_+r$ on the fifth-derivative good event, and $C_+r\le\eta_R$ for
+\begin{equation}\label{eq:selection-rmat}
+r\le r_{\rm mat}=\min\Bigl\{1,\ \bigl[1/(8192\,C_+\varepsilon_0^{3/5})\bigr]^{5/2}\Bigr\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In $\mathcal C_E$ the perturbation error is $O(\eta_R\xi)$ against $q\ge2R\xi$; on $\{E=E_*\}$ it is at most $q\eta_R\le\frac{4\eta_R}{3R}q^2$; and in the tube it is $O(\eta_R|Y|)$ against the floor $\tau m^2(\frac14-X^2)^2$. In each case this is less than half of the corresponding margin. The bound $\|F_{\rm exact}-F\|_{C^1(D^+)}\le C_+r$ holds on the fifth-derivative good event of Lemma~\ref{lem:selection-fifth}, and \eqref{eq:selection-rmat} gives $C_+r\le\eta_R$.
+\end{proof}
+
+\begin{theorem}[energy-adapted capture and escape]\label{thm:selection-escape}
+Under \eqref{eq:selection-potential}--\eqref{eq:selection-assume} and $0<r\le r_{\rm mat}$:
+\begin{enumerate}[(i)]
+\item the $M$-ward unstable half-branch of $S$ converges to $M$ through $\mathcal T_{\rm in}$;
+\item the outward half-branch remains in $\mathcal C_E\cup\mathcal S_E$ and reaches $X=\frac54$ at a level strictly above $f(M)$, hence cannot terminate at $M$;
+\item both conclusions hold for the exact conditioned field on the fifth-derivative good event.
+\end{enumerate}
+No bound on $\lambda_{\max}(T)$ is assumed or used.
+\end{theorem}
+
+\begin{proof}
+Part (i) is Lemma~\ref{lem:selection-capture}; part (ii) is Lemmas~\ref{lem:selection-slope}, \ref{lem:selection-cone} and~\ref{lem:selection-strip}; part (iii) is Lemma~\ref{lem:selection-robust}. Only $\tau=\lambda_{\min}(T)$ enters these proofs.
+\end{proof}
+
+Theorem~\ref{thm:selection-escape} is the capture--escape theorem of the main text, with the potential \eqref{eq:selection-potential} as (3.18a) there.
+
+\subsection{Transverse normalization, the shallow layer and adjacency failures}\label{ssec:selection-adjacency}
+
+\paragraph{Transverse normalization.} The matrix $T$ in \eqref{eq:selection-potential} must be read in scaled coordinates. If $Q_\perp$ is the physical transverse Hessian at the contact saddle, then
+\begin{equation}\label{eq:selection-Tr}
+T_r=-\frac{Q_\perp}{\kappa r},\qquad\tau_r=\lambda_{\min}(T_r)=\frac{\lambda_*(-Q_\perp)}{\kappa r},
+\end{equation}
+where $\lambda_*(-Q_\perp)$ is the smallest eigenvalue of $-Q_\perp$. The factor $1/r$ is essential: physical transverse displacement is $rY$, while the fold potential is divided by $\kappa r^3$; hence a physical quadratic term $(r^2/2)\,Y^{\top}Q_\perp Y$ becomes $(1/(2\kappa r))\,Y^{\top}Q_\perp Y$. Equation \eqref{eq:selection-Tr} is (3.18) of the main text.
+
+In the pin-preserving degree-four scaled potential of the conditioned side-$24$ field, the remaining coupling tensors $a,W,C$ and the quartic remainder coefficients $Q_4$ have the polynomial envelope
+\begin{equation}\label{eq:selection-RU}
+R(U)=1+\|a\|+\|W\|+\|C\|+\|Q_4\|,
+\end{equation}
+where $U$ collects the random coefficients. By Theorem~\ref{thm:selection-escape}, the conditions
+\begin{equation}\label{eq:selection-conditions}
+rR(U)^5\le\varepsilon_0,\qquad\tau_r\ge2KR(U)^5+2R(U),
+\end{equation}
+together with $r\le r_{\rm mat}$ and the fifth-derivative good event, imply simultaneously: (i) the $M$-ward unstable half-branch from $S$ converges to $M$; and (ii) the other half-branch reaches a fixed forward section at field value strictly above $b$ and therefore cannot terminate at $M$. The proof uses $-T_rY$ for transverse contraction, bounds every coupling by $R(U)$, and chooses the cone, strip and tube widths proportional to $R(U)/\tau_r$; condition \eqref{eq:selection-conditions} makes the transverse forcing smaller than the axial margins of $X^2-\frac14$, and the fixed-chart $C^1$ robustness transfers the strict inequalities to the exact field.
+
+\begin{lemma}[shallow layer]\label{lem:selection-shallow}
+Because of \eqref{eq:selection-Tr}, failure of the second inequality in \eqref{eq:selection-conditions} inside the typed support is exactly the physical shallow-eigenvalue event
+\begin{equation}\label{eq:selection-shallow}
+\mathcal S_r=\Bigl\{0<\lambda_*\le\kappa r\bigl[2KR(U)^5+2R(U)\bigr]\Bigr\}\subset\bigl\{0<\lambda_*\le r\,\Psi(U)\bigr\}
+\end{equation}
+on compact positive $\kappa$ sets, for a fixed polynomial $\Psi$. On the typed support the endpoint determinant product satisfies
+\begin{equation}\label{eq:selection-Wshallow}
+W_r\le Cr^2\bigl[\lambda_*+r\Psi(U)\bigr]^2(1+\|U\|)^N ,
+\end{equation}
+and
+\begin{gather}
+\E^0\bigl[W_r\ind_{\mathcal S_r}\bigr]\le Cr^2\int_0^{r\Psi(U)}\lambda^2\,d\lambda\le Cr^5,\label{eq:selection-shallowmass}\\
+\Prob^{MS}_r(\mathcal S_r)\le Cr^3 .\label{eq:selection-shallowP}
+\end{gather}
+\end{lemma}
+
+\begin{proof}
+At contact the transverse Hessian is $-bI_2+{\rm GOE}_2$ (Lemma~\ref{lem:selection-pairlaw}), jointly nondegenerate with the remaining finite jet; side-$24$ jet perturbation and compactness preserve bounded conditional densities and the shallow-eigenvalue coarea estimate. A bounded Gaussian density and integration in the smallest-eigenvalue coordinate, applied to \eqref{eq:selection-Wshallow}, give the unnormalized shallow-layer mass \eqref{eq:selection-shallowmass}. Dividing by $Z_r\ge c_Zr^2$ from \eqref{eq:selection-normalizer} yields \eqref{eq:selection-shallowP}.
+\end{proof}
+
+\begin{lemma}[fifth-derivative control]\label{lem:selection-fifth}
+Let $H_5$ be the supremum over $\T^3_{24}$ of the norm of the fifth-derivative field of $f$. On compact marks there are constants $C,c>0$ such that
+\begin{equation}\label{eq:selection-borell}
+\Prob^0(H_5>u)\le C\exp(-cu^2),\qquad u>0 .
+\end{equation}
+Taking $u=r^{-1}$ gives the failure bound $\exp(-c/r^2)$ for the complement of the \emph{fifth-derivative good event} $\{H_5\le r^{-1}\}$.
+\end{lemma}
+
+\begin{proof}
+For the fixed side-$24$ periodized Bargmann--Fock field every spectral moment is finite, and every derivative process is continuous on the compact torus. Conditioning on the corrected pair pins changes the fifth-derivative field by a uniformly bounded affine mean and a covariance dominated by the unconditional covariance. On compact marks, the Borell--TIS inequality \cite{AdlerTaylor} therefore gives \eqref{eq:selection-borell}.
+\end{proof}
+
+\begin{lemma}[regular-domain and fifth-derivative failures]\label{lem:selection-failure}
+Let $F_r$ be the union of the regular-domain failure $\{rR(U)^5>\varepsilon_0\}$ and the fifth-derivative failure $\{H_5>r^{-1}\}$. Then
+\begin{equation}\label{eq:selection-failure}
+\Prob^{MS}_r(F_r)=\frac{\E^0[W_r\ind_{F_r}]}{Z_r}\le C\,\Prob^0(F_r)^{1/2},
+\end{equation}
+and $\Prob^{MS}_r(F_r)=o(r^3)$.
+\end{lemma}
+
+\begin{proof}
+The inequality in \eqref{eq:selection-failure} follows from the exact endpoint second moment $\E^0[W_r^2]\le C_Wr^4$, the Cauchy--Schwarz inequality and $Z_r\ge c_Zr^2$, all from \eqref{eq:selection-normalizer}. The corrected finite-jet regular-domain tail is super-polynomial, and the conditioned fifth-derivative Borell tail is $\exp(-c/r^2)$ by Lemma~\ref{lem:selection-fifth}, so both contributions are $o(r^3)$.
+\end{proof}
+
+\begin{proposition}[adjacency and self-attachment]\label{prop:selection-adjacency}
+Uniformly for $t\in S^2$ and on compact positive mark sets, for $0<r\le r_{\rm mat}$,
+\begin{equation}\label{eq:selection-adjacency}
+\Prob^{MS}_r(A_r^c)\le C_Ar^3,\qquad\Prob^{MS}_r(L_{{\rm same},r})\le C_Lr^3 .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Outside $\mathcal S_r\cup F_r$ the conditions \eqref{eq:selection-conditions} and the fifth-derivative good event hold, with $T=T_r$. By Theorem~\ref{thm:selection-escape}(i) the $M$-ward half-branch converges to $M$, so $A_r$ holds; by Theorem~\ref{thm:selection-escape}(ii) the outward half-branch cannot terminate at $M$, which excludes same-maximum self-attachment. Hence both probabilities in \eqref{eq:selection-adjacency} are bounded by $\Prob^{MS}_r(\mathcal S_r)+\Prob^{MS}_r(F_r)$, which is $O(r^3)$ by Lemmas~\ref{lem:selection-shallow} and~\ref{lem:selection-failure}.
+\end{proof}
+
+\subsection{The selection theorem}\label{ssec:selection-theorem}
+
+\begin{theorem}[elder selection on compact marks]\label{thm:selection-main}
+For every compact $I_b\subset\R$ and every compact $I_\kappa\subset(0,\infty)$ there are $r_0>0$ and $C_{\rm sel}<\infty$ such that, under the all-typed maximum--index-two-saddle Palm law \eqref{eq:selection-palm},
+\begin{equation}\label{eq:selection-main}
+\sup_{t\in S^2,\ b\in I_b,\ \kappa\in I_\kappa}\bigl[1-p_r(t,b,\kappa)\bigr]\le C_{\rm sel}\,r^3,\qquad0<r\le r_0 .
+\end{equation}
+In particular, the elder-rule selection probability tends to one uniformly on compact positive mark sets.
+\end{theorem}
+
+\begin{proof}
+By Lemmas~\ref{lem:selection-collar}, \ref{lem:selection-sing} and~\ref{lem:selection-far}, the three regional Palm expectations satisfy
+\begin{equation}\label{eq:selection-regional}
+\E^{MS}_rN_{\rm col}\le C_{\rm col}r^3,\qquad\E^{MS}_rN_{\rm sing}\le C_{\rm sing}r^3,\qquad\E^{MS}_rN_{\rm far}\le C_{\rm far}r^3,
+\end{equation}
+so \eqref{eq:selection-markov} gives $\Prob^{MS}_r(B_r)\le C_Br^3$. Proposition~\ref{prop:selection-adjacency} gives $\Prob^{MS}_r(A_r^c)\le C_Ar^3$ and $\Prob^{MS}_r(L_{{\rm same},r})\le C_Lr^3$. By Corollary~\ref{cor:selection-reduction},
+\[
+1-p_r=\Prob^{MS}_r(E_r^c)\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(E_r^c\cap A_r)\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(B_r)+\Prob^{MS}_r(L_{{\rm same},r})\le C_{\rm sel}r^3,
+\]
+with all constants uniform in $t\in S^2$ and on the compact mark set.
+\end{proof}
+
+Theorem~\ref{thm:selection-main} is the bound (3.13) of the main text.

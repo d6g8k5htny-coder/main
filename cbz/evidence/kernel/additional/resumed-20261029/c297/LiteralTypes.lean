@@ -1,0 +1,15 @@
+import RegularSuperlevelLiteral
+set_option pp.explicit true
+#check @UniversalLaw.Spec.Lifetime.regularPointDerivative_range_eq_top
+#check @UniversalLaw.Spec.Lifetime.regularPointHasStrictFDerivAt
+#check @UniversalLaw.Spec.Lifetime.regularPointChart_fst
+#check @UniversalLaw.Spec.Lifetime.regularPointChart_self
+#check @UniversalLaw.Spec.Lifetime.mem_regularPointChart_source
+#check @UniversalLaw.Spec.Lifetime.mem_regularPointChart_target
+#check @TorusRegularSuperlevel.path_connected_basis_of_openEmbedding
+#check @TorusRegularSuperlevel.path_connected_basis_of_open
+#check @TorusRegularSuperlevel.path_connected_basis_of_relative_chart
+#check @TorusRegularSuperlevel.closed_superlevel_basis_of_chart
+#check @TorusRegularSuperlevel.closed_superlevel_interior_basis
+#check @TorusRegularSuperlevel.closed_superlevel_regular_basis
+#check @TorusRegularSuperlevel.closed_superlevel_path_connected_basis

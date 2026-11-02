@@ -1,0 +1,102 @@
+name: CBZ historical evidence readback and replay controls
+'on':
+  push:
+    branches:
+      - cbz/p15-historical-readback-20261029
+  pull_request:
+    paths:
+      - '.github/workflows/cbz-p15-historical-readback.yml'
+      - 'tools/p15_historical_artifact.py'
+      - 'tools/p15_historical_mutations.py'
+      - 'tests/test_p15_historical_artifact.py'
+      - 'docs/cbz/P15_HISTORICAL_READBACK.md'
+      - 'cbz/evidence/kernel/additional/replay-tool/**'
+      - 'tools/cbz_replay_mutation_qualify.py'
+      - 'tests/test_cbz_replay_mutation_qualify.py'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  p15-historical-readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.11.16'
+      - name: Run all negative cases and seven source mutants and one harness mutant in both modes
+        run: python -B -S tools/p15_historical_mutations.py --output "$RUNNER_TEMP/p15-selftest"
+      - name: Checkout exact tested historical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 3c02eb7d004c4b7a44f5ce7b04c2c5de94e47c0c
+          path: historical
+          persist-credentials: false
+      - name: Download the original artifact, never rewrite it
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api repos/d6g8k5htny-coder/main/actions/artifacts/11686340530/zip > "$RUNNER_TEMP/p15-original.zip"
+      - name: Verify original ZIP, receipt, every receipt log and every source binding
+        run: |
+          test "$(git -C historical rev-parse HEAD)" = 3c02eb7d004c4b7a44f5ce7b04c2c5de94e47c0c
+          test -z "$(git -C historical status --porcelain)"
+          python -B -S tools/p15_historical_artifact.py --archive "$RUNNER_TEMP/p15-original.zip" --manifest historical/formal/manifest.json --source-root historical --output "$RUNNER_TEMP/p15-report.json"
+          python -B -S - "$RUNNER_TEMP/p15-original.zip" "$RUNNER_TEMP/p15-elaborated-types.log" <<'PY'
+          import sys,zipfile
+          with zipfile.ZipFile(sys.argv[1]) as z:
+              names=[n for n in z.namelist() if n=="elaborated-types.log" or n.endswith("/receipt/elaborated-types.log") or n=="receipt/elaborated-types.log"]
+              if len(names)!=1: raise SystemExit("missing or duplicate elaborated type log")
+              data=z.read(names[0])
+              open(sys.argv[2],"wb").write(data)
+              print(data.decode("utf-8"))
+          PY
+          test -z "$(git -C historical status --porcelain)"
+      - name: Preserve original bytes and all test/readback logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-p15-historical-readback-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/p15-*
+            historical/formal/manifest.json
+            historical/formal/UniversalLaw/P15/*.lean
+          if-no-files-found: error
+          retention-days: 90
+  bounded-replay-python-controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: '3.11.16'
+      - name: Test strict mutation-evidence qualification in both modes
+        run: |
+          python -B -S -m unittest discover -s tests -p 'test_cbz_replay_mutation_qualify.py' -v > "$RUNNER_TEMP/replay-qualifier-normal.log" 2>&1
+          python -B -O -S -m unittest discover -s tests -p 'test_cbz_replay_mutation_qualify.py' -v > "$RUNNER_TEMP/replay-qualifier-optimized.log" 2>&1
+          for replay_mode in normal optimized; do
+            grep -Eq '^Ran 14 tests in ' "$RUNNER_TEMP/replay-qualifier-$replay_mode.log"
+            grep -Fxq 'OK' "$RUNNER_TEMP/replay-qualifier-$replay_mode.log"
+          done
+      - name: Run the restored validator and its intended mutant controls
+        working-directory: cbz/evidence/kernel/additional/replay-tool
+        run: python -B -S run_mutations.py --output "$RUNNER_TEMP/replay-python-controls"
+      - name: Qualify exact failure causes and the complete report and raw-log population
+        run: python -B -S tools/cbz_replay_mutation_qualify.py --input "$RUNNER_TEMP/replay-python-controls" --output "$RUNNER_TEMP/replay-python-qualification.json"
+      - name: Preserve complete control evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cbz-replay-python-controls-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/replay-python-controls
+            ${{ runner.temp }}/replay-python-qualification.json
+            ${{ runner.temp }}/replay-qualifier-*.log
+          if-no-files-found: error
+          retention-days: 90

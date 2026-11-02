@@ -1,0 +1,57 @@
+test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) ... 
+  test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=[{}]) ... ERROR
+  test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=None) ... ERROR
+  test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=b'bytes') ... ERROR
+
+======================================================================
+ERROR: test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=[{}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 125, in test_malformed_allowlist_or_nontext_input
+    self.check(transcript(), census)
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 38, in check
+    return tool.validate_transcript(text, expected() if census is None else census, 'a' * 64, exit_code=0, stderr='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/replay_tool.py", line 146, in validate_transcript
+    declarations, expected_counts, expected_names = expected_records(expected_census)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/replay_tool.py", line 136, in expected_records
+    if 'allowed_axioms' in census and (not isinstance(census['allowed_axioms'], list) or len(census['allowed_axioms']) != len(set(census['allowed_axioms'])) or set(census['allowed_axioms']) != ALLOWED_AXIOMS):
+                                                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+======================================================================
+ERROR: test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 128, in test_malformed_allowlist_or_nontext_input
+    self.check(raw)
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 38, in check
+    return tool.validate_transcript(text, expected() if census is None else census, 'a' * 64, exit_code=0, stderr='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/replay_tool.py", line 149, in validate_transcript
+    for line in text.splitlines():
+                ^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'splitlines'
+
+======================================================================
+ERROR: test_malformed_allowlist_or_nontext_input (test_replay_tool.TranscriptTests.test_malformed_allowlist_or_nontext_input) (raw=b'bytes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 128, in test_malformed_allowlist_or_nontext_input
+    self.check(raw)
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/test_replay_tool.py", line 38, in check
+    return tool.validate_transcript(text, expected() if census is None else census, 'a' * 64, exit_code=0, stderr='')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/cbz/discovery/additional-formal/replay-tool/replay_tool.py", line 154, in validate_transcript
+    match = re.fullmatch(r'KERNEL_CLOSURE_MODULE (\S+) COUNT ([0-9]+)', line)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/.runtimes/python/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/re/__init__.py", line 171, in fullmatch
+    return _compile(pattern, flags).fullmatch(string)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: cannot use a string pattern on a bytes-like object
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (errors=3)

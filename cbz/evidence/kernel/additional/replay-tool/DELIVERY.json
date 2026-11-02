@@ -1,0 +1,44 @@
+{
+  "schema": "cbz-replay-tool-delivery-v1",
+  "status": "FINISHED_VERIFIED_BOUNDED_COMPONENT",
+  "files": {
+    "replay_tool.py": "b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3",
+    "test_replay_tool.py": "a07eaab8b6fd40a911d313197fae688927ebb3e1d74644628e4888a7e6505fc0",
+    "run_mutations.py": "4b3d72c125ac038f8b5662b3f5e3edb58d80a7d993addc3eb418bbbfe45050d6",
+    "run_lean_selftest.py": "66ca23cc72f38c519050ef32c47cb4e6b91126f334702d6fdb7457e1a3f33833",
+    "README.md": "a851d2477ceb27d2371dcfe2504fda36695c0fd29d7f03672ce5934f728564e0",
+    "REGISTRY_ADDENDUM.md": "d9ca662d23720cabef0f53ee4353bfd6c5f9cae32b86002b7c245aa963a56177"
+  },
+  "evidence": {
+    "verification-v2/REPORT.json": {
+      "sha256": "184858df2fdd3bfe112d86bedf57a95302c6397412a8334ba68c7e8ca0f78e2d",
+      "status": "PASS_ALL_DECLARED_MUTANTS_KILLED"
+    },
+    "lean-verification-v3-normal/REPORT.json": {
+      "sha256": "6b2a2c73b5f7c1be224c8003b1b06ec2eaa541968b81789b3bf70b13672e226b",
+      "status": "PASS_ALL_DECLARED_LEAN_CONTROLS_AND_SOURCE_MUTATIONS"
+    },
+    "lean-verification-v3-optimized/REPORT.json": {
+      "sha256": "cb17f942a4367932b28e8329e09f20c2a24788471b366230e0eb1fa8f8808998",
+      "status": "PASS_ALL_DECLARED_LEAN_CONTROLS_AND_SOURCE_MUTATIONS"
+    }
+  },
+  "unit_tests_per_mode": 31,
+  "python_validator_mutants_per_mode": 3,
+  "actual_lean_adverse_controls_per_mode": 6,
+  "generated_lean_auditor_source_mutants_per_mode": 6,
+  "python_modes": [
+    "3.11.16 normal",
+    "3.11.16 optimized"
+  ],
+  "kernel_scope": "All compiled owned constants in explicitly supplied modules plus transitive type/value proof dependencies; Lean4.34.1 empty-kernel trust0 replay. Caller must supply complete independent compiled census and bind actual package execution/source/object/runtime identities.",
+  "not_claimed": [
+    "global CBZ-0",
+    "global Layer A compliance",
+    "mathematical-model adequacy",
+    "hypothesis satisfiability",
+    "execution authentication by Python parser",
+    "all unrelated imported declarations",
+    "formal proof of Python or Lean implementation correctness"
+  ]
+}

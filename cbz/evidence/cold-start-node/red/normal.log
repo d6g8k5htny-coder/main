@@ -1,0 +1,734 @@
+﻿2026-10-29T19:43:40.2655329Z Current runner version: '2.338.0'
+2026-10-29T19:43:40.2683605Z ##[group]Runner Image Provisioner
+2026-10-29T19:43:40.2684508Z Hosted Compute Agent
+2026-10-29T19:43:40.2685322Z Version: 20261021.618
+2026-10-29T19:43:40.2686054Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T19:43:40.2686894Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T19:43:40.2687808Z Worker ID: {c4fddc20-8652-48e4-80bd-ae50e58578a9}
+2026-10-29T19:43:40.2688608Z Region: westcentralus
+2026-10-29T19:43:40.2689311Z Cloud: Azure
+2026-10-29T19:43:40.2689907Z ##[endgroup]
+2026-10-29T19:43:40.2691716Z ##[group]Operating System
+2026-10-29T19:43:40.2692422Z Ubuntu
+2026-10-29T19:43:40.2693036Z 24.04.5
+2026-10-29T19:43:40.2693683Z LTS
+2026-10-29T19:43:40.2694304Z ##[endgroup]
+2026-10-29T19:43:40.2694935Z ##[group]Runner Image
+2026-10-29T19:43:40.2695603Z Image: ubuntu-24.04
+2026-10-29T19:43:40.2696269Z Version: 20261025.353.1
+2026-10-29T19:43:40.2697907Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-29T19:43:40.2699561Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-29T19:43:40.2700592Z ##[endgroup]
+2026-10-29T19:43:40.2702168Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T19:43:40.2704628Z Contents: read
+2026-10-29T19:43:40.2705274Z Metadata: read
+2026-10-29T19:43:40.2705988Z ##[endgroup]
+2026-10-29T19:43:40.2708561Z Secret source: Actions
+2026-10-29T19:43:40.2709698Z Cache mode: write
+2026-10-29T19:43:40.2710672Z Prepare workflow directory
+2026-10-29T19:43:40.3079255Z Prepare all required actions
+2026-10-29T19:43:40.3129120Z Getting action download info
+2026-10-29T19:43:40.6099549Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-29T19:43:40.6980877Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-29T19:43:40.9131486Z Complete job name: controls (0)
+2026-10-29T19:43:40.9993591Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-29T19:43:40.9994631Z with:
+2026-10-29T19:43:40.9995095Z   persist-credentials: false
+2026-10-29T19:43:40.9995608Z   fetch-depth: 0
+2026-10-29T19:43:40.9996077Z   repository: d6g8k5htny-coder/main
+2026-10-29T19:43:41.0000308Z   token: ***
+2026-10-29T19:43:41.0000763Z   ssh-strict: true
+2026-10-29T19:43:41.0001211Z   ssh-user: git
+2026-10-29T19:43:41.0001647Z   clean: true
+2026-10-29T19:43:41.0002111Z   sparse-checkout-cone-mode: true
+2026-10-29T19:43:41.0002644Z   fetch-tags: false
+2026-10-29T19:43:41.0003097Z   show-progress: true
+2026-10-29T19:43:41.0003553Z   lfs: false
+2026-10-29T19:43:41.0003979Z   submodules: false
+2026-10-29T19:43:41.0004436Z   set-safe-directory: true
+2026-10-29T19:43:41.0004950Z   allow-unsafe-pr-checkout: false
+2026-10-29T19:43:41.0005668Z ##[endgroup]
+2026-10-29T19:43:41.2395608Z Syncing repository: d6g8k5htny-coder/main
+2026-10-29T19:43:41.2398411Z ##[group]Getting Git version info
+2026-10-29T19:43:41.2399475Z Working directory is '/home/runner/work/main/main'
+2026-10-29T19:43:41.2401032Z [command]/usr/bin/git version
+2026-10-29T19:43:41.2474527Z git version 2.56.0
+2026-10-29T19:43:41.2496878Z ##[endgroup]
+2026-10-29T19:43:41.2510476Z Temporarily overriding HOME='/home/runner/work/_temp/a20e99ea-a50a-4d8c-a69d-059c9ca090fe' before making global git config changes
+2026-10-29T19:43:41.2512849Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T19:43:41.2516662Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T19:43:41.2568058Z Deleting the contents of '/home/runner/work/main/main'
+2026-10-29T19:43:41.2572906Z ##[group]Determining repository object format
+2026-10-29T19:43:41.2574443Z ##[endgroup]
+2026-10-29T19:43:41.2575656Z ##[group]Initializing the repository
+2026-10-29T19:43:41.2578964Z [command]/usr/bin/git init /home/runner/work/main/main
+2026-10-29T19:43:41.2675192Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T19:43:41.2677111Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T19:43:41.2678939Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T19:43:41.2680200Z hint: call:
+2026-10-29T19:43:41.2681101Z hint:
+2026-10-29T19:43:41.2681968Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T19:43:41.2683034Z hint:
+2026-10-29T19:43:41.2684493Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T19:43:41.2685839Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T19:43:41.2686605Z hint:
+2026-10-29T19:43:41.2687044Z hint: 	git branch -m <name>
+2026-10-29T19:43:41.2687741Z hint:
+2026-10-29T19:43:41.2688417Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T19:43:41.2689408Z Initialized empty Git repository in /home/runner/work/main/main/.git/
+2026-10-29T19:43:41.2701759Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/main
+2026-10-29T19:43:41.2751305Z ##[endgroup]
+2026-10-29T19:43:41.2752588Z ##[group]Disabling automatic garbage collection
+2026-10-29T19:43:41.2755016Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T19:43:41.2827807Z ##[endgroup]
+2026-10-29T19:43:41.2829336Z ##[group]Setting up auth
+2026-10-29T19:43:41.2830294Z Removing SSH command configuration
+2026-10-29T19:43:41.2835515Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:43:41.2877299Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:43:41.3343314Z Removing HTTP extra header
+2026-10-29T19:43:41.3345692Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:43:41.3355192Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:43:41.3676227Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:43:41.3683838Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:43:41.3760190Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:43:41.4039744Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T19:43:41.4094014Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git.path /home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:41.4141498Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/main/main/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:41.4189892Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:41.4237238Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:41.4281914Z ##[endgroup]
+2026-10-29T19:43:41.4282693Z ##[group]Fetching the repository
+2026-10-29T19:43:41.4289062Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-29T19:43:52.6689589Z From https://github.com/d6g8k5htny-coder/main
+2026-10-29T19:43:52.6696488Z  * [new branch]        agent/observer-notes-20261001 -> origin/agent/observer-notes-20261001
+2026-10-29T19:43:52.6699512Z  * [new branch]        agent/paper1-note-current-20261001 -> origin/agent/paper1-note-current-20261001
+2026-10-29T19:43:52.6702231Z  * [new branch]        agent3/jetmod-rnunif-status-open-hold -> origin/agent3/jetmod-rnunif-status-open-hold
+2026-10-29T19:43:52.6705269Z  * [new branch]        carrier/v20-planner-source-delivery-20261025 -> origin/carrier/v20-planner-source-delivery-20261025
+2026-10-29T19:43:52.6709239Z  * [new branch]        cbz/archived-runtime-boundaries-20261029 -> origin/cbz/archived-runtime-boundaries-20261029
+2026-10-29T19:43:52.6712574Z  * [new branch]        cbz/atlas-browser-coverage-20261029 -> origin/cbz/atlas-browser-coverage-20261029
+2026-10-29T19:43:52.6715014Z  * [new branch]        cbz/canonical-layer-a-auditor-20261029 -> origin/cbz/canonical-layer-a-auditor-20261029
+2026-10-29T19:43:52.6717335Z  * [new branch]        cbz/cold-start-node-20261029 -> origin/cbz/cold-start-node-20261029
+2026-10-29T19:43:52.6720900Z  * [new branch]        cbz/foundation-handoff-20261029 -> origin/cbz/foundation-handoff-20261029
+2026-10-29T19:43:52.6724723Z  * [new branch]        cbz/main-receipt-source-custody-20261029 -> origin/cbz/main-receipt-source-custody-20261029
+2026-10-29T19:43:52.6728922Z  * [new branch]        cbz/source-instrument-20261029 -> origin/cbz/source-instrument-20261029
+2026-10-29T19:43:52.6733054Z  * [new branch]        cbz/terminal-obligation-index-20261029 -> origin/cbz/terminal-obligation-index-20261029
+2026-10-29T19:43:52.6737655Z  * [new branch]        cbz/workspace-git-hygiene-20261029 -> origin/cbz/workspace-git-hygiene-20261029
+2026-10-29T19:43:52.6741409Z  * [new branch]        chatgpt/archsys-p2-current-population-20261015 -> origin/chatgpt/archsys-p2-current-population-20261015
+2026-10-29T19:43:52.6745276Z  * [new branch]        chatgpt/c101-source-bound-successor-20260925 -> origin/chatgpt/c101-source-bound-successor-20260925
+2026-10-29T19:43:52.6749607Z  * [new branch]        chatgpt/c245a-replay-admission-contract-20261012 -> origin/chatgpt/c245a-replay-admission-contract-20261012
+2026-10-29T19:43:52.6754141Z  * [new branch]        chatgpt/cover-accounting-audit-20260924 -> origin/chatgpt/cover-accounting-audit-20260924
+2026-10-29T19:43:52.6757331Z  * [new branch]        chatgpt/downstream-crosswalk-20260925 -> origin/chatgpt/downstream-crosswalk-20260925
+2026-10-29T19:43:52.6760737Z  * [new branch]        chatgpt/drive-github-hardening-20260919 -> origin/chatgpt/drive-github-hardening-20260919
+2026-10-29T19:43:52.6764169Z  * [new branch]        chatgpt/fail-closed-claim-audit-repair-20260925 -> origin/chatgpt/fail-closed-claim-audit-repair-20260925
+2026-10-29T19:43:52.6768038Z  * [new branch]        chatgpt/gb7c-side24-proof-implementation-20261023 -> origin/chatgpt/gb7c-side24-proof-implementation-20261023
+2026-10-29T19:43:52.6771348Z  * [new branch]        chatgpt/h3-solver-pilot-20260921 -> origin/chatgpt/h3-solver-pilot-20260921
+2026-10-29T19:43:52.6774292Z  * [new branch]        chatgpt/main-lean-preflight-20261008-r1 -> origin/chatgpt/main-lean-preflight-20261008-r1
+2026-10-29T19:43:52.6777420Z  * [new branch]        chatgpt/main399-route-window-20261025 -> origin/chatgpt/main399-route-window-20261025
+2026-10-29T19:43:52.6780770Z  * [new branch]        chatgpt/math-push-cap-palette-20260924 -> origin/chatgpt/math-push-cap-palette-20260924
+2026-10-29T19:43:52.6783972Z  * [new branch]        chatgpt/nav-manifest-trigger-20261021-c -> origin/chatgpt/nav-manifest-trigger-20261021-c
+2026-10-29T19:43:52.6786994Z  * [new branch]        chatgpt/navigation-price-20260924 -> origin/chatgpt/navigation-price-20260924
+2026-10-29T19:43:52.6790345Z  * [new branch]        chatgpt/never-merge-formal-negative-20260927 -> origin/chatgpt/never-merge-formal-negative-20260927
+2026-10-29T19:43:52.6794940Z  * [new branch]        chatgpt/pr2-postmerge-handoff-20260923 -> origin/chatgpt/pr2-postmerge-handoff-20260923
+2026-10-29T19:43:52.6799904Z  * [new branch]        chatgpt/probe-test-isolation-20260923 -> origin/chatgpt/probe-test-isolation-20260923
+2026-10-29T19:43:52.6805260Z  * [new branch]        chatgpt/public-source-visibility-20260926 -> origin/chatgpt/public-source-visibility-20260926
+2026-10-29T19:43:52.6809312Z  * [new branch]        chatgpt/q0-c103-source-bound-20260925 -> origin/chatgpt/q0-c103-source-bound-20260925
+2026-10-29T19:43:52.6812761Z  * [new branch]        chatgpt/q0-ledger-external-binding-20260925 -> origin/chatgpt/q0-ledger-external-binding-20260925
+2026-10-29T19:43:52.6816159Z  * [new branch]        chatgpt/register-export-r1-20260923 -> origin/chatgpt/register-export-r1-20260923
+2026-10-29T19:43:52.6819868Z  * [new branch]        chatgpt/register-source-preflight-20260923 -> origin/chatgpt/register-source-preflight-20260923
+2026-10-29T19:43:52.6823389Z  * [new branch]        chatgpt/research-capsule-311-20260924-1504 -> origin/chatgpt/research-capsule-311-20260924-1504
+2026-10-29T19:43:52.6826769Z  * [new branch]        chatgpt/side24-source-recovery-20260925 -> origin/chatgpt/side24-source-recovery-20260925
+2026-10-29T19:43:52.6830547Z  * [new branch]        chatgpt/source-architecture-design-20260925 -> origin/chatgpt/source-architecture-design-20260925
+2026-10-29T19:43:52.6834392Z  * [new branch]        chatgpt/source-recovery-companions-20261016-6215376409 -> origin/chatgpt/source-recovery-companions-20261016-6215376409
+2026-10-29T19:43:52.6838317Z  * [new branch]        chatgpt/standing-authorization-20260923 -> origin/chatgpt/standing-authorization-20260923
+2026-10-29T19:43:52.6841157Z  * [new branch]        chatgpt/storefront-20260926 -> origin/chatgpt/storefront-20260926
+2026-10-29T19:43:52.6843654Z  * [new branch]        chatgpt/vault-census-20260925 -> origin/chatgpt/vault-census-20260925
+2026-10-29T19:43:52.6846804Z  * [new branch]        chatgpt/wedge-accounting-20260924 -> origin/chatgpt/wedge-accounting-20260924
+2026-10-29T19:43:52.6851161Z  * [new branch]        chatgpt/withdrawal-governance-20260921 -> origin/chatgpt/withdrawal-governance-20260921
+2026-10-29T19:43:52.6855881Z  * [new branch]        claude/build-manuscript-contributing-BowxS -> origin/claude/build-manuscript-contributing-BowxS
+2026-10-29T19:43:52.6859550Z  * [new branch]        claude/build-manuscript-script-TiApQ -> origin/claude/build-manuscript-script-TiApQ
+2026-10-29T19:43:52.6862881Z  * [new branch]        claude/cbz0-phase1-20261029 -> origin/claude/cbz0-phase1-20261029
+2026-10-29T19:43:52.6865518Z  * [new branch]        claude/cover-outside-residual-guard -> origin/claude/cover-outside-residual-guard
+2026-10-29T19:43:52.6868441Z  * [new branch]        claude/cover-survivor-tangency -> origin/claude/cover-survivor-tangency
+2026-10-29T19:43:52.6871122Z  * [new branch]        claude/cover-tangency-on-hardening -> origin/claude/cover-tangency-on-hardening
+2026-10-29T19:43:52.6873959Z  * [new branch]        claude/cover-uniform-cost-contract -> origin/claude/cover-uniform-cost-contract
+2026-10-29T19:43:52.6876923Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024 -> origin/claude/dbx-crosswalk-01cz-20261024
+2026-10-29T19:43:52.6880002Z  * [new branch]        claude/dbx-crosswalk-01cz-20261024-r2 -> origin/claude/dbx-crosswalk-01cz-20261024-r2
+2026-10-29T19:43:52.6882809Z  * [new branch]        claude/determined-bardeen-mrqy4y -> origin/claude/determined-bardeen-mrqy4y
+2026-10-29T19:43:52.6885813Z  * [new branch]        claude/drive-audit-github-migration-rrglpp -> origin/claude/drive-audit-github-migration-rrglpp
+2026-10-29T19:43:52.6889226Z  * [new branch]        claude/g1f2-g3f1-worker-liveness-71049ac9 -> origin/claude/g1f2-g3f1-worker-liveness-71049ac9
+2026-10-29T19:43:52.6892535Z  * [new branch]        claude/g2-02-serialized-size-71049ac9 -> origin/claude/g2-02-serialized-size-71049ac9
+2026-10-29T19:43:52.6895951Z  * [new branch]        claude/github-chatgpt-xxw5kp -> origin/claude/github-chatgpt-xxw5kp
+2026-10-29T19:43:52.6899053Z  * [new branch]        claude/handoff-lean-register-tools-20261013 -> origin/claude/handoff-lean-register-tools-20261013
+2026-10-29T19:43:52.6902235Z  * [new branch]        claude/help-other-claude-models-829990 -> origin/claude/help-other-claude-models-829990
+2026-10-29T19:43:52.6905754Z  * [new branch]        claude/incoming-side24-chart-v2-20260926 -> origin/claude/incoming-side24-chart-v2-20260926
+2026-10-29T19:43:52.6909232Z  * [new branch]        claude/journal-623-624-combined-d476fc21 -> origin/claude/journal-623-624-combined-d476fc21
+2026-10-29T19:43:52.6912239Z  * [new branch]        claude/ladder-pin-reconcile -> origin/claude/ladder-pin-reconcile
+2026-10-29T19:43:52.6915221Z  * [new branch]        claude/lean-verification-specification-20261010 -> origin/claude/lean-verification-specification-20261010
+2026-10-29T19:43:52.6918762Z  * [new branch]        claude/main-landing-page   -> origin/claude/main-landing-page
+2026-10-29T19:43:52.6920983Z  * [new branch]        claude/nice-maxwell-7i7ok0 -> origin/claude/nice-maxwell-7i7ok0
+2026-10-29T19:43:52.6923434Z  * [new branch]        claude/nice-maxwell-7i7ok0-cbz0 -> origin/claude/nice-maxwell-7i7ok0-cbz0
+2026-10-29T19:43:52.6927138Z  * [new branch]        claude/physics-multiscale-reconstruction-a1G1I -> origin/claude/physics-multiscale-reconstruction-a1G1I
+2026-10-29T19:43:52.6930855Z  * [new branch]        claude/pinned-sources-inventory -> origin/claude/pinned-sources-inventory
+2026-10-29T19:43:52.6934975Z  * [new branch]        claude/quarantine-digest-coverage -> origin/claude/quarantine-digest-coverage
+2026-10-29T19:43:52.6937714Z  * [new branch]        claude/recovery-01N-20261013 -> origin/claude/recovery-01N-20261013
+2026-10-29T19:43:52.6940085Z  * [new branch]        claude/recovery-01cz-20261013 -> origin/claude/recovery-01cz-20261013
+2026-10-29T19:43:52.6942619Z  * [new branch]        claude/recovery-01cz-delta-20261018 -> origin/claude/recovery-01cz-delta-20261018
+2026-10-29T19:43:52.6945497Z  * [new branch]        claude/recovery-01cz-delta-20261020 -> origin/claude/recovery-01cz-delta-20261020
+2026-10-29T19:43:52.6948253Z  * [new branch]        claude/recovery-S-20261013 -> origin/claude/recovery-S-20261013
+2026-10-29T19:43:52.6951220Z  * [new branch]        claude/review-grok-github-uploads-gsthj3 -> origin/claude/review-grok-github-uploads-gsthj3
+2026-10-29T19:43:52.6954281Z  * [new branch]        claude/setup-complexity-physics-8H96d -> origin/claude/setup-complexity-physics-8H96d
+2026-10-29T19:43:52.6957139Z  * [new branch]        claude/shared-custody-01cz-20261025 -> origin/claude/shared-custody-01cz-20261025
+2026-10-29T19:43:52.6959851Z  * [new branch]        claude/side24-v3-draft-20261013 -> origin/claude/side24-v3-draft-20261013
+2026-10-29T19:43:52.6963273Z  * [new branch]        claude/side24-v3-supplement-draft-20261013 -> origin/claude/side24-v3-supplement-draft-20261013
+2026-10-29T19:43:52.6966504Z  * [new branch]        claude/side24-v3-supplement-draft10-20261019 -> origin/claude/side24-v3-supplement-draft10-20261019
+2026-10-29T19:43:52.6970027Z  * [new branch]        claude/side24-v3-supplement-draft11-20261019 -> origin/claude/side24-v3-supplement-draft11-20261019
+2026-10-29T19:43:52.6973548Z  * [new branch]        claude/side24-v3-supplement-draft12-20261019 -> origin/claude/side24-v3-supplement-draft12-20261019
+2026-10-29T19:43:52.6977093Z  * [new branch]        claude/side24-v3-supplement-draft13-20261020 -> origin/claude/side24-v3-supplement-draft13-20261020
+2026-10-29T19:43:52.6981304Z  * [new branch]        claude/side24-v3-supplement-draft14-20261021 -> origin/claude/side24-v3-supplement-draft14-20261021
+2026-10-29T19:43:52.6984773Z  * [new branch]        claude/side24-v3-supplement-draft15-20261021 -> origin/claude/side24-v3-supplement-draft15-20261021
+2026-10-29T19:43:52.6988245Z  * [new branch]        claude/side24-v3-supplement-draft16-20261021 -> origin/claude/side24-v3-supplement-draft16-20261021
+2026-10-29T19:43:52.6991429Z  * [new branch]        claude/side24-v3-supplement-draft17-20261026 -> origin/claude/side24-v3-supplement-draft17-20261026
+2026-10-29T19:43:52.6994596Z  * [new branch]        claude/side24-v3-supplement-draft18-20261026 -> origin/claude/side24-v3-supplement-draft18-20261026
+2026-10-29T19:43:52.6998097Z  * [new branch]        claude/side24-v3-supplement-draft9-20261015 -> origin/claude/side24-v3-supplement-draft9-20261015
+2026-10-29T19:43:52.7001359Z  * [new branch]        claude/zeta-fold-r2-replay-venue-20261020 -> origin/claude/zeta-fold-r2-replay-venue-20261020
+2026-10-29T19:43:52.7004651Z  * [new branch]        claude/zeta-fold-residual-diag-retention-20261021 -> origin/claude/zeta-fold-residual-diag-retention-20261021
+2026-10-29T19:43:52.7008178Z  * [new branch]        claude/zeta-manifest-check-adoption-20261021 -> origin/claude/zeta-manifest-check-adoption-20261021
+2026-10-29T19:43:52.7011245Z  * [new branch]        codex/605-v22-canonical-dataset-20261025 -> origin/codex/605-v22-canonical-dataset-20261025
+2026-10-29T19:43:52.7014353Z  * [new branch]        codex/architecture-cli-boundary-red-20261016 -> origin/codex/architecture-cli-boundary-red-20261016
+2026-10-29T19:43:52.7017837Z  * [new branch]        codex/architecture-post-upload-probe-20261008 -> origin/codex/architecture-post-upload-probe-20261008
+2026-10-29T19:43:52.7020727Z  * [new branch]        codex/c226-formal-phase-evidence -> origin/codex/c226-formal-phase-evidence
+2026-10-29T19:43:52.7023469Z  * [new branch]        codex/c287-population-current-main-20261016 -> origin/codex/c287-population-current-main-20261016
+2026-10-29T19:43:52.7026355Z  * [new branch]        codex/canvas-model-controls-20261009 -> origin/codex/canvas-model-controls-20261009
+2026-10-29T19:43:52.7029608Z  * [new branch]        codex/casefold-adapter-checked-probe-20261008 -> origin/codex/casefold-adapter-checked-probe-20261008
+2026-10-29T19:43:52.7032970Z  * [new branch]        codex/casefold-adapter-final-checked-20261008 -> origin/codex/casefold-adapter-final-checked-20261008
+2026-10-29T19:43:52.7036509Z  * [new branch]        codex/cbz-math514-exact-scope-auditor-20261029 -> origin/codex/cbz-math514-exact-scope-auditor-20261029
+2026-10-29T19:43:52.7040353Z  * [new branch]        codex/cbz-math514-kernel-replay-20261029 -> origin/codex/cbz-math514-kernel-replay-20261029
+2026-10-29T19:43:52.7043556Z  * [new branch]        codex/current-observation-recovery-20261022-2234 -> origin/codex/current-observation-recovery-20261022-2234
+2026-10-29T19:43:52.7046927Z  * [new branch]        codex/cusp-analytic-guards-20261009-root01a11cbf -> origin/codex/cusp-analytic-guards-20261009-root01a11cbf
+2026-10-29T19:43:52.7050148Z  * [new branch]        codex/enforcement-control-20260922 -> origin/codex/enforcement-control-20260922
+2026-10-29T19:43:52.7052650Z  * [new branch]        codex/enforcement-probe-20260922 -> origin/codex/enforcement-probe-20260922
+2026-10-29T19:43:52.7055803Z  * [new branch]        codex/exact-population-certificate-20261009-root01a11cbf -> origin/codex/exact-population-certificate-20261009-root01a11cbf
+2026-10-29T19:43:52.7060077Z  * [new branch]        codex/exact-population-certificate-ci-20261009-root01a11cbf -> origin/codex/exact-population-certificate-ci-20261009-root01a11cbf
+2026-10-29T19:43:52.7063857Z  * [new branch]        codex/global-cusp-h0-selector-20261009-root01a11cbf -> origin/codex/global-cusp-h0-selector-20261009-root01a11cbf
+2026-10-29T19:43:52.7067433Z  * [new branch]        codex/global-cusp-h0-validation-20261009-root01a11cbf -> origin/codex/global-cusp-h0-validation-20261009-root01a11cbf
+2026-10-29T19:43:52.7070679Z  * [new branch]        codex/h3-closure-mirror-20261018 -> origin/codex/h3-closure-mirror-20261018
+2026-10-29T19:43:52.7073146Z  * [new branch]        codex/higher-homology-fold-20261008 -> origin/codex/higher-homology-fold-20261008
+2026-10-29T19:43:52.7076073Z  * [new branch]        codex/lease-crypto-runtime-preparation-20261009 -> origin/codex/lease-crypto-runtime-preparation-20261009
+2026-10-29T19:43:52.7079089Z  * [new branch]        codex/lease-protocol-tests-20261009 -> origin/codex/lease-protocol-tests-20261009
+2026-10-29T19:43:52.7081835Z  * [new branch]        codex/main-classic-rule-evidence-20261025 -> origin/codex/main-classic-rule-evidence-20261025
+2026-10-29T19:43:52.7084823Z  * [new branch]        codex/main388-new-successor-20261014 -> origin/codex/main388-new-successor-20261014
+2026-10-29T19:43:52.7087618Z  * [new branch]        codex/main583-setup-python-only-20261024 -> origin/codex/main583-setup-python-only-20261024
+2026-10-29T19:43:52.7090501Z  * [new branch]        codex/mechanism-assimilation-20260922 -> origin/codex/mechanism-assimilation-20260922
+2026-10-29T19:43:52.7093219Z  * [new branch]        codex/milestone-audit-summary-20261002 -> origin/codex/milestone-audit-summary-20261002
+2026-10-29T19:43:52.7095740Z  * [new branch]        codex/navigation-timing-20261016 -> origin/codex/navigation-timing-20261016
+2026-10-29T19:43:52.7098441Z  * [new branch]        codex/parallel-reader-tools-20261003 -> origin/codex/parallel-reader-tools-20261003
+2026-10-29T19:43:52.7101047Z  * [new branch]        codex/population-a1-controls-20261013 -> origin/codex/population-a1-controls-20261013
+2026-10-29T19:43:52.7104458Z  * [new branch]        codex/population-runner-attribution-20261013-root01a11cbf-2035z -> origin/codex/population-runner-attribution-20261013-root01a11cbf-2035z
+2026-10-29T19:43:52.7108062Z  * [new branch]        codex/reader-native-admission-20261017 -> origin/codex/reader-native-admission-20261017
+2026-10-29T19:43:52.7110547Z  * [new branch]        codex/reader-native-cp-20261017 -> origin/codex/reader-native-cp-20261017
+2026-10-29T19:43:52.7113119Z  * [new branch]        codex/reader-runtime-preparation-20261011 -> origin/codex/reader-runtime-preparation-20261011
+2026-10-29T19:43:52.7116326Z  * [new branch]        codex/reader438-review-evidence-20261017-root01a14b9f -> origin/codex/reader438-review-evidence-20261017-root01a14b9f
+2026-10-29T19:43:52.7119565Z  * [new branch]        codex/req8-controls-r01-20261020-1500 -> origin/codex/req8-controls-r01-20261020-1500
+2026-10-29T19:43:52.7122516Z  * [new branch]        codex/reviewed-fold-diagonal-20261016-root01a11cbf -> origin/codex/reviewed-fold-diagonal-20261016-root01a11cbf
+2026-10-29T19:43:52.7125613Z  * [new branch]        codex/routing-broker-tests-20261009 -> origin/codex/routing-broker-tests-20261009
+2026-10-29T19:43:52.7128792Z  * [new branch]        codex/routing-sqlite-runtime-preparation-20261008 -> origin/codex/routing-sqlite-runtime-preparation-20261008
+2026-10-29T19:43:52.7131726Z  * [new branch]        codex/semantic-memory-task1-20261016 -> origin/codex/semantic-memory-task1-20261016
+2026-10-29T19:43:52.7134496Z  * [new branch]        codex/semantic-runtime-preparation-20261008 -> origin/codex/semantic-runtime-preparation-20261008
+2026-10-29T19:43:52.7138132Z  * [new branch]        codex/signed-lease-recovery-evidence-20261018-root01a14b9f -> origin/codex/signed-lease-recovery-evidence-20261018-root01a14b9f
+2026-10-29T19:43:52.7141348Z  * [new branch]        codex/site-at-generated-f614-20261025 -> origin/codex/site-at-generated-f614-20261025
+2026-10-29T19:43:52.7143812Z  * [new branch]        codex/site-first-red-20261022-2207 -> origin/codex/site-first-red-20261022-2207
+2026-10-29T19:43:52.7146185Z  * [new branch]        codex/site-publication-receipts -> origin/codex/site-publication-receipts
+2026-10-29T19:43:52.7148949Z  * [new branch]        codex/site-route-controls-v3-20261022-2338 -> origin/codex/site-route-controls-v3-20261022-2338
+2026-10-29T19:43:52.7151486Z  * [new branch]        codex/source-workflows-20261029 -> origin/codex/source-workflows-20261029
+2026-10-29T19:43:52.7154095Z  * [new branch]        codex/spectral-amplitude-crossover-20261008 -> origin/codex/spectral-amplitude-crossover-20261008
+2026-10-29T19:43:52.7157040Z  * [new branch]        codex/spectral-gaussian-admission-20261008 -> origin/codex/spectral-gaussian-admission-20261008
+2026-10-29T19:43:52.7160103Z  * [new branch]        codex/stationary-quartic-cusp-20261009 -> origin/codex/stationary-quartic-cusp-20261009
+2026-10-29T19:43:52.7162896Z  * [new branch]        codex/two-control-cusp-population-20261009 -> origin/codex/two-control-cusp-population-20261009
+2026-10-29T19:43:52.7165556Z  * [new branch]        codex/verification-museum-20260926 -> origin/codex/verification-museum-20260926
+2026-10-29T19:43:52.7168874Z  * [new branch]        codex/weighted-cusp-production-20261026-root01a11cbf -> origin/codex/weighted-cusp-production-20261026-root01a11cbf
+2026-10-29T19:43:52.7172274Z  * [new branch]        codex/weighted-cusp-sampling-20261025-root01a11cbf -> origin/codex/weighted-cusp-sampling-20261025-root01a11cbf
+2026-10-29T19:43:52.7175407Z  * [new branch]        copilot/comprehensive-audit-d6g8k5htny-coder -> origin/copilot/comprehensive-audit-d6g8k5htny-coder
+2026-10-29T19:43:52.7178791Z  * [new branch]        copilot/copilotupdate-coordination-references-307 -> origin/copilot/copilotupdate-coordination-references-307
+2026-10-29T19:43:52.7181432Z  * [new branch]        copilot/ec-014-audit-tasks -> origin/copilot/ec-014-audit-tasks
+2026-10-29T19:43:52.7184334Z  * [new branch]        copilot/update-contributor-routing-agent-message-board-419 -> origin/copilot/update-contributor-routing-agent-message-board-419
+2026-10-29T19:43:52.7187669Z  * [new branch]        cursor/at-remainder-source-repair-8ffc -> origin/cursor/at-remainder-source-repair-8ffc
+2026-10-29T19:43:52.7190350Z  * [new branch]        cursor/batch249-tip-observe-542e6ec-1c18 -> origin/cursor/batch249-tip-observe-542e6ec-1c18
+2026-10-29T19:43:52.7193021Z  * [new branch]        cursor/cond-importers-13-audit-20260925 -> origin/cursor/cond-importers-13-audit-20260925
+2026-10-29T19:43:52.7195936Z  * [new branch]        cursor/contribution-plan-crosswalk-lpw-identity -> origin/cursor/contribution-plan-crosswalk-lpw-identity
+2026-10-29T19:43:52.7199217Z  * [new branch]        cursor/downstream-crosswalk-outside-packet-31c5 -> origin/cursor/downstream-crosswalk-outside-packet-31c5
+2026-10-29T19:43:52.7202325Z  * [new branch]        cursor/env-rescov-node-classification-20260925 -> origin/cursor/env-rescov-node-classification-20260925
+2026-10-29T19:43:52.7205255Z  * [new branch]        cursor/f1-repair-618-impl-ref-20261025-9e39 -> origin/cursor/f1-repair-618-impl-ref-20261025-9e39
+2026-10-29T19:43:52.7208365Z  * [new branch]        cursor/g1-f1-journal-lf-framing-0b94 -> origin/cursor/g1-f1-journal-lf-framing-0b94
+2026-10-29T19:43:52.7210933Z  * [new branch]        cursor/intermediate-scale-bridge-ab2f -> origin/cursor/intermediate-scale-bridge-ab2f
+2026-10-29T19:43:52.7213483Z  * [new branch]        cursor/inventable-jetmod-probes-4488 -> origin/cursor/inventable-jetmod-probes-4488
+2026-10-29T19:43:52.7216315Z  * [new branch]        cursor/inventable-jetmod-shortcut-refusals-09c9 -> origin/cursor/inventable-jetmod-shortcut-refusals-09c9
+2026-10-29T19:43:52.7219593Z  * [new branch]        cursor/inventable-jetmod-status-honesty-f8c0 -> origin/cursor/inventable-jetmod-status-honesty-f8c0
+2026-10-29T19:43:52.7222288Z  * [new branch]        cursor/inventable-nav-rescue-334e -> origin/cursor/inventable-nav-rescue-334e
+2026-10-29T19:43:52.7224990Z  * [new branch]        cursor/inventable-probe-index-provenance-b0e1 -> origin/cursor/inventable-probe-index-provenance-b0e1
+2026-10-29T19:43:52.7228623Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-a3f9 -> origin/cursor/inventable-refused-empty-absent-honesty-a3f9
+2026-10-29T19:43:52.7232092Z  * [new branch]        cursor/inventable-refused-empty-absent-honesty-f763 -> origin/cursor/inventable-refused-empty-absent-honesty-f763
+2026-10-29T19:43:52.7235693Z  * [new branch]        cursor/inventable-registers-check-known-acceptance-c426 -> origin/cursor/inventable-registers-check-known-acceptance-c426
+2026-10-29T19:43:52.7239191Z  * [new branch]        cursor/inventable-rn-absent-empty-honesty-f2a8 -> origin/cursor/inventable-rn-absent-empty-honesty-f2a8
+2026-10-29T19:43:52.7242305Z  * [new branch]        cursor/inventable-status-jetmod-24jet-row-852a -> origin/cursor/inventable-status-jetmod-24jet-row-852a
+2026-10-29T19:43:52.7245422Z  * [new branch]        cursor/inventable-tip-observation-honesty-79ba -> origin/cursor/inventable-tip-observation-honesty-79ba
+2026-10-29T19:43:52.7248669Z  * [new branch]        cursor/inventable-tip-observe-02cfbfdf-ad5a -> origin/cursor/inventable-tip-observe-02cfbfdf-ad5a
+2026-10-29T19:43:52.7251673Z  * [new branch]        cursor/inventable-tip-observe-388a22ca -> origin/cursor/inventable-tip-observe-388a22ca
+2026-10-29T19:43:52.7254475Z  * [new branch]        cursor/inventable-tip-observe-3b3860da-cf44 -> origin/cursor/inventable-tip-observe-3b3860da-cf44
+2026-10-29T19:43:52.7257359Z  * [new branch]        cursor/inventable-tip-observe-542e6ec-8fc7 -> origin/cursor/inventable-tip-observe-542e6ec-8fc7
+2026-10-29T19:43:52.7260462Z  * [new branch]        cursor/inventable-tip-observe-8e359e5-d0bd -> origin/cursor/inventable-tip-observe-8e359e5-d0bd
+2026-10-29T19:43:52.7263473Z  * [new branch]        cursor/inventable-vault-path-tooling-docs-360d -> origin/cursor/inventable-vault-path-tooling-docs-360d
+2026-10-29T19:43:52.7266765Z  * [new branch]        cursor/jetmod-partial-refused-not-24jet-status-vocab -> origin/cursor/jetmod-partial-refused-not-24jet-status-vocab
+2026-10-29T19:43:52.7269955Z  * [new branch]        cursor/jetmod-sibling-sweep-empty-7b82 -> origin/cursor/jetmod-sibling-sweep-empty-7b82
+2026-10-29T19:43:52.7272414Z  * [new branch]        cursor/jetmod-status-vocab-1814 -> origin/cursor/jetmod-status-vocab-1814
+2026-10-29T19:43:52.7274636Z  * [new branch]        cursor/main-crosswalk-nav-31c5 -> origin/cursor/main-crosswalk-nav-31c5
+2026-10-29T19:43:52.7277183Z  * [new branch]        cursor/math-status-inventable-honesty-3242 -> origin/cursor/math-status-inventable-honesty-3242
+2026-10-29T19:43:52.7280123Z  * [new branch]        cursor/math-status-open-hold-20260922-b4a3 -> origin/cursor/math-status-open-hold-20260922-b4a3
+2026-10-29T19:43:52.7282916Z  * [new branch]        cursor/math-status-open-hold-20260922-e340 -> origin/cursor/math-status-open-hold-20260922-e340
+2026-10-29T19:43:52.7285563Z  * [new branch]        cursor/math-status-readme-unmix-9b14 -> origin/cursor/math-status-readme-unmix-9b14
+2026-10-29T19:43:52.7288464Z  * [new branch]        cursor/math-status-walls-20260922-da25 -> origin/cursor/math-status-walls-20260922-da25
+2026-10-29T19:43:52.7291117Z  * [new branch]        cursor/path-c-0019-attestations-rw-0c9d -> origin/cursor/path-c-0019-attestations-rw-0c9d
+2026-10-29T19:43:52.7293492Z  * [new branch]        cursor/path-c-portable-fixes -> origin/cursor/path-c-portable-fixes
+2026-10-29T19:43:52.7295903Z  * [new branch]        cursor/q0-ledger-reconcile-ebedb78-31c5 -> origin/cursor/q0-ledger-reconcile-ebedb78-31c5
+2026-10-29T19:43:52.7298938Z  * [new branch]        cursor/register-consumers-cold-start-nav-a2df -> origin/cursor/register-consumers-cold-start-nav-a2df
+2026-10-29T19:43:52.7301711Z  * [new branch]        cursor/replace-2025-main-landing-6939 -> origin/cursor/replace-2025-main-landing-6939
+2026-10-29T19:43:52.7304504Z  * [new branch]        cursor/restore-independence-credit-quote-e6a4 -> origin/cursor/restore-independence-credit-quote-e6a4
+2026-10-29T19:43:52.7307769Z  * [new branch]        cursor/retip-38-outside-residual-guard-077464ef -> origin/cursor/retip-38-outside-residual-guard-077464ef
+2026-10-29T19:43:52.7310659Z  * [new branch]        cursor/retip-46-cellcount-pin-077464ef -> origin/cursor/retip-46-cellcount-pin-077464ef
+2026-10-29T19:43:52.7313256Z  * [new branch]        cursor/rn-unif-walkdown-scope-fixes -> origin/cursor/rn-unif-walkdown-scope-fixes
+2026-10-29T19:43:52.7315991Z  * [new branch]        cursor/scientific-state-schema-crosswalk-31c5 -> origin/cursor/scientific-state-schema-crosswalk-31c5
+2026-10-29T19:43:52.7318768Z  * [new branch]        cursor/side24-align-fresh-637-4904 -> origin/cursor/side24-align-fresh-637-4904
+2026-10-29T19:43:52.7321378Z  * [new branch]        cursor/side24-alignment-review-20261026-dd62 -> origin/cursor/side24-alignment-review-20261026-dd62
+2026-10-29T19:43:52.7324197Z  * [new branch]        cursor/side24-missing-source-custody-0532 -> origin/cursor/side24-missing-source-custody-0532
+2026-10-29T19:43:52.7326802Z  * [new branch]        cursor/side24-nav-prep-honesty-a050 -> origin/cursor/side24-nav-prep-honesty-a050
+2026-10-29T19:43:52.7329710Z  * [new branch]        cursor/side24-prep-sot-absent-nav-d1b8 -> origin/cursor/side24-prep-sot-absent-nav-d1b8
+2026-10-29T19:43:52.7332672Z  * [new branch]        cursor/status-jetmod-inventable-merge-promote-2820 -> origin/cursor/status-jetmod-inventable-merge-promote-2820
+2026-10-29T19:43:52.7335574Z  * [new branch]        cursor/tip-align-packet-ae7daf7-dc7f -> origin/cursor/tip-align-packet-ae7daf7-dc7f
+2026-10-29T19:43:52.7338306Z  * [new branch]        cursor/tip-docs-hygiene-banners-4a17 -> origin/cursor/tip-docs-hygiene-banners-4a17
+2026-10-29T19:43:52.7340714Z  * [new branch]        cursor/tip-observe-0adeb651-d320 -> origin/cursor/tip-observe-0adeb651-d320
+2026-10-29T19:43:52.7342977Z  * [new branch]        cursor/tip-observe-3a29f526-8144 -> origin/cursor/tip-observe-3a29f526-8144
+2026-10-29T19:43:52.7431559Z  * [new branch]        cursor/tip-observe-fcad7236-c5d9 -> origin/cursor/tip-observe-fcad7236-c5d9
+2026-10-29T19:43:52.7435132Z  * [new branch]        cursor/vault-quarantine-hygiene-9f01 -> origin/cursor/vault-quarantine-hygiene-9f01
+2026-10-29T19:43:52.7440336Z  * [new branch]        cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c -> origin/cursor/zeta-fold-slice-c-original-timing-bytes-20261021-458c
+2026-10-29T19:43:52.7446461Z  * [new branch]        cursor/zeta-fold-slice-c-timing-retention-20261020-458c -> origin/cursor/zeta-fold-slice-c-timing-retention-20261020-458c
+2026-10-29T19:43:52.7450914Z  * [new branch]        custody/dot-p15-manifest-correction-20261025 -> origin/custody/dot-p15-manifest-correction-20261025
+2026-10-29T19:43:52.7453919Z  * [new branch]        custody/dot-v19-dependency-supplement-20261025 -> origin/custody/dot-v19-dependency-supplement-20261025
+2026-10-29T19:43:52.7456755Z  * [new branch]        custody/dot-v19-gap2-originals-20261026 -> origin/custody/dot-v19-gap2-originals-20261026
+2026-10-29T19:43:52.7459951Z  * [new branch]        dependabot/github_actions/github-actions-d51a082eac -> origin/dependabot/github_actions/github-actions-d51a082eac
+2026-10-29T19:43:52.7463332Z  * [new branch]        docs/retro-proof-source-join-incorp-20261025 -> origin/docs/retro-proof-source-join-incorp-20261025
+2026-10-29T19:43:52.7465871Z  * [new branch]        docs/workspace-board-307-h04 -> origin/docs/workspace-board-307-h04
+2026-10-29T19:43:52.7468251Z  * [new branch]        docs/workspace-board-pointer-307 -> origin/docs/workspace-board-pointer-307
+2026-10-29T19:43:52.7470606Z  * [new branch]        fix/atlas-hosted-admission-20261029 -> origin/fix/atlas-hosted-admission-20261029
+2026-10-29T19:43:52.7473192Z  * [new branch]        fix/atlas-persistent-ci-discovery-20261026 -> origin/fix/atlas-persistent-ci-discovery-20261026
+2026-10-29T19:43:52.7475909Z  * [new branch]        grok-h02-formal-routing-amend-20261013 -> origin/grok-h02-formal-routing-amend-20261013
+2026-10-29T19:43:52.7479022Z  * [new branch]        grok-h02/retro-proof-source-join-incorp-20261025 -> origin/grok-h02/retro-proof-source-join-incorp-20261025
+2026-10-29T19:43:52.7481932Z  * [new branch]        grok-h04/c221-doc-01-public-shop-commands -> origin/grok-h04/c221-doc-01-public-shop-commands
+2026-10-29T19:43:52.7484386Z  * [new branch]        grok-h04/c221-doc-01-w8b-commands -> origin/grok-h04/c221-doc-01-w8b-commands
+2026-10-29T19:43:52.7486568Z  * [new branch]        grok-h04/c221-doc-01-w8b-restore -> origin/grok-h04/c221-doc-01-w8b-restore
+2026-10-29T19:43:52.7489030Z  * [new branch]        grok/c160-path-01-fixture-alias -> origin/grok/c160-path-01-fixture-alias
+2026-10-29T19:43:52.7491128Z  * [new branch]        grok/c221-doc-01-w8b-commands -> origin/grok/c221-doc-01-w8b-commands
+2026-10-29T19:43:52.7493514Z  * [new branch]        grok/h02-workspace-board-pointer-20261009 -> origin/grok/h02-workspace-board-pointer-20261009
+2026-10-29T19:43:52.7496152Z  * [new branch]        grok/workspace-board-pointer-20261009 -> origin/grok/workspace-board-pointer-20261009
+2026-10-29T19:43:52.7498913Z  * [new branch]        grok16/v20-planner-source-carrier-20261025 -> origin/grok16/v20-planner-source-carrier-20261025
+2026-10-29T19:43:52.7501943Z  * [new branch]        grokbot-agent12/pr340-identity-binding-20261024 -> origin/grokbot-agent12/pr340-identity-binding-20261024
+2026-10-29T19:43:52.7504405Z  * [new branch]        grokbot-agent15/ci-cache-01 -> origin/grokbot-agent15/ci-cache-01
+2026-10-29T19:43:52.7506602Z  * [new branch]        harper/workspace-coord-307-pointer -> origin/harper/workspace-coord-307-pointer
+2026-10-29T19:43:52.7509168Z  * [new branch]        incoming/grok-cycle2-nd-d5-sard-20260926 -> origin/incoming/grok-cycle2-nd-d5-sard-20260926
+2026-10-29T19:43:52.7511980Z  * [new branch]        inventable/open-problems-frozen-errata-388a22ca -> origin/inventable/open-problems-frozen-errata-388a22ca
+2026-10-29T19:43:52.7515101Z  * [new branch]        inventable/rn-certified-q2-carrier-absent-077464ef -> origin/inventable/rn-certified-q2-carrier-absent-077464ef
+2026-10-29T19:43:52.7518165Z  * [new branch]        inventable/rn-crosswalk-docs-077464ef -> origin/inventable/rn-crosswalk-docs-077464ef
+2026-10-29T19:43:52.7520921Z  * [new branch]        inventable/side24-cell-errata-pointer-848aea2a -> origin/inventable/side24-cell-errata-pointer-848aea2a
+2026-10-29T19:43:52.7523979Z  * [new branch]        inventable/side24-cell-spatial-crosslink-3a29f526 -> origin/inventable/side24-cell-spatial-crosslink-3a29f526
+2026-10-29T19:43:52.7527051Z  * [new branch]        inventable/side24-cell-square-importers-077464ef -> origin/inventable/side24-cell-square-importers-077464ef
+2026-10-29T19:43:52.7530000Z  * [new branch]        inventable/side24-nav-pages-3b3860da -> origin/inventable/side24-nav-pages-3b3860da
+2026-10-29T19:43:52.7531912Z  * [new branch]        main                       -> origin/main
+2026-10-29T19:43:52.7534130Z  * [new branch]        research/v22-second-height-generic-gpt6-20261026 -> origin/research/v22-second-height-generic-gpt6-20261026
+2026-10-29T19:43:52.7537269Z  * [new branch]        rloop/formal-page-triggers-20261014-6178357042 -> origin/rloop/formal-page-triggers-20261014-6178357042
+2026-10-29T19:43:52.7540242Z  * [new branch]        transport/register-integration-20260923 -> origin/transport/register-integration-20260923
+2026-10-29T19:43:52.7542581Z  * [new branch]        transport/register-r1-20260923 -> origin/transport/register-r1-20260923
+2026-10-29T19:43:52.7544616Z  * [new tag]           archive/drive-migration-20261002 -> archive/drive-migration-20261002
+2026-10-29T19:43:52.7546428Z  * [new tag]           cbz-quarantine-q-8336      -> cbz-quarantine-q-8336
+2026-10-29T19:43:52.7548087Z  * [new tag]           cbz-quarantine-q-8340      -> cbz-quarantine-q-8340
+2026-10-29T19:43:52.7549630Z  * [new tag]           cbz-quarantine-q-8429      -> cbz-quarantine-q-8429
+2026-10-29T19:43:52.7551165Z  * [new tag]           pre-cbz-discovery-1        -> pre-cbz-discovery-1
+2026-10-29T19:43:52.7552728Z  * [new tag]           retain/pr-646-194e229606c6 -> retain/pr-646-194e229606c6
+2026-10-29T19:43:52.7554346Z  * [new tag]           retain/pr-650-a51445b4c2d6 -> retain/pr-650-a51445b4c2d6
+2026-10-29T19:43:52.7555930Z  * [new tag]           retain/pr621-3ef658d7      -> retain/pr621-3ef658d7
+2026-10-29T19:43:52.7557424Z  * [new tag]           retain/pr634-387b2321      -> retain/pr634-387b2321
+2026-10-29T19:43:52.7560720Z [command]/usr/bin/git branch --list --remote origin/cbz/cold-start-node-20261029
+2026-10-29T19:43:52.7562392Z   origin/cbz/cold-start-node-20261029
+2026-10-29T19:43:52.7564886Z [command]/usr/bin/git rev-parse refs/remotes/origin/cbz/cold-start-node-20261029
+2026-10-29T19:43:52.7566400Z a4a466cd818149662116329ee1f70a7b5e40d6f9
+2026-10-29T19:43:52.7569158Z ##[endgroup]
+2026-10-29T19:43:52.7570505Z ##[group]Determining the checkout info
+2026-10-29T19:43:52.7572026Z ##[endgroup]
+2026-10-29T19:43:52.7572917Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T19:43:52.7575432Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T19:43:52.7578513Z ##[group]Checking out the ref
+2026-10-29T19:43:52.7580474Z [command]/usr/bin/git checkout --progress --force -B cbz/cold-start-node-20261029 refs/remotes/origin/cbz/cold-start-node-20261029
+2026-10-29T19:43:53.1449686Z Switched to a new branch 'cbz/cold-start-node-20261029'
+2026-10-29T19:43:53.1456014Z branch 'cbz/cold-start-node-20261029' set up to track 'origin/cbz/cold-start-node-20261029'.
+2026-10-29T19:43:53.1494256Z ##[endgroup]
+2026-10-29T19:43:53.1557891Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T19:43:53.1601647Z a4a466cd818149662116329ee1f70a7b5e40d6f9
+2026-10-29T19:43:53.1611579Z ##[group]Removing auth
+2026-10-29T19:43:53.1612093Z Removing SSH command configuration
+2026-10-29T19:43:53.1615850Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:43:53.1665635Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:43:53.1937770Z Removing HTTP extra header
+2026-10-29T19:43:53.1941311Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:43:53.1991718Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:43:53.2267117Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:43:53.2272501Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:43:53.2320137Z includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T19:43:53.2321618Z includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T19:43:53.2322459Z includeif.gitdir:/github/workspace/.git.path
+2026-10-29T19:43:53.2323126Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T19:43:53.2330758Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git.path
+2026-10-29T19:43:53.2372232Z /home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:53.2383074Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-45d1dd0c\-8dfd\-46f2\-a7e4\-0d206ccf327d\.config
+2026-10-29T19:43:53.2440519Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path
+2026-10-29T19:43:53.2479558Z /home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:53.2489311Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/main/main/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-45d1dd0c\-8dfd\-46f2\-a7e4\-0d206ccf327d\.config
+2026-10-29T19:43:53.2542972Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-29T19:43:53.2583137Z /github/runner_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:53.2599237Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-45d1dd0c\-8dfd\-46f2\-a7e4\-0d206ccf327d\.config
+2026-10-29T19:43:53.2649676Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-29T19:43:53.2688747Z /github/runner_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config
+2026-10-29T19:43:53.2696512Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-45d1dd0c\-8dfd\-46f2\-a7e4\-0d206ccf327d\.config
+2026-10-29T19:43:53.2745180Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:43:53.3019310Z Removing credentials config '/home/runner/work/_temp/git-credentials-45d1dd0c-8dfd-46f2-a7e4-0d206ccf327d.config'
+2026-10-29T19:43:53.3025542Z ##[endgroup]
+2026-10-29T19:43:53.3298602Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-29T19:43:53.3299135Z with:
+2026-10-29T19:43:53.3299430Z   python-version: 3.11
+2026-10-29T19:43:53.3299739Z   check-latest: false
+2026-10-29T19:43:53.3302359Z   token: ***
+2026-10-29T19:43:53.3302654Z   update-environment: true
+2026-10-29T19:43:53.3302979Z   allow-prereleases: false
+2026-10-29T19:43:53.3303286Z   freethreaded: false
+2026-10-29T19:43:53.3303578Z ##[endgroup]
+2026-10-29T19:43:53.4614035Z ##[group]Installed versions
+2026-10-29T19:43:53.4691248Z Successfully set up CPython (3.11.17)
+2026-10-29T19:43:53.4692187Z ##[endgroup]
+2026-10-29T19:43:53.4835125Z ##[group]Run python -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v
+2026-10-29T19:43:53.4835915Z [36;1mpython -B -S -m unittest discover -s tests -p test_cbz_node_regression.py -v[0m
+2026-10-29T19:43:53.4873100Z shell: /usr/bin/bash -e {0}
+2026-10-29T19:43:53.4873444Z env:
+2026-10-29T19:43:53.4873806Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:43:53.4874325Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib/pkgconfig
+2026-10-29T19:43:53.4874861Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:43:53.4875289Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:43:53.4875719Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.17/x64
+2026-10-29T19:43:53.4876155Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.17/x64/lib
+2026-10-29T19:43:53.4876532Z   PYTHONOPTIMIZE: 0
+2026-10-29T19:43:53.4876828Z ##[endgroup]
+2026-10-29T19:43:53.6329169Z test_all_byte_identities_are_required (test_cbz_node_regression.NodeRunnerTests.test_all_byte_identities_are_required) ... FAIL
+2026-10-29T19:43:53.6331115Z test_clean_snapshot_binds_head (test_cbz_node_regression.NodeRunnerTests.test_clean_snapshot_binds_head) ... FAIL
+2026-10-29T19:43:53.6332717Z test_duplicate_config_keys_refuse (test_cbz_node_regression.NodeRunnerTests.test_duplicate_config_keys_refuse) ... FAIL
+2026-10-29T19:43:53.6334833Z test_existing_output_is_never_overwritten (test_cbz_node_regression.NodeRunnerTests.test_existing_output_is_never_overwritten) ... FAIL
+2026-10-29T19:43:53.6336759Z test_invalid_descriptor_domains_refuse (test_cbz_node_regression.NodeRunnerTests.test_invalid_descriptor_domains_refuse) ... FAIL
+2026-10-29T19:43:53.6338888Z test_materialization_checks_every_input_before_writing (test_cbz_node_regression.NodeRunnerTests.test_materialization_checks_every_input_before_writing) ... FAIL
+2026-10-29T19:43:53.6340830Z test_materialization_preserves_exact_bytes (test_cbz_node_regression.NodeRunnerTests.test_materialization_preserves_exact_bytes) ... FAIL
+2026-10-29T19:43:53.6342584Z test_missing_executable_is_an_execution_error (test_cbz_node_regression.NodeRunnerTests.test_missing_executable_is_an_execution_error) ... FAIL
+2026-10-29T19:43:53.6344535Z test_missing_historical_object_does_not_fall_back_to_worktree (test_cbz_node_regression.NodeRunnerTests.test_missing_historical_object_does_not_fall_back_to_worktree) ... FAIL
+2026-10-29T19:43:53.6346535Z test_node_command_enumerates_every_tracked_test (test_cbz_node_regression.NodeRunnerTests.test_node_command_enumerates_every_tracked_test) ... FAIL
+2026-10-29T19:43:53.6348514Z test_output_in_any_source_root_refuses (test_cbz_node_regression.NodeRunnerTests.test_output_in_any_source_root_refuses) ... FAIL
+2026-10-29T19:43:53.6350213Z test_preflight_failure_produces_fail_report (test_cbz_node_regression.NodeRunnerTests.test_preflight_failure_produces_fail_report) ... FAIL
+2026-10-29T19:43:53.6352091Z test_reads_immutable_blob_instead_of_dirty_working_copy (test_cbz_node_regression.NodeRunnerTests.test_reads_immutable_blob_instead_of_dirty_working_copy) ... FAIL
+2026-10-29T19:43:53.6353921Z test_real_node_skips_are_not_a_green_suite (test_cbz_node_regression.NodeRunnerTests.test_real_node_skips_are_not_a_green_suite) ... FAIL
+2026-10-29T19:43:53.6355757Z test_report_is_atomic_and_keeps_running_distinct_from_pass (test_cbz_node_regression.NodeRunnerTests.test_report_is_atomic_and_keeps_running_distinct_from_pass) ... FAIL
+2026-10-29T19:43:53.6358553Z test_snapshot_detects_assume_unchanged_source_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_assume_unchanged_source_changes) ... FAIL
+2026-10-29T19:43:53.6360519Z test_snapshot_detects_hidden_executable_mode_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_hidden_executable_mode_changes) ... FAIL
+2026-10-29T19:43:53.6362414Z test_snapshot_detects_index_and_untracked_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_index_and_untracked_changes) ... FAIL
+2026-10-29T19:43:53.6364600Z test_subprocess_exit_and_output_are_preserved (test_cbz_node_regression.NodeRunnerTests.test_subprocess_exit_and_output_are_preserved) ... FAIL
+2026-10-29T19:43:53.6366420Z test_symlink_is_not_admitted_as_a_regular_fixture (test_cbz_node_regression.NodeRunnerTests.test_symlink_is_not_admitted_as_a_regular_fixture) ... FAIL
+2026-10-29T19:43:53.6368329Z test_tap_missing_or_duplicate_fields_refuse (test_cbz_node_regression.NodeRunnerTests.test_tap_missing_or_duplicate_fields_refuse) ... FAIL
+2026-10-29T19:43:53.6370098Z test_tap_requires_nonzero_complete_all_passed_summary (test_cbz_node_regression.NodeRunnerTests.test_tap_requires_nonzero_complete_all_passed_summary) ... FAIL
+2026-10-29T19:43:53.6371644Z test_url_alias_is_rejected (test_cbz_node_regression.NodeRunnerTests.test_url_alias_is_rejected) ... FAIL
+2026-10-29T19:43:53.6373105Z test_zero_tracked_node_tests_refuses (test_cbz_node_regression.NodeRunnerTests.test_zero_tracked_node_tests_refuses) ... FAIL
+2026-10-29T19:43:53.6373939Z 
+2026-10-29T19:43:53.6374188Z ======================================================================
+2026-10-29T19:43:53.6375231Z FAIL: test_all_byte_identities_are_required (test_cbz_node_regression.NodeRunnerTests.test_all_byte_identities_are_required)
+2026-10-29T19:43:53.6376303Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6376984Z Traceback (most recent call last):
+2026-10-29T19:43:53.6385355Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6386196Z     self.module = runner()
+2026-10-29T19:43:53.6386610Z                   ^^^^^^^^
+2026-10-29T19:43:53.6387367Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6388585Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6389209Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6389563Z 
+2026-10-29T19:43:53.6389778Z ======================================================================
+2026-10-29T19:43:53.6390635Z FAIL: test_clean_snapshot_binds_head (test_cbz_node_regression.NodeRunnerTests.test_clean_snapshot_binds_head)
+2026-10-29T19:43:53.6391535Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6392129Z Traceback (most recent call last):
+2026-10-29T19:43:53.6392863Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6393565Z     self.module = runner()
+2026-10-29T19:43:53.6393954Z                   ^^^^^^^^
+2026-10-29T19:43:53.6394601Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6395445Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6396070Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6396449Z 
+2026-10-29T19:43:53.6396671Z ======================================================================
+2026-10-29T19:43:53.6397861Z FAIL: test_duplicate_config_keys_refuse (test_cbz_node_regression.NodeRunnerTests.test_duplicate_config_keys_refuse)
+2026-10-29T19:43:53.6398926Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6399559Z Traceback (most recent call last):
+2026-10-29T19:43:53.6400355Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6401464Z     self.module = runner()
+2026-10-29T19:43:53.6401940Z                   ^^^^^^^^
+2026-10-29T19:43:53.6402701Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6403660Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6404311Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6404695Z 
+2026-10-29T19:43:53.6404910Z ======================================================================
+2026-10-29T19:43:53.6406199Z FAIL: test_existing_output_is_never_overwritten (test_cbz_node_regression.NodeRunnerTests.test_existing_output_is_never_overwritten)
+2026-10-29T19:43:53.6407311Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6408019Z Traceback (most recent call last):
+2026-10-29T19:43:53.6408756Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6409531Z     self.module = runner()
+2026-10-29T19:43:53.6409952Z                   ^^^^^^^^
+2026-10-29T19:43:53.6410665Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6411661Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6412357Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6412765Z 
+2026-10-29T19:43:53.6413005Z ======================================================================
+2026-10-29T19:43:53.6414116Z FAIL: test_invalid_descriptor_domains_refuse (test_cbz_node_regression.NodeRunnerTests.test_invalid_descriptor_domains_refuse)
+2026-10-29T19:43:53.6415255Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6415894Z Traceback (most recent call last):
+2026-10-29T19:43:53.6416759Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6417954Z     self.module = runner()
+2026-10-29T19:43:53.6418394Z                   ^^^^^^^^
+2026-10-29T19:43:53.6419153Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6420128Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6420832Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6421216Z 
+2026-10-29T19:43:53.6421427Z ======================================================================
+2026-10-29T19:43:53.6422546Z FAIL: test_materialization_checks_every_input_before_writing (test_cbz_node_regression.NodeRunnerTests.test_materialization_checks_every_input_before_writing)
+2026-10-29T19:43:53.6423890Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6424498Z Traceback (most recent call last):
+2026-10-29T19:43:53.6425315Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6426124Z     self.module = runner()
+2026-10-29T19:43:53.6426588Z                   ^^^^^^^^
+2026-10-29T19:43:53.6427345Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6428390Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6428993Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6429373Z 
+2026-10-29T19:43:53.6429596Z ======================================================================
+2026-10-29T19:43:53.6430644Z FAIL: test_materialization_preserves_exact_bytes (test_cbz_node_regression.NodeRunnerTests.test_materialization_preserves_exact_bytes)
+2026-10-29T19:43:53.6431754Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6432360Z Traceback (most recent call last):
+2026-10-29T19:43:53.6433101Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6433836Z     self.module = runner()
+2026-10-29T19:43:53.6434243Z                   ^^^^^^^^
+2026-10-29T19:43:53.6435184Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6436081Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6436736Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6437110Z 
+2026-10-29T19:43:53.6437330Z ======================================================================
+2026-10-29T19:43:53.6438564Z FAIL: test_missing_executable_is_an_execution_error (test_cbz_node_regression.NodeRunnerTests.test_missing_executable_is_an_execution_error)
+2026-10-29T19:43:53.6439681Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6440457Z Traceback (most recent call last):
+2026-10-29T19:43:53.6441232Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6441997Z     self.module = runner()
+2026-10-29T19:43:53.6442422Z                   ^^^^^^^^
+2026-10-29T19:43:53.6443130Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6444036Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6444686Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6445083Z 
+2026-10-29T19:43:53.6445302Z ======================================================================
+2026-10-29T19:43:53.6446620Z FAIL: test_missing_historical_object_does_not_fall_back_to_worktree (test_cbz_node_regression.NodeRunnerTests.test_missing_historical_object_does_not_fall_back_to_worktree)
+2026-10-29T19:43:53.6448100Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6448734Z Traceback (most recent call last):
+2026-10-29T19:43:53.6449500Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6450272Z     self.module = runner()
+2026-10-29T19:43:53.6450723Z                   ^^^^^^^^
+2026-10-29T19:43:53.6451440Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6452355Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6453040Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6453441Z 
+2026-10-29T19:43:53.6453679Z ======================================================================
+2026-10-29T19:43:53.6454868Z FAIL: test_node_command_enumerates_every_tracked_test (test_cbz_node_regression.NodeRunnerTests.test_node_command_enumerates_every_tracked_test)
+2026-10-29T19:43:53.6456128Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6456774Z Traceback (most recent call last):
+2026-10-29T19:43:53.6457750Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6458509Z     self.module = runner()
+2026-10-29T19:43:53.6458958Z                   ^^^^^^^^
+2026-10-29T19:43:53.6459657Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6460594Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6461248Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6461656Z 
+2026-10-29T19:43:53.6461884Z ======================================================================
+2026-10-29T19:43:53.6462995Z FAIL: test_output_in_any_source_root_refuses (test_cbz_node_regression.NodeRunnerTests.test_output_in_any_source_root_refuses)
+2026-10-29T19:43:53.6464086Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6464730Z Traceback (most recent call last):
+2026-10-29T19:43:53.6465547Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6466304Z     self.module = runner()
+2026-10-29T19:43:53.6466741Z                   ^^^^^^^^
+2026-10-29T19:43:53.6467445Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6468744Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6469380Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6469747Z 
+2026-10-29T19:43:53.6469972Z ======================================================================
+2026-10-29T19:43:53.6471066Z FAIL: test_preflight_failure_produces_fail_report (test_cbz_node_regression.NodeRunnerTests.test_preflight_failure_produces_fail_report)
+2026-10-29T19:43:53.6472246Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6472876Z Traceback (most recent call last):
+2026-10-29T19:43:53.6473928Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6474705Z     self.module = runner()
+2026-10-29T19:43:53.6475143Z                   ^^^^^^^^
+2026-10-29T19:43:53.6475868Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6476789Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6477641Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6478050Z 
+2026-10-29T19:43:53.6478275Z ======================================================================
+2026-10-29T19:43:53.6479539Z FAIL: test_reads_immutable_blob_instead_of_dirty_working_copy (test_cbz_node_regression.NodeRunnerTests.test_reads_immutable_blob_instead_of_dirty_working_copy)
+2026-10-29T19:43:53.6480861Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6481449Z Traceback (most recent call last):
+2026-10-29T19:43:53.6482205Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6482963Z     self.module = runner()
+2026-10-29T19:43:53.6483357Z                   ^^^^^^^^
+2026-10-29T19:43:53.6483979Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6484882Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6485558Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6485936Z 
+2026-10-29T19:43:53.6486343Z ======================================================================
+2026-10-29T19:43:53.6487422Z FAIL: test_real_node_skips_are_not_a_green_suite (test_cbz_node_regression.NodeRunnerTests.test_real_node_skips_are_not_a_green_suite)
+2026-10-29T19:43:53.6488738Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6489372Z Traceback (most recent call last):
+2026-10-29T19:43:53.6490142Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6490912Z     self.module = runner()
+2026-10-29T19:43:53.6491321Z                   ^^^^^^^^
+2026-10-29T19:43:53.6492016Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6492921Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6493573Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6493935Z 
+2026-10-29T19:43:53.6494143Z ======================================================================
+2026-10-29T19:43:53.6495481Z FAIL: test_report_is_atomic_and_keeps_running_distinct_from_pass (test_cbz_node_regression.NodeRunnerTests.test_report_is_atomic_and_keeps_running_distinct_from_pass)
+2026-10-29T19:43:53.6496837Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6497468Z Traceback (most recent call last):
+2026-10-29T19:43:53.6498457Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6499247Z     self.module = runner()
+2026-10-29T19:43:53.6499703Z                   ^^^^^^^^
+2026-10-29T19:43:53.6500396Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6501210Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6501696Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6502161Z 
+2026-10-29T19:43:53.6502304Z ======================================================================
+2026-10-29T19:43:53.6503042Z FAIL: test_snapshot_detects_assume_unchanged_source_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_assume_unchanged_source_changes)
+2026-10-29T19:43:53.6503794Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6504276Z Traceback (most recent call last):
+2026-10-29T19:43:53.6505018Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6505783Z     self.module = runner()
+2026-10-29T19:43:53.6506741Z                   ^^^^^^^^
+2026-10-29T19:43:53.6507654Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6508405Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6508823Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6509084Z 
+2026-10-29T19:43:53.6509240Z ======================================================================
+2026-10-29T19:43:53.6509977Z FAIL: test_snapshot_detects_hidden_executable_mode_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_hidden_executable_mode_changes)
+2026-10-29T19:43:53.6510725Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6511119Z Traceback (most recent call last):
+2026-10-29T19:43:53.6511610Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6512092Z     self.module = runner()
+2026-10-29T19:43:53.6512374Z                   ^^^^^^^^
+2026-10-29T19:43:53.6512829Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6513389Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6513792Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6514034Z 
+2026-10-29T19:43:53.6514185Z ======================================================================
+2026-10-29T19:43:53.6514890Z FAIL: test_snapshot_detects_index_and_untracked_changes (test_cbz_node_regression.NodeRunnerTests.test_snapshot_detects_index_and_untracked_changes)
+2026-10-29T19:43:53.6515621Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6516012Z Traceback (most recent call last):
+2026-10-29T19:43:53.6516506Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6516981Z     self.module = runner()
+2026-10-29T19:43:53.6517272Z                   ^^^^^^^^
+2026-10-29T19:43:53.6517924Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6518481Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6518883Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6519126Z 
+2026-10-29T19:43:53.6519274Z ======================================================================
+2026-10-29T19:43:53.6519955Z FAIL: test_subprocess_exit_and_output_are_preserved (test_cbz_node_regression.NodeRunnerTests.test_subprocess_exit_and_output_are_preserved)
+2026-10-29T19:43:53.6520686Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6521069Z Traceback (most recent call last):
+2026-10-29T19:43:53.6521544Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6522010Z     self.module = runner()
+2026-10-29T19:43:53.6522289Z                   ^^^^^^^^
+2026-10-29T19:43:53.6522741Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6523287Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6523686Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6523914Z 
+2026-10-29T19:43:53.6524058Z ======================================================================
+2026-10-29T19:43:53.6524914Z FAIL: test_symlink_is_not_admitted_as_a_regular_fixture (test_cbz_node_regression.NodeRunnerTests.test_symlink_is_not_admitted_as_a_regular_fixture)
+2026-10-29T19:43:53.6525630Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6526013Z Traceback (most recent call last):
+2026-10-29T19:43:53.6526481Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6526947Z     self.module = runner()
+2026-10-29T19:43:53.6527220Z                   ^^^^^^^^
+2026-10-29T19:43:53.6527891Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6528577Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6528978Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6529220Z 
+2026-10-29T19:43:53.6529358Z ======================================================================
+2026-10-29T19:43:53.6530020Z FAIL: test_tap_missing_or_duplicate_fields_refuse (test_cbz_node_regression.NodeRunnerTests.test_tap_missing_or_duplicate_fields_refuse)
+2026-10-29T19:43:53.6530708Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6531085Z Traceback (most recent call last):
+2026-10-29T19:43:53.6531556Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6532021Z     self.module = runner()
+2026-10-29T19:43:53.6532293Z                   ^^^^^^^^
+2026-10-29T19:43:53.6532727Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6533282Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6533685Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6533914Z 
+2026-10-29T19:43:53.6534060Z ======================================================================
+2026-10-29T19:43:53.6534779Z FAIL: test_tap_requires_nonzero_complete_all_passed_summary (test_cbz_node_regression.NodeRunnerTests.test_tap_requires_nonzero_complete_all_passed_summary)
+2026-10-29T19:43:53.6535518Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6535894Z Traceback (most recent call last):
+2026-10-29T19:43:53.6536366Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6536839Z     self.module = runner()
+2026-10-29T19:43:53.6537114Z                   ^^^^^^^^
+2026-10-29T19:43:53.6537709Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6538275Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6538682Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6538921Z 
+2026-10-29T19:43:53.6539064Z ======================================================================
+2026-10-29T19:43:53.6539600Z FAIL: test_url_alias_is_rejected (test_cbz_node_regression.NodeRunnerTests.test_url_alias_is_rejected)
+2026-10-29T19:43:53.6540169Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6540547Z Traceback (most recent call last):
+2026-10-29T19:43:53.6541008Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6541474Z     self.module = runner()
+2026-10-29T19:43:53.6541744Z                   ^^^^^^^^
+2026-10-29T19:43:53.6542172Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6542721Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6543124Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6543350Z 
+2026-10-29T19:43:53.6543495Z ======================================================================
+2026-10-29T19:43:53.6544081Z FAIL: test_zero_tracked_node_tests_refuses (test_cbz_node_regression.NodeRunnerTests.test_zero_tracked_node_tests_refuses)
+2026-10-29T19:43:53.6544704Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6545272Z Traceback (most recent call last):
+2026-10-29T19:43:53.6545852Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 30, in setUp
+2026-10-29T19:43:53.6546330Z     self.module = runner()
+2026-10-29T19:43:53.6546608Z                   ^^^^^^^^
+2026-10-29T19:43:53.6547034Z   File "/home/runner/work/main/main/tests/test_cbz_node_regression.py", line 20, in runner
+2026-10-29T19:43:53.6547770Z     raise AssertionError("prepared Node runner is missing")
+2026-10-29T19:43:53.6548178Z AssertionError: prepared Node runner is missing
+2026-10-29T19:43:53.6548414Z 
+2026-10-29T19:43:53.6548709Z ----------------------------------------------------------------------
+2026-10-29T19:43:53.6549099Z Ran 24 tests in 0.005s
+2026-10-29T19:43:53.6549272Z 
+2026-10-29T19:43:53.6549401Z FAILED (failures=24)
+2026-10-29T19:43:53.6562544Z ##[error]Process completed with exit code 1.
+2026-10-29T19:43:53.6724558Z Post job cleanup.
+2026-10-29T19:43:53.7612701Z [command]/usr/bin/git version
+2026-10-29T19:43:53.7700580Z git version 2.56.0
+2026-10-29T19:43:53.7737616Z Temporarily overriding HOME='/home/runner/work/_temp/54429f48-5e88-4a5c-98cd-e8e523ef7761' before making global git config changes
+2026-10-29T19:43:53.7739026Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T19:43:53.7743601Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/main/main
+2026-10-29T19:43:53.7784987Z Removing SSH command configuration
+2026-10-29T19:43:53.7792458Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T19:43:53.7844980Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T19:43:53.8149291Z Removing HTTP extra header
+2026-10-29T19:43:53.8150726Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T19:43:53.8188070Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T19:43:53.8484315Z Removing includeIf entries pointing to credentials config files
+2026-10-29T19:43:53.8493486Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T19:43:53.8543191Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T19:43:53.8989091Z Cleaning up orphan processes

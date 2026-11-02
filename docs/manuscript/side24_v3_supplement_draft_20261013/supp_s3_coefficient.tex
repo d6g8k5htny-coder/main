@@ -1,0 +1,561 @@
+% Section S3: the finite-side coefficient.
+\section{The finite-side coefficient}\label{sec:coefficient}
+
+This section evaluates the coefficient of the short-lifetime law in closed finite-dimensional form. By Theorem~3.9 of the main text, $c_{3,24}$ is the integral of the limiting all-typed contact density against $\kappa^{-2/3}$. Theorem~\ref{thm:coefficient-main} reduces this integral to the Gaussian-cone formula (2.9) of the main text. We then give the cone--sphere and cubic-symmetry reductions of the formula (\S\ref{ssec:coefficient-reductions}), compute the covariance objects at the Bargmann--Fock jet and their limits as the side tends to infinity (\S\ref{ssec:coefficient-planar}), prove the closed forms of the cone constant $D_2$ and of $c_{3,\infty}$ (\S\ref{ssec:coefficient-D2}), and record the isotropic form of the coefficient (\S\ref{ssec:coefficient-isotropic}).
+
+\begin{convention}[kernels, fields and jets]\label{conv:coefficient-kernels}
+For $0<L<\infty$ let
+\begin{equation}\label{eq:coefficient-KL}
+K_L(z)=Z_L^{-1}\sum_{n\in\Z^3}\exp\Bigl(-\frac{|z+Ln|^2}{2}\Bigr),\qquad Z_L=\sum_{n\in\Z^3}e^{-L^2|n|^2/2},
+\end{equation}
+be the normalized side-$L$ periodized Bargmann--Fock covariance on $\T_L^3=(\R/L\Z)^3$, and let $K_\infty(z)=e^{-|z|^2/2}$ on $\R^3$. Thus $K_{24}$ is the covariance (1.1) of the main text. For $L\in(0,\infty]$, $f$ denotes a centered stationary Gaussian field with covariance $K_L$; for $L=24$, $f=f_{24}$. All derivatives of $f$ below are taken at one point $x$; by stationarity their joint law does not depend on $x$, and
+\begin{equation}\label{eq:coefficient-covformula}
+\Cov\bigl(\partial^\alpha f(x),\partial^\beta f(x)\bigr)=(-1)^{|\beta|}\,\partial^{\alpha+\beta}K_L(0).
+\end{equation}
+We write $J_L$ for the even covariance jet of $K_L$ at the origin through order six (its derivatives of orders two, four and six) and, following (3.25) of the main text, $J_0$ for the jet of $K_\infty$. On $S^2$, $d\sigma_2$ denotes surface measure; it is written $dt$ in (2.9) of the main text.
+\end{convention}
+
+\subsection{The directional contact frame}\label{ssec:coefficient-frame}
+
+\begin{definition}[directional contact frame]\label{def:coefficient-frame}
+Fix $t\in S^2$ and an orthonormal transverse frame $n_1,n_2$, so that $(t,n_1,n_2)$ is an orthonormal basis of $\R^3$. The \emph{odd pin variables} are
+\begin{equation}\label{eq:coefficient-odd}
+u_t=-\frac{\partial_t^3f}{12},\qquad g_t=(\partial_tf,\partial_{n_1}f,\partial_{n_2}f),
+\end{equation}
+the \emph{even Hessian-row pins} are
+\begin{equation}\label{eq:coefficient-h}
+h_t=(\partial_{tt}f,\partial_{tn_1}f,\partial_{tn_2}f),
+\end{equation}
+and the transverse Hessian vector and matrix are
+\begin{equation}\label{eq:coefficient-q}
+q_t=(\partial_{n_1n_1}f,\partial_{n_1n_2}f,\partial_{n_2n_2}f),\qquad
+Q_t(q)=\begin{pmatrix}q_1&q_2\\ q_2&q_3\end{pmatrix},\quad q\in\R^3 .
+\end{equation}
+The complete limiting corrected pin vector is
+\begin{equation}\label{eq:coefficient-Y}
+Y_t=(f,u_t,g_t,h_t)\in\R^8,
+\end{equation}
+with target
+\begin{equation}\label{eq:coefficient-target}
+(b,\,-\kappa/6,\,0,\,0),\qquad b\in\R,\ \kappa>0 .
+\end{equation}
+\end{definition}
+
+For $f=f_{24}$, \eqref{eq:coefficient-odd}--\eqref{eq:coefficient-q} are (2.2)--(2.4) of the main text. The quantities entering the coefficient formula below do not depend on the choice of transverse frame (Lemma~\ref{lem:coefficient-frame}).
+
+\begin{lemma}[even/odd independence and the limiting pins]\label{lem:coefficient-parity}
+Let $L\in(0,\infty]$.
+\begin{enumerate}[(i)]
+\item All even-order derivatives of $f$ at $x$ are jointly independent of all odd-order derivatives of $f$ at $x$. In particular $(f,h_t,q_t)$ is independent of $(u_t,g_t)$.
+\item Let $f$ be $C^5$ near $x$, put $M=x-\frac r2t$, $S=x+\frac r2t$, and let $V^+,V^-_{\rm corr},G^\pm_e$ $(e\in\{t,n_1,n_2\})$ be the corrected divided-difference pin frame (3.7)--(3.8) of the main text. As $r\downarrow0$,
+\[
+V^+\to f(x),\qquad V^-_{\rm corr}\to u_t,\qquad (G^+_t,G^+_{n_1},G^+_{n_2})\to g_t,\qquad (G^-_t,G^-_{n_1},G^-_{n_2})\to h_t .
+\]
+If $f$ satisfies the pins (3.5) of the main text, then $V^+=b-\kappa r^3/12$, $V^-_{\rm corr}=-\kappa/6$ and $G^\pm_e=0$. Thus $Y_t$ is the contact limit of the corrected pin vector, and \eqref{eq:coefficient-target} is the limit of its target.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) Since $K_L$ is even, every derivative of $K_L$ of odd order is an odd function and vanishes at the origin. By \eqref{eq:coefficient-covformula}, $\partial^\alpha f(x)$ and $\partial^\beta f(x)$ are uncorrelated whenever $|\alpha|+|\beta|$ is odd. The derivatives are jointly Gaussian, so the even-order family is independent of the odd-order family. The components of $(f,h_t,q_t)$ have orders $0$ and $2$, those of $(u_t,g_t)$ orders $3$ and $1$.
+
+(ii) Put $\varphi(s)=f(x+st)$ and $\psi_e(s)=\partial_ef(x+st)$. Taylor expansion at $s=0$ gives
+\[
+f(S)-f(M)=r\varphi'(0)+\frac{r^3}{24}\varphi'''(0)+O(r^5),\qquad
+\frac r2\bigl(\partial_tf(S)+\partial_tf(M)\bigr)=r\varphi'(0)+\frac{r^3}{8}\varphi'''(0)+O(r^5),
+\]
+so $V^-_{\rm corr}=-\varphi'''(0)/12+O(r^2)\to-\partial_t^3f(x)/12=u_t$. Similarly $V^+=\varphi(0)+O(r^2)$, $G^+_e=\psi_e(0)+O(r^2)$ and $G^-_e=\psi_e'(0)+O(r^2)$ with $\psi_e'(0)=\partial_t\partial_ef(x)$. On the pins, $V^+=\frac12\bigl(b+b-\kappa r^3/6\bigr)=b-\kappa r^3/12$, $V^-_{\rm corr}=(-\kappa r^3/6)/r^3=-\kappa/6$, and all gradient terms vanish.
+\end{proof}
+
+\subsection{Covariance objects}\label{ssec:coefficient-cov}
+
+\begin{definition}[covariance objects]\label{def:coefficient-cov}
+Put
+\begin{equation}\label{eq:coefficient-Sigmag}
+\Sigma_g(t)=\Cov(g_t),
+\end{equation}
+\begin{equation}\label{eq:coefficient-su}
+s_u(t)=\Var(u_t),\qquad c_{ug}(t)=\Cov(u_t,g_t),\qquad c_{gu}(t)=c_{ug}(t)^{\top},
+\end{equation}
+and define the conditional odd variance
+\begin{equation}\label{eq:coefficient-sigma}
+\sigma_t^2=s_u(t)-c_{ug}(t)\,\Sigma_g(t)^{-1}c_{gu}(t).
+\end{equation}
+For the even block put
+\begin{equation}\label{eq:coefficient-Sigmah}
+\Sigma_h(t)=\Cov(h_t),
+\end{equation}
+\begin{equation}\label{eq:coefficient-Sigmaq}
+\Sigma_q(t)=\Cov(q_t),\qquad C_{qh}(t)=\Cov(q_t,h_t),\qquad C_{hq}(t)=C_{qh}(t)^{\top},
+\end{equation}
+and
+\begin{equation}\label{eq:coefficient-Gamma}
+\Gamma_t=\Sigma_q(t)-C_{qh}(t)\,\Sigma_h(t)^{-1}C_{hq}(t).
+\end{equation}
+Finally let
+\begin{equation}\label{eq:coefficient-F}
+F(q)=\bigl(\det Q_t(q)\bigr)^2\,\ind_{\{Q_t(q)\prec0\}},\qquad q\in\R^3,
+\end{equation}
+where $\prec0$ means negative definite, and
+\begin{equation}\label{eq:coefficient-Dt}
+D_t=\E\Bigl[\bigl(\det Q_t(q_t)\bigr)^2\,\ind_{\{Q_t(q_t)\prec0\}}\ \Big|\ h_t=0\Bigr].
+\end{equation}
+\end{definition}
+
+For $f=f_{24}$ these are (2.5)--(2.8) of the main text. Since $|\det Q_t(q)|=|q_1q_3-q_2^2|\le|q|^2$, we have $0\le F(q)\le|q|^4$.
+
+\begin{lemma}[nondegeneracy and conditional laws]\label{lem:coefficient-posdef}
+Let $L\in(0,\infty]$ and $t\in S^2$. Every entry of $\Sigma_g(t)$, $s_u(t)$, $c_{ug}(t)$, $\Sigma_h(t)$, $\Sigma_q(t)$ and $C_{qh}(t)$ is, by \eqref{eq:coefficient-covformula}, a constant multiple of a directional derivative of $K_L$ at the origin of order two, four or six; for $L<\infty$ it is an exact lattice sum obtained by differentiating \eqref{eq:coefficient-KL} term by term. The quantities $\sigma_t^2$ and $\Gamma_t$ are rational functions of these entries. The matrices $\Sigma_g(t)$, $\Sigma_h(t)$ and $\Gamma_t$ are positive definite, $\sigma_t^2>0$, and
+\begin{equation}\label{eq:coefficient-qcond}
+q_t\mid\{h_t=0\}\ \sim\ N(0,\Gamma_t).
+\end{equation}
+In particular $D_t=\E F(q)$ for $q\sim N(0,\Gamma_t)$, and all objects \eqref{eq:coefficient-Sigmag}--\eqref{eq:coefficient-Dt} are determined by $J_L$, $t$ and the transverse frame.
+\end{lemma}
+
+\begin{proof}
+The orders are read off from \eqref{eq:coefficient-odd}--\eqref{eq:coefficient-q}: $\Sigma_g$ involves second derivatives of $K_L$, $c_{ug}$, $\Sigma_h$, $\Sigma_q$ and $C_{qh}$ fourth derivatives, and $s_u$ sixth derivatives.
+
+For $L<\infty$, Poisson summation shows that $K_L$ has strictly positive Fourier coefficients, exactly as in (1.2) of the main text with $24$ replaced by $L$, and the variance identity (1.3) of the main text holds with the same proof. As shown there, the covariance of a finite family of derivative evaluations at one point is positive definite as soon as the corresponding derivative distributions are linearly independent, that is, as soon as the polynomial symbols of the differential operators are linearly independent. For $L=\infty$ the same conclusion holds because $K_\infty$ has the everywhere positive spectral density $(2\pi)^{-3/2}e^{-|\xi|^2/2}$: the variance of $\sum_\alpha c_\alpha\partial^\alpha f(x)$ is $\int|\sum_\alpha c_\alpha(i\xi)^\alpha|^2(2\pi)^{-3/2}e^{-|\xi|^2/2}\,d\xi$, which vanishes only if the polynomial vanishes identically.
+
+In the orthonormal coordinates $(t,n_1,n_2)$ the symbols of $\partial_t,\partial_{n_1},\partial_{n_2},\partial_t^3$ are distinct monomials, so $\Cov(g_t,u_t)$ is positive definite; hence $\Sigma_g(t)$ is positive definite and its Schur complement $\sigma_t^2$ is positive. Likewise the six second derivatives $\partial_e\partial_{e'}$, $e,e'\in\{t,n_1,n_2\}$, have distinct monomial symbols, so $\Cov(h_t,q_t)$ is positive definite; hence $\Sigma_h(t)$ and the Schur complement $\Gamma_t$ are positive definite. Finally \eqref{eq:coefficient-qcond} is Gaussian regression: the conditional law of a centered Gaussian vector given that another component vanishes is centered Gaussian with the Schur-complement covariance.
+\end{proof}
+
+\subsection{Birth integration and the normalized gap}\label{ssec:coefficient-birth}
+
+Conditional expectations given Gaussian coordinates are taken in their Gaussian-regression versions, which are continuous in the conditioning values. The \emph{even contact factor before birth integration} is
+\begin{equation}\label{eq:coefficient-even-factor}
+p_{(f,h_t)}(b,0)\,\E\bigl[F(q_t)\mid f=b,\ h_t=0\bigr],\qquad b\in\R ,
+\end{equation}
+where $p_{(f,h_t)}$ is the Gaussian density of $(f,h_t)$.
+
+\begin{lemma}[birth-integration collapse]\label{lem:coefficient-birth}
+For every $L\in(0,\infty]$ and $t\in S^2$,
+\begin{equation}\label{eq:coefficient-collapse}
+\int_{\R}p_{(f,h_t)}(b,0)\,\E\bigl[F(q_t)\mid f=b,\ h_t=0\bigr]\,db=p_{h_t}(0)\,\E\bigl[F(q_t)\mid h_t=0\bigr]=p_{h_t}(0)\,D_t,
+\end{equation}
+and
+\begin{equation}\label{eq:coefficient-ph}
+p_{h_t}(0)\,D_t=(2\pi)^{-3/2}\bigl[\det\Sigma_h(t)\bigr]^{-1/2}D_t .
+\end{equation}
+Thus the field value $f$ and every covariance involving $f$ disappear from the coefficient.
+\end{lemma}
+
+\begin{proof}
+The vector $(f,h_t)$ is nondegenerate (its symbols $1$ and $\xi_t\xi_e$ are linearly independent; see the proof of Lemma~\ref{lem:coefficient-posdef}), so $p_{(f,h_t)}(b,0)=p_{h_t}(0)\,p_{f\mid h_t=0}(b)$, where $p_{f\mid h_t=0}$ is the centered normal density of $f$ given $h_t=0$. The conditional law of $q_t$ given $h_t=0$ is the mixture, over $b$ distributed according to $p_{f\mid h_t=0}$, of the conditional laws of $q_t$ given $(f,h_t)=(b,0)$. Since $0\le F(q)\le|q|^4$ is integrable under these Gaussian laws, the law of total expectation gives
+\[
+\int_{\R}p_{f\mid h_t=0}(b)\,\E\bigl[F(q_t)\mid f=b,\ h_t=0\bigr]\,db=\E\bigl[F(q_t)\mid h_t=0\bigr]=D_t .
+\]
+Multiplying by $p_{h_t}(0)=(2\pi)^{-3/2}[\det\Sigma_h(t)]^{-1/2}$ gives \eqref{eq:coefficient-collapse} and \eqref{eq:coefficient-ph}.
+\end{proof}
+
+Equation \eqref{eq:coefficient-collapse} is the anisotropic finite-side form of the birth-integration collapse; it is (3.20) of the main text.
+
+\begin{lemma}[normalized-gap integral]\label{lem:coefficient-gap}
+For every $L\in(0,\infty]$ and $t\in S^2$: conditionally on $g_t=0$,
+\begin{equation}\label{eq:coefficient-ucond}
+u_t\sim N(0,\sigma_t^2).
+\end{equation}
+Therefore the odd pin density at the target $u_t=-\kappa/6$ is
+\begin{equation}\label{eq:coefficient-podd}
+p_{(u_t,g_t)}(-\kappa/6,0)=p_{g_t}(0)\,\bigl[2\pi\sigma_t^2\bigr]^{-1/2}\exp\Bigl[-\frac{\kappa^2}{72\sigma_t^2}\Bigr],
+\end{equation}
+where
+\begin{equation}\label{eq:coefficient-pg}
+p_{g_t}(0)=(2\pi)^{-3/2}\bigl[\det\Sigma_g(t)\bigr]^{-1/2},
+\end{equation}
+and
+\begin{equation}\label{eq:coefficient-gap}
+\int_0^\infty p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^{4/3}\,d\kappa=p_{g_t}(0)\,\frac{\Gamma(7/6)\,72^{7/6}\,(\sigma_t^2)^{2/3}}{2\sqrt{2\pi}} .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Equation \eqref{eq:coefficient-ucond} is Gaussian regression with the Schur complement \eqref{eq:coefficient-sigma}, and \eqref{eq:coefficient-podd}--\eqref{eq:coefficient-pg} follow from $p_{(u_t,g_t)}(u,0)=p_{g_t}(0)\,p_{u_t\mid g_t=0}(u)$ and $(\kappa/6)^2/(2\sigma_t^2)=\kappa^2/(72\sigma_t^2)$. For \eqref{eq:coefficient-gap}, substitute $\kappa=(72\sigma_t^2y)^{1/2}$:
+\[
+\int_0^\infty\kappa^{4/3}e^{-\kappa^2/(72\sigma_t^2)}\,d\kappa=\frac12\,(72\sigma_t^2)^{7/6}\int_0^\infty y^{1/6}e^{-y}\,dy=\frac12\,(72\sigma_t^2)^{7/6}\,\Gamma(7/6),
+\]
+and multiply by $p_{g_t}(0)(2\pi\sigma_t^2)^{-1/2}$.
+\end{proof}
+
+Equation \eqref{eq:coefficient-gap} is (3.21) of the main text.
+
+\subsection{The coefficient formula}\label{ssec:coefficient-main}
+
+\begin{lemma}[frame invariance]\label{lem:coefficient-frame}
+Let $L\in(0,\infty]$ and $t\in S^2$, and change the transverse frame by $R\in O(2)$, that is, $(n_1',n_2')=(n_1,n_2)R$. Then $g_t$ and $h_t$ transform by $U=\operatorname{diag}(1,R^{\top})$, $q_t$ transforms by the induced representation $\rho(R)$ on $\R^3$ defined by $Q_t(\rho(R)q)=R^{\top}Q_t(q)R$, $\Sigma_g(t)$ and $\Sigma_h(t)$ change by congruence with $U$, $\Gamma_t$ changes by congruence with $\rho(R)$, and $\det Q_t$ together with the negative-definite cone is invariant. Consequently $\det\Sigma_g(t)$, $\det\Sigma_h(t)$, $\sigma_t^2$ and $D_t$ do not depend on the transverse frame, and
+\begin{equation}\label{eq:coefficient-I}
+I(t)=\frac{(\sigma_t^2)^{2/3}\,D_t}{\sqrt{\det\Sigma_g(t)\,\det\Sigma_h(t)}}
+\end{equation}
+is a well-defined function on $S^2$. It is continuous and strictly positive.
+\end{lemma}
+
+\begin{proof}
+Since $\partial_{n_j'}=\sum_iR_{ij}\partial_{n_i}$, the new vectors are $g_t'=Ug_t$, $h_t'=Uh_t$ and $Q_t(q_t')=R^{\top}Q_t(q_t)R$, while $u_t$ depends only on $t$. Hence $\Sigma_g'=U\Sigma_gU^{\top}$ and $\Sigma_h'=U\Sigma_hU^{\top}$ with $U$ orthogonal, so their determinants are unchanged; $c_{ug}'=c_{ug}U^{\top}$ and $s_u'=s_u$, so $\sigma_t^2$ is unchanged. As $h_t'=Uh_t$, conditioning on $h_t'=0$ is conditioning on $h_t=0$, and Gaussian regression gives $\Gamma_t'=\rho(R)\Gamma_t\rho(R)^{\top}$ with $q_t'\mid\{h_t'=0\}$ the image of $q_t\mid\{h_t=0\}$ under $\rho(R)$. Since $\det(R^{\top}QR)=\det Q$ and $R^{\top}QR\prec0$ if and only if $Q\prec0$, we have $F\circ\rho(R)=F$ and $D_t'=D_t$.
+
+Near any point of $S^2$ there is a continuous orthonormal transverse frame. In such a frame the entries of \eqref{eq:coefficient-Sigmag}--\eqref{eq:coefficient-Sigmaq} are polynomials in the coordinates of $(t,n_1,n_2)$ with coefficients in $J_L$, so $\Sigma_g$, $\Sigma_h$, $\sigma_t^2$ and $\Gamma_t$ are continuous in $t$. The map $\Gamma\mapsto\int F(q)\,\phi_\Gamma(q)\,dq$, with $\phi_\Gamma$ the $N(0,\Gamma)$ density, is continuous on positive definite matrices by dominated convergence, so $D_t$ is continuous; by frame invariance $I$ is well defined and continuous on $S^2$. It is strictly positive: $\sigma_t^2>0$ by Lemma~\ref{lem:coefficient-posdef}, and $D_t>0$ because $N(0,\Gamma_t)$ has an everywhere positive density and $F>0$ on the nonempty open cone $\{q:Q_t(q)\prec0\}$.
+\end{proof}
+
+\begin{definition}[the coefficient functional]\label{def:coefficient-cL}
+For $L\in(0,\infty]$ put
+\begin{equation}\label{eq:coefficient-cL}
+c_{3,L}=B_3\int_{S^2}\frac{(\sigma_t^2)^{2/3}\,D_t}{\sqrt{\det\Sigma_g(t)\,\det\Sigma_h(t)}}\,d\sigma_2(t),
+\end{equation}
+where
+\begin{equation}\label{eq:coefficient-B3}
+B_3=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}},
+\end{equation}
+and the covariance objects are those of $K_L$. By Lemma~\ref{lem:coefficient-frame}, $0<c_{3,L}<\infty$. In particular $c_{3,\infty}$ is the value of (2.9) of the main text for the Bargmann--Fock field on $\R^3$, as in (2.11) there. In terms of the coefficient functional $\Phi$ of (3.25) of the main text, $c_{3,L}=\Phi(J_L)$ and $c_{3,\infty}=\Phi(J_0)$.
+\end{definition}
+
+\emph{The limiting contact density.} By the two-point Kac--Rice formula, the all-typed contact intensity $K^{\rm all}_r$ of (3.3b) of the main text is the raw pin density at the pins (3.5) there, times the normalizer $Z_r$ of (3.3a) there. The raw pin density is $r^{-6}$ times the corrected-pin density (the raw-to-corrected Jacobian of (3.7)--(3.8) of the main text), and by Lemma~\ref{lem:coefficient-parity}(ii) the corrected-pin density converges to the density $p_{Y_t}$ of $Y_t$ at the target \eqref{eq:coefficient-target}, since the corrected-pin covariance converges and has a uniform eigenvalue floor (Lemma~\ref{lem:contact-corrected}(iii)). On the pins, the endpoint determinants of (3.9) of the main text satisfy $r^{-1}\det H_M\to-\kappa\det Q_t(q_t)$ and $r^{-1}\det H_S\to\kappa\det Q_t(q_t)$, where $Q_t(q_t)$ is the common limit of the transverse blocks of $H_M$ and $H_S$, and the type indicators converge to $\ind_{\{Q_t(q_t)\prec0\}}$; thus $r^{-2}Z_r\to\kappa^2\,\E[F(q_t)\mid Y_t=(b,-\kappa/6,0,0)]$, by Proposition~\ref{prop:contact-soft-limits}, which applies by Lemma~\ref{lem:contact-normalizer}(ii) (see also \eqref{eq:limit-Gall} in the proof of Proposition~\ref{prop:limit-hypotheses}). Accordingly the rescaled all-typed contact density $G^{\rm all}_r=r^4K^{\rm all}_r$ has the pointwise limit
+\begin{equation}\label{eq:coefficient-G0}
+G^{\rm all}_0(t,b,\kappa)=p_{Y_t}(b,-\kappa/6,0,0)\,\kappa^2\,\E\bigl[F(q_t)\ \big|\ Y_t=(b,-\kappa/6,0,0)\bigr].
+\end{equation}
+
+\begin{theorem}[exact finite-side coefficient reduction]\label{thm:coefficient-main}
+Let $L\in(0,\infty]$, and let $G^{\rm all}_0$ be given by \eqref{eq:coefficient-G0} for the covariance $K_L$. Then
+\begin{equation}\label{eq:coefficient-coefint}
+\frac{6^{2/3}}{18}\int_{S^2}\int_{\R}\int_0^\infty\kappa^{-2/3}\,G^{\rm all}_0(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t)
+\end{equation}
+is exactly $c_{3,L}$ of \eqref{eq:coefficient-cL}--\eqref{eq:coefficient-B3}. When the contact limit and the compact elder selection hold for the side-$L$ field, \eqref{eq:coefficient-coefint} is its complete selected $H_0$ short-lifetime coefficient, as in Theorem~3.9 of the main text; for $L=24$ this is Proposition~\ref{prop:limit-hypotheses} and Corollary~\ref{cor:limit-coefficient}. In particular the coefficient $c_{3,24}$ of Theorem~2.1 of the main text is given by (2.9) there. Every input of \eqref{eq:coefficient-cL} is an explicit finite-dimensional covariance object derived from $K_L$ at the origin, and the formula is independent of the chosen transverse frame (Lemma~\ref{lem:coefficient-frame}).
+\end{theorem}
+
+\begin{proof}
+By Lemma~\ref{lem:coefficient-parity}(i), $(f,h_t,q_t)$ is independent of $(u_t,g_t)$. Hence the density of $Y_t$ factors as $p_{Y_t}(b,-\kappa/6,0,0)=p_{(f,h_t)}(b,0)\,p_{(u_t,g_t)}(-\kappa/6,0)$, and conditioning $q_t$ on $Y_t=(b,-\kappa/6,0,0)$ is conditioning on $(f,h_t)=(b,0)$. By \eqref{eq:coefficient-G0},
+\[
+G^{\rm all}_0(t,b,\kappa)=\Bigl[p_{(f,h_t)}(b,0)\,\E\bigl[F(q_t)\mid f=b,\ h_t=0\bigr]\Bigr]\cdot\Bigl[p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^2\Bigr],
+\]
+the product of the even contact factor \eqref{eq:coefficient-even-factor} and an odd factor. The lifetime pushforward supplies $\kappa^{-2/3}$ and the two soft endpoint determinants supply $\kappa^2$, so the $\kappa$-integrand in \eqref{eq:coefficient-coefint} is $p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^{4/3}$ times the even factor. All factors are nonnegative; by Tonelli's theorem, Lemma~\ref{lem:coefficient-birth} and Lemma~\ref{lem:coefficient-gap},
+\[
+\int_{\R}\int_0^\infty\kappa^{-2/3}G^{\rm all}_0\,d\kappa\,db
+=(2\pi)^{-3/2}\bigl[\det\Sigma_h(t)\bigr]^{-1/2}D_t\cdot(2\pi)^{-3/2}\bigl[\det\Sigma_g(t)\bigr]^{-1/2}\,\frac{\Gamma(7/6)\,72^{7/6}\,(\sigma_t^2)^{2/3}}{2\sqrt{2\pi}} .
+\]
+The Kac--Rice contact factor is $1/6$ and the lifetime Jacobian is $6^{2/3}/3$, whose product is the prefactor $6^{2/3}/18$ of \eqref{eq:coefficient-coefint}. Since $6^{2/3}\,72^{7/6}=2^{25/6}3^3$ and $18\cdot2\cdot(2\pi)^{7/2}=2^{11/2}3^2\pi^{7/2}$,
+\[
+\frac{6^{2/3}}{18}\,(2\pi)^{-3}\,\frac{\Gamma(7/6)\,72^{7/6}}{2\sqrt{2\pi}}=\frac{2^{25/6}\,3^3\,\Gamma(7/6)}{2^{11/2}\,3^2\,\pi^{7/2}}=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}}=B_3 .
+\]
+Integrating over $t\in S^2$ gives \eqref{eq:coefficient-cL}. The inputs are the covariance objects of Lemma~\ref{lem:coefficient-posdef}, and frame independence is Lemma~\ref{lem:coefficient-frame}.
+\end{proof}
+
+\subsection{Cone--sphere and cubic-symmetry reductions}\label{ssec:coefficient-reductions}
+
+\begin{proposition}[deterministic cone--sphere reduction]\label{prop:coefficient-cone}
+Let $L\in(0,\infty]$ and $t\in S^2$. Choose any $3\times3$ matrix $A_t$ with
+\begin{equation}\label{eq:coefficient-At}
+A_tA_t^{\top}=\Gamma_t,
+\end{equation}
+and for $v\in S^2$ put
+\begin{equation}\label{eq:coefficient-calQ}
+q=A_tv,\qquad \mathcal Q_t(v)=Q_t(q).
+\end{equation}
+Then
+\begin{equation}\label{eq:coefficient-cone}
+D_t=\frac{15}{4\pi}\int_{S^2}\bigl[\det\mathcal Q_t(v)\bigr]^2\,\ind_{\{\tr\mathcal Q_t(v)<0,\ \det\mathcal Q_t(v)>0\}}\,d\sigma_2(v),
+\end{equation}
+because
+\begin{equation}\label{eq:coefficient-1534}
+(2\pi)^{-3/2}\int_0^\infty\varrho^6e^{-\varrho^2/2}\,d\varrho=\frac{15}{4\pi}.
+\end{equation}
+Consequently
+\begin{equation}\label{eq:coefficient-nested}
+c_{3,L}=\frac{45\,\Gamma(7/6)}{2^{10/3}\pi^{9/2}}\int_{S^2}\frac{(\sigma_t^2)^{2/3}}{\sqrt{\det\Sigma_g(t)\det\Sigma_h(t)}}
+\int_{S^2}\bigl[\det\mathcal Q_t(v)\bigr]^2\,\ind_{\{\tr\mathcal Q_t(v)<0,\ \det\mathcal Q_t(v)>0\}}\,d\sigma_2(v)\,d\sigma_2(t).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:coefficient-qcond}, $q_t$ given $h_t=0$ has the law of $A_t\xi$ with $\xi$ standard Gaussian in $\R^3$. Write $\xi=\varrho v$ with $\varrho=|\xi|$ and $v\in S^2$. The map $q\mapsto\det Q_t(q)$ is homogeneous of degree two and the negative-definite set is a cone, so $F(A_t\varrho v)=\varrho^4F(A_tv)$. Polar integration gives
+\[
+D_t=(2\pi)^{-3/2}\int_0^\infty\varrho^6e^{-\varrho^2/2}\,d\varrho\int_{S^2}F(A_tv)\,d\sigma_2(v),
+\]
+and $\int_0^\infty\varrho^6e^{-\varrho^2/2}\,d\varrho=15\sqrt{\pi/2}$ gives \eqref{eq:coefficient-1534}. A symmetric $2\times2$ matrix is negative definite if and only if its trace is negative and its determinant positive, which gives \eqref{eq:coefficient-cone}. Finally $B_3\cdot15/(4\pi)=45\,\Gamma(7/6)/(2^{10/3}\pi^{9/2})$, and substitution into \eqref{eq:coefficient-cL} gives \eqref{eq:coefficient-nested}.
+\end{proof}
+
+Equation \eqref{eq:coefficient-cone} is (3.22) of the main text. Thus \eqref{eq:coefficient-nested} is a compact deterministic quadrature problem on $S^2\times S^2$, and $c_{3,L}$ is a deterministic nested angular integral involving only the order-six covariance jet $J_L$ at the origin.
+
+\begin{proposition}[cubic-symmetry reduction]\label{prop:coefficient-cubic}
+Let $L\in(0,\infty)$ and let $\mathcal H_3\subset O(3)$ be the group of signed permutation matrices (the hyperoctahedral group, of order $48$). The outer integrand $I$ of \eqref{eq:coefficient-I} satisfies $I(Pt)=I(t)$ for $P\in\mathcal H_3$ and $t\in S^2$. Therefore
+\begin{equation}\label{eq:coefficient-48}
+\int_{S^2}I(t)\,d\sigma_2(t)=48\int_{\mathcal F}I(t)\,d\sigma_2(t),
+\end{equation}
+where a fundamental spherical chamber is
+\begin{equation}\label{eq:coefficient-chamber}
+\mathcal F=\{t\in S^2:\ t_1\ge t_2\ge t_3\ge0\}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Each $P\in\mathcal H_3$ is orthogonal and maps $\Z^3$ onto itself, so $|Pz+Ln|=|z+LP^{\top}n|$ and reindexing \eqref{eq:coefficient-KL} gives $K_L(Pz)=K_L(z)$. Differentiating, the multilinear derivatives satisfy $D^kK_L(0)[Pv_1,\dots,Pv_k]=D^kK_L(0)[v_1,\dots,v_k]$, so by \eqref{eq:coefficient-covformula} the joint law of the directional derivatives in the orthonormal frame $(Pt,Pn_1,Pn_2)$ equals that in $(t,n_1,n_2)$. All covariance objects at $Pt$, computed in the transverse frame $(Pn_1,Pn_2)$, therefore coincide with those at $t$, and Lemma~\ref{lem:coefficient-frame} gives $I(Pt)=I(t)$.
+
+For $t$ outside the union $N$ of the great circles $\{t_i=0\}$ and $\{t_i=\pm t_j\}$ $(i\ne j)$, ordering $|t_1|,|t_2|,|t_3|$ decreasingly and making the entries nonnegative determines the unique $P\in\mathcal H_3$ with $P^{-1}t\in\mathcal F$. Thus the $48$ sets $P\mathcal F$ cover $S^2$ and overlap only in $N$; the boundaries have zero area. Hence $\int_{S^2}I\,d\sigma_2=\sum_{P\in\mathcal H_3}\int_{P\mathcal F}I\,d\sigma_2=48\int_{\mathcal F}I\,d\sigma_2$.
+\end{proof}
+
+\begin{remark}[quadrature]\label{rem:coefficient-quadrature}
+By Proposition~\ref{prop:coefficient-cubic} only one forty-eighth of the outer sphere needs evaluation. The inner cone integral in \eqref{eq:coefficient-nested} may be evaluated by deterministic spherical quadrature with exact cone tests.
+\end{remark}
+
+\subsection{The Bargmann--Fock jet and the planar limit}\label{ssec:coefficient-planar}
+
+A \emph{standard $\mathrm{GOE}_2$ matrix} is $G_2=\begin{pmatrix}g_1&g_2\\ g_2&g_3\end{pmatrix}$ with $g_1,g_3\sim N(0,2)$, $g_2\sim N(0,1)$, the three entries independent.
+
+\begin{lemma}[covariance objects at the Bargmann--Fock jet]\label{lem:coefficient-planar-jet}
+Let $L=\infty$. For every $t\in S^2$ and every transverse frame,
+\begin{equation}\label{eq:coefficient-planar-values}
+\Sigma_g(t)=I_3,\qquad \Sigma_h(t)=\operatorname{diag}(3,1,1),\qquad \sigma_t^2=\frac1{24},
+\end{equation}
+\begin{equation}\label{eq:coefficient-Gamma-inf}
+\Gamma_t=\Gamma^{(\infty)}:=\begin{pmatrix}8/3&0&2/3\\ 0&1&0\\ 2/3&0&8/3\end{pmatrix},
+\end{equation}
+which has eigenvalues $1$, $2$ and $10/3$. Moreover $q_t\mid\{h_t=0\}$ has the law of $(g_1+\sqrt{2/3}\,Z,\ g_2,\ g_3+\sqrt{2/3}\,Z)$, where $Z\sim N(0,1)$ is independent of the entries of $G_2$; equivalently,
+\begin{equation}\label{eq:coefficient-GOE}
+Q_t(q_t)\mid\{h_t=0\}\ \stackrel{d}{=}\ G_2+\sqrt{\tfrac23}\,Z\,I_2 .
+\end{equation}
+In particular, for every $t$, $D_t=D_2$, where
+\begin{equation}\label{eq:coefficient-D2def}
+D_2=\E\bigl[(\det Q)^2\,\ind_{\{Q\prec0\}}\bigr],\qquad Q=G_2+\sqrt{\tfrac23}\,Z\,I_2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$K_\infty(Rz)=K_\infty(z)$ for $R\in O(3)$, so the joint law of the derivatives of $f$ in the frame $(t,n_1,n_2)$ is that in the standard frame; take $t=e_1$, $n_1=e_2$, $n_2=e_3$ and write $f_i=\partial_if$, $f_{ij}=\partial_i\partial_jf$, $f_{111}=\partial_1^3f$. Since $K_\infty(z)=\prod_ie^{-z_i^2/2}$ and $\frac{d^{2k}}{ds^{2k}}e^{-s^2/2}\big|_{s=0}=(-1)^k(2k-1)!!$, while odd derivatives vanish at $0$, \eqref{eq:coefficient-covformula} gives, for $\gamma=\alpha+\beta$,
+\[
+\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\prod_{i=1}^3(-1)^{\gamma_i/2}(\gamma_i-1)!!\quad\text{if all }\gamma_i\text{ are even},
+\]
+and $0$ otherwise. Hence $\Var(f_i)=1$ and the first derivatives are uncorrelated, so $\Sigma_g=I_3$. Next $\Var(f_{11})=3$, $\Var(f_{12})=\Var(f_{13})=1$ and the mixed covariances of $h_t=(f_{11},f_{12},f_{13})$ vanish, so $\Sigma_h=\operatorname{diag}(3,1,1)$. For $q_t=(f_{22},f_{23},f_{33})$,
+\[
+\Sigma_q=\begin{pmatrix}3&0&1\\0&1&0\\1&0&3\end{pmatrix},\qquad
+C_{qh}=\begin{pmatrix}1&0&0\\0&0&0\\1&0&0\end{pmatrix},
+\]
+so $\Gamma_t=\Sigma_q-\frac13\begin{pmatrix}1&0&1\\0&0&0\\1&0&1\end{pmatrix}=\Gamma^{(\infty)}$. Its eigenvectors are $e_2$ (eigenvalue $1$) and $(1,0,\pm1)$ (eigenvalues $8/3\pm2/3$, that is $10/3$ and $2$). For the odd block, $\Var(f_{111})=15$ and $\Cov(f_{111},f_1)=-3$, while $f_{111}$ is uncorrelated with $f_2,f_3$; thus $s_u=15/144=5/48$, $c_{ug}=(1/4,0,0)$ and $\sigma_t^2=5/48-1/16=1/24$.
+
+By \eqref{eq:coefficient-qcond}, $q_t\mid\{h_t=0\}\sim N(0,\Gamma^{(\infty)})$. The vector $(g_1+sZ,g_2,g_3+sZ)$ with $s=\sqrt{2/3}$ is centered Gaussian with covariance $\begin{pmatrix}2+s^2&0&s^2\\0&1&0\\s^2&0&2+s^2\end{pmatrix}=\Gamma^{(\infty)}$, so the two laws coincide, and $Q_t$ of this vector is $G_2+sZI_2$. The values do not depend on the frame, and $D_t=D_2$ follows from \eqref{eq:coefficient-Dt}.
+\end{proof}
+
+Equations \eqref{eq:coefficient-planar-values} and \eqref{eq:coefficient-GOE} are (3.23) and the first part of (3.24) of the main text.
+
+\begin{proposition}[planar limit]\label{prop:coefficient-planar-limit}
+Write $\Sigma_g^{(L)}(t)$, $\Sigma_h^{(L)}(t)$, $\sigma_t^{2,(L)}$, $\Gamma_t^{(L)}$, $D_t^{(L)}$ for the objects of $K_L$. As $L\to\infty$, uniformly in $t\in S^2$ and in the transverse frame,
+\begin{equation}\label{eq:coefficient-lim-g}
+\Sigma_g^{(L)}(t)\to I_3,\qquad \det\Sigma_g^{(L)}(t)\to1,
+\end{equation}
+\begin{equation}\label{eq:coefficient-lim-h}
+\Sigma_h^{(L)}(t)\to\operatorname{diag}(3,1,1),\qquad \det\Sigma_h^{(L)}(t)\to3,
+\end{equation}
+\begin{equation}\label{eq:coefficient-lim-sigma}
+\sigma_t^{2,(L)}\to\frac1{24},
+\end{equation}
+and $\Gamma_t^{(L)}\to\Gamma^{(\infty)}$, so that the birth-integrated transverse matrix law becomes
+\begin{equation}\label{eq:coefficient-lim-Q}
+Q_t(q_t)\mid\{h_t=0\}\ \longrightarrow\ G_2+\sqrt{\tfrac23}\,Z\,I_2\quad\text{in law}.
+\end{equation}
+Hence
+\begin{equation}\label{eq:coefficient-lim-D}
+D_t^{(L)}\to D_2=\frac{29}{6}-\sqrt6,
+\end{equation}
+the value of $D_2$ being Theorem~\ref{thm:coefficient-D2}, and $c_{3,L}\to c_{3,\infty}$.
+\end{proposition}
+
+\begin{proof}
+Let $\gamma(z)=e^{-|z|^2/2}$. Each $\partial^\alpha\gamma$ is $\gamma$ times a polynomial of degree $|\alpha|$, so $|\partial^\alpha\gamma(y)|\le C_\alpha(1+|y|)^{|\alpha|}e^{-|y|^2/2}$. By \eqref{eq:coefficient-KL}, $\partial^\alpha K_L(0)=Z_L^{-1}\bigl[\partial^\alpha\gamma(0)+\sum_{n\ne0}\partial^\alpha\gamma(Ln)\bigr]$, and for $L\ge1$ and $|\alpha|\le6$ the sum over $n\ne0$ is $O(L^6e^{-L^2/2})$, while $Z_L=1+O(e^{-L^2/2})$. Hence $J_L\to J_0$. In any orthonormal frame the entries of \eqref{eq:coefficient-Sigmag}--\eqref{eq:coefficient-Sigmaq} are multilinear in the frame vectors with coefficients in the jet, and inverses and Schur complements are continuous on positive definite matrices; since orthonormal frames form the compact set $O(3)$, the objects of $K_L$ converge to those of $K_\infty$ uniformly in $t$ and the frame. By Lemma~\ref{lem:coefficient-planar-jet} the limits are \eqref{eq:coefficient-planar-values} and $\Gamma^{(\infty)}$ in every frame, which gives \eqref{eq:coefficient-lim-g}--\eqref{eq:coefficient-lim-Q}. As in the proof of Lemma~\ref{lem:coefficient-frame}, $\Gamma\mapsto\E F(q)$, $q\sim N(0,\Gamma)$, is continuous on positive definite matrices, so $D_t^{(L)}\to D_2$, and the value of $D_2$ is Theorem~\ref{thm:coefficient-D2}. The integrands of \eqref{eq:coefficient-cL} therefore converge uniformly on $S^2$, and $c_{3,L}\to c_{3,\infty}$.
+\end{proof}
+
+\subsection{The closed forms of \texorpdfstring{$D_2$}{D2} and \texorpdfstring{$c_{3,\infty}$}{c3,infinity}}\label{ssec:coefficient-D2}
+
+Throughout this subsection $\Phi$ and $\phi$ denote the standard normal distribution function and density, and
+\begin{equation}\label{eq:coefficient-mu}
+\mu_k(m)=\E\bigl[N^k\ind_{\{N<m\}}\bigr],\qquad N\sim N(0,1),
+\end{equation}
+are the truncated normal moments; integration by parts gives
+\begin{equation}\label{eq:coefficient-mu-values}
+\mu_0=\Phi(m),\qquad \mu_2=\mu_0-m\phi(m),\qquad \mu_4=3\mu_0-(m^3+3m)\phi(m).
+\end{equation}
+
+\begin{theorem}[the cone constant]\label{thm:coefficient-D2}
+Let $G_2$ be a standard $\mathrm{GOE}_2$ matrix, $Z\sim N(0,1)$ independent of $G_2$, and $Q=G_2+\sqrt{2/3}\,Z\,I_2$. Then
+\begin{equation}\label{eq:coefficient-D2}
+D_2=\E\bigl[(\det Q)^2\,\ind_{\{Q\prec0\}}\bigr]=\frac{29}{6}-\sqrt6 .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Put $s=\sqrt{2/3}$ and $\theta=\sqrt{3/20}$.
+
+\emph{Step 1 (eigenvalues).} Let $\lambda_1,\lambda_2$ be the eigenvalues of $G_2$. By orthogonal invariance the scalar shift $sZ$ translates both eigenvalues, so $Q$ has eigenvalues $\lambda_i+sZ$, $\det Q=\prod_i(\lambda_i+sZ)$, and $Q\prec0$ if and only if $Z<-\max_i\lambda_i/s$:
+\begin{equation}\label{eq:coefficient-B2}
+D_2=\E\Bigl[\prod_{i=1}^2(\lambda_i+sZ)^2\,\ind_{\{Z<-\max_i\lambda_i/s\}}\Bigr].
+\end{equation}
+
+\emph{Step 2 (trace and difference).} The density of $G_2$ is proportional to $e^{-\tr(G_2^2)/4}$, and the eigenvalues have joint density $C|\lambda_1-\lambda_2|e^{-(\lambda_1^2+\lambda_2^2)/4}$. The integrand of \eqref{eq:coefficient-B2} is symmetric in $(\lambda_1,\lambda_2)$; ordering $\lambda_1\ge\lambda_2$ and passing to $T=\lambda_1+\lambda_2$ and $D=\lambda_1-\lambda_2\ge0$ (Jacobian $1/2$), and using $\lambda_1^2+\lambda_2^2=(T^2+D^2)/2$, the density becomes proportional to $D\,e^{-(T^2+D^2)/8}$ on $\R\times[0,\infty)$. Thus $T\sim N(0,4)$ is independent of $D$, and $D$ has density $\frac D4e^{-D^2/8}$ on $[0,\infty)$. (Equivalently, in terms of the entries, $T=g_1+g_3$ and $D=((g_1-g_3)^2+4g_2^2)^{1/2}$, where $g_1+g_3$, $g_1-g_3$ and $2g_2$ are independent $N(0,4)$ variables.) Put $W=T+2sZ$. Then $\lambda_1+sZ=(W+D)/2$ and $\lambda_2+sZ=(W-D)/2$, so
+\begin{equation}\label{eq:coefficient-WD}
+\det Q=\frac{W^2-D^2}{4},\qquad Q\prec0\iff W<-D,
+\end{equation}
+and $W\sim N(0,4+4s^2)=N(0,20/3)$ is independent of $D$.
+
+\emph{Step 3 (the $W$-integration).} For fixed $D\ge0$ write $W=(20/3)^{1/2}N$ with $N\sim N(0,1)$; then $W<-D$ if and only if $N<m:=-\theta D$. Since $(20/3)^2=400/9$ and $2\cdot20/3=40/3$,
+\[
+\E\bigl[(W^2-D^2)^2\ind_{\{W<-D\}}\bigr]=\tfrac{400}{9}\mu_4(m)-\tfrac{40}{3}D^2\mu_2(m)+D^4\mu_0(m),
+\]
+and therefore
+\begin{equation}\label{eq:coefficient-B2prime}
+D_2=\frac1{16}\int_0^\infty\frac{D\,e^{-D^2/8}}{4}\Bigl[\tfrac{400}{9}\mu_4-\tfrac{40}{3}D^2\mu_2+D^4\mu_0\Bigr]dD,\qquad m=-\theta D .
+\end{equation}
+
+\emph{Step 4 (separation of the $\Phi$- and $\phi$-terms).} Insert \eqref{eq:coefficient-mu-values} with $m=-\theta D$, $\phi(m)=\phi(\theta D)$ and $\frac{400}{9}\theta^2=\frac{20}{3}$. The $\phi$-coefficient is $-\frac{400}{9}(m^3+3m)+\frac{40}{3}D^2m=\theta D\bigl(\frac{400}{3}-\frac{20}{3}D^2\bigr)$, so the bracket in \eqref{eq:coefficient-B2prime} equals
+\[
+\Phi(-\theta D)\Bigl(D^4-\tfrac{40}{3}D^2+\tfrac{400}{3}\Bigr)+\theta D\,\phi(\theta D)\Bigl(\tfrac{400}{3}-\tfrac{20}{3}D^2\Bigr).
+\]
+With
+\begin{equation}\label{eq:coefficient-Ik}
+I_k=\int_0^\infty D^k\,\Phi(-\theta D)\,e^{-D^2/8}\,dD\qquad(k\ \text{odd}),
+\end{equation}
+and since the combined exponent of the $\phi$-terms is $\frac18+\frac{\theta^2}2=\frac15$,
+\begin{equation}\label{eq:coefficient-D2split}
+D_2=\frac1{64}\Bigl[I_5-\tfrac{40}{3}I_3+\tfrac{400}{3}I_1\Bigr]+\frac{\theta}{64\sqrt{2\pi}}\int_0^\infty D^2e^{-D^2/5}\Bigl(\tfrac{400}{3}-\tfrac{20}{3}D^2\Bigr)dD .
+\end{equation}
+
+\emph{Step 5 (the $\phi$-terms).} They are pure Gaussian moments: $\int_0^\infty D^2e^{-D^2/5}dD=\frac{\sqrt\pi}{4}5^{3/2}$ and $\int_0^\infty D^4e^{-D^2/5}dD=\frac{3\sqrt\pi}{8}5^{5/2}$. With $\theta/\sqrt{2\pi}=\sqrt{30}/(20\sqrt\pi)$ the second term of \eqref{eq:coefficient-D2split} equals
+\[
+\frac{\sqrt{30}}{1280}\,5^{3/2}\Bigl(\frac{100}{3}-\frac{25}{2}\Bigr)=\frac{625\sqrt6}{1536}.
+\]
+
+\emph{Step 6 (the $\Phi$-terms, by parts).} For $j\ge0$ let
+\[
+R_j(D)=\int_D^\infty x^{2j+1}e^{-x^2/8}\,dx=\frac12\,e^{-D^2/8}\sum_{i=0}^j\frac{j!}{i!}\,8^{\,j-i+1}D^{2i}.
+\]
+Since $R_j'(D)=-D^{2j+1}e^{-D^2/8}$ and $\frac{d}{dD}\Phi(-\theta D)=-\theta\phi(\theta D)$, integration by parts gives
+\[
+I_{2j+1}=\Phi(0)R_j(0)-\theta\int_0^\infty R_j(D)\,\phi(\theta D)\,dD
+=\frac{j!\,8^{\,j+1}}{4}-\frac{\theta}{2\sqrt{2\pi}}\sum_{i=0}^j\frac{j!}{i!}\,8^{\,j-i+1}\int_0^\infty D^{2i}e^{-D^2/5}\,dD .
+\]
+Here $\frac{\theta}{2\sqrt{2\pi}}=\frac{\sqrt{30}}{40\sqrt\pi}$ and $\int_0^\infty D^{2i}e^{-D^2/5}dD=(2i-1)!!\,\sqrt\pi\,5^{i+1/2}/2^{i+1}$ (with $(-1)!!=1$), so the $i$-th subtracted term equals $\frac{\sqrt6}{8}\cdot\frac{j!}{i!}\,8^{\,j-i+1}(2i-1)!!\,5^i/2^{i+1}$. The leading terms are $\Phi(0)R_j(0)=2,16,256$ for $j=0,1,2$, and the coefficients of $\frac{\sqrt6}{8}$ in the subtracted sums are $4$ for $j=0$, $32+10=42$ for $j=1$ and $512+160+75=747$ for $j=2$. This yields
+\begin{equation}\label{eq:coefficient-I135}
+I_1=2-\frac{\sqrt6}{2},\qquad I_3=16-\frac{21\sqrt6}{4},\qquad I_5=256-\frac{747\sqrt6}{8}.
+\end{equation}
+
+\emph{Step 7 (recombination).} By \eqref{eq:coefficient-I135},
+\[
+I_5-\tfrac{40}{3}I_3+\tfrac{400}{3}I_1=\Bigl(256-\tfrac{640}{3}+\tfrac{800}{3}\Bigr)+\Bigl(-\tfrac{747}{8}+70-\tfrac{200}{3}\Bigr)\sqrt6=\frac{928}{3}-\frac{2161}{24}\sqrt6,
+\]
+so the first term of \eqref{eq:coefficient-D2split} is $\frac{29}{6}-\frac{2161\sqrt6}{1536}$. Adding Step~5,
+\[
+D_2=\frac{29}{6}-\frac{2161\sqrt6}{1536}+\frac{625\sqrt6}{1536}=\frac{29}{6}-\sqrt6 .\qedhere
+\]
+\end{proof}
+
+\begin{remark}\label{rem:coefficient-D2check}
+Step~2 is the trace and difference reduction stated with (3.24) of the main text: $T\sim N(0,4)$ is independent of $D\ge0$, $\det Q=(W^2-D^2)/4$, and the cone condition is $W<-D$ for the single Gaussian $W=T+2\sqrt{2/3}\,Z\sim N(0,20/3)$. Numerically $D_2=2.38384359055015523513\ldots$.
+\end{remark}
+
+\begin{corollary}[the coefficient on $\R^3$]\label{cor:coefficient-cinf}
+\begin{equation}\label{eq:coefficient-cinf}
+c_{3,\infty}=\frac{2^{1/6}\,3^{1/3}\,(29\sqrt6-36)\,\Gamma(1/6)}{432\,\pi^{5/2}}
+=2^{-23/6}\,3^{-8/3}\,(29\sqrt6-36)\,\Gamma(1/6)\,\pi^{-5/2},
+\end{equation}
+and
+\begin{equation}\label{eq:coefficient-cinf-decimal}
+c_{3,\infty}=0.041775931840598343342936665428575556466681519661\ldots .
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+By Lemma~\ref{lem:coefficient-planar-jet} and Theorem~\ref{thm:coefficient-D2}, the integrand of \eqref{eq:coefficient-cL} at $L=\infty$ is the constant $(1/24)^{2/3}(29/6-\sqrt6)/\sqrt{1\cdot3}$. Substitution into \eqref{eq:coefficient-cL}, using $|S^2|=4\pi$, gives
+\[
+c_{3,\infty}=B_3\cdot4\pi\cdot24^{-2/3}\,3^{-1/2}\Bigl(\frac{29}{6}-\sqrt6\Bigr).
+\]
+By $\Gamma(7/6)=\Gamma(1/6)/6$, $B_3=\Gamma(1/6)/(2^{7/3}\pi^{7/2})$; with $24^{-2/3}=2^{-2}3^{-2/3}$ this gives $c_{3,\infty}=2^{-7/3}3^{-7/6}\bigl(\frac{29}{6}-\sqrt6\bigr)\Gamma(1/6)\pi^{-5/2}$. Since $\frac{29}{6}-\sqrt6=(29\sqrt6-36)/(6\sqrt6)=2^{-3/2}3^{-3/2}(29\sqrt6-36)$, we obtain the second form of \eqref{eq:coefficient-cinf}; the first follows from $432=2^43^3$. Evaluating gives \eqref{eq:coefficient-cinf-decimal}.
+\end{proof}
+
+Equation \eqref{eq:coefficient-cinf} is (2.11) of the main text.
+
+\subsection{Isotropic form of the coefficient}\label{ssec:coefficient-isotropic}
+
+The following formula expresses the coefficient of an isotropic kernel in dimension $d$ through scalar jet parameters. Let $K$ be an isotropic covariance on $\R^d$ and let $K^{(1)}(s)=K(se)$, for a unit vector $e$, be its one-dimensional sectional covariance. Put $n=d-1$ and
+\begin{equation}\label{eq:coefficient-symbols}
+a=-(K^{(1)})''(0)>0,\qquad m_4=(K^{(1)})^{(4)}(0)>0,\qquad \chi=-(K^{(1)})^{(6)}(0)>0,\qquad \Omega=a\chi-m_4^2 .
+\end{equation}
+Thus $a=\Var(\partial_tf)$, $m_4=\Var(\partial_{tt}f)$, $\chi=\Var(\partial_{ttt}f)$, and $\Omega/a=\Var(\partial_{ttt}f\mid\partial_tf)$ is the conditional third-derivative variance. Further, $\beta=m_4/3$ is the transverse second-derivative variance parameter, and
+\begin{equation}\label{eq:coefficient-Dn}
+D_n=\E\bigl[(\det M_n)^2\,\ind_{\{M_n\prec0\}}\bigr]
+\end{equation}
+is the centered negative-definite determinant moment of the $\beta$-normalized conditional transverse Hessian $M_n=\beta^{-1/2}Q_n$ in dimension $n$, where $Q_n$ is the conditional transverse Hessian of \eqref{eq:coefficient-Dt}. Without the normalization the moment would be $\beta^nD_n$, and the formulas below would be off by that factor when $\beta\ne1$. For the Bargmann--Fock kernel $\beta=1$, so nothing at $d=3$ changes. For the Bargmann--Fock kernel $K_\infty$, $a=1$, $m_4=3$, $\chi=15$ and $\Omega=6$, consistently with $\sigma_t^2=1/24$ through $\Omega/(2a)=3=72\sigma_t^2$.
+
+\begin{proposition}[isotropic recombination]\label{prop:coefficient-iso}
+For an isotropic kernel in dimension $d$ with the parameters \eqref{eq:coefficient-symbols}--\eqref{eq:coefficient-Dn}, the birth-integrated even block is
+\begin{equation}\label{eq:coefficient-Bd}
+\mathcal B_d=D_n\,(2\pi m_4)^{-1/2}\,(2\pi)^{-n}\,a^{-n/2}\,\beta^{n/2},
+\end{equation}
+and the odd-block density and $\kappa$ integral are
+\begin{equation}\label{eq:coefficient-Kd}
+\mathcal K_d=\frac{3\,\Gamma(7/6)}{\pi\sqrt\Omega}\Bigl(\frac{\Omega}{2a}\Bigr)^{7/6}.
+\end{equation}
+Multiplying the Kac--Rice factor $1/6$, the lifetime factor $6^{2/3}/3$, the angular area $|S^{d-1}|$, $\mathcal B_d$ and $\mathcal K_d$, and using
+\begin{equation}\label{eq:coefficient-gamma76}
+\Gamma(7/6)=\Gamma(1/6)/6,
+\end{equation}
+gives
+\begin{equation}\label{eq:coefficient-ciso}
+c_d^{\rm iso}=A_d^{\rm jet}\,\frac{\Omega^{2/3}\,m_4^{(d-2)/2}}{a^{(3d+4)/6}},
+\end{equation}
+where
+\begin{equation}\label{eq:coefficient-Ajet}
+A_d^{\rm jet}=\frac{|S^{d-1}|\,D_{d-1}\,\Gamma(1/6)}{2^{d+2}\,3^{(3d+5)/6}\,\pi^{d+1/2}} .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Here $c_d^{\rm iso}$ denotes the $d$-dimensional analogue of \eqref{eq:coefficient-coefint}, that is, $c_d[K]$ of Definition~\ref{def:correction-coef}. By Lemma~\ref{lem:correction-iso}(b), $\Cov(g_t)=aI_d$, $\Cov(h_t)=\operatorname{diag}(m_4,\beta,\dots,\beta)$ and $\Var(\partial_t^3f\mid g_t)=\Omega/a$, so that $p_{g_t}(0)=(2\pi a)^{-d/2}$, $p_{h_t}(0)=(2\pi)^{-d/2}m_4^{-1/2}\beta^{-n/2}$, $\sigma_t^2=\Omega/(144a)$ and $D_t=\beta^nD_n$. The block $\mathcal B_d=(2\pi a)^{-n/2}\,p_{h_t}(0)\,D_t$ is the even factor of the proof of Theorem~\ref{thm:coefficient-main} together with the density of the $n$ transverse gradient components at zero, which is \eqref{eq:coefficient-Bd}; and $\mathcal K_d$ is $(2\pi a)^{-1/2}$, the density of the axial gradient component at zero, times $\Gamma(7/6)\,72^{7/6}(\sigma_t^2)^{2/3}/(2\sqrt{2\pi})$, the gap integral of Lemma~\ref{lem:coefficient-gap} divided by $p_{g_t}(0)$, which is \eqref{eq:coefficient-Kd}. By \eqref{eq:coefficient-gamma76}, $3\Gamma(7/6)=\Gamma(1/6)/2$, and with $\beta=m_4/3$,
+\[
+\mathcal K_d=\frac{\Gamma(1/6)\,\Omega^{2/3}}{2^{13/6}\,\pi\,a^{7/6}},\qquad
+\mathcal B_d=\frac{D_n\,m_4^{(n-1)/2}}{2^{n+1/2}\,\pi^{n+1/2}\,3^{n/2}\,a^{n/2}},\qquad
+\frac16\cdot\frac{6^{2/3}}{3}=2^{-1/3}3^{-4/3}.
+\]
+Hence the product of the five factors is
+\[
+|S^{d-1}|\,D_n\,\Gamma(1/6)\,\Omega^{2/3}\,m_4^{(n-1)/2}\,a^{-n/2-7/6}\cdot2^{-1/3-13/6-1/2-n}\,3^{-4/3-n/2}\,\pi^{-n-3/2}.
+\]
+With $n=d-1$ the exponents are $-1/3-13/6-1/2-n=-(d+2)$, $-4/3-n/2=-(3d+5)/6$, $-n-3/2=-(d+1/2)$, $(n-1)/2=(d-2)/2$ and $-n/2-7/6=-(3d+4)/6$, which is \eqref{eq:coefficient-ciso}--\eqref{eq:coefficient-Ajet}. For $d=3$ at the Bargmann--Fock jet, \eqref{eq:coefficient-Bd} and \eqref{eq:coefficient-Kd} are compared with \eqref{eq:coefficient-ph} and \eqref{eq:coefficient-gap} in Corollary~\ref{cor:coefficient-BF}.
+\end{proof}
+
+\begin{corollary}[Bargmann--Fock specialization]\label{cor:coefficient-BF}
+For $d=3$ and the Bargmann--Fock kernel,
+\begin{equation}\label{eq:coefficient-BFparams}
+D_2=\frac{29}{6}-\sqrt6,\qquad a=1,\qquad m_4=3,\qquad \Omega=6,
+\end{equation}
+and substitution into \eqref{eq:coefficient-ciso}--\eqref{eq:coefficient-Ajet} yields
+\begin{equation}\label{eq:coefficient-c3BF}
+c_3^{\rm BF}=\frac{2^{1/6}\,3^{1/3}\,(29\sqrt6-36)\,\Gamma(1/6)}{432\,\pi^{5/2}},
+\end{equation}
+which is $c_{3,\infty}$ of \eqref{eq:coefficient-cinf}. At this jet,
+\[
+\mathcal B_3=(2\pi)^{-1}\,p_{h_t}(0)\,D_t,\qquad
+\mathcal K_3=(2\pi)^{-1/2}\,p_{g_t}(0)^{-1}\int_0^\infty p_{(u_t,g_t)}(-\kappa/6,0)\,\kappa^{4/3}\,d\kappa ;
+\]
+thus $\mathcal B_3\mathcal K_3$ is the product of the factors \eqref{eq:coefficient-ph} and \eqref{eq:coefficient-gap} of the proof of Theorem~\ref{thm:coefficient-main}, regrouped so that the density $(2\pi)^{-1}$ of the two transverse gradient components at zero is carried by $\mathcal B_3$ and the density $(2\pi)^{-1/2}$ of the axial component by $\mathcal K_3$. For the side-24 field,
+\begin{equation}\label{eq:coefficient-delta24}
+c_{3,24}=c_3^{\rm BF}\bigl[1+\delta_{24}\bigr],
+\end{equation}
+where $\delta_{24}=c_{3,24}/c_{3,\infty}-1$ is the relative correction treated in Section~\ref{sec:correction}. The normalization factors $1/6$ and $6^{2/3}/3$ multiply both the finite-side and the planar coefficient and therefore cancel identically from $\delta_{24}$.
+\end{corollary}
+
+\begin{proof}
+At $d=3$, $|S^2|=4\pi$, and \eqref{eq:coefficient-Ajet} and \eqref{eq:coefficient-BFparams} give
+\[
+A_3^{\rm jet}=\frac{4\pi\,D_2\,\Gamma(1/6)}{2^5\,3^{7/3}\,\pi^{7/2}},\qquad \frac{\Omega^{2/3}m_4^{1/2}}{a^{13/6}}=6^{2/3}\,3^{1/2},
+\]
+whose product is $2^{-7/3}3^{-7/6}D_2\,\Gamma(1/6)\,\pi^{-5/2}$, the expression obtained in the proof of Corollary~\ref{cor:coefficient-cinf}; this proves \eqref{eq:coefficient-c3BF}. At the Bargmann--Fock jet, Lemma~\ref{lem:coefficient-planar-jet} gives $\det\Sigma_h=3$, $D_t=D_2$, $\det\Sigma_g=1$ and $\sigma_t^2=1/24$. Hence, by \eqref{eq:coefficient-ph},
+\[
+(2\pi)^{-1}p_{h_t}(0)D_t=3^{-1/2}(2\pi)^{-5/2}D_2=\mathcal B_3,
+\]
+and, by \eqref{eq:coefficient-gap} with $p_{g_t}(0)=(2\pi)^{-3/2}$,
+\[
+(2\pi)^{-1/2}\,\frac{\Gamma(7/6)\,72^{7/6}\,24^{-2/3}}{2\sqrt{2\pi}}=\frac{2^{-1/2}\,3^{5/3}\,\Gamma(7/6)}{\pi}=\mathcal K_3 .
+\]
+The normalization factors enter \eqref{eq:coefficient-cL} only through the constant $B_3$, which is the same for every $L$; hence they cancel from $\delta_{24}$.
+\end{proof}
+
+\begin{remark}[first-image expansion]\label{rem:coefficient-first-image}
+Expanding the covariance objects in \eqref{eq:coefficient-cL} around their planar values (Lemma~\ref{lem:coefficient-planar-jet}) and applying rotational projection gives
+\begin{equation}\label{eq:coefficient-first-image}
+\frac{c_{3,L}-c_{3,\infty}}{c_{3,\infty}}=-\frac{L^2(10L^4-147L^2+315)}{105}\,e^{-L^2/2}+O\bigl(L^{12}e^{-L^2}\bigr),\qquad L\to\infty .
+\end{equation}
+Thus \eqref{eq:coefficient-cL} is the exact finite-$L$ parent formula and \eqref{eq:coefficient-first-image} is its first-image asymptotic expansion. The order of the remainder is stated for orientation and is not proved here for general $L$. The polynomial factor is $P_3(L)$ of (3.31) of the main text, and $e^{-L^2/2}=e^{-288}$ at $L=24$. The side-24 statement, (2.10) of the main text, together with its remainder bound, is proved in Section~\ref{sec:correction}.
+\end{remark}

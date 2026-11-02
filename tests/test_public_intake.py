@@ -341,6 +341,127 @@ class IntakeTests(unittest.TestCase):
         self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=2'] = [{'filename': 'incoming/hidden/result.md', 'status': 'added'}]
         self.reject('too many package files')
 
+
+    def install_engineering_pages(self, count=965):
+        self.pr['head']['repo']['full_name'] = REPO
+        self.pr['changed_files'] = count
+        rows = [{'filename': f'docs/page-item-{i}.md', 'status': 'modified', 'sha': 'd'*40}
+                for i in range(count)]
+        for page, offset in enumerate(range(0, count, 100), 1):
+            self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}'] = rows[offset:offset+100]
+        self.api.calls.clear()
+        return rows
+
+    def test_965_engineering_files_require_all_ten_pages(self):
+        self.install_engineering_pages()
+        try:
+            result = self.run_check()
+        except ValueError as error:
+            self.fail(f'Complete 965-file engineering listing was refused: {error}')
+        self.assertEqual(result['lane'], 'maintainer-engineering')
+        self.assertEqual(result['scientific_effect'], 'NONE')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'] + [
+            f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}' for page in range(1, 11)
+        ] + [f'/repos/{REPO}/pulls/7'])
+
+    def test_documented_3000_file_ceiling_requires_all_thirty_pages(self):
+        self.install_engineering_pages(3000)
+        try:
+            result = self.run_check()
+        except ValueError as error:
+            self.fail(f'Complete 3000-file engineering listing was refused: {error}')
+        self.assertEqual(result['lane'], 'maintainer-engineering')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'] + [
+            f'/repos/{REPO}/pulls/7/files?per_page=100&page={page}' for page in range(1, 31)
+        ] + [f'/repos/{REPO}/pulls/7'])
+
+    def test_listing_itself_refuses_zero_count(self):
+        self.api.calls.clear()
+        with self.assertRaisesRegex(ValueError, 'unsupported changed file count'):
+            intake.changes(self.api, REPO, 7, 0)
+        self.assertEqual(self.api.calls, [])
+
+    def test_malformed_or_over_api_ceiling_metadata_refuses_before_listing(self):
+        for count in [None, True, False, 0, -1, 965.0, '965', [], {}, 3001]:
+            with self.subTest(count=count):
+                self.pr['changed_files'] = count
+                self.api.calls.clear()
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_exact_total_cannot_mask_short_or_oversized_intermediate_page(self):
+        for split in [99, 101]:
+            with self.subTest(first_page_size=split):
+                rows = self.install_engineering_pages(200)
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=1'] = rows[:split]
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=2'] = rows[split:]
+                self.reject('file listing')
+
+    def test_large_listing_refuses_missing_extra_or_malformed_final_page(self):
+        for final in [[], None, {}, 'not a list', [None]*64, [None]*66]:
+            with self.subTest(final=type(final).__name__, size=len(final) if hasattr(final, '__len__') else None):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'] = final
+                self.reject('file listing')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_listing_refuses_cross_page_duplicate(self):
+        self.install_engineering_pages()
+        self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1]['filename'] = 'docs/page-item-0.md'
+        self.reject('duplicate changed path')
+
+    def test_large_listing_refuses_malformed_last_changed_row(self):
+        for bad in [None, {}, {'filename': '../hidden'}, {'filename': 'docs/hidden\\nname.md'},
+                    {'filename': 'docs/item.md', 'previous_filename': None}]:
+            with self.subTest(row=bad):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1] = bad
+                self.reject('invalid (changed file|changed path|previous path)')
+
+    def test_last_page_incoming_path_or_rename_still_triggers_public_limit(self):
+        for incoming_field in ['filename', 'previous_filename']:
+            with self.subTest(incoming_field=incoming_field):
+                self.install_engineering_pages()
+                last = self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'][-1]
+                last[incoming_field] = 'incoming/late/RESULT.md'
+                if incoming_field == 'previous_filename':
+                    last['status'] = 'renamed'
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_fork_or_review_label_refuses_at_500_file_limit_before_listing(self):
+        for restricted_by in ['fork', 'label']:
+            with self.subTest(restricted_by=restricted_by):
+                self.install_engineering_pages(501)
+                self.pr['head']['repo']['full_name'] = 'visitor/main' if restricted_by == 'fork' else REPO
+                self.pr['labels'] = [{'name': 'results-for-review'}] if restricted_by == 'label' else []
+                self.reject('unsupported changed file count')
+                self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_late_api_failures_cannot_be_maintainer_success(self):
+        for code in [403, 500, 503]:
+            with self.subTest(code=code):
+                self.install_engineering_pages()
+                self.api.routes[f'/repos/{REPO}/pulls/7/files?per_page=100&page=10'] = urllib.error.HTTPError(
+                    'https://api.github.com', code, 'unavailable', None, None)
+                self.reject(f'HTTP Error {code}')
+                self.assertEqual(self.api.calls[-1], f'/repos/{REPO}/pulls/7/files?per_page=100&page=10')
+
+    def test_large_pr_race_refuses_at_final_snapshot(self):
+        self.install_engineering_pages()
+        original_get = self.api.get
+        reads = 0
+        def changing_get(route):
+            nonlocal reads
+            result = original_get(route)
+            if route == f'/repos/{REPO}/pulls/7':
+                reads += 1
+                if reads == 2:
+                    result['changed_files'] = 966
+            return result
+        self.api.get = changing_get
+        self.reject('PR changed during verification')
+
     def test_pr_race_fails_at_final_readback(self):
         original_get = self.api.get
         reads = 0

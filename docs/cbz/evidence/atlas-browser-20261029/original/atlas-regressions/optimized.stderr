@@ -1,0 +1,159 @@
+test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary (tests.test_atlas_focus_geometry.AtlasListFocusGeometry.test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary) ... ERROR
+test_new_selection_after_a_long_read_keeps_its_heading_visible (tests.test_atlas_reader_scroll.AtlasReaderScroll.test_new_selection_after_a_long_read_keeps_its_heading_visible) ... ok
+
+======================================================================
+ERROR: test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary (tests.test_atlas_focus_geometry.AtlasListFocusGeometry.test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/main/main/tests/test_atlas_focus_geometry.py", line 34, in test_keyboard_focus_ring_fits_inside_the_list_scroll_boundary
+    browser = playwright.chromium.launch(executable_path=CHROMIUM, headless=True,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/playwright/sync_api/_generated.py", line 16702, in launch
+    self._sync(
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/playwright/_impl/_sync_base.py", line 115, in _sync
+    return task.result()
+           ^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/playwright/_impl/_browser_type.py", line 97, in launch
+    await self._channel.send(
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.TargetClosedError: BrowserType.launch: Target page, context or browser has been closed
+Browser logs:
+Chromium sandboxing failed!
+================================
+To avoid the sandboxing issue, do either of the following:
+  - (preferred): Configure your environment to support sandboxing
+  - (alternative): Launch Chromium without sandbox using 'chromiumSandbox: false' option
+================================
+
+Call log:
+  - <launching> /usr/bin/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --user-data-dir=/tmp/playwright_chromiumdev_profile-ixp9VQ --remote-debugging-pipe --no-startup-window
+  - <launched> pid=11457
+  - [pid=11457][err] [11457:11457:1029/190931.375776:FATAL:content/browser/zygote_host/zygote_host_impl_linux.cc:130] No usable sandbox! If you are running on Ubuntu 23.10+ or another Linux distro that has disabled unprivileged user namespaces with AppArmor, see https://chromium.googlesource.com/chromium/src/+/main/docs/security/apparmor-userns-restrictions.md. Otherwise see https://chromium.googlesource.com/chromium/src/+/main/docs/linux/suid_sandbox_development.md for more information on developing with the (older) SUID sandbox. If you want to live dangerously and need an immediate workaround, you can try using --no-sandbox.
+  - [pid=11457][err] #0 0x55ee2d5664d2 base::debug::CollectStackTrace()
+  - [pid=11457][err] #1 0x55ee2d550afe base::debug::StackTrace::StackTrace()
+  - [pid=11457][err] #2 0x55ee2d48362c logging::LogMessage::Flush()
+  - [pid=11457][err] #3 0x55ee2d4841c9 logging::LogMessageFatal::~LogMessageFatal()
+  - [pid=11457][err] #4 0x55ee2a1c90d2 content::ZygoteHostImpl::Init()
+  - [pid=11457][err] #5 0x55ee2c462b69 content::ContentMainRunnerImpl::Initialize()
+  - [pid=11457][err] #6 0x55ee2c46020c content::RunContentProcess()
+  - [pid=11457][err] #7 0x55ee2c460657 content::ContentMain()
+  - [pid=11457][err] #8 0x55ee2638d37d ChromeMain
+  - [pid=11457][err] #9 0x7fcc37a2a1ca (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9)
+  - [pid=11457][err] #10 0x7fcc37a2a28b __libc_start_main
+  - [pid=11457][err] #11 0x55ee2638d02a _start
+  - [pid=11457][err] Crash keys:
+  - [pid=11457][err]   "switch-46" = "--use-angle=swiftshader-webgl"
+  - [pid=11457][err]   "switch-45" = "--ozone-override-screen-size=800,600"
+  - [pid=11457][err]   "switch-44" = "--ozone-platform=headless"
+  - [pid=11457][err]   "switch-43" = "--noerrdialogs"
+  - [pid=11457][err]   "switch-42" = "--no-startup-window"
+  - [pid=11457][err]   "switch-41" = "--remote-debugging-pipe"
+  - [pid=11457][err]   "switch-40" = "--user-data-dir=/tmp/playwright_chromiumdev_profile-ixp9VQ"
+  - [pid=11457][err]   "switch-39" = "--blink-settings=primaryHoverType=2,availableHoverTypes=2,primar"
+  - [pid=11457][err]   "switch-38" = "--mute-audio"
+  - [pid=11457][err]   "switch-37" = "--hide-scrollbars"
+  - [pid=11457][err]   "switch-36" = "--headless"
+  - [pid=11457][err]   "switch-35" = "--enable-unsafe-swiftshader"
+  - [pid=11457][err]   "switch-34" = "--disable-sync"
+  - [pid=11457][err]   "switch-33" = "--disable-search-engine-choice-screen"
+  - [pid=11457][err]   "switch-32" = "--disable-infobars"
+  - [pid=11457][err]   "switch-31" = "--edge-skip-compat-layer-relaunch"
+  - [pid=11457][err]   "switch-30" = "--unsafely-disable-devtools-self-xss-warnings"
+  - [pid=11457][err]   "switch-29" = "--disable-search-engine-choice-screen"
+  - [pid=11457][err]   "switch-28" = "--export-tagged-pdf"
+  - [pid=11457][err]   "switch-27" = "--no-service-autorun"
+  - [pid=11457][err]   "switch-26" = "--use-mock-keychain"
+  - [pid=11457][err]   "switch-25" = "--password-store=basic"
+  - [pid=11457][err]   "switch-24" = "--no-first-run"
+  - [pid=11457][err]   "switch-23" = "--metrics-recording-only"
+  - [pid=11457][err]   "switch-22" = "--force-color-profile=srgb"
+  - [pid=11457][err]   "switch-21" = "--disable-updater-scheduler"
+  - [pid=11457][err]   "switch-20" = "--disable-renderer-backgrounding"
+  - [pid=11457][err]   "switch-19" = "--disable-prompt-on-repost"
+  - [pid=11457][err]   "switch-18" = "--disable-popup-blocking"
+  - [pid=11457][err]   "switch-17" = "--disable-ipc-flooding-protection"
+  - [pid=11457][err]   "switch-16" = "--disable-hang-monitor"
+  - [pid=11457][err]   "switch-15" = "--allow-pre-commit-input"
+  - [pid=11457][err]   "switch-14" = "--disable-extensions"
+  - [pid=11457][err]   "switch-13" = "--disable-edgeupdater"
+  - [pid=11457][err]   "switch-12" = "--disable-dev-shm-usage"
+  - [pid=11457][err]   "switch-11" = "--disable-default-apps"
+  - [pid=11457][err]   "switch-10" = "--no-default-browser-check"
+  - [pid=11457][err]   "switch-9" = "--disable-component-update"
+  - [pid=11457][err]   "switch-8" = "--disable-component-extensions-with-background-pages"
+  - [pid=11457][err]   "switch-7" = "--disable-client-side-phishing-detection"
+  - [pid=11457][err]   "switch-6" = "--disable-breakpad"
+  - [pid=11457][err]   "switch-5" = "--disable-back-forward-cache"
+  - [pid=11457][err]   "switch-4" = "--disable-backgrounding-occluded-windows"
+  - [pid=11457][err]   "switch-3" = "--disable-background-timer-throttling"
+  - [pid=11457][err]   "switch-2" = "--disable-background-networking"
+  - [pid=11457][err]   "switch-1" = "--disable-field-trial-config"
+  - [pid=11457][err]   "num-switches" = "48"
+  - [pid=11457][err]   "commandline-disabled-feature-16" = "msEdgeUpdateLaunchServicesPreferredVersion"
+  - [pid=11457][err]   "commandline-disabled-feature-15" = "msForceBrowserSignIn"
+  - [pid=11457][err]   "commandline-disabled-feature-14" = "OptimizationHints"
+  - [pid=11457][err]   "commandline-disabled-feature-13" = "AutoDeElevate"
+  - [pid=11457][err]   "commandline-disabled-feature-12" = "Translate"
+  - [pid=11457][err]   "commandline-disabled-feature-11" = "BlockOriginHeaderModificationOnRedirect"
+  - [pid=11457][err]   "commandline-disabled-feature-10" = "ThirdPartyStoragePartitioning"
+  - [pid=11457][err]   "commandline-disabled-feature-9" = "PaintHolding"
+  - [pid=11457][err]   "commandline-disabled-feature-8" = "MediaRouter"
+  - [pid=11457][err]   "commandline-disabled-feature-7" = "LensOverlay"
+  - [pid=11457][err]   "commandline-disabled-feature-6" = "HttpsUpgrades"
+  - [pid=11457][err]   "commandline-disabled-feature-5" = "GlobalMediaControls"
+  - [pid=11457][err]   "commandline-disabled-feature-4" = "DialMediaRouteProvider"
+  - [pid=11457][err]   "commandline-disabled-feature-3" = "DestroyProfileOnBrowserClose"
+  - [pid=11457][err]   "commandline-disabled-feature-2" = "BoundaryEventDispatchTracksNodeRemoval"
+  - [pid=11457][err]   "commandline-disabled-feature-1" = "AvoidUnnecessaryBeforeUnloadCheckSync"
+  - [pid=11457][err]   "commandline-enabled-feature-1" = "CDPScreenshotNewSurface"
+  - [pid=11457][err]   "osarch" = "x86_64"
+  - [pid=11457][err]   "pid" = "11457"
+  - [pid=11457][err]   "ptype" = "browser"
+  - [pid=11457][err]
+  - [pid=11457][err] [1029/190931.469486:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq: No such file or directory (2)
+  - [pid=11457][err] [1029/190931.469539:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq: No such file or directory (2)
+  - [pid=11457][err] Received signal 6
+  - [pid=11457][err] #0 0x55ee2d5664d2 base::debug::CollectStackTrace()
+  - [pid=11457][err] #1 0x55ee2d550afe base::debug::StackTrace::StackTrace()
+  - [pid=11457][err] #2 0x55ee2d565f38 base::debug::(anonymous namespace)::StackDumpSignalHandler()
+  - [pid=11457][err] #3 0x7fcc37a45330 (/usr/lib/x86_64-linux-gnu/libc.so.6+0x4532f)
+  - [pid=11457][err] #4 0x7fcc37a9ec0c pthread_kill
+  - [pid=11457][err] #5 0x7fcc37a4527e gsignal
+  - [pid=11457][err] #6 0x7fcc37a288ff abort
+  - [pid=11457][err] #7 0x55ee2d53fa35 base::debug::BreakDebuggerAsyncSafe()
+  - [pid=11457][err] #8 0x55ee2d484173 base::RepeatingCallback<>::Run()
+  - [pid=11457][err] #9 0x55ee2d484035 logging::LogMessage::HandleFatal()
+  - [pid=11457][err] #10 0x55ee2d483c27 logging::LogMessage::Flush()
+  - [pid=11457][err] #11 0x55ee2d4841c9 logging::LogMessageFatal::~LogMessageFatal()
+  - [pid=11457][err] #12 0x55ee2a1c90d2 content::ZygoteHostImpl::Init()
+  - [pid=11457][err] #13 0x55ee2c462b69 content::ContentMainRunnerImpl::Initialize()
+  - [pid=11457][err] #14 0x55ee2c46020c content::RunContentProcess()
+  - [pid=11457][err] #15 0x55ee2c460657 content::ContentMain()
+  - [pid=11457][err] #16 0x55ee2638d37d ChromeMain
+  - [pid=11457][err] #17 0x7fcc37a2a1ca (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9)
+  - [pid=11457][err] #18 0x7fcc37a2a28b __libc_start_main
+  - [pid=11457][err] #19 0x55ee2638d02a _start
+  - [pid=11457][err]   r8: 0000220800078265  r9: 0000000000000f1e r10: 0000000000000008 r11: 0000000000000246
+  - [pid=11457][err]  r12: 0000000000000006 r13: 0000000000001183 r14: 0000000000000016 r15: 00007fff672861d0
+  - [pid=11457][err]   di: 0000000000002cc1  si: 0000000000002cc1  bp: 00007fff67286080  bx: 0000000000002cc1
+  - [pid=11457][err]   dx: 0000000000000006  ax: 0000000000000000  cx: 00007fcc37a9ec0c  sp: 00007fff67286040
+  - [pid=11457][err]   ip: 00007fcc37a9ec0c efl: 0000000000000246 cgf: 002b000000000033 erf: 0000000000000000
+  - [pid=11457][err]  trp: 0000000000000000 msk: 0000000000000000 cr2: 0000000000000000
+  - [pid=11457][err] [end of stack trace]
+  - [pid=11457] <gracefully close start>
+  - [pid=11457] <kill>
+  - [pid=11457] <will force kill>
+  - [pid=11457] <process did exit: exitCode=null, signal=SIGABRT>
+  - [pid=11457] starting temporary directories cleanup
+  - [pid=11457] finished temporary directories cleanup
+  - [pid=11457] <gracefully close end>
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.761s
+
+FAILED (errors=1)

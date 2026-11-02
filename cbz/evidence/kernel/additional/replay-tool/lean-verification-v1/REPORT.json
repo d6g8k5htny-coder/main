@@ -1,0 +1,332 @@
+{
+  "schema": "cbz-replay-actual-lean-selftest-v1",
+  "status": "PASS_ALL_DECLARED_LEAN_CONTROLS_AND_SOURCE_MUTATIONS",
+  "tool_sha256": "b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3",
+  "selftest_sha256": "5954cb43ad5ac519b550a81fcc5ece328238481b1312ea5bbda5cb1346e6fd3f",
+  "lean_path": "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+  "lean_sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+  "scope": "Finite disposable fixtures testing the generated audit program; no global proof, source-tree or execution-authentication claim.",
+  "threshold": "100% of six registered generated-Lean auditor source mutations",
+  "executions": [
+    {
+      "name": "version",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--version"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "compile-safe",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af/safe",
+        "-j2",
+        "-M4096",
+        "-o",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/safe/Fixture.olean",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/safe/Fixture.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "3e3f62c0a67234f227666bcfcf4362e896d2bd4838d6c2e4bad78fce1626d758"
+    },
+    {
+      "name": "compile-forbidden",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af/forbidden",
+        "-j2",
+        "-M4096",
+        "-o",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/forbidden/Fixture.olean",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/forbidden/Fixture.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "6ded85599530b7961b95787016f7e951e34ca6a62fb1381c3703ed7aa36e2daf"
+    },
+    {
+      "name": "independent-module-table-census",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/independent-module-table-census.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "7af72b595e6169a3adb78d869f4dfe8f9b7beac7b00502f8ba87c51e0694e44c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "f1412cc87a483de0d8eaf02c5d92aefd69f4c9b1b31504aed7f6355c13b63e6b"
+    },
+    {
+      "name": "positive",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/positive.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "843d61f60d48ba5a199de34d77a023368e0c747763da3fda8fc88e40e38e2e92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "4270d4e032b5f5fc74e5a154cd466fc285a74a764dd94baf1f3f18e7c079a85c"
+    },
+    {
+      "name": "control-illtyped-value",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-illtyped-value.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "749d9494483c28c2899e0ced6b5cf38c65fdd1c69c37af5a0b9ae6c52b4db5f1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "38b55f96218d973baab833379b2c90a174c5337fcf43b2379bd2b738cdf0275f"
+    },
+    {
+      "name": "control-omitted-owned",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-omitted-owned.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "7556af7fd024d892fbad82e820866f87dae5c74696eee9618b09029e8af86c8b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "a232c39c045041248e8ed6d806a55f43e12c60c41aa2f950395ed0b50900df8a"
+    },
+    {
+      "name": "control-empty-selection",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-empty-selection.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "00228bece2b8149d32e7a1d0f951a43c94c23e7da1912f91370c0e50a33a0259",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "fd92a2ae5c687eaa57fefd1fa571e7932fbe4339d8db0fafb747ca03f46fd8e5"
+    },
+    {
+      "name": "control-forbidden-axiom",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-forbidden-axiom.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "ed51faf0fcfb027d81e60f35e389eb135102de43b8d8eb2acea4399d91044d44",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "4270d4e032b5f5fc74e5a154cd466fc285a74a764dd94baf1f3f18e7c079a85c"
+    },
+    {
+      "name": "control-unsafe",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-unsafe.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "ac6524f90c3a80830cc934eacd41cc2a904a7b90a103568ad30992763f4a15a5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "2c9d2cf012bc58cfb2f4fde89d25f4c50275d26d8230817eb226e919aeb56379"
+    },
+    {
+      "name": "control-partial",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/control-partial.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "d39d499b6c781dacac7f2166b734f7f4efe4ebee85c0fddb6937aa40eac590ee",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "2e86f03908d3561f131841a3a214347c542cdbe4d011f27ac5448927d1241489"
+    },
+    {
+      "name": "mutant-reuse-imported-environment",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-reuse-imported-environment.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "1e7169808ee63cd087792f589cef318181cf09d4b7d63333d69da1211bb8ed9f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "6e396ae9da3320bc7b46c5cc1e5eeda9ccaecc03c6991d3024404f81e2e11edb"
+    },
+    {
+      "name": "mutant-remove-owned-presence",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-remove-owned-presence.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f3112c9894dae67bcdac6888f56689b2e897d602333543fa10b286855d53efef",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "9e811c33080486ad8c38c3207b5fb9b97979a1747ea2b16365b87311c274410a"
+    },
+    {
+      "name": "mutant-bypass-kernel-replay",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-bypass-kernel-replay.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "843d61f60d48ba5a199de34d77a023368e0c747763da3fda8fc88e40e38e2e92",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "5e676a9ee49a163837f4b8dc3579c473924193ec3661df77786895fd6df2d319"
+    },
+    {
+      "name": "mutant-remove-axiom-guard",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-remove-axiom-guard.lean"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "bb7dc18919d31b36bec31385e6cff220ac096cedb948aba2423cec57c2ec5fd2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "2977ffbff1a3355e051061e3ee1f15e6599569fbcba1087072d202266cff72bd"
+    },
+    {
+      "name": "mutant-remove-unsafe-guard",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-remove-unsafe-guard.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "ddf48b448f239cbf8daed7af95aad0c17bf1c81134195c4ea417da39d83caed9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "9aeb238886d945b297143305187e21c69507fd94ab2e7a951072b8c28e591965"
+    },
+    {
+      "name": "mutant-remove-partial-guard",
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "--root=/tmp/cbz-actual-lean-replay-kdsbw6af",
+        "-j2",
+        "-M4096",
+        "/tmp/cbz-actual-lean-replay-kdsbw6af/mutant-remove-partial-guard.lean"
+      ],
+      "exit_code": 1,
+      "stdout_sha256": "65aab78fa40ff2d515516f19629c25f28cc87edf918a9725a21658732bf01f10",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "program_sha256": "3c48889726b36a310fa6c0c8c957211ee779787194b0683c4f0c944bf499dfd2"
+    }
+  ],
+  "controls": {
+    "illtyped-value": "REJECTED_KERNEL_TYPE_MISMATCH",
+    "omitted-owned": "REJECTED_OWNED_PRESENCE",
+    "empty-selection": "REJECTED_NO_IMPORTED_ENVIRONMENT_REUSE",
+    "forbidden-axiom": "REJECTED_FIXED_AXIOM_ALLOWLIST",
+    "unsafe": "REJECTED_EXPLICIT_SAFETY_GUARD",
+    "partial": "REJECTED_EXPLICIT_SAFETY_GUARD"
+  },
+  "mutants": {
+    "reuse-imported-environment": {
+      "reason_bound_kill": true,
+      "reason": "FALSE_ACCEPTED_EMPTY_SELECTION",
+      "program_sha256": "6e396ae9da3320bc7b46c5cc1e5eeda9ccaecc03c6991d3024404f81e2e11edb"
+    },
+    "remove-owned-presence": {
+      "reason_bound_kill": true,
+      "reason": "FALSE_ACCEPTED_OMITTED_OWNED_THEOREM",
+      "program_sha256": "9e811c33080486ad8c38c3207b5fb9b97979a1747ea2b16365b87311c274410a"
+    },
+    "bypass-kernel-replay": {
+      "reason_bound_kill": true,
+      "reason": "FALSE_ACCEPTED_ILLTYPED_THEOREM_VALUE",
+      "program_sha256": "5e676a9ee49a163837f4b8dc3579c473924193ec3661df77786895fd6df2d319"
+    },
+    "remove-axiom-guard": {
+      "reason_bound_kill": true,
+      "reason": "FALSE_ACCEPTED_FORBIDDEN_AXIOM_AT_LEAN_STAGE",
+      "program_sha256": "2977ffbff1a3355e051061e3ee1f15e6599569fbcba1087072d202266cff72bd"
+    },
+    "remove-unsafe-guard": {
+      "reason_bound_kill": true,
+      "reason": "UNSAFE_DIAGNOSTIC_LOST_TO_REPLAY_SKIP",
+      "program_sha256": "9aeb238886d945b297143305187e21c69507fd94ab2e7a951072b8c28e591965"
+    },
+    "remove-partial-guard": {
+      "reason_bound_kill": true,
+      "reason": "PARTIAL_DIAGNOSTIC_LOST_TO_REPLAY_SKIP",
+      "program_sha256": "3c48889726b36a310fa6c0c8c957211ee779787194b0683c4f0c944bf499dfd2"
+    }
+  },
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "generator_metadata": {
+    "schema": "cbz-proof-closure-program-v1",
+    "program_sha256": "4270d4e032b5f5fc74e5a154cd466fc285a74a764dd94baf1f3f18e7c079a85c",
+    "collector_file_sha256": "ff8a5374597772b2d37054fd722c2243c4b552a63802c69f7c605519832be6c4",
+    "collector_verbatim_sha256": "b7c121d08b7616ba7db3b329a60643de572b24f6f6ee553053c8189310c7c896",
+    "seed_modules": [
+      "Fixture"
+    ],
+    "imports": [
+      "Fixture"
+    ],
+    "required_lean_version": "4.34.1",
+    "kernel_trust_level": 0,
+    "allowed_axioms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "scope": "All compiled constants in selected modules and complete transitive type/value dependencies; unrelated imported declarations are outside scope."
+  },
+  "positive": {
+    "schema": "cbz-proof-closure-transcript-v1",
+    "status": "CONSISTENT_SUPPLIED_EXECUTION_DATA",
+    "execution_authentication": false,
+    "kernel_verification_by_python": false,
+    "program_sha256": "4270d4e032b5f5fc74e5a154cd466fc285a74a764dd94baf1f3f18e7c079a85c",
+    "stdout_sha256": "843d61f60d48ba5a199de34d77a023368e0c747763da3fda8fc88e40e38e2e92",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_code": 0,
+    "owned_constants": 2,
+    "transitive_type_value_closure_constants": 11,
+    "owned_names_sha256": "2f95c18bf6d0de85cdca4942ffb056813d5429686c0289dc1e8f0e10a6125c66",
+    "axioms": [],
+    "module_declarations": {
+      "Fixture": [
+        "ReplayFixture.value",
+        "ReplayFixture.witness"
+      ]
+    },
+    "scope": "Transcript/compiled-census consistency only; actual Lean execution, source and object bindings must be supplied separately."
+  }
+}

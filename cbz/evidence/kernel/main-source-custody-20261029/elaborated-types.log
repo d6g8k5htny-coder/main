@@ -1,0 +1,389 @@
+UniversalLaw.Side24.pairing_sum_six :
+  @Eq Nat (UniversalLaw.Side24.pairingSum (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+    (@OfNat.ofNat Nat (nat_lit 76) (instOfNatNat (nat_lit 76)))
+UniversalLaw.Side24.pairing_sum_le_six (q : Nat) :
+  @Membership.mem Nat (List Nat) (@List.instMembership Nat)
+      (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))
+        (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))
+          (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+            (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+              (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))
+                (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5)))
+                  (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))) (@List.nil Nat))))))))
+      q →
+    @LE.le Nat instLENat (UniversalLaw.Side24.pairingSum q) (@OfNat.ofNat Nat (nat_lit 76) (instOfNatNat (nat_lit 76)))
+UniversalLaw.Side24.pairing_terms_six :
+  And
+    (@Eq Nat
+      (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+        (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+          (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+            (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+              (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+            (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))))
+          (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))))
+      (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+    (And
+      (@Eq Nat
+        (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+          (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+          (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+              (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+                (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+              (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))
+            (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+        (@OfNat.ofNat Nat (nat_lit 15) (instOfNatNat (nat_lit 15))))
+      (And
+        (@Eq Nat
+          (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+            (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+              (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+                (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+                  (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+                  (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+                (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+              (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+          (@OfNat.ofNat Nat (nat_lit 45) (instOfNatNat (nat_lit 45))))
+        (@Eq Nat
+          (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+            (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+              (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+                (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+                  (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+                  (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+                (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))
+              (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))))
+          (@OfNat.ofNat Nat (nat_lit 15) (instOfNatNat (nat_lit 15))))))
+UniversalLaw.Side24.sixth_moment_double_factorial :
+  @Eq Nat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+    (@OfNat.ofNat Nat (nat_lit 15) (instOfNatNat (nat_lit 15)))
+UniversalLaw.Side24.lattice_shell_constant :
+  And
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 27) (instOfNatNat (nat_lit 27)))
+        (@OfNat.ofNat Nat (nat_lit 27) (instOfNatNat (nat_lit 27))))
+      (@OfNat.ofNat Nat (nat_lit 729) (instOfNatNat (nat_lit 729))))
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 729) (instOfNatNat (nat_lit 729)))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 1458) (instOfNatNat (nat_lit 1458))))
+UniversalLaw.Side24.geometric_ratio_constants :
+  And
+    (@Eq Nat
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+        (@OfNat.ofNat Nat (nat_lit 9) (instOfNatNat (nat_lit 9))))
+      (@OfNat.ofNat Nat (nat_lit 512) (instOfNatNat (nat_lit 512))))
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 288) (instOfNatNat (nat_lit 288)))
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@OfNat.ofNat Nat (nat_lit 864) (instOfNatNat (nat_lit 864))))
+UniversalLaw.Side24.period_exponent :
+  @Eq Nat
+    (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 24) (instOfNatNat (nat_lit 24)))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (@OfNat.ofNat Nat (nat_lit 288) (instOfNatNat (nat_lit 288)))
+UniversalLaw.Side24.image_constant_value :
+  @Eq Nat UniversalLaw.Side24.imageConstant
+    (@OfNat.ofNat Nat (nat_lit 21175738586478) (instOfNatNat (nat_lit 21175738586478)))
+UniversalLaw.Side24.exp_taylor_partial_sum_gt_ten :
+  @LT.lt Nat instLTNat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+        (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+          (@OfNat.ofNat Nat (nat_lit 125) (instOfNatNat (nat_lit 125)))
+          (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20))))
+        (UniversalLaw.Side24.fact (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20))))))
+    UniversalLaw.Side24.expTaylorNumerator
+UniversalLaw.Side24.covariance_relative_bound :
+  And
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+          (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10))))
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@OfNat.ofNat Nat (nat_lit 60) (instOfNatNat (nat_lit 60))))
+    (@LT.lt Nat instLTNat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 60) (instOfNatNat (nat_lit 60)))
+        UniversalLaw.Side24.imageConstant)
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))
+        (@OfNat.ofNat Nat (nat_lit 17) (instOfNatNat (nat_lit 17)))))
+UniversalLaw.Side24.odd_block_eigenvalues :
+  And
+    (@Eq Int
+      (@HAdd.hAdd Int Int Int (@instHAdd Int Int.instAdd) (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1)))
+        (@OfNat.ofNat Int (nat_lit 15) (@instOfNat (nat_lit 15))))
+      (@HMul.hMul Int Int Int (@instHMul Int Int.instMul) (@OfNat.ofNat Int (nat_lit 2) (@instOfNat (nat_lit 2)))
+        (@OfNat.ofNat Int (nat_lit 8) (@instOfNat (nat_lit 8)))))
+    (And
+      (@Eq Int
+        (@HSub.hSub Int Int Int (@instHSub Int Int.instSub)
+          (@HMul.hMul Int Int Int (@instHMul Int Int.instMul) (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1)))
+            (@OfNat.ofNat Int (nat_lit 15) (@instOfNat (nat_lit 15))))
+          (@HMul.hMul Int Int Int (@instHMul Int Int.instMul)
+            (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3))))
+            (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3))))))
+        (@OfNat.ofNat Int (nat_lit 6) (@instOfNat (nat_lit 6))))
+      (@Eq Int
+        (@HSub.hSub Int Int Int (@instHSub Int Int.instSub)
+          (@HPow.hPow Int Nat Int (@instHPow Int Nat (@instPowNat Int Int.instNatPow))
+            (@OfNat.ofNat Int (nat_lit 8) (@instOfNat (nat_lit 8)))
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          (@OfNat.ofNat Int (nat_lit 58) (@instOfNat (nat_lit 58))))
+        (@OfNat.ofNat Int (nat_lit 6) (@instOfNat (nat_lit 6)))))
+UniversalLaw.Side24.odd_block_shifted_minors :
+  And
+    (@Eq Int
+      (@HSub.hSub Int Int Int (@instHSub Int Int.instSub)
+        (@HMul.hMul Int Int Int (@instHMul Int Int.instMul) (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3)))
+          (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1))))
+        (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1))))
+      (@OfNat.ofNat Int (nat_lit 2) (@instOfNat (nat_lit 2))))
+    (And
+      (@Eq Int
+        (@HSub.hSub Int Int Int (@instHSub Int Int.instSub)
+          (@HMul.hMul Int Int Int (@instHMul Int Int.instMul) (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3)))
+            (@OfNat.ofNat Int (nat_lit 15) (@instOfNat (nat_lit 15))))
+          (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1))))
+        (@OfNat.ofNat Int (nat_lit 44) (@instOfNat (nat_lit 44))))
+      (@Eq Int
+        (@HSub.hSub Int Int Int (@instHSub Int Int.instSub)
+          (@HMul.hMul Int Int Int (@instHMul Int Int.instMul) (@OfNat.ofNat Int (nat_lit 2) (@instOfNat (nat_lit 2)))
+            (@OfNat.ofNat Int (nat_lit 44) (@instOfNat (nat_lit 44))))
+          (@HMul.hMul Int Int Int (@instHMul Int Int.instMul)
+            (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 9) (@instOfNat (nat_lit 9))))
+            (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 9) (@instOfNat (nat_lit 9))))))
+        (@OfNat.ofNat Int (nat_lit 7) (@instOfNat (nat_lit 7)))))
+UniversalLaw.Side24.smaller_eigenvalue_exceeds_third :
+  @LT.lt Nat instLTNat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 58) (instOfNatNat (nat_lit 58)))
+      (@OfNat.ofNat Nat (nat_lit 9) (instOfNatNat (nat_lit 9))))
+    (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+      (@OfNat.ofNat Nat (nat_lit 23) (instOfNatNat (nat_lit 23)))
+      (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+UniversalLaw.Side24.exponent_bounds (d : Nat) :
+  @Membership.mem Nat (List Nat) (@List.instMembership Nat)
+      (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+        (@List.cons Nat (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))) (@List.nil Nat)))
+      d →
+    And
+      (@LT.lt Nat instLTNat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (UniversalLaw.Side24.sixA d)
+          (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+            (UniversalLaw.Side24.sixB d)))
+        (@OfNat.ofNat Nat (nat_lit 84) (instOfNatNat (nat_lit 84))))
+      (@LT.lt Nat instLTNat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+            (UniversalLaw.Side24.sixA d))
+          (UniversalLaw.Side24.sixB d))
+        (@OfNat.ofNat Nat (nat_lit 78) (instOfNatNat (nat_lit 78))))
+UniversalLaw.Side24.exponent_values :
+  And
+    (@Eq Nat (UniversalLaw.Side24.sixA (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 13) (instOfNatNat (nat_lit 13))))
+    (And
+      (@Eq Nat (UniversalLaw.Side24.sixB (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@OfNat.ofNat Nat (nat_lit 15) (instOfNatNat (nat_lit 15))))
+      (And
+        (@Eq Nat (UniversalLaw.Side24.sixA (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+          (@OfNat.ofNat Nat (nat_lit 25) (instOfNatNat (nat_lit 25))))
+        (@Eq Nat (UniversalLaw.Side24.sixB (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+          (@OfNat.ofNat Nat (nat_lit 27) (instOfNatNat (nat_lit 27))))))
+UniversalLaw.Side24.ratio_constant_ordering :
+  And
+    (@LE.le Nat instLENat (@OfNat.ofNat Nat (nat_lit 13) (instOfNatNat (nat_lit 13)))
+      (@OfNat.ofNat Nat (nat_lit 32) (instOfNatNat (nat_lit 32))))
+    (@LE.le Nat instLENat (@OfNat.ofNat Nat (nat_lit 28) (instOfNatNat (nat_lit 28)))
+      (@OfNat.ofNat Nat (nat_lit 32) (instOfNatNat (nat_lit 32))))
+UniversalLaw.Side24.density_comparison_below_reported :
+  @LT.lt Nat instLTNat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 32) (instOfNatNat (nat_lit 32)))
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))
+        (@OfNat.ofNat Nat (nat_lit 106) (instOfNatNat (nat_lit 106)))))
+    (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+      (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))
+      (@OfNat.ofNat Nat (nat_lit 108) (instOfNatNat (nat_lit 108))))
+UniversalLaw.Side24.conditional_third_derivative_variance :
+  @Eq Int
+    (@HSub.hSub Int Int Int (@instHSub Int Int.instSub) (@OfNat.ofNat Int (nat_lit 15) (@instOfNat (nat_lit 15)))
+      (@HDiv.hDiv Int Int Int (@instHDiv Int Int.instDiv)
+        (@HMul.hMul Int Int Int (@instHMul Int Int.instMul)
+          (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3))))
+          (@Neg.neg Int Int.instNegInt (@OfNat.ofNat Int (nat_lit 3) (@instOfNat (nat_lit 3)))))
+        (@OfNat.ofNat Int (nat_lit 1) (@instOfNat (nat_lit 1)))))
+    (@OfNat.ofNat Int (nat_lit 6) (@instOfNat (nat_lit 6)))
+UniversalLaw.Side24.transverse_covariance_entries_thirds :
+  And
+    (@Eq Nat
+      (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+          (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+    (And
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0)))
+            (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+          (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+            (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+          (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+UniversalLaw.Side24.cone_moment_m1_thirds :
+  @Eq Nat (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+      (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+UniversalLaw.Side24.trace_and_traceless_variances :
+  And
+    (@Eq Nat
+      (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20))))
+    (And
+      (@Eq Nat
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20)))
+          (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5)))
+          (@OfNat.ofNat Nat (nat_lit 12) (instOfNatNat (nat_lit 12)))))
+      (And
+        (@Eq Nat
+          (@HSub.hSub Nat Nat Nat (@instHSub Nat instSubNat)
+            (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))
+              (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+          (@OfNat.ofNat Nat (nat_lit 12) (instOfNatNat (nat_lit 12))))
+        (And
+          (@Eq Nat (@OfNat.ofNat Nat (nat_lit 12) (instOfNatNat (nat_lit 12)))
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))
+              (@OfNat.ofNat Nat (nat_lit 12) (instOfNatNat (nat_lit 12)))))
+          (@Eq Int
+            (@HSub.hSub Int Int Int (@instHSub Int Int.instSub) (@OfNat.ofNat Int (nat_lit 8) (@instOfNat (nat_lit 8)))
+              (@OfNat.ofNat Int (nat_lit 8) (@instOfNat (nat_lit 8))))
+            (@OfNat.ofNat Int (nat_lit 0) (@instOfNat (nat_lit 0)))))))
+UniversalLaw.Side24.fourth_moment_of_trace :
+  @Eq Nat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+        (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+          (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 25) (instOfNatNat (nat_lit 25)))
+      (@OfNat.ofNat Nat (nat_lit 9) (instOfNatNat (nat_lit 9))))
+UniversalLaw.Side24.exponential_moment_of_trace :
+  @Eq Nat
+    (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+      (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+    (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))
+UniversalLaw.Side24.cone_moment_m2_algebra :
+  And
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))
+        (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+      (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20))))
+    (And
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HSub.hSub Nat Nat Nat (@instHSub Nat instSubNat) (@OfNat.ofNat Nat (nat_lit 25) (instOfNatNat (nat_lit 25)))
+            (@OfNat.ofNat Nat (nat_lit 20) (instOfNatNat (nat_lit 20))))
+          (@OfNat.ofNat Nat (nat_lit 24) (instOfNatNat (nat_lit 24))))
+        (@OfNat.ofNat Nat (nat_lit 29) (instOfNatNat (nat_lit 29))))
+      (@Eq Nat
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+          (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+            (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))))
+UniversalLaw.Side24.cube_root_simplification :
+  @Eq Nat
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+      (@OfNat.ofNat Nat (nat_lit 24) (instOfNatNat (nat_lit 24))))
+UniversalLaw.Side24.pin_determinant_and_joint_dimension :
+  And
+    (@Eq Nat
+      (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat)
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+          (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+        (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+      (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+    (And
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+            (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+          (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+              (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat)
+          (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+            (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1))))
+          (@HDiv.hDiv Nat Nat Nat (@instHDiv Nat Nat.instDiv)
+            (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+              (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))))
+UniversalLaw.Side24.hessian_block_eigenvalues :
+  And
+    (@Eq Nat
+      (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+    (And
+      (@Eq Nat
+        (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+      (@LT.lt Nat instLTNat (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))
+        (@HMul.hMul Nat Nat Nat (@instHMul Nat instMulNat) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+UniversalLaw.Side24.d2_endpoints_adjacent :
+  And (@LT.lt Nat instLTNat UniversalLaw.Side24.d2Lower UniversalLaw.Side24.d2Upper)
+    (@Eq Nat UniversalLaw.Side24.d2Upper
+      (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) UniversalLaw.Side24.d2Lower
+        (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))
+UniversalLaw.Side24.d3_endpoints_adjacent :
+  And (@LT.lt Nat instLTNat UniversalLaw.Side24.d3Lower UniversalLaw.Side24.d3Upper)
+    (@Eq Nat UniversalLaw.Side24.d3Upper
+      (@HAdd.hAdd Nat Nat Nat (@instHAdd Nat instAddNat) UniversalLaw.Side24.d3Lower
+        (@OfNat.ofNat Nat (nat_lit 1) (instOfNatNat (nat_lit 1)))))
+UniversalLaw.Side24.d3_below_d2 : @LT.lt Nat instLTNat UniversalLaw.Side24.d3Upper UniversalLaw.Side24.d2Lower
+UniversalLaw.Side24.endpoints_in_unit_tenth :
+  And (@LT.lt Nat instLTNat (@OfNat.ofNat Nat (nat_lit 0) (instOfNatNat (nat_lit 0))) UniversalLaw.Side24.d3Lower)
+    (@LT.lt Nat instLTNat UniversalLaw.Side24.d2Upper
+      (@HPow.hPow Nat Nat Nat (@instHPow Nat Nat (@instPowNat Nat instNatPowNat))
+        (@OfNat.ofNat Nat (nat_lit 10) (instOfNatNat (nat_lit 10)))
+        (@OfNat.ofNat Nat (nat_lit 19) (instOfNatNat (nat_lit 19)))))

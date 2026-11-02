@@ -1,0 +1,441 @@
+test_body_assertion_kills_after_all_selected_bodies_finish (test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish) ... ERROR
+test_clean_identity_survives (test_mutation_harness.MutationHarnessTests.test_clean_identity_survives) ... ok
+test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) ... 
+  test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture', tail='def load_tests(loader, tests, pattern): return unittest.TestSuite([Case("test_one"), Case("test_one")])') ... FAIL
+  test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture.Case', tail='') ... FAIL
+test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_harness.MutationHarnessTests.test_errors_skips_expected_failures_and_subtests_are_ambiguous) ... 
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_harness.MutationHarnessTests.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (source="def test_one(self):\n    with self.subTest(i=1): self.fail('subtest')") ... FAIL
+  test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_harness.MutationHarnessTests.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (source="def test_one(self):\n    with self.subTest(i=1): pass\n    self.fail('body')") ... FAIL
+test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) ... 
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='receipt_schema') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='selected_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='started_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='finished_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_entered_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_finished_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_assertion_ids') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='lifecycle_failures') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='subtests') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='invalid_population') ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'tests_run': True}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'tests_run': 1.0}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'assertion_failures': '1'}) ... ERROR
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'successful': 0}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'lifecycle_failures': -1}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'subtests': True}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_entered_ids': []}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_finished_ids': []}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'finished_ids': []}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_assertion_ids': []}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_assertion_ids': ['fixture.Case.test_forged']}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'selected_ids': ['fixture.Case.test_one', 'fixture.Case.test_one']}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'started_ids': ['fixture.Case.test_one', 'fixture.Case.test_one']}) ... FAIL
+  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'assertion_failures': 2}) ... FAIL
+test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) ... FAIL
+test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) ... 
+  test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def tearDown(self): self.fail('teardown')\ndef test_one(self): pass") ... FAIL
+  test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def test_one(self): self.addCleanup(self.fail, 'cleanup')") ... FAIL
+  test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def tearDown(self): self.fail('teardown')\ndef test_one(self): self.fail('body')") ... FAIL
+  test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def test_one(self):\n    self.addCleanup(self.fail, 'cleanup')\n    self.fail('body')") ... FAIL
+test_setup_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill) ... FAIL
+test_summary_without_lifecycle_receipt_fails_closed (test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed) ... FAIL
+
+======================================================================
+ERROR: test_body_assertion_kills_after_all_selected_bodies_finish (test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 48, in test_body_assertion_kills_after_all_selected_bodies_finish
+    self.assertEqual(value['body_entered_ids'], ['fixture.Case.test_one', 'fixture.Case.test_two'])
+                     ~~~~~^^^^^^^^^^^^^^^^^^^^
+KeyError: 'body_entered_ids'
+
+======================================================================
+ERROR: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'assertion_failures': '1'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/mutations.py", line 21, in classify
+    if code == 1 and value.get('assertion_failures', 0) > 0 and not value.get('successful'):
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '>' not supported between instances of 'str' and 'int'
+
+======================================================================
+FAIL: test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture', tail='def load_tests(loader, tests, pattern): return unittest.TestSuite([Case("test_one"), Case("test_one")])')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 96, in test_empty_duplicate_synthetic_and_spoofed_population_is_error
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 2, 'assertion_failures': 2, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\ntest_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpxwhf3qb4/tests/fixture.py", line 3, in test_one\n    def test_one(self): self.fail("body")\n                        ^^^^^^^^^^^^^^^^^\nAssertionError: body\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpxwhf3qb4/tests/fixture.py", line 3, in test_one\n    def test_one(self): self.fail("body")\n                        ^^^^^^^^^^^^^^^^^\nAssertionError: body\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nFAILED (failures=2)\n'}
+
+======================================================================
+FAIL: test_empty_duplicate_synthetic_and_spoofed_population_is_error (test_mutation_harness.MutationHarnessTests.test_empty_duplicate_synthetic_and_spoofed_population_is_error) (selection='fixture.Case', tail='')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 96, in test_empty_duplicate_synthetic_and_spoofed_population_is_error
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpqwfqnlqa/tests/fixture.py", line 4, in test_one\n    def test_one(self): self.fail("body")\n                        ^^^^^^^^^^^^^^^^^\nAssertionError: body\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_harness.MutationHarnessTests.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (source="def test_one(self):\n    with self.subTest(i=1): self.fail('subtest')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 84, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... \n  test_one (fixture.Case.test_one) (i=1) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one) (i=1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpiikl2hbn/tests/fixture.py", line 4, in test_one\n    with self.subTest(i=1): self.fail(\'subtest\')\n                            ^^^^^^^^^^^^^^^^^^^^\nAssertionError: subtest\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_errors_skips_expected_failures_and_subtests_are_ambiguous (test_mutation_harness.MutationHarnessTests.test_errors_skips_expected_failures_and_subtests_are_ambiguous) (source="def test_one(self):\n    with self.subTest(i=1): pass\n    self.fail('body')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 84, in test_errors_skips_expected_failures_and_subtests_are_ambiguous
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpcow7qjj1/tests/fixture.py", line 5, in test_one\n    self.fail(\'body\')\nAssertionError: body\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='receipt_schema')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='selected_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='started_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='finished_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_entered_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_finished_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='body_assertion_ids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='lifecycle_failures')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='subtests')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (missing='invalid_population')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 113, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(value, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'tests_run': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'tests_run': 1.0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'successful': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'lifecycle_failures': -1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'subtests': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_entered_ids': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_finished_ids': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'finished_ids': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_assertion_ids': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_assertion_ids': ['fixture.Case.test_forged']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'selected_ids': ['fixture.Case.test_one', 'fixture.Case.test_one']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'started_ids': ['fixture.Case.test_one', 'fixture.Case.test_one']})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'assertion_failures': 2})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 124, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 126, in test_forged_or_missing_accounting_is_error
+    self.assertEqual(mutations.classify(receipt, exit_code), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+======================================================================
+FAIL: test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def tearDown(self): self.fail('teardown')\ndef test_one(self): pass")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 69, in test_lifecycle_failures_never_kill_even_with_body_assertion
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp3i_u2akl/tests/fixture.py", line 3, in tearDown\n    def tearDown(self): self.fail(\'teardown\')\n                        ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: teardown\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def test_one(self): self.addCleanup(self.fail, 'cleanup')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 69, in test_lifecycle_failures_never_kill_even_with_body_assertion
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nAssertionError: cleanup\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def tearDown(self): self.fail('teardown')\ndef test_one(self): self.fail('body')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 69, in test_lifecycle_failures_never_kill_even_with_body_assertion
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 2, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\ntest_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpktpqy5jz/tests/fixture.py", line 4, in test_one\n    def test_one(self): self.fail(\'body\')\n                        ^^^^^^^^^^^^^^^^^\nAssertionError: body\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpktpqy5jz/tests/fixture.py", line 3, in tearDown\n    def tearDown(self): self.fail(\'teardown\')\n                        ^^^^^^^^^^^^^^^^^^^^^\nAssertionError: teardown\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=2)\n'}
+
+======================================================================
+FAIL: test_lifecycle_failures_never_kill_even_with_body_assertion (test_mutation_harness.MutationHarnessTests.test_lifecycle_failures_never_kill_even_with_body_assertion) (source="def test_one(self):\n    self.addCleanup(self.fail, 'cleanup')\n    self.fail('body')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 69, in test_lifecycle_failures_never_kill_even_with_body_assertion
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 2, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\ntest_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp_imcd3ae/tests/fixture.py", line 5, in test_one\n    self.fail(\'body\')\nAssertionError: body\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nAssertionError: cleanup\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=2)\n'}
+
+======================================================================
+FAIL: test_setup_assertion_is_not_a_kill (test_mutation_harness.MutationHarnessTests.test_setup_assertion_is_not_a_kill)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 40, in test_setup_assertion_is_not_a_kill
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmpiid3uj2g/tests/fixture.py", line 4, in setUp\n    def setUp(self): self.fail(\'setup only\')\n                     ^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: setup only\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (failures=1)\n'}
+
+======================================================================
+FAIL: test_summary_without_lifecycle_receipt_fails_closed (test_mutation_harness.MutationHarnessTests.test_summary_without_lifecycle_receipt_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 101, in test_summary_without_lifecycle_receipt_fails_closed
+    self.assertEqual(mutations.classify(old, 1), 'ERROR')
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 1.454s
+
+FAILED (failures=34, errors=2)

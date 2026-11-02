@@ -1,0 +1,131 @@
+{
+  "schema": "cbz712.pr-trigger-repair.v1",
+  "base_commit": "15e8f689d00ca03e28e9bc5d97b6aba3f19ec900",
+  "actual_executor": "OpenAI/Codex 01a11c48-e9e4-7113-a03f-24b2155da25e",
+  "claim": "https://github.com/d6g8k5htny-coder/main/pull/712#issuecomment-6511287308",
+  "python": "3.9.6",
+  "sources_sha256": {
+    ".github/workflows/cbz-federation-drift.yml": "c7a31a2da1eacafe62ab8c71bdb1fb3d36ecd75c3e3cf75b2ec05e2cebcc3243",
+    "tests/test_cbz_drift_pr_trigger_01a11c48.py": "b4ab9b394af1a9e3132a5b44a2da74c75ce8d221e421403e382c0758a915b6b0",
+    "tests/test_navigation_workflow.py": "fac899b807edf049479dacd449736d861ccf363d9b914994646c5e80935d75db",
+    "tests/test_cbz_drift.py": "647e04ff376fad7f5e355abed7c7fe1912a8718599bfbd8dc9341e98970b5440",
+    "tools/cbz_drift/crawl.py": "737d1307bf76bd4fab24dffc50952de22f450e6dbc4f85780e53d330f0346600",
+    "tools/cbz_drift/lean_decls.py": "ce9a2a462bc38f3bf29b0f4aad6054d39733290b4ac59ed29aa5a02acff7a761"
+  },
+  "execution": {
+    "red-normal": {
+      "bytes": 1481,
+      "sha256": "33ca3d72c7c316c05b1eeae750364adc58534775aee457f67f8b474c02005d25",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 2 tests in 0.001s",
+        "",
+        "FAILED (failures=1)"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "red-optimized": {
+      "bytes": 1481,
+      "sha256": "e6cd4c03e8f132e5c73bb4990b14ee55df20c06e6985e5daedac216cc9cf2d15",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 2 tests in 0.002s",
+        "",
+        "FAILED (failures=1)"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "green-normal": {
+      "bytes": 4487,
+      "sha256": "5240e428459da04c4fbb4727feca03f26499eac2c56e94fe25ce983ebce2dee9",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 53 tests in 124.471s",
+        "",
+        "OK"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "green-optimized": {
+      "bytes": 4487,
+      "sha256": "a60972b5e2001e3e51557c3d5bc9dfee0880c923dece7526b4f192682aa7ab83",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 53 tests in 124.425s",
+        "",
+        "OK"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "review-red-normal": {
+      "bytes": 3834,
+      "sha256": "040087a011ffaecc5904377673404ac50071d5c7c0e4e77d499dfa618736eb9b",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 4 tests in 0.001s",
+        "",
+        "FAILED (failures=5)"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "review-red-optimized": {
+      "bytes": 3834,
+      "sha256": "33f1001e7a14baa80541952d1dfc1937de2c879a167463b9bd3fe9efd2541223",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 4 tests in 0.002s",
+        "",
+        "FAILED (failures=5)"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "final-normal": {
+      "bytes": 4727,
+      "sha256": "10fc2a9ad89dcd316a0beac975fbeed22a5dec9eb2b493ed0061ed207570a163",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 55 tests in 136.432s",
+        "",
+        "OK"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    },
+    "final-optimized": {
+      "bytes": 4727,
+      "sha256": "cc5138b5dc2860d280af2ab01b00706efd29b2df8a67079d6edc1c71428d4d9b",
+      "summary": [
+        "----------------------------------------------------------------------",
+        "Ran 55 tests in 136.434s",
+        "",
+        "OK"
+      ],
+      "raw_log_publication": "PRIVATE_NOT_EXPORTED"
+    }
+  },
+  "final_test_population": {
+    "crawler_original": 43,
+    "new_trigger_guard": 4,
+    "existing_navigation": 8,
+    "total_per_parent_mode": 55
+  },
+  "bounded_review": {
+    "actual_reviewer": "OpenAI/Codex child cbz712_trigger_review_01a11c48",
+    "initial_guard_sha256": "d5bf4bd7bfc588db36632c969f6c7b5e0cc5891f5ba47ded2c60c8b1fe6c5e5e",
+    "initial_verdict": "AMEND: column-zero comments hide filters",
+    "successor_verdict": "PASS_SCOPED_ENGINEERING",
+    "focused_tests_per_mode": 12,
+    "organizational_independence_credit": 0
+  },
+  "preservation": {
+    "push_schedule_manual_permissions_jobs_crawl_suffix": "BYTE_IDENTICAL_EXCEPT_ADDED_GUARD_MODULE",
+    "inherited_crawler_parser_and_tests": "BYTE_IDENTICAL"
+  },
+  "limitations": [
+    "Restricted source subscription guard, not a general YAML parser or hosted eligibility proof.",
+    "Local parent modes normal and optimized; inherited mutant children still use normal-B.",
+    "Dedicated hosted qualification at this successor NOT_YET_OBSERVED.",
+    "Known PR712 graph/parser adversarial findings remain unresolved; original six RED real-Git cases not claimed repaired.",
+    "Main required-status binding remains a separate canonical integration obligation; legacy administration read403 remains UNKNOWN.",
+    "Full project/federation regression and final common G0-G11 NOT_RUN; no tool/math/scientific/CBZ admission."
+  ]
+}

@@ -265,7 +265,7 @@ class RefreshTests(unittest.TestCase):
         comment = load("fresh.json")
         comment["sources"] = [{"url": comment_url, "rev": "2026-10-15T18:00:00Z"}]
         older = nsr.refresh_record(comment, offline_fetch, NOW)
-        self.assertEqual(older["status"], "fresh")
+        self.assertEqual(older["status"], "unknown")  # An observation before the recorded revision cannot certify it.
         self.assertEqual(older["source_rev"], "2026-10-15T18:00:00Z")
 
         missing = load("fresh.json")

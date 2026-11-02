@@ -1,0 +1,46 @@
+{
+  "claim": "Source-bound invocation/environment provenance; no new process or test execution for this record",
+  "guard_controllers": [
+    {
+      "stage": "initial",
+      "controller": "guard_mutations.py",
+      "sha256": "caefdde1a8e496c43cd15188e704d05ec94c91a64a6974b13e93f12f7d957d76",
+      "driver_sets_child_env": "env['PYTHONOPTIMIZE']='1' if mode=='optimized' else '0'",
+      "driver_explicit_optimized_flag": "(['-O'] if mode=='optimized' else [])",
+      "subprocess_receipt": "GUARD_MUTATIONS.json"
+    },
+    {
+      "stage": "construction",
+      "controller": "guard_mutations_followup.py",
+      "sha256": "333684e94c36693c189e70fc5395560b001375a1ebc0038d0b6b9c1809a4498b",
+      "driver_sets_child_env": "env['PYTHONOPTIMIZE']='1' if mode=='optimized' else '0'",
+      "driver_explicit_optimized_flag": "(['-O'] if mode=='optimized' else [])",
+      "subprocess_receipt": "FOLLOWUP_GUARD_MUTATIONS.json"
+    },
+    {
+      "stage": "selector",
+      "controller": "guard_mutations_selector.py",
+      "sha256": "b99161237ea5372440b6c2b21ce3d71e1b8e795bc3c366083a620608fc0527da",
+      "driver_sets_child_env": "env['PYTHONOPTIMIZE']='1' if mode=='optimized' else '0'",
+      "driver_explicit_optimized_flag": "(['-O'] if mode=='optimized' else [])",
+      "subprocess_receipt": "SELECTOR_GUARD_MUTATIONS.json"
+    },
+    {
+      "stage": "exact-descriptor",
+      "controller": "guard_mutations_exact_descriptors.py",
+      "sha256": "95bd1cd9ce9a46dd43cfc198ea3231a09ba3e5a148dd27a7eb5bfe1b0b7afd7f",
+      "driver_sets_child_env": "env['PYTHONOPTIMIZE']='1' if mode=='optimized' else '0'",
+      "driver_explicit_optimized_flag": "(['-O'] if mode=='optimized' else [])",
+      "subprocess_receipt": "EXACT_DESCRIPTOR_GUARD_MUTATIONS.json"
+    }
+  ],
+  "control_mode_rule": "Optimized control launches use PYTHONOPTIMIZE=1 and -O for the outer runner. run_identity_fixture uses subprocess.run without an env override, so its -B -S child inherits PYTHONOPTIMIZE=1. Each fixture record states outer sys.flags.optimize; this is source-based inheritance evidence, not a separately instrumented child mode field.",
+  "actual_optimized_control_invocations": {
+    "kernel_replay": [
+      "PYTHONOPTIMIZE=1 CBZ_IDENTITY_CONTROL_EVIDENCE=... python3 -B -S -O run_tests.py --test ... --output ..."
+    ],
+    "layer_a": [
+      "PYTHONOPTIMIZE=1 CBZ_IDENTITY_CONTROL_EVIDENCE=... python3 -B -S -O mutation_test.py --internal-test-runner --test-root ... --test ... --output ..."
+    ]
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "name": "ignore-body-population-receipt",
+  "file": "mutations.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "a1a0b0e7d6c5809c1f3f291a10aa14edc04265ce73cf76494318f966ab69b9bd",
+  "mutated_sha256": "c85285407161cecf59df9b10a077a24d617c87f9429588a42422187556cbfa12",
+  "guard_sha256": "81b914e3af5f923d8d119960131352e6e2d2813eec7d02f5ca6d42ac4b27f9f2",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) ... \n  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_entered_ids': []}) ... FAIL\n  test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_finished_ids': []}) ... FAIL\n\n======================================================================\nFAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_entered_ids': []})\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-harness-mutant-x6w52vrf/kernel_replay/tests/test_mutation_harness.py\", line 147, in test_forged_or_missing_accounting_is_error\n    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n\n\n======================================================================\nFAIL: test_forged_or_missing_accounting_is_error (test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error) (changes={'body_finished_ids': []})\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tmp/kernel-harness-mutant-x6w52vrf/kernel_replay/tests/test_mutation_harness.py\", line 147, in test_forged_or_missing_accounting_is_error\n    self.assertEqual(mutations.classify({**receipt, **changes}, code), 'ERROR')\nAssertionError: 'KILLED' != 'ERROR'\n- KILLED\n+ ERROR\n\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+      "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 35,
+    "subtest_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "assertion"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "assertion"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "phase": "body",
+        "outcome": "success"
+      }
+    ],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "origin": "subtest"
+      },
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_forged_or_missing_accounting_is_error",
+        "origin": "subtest"
+      }
+    ]
+  },
+  "stderr": ""
+}

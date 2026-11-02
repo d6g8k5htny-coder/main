@@ -1,0 +1,1576 @@
+{
+  "scope": "SOURCE_ONLY_DECLARATION_HEADERS; NOT_COMPILED_CENSUS_OR_KERNEL_EVIDENCE",
+  "commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+  "module_source_declarations": {
+    "GaussianSeriesFoundation": [
+      {
+        "name": "I4Foundation.coefficientLaw",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 17,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "def coefficientLaw (ι : Type*) : Measure (ι → ℝ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinate_measurePreserving",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 25,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinate_measurePreserving {ι : Type*} (i : ι) :\n    MeasurePreserving (fun ω : ι → ℝ => ω i) (coefficientLaw ι)\n      (gaussianReal 0 1)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinate_marginal",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 30,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinate_marginal {ι : Type*} (i : ι) :\n    (coefficientLaw ι).map (fun ω => ω i) = gaussianReal 0 1",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinates_independent",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 34,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinates_independent (ι : Type*) :\n    iIndepFun (fun i (ω : ι → ℝ) => ω i) (coefficientLaw ι)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinate_memLp",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 39,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinate_memLp {ι : Type*} (i : ι) (p : ℝ≥0∞) (hp : p ≠ ∞) :\n    MemLp (fun ω : ι → ℝ => ω i) p (coefficientLaw ι)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinate_integrable",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 44,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinate_integrable {ι : Type*} (i : ι) :\n    Integrable (fun ω : ι → ℝ => ω i) (coefficientLaw ι)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.coordinate_abs_integrable",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 48,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem coordinate_abs_integrable {ι : Type*} (i : ι) :\n    Integrable (fun ω : ι → ℝ => |ω i|) (coefficientLaw ι)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.weighted_abs_summable_ae",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 52,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem weighted_abs_summable_ae {ι : Type*} [Countable ι]\n    (a : ι → ℝ) (ha : ∀ i, 0 ≤ a i) (hs : Summable a) :\n    ∀ᵐ ω ∂coefficientLaw ι, Summable (fun i => a i * |ω i|)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.scalarSeries",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 77,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "def scalarSeries {ι : Type*} (a : ι → ℝ) (ω : ι → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.scalarSeries_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 80,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem scalarSeries_measurable {ι : Type*} [Countable ι] (a : ι → ℝ) :\n    Measurable (scalarSeries a)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Foundation.scalarSeries_hasSum_ae",
+        "path": "frontiers/source_smooth_realization_20261011/GaussianSeriesFoundation.lean",
+        "line": 87,
+        "module_sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+        "literal_source_header": "theorem scalarSeries_hasSum_ae {ι : Type*} [Countable ι]\n    (a : ι → ℝ) (hs : Summable a) :\n    ∀ᵐ ω ∂coefficientLaw ι, HasSum (fun i => a i * ω i) (scalarSeries a ω)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SpectralWeights": [
+      {
+        "name": "I4Weights.decay",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 15,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def decay (a : ℝ) (k : ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.coordinateBound",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 16,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def coordinateBound (a c : ℝ) (k : ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.productDecay",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 18,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def productDecay (d : ℕ) (a : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.productBound",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 20,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def productBound (d : ℕ) (a c : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceA",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 22,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def sourceA (L : ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceC",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 23,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def sourceC (L : ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceWeight",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 24,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def sourceWeight (d : ℕ) (L : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceZ",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 26,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def sourceZ (d : ℕ) (L : ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.pairedBound",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 27,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "def pairedBound (d : ℕ) (L : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.summable_decay_pow",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 30,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem summable_decay_pow {a : ℝ} (ha : 0 < a) (n : ℕ) :\n    Summable (fun k : ℤ => decay a k * |(k : ℝ)| ^ n)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.coordinateBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 41,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem coordinateBound_summable {a c : ℝ} (ha : 0 < a) :\n    Summable (coordinateBound a c)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.finite_product_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 52,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem finite_product_summable {f : ℤ → ℝ} (hf : Summable f) (hn : ∀ k, 0 ≤ f k)\n    (d : ℕ) : Summable (fun k : Fin d → ℤ => ∏ i, f (k i))",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.productBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 73,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem productBound_summable {a c : ℝ} (ha : 0 < a) (d : ℕ) :\n    Summable (productBound d a c)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.productDecay_eq_exp",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 78,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem productDecay_eq_exp (d : ℕ) (a : ℝ) (k : Fin d → ℤ) :\n    productDecay d a k = exp (-a * ∑ i, (k i : ℝ) ^ 2)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.frequency_l1_le_product",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 83,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem frequency_l1_le_product (d : ℕ) (v : Fin d → ℝ) (hv : ∀ i, 0 ≤ v i) :\n    1 + ∑ i, v i ≤ ∏ i, (1 + v i)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceA_pos",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 99,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem sourceA_pos {L : ℝ} (hL : L ≠ 0) : 0 < sourceA L",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceWeight_eq_physical",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 103,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem sourceWeight_eq_physical (d : ℕ) (L : ℝ) (k : Fin d → ℤ) :\n    sourceWeight d L k = exp (-(∑ i, (sourceC L * (k i : ℝ)) ^ 2) / 2)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceWeight_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 118,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem sourceWeight_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    Summable (sourceWeight d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.sourceZ_pos",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 125,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem sourceZ_pos (d : ℕ) {L : ℝ} (hL : L ≠ 0) : 0 < sourceZ d L",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.pairedBound_eq_amplitude",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 130,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem pairedBound_eq_amplitude (d : ℕ) {L : ℝ} (hL : L ≠ 0) (k : Fin d → ℤ) :\n    pairedBound d L k = Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *\n      ∏ i, (1 + |sourceC L * (k i : ℝ)|) ^ 4",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.pairedBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 152,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem pairedBound_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    Summable (pairedBound d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Weights.pairedBound_subtype_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SpectralWeights.lean",
+        "line": 156,
+        "module_sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+        "literal_source_header": "theorem pairedBound_subtype_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (S : Set (Fin d → ℤ)) : Summable (fun k : S => pairedBound d L k)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceFourierSeries": [
+      {
+        "name": "I4Source.halfLattice",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 16,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "def halfLattice (d : ℕ) : Set (Fin d → ℤ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.SourceMode",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 19,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "abbrev SourceMode (d : ℕ)",
+        "kind": "abbrev",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 22,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "abbrev sourceLaw (d : ℕ) : Measure (SourceMode d → ℝ)",
+        "kind": "abbrev",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.phase",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 25,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "def phase (d : ℕ) (L : ℝ) (k : Fin d → ℤ) (x : Fin d → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.modeCoefficient",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 29,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "def modeCoefficient (d : ℕ) (L : ℝ) (m : SourceMode d) (x : Fin d → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.modeMajorant",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 35,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "def modeMajorant (d : ℕ) (L : ℝ) (m : SourceMode d) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceField",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 41,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "def sourceField (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.modeMajorant_nonneg",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 44,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem modeMajorant_nonneg (d : ℕ) (L : ℝ) (m : SourceMode d) :\n    0 ≤ modeMajorant d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.modeMajorant_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 53,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem modeMajorant_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    Summable (modeMajorant d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.modeCoefficient_bound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 67,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem modeCoefficient_bound (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (m : SourceMode d) (x : Fin d → ℝ) :\n    |modeCoefficient d L m x| ≤ modeMajorant d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceField_eval_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 99,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem sourceField_eval_measurable (d : ℕ) (L : ℝ) (x : Fin d → ℝ) :\n    Measurable (fun ω => sourceField d L ω x)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceMajorant_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 103,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem sourceMajorant_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, Summable (fun m => modeMajorant d L m * |ω m|)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceAbs_uniform_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 107,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem sourceAbs_uniform_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d,\n      HasSumUniformly (fun m x => |modeCoefficient d L m x * ω m|)\n        (fun x => ∑' m, |modeCoefficient d L m x * ω m|)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceField_uniform_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 118,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem sourceField_uniform_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d,\n      HasSumUniformly (fun m x => modeCoefficient d L m x * ω m)\n        (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Source.sourceField_continuous_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceFourierSeries.lean",
+        "line": 129,
+        "module_sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+        "literal_source_header": "theorem sourceField_continuous_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, Continuous (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceC4": [
+      {
+        "name": "I4C4.phaseCLM",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 14,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "def phaseCLM (d : ℕ) (L : ℝ) (k : Fin d → ℤ) : (Fin d → ℝ) →L[ℝ] ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4C4.phaseCLM_apply",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 17,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "theorem phaseCLM_apply (d : ℕ) (L : ℝ) (k : Fin d → ℤ) (x : Fin d → ℝ) :\n    phaseCLM d L k x = phase d L k x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4C4.phaseCLM_norm_le",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 21,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "theorem phaseCLM_norm_le (d : ℕ) (L : ℝ) (k : Fin d → ℤ) :\n    ‖phaseCLM d L k‖ ≤ ∑ i, |sourceC L * (k i : ℝ)|",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4C4.modeCoefficient_iteratedFDeriv_bound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 36,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "theorem modeCoefficient_iteratedFDeriv_bound (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (m : SourceMode d) (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) :\n    ‖iteratedFDeriv ℝ j (modeCoefficient d L m) x‖ ≤ modeMajorant d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4C4.sourceField_contDiff_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 103,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "theorem sourceField_contDiff_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, ContDiff ℝ 4 (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4C4.sourceField_contDiff_affine_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceC4.lean",
+        "line": 134,
+        "module_sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+        "literal_source_header": "theorem sourceField_contDiff_affine_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, ∀ (T : (Fin d → ℝ) →L[ℝ] (Fin d → ℝ)) (a : Fin d → ℝ),\n      ContDiff ℝ 4 (fun x => sourceField d L ω (a + T x))",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceGaussianLaw": [
+      {
+        "name": "I4SourceGaussian.summable_square",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 19,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "private theorem summable_square (a : ι → ℝ) (ha : Summable a) :\n    Summable (fun i => a i ^ 2)",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SourceGaussian.partial_charFun",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 29,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "private theorem partial_charFun (a : ι → ℝ) (s : Finset ι) (t : ℝ) :\n    charFun ((coefficientLaw ι).map (fun ω => ∑ i ∈ s, a i * ω i)) t =\n      Complex.exp (-((∑ i ∈ s, a i ^ 2 : ℝ) : ℂ) * (t : ℂ) ^ 2 / 2)",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SourceGaussian.charFun_partial_tendsto",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 56,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "private theorem charFun_partial_tendsto (a : ι → ℝ) (ha : Summable a) (t : ℝ) :\n    Filter.Tendsto\n      (fun s : Finset ι => charFun ((coefficientLaw ι).map\n        (fun ω => ∑ i ∈ s, a i * ω i)) t)\n      Filter.atTop (𝓝 (charFun ((coefficientLaw ι).map (scalarSeries a)) t))",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SourceGaussian.scalarSeries_map_gaussian",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 91,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem scalarSeries_map_gaussian (a : ι → ℝ) (ha : Summable a) :\n    (coefficientLaw ι).map (scalarSeries a) =\n      gaussianReal 0 (∑' i, a i ^ 2).toNNReal",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceGaussian.scalarSeries_integral_zero",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 110,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem scalarSeries_integral_zero (a : ι → ℝ) (ha : Summable a) :\n    ∫ ω, scalarSeries a ω ∂coefficientLaw ι = 0",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceGaussian.scalarSeries_variance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 117,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem scalarSeries_variance (a : ι → ℝ) (ha : Summable a) :\n    Var[scalarSeries a; coefficientLaw ι] = ∑' i, a i ^ 2",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceGaussian.source_linearCombination_hasGaussianLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 123,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem source_linearCombination_hasGaussianLaw (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (n : ℕ) (x : Fin n → (Fin d → ℝ)) (c : Fin n → ℝ) :\n    HasGaussianLaw (fun ω => ∑ j, c j * sourceField d L ω (x j)) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceGaussian.source_finiteVector_hasGaussianLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 148,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem source_finiteVector_hasGaussianLaw (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (n : ℕ) (x : Fin n → (Fin d → ℝ)) :\n    HasGaussianLaw (fun ω j => sourceField d L ω (x j)) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceGaussian.sourceField_isGaussianProcess",
+        "path": "frontiers/source_smooth_realization_20261011/SourceGaussianLaw.lean",
+        "line": 175,
+        "module_sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+        "literal_source_header": "theorem sourceField_isGaussianProcess (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    IsGaussianProcess (fun x ω => sourceField d L ω x) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceLattice": [
+      {
+        "name": "I4Lattice.latticeFrequency",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 9,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "def latticeFrequency (d : ℕ) (m : SourceMode d) : Fin d → ℤ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.halfLattice_ne_zero",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 14,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem halfLattice_ne_zero (d : ℕ) {k : Fin d → ℤ} (hk : k ∈ halfLattice d) :\n    k ≠ 0",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.halfLattice_partition",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 21,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem halfLattice_partition (d : ℕ) {k : Fin d → ℤ} (hk : k ≠ 0) :\n    (k ∈ halfLattice d ∨ -k ∈ halfLattice d) ∧\n      ¬ (k ∈ halfLattice d ∧ -k ∈ halfLattice d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.sourceWeight_neg",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 60,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem sourceWeight_neg (d : ℕ) (L : ℝ) (k : Fin d → ℤ) :\n    sourceWeight d L (-k) = sourceWeight d L k",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.phase_lattice_shift",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 65,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem phase_lattice_shift (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (k n : Fin d → ℤ) (x : Fin d → ℝ) :\n    phase d L k (fun i => x i + L * (n i : ℝ)) =\n      phase d L k x + ((∑ i, k i * n i : ℤ) : ℝ) * (2 * Real.pi)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.modeCoefficient_lattice_shift",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 79,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem modeCoefficient_lattice_shift (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (m : SourceMode d) (n : Fin d → ℤ) (x : Fin d → ℝ) :\n    modeCoefficient d L m (fun i => x i + L * (n i : ℝ)) =\n      modeCoefficient d L m x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.sourceField_lattice_shift",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 91,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem sourceField_lattice_shift (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SourceMode d → ℝ) (n : Fin d → ℤ) (x : Fin d → ℝ) :\n    sourceField d L ω (fun i => x i + L * (n i : ℝ)) = sourceField d L ω x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.pairedCoefficient_kernel",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 101,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem pairedCoefficient_kernel (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (k : ↥(halfLattice d)) (x y : Fin d → ℝ) :\n    (∑ b : Bool, modeCoefficient d L (some (k,b)) x *\n      modeCoefficient d L (some (k,b)) y) =\n      (2 * sourceWeight d L k / sourceZ d L) * Real.cos (phase d L k (x - y))",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Lattice.latticeFrequency_bijective",
+        "path": "frontiers/source_smooth_realization_20261011/SourceLattice.lean",
+        "line": 121,
+        "module_sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+        "literal_source_header": "theorem latticeFrequency_bijective (d : ℕ) : Function.Bijective (latticeFrequency d)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceKernel": [
+      {
+        "name": "I4Kernel.frequencyEquiv",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 9,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "def frequencyEquiv (d : ℕ) : SourceMode d ≃ (Fin d → ℤ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Kernel.sourceSpectralKernel",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 13,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "def sourceSpectralKernel (d : ℕ) (L : ℝ) (z : Fin d → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Kernel.tsum_mode",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 16,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "private theorem tsum_mode (d : ℕ) (f : SourceMode d → ℝ) (hf : Summable f) :\n    (∑' m, f m) = f none + ∑' k : ↥(halfLattice d),\n      (f (some (k,false)) + f (some (k,true)))",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4Kernel.modeProduct_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 34,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "theorem modeProduct_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x y : Fin d → ℝ) :\n    Summable (fun m => modeCoefficient d L m x * modeCoefficient d L m y)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Kernel.spectralKernel_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 47,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "theorem spectralKernel_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0) (z : Fin d → ℝ) :\n    Summable (fun k : Fin d → ℤ =>\n      sourceWeight d L k / sourceZ d L * Real.cos (phase d L k z))",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Kernel.coefficientKernel_eq_fullLattice",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 59,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "theorem coefficientKernel_eq_fullLattice (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x y : Fin d → ℝ) :\n    (∑' m, modeCoefficient d L m x * modeCoefficient d L m y) =\n      sourceSpectralKernel d L (x - y)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Kernel.spectralKernel_zero",
+        "path": "frontiers/source_smooth_realization_20261011/SourceKernel.lean",
+        "line": 104,
+        "module_sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+        "literal_source_header": "theorem spectralKernel_zero (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    sourceSpectralKernel d L 0 = 1",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceCovariance": [
+      {
+        "name": "I4SourceCovariance.scalarSeries_covariance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceCovariance.lean",
+        "line": 13,
+        "module_sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+        "literal_source_header": "theorem scalarSeries_covariance (a b : ι → ℝ) (ha : Summable a) (hb : Summable b) :\n    cov[scalarSeries a, scalarSeries b; coefficientLaw ι] = ∑' i, a i * b i",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceCovariance.sourceField_integral_zero",
+        "path": "frontiers/source_smooth_realization_20261011/SourceCovariance.lean",
+        "line": 52,
+        "module_sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+        "literal_source_header": "theorem sourceField_integral_zero (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :\n    ∫ ω, sourceField d L ω x ∂sourceLaw d = 0",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceCovariance.sourceField_covariance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceCovariance.lean",
+        "line": 59,
+        "module_sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+        "literal_source_header": "theorem sourceField_covariance (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x y : Fin d → ℝ) :\n    cov[fun ω => sourceField d L ω x, fun ω => sourceField d L ω y; sourceLaw d] =\n      sourceSpectralKernel d L (x - y)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SourceCovariance.sourceField_variance_one",
+        "path": "frontiers/source_smooth_realization_20261011/SourceCovariance.lean",
+        "line": 69,
+        "module_sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+        "literal_source_header": "theorem sourceField_variance_one (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :\n    Var[fun ω => sourceField d L ω x; sourceLaw d] = 1",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceTorus": [
+      {
+        "name": "I4Torus.SourceTorus",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 14,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "abbrev SourceTorus (d : ℕ) (L : ℝ)",
+        "kind": "abbrev",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusProjection",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 16,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "def torusProjection (d : ℕ) (L : ℝ) (x : Fin d → ℝ) : SourceTorus d L",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusRepresentative",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 19,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "def torusRepresentative (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (q : SourceTorus d L) : Fin d → ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 23,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "def torusSourceField (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (ω : SourceMode d → ℝ) (q : SourceTorus d L) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusProjection_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 27,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusProjection_measurable (d : ℕ) (L : ℝ) : Measurable (torusProjection d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusRepresentative_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 30,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusRepresentative_measurable (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    Measurable (torusRepresentative d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusProjection_representative",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 35,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusProjection_representative (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (q : SourceTorus d L) : torusProjection d L (torusRepresentative d L q) = q",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.sourceField_eq_of_torusProjection_eq",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 40,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem sourceField_eq_of_torusProjection_eq (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SourceMode d → ℝ) (x y : Fin d → ℝ)\n    (h : torusProjection d L x = torusProjection d L y) :\n    sourceField d L ω x = sourceField d L ω y",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_pullback",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 58,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_pullback (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (ω : SourceMode d → ℝ) (x : Fin d → ℝ) :\n    torusSourceField d L ω (torusProjection d L x) = sourceField d L ω x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_eval_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 65,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_eval_measurable (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (q : SourceTorus d L) : Measurable (fun ω => torusSourceField d L ω q)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_joint_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 69,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_joint_measurable (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    Measurable (fun p : (SourceMode d → ℝ) × SourceTorus d L =>\n      torusSourceField d L p.1 p.2)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_finiteVector_hasGaussianLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 85,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_finiteVector_hasGaussianLaw (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (n : ℕ) (q : Fin n → SourceTorus d L) :\n    HasGaussianLaw (fun ω j => torusSourceField d L ω (q j)) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_isGaussianProcess",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 91,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_isGaussianProcess (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    IsGaussianProcess (fun q ω => torusSourceField d L ω q) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_covariance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 96,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_covariance (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (q p : SourceTorus d L) :\n    cov[fun ω => torusSourceField d L ω q, fun ω => torusSourceField d L ω p; sourceLaw d] =\n      sourceSpectralKernel d L (torusRepresentative d L q - torusRepresentative d L p)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Torus.torusSourceField_covariance_pullback",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorus.lean",
+        "line": 103,
+        "module_sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+        "literal_source_header": "theorem torusSourceField_covariance_pullback (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (x y : Fin d → ℝ) :\n    cov[fun ω => torusSourceField d L ω (torusProjection d L x),\n      fun ω => torusSourceField d L ω (torusProjection d L y); sourceLaw d] =\n      sourceSpectralKernel d L (x - y)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceTorusC4": [
+      {
+        "name": "I4TorusC4.quotientChart",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 13,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "def quotientChart (d : ℕ) (L : ℝ) [Fact (0 < L)] (a : Fin d → ℝ) :\n    OpenPartialHomeomorph (SourceTorus d L) (Fin d → ℝ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.chartCenter",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 17,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "def chartCenter (d : ℕ) (L : ℝ) [Fact (0 < L)] (q : SourceTorus d L) : Fin d → ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.quotientChart_symm",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 20,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem quotientChart_symm (d : ℕ) (L : ℝ) [Fact (0 < L)] (a : Fin d → ℝ) :\n    (quotientChart d L a).symm = torusProjection d L",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.centered_chart_covers",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 24,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem centered_chart_covers (d : ℕ) (L : ℝ) [Fact (0 < L)] (q : SourceTorus d L) :\n    q ∈ (quotientChart d L (chartCenter d L q)).source",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.chart_transition_contDiff",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 52,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem chart_transition_contDiff (d : ℕ) (L : ℝ) [Fact (0 < L)] (a b : Fin d → ℝ) :\n    ContDiffOn ℝ ∞ ((quotientChart d L a).symm.trans (quotientChart d L b))\n      ((quotientChart d L a).symm.trans (quotientChart d L b)).source",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.torus_isManifold",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 99,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem torus_isManifold (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    IsManifold 𝓘(ℝ, Fin d → ℝ) ∞ (SourceTorus d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.torusSourceField_contMDiff_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 111,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem torusSourceField_contMDiff_ae (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    ∀ᵐ sample ∂sourceLaw d,\n      ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) 4 (torusSourceField d L sample)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4TorusC4.torusSourceField_weakSuperlevel_closed_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceTorusC4.lean",
+        "line": 127,
+        "module_sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+        "literal_source_header": "theorem torusSourceField_weakSuperlevel_closed_ae (d : ℕ) (L : ℝ) [Fact (0 < L)] :\n    ∀ᵐ sample ∂sourceLaw d, ∀ h : ℝ,\n      IsClosed {q : SourceTorus d L | h ≤ torusSourceField d L sample q}",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceSmooth": [
+      {
+        "name": "I4Smooth.orderCoordinateBound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 25,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "def orderCoordinateBound (n : ℕ) (a c : ℝ) (k : ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderProductBound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 28,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "def orderProductBound (n d : ℕ) (a c : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderPairedBound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 31,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "def orderPairedBound (n d : ℕ) (L : ℝ) (k : Fin d → ℤ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderModeBound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 34,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "def orderModeBound (n d : ℕ) (L : ℝ) (m : SourceMode d) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderCoordinateBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 39,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderCoordinateBound_summable (n : ℕ) {a c : ℝ} (ha : 0 < a) :\n    Summable (orderCoordinateBound n a c)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderProductBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 60,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderProductBound_summable (n d : ℕ) {a c : ℝ} (ha : 0 < a) :\n    Summable (orderProductBound n d a c)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderPairedBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 65,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderPairedBound_summable (n d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    Summable (orderPairedBound n d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderPairedBound_eq_amplitude",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 69,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderPairedBound_eq_amplitude (n d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (k : Fin d → ℤ) :\n    orderPairedBound n d L k =\n      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *\n        ∏ i, (1 + |sourceC L * (k i : ℝ)|) ^ n",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderModeBound_nonneg",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 93,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderModeBound_nonneg (n d : ℕ) (L : ℝ) (m : SourceMode d) :\n    0 ≤ orderModeBound n d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderModeBound_summable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 101,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderModeBound_summable (n d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    Summable (orderModeBound n d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.orderModeBound_four",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 116,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem orderModeBound_four (d : ℕ) (L : ℝ) (m : SourceMode d) :\n    orderModeBound 4 d L m = modeMajorant d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.modeCoefficient_iteratedFDeriv_order_bound",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 120,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem modeCoefficient_iteratedFDeriv_order_bound (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (m : SourceMode d) (j : ℕ) (x : Fin d → ℝ) :\n    ‖iteratedFDeriv ℝ j (modeCoefficient d L m) x‖ ≤ orderModeBound j d L m",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.goodSample",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 181,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "def goodSample (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) : Prop",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.goodSample_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 184,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem goodSample_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, goodSample d L ω",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.sourceField_smooth_of_goodSample",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 191,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem sourceField_smooth_of_goodSample (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SourceMode d → ℝ) (hω : goodSample d L ω) :\n    ∀ n : ℕ, ContDiff ℝ n (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.sourceField_smooth_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 223,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem sourceField_smooth_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, ∀ n : ℕ, ContDiff ℝ n (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.goodSample_congr_cofinite",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 230,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem goodSample_congr_cofinite (d : ℕ) (L : ℝ)\n    (ω η : SourceMode d → ℝ) (hωη : ω =ᶠ[Filter.cofinite] η) :\n    goodSample d L ω ↔ goodSample d L η",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4Smooth.goodSample_finite_change_iff",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmooth.lean",
+        "line": 243,
+        "module_sha256": "12ad7263267a970bd5d5c95d7c7aa62d9c971f7beebf28f1aa7ed16d3a112f1b",
+        "literal_source_header": "theorem goodSample_finite_change_iff (d : ℕ) (L : ℝ)\n    (ω η : SourceMode d → ℝ) (s : Finset (SourceMode d))\n    (hωη : ∀ m ∉ s, ω m = η m) :\n    goodSample d L ω ↔ goodSample d L η",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceSmoothCarrier": [
+      {
+        "name": "I4SmoothCarrier.goodSet",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 32,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "def goodSet (d : ℕ) (L : ℝ) : Set (SourceMode d → ℝ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.orderAbsNN",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 35,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "private def orderAbsNN (n d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ)\n    (m : SourceMode d) : ℝ≥0",
+        "kind": "def",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SmoothCarrier.orderAbsTotal",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 40,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "private def orderAbsTotal (n d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) : ℝ≥0∞",
+        "kind": "def",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SmoothCarrier.orderAbsTotal_ne_top_iff",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 43,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "private theorem orderAbsTotal_ne_top_iff (n d : ℕ) (L : ℝ)\n    (ω : SourceMode d → ℝ) :\n    orderAbsTotal n d L ω ≠ ∞ ↔\n      Summable (fun m => orderModeBound n d L m * |ω m|)",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SmoothCarrier.orderAbsTotal_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 49,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "private theorem orderAbsTotal_measurable (n d : ℕ) (L : ℝ) :\n    Measurable (orderAbsTotal n d L)",
+        "kind": "theorem",
+        "modifiers": [
+          "private"
+        ]
+      },
+      {
+        "name": "I4SmoothCarrier.goodSet_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 63,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem goodSet_measurable (d : ℕ) (L : ℝ) : MeasurableSet (goodSet d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.goodSet_ae",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 76,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem goodSet_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, ω ∈ goodSet d L",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.goodSet_measure_one",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 80,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem goodSet_measure_one (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    sourceLaw d (goodSet d L) = 1",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.SmoothSample",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 85,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "abbrev SmoothSample (d : ℕ) (L : ℝ)",
+        "kind": "abbrev",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.sampleInclusion",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 88,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "def sampleInclusion (d : ℕ) (L : ℝ) : SmoothSample d L → (SourceMode d → ℝ)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.sampleInclusion_measurable",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 91,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem sampleInclusion_measurable (d : ℕ) (L : ℝ) :\n    Measurable (sampleInclusion d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 96,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "def smoothLaw (d : ℕ) (L : ℝ) : Measure (SmoothSample d L)",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.sampleInclusion_map",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 99,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem sampleInclusion_map (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    (smoothLaw d L).map (sampleInclusion d L) = sourceLaw d",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.sampleInclusion_measurePreserving",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 106,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem sampleInclusion_measurePreserving (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    MeasurePreserving (sampleInclusion d L) (smoothLaw d L) (sourceLaw d)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothLaw_isProbabilityMeasure",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 110,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothLaw_isProbabilityMeasure (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    IsProbabilityMeasure (smoothLaw d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.observation_map_eq",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 116,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem observation_map_eq (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    {E : Type*} [MeasurableSpace E] (X : (SourceMode d → ℝ) → E) (hX : Measurable X) :\n    (smoothLaw d L).map (fun ω => X (sampleInclusion d L ω)) = (sourceLaw d).map X",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.coordinate_marginal",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 122,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem coordinate_marginal (d : ℕ) {L : ℝ} (hL : L ≠ 0) (m : SourceMode d) :\n    (smoothLaw d L).map (fun ω => sampleInclusion d L ω m) = gaussianReal 0 1",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.finiteCoordinate_map_eq",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 127,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem finiteCoordinate_map_eq (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (n : ℕ) (m : Fin n → SourceMode d) :\n    (smoothLaw d L).map (fun ω j => sampleInclusion d L ω (m j)) =\n      (sourceLaw d).map (fun ω j => ω (m j))",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 134,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "def smoothSourceField (d : ℕ) (L : ℝ) (ω : SmoothSample d L) (x : Fin d → ℝ) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField_contDiff",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 137,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothSourceField_contDiff (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SmoothSample d L) (n : ℕ) : ContDiff ℝ n (smoothSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField_smooth",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 141,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothSourceField_smooth (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SmoothSample d L) : ContDiff ℝ (⊤ : ℕ∞) (smoothSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField_finiteVector_map_eq",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 145,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothSourceField_finiteVector_map_eq (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (n : ℕ) (x : Fin n → (Fin d → ℝ)) :\n    (smoothLaw d L).map (fun ω j => smoothSourceField d L ω (x j)) =\n      (sourceLaw d).map (fun ω j => sourceField d L ω (x j))",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField_finiteVector_hasGaussianLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 152,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothSourceField_finiteVector_hasGaussianLaw (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (n : ℕ) (x : Fin n → (Fin d → ℝ)) :\n    HasGaussianLaw (fun ω j => smoothSourceField d L ω (x j)) (smoothLaw d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.covariance_comp_inclusion",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 162,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem covariance_comp_inclusion (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (X Y : (SourceMode d → ℝ) → ℝ) (hX : Measurable X) (hY : Measurable Y) :\n    cov[fun ω => X (sampleInclusion d L ω), fun ω => Y (sampleInclusion d L ω); smoothLaw d L] =\n      cov[X, Y; sourceLaw d]",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothSourceField_covariance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 172,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothSourceField_covariance (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (x y : Fin d → ℝ) :\n    cov[fun ω => smoothSourceField d L ω x, fun ω => smoothSourceField d L ω y; smoothLaw d L] =\n      sourceSpectralKernel d L (x - y)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothTorusSourceField",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 183,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "def smoothTorusSourceField (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (ω : SmoothSample d L) (q : SourceTorus d L) : ℝ",
+        "kind": "def",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothTorusSourceField_smooth",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 189,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothTorusSourceField_smooth (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (ω : SmoothSample d L) :\n    ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) (⊤ : ℕ∞) (smoothTorusSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothTorusSourceField_finiteVector_hasGaussianLaw",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 206,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothTorusSourceField_finiteVector_hasGaussianLaw (d : ℕ) (L : ℝ)\n    [Fact (0 < L)] (n : ℕ) (q : Fin n → SourceTorus d L) :\n    HasGaussianLaw (fun ω j => smoothTorusSourceField d L ω (q j)) (smoothLaw d L)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothCarrier.smoothTorusSourceField_covariance",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean",
+        "line": 219,
+        "module_sha256": "5defdf223e85e7ccd23b5a903a1a306fe7f723727eb6aabf62eef523ef8639ed",
+        "literal_source_header": "theorem smoothTorusSourceField_covariance (d : ℕ) (L : ℝ) [Fact (0 < L)]\n    (q p : SourceTorus d L) :\n    cov[fun ω => smoothTorusSourceField d L ω q, fun ω => smoothTorusSourceField d L ω p;\n      smoothLaw d L] =\n      sourceSpectralKernel d L (torusRepresentative d L q - torusRepresentative d L p)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ],
+    "SourceSmoothControls": [
+      {
+        "name": "I4SmoothControls.old_four_does_not_fill_all_orders",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 15,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem old_four_does_not_fill_all_orders (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    ∀ᵐ ω ∂sourceLaw d, ∀ n : ℕ, ContDiff ℝ n (sourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.represented_sample_order_five",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 20,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem represented_sample_order_five (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SmoothSample d L) : ContDiff ℝ 5 (smoothSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.represented_sample_order_thirtyseven",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 24,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem represented_sample_order_thirtyseven (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SmoothSample d L) : ContDiff ℝ 37 (smoothSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.one_carrier_for_both_orders",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 29,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem one_carrier_for_both_orders (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    (ω : SmoothSample d L) :\n    ContDiff ℝ 5 (smoothSourceField d L ω) ∧\n      ContDiff ℝ 37 (smoothSourceField d L ω)",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.literal_field_everywhere",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 35,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem literal_field_everywhere (d : ℕ) (L : ℝ) (ω : SmoothSample d L)\n    (x : Fin d → ℝ) :\n    smoothSourceField d L ω x = sourceField d L (sampleInclusion d L ω) x",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.entire_coefficient_law_preserved",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 39,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem entire_coefficient_law_preserved (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    (smoothLaw d L).map (sampleInclusion d L) = sourceLaw d",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.arbitrary_observation_law_preserved",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 43,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem arbitrary_observation_law_preserved (d : ℕ) {L : ℝ} (hL : L ≠ 0)\n    {E : Type*} [MeasurableSpace E] (X : (SourceMode d → ℝ) → E) (hX : Measurable X) :\n    (smoothLaw d L).map (fun ω => X (sampleInclusion d L ω)) = (sourceLaw d).map X",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.finite_block_changes_preserve_carrier",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 49,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem finite_block_changes_preserve_carrier (d : ℕ) (L : ℝ)\n    (ω η : SourceMode d → ℝ) (s : Finset (SourceMode d))\n    (hωη : ∀ m ∉ s, ω m = η m) :\n    goodSample d L ω ↔ goodSample d L η",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.field_variance_one",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 56,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem field_variance_one (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :\n    cov[fun ω => smoothSourceField d L ω x,\n      fun ω => smoothSourceField d L ω x; smoothLaw d L] = 1",
+        "kind": "theorem",
+        "modifiers": []
+      },
+      {
+        "name": "I4SmoothControls.carrier_probability",
+        "path": "frontiers/source_smooth_realization_20261011/SourceSmoothControls.lean",
+        "line": 63,
+        "module_sha256": "8eca5ecdb5e2a0c1cb786468b340e4516df653468f958e535f156baafef088b4",
+        "literal_source_header": "theorem carrier_probability (d : ℕ) {L : ℝ} (hL : L ≠ 0) :\n    IsProbabilityMeasure (smoothLaw d L)",
+        "kind": "theorem",
+        "modifiers": []
+      }
+    ]
+  },
+  "source_counts": {
+    "GaussianSeriesFoundation": {
+      "declarations": 11,
+      "theorems": 9
+    },
+    "SpectralWeights": {
+      "declarations": 22,
+      "theorems": 13
+    },
+    "SourceFourierSeries": {
+      "declarations": 15,
+      "theorems": 8
+    },
+    "SourceC4": {
+      "declarations": 6,
+      "theorems": 5
+    },
+    "SourceGaussianLaw": {
+      "declarations": 9,
+      "theorems": 9
+    },
+    "SourceLattice": {
+      "declarations": 9,
+      "theorems": 8
+    },
+    "SourceKernel": {
+      "declarations": 7,
+      "theorems": 5
+    },
+    "SourceCovariance": {
+      "declarations": 4,
+      "theorems": 4
+    },
+    "SourceTorus": {
+      "declarations": 15,
+      "theorems": 11
+    },
+    "SourceTorusC4": {
+      "declarations": 8,
+      "theorems": 6
+    },
+    "SourceSmooth": {
+      "declarations": 18,
+      "theorems": 13
+    },
+    "SourceSmoothCarrier": {
+      "declarations": 29,
+      "theorems": 21
+    },
+    "SourceSmoothControls": {
+      "declarations": 10,
+      "theorems": 10
+    }
+  },
+  "literal_limits": [
+    "actual smooth-source probability-one carrier only",
+    "L nonzero for real-cover smoothness/law preservation; positive L for torus formulation",
+    "exact infinite product coefficient law, spectral covariance and finite Gaussian vectors",
+    "no theta/Poisson covariance identification, first-jet rank, canonical conditional kernel, fixed-fiber genericity, global elder probability/count/density",
+    "not parent theorem or scientific acceptance"
+  ]
+}

@@ -1,0 +1,40 @@
+[
+  {
+    "name": "spec-proof-tests",
+    "args": [
+      "/workspace/.runtimes/python/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-S",
+      "specifications/lean_statement_proofs_20261011/test_check.py"
+    ],
+    "cwd": "/workspace/cbz/formal-qualification",
+    "exit_code": 0,
+    "duration_seconds": 109.7251640909999
+  },
+  {
+    "name": "spec-proof-tests-optimized",
+    "args": [
+      "/workspace/.runtimes/python/cpython-3.11.17-linux-x86_64-gnu/bin/python3.11",
+      "-B",
+      "-O",
+      "-S",
+      "specifications/lean_statement_proofs_20261011/test_check.py"
+    ],
+    "cwd": "/workspace/cbz/formal-qualification",
+    "exit_code": 0,
+    "duration_seconds": 63.16230185799941
+  },
+  {
+    "name": "spec-proof-fresh-kernel",
+    "args": [
+      "lake",
+      "env",
+      "leanchecker",
+      "--fresh",
+      "SpecificationProofs"
+    ],
+    "cwd": "/workspace/cbz/formal-qualification/specifications/lean_statement_proofs_20261011",
+    "exit_code": 143,
+    "duration_seconds": 787.9782155439998
+  }
+]

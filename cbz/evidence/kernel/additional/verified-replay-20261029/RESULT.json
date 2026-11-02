@@ -1,0 +1,118 @@
+{
+  "all_tracked_source_unchanged": true,
+  "candidates": {
+    "c297": {
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "owned_constants": 131,
+      "program_sha256": "5ad7cd1ad7d96bf94185c9c84edfa0d6d2e5597f6afd8b7f4497db222cc246c5",
+      "status": "ACTUAL_EMPTY_KERNEL_REPLAY_PASS_AND_CENSUS_CONSISTENT",
+      "transitive_type_value_closure_constants": 38531
+    },
+    "smooth": {
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "owned_constants": 222,
+      "program_sha256": "6e76a615f1d0d4095a5c7e5cf4afba86aa526f4bef45bd23ee8bf13bec40c964",
+      "status": "ACTUAL_EMPTY_KERNEL_REPLAY_PASS_AND_CENSUS_CONSISTENT",
+      "transitive_type_value_closure_constants": 55236
+    },
+    "spec": {
+      "axioms": [
+        "Classical.choice",
+        "Quot.sound",
+        "propext"
+      ],
+      "owned_constants": 901,
+      "program_sha256": "2570e5ebddad65b0c6921a2fd705bbafdf29843b15176cc9dfea2a927e603655",
+      "status": "ACTUAL_EMPTY_KERNEL_REPLAY_PASS_AND_CENSUS_CONSISTENT",
+      "transitive_type_value_closure_constants": 65210
+    }
+  },
+  "checked_commit": "8151f592918a845bf19eb8eafaf8444540a32734",
+  "phase_results": [
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "/workspace/cbz/discovery/additional-formal/verified-replay-20261029/smooth-kernel-replay.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/frontiers/source_smooth_realization_20261011",
+      "duration_seconds": 85.7224,
+      "exit_code": 0,
+      "finished_at": "2026-10-29T18:13:50.747551+00:00",
+      "name": "smooth-final-generated-positive",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:12:25.025369+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 17003,
+      "stdout_sha256": "7dc5a43577ab8a604eb5c11bc3770f62be5603cd728311fbbd0aa84d102ac7e8",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "/workspace/.runtimes/elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "-j2",
+        "-M14000",
+        "/workspace/cbz/discovery/additional-formal/verified-replay-20261029/c297-kernel-replay.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/frontiers/regular_superlevel_geometry_20261020/project",
+      "duration_seconds": 66.270572,
+      "exit_code": 0,
+      "finished_at": "2026-10-29T18:14:57.757244+00:00",
+      "name": "c297-final-generated-positive",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:13:51.486856+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 11385,
+      "stdout_sha256": "b93b79cae3ae07d230350cfc60d8900e2c29cf91a2b1649bcf65fb4a0bf841a6",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    },
+    {
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "/workspace/cbz/discovery/additional-formal/verified-replay-20261029/spec-kernel-replay.lean"
+      ],
+      "cwd": "/workspace/cbz/formal-qualification/specifications/lean_statement_proofs_20261011",
+      "duration_seconds": 164.3772,
+      "exit_code": 0,
+      "finished_at": "2026-10-29T18:17:42.174802+00:00",
+      "name": "spec-final-generated-positive",
+      "object_validation_error": null,
+      "objects_after": null,
+      "objects_before": null,
+      "spawn_error": null,
+      "started_at": "2026-10-29T18:14:57.797770+00:00",
+      "status": "PASS",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 102648,
+      "stdout_sha256": "252f30918822028bbf5a5ff5c2f79d0384c0d2a710e9ecccddf35643fefaa0d5",
+      "timed_out": false,
+      "timeout_seconds": 1200
+    }
+  ],
+  "status": "ALL_THREE_FINAL_GENERATED_EMPTY_KERNEL_REPLAYS_PASS",
+  "tool_sha256": "b97bee53a590651b83d68056c090ba70e8a055157e65d2bd3fcc5cd0219840b3"
+}
