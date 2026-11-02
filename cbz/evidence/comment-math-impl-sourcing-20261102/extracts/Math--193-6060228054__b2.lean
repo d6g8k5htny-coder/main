@@ -1,0 +1,6 @@
+import GlobalJointFlow
+#print axioms ActualJointFlow.global_solution_unique
+#print axioms ActualJointFlow.exists_global_joint_flow
+#check ActualJointFlow.global_solution_unique
+#check ActualJointFlow.exists_global_joint_flow
+

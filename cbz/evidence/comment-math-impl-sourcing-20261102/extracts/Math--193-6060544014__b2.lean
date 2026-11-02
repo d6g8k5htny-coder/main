@@ -1,0 +1,8 @@
+import ProjectedMorseRank
+#print axioms I4MorseRank.exists_axial_frame
+#print axioms I4MorseRank.morseObservable_variance_pos
+#print axioms I4MorseRank.projectedMorseVector_hasGaussianLaw
+#print axioms I4MorseRank.morseCovariance_posDef
+#check I4MorseRank.morseObservable_variance_pos
+#check I4MorseRank.morseCovariance_posDef
+

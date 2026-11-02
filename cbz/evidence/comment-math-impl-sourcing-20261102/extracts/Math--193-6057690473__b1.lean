@@ -1,0 +1,13 @@
+import EventFixturesSupplement
+
+#print axioms EventFixturesSupplement.parent_B_is_A
+#print axioms EventFixturesSupplement.parent_A_is_G
+#print axioms EventFixturesSupplement.death_B
+#print axioms EventFixturesSupplement.death_A
+#print axioms EventFixturesSupplement.root_essential
+#print axioms EventFixturesSupplement.nested_B_generator
+#print axioms EventFixturesSupplement.B_zero_at_death
+#print axioms EventFixturesSupplement.A_survives_B_death
+#print axioms EventFixturesSupplement.disconnected_G_essential
+#print axioms EventFixturesSupplement.disconnected_A_essential
+

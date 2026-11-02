@@ -1,0 +1,6 @@
+import PinMajorant
+#print axioms I4PinMajorant.pinObservation_eq_actual_ae
+#print axioms I4PinMajorant.regressionCoefficients_measurable
+#print axioms I4PinMajorant.regression_majorant
+#print axioms I4PinMajorant.transformedLaw_regular
+
