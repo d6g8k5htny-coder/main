@@ -1,0 +1,586 @@
+C256 DELIVERY — closed-level attainment of the strict maximin threshold
+
+Actual OpenAI/Codex root01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2 and named AI contributors, delegated for Dylan Roy. Source-exposed, same-provider nonauthor review, org0; no human review claimed. Fresh claim ce168912-004b-4e20-a256-7a3ba9aaca67 / Work Events1622 remains active through verified custody.
+
+Result: on the stated compact connected boundaryless smooth Morse manifold, a nonglobal maximum's strict connection threshold delta is finite and below birth, and a path to a fixed higher maximum exists in the CLOSED superlevel exactly when h <= delta. The proof separately establishes criticality with explicit flow imports. The controls include an actual higher-endpoint counterexample to compactness-only attainment and a torus saddle that does not merge components. Full exact proof, controls and completed nonauthor reconstruction follow.
+
+Review disposition: bounded specification ACCEPT; mathematical quality TECHNICAL ACCEPT under declared imports; no required amendment. This is a prose proof/review delivery, not a Lean commit, hosted build, canonical scientific acceptance, saddle-index/elder-label result or barcode correspondence. The authored proof's earlier review-status wording is preserved; the completed review below records its subsequent disposition. C254's source/execution owner remains unchanged.
+
+Next actionable task, within the existing C253/#419 route and after owner coordination: formalize the compact/local-path-connectivity endpoint argument against the compiled C254 quotient/filtration layer, discharge the declared Morse/topology/flow/descent/lifting imports and concrete Field compatibilities, then obtain exact-source review and applicable hosted checks. No new parallel implementation is claimed. Handle index, actual elder labels, H0 naturality and once-counted finite bars remain separate open tasks.
+
+---
+
+# C256 — closed-level attainment of the strict maximin threshold
+
+**Status: authored mathematical proof for substantive review; Lean realization OPEN.**
+This is a deterministic endpoint lemma within C253, not completion of C253's
+saddle-index/elder-label target or the finite-bar bridge. No source owned by the
+C254/#419 implementer is changed. No Lean, Python, Node, project runtime, hosted
+build, or kernel audit was executed for this proof. Scientific promotion: NONE.
+
+Author: OpenAI/Codex delegated author `/root/c256_endpoint_author`, for Dylan Roy;
+actual coordinating root `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`.
+The coordinating claim is `ce168912-004b-4e20-a256-7a3ba9aaca67`, R17 Work Events
+1622, supplied by root as read back and expiring 2026-10-11T18:59:38Z. This note
+does not independently reverify that register. Organizational independence: 0.
+
+## 1. Exact theorem and imported facts
+
+Let X be a nonempty compact, path-connected, Hausdorff, second-countable smooth
+manifold **without boundary**, of dimension d >= 1. Let g : X -> R be smooth
+(C-infinity) and Morse: every critical point has nondegenerate Hessian. Let M be
+a local maximum, let b = g(M), and assume that M is nonglobal, meaning
+
+    there exists y in X with g(y) > b.                         (NG)
+
+Distinct critical values may additionally be assumed; they are not needed for
+attainment or the threshold equivalence. A path always means a continuous map
+gamma : [0,1] -> X with the stated endpoints. Define
+
+    A = {a in R : there are y and gamma with
+                  g(y) > b, gamma(0)=M, gamma(1)=y,
+                  g(gamma(t)) > a for every t in [0,1]},
+    delta = sup A,
+    C(h,M) <=> there are y and gamma with
+                  g(y) > b, gamma(0)=M, gamma(1)=y,
+                  g(gamma(t)) >= h for every t in [0,1].
+
+We prove that A is nonempty and bounded above, delta is a finite real number,
+
+    min_X g <= delta < b,
+    A = (-infinity, delta),
+    for every real h, C(h,M) iff h <= delta.                  (E)
+
+In particular the equality case has an actual path to a strictly higher point.
+We also prove that delta is a critical value. With distinct critical values,
+there is exactly one critical point S of X with g(S)=delta. We do **not** identify
+its index, prove a label merger, or identify it as an actual persistence partner.
+The C-infinity hypothesis matches the target `Field.IsSmooth` clause. This
+packet makes no application to a merely C4 field; lowering regularity would
+require checking the corresponding Morse-chart and flow hypotheses separately.
+
+The following standard facts are imported as mathematical results; none is
+claimed to have a Lean implementation in this packet.
+
+1. **Morse local normal form.** At a nondegenerate critical point p there is a
+   smooth chart centered at p in which
+   g = g(p) - |u|^2 + |v|^2, with u in R^lambda and v in R^(d-lambda).
+   At a local maximum lambda=d. At a regular point p, the submersion/coordinate
+   theorem gives a chart in which g-g(p) is a coordinate. A primary expository
+   proof of the Morse statement and isolation consequence is Brian Conrad's
+   [Morse lemma handout, Theorem 2.1 and Corollary 2.4](https://math.stanford.edu/~conrad/diffgeomPage/handouts/morselemma.pdf).
+2. **Elementary compactness and topology.** Continuous real functions on compact
+   spaces attain extrema; connected components are closed; nested nonempty
+   compact connected subsets of a compact Hausdorff space have connected
+   nonempty intersection. Manifolds are locally path connected. In a locally
+   path-connected space, path components are open and coincide with connected
+   components. We give the application-specific arguments below, including the
+   closed-superlevel local path connectivity that is essential at the endpoint.
+3. **Smooth flow facts, used only for criticality in Section 7.** Smooth
+   manifolds admit smooth Riemannian metrics and smooth real cutoff functions;
+   a smooth vector field on a compact boundaryless manifold has a smooth flow
+   defined for all real times, with the usual chain rule along flow lines.
+   The precise vector field and height estimate are supplied below. No Morse
+   handle theorem or persistence-module theorem is imported for this lemma.
+
+## 2. Finitely many critical points and strict separation from birth
+
+The critical set is closed, since dg is continuous and its zero section is
+closed. It is compact as a closed subset of X. The Morse local normal form
+shows that each critical point has a neighborhood with no other critical
+point. These neighborhoods cover the compact critical set, so a finite
+subcover shows that the critical set is finite. In particular
+
+    P_old = {P : P is a local maximum of g and g(P)>b}
+
+is finite. It is nonempty: a global maximizer exists by compactness and its
+height exceeds b by (NG). Because X has no boundary, every local maximum is a
+critical point, and the Morse hypothesis makes it nondegenerate.
+
+In a Morse chart at M, g=b-|z|^2. Choose r>0 so the closed Euclidean ball of
+radius r lies inside the chart image. Let U be the image of its open ball
+under the inverse chart. Its closure is the image of the closed ball and its
+boundary is the image of the radius-r sphere. Every point in closure(U) has
+height at most b; every point on boundary(U) has height
+
+    c = b-r^2 < b.
+
+Any path from M to a point of height greater than b must leave U and therefore
+meet boundary(U), by continuity. Consequently its minimum height is at most c.
+For every a in A a witness path has all heights strictly greater than a, so
+a<c. Thus c is an upper bound for A, and once delta is defined as a real
+supremum we have delta<=c<b. This gives a uniform gap below birth, not merely
+the absence of a path above b.
+
+## 3. The strict thresholds and the genuine maximin are finite
+
+Let m=min_X g. By (NG) choose y with g(y)>b; by path connectivity choose a path
+from M to y. Every a<m belongs to A. Thus A is nonempty and delta>=m. Section 2
+bounds A above by c, so completeness of R yields a finite delta in [m,c].
+
+If h<delta, h cannot be an upper bound of A. Choose a in A with h<a; the same
+path witnesses h in A. Conversely, suppose h in A and gamma witnesses it.
+The continuous function g composed with gamma has a minimum mu on [0,1].
+Because all its values are greater than h, its attained minimum satisfies
+mu>h. Put k=(h+mu)/2. The same path witnesses k in A, so h<k<=delta. Therefore
+
+    h in A iff h<delta.                                     (S)
+
+This also verifies the literal path-maximin interpretation. Let B be the set
+of minima of all paths from M to points strictly higher than b. It is nonempty,
+and m<=mu<=c for every mu in B. If mu in B then every a<mu lies in A, hence
+mu<=delta. If a in A its witnessing path has minimum mu in B with a<mu.
+These two comparisons prove sup B=delta. Finiteness is therefore a property
+of the actual path problem, not a convention for an interface's real field.
+
+## 4. Replacing a higher endpoint by an older local maximum
+
+Fix a in A and a witnessing endpoint y. Let O={g>a} and let U be the connected
+component of O containing M. The witness path puts y in U. Since O is an open
+subset of a manifold, O is locally path connected, so U is open in O (hence
+in X) and path connected.
+
+The closure of U in X is compact. Choose P in that closure maximizing g there.
+Then g(P)>=g(y)>b>a, so P belongs to O. A connected component is closed in O;
+therefore closure_X(U) intersect O equals U, and P belongs to U. Since U is
+open in X and P maximizes g on closure_X(U), P is a local maximum on X.
+Thus P belongs to P_old. Path connectivity of U supplies a path from M to P
+entirely in {g>a}.
+
+This argument does not assert convergence of a gradient-ascent trajectory.
+It uses compactness to attain the component-closure maximum, then the strict
+height inequality to put that maximizer in the open component itself.
+
+## 5. Every closed Morse superlevel is locally path connected
+
+For any real h put F_h={g>=h}, with its subspace topology. Fix p in F_h.
+
+If g(p)>h, arbitrarily small manifold chart neighborhoods of p lie inside
+{g>h}; they may be chosen as images of Euclidean balls and are path connected.
+
+If g(p)=h and p is regular, choose a regular-point coordinate chart with
+g-h equal to its first coordinate. Intersecting sufficiently small coordinate
+balls centered at p with F_h gives half-balls, which are convex and therefore
+path connected. These form a neighborhood basis of p in F_h.
+
+If g(p)=h and p is critical, use a Morse chart centered at p and write
+g-h=-|u|^2+|v|^2. The intersection of F_h with each sufficiently small centered
+coordinate ball corresponds to
+
+    { (u,v) : |(u,v)|<r, |v|^2>=|u|^2 }.
+
+This set is star-shaped about the origin: multiplication by s in [0,1]
+preserves the inequality and the ball. Radial contraction gives a path from
+every point to the origin. The intersections again form a neighborhood basis
+of p in F_h. This includes definite critical points: the maximum case is
+the singleton origin and the minimum case is the whole ball.
+
+The cases exhaust F_h, proving local path connectivity. The cone argument is
+only made at a critical point whose height equals h. It does not assert that
+arbitrary intersections of Morse charts with superlevels at other heights
+are star-shaped or contractible.
+
+For clarity, the standard component consequence follows because a path
+component in a locally path-connected space is open: the union of path-
+connected neighborhoods of its points stays in that path component. Its
+complement is a union of the other open path components. A connected component
+cannot meet two such disjoint open pieces, so it is one path component.
+
+## 6. Closed endpoint attainment and the equivalence for every h
+
+For integers n>=1 put a_n=delta-1/n and F_n={g>=a_n}. By (S), a_n is in A.
+By Section 4 choose P_n in P_old connected to M by a path in {g>a_n}.
+Let K_n be the **connected component** of F_n containing M. It contains P_n.
+Each F_n is closed in compact X, each K_n is closed in F_n, and hence K_n is
+compact and connected. Moreover F_(n+1) is a subset of F_n, so the connected
+set K_(n+1), which contains M, lies in K_n. Thus (K_n) is nested.
+
+Since P_old is finite, one P in P_old occurs as P_n for infinitely many n.
+For every fixed n choose k>=n with P_k=P; then P lies in K_k, a subset of K_n.
+Consequently both M and this single P lie in
+
+    K = intersection over n>=1 of K_n.
+
+The nested compact-connected intersection theorem says that K is compact
+and connected. One way to see the connectedness assertion here is to suppose
+K has a separation. Its two compact parts have disjoint ambient open
+neighborhoods in the compact Hausdorff space X. All sufficiently large K_n
+lie in their union (otherwise compactness gives a point in K outside that
+union); every K_n meets both parts. This separates a connected K_n, a
+contradiction.
+
+For x in K, g(x)>=delta-1/n for every n, and hence g(x)>=delta. Thus K is a
+connected subset of F_delta containing M and P. They therefore lie in the
+same connected component of F_delta. Section 5 makes that component path
+connected. There is a path gamma_* from M to P in F_delta, and g(P)>b. This
+proves C(delta,M).
+
+The argument does **not** infer that K itself is path connected from its
+compactness or connectedness. It obtains the path in the containing component
+of the locally path-connected space F_delta. It also does not take an
+unjustified limit of the varying paths, or assume that arbitrary varying
+higher endpoints have a limit whose height remains strictly above b.
+
+If h<=delta, gamma_* proves C(h,M). Conversely, if C(h,M), the same path
+witnesses a in A for every a<h. Thus a<delta for every a<h, and h<=delta.
+Equivalently, its path minimum belongs to B and is at least h, whereas every
+member of B is at most delta. This proves (E) for all real h.
+
+In fact gamma_* has minimum exactly delta: its minimum is at least delta,
+and any strictly larger minimum would give an element of A greater than
+delta. The supremum of the actual path minima is attained.
+
+## 7. Criticality, with the flow input explicitly isolated
+
+Suppose delta is not a critical value. There are finitely many critical
+values by Section 2. Choose epsilon>0 so [delta-2 epsilon,delta+2 epsilon]
+contains no critical value and delta+2 epsilon<b. Choose a smooth function
+chi : R -> [0,1] supported in the open interval
+(delta-2 epsilon,delta+2 epsilon) and equal to 1 on
+[delta-epsilon,delta+epsilon]. With any smooth Riemannian metric define
+
+    V = chi(g) grad(g) / |grad(g)|^2
+
+on the preimage of that open interval, and V=0 outside. There are no zeros
+of grad(g) in the closed band; the cutoff vanishes near its boundary. Thus
+the extended V is a globally smooth vector field. By the imported flow
+theorem its time-epsilon map Phi_epsilon is defined and continuous on X.
+
+Along its trajectories,
+
+    d/dt g(Phi_t(x)) = chi(g(Phi_t(x))) >= 0.
+
+If g(x)>=delta, its height at time epsilon is at least delta+epsilon. Indeed
+this is immediate by monotonicity when the initial height is already at least
+delta+epsilon; otherwise the height increases at unit speed until it reaches
+delta+epsilon, which occurs in at most epsilon time. Both M and P have height
+greater than delta+2 epsilon, so V vanishes there and the flow fixes them.
+Apply Phi_epsilon to gamma_* from Section 6. The resulting path has the same
+endpoints and all heights at least delta+epsilon. It witnesses, for example,
+delta+epsilon/2 in A, a contradiction. Therefore delta is a critical value.
+
+If distinct critical points have distinct values, the critical point S with
+g(S)=delta is unique on X. Its existence and uniqueness here carry no claim
+about index or which elder label is killed. Those require additional analysis.
+
+## 8. Quotient torus and the given strict interface
+
+Take X=R^d/(L Z^d), L>0, d>=1, with its usual quotient smooth structure, and
+write pi : R^d -> X. The standard lattice quotient/covering theorem supplies
+a smooth boundaryless Hausdorff second-countable manifold, with pi a covering
+map and local diffeomorphism. Its compactness follows also from the surjection
+of the compact cube [0,L]^d; its path connectivity follows by projecting
+straight line paths. A smooth L-periodic function g_tilde descends to a unique
+smooth g satisfying g_tilde=g composed with pi. These facts, and covering-path
+lifting, are imported standard quotient results, not proved Lean instances.
+
+Here is the needed path compatibility after those imports. Fix a Euclidean
+representative M_tilde of M. A path in R^d from M_tilde to y_tilde projects
+to a path from M to pi(y_tilde), with exactly the same height at each time.
+Conversely any path in X from M to y has a lift starting at M_tilde; its
+endpoint is some representative y_tilde of y, and its heights are again
+identical. Since the higher endpoint is existentially quantified, that
+possibly different representative is allowed. This proves equivalence of
+the lifted and quotient strict predicates at each h, and also of their
+closed predicates, without selecting the half-open fundamental domain along
+a path. Local diffeomorphism identifies criticality, local maxima, and Hessian
+nondegeneracy. Distinctness of critical values is imposed on quotient points.
+
+Now suppose a real number D is supplied by `I.deathHeight g_tilde M_tilde`
+and the actual hypotheses of `deathHeight_maximin` hold, including its
+`not IsEssential` hypothesis. The `essential_iff` clause and surjectivity of
+pi identify that hypothesis with (NG). By path compatibility, its clause is
+
+    for every h in R, h<D iff h in A.
+
+By (S), h<D iff h<delta for all real h. If D and delta differed, their midpoint
+would contradict this equivalence. Hence D=delta. Therefore (E) becomes the
+desired closed-level characterization with that given interface number.
+This is a proved uniqueness adapter consuming the interface's strict clause;
+the endpoint witness itself was constructed from compact Morse geometry,
+not assumed as a new interface field. `elderPartner_iff` is unused.
+
+The equality of the concrete `Field.lean` Euclidean predicates with the
+manifold predicates, and the cited quotient and lift theorems in the pinned
+Lean environment, remain formalization obligations. No equality of actual
+H0 classes, functorial naturality, or persistence labels is asserted here.
+
+## 9. Boundary checks and limits
+
+| Case | Consequence proved here |
+|---|---|
+| h>b | C(h,M) is false because the starting point has height b. |
+| h=b | C(b,M) is false, since delta<b; M itself nevertheless belongs to {g>=b}. |
+| delta<h<b, regular or critical | C(h,M) is false. |
+| h=delta | The path gamma_* to the fixed older maximum P exists in {g>=delta}; its minimum is exactly delta. No strict-clearance path exists at threshold delta. |
+| h<delta, regular or critical | A strict-clearance path exists by (S), and hence C(h,M). |
+| h<=min_X g | The whole X is the closed superlevel; (NG) and path connectivity give C(h,M). |
+| M is global/essential | There is no higher endpoint. A is empty and the real-supremum argument above does not apply. An extended-real convention may assign -infinity; an interface's unconstrained real field must not fabricate finite death. |
+
+The order-only countercontrol A=(-infinity,0) has supremum 0 but no element
+equal to its supremum. That alone does not model a closed-superlevel path
+problem. The author read the companion `NEGATIVE_CONTROLS.md`, sections 2-3,
+which supplies the following actual topological countercontrol. Let Q be
+[0,1] x [-1,1], let K be the closed topologist's sine curve in Q, and let
+a=(0,0) and p=(1,sin(1)). Put
+
+    B = {(q,z) in Q x [-1,0] : dist(q,K)<=-z},
+    X_0 = B union ({a} x [0,1]) union ({p} x [0,2]),
+    g_0(q,z)=z, M_0=(a,1), P_0=(p,2).
+
+This is compact and path connected: all points of B can descend vertically
+to the bottom square Q x {-1}, and the two whiskers attach to B. M_0 is a
+strict nonglobal local maximum. The relative epsilon-neighborhoods of the
+connected K in the convex Q are path connected, as proved by finite chains
+of intersecting balls in the companion. Thus for every h<0 one can connect
+M_0 to P_0 through a sufficiently shallow negative-height neighborhood of K.
+But {g_0>=0} is K with its two whiskers, and any path from M_0 to any point
+of height greater than 1 projects to an impossible path in K from a to p.
+Hence its strict threshold set is (-infinity,0), while C(0,M_0) is false.
+The companion proves the absence of a sine-curve path by the oscillation of
+sin(1/x) as a path first leaves the vertical segment. This countercontrol
+has the actual higher-endpoint quantifier, not just two fixed equal-height
+endpoints; it is not a manifold Morse example. It shows why compactness and
+connected limiting sets cannot replace Section 5.
+
+The companion bytes read by this author have SHA-256
+`d20cb93b17dbb09688851e9473469bce42e5b6d1548a968683e1df1a37cf7c28`.
+Its strengthened construction was supplied by this author and checked by the
+controls contributor; that contribution is not a nonauthor review of this
+proof. The companion also supplies an explicit torus saddle that does not
+merge distinct components.
+
+This proof does not establish a saddle index, a merging rather than nonmerging
+handle, elder label tracking, intervals (delta,b], an interval decomposition,
+a barcode, H0/component naturality, a once-counted bijection, lift-based bar
+counting, a Gaussian elder probability, or any regional collision conclusion.
+In particular, a handle whose attaching sectors lie in one component is still
+not an H0 death merely by virtue of having the relevant local index.
+
+## 10. Source identity and remaining realization work
+
+The author read the C253 task, `Field.lean`'s interface clauses, and structural
+proof lines 106-179, and inspected C254's candidate as context only. Local
+SHA-256 was recomputed without running project code:
+
+| Input | Pinned identity / local SHA-256 |
+|---|---|
+| C253 `Field.lean` | Math- commit `b2d70d77876a10c365f5db5d3b6cafcf180af4e2`, blob `cc40e9d19446b8a150401c574d3cfd56177f195f`; SHA-256 `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` |
+| C253 `ST_PROOF.md` | main commit `88ff9223e57bf38c7fc33cb3559a88793a7b5087`, blob `483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b`; SHA-256 `3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531` |
+| C254 candidate `formal/ResearchFormalCoreR1/ClosedSuperlevel.lean` | Context-only local snapshot SHA-256 `1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e`; compilation not asserted, author-owned corrections may supersede these bytes. |
+
+The first two hashes agree with C253 `TASK.md`. The candidate demonstrates
+the intended closed inequality and t=-h convention; it is not used as proof
+of a Morse or attainment theorem.
+
+Remaining work is substantive nonauthor mathematical review and, separately,
+formal realization of the explicit topology/Morse/flow/quotient imports and
+the proof steps in the pinned environment, followed by applicable hosted
+compilation and kernel/audit checks. The broader C253 index/label/interface
+identification targets remain OPEN even if this endpoint lemma is accepted.
+
+
+---
+
+# C256 — endpoint argument controls and contributor checks
+
+**Mathematical contributor analysis; not independent review, Lean discharge, runtime evidence, or scientific acceptance.** Source-exposed organizational-independence credit: **0**. Contributor: `/root/c256_endpoint_controls`, delegated under root claim `ce168912-004b-4e20-a256-7a3ba9aaca67` (parent reports R17 Work Events 1622, expiry 2026-10-11T18:59:38Z, readback verified). Direct source reads: C253 `TASK.md` and `ST_PROOF.md` lines 106–179. No services were mutated and no Lean or project tests were run. The strengthened counterexample below incorporates a construction supplied by the C256 endpoint author; it is therefore author-exposed contributor work.
+
+## 1. Proposed compact Morse endpoint argument: checked steps and exact cautions
+
+Let X be a compact connected smooth manifold **without boundary**, g a smooth Morse function, M a nonglobal local maximum, and b=g(M). Set
+
+    E = {h in R : there exist y with g(y)>b and a path M -> y
+                 whose entire image lies in {g>h}},
+    delta = sup E.
+
+The torus satisfies the boundaryless assumption. For a manifold with boundary, maxima of a component closure can occur on the boundary without being interior Morse critical points; boundary hypotheses cannot simply be omitted.
+
+1. **Finite real delta.** A connected manifold is path connected. A higher point exists because M is nonglobal, so some path to a higher point exists; any h<min_X g belongs to E. Every h in E is <b because the initial endpoint is M. Thus E is nonempty and bounded above, and delta is finite.
+2. **Strict gap below b.** The Morse maximum is strict and isolated. Choose a sufficiently small closed coordinate ball B about M on which M is the unique maximum and g<b away from M. Its boundary is compact; let a=max_(boundary B) g<b. Every higher endpoint is outside B, and every path from M to it meets the boundary. Hence E is contained in (-infinity,a), so delta<=a<b. This proves a strict gap; it does not require the supremum a to be attained by an admissible path.
+3. **Every h<delta is admissible.** E is downward closed. By the defining property of its supremum, some t in E exceeds h, whence h is in E. This should be stated before choosing threshold paths.
+4. **Replace the moving higher endpoint by a higher local maximum.** For h<delta, let U be the open component of {g>h} containing M and the chosen higher point y. Open subsets of a manifold are locally path connected, so U is path connected. The compact closure of U has a maximizer P, with g(P)>=g(y)>b>h. Because g(P)>h, a connected coordinate neighborhood of P inside {g>h} meets U; hence it lies in U and P belongs to U. P is consequently an interior local maximum of g. The closure maximization alone does not establish this last conclusion without the strict inequality g(P)>h and the neighborhood argument.
+5. **Fix P using finiteness.** The critical set is closed; Morse critical points are isolated; compactness implies finitely many critical points, hence finitely many higher local maxima. Apply step 4 at h_k=delta-1/k. One higher maximum P occurs for an infinite, and therefore unbounded, set of k. For every n, choose such k>=n. The corresponding path lies in {g>delta-1/k}, hence in {g>=delta-1/n}. Therefore M and this single fixed P belong to the same component K_n of the latter closed set.
+6. **Pass to a connected limit.** Each K_n is nonempty, compact, and connected. The nesting of the superlevel sets implies K_(n+1) is contained in K_n, since both components contain M. The nested intersection K is compact, connected, contains M and P, and lies in A={g>=delta}.
+7. **Supply the missing path using Morse local geometry.** At a regular point of g=delta, the set A is locally a half-space. At a critical point of that level, Morse coordinates give
+
+       g-delta = -||u||^2 + ||v||^2,
+       A locally = {||u||<=||v||}.
+
+   Intersections of this cone with sufficiently small balls centered at the critical point are star shaped about that point. Together with the regular-point case and interior points g>delta, this supplies a basis of path connected neighborhoods in A. Thus A is locally path connected, and its connected components are path connected. The connected set K lies in one such component, so M and P admit a path in A.
+
+   **Caution:** it is not valid to infer that an arbitrary connected subset K of a locally path connected space is locally path connected. Use the component of A containing K. Alternatively, K actually equals the component of A containing M: that component is a connected subset of every {g>=delta-1/n}, hence is contained in every K_n, while connectedness of K gives the reverse inclusion.
+
+These steps prove closed endpoint attainment with a fixed endpoint P satisfying g(P)>b. Distinct critical values are unnecessary for these seven steps; they matter later for the unique critical event and unambiguous elder label.
+
+For C(h) defined using a path to some y with g(y)>b in {g>=h}, the endpoint path gives C(h) for all h<=delta. Conversely, C(h) with h>delta yields a strict path at any t with delta<t<h, contradicting t not in E. Thus C(h) iff h<=delta, even without restricting the statement to h<=b.
+
+**Still separate:** proving delta is critical requires an explicit critical-free compact-band deformation/flow argument. If delta were regular, choose epsilon>0 with no critical points in [delta,delta+epsilon] and delta+epsilon<b. Raising the endpoint path into {g>=delta+epsilon}, while fixing M and P, would contradict delta=sup E. Identifying the critical point's index, establishing a merger rather than a nonmerging handle, and tracking its elder label require the further handle and component-label arguments. The endpoint proof alone does not discharge those steps.
+
+## 2. Actual compact continuous counterexample: fixed endpoints
+
+Let
+
+    Q = [0,1] x [-1,1],
+    G = {(x,sin(1/x)) : 0<x<=1},
+    K = closure_Q G = G union ({0} x [-1,1]),
+    a = (0,0),   p = (1,sin 1),
+    f(q) = -dist(q,K).
+
+The rectangle Q is compact and path connected and f is continuous. The graph G is connected as the continuous image of the interval (0,1]; therefore its closure K is compact and connected.
+
+For every epsilon>0,
+
+    N_epsilon(K) = {q in Q : dist(q,K)<epsilon}
+                = union_(k in K) (Q intersect B(k,epsilon))
+
+is path connected. Here is a proof that does not assume K is path connected. Each relative ball in this union is convex. Declare two centers equivalent if a finite chain of these balls, consecutive balls intersecting, links them. Each equivalence class of centers is relatively open in K: a center within epsilon of a given center has an intersecting ball. The complement is a union of such relatively open classes. Connectedness of K implies there is a single class. Straight segments inside the balls and their finite chains connect any two points of the union.
+
+Thus for every h<0 the points a and p are joined by a path in {f>h}=N_(-h)(K). No h>=0 is a strict admissible threshold because f(a)=0. Their fixed-endpoint strict connection supremum is consequently delta=0.
+
+Nevertheless {f>=0}=K contains no path from a to p. For completeness, suppose gamma(t)=(x(t),y(t)) were such a path. The zero set of x(t) is nonempty and compact and does not contain t=1; let t_0 be its largest point. Then x(t)>0 for t>t_0, x(t_0)=0, and
+
+    y(t)=sin(1/x(t))  for t>t_0.
+
+For any sufficiently small eta>0, continuity of x and x(t_0+eta)>0 force x on [t_0,t_0+eta] to attain every value between 0 and x(t_0+eta). That interval contains positive numbers of the forms
+
+    1/(pi/2+2*pi*n),   1/(3*pi/2+2*pi*n)
+
+for arbitrarily large n. Therefore y takes both values +1 and -1 arbitrarily close to t_0 from the right, contradicting continuity at t_0. There is no endpoint path.
+
+**Failure mechanism and scope:** shrinking neighborhoods give a nested compact connected limit, but that limit has multiple path components. The ambient compact rectangle remains path connected. The missing hypothesis is appropriate local geometry of the critical closed superlevel, not compactness of the ambient space. This fixed-endpoint example has no higher endpoint and is not a counterexample to the stated Morse theorem.
+
+## 3. Strengthening: actual higher-endpoint quantifier and strict nonglobal local maximum
+
+Use Q,K,a,p above. In Q x R define
+
+    B = {(q,z) : -1<=z<=0 and dist(q,K)<=-z},
+    W_a = {a} x [0,1],
+    W_p = {p} x [0,2],
+    X = B union W_a union W_p,
+    g(q,z)=z,
+    M=(a,1),   P=(p,2),   b=g(M)=1.
+
+This construction was proposed by `/root/c256_endpoint_author` and checked here. X is a compact subspace of Euclidean 3-space. Since K contains {0}x[-1,1], every q=(x,y) in Q has dist(q,K)<=x<=1; hence Qx{-1} is contained in B. From each point of B, moving vertically downward to height -1 stays in B. The bottom square is path connected; each whisker attaches to B at height zero. Thus X is path connected.
+
+The point M is a strict local maximum of the continuous function g on X: a sufficiently small Euclidean neighborhood of M meets only W_a, and all its other points have smaller z. It is nonglobal because g(P)=2.
+
+For every h<0, choose 0<epsilon<min(1,-h). Path connectedness of N_epsilon(K) supplies a path from a to p with distance to K strictly less than epsilon. At constant height z=-epsilon this becomes a path in B. Joining its ends vertically to M and P gives a path whose height is everywhere at least -epsilon>h. Hence all h<0 are strict admissible thresholds for the original higher-endpoint definition.
+
+For h>=0 no such strict path exists. Indeed the stronger obstruction holds in the closed level
+
+    {g>=0} = (K x {0}) union W_a union W_p.
+
+Every point y with g(y)>b=1 lies on W_p. Projection of a hypothetical path in this closed level from M to y onto Q would give a path in K from a to p, ruled out in section 2. Thus E=(-infinity,0), delta=0<b=1, but C(0) is false.
+
+**Scope:** this satisfies compactness, connectedness, path connectedness, continuity, a strict nonglobal local maximum, the actual moving-higher-endpoint quantifier, and even a fixed higher endpoint P for every h<delta. X is not a smooth manifold and the level geometry is not Morse. It falsifies any attempted endpoint lemma using only those weaker topological assumptions; it does not falsify the compact boundaryless Morse statement.
+
+## 4. Explicit Morse control: saddle index and two upper sectors do not imply an elder death
+
+On the smooth flat torus T^2 let
+
+    g(theta,phi) = cos(theta) + alpha*cos(phi),   0<alpha<1.
+
+Its four critical points are nondegenerate, with distinct values
+
+    1+alpha,  1-alpha,  -1+alpha,  -1-alpha.
+
+There is exactly one maximum, at (0,0). At S=(0,pi), c=g(S)=1-alpha and the Hessian is diag(-1,+alpha). Thus S has index 1=d-1 and has the two local upper sectors expected of a descending 1-handle.
+
+For sufficiently small epsilon>0, the points q_+=(0,pi+epsilon) and q_-=(0,pi-epsilon) belong to opposite upper local sectors and both have height
+
+    c_epsilon = 1-alpha*cos(epsilon) > c.
+
+The long arc on the circle theta=0 joining them through phi=0 avoids the short arc around pi and has height everywhere at least c_epsilon. Therefore for any h with c<h<c_epsilon, these opposite sectors already belong to the same component of {g>h}. This saddle does not merge distinct components and kills no H0 class. More globally, every nonempty open superlevel component contains a local maximum by the closure argument in section 1; there is only one such maximum, so there cannot be two such components.
+
+**Required extra condition:** the two attaching sectors must belong to distinct pre-event components. To kill specifically the label born at M, that component must still carry birth label b immediately above the event and the other component must carry a strictly larger birth label. Merely being adjacent to a saddle, or having once belonged to the component, is insufficient.
+
+For the endpoint construction, this is accessible but still must be proved: at any regular h in (delta,b), the component containing M contains no point of height >b, since otherwise its path connectedness would put h in E. It therefore has maximal birth height b. At the attained merger it connects to a component containing the fixed P with g(P)>b. Distinct critical values and the one-event Morse handle theorem must justify that the change occurs at the unique critical point and is an actual two-component merger.
+
+## 5. Additional scope controls
+
+- **Essential maximum:** if M is global, there is no y with g(y)>g(M), so E is empty. A real-valued interface field named deathHeight does not manufacture a finite death; one must exclude this case or use an extended-real/essential convention.
+- **Only order data:** the set E=(-infinity,delta) has supremum delta, but the order statement alone supplies no geometric witness at delta. Sections 2–3 give actual geometric realizations of that failure.
+- **Endpoint values and conditional convention:** M is absent from {g>=h} for h>b and is present for h<=b. The endpoint lemma proves C(h) iff h<=delta; it constructs no elder labels or barcode. Once the remaining Morse handle and label-tracking arguments have been proved, the intended elder convention makes b the birth level and delta the level at which M's label dies, although M remains in the merged geometric component. The resulting proposed label interval is (delta,b]. Identifying it as a persistence bar additionally requires the component/H0 functor and barcode argument; that identification is not supplied here.
+- **Torus lifts:** all coordinates and counts in section 4 are quotient torus points. Their infinitely many Euclidean translates are not different critical events, deaths, or bars. No factor 1/2 follows from the two local upper sectors.
+
+**Contributor conclusion:** no mathematical gap was found in the proposed compact Morse endpoint strategy after the boundaryless, fixed-maximum, nesting, and ambient-closed-level local path connectedness steps are made explicit. The critical-value, handle-index, elder-label, quotient/lift, and formal-library obligations remain separate. These controls are handwritten mathematical evidence and do not assert a completed formal theorem or independent review.
+
+
+---
+
+# C256 — distinct nonauthor mathematical review
+
+**Specification fidelity: ACCEPT for the bounded C256 endpoint slice. Mathematical quality: TECHNICAL ACCEPT under the explicitly stated imports and hypotheses. Required mathematical amendments: none. Formal realization and canonical/scientific acceptance: OPEN.**
+
+Reviewer: OpenAI/Codex `/root/c256_endpoint_nonauthor_review`, delegated for Dylan Roy by coordinating root `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`. This reviewer did not author or edit either candidate, reconstructs the argument separately, and writes only this review. This is a distinct nonauthor AI review within the same OpenAI organization, source exposed, organizational-independence credit **0**, with no human review claimed. It is not an external organizational approval.
+
+Root reports claim `ce168912-004b-4e20-a256-7a3ba9aaca67`, R17 Work Events 1622, expiry 2026-10-11T18:59:38Z, read back before work. I read `COORDINATION.json` and the local ledger; I did not independently read or change the remote register. Root explicitly supplied the stable candidates below before this verdict was frozen.
+
+## Exact reviewed objects and exposure
+
+| Object | Exact local identity reviewed |
+|---|---|
+| `ENDPOINT_PROOF.md` | 21,194 bytes, 368 lines; SHA-256 `148e58717659feb83ca341824503a2dbf375f2412f76cd00121cfe3b35c39551` |
+| `NEGATIVE_CONTROLS.md` | 14,304 bytes, 123 lines; SHA-256 `d20cb93b17dbb09688851e9473469bce42e5b6d1548a968683e1df1a37cf7c28` |
+| C253 `Field.lean` | SHA-256 `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e`; read lines 85–116, 162–207, 270–345 |
+| C253 `ST_PROOF.md` | SHA-256 `3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531`; read lines 106–179 |
+| C254 original `ClosedSuperlevel.lean` | Hash-only context check: `1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e`; its content was not used as proof evidence by this reviewer; NOT_COMPILED here |
+
+I read the complete C253 `TASK.md`, complete final candidates, and the coordination/source-identity records. Field's original pin in C253 is Math- `b2d70d77876a10c365f5db5d3b6cafcf180af4e2`, blob `cc40e9d19446b8a150401c574d3cfd56177f195f`. Root's current-turn identity record says native Field at `873c6c01b768acf66c8968e5fb8b734e2d8d61d0` equals the cached bytes; that native comparison is root's evidence, not a second remote fetch by this reviewer. The structural proof is main `88ff9223e57bf38c7fc33cb3559a88793a7b5087`, blob `483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b`.
+
+I independently opened [Brian Conrad's Morse lemma handout](https://math.stanford.edu/~conrad/diffgeomPage/handouts/morselemma.pdf), including Theorem 2.1 and Corollary 2.4. Its smooth nondegenerate local normal form, applied after subtracting the critical value, and isolation conclusion support the specific imported Morse facts used here. I did not treat that citation as a proof of the endpoint theorem. Submersion coordinates, elementary compactness/component results, existence of smooth metrics and cutoffs, complete flow for smooth vector fields on compact boundaryless manifolds, and the lattice covering/path-lifting facts remain declared mathematical imports. No claim is made that these were located or discharged in the pinned Lean library.
+
+The review used mathematical reasoning, read-only shell/text inspection, byte counts, SHA-256 checks, and the above source read. No Lean, Lake, Python, Node, project runtime, hosted build, CI dispatch, kernel audit, or service publication was performed. Hash agreement establishes reviewed identity only; the verdict below rests on the reconstruction and controls.
+
+## 1. Specification fidelity
+
+C253 asks for a larger theorem including a merging saddle of the right index, tracked elder labels, and relation to the interface. C256 explicitly isolates the missing endpoint portion. The final candidate proves the requested finite real threshold, strict gap below birth, attained closed-level witness, and equivalence for all real heights. It also gives a separate critical-value proof. It does not claim the remaining parts of C253.
+
+The candidate states path connectivity. For the requested connected smooth manifold this follows from local path connectivity: path components are open, and more than one would separate the manifold. Thus no unacknowledged additional restriction is introduced. The proof covers dimensions at least one, which includes C253's torus case with dimension at least two. Compactness, boundarylessness, smoothness, the Morse condition, and the nonglobal maximum hypothesis are explicit. Distinct critical values are correctly unnecessary for endpoint attainment and needed here only to identify a unique critical point at the attained value. The final C-infinity qualification matches the actual `Field.IsSmooth` source; this review accepts no unstated extension to C4 fields.
+
+The equality case uses closed superlevels and an actual path, rather than renaming the strict supremum. The interface step consumes `deathHeight_maximin` and the essential exclusion only after geometric construction; `elderPartner_iff` is not used to manufacture the missing conclusion. This is faithful to the bounded assignment and to the source's distinction between interface data and actual persistence.
+
+## 2. Independent reconstruction of the proof
+
+**Finite threshold and strict birth gap.** Nonglobality supplies a higher point, and connectedness/path connectivity supplies a path to it. Compactness gives a finite minimum m of g, so every threshold below m is admissible. At M the Morse maximum chart is g=b minus the squared coordinate norm. A sufficiently small closed coordinate ball is contained in the chart, has boundary height c strictly below b, and contains no higher endpoint. Every path to a higher endpoint crosses that boundary. Consequently all admissible strict thresholds are below c, and m <= delta <= c < b. This is a uniform barrier argument, stronger than merely observing that no threshold b is admissible.
+
+**Strict thresholds form exactly the open lower ray.** Downward closure and the supremum property give every h<delta. In the opposite direction, a strict witness at h has an attained path minimum mu>h because its parameter interval is compact. The same path works at any threshold between h and mu, so h<delta. This rules out a strict witness at delta without any endpoint-continuity assumption. The comparisons with the set of actual path minima correctly prove that its supremum is the same delta.
+
+**Finite higher-maximum reduction.** For a strict witness at a, take the component U of the open set {g>a} containing its path. U is open in X and path connected. A maximizer P of g on its compact closure has height at least that of the higher endpoint, hence exceeds b and a. It therefore belongs to {g>a}. Since U is closed relative to that open set, P is in U. Because U is open in X, P is a local maximum, not merely a boundary maximizer of the closure. Compactness of the closed critical set, together with Morse isolation, gives finitely many critical points and hence finitely many possible higher maxima. This is the precise reason the strictly higher endpoint does not disappear in a limit.
+
+**Local path connectivity at the closed critical level.** At a point strictly above h, a small ball is contained in the superlevel. At a regular point of height h, submersion coordinates give a half-ball. At a critical point of height h, centered Morse coordinates give the cone ||v||²>=||u||² intersected with a ball. Its radial contraction stays in that set; these intersections form a neighborhood basis. The negative-definite case gives a singleton and the positive-definite case a ball, both consistent with this argument. These cases prove local path connectivity of the entire closed superlevel. The proof correctly restricts its cone assertion to a chart centered at a critical point on that very level.
+
+**Nested intersection and actual endpoint path.** For a_n=delta-1/n, the component K_n of {g>=a_n} containing M is compact and connected. Component maximality shows K_(n+1) is contained in K_n. A higher maximum occurring infinitely often in the finite choice set lies in every K_n by nesting. Thus the intersection contains M and one fixed P with g(P)>b. Nested compact connected sets have connected intersection; the candidate also gives the standard compact Hausdorff separation proof. That intersection lies in {g>=delta} and hence in its component containing M. Local path connectivity of the ambient closed level makes that component path connected, producing the required path from M to P.
+
+The argument does not infer path connectivity of an arbitrary compact connected limit. It also does not take an unjustified limit of parametrized paths, for which no equicontinuity was established. Both otherwise serious gaps are avoided. As an additional check, the intersection actually equals the component of {g>=delta} containing M: that latter component is a connected subset of every approximating closed superlevel and so lies in every K_n; connectedness of the intersection gives the reverse inclusion. Equality is not needed by the submitted proof.
+
+**Closed equivalence and exact attainment.** The endpoint path works at every h<=delta. If a closed witness existed at h>delta, choosing a strict threshold between delta and h would contradict the characterization of strict thresholds. Therefore C(h,M) iff h<=delta for all real h. The attained path minimum cannot exceed delta, since a larger minimum would give an admissible strict threshold above delta. It is exactly delta.
+
+**Criticality.** If delta were not critical, finiteness of the critical values allows a critical-free closed band [delta-2 epsilon,delta+2 epsilon] entirely below b. On that band the normalized gradient with the stated smooth cutoff is defined; it extends smoothly by zero because the cutoff vanishes near the band's boundary. Along its complete flow the height derivative is chi(g)>=0. For starting height between delta and delta+epsilon, chi=1 until reaching delta+epsilon, in at most epsilon time. Higher starting heights stay at least that high. The time-epsilon map therefore raises the entire endpoint path to height at least delta+epsilon, while fixing M and P, whose heights exceed the cutoff band. This supplies a forbidden strict witness above delta. The optional critical-value claim follows. Distinct critical values give uniqueness of the critical point, but this argument has no information determining its index or tracked birth label.
+
+## 3. Counterexample and boundary checks
+
+I checked the actual constructions, not only their advertised outcomes.
+
+1. **Fixed-endpoint sine continuum.** The closure K of the graph sin(1/x) in the rectangle is compact and connected. Each positive relative distance neighborhood is path connected: convex relative balls centered on K have one finite-chain equivalence class because each center class and its complement are relatively open in connected K. A path from the vertical segment to the graph inside K is impossible. Taking the last parameter where its x-coordinate is zero forces the y-coordinate to attain both +1 and -1 arbitrarily soon afterward by the intermediate value property of x, contradicting continuity. Thus strict paths below zero do not entail a closed path at zero. This first control correctly disclaims the higher-endpoint hypothesis.
+
+2. **Strengthened higher-endpoint control.** In the thickened base B, downward vertical segments stay in B; the entire bottom rectangle belongs to B because distance to K is at most one. The attached whiskers therefore give a compact path-connected space. M at height one is a strict nonglobal local maximum, and every higher endpoint lies on the other whisker. Arbitrarily shallow negative slices connect the two whisker bases using the distance neighborhoods above, so every negative strict threshold is admissible. Any path at nonnegative closed height projects to the forbidden path in K. Thus delta=0<b=1 but C(0) fails, with exactly the original existential higher-endpoint quantifier. This genuinely refutes a proposed compactness/connectedness-only lemma. Its nonmanifold, non-Morse nature is explicit, so it does not contradict the accepted theorem.
+
+3. **Nonmerging Morse saddle.** For cos(theta)+alpha cos(phi), 0<alpha<1, the four critical values are distinct and the point (0,pi) has Hessian diag(-1,+alpha). The opposite local upper sectors are joined above its height by the long arc through phi=0 on theta=0. Indeed every nonempty open superlevel component contains a local maximum by the earlier closure argument, and this function has only one maximum. The purported two distinct pre-event components therefore do not exist. This is a valid index-(d-1) saddle control against inferring an H0 death from local index or two sectors alone.
+
+4. **Boundary and essential cases.** At h>b the initial point is absent. At h=b, and throughout delta<h<b, higher-endpoint connection is impossible by the gap and equivalence. At h=delta a closed witness exists but no strict witness exists. Below delta the strict witness exists; at or below the global minimum all of X is available. A global maximum has no higher endpoint, so the nonempty real-supremum proof does not apply. The packet correctly refuses to infer an artificial finite death from a real-valued interface field in that case.
+
+The contributor control's further remarks about maximal birth height, label tracking and intervals are proposals conditional on additional results. They are not accepted as a supplied elder-label proof. The stronger counterexample's author contribution is disclosed, and the controls contributor is not misrepresented as this nonauthor reviewer.
+
+## 4. Quotient and interface boundary
+
+For the genuine lattice quotient, projection preserves path heights. A quotient path lifts from the prescribed representative of M; the final representative need not be selected in advance because the higher endpoint is existential. Thus the mathematical projection/lifting argument is correct with the declared covering imports. It does not use a discontinuous choice of fundamental-domain representative along a path. Local diffeomorphism transports the geometric conditions, while uniqueness of a critical point is on the quotient, not among its infinitely many Euclidean lifts.
+
+After those compatibilities, a given number D satisfying h<D iff the strict path predicate must equal delta: a midpoint distinguishes the two lower rays if D differs from delta. This is a valid uniqueness adapter. Exact alignment of the concrete `Field.lean` Fréchet derivative/Hessian-inertia predicates with the geometric hypotheses, quotient smoothness and descent, covering path lifting, and all relevant Lean instances/theorems remain explicit formal obligations. The source's `IsSmooth` and lattice periodicity definitions were actually read; no unsupported C4 specialization is accepted.
+
+## 5. Final disposition and remaining obligations
+
+**TECHNICAL ACCEPT** applies to the bounded prose theorem: for a nonglobal local maximum of a smooth Morse function on the stated compact boundaryless connected manifold, delta is finite, strictly below b, is attained by a path to a higher maximum in the closed superlevel, and C(h,M) iff h<=delta. Criticality is also established under the separately declared flow input. There is no blocking mathematical correction to the exact reviewed candidates.
+
+This is substantive nonauthor mathematical review, not compilation or a canonical scientific promotion. Formal integration, hosted compilation, kernel/audit checks, and the concrete torus/Field realization remain OPEN. The unique critical point's saddle index, proof of a distinct-component merger, elder-label tracking, actual component/H0 functor and naturality, finite intervals/barcode, endpoint-preserving once-counted correspondence, Gaussian elder probability, and collision/statistical conclusions remain outside this acceptance. No new interval or scientific theorem is promoted merely because this bounded endpoint proof is technically accepted.

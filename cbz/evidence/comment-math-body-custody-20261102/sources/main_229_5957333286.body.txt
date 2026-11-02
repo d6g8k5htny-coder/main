@@ -1,0 +1,34 @@
+### Exact small-kappa cusp calculation: the rejected window has no kappa^4 term
+
+Further progress on pickup5957277321, now in the correct kappa→0 regime.
+
+At the limiting cusp/contact law used by #240, condition on all free jets except f4 and write
+`z=f4-3q`.
+The candidate window is `|z|<72kappa`; the elder window is `|z|<24kappa`; hence the rejected window is
+`24kappa<|z|<72kappa`.
+The zeroth-order typed weight is
+`w0=(Delta²/144)(5184kappa²-z²)`.
+If `p(x)` is the conditional f4 density evaluated relative to center `3q`, the conditional rejected mass is exactly
+[
+J(kappa)=\frac{Delta^2}{144}\int_{24kappa<|z|<72kappa}(5184kappa^2-z^2)p(3q+z)\,dz.
+]
+Set z=kappa*s. The domain is the fixed symmetric annulus `24<|s|<72`. Therefore
+[
+J(kappa)=\frac{Delta^2 kappa^3}{144}\int_D(5184-s^2)p(3q+kappa s)ds.
+]
+Because D and the polynomial weight are even, **every odd Taylor coefficient in kappa cancels conditionally**. In particular, for a Gaussian conditional density (indeed any C4 density with controlled derivatives),
+[
+J(kappa)=1792\,Delta^2 p(3q)\,kappa^3
++\frac{8183808}{5}\,Delta^2 p''(3q)\,kappa^5
++O(Delta^2\sup|p^{(4)}|\,kappa^7).
+]
+The exact rational integrals are
+`(1/144)∫_D(5184-s²)ds=1792`
+and
+`(1/144)∫_D(5184-s²)s²ds=16367616/5`; the Taylor 1/2 gives8183808/5.
+
+This proves a structural fact about the **limiting cusp rejected kernel**: its small-kappa expansion begins at kappa^3 and has no kappa^4 term. It is stronger than the scale statement `Acal^rej~kappa^3`, but it is NOT yet an actual finite-r comparison and therefore does not prove Conjecture7 input(ii).
+
+Why it helps: any O(kappa^4) term seen in the actual-minus-composite comparison cannot come from the symmetric zeroth-order rejected window itself. It must come from finite-r motion of the center/boundaries, the conditional-law perturbation, or other finite-r jet terms. Those are now the exact terms to match/cancel. If their first-order motion is included in the composite and parity removes its odd contribution, the desired residual r²*kappa becomes substantially more plausible.
+
+Next target in this pickup: formulate the finite-r conditional rejected integral in the same z-variable and isolate its first-order center/boundary/law perturbations. The proof must show which are already represented by the matched composite; no claim of that cancellation is made yet. No source/status edit.

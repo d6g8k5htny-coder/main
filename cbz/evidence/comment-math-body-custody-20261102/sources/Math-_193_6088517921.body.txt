@@ -1,0 +1,132 @@
+# C229 — Non-author review of the original-pin far bound consumed by C4 §8
+
+Disposition: PASS_SCOPED_CONVENTIONAL for the analytic original-full-pin off-diagonal bound of P§14 as consumed by C4§8, at fixed d,L,r0. Its identification as a counting intensity remains conditional on the separately retained E2/P marked Kac–Rice interface. This is not full P, C4, ordinary-H0, I1/I2/I4, or scientific-status acceptance.
+
+## Identity, responsibility and read boundary
+
+Actual integrating reviewer: OpenAI/Codex /root, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated work for Dylan Roy. Independent task contexts /root/c229_far_rank and /root/c229_far_moments supply separate nonauthor analytic attacks. All are source-exposed, same-provider/account, organizational-independence credit0. They did not author the frozen target. No blind reconstruction or Dylan personal human review is claimed. Organizational independence and technical scope are separate.
+
+Fresh R17 claim c2290001-89da-4a2a-af29-610092008001 started2026-10-09T20:07:13Z; Work Events1382 all14values and entered TOP/WRAP formats read back MATCH, lease20:45/hard20:40. Native pickup https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6088418501 fullbodyMATCH. Bounded live #193/#307/#275 and register reads found no competing P14 review. C01part2 explicitly left P14 open; C228 was released. Source owners and all other claims are unchanged.
+
+| Source | Exact identity | Scope actually consumed |
+|---|---|---|
+| P, UNIFORM_MATRIX_CAP_AND_LIFETIME.md |40261B; SHA2569350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7; Gitblobdfed3b8d318a3ab1950957f393307733a4bef3f2|§1 actual field/model and original pins; §2 rank restricted to the actual original coordinate-jet list; §14 analytic far bound. Root also read §§3–5 opening,8–13,15 tail–16 for retained limits; these are not all newly reviewed.|
+| C4, ACTUAL_C4_WEIGHTED_ELDER_REMAINDER_20261008T0800Z.md |17423B; SHA25658b49c90edf55811645c35c9ee1a32aefe0acae35c4f39d8b2863dd8930b0887|Full source read in C228 and exact cached bytes rehashed here; §8 far-bound consumption freshly reread.|
+
+Pinned P source: https://github.com/d6g8k5htny-coder/Math-/blob/2ca3bf262f34a729589ad87eefe6cf6af5adcb6c/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md. A fresh current-main source read returned exactly the same body. C4 original publication: https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6055552895. The historical P congruence and §9 require their already-recorded E1/E2/REC readings; this review does not revive old §9 or reopen those unrelated scopes.
+
+## 1. Actual fixed model and original observations
+
+Fix d>=2, L>0 and the smooth centered stationary Gaussian field on X=R^d/(L Z^d), normalized to variance one, with the exact periodized Gaussian covariance
+
+    K_L(z)=Σ_n exp(-|z+Ln|²/2) / Σ_n exp(-|Ln|²/2).
+
+Fix r0>0. Let F_r0={(x,y)∈X²:dist_X(x,y)>=r0}. If this set is empty the conclusion is zero. Otherwise it is compact and contains no equal torus sites. All constants may depend on d,L,r0. The limit of interest is ℓ↓0 while those parameters stay fixed; no shrinking r0, infinite-volume or dimension-uniform assertion is made.
+
+Use the ORIGINAL 2(d+1)-dimensional observation vector
+
+    O_(x,y)=(f(x),grad f(x),f(y),grad f(y))
+
+in physical orthonormal coordinates. For 0<ℓ<=1 its target is
+
+    t_(b,ℓ)=(b,0,...,0,b-ℓ,0,...,0), b∈R.
+
+The covariance Σ_(x,y) is a deterministic matrix depending on the spatial pair, not on b or ℓ. It is not the singular contact covariance or a random field Hessian. No rescaled r^(-1) observation frame is used on this far domain.
+
+## 2. Reconstructed rank and uniform spectral bounds
+
+Poisson summation gives the normalized Fourier coefficients
+
+    a_n=exp(-2π²|n|²/L²) / Σ_j exp(-2π²|j|²/L²)>0
+
+for every n∈Z^d. Their Gaussian decay makes all polynomially weighted covariance/derivative series converge absolutely. For a real linear combination T of the two value evaluations and their coordinate first derivatives, its variance is
+
+    Var(Tf)=Σ_n a_n |T(exp(2π i n·z/L))|².
+
+A zero variance forces every summand to vanish. The finite-order distribution T then annihilates every trigonometric polynomial. Smooth periodic functions have Fourier series converging in any prescribed finite derivative norm, so T annihilates every smooth test function. Choose disjoint neighborhoods of x and y and a smooth cutoff equal to one near either point. A cutoff itself and cutoff times each local coordinate independently prescribe that point's value and gradient while making the other point's jet zero. Every coefficient of T must therefore be zero. This proves positive definiteness for the actual original pin vector whenever x and y are distinct torus sites.
+
+This reasoning uses independent coordinate jet components. Merely having pairwise different linear functionals would not be enough: ∂1,∂2,∂1+∂2 are different but dependent. P§2 is accepted here only at the original value/coordinate-gradient list it actually supplies to §14; no unrestricted mixed-direction claim is inferred. Repeated symmetric Hessian entries are likewise not being treated as independent observations.
+
+The covariance entries are continuous in (x,y), because they are derivatives of the smooth K_L. The functions λmin and λmax are continuous on symmetric matrices. Compactness of F_r0 therefore supplies fixed constants
+
+    0<κ<=λmin(Σ_(x,y))<=λmax(Σ_(x,y))<=Λ<∞.
+
+Both bounds matter. The lower bound controls detΣ and Σ^(-1); the upper bound controls the Gaussian exponential tail below. C4§8 explicitly retains the upper bound; in P§14 it follows from the same smoothness and compactness. No torus rotational invariance, sampled covariance lower bound, or independence of Hessian entries is used.
+
+The torus cut locus causes no missing case: F_r0 is defined by the continuous torus distance, and the observation covariance is a smooth function of the pair itself. The proof chooses no unique shortest displacement, angular chart or globally continuous transverse frame. A fundamental-domain face represents the same periodic field values, not a new diagonal point when torus distance is positive.
+
+## 3. Uniform Gaussian density and full conditional moments
+
+Put m=2(d+1). The centered Gaussian density at the original target satisfies
+
+    p_O(t)=(2π)^(-m/2)(detΣ)^(-1/2) exp[-tᵀΣ^(-1)t/2]
+           <=(2π)^(-m/2)κ^(-m/2) exp[-|t|²/(2Λ)]
+           <=C exp[-b²/(2Λ)],
+
+since |t|²=b²+(b-ℓ)²>=b². This bound is uniform in every b∈R, 0<ℓ<=1 and spatial pair in F_r0.
+
+Stack the independent symmetric entries of H_x and H_y into Y. Joint Gaussian regression gives
+
+    E[Y|O=t]=Cov(Y,O)Σ^(-1)t,
+    Cov(Y|O=t)=Cov(Y)-Cov(Y,O)Σ^(-1)Cov(O,Y).
+
+All unconditional covariance blocks are uniformly bounded by smoothness/compactness, and ||Σ^(-1)||<=κ^(-1). The conditional mean is therefore at most C(|b|+1), because |t|<=C'(|b|+1) for 0<ℓ<=1. The residual covariance is positive semidefinite and no larger than Cov(Y); it has a uniform upper bound. It need not be diagonal or nondegenerate for this estimate. Finite-dimensional Gaussian moments then give, for every fixed finite p,
+
+    E[||H_x||_F^p+||H_y||_F^p | O=t] <=C_p(1+|b|)^p.
+
+Hadamard's determinant inequality and Cauchy–Schwarz imply
+
+    E[|det H_x det H_y| | O=t]
+      <=(E[||H_x||_F^(2d)|O=t] E[||H_y||_F^(2d)|O=t])^(1/2)
+      <=C(1+|b|)^(2d).
+
+This controls the complete determinant product before index or elder selection. It assumes neither conditional independence of the two Hessians nor independence of their entries. Multiplication by maximum/index-(d-1)-saddle indicators and by any admitted global selection mark in[0,1] can only decrease it. No lower normalizer floor and no division by a determinant-weighted Z appear.
+
+Combining the density and moment estimates gives a single all-height integrable majorant
+
+    p_O(t_(b,ℓ)) E[|det H_x det H_y||O=t_(b,ℓ)]
+      <=C(1+|b|)^(2d)e^(-c b²),  c=1/(2Λ)>0.
+
+Thus C4§8's polynomial exponent N can be taken to be2d at this scope. The constants are finite existence constants; they were not numerically evaluated or interval-certified.
+
+## 4. Exact far-domain measure and normalization
+
+At the retained marked Kac–Rice interface, define W_(x,y)=|det H_x det H_y| times the ordered maximum/saddle type indicators. Its complete far candidate density per ordinary physical torus volume is
+
+    ν_cand^far(ℓ)=(1/L^d)∫_(F_r0)∫_R
+       p_O(t_(b,ℓ)) E[W_(x,y)|O=t_(b,ℓ)] db dx dy.
+
+This equation is the interface assumed for consumption, not a new proof of the Borel marked-KR theorem. The two height variables transform as (h1,h2)=(b,b-ℓ), with matrix[[1,0],[1,-1]] and absolute determinant1. There is no near-contact factor12, no r³ height-mark factor, no polar sphere factor and no additional1/2. Roles are ordered: the first point is a maximum and the second the designated saddle.
+
+By stationarity the integrand depends on the relative torus position y-x. Integrating x contributes L^d and cancels the physical-volume denominator. The remaining relative domain has volume at most L^d. Equivalently the full pair-domain volume is at most L^(2d). The all-b Gaussian-polynomial integral is finite, so
+
+    0<=ν_selected^far(ℓ)<=ν_cand^far(ℓ)<=C_(d,L,r0), 0<ℓ<=1.
+
+The selected inequality holds for the actual admitted elder indicator because it is in[0,1], regardless of remote path dependence or cap failure. It is not a conditional count estimate given a rare event. To call the selected measure the once-counted ordinary-H0 bar measure still requires the separate C4/ordinary-H0 correspondence and Borel mark interfaces. Neither branch adjacency nor a sampled-field event probability replaces those interfaces.
+
+The far contribution is consequently O(1) for fixed parameters and ℓ^(1/3)ν_far(ℓ)→0. It also contributes a bounded term to C4's unscaled remainder when combined with separately established near estimates. It does not supply a new leading coefficient, a second coefficient, or a small-r0 bound. No far radial chart is needed at the cut locus. For sufficiently small admitted r0 below the injectivity scale, assigning the distance-r0 boundary to either near or far makes no difference to the spatial integral; one may also choose disjoint <r0 and >=r0 conventions directly.
+
+## 5. Analytic adversarial controls and limits
+
+These are explicit mathematical checks in reasoning, not executed software tests:
+
+- **Delete full spectral support:** a stationary field supported on one sine/cosine mode has observation covariance rank at most2, while the original two-point pin vector has dimension2(d+1)>2. Positive variance of the field alone therefore cannot justify this rank proof. The actual periodized covariance avoids this counterexample because every Fourier coefficient is strictly positive.
+- **Include the diagonal:** at x=y the two sets of value/gradient observations repeat, and Σ is singular. Continuity then prevents a positive uniform κ as r0 shrinks to0. The fixed-separation qualification is load-bearing; this proof does not close a shrinking-annulus or regional multiple-witness collision obligation.
+- **Keep only a covariance lower bound:** matrices Σ_s=sI for s>=1 have inverse norm<=1, but at a target of size sqrt(s) the density decays only polynomially in s. No common Ce^(-c|t|²) bound with c>0 follows. A uniform covariance upper bound is needed and is supplied by the actual compact domain.
+- **Drop the conditional-mean growth term:** a conditional scalar Gaussian Y=b+Z already has pth absolute moment growing like|b|^p. Compact-b moment bounds cannot simply be reused for unbounded b. The explicit regression calculation, polynomial growth and Gaussian tail make the unrestricted integral finite.
+- **Change the height Jacobian:** (b,ℓ)↦(b,b-ℓ) has determinant−1. Importing the near k-coordinate factor r³ or a12 multiplier changes this far density. Those factors belong to a different observation/mark transformation.
+- **Replace torus distance by an unreduced Euclidean difference:** points near opposite faces of a fundamental cube can be physically close on the torus. The actual F_r0 uses torus distance and excludes such near-diagonal pairs when appropriate.
+
+The analytic argument survives these checks for its stated actual model and fixed parameters. No claim is made for arbitrary sparse spectra, varying L, arbitrary mixed derivative lists, uniform d, or moving separation cutoffs.
+
+## Verdict and next useful task
+
+PASS_SCOPED_CONVENTIONAL: the actual original-pin rank argument, compact off-diagonal covariance bounds, target-uniform Gaussian regression, all-b determinant-product integral and exact far height/volume normalization support the P§14 bound consumed by C4§8. No defect was found in this consumed analytic implication. This is not blanket acceptance of the last paragraph of P§14 identifying all selected pairs with bars, nor of its reference to Theorem C.
+
+Next mathematical pickup: review the current E2/P marked-intensity interface actually consumed by C4§6, using E2's replacement of historical P§9, and then reconcile C4's selected measure with the already-reviewed ordinary-H0 leaves. Preserve the exact original-pin/ordered-role/full-normalizer conventions and Borel full-field marks. First check current claims; do not rebuild a completed leaf or treat the two reviews in C228/C229 as full C4 closure.
+
+A separate read-only current-PR triage observed #348 head04f359e0 with all9 checks successful and its nonauthor read unclaimed at20:07:52. That existing task was offered to an eligible peer, not duplicated here. #325's new tests-only-stage navigation failure and two older inline-finding pointers were handed to its existing source owner without claiming their cause or taking over the work. #275's newly updated reader inventory remains distinct from its explicit accepted decisions and still-proposed architecture rows.
+
+Both isolated analytic readers completed their tasks. The rank reader independently reconstructed the all-mode distribution argument, compact spectral bounds and original-pin scope; the moment reader independently reconstructed regression, determinant-product growth and exact physical normalization. Root compared both with the argument above and retained their explicit conditions. These contributions are not votes or extra organizational-independence credit.
+
+No frozen source, scientific status, code or workflow was changed. No local project/test/Python/Node/Lean/Docker runtime or numerical experiment ran; the existing HOSTED_ONLY stop remains. Runtime/master verification is NOT_RUN, and no CI success is claimed for this source-only review. Applicable verification is the actual analytic reconstruction and exact source/delivery/native-readback checks. Same-provider agreement, a digest or a green check is not a theorem proof or scientific promotion.

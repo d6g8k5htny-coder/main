@@ -1,0 +1,93 @@
+## JOINT-ENVELOPE-SUPPORT-01 — monotone diagonal branch, finite quintic alternatives, and a three-stationary-point witness
+
+**NEW AUTHOR-SIDE MATHEMATICAL CONSEQUENCE; separate review required.** Dylan Roy — delegated AI work. Actual author OpenAI / GPT-6 Astra Pro, `navigation-continuation-joint-envelope-support-20261006`, pickup6017275728. Scientific effect NONE; organizational-independence credit0. This is NOT an amendment, a repeated review, an integration hold, or an assertion that #376's particular example is wrong. Its five frozen files and RESULTS remain unchanged.
+
+**Source:** NOTE §§2–4/6 at c1ed79f883d199fa5dae795bd6fd240b27a23bf3, blob196406624041016cb7890ab3d1220239261642ee. Use the existing assumptions p,q>0, P=p+q<1, distinct u,v>0, nonnegative Y with the prescribed atom lower masses and finite E[Y²]. Set w=1-P, a=pu+qv, c=a/P, g0=pq(u-v)²/P, beta=P/w, h(s)=g0+beta(s-c)². The source's reduction is C=min_{a<=s<=c} min(f0(s),f1(s)), with f_i(s)=F_i(s²,h(s)). All denominators below are positive.
+
+### A. f1 is strictly increasing for EVERY admissible parameter set
+
+The key identity is `s-beta(c-s)=(s-a)/w=:z>=0` for every s>=a. Exact differentiation gives
+
+```
+f1'(s)=8s [h²+4hs²+8s⁴-2 beta(c-s)s³]/(h+4s²)²
+       =8s [h²+4hs²+6s⁴+2s³ z]/(h+4s²)² > 0.
+```
+
+Thus the example's increasing f1 branch extends to the ENTIRE feasible ray [a,infinity), not merely [a,c]. This is a sum-of-positive-terms proof, not a sampled derivative. Writing A=pu²+qv², its minimum is the explicit value
+
+`f1(a)=4a²(A+a²)/(A+3a²)`,
+
+attained by pδu+qδv+wδ0 at direction t=1/4. This branch minimum alone is not necessarily C.
+
+### B. At most six candidate VALUES suffice for the exact sharp constant
+
+Define
+
+```
+G(s)=s h(s)²-beta(c-s)[h(s)²+2h(s)s²+2s⁴].
+f0'(s)=2G(s)/(h(s)+s²)².
+G(a)=-2a³[h(a)+a²]<0,   G(c)=c g0²>0.
+```
+
+Neither endpoint minimizes f0. Its global minimum on the compact interval occurs at an interior zero of G. With d=g0+beta c², G is a genuine quintic: its coefficients, in ASCENDING powers of s, are
+
+```
+-beta*c*d²,
+d*(4*beta²*c²+beta*d+d),
+-2*beta*c*(2*beta²*c²+3*beta*d+3*d),
+2*beta*(4*beta²*c²+4*beta*c²+beta*d+2*d),
+-beta*c*(5*beta²+10*beta+2),
+beta*(beta+1)*(beta+2).
+```
+
+The last coefficient is strictly positive. Let R be ALL distinct roots of G in (a,c): it is nonempty and has at most five elements. Then exactly
+
+`C=min( {4a²(A+a²)/(A+3a²)} union {F0(r²,h(r)): r in R} ).`
+
+This includes every stationary value, not only a guessed unique root. Local maxima in that finite set do no harm; a true global minimum is included. Attainment uses the unchanged source law mu_s and t=1/4 for the explicit candidate or t=0 for a winning stationary candidate. Ties are allowed. At P=1, use the source's fixed two-atom formula directly; beta and this quintic construction are NOT defined there.
+
+### C. One direction crossing; useful sufficient regimes
+
+```
+F0(x,g)-F1(x,g)=(g-2x)(g+2x)²/[(g+x)(g+4x)],
+(h(s)/s²)'=2[beta*c*(s-c)-g0]/s³<0  on [a,c].
+```
+
+The minimizing endpoint can therefore cross at most once as s increases, from t=1/4 to t=0. At equality all directions agree. If A<=3a² then f0(a)<=f1(a), while f0'(a)<0; hence a stationary t=0 value strictly wins globally. This covers the published p=q=1/4,u=1,v=4 example, without needing its special quartic merely to prove the f1 branch increases. If g0>=2c², then h(s)>=2s² on [a,c], so C=f1(a). These are sufficient, not exhaustive, regimes.
+
+### D. A universal unique-stationary-root claim would be false
+
+Use p=q=1/200,u=1/2,v=3/2. Then a=1/100,c=1,g0=1/400,beta=1/99. Exact rational signs are:
+
+| s | G(s) |
+|---|---|
+|1/100|-1/40000000|
+|11/1000|1208904173929/9702990000000000000|
+|3/20|1703147/1552478400000|
+|4/25|-100663/79860000000|
+|999/1000|-135143246896219/9702990000000000000|
+|1|1/160000|
+
+The three disjoint intervals (1/100,11/1000), (3/20,4/25), (999/1000,1) each contain an interior zero by continuity. This proves AT LEAST THREE stationary points, not exactly three and not three global minima. #376's uniqueness proof is for different fixed inputs and is unaffected. Any general-purpose extension of its single-root bisection needs a separate all-root argument.
+
+Minimal exact sign reproduction (standard library, no root-fitting):
+```python
+from fractions import Fraction as Q
+p=q=Q(1,200); u=Q(1,2); v=Q(3,2)
+P=p+q; w=1-P; a=p*u+q*v; c=a/P
+b=P/w; g0=p*q*(u-v)**2/P
+points=[a,Q(11,1000),Q(3,20),Q(4,25),Q(999,1000),c]
+expected=[-1,1,1,-1,-1,1]
+for s,sign in zip(points,expected):
+    h=g0+b*(s-c)**2
+    G=s*h*h-b*(c-s)*(h*h+2*h*s*s+2*s**4)
+    if (G>0)-(G<0)!=sign:
+        raise RuntimeError('rational sign mismatch')
+    print(s,G)
+```
+
+### Verification and boundaries
+
+New local diagnostic `verify_consequence.py`,9431B,SHA256719110d671fb94b500f83ef0dfdddadbe877140556b34d9b31f0a8edd9e4fa73: nine methods PASS normally/-O on CPython3.13.5. It checks formal polynomial identities over Q[s,beta,c,d], both derivative formulas, all quintic coefficients, branch difference, ten rational parameter sets/six means each, law attainment, endpoint signs, P=1 separation, homogeneity, and source-example identities P5=128G/R4=64R. Three deliberately wrong diagnostic variants—positive decomposition, residual normalization, quintic leading coefficient—produce intended assertion failures without errors in both modes. These are diagnostics for the displayed proof, not nine independent mathematical reviews or proof of every parameter from a grid. The 1570B JSON sign record SHA25683545a56a38ee9b15acecf9abb4773dbf73bd2decb4cc3e782154934889d1a23 is author-side data, independently_reviewed=false.
+
+Full note9823B/SHA256a0dfac0e89106376a7f06eda8ed0ace6c2ad063df1796feb3e946f87bc9ba04d and local diagnostics are retained for user delivery. No claim of a complete root-isolation implementation, Lean execution, actual-field/Palm transfer, new uniform parameter margin, global literature novelty, scientific acceptance, or this consequence inheriting #376's PASS. Source-writing/support scope DELIVERED; no main-tip reservation. Parent review and integration remain free to proceed unchanged.

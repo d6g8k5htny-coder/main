@@ -1,0 +1,179 @@
+## ATTACK STATUS: CUB/ordinary-bar exhaustion boundary at Math `9fd26113`: **HOLDS (scoped)**
+
+No gap found in the in-scope chain. The jet-to-gap transfer is DERIVED for the axial a3 convention, with an explicit γ-rate. There is one non-load-bearing wording AMEND in R (R12), and one convention dependency (the CUB note's a3, which I have not read).
+
+This replies to request [6049327065](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6049327065) and acceptance [6049364254](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6049364254); pickup [6049349128](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6049349128). Dylan Roy, delegated AI support. Executor: Grok Bot agent 3. Provider/family is NOT ATTESTED: treat it as unknown, and per 6049364254 this is not provider-distinct evidence. Nonauthor; organizational independence 0.
+
+### 0. What I read: exact bytes at Math- `9fd261135b41daf1e377f9ef2db193fee6ec36be`
+
+| Label | Path | Git blob |
+|---|---|---|
+| P | `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md` | `dfed3b8d318a3ab1950957f393307733a4bef3f2` |
+| CAP | `imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md` | `0633aca3c2a2882b0de4399da0a75d64c2e6b2e1` |
+| E2 | `reviews/d1_section9_borel_repair_20260925/REPAIR.md` | `fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a` |
+| REC | `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md` | `75da2597971510f843f8d90c743950cb8c177342` |
+| R | `frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md` | `247b3ecf80bfbe896948d5d489b2d5842a81c481` |
+
+I identified R as REC §7 l.211's "D2 Theorem R". It is also the source that carries the cutoff `a=ell/r_0^3`. I fetched every file through cursor-github `get_file_contents` at that ref. Line numbers (l.) come from byte-identical local copies; `git hash-object` reproduces the blob IDs above, which match REC §1's table.
+
+**Exposure disclosures.**
+- For notation I read P and R in full, and CAP §§1–3. Verdicts cover the named sections only; other sections are cited only where used as definitions.
+- While locating "R" I mistakenly opened `reviews/radial_moment_corollaries_20260930/R.md` (blob `0f14417e`, OA-TWO-SCALE-CLUSTER-GEOMETRY-20260929-R1, an OpenAI/GPT-6 Astra Pro author-side note dated 29 Sep that mentions "canonical shear invariants of CUB"). Nothing below uses it, and it is not the frozen OpenAI support result.
+- **I did not read the frozen OpenAI support result or any CUB note.** No source labelled CUB is in scope, so the a3 below is defined from in-scope objects only.
+
+### 1. The physical cubic gap a3
+
+**Coordinates** (P §1 l.18–22, §3 l.71):
+- the axial unit vector u points from the maximum `M=-(r/2)u` to the saddle `S=(r/2)u`;
+- the origin is at the midpoint, x is axial, and y ranges over u⊥ in any orthonormal transverse frame (results are frame-invariant, P l.333);
+- pins: `f(M)=b`, `f(S)=b-k r^3`, `∇f(M)=∇f(S)=0`;
+- physical lifetime: `ell=f(M)-f(S)=k r^3`.
+
+**Definition.** `a3 := f_xxx(0)/6`, the cubic Taylor coefficient of `x ↦ f(xu)` at the midpoint. The endpoint-pinned variant is `a3^M := f_xxx(M)/6`.
+
+**Source facts.**
+- P (3.1), (3.3) (l.81, l.94): the observation row `U3=(6/r^2)[f_x(a)+f_x(c)-2(f(c)-f(a))/r]` equals `12k` identically on Q-support. The pins fix a kernel-averaged third derivative, not the pointwise one.
+- P l.153 and CAP §2 l.55–60 (Hermite identity): `f(S)-f(M)=-(1/2)∫_a^c (x-a)(c-x) f_xxx dx`, kernel mass `r^3/6`, so the kernel average of `f_xxx` is `12k`.
+- R l.45: `U3=f_xxx(0)+(r^2/40)f_xxxxx(0)+O(r^4)`. Re-derived: `U3=F3+F5 r^2/40+F7 r^4/4480`.
+
+**Consequence** (my derivation, pathwise on Q-support):
+- `|a3-2k| <= r M4/12` at the midpoint, and `|a3^M-2k| <= r M4/6` at the endpoint, where M4 is CAP's partial-block fourth-derivative norm (CAP §1; the same estimate as P (5.2) l.155).
+- For an exact cubic, `a3=2k` and `ell=a3 r^3/2`. In general `|ell-a3 r^3/2| <= r^4 M4/24`.
+- In the contact limit `a3 → 2k = t_u/6`.
+
+The mark k is a Kac–Rice integration variable, deterministic under Q. The quantity a3 is random under Q^W.
+
+**Convention flag.**
+- If CUB's a3 is `U3/6` (or the scaled gap itself), then `{|a3|<r^γ}={2k<r^γ}` exactly and L1 is trivial.
+- If CUB's a3 is a non-axial cubic coefficient (a mixed or transverse third-jet entry, a shear parameter, or a coefficient of a different pair), nothing in these sources pins it to k. L1 is then **UNSUPPORTED** for that reading.
+
+### 2. The joint typed-pair Kac–Rice law
+
+**Finite r, near pairs** (E2 §9.4 l.94–110; P (10.1)–(10.2) l.312–322). Per unit midpoint volume, the candidate intensity on marks × field is
+
+    12 r^-(d+3) π_r(R;v_r) · r^(d-1) dr dσ(u) · r^3 db dk · E_Q[W_r 1{f∈·}]
+      = r A_r(b,k,u) dr db dk dσ(u) ⊗ Q^W_{r,b,k,u}(·)
+
+where:
+- Q is the Gaussian regression law on the 2(d+1) pins (`U_r=v_r`);
+- `W_r=|det H_M det H_S| 1{H_M<0, index H_S=d-1}`;
+- `Z_r=E_Q W_r` is the FULL normalizer;
+- `A_r=12π_r Z_r/r^2` and `Q^W=(W_r/Z_r)Q`.
+
+There is exactly one determinant factor (E2 l.108). The selected intensity is the same measure times `1{d_f(M)=f(S)}` (P l.292–294; E2 §9.4).
+
+**Lifetime form** (P (11.1) and (13.5) l.417–422; R l.212). At fixed ell, with `r=(ell/k)^(1/3)`:
+
+    ν(ell; db dk dσ, df) = ell^(-1/3) 1{k >= ell/r_0^3} (3k^(2/3))^-1 · 12π_r(v_r) E_Q[(W_r/r^2) 1{f∈·}] db dk dσ
+
+The joint law of `(k, b, u, a3, A_M, …)` is the pushforward of this measure. **Given the marks, a3 follows the weighted law Q^W.** It does not follow Q, and it does not follow the unconditioned Gaussian law.
+
+**Contact limit** (P (13.6) l.428; factorization from P §15 l.451–463).
+- `ell^(1/3)ν → 4k^(-2/3)π_0 z_0 db dk dσ`, where `π_0=p_(f,V_u)(b,0) p_G(0) φ_τu(12k)` and `z_0=36k^2 E[det(A_u)^2 1{A_u<0} | f=b, V_u=0]`.
+- At fixed u the k-marginal is `144 p_G(0) p_Vu(0) D_u k^(4/3) φ_τu(12k) dk`, and it factorizes from `(b, A_u)`.
+- **Since a3=2k at contact, the KR-weighted law of a3 has density ∝ `a3^(4/3) exp(-18 a3^2/τ_u^2)` on a3>0.** The plain Gaussian law of `t_u/6` given G=0 is `N(0, τ_u^2/36)`.
+- The exponent decomposes as 4/3 = +2 (the |det| weight `(6k)^2`) − 2/3 (the lifetime pushforward). At fixed r, the k-factor is `k^2 φ_τ(12k)` instead.
+- Check: `144∫k^(4/3)φ_τ(12k)dk=Γ(7/6)τ^(4/3)/(24^(1/3)√π)` (P (15.2)); the numeric ratio is 1.000000000.
+
+### 3. Per-link findings
+
+**L1 jet-to-gap transfer: DERIVED for the axial convention; UNSUPPORTED for a non-axial a3.**
+
+If `k >= r^γ` then `2k-r^γ >= k`, so `|a3|<r^γ` forces `r M4/12 >= |a3-2k| > k`. Hence, for every γ>0,
+
+    {|a3|<r^γ} ⊂ {k<r^γ} ∪ {rM4>12k} ⊂ {k<r^γ} ∪ {rM4>3k/10}
+
+The endpoint version gives `rM4>6k`, with the same conclusion. The last set is exactly the cap's fourth-derivative exception (CAP (1) l.26; R l.152–155).
+
+In lifetime coordinates, `k<r^γ ⇔ k<η_γ := ell^(γ/(3+γ))` (verified). Since `γ/(3+γ)<1`, `η_γ > a = ell/r_0^3` for small ell, so the cutoff survives.
+
+Scaled intensity of the near sector with small a3 (candidates, hence also selected pairs):
+- (i) For `a <= k < η_γ`: `B <= A_r <= 2(k^2+r^2)H` (R (R11) l.145), giving `<= Cη_γ^(7/3) + C r_0 ell^(1/3)`. This uses `∫_a^∞ ell^(2/3) k^(-4/3) dk = 3 r_0 ell^(1/3)`.
+- (ii) For `k >= η_γ` on `{rM4>12k}`, weighted pointwise Markov gives `12π_r E_Q[(W/r^2)1{M4>12k/r}] <= (r/12k)^4 · 12π_r E_Q[(W/r^2)M4^4] <= δ^4 H`, with `δ=r/k`. The moments come from R (R4) l.60–64 and P (13.3)–(13.4) l.401–413. Splitting at `η=ell^(1/6)` gives `<= C ell^(7/18) + C r_0 ell^(1/3) + C ell^(1/2)`.
+- **Total:** `ell^(1/3) ν^near(ell; |a3|<r^γ) <= C[ell^(7γ/(9+3γ)) + ell^(1/3)]`.
+
+Consequences:
+- The sector is o(1) for every γ>0, so it carries no leading mass.
+- It fits inside Theorem R's O(1) remainder (scaled `O(ell^(1/3))`) **iff γ >= 1/2**, since `7γ/(9+3γ) >= 1/3 ⇔ γ >= 1/2` (solved exactly). For γ<1/2 this route gives only `ell^(7γ/(9+3γ))`.
+- The `k^(4/3)` contact density suggests the `k<r^γ` part is genuinely of order `η_γ^(7/3)`, but that lower bound is UNTESTED. R's own choice `η=ell^(1/6)` corresponds to γ=3/5.
+
+**What does not transfer:** small-k control alone says nothing about a3 on `{rM4>12k}`. It transfers only because the M4 exception is controlled under the **weighted** law. A claim built on an unweighted Q-probability of `{|a3|<r^γ}` would need separate W-control; Cauchy–Schwarz loses a square root, as P l.270 and R l.208 warn.
+
+**L2 weighted probability: DERIVED.**
+- P §7 (7.3)–(7.8) l.234–274 and R §5 (R12)–(R15) l.149–208 bound the weighted numerator `E_Q[W 1{G^c}]` (or `12π_r E_Q[(W/r^2)1{G^c}]`). The |det| envelope is P (6.2) l.207 / R (R14) l.176, and it includes the saddle mixed-square soft factor.
+- P then divides by the FULL `Z_r >= z_* r^2` (P (5.5) l.180). R never normalizes: `A_r(1-p_r) <= B_r <= A_r` (R l.160).
+- Re-derived: `∫_0^(DδU^2) λ(λ+ErU)dλ = (D^3/3)δ^3U^6 + (ED^2/2) rδ^2U^5`, and `rδ^2 = kδ^3` (R l.187).
+- The m=1 far branch (R (R15) l.192–198) and the M4 exception (R l.202–206) both use weighted Markov.
+- No step substitutes the plain Gaussian law for Q^W.
+
+**L3 lifetime cutoff `k >= ell/r_0^3`: DERIVED, and kept consistently.**
+- P (13.5) l.417–424 keeps the indicator.
+- R keeps it at l.212 (`a=ell/r_0^3`) and l.230 (`a<η<1`). At l.243 R notes that dropping a makes `∫ r^2 k^(-2/3)` diverge; verified: `∫_a ell^(2/3) k^(-4/3) = 3 r_0 ell^(1/3)`.
+- `k<a ⇔ r>r_0` is exactly the far population. P (14.1) l.437–441 bounds it by C, i.e. `O(ell^(1/3))` scaled, independently of any a3 notion.
+- The cutoff interacts with the a3 event only through the range `[a, η_γ)` in L1(i). There the cutoff is the lower limit, and the `r_0 ell^(1/3)` term comes precisely from it. Nothing is used twice and nothing leaks.
+
+**L4 complete cap-complement intensity: DERIVED, plus one wording AMEND (non-load-bearing).**
+
+`G_r^c = {λ_min(-A_M) <= (4/(3k)) r M3^2} ∪ {rM4 > 3k/10}` (P l.216; R l.152; CAP (1) l.23–26 with κ=k; the CAP l.165 scaling checks out). Every sector is covered:
+- m≥2 depth failure, with `λ_2..λ_m` integrated over the full ordered domain, so every corank stratum is included (P l.247; R l.187);
+- the m=1 near and far branches (P (7.5)–(7.6); R (R15));
+- the M4 exception (P (7.7); R l.202);
+- untyped support, where W=0;
+- non-Morse fields and tied critical values, which are null sets (P §8 l.280–288).
+
+On `G_r ∩ {Morse, distinct values}`, CAP §§4–5 gives `d_f(M)=s=f(S)`. I re-checked:
+- CAP (11) by hand: the h'' terms cancel via `f_xy+f_yy h'=0`;
+- (12): `48/121·(3+3·24/121+(24/121)^2)=2554128/1771561`, and `7/4` minus that is `2184415/7086244 > 1/4`, exactly;
+- (13): `∫_{-2r}^{-r/2}(x-a)(x-c)/8 = (9/32)r^3`, which gives `s - (11/96) r^3`;
+- (14): `11·(20/11)^2 = 4400/121`.
+
+No sector is missing.
+
+**AMEND (wording only).** R l.55 chooses `r_0` "inside the torus injectivity scale". (R12) is stated for all `r <= r_0` with `δ <= 1` (R l.162) and invokes the cap cylinder. REC's reading rule (l.30, l.160–166) requires `r < L/(4√2)` for that cylinder, which is stricter than the injectivity radius L/2.
+- **Proposed fix:** at R l.55, write "Choose `r_0 <= min(1, L/(4√2))`", or restrict (R12) to `r < L/(4√2)`.
+- **Why it doesn't bear load:** R §7 applies (R12) only for `k >= η`, where `r=(ell/k)^(1/3) <= ell^(5/18) → 0`. Shrinking `ell_*` is enough.
+
+**L5 extra leading sector: DERIVED, none.**
+- Near pairs: the integrable majorant `H(b,k)/(3k^(2/3))` (P (13.4)–(13.5) l.412–424) gives dominated convergence to `c_{d,L}`.
+- Small k in `[a,η]` contributes `O(ell^(7/18)+ell^(1/3))` scaled (R (R17)). The small-a3 sector is as in L1. Large b and k are Gaussian.
+- Far pairs contribute O(1) (P (14.1)).
+- Every ordered max/index-(d−1) pair at torus distance < L/2 is exactly one of near (`r <= r_0`) or far, with unique `(z,r,u)` (P l.317, l.445).
+
+So no region carries order `ell^(-1/3)` outside the contact limit, and nothing beyond O(1) remains in R (R1).
+
+**L6 candidate → actual elder → once-counted bar: DERIVED, with the standard Morse facts made explicit.**
+
+P l.445 asserts that on the Morse/distinct-value locus each finite superlevel H0 bar has exactly one max birth and one index-(d−1) death. The justification:
+- H0 of `{f >= t}` changes only at index d (birth) and index d−1 (merge; this is index 1 for −f).
+- With distinct values, the elder rule's death level for M's class is the maximin `d_f(M)` of P l.292. S is the unique critical point with `f(S)=d_f(M)`, and it has index d−1.
+- Hence the selected ordered pairs `{(M,S): d_f(M)=f(S)}` are in bijection with finite bars. Each M has at most one partner, the essential max has `d_f=-∞` (P l.294), and selected pairs are a subset of the typed candidates.
+
+The Borel mark (P §8 l.290–294) enters Kac–Rice only through E2 §9.3–9.4 (monotone class, with no lower-semicontinuity claim). The near-diagonal exhaustion is nonnegative monotone convergence (E2 l.110). For unrestricted marks, its finiteness comes from `∫H db dk < ∞` (P (13.4)), not from the compact bound (10.3). That is a citation nuance, not a gap.
+
+### 4. Residual scope and what was not tested
+- **CUB:** I did not read the CUB note or its a3 convention, so L1 is conditional on the axial reading.
+- **Sharpness:** a lower bound for the small-a3 sector when γ<1/2 is UNTESTED.
+- **Not re-derived beyond the checks cited** (these rest on the existing reviews per REC §4):
+  - P §§2–7 interfaces: target growth (13.3), regression and residual independence;
+  - R's (R2)–(R5) coupling and the (R13) joint density;
+  - E2's measure theory, which I read but did not re-derive;
+  - CAP §§1–3, including the vector ridge (6)–(9);
+  - P §15's parity factorization, which I used but did not re-prove.
+- **Not covered at all:** numerical constants, a lower bound for d≥3, RN/24-jet/H3/LPW, formal checks.
+- **Finite-algebra controls** (sympy/numpy, run locally on the box, not committed; they check algebra only):
+  - the Hermite kernel identity;
+  - exact cubic: `a3=2k`, `U3=12k`;
+  - the U3 series;
+  - CAP (12)/(13)/(14);
+  - the (15.2) gamma factor;
+  - the R §5 integral and `rδ^2=kδ^3`;
+  - the R §7 exponents (`ell^(1/9)`, `ell^(7/18)`, `3r_0 ell^(1/3)`);
+  - the `η_γ` inversion and the `γ>=1/2` threshold;
+  - `|a3-2k| <= rM4/12` on 20,000 random pinned polynomials (maximum ratio 0.50).
+
+### 5. Boundary
+Commit read: Math- `9fd261135b41daf1e377f9ef2db193fee6ec36be`. **I did NOT read the frozen OpenAI support result.**
+
+No proof, schema, status or ref changes; no blind claim; no promotion; no pushes, edits or merges. credit 0; sci effect NONE; eng≠discharge; no flags (lemma_closed / prizes_solved / discharges_OBL_H5_JETMOD / certified_C_H untouched); OBL OPEN.
+
+— Grok Bot agent 3 (Grok Bot support agent; non-OpenAI, nonauthor lane)

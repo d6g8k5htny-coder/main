@@ -1,0 +1,269 @@
+# A signed boundary coordinate for weighted soft-model decision margins
+
+Object: C81-SIGNED-FOLD-BOUNDARY-20261002-v1. Author: OpenAI/Codex root,
+session 01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated by Dylan Roy.
+AUTHOR-SIDE MATHEMATICAL CANDIDATE; nonauthor review pending. Personal reading
+by Dylan PENDING; organizational independence 0; scientific effect NONE.
+
+This is isolated post-cut work, not a modification of the ongoing audit's
+inputs or of PR242/243/244. R17 claim dbff7aa8-aeab-4e12-9eeb-090833909952.
+
+## 1. Exact source interface and scope
+
+PR244 at 446ea03d555968557136e9f7f569d6c56359bd76, PROOF blob
+e0aff5ad5bb757eb759b64e5ba746e8491250391, defines
+
+    c = 1-t, R = chi_0+8-12t, psi = 1/phi, a = |c|,
+    g_c(psi) = 16(psi-2c)^2(psi+c), w_c(psi) = psi^2-c^2.
+
+Its Theorem A, with its stated #170/[CUB] hypotheses and exceptional sets,
+identifies the elder model decision on psi>a as
+
+    e = 1 iff psi>=2c and g_c(psi)>=R^2.                 (1)
+
+The following measure calculation is unconditional elementary analysis of
+these displayed functions. Its interpretation as the model's actual elder
+classifier retains exactly that source's scope. We do not import the later
+discriminant-extension comment to expand the pointwise scope: the excluded
+curve and isolated psi values have zero mass in the Gaussian averaging used
+below, for each k>0. The tie convention at such points is immaterial to that
+integral, not a proof of unique saddle labels.
+
+PR242 at ffc7005509554a378edd81136aa6e1f4fbd0eff8, PROOF blob
+c15929151e9f82813b7993a31b6735bcff8dc6fa, supplies the model Gaussian jets:
+gamma,B,C independent N(0,2), N(0,2), N(0,6), respectively, with
+
+    t = 12kB/gamma^2, chi_0 = 576k^2 C/gamma^3,
+    H(k) = exp(-12k^2) E[gamma^6 I(t,chi_0)]/800.        (2)
+
+These are the unperiodized Gaussian-kernel model identities, not a
+finite-torus covariance transfer. PR243 at
+15870b638748eb3f4e152fbb77ff41dac264e923, PROOF blob
+64091adf95bf21e4445c4effa70ee92f84ad2da6, Proposition FL.4 gives pointwise
+field-decision stability with parameter-dependent windows and tolerances.
+It supplies no quantitative estimate for the new coordinate below.
+
+## 2. Signed coordinate and exact weighted pushforward
+
+For every c in R and psi>a, define
+
+    q_c(psi) = 4(psi-2c) sqrt(psi+c).                   (3)
+
+The root is real and positive because psi>|c|. Importantly this q is
+signed: for c>0 it is negative on a<psi<2c. Equation (1) is equivalent to
+
+    e = 1 iff q_c(psi)>=|R|.                           (4)
+
+Both the sign test and the squared comparison in (1) are necessary for
+this equivalence. Replacing q by |q| loses the sign test.
+
+**Lemma 1 (pushforward and uniform Lipschitz constant).** The map q_c is
+strictly increasing, with range (q_min,infinity), where
+
+    q_min = -4 sqrt(2) c^(3/2)  if c>0;  q_min=0 otherwise.
+
+The pushforward of w_c(psi)dpsi has density
+
+    h_c(q) = (psi-c)(psi+c)^(3/2)/(6psi), psi=q_c^(-1)(q),
+
+on that range. Extend h_c by zero for q<=q_min. This continuous extension
+is nonnegative, nondecreasing, and globally 1/9-Lipschitz. On q>=0 it is
+1/16-Lipschitz. Its value at zero is
+
+    h_c(0) = (3c_+)^(3/2)/12.                          (5)
+
+*Proof.* Direct differentiation gives
+
+    q_c'(psi)=6psi/sqrt(psi+c)>0,
+    w_c(psi)/q_c'(psi)=(psi-c)(psi+c)^(3/2)/(6psi).
+
+Both endpoint limits and (5) follow from these expressions: at c>0 the
+zero of q is psi=2c; at c<=0 its left endpoint is zero and h tends to zero.
+When c=0, explicitly q=4psi^(3/2) and h=q/24 on q>0.
+
+For x=c/psi in (-1,1), differentiation once more yields
+
+    dh_c/dq = (3+2x+x^2+2x^3)/72 =: p(x)/72.           (6)
+
+Here p(-1)=0, p(1)=8, and
+
+    p'(x)=6(x+1/6)^2+11/6>0.
+
+Thus 0<=dh/dq<=1/9. If q>=0, then x<=1/2 (automatically when c<=0),
+and p(1/2)=9/2 gives dh/dq<=1/16. Integrating these derivative bounds,
+and using h(q_min)=0 when crossing the zero extension, proves the
+Lipschitz statements. No root derivative is left singular in this weighted
+coordinate. QED.
+
+**Theorem 2 (uniform weighted boundary tube).** For every c,R in R and
+epsilon>0, let
+
+    T_epsilon(c,R) = integral_{psi>|c|}
+        (psi^2-c^2) 1{|q_c(psi)-|R||<=epsilon} dpsi.
+
+Then
+
+    T_epsilon(c,R) <= epsilon (3c_+)^(3/2)/6
+                    + epsilon |R|/8 + 2epsilon^2/9.    (7)
+
+*Proof.* By Lemma 1 this is the integral of h_c over an interval of length
+2epsilon centered at |R| (the zero extension covers any part below
+q_min). On that interval
+
+    h_c(q)<=h_c(|R|)+epsilon/9
+           <=h_c(0)+|R|/16+epsilon/9.
+
+Multiply by 2epsilon and use (5). In particular (7) includes the strip
+psi<2c and does not need a second, unweighted sign-boundary exception.
+QED.
+
+## 3. Gaussian weighting removes the apparent inverse-gamma singularity
+
+**Corollary 3 (a bound uniform down to k=0).** Under the independent
+Gaussian jets in (2), for every K>=0, 0<k<=K and 0<epsilon<=1,
+
+    E[gamma^6 T_epsilon(c(k),R(k))]
+        <= 500(1+12K)^2 epsilon.                      (8)
+
+The bound applies to the algebraic classifier and, under the exact
+Theorem A interface, to its model elder boundary. No positive lower
+cutoff on k or |gamma| is used. The set gamma=0 is null; arbitrary values
+there do not affect the expectation.
+
+*Proof.* Write G=|gamma|. Gaussian integration by parts gives
+E[G^4]=12, E[G^6]=120. We may use the elementary upper estimates
+
+    E|B|<2, E|C|<3, E[G^3]<11,
+    E|B|^(3/2)<=E[1+B^2]=3, E[G^3]<=1+E[G^4]=13.
+
+The first three follow from Cauchy--Schwarz and variances 2,6 and
+E[G^6]=120<121. Independence is used only when factoring the mixed
+moments below. Since c_+<=1+12k|B|/G^2, the inequality
+(x+y)^(3/2)<=sqrt(2)(x^(3/2)+y^(3/2)) gives
+
+    E[G^6 (3c_+)^(3/2)/6]
+       <= 2[120+39(12K)^(3/2)]
+       <= 240+78(1+12K)^2.                            (9)
+
+The factor 2 is a deliberate upper bound for sqrt(6)/2. Also,
+
+    G^6 |R| <= 8G^6+144k|B|G^4+576k^2|C|G^3,
+
+so E[G^6|R|]/8 <=120+432K+2376K^2. Finally, for epsilon<=1 the last
+term of (7) contributes at most (80/3)epsilon. Adding all terms yields
+
+    [1394/3+2304K+13608K^2]epsilon
+        <=500(1+12K)^2 epsilon,
+
+because the difference is
+106/3+9696K+58392K^2>=0. All dominating functions have explicitly finite
+Gaussian moments, so this is also a justification of integrability.
+The constants are not optimized. QED.
+
+**Conditional transfer corollary.** Let e_tilde be another measurable
+binary decision on the same typed parameter space. If, outside null
+sets, e_tilde can differ from (4) only where
+|q_c(psi)-|R||<=epsilon, then its determinant-weighted symmetric
+difference obeys (7), and its Gaussian weighted difference obeys (8).
+In the normalization (2), the difference in the corresponding rejection
+functions is at most (5/8)(1+12K)^2 epsilon. This follows from absolute
+value bounded by the symmetric-difference integral; exp(-12k^2)<=1.
+
+For a jet-dependent epsilon, (7) remains valid pointwise before
+averaging. A usable field estimate must supply integrability of its
+products with the displayed weights; a uniform epsilon is sufficient,
+not necessary. A changed conditional law or a changed determinant
+weight requires its own comparison and is not absorbed into this
+decision-only corollary.
+
+## 4. Negative result: squared margins really can lose a logarithm
+
+Keeping the sign by restricting to psi>=2c does not by itself repair the
+squared-equation margin. We give an analytic obstruction, not a sampled
+numerical observation.
+
+Fix c=1 and let p be the standard normal density. For 0<delta<1 define
+
+    S_delta = integral_{|R|<=1} p(R)
+       integral_{psi>=2, 0<=q_1(psi)<=1}
+        w_1(psi) 1{|q_1(psi)^2-R^2|<=delta} dpsi dR.
+
+**Proposition 4.** S_delta=Theta(delta log(1/delta)) as delta decreases
+to zero. In particular S_delta is not O(delta).
+
+*Proof.* On 0<=q<=1, Lemma 1 gives
+
+    h_0 := h_1(0)=3sqrt(3)/12 >0,
+    h_0<=h_1(q)<=h_0+1/16.
+
+Set v=|R|, s=q+v, z=q-v. Then dq dv=(1/2)ds dz and q^2-v^2=sz.
+The triangle q,v>=0, q+v<=A has |z|<=s<=A. For 0<delta<A^2, the
+area of its intersection with |q^2-v^2|<=delta is exactly
+
+    A_delta(A)=integral_0^A min(s,delta/s) ds
+              =delta/2+delta log(A/sqrt(delta)).        (10)
+
+The A=1 triangle lies inside the unit (q,v) square; that square lies
+inside the A=2 triangle. Let p_min=p(1)>0 and p_max=p(0). Since p is
+even and lies between these constants on [-1,1],
+
+    2p_min h_0 A_delta(1)
+       <= S_delta <=2p_max(h_0+1/16) A_delta(2).        (11)
+
+Equation (10) proves the stated two-sided order. In particular the
+lower bound divided by delta grows as p_min h_0 log(1/delta). QED.
+
+The obstruction also occurs under the actual Gaussian jet averaging
+in (2), not just under an auxiliary choice of p. Fix any k>0 and
+restrict to 1<=gamma<=2, 1<=c<=2, |R|<=1, and 0<=q_c(psi)<=1.
+The change from (gamma,c,R) to the original jets is
+
+    B=(1-c)gamma^2/(12k),
+    C=(R+4-12c)gamma^3/(576k^2),
+    |Jacobian|=gamma^5/(6912k^3).
+
+Its Gaussian density is continuous and strictly positive on this
+compact box, hence has positive minimum m_k and finite maximum M_k.
+Also 1<=gamma^6<=64 and h_1(0)<=h_c(q)<=h_2(0)+1/16 there. The same
+triangle calculation, integrated over gamma and c (each interval has
+length 1), bounds this restricted weighted squared tube between
+
+    m_k h_1(0) delta[1+log(1/delta)]
+
+and a finite k-dependent constant times delta[1+log(1/delta)]. Thus even
+the full nonnegative Gaussian weighted squared tube cannot be O(delta)
+for any fixed k>0. No uniform lower constant as k tends to zero is
+claimed; m_k can become very small. Exceptional classifier curves have
+zero volume and do not remove this positive-volume obstruction.
+
+This is a counterexample to deducing a linear weighted-tube bound from
+an absolute perturbation of g_c-R^2 alone. It is not a counterexample to
+Conjecture 7, and it does not assert a logarithm in the actual field
+asymptotic. Cancellation or a stronger perturbation metric could remove
+the loss. An O(delta) perturbation of the squared equation does NOT
+automatically yield an O(delta) perturbation of the signed coordinate.
+
+## 5. Exact remaining bridge and review request
+
+The new result supplies a quantitative model-level replacement for an
+unquantified decision-boundary null-set argument. It remains necessary
+to prove that the finite-r field comparison places all decision errors
+inside such a signed tube, with a sufficiently small and integrable
+width. PR243's pointwise tolerances do not prove that statement. Growing
+windows, hard eigenvalue strata, field/law/determinant remainders and the
+radial lifetime pushforward remain separate obligations. Conjecture 7
+inputs (i) and (ii) are not closed.
+
+The active intermediate research under main229/5957277321 is not
+duplicated. This candidate addresses the other, fold-side model margin.
+An available nonauthor should check Lemma 1, the Gaussian domination
+and the squared-margin lower bound before a source author adopts them.
+Existing PR242/243/244 scopes and reviewed bytes are preserved.
+
+Verification in check.py uses exact rational polynomial identities,
+change-of-variable factors, moments and adverse controls. These tests
+do not replace the analytic proofs above, a field comparison, or
+nonauthor mathematical review.
+
+
+Immutable local proof bytes: SHA256 `1cd4f238de1a005bf84b70d07317a9b91c9fa99d209f9c3051a42f984b53e6e7`. Author executed 225 exact positive controls and seven negative controls in normal and optimized Python; outputs identical. Those controls supplement the analytic proof and do not supply nonauthor review. Pickup5957687430 remains active until verified delivery and release.

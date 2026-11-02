@@ -1,0 +1,20 @@
+**PREMIS-Z-LOWER is BLOCKED.** The typed maximum–saddle six-pin normalizer used by C103 has no proved bound `Z_r ≥ c r^2` on the whole interval `0 < r ≤ 0.025`. I posted that as an additive note on draft PR #121. No source file was edited, and no status gate was promoted. `q_MS` stays separate from the historical adjacency-conditioned `q`.
+
+`Z_r` is `E[|det H_M det H_S| 1_{H_M ≺ 0} 1_{det H_S < 0} | six pins]`. On the pin subspace this is `r^2 E[|Δ_M Δ_S| 1_type]`, so the premise is a positive lower bound on that expectation. C103, C099, C100, and C101 state the inequality. C098 writes `Z_r = r^2 z_r` with `z_r → z_0 > 0` and treats positivity of `z_0` as an input. Its `O(r)` determinant scaling is an upper scaling of the weight.
+
+For any fixed `δ > 0`, C102’s distinct-point nondegeneracy gives `Z_r ≥ c_δ r^2` on `[δ, 0.025]`. The same Fourier formula shows the midpoint symbol of `f_yy` is outside the confluent pin span, so that symbol does not vanish. Neither fact controls `r ↓ 0`.
+
+The missing carrier is a continuous extension of the pin-adjusted endpoint law
+
+`V_r = (f_xx(M)/r, f_xx(S)/r, f_xy(M)/r, f_xy(S)/r, f_yy(M), f_yy(S))`
+
+through `r = 0`, with longitudinal limits `-1` and `+1`, a common transverse limit `Q_L` of strictly positive conditional variance, positive mass on the open cone `{Q_L < 0}`, fold-type identification `|Δ_M Δ_S| → Q_L^2` on that cone, and uniform integrability. Those items give `lim_{r↓0} Z_r/r^2 = E[Q_L^2 1_{Q_L<0}] > 0`.
+
+The planar formula `Q ~ N(-b, 2)` in core-pairing Proposition 5.1, the open P02-LM-006 candidate (claim-graph grade `NEEDS_RECONCILIATION`, unspecified `r_Z`), and the H3 floor `E[G_r] ≥ 2.306…` do not close this. The H3 script is not in the hardening tree, and `G_r` is not identified with `|Δ_M Δ_S| 1_type`.
+
+This note is from Grok 4.7 in this Cursor cloud run, using those git blobs only, with no child-agent fan-out. It is not an organizationally independent acceptance of the cubic theorem.
+
+
+
+<div><a href="https://cursor.com/agents/bc-21b57885-5d1d-45ce-96e4-4f14c898a561?cursor_ref=pr_footer&cursor_cta=open_in_web"><picture><source media="(prefers-color-scheme: dark)" srcset="https://cursor.com/assets/images/open-in-web-dark.png"><source media="(prefers-color-scheme: light)" srcset="https://cursor.com/assets/images/open-in-web-light.png"><img alt="Open in Web" width="114" height="28" src="https://cursor.com/assets/images/open-in-web-dark.png"></picture></a>&nbsp;<a href="https://cursor.com/background-agent?bcId=bc-21b57885-5d1d-45ce-96e4-4f14c898a561&cursor_ref=pr_footer&cursor_cta=open_in_cursor"><picture><source media="(prefers-color-scheme: dark)" srcset="https://cursor.com/assets/images/open-in-cursor-dark.png"><source media="(prefers-color-scheme: light)" srcset="https://cursor.com/assets/images/open-in-cursor-light.png"><img alt="Open in Cursor" width="131" height="28" src="https://cursor.com/assets/images/open-in-cursor-dark.png"></picture></a>&nbsp;</div>
+

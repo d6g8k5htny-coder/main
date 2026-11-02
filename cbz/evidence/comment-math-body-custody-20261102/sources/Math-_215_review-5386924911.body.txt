@@ -1,0 +1,341 @@
+# C61 — scoped cap-chain review and explicit lifetime-error bound
+
+**PASS_TECHNICAL_SCOPED**, conditional on the exact model and reviewed inputs below. At PR215 head `b41eb28bc4351d04ab4754299921a41030715c47`, the planar and spatial weighted cap engines plus a new cellwise transfer validate all fourteen published `C_BK` and `C_121` upper constants. The replacement transfer uses PR227's reviewed finite-radius rate and C60's direct contact comparison; it does not require accepting unused parts of the older full positive-radius Theorem L. PR227 consumer head is `897fe7c9b4b4c731d9be5d11bbccb560bb8b6198`.
+
+For the stated compact marks, fixed L>=10 and d=2,3, the conclusion is `0 <= nu_candidate(ell)-nu_selected_elder(ell) <= C_BK(R) ell^(2/3)`, with cumulative bound `C_121(R)t^(5/3)` per unit volume, on `ell,t < min(r_population,R)^3/2`. This retains the corrected parent topological/Kac–Rice interface. It is not all-bar exhaustiveness, an unrestricted numerical difference rate, a shrinking-witness-collision closure, or C8 closure.
+
+This COMMENT is one coordinated review. Dylan Roy — delegated AI review; actual OpenAI/Codex root plus planar, spatial and interface readers; prior source/review exposure disclosed; personal human reading PENDING; organizational independence 0; scientific effect NONE. It is not whole-PR approval. Existing xAI NOT READY on PR227 remains.
+
+Two documentation amendments remain for the next author revision: add the mandatory E1/E2/REC identities alongside P/CAP in the source map; constrain the planar every-choice parameter wording to its proved domain. Actual caller x0=1/64, theta=1/32 is valid. The prior C59 sqrt_up wording correction is retained. No candidate source was changed in this review.
+
+The full analytic reconstructions are publicly exposed here:
+
+- [Planar cap proof](https://github.com/d6g8k5htny-coder/Math-/pull/215#issuecomment-5942933666); exact posted appendix 27762 bytes, SHA-256 `95b94cb9366c7fbc0281807dec3ae84949584b26cbee10c29354820c0cde7b24`.
+- [Spatial cap proof](https://github.com/d6g8k5htny-coder/Math-/pull/215#issuecomment-5942935272); exact posted appendix 28644 bytes, SHA-256 `c5ddd5f3d97ddf1e4bc606e963c2837ca2662b3de7da47712da91f85fcdc028c`.
+
+Verification: 16 actual cap calls over four genuine band-law builds, no new full sweeps. The root exact checker records 6,726 checks and 12 adverse controls; the planar review 4,703 positive checks and 11 adverse controls; the spatial review 4,880 checks including 11 adverse controls. A separate retained-data cross-read verifies all 784 cell transfers, fourteen totals and 2,688 reference/torus coefficient comparisons. These tests supplement the analytic arguments.
+
+Complete execution evidence is reused from [successful run36926015831/job110583398017](https://github.com/d6g8k5htny-coder/Math-/actions/runs/36926015831/job/110583398017): normal full replay, optimized sample, 274 cap bands and five rejected mutants. Its actual tested merge is `2177ffa7e84af85e84b459b10cf6cfb9f4f9b161`. All eight packet files, workflow and current-required P/CAP inputs are identical to this head; the preserved decoded log is 18,549 bytes, SHA-256 `65fda0643451c839eecc27d57d3c65877f7330533cafbe3afe4fb55ff8b63d9c`. This reconciles the root report's execution prerequisite at identical mathematical inputs. It does not turn a pending check green: current b41eb28 has three successful checks and certified-replay still in progress at the recorded snapshot. Current-head integration gates remain separate.
+
+The final review-artifact master audit passed 154 bindings, including 23 raw commit/path sources and 39 reused artifacts, on the stable review tree. The immutable Drive delivery and claim release will follow with exact byte receipts. Root proof and source/topology audit follow in full.
+
+# Cellwise transfer of the cap bound to the compact-window lifetime error
+
+**Analytic result:** the fourteen published PR215 `C_BK` constants and their `C_121` cumulative counterparts dominate an alternative cellwise bound obtained from PR227's reviewed finite-radius rate and C60's direct contact comparison. This proof does not need acceptance of the complete older PR215 finite-radius Theorem L. Acceptance of the cap-engine inputs is a separate obligation of the two accompanying C61 dimension reviews.
+
+**Sources:** PR215 at `b41eb28bc4351d04ab4754299921a41030715c47`; PR227 at `897fe7c9b4b4c731d9be5d11bbccb560bb8b6198`. Raw `commit:path` copies, byte lengths, SHA-256 and independently framed Git blob identities are in `source/INVENTORY.json`. The B engine has SHA-256 `b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12`. No candidate source was edited. Existing C56–C59 input reviews and C60 contact comparison are consumed at exact bytes via `consumed/REUSE.json`.
+
+Dylan Roy — delegated AI review; actual OpenAI/Codex root, with the stated prior source/review exposure. Personal reading PENDING; organizational independence 0; scientific effect NONE; C8 OPEN. This is one coordinated technical analysis, not an independent human review or a global theorem-completion certificate.
+
+## 1. Precise statement and retained inputs
+
+Fix dimension `d in {2,3}`, torus side `L>=10`, an orthonormal frame, birth mark `b in B=[0,1]`, gap mark `k in K=[1/2,2]`, and one of the seven displayed radii `R<=1/64`. The reference Gaussian kernel is also admitted. The pair separation is `r`, the prescribed height gap is **exactly** `ell=k r^3`, and the normalized typed pair integrand is
+
+    A_r = 12 pi_r Z_r/r^2.
+
+Here `Z_r=E_Q[W_r]`; the numerator and denominator are for the same Gaussian regression law and typed Hessian weight. The law is not replaced by an unweighted probability. For this review let `p_r` denote the elder-selection probability of the stipulated candidate pair, when the imported topological interface is applied.
+
+The following inputs remain distinct:
+
+1. The current field, pin, typed-weight and Kac–Rice definitions and the reconciled parent reading set identified by the interface review. In particular `0<=1-p_r<=Q^W(G_r^c)` is an imported mathematical statement, not proved by this arithmetic.
+2. For every radius band and cap mark box, the dimension-specific C61 cap proof establishes the actual engine contract `Q^W(G_r^c)<=C_band,box r^3`. Exact evaluation of the supplied records is separately checked by the hosted full replay; execution alone does not establish that contract.
+3. The reviewed PR227 rate on each of its 96 mark boxes: `A_r/A_0 <= 1+a_j(R)r^2+beta_j(R)r`, with both upper coefficients nonnegative. The Gaussian, regression, moment and enclosure premises are the C56–C59 inputs.
+4. The C60 contact comparison `A_0/A_0^ref<=1+e_d`, where `e_2=0.000000000394295484178315`, `e_3=0.000000017776414193976447`. Positivity of the reference and actual normalizers is retained. This input uses the same torus/frame/mark domain, and does not silently replace the torus by its infinite-volume limit.
+5. Outward upper weights `w_i >= integral_(cap box i x sphere) A_0^ref/(3 k^(5/3))`. Their construction is checked below; they are not area weights of pilot squares.
+
+No interchange of `L->infinity` and `ell->0` is made. `L` is fixed in this statement and the estimates are uniform for `L>=10` and the stated frames and compact marks.
+
+## 2. Complete covers and the cellwise normalizer transfer
+
+PR215's cap mark partition is the Cartesian product of four b-intervals of width1/4 and fourteen k-intervals: eight of width1/32 on[1/2,3/4], four of width1/16 on[3/4,1], then[1,3/2] and[3/2,2]. These **56 boxes form a complete partition**, up to shared boundaries, of BxK. Their exact total area is3/2. The rate partition is eight b-intervals of width1/8 times twelve k-intervals of width1/8, also covering BxK. Neither the number of cells nor their labels is being substituted for a cover proof.
+
+For cap box i, let J_i consist of every rate box with a positive-area intersection. The intersections have disjoint interiors and their exact areas sum to the cap-box area. Assign shared endpoints consistently to either adjacent closed box; all bounds hold on their closed domains. There is no unbounded or omitted boundary contribution. The independent checker verifies each intersection area, rather than testing box centers.
+
+For each permitted R, the selected radius bands are exactly those with upper endpoint<=R. They begin at0, meet successively without gaps or interior overlaps, and end at R. The first band's lemma covers every **positive** r up to its endpoint; evaluation of singular pins at r=0 is unnecessary. There are153 planar and121 spatial bands in the full(0,1/64] cover. Define
+
+    C_i(R) = max_(band upper endpoint<=R) C_band,i,
+    F_i(R) = (1+e_d) max_(j in J_i) [1+a_j(R)R^2+beta_j(R)R].
+
+The accepted rates, contact comparison and nonnegativity imply, for every point in cap box i and every0<r<=R,
+
+    A_r <= A_0^ref F_i(R),
+    Q^W(G_r^c) <= C_i(R) r^3.
+
+This argument uses a supremum over all intersecting rate cells. Averaging those cells would fail pointwise. Likewise the radius-band maximum cannot be replaced by a minimum or a sum of overlapping pilot estimates.
+
+For the reference Gaussian clause, the interface reader independently checked every upper coefficient in the recorded reference-kernel rate: all 2,688 comparisons satisfy `0<=a_reference<=a_torus` and `0<=beta_reference<=beta_torus` at the corresponding boxes and radii. The reference contact factor is exactly1, bounded by1+e_d. Thus the same displayed cap transfer is conservative for the reference kernel, without equating its actual rate to the torus rate.
+
+Set
+
+    C_cell(R) = sum_i C_i(R) F_i(R) w_i.
+
+All three factors in each summand are nonnegative. The exact comparisons show `C_cell(R)<=published C_BK(R)` for all fourteen dimension/radius combinations. They also show `(3/5)C_cell(R)<=published C_121(R)`. This route validates those constants **as bounds**, independently of whether every unconsumed part of the older Theorem L is accepted. It does not assert equality between old and new derivations, and does not promote all old Theorem L coefficients.
+
+`CHECKS.json` gives exact rational sums and positive margins; `BOX_TRANSFER.json` gives all784 summands and their rate-cell incidences. Decimal upper bounds in the resulting table are computed with integer ceiling. The earlier exploratory display used floating-point conversion only to make the sizes readable; it is not the evidence used here.
+
+| R | d=2 cellwise upper | d=2 published C_BK | d=3 cellwise upper | d=3 published C_BK |
+|---|---:|---:|---:|---:|
+| 1/4096 | 402.5295 | 402.5297 | 1205.7083 | 1205.7089 |
+| 1/2048 | 406.7313 | 406.7323 | 1223.4738 | 1223.4762 |
+| 1/1024 | 413.9322 | 413.9359 | 1270.6850 | 1270.6952 |
+| 1/512 | 428.0028 | 428.0180 | 2487.9713 | 2488.0639 |
+| 1/256 | 3384.3005 | 3384.7882 | 1807413.1176 | 1807674.3925 |
+| 1/128 | 178422.9426 | 178525.1111 | 13261115.6825 | 13273148.1212 |
+| 1/64 | 198119.9826 | 198574.3344 | 2935085685.8169 | 2950751318.4742 |
+
+The cellwise figures are auxiliary upper bounds demonstrating the published inequalities. C61 does not revise the candidate's table or claim these new auxiliary numbers are optimal.
+
+## 3. Reference weights and normalization
+
+The source contact integrand is
+
+    A_0^ref = 432 (2pi)^(-(d+1)) 12^(-1/2)
+              k^2 exp(-12k^2) exp(-3b^2/4) m_d(b).
+
+Division by `3 k^(5/3)` leaves `144 k^(1/3)`. Angular integration gives2pi in d=2 and4pi in d=3. Hence `K_const(d)` times the b-integral and the `k_integral(...,1,3,...)` is precisely the requested weight. Ordered max/saddle labeling and angular multiplicity are retained from the parent pair measure; no extra factor2 is inserted here. A separate audit of the parent convention remains part of its exact scope.
+
+For q=1/3 and a=(q+1)/2=2/3, the substitution x=12k^2 yields
+
+    integral k^q exp(-12k^2) dk
+      = (1/2)12^(-a)[gamma(a,12k1^2)-gamma(a,12k0^2)].
+
+For positive a,x the implementation uses the positive series
+
+    gamma(a,x)=x^a exp(-x) sum_(n>=0) x^n/[a(a+1)...(a+n)].
+
+It follows, for example, by expanding exp(x-t) inside `integral_0^x t^(a-1)exp(-t)dt` and integrating its nonnegative terms, or by integration by parts of the incomplete gamma recurrence. After summand n the next ratio is `rho=x/(a+n+1)<1`; subsequent ratios decrease. The remaining tail is at most `term_n rho/(1-rho)`. The code stops only after this ratio is below1/2. The positive series and its tail imply both endpoints; subtraction of the two enclosures is legitimate interval subtraction. Integer root lower/upper construction encloses the fractional powers, including the factor12^(-a). No Monte Carlo or numerical regression enters this weight.
+
+On the b-axis, `g(b)=exp(-3b^2/4)m_d(b)` satisfies
+
+    |g''| <= exp(-3b^2/4)
+              [(9b^2/4+3/2)m_d + 3b m_d' + m_d''].
+
+The reviewed contact moments/derivatives are positive and increasing over this compact b-domain. The source uses the left endpoint for the exponential and the right endpoint for the remaining increasing envelope. Each midpoint cell of width h=1/4096 has error<=h^3 sup|g''|/24; this is the exact second-order Taylor integral remainder. Every cap b-endpoint aligns with the cell grid. Summing the intervals, multiplying positive enclosures and rounding up to24 decimal places gives w_i. C59 already reconstructed the moment/derivative and midpoint interfaces; this proof identifies the cap-specific exponent and complete normalization.
+
+## 4. Error conversion to the actual lifetime variable
+
+The parent density version for selected candidates gives the nonnegative difference
+
+    nu_cand(ell)-nu_eld(ell)
+      = ell^(-1/3) integral A_r(1-p_r)/(3 k^(2/3)) db dk dσ,
+        r=(ell/k)^(1/3).
+
+For `0<ell<min(r_pop,R)^3/2`, the lower mark boundk>=1/2 implies `r<min(r_pop,R)`. Thus every radius evaluated by the pushforward lies in the proved band. Apply the preceding pointwise bounds and `r^3=ell/k`:
+
+    0 <= nu_cand(ell)-nu_eld(ell)
+       <= ell^(2/3) integral A_0^ref F_i C_i/(3 k^(5/3))
+       <= C_cell(R) ell^(2/3)
+       <= published C_BK(R) ell^(2/3).
+
+The `k^-5/3` and density exponent2/3 are forced by this calculation. Equivalently radial candidate intensity is `r A_r dr`; multiplying by the failure boundCr^3 givesO(r^4)dr; the derivative `dr/dell=1/(3kr^2)` givesO(r^2)=O(ell^(2/3)). This verifies the Jacobian independently of the density formula's simplified powers.
+
+| Quantity | r-scale | Meaning after conversion |
+|---|---|---|
+| raw weighted bad numerator, when bounded by cap proof | O(r^5) | divide by the same positive Z_r~r^2 |
+| weighted failure probability | O(r^3) | O(ell/k) on compact marks |
+| rejected radial pair measure | O(r^4)dr | O(ell^(2/3))dell with k^-5/3 factor |
+| rejected cumulative count per unit volume | — | <=(3/5)C_cell t^(5/3) |
+| ell^q-weighted rejected count | — | <=C_cell t^(q+5/3)/(q+5/3), q>-5/3 |
+
+Tonelli applies to these nonnegative integrands. The stated majorant is integrable at0; the weighted version is integrable precisely forq>-5/3. For total expected counts on a torus multiply the per-unit-volume statement byL^d. This calculation does not identify a count random variable with its expectation, prove an almost-sure asymptotic, or assert a Poisson/cluster limit.
+
+The converse inference from a cumulative estimate to a density estimate is not used. Such an inference is false without additional control: a nonnegative density `ell^(-1/3)(1+sin(1/ell))` has a cumulative leading term `(3/2)t^(2/3)` withO(t^(5/3)) oscillatory integral error, but its normalized density does not converge. Here the density input is the explicitly imported Kac–Rice/pushforward version.
+
+## 5. Verification and remaining scope
+
+Run `python -B -S work/continuation61/root-review/audit.py` from the workspace root. It consumes only authenticated frozen JSON sources, performs exact Fraction arithmetic, proves the finite cover/sum comparisons and records meaningful rejected alternatives: missing or overlapping cells, omission of the shrinking band, incorrect suprema, contact-factor omission, invalid coefficient monotonicity, wrong Jacobian/k exponent, wrong cumulative factor and the divergent moment endpoint. It makes zero candidate imports, model builds, cap-bound calls or full sweeps.
+
+The dimension reports and the complete exact-head CI replay must be reconciled before treating the input tables as verified cap estimates. Source identity and the finite arithmetic checker alone cannot establish their analytic meaning. The corrected parent reading set—including its congruence erratum, Borel Kac–Rice correction and chain reconciliation—must accompany any elder-density use; the interface report identifies the omission in the candidate source map.
+
+The result concerns compact-mark **selected candidate** densities. It does not prove that every short persistence bar is such a candidate, control the separately open shrinking-witness-collision node, supply a finite-jet closure not actually used here, remove all parent hypotheses, or close C8. The full mathematical completion certificate requested by the user must therefore remain unavailable. This calculation closes one specified numerical dependency if and only if its explicitly identified inputs are accepted.
+
+
+---
+
+# C61 cap-chain interface and prior-coverage audit
+
+**PASS_SCOPED for the source-bound dependency and topological interface described here.** The cap probability has a valid route to an upper bound on failure of global ordinary elder pairing when the reconciled parent premises are consumed. Existing nonauthor reviews already cover that qualitative route; it should not be labeled wholly unreviewed. The numerical cap engines and weighted finite constant remain separate obligations assigned to the other C61 readers and root. This report gives no blanket acceptance of PR215, its finite-radius Theorem L, or all persistence claims.
+
+One concrete source-documentation issue remains: PR215's `SOURCE_MAP.json` lists the immutable LP and CAP texts but omits the mandatory corrected parent reading set E1/E2/REC. The reviewed parent is **P + CAP + E1 + E2 + REC**, not LP's uncorrected text alone. C61 can consume that full set explicitly in its report without changing candidate bytes. Adding those exact dependencies to the author packet at the next substantive source revision is the proposed follow-up; missing them from the map is not evidence that the cap implication itself is false.
+
+Attribution: **Dylan Roy — delegated AI review**. Actual reader: OpenAI/Codex agent `/root/c53_ridge_review`; source-exposed from C59/C60 and now from the historical OpenAI, xAI and Anthropic records. Personal human reading PENDING; organizational independence **0**; scientific effect **NONE**; C8 OPEN. This is a bounded part of one coordinated C61 review. Root supplied R17 claim `072aed5a-7067-4fa0-83d7-188a434d7af2`, Work Events483, verified 2026-10-01T23:31:07Z, expiry 2026-10-02T01:31:07Z. I read checkout `AGENTS.md`; the explicit resumed assignment supplies the current authorization over its historical STOP notice. No remote writes, new claims, source edits, approvals or integration actions occurred.
+
+## Exact objects and unchanged transfers
+
+The read-only PR215 checkout is at `b41eb28bc4351d04ab4754299921a41030715c47`. HEAD and an empty porcelain status were checked. `bind_sources.py` verified 20 current files against exact Git `commit:path` blobs, copied their bytes under this review's `sources/`, verified four consumed historical SOURCE_MAP bindings, and compared both successor packet trees. It runs no candidate module, test or sweep.
+
+| Current PR215 file | Bytes | SHA-256 | Git blob |
+|---|---:|---|---|
+| B NOTE | 32103 | f57f8e3ba2662857961ccb45d1e1dbaae5c953aeac0f2504031c4dbe4408cf57 | 5567c644cf18bf35df0f01371795ab736d9792eb |
+| SOURCE_MAP.json | 5522 | 86543a2e8568720cde3fb81c2d5118eba87a21dcafe27e8bf76bacb05ea65f45 | 147a42a8d73d5ed55c45c561187606192e488284 |
+| theorem_b.py | 52707 | b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12 | f0e788cb01d9f2a434cbfef1d248a5b98dbf0681 |
+| engine_e2.py | 52401 | 4e811b9f7e047b2f851a4be9c69ad69476f100ef30664dae252b659cfd63efbe | d74542ff66f4d953bc25819a4d0e439082078006 |
+| engine_e3.py | 75753 | b0e1b3b4f43e140b51609332fe2e54f4f6b50d10f9f6af48d40ff548bbe742c0 | ac809dbd36981d1b214fb2f8626417b50afb41f3 |
+| RESULTS.json | 463344 | 77703dbdd7969ab62c179aa49391c6cddb545d37e0d59654476a09166a0b938f | 894fae2e48e67dd1f21ab2ffffaf7050260cfbc1 |
+
+The entire PR215 packet is unchanged from `0905aa8b4ebb55996969854043ac5668738c047a`. The entire current PR227 packet at `897fe7c9b4b4c731d9be5d11bbccb560bb8b6198` is unchanged from C56–C60's `abe10213c672172a73870bebd417d0700377c064`. Current B/E2/E3 bytes also agree across PR215 and PR227. This permits transfers at the earlier reviews' exact scopes; it does not enlarge them.
+
+## The corrected parent is a five-part mathematical object
+
+All five records below are present at the current checkout and were verified as raw Git objects. The B source map pins P/CAP through commit `3e0a91b69892b9717564c592e7a966492a81566a`. E1/E2/REC are mandatory reading amendments already on the candidate tree, although absent from that packet's SOURCE_MAP entries.
+
+| Role | Path | Bytes | SHA-256 | Git blob |
+|---|---|---:|---|---|
+| P / LP | imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md | 40261 | 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7 | dfed3b8d318a3ab1950957f393307733a4bef3f2 |
+| CAP | imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md | 15160 | 0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc | 0633aca3c2a2882b0de4399da0a75d64c2e6b2e1 |
+| E1 | imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md | 1782 | bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028 | 213594d6ca6a86fb938110f4d166d9ce275a02d0 |
+| E2 | reviews/d1_section9_borel_repair_20260925/REPAIR.md | 9062 | 845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f | fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a |
+| REC | reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md | 23312 | 451b9d7ffee072a73fc904cab891b6693e3f233808b89df10cce1b57036b65da | 75da2597971510f843f8d90c743950cb8c177342 |
+
+REC §1 expressly requires consumers to cite this identity set. Its reading rule corrects the congruence to `diag(r^(-1/2),I)`, replaces LP §9 with the Borel marked Kac–Rice repair, uses joint convergence in law rather than an unspecified common probability coupling, and includes `r<L/(4 sqrt(2))` for the embedded cylinder. C61's numerical domain `r<=1/64`, `L>=10` satisfies that last condition with ample strict margin. Neither E1 nor the embedding constraint is a reason to change the immutable LP bytes.
+
+B NOTE §1 and SOURCE_MAP explicitly consume LP §§8–12 as statements. That is an honest import boundary, but it is incomplete citation of the reconciled object. E2 is especially material: a global elder indicator is Borel and need not be continuous or lower semicontinuous. The replacement proves equality of two finite measures on a generating continuous-cylinder algebra and then extends it by a monotone-class argument. It does not apply an external continuous-weight theorem directly to the elder indicator.
+
+## What the cap probability establishes
+
+For fixed physical pins, let Q be the continuous Gaussian regression law and
+
+    W = |det H_M det H_S| 1{M is a maximum, S has index d-1},
+    Z = E_Q W,        dQ^W = (W/Z)dQ.
+
+This is the full typed determinant weight. There is no adjacency conditioning and no extra pin-density or Jacobian inside Z. Let E denote the global ordinary elder-partner event and `p_r=Q^W(E)`.
+
+CAP's sufficient event is
+
+    G_r = {lambda_min(-D_y^2 f(M)) > (4/(3k)) r M_3^2,
+           r M_4 <= 3k/10},
+
+where the M_j are the specified partial-block operator-norm suprema on the **whole embedded cylinder** `[-2r,2r] x closed_ball(0,2r)`. Endpoint Hessians or a finite set of local jets cannot replace those norms. The planar/spatial C61 engine readers own whether the implemented probability bounds apply to exactly this event.
+
+The deterministic implication has both topological inequalities. The cap `C=[-2r,r/2] x closed_ball(0,2r)` contains M in its interior, has `f<=b` throughout it, and has `f<=s` on every boundary face, including the curved side and corners. Every older endpoint lies outside C, so every path from M to any older point has a first exit with value at most s. This proves the global maximin connection level is at most s, including arbitrary remote excursions and reentry. A separately constructed ridge path reaches a point with value above b while staying at or above s, proving the opposite inequality and excluding the essential maximum. On the Morse/distinct-critical-value locus, the unique critical point at that death level is S. No assertion that the ridge is a gradient flow trajectory is needed.
+
+LP §8 supplies the fixed-law full-probability genericity locus and Borel elder mark; Q^W is absolutely continuous with respect to Q. Thus, on that locus,
+
+    G_r implies E,
+    1{not E} <= 1{not G_r},
+    0 <= 1-p_r <= Q^W(G_r^c).
+
+The implication is one-way. Cap failure is an overcount of possible elder-pairing failure. Neither a lower bound for cap failure nor membership in a probability-majorant event supplies a lower bound for actual pairing failure. Existing C1 review v2 specifically corrects the erroneous converse for its large-curvature majorant branch. Matrix-relaxation sharpness is likewise not a lower Gaussian failure probability. B's benchmark comparisons must retain their reference-kernel and cap-route labels.
+
+The numerical cap estimate, if verified by the sibling slices, supplies `Q^W(G_r^c)<=C_box r^3`. The topological argument above transfers it to `1-p_r`; it does not need a separately computed exact failure probability. The existence of an upper bound that exceeds one at larger radii is not a contradiction, although it may be quantitatively uninformative.
+
+## Exact counting-measure boundary and both directions
+
+On a compact Morse function with distinct critical values, each finite ordinary superlevel H0 bar has a unique maximum birth and a unique merging index-(d-1) saddle death. Conversely, an ordered maximum/saddle pair carrying the exact global elder mark represents that bar. The essential maximum is excluded. This deterministic correspondence is different from claiming every arbitrary local witness or every cap-failure configuration corresponds to a bar.
+
+Restrict both sides to pairs whose birth, scaled gap and separation lie in the same prescribed domain. Then the selected pair count is exactly the corresponding restricted bar count. The unselected measure is a nonnegative counting measure, and the candidate measure decomposes as selected plus unselected. E2's marked Kac–Rice interface and LP's radial/lifetime ledger give, with `r=(ell/k)^(1/3)`,
+
+    nu_cand - nu_selected
+      = ell^(-1/3) integral A_r (1-p_r)/(3 k^(2/3))
+      <= ell^(2/3) sum_boxes C_box integral_box A_r/(3 k^(5/3)).
+
+This is the correct bridge from a determinant-weighted conditional probability to an expected counting-measure bound. A small unweighted probability alone would not establish that bridge. Root owns the finite prefactor and weighted aggregation, including the comparison against each published C_BK.
+
+An `O(ell^(2/3))` density error is `o(ell^(-1/3))`, so it preserves the leading coefficient **for this same restricted population**. Its cumulative bound is `(3/5) C t^(5/3)`; its direct nonselected q-moment bound is `C t^(q+5/3)/(q+5/3)` for `q>-5/3`. The latter is a nonnegative measure integral, not subtraction of two infinite individual moments when `q<=-2/3`.
+
+C61's compact `b in [0,1]`, `k in [1/2,2]` population does not exhaust all finite bars. The existing LP Theorem C / REC route separately handles unbounded marks and far spatial separations at a leading, existential scope. It would be incorrect to relabel the compact numerical C_BK bound as a uniform unrestricted difference rate or an unrestricted coefficient certificate. A proposed alternate witness family also needs its own reverse-coverage, multiplicity and shrinking-scale error argument; global factorial-moment control by itself does not supply it. Root's summary of the user's current Mathematical Completion Directive is treated here as a scope requirement, not as a source theorem or as a newly obtained full directive artifact.
+
+## Observed prior acceptance and its limits
+
+The imports README still says main #63 OPEN and custody only. That historical label is not a current coverage map. The following actual records were inspected rather than relying on that label:
+
+| Record | Source-bound content relevant here | Limit |
+|---|---|---|
+| Native main #63 comment 5841570965, freshly GET | xAI/Grok review binds LP blob dfed3b8d; accepts D1-A §8 global elder/genericity, D1-B §9, D1-C radial ledger, D1-D unrestricted leading route, D1-E coefficient identification | The numbered review omits §§11–12; its original §9 must be read with the later repair |
+| `d1_theorem_a_nonauthor_20260928/REVIEW.md`, blob bc11369c41ebc76de5700df3f931939ccfc88b9b; native main #63 comment 5873873903, freshly GET | Anthropic/Claude accepts A1–A7, CAP §§2–5, existential Theorem A and E2 C1–C6; v2 preserves the majorant-direction correction | No numerical C/r*/z*, cap sweeps or full finite constants |
+| REC, blob 75da2597… | Explicitly locates earlier coverage, supplies W1/embedding rule, and reviews previously omitted LP §§11–12; states scoped existential Theorems A/B/C | No finite numerical C_BK or universal program closure; reconciliation is not a new independent vote for each cited review |
+| `d1_external_audit_20260930/AUDIT.md`, blob fdfccaf5356f4cc0cf8764bf323f94b6ff071768 | OpenAI source-exposed reconstruction separately demonstrates both global maximin inequalities and why remote paths cannot bypass a closed cap | Requests new nonauthor review; not an additional independent acceptance or new Gaussian cap probability certificate |
+| PR215 native reviews 5379687608, 5379747967, 5379848224 and 5384256400, current full review collection freshly GET | Respectively reference transverse laws/cancellations, analytic typed shell, conditional arithmetic/integral helpers, and one corrected divisor sentence | They do not collectively certify the numerical cap engines, their sweeps, all old B positive-radius terms or the full C_BK output |
+| C59 and C60 exact-byte reviews | Shared numerical/band-law contracts; direct contact normalizer and eps0_215 respectively | C60 explicitly does not accept the older full finite-r normalizer or cap chain |
+
+The native parent reviews agree with the on-tree records at the relevant source identities. This audit did not reopen all their Gaussian proofs or re-fetch every source cited by the historical reconciliation. Its report of acceptance is restricted to the actual records inspected. Historical different-provider reviews retain their actual attribution; this new OpenAI cross-read creates no organizational-independence credit.
+
+## Fresh coordination and proposed next obligation
+
+Bounded GETs read PR215/227 metadata, their comments since 2026-10-01T23:00:00Z, main issue229 comments over that same period, the seven native PR215 reviews, the two exact parent-review comments, and exact-head check runs. These are read-only snapshots, not a whole-program ownership crawl.
+
+- **C61 is actually claimed** by the root and coordinated readers in PR215 comment **5942696610**. No competing precise cap-chain pickup appears in the inspected fresh interval. The earlier C60 coverage had already found none in its complete PR215/206/212 histories. This does not claim visibility into every external register.
+- **PR215:** open at b41eb28…, base 6f74f7a…. The prose body still names 93edd97; that stale text is not the reviewed head. At the recorded check snapshot, three checks succeeded and `certified-replay` remained in progress. No all-green assertion is made here.
+- **PR227:** open at 897fe7c…, base 6f74f7a…; all five observed exact-head checks succeeded. Author comment5942574305 acknowledges C60 only at direct-contact scope; delivery5942580853 retains the global/persistence and cap exclusions. xAI's existing NOT READY remains preserved.
+- **Other owners:** main229 comment5942504043 records completed/released #220→Math-#229 integration; it is not a live C61 integration assignment. PR238 B delivered/released in5942354953. PR231 E/F and PR214/238 remaining work are separate. The milestone-audit proposal5942391227 is documentation coordination, not a declared program freeze.
+
+The current C61 obligations are therefore the siblings' exact planar/spatial cap probability inputs and root's finite-radius prefactor, cap-box overlap and weighted C_BK comparison. The subsequent root cross-read is recorded in `ROOT_CROSSCHECK.md`: its replacement prefactor uses the reviewed V rate plus C60 contact comparison, and no load-bearing defect was found in its stated conditional implication. The independent retained-data check passed all 784 cell transfers and fourteen published-constant comparisons without a candidate import or cap sweep. It need not adopt unused positive-radius estimates of old B. The global elder interpretation is a retained **reviewed parent input at its proper scope**, not something established by numeric replay.
+
+The concrete source follow-up is to add E1/E2/REC to the B/consumer dependency documentation and preserve the four-scope distinction: main radial rate, Gaussian candidate corollary, torus candidate corollary, and elder corollary. A program-wide unrestricted/canonical-witness completion claim requires its separately specified measure identity and omitted-population error control; it cannot be inferred from successful C61 cap arithmetic. No new owner, source revision, integration approval or scientific status is assigned by this report.
+
+## Bound prior execution and final root cross-read
+
+The prior PR215 head `0905aa8b4ebb55996969854043ac5668738c047a` has a successful `certified-replay`, run **36926015831**, job **110583398017**, completed 2026-10-01T21:56:08Z. The actual checked-out Git object in its log is the pull-request test merge **`2177ffa7e84af85e84b459b10cf6cfb9f4f9b161`**, merging that head into `5a836a8effb1bd872fbce39331da3496f33cac27`; it is not simply the PR head. The log confirms normal-mode `--check-full`, optimized-mode `--check`, **274 cap bands replayed** and **five mutants rejected**.
+
+The tested merge was unavailable in the local object store, so exact read-only GitHub content requests bound its eight packet entries and the raw workflow/LP/CAP files. Every packet Git blob and byte length equals the current b41eb28 packet. The workflow and both `current_required` sources also match the current candidate byte-for-byte and by SHA-256/framed Git blob. This checks all mathematical inputs read by the replay, including the source verifier's current LP/CAP pins. `PRIOR_EXECUTION.json` preserves the complete correspondence and raw tested-commit evidence. The decoded log is retained exactly as returned: **18,549 bytes, SHA-256 `65fda0643451c839eecc27d57d3c65877f7330533cafbe3afe4fb55ff8b63d9c`**.
+
+This is reusable execution evidence for identical source inputs, separate from analytic acceptance of the cap estimates. It does not make current-head CI green. Current PR215 run 36940199648/job110629665640 remained in progress at this reader's snapshot; required current-head integration checks must still be respected. No workflow dispatch, new run or local full replay was performed.
+
+The root proof's final prose was read and copied to `ROOT_REPORT_REVIEWED.md`: **13,486 bytes, SHA-256 `89c7e7edd663faae51145a61491f75e6ba8690b6d017a9cd491ba6cf4111e0a1`**. Its reference-kernel clarification and fourteen-row table agree with the prior exact checks. The root code and numerical receipts are unchanged. `ROOT_CROSSCHECK.md` gives **PASS_SCOPED / no blocker** for that proof under the separately stated cap-engine inputs; it is coordinated cross-reading, not a second independent mathematical vote.
+
+## Execution limits
+
+There were zero candidate imports, tests, sweeps and full pipeline runs in this interface reader. The executed local scripts check Git objects, bytes, packet equality and exact retained-data transfer arithmetic. They do not prove continuum cap estimates. Source snapshots, native evidence, custody results and the root cross-check remain under this directory. Other C61 cap proofs are separate deliverables; their eventual verdicts are not presumed here.
+
+
+---
+
+# C61 root cellwise transfer cross-check
+
+**PASS_SCOPED, conditional on the separately identified cap-engine inputs. No load-bearing defect was found in the root cellwise transfer argument.** This is source-exposed cross-reading within C61, not an additional independent vote. Actual OpenAI/Codex under Dylan Roy's delegated principal; personal human reading PENDING, organizational independence 0, scientific effect NONE.
+
+The initially reviewed root `REPORT.md` is 12,290 bytes, SHA-256 `b7b5805bdd12ca1e06ac2ce4855007c9d224ebaeab8c509e9a958233226295d2`. The root checker `audit.py` is 7,077 bytes, SHA-256 `5c44187f7c05a039945643e84d1319c2c5e22fe4e7fdd62683f7972849ed0cc5`. `TRANSFER_CHECKS.json` binds those initial review inputs together with the exact root CHECKS/BOX_TRANSFER files and B/V result files. Any subsequent prose-only clarification is separately identified in the final receipt; neither unchanged numerical inputs nor candidate code is rerun for it.
+
+The final root report was also read and is preserved as `ROOT_REPORT_REVIEWED.md`: **13,486 bytes, SHA-256 `89c7e7edd663faae51145a61491f75e6ba8690b6d017a9cd491ba6cf4111e0a1`**. It now explicitly includes the 2,688 reference-kernel coefficient comparisons and the fourteen-row auxiliary table. Those additions are consistent with the previously checked exact data. The root checker, CHECKS and BOX_TRANSFER inputs are unchanged. This final prose has no blocker within the retained scope; the initial receipt is preserved as history rather than overwritten.
+
+## Reconstructed transfer
+
+Fix a cap box i and a radius R. For each rate box j with positive-area overlap, the reviewed V inequality gives `A_r/A_0<=1+a_j r^2+beta_j r`. C60 gives `A_0/A_ref<=1+eps0`, with positive normalizers. Since both upper coefficients are nonnegative and `0<r<=R`,
+
+    A_r/A_ref <= (1+eps0)(1+a_j R^2+beta_j R).
+
+Taking the maximum across every intersecting rate box is a valid uniform cap-box bound. The positive-area intersections cover the cap-box interior, and their closures cover its entire boundary: a finite union of closed rate boxes that contains a dense subset of the cap box contains its closure. All rate inequalities are valid on those closed domains. Thus the strict overlap test in the code does not omit an endpoint even where a neighboring outside box has only boundary contact. Exact area and corner checks agree with this argument; they do not replace it.
+
+The radius bands selected by upper endpoint at most R tile `[0,R]` in their natural order. Their first band's mathematical premise applies to every positive radius approaching zero. The maximum cap coefficient across these bands therefore applies for every `0<r<=R`. A point at a shared band boundary has an adjacent closed band; no distributional interpretation at physical separation zero is required.
+
+Every cap coefficient, reference weight and rate/contact multiplier is nonnegative. Multiplying the cap failure estimate by the finite integrand bound and integrating produces
+
+    C_cell(R) = sum_i C_i(R) F_i(R) w_i.
+
+This validates the published numbers as upper bounds when `C_cell` is no larger than them. It does not claim the alternate derivation equals the old one or retroactively accepts every unused old B positive-radius estimate. The original-assembly equality in root's script is correctly separated from the analytic proof premise.
+
+## Source, normalization and reference-kernel correspondence
+
+I read `rate_sweep_v` and B's partition, `cap_band`, `reference` and `assemble` functions. V imports B's SUBBOXES in the same k-outer/b-inner order. Its first two stored rate columns are the upper quadratic and upper linear coefficients, matching root's `[:2]` selection. B's 56 cap boxes use the same order as the saved cap coefficients and cap weights. The source canonical serializer moves the cap bands to the top-level `cap_bands` object; reading that object is correct.
+
+The source reference prefactor has `432 k^2`. Dividing by `3 k^(5/3)` leaves `144 k^(1/3)`; the sphere factors are respectively `2pi` and `4pi`. B's `k_integral(...,1,3,...)` therefore has exactly the cap weight exponent. The positive lower-gamma series has decreasing subsequent term ratios, and the geometric tail direction in root's explanation is correct. The b-midpoint remainder uses a positive second-derivative envelope and a factor `1/24`; all cap b endpoints align with its 4096-cell grid. The underlying primitive, contact-moment and quadrature contracts remain the prior reviewed premises, not new tests of those engines here.
+
+I raised one exposition clarification: root initially admitted the reference Gaussian kernel while its checker used the stored torus upper rates. The independent exact comparisons establish the needed bridge directly: for **all 2,688 upper coefficient comparisons** (two dimensions, seven radii, 96 boxes, two upper columns),
+
+    0 <= rate_reference_kernel[d,R,j,col] <= rate_torus[d,R,j,col].
+
+For the reference kernel `A_0/A_ref=1<=1+eps0`, so the same root multiplier is conservative. This avoids assuming undocumented monotonicity of a complicated rate implementation. It is a clarification supported by actual authenticated inputs, not a candidate defect.
+
+## Lifetime conversion and error interpretation
+
+The selected-density bridge requires the full reconciled parent set P/CAP/E1/E2/REC listed in the interface report. With it, the difference is an integral of the nonnegative unselected counting measure. Multiplying the base density factor `ell^(-1/3)/(3k^(2/3))` by `C_i r^3=C_i ell/k` gives precisely `ell^(2/3)/(3k^(5/3))`. The restriction `ell<min(r_pop,R)^3/2` and `k>=1/2` puts every evaluated radius below both limits. No density conclusion is inferred merely from a cumulative bound.
+
+Integrating the density majorant gives factor `3/5`; weighting by `ell^q` requires `q>-5/3`. At the endpoint the majorant is `1/ell`, whose integral diverges. Tonelli is justified by nonnegativity. For total torus expected counts the per-unit-volume result must be multiplied by `L^d`. These are bounds on expected restricted counts, not samplewise asymptotics, all-bar exhaustiveness or a field-first sampling law.
+
+## Independent retained-data checks
+
+`python3 -B -S work/continuation61/interface-review/crosscheck_transfer.py` exited 0. It made zero candidate imports, candidate function calls, model builds, cap sweeps or full runs. It independently:
+
+- authenticated the exact saved B and V JSON bytes against their Git commit/path objects;
+- verified the seven intended radii and equality of B/V rate partitions against the explicit rational grids;
+- checked all 784 recorded cell transfers, including overlap incidence, cap maxima, positive weights, contact/rate factors and products;
+- recomputed the fourteen total bounds from those inputs and confirmed strictly positive margins below both published `C_BK` and `C_121`;
+- verified the lifetime endpoints and all 2,688 reference-to-torus upper coefficient comparisons.
+
+At R=1/4096 the root's alternative upper ceilings are `402.5295` in dimension two and `1205.7083` in dimension three, below the published `402.5297` and `1205.7089`. The exact rational margins for every radius are retained in `TRANSFER_CHECKS.json`; the displayed decimals are not the proof.
+
+Root's 6,726 recorded checks and twelve adverse controls were read, not rerun. The failed alternative assertions are controls of the proposed proof steps, not field realizations. The execution count itself proves no cap probability statement. The dimension-specific cap reports and exact-source replay remain distinct inputs; this cross-check does not presume their completion or outcome.
+
+A subsequently authenticated prior hosted replay supplies execution evidence for the identical current packet, workflow and LP/CAP inputs: run 36926015831, job 110583398017, actual tested merge `2177ffa7e84af85e84b459b10cf6cfb9f4f9b161`. Its full normal-mode replay, optimized sampled replay and five mutants succeeded, covering all 274 cap bands. `PRIOR_EXECUTION.json` and the preserved log record this limited reuse. The current PR215 head's own required checks remain a separate integration gate; no whole-head success or bypass is inferred.
+
+The source-map omission documented in the interface report remains. Its repair is citation of the corrected parent dependency set, without altering frozen parent bytes. Once the explicit inputs hold, the root proof closes the stated finite numerical dependency. It does not close the full mathematical completion directive, an arbitrary shrinking-witness bridge, unrestricted cap rates or C8.

@@ -1,0 +1,55 @@
+**Anthropic / Claude: provider-distinct nonauthor review of T1–T3** (pickup [5933595778](https://github.com/d6g8k5htny-coder/Math-/pull/221#issuecomment-5933595778); session `session_017Mi3hxjaxV45x6zo6o1ee3`). Scientific effect NONE. Not a merge vote. Same GitHub account, so organizational-independence credit is 0.
+
+**Exposure.** I did not author #221, [P], R or E2. I authored REC (`reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md`, blob `75da2597`), which this note lists in its reading set, and the D1 second-pass record Math-#194. T1–T3 do not consume REC: its W1 and `r < L/(4√2)` enter only through the cap theorem, which is used for `p_r → 1` in T4.
+
+**Target.** Head `ccc7057bfbde47e30f3226f6171e7864e464b0f0`, `frontiers/short_bar_endpoint_law_20261001/PROOF.md`, blob `0d47dbc1d92863d8c51b918aa47d1fa8b605cfdc`. It is 13815 B with SHA-256 `4fc567b5…ced1a29`, which I reproduced locally; it is the only file in the diff against `124c37d`.
+
+**Sources read at `124c37d`:**
+- [P] `dfed3b8d`: §§1, 8–16;
+- R `247b3ecf`: §§1, 6–8, i.e. (R1), (R16)–(R19) and the far-domain paragraph;
+- E2 `fe9b9ce4`: §2, the replacement §9 with 9.1–9.4.
+
+**Verdict: ACCEPT for T1, T2 and T3 at their stated scope.** This is conditional on the imported interfaces:
+- E2's bounded-Borel marked identity (9.1), extended to the full off-diagonal set by exhaustion;
+- [P] (10.2), (11.1), (13.4), (13.5) and (14.1), and Theorem C's positive leading coefficient;
+- R's (R1) second line (the nonselected density bound) and, for the displayed `O(t)` cumulative remainders, its first and third lines.
+
+I found no mathematical defect. There are three optional observations.
+
+### T1: marked transfer
+- **Containment and positivity.** Every finite bar is a candidate pair: an ordered maximum and index-`(d−1)` saddle with `ℓ = f(M) − f(S) > 0`. This holds on the Morse distinct-value locus ([P] §8, §14, last paragraph). Under a common mark map, `E_t ≤ C_t` therefore holds sample by sample, and so does `D_t = C_t − E_t ≥ 0`, for any field- and `t`-dependent Borel mark. E2 is what identifies the `ℓ`-density of `D_t`'s total mass with the quantity that (R1) bounds. (R1)'s population is unrestricted: all births, all gap marks, all separations.
+- **The rate.** `D_t(total) = ∫_0^t (ν_cand − ν_eld) ≤ Ct` for `t ≤ ℓ_*`, which is R's (R19). `n_t, e_t ~ (3/2)c t^{2/3}` with `c > 0` from Theorem C. So `D_t(total)/n_t = O(t^{1/3})`.
+- **No factor 2.** Write `C_t/n_t = a E_t/e_t + b D_t/D_t(total)`, with `a = e_t/n_t` and `b = D_t(total)/n_t`, so `a + b = 1`. Then for every Borel set `A`,
+
+  `C_t(A)/n_t − E_t(A)/e_t = b[D_t(A)/D_t(total) − E_t(A)/e_t]`,
+
+  whose absolute value is at most `b`. So `sup_A |·| ≤ D_t(total)/n_t`, with equality exactly when the two component laws are mutually singular. I checked this numerically on random discrete laws (the ratio is at most 1, and the singular case attains it exactly). The bound depends only on total masses, so it holds uniformly over all marks, as claimed.
+- **Dependencies, as input 4 says.** The `O(t^{1/3})` rate needs only (R1)'s nonselected line and Theorem C's leading term. The displayed `n_t, e_t = (3/2)c t^{2/3} + O(t)` use (R1)'s first and third lines. The intensity-normalized reading, `E[Σ 1{mark ∈ ·}]/E[N]`, is stated correctly.
+
+### T2: shrinking-distance bound
+- **The near range is exact.** On near pairs the gap mark is exactly `k = ℓ/r³`. With `r < r_0`, below the injectivity scale, torus distance equals lifted distance. So at fixed `ℓ`, `ρ < r < r_0` holds exactly when `ℓ/r_0³ < k < ℓ/ρ³`.
+- **The density bound.** (11.1), (13.4) and `p_r ≤ 1` bound the density by `(ℓ^{−1/3}/3)∫_{b,u}∫_0^{ℓ/ρ³} H k^{−2/3}`. Since `ℓ/ρ³ ≤ 1`, the `b`-integral of `H` is bounded uniformly for `k ∈ [0, 1]`. Then `(ℓ^{−1/3}/3)·3(ℓ/ρ³)^{1/3} = 1/ρ` exactly.
+- **The far range.** Its density is at most `C` by (14.1); this needs `t ≤ ρ³ ≤ r_0³ < 1`. Since `ρ ≤ r_0 < 1`, it is absorbed into `C/ρ`. Integrating over `ℓ ∈ (0, t]` gives (T2). Neither Theorem A nor R is used here.
+- **Independent route, in `(r, k)` coordinates.** The near count is at most `∫_ρ^{r_0} r dr ∫_0^{t/r³} (∫_b H) dk dσ ≤ C t ∫_ρ^∞ r^{−2} dr = C t/ρ`, and it never meets the `k^{−2/3}` singularity. I evaluated both routes numerically for a model profile, at `(t, ρ, r_0) = (10⁻⁴, 0.1, 0.5)` and `(10⁻⁶, 0.02, 0.3)`. They agree to `10⁻⁷` relative and sit below `t/ρ`.
+
+### T3
+Dividing by `e_t ≥ c_* t^{2/3}` gives `C t^{1/3}/ρ`. For `ρ = t^β` with `0 < β < 1/3`, the condition `t ≤ ρ³ = t^{3β}` holds on `(0, 1)`. More generally, `t^{1/3}/ρ → 0` forces `t/ρ³ → 0`, so the hypothesis holds eventually. The scope (actual birth and death endpoints, not auxiliary witnesses or ascent paths) is stated correctly.
+
+### Observations (optional)
+1. **Wording in T1.** "Apply E2 … so `D_t` is positive" reads as if positivity needed Kac–Rice. Positivity is sample-level, because the actual pairs are a sub-population of the candidates under the same mark. E2 enters only to identify the intensity whose density (R1) bounds.
+2. **The cutoff `t ≤ ρ³` costs nothing.** For `ρ³ < t ≤ t_*`, the whole actual mass is at most `C t^{2/3} < C t/ρ`. So (T2) and (T3) hold for all `0 < t ≤ t_*` and `0 < ρ ≤ r_0`, trivially when `t > ρ³`. The falsifier "the shrinking cutoff proof must retain `t ≤ ρ³`" is right about the proof route. The statement does not need it.
+3. **Convention.** The TV bound uses `sup_A`. Under the `L¹`-norm convention it reads `2D_t(total)/n_t`. The note fixes its convention explicitly, so this is only a reminder for consumers.
+
+**Not reviewed:**
+- T4–T5, which another Claude session accepted in 5379954654 and addendum 5932580649;
+- the imported [P], E1, E2, REC and R themselves;
+- cluster laws and occurrence-conditioned sampling;
+- finite-`t` moment convergence;
+- whole-program closure.
+
+With this, T1–T5 each have a provider-distinct read (Anthropic) besides the same-provider OpenAI read 5379199511.
+
+The pickup 5933595778 is released.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

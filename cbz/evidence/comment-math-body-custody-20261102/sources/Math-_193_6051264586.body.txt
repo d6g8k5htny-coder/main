@@ -1,0 +1,750 @@
+## Formal original ordinary-H0 interval split: frozen source/evidence publication
+
+Actual owner root; implementer `/root/i2_formal_support`; completed exact-version nonauthor reviewer `/root/local_runtime_readonly`. Formal pickup https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6050907476. Root read the actual final review, checked all 43 author/separate/primary manifest bindings, and both final review hashes after receipt.
+
+Accepted scope: under full CapHyp, f(M)=b and s<b, arbitrary field/topology, actual original closedH0Persistence contains a naturally split span-line supported (s,b]. Active coordinate transport is identity; genuine NatTrans inclusion/retraction composite is identity; every original incoming vector from above b is annihilated. Eleven boundary examples and twelve axiom audits passed. Author attempt04 exit0; root cached build and targeted OrdinaryH0Split kernel replay exit0. The replay uses its imported environment, not fresh verification of every dependency/test. Prior failed attempts and target history are retained below.
+
+Lean4.34.1 commit5045d0056413266e57c625dcd7c365b10e377c52, mathlibd13f23b723b8a846827a245b89c10fc7d3f11612. Unchanged 326607B CapFirstExit.lean is already public: https://github.com/d6g8k5htny-coder/Math-/blob/01744e2cf571049d7d1557b9ed54646881d341cf/frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean ; SHA256040aa91fcbdf25ccdaced1c828dd779318217a7c41ac928f87e8d17a8d3c3ef0. Frozen plan's6050838491 labels the preceding mathematical dependency; actual formal pickup6050907476 is corrected append-only in final records.
+
+Full I2/I4, complete barcode, unique geometric pairing, measurable indexing, once-counting and scientific theorem acceptance remain OPEN. All actual reviewers are source-exposed, organizational independence0. No worker/rule/deployment, author source, graph or STATUS modification; no scientific promotion. Freeze records retain pending-at-creation language; the later exact review and root receipts provide subsequent evidence.
+
+**Packet 1/8.** Files in this packet: `lean-project/OrdinaryH0Split.lean`, `lean-project/SplitTests.lean`, `lean-project/SplitAxioms.lean`, `lean-project/lakefile.toml`, `lean-project/lake-manifest.json`, `lean-project/lean-toolchain`, `lean-project/OrdinaryH0Elder.lean`.
+
+### lean-project/OrdinaryH0Split.lean
+
+Bytes 10468, SHA256 `4cd2dc537e6b6900b5faff99d51bd185645db537c618923f57fa99931778d8f5`. Full exact file follows; one framing newline may follow its end.
+
+````
+import OrdinaryH0Image
+import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+
+noncomputable section
+set_option backward.isDefEq.respectTransparency false
+open CategoryTheory Set OrdinaryH0Elder OrdinaryH0Image
+open scoped Classical
+universe u
+
+namespace OrdinaryH0Split
+
+variable (K : Type u) [Field K]
+variable {X : Type u} [TopologicalSpace X]
+variable {f : X → ℝ} {C : Set X} {M z : X} {b s : ℝ}
+variable (H : CapFirstExit.CapHyp f C M z b s) (hMb : f M = b)
+
+def Active (s b h : ℝ) : Prop := s < h ∧ h ≤ b
+
+theorem path_mem_cap_iff (H : CapFirstExit.CapHyp f C M z b s) {h : ℝ} (hsh : s < h)
+    {x y : superlevel f h} (p : Path x y) : x.1 ∈ C ↔ y.1 ∈ C := by
+  constructor
+  · intro hx
+    by_contra hy
+    obtain ⟨t, ht⟩ := CapFirstExit.path_meets_frontier (p.map continuous_subtype_val) hx hy
+    exact (not_le_of_gt hsh) ((p t).2.trans (H.frontier_le _ ht))
+  · intro hy
+    by_contra hx
+    obtain ⟨t, ht⟩ := CapFirstExit.path_meets_frontier (p.symm.map continuous_subtype_val) hy hx
+    exact (not_le_of_gt hsh) ((p.symm t).2.trans (H.frontier_le _ ht))
+
+def capIndicator (H : CapFirstExit.CapHyp f C M z b s) {h : ℝ} (hsh : s < h) :
+    ZerothHomotopy (superlevel f h) → K :=
+  ZerothHomotopy.lift (fun x => if x.1 ∈ C then (1 : K) else 0)
+    (fun {_ _} p => by
+      rw [propext (path_mem_cap_iff H hsh p)]
+    )
+
+def capFunctional {h : ℝ} (hsh : s < h) : H0 K (superlevel f h) →ₗ[K] K :=
+  (Finsupp.linearCombination K (capIndicator K H hsh)).comp
+    (componentEquiv K (superlevel f h)).toLinearMap
+
+theorem capFunctional_point {h : ℝ} (hsh : s < h) (x : superlevel f h) :
+    capFunctional K H hsh (pointClass K (superlevel f h) x) =
+      if x.1 ∈ C then 1 else 0 := by
+  simp [capFunctional, pointClass, capIndicator, Finsupp.linearCombination_single]
+
+def delta (h : ℝ) : H0 K (superlevel f h) :=
+  if hh : h ≤ b then
+    pointClass K (superlevel f h) ⟨M, by rwa [hMb]⟩ -
+      pointClass K (superlevel f h) ⟨z, hh.trans (le_of_lt H.older)⟩
+  else 0
+
+theorem delta_map {r h : ℝ} (hle : h ≤ r) (hrb : r ≤ b) :
+    (h0Functor K).map (superlevelInclusion f hle) (delta K H hMb r) =
+      delta K H hMb h := by
+  have hhb : h ≤ b := hle.trans hrb
+  simp only [delta, dite_eq_left hrb, dite_eq_left hhb, map_sub, pointClass_map]
+  rfl
+
+theorem delta_eq_zero_below {h : ℝ} (hhs : h ≤ s) (hhb : h ≤ b) :
+    delta K H hMb h = 0 := by
+  obtain ⟨γ, hγ⟩ := H.ridge
+  have hz : h ≤ f z := hhb.trans (le_of_lt H.older)
+  have hj : JoinedIn {x | h ≤ f x} M z := ⟨γ, fun t => hhs.trans (hγ t)⟩
+  have hp := (joinedIn_iff_joined (F := {x | h ≤ f x}) (x := M) (y := z)
+    (by simpa [hMb] using hhb) hz).mp hj
+  rw [delta, dite_eq_left hhb]
+  exact sub_eq_zero.mpr ((pointClass_eq_iff_joined K (superlevel f h) _ _).mpr hp)
+
+theorem capFunctional_delta {h : ℝ} (ha : Active s b h) :
+    capFunctional K H ha.1 (delta K H hMb h) = 1 := by
+  have hz : z ∉ C := fun hz => (not_le_of_gt H.older) (H.ceiling z hz)
+  simp [delta, ha.2, map_sub, capFunctional_point, H.mem, hz]
+
+theorem delta_ne_zero {h : ℝ} (ha : Active s b h) : delta K H hMb h ≠ 0 := by
+  intro hz
+  have hc := capFunctional_delta K H hMb ha
+  rw [hz, map_zero] at hc
+  exact zero_ne_one hc
+
+theorem delta_eq_zero_inactive {h : ℝ} (ha : ¬ Active s b h) :
+    delta K H hMb h = 0 := by
+  by_cases hh : h ≤ b
+  · exact delta_eq_zero_below K H hMb (le_of_not_gt (fun hs => ha ⟨hs, hh⟩)) hh
+  · simp [delta, hh]
+
+theorem delta_support (h : ℝ) : delta K H hMb h ≠ 0 ↔ Active s b h := by
+  constructor
+  · intro hn
+    by_contra ha
+    exact hn (delta_eq_zero_inactive K H hMb ha)
+  · exact delta_ne_zero K H hMb
+
+def intervalLine (h : ℝ) : Submodule K (H0 K (superlevel f h)) :=
+  Submodule.span K ({delta K H hMb h} : Set _)
+
+theorem intervalLine_inactive {h : ℝ} (ha : ¬ Active s b h) :
+    intervalLine K H hMb h = ⊥ := by
+  simp [intervalLine, delta_eq_zero_inactive K H hMb ha]
+
+theorem line_map_mem {r h : ℝ} (hle : h ≤ r) {q : H0 K (superlevel f r)}
+    (hq : q ∈ intervalLine K H hMb r) :
+    (h0Functor K).map (superlevelInclusion f hle) q ∈ intervalLine K H hMb h := by
+  obtain ⟨a, rfl⟩ := Submodule.mem_span_singleton.mp hq
+  rw [map_smul]
+  by_cases hrb : r ≤ b
+  · rw [delta_map K H hMb hle hrb]
+    exact Submodule.smul_mem _ a (Submodule.mem_span_singleton_self _)
+  · simp [delta, hrb]
+
+def intervalLineFunctor : ℝᵒᵈ ⥤ ModuleCat.{u} K where
+  obj h := ModuleCat.of K (intervalLine K H hMb h)
+  map {r h} g := ModuleCat.ofHom
+    (((closedH0Persistence K f).map g).hom.restrict
+      (fun _ hq => line_map_mem K H hMb (@leOfHom ℝᵒᵈ _ r h g) hq))
+  map_id h := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro q
+    apply Subtype.ext
+    change ((closedH0Persistence K f).map (𝟙 h)) q.1 = q.1
+    rw [CategoryTheory.Functor.map_id]
+    rfl
+  map_comp g j := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro q
+    apply Subtype.ext
+    change ((closedH0Persistence K f).map (g ≫ j)) q.1 =
+      ((closedH0Persistence K f).map j) (((closedH0Persistence K f).map g) q.1)
+    rw [CategoryTheory.Functor.map_comp]
+    rfl
+
+def intervalInclusion : intervalLineFunctor K H hMb ⟶ closedH0Persistence K f where
+  app h := ModuleCat.ofHom (intervalLine K H hMb h).subtype
+  naturality {r h} g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro q
+    rfl
+
+def activeFiberEquiv {h : ℝ} (ha : Active s b h) :
+    K ≃ₗ[K] intervalLine K H hMb h :=
+  LinearEquiv.toSpanNonzeroSingleton K _ (delta K H hMb h) (delta_ne_zero K H hMb ha)
+
+theorem active_transport {r h : ℝᵒᵈ} (g : r ⟶ h)
+    (ar : Active s b r) (ah : Active s b h) (a : K) :
+    (intervalLineFunctor K H hMb).map g (activeFiberEquiv K H hMb ar a) =
+      activeFiberEquiv K H hMb ah a := by
+  apply Subtype.ext
+  change (h0Functor K).map (superlevelInclusion f (@leOfHom ℝᵒᵈ _ r h g))
+    (a • delta K H hMb r) = a • delta K H hMb h
+  rw [map_smul, delta_map K H hMb _ ar.2]
+
+theorem capFunctional_map {r h : ℝ} (hle : h ≤ r) (hsh : s < h)
+    (hsr : s < r) (q : H0 K (superlevel f r)) :
+    capFunctional K H hsh ((h0Functor K).map (superlevelInclusion f hle) q) =
+      capFunctional K H hsr q := by
+  have he : (capFunctional K H hsh).comp
+      ((h0Functor K).map (superlevelInclusion f hle)).hom = capFunctional K H hsr := by
+    apply LinearMap.ext_on_range (pointClasses_span_top K (superlevel f r))
+    intro x
+    simp only [LinearMap.comp_apply, pointClass_map, capFunctional_point]
+    rfl
+  exact LinearMap.congr_fun he q
+
+theorem capFunctional_map_above {r h : ℝ} (hle : h ≤ r) (hsh : s < h)
+    (hbr : b < r) (q : H0 K (superlevel f r)) :
+    capFunctional K H hsh ((h0Functor K).map (superlevelInclusion f hle) q) = 0 := by
+  have he : (capFunctional K H hsh).comp
+      ((h0Functor K).map (superlevelInclusion f hle)).hom = 0 := by
+    apply LinearMap.ext_on_range (pointClasses_span_top K (superlevel f r))
+    intro x
+    have hx : x.1 ∉ C := fun hx => (not_le_of_gt (hbr.trans_le x.2)) (H.ceiling _ hx)
+    change capFunctional K H hsh
+      ((h0Functor K).map (superlevelInclusion f hle) (pointClass K (superlevel f r) x)) = 0
+    rw [pointClass_map, capFunctional_point]
+    change (if x.1 ∈ C then (1 : K) else 0) = 0
+    simp [hx]
+  exact LinearMap.congr_fun he q
+
+def projectionLinear (h : ℝ) : H0 K (superlevel f h) →ₗ[K] H0 K (superlevel f h) :=
+  if ha : Active s b h then (capFunctional K H ha.1).smulRight (delta K H hMb h)
+  else 0
+
+theorem projection_mem (h : ℝ) (q : H0 K (superlevel f h)) :
+    projectionLinear K H hMb h q ∈ intervalLine K H hMb h := by
+  by_cases ha : Active s b h
+  · simp only [projectionLinear, dite_eq_left ha, LinearMap.smulRight_apply]
+    exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self _)
+  · simp [projectionLinear, ha]
+
+def projection (h : ℝ) : H0 K (superlevel f h) →ₗ[K] intervalLine K H hMb h :=
+  (projectionLinear K H hMb h).codRestrict (intervalLine K H hMb h)
+    (projection_mem K H hMb h)
+
+theorem projection_natural {r h : ℝ} (hle : h ≤ r) (q : H0 K (superlevel f r)) :
+    projectionLinear K H hMb h ((h0Functor K).map (superlevelInclusion f hle) q) =
+      (h0Functor K).map (superlevelInclusion f hle) (projectionLinear K H hMb r q) := by
+  by_cases ar : Active s b r
+  · by_cases ah : Active s b h
+    · simp only [projectionLinear, dite_eq_left ar, dite_eq_left ah, LinearMap.smulRight_apply, map_smul]
+      rw [capFunctional_map K H hle ah.1 ar.1, delta_map K H hMb hle ar.2]
+    · simp only [projectionLinear, dite_eq_left ar, dite_eq_right ah, LinearMap.zero_apply,
+        LinearMap.smulRight_apply, map_smul]
+      rw [delta_map K H hMb hle ar.2, delta_eq_zero_inactive K H hMb ah, smul_zero]
+  · by_cases ah : Active s b h
+    · have hbr : b < r := lt_of_not_ge (fun hrb => ar ⟨ah.1.trans_le hle, hrb⟩)
+      simp only [projectionLinear, dite_eq_right ar, dite_eq_left ah, LinearMap.zero_apply,
+        LinearMap.smulRight_apply, map_zero]
+      rw [capFunctional_map_above K H hle ah.1 hbr, zero_smul]
+    · simp [projectionLinear, ar, ah]
+
+def intervalRetraction : closedH0Persistence K f ⟶ intervalLineFunctor K H hMb where
+  app h := ModuleCat.ofHom (projection K H hMb h)
+  naturality {r h} g := by
+    apply ModuleCat.hom_ext
+    apply LinearMap.ext
+    intro q
+    apply Subtype.ext
+    exact projection_natural K H hMb (@leOfHom ℝᵒᵈ _ r h g) q
+
+theorem interval_split (hsb : s < b) :
+    intervalInclusion K H hMb ≫ intervalRetraction K H hMb =
+      𝟙 (intervalLineFunctor K H hMb) := by
+  apply NatTrans.ext
+  funext h
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro q
+  apply Subtype.ext
+  change projectionLinear K H hMb h q.1 = q.1
+  by_cases ha : Active s b h
+  · obtain ⟨a, he⟩ := Submodule.mem_span_singleton.mp q.2
+    rw [← he]
+    simp [projectionLinear, ha, LinearMap.smulRight_apply, map_smul,
+      capFunctional_delta K H hMb ha]
+  · have hq : q.1 = 0 := by
+      have hm : q.1 ∈ (⊥ : Submodule K (H0 K (superlevel f h))) :=
+        (le_of_eq (intervalLine_inactive K H hMb ha)) q.2
+      exact (Submodule.mem_bot K).mp hm
+    simp [projectionLinear, ha, hq]
+
+def capSplitMono (hsb : s < b) : SplitMono (intervalInclusion K H hMb) :=
+  { retraction := intervalRetraction K H hMb, id := interval_split K H hMb hsb }
+
+theorem birth_active (hsb : s < b) : Active s b b := ⟨hsb, le_rfl⟩
+
+end OrdinaryH0Split
+
+````
+
+### lean-project/SplitTests.lean
+
+Bytes 4657, SHA256 `705a19bb3f617df7c13a311813b9e4ae05bf9c8c8fcfdf2464b55fb5c440c8e2`. Full exact file follows; one framing newline may follow its end.
+
+````
+import OrdinaryH0Split
+
+noncomputable section
+set_option backward.isDefEq.respectTransparency false
+open CategoryTheory OrdinaryH0Elder OrdinaryH0Split
+open scoped Classical
+
+namespace OrdinaryH0Split.Tests
+
+def highToActive : OrderDual.toDual (CapFirstExit.toyF 3) ⟶ OrderDual.toDual (-1 / 2 : ℝ) :=
+  @homOfLE ℝᵒᵈ _ (CapFirstExit.toyF 3) (-1 / 2)
+    ((show (-1 / 2 : ℝ) ≤ 0 by norm_num).trans (le_of_lt CapFirstExit.toy_capHyp.older))
+
+def birthToActive : OrderDual.toDual (0 : ℝ) ⟶ OrderDual.toDual (-1 / 2 : ℝ) :=
+  @homOfLE ℝᵒᵈ _ 0 (-1 / 2) (show (-1 / 2 : ℝ) ≤ 0 by norm_num)
+
+def activeToDeath : OrderDual.toDual (-1 / 2 : ℝ) ⟶ OrderDual.toDual (-1 : ℝ) :=
+  @homOfLE ℝᵒᵈ _ (-1 / 2) (-1) (show (-1 : ℝ) ≤ -1 / 2 by norm_num)
+
+example (K : Type) [Field K] :
+    delta K CapFirstExit.toy_capHyp CapFirstExit.toy_f_M 0 ≠ 0 :=
+  delta_ne_zero K CapFirstExit.toy_capHyp CapFirstExit.toy_f_M ⟨by norm_num, le_rfl⟩
+
+example :
+    intervalLine ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1) = ⊥ :=
+  intervalLine_inactive ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (by simp [Active])
+
+example :
+    delta ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1) = 0 :=
+  delta_eq_zero_below ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M le_rfl (by norm_num)
+
+example :
+    intervalInclusion ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M ≫
+      intervalRetraction ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M =
+      𝟙 (intervalLineFunctor ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M) :=
+  interval_split ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (by norm_num)
+
+/-- This is the actual incoming arrow from above the cap birth, for every source vector. -/
+example (q : H0 ℚ (superlevel CapFirstExit.toyF (CapFirstExit.toyF 3))) :
+    (intervalRetraction ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M).app
+        (OrderDual.toDual (-1 / 2 : ℝ))
+        ((closedH0Persistence ℚ CapFirstExit.toyF).map highToActive q) = 0 := by
+  apply Subtype.ext
+  change projectionLinear ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1 / 2)
+    ((h0Functor ℚ).map (superlevelInclusion CapFirstExit.toyF
+      ((show (-1 / 2 : ℝ) ≤ 0 by norm_num).trans (le_of_lt CapFirstExit.toy_capHyp.older))) q) = 0
+  rw [projection_natural]
+  have hi : ¬ Active (-1) 0 (CapFirstExit.toyF 3) := by
+    intro ha
+    exact (not_le_of_gt CapFirstExit.toy_capHyp.older) ha.2
+  simp [projectionLinear, hi]
+
+/-- The original closed-diagram map sends the active difference to zero at the ridge level. -/
+example :
+    (closedH0Persistence ℚ CapFirstExit.toyF).map activeToDeath
+      (delta ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1 / 2)) = 0 := by
+  rw [show (closedH0Persistence ℚ CapFirstExit.toyF).map activeToDeath
+      (delta ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1 / 2)) =
+      delta ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1) from
+    delta_map ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M
+      (r := (-1 / 2 : ℝ)) (h := (-1 : ℝ))
+      (show (-1 : ℝ) ≤ -1 / 2 by norm_num) (show (-1 / 2 : ℝ) ≤ 0 by norm_num)]
+  exact delta_eq_zero_below ℚ CapFirstExit.toy_capHyp CapFirstExit.toy_f_M le_rfl (by norm_num)
+
+local instance : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+
+example : delta (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1 / 2) ≠ 0 :=
+  delta_ne_zero (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M ⟨by norm_num, by norm_num⟩
+
+example : delta (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (-1) = 0 :=
+  delta_eq_zero_below (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M le_rfl (by norm_num)
+
+/-- Actual active coordinate maps are identities, including characteristic two. -/
+example (a : ZMod 2) :
+    (intervalLineFunctor (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M).map birthToActive
+      (activeFiberEquiv (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M
+        (show Active (-1) 0 0 from ⟨by norm_num, le_rfl⟩) a) =
+      activeFiberEquiv (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M
+        (show Active (-1) 0 (-1 / 2) from ⟨by norm_num, by norm_num⟩) a :=
+  active_transport (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M birthToActive _ _ a
+
+example :
+    pointClass (ZMod 2) (superlevel CapFirstExit.toyF (-1))
+      ⟨0, by rw [CapFirstExit.toy_f_M]; norm_num⟩ ≠ 0 :=
+  pointClass_ne_zero (ZMod 2) _ _
+
+example : SplitMono
+    (intervalInclusion (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M) :=
+  capSplitMono (ZMod 2) CapFirstExit.toy_capHyp CapFirstExit.toy_f_M (by norm_num)
+
+end OrdinaryH0Split.Tests
+
+````
+
+### lean-project/SplitAxioms.lean
+
+Bytes 600, SHA256 `b27509c7fcd6e329820e8bdcd5bed01f23f62f8fb56d639832febe5d6a4cc208`. Full exact file follows; one framing newline may follow its end.
+
+````
+import OrdinaryH0Split
+
+#print axioms OrdinaryH0Split.path_mem_cap_iff
+#print axioms OrdinaryH0Split.capFunctional_point
+#print axioms OrdinaryH0Split.delta_support
+#print axioms OrdinaryH0Split.intervalLineFunctor
+#print axioms OrdinaryH0Split.activeFiberEquiv
+#print axioms OrdinaryH0Split.active_transport
+#print axioms OrdinaryH0Split.intervalLine_inactive
+#print axioms OrdinaryH0Split.capFunctional_map_above
+#print axioms OrdinaryH0Split.intervalInclusion
+#print axioms OrdinaryH0Split.intervalRetraction
+#print axioms OrdinaryH0Split.interval_split
+#print axioms OrdinaryH0Split.capSplitMono
+
+````
+
+### lean-project/lakefile.toml
+
+Bytes 474, SHA256 `0fbb968ea8a1b1cbe684e078784afe27af00956a9d4b2a0fdfb3cc679260bd79`. Full exact file follows; one framing newline may follow its end.
+
+````
+name = "ordinary_h0_split"
+version = "0.1.0"
+defaultTargets = ["OrdinaryH0Split", "SplitTests", "SplitAxioms"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "d13f23b723b8a846827a245b89c10fc7d3f11612"
+
+[[lean_lib]]
+name = "CapFirstExit"
+
+[[lean_lib]]
+name = "OrdinaryH0Elder"
+
+[[lean_lib]]
+name = "OrdinaryH0Image"
+
+[[lean_lib]]
+name = "OrdinaryH0Split"
+
+[[lean_lib]]
+name = "SplitTests"
+
+[[lean_lib]]
+name = "SplitAxioms"
+
+
+````
+
+### lean-project/lake-manifest.json
+
+Bytes 3550, SHA256 `126527402d3832913f60f799de484170d0bdb3a536ce04055de11c56c7b6666c`. Full exact file follows; one framing newline may follow its end.
+
+````
+{
+  "version": "1.2.0",
+  "packagesDir": ".lake/packages",
+  "packages": [
+    {
+      "name": "plausible",
+      "url": "https://github.com/leanprover-community/plausible",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "main",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "LeanSearchClient",
+      "url": "https://github.com/leanprover-community/LeanSearchClient",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "main",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "importGraph",
+      "url": "https://github.com/leanprover-community/import-graph",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "e928b72544873815af278d38681b31c0293588e3",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "main",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "proofwidgets",
+      "url": "https://github.com/leanprover-community/ProofWidgets4",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "main",
+      "inherited": true,
+      "configFile": "lakefile.lean"
+    },
+    {
+      "name": "aesop",
+      "url": "https://github.com/leanprover-community/aesop",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "355695d523e41d0554926416cba2a2b3544fbbc9",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "master",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "Qq",
+      "url": "https://github.com/leanprover-community/quote4",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "master",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "batteries",
+      "url": "https://github.com/leanprover-community/batteries",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover-community",
+      "rev": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "main",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "Cli",
+      "url": "https://github.com/leanprover/lean4-cli",
+      "type": "git",
+      "subDir": null,
+      "scope": "leanprover",
+      "rev": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "v4.34.0",
+      "inherited": true,
+      "configFile": "lakefile.toml"
+    },
+    {
+      "name": "mathlib",
+      "url": "https://github.com/leanprover-community/mathlib4.git",
+      "type": "git",
+      "subDir": null,
+      "scope": "",
+      "rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+      "manifestFile": "lake-manifest.json",
+      "inputRev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+      "inherited": false,
+      "configFile": "lakefile.lean"
+    }
+  ],
+  "name": "ordinary_h0_split",
+  "lakeDir": ".lake",
+  "fixedToolchain": true
+}
+
+````
+
+### lean-project/lean-toolchain
+
+Bytes 25, SHA256 `d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b`. Full exact file follows; one framing newline may follow its end.
+
+````
+leanprover/lean4:v4.34.1
+
+````
+
+### lean-project/OrdinaryH0Elder.lean
+
+Bytes 8081, SHA256 `cc97606ddadc680dcc9d6379ba9e5587901fad1f830c9ea0838a6aa8a83b3486`. Full exact file follows; one framing newline may follow its end.
+
+````
+import Mathlib.AlgebraicTopology.SingularHomology.HomologyZero
+import Mathlib.Algebra.Category.ModuleCat.Colimits
+import Mathlib.Algebra.Category.ModuleCat.Abelian
+import Mathlib.LinearAlgebra.Finsupp.VectorSpace
+import CapFirstExit
+
+/-!
+Actual ordinary singular H₀ point generators and elder-span criterion.
+No interval decomposition or Morse/barcode interface is assumed.
+-/
+
+noncomputable section
+
+open CategoryTheory Limits AlgebraicTopology Set
+open scoped Simplicial
+
+universe u
+
+namespace OrdinaryH0Elder
+
+variable (K : Type u) [Field K]
+
+/-- Ordinary singular H₀ with coefficients in the one-dimensional K-module. -/
+def h0Functor : TopCat.{u} ⥤ ModuleCat.{u} K :=
+  (singularHomologyFunctor (ModuleCat.{u} K) 0).obj (ModuleCat.of K K)
+
+abbrev H0 (X : TopCat.{u}) := (h0Functor K).obj X
+
+/-- The existing singular H₀ isomorphism followed by the concrete coproduct model. -/
+def componentIso (X : TopCat.{u}) :
+    H0 K X ≅ ModuleCat.of K (ZerothHomotopy X →₀ K) :=
+  TopCat.singularHomology₀Iso X (ModuleCat.of K K) ≪≫
+    (coproductIsCoproduct _).coconePointUniqueUpToIso
+      (ModuleCat.finsuppCoconeIsColimit K K (ZerothHomotopy X))
+
+def componentEquiv (X : TopCat.{u}) :
+    H0 K X ≃ₗ[K] (ZerothHomotopy X →₀ K) :=
+  (componentIso K X).toLinearEquiv
+
+/-- The actual ordinary H₀ class of a point, corresponding to its component basis vector. -/
+def pointClass (X : TopCat.{u}) (x : X) : H0 K X :=
+  (componentEquiv K X).symm (Finsupp.single (ZerothHomotopy.mk x) 1)
+
+def olderSpan (X : TopCat.{u}) (older : X → Prop) : Submodule K (H0 K X) :=
+  Submodule.span K (pointClass K X '' {x | older x})
+
+theorem pointClass_eq_iff_joined (X : TopCat.{u}) (x y : X) :
+    pointClass K X x = pointClass K X y ↔ Joined x y := by
+  rw [pointClass, pointClass, (componentEquiv K X).symm.injective.eq_iff,
+    Finsupp.single_left_inj (one_ne_zero : (1 : K) ≠ 0)]
+  exact Quotient.eq
+
+theorem pointClass_ne_zero (X : TopCat.{u}) (x : X) :
+    pointClass K X x ≠ 0 := by
+  intro h
+  have hs : Finsupp.single (ZerothHomotopy.mk x) (1 : K) = 0 := by
+    simpa [pointClass] using congrArg (componentEquiv K X) h
+  exact one_ne_zero (Finsupp.single_eq_zero.mp hs)
+
+/-- The actual zero-simplex cycle, projected into singular H₀. -/
+def pointCycleMorph (X : TopCat.{u}) (x : X) : ModuleCat.of K K ⟶ H0 K X :=
+  ((TopCat.toSSet.obj X).chainComplex (ModuleCat.of K K)).liftCycles
+      ((TopCat.toSSet.obj X).ιChainComplex (TopCat.toSSetObj₀Equiv.symm x))
+      0 (by simp) (by simp) ≫
+    ((TopCat.toSSet.obj X).chainComplex (ModuleCat.of K K)).homologyπ 0
+
+set_option backward.isDefEq.respectTransparency false in
+lemma pointCycleMorph_componentIso (X : TopCat.{u}) (x : X) :
+    pointCycleMorph K X x ≫ (componentIso K X).hom =
+      ModuleCat.ofHom (Finsupp.lsingle (ZerothHomotopy.mk x)) := by
+  simp [pointCycleMorph, componentIso, TopCat.singularHomology₀Iso, sigmaConst,
+    ModuleCat.finsuppCocone]
+  exact IsColimit.comp_coconePointUniqueUpToIso_hom
+    (coproductIsCoproduct _) (ModuleCat.finsuppCoconeIsColimit K K (ZerothHomotopy X))
+    ⟨ZerothHomotopy.mk x⟩
+
+lemma pointClass_eq_pointCycleMorph (X : TopCat.{u}) (x : X) :
+    pointClass K X x = pointCycleMorph K X x (1 : K) := by
+  apply (componentEquiv K X).injective
+  simp only [pointClass, LinearEquiv.apply_symm_apply]
+  change Finsupp.single (ZerothHomotopy.mk x) (1 : K) =
+    (componentIso K X).hom (pointCycleMorph K X x (1 : K))
+  have h := congrArg (fun g : ModuleCat.of K K ⟶
+      ModuleCat.of K (ZerothHomotopy X →₀ K) => g (1 : K))
+    (pointCycleMorph_componentIso K X x)
+  exact h.symm
+
+set_option backward.isDefEq.respectTransparency false in
+lemma pointCycleMorph_map {X Y : TopCat.{u}} (f : X ⟶ Y) (x : X) :
+    pointCycleMorph K X x ≫ (h0Functor K).map f = pointCycleMorph K Y (f x) := by
+  change pointCycleMorph K X x ≫
+    SSet.homologyMap (TopCat.toSSet.map f) (ModuleCat.of K K) 0 = _
+  simp only [pointCycleMorph, SSet.homologyMap, Category.assoc,
+    HomologicalComplex.homologyπ_naturality]
+  rw [← Category.assoc, HomologicalComplex.liftCycles_comp_cyclesMap,
+    SSet.ι_chainComplexMap_f]
+  rfl
+
+/-- Naturality under genuine singular homology maps. -/
+theorem pointClass_map {X Y : TopCat.{u}} (f : X ⟶ Y) (x : X) :
+    (h0Functor K).map f (pointClass K X x) = pointClass K Y (f x) := by
+  rw [pointClass_eq_pointCycleMorph, pointClass_eq_pointCycleMorph]
+  change (pointCycleMorph K X x ≫ (h0Functor K).map f) (1 : K) = _
+  rw [pointCycleMorph_map]
+
+theorem mem_olderSpan_iff_joinedOlder (X : TopCat.{u}) (older : X → Prop) (x : X) :
+    pointClass K X x ∈ olderSpan K X older ↔ ∃ y, older y ∧ Joined x y := by
+  classical
+  constructor
+  · intro hm
+    by_contra h
+    have hne : ∀ y, older y → ZerothHomotopy.mk x ≠ ZerothHomotopy.mk y := by
+      intro y hy he
+      exact h ⟨y, hy, Quotient.exact he⟩
+    let ev : H0 K X →ₗ[K] K :=
+      (Finsupp.lapply (ZerothHomotopy.mk x)).comp (componentEquiv K X).toLinearMap
+    have hs : olderSpan K X older ≤ LinearMap.ker ev := by
+      apply Submodule.span_le.mpr
+      rintro _ ⟨y, hy, rfl⟩
+      change ((componentEquiv K X) (pointClass K X y)) (ZerothHomotopy.mk x) = 0
+      simp only [pointClass, LinearEquiv.apply_symm_apply]
+      exact Finsupp.single_eq_of_ne (hne y hy)
+    have hc := hs hm
+    change ((componentEquiv K X) (pointClass K X x)) (ZerothHomotopy.mk x) = 0 at hc
+    simp [pointClass] at hc
+  · rintro ⟨y, hy, hxy⟩
+    rw [(pointClass_eq_iff_joined K X x y).mpr hxy]
+    exact Submodule.subset_span ⟨y, hy, rfl⟩
+
+section Superlevel
+
+variable {X : Type u} [TopologicalSpace X]
+
+def superlevel (f : X → ℝ) (h : ℝ) : TopCat.{u} :=
+  TopCat.of {x : X // h ≤ f x}
+
+/-- The continuous closed-superlevel inclusion from a higher level to a lower level. -/
+def superlevelInclusion (f : X → ℝ) {high low : ℝ} (hle : low ≤ high) :
+    superlevel f high ⟶ superlevel f low :=
+  TopCat.ofHom ⟨fun x => ⟨x.1, hle.trans x.2⟩, continuous_subtype_val.subtype_mk _⟩
+
+/-- The genuine closed-superlevel diagram, indexed by decreasing levels. -/
+def superlevelFunctor (f : X → ℝ) : ℝᵒᵈ ⥤ TopCat.{u} where
+  obj h := superlevel f h
+  map {a b} g := superlevelInclusion f (@leOfHom ℝᵒᵈ _ a b g)
+  map_id _ := rfl
+  map_comp _ _ := rfl
+
+/-- The actual ordinary singular H₀ persistence diagram of closed superlevels. -/
+def closedH0Persistence (f : X → ℝ) : ℝᵒᵈ ⥤ ModuleCat.{u} K :=
+  superlevelFunctor f ⋙ h0Functor K
+
+theorem pointClass_superlevelInclusion (f : X → ℝ) {high low : ℝ}
+    (hle : low ≤ high) (x : X) (hx : high ≤ f x) :
+    (h0Functor K).map (superlevelInclusion f hle)
+      (pointClass K (superlevel f high) ⟨x, hx⟩) =
+        pointClass K (superlevel f low) ⟨x, hle.trans hx⟩ :=
+  pointClass_map K (superlevelInclusion f hle) ⟨x, hx⟩
+
+set_option backward.isDefEq.respectTransparency false in
+/-- A cap's point class becomes dependent on strictly older point classes exactly at s. -/
+theorem cap_mem_olderSpan_iff {f : X → ℝ} {C : Set X} {M z : X} {b s : ℝ}
+    (H : CapFirstExit.CapHyp f C M z b s) (hMb : f M = b) {h : ℝ} (hh : h ≤ b) :
+    pointClass K (superlevel f h) ⟨M, by rwa [hMb]⟩ ∈
+      olderSpan K (superlevel f h) (fun y => b < f y.1) ↔ h ≤ s := by
+  rw [mem_olderSpan_iff_joinedOlder]
+  constructor
+  · rintro ⟨y, hy, hjoin⟩
+    have hj : JoinedIn {x | h ≤ f x} M y.1 :=
+      (joinedIn_iff_joined (F := {x | h ≤ f x}) (x := M) (y := y.1)
+        (by simpa [hMb] using hh) y.2).mpr hjoin
+    exact (H.elder_merge_iff_closed h).mp
+      ⟨y.1, CapFirstExit.component_joined hj.somePath hj.somePath_mem, hy⟩
+  · intro hhs
+    obtain ⟨γ, hγ⟩ := H.ridge
+    have hz : h ≤ f z := by simpa using hhs.trans (hγ 1)
+    have hj : JoinedIn {x | h ≤ f x} M z := ⟨γ, fun t => hhs.trans (hγ t)⟩
+    exact ⟨⟨z, hz⟩, H.older,
+      (joinedIn_iff_joined (F := {x | h ≤ f x}) (x := M) (y := z)
+        (by simpa [hMb] using hh) hz).mp hj⟩
+
+end Superlevel
+end OrdinaryH0Elder
+
+````
+

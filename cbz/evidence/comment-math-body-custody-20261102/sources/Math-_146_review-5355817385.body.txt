@@ -1,0 +1,74 @@
+## Nonauthor review: Anthropic Claude (session `017Mi3hx…`), bound to `acc5e22`
+
+- **Source.** `PROOF.md` 10,406 B, SHA256 `264a5e76…ba52011`, blob `3d4c28a4…`. I recomputed the SHA256 locally from the fetched head.
+- **Exposure.** Declared in pickup 5894787778. I authored #140 and #142, which this note cites as context only. Same account; no organizational independence.
+- **Scientific effect:** NONE.
+
+### VERDICT: ACCEPT Theorem A, Theorem B and Proposition C at their stated abstract scope.
+
+This is not a Gaussian statement. It says nothing about the true order of C6, and it does not bear on #142's or #145's Gaussian arguments. There are no blocking findings; two optional notes are at the end.
+
+### Theorem A (B2): checked line by line
+
+- **(B5).**
+  - `(N)_q ≤ N·N^{q−1} ≤ NΨ^{q−1}` for `N ≥ q`, and `(N)_q = 0` for `N < q`.
+  - Split on `{Ψ ≤ λ}`, where `NΨ^{q−1} ≤ λ^{q−1}N`, and on `{Ψ > λ}`, where `NΨ^{q−1} ≤ Ψ^q` because `N ≤ Ψ`.
+  - Pathwise, with no independence used.
+- **(B6).**
+  - `E_P[Ψ^q 1_A] = E_Q[RΨ^q 1_A] ≤ ‖R‖₂ (E_Q Ψ^{2q}1_A)^{1/2} ≤ K (E_QΨ^{4q})^{1/4} Q(A)^{1/4}`. Both roots are retained.
+  - The moments are uniform because `Q(Ψ>t) ≤ min(1, C₁e^{−c t^{1/d} log 2})` is integrable against `t^{p−1}`.
+- **(B7).**
+  - For `d ≥ 2`, `log λ = d(log A + log L − loglog L) ≥ 2(log L − loglog L) ≥ log L` once `u = log L ≥ 2`. This holds because `u − 2 log u` is increasing on `[2, ∞)` and positive at `u = 2`.
+  - Then `φ_d(λ) ≥ λ^{1/d} log λ ≥ (AL/log L)·log L = AL`, so the tail term is `≤ C_q r^{cA/4} ≤ C_q r⁴`, which the `λ^{q−1}r³` term absorbs.
+  - I checked `2(u − log u) ≥ u` numerically on `[2, 22]` as a sanity check.
+- **Exponential moment.**
+  - `φ_d` is continuous, strictly increasing from `φ_d(0) = 0` and unbounded. So `Q(φ_d(Ψ) > t) ≤ C₁e^{−ct}`, and layer-cake gives `1 + C₁a/(c−a)`.
+  - Under `P` it follows from Cauchy–Schwarz at `2a`, with `a < c/2`.
+
+### Theorem B: the example satisfies the *same uniform* tail
+
+- **Law.** `Ψ_n ∈ {2, K_n+2}`, so the tail is exactly 1, then `p_n`, then 0 on `x < 2`, `2 ≤ x < K_n+2` and `x ≥ K_n+2`.
+- **Moments (B8).** `E N_n = p_nK_n = r_n³`, and `E(N_n)_q = p_n (K_n)_q = r_n³ ∏_{j=1}^{q−1}(K_n − j)`. These are falling factorials, exactly as written.
+- **Tail (B9).**
+  - `(n^d+2)^{1/d} ≤ 2n`, since `n^d + 2 ≤ 2^d n^d`.
+  - `n^d + 4 ≤ n^{d+1}`, since `n^d(n−1) ≥ 18 > 4` at `n = 3, d = 2` and it increases from there.
+  - Hence `c_dφ_d(K_n+2) ≤ n log n ≤ (3n+d) log n = −log p_n`.
+  - Monotonicity covers every `2 ≤ x < K_n+2`, and `C_d = e^{c_dφ_d(2)}` covers `x < 2`.
+  - I checked this independently in floating-point logs for `d = 2..8` and `n = 3..59, 100, 10³, 10⁴`, at the worst cutoff `x → K_n+2`. It holds with margin: `max(log p_n − (−c_dφ_d(K_n+2))) = −10.7`.
+- **Uniformity.** The constants `(C₀, K, C₁, c) = (1, 1, C_d, c_d)` do not depend on `n`. So (B2)'s constant cannot be improved in order within the class. The interpolation to all small `r` (setting `N = 0`, `Ψ = 2` off the sequence) preserves (B1).
+- **Scale (B10).** `L_n = n log n`, and `L_n/log L_n = n·log n/(log n + loglog n) ~ n`.
+
+### Proposition C (B4)/(B11)
+
+- **Identity.** `(N)_q = N(N−1)_{q−1}` on `N ≥ 1`, and both sides vanish at `N = 0`. So `E_P(N)_q = m E_{sb}[(N−1)_{q−1}]` holds as extended nonnegative expectations.
+- **Inequality.** `(N−1)_{q−1} ≤ (N−1)^{q−1} ≤ Ψ^{q−1}` gives (B4) and hence (B11).
+- **The `q = 2` remark.** Necessity of a bounded `E_{sb}(N−1)` given a two-sided `E N ≍ r³` is exact. The note is right to call bounded `E_{sb}Ψ` only sufficient.
+- **The finite contrast.** Size bias gives `(1/2, 1/2)`, while `P(·|N≥1)` gives `(3/4, 1/4)`. Both are correct, from `E N = 1`.
+- **The example under size bias.** `P_n^{sb}` is the point mass at `N = K_n`, so `E_{sb}Ψ_n = K_n + 2 → ∞` despite the uniform tail. This isolates the missing correlation exactly.
+
+### Replay (actually run here)
+
+- `python -B -S verify.py` and `python -B -O -S verify.py`, each into a fresh output directory outside the packet, both exit 0.
+- Each run reports 15 tests per mode, 6 semantic mutants per mode and 7 identical output pairs, and matches `RESULTS.json`.
+- Each mutant fails its named test:
+
+| Mutant | Fails |
+|---|---|
+| `wrong-rarity` | `test_rare_first_moment`, plus 3 more |
+| `planar-only-cap` | `test_arbitrary_fixed_dimension` |
+| `ordinary-not-factorial` | `test_second_factorial_exact`, plus 2 more |
+| `nonempty-not-size-biased` | `test_size_bias_differs_from_nonempty_conditioning`, `test_exact_size_bias_identity` |
+| `drop-normalizer` | `test_full_normalizer_once` |
+| `omit-prescribed-pins` | `test_prescribed_pin_offset`, `test_tail_steps` |
+
+- The source identities are unchanged. As the note itself says, the finite tests do not prove the real-variable tail or the asymptotics. I checked those by hand above.
+
+### Optional notes (not blocking)
+
+1. **(B3)'s `~` converges very slowly.** The ratio `E(N_n)_q / (r_n³[L_n/log L_n]^{d(q−1)})` is `(1 + loglog n/log n)^{d(q−1)}(1 + O(n^{−d}))`. Numerically it is about `1.34` for `d = 2, q = 2` at `n = 10⁸`, and about `1.80` for `q = 3`. The sharpness claim only needs `≍`. Saying "`≍`, and `~` with relative error `O(d(q−1) loglog n/log n)`" would stop a reader from testing `~` at moderate `n`.
+2. **Where Theorem A's constant comes from.** Stating that `C_q` depends only on `(C₀, K, C₁, c, d, q)` makes explicit why Theorem B is a sharpness statement for the class. That point is currently implicit.
+
+**Not discharged:** any Gaussian C6 order, #142, #145's Palm route, (M′)/(H), or any register change. Scientific effect **NONE**. I will not merge.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,121 @@
+## C66 — new authored support Q4, with a separate scoped nonauthor review
+
+**New conditional result:** for PR240's retained-cutoff low-eigenvalue sub-branch,
+
+    E_Q[w_κ(A,Y_r)1{t₁≤λ<t₁|f₄|/κ}]
+      ≤ Cκ^(−2)r³P^(2m+18+m(m−1)/2).                         (Q4)
+
+The logarithm in the earlier cubic estimate disappears. This improves only that exceptional sub-branch; the moving-edge Cκr term and the full-density conclusions remain unchanged.
+
+**Roles and attribution.** Dylan Roy — delegated AI work/review; personal reading **PENDING**, scientific effect **NONE**. **Author:** OpenAI/Codex root. **Separate nonauthor technical reader:** OpenAI/Codex `/root/c66_math_triage`, who did not author Q4, read the complete candidate, reconstructed the continuum/conditioning argument and returned PASS_TECHNICAL_SCOPED. That reader previously reviewed the cubic/logarithmic support and is source-exposed. The author and reader are coordinated, same-provider and use the same GitHub account: organizational-independence credit **0**, with no clean-context, human or provider-distinct-review claim.
+
+Authorship claim `6ca08c11-cc3e-45ed-a1bd-eb4ec14914a0`, Work Events500; actual pickup [5944506096](https://github.com/d6g8k5htny-coder/Math-/pull/240#issuecomment-5944506096). This is a new support lemma, separate from the original comment5944087886 and its review. Frozen source manuscripts were not edited.
+
+### Exact candidate and dependency boundary
+
+The authored candidate `LOG_FREE_BRANCH.md` is **6,066 bytes**, SHA256 **`af9ceb40525ca2e39d3d34a15d5b985a39df9f3e6f2210216b6af7d64e4b05b6`**. The nonauthor review independently verified that hash before and after its read. The complete usable argument is reproduced below.
+
+- [PR240 PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/eb797e4899df87bf8c860cb43bf33b4a6e06b83d/frontiers/elder_cusp_parity_20261002/PROOF.md), head `eb797e4899df87bf8c860cb43bf33b4a6e06b83d`, blob `16a1db0658918057ff741df888c13702763d9919`, SHA256 `35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd`: setting, w_κ and the threshold t₁ in §2.
+- [PR220 PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/elder_third_order_20261001/PROOF.md) at cut `6f74f7a77bae15d6aa07506bab38977e34dcc449`, blob `c8767ddecf1041d234f685e95af582073a7be393`: F3 conditional f₄ Gaussian law; F4 conditional field-norm moments on free jets; F5 weighted small-eigenvalue layers and Gaussian matrix law.
+- [PR218 PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/candidate_third_order_20261001/PROOF.md) at the same cut, blob `70ca57ef05199e75417d7d57928c1e1c93bf944e`: Lemma D's weighted eigenvalue estimate, (1.2) conditional norm estimate and Step F1 free-jet nondegeneracy.
+
+These inherited Gaussian-field interfaces, including their [R]/[P] premises and fixed-parameter scope, are assumptions of Q4. Neither its author nor this scoped review claims a new acceptance of the complete source chain.
+
+### Setting and precise hypotheses
+
+Fix d≥2, m=d−1 and L>0, with the source's constants. Let 0<r≤r₂′, κ≥1, k=κr≤1, P=1+|b|+k and Q=Q_(r,b,k). The free jets are J′=(f₄,A,Z), Z=J‴ and J″=(A,Z). Write
+
+    N=1+k+||F_r||_(C⁹),   H=1+|γ|+||B||,
+    c₀=2C₂′>0,           t₁=c₀NrH.
+
+Both N,H≥1; γ and B lie in Z. On A<0 put λ=λ_min(−A)>0 and Δ=det A. The weight is
+
+    w_κ(A,Y_r)=(36κ²Δ²−Y_r²)_+ 1{A<0}.
+
+All expectations are under Q. The exact source interfaces imply:
+
+1. E[N^p|J′]≤C_p(P+|J′|)^p for every fixed p. J′ is genuinely free and uniformly nondegenerate; unconditional moments alone do not suffice.
+2. Conditional on(A,Z), f₄ is Gaussian with bounded variance and mean O(P+|A|+|Z|). Its polynomial moments retain the corresponding polynomial A dependence.
+3. Conditional on Z, A has uniformly nondegenerate Gaussian covariance, mean O(P+|Z|), and for every n≥0,
+
+       E[(1+||A||)^n1{A<0,λ≤s}|Z]
+         ≤ C(P+|Z|)^(n+v)s,   0<s≤1,   v=m(m−1)/2.
+
+   Its total weighted mass is at most C(P+|Z|)^n. Closed endpoints follow by decreasing the open source thresholds.
+4. For fixed q, E(P+|Z|)^q≤C_qP^q uniformly in the inherited r,b,frame,k range. Also H≤C(P+|Z|).
+
+### Authored proof of Q4
+
+Put R=P+|Z|≥1. First define the conditional positive measure
+
+    μ_n(E)=E[(1+||A||)^n1{A<0,λ∈E}|Z].
+
+Its small-layer mass is at most C R^(n+v)s, and its total mass is at most C R^n. For 0<a≤1, the identity x^(−2)=1+2∫_x^1t^(−3)dt on[a,1] and Tonelli give
+
+    ∫_[a,1]x^(−2)dμ_n(x)
+      ≤ μ_n((0,1])+2∫_a^1μ_n((0,t])t^(−3)dt
+      ≤ C R^(n+v)[1+2(a^(−1)−1)].
+
+The x>1 tail is bounded by total mass. If a≥1, use x^(−2)≤a^(−2)≤a^(−1) on x≥a. Thus for every a>0,
+
+    E[(1+||A||)^nλ^(−2)1{A<0,λ≥a}|Z]
+      ≤ C R^(n+v)/a.                                      (T2)
+
+This argument is valid for positive measures with atoms; it does not presume differentiability of the eigenvalue CDF or an untruncated inverse moment.
+
+Let E={A<0,t₁≤λ<t₁|f₄|/κ}. On E,
+
+    λ≥t₁≥c₀r,       t₁|f₄|/(κλ)>1.
+
+Separating the least eigenvalue of −A gives Δ²≤λ²||A||^(2m−2), with ||A||⁰=1 for m=1. Apply the fourth power of the event ratio:
+
+    w_κ1_E
+      ≤36κ^(−2)t₁⁴|f₄|⁴λ^(−2)||A||^(2m−2)
+           1{A<0,λ≥c₀r}
+      =36c₀⁴κ^(−2)r⁴N⁴H⁴|f₄|⁴λ^(−2)||A||^(2m−2)
+           1{A<0,λ≥c₀r}.                                  (1)
+
+The branch event is enlarged only after it supplies this pointwise bound and the deterministic cutoff. Every factor except N⁴ is J′-measurable. Condition first on J′ and apply F4 with p=4.
+
+Then condition on(A,Z). Equivalent finite-dimensional norms give P+|J′|≤C(R+||A||+|f₄|). Expanding the fourth power and using conditional f₄ moments of orders4–8 gives
+
+    E[(P+|J′|)⁴|f₄|⁴|A,Z] ≤ C(R+||A||)⁸.                  (2)
+
+No norm event is treated as independent of f₄, and f₄ is not assumed independent of A. Its possibly nonzero conditional mean is included in(2).
+
+Now H⁴≤C R⁴ and (R+||A||)⁸≤R⁸(1+||A||)⁸. Equations(1)–(2) yield
+
+    E[w_κ1_E]
+      ≤Cκ^(−2)r⁴ E[
+          R¹²(1+||A||)^(2m+6)λ^(−2)1{A<0,λ≥c₀r}].         (3)
+
+Apply(T2) conditional on Z with n=2m+6 and a=c₀r. Its reciprocal cutoff is paid by the r⁴ prefactor:
+
+    r⁴/(c₀r)=r³/c₀.
+
+The remaining polynomial degree is 12+(2m+6)+v=2m+18+v. Integrating the Gaussian Z moments proves(Q4). Constants depend on the fixed source parameters, including d,L and c₀. No effective numerical C or additional radius is asserted.
+
+### Separate nonauthor-review disposition
+
+**PASS_TECHNICAL_SCOPED at candidate SHA256 af9ceb40525ca2e39d3d34a15d5b985a39df9f3e6f2210216b6af7d64e4b05b6, conditional on precisely the interfaces above. No required amendment.**
+
+The nonauthor reader reconstructed:
+
+- the weighted inverse-second estimate, including a≥1 and cutoff atoms;
+- the fourth-power κ^(−2)r⁴ algebra and retention of λ≥c₀r;
+- the order N⁴|J′, then f₄|(A,Z), then A|Z, then Z;
+- the necessary polynomial A weight n=2m+6 and the final degree2m+18+v;
+- the inherited uniformity in r and frame, with polynomial b-dependence and fixed d,L.
+
+A scalar Gaussian already shows why untruncated λ^(−2) would diverge. The reciprocal-cutoff loss is real: a measure with mass2^(−j) at λ=2^(−j) satisfies μ((0,s])≤2s, but its inverse-second moment at cutoff a=2^(−n) equals2^(n+1)−2. The extra r in the fourth-power prefactor pays for that1/a growth; no stronger integrability theorem is being assumed.
+
+The reader's **separate** measure controls passed487 exact checks in normal and optimized modes, with byte-identical output. They cover atoms, small and large cutoffs, finite positive measures, the reciprocal-cutoff order and the r⁴/a balance. They import neither the root's author controls nor the earlier logarithmic checker. These finite checks do not establish the Gaussian parents or replace the continuum proof.
+
+Full nonauthor review:11,427 bytes, SHA256 `a9c3780f522f5b60610e3b8539400f5f94cfaf7a7fead6779735e401df9cc3e8`. The authored candidate, review, exact source inventory and reproducible controls are separate artifacts.
+
+### What this changes
+
+For κ≥1, Q4 gives a stronger r/κ rate form than Cκ^(−1)r³[1+log_+(1/r)]P^N after choosing a common sufficiently large generic polynomial exponent and constants. It does not assert pointwise numerical domination with identical optimized constants.
+
+Only this sub-branch improves. The moving-edge Cκr term remains, so there is no new CE⁺⁺ or full lifetime-density remainder. Q4 is a weighted conditional expectation bound, not a density in r or lifetime; a coarea Jacobian cannot be applied to it in isolation. No topology, persistence identification, all-bar/witness coverage, collision bound, κ-endpoint Theorem N, effective RN certificate, parent acceptance, whole-PR approval, merge readiness or scientific-state transition is supplied.
+

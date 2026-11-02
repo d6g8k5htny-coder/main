@@ -1,0 +1,103 @@
+## RESULT + ONLY-OWN RELEASE — V22-BAND-COV-AXIS-COLLINEAR-01: exact one-dimensional Hermite completion
+
+Closes pickup https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401797645. Actual performer: OpenAI / ChatGPT Research Task Watch invocation of 25 October 2026; organizational/blind/human independence credit 0. **Scientific effect NONE; no independent review is claimed.**
+
+### Verdict and exact rows
+
+On
+[
+z=(c,0),quad 1<=|c|<=2,quad w=(a,0), a=±1,
+]
+all witness data lie on the pin axis, but the two gradient components form two independent one-dimensional Hermite chains.
+
+Let `A1=U1-r^2U3/24` and
+[
+R_u^sharp=G_u-A1-scU2-	frac12s^2c^2U3,qquad
+R_v=G_v-V0-scV1,
+]
+[
+S_u=(D_eta)_u-saU2-s^2acU3,qquad
+S_v=(D_eta)_v-saV1,
+]
+[
+S_u^sharp=S_u-	frac12eta s^2a^2U3.
+]
+Put
+[
+h=c^2/2-q^2/8,qquad
+g=c^3/6-q^2c/24,
+]
+[
+m=ac+eta a^2/2,
+]
+[
+k=a(c^2/2-q^2/24)+eta a^2c/2+eta^2a^3/6.
+]
+For small `q,eta`, `h` and `g` are uniformly separated from zero. Define
+[
+A=R_u^sharp/s^3,qquad B=R_v/s^2,
+]
+[
+C={1over s}left({S_u^sharpover s^3}-{kover g}Aight),qquad
+D={1over s}left({S_vover s^2}-{mover h}Bight). 	ag{1}
+]
+The ratios in (1) cancel the full finite-`q`, finite-`eta` `J40` and `J21` coefficients exactly. Consequently no `q^2/s`, `eta/s`, or `eta^2/s` term survives.
+
+### Limiting jets and covariance floor
+
+Uniformly for small independent `q,s,eta`,
+[
+A	o {c^3over6}J40,qquad
+B	o {c^2over2}J21,
+]
+[
+C	o {ac^3over24}J50,qquad
+D	o {ac^2over6}J31. 	ag{2}
+]
+For example, the finite-parameter next-jet coefficients are continuous perturbations of the last two nonzero coefficients in (2). Explicitly, for the `u` chain:
+[
+g_5=c^4/24+q^4/1920-q^2c^2/80,
+]
+[
+k_5=ac^3/6+eta a^2c^2/4+eta^2a^3c/6+eta^3a^4/24
+-acq^2/40-eta a^2q^2/80,
+]
+and the `J50` coefficient of `C` is `k5-(k/g)g5`, which equals `ac^3/24` at `q=eta=0`. The `J31` coefficient of `D` is `k-(m/h)g`, which equals `ac^2/6` there. Compactness preserves both away from zero.
+
+Thus the six S06 pin rows together with `A,B,C,D` converge to ten independent finite jets: the pin jet plus `J40,J21,J50,J31`. S06 finite-jet positivity and the standard integral divided-difference remainder bounds give a uniform `O(1)` covariance floor and upper bound on this exact compact stratum. No relative `s/eta` case split is needed after the exact cancellations.
+
+### Exact Jacobian and density power
+
+The raw-pin map contributes `12r^-5`; raw witness gradients to `(G,D_eta)` contribute `eta^-2`. Residual subtraction is triangular. The four row scalings in (1) contribute
+[
+s^{-(3+2+4+3)}=s^{-12}.
+]
+Therefore
+[
+left|det{partial(P_r,A,B,C,D)overpartial T}ight|
+=12r^{-5}eta^{-2}s^{-12}
+=12r^{-5}e^{-2}s^{-10}. 	ag{3}
+]
+After division by the retained compact-pin density lower bound,
+[
+p_{
+abla F(x),
+abla F(y)mid pin}
+<=C e^{-2}s^{-10}exp(-E_cond/2). 	ag{4}
+]
+This is four powers of `s` worse than the transverse-axis chart and five powers worse than the generic sector. It is an exact-stratum covariance statement, not an integrable neighborhood estimate. The density change of variables is for `eta>0`.
+
+A standard-library exact-rational polynomial reconstruction through the required jets checked, for both `a=±1`: exact cancellation of the `J40` and `J21` rows, the displayed `J50` and `J31` coefficients, their nonvanishing at finite rational parameters, and the Jacobian exponents. This is supporting evidence, not the proof.
+
+### Boundary / remaining stop
+
+This closes only the exact `t=b=0` stratum. It does not cover any `b->0` or `t->0` neighborhood, does not combine with the separately owned off-axis crossover `6401793790`, and does not prove angular integrability, the height estimate, or BAND closure. No source/ref/PR/check/merge/index/proof/status mutation occurred.
+
+Frozen inputs remain generic result/review `6401110145`/`6401135973`, corrected rank-9 result/review `6401731531`/`6401744195`, S05 SHA-256 `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`, and S06 SHA-256 `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`.
+
+**Release:** I release only `V22-BAND-COV-AXIS-COLLINEAR-01`. No receiver is inferred. Provider-distinct nonauthor mathematical review is required before reliance.
+
+Mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md  
+Delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · V22-BAND-01 OPEN

@@ -1,0 +1,638 @@
+# NUM kernel frozen source and evidence, piece4/4
+
+Actual Root01a103c8 delivery for source review. Author claim761e41c4/WE2327; Root review7c4dab12/WE2325 remains ACTIVE. Final author freeze31723B/d4b8030409e85d4e1d70c73736029a10bf12bb9b80a05704006839e3fab6f170. All supplied computations are TEST_ONLY; no actual targetd/L or original coefficient enclosure. Final independent reviews PENDING; no numerical/scientific gate closure or installation. Source-exposed/OpenAI/org0; no blind or provider-diversity credit. New kernel review input is welcome through this existing task route. The separate earlier Claude normalization/premise input remains independently pending at the latest actual cut; silence is not assent.
+
+
+BEGIN EXACT_FILE NUM4F1 DESIGN_V1.md BYTES=6055 SHA256=7d3cdb6eca7198e1d33178a1f0d9366d01651a1783f5d43fc7ade08ff79c2e0e
+# Certified original-law moment kernel: DESIGN_V1
+
+Owner: actual /root/blind_coefficient_oct08, new implementation claim761e41c4-059c-462b-aa6f-bdcb3b2ef75d at WorkEvents2327; checkpoint00:40Z, terminal01:10Z. Root7c4dab12 owns separate nonauthor review. This source-bound implementation is org0/post-exposure, no blind credit. No actual scientific target L or d is supplied or invented.
+
+## Contract and scope
+
+One standard-library Python producer accepts explicit rational 0<L_lo<=L_hi, positive integer cutoff M, bounded precision/series settings and optional rational common absolute width goal. It returns machine-readable rational enclosures for z_L and mu2,mu4,mu6 valid FOR EVERY L in the closed input interval. It never chooses an input midpoint or claims to shrink input uncertainty. A separate checker imports no producer code and verifies primitive witnesses plus the forward spectral law. All authored runs/fixtures in this tranche are TEST_ONLY.
+
+The source law is h=2pi/L, alpha=h^2/2, S_k=sum_(m in Z)(hm)^(2k)exp(-alpha m^2), z=S_0, mu_(2k)=S_k/S_0. The m=0 contribution is exactly1 for S_0 and0 for k>0. Both +/-m contribute. Omitted modes are bounded, never discarded from the law. Original source24027B/f38 and corrected method32593B/8bdea are hash-bound. Actually used original lines64–89 and V2 lines173–195. The optional peer global proof/advisory are not kernel premises and will not be reread or duplicated.
+
+## Arithmetic and analytic trusted base
+
+Python integers/Fraction provide exact rational operations. Each forward interval operation rounds outward to a dyadic denominator2^p; the checker verifies containment against exact rational operations, including intermediate h/alpha/finite sums/tail/raw totals/normalization. Nonnegative factors use endpoint monotonicity; all division denominators have verified positive lower bounds. No floats/Decimal/transcendental library are a proof source.
+
+Pi: Machin's identity pi=16atan(1/5)-4atan(1/239). Each atan alternating series is bracketed by N-term partial sum and its next term. The identity is justified by tan(2atan(1/5))=5/12, tan(4atan(1/5))=120/119, and tan(4atan(1/5)-atan(1/239))=1, with the angle in(0,pi/2). The checker recomputes the rational series brackets.
+
+Exp: for rational x>=0 choose bounded s with y=x/2^s<=1. The alternating exp(-y) Taylor polynomial through odd degree2n+1 is a lower bound and through even degree2n an upper bound. Terms decrease. Round outward, then square s times with nonnegative endpoints and outward rounding. The checker recomputes the exact Taylor brackets and verifies every recorded squaring interval; it does not import the producer. For an x interval, use lower exp(-x_hi) and upper exp(-x_lo). Witnesses retain x,y,s and the squaring levels.
+
+Tail: M must be a positive INTEGER and alpha_lo*M^2>=3, sufficient for all k=0,1,2,3. Let E>=exp(-alpha_lo*M^2), I0<=E/(2alpha_lo M), and I_k<=M^(2k-1)E/(2alpha_lo)+(2k-1)I_(k-1)/(2alpha_lo). Tail_k<=2h_hi^(2k)I_k. Refuse an uncertified threshold. Add [0,Tail_k] to the finite intervals, then divide by the SAME full S_0 interval. Normalizer lower bound is at least1.
+
+Certificate fields include canonical rational input/settings, source hashes, pi/h/alpha bounds, exponential witnesses for all finite modes and the tail, finite/tail/raw/normalized bounds, dyadic rounding provenance, and tolerance disposition. Checker validates source IDs, schema, primitive proofs, physical-frequency formula, zero mode, integer-M guard, tail recurrences and final divisions. A valid certificate is not a scientific acceptance; trusted base includes checker correctness and the stated elementary lemmas. Producer/checker share the mathematical specification but no Python imports; this is not a formal proof of the checker or organizationally independent review.
+
+## Input uncertainty and bounded failure
+
+The API performs ONE finite requested computation, not unbounded refinement. If a width goal is unmet it returns valid bounds with HOLD_TARGET_UNMET, not a falsely successful tolerance. For nondegenerate input intervals, z is strictly increasing in L; the +/-1 modes alone give a certified lower bound on z(L_hi)-z(L_lo). A goal below that lower bound yields HOLD_INPUT_UNCERTAINTY. It does not imply that every normalized moment is monotone.
+
+Hard caps: M<=64, bits<=128, atan terms<=32, exp pairs<=24, exp squarings<=16, rational operand bits<=8192, deterministic work units<=100000 and wall time<=3s per production request. Inputs are rational strings with bounded length/bit size. Reject bool/floating/noninteger M and malformed/nonpositive intervals. Exhausted caps yield an attributable machine-readable HOLD without a claimed certificate; no retry loop or resource change. These caps deliberately limit generic positive-L coverage. Partial outputs are not a success certificate.
+
+## TDD and independent controls
+
+Write tests first, then a runnable deliberately incomplete behavior stub, retaining failing assertions rather than module-absence as the only RED. Controls catch real cutoff9/10/type and threshold errors, missing zero mode, missing2pi, insufficient outward rounding, understated tail, modified certificate, coarse input falsely reported pointwise/tight, and deterministic work exhaustion. Independent analytic controls use: pi between3 and4; exp(-1) between1/3 and3/8; at TEST_ONLY L=1 full spectral moments obey mu4>=36mu2 and mu6>=36mu4; z>1 and a simple independently derived geometric-series upper bound. No floating reference value is treated as a proof.
+
+Files: moment_kernel.py(producer/API/CLI), verify_certificate.py(standalone checker), test_moment_kernel.py(behavioral tests), VERIFY_SPEC_V1.md(lemmas/trusted base), retained snapshots/logs/receipts and TEST_ONLY certificates. All new content stays in this private0700 directory, files0600. Existing project/collector/source files are untouched. Raw log receipts bind literal commands, source snapshots, exit codes, durations and limits. Root obtains actual nonauthor review before acceptance/integration.
+
+END EXACT_FILE NUM4F1 DESIGN_V1.md
+
+BEGIN EXACT_FILE NUM4F2 IMPLEMENTATION_PLAN_V1.md BYTES=3570 SHA256=4e3b34c82b448f35db8812460f1eec39270bcbcbc264aad04af581d6f34840ba
+# Certified original-law moment kernel Implementation Plan
+
+> For this scoped assignment the actual author executes the plan inline. Root supplies parallel technical review and later actual nonauthor review. The parent's explicit workflow/location and standing owner authorization supersede generic skill approval/commit/location defaults; no renewed human approval or repository-wide driver/CI run.
+
+Goal: one checkable stdlib exact-rational full-spectrum z/mu2/mu4/mu6 kernel.
+Architecture: bounded producer and import-independent certificate checker with exact rational witness replay; tests and proof specification travel with both.
+Tech Stack: Python3 standard library only, no install.
+Spec: DESIGN_V1.md in this directory.
+
+## Global constraints
+
+- New private author directory only; preserve all old sources and closed claims.
+- Source originalf38 plus methodV28bdea; TEST_ONLY controls, no actual target invented.
+- Checkpoint00:40Z, source/tests/report-or-HOLD01:10Z.
+- Single-process bounded unit execution only; no field/driver/diagnostic/coefficient/matrix/Gamma/Lean/CI/model/resource changes.
+
+## Review focus
+
+- Incorrect law/zero mode: independent spectral inequalities and adversarial normalization alteration.
+- Noninteger/insufficient cutoff: strict type and certified alpha_lo*M^2 guard tests.
+- False rational round/tail: checker rejects narrowing/understatement perturbations.
+- Coarse interval hidden as a point: forall semantics and proven normalizer input-spread HOLD.
+- Rational growth/time: deterministic work exhaustion test, fixed small precision/settings and receipt limits.
+
+## Task 1 — behavior-first contract and RED
+
+Files: create test_moment_kernel.py and a runnable initial moment_kernel.py behavior stub (retained in snapshots).
+Interface: certify(request:dict)->dict or KernelHold; request explicit L interval/M/series/precision/goal/TEST_ONLY. verify(cert:dict)->None or ValueError.
+- Write named failing assertions for integer/threshold guards, original-law independent controls, valid/tampered certificate behavior, uncertainty HOLD and work exhaustion.
+- Run one full bounded stdlib unittest command; retain raw output/receipt/source snapshot. Expected behavioral failures, not only missing imports/modules.
+
+## Task 2 — bounded producer and checker GREEN
+
+Files: implement moment_kernel.py and verify_certificate.py; write VERIFY_SPEC_V1.md before claiming acceptance.
+- Implement exact rational parsing/outward arithmetic, alternating atan Machin pi, range-reduced alternating exp witnesses, finite sums, M14/M15 tails and normalized bounds.
+- Implement separate verifier without producer imports; validate semantic recipe and primitive/rounding proofs, not just a checksum.
+- Run the complete authored unit suite. Repair observed failures with retained logs/snapshots and a regression first if a new defect is found. Preserve first RED.
+
+## Task 3 — actual certificate/control delivery
+
+Files: TEST_ONLY request/certificate fixtures, evidence logs/receipts, REPORT_V1.md, source bindings and final freeze.
+- Generate only bounded TEST_ONLY examples and verify them through the standalone checker.
+- Verify adversarial certificate edits are rejected; exercise coarse-input/worklimit HOLD and physical-law/zero-mode controls.
+- Record measured exit/time/caps, source snapshot hashes, exact commands and negative history.
+- Fresh hash/source/permission check; deliver full source/test/spec/certificates/report and release only own claim after actual delivery/readback. Root review/acceptance/integration remain separate.
+
+END EXACT_FILE NUM4F2 IMPLEMENTATION_PLAN_V1.md
+
+BEGIN EXACT_FILE NUM4F3 evidence/red01/receipt.json BYTES=1633 SHA256=c8d1995dc96f102270fae529365a924c6d5ca9121befbabf8bd1deb66fcd32f0
+{
+  "utc": "2026-10-18T00:28:12Z",
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_moment_kernel.py"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "exit_code": 1,
+  "wall_seconds": 0.049764917,
+  "outer_timeout_seconds": 15,
+  "source_bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red01/moment_kernel.py",
+      "bytes": 633,
+      "sha256": "93e4a7bd10cca1aec2d22fbfacc97a1a45a5933d63220442a3d5f50c51a8ee95"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red01/verify_certificate.py",
+      "bytes": 90,
+      "sha256": "df64c1fe677e5eff651864108af92b8064ab8517fb790a783e3e439e936f5226"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red01/test_moment_kernel.py",
+      "bytes": 4877,
+      "sha256": "5b8934351f32c088c4b6caddf3642968b7a8021ced9603709c6fe662b35a771d"
+    }
+  ],
+  "log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red01/raw.log",
+    "bytes": 14630,
+    "sha256": "a3dcce4152b86f9939d76a1eb42eb277f7ef38f65ac64f1bccee0807a9e82ab6"
+  },
+  "label": "TEST_ONLY_BEHAVIORAL_RED"
+}
+
+END EXACT_FILE NUM4F3 evidence/red01/receipt.json
+
+BEGIN EXACT_FILE NUM4F4 evidence/red01/raw.log BYTES=14630 SHA256=a3dcce4152b86f9939d76a1eb42eb277f7ef38f65ac64f1bccee0807a9e82ab6
+test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls) ... FAIL
+test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls) ... FAIL
+test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls) ... FAIL
+test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) ... test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls) ... FAIL
+test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls) ... FAIL
+test_positive_input_required (test_moment_kernel.KernelControls) ... test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls) ... FAIL
+test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls) ... FAIL
+test_valid_full_spectrum_certificate_replays_without_producer_import (test_moment_kernel.KernelControls) ... ok
+test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls) ... FAIL
+
+======================================================================
+FAIL: test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 98, in test_coarse_input_is_not_misrepresented_as_a_tight_point
+    self.assertEqual(c["outcome"], "HOLD_INPUT_UNCERTAINTY")
+AssertionError: 'TOLERANCE_MET' != 'HOLD_INPUT_UNCERTAINTY'
+- TOLERANCE_MET
++ HOLD_INPUT_UNCERTAINTY
+
+
+======================================================================
+FAIL: test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 111, in test_deterministic_work_exhaustion_is_an_attributable_hold
+    certify(request(limits={"max_work": 1}))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 63, in test_exponential_primitive_has_independent_e_bounds
+    self.assertGreater(lo, Q(1, 3))
+AssertionError: Fraction(0, 1) not greater than Fraction(1, 3)
+
+======================================================================
+FAIL: test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 89, in test_narrowed_rounded_exponential_seed_is_rejected
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m=0.9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m='2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) (m=Fraction(9, 10))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 24, in test_noninteger_and_nonpositive_cutoff_are_refused
+    certify(request(cutoff=m))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 73, in test_omitted_zero_mode_certificate_is_rejected
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 78, in test_physical_frequency_certificate_perturbation_is_rejected
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 51, in test_physical_frequency_not_normalized_integer_frequency
+    self.assertGreater(b[0], 36*a[1])
+AssertionError: Fraction(0, 1) not greater than Fraction(0, 1)
+
+======================================================================
+FAIL: test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 56, in test_pi_interval_has_independent_broad_analytic_guard
+    self.assertGreater(lo, 3)
+AssertionError: Fraction(0, 1) not greater than 3
+
+======================================================================
+FAIL: test_positive_input_required (test_moment_kernel.KernelControls) (lo='0/1', hi='1/1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 36, in test_positive_input_required
+    certify(request(L_lo=lo, L_hi=hi))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_positive_input_required (test_moment_kernel.KernelControls) (lo='2/1', hi='1/1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 36, in test_positive_input_required
+    certify(request(L_lo=lo, L_hi=hi))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_positive_input_required (test_moment_kernel.KernelControls) (lo='-1/1', hi='1/1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 36, in test_positive_input_required
+    certify(request(L_lo=lo, L_hi=hi))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 29, in test_uncertified_monotonic_tail_threshold_is_refused
+    certify(request(L_lo="10/1", L_hi="10/1", cutoff=1))
+AssertionError: KernelHold not raised
+
+======================================================================
+FAIL: test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 83, in test_understated_spectral_tail_is_rejected
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 105, in test_unmet_goal_does_not_start_unbounded_refinement
+    self.assertEqual(c["outcome"], "HOLD_TARGET_UNMET")
+AssertionError: 'TOLERANCE_MET' != 'HOLD_TARGET_UNMET'
+- TOLERANCE_MET
++ HOLD_TARGET_UNMET
+
+
+======================================================================
+FAIL: test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 94, in test_wrong_source_pin_is_rejected
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 41, in test_zero_mode_and_independent_geometric_normalizer_control
+    self.assertGreater(lo, Q(1))
+AssertionError: Fraction(0, 1) not greater than Fraction(1, 1)
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.001s
+
+FAILED (failures=22)
+
+END EXACT_FILE NUM4F4 evidence/red01/raw.log
+
+BEGIN EXACT_FILE NUM4F5 evidence/red02-cli/receipt.json BYTES=1671 SHA256=45804f24c64631d8b6bc94e1e6f26379528882c9b9d8b93f1af22f3f0a17b9e4
+{
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_moment_kernel.py"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "exit_code": 1,
+  "wall_seconds": 0.20586395799999999,
+  "outer_timeout_seconds": 15,
+  "source_bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red02-cli/moment_kernel.py",
+      "bytes": 11136,
+      "sha256": "713143a2f4020007bc2960b63510ac8b3f55d98a08c92bbf010c5231f358df03"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red02-cli/verify_certificate.py",
+      "bytes": 10180,
+      "sha256": "202b7b34d55c079f3918b133398b768f1411030a86c6984ad41b315035e97fc3"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red02-cli/test_moment_kernel.py",
+      "bytes": 6485,
+      "sha256": "3efd0eb052d10e8eb705ace690fb2a5e15417765025586191a679b60a48de00d"
+    }
+  ],
+  "log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red02-cli/raw.log",
+    "bytes": 3047,
+    "sha256": "f45c5f8854914b552289e118e5c1dfb47b31936accba962c2a0766a0e2af8fa9"
+  },
+  "label": "TEST_ONLY_RED_CLI_FAILURE_CONTRACT",
+  "utc": "2026-10-18T00:32:44Z"
+}
+
+END EXACT_FILE NUM4F5 evidence/red02-cli/receipt.json
+
+BEGIN EXACT_FILE NUM4F6 evidence/red02-cli/raw.log BYTES=3047 SHA256=f45c5f8854914b552289e118e5c1dfb47b31936accba962c2a0766a0e2af8fa9
+test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls) ... ok
+test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls) ... ok
+test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls) ... FAIL
+test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls) ... ok
+test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls) ... FAIL
+test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) ... ok
+test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls) ... ok
+test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls) ... ok
+test_positive_input_required (test_moment_kernel.KernelControls) ... ok
+test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls) ... ok
+test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls) ... ok
+test_valid_full_spectrum_certificate_replays_without_producer_import (test_moment_kernel.KernelControls) ... ok
+test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls) ... ok
+
+======================================================================
+FAIL: test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 146, in test_existing_output_cli_is_preserved_and_returns_machine_hold
+    self.assertEqual(code, 2, stdout)
+AssertionError: 99 != 2 : FileExistsError
+
+======================================================================
+FAIL: test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 140, in test_malformed_json_cli_returns_machine_hold_not_traceback
+    self.assertEqual(code, 2, stdout)
+AssertionError: 99 != 2 : JSONDecodeError
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.145s
+
+FAILED (failures=2)
+
+END EXACT_FILE NUM4F6 evidence/red02-cli/raw.log
+
+BEGIN EXACT_FILE NUM4F7 evidence/red03-parser/receipt.json BYTES=1676 SHA256=ccb718083b2bef135fa72ec034bb1dfcf5ce31adc3e2bde859b4cd6a719ab6dc
+{
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_moment_kernel.py"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "exit_code": 1,
+  "wall_seconds": 0.274247792,
+  "outer_timeout_seconds": 15,
+  "source_bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red03-parser/moment_kernel.py",
+      "bytes": 11136,
+      "sha256": "713143a2f4020007bc2960b63510ac8b3f55d98a08c92bbf010c5231f358df03"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red03-parser/verify_certificate.py",
+      "bytes": 10180,
+      "sha256": "202b7b34d55c079f3918b133398b768f1411030a86c6984ad41b315035e97fc3"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red03-parser/test_moment_kernel.py",
+      "bytes": 8984,
+      "sha256": "f21a36fb2db7036022daa56041985f8ccf2a514099340ba254ba45cad84fe63c"
+    }
+  ],
+  "log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red03-parser/raw.log",
+    "bytes": 6180,
+    "sha256": "155e0802bdeb3ac82e4f3346c4bdf8771bf4cf8c6b3be26850b452ea47a25ddb"
+  },
+  "label": "TEST_ONLY_RED_REVIEW_PARSE_CONTRACT",
+  "utc": "2026-10-18T00:34:02Z"
+}
+
+END EXACT_FILE NUM4F7 evidence/red03-parser/receipt.json
+
+BEGIN EXACT_FILE NUM4F8 evidence/red03-parser/raw.log BYTES=6180 SHA256=155e0802bdeb3ac82e4f3346c4bdf8771bf4cf8c6b3be26850b452ea47a25ddb
+test_checker_rejects_bool_float_oversized_strings_and_witness_arrays (test_moment_kernel.KernelControls) ... ok
+test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls) ... ok
+test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls) ... ok
+test_duplicate_certificate_keys_are_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_duplicate_json_request_keys_are_not_silently_overridden (test_moment_kernel.KernelControls) ... FAIL
+test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls) ... FAIL
+test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls) ... ok
+test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls) ... FAIL
+test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_nonfinite_certificate_json_constant_is_rejected (test_moment_kernel.KernelControls) ... FAIL
+test_nonfinite_json_request_constant_is_rejected_by_parser (test_moment_kernel.KernelControls) ... FAIL
+test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) ... ok
+test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls) ... ok
+test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls) ... ok
+test_positive_input_required (test_moment_kernel.KernelControls) ... ok
+test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls) ... ok
+test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls) ... ok
+test_valid_full_spectrum_certificate_replays_without_producer_import (test_moment_kernel.KernelControls) ... ok
+test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls) ... ok
+
+======================================================================
+FAIL: test_duplicate_certificate_keys_are_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 177, in test_duplicate_certificate_keys_are_rejected
+    self.assertEqual(code, 1, stdout)
+AssertionError: 0 != 1 : {"verification": "ACCEPT_BOUNDS_ONLY", "outcome": "BOUNDS_ONLY", "input_role": "TEST_ONLY", "scientific_acceptance": false}
+
+
+======================================================================
+FAIL: test_duplicate_json_request_keys_are_not_silently_overridden (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 153, in test_duplicate_json_request_keys_are_not_silently_overridden
+    self.assertEqual(code, 2, stdout)
+AssertionError: 0 != 2 : 
+
+======================================================================
+FAIL: test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 147, in test_existing_output_cli_is_preserved_and_returns_machine_hold
+    self.assertEqual(code, 2, stdout)
+AssertionError: 99 != 2 : FileExistsError
+
+======================================================================
+FAIL: test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 141, in test_malformed_json_cli_returns_machine_hold_not_traceback
+    self.assertEqual(code, 2, stdout)
+AssertionError: 99 != 2 : JSONDecodeError
+
+======================================================================
+FAIL: test_nonfinite_certificate_json_constant_is_rejected (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 184, in test_nonfinite_certificate_json_constant_is_rejected
+    self.assertIn("INVALID_JSON_CERTIFICATE", json.loads(stdout)["reason"])
+AssertionError: 'INVALID_JSON_CERTIFICATE' not found in 'INTEGER_GUARD'
+
+======================================================================
+FAIL: test_nonfinite_json_request_constant_is_rejected_by_parser (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 160, in test_nonfinite_json_request_constant_is_rejected_by_parser
+    self.assertEqual(json.loads(stdout)["reason"], "INVALID_JSON_REQUEST")
+AssertionError: 'INVALID_RATIONAL_INPUT' != 'INVALID_JSON_REQUEST'
+- INVALID_RATIONAL_INPUT
++ INVALID_JSON_REQUEST
+
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.219s
+
+FAILED (failures=6)
+
+END EXACT_FILE NUM4F8 evidence/red03-parser/raw.log
+
+BEGIN EXACT_FILE NUM4F9 evidence/red04-provenance/receipt.json BYTES=2027 SHA256=50e9f7efa03f2c0e7412472490ca98e88c990ae04529bf495060e4d5dcfd7c00
+{
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_moment_kernel.py"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "exit_code": 1,
+  "wall_seconds": 0.30904075000000003,
+  "outer_timeout_seconds": 15,
+  "source_bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red04-provenance/moment_kernel.py",
+      "bytes": 11943,
+      "sha256": "7e76d8aa3726ab1b382b46adf2dd2d96ef457402d24ec605b165953ab27581f0"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red04-provenance/verify_certificate.py",
+      "bytes": 10707,
+      "sha256": "f99f206fd6cc2de9717719a1ebfe7718d98389d992d090f2210a7298fa60d250"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red04-provenance/test_moment_kernel.py",
+      "bytes": 10682,
+      "sha256": "36112e2add6aa2d1c198e919618e3379ebac1b37b9ea8f1a7456c6818891e4b0"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red04-provenance/VERIFY_SPEC_V1.md",
+      "bytes": 12256,
+      "sha256": "1db7f34accb0cb9b029b64bf31b30f4f49856bdf9433c92fcdb1eaa4c2bce1e7"
+    }
+  ],
+  "log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/red04-provenance/raw.log",
+    "bytes": 3322,
+    "sha256": "953b4355d11376af4d6120ed8c33bcf0b10e10c73abbbd2fdab1f2c8d3305176"
+  },
+  "label": "TEST_ONLY_RED_CONTAINMENT_VS_ROUNDING_PROVENANCE",
+  "utc": "2026-10-18T00:37:47Z"
+}
+
+END EXACT_FILE NUM4F9 evidence/red04-provenance/receipt.json
+
+BEGIN EXACT_FILE NUM4F10 evidence/red04-provenance/raw.log BYTES=3322 SHA256=953b4355d11376af4d6120ed8c33bcf0b10e10c73abbbd2fdab1f2c8d3305176
+test_checker_rejects_bool_float_oversized_strings_and_witness_arrays (test_moment_kernel.KernelControls) ... ok
+test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls) ... ok
+test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls) ... ok
+test_duplicate_certificate_keys_are_rejected (test_moment_kernel.KernelControls) ... ok
+test_duplicate_json_request_keys_are_not_silently_overridden (test_moment_kernel.KernelControls) ... ok
+test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls) ... ok
+test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls) ... ok
+test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls) ... ok
+test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_nonfinite_certificate_json_constant_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_nonfinite_json_request_constant_is_rejected_by_parser (test_moment_kernel.KernelControls) ... ok
+test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) ... ok
+test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls) ... ok
+test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls) ... ok
+test_positive_input_required (test_moment_kernel.KernelControls) ... ok
+test_sound_widening_does_not_certify_legacy_minimal_rounding_provenance (test_moment_kernel.KernelControls) ... FAIL
+test_sound_wider_intervals_remain_checkable_without_minimal_rounding_claim (test_moment_kernel.KernelControls) ... ok
+test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls) ... ok
+test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls) ... ok
+test_unresolved_small_spread_is_not_called_inherent_input_obstruction (test_moment_kernel.KernelControls) ... ok
+test_valid_full_spectrum_certificate_replays_without_producer_import (test_moment_kernel.KernelControls) ... ok
+test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls) ... ok
+
+======================================================================
+FAIL: test_sound_widening_does_not_certify_legacy_minimal_rounding_provenance (test_moment_kernel.KernelControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/test_moment_kernel.py", line 225, in test_sound_widening_does_not_certify_legacy_minimal_rounding_provenance
+    with self.assertRaises(ValueError): verify(c)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.247s
+
+FAILED (failures=1)
+
+END EXACT_FILE NUM4F10 evidence/red04-provenance/raw.log

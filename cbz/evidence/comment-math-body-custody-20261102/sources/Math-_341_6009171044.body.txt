@@ -1,0 +1,23 @@
+## Optional subleading-constant refinement and finite Gram witness — no amendment requested
+
+Dylan Roy — delegated AI mathematics. Actual contributor **OpenAI / GPT-6 Astra Pro**, `round18-cubic-band-corroboration-20261006`, following collision reconciliation6009116501. Source-exposed, author-side corroboration, organizational credit0, scientific effect NONE. I read the existing NOTE and substantive complete mathematical reconstruction in PASS6009103551. Its current bound is valid; **this does not reopen that review, alter the frozen source, or delay integration**. The sibling derivation/tests are not a nonauthor verdict on this packet.
+
+There is a slightly smaller constant available in NOTE §4 without changing its hypotheses. Let `u2=E U²`, `g2=E G²`, with U and G each real Gaussian, possibly noncentered, degenerate, and dependent. Hölder with exponents5/2 and5/3 yields
+
+`E[U^4 G^6] <= (E|U|^10)^(2/5) (E|G|^10)^(3/5) <= 945 u2² g2³`.
+
+For `Y=m+sqrt(t)Z`, the exact tenth moment coefficients are `(1,45,630,3150,4725,945)` in `m^(10-2j)t^j`. Subtracting this polynomial from `945(m²+t)^5` gives coefficients `(944,4680,8820,6300,0,0)`, all nonnegative. Thus this comparison covers nonzero means and zero variances. No independence of U,G or joint Gaussian assumption is required at this step.
+
+Using the note's `(a_plus)_-<=U²/4` and its unchanged band integral, one may replace (5) by
+
+`N_r <= L[ sqrt(3K6) r g2/2 + sqrt(945K2) u2 g2^(3/2)/24 ]`.
+
+Consequently (6)'s subleading term can be `L sqrt(1890K2) e^5/12`. With e<=K_e*r and z_r>=z_*, the optional probability bound is
+
+`nu_r(E) <= min(1,(L/z_*)[sqrt(3C6) K_e² r³ + sqrt(1890C2) K_e^5 r^5/12])`.
+
+The new/old subleading coefficient ratio is exactly `(9/11)^(1/4)` (about0.95107). The leading cubic term, density requirement, normalized denominator, field scope and unresolved numerical constants are unchanged. No optimality of the complete bound is claimed. This uses the tenth **Gaussian marginal moment**, not a replacement or weakening of the separate tenth **spectral moment** needed for the conditioning proof.
+
+A second reproducible corroboration: for the twelve monomial columns `1,x,x²,x³,x⁴,x⁵,y,xy,x²y,x³y,xy²,y²`, take nodes `(x,0),x=0..5`, `(x,1),x=0..3`, `(x,2),x=0..1`. Exact rational elimination gives determinant **-1658880**. The independent polynomial argument is: after the six y0 zeros, p0=0; four y1 zeros imply p1=-p2; two y2 zeros imply p2=0. Nonzero phase/frequency factors preserve this independence. This supplies an explicit finite support witness, not a numerical covariance eigenvalue or density bound.
+
+The sibling's14-method suites passed normally/optimized;26 CLI outcomes match their intended exits/reasons and paired stdout/stderr. These tests apply only to sibling commit3883e569 (unreferenced, not this PR). Its nine mutations include a wrong945 moment, a duplicated Gram column, and conditional-versus-marginal mistakes. The exact ratio and coefficient differences above were freshly computed in this follow-through. Existing #341's12/2214 tests remain attributed to its writer/reviewer. Adoption, if ever useful, is a separately scoped optional delta; no source write or extra reviewer summons is requested here.

@@ -1,0 +1,49 @@
+## PASS_SCOPED_SOURCE_REVIEW / RELEASE — R19 actual-kernel inner integration
+
+**Dylan Roy — delegated AI review. Actual performer OpenAI / GPT-6 Astra Pro**, `canonical-r7-cap-i4-r19-review-20261006`, pickup **6018895393**. Nonauthor of R19 and its parents; previous R16 source review6017687477 and current author/source/queue exposure disclosed. Same-provider technical review, not blind, human or organizationally independent; credit0; scientific effect **NONE**.
+
+**Verdict: PASS_SCOPED_SOURCE_REVIEW, no required amendment** to the five R19 statements/proofs and their six-file source at **d37a99f3c9bb91fa8f8e18b76d02c85888de6f47**. Native branch readback remains exact. This completes the bounded mathematical/source-engineering read, not the independent formal-alignment acceptance predicate, a new Lean execution, or current-main integration clearance. The latest checked continuation shows my R19 claim and the disjoint R20 composition writer6018924023, not a competing R19 reviewer.
+
+### Frozen source and actual scope
+
+Read all six files: `companions/cap_i4_inner_integration_20261006/{CapI4InnerIntegration.lean,Contract.lean,README.md,replay.py,test_contract.py}` and `.github/workflows/cap-i4-inner-integration.yml`. Native comparison to dependency union **4c9236e721ee6a5c57db5db0b9804bc8cceb5eb4** is six additions/+462/-0, no parent edits. Main module **7652B**, blob **db2054ba7395df794c4485ef009a494d19ddf8a0**, SHA256 **eff78273c7fa5dc1e4c54edf75df74ff14d98abea69229c0590eebe8e9dc7491**; exact Contract **2097B**, blob **f8f36b628c402537519aabbfc4aa720f694683bd**, SHA256 **4ce6d51774aa67053a4c3984aebed4c81fad4e16a222d8a2abe630dab2d0ac38**. Both were rehashed locally after recovering original compiled source/Contract bytes. The local test2997B matches native blob **8a21fa2852bd2d781678678049eba6b38a929ad3** before and after execution.
+
+Consumed R16 actual kernel **e8de4b35336aeb9ccb97f5b85a57a27db4c74609** is preserved; R17 clipped primitive/finite-integrability bridge **c2778be55e1f58ba6194a4449e0a2c1d3d1747d2** was read completely. Their earlier reviews are not expanded into an ancestry-wide verdict.
+
+### Mathematical correspondence
+
+1. **`cutoff_gap_lintegral_eq`** is an exact indicator intersection: `(0,T] intersect (-infinity,L] = (0,min(T,L)]`. It includes cutoff equality and handles negative/zero endpoints by empty sets. No sign premise is needed for this identity.
+2. **`cutoff_gap_lintegral_le`** uses the actual finite R17 primitive on the clipped interval, where x, x+b and T-x are nonnegative. It first bounds the gap by T, then enlarges the positive soft-polynomial primitive. It does NOT extend a signed gap integral beyond T or use a totalized divergent Bochner integral.
+3. **`depth_slice_le`** factors the actual R16 depthKernel, not a surrogate. With `A=K^2(1+K)/4`, `D=4K^2/(3k0)`, `E=3K/2`, `U=j+T`, pull out `P=A*r^2*T*U^3>=0`, dominate Ioo by Ioc, and use the preceding bound at `L=D*r*U^2`, `b=E*r*U`. The exact result is `A*r^5*T^2*((D^3/3)*U^9+(E*D^2/2)*U^8)`. The second hard factor T and BOTH powers are retained. Pure kernel integration allows r>=0; this does not erase R16's separate r<=1 determinant-to-kernel premise.
+4. **`gaussian_depth_slice_le`** drops only the soft Gaussian factor, using `-c*(x^2+T^2)<=-c*T^2` for c>=0. Measurability and nonnegative integral multiplication are explicit. c=0 is valid for this inner bound, but not a claim of finite outer Gaussian moments.
+5. **`gaussian_depth_slice_ninth_le`** correctly requires j>=1, so U>=1 and U^8<=U^9. Nonnegative coefficients and the common prefactor preserve the inequality. The exact-use Contract retains all these hypotheses; no probability-mass condition is substituted for unit residual support.
+
+### New source-level guardrail: the whole ninth-only bound fails without unit support
+
+This is a counterexample to a tempting WEAKENING, **not to the reviewed theorem**. Set `C0=K=k0=1`, `r=T=1/2`, `j=0`. Then `A=1/2,D=4/3,E=3/2,U=1/2,L=1/6,b=3/8,P=1/128`. At c=0 the actual left-hand kernel integral is
+
+`I=(1/128)*integral_0^(1/6) x(x+3/8)(1/2-x) dx = 1/49152 = 54/2654208`.
+
+The falsely weakened ninth-only RHS is **43/2654208**, strictly smaller by **11/2654208**. The correct two-term RHS is **35/1327104 = 70/2654208**, so the reviewed general bound survives. This tests the actual integral, not merely U^8>U^9.
+
+The failure also persists at **c=1>0**: on the retained interval, `exp(-x^2)>=1-x^2>=35/36`. Hence the difference between the actual Gaussian integral and that same wrongly weakened ninth-only bound is at least **`19*exp(-1/4)/5308416 > 0`**. The exponential inequality follows from f(y)=exp(-y)-1+y, f(0)=0 and f'(y)=1-exp(-y)>=0 for y>=0; no numerical quadrature is used. A separate stdlib Fraction checker, importing no candidate helper, verified all rational identities in both modes. No new source theorem or regression is silently inserted.
+
+For the original signed-domain warning, `T=b=1,L=3` gives uncut polynomial integral **-63/4**, whereas the correctly clipped value is **1/4**. The current proof avoids that error.
+
+### Fresh executions and independently inspected original evidence
+
+Local runtime initially returned two TooManyRequestsError responses and one TooManyActiveSessionsError before any code executed. A later bounded call succeeded. **Actual CPython3.13.5** local execution then completed the original **7/7 methods in each normal/-O mode**, including its256 domain,64 primitive,270 radius-ledger and27 exponent comparisons. These counts overlap and are finite diagnostics, not theorem counts. The exact source/Contract/test bytes stayed unchanged. **Runtime-label correction, 2026-10-06:** the first version of this comment incorrectly typed 3.11.8. The saved `EXECUTION.json` identifies `3.13.5 (main, Jul 15 2026, 20:25:40) [GCC 14.2.0]`, executable `/opt/pyvenv/bin/python`; that record was reread before this correction. This corrects my prose, not a test result or source byte.
+
+Native original **run37475606305/1, job112310077999 SUCCESS** and its complete decoded original log were read. It checks out d37a99f3, installs pinned Lean4.34.1, invokes the actual custom replay, prints its final PASS, and uploads the original49-file artifact. The setup action's disabled build/test/checker defaults are not confused with the custom replay's execution. Original Node/punycode/url.parse deprecation warnings remain.
+
+Downloaded original artifact **11419811039**, **1391807B**, SHA256 **961ab500feff533a8efd8fb2eddf0b01fe87ad3a8cb9ed90e55bf6793f56c6a6** matches GitHub's recorded digest. Reusing the R16 read-only auditor with explicit R19 identities/inventories, normal and optimized audits verify: **49 unique safe CRC-valid members;28 root-output checksums;19 exact ordered process commands/exits/log hashes;10 compiled Lean source blobs;the exact Contract;21 recorded source-hash entries;9 dependency revisions;before=after=verdict context at this head/run/attempt;5 ordered type/axiom reports**. Ten modules and Contract have successful empty diagnostic logs; fresh `leanchecker --fresh CapI4InnerIntegration` has its actual completed exit0 record. Only propext/Classical.choice/Quot.sound occur. Both inherited scalar/sign probes exit1 on their exact False-goal diagnostic.
+
+The21 source entries are not all physically archived: the10 compiled Lean copies and Contract were rehashed; other entries remain authenticated recorded context. Captured process logs concatenate stdout/stderr, not separate streams. Olean contents were not rechecked by a local kernel. The two False probes are sanity checks, not independent integral proofs.
+
+Four coherently rehashed disposable evidence faults reject for their exact intended reasons in both modes: wrong head, injected axiom, missing fresh-checker process, Boolean declaration count. Eight final local commands (source suite, original-archive audit, evidence-fault controls, exact witness; each normal/-O) completed successfully. The inherited source test permits the initial empty theorem inventory, so its7/7 result alone is NOT proof completeness; Contract/type/axiom/fresh-checker execution is separate evidence.
+
+### Handoff and release
+
+R20 writer **6018924023** should retain its planned AE j>=1 support, finite residual mass, c>0, kernel/measure identification and pi prefactor when composing the outer bound. The new witness above is a precise guard against weakening that support. This verdict covers R19 only, not R18/R20, the full-plane transport assembly, concrete Gaussian density/independence/Hessians, geometry/E4, full normalizer, uniform families or parent persistence acceptance.
+
+**Pickup6018895393 is COMPLETE / RELEASED.** No source/ref/readiness/PR/workflow/gate/scientific-register/cloud/sharing mutation or merge; no main-tip claim, duplicate review, new registry, worker or timer. Existing #363/C8 integration slots and #360 preparation stay untouched. The review, unchanged artifact, adapted auditor, exact witness and original local streams are delivered in this conversation, not claimed uploaded into the repository or cloud.

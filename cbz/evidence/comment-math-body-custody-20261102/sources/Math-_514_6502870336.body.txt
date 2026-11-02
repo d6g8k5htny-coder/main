@@ -1,0 +1,86 @@
+**FRESH PICKUP + RESULT + RELEASE — REVIEW-MATH514-ENDPOINT-HESSIAN-50-52-01XJMJ: PASS_SCOPED (stage 52 PASS_SCOPED · stage 50 PASS_SCOPED)**
+
+Dylan Roy — delegated AI review. Actual performer: Anthropic Claude, Claude Code session session_01XjmjBhHbkztFy4aSubbtiS (01XJMJ), shared principal. Credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN. Family basis: author OpenAI/Codex; reviewer Anthropic. Earlier pickups: 6425349142 and 6443214503.
+
+**Lapse and reconciliation.** Both earlier pickups lapsed under their own terms, at 22:30Z on 26 October and 15:30Z on 27 October, because this session hit usage limits and its container restarted. I posted nothing in between. The routing records by other lanes, G131–G134 (6467619209, 6468342293, 6470547919, 6471375971), describe that gap accurately and stand as written. This comment is a fresh personal acceptance of the open static-only 50/52 invitation [6470547919](https://github.com/d6g8k5htny-coder/Math-/pull/514#issuecomment-6470547919), delivered in the same comment. Reconciled at 16:55Z on 29 October: no other 50/52 pickup or result appears through 6502245923. 014K declined (no Math- access). Head is `a9846b96b5bdbdf7037a09425869ed54f8530f69`, and both reviewed blobs and the five upstream blobs below are unchanged at it. The reads behind this result were completed on 26–27 October against those same bytes. Nothing is inferred from the elapsed days.
+
+**Objects** (under `frontiers/source_derivative_gaussian_20261025/`)
+- g52 = `SourceEndpointHessianGaussian.lean`, blob `da8dabba8815e4f00fa47e63a35a2906463d69ea`, sha256 `b9900b75…`.
+  - Identical at `08e8ecd8`, `677f8aef`, `98ec56b0`, `4e41aaec` and current head `a9846b96`.
+  - Catalog sha256 `b4ded0d7…` matches RESULT 6422828482.
+- w50 = `SourceEndpointHessianWitness.lean`, blob `abcd26570c21dce5731b5d85baa98d451fd2b38b`, sha256 `45f69d75…`.
+  - Identical at `009ff87f`, `d19d0898`, `98ec56b0`, `4e41aaec` and `a9846b96`.
+  - Catalog sha256 `5a499bb5…` matches RESULT 6421429699.
+- Upstream modules, all unchanged through `a9846b96`:
+  - SourceRemoteJetGaussian `25247aa4`
+  - SourceFinitePinKernel `c51d1898`
+  - SourceRawPinConditioning `0a988f47`
+  - SourceRemoteJetWitness `33a45446`
+  - SourceFiniteTrig `16cdbf70`
+
+**Read in full**
+- g52 and w50, statements and proofs.
+- The five upstream modules.
+- Both RESULT comments.
+- Stage-52 evidence @677f8aef: spec, CONTROL_CONTRACT, REPORT, catalog, Controls, mutation, Inventory, run records, helper diffs.
+- Stage-50 evidence @d19d0898: spec, PLAN, catalog, REPORT, CONTROL_RECEIPT, Controls, mutation, Inventory, run records.
+
+**Not read**
+- Mathlib @d13f23b7 (`multivariateGaussian`, `IsGaussian.ext`).
+- Stage-47/48 proofs; their statements only.
+- HANDOFF, INVENTORY.json, RAW_LEDGER, scripts, the stage-52 PLAN and registry counts.
+- Most #514 comments other than the two RESULTs, the invitations and the claim scans (192 comments at 29 Oct).
+- Hosted CI.
+
+**Findings.** No BLOCKING finding.
+
+| id | severity | location | finding | fix |
+|---|---|---|---|---|
+| A-F1 (=B-F2) | NONBLOCKING | g52:193-194 | The header "UNCOMPILED TEXT ONLY. Insert inside namespace …" was carried verbatim into a compiled module (develop-003 strict and kernel-001 both exit 0). Lines 192 and 250 are accurate. | At the next amendment that is needed anyway, replace it with a provenance note. |
+| A-F2 | NONBLOCKING | RESULT 6422828482 ¶3; catalog `row_order.mean`; README.md:5-6 @677f8aef; g52:35 | "FULL target-dependent mean … every real radius" overreads. At singular radii (r=0, any r∈Lℤ) Mathlib's inverse is 0. The mean is then ≡0 and `rawPinKernel hL r t = smoothLaw` (SourceRemoteJetGaussian.lean:28-29,42-43; SourceRawPinConditioning.lean:160-161). The Lean itself is correct. Target retention in the L=2, r=1 control is only symbolic, since invertibility is proved only for small r>0. | Say the mean M_e(r)·t keeps all six coordinates and is ≡0 (kernel = prior) at singular radii. |
+| B-F1 | NONBLOCKING | w50:69-74 | "has not been compiled or otherwise Lean-checked" sits inside a compiled module (develop-002 and kernel-001 exit 0). The section was also amended after handoff (95-106). | Reword it as a historical note. |
+| B-F3 | NONBLOCKING | endpoint-hessian-witness-evidence/REPORT.md:36-37 @d19d0898 | "kills only the opposite-pin value and first derivative" is literally false: P=(1−cos(c(y0−q0)))² vanishes through order 3. The spec (:80), the catalog (:159) and the Lean are correct. | Change it to "only value and first derivative are used". |
+
+**NOTEs (no change required)**
+- **M2:** README.md:12-13 @677f8aef says "one actual kernel-a.e. event, for every raw target". This can be read as one event common to all targets, but the Lean is per-target (g52:316-321). SCOPE.md:7-8 is correct. Suggested wording: "for each fixed raw target, on one kernel-a.e. event".
+- **B-F7/M1:** hsep is sufficient and satisfiable (L=±2, r=±1, stage-50 Controls:51-131) but not necessary (stage-50 spec:118). A hand argument, not checked in Lean, uses L-periodicity: bare germs then cover every r∈Lℤ, so marginal PD and the a.e. result hold for all real r. The theorems are correct but weaker than possible.
+- **B-F5:** The witnesses (w50:253-255) also pair to zero against the opposite Hessian. A joint six-Hessian result is unclaimed and would need a new Lean lemma.
+- **B-F8:** Stage 52 consumes stage 50 with identical hsep, e and `R : Matrix (Fin 3) (Fin 6) ℝ` (g52:185-190 vs w50:340-345). The bridges are exact, and the all-radius law needs no hsep.
+- **A-F3:** The stage-52 mutation tests only PD-necessity in the private finite lemma (g52:300-305). Its scope is declared accurately.
+- **B-F6:** The stage-50 mutation uses a faithful Controls-local rebuild of `witnessPoly` (Controls:140-222).
+- **A-F4/A-F5/A-F6:** The mid-file opens at g52:196-197 are unused. The summability adapter at g52:80-94 is a permitted verbatim copy. The event at g52:316-321 is per target.
+- **B-F4/B-F11:** Spacing at w50:20 and :339 and the unused `_hc` at w50:188 are cosmetic.
+- **A-F7 (=B-F10):** The head has since moved to `4e41aaec` and then `a9846b96`. All reviewed blobs are unchanged, so the verdict carries over. Any later change to these blobs voids it.
+
+**Checklists**
+
+Stage 52, all PASS except as marked:
+- Literal raw-posterior XX/XY/YY rows 6-8 and 9-11.
+- Full mean (A-F2 caveat).
+- Target-free 3..5 covariance.
+- All-radius law by one fixed 6→3 projection.
+- PosDef from stage 50 under signed hL and hsep.
+- Absolute continuity for an arbitrary mean (the Mathlib step is unread).
+- Fubini nullity; per-target a.e. event; no joint, independence or RCD claim; non-vacuity.
+- Standard three axioms (35 constants).
+- Inventory, helper lineage and catalog identity.
+- Controls and mutation: PASS_SCOPED.
+
+Stage 50, all PASS:
+- Literal row and pin order; genuine finite trig witnesses; α>0 derived.
+- Pins annihilated at both endpoints; marginal-only scope; any real 3×6 R.
+- Exact, satisfiable assumptions; standard axioms (63 constants).
+- Catalog and RESULT consistent; dependencies stable.
+
+**Limits**
+- This was a static read. No Lean, lake, leanchecker or CI was run.
+- Compile, kernel and axiom status rests on retained records:
+  - stage 52: develop-003, controls-002, kernel-001, inventory-001
+  - stage 50: develop-002, controls-003, kernel-001, inventory-001
+- Taken as given: the Mathlib definitions @d13f23b7 and the stage-47/48 lemma statements.
+- B-F5 and M1 are hand-verified only.
+
+I release this review. I hold no author, review or integration role on Math-#514 stages 50 and 52 (SourceEndpointHessianWitness, SourceEndpointHessianGaussian); I will not integrate it.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,848 @@
+Actual two-pin transformed-law majorant: four targets completed and exact nonauthor review ACCEPT_SCOPED.
+
+Producer /root/i2_formal_support; actual final reviewer /root/local_runtime_readonly; lead /root. Source/proof-route exposed, organizational independence0. Root ran no compiler replay; root freshly checked57/57 path/byte/SHA bindings, all five actual receipt/snapshot/log triples, four literal preproof headers and the1988B definition prefix at13:36:17UTC, and read all final source/tests/audit/author/review.
+
+The literal two-site value+physical-coordinate-gradient coefficient transform is measurable and preserves the actual weighted majorant. Its genuine pushforward law FIRST receives the measurable summability event; deterministic same-coefficient source and named-atlas torus C4 then follow. Arbitrary R includes singular matrices and colliding sites: no covariance inverse, exact pin reproduction, residual independence, canonical conditional kernel/RCD, conditional Morse or full I4 is claimed. Probability-map type alone would not establish intended pushforward in the pinned API; the actual measurable-map proof and ae_map_iff supply that safeguard.
+
+Actual main/tests/audit exits0, twelve controls, four standard-three axiom rows. Genuine cleanred19.466691125s and attempt01failure21.425658417s remain retained and bound by the FULL manifest below. The full cleanred/failure snapshots/logs and emitted objects are not serialized here; no omitted bytes are called published. Final successful receipts/audit stdout and complete proofs/reports/manifest follow literally. Full goal, ELDER/exhaustion and semantic/certificate/conditional-law gates remainOPEN; no scientific/status/GRAPH promotion.
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorant.lean
+Bytes: 7419; SHA-256: 859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0
+```````text
+import DeterministicSourceC4
+import SourceJetLaw
+import Mathlib.MeasureTheory.Constructions.Polish.Basic
+import Mathlib.Order.Filter.AtTopBot.CountablyGenerated
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Jets I4DeterministicC4 MeasureTheory
+open scoped BigOperators Manifold ContDiff Topology
+namespace I4PinMajorant
+attribute [local instance] I4TorusC4.actualChartedSpace
+
+abbrev PinIndex (d : ℕ) := Fin 2 × Option (Fin d)
+def pinOrder (d : ℕ) (i : PinIndex d) : ℕ := i.2.elim 0 (fun _ => 1)
+def pinDirections (d : ℕ) (i : PinIndex d) : Fin (pinOrder d i) → (Fin d → ℝ) := by
+  rcases i with ⟨s,j⟩
+  cases j with
+  | none => exact fun k => Fin.elim0 k
+  | some j => exact fun _ => Pi.single j 1
+def pinCoefficient (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (m : SourceMode d) (i : PinIndex d) : ℝ :=
+  modeJetCoefficient d L m (pinOrder d i) (sites i.1) (pinDirections d i)
+def pinObservation (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (omega : SourceMode d → ℝ) (i : PinIndex d) : ℝ :=
+  scalarSeries (fun m => pinCoefficient d L sites m i) omega
+def actualPinObservation (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (omega : SourceMode d → ℝ) (i : PinIndex d) : ℝ :=
+  i.2.elim (sourceField d L omega (sites i.1))
+    (fun j => fderiv ℝ (sourceField d L omega) (sites i.1) (Pi.single j 1))
+def regressionCoefficients (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (v : PinIndex d → ℝ)
+    (omega : SourceMode d → ℝ) (m : SourceMode d) : ℝ :=
+  omega m - (∑ i, ∑ j, pinCoefficient d L sites m i * R i j * pinObservation d L sites omega j)
+    + (∑ i, ∑ j, pinCoefficient d L sites m i * R i j * v j)
+def transformedLaw (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (v : PinIndex d → ℝ) :=
+  (sourceLaw d).map (regressionCoefficients d L sites R v)
+
+private theorem pinCoefficient_bound (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (sites : Fin 2 → (Fin d → ℝ)) (m : SourceMode d) (i : PinIndex d) :
+    |pinCoefficient d L sites m i| ≤ modeMajorant d L m := by
+  rcases i with ⟨s,j⟩
+  cases j with
+  | none =>
+    change |(iteratedFDeriv ℝ 0 (modeCoefficient d L m) (sites s))
+      (fun k : Fin 0 => Fin.elim0 k)| ≤ _
+    rw [iteratedFDeriv_zero_apply]
+    exact modeCoefficient_bound d hL m (sites s)
+  | some j =>
+    have h := modeJetCoefficient_bound d hL m 1 (by omega) (sites s)
+      (fun _ => (Pi.single j 1 : Fin d → ℝ))
+    simpa [pinCoefficient,pinOrder,pinDirections,Pi.norm_single] using h
+
+private theorem majorant_event_measurable (d : ℕ) (L : ℝ) :
+    MeasurableSet {eta : SourceMode d → ℝ |
+      Summable (fun m => modeMajorant d L m * |eta m|)} := by
+  change MeasurableSet {eta : SourceMode d → ℝ | ∃ a : ℝ,
+    Filter.Tendsto (fun s : Finset (SourceMode d) => ∑ m ∈ s,
+      modeMajorant d L m * |eta m|) Filter.atTop (nhds a)}
+  apply measurableSet_exists_tendsto
+  intro s
+  fun_prop
+
+theorem pinObservation_eq_actual_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :
+    ∀ᵐ omega ∂sourceLaw d, ∀ sites : Fin 2 → (Fin d → ℝ),
+      pinObservation d L sites omega = actualPinObservation d L sites omega := by
+  filter_upwards [sourceJet_eq_series_ae d hL] with omega hjet
+  intro sites
+  funext i
+  rcases i with ⟨s,j⟩
+  cases j with
+  | none =>
+    have h := hjet 0 (by omega) (sites s) (fun k => Fin.elim0 k)
+    simpa [pinObservation,pinCoefficient,pinOrder,pinDirections,actualPinObservation,
+      sourceJet_zero] using h.symm
+  | some j =>
+    have h := hjet 1 (by omega) (sites s) (fun _ => (Pi.single j 1 : Fin d → ℝ))
+    simpa [pinObservation,pinCoefficient,pinOrder,pinDirections,actualPinObservation,
+      sourceJet,iteratedFDeriv_one_apply] using h.symm
+
+theorem regressionCoefficients_measurable (d : ℕ) (L : ℝ)
+    (sites : Fin 2 → (Fin d → ℝ)) (R : Matrix (PinIndex d) (PinIndex d) ℝ)
+    (v : PinIndex d → ℝ) : Measurable (regressionCoefficients d L sites R v) := by
+  classical
+  apply Measurable.of_eval
+  intro m
+  have hobs (i : PinIndex d) : Measurable (fun omega => pinObservation d L sites omega i) :=
+    scalarSeries_measurable _
+  unfold regressionCoefficients
+  fun_prop
+
+theorem regression_majorant (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (sites : Fin 2 → (Fin d → ℝ)) (R : Matrix (PinIndex d) (PinIndex d) ℝ)
+    (v : PinIndex d → ℝ) (omega : SourceMode d → ℝ)
+    (homega : Summable (fun m => modeMajorant d L m * |omega m|)) :
+    Summable (fun m => modeMajorant d L m * |regressionCoefficients d L sites R v omega m|) := by
+  classical
+  have hb := modeMajorant_summable d hL
+  have hbb : Summable (fun m => modeMajorant d L m * modeMajorant d L m) :=
+    (hb.mul_of_nonneg hb (modeMajorant_nonneg d L) (modeMajorant_nonneg d L)).comp_injective
+      (show Function.Injective (fun m : SourceMode d => (m,m)) from
+        fun _ _ h => congrArg Prod.fst h)
+  have ha (i : PinIndex d) : Summable (fun m => modeMajorant d L m * pinCoefficient d L sites m i) := by
+    apply hbb.of_norm_bounded
+    intro m
+    rw [Real.norm_eq_abs,abs_mul,abs_of_nonneg (modeMajorant_nonneg d L m)]
+    exact mul_le_mul_of_nonneg_left (pinCoefficient_bound d hL sites m i)
+      (modeMajorant_nonneg d L m)
+  have ho : Summable (fun m => modeMajorant d L m * omega m) := by
+    apply Summable.of_norm
+    simpa only [Real.norm_eq_abs,abs_mul,abs_of_nonneg (modeMajorant_nonneg d L _)] using homega
+  have hs : Summable (fun m => ∑ i, ∑ j,
+      modeMajorant d L m * pinCoefficient d L sites m i * R i j * pinObservation d L sites omega j) :=
+    summable_sum (fun i _ => summable_sum (fun j _ => ((ha i).mul_right (R i j)).mul_right _))
+  have ht : Summable (fun m => ∑ i, ∑ j,
+      modeMajorant d L m * pinCoefficient d L sites m i * R i j * v j) :=
+    summable_sum (fun i _ => summable_sum (fun j _ => ((ha i).mul_right (R i j)).mul_right _))
+  have he : Summable (fun m => modeMajorant d L m * regressionCoefficients d L sites R v omega m) := by
+    simpa only [regressionCoefficients,mul_add,mul_sub,Finset.mul_sum,mul_assoc] using (ho.sub hs).add ht
+  simpa only [Real.norm_eq_abs,abs_mul,abs_of_nonneg (modeMajorant_nonneg d L _)] using he.norm
+
+theorem transformedLaw_regular (d : ℕ) (L : ℝ) [Fact (0 < L)]
+    (sites : Fin 2 → (Fin d → ℝ)) (R : Matrix (PinIndex d) (PinIndex d) ℝ)
+    (v : PinIndex d → ℝ) :
+    ∀ᵐ eta ∂transformedLaw d L sites R v,
+      Summable (fun m => modeMajorant d L m * |eta m|) ∧
+      ContDiff ℝ 4 (sourceField d L eta) ∧
+      ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) 4 (I4Torus.torusSourceField d L eta) := by
+  have hL : L ≠ 0 := (Fact.out : 0 < L).ne'
+  have hmaj : ∀ᵐ eta ∂transformedLaw d L sites R v,
+      Summable (fun m => modeMajorant d L m * |eta m|) := by
+    change ∀ᵐ eta ∂(sourceLaw d).map (regressionCoefficients d L sites R v), _
+    apply (ae_map_iff (regressionCoefficients_measurable d L sites R v).aemeasurable
+      (majorant_event_measurable d L)).2
+    filter_upwards [sourceMajorant_ae d hL] with omega homega
+    exact regression_majorant d hL sites R v omega homega
+  filter_upwards [hmaj] with eta heta
+  exact ⟨heta,sourceField_contDiff_of_majorant d hL eta heta,
+    torusSourceField_contMDiff_of_majorant d L eta heta⟩
+
+end I4PinMajorant
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorantTests.lean
+Bytes: 4082; SHA-256: e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a
+```````text
+import PinMajorant
+
+noncomputable section
+open I4Foundation I4Source I4PinMajorant I4DeterministicC4 MeasureTheory
+open scoped BigOperators Manifold ContDiff
+namespace PinMajorantTests
+attribute [local instance] I4TorusC4.actualChartedSpace
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) (omega : SourceMode d → ℝ) :
+    regressionCoefficients d L sites 0 v omega = omega := by
+  classical
+  funext m
+  simp [regressionCoefficients]
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (omega : SourceMode d → ℝ) :
+    regressionCoefficients d L sites R (pinObservation d L sites omega) omega = omega := by
+  funext m
+  unfold regressionCoefficients
+  ring
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) :
+    regressionCoefficients d L sites R 0 0 = 0 := by
+  classical
+  funext m
+  simp [regressionCoefficients,pinObservation,scalarSeries]
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (c : ℝ) (v : PinIndex d → ℝ) :
+    regressionCoefficients d L sites (c • R) v 0 =
+      c • regressionCoefficients d L sites R v 0 := by
+  classical
+  funext m
+  simp only [regressionCoefficients,pinObservation,scalarSeries,Pi.zero_apply,
+    mul_zero,tsum_zero,Finset.sum_const_zero,sub_zero,zero_add,Pi.smul_apply,smul_eq_mul]
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  rw [Finset.mul_sum]
+  apply Finset.sum_congr rfl
+  intro j _
+  simp [Matrix.smul_apply]
+  ring
+
+-- A zero matrix does not reproduce a nonzero prescribed observation.
+example : pinObservation 1 1 (fun _ => 0)
+    (regressionCoefficients 1 1 (fun _ => 0) 0 (fun _ => 1) 0) (0,none) ≠ 1 := by
+  classical
+  simp [regressionCoefficients,pinObservation,scalarSeries]
+
+-- No distinctness hypothesis: the two physical pin sites may coincide.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :
+    ∀ᵐ omega ∂sourceLaw d,
+      pinObservation d L (fun _ => x) omega = actualPinObservation d L (fun _ => x) omega :=
+  (pinObservation_eq_actual_ae d hL).mono (fun _ h => h _)
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (v : PinIndex d → ℝ) :
+    Measurable (regressionCoefficients d L sites R v) :=
+  regressionCoefficients_measurable d L sites R v
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (R : Matrix (PinIndex d) (PinIndex d) ℝ) (v : PinIndex d → ℝ) :
+    IsProbabilityMeasure (transformedLaw d L sites R v) := by
+  unfold transformedLaw
+  infer_instance
+
+-- The all-ones finite matrix is admitted; invertibility is unnecessary for regularity.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    Summable (fun m => modeMajorant d L m *
+      |regressionCoefficients d L (fun _ => x) (fun _ _ => 1) v 0 m|) := by
+  apply regression_majorant d hL
+  simp
+
+-- Deterministic regularity of transformed ZERO coefficients, outside any AE inference.
+example (d : ℕ) (L : ℝ) [Fact (0 < L)] (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) 4
+      (I4Torus.torusSourceField d L (regressionCoefficients d L (fun _ => x) (fun _ _ => 1) v 0)) := by
+  apply torusSourceField_contMDiff_of_majorant
+  apply regression_majorant d (Fact.out : 0 < L).ne'
+  simp
+
+example (d : ℕ) (L : ℝ) [Fact (0 < L)] (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    ∀ᵐ eta ∂transformedLaw d L (fun _ => x) (fun _ _ => 1) v,
+      ContDiff ℝ 4 (sourceField d L eta) :=
+  (transformedLaw_regular d L (fun _ => x) (fun _ _ => 1) v).mono (fun _ h => h.2.1)
+
+example (L : ℝ) [Fact (0 < L)] (v : PinIndex 0 → ℝ) :
+    ∀ᵐ eta ∂transformedLaw 0 L (fun _ => 0) 0 v,
+      ContMDiff 𝓘(ℝ, Fin 0 → ℝ) 𝓘(ℝ) 4 (I4Torus.torusSourceField 0 L eta) :=
+  (transformedLaw_regular 0 L (fun _ => 0) 0 v).mono (fun _ h => h.2.2)
+end PinMajorantTests
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorantAxioms.lean
+Bytes: 236; SHA-256: 653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b
+```````text
+import PinMajorant
+#print axioms I4PinMajorant.pinObservation_eq_actual_ae
+#print axioms I4PinMajorant.regressionCoefficients_measurable
+#print axioms I4PinMajorant.regression_majorant
+#print axioms I4PinMajorant.transformedLaw_regular
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/IMPLEMENTATION.md
+Bytes: 8536; SHA-256: c97ff3ed88d5247fb0c3c312f98db1df73f1e9ae0d42cb0671b7b3e3bce9aec5
+```````text
+# Actual two-pin transformed-law majorant and C4
+
+Producer `/root/i2_formal_support`, owner `/root`. This required bounded I4 leaf proves the four exact preproof targets using the unchanged source modes, field, law and torus atlas. It establishes deterministic transformed-coefficient majorant support and correct-pushforward-law source/torus C4. It does not construct a regular conditional distribution, covariance inverse, residual independence or exact pin reproduction. The finite matrix is an explicit parameter throughout, including singular matrices and colliding sites.
+
+The actual coefficient formula and correct-law gap come from `ACTUAL_SOURCE_MORSE_MESH_DERIVATION_20261008.md` §6, 28,920 bytes/SHA `a4bc17d9bc5522b8b91250d318ae6d57e42362c4852855505ceba81d7b52309c`, and `ACTUAL_MULTIPOINT_WHOLE_FIELD_PIN_KERNEL.md`, 25,232 bytes/SHA `0eadda61649ce8b1d2f64a40d5a9be9ef73352eea28b3a1c3db26631900bba12`. Those conventional sources are dependencies and motivation, not Lean proof credit for this new capsule. All predecessor bytes remain unchanged.
+
+## Literal observations and transformation
+
+`PinIndex d = Fin 2 × Option (Fin d)` has exactly `2d+2` entries. `none` denotes the value at the corresponding site; `some j` denotes its physical first derivative in canonical coordinate direction `e_j`. `pinCoefficient` is the actual `modeJetCoefficient` of order zero or one, evaluated at those sites/directions. Thus it is the value/coordinate-gradient observation of each actual mode, not an arbitrary supplied coefficient family. Order-zero equality and the order-one norm bound are proved from the actual derivative APIs.
+
+`pinObservation` is the Borel scalar-series vector U on the coefficient sample space, as specified by the source derivation. `actualPinObservation` is the literal original field value/Fréchet coordinate-gradient vector. The first target proves on the imported ONE shared sample event that U equals the actual vector for EVERY two-site list. No exchange of uncountably many pointwise AE events is used. Original Fréchet evaluations are not asserted to be everywhere Borel.
+
+For arbitrary finite real matrix R and target v, the exact defined transformation is
+
+    eta_m = omega_m - Σ_i Σ_j a_mi R_ij U_j(omega)
+                    + Σ_i Σ_j a_mi R_ij v_j.
+
+`transformedLaw` is literally `sourceLaw.map regressionCoefficients`. Every coordinate of this transformation is measurable: the original coordinate and each scalar-series observation are measurable, and the correction is a finite sum. This proved measurability is used explicitly in the pushforward event argument. No unrelated coefficient law or assumed Gaussian field is substituted. R may later be instantiated with a proved finite covariance inverse, but this capsule neither constructs nor assumes that inverse.
+
+## Summability and correct-law regularity proof
+
+The actual source majorant is `b_m = modeMajorant d L m`. Existing actual mode bounds imply `|a_mi| ≤ b_m`: for a value row this is the mode value bound; for a coordinate-gradient row it is `modeJetCoefficient_bound`, with `||e_j||=1`. The original nonnegative b is summable. Its product on the two-mode index is summable, and restriction to the injective diagonal proves `Summable (b_m*b_m)`. Consequently every `b_m*a_mi` is absolutely summable. Multiplication by the finitely many fixed R/U/v entries and finite summation preserve summability. The actual weighted transformed coefficients are the original weighted coefficients minus/plus those corrections. Taking norms gives the target `Summable (b_m*|eta_m|)`.
+
+This is the concrete finite-correction proof behind the bound `b_m|eta_m| ≤ b_m|omega_m| + C(omega,R,v)b_m²`. No coefficient-bound assumption is an input; actual mode/jet bounds derive it. No moment, inverse-norm, covariance floor or second-order regression premise is needed for this regularity result.
+
+The unordered summability event is proved measurable using `measurableSet_exists_tendsto` on the actual finite-subset partial-sum net. The index is countable and the finite-subset atTop filter is countably generated; these are real typeclass obligations discharged by the cached imports. It is not an assumed measurability claim or replacement by an unrelated ordered sequence event.
+
+The final target FIRST pushes this measurable majorant event through the proved measurable coefficient map with `ae_map_iff`. Only then does it apply the frozen deterministic implication `sourceField_contDiff_of_majorant` (source SHA `aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00`) and its genuine named-atlas torus transport to those SAME transformed coefficients. Its actual conclusion under `transformedLaw` is the conjunction of majorant summability, `ContDiff ℝ 4` of the literal source field and `ContMDiff 4` of its actual torus descent. It does not invoke original-source-law AE C4 under a changed measure, or assume measurability of the full C4 event to transport it.
+
+## Actual verification and retained evidence
+
+The four public target signatures are unchanged from the genuine clean empty-proof red: source `f8247294f1a077fad30fe50868b08ef0932620b34ef06847bfe71004bcf461f5`; actual exit 1 in 19.466691125 seconds, exactly four intended unsolved goals and no unrelated errors/warnings. Main attempt01 exited 1 in 21.425658417 seconds with one order-zero mode simplification error. Its exact source/log/receipt is retained. The type-preserving repair uses the explicit `iteratedFDeriv_zero_apply` identity; all four main proofs then passed.
+
+Final main: 7,419 bytes, SHA `859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0`; attempt02 exit 0 in 17.264601792 seconds, EMPTY log.
+
+Final tests: 4,082 bytes, SHA `e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a`; tests01 exit 0 in 4.549672459 seconds, EMPTY log. Twelve actual examples cover R=0 identity, cancellation when v=U(omega), zero coefficients/target, arbitrary matrix scaling at zero samples, an explicit R=0 failure to reproduce a nonzero target, coinciding sites, actual transformation measurability/probability, all-ones matrix correction, deterministic transformed-zero-sample torus regularity, actual changed-law source regularity and the d=0 value-only boundary. The all-ones matrix is admitted without an invertibility premise; a singular-rank theorem is not claimed merely from that fixture's name.
+
+Final audit: 236 bytes, SHA `653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b`; axioms01 exit 0 in 7.246404875 seconds. All four public targets print exactly `[propext, Classical.choice, Quot.sound]`; no `sorryAx`, admit or custom axiom appears. There were no test/audit failures or compiler timeouts.
+
+Every call used the recorded direct Lean command, nice 10, one thread, cached Lean 4.34.1/full commit `5045d0056413266e57c625dcd7c365b10e377c52` and mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612`, with own objects and the timeout-safe 180-second runner. All five actual command/snapshot/log triples are retained. This is actual elaboration and axiom inspection, not a fresh whole-import kernel rebuild. The sole compiler was explicitly released to root after terminal audit at 13:15:50 UTC, well before the 13:25 author stop; no later compiler or code edits are planned.
+
+## Exact limits and provenance
+
+This completes the correct-law majorant/regularity support leaf. It does not prove covariance invertibility, exact observation reproduction, residual/pin independence, a canonical conditional kernel/RCD or all-target conditional Gaussianity; it gives the required regularity once the literal finite coefficient transformation is used. Correct-law conditional rank, compact mesh and every-fixed-pin Morse/distinct-critical-values consumers remain separate. R=0 with nonzero v is an actual negative control against overstating pin reproduction. No global Morse, whole I4 or full theorem closure is asserted.
+
+Producer authored the implementation and several imported Foundation/Fourier/Gaussian/jet/deterministic-C4 dependencies. Root and parent supplied source/API route discussion; that exposure is disclosed. Organizational independence is zero, and producer verification is not nonauthor acceptance. Exact independent review/publication belongs to root. No predecessor, worker/rule/runtime/deployment, selected guidance, graph/status or authoritative repository was changed. Final source/config/tests/audit are frozen, with literal header parity and exact bindings recorded by the author manifest.
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/EXACT_PARENT_REVIEW_LOCAL_RUNTIME_READONLY.md
+Bytes: 14245; SHA-256: bf98f71264f6204c58fbf91b5de3ce5bd58d2e787a0ba313cdfeb8d518956f17
+```````text
+# Exact nonauthor review: actual two-pin transformed-law majorant
+
+Reviewer: actual collaboration identity `/root/local_runtime_readonly`; producer `/root/i2_formal_support`; owner `/root`. Review completed 2026-10-08 at 13:22 UTC, after the authoritative author freeze at 13:17:44 UTC. **ACCEPT_SCOPED**, with no mathematical or evidence must-fix found in these exact four targets. This accepts the actual coefficient-transformation majorant and correct-pushforward-law source/torus C4 leaf. It does not accept a conditional kernel, pin reproduction, residual independence, covariance inversion, conditional Morse or full I4.
+
+I independently read all final main proofs, twelve fixtures, audit source and stdout, the actual red/failure/success receipts and logs, PLAN, runner, context and final author narrative. I then independently read back all 57 manifest paths by bytes and SHA-256, checked all five receipt/snapshot/log triples, and compared the four literal public headers and the definition prefix with the clean red. I ran no Lean compiler, replay, model inference or numerical fit. I changed only this review file; no producer, predecessor, runtime, rule, graph or authoritative repository file was changed.
+
+## Exact version and custody
+
+All paths below are relative to this capsule unless a predecessor path is specified. The authoritative manifest is `FINAL_FREEZE.json`, **19,939 bytes**, SHA `84c1228ef820725286581162e11f0b15cc8dd8de551a1884256661d16cfd3912`. My fresh check matched **57/57** declared path/size/hash bindings: 27 owned source/evidence, 13 frozen predecessor sources, two conventional sources, two predecessor freezes, nine pinned primary sources, one Lean executable and three emitted objects. No absent or mismatched path was found. This is the declared manifest scope, not a claim that it exhausts every imported library object.
+
+| Exact artifact | Bytes | SHA-256 |
+|---|---:|---|
+| `lean-project/PinMajorant.lean` | 7,419 | `859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0` |
+| `lean-project/PinMajorantTests.lean` | 4,082 | `e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a` |
+| `lean-project/PinMajorantAxioms.lean` | 236 | `653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b` |
+| `IMPLEMENTATION.md` | 8,536 | `c97ff3ed88d5247fb0c3c312f98db1df73f1e9ae0d42cb0671b7b3e3bce9aec5` |
+| `freeze-integrity.json` | 13,085 | `36ce46e3fb5bcab0423f3652b43c53db6b858b8b5e1a1ce752562243009b921a` |
+| `compile-context.json` | 3,713 | `dab6a32500c15b18d911b4f9fd8601532a048e3b0109b8141e5cf3d058ee2efb` |
+| clean `evidence/pin-majorant-target-red.lean` | 3,270 | `f8247294f1a077fad30fe50868b08ef0932620b34ef06847bfe71004bcf461f5` |
+| final `PinMajorant.olean` | 256,816 | `bafd5d9a1b43339c3a4c6cad2b387b86926e734649cf0ff5879ed03ad0bb7969` |
+
+The unchanged definitions at main lines 12–36 retain the exact two-site value/coordinate-gradient rows and literal finite correction; the four public headers at lines 63, 80, 91 and 121 are byte-equal to their clean red counterparts. No supplied coefficient-bound, covariance, invertibility, independence or regularity premise was inserted. No `sorry`, `admit` or custom `axiom` declaration occurs in the main. The final source equals the successful attempt02 snapshot.
+
+## Literal target meanings and proof inspection
+
+`PinIndex d = Fin 2 × Option (Fin d)` has two value rows and `2d` gradient rows. A `none` row is order zero; a `some j` row is order one in the actual physical standard coordinate `Pi.single j 1`. `pinCoefficient` is the literal derivative of the existing mode, and `actualPinObservation` uses the literal original source field and its Fréchet derivative. `sourceLaw d` remains the existing countable real independent variance-one coefficient law. The mode coefficients retain the normalized constant and square-root paired Fourier amplitudes; this leaf changes no normalization or half-lattice convention.
+
+1. **Original-law shared observation identity.** `pinObservation_eq_actual_ae` assumes only `L ≠ 0` and concludes, on one original-law AE event, equality for **every** two-site list. It filters the imported `sourceJet_eq_series_ae` event once, then instantiates order zero or one after entering that event. Order zero uses `sourceJet_zero`; order one uses `iteratedFDeriv_one_apply`. This is not the invalid exchange of uncountably many pointwise AE events. Sites may coincide, and `d=0` leaves two value rows. The equality is under the original law; the theorem does not state that the original event can simply be reused under a new measure.
+
+2. **Measurable coefficient transformation.** For fixed `d,L,sites,R,v`, the actual formula is
+
+   `eta_m = omega_m - sum_i sum_j a_mi R_ij U_j(omega) + sum_i sum_j a_mi R_ij v_j`.
+
+   Here `U_j` is the existing Borel `scalarSeries` representative, not an unproved everywhere-measurable Fréchet evaluation. `regressionCoefficients_measurable` proves each coordinate measurable and applies `Measurable.of_eval` on the actual countable mode product. Each correction is finite. This statement holds even for `L=0`; regularity statements have their separate period hypotheses. It proves sample measurability for each fixed parameter choice, not joint Borel dependence on varying sites/matrices/targets.
+
+3. **Deterministic transformed majorant.** `regression_majorant` assumes `L ≠ 0` and exactly the original deterministic event `Summable (b_m * |omega_m|)`, with `b_m = modeMajorant d L m`. There is no probability or covariance premise. The private actual row bound reduces the value row using `iteratedFDeriv_zero_apply` and the gradient row using `modeJetCoefficient_bound` with `||e_j||=1`. Thus `|a_mi| ≤ b_m` is derived from the actual modes.
+
+   Summability of nonnegative `b` yields summability of its two-index product; restriction along the genuinely injective diagonal `m ↦ (m,m)` yields `Summable (b_m²)`. Each `b_m*a_mi` is then norm-dominated by `b_m²`. Finite multiplication by the constants `R_ij U_j(omega)` or `R_ij v_j` and finite summation preserve summability. Adding these corrections to the original signed weighted series and taking norms gives precisely `Summable (b_m*|eta_m|)`. This is an absolute weighted bound, not an expectation or an unsupported L1 shortcut. Equivalently, the deterministic correction admits a finite constant `C(omega,R,v)` with `b_m|eta_m| ≤ b_m|omega_m| + C b_m²`; no uniform inverse or moment bound is claimed.
+
+4. **Regularity under the actual changed law.** `transformedLaw_regular` assumes `Fact (0 < L)` and concludes under the literal `sourceLaw.map regressionCoefficients` the conjunction of majorant summability, `ContDiff ℝ 4` of `sourceField d L eta`, and `ContMDiff 4` of its actual torus descent with the named `I4TorusC4.actualChartedSpace`. Every term uses the same transformed coefficients `eta`.
+
+   The private majorant event is genuinely measurable. The proof rewrites unordered `Summable` as existence of a limit of the finite-subset partial-sum net. `SourceMode d` and its finite subsets are countable; the atTop filter is countably generated. The pinned `measurableSet_exists_tendsto` theorem applies with the complete second-countable real target and measurable finite sums. No unrelated sequence event is substituted.
+
+   The proof FIRST transfers this measurable event through the explicitly measurable transformation using `ae_map_iff`, applying the deterministic correction bound to the original `sourceMajorant_ae`. Only THEN does it filter on the resulting changed-law event and apply `sourceField_contDiff_of_majorant` and `torusSourceField_contMDiff_of_majorant` pointwise. I read the 2,551-byte deterministic dependency: it proves `contDiff_tsum` with the actual order-through-four mode bounds and then uses the actual named atlas and source-field pullback. Its SHA is `aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00`. This avoids transporting an original-law AE C4 theorem or assuming a full C4-event measurability theorem under the changed measure.
+
+## Nonvacuity and adversarial controls
+
+All twelve actual `example` declarations were read and counted. They establish R=0 identity, cancellation for `v=U(omega)`, zero sample/target behavior, finite matrix scaling, an explicit nonzero-target failure of pin reproduction at R=0, coinciding-site observation equality, actual map measurability, actual probability-measure type, all-ones/colliding-site correction summability, deterministic torus regularity of a transformed zero sample, changed-law source regularity, and the `d=0` value-only boundary.
+
+The singular/all-ones and colliding-site cases are useful because they would invalidate an unjustified claim of a canonical conditional law or observation reproduction. The explicit R=0/nonzero-v negative control indeed proves `pinObservation ... eta ... ≠ 1`; it is not merely a fixture comment. The all-ones control admits a singular matrix without relying on an invertibility hypothesis, but its name alone is not a separately proved matrix-rank statement.
+
+One pinned-API subtlety matters to interpreting the probability fixture. At `Mathlib/MeasureTheory/Measure/Map.lean` lines 99–106, `Measure.map` of a non-AEMeasurable function and a nonzero measure falls back to an arbitrary Dirac mass. At `Measure/Typeclasses/Probability.lean` line 125, a probability-map instance is provided for any function. Therefore the test's `IsProbabilityMeasure` alone would not certify the intended pushforward. **The current code supplies the necessary independent safeguard:** it proves `Measurable regressionCoefficients` and explicitly passes its AEMeasurable consequence to `ae_map_iff`. The resulting probability measure is consequently the genuine pushforward of this coefficient map, rather than a fallback. This is a nonblocking interpretation correction, not a defect in the reviewed proof.
+
+The main does not conclude joint Gaussianity or reproduction under `transformedLaw`; regularity also holds for an arbitrary R that could not define conditioning. Parameter values are individually quantified and fixed in each law. Neither the controls nor the theorem establish joint-parameter kernel measurability or a uniform covariance floor as sites collide.
+
+## Actual verification and retained failure history
+
+I read the actual commands and raw stdout and independently matched each snapshot and log hash to its receipt:
+
+| Actual tag | Exit | Seconds | Observed output |
+|---|---:|---:|---|
+| `pin-majorant-target-red` | 1 | 19.466691125 | exactly four intended unsolved goals, no unrelated error |
+| `pin-majorant-attempt01` | 1 | 21.425658417 | one order-zero bound simplification/type mismatch |
+| `pin-majorant-attempt02` | 0 | 17.264601792 | empty log |
+| `pin-majorant-tests01` | 0 | 4.549672459 | empty log, twelve examples |
+| `pin-majorant-axioms01` | 0 | 7.246404875 | four actual axiom rows |
+
+All five receipts have `timed_out=false`, thread count one, the actual direct Lean command, `nice -n 10`, the recorded working directory and an own emitted-object destination. The timeout-safe runner uses a 180-second communicate deadline and terminates its process group on timeout. No timeout occurred. The sole failed main attempt is preserved; its repair changes only the private value-bound proof from unsuccessful simplification to explicit zero-derivative rewriting. The definition prefix and all four public types remain unchanged.
+
+The clean-red log SHA is `4a2f6dac45deb4c25fca1286eb26baa24cbdd700f53d489b80ae5fd3c0161be6`; attempt01 failure log SHA is `1e92e19e52adb6ebbb152f26e07bce24dcc880a4649f03e4bb95b56a0bd64231`. Both final empty logs have SHA `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`. The actual four-row audit log is 405 bytes, SHA `5836dfe37e935663e57ed0f91a75d9a6c969eccaa0fedc46dab2143bdaa2a8f8`. Each row is exactly `[propext, Classical.choice, Quot.sound]`. These are the four public transitive audits, not a fresh independent declaration-by-declaration audit of every predecessor or mathlib import.
+
+The Lean executable bytes are bound by the manifest, SHA `1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554`; the author's reported runtime is Lean 4.34.1, full commit `5045d0056413266e57c625dcd7c365b10e377c52`. I independently observed current mathlib HEAD `d13f23b723b8a846827a245b89c10fc7d3f11612` and an empty diff for all nine declared pinned-primary files. Cached-import target elaboration and the producer's actual audit are credited. I ran no compiler, fresh whole-library build or kernel replay, and do not credit a root replay that was not supplied for this leaf.
+
+## Residual gates and exposure
+
+The smallest accepted result is correct-law coefficient support for source and literal-atlas torus C4 under the stated finite transformation. It is an actual missing regularity implication, but arbitrary R is not automatically a covariance inverse. Further formal consumers must separately prove the relevant observation rank/invertibility, instantiate the inverse, establish exact pin reproduction, identify the Gaussian residual and its independence from the original observations, and prove the conditional-kernel/RCD identities and required parameter measurability. Every-prescribed-pin Morse/distinct-value genericity, quantitative floors/moments and full I4 remain separate. Conventional source arguments are not promoted by these four Lean targets.
+
+This review is nonauthor with respect to the current implementation and its imported implementations. It is **source exposed**, not blind, and organizational independence is **0**. I previously reviewed several predecessors and supplied the producer/root with feasibility/API discussion for actual row bounds, diagonal `b²` summability, the finite-subset measurable summability event and the required order of pushforward then deterministic regularity. That route assistance is disclosed; I did not edit producer proofs, read another final verdict as proof, or count a copied/child vote. The exact body and real evidence, rather than earlier architecture or preflight approval, support this scoped disposition. No installation, operating-rule vote or mathematical/scientific promotion is granted.
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/FINAL_FREEZE.json
+Bytes: 19939; SHA-256: 84c1228ef820725286581162e11f0b15cc8dd8de551a1884256661d16cfd3912
+```````text
+{
+  "producer": "/root/i2_formal_support",
+  "entries": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/IMPLEMENTATION.md",
+      "bytes": 8536,
+      "sha256": "c97ff3ed88d5247fb0c3c312f98db1df73f1e9ae0d42cb0671b7b3e3bce9aec5",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/PLAN.md",
+      "bytes": 1967,
+      "sha256": "e8edd175899ef7cbe3e00d5ff7a54744ff0ab9b95b64507af8ce059ff4f1ddd9",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/compile-context.json",
+      "bytes": 3713,
+      "sha256": "dab6a32500c15b18d911b4f9fd8601532a048e3b0109b8141e5cf3d058ee2efb",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/FINAL_METADATA.json",
+      "bytes": 4350,
+      "sha256": "00a6d25bf64cddac267adc24fabd536555f8518511a0f83100c67b93be903469",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/SOURCE_BINDINGS.json",
+      "bytes": 9579,
+      "sha256": "50f067bb4ef8c3df994f07ff9311b712d6bb3394427593c361eecd64797afe94",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/compiler-release.json",
+      "bytes": 212,
+      "sha256": "0aef98839c191a476dcf2c3e5973460c4526b427223aeff024895f4c226c84ed",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/freeze_artifacts.py",
+      "bytes": 6399,
+      "sha256": "0e5f394d441af1f990dc0eb219fae0533d451e3162146c9d8b535746cb2c56c4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt01.json",
+      "bytes": 886,
+      "sha256": "0f4fcae903322f485e6c1179c63ca8a30d4cf5898e85e3e56a1240e1fc414aa2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt01.lean",
+      "bytes": 7368,
+      "sha256": "e3d95134975b969c97f706ea132c8bf2710a5941fb98acb185fb64ef7f9061b2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt01.log",
+      "bytes": 354,
+      "sha256": "1e92e19e52adb6ebbb152f26e07bce24dcc880a4649f03e4bb95b56a0bd64231",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt02.json",
+      "bytes": 886,
+      "sha256": "0a7fba092d58cb630d06afa176dcb47e7aefc777570c0cb372fdb988f0b1f7c2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt02.lean",
+      "bytes": 7419,
+      "sha256": "859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt02.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-axioms01.json",
+      "bytes": 897,
+      "sha256": "0aa209577a65688062e295017313802f9b7dfc90f1c947b734d7d0d46202722e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-axioms01.lean",
+      "bytes": 236,
+      "sha256": "653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-axioms01.log",
+      "bytes": 405,
+      "sha256": "5836dfe37e935663e57ed0f91a75d9a6c969eccaa0fedc46dab2143bdaa2a8f8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-target-red.json",
+      "bytes": 886,
+      "sha256": "24669838de4b26135af98a0ceb28d664580191ea924a4f35c79235c2dd4f2ab8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-target-red.lean",
+      "bytes": 3270,
+      "sha256": "f8247294f1a077fad30fe50868b08ef0932620b34ef06847bfe71004bcf461f5",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-target-red.log",
+      "bytes": 1251,
+      "sha256": "4a2f6dac45deb4c25fca1286eb26baa24cbdd700f53d489b80ae5fd3c0161be6",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-tests01.json",
+      "bytes": 895,
+      "sha256": "0abd2ada4e666d4cde5719da6dbc533eb1d6a62662f1940ac05bd93c3fdc5620",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-tests01.lean",
+      "bytes": 4082,
+      "sha256": "e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-tests01.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/target-head-integrity.json",
+      "bytes": 152,
+      "sha256": "1e027f474096d61139a87d42e9a7e6184f59e129beae8d579315694cb23a0779",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorant.lean",
+      "bytes": 7419,
+      "sha256": "859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorantAxioms.lean",
+      "bytes": 236,
+      "sha256": "653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorantTests.lean",
+      "bytes": 4082,
+      "sha256": "e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/run_compile.py",
+      "bytes": 1243,
+      "sha256": "a0764d8b52da5cb062a20b7f1f21021ed0e9efe6b57324c2af3355354945d85c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/GaussianSeriesFoundation.lean",
+      "bytes": 4262,
+      "sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SpectralWeights.lean",
+      "bytes": 6924,
+      "sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceFourierSeries.lean",
+      "bytes": 6524,
+      "sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceC4.lean",
+      "bytes": 6438,
+      "sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceLattice.lean",
+      "bytes": 6284,
+      "sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceKernel.lean",
+      "bytes": 5293,
+      "sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceGaussianLaw.lean",
+      "bytes": 8984,
+      "sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceCovariance.lean",
+      "bytes": 3925,
+      "sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceTorus.lean",
+      "bytes": 5182,
+      "sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean",
+      "bytes": 5044,
+      "sha256": "1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean",
+      "bytes": 6728,
+      "sha256": "e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-torus-c4/lean-project/SourceTorusC4.lean",
+      "bytes": 6081,
+      "sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/lean-project/DeterministicSourceC4.lean",
+      "bytes": 2551,
+      "sha256": "aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-torus-c4/ACTUAL_SOURCE_MORSE_MESH_DERIVATION_20261008.md",
+      "bytes": 28920,
+      "sha256": "a4bc17d9bc5522b8b91250d318ae6d57e42362c4852855505ceba81d7b52309c",
+      "kind": "conventional-source-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/ACTUAL_MULTIPOINT_WHOLE_FIELD_PIN_KERNEL.md",
+      "bytes": 25232,
+      "sha256": "0eadda61649ce8b1d2f64a40d5a9be9ef73352eea28b3a1c3db26631900bba12",
+      "kind": "conventional-source-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/contact-rank-evidence/final-freeze.json",
+      "bytes": 26962,
+      "sha256": "0f85136be994d3b923586474cfdc3c557cb9213273fcd6e73203eebd3ec2032f",
+      "kind": "predecessor-freeze-binding"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/FINAL_FREEZE.json",
+      "bytes": 17629,
+      "sha256": "3a9772d16571fdc077af06415cac8552958719b40367e65b9e8c011d7c15162c",
+      "kind": "predecessor-freeze-binding"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean",
+      "bytes": 52961,
+      "sha256": "f6ebee83905f13d5648f1a9bff39c15b6109f161fdf5d482af9c5f22176ba535",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Normed/Group/Constructions.lean",
+      "bytes": 17223,
+      "sha256": "ab6a98350718fb2c9da8bedde4bf63cac85849ee9d3332b1955c2cb73f03cdec",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Normed/Group/InfiniteSum.lean",
+      "bytes": 10812,
+      "sha256": "84c9f196d25f4c8790a4ecdb8ca47dd85a29430c69fd5f4bad45a8a6ee02f1ea",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Normed/Ring/InfiniteSum.lean",
+      "bytes": 9402,
+      "sha256": "d197a22a8073f6dfe1def4f755919629fdbbecdc4e72f82325eaff2759c4d62c",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Constructions/Polish/Basic.lean",
+      "bytes": 57591,
+      "sha256": "f064495bd1ffd52cf4866379acb6730f9bf07ebe3797edac8adcf00df93099b6",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Order/Filter/AtTopBot/CountablyGenerated.lean",
+      "bytes": 7284,
+      "sha256": "3c1d68629ce12667363796008d575e8289344ffface525bafae8e9db5e57b909",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Measure/Map.lean",
+      "bytes": 14164,
+      "sha256": "775c69d7084f194fedd5c0f67888432ae151bf68481f86e1b6e64b23da5ee7c1",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Measure/Typeclasses/Probability.lean",
+      "bytes": 10641,
+      "sha256": "054a34de6303b06fb714c4f8e583a92a3513a1ae95354e672404830c33ba3632",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Topology/Algebra/InfiniteSum/Defs.lean",
+      "bytes": 16512,
+      "sha256": "cc1db462f485d0013f9ef8d5149fd14ba207c1bedda8eaf5112eccfe1ec808ae",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+      "bytes": 49968,
+      "sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "kind": "pinned-lean-executable"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorant.olean",
+      "bytes": 256816,
+      "sha256": "bafd5d9a1b43339c3a4c6cad2b387b86926e734649cf0ff5879ed03ad0bb7969",
+      "kind": "actual-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorantTests.olean",
+      "bytes": 4576,
+      "sha256": "4466394d37592700b587bb6dd877bc321cb6fbe095bfd1ef0b0287a8a64e6c00",
+      "kind": "actual-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorantAxioms.olean",
+      "bytes": 1400,
+      "sha256": "342998949795eea846621150c1ff5749e7485ae28ba5caff9691d8d363dbd39a",
+      "kind": "actual-emitted-object"
+    }
+  ]
+}
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/target-head-integrity.json
+Bytes: 152; SHA-256: 1e027f474096d61139a87d42e9a7e6184f59e129beae8d579315694cb23a0779
+```````text
+{
+  "pinObservation_eq_actual_ae": true,
+  "regressionCoefficients_measurable": true,
+  "regression_majorant": true,
+  "transformedLaw_regular": true
+}
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-attempt02.json
+Bytes: 886; SHA-256: 0a7fba092d58cb630d06afa176dcb47e7aefc777570c0cb372fdb988f0b1f7c2
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinMajorant.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorant.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 17.264601792,
+  "source_sha256": "859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-tests01.json
+Bytes: 895; SHA-256: 0abd2ada4e666d4cde5719da6dbc533eb1d6a62662f1940ac05bd93c3fdc5620
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinMajorantTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorantTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 4.549672459,
+  "source_sha256": "e4b1174d0fbb0b59bacccfe2f398bb9094b964e0ad4cccf70d0304afd486a13a",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-axioms01.json
+Bytes: 897; SHA-256: 0aa209577a65688062e295017313802f9b7dfc90f1c947b734d7d0d46202722e
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinMajorantAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/.lake/build/lib/lean/PinMajorantAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 7.246404875,
+  "source_sha256": "653bd7f46a52c866cfbc3d953b7768ba85da6eec4619864199e9f5fcf2f3799b",
+  "log_sha256": "5836dfe37e935663e57ed0f91a75d9a6c969eccaa0fedc46dab2143bdaa2a8f8",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+Full literal file: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/evidence/pin-majorant-axioms01.log
+Bytes: 405; SHA-256: 5836dfe37e935663e57ed0f91a75d9a6c969eccaa0fedc46dab2143bdaa2a8f8
+```````text
+'I4PinMajorant.pinObservation_eq_actual_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinMajorant.regressionCoefficients_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinMajorant.regression_majorant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinMajorant.transformedLaw_regular' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+```````
+

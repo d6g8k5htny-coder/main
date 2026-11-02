@@ -1,0 +1,259 @@
+## Frozen executable — R2B-LOCAL-COLLISION-ENCLOSURE-20261022
+
+Author OpenAI / GPT-6 Astra Pro, returning R2b conversation; canonical pickup6345230948. Save the unique Python fence with its final LF as `collision_certificate.py`: **10190 bytes / SHA256 `3e28e507ed5dbebc2e0e1a943b99b4c54dd4182ada84e9cab284eb8f4d053cc7`**. This is a new exact-rational root certificate, not a repository source adoption or scientific verdict. The complete analytic argument and result follow separately.
+
+Its default input is `inputs/fixed_center_384.json`: the already-reviewed7083B report SHA256 `14b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa`. Those bytes are retained unchanged in the owner delivery. A reviewer without that attachment can reproduce them from the fully published prior calculator [6328992616](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328992616), source11105B/SHA2560d996aa24933db95e72dd3f173a44e9ac39a52bdc51b8188c75ab41155581359, using `python -I -B -S certified_quadrature.py > fixed_center_384.json`, then `python -I -B -S collision_certificate.py --input fixed_center_384.json`. The root stage itself does no quadrature. Its input authentication and the consumed prior proof have different roles.
+
+```python
+"""Exact contraction certificate near the printed R2b collision candidate.
+
+Consumes the authenticated, previously reviewed full-integral enclosure. This
+is a NEW root proof, not a replay of the historical mpmath calculation.
+The analytic moment majorant and contraction argument are in PROOF.md.
+"""
+import argparse
+from fractions import Fraction as F
+import hashlib
+import json
+from math import factorial
+from pathlib import Path
+
+EVIDENCE_SHA256 = '14b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa'
+CALCULATOR_SHA256 = '0d996aa24933db95e72dd3f173a44e9ac39a52bdc51b8188c75ab41155581359'
+CENTER = (F('-1.87790907297253526476683971813'), F('99.328469305575750948022768886'))
+RADIUS = F(3, 10**30)
+PUBLISHED = {
+    'A': ('2.76274650385e-16', '1e-27'),
+    'B_over_A': ('-0.419057782426', '1e-12'),
+    'C_over_A': ('0.0629860725066', '1e-13'),
+    'kappa_r': ('-0.09927456', '1e-11'),
+    'kappa_l': ('0.448990254', '1e-10'),
+}
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+class RI:
+    """Closed rational interval with exact endpoint operations."""
+    __slots__ = ('lo', 'hi')
+
+    def __init__(self, lo, hi=None):
+        self.lo, self.hi = F(lo), F(lo if hi is None else hi)
+        require(self.lo <= self.hi, 'reversed interval')
+
+    def pair(self):
+        return self.lo, self.hi
+
+    def width(self):
+        return self.hi-self.lo
+
+    def magnitude(self):
+        return max(abs(self.lo), abs(self.hi))
+
+    def __add__(self, other):
+        b = other if isinstance(other, RI) else RI(other)
+        return RI(self.lo+b.lo, self.hi+b.hi)
+    __radd__ = __add__
+
+    def __neg__(self):
+        return RI(-self.hi, -self.lo)
+
+    def __sub__(self, other):
+        return self + -(other if isinstance(other, RI) else RI(other))
+
+    def __rsub__(self, other):
+        return -self + other
+
+    def __mul__(self, other):
+        b = other if isinstance(other, RI) else RI(other)
+        p = [a*c for a in self.pair() for c in b.pair()]
+        return RI(min(p), max(p))
+    __rmul__ = __mul__
+
+    def __truediv__(self, other):
+        b = other if isinstance(other, RI) else RI(other)
+        require(b.hi < 0 or b.lo > 0, 'division interval contains zero')
+        p = [a/c for a in self.pair() for c in b.pair()]
+        return RI(min(p), max(p))
+
+    def __pow__(self, exponent):
+        require(type(exponent) is int and exponent == 2, 'only square supported')
+        low = F(0) if self.lo <= 0 <= self.hi else min(self.lo**2, self.hi**2)
+        return RI(low, max(self.lo**2, self.hi**2))
+
+    def inflate(self, amount):
+        require(isinstance(amount, F) and amount >= 0, 'invalid inflation')
+        return RI(self.lo-amount, self.hi+amount)
+
+
+def fixed_decimal(v, places, upper=False):
+    require(type(places) is int and places >= 0, 'invalid decimal places')
+    scale = 10**places
+    p, q = v.numerator*scale, v.denominator
+    a = -((-p)//q) if upper else p//q
+    sign = '-' if a < 0 else ''
+    digits = str(abs(a)).zfill(places+1)
+    return sign+digits if places == 0 else sign+digits[:-places]+'.'+digits[-places:]
+
+
+def describe(x, places=60):
+    return {'lo': fixed_decimal(x.lo, places),
+            'hi': fixed_decimal(x.hi, places, True),
+            'width_upper': fixed_decimal(x.width(), places, True)}
+
+
+def load_evidence(path):
+    raw = Path(path).read_bytes()
+    require(len(raw) == 7083 and hashlib.sha256(raw).hexdigest() == EVIDENCE_SHA256,
+            'fixed-center evidence digest/size mismatch')
+    obj = json.loads(raw)
+    require(obj['source_sha256'] == CALCULATOR_SHA256, 'calculator identity mismatch')
+    require(tuple(F(obj['center'][x]) for x in ('t', 'z')) == CENTER, 'center mismatch')
+    require(obj['precision_bits'] == 384 and len(obj['D']) == 5, 'derivative inventory')
+    result = []
+    for row in obj['D']:
+        require(type(row['denominator_power_two']) is int and
+                row['denominator_power_two'] == 384, 'dyadic precision')
+        result.append(RI(F(int(row['lo_numerator']), 2**384),
+                         F(int(row['hi_numerator']), 2**384)))
+    return result
+
+
+def moment_majorant():
+    """Rational value for the analytic order-0..6 majorant in PROOF.md."""
+    e_low = F(1359, 500)
+    require(e_low < sum((F(1, factorial(j)) for j in range(7)), F()), 'e witness')
+    require(4*sum((F((-1)**j, 2*j+1) for j in range(8)), F()) > 3, 'pi witness')
+    q = 1/e_low
+    ratio = 4*q**9
+    require(0 < ratio < 1, 'moment geometric ratio')
+    value = F(259, 27)*q**3/(1-ratio)
+    require(value < F(1, 2), 'uniform moment threshold')
+    return value
+
+
+def midpoint_jacobian(ds):
+    m = [(v.lo+v.hi)/2 for v in ds]
+    return [[-m[2], m[1]], [-m[3], m[2]]]
+
+
+def inverse2(a):
+    det = a[0][0]*a[1][1]-a[0][1]*a[1][0]
+    require(det != 0, 'singular preconditioner input')
+    return [[a[1][1]/det, -a[0][1]/det], [-a[1][0]/det, a[0][0]/det]]
+
+
+def matmul(a, b):
+    return [[sum((a[i][k]*b[k][j] for k in range(2)), F())
+             for j in range(2)] for i in range(2)]
+
+
+def contraction(residual, jac, preconditioner, radius):
+    """Return finite Banach/Krawczyk inequalities, or refuse certification."""
+    c = preconditioner
+    require(c[0][0]*c[1][1]-c[0][1]*c[1][0] != 0, 'singular preconditioner')
+    cj = matmul(c, jac)
+    defect = [[RI(int(i == j))-cj[i][j] for j in range(2)] for i in range(2)]
+    rows = [sum((v.magnitude() for v in row), F()) for row in defect]
+    q = max(rows)
+    require(q < 1, 'contraction not established')
+    step = [-sum((c[i][j]*residual[j] for j in range(2)), RI(0)) for i in range(2)]
+    inclusion = max(step[i].magnitude()+rows[i]*radius for i in range(2))
+    require(inclusion < radius, 'strict self-inclusion not established')
+    return {'q': q, 'row_bounds': rows, 'step': step, 'inclusion': inclusion,
+            'offset': [step[i].inflate(rows[i]*radius) for i in range(2)]}
+
+
+def same_rounding(x, value, quantum):
+    v, unit = F(value), F(quantum)
+    require(unit > 0, 'invalid rounding quantum')
+    # Strictly inside the nearest-rounding cell, so no tie convention is needed.
+    return v-unit/2 < x.lo <= x.hi < v+unit/2
+
+
+def prove(ds, radius=RADIUS, preconditioner=None):
+    require(isinstance(radius, F) and radius > 0, 'invalid radius')
+    require(CENTER[0]+radius < 0, 'box outside proven t domain')
+    require(len(ds) == 5 and all(isinstance(x, RI) for x in ds), 'bad derivatives')
+    moment_majorant()
+    # |d_t D_k|=|D_(k+2)|<1/2, |d_z D_k|=|D_(k+1)|<1/2.
+    # Each entry of J varies by at most radius on the radius-infinity box.
+    jac = [[(-ds[2]).inflate(radius), ds[1].inflate(radius)],
+           [(-ds[3]).inflate(radius), ds[2].inflate(radius)]]
+    matrix = midpoint_jacobian(ds)
+    c = inverse2(matrix) if preconditioner is None else preconditioner
+    result = contraction(ds[:2], jac, c, radius)
+    root = [CENTER[i]+result['offset'][i] for i in range(2)]
+    transfer = sum((result['offset'][i].magnitude() for i in range(2)), F())/2
+    # For k=2,3,4 this uses moments through 4,5,6 respectively.
+    rd = [RI(0), RI(0)] + [ds[k].inflate(transfer) for k in range(2,5)]
+    a, b, ccoef = rd[2]/2, rd[3]/6, rd[4]/24
+    require(a.lo > 0, 'root denominator not positively separated')
+    ba, ca = b/a, ccoef/a
+    coeff = {'A': a, 'B_over_A': ba, 'C_over_A': ca,
+             'kappa_r': 4*ca-2*ba**2, 'kappa_l': 6*ba**2-F(48,5)*ca}
+    rounding = {name: same_rounding(coeff[name], *cell) for name, cell in PUBLISHED.items()}
+    require(all(rounding.values()), 'published rounding not established')
+    result.update(root=root, transfer=transfer, root_derivatives=rd,
+                  coeff=coeff, rounding=rounding)
+    return result
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--input', type=Path,
+                        default=Path(__file__).resolve().parent/'inputs'/'fixed_center_384.json')
+    args = parser.parse_args()
+    ds = load_evidence(args.input)
+    r = prove(ds)
+    refused = []
+    controls = (
+        ('too small box', lambda: prove(ds, radius=F(1,10**31))),
+        ('too large box', lambda: prove(ds, radius=F(1,10**12))),
+        ('singular preconditioner', lambda: prove(ds, preconditioner=[[F(0)]*2 for _ in range(2)])),
+        ('incorrect preconditioner', lambda: prove(ds, preconditioner=[[F(1),F(0)],[F(0),F(1)]])),
+        ('out-of-domain box', lambda: prove(ds, radius=F(2))),
+    )
+    for label, action in controls:
+        try:
+            action()
+        except ValueError as exc:
+            refused.append({'case': label, 'reason': str(exc)})
+        else:
+            raise ValueError('negative control accepted: '+label)
+    report = {
+        'arithmetic': 'fractions.Fraction, exact endpoint operations',
+        'input_sha256': EVIDENCE_SHA256,
+        'prior_calculator_sha256': CALCULATOR_SHA256,
+        'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'center': {k: str(x) for k,x in zip(('t','z'),CENTER)},
+        'uniqueness_box_radius_infinity': str(RADIUS),
+        'moment_majorant': str(moment_majorant()),
+        'moment_bound_lt': '1/2', 'moment_orders': list(range(7)),
+        'contraction_constant_upper': fixed_decimal(r['q'],60,True),
+        'strict_inclusion_radius_upper': fixed_decimal(r['inclusion'],60,True),
+        'newton_step': [describe(x) for x in r['step']],
+        'root_enclosure': {k: describe(x) for k,x in zip(('t','z'),r['root'])},
+        'coefficient_transfer_error_upper': fixed_decimal(r['transfer'],60,True),
+        'root_coefficients': {k: describe(x) for k,x in r['coeff'].items()},
+        'published_rounding_certified': r['rounding'],
+        'negative_controls': refused,
+        'unique_real_zero_of_H_and_Hz_in_stated_box': True,
+        'Hz_at_root': '0', 'Hzz_at_root_positive': True, 'Ht_at_root_negative': True,
+        'establishes_global_zero_indexing': False,
+        'establishes_global_root_uniqueness': False,
+        'historical_execution_reproduced': False,
+        'scientific_acceptance_changed': False,
+    }
+    print(json.dumps(report, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+```
+
+[Mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

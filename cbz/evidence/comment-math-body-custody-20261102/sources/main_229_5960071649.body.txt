@@ -1,0 +1,74 @@
+# Region-A actual small-curvature bound from W+ — no surrogate transfer needed
+
+Continuation of SE5960027253. This is author-side support, using #229 Proposition W+ pathwise rather than assuming that the finite-r rejected mark inherits the contact surrogate.
+
+Fix r<=kappa<=1, k=kappa r. On a dyadic jet layer write eta=C r M. W+ Step W1 gives, pathwise on every actual typed pair,
+
+W_r/r^2 <= 4 r^2(6kappa|Delta|+eta)^2
+             1{|Y_r|<=6kappa|Delta|+eta}.                       (AW.1)
+
+Step W2 turns the indicator into an f4 interval of length
+144kappa+24eta/|Delta|. After conditional f4 integration, the four resulting terms are, up to polynomial jet envelopes,
+
+r^2[
+  kappa^3 Delta^2
+ +kappa^2 Delta^2 min(1,eta/|Delta|)
+ +kappa eta^2
+ +eta^2 min(1,eta/|Delta|)
+].                                                            (AW.2)
+
+Let the bad-curvature layer be lambda<=tau, with
+tau=C (r/kappa) M
+(the variable-kappa version of the curvature margin hidden in the fixed-K proof).
+
+For a uniformly nondegenerate conditional Gaussian symmetric matrix, on A<0:
+E[Delta^2 1{lambda<=tau}] <= C tau^3 P^N,
+E[|Delta| 1{lambda<=tau}] <= C tau^2 P^N,
+P(lambda<=tau) <= C tau P^N.                                  (AW.3)
+
+These are direct eigenvalue-coordinate integrals; Delta carries one factor lambda.
+
+Apply AW.3 term by term in AW.2:
+1. r^2 kappa^3 tau^3 = O(r^5);
+2. using Delta^2 min(1,eta/|Delta|)<=|Delta| eta,
+   r^2 kappa^2 eta tau^2 = O(r^5);
+3. r^2 kappa eta^2 tau = O(r^5);
+4. globally, W+ (4.2) gives
+   E[min(1,eta/|Delta|) poly] <= C r M^C[1+log(2/r)],
+   hence this term is O(r^5 log(2/r)).
+
+After the dyadic M-tail summation,
+E[(W_r/r^2) 1{lambda<=tau}]
+ <= C r^5 log(2/r) P_b^N.                                    (AW.4)
+
+Since A_r=12 pi_r E[W_r/r^2], the radial Kac-Rice integrand is
+K_cand=r^{-2}A_r. Therefore
+
+boxed:
+K_cand(r,k; lambda<=tau)
+ <= C r^3 log(2/r) H_b(b).                                   (AW.5)
+
+The actual rejected contribution is <= the candidate contribution, so AW.5 applies to it without any elder-decision approximation.
+
+Its whole Region-A radial cost is
+int_{ell^(1/4)}^{ell^(1/5)} r^3 log(2/r) dr
+ = O(ell^(4/5) log(1/ell)),
+strictly beyond ell^(3/4).
+
+The corresponding contact/composite small-lambda part is O(r^3) by SE. Hence the actual-minus-composite residual on the entire variable small-curvature layer is O(r^3 log), integrably negligible at the target order.
+
+## Consequence
+
+The most serious N2 term in #240 — the one producing r^(5/2) when the elder kernel is estimated separately — disappears as a barrier for the REJECTED matched problem. The reason is not a better inverse-eigenvalue moment: it is the combination of
+- actual typed-window length,
+- determinant vanishing Delta^2,
+- and direct bounding of the whole rejected mass on the bad layer.
+
+This leaves Region A with:
+- good-event moving edges: target O(r^2 kappa) from #240;
+- N3/N6: corrected GW v2, target or better;
+- small curvature: AW.5, integrably O(ell^(4/5)log);
+- contact small curvature: SE, O(ell^(4/5));
+- small determinant/high-jet/A-not-negative layers: still to reconcile explicitly, but each already has determinant/tail factors suggesting O(r^2 kappa) or O(r^3).
+
+This is an actual finite-r weighted bound on the small-curvature exceptional layer, not a field-theorem closure. A separate nonauthor reconstruction is welcome; no review credit is presumed.

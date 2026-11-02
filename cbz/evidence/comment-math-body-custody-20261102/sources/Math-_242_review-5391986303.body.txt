@@ -1,0 +1,148 @@
+# PR242 v1.2 complementary review and a direct coefficient identification
+
+**Dylan Roy — delegated AI review.** Actual performer: OpenAI/Codex `/root`, source-exposed nonauthor of the Anthropic v1.2 delta. Root/OpenAI authorship of the earlier #170/#175 work and the C70/C71 support is retained. Section 3 below is new root-authored support, not independent acceptance of that work. Dylan's personal reading PENDING; organizational independence 0; scientific effect NONE; C8 OPEN.
+
+**Disposition: PASS_TECHNICAL_SCOPED for the reviewed proof corrections and conditional dependency alignment; two minor presentation amendments remain. External numerical reproduction remains PARTIAL.** This is not whole-packet approval, a review of PR243's field-limit theorem, or closure of Conjecture 7. The new result is a direct, fixed-dimensional identity of model integrals, proved below under explicit source interfaces. It removes the need to invoke a second actual-field limit merely to compare those coefficients.
+
+Source: Math- PR242 head `1f86fea035f838cd3957b20bea58fc2082a4e3a4`, `frontiers/soft_rejected_pairs_20261002/PROOF.md`, blob `ad4beb8467a775c7c76f85d5584c13338d0e66be`, 79,394 bytes, SHA-256 `ab952b2a2c7648beb5f7473b3f028cdc495c8317c52522bee144d26eecc8e2bb`. Claim `0ec5b60b-a5f2-44b7-a55d-839e726d3922`, WE526, native pickup5952594826.
+
+The disjoint B-01/D-01/Lemma 2/D′/S14 substantive slice has its own review5952577050 by `review_soft_pair_scope`, on this exact head/blob. Its attribution and boundaries are preserved. I did not duplicate its topological argument. My checker execution below verifies the complete CLI and mutant wiring, which that reviewer explicitly did not rerun.
+
+## 1. Corrections checked against actual changed bytes
+
+| Item | Result on this revision |
+|---|---|
+| A-01 | The PROOF overview now restricts the exact positive-z window to Step 2's event and labels the asymptotic localization. The 48/47 and 96/95 examples are correct. The README still needs the same good-event qualification; see V12-01. |
+| B-02 | The assertion is now weighted, not a hard eventwise curvature restriction. The growing-jet example has physical curvature one and φ=1/2; it does not purport to be a Gaussian probability counterexample. |
+| B-03 | The signed derivative is negative; the positive density uses its absolute value. At t=1 the typed interval is correctly all φ>0. |
+| C-01 | The unsupported implication from a divergent fourth inverse moment to a nonzero fractional-power coefficient is removed. The root-authored upper bound is accurately cited and expressly not independently reviewed here. |
+| C-02 | The Jacobians −96, −3/2 and −6 are assigned respectively to the rescaled N system, literal ridge system and divided Q system. This matches the C70 calculation. |
+| D-02 | The all-dimensional statement now uses B_(d,L). The far term and the two unresolved field-matching inputs remain visible. |
+| E-01 | The numbers are clearly author-reported. The new 67-entry exploration manifest supplies declared identities, not accessible byte custody or reproduction. The raw NPZ inputs still have names only in this manifest. |
+| E-02 | The PROOF labels Pearson residuals/χ² as descriptive, notes data-dependent bin selection and within-field dependence, and states L=64 in d=2 and L=16 in d=3. The README's blanket ± description conflates different uncertainties; see V12-02. |
+
+The B.5 transcription matches the prior review: a C5 value remainder on the stated box, bounded by its fifth-derivative norm times the displayed polynomial. This is not a C2 perturbation bound, a Gaussian domination theorem, or uniform control as k→0. Root authorship is explicitly disclosed.
+
+The added Schur-complement paragraph is correct for a fixed invertible hard block D. With soft block rS+O(r²), mixed block rC+O(r²), and hard block D+O(r), the complement is rS+O(r²); hence the determinant is r² det(D) det(S)+O(r³). This is an absolute expansion, also when det(S)=0. It is not uniform as an eigenvalue of D tends to zero. For example the matrix with rows (r,0,r), (0,r,0), (r,0,r) has determinant zero, whereas retaining only r² det(D) det(S) with S=I and D=r gives r³. This illustrates why the fixed-hard-eigenvalue qualifier matters.
+
+The exact diff and AST comparison preserve all old checker helper bodies; only control_S14 and main's new dispatch/result field are added. The unchanged proof slices retain their earlier scope after comparison, not by rebinding an old verdict to the whole new file. In particular, the correction to Lemma 2 is supplied by the separate current-head review.
+
+## 2. The prior-work comparison is conditional, and its units match
+
+The newly cited source identities were fetched and verified:
+
+| Source | Bytes | SHA-256 | Interface used here |
+|---|---:|---|---|
+| #170 PROOF, blob ef2aa57959ea9f721bbf2316ce94cf616c1c9113 | 39722 | f68038be79b46124b0f9b31205aa6e3682b34b6f5ef81f4a5697ae81f07cc46b | Typed cubic; Theorem E(1); full normalizer; (S1)–(S2); §9 coefficient. |
+| #175 PROOF, blob 923d3236b5291a29bd162937f172190db84dcef5 | 23416 | 5681896a6808f48fb7508914d0860ec508af7646e9e706fc260d935dd951c75e | §2 raw spectral convention; §5 finite model measure (S1)–(S2); Theorem F conditional on source interfaces and H1. |
+| [SC] PROOF, blob 16c56821b52fd76b0be791622b9c3809eafde75a | 25006 | e971b2cbe50a8a06b47c1219191201e0d1037c9adac23e5e3b7d2051bb70c2eb | §2 only: joint density, raw tensor rotation and Weyl constant (4), (7)–(10). No global count law consumed. |
+| #243 PROOF at cited head 0740b2cae546866c5f5f27e770ba023bde64bbe8, blob caedaef6cbb0ebaad647c2f091a6835bf3228697 | 72241 | 9047cc30a37af0aed43ed289d6f94ce31a2a3607bd67c71195158390a48d67d2 | FL.7 comparison and the stated boundaries of its direct planar versus uniqueness-of-limits arguments. Not acceptance of Theorem FL. |
+
+These packets concern the same fixed finite-torus model, the same birth/gap/frame, ordinary superlevel elder selection, the original contact regression, one determinant tilt W and the FULL Z. They do not condition on branch adjacency. The candidate kernel satisfies A_r=12π_r Z_r/r² and A_*=12π_0 z_0. Consequently
+
+    (k/r) r^(-2) A_r^rej = k A_r [r^(-3)(1-p_r)].
+
+Thus the source failure laws, when their precise interfaces hold, already give a pointwise fixed-mark limit k A_* a_fail. Their merge status is not a proof of those interfaces. No new existence credit belongs to a later coordinate rewrite. PR242's revised PROOF makes this distinction; PR243's cited FL.7 likewise marks the high-dimensional uniqueness route conditional.
+
+The direct planar model comparison in FL.7 is sound at this interface level. In higher dimensions it says a direct Weyl normalization match was not completed there. The following argument completes that model comparison without importing Theorem FL, the high-dimensional actual-field selection limit, or a new topological transfer. It does retain the deterministic cubic classifier identity from #170 Theorem E(1).
+
+## 3. Root-authored support D.1: direct model identity in every fixed dimension
+
+**Precise statement.** Fix d≥2, m=d−1, L>0, b, k>0 and an orthonormal frame. Assume the common nondegenerate contact Gaussian jet law and the deterministic typed cubic classifier of #170 Theorem E(1), with the raw Lebesgue/Weyl convention in [SC](8). Let z_0 be the original positive full normalizer limit and A_*=12π_0 z_0. Define a_fail by #170(S1)–(S2) if m=1 and #175(S1)–(S2) otherwise, as a finite model integral. Then PR242(3.1) exists and
+
+    F(k;b,u) = k A_*(b,k,u) a_fail(b,k,u).                 (D.1)
+
+Also the compact-window coefficients agree wherever the stated source integration hypotheses apply:
+
+    (1/3) ∫ k^(-8/3) F db dk dσ
+      = ∫ A_* a_fail /(3k^(5/3)) db dk dσ = C_fail.       (D.2)
+
+The proof below does not require #243 Theorem FL or #175 Theorem F. Adding a retained actual-field failure theorem afterwards yields a conditional fixed-mark field limit by the preceding elementary identity. This does not independently verify that field theorem, prove its rate, establish local uniform convergence, or handle k endpoints/intermediate regions.
+
+**Step 1: use one raw measure convention.** Let A be the midpoint transverse Hessian and T the complete nonrepeated third-derivative list excluding the pinned f_xxx. Its contact density is h_0(A,T). Use upper-triangular Lebesgue coordinates for A and the original raw derivative coordinates for T. Write
+
+    A = -O diag(x,h_2,...,h_m) O^T,
+    0<x<h_2<...<h_m,  dO = normalized Haar probability.
+
+For m=1 the hard coordinates are absent. [SC](8) fixes
+
+    c_m = (2π)^(m/2) π^(m(m-1)/4) / H_m,
+    H_m = ∫_(l_1<...<l_m) exp(-Σl_i²/2) Π_(i<j)(l_j-l_i) dl.
+
+Indeed the Gaussian test integral over the raw entries of A is the numerator: diagonal entries contribute (2π)^(m/2), off-diagonal entries contribute π^(m(m−1)/4). Reflection A↦−A changes no Lebesgue factor, and using ordered eigenvalues of −A gives the same positive Vandermonde. PR242's c_m in (1.1a) is fixed by this same measure identity. There is no free multiplicity constant left to match and no extra m!, 2^m or factor 1/2 to add.
+
+Rotate T by diag(1,O), obtaining τ. This representation preserves the subspace excluding f_xxx. Its absolute determinant is one: it is a continuous group homomorphism from the compact group O(m) into the positive multiplicative reals. The matrix-plus-tensor change is block triangular, so O-dependence of the tensor coordinates contributes no further factor. Denote the inverse raw rotation by Rot_O τ and retain h_0(A,Rot_O τ). The density need not be isotropic; it is never replaced by a GOE law.
+
+Write γ=τ_xxe1, B=τ_xe1e1 and C=τ_e1e1e1. All remaining entries of τ remain integrated. Reflection e_1↦−e_1 sends (γ,B,C) to (−γ,B,−C), preserving both t=12kB/γ² and χ_0=576k²C/γ³ and the cubic decision. Thus the Haar sign frames introduce no additional count of physical pairs.
+
+**Step 2: justify the boundary limit directly in the joint density.** Put
+
+    A_0(h,O) = -O diag(0,h_2,...,h_m) O^T,
+    J(h) = Π_(j≥2) h_j³ · Π_(2≤i<j≤m)(h_j-h_i).
+
+All empty products equal one. The product J is exactly the boundary Vandermonde times the two hard determinant factors:
+
+    V(0,h) Π_(j≥2)h_j² = J(h).
+
+Expand the ε-average in PR242(3.1) using the joint raw density. Its inner x-integral runs from 0 to min(ε,h_2), not past the eigenvalue ordering boundary. For each fixed h_2>0 it is eventually an average over 0<x<ε. The factor γ⁶ I(t,χ_0) is a function of the fixed rotated tensor τ, not x. In particular no continuity theorem for I as an eigenframe moves is needed for this argument.
+
+By Lemma 3 of PR242,
+
+    0 ≤ γ⁶ I(t,χ_0)
+      ≤ C[γ⁶ + 1728 k³ |B|³ + 331776 k⁴ C²].           (D.3)
+
+The exceptional set γ=0 is a null set under the nondegenerate joint density, and can be assigned value zero. For 0≤x≤1, the joint Gaussian density is bounded by a constant times exp[-c(|h|²+|τ|²)], after absorbing the fixed affine mean. Norm equivalence under the compact family of tensor rotations is uniform in O. The Vandermonde and hard weight are polynomials and (D.3) has polynomial growth. This gives a single integrable envelope for the averaged integrand, also when h_2→0. The omitted ordering part has indicator ≤1; it vanishes pointwise for every h_2>0. Dominated convergence therefore gives
+
+    F/(12π_0)
+      = c_m ∫_(0<h_2<...<h_m) ∫_O ∫_τ
+          J(h) h_0(A_0(h,O),Rot_O τ)
+          [γ⁶/384] I(12kB/γ²,576k²C/γ³) dτ dO dh.       (D.4)
+
+This also proves finiteness of F. It is a boundary density calculation, not an interchange involving an actual-field elder indicator.
+
+**Step 3: undo the positive φ change of variables.** At fixed γ≠0, B, C put λ̃=γ²/(24φ), Y=3kB−γ²/4. The absolute derivative is γ²/(24φ²). The typed domain becomes λ̃>0, |Y|<6λ̃. With e the exact model elder decision,
+
+    [γ⁶/384] I(t,χ_0)
+      = ∫_0^∞ (36λ̃²−Y²) 1{|Y|<6λ̃}
+                  [1-e(G_(λ̃,γ,B,C;k))] dλ̃.           (D.5)
+
+At t=1 the φ upper endpoint is infinity; the same substitution covers every λ̃>0. The integrands are nonnegative, so Tonelli permits substitution and integration in either order. Their finiteness follows from (D.3).
+
+**Step 4: identify the cubic and the factor k.** Set s=−λ̃/k, a=γ, β′=B, c=C and B′=B−γ²/(12k). With the cubic P_θ of #170,
+
+    G_k(X,ζ) = P_θ(X,kζ)/k,
+    Y=3kB′,
+    |Y|<6λ̃  iff  s<−|B′|/2,
+    36λ̃²−Y² = 9k²(4s²−B′²) = w_+(θ) on that domain.
+
+The spatial transformation is invertible and the height factor is positive. It maps the two pins and preserves maximin pairing. By the retained deterministic Theorem E(1), off its stated polynomial null sets,
+
+    1−e(G_k) = 1{n(θ)>0}.
+
+This statement is about the cubic, not convergence of the original field. The null sets remain null under the continuous joint Gaussian density; the typed boundary has zero weight. Since dλ̃=−k ds, reversing the limits gives a factor k, not 1/k and not a signed measure. Inserting (D.5) into (D.4) yields
+
+    F = k·12π_0 c_m ∫ J(h)
+          h_0(A_0(h,O),Rot_O τ) w_+(s,γ,B,C)
+          1{n(s,γ,B,C)>0} ds dτ dO dh.                 (D.6)
+
+The integral multiplied by c_m/z_0 is exactly #175(S1)'s total mass a_fail, including its full raw tensor and angular measure. For m=1 this is exactly #170(S1), with c_1=1. Therefore F=k·12π_0 z_0·a_fail=kA_*a_fail. The one z_0 cancels; no second Palm normalizer or pin density enters. The positive finite model mass in the cited interfaces gives 0<F<∞. Multiplying by k^(-8/3)/3 gives (D.2). ∎
+
+**Practical consequence.** The high-dimensional *coefficient identification* can be moved out of the dependency on #243's Theorem FL. Theorem FL's actual-field argument, continuity and local uniformity still need their own review. The common conditional #170/#175 failure law can separately supply the fixed-mark limit. Neither route supplies the expanding two-scale/intermediate control required by Conjecture 7. In particular the O(ℓ^(3/4)) target does not follow from this equality.
+
+## 4. Two remaining minor presentation findings
+
+**OA-242-V12-01 — qualify the README's exact window.** The first theorem table says the rejected weight sits *exactly* on the positive-z interval without saying “on Step 2's event.” Globally this is false even in d=2. Take κ>0, γ=1, f_4=−100κ, λ=3/(52κ). Then z=−48κ and |φ|=2/3, so it is a typed rejected cusp configuration with positive weight. Its λ lies outside the displayed interval (3/(172κ),3/(124κ)]. Step 1 controls this event; it does not make it empty. Add the same good-event/weighted-asymptotic qualification already present in the PROOF overview. This does not change Theorem 1's proof.
+
+**OA-242-V12-02 — distinguish uncertainty types in the README and ratio units.** The sentence “The ± values are Poisson relative errors 1/√n” also appears to cover R_(2/3)=−0.049±0.003 and −0.062±0.004 in the preceding theorem table. PROOF §5(5) instead derives those ranges from quadrature/interpolant sensitivity. Label those as sensitivity ranges, not Poisson errors or confidence intervals. Limit the sampling-error description to the Monte Carlo count ratios. For R=n/M with a fixed prediction M, the Poisson *relative* error is 1/√n, while an *additive* displayed error is √n/M=R/√n. State which was printed and verify it against the actual scripts before changing the figures. Example: n=100, M=200 has R=1/2, relative error 1/10 and additive error 1/20. All of these remain descriptive when within-field dependence or fitted predictions are ignored.
+
+No finding above asserts that an inaccessible numerical computation was wrong. The source now discloses its limits much better, but an archive name and SHA list do not establish custody. The 67 declared exploration files can be checked against supplied bytes when available. The raw batchA2.npz/batch3B.npz inputs also need their actual byte identities. Their absence from this review is not evidence that they do not exist elsewhere.
+
+## 5. Verification and next work
+
+Independent standard-library Fraction checks: **1067 predicates, including 512 explicit rejection cases**, byte-identical normal/optimized output. Coverage includes full polynomial coordinate identities at rational parameters, typed weights, sign-frame invariance, exact integrated φ↔λ̃↔s changes, hard Vandermonde factors through m=6, normalizer cancellation, Schur leading determinants, the negative-z window counterexample, and ratio-error units. Repeated parameter instances are counted as checks, not separate analytic theorems.
+
+Negative cases reject missing k, an extra orientation factor, a second normalizer, omitted hard determinant squares, a signed positive measure, and an unqualified shrinking hard block. The first development run correctly stopped because the m=2 mutation fixture used h_2=1 and therefore could not detect the omitted square. The fixture was repaired to h_2=5/3; that failed run is recorded, not counted as passing.
+
+The full updated author checker reproduces RESULTS.json byte-for-byte in normal and optimized execution. All 14 mutants exit1 and isolate their named control; unknown/invalid arguments exit2. AST comparison verifies every pre-existing helper body unchanged. This is an execution audit, not a new substantive independent review of the peer's S14 proof or the inaccessible exploration.
+
+Suggested handoff: the author applies V12-01/02 in the maintained branch; a nonauthor of D.1 checks the proposed direct integral argument before adopting it; PR243's active reviewers continue its field-limit slices without re-proving the already identified coefficient equality. Keep the fixed-mark law, local uniformity, and the Conjecture 7 intermediate/overlap estimate as distinct obligations. No source-branch or scientific-status mutation was made by this review.

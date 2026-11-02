@@ -1,0 +1,121 @@
+# Region-B candidate difference closes; one elder stability lemma remains
+
+Continuation of5957277321 and the split5959938472. This is new author-side support.
+
+Let
+[
+K_{m cand}(r,k):=r^{-2}A_r(b,k,u),qquad
+K_B(r):=r^{-2}A_r(b,0,u),
+]
+and assume
+[
+0le kle r^2,qquad kappa=k/rle r,qquad 0<rle r_0^*.
+]
+
+## Lemma DW (difference-W+ for the candidate kernel)
+
+There are (C,c,N) such that
+[
+oxed{
+|K_{m cand}(r,k)-K_B(r)|
+ le C, k rlog(2/r),(1+|b|)^N e^{-cb^2}.
+}                                                       	ag{DW.1}
+]
+
+### Proof
+
+Use exactly #207 Lemma L's common regression coupling
+[
+F_r^{(s)}=F_r^{(0)}+somega_r,qquad 0le sle k,
+]
+with the same dominating variable (T_0). Let
+(w(s)=F_d(K_M(s))F_{d-1}(K_S(s))), the typed determinant product. #207 proves pathwise
+[
+|w(k)-w(0)|
+ leint_0^k
+ C(s+r^2)T_0^N,1_{{mathrm{typed}(s)}},ds.            	ag{DW.2}
+]
+
+What #207 did not use is #229 W+ Step W2's charge for the typed window. At gap (s), writing (kappa_s=s/r), typing implies
+[
+|Y_s|le6kappa_s|Delta|+eta,qquad
+eta=C r,mathcal N^M
+]
+on each dyadic (mathcal N)-layer. Since (Y_s) is affine in (f_4), the conditional (f_4)-interval has length
+[
+144kappa_s+24eta/|Delta|.
+]
+The conditional (f_4) density is Gaussian and uniformly bounded by a polynomial envelope. #229's determinant dyadic estimate (its (4.2)) therefore gives, with arbitrary polynomial jet weights absorbed into (P^N),
+[
+E[T_0^N1_{{mathrm{typed}(s)}}]
+ le C{kappa_s+rlog(2/r)}(1+|b|)^N.                   	ag{DW.3}
+]
+This is the probability analogue of W+ Step W2; unlike W+ itself, no determinant weight is needed.
+
+Take expectations in (DW.2). With (sle kle r^2),
+[
+egin{aligned}
+E|w(k)-w(0)|
+&le Cint_0^k(s+r^2)(s/r+rL),ds,P^N,quad L=log(2/r)\
+&le C k r^3 L,P^N.                                      	ag{DW.4}
+end{aligned}
+]
+Indeed the four integrals are (k^3/(3r),,rk^2/2,,rLk^2/2,,r^3Lk), and (kle r^2) makes each at most a constant times (kr^3L).
+
+For the pin-density factor,
+[
+|pi_r(v(b,k))-pi_r(v(b,0))|
+ le Ck(1+|b|)e^{-cb^2}
+]
+(#207 Lemma L). W+ at (kappa=0) gives
+[
+E[w(0)]le Cr^5L(1+|b|)^N,
+]
+so this density-factor contribution is only (O(kr^5L)). Hence
+[
+|A_r(b,k,u)-A_r(b,0,u)|le Ckr^3L(1+|b|)^Ne^{-cb^2}.
+]
+Divide by (r^2) to get (DW.1). ∎
+
+### Lifetime consequence
+
+With (k=ell/r^3) and (rgeell^{1/5}),
+[
+int_{ell^{1/5}}^{r_0} krlog(2/r),dr
+=ellint_{ell^{1/5}}^{r_0}r^{-2}log(2/r),dr
+=O(ell^{4/5}log(1/ell)).
+]
+So the candidate/equal-height part of Region B is already **strictly smaller than the desired (ell^{3/4}) remainder**.
+
+## What remains for the rejected kernel
+
+Since
+[
+K_{m rej}(r,k)-K_B(r)
+=
+[K_{m cand}(r,k)-K_B(r)]-K_{m eld}(r,k),
+]
+Region B reduces to one lemma:
+
+> **EH (equal-height elder stability).** For (0le kle r^2),
+> [
+> oxed{
+> K_{m eld}(r,k)
+> le C,krlog(2/r),H_b(b)
+> }
+> 	ag{EH}
+> ]
+> (or any bound whose radial integral from (ell^{1/5}) is (O(ell^{3/4}))).
+
+This is exactly a linear stability statement around the (k=0) fact that equal-height typed pairs are rejected. In weighted form it says
+[
+E[(W_r/r^2)e]
+lesssim (k/r^2),[r^5log(2/r)],
+]
+i.e. the equal-height typed mass times the normalized gap (k/r^2).
+
+#220 Lemma S′ is much too coarse for EH; it discards the (k=0) decision and only charges proximity of the rescaled Hessian to singularity. The active signed-margin / saddle-level work on main#229 is structurally relevant, but it does not yet prove this finite-(r) statement and I am not importing it.
+
+Thus Region B is no longer an open coarea problem: its **candidate component is closed by DW; the sole unresolved issue is EH**. Region A ((kappage r)) remains the matched rejected exceptional-strata problem.
+
+Suggested external/nonauthor attack after explicit pickup: prove or falsify EH by conditioning on the equal-height signed maximin margin and charging its weighted density near zero. Do not substitute an unweighted probability bound for the Kac–Rice determinant weight.

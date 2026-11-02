@@ -1,0 +1,709 @@
+Actual /root finite-event MAIN SOURCE freeze, **B**. A and authorship/limits: https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6057393535. Existing10:05 author/10:20 review bounds. Full remaining main sources and actual command receipts follow; eight main calls child exit0, empty logs, cached imports only. Tests/audit/final review remain pending. No scientific promotion.
+
+ClosedRealization REQUIRES actual every-real π0 charts, inclusion commutation and strict critical-height stage counting. It derives genuine ordinary-H0 NatIso and (s,b]/(-∞,b] support; it does NOT construct Morse charts/ODE/attachment, bind physical maxima or prove maximin in Lean. Conventional70a32 is separate. Every file has one added framing LF before its closing four-backtick fence; exclude only that separator. All actual main logs are empty with SHA e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.
+
+### StrictParentBasis.lean — 3165 B; SHA256 e53723ec5c19f383e036e9601484222c87426c3fb3c7e7457733644c8377bed1
+
+````lean
+import Mathlib.LinearAlgebra.Matrix.Block
+import Mathlib.LinearAlgebra.Matrix.ToLinearEquiv
+import Mathlib.LinearAlgebra.Finsupp.VectorSpace
+
+noncomputable section
+universe u v
+namespace StrictParentBasis
+
+open Module
+
+variable (K : Type u) [Field K]
+variable {α : Type v} [Fintype α] [LinearOrder α]
+
+/-- Strictly decreasing parents are a conditional algebraic input. -/
+def Strict (p : α → Option α) : Prop :=
+  ∀ i j, p i = some j → j < i
+
+/-- Roots contribute a point vector; other vertices contribute a fixed parent difference. -/
+def difference (p : α → Option α) (i : α) : α →₀ K := by
+  classical
+  exact Finsupp.single i (1 : K) - match p i with
+    | none => 0
+    | some j => Finsupp.single j (1 : K)
+
+def parentMatrix (p : α → Option α) : Matrix α α K :=
+  fun i j => difference K p j i
+
+theorem matrix_det_one (p : α → Option α) (hp : Strict p) :
+    (parentMatrix K p).det = 1 := by
+  classical
+  have ht : (parentMatrix K p).IsUpperTriangular := by
+    intro i j hji
+    change j < i at hji
+    cases h : p j with
+    | none =>
+        simp [parentMatrix, difference, h, (ne_of_lt hji).symm]
+    | some a =>
+        have ha : a < j := hp j a h
+        have hai : a < i := ha.trans hji
+        simp [parentMatrix, difference, h, (ne_of_lt hji).symm, (ne_of_lt hai).symm]
+  have hd : ∀ i, parentMatrix K p i i = 1 := by
+    intro i
+    cases h : p i with
+    | none => simp [parentMatrix, difference, h]
+    | some j =>
+        have hji : j < i := hp i j h
+        simp [parentMatrix, difference, h, (ne_of_lt hji).symm]
+  rw [Matrix.det_of_isUpperTriangular ht]
+  simp [hd]
+
+def equiv (p : α → Option α) (hp : Strict p) : (α →₀ K) ≃ₗ[K] (α →₀ K) := by
+  classical
+  exact Matrix.toLinearEquiv
+    (Finsupp.basisSingleOne : Basis α K (α →₀ K)) (parentMatrix K p)
+    (by rw [matrix_det_one K p hp]; exact isUnit_one)
+
+theorem equiv_single (p : α → Option α) (hp : Strict p) (i : α) :
+    equiv K p hp (Finsupp.single i 1) = difference K p i := by
+  classical
+  let b : Basis α K (α →₀ K) := Finsupp.basisSingleOne
+  have hb : b i = Finsupp.single i 1 := by simp [b]
+  change Matrix.toLin b b (parentMatrix K p) (Finsupp.single i 1) = _
+  rw [← hb, Matrix.toLin_self]
+  ext j
+  simp [b, parentMatrix]
+
+def basis (p : α → Option α) (hp : Strict p) : Basis α K (α →₀ K) :=
+  Finsupp.basisSingleOne.map (equiv K p hp)
+
+theorem basis_apply (p : α → Option α) (hp : Strict p) (i : α) :
+    basis K p hp i = difference K p i := by
+  simp [basis, Basis.map_apply, Finsupp.coe_basisSingleOne, equiv_single]
+
+theorem family_linearIndependent (p : α → Option α) (hp : Strict p) :
+    LinearIndependent K (difference K p) := by
+  have hf : (basis K p hp : α → α →₀ K) = difference K p :=
+    funext (basis_apply K p hp)
+  rw [← hf]
+  exact (basis K p hp).linearIndependent
+
+theorem family_span (p : α → Option α) (hp : Strict p) :
+    Submodule.span K (Set.range (difference K p)) = ⊤ := by
+  have hf : (basis K p hp : α → α →₀ K) = difference K p :=
+    funext (basis_apply K p hp)
+  rw [← hf]
+  exact (basis K p hp).span_eq
+
+end StrictParentBasis
+
+````
+
+### IntervalDecomposition.lean — 6057 B; SHA256 1f0139f2be553d5f28717f1e1cfe33399f0afa9769b800703095e1b262d858f0
+
+````lean
+import ActiveComponents
+import StrictParentBasis
+import Mathlib.LinearAlgebra.Finsupp.LinearCombination
+import Mathlib.Algebra.Category.ModuleCat.Basic
+
+noncomputable section
+open CategoryTheory Module
+universe u v
+namespace ElementaryHistory.History
+attribute [local instance] Classical.propDecidable
+variable {n : ℕ} (H : ElementaryHistory.History.{u} n)
+variable (K : Type v) [Field K]
+
+def aliveParent (t : Fin (n + 1)) (j : H.Alive t) : Option (H.Alive t) :=
+  Option.pmap (fun p hp => (⟨p, hp⟩ : H.Alive t)) (H.parent j.1)
+    (fun _p hp => H.parent_active hp j.2)
+
+theorem aliveParent_strict (t : Fin (n + 1)) : StrictParentBasis.Strict (H.aliveParent t) := by
+  intro i j hij
+  obtain ⟨p, ha, hp, he⟩ := Option.pmap_eq_some_iff.mp hij
+  subst j
+  exact H.parent_strict hp
+
+private theorem aliveParent_none (t : Fin (n + 1)) (j : H.Alive t)
+    (hp : H.parent j.1 = none) : H.aliveParent t j = none :=
+  Option.pmap_none' hp
+
+private theorem aliveParent_some (t : Fin (n + 1)) (j : H.Alive t)
+    {p : H.BirthTag} (hp : H.parent j.1 = some p) :
+    H.aliveParent t j = some ⟨p, H.parent_active hp j.2⟩ :=
+  Option.pmap_some' hp
+
+/-- Point differences use the FIRST-death parent, never a later current-fiber minimum. -/
+def fixedGenerator (t : Fin (n + 1)) (j : H.Alive t) : H.Component t →₀ K :=
+  Finsupp.mapDomain (H.aliveOrigin t) (StrictParentBasis.difference K (H.aliveParent t) j)
+
+def stateBasis (t : Fin (n + 1)) : Basis (H.Alive t) K (H.Component t →₀ K) :=
+  (StrictParentBasis.basis K (H.aliveParent t) (H.aliveParent_strict t)).map
+    (Finsupp.mapDomain.linearEquiv K K (H.aliveEquiv t))
+
+
+
+theorem stateBasis_apply (t : Fin (n + 1)) (j : H.Alive t) :
+    H.stateBasis K t j = H.fixedGenerator K t j := by
+  rw [stateBasis, Basis.map_apply, StrictParentBasis.basis_apply]
+  rfl
+
+def toComponents (t : Fin (n + 1)) : (H.Alive t →₀ K) ≃ₗ[K] (H.Component t →₀ K) :=
+  (H.stateBasis K t).repr.symm
+
+def intervalMap {t s : Fin (n + 1)} (_h : t ≤ s) :
+    (H.Alive t →₀ K) →ₗ[K] (H.Alive s →₀ K) := by
+  classical
+  exact Finsupp.linearCombination K (fun j : H.Alive t =>
+    if hj : H.Active s j.1 then Finsupp.single (⟨j.1, hj⟩ : H.Alive s) (1 : K) else 0)
+
+
+
+theorem intervalMap_id (t : Fin (n + 1)) :
+    H.intervalMap K (le_refl t) = LinearMap.id := by
+  classical
+  apply (Finsupp.basisSingleOne : Basis (H.Alive t) K (H.Alive t →₀ K)).ext
+  intro j
+  simp [intervalMap, j.2]
+
+theorem intervalMap_comp {t s r : Fin (n + 1)} (h : t ≤ s) (h' : s ≤ r) :
+    H.intervalMap K (h.trans h') = (H.intervalMap K h').comp (H.intervalMap K h) := by
+  classical
+  apply (Finsupp.basisSingleOne : Basis (H.Alive t) K (H.Alive t →₀ K)).ext
+  intro j
+  by_cases hs : H.Active s j.1
+  · simp [intervalMap, hs]
+  · have hr : ¬ H.Active r j.1 := by
+      intro ha
+      exact hs ⟨j.2.1.trans h, lt_of_le_of_lt h' ha.2⟩
+    simp [intervalMap, hs, hr]
+
+private theorem fixedGenerator_none (t : Fin (n + 1)) (j : H.Alive t)
+    (hp : H.parent j.1 = none) :
+    H.fixedGenerator K t j = Finsupp.single (H.aliveOrigin t j) (1 : K) := by
+  classical
+  simp [fixedGenerator, StrictParentBasis.difference, H.aliveParent_none t j hp]
+
+private theorem fixedGenerator_some (t : Fin (n + 1)) (j : H.Alive t)
+    {p : H.BirthTag} (hp : H.parent j.1 = some p) :
+    H.fixedGenerator K t j = Finsupp.single (H.aliveOrigin t j) (1 : K) -
+      Finsupp.single (H.origin t ⟨p, (H.parent_active hp j.2).1⟩) (1 : K) := by
+  classical
+  simp [fixedGenerator, StrictParentBasis.difference, H.aliveParent_some t j hp,
+    Finsupp.mapDomain_sub, aliveOrigin]
+
+theorem generator_transport {t s : Fin (n + 1)} (h : t ≤ s) (j : H.Alive t) :
+    Finsupp.lmapDomain K K (H.diagram.map (homOfLE h)) (H.fixedGenerator K t j) =
+      if hj : H.Active s j.1 then H.fixedGenerator K s ⟨j.1, hj⟩ else 0 := by
+  classical
+  have hbj : H.bornStage j.1 ≤ s := j.2.1.trans h
+  cases hp : H.parent j.1 with
+  | none =>
+    have ha := H.essential_active hp s hbj
+    rw [dite_eq_left ha, H.fixedGenerator_none K t j hp,
+      H.fixedGenerator_none K s ⟨j.1, ha⟩ hp]
+    simp only [Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, aliveOrigin]
+    congr 1
+    exact H.origin_map h ⟨j.1, j.2.1⟩
+  | some p =>
+    have hpt := H.parent_active hp j.2
+    have hps : H.bornStage p ≤ s := hpt.1.trans h
+    rw [H.fixedGenerator_some K t j hp]
+    simp only [map_sub, Finsupp.lmapDomain_apply, Finsupp.mapDomain_single, aliveOrigin]
+    rw [H.origin_map h ⟨j.1, j.2.1⟩, H.origin_map h ⟨p, hpt.1⟩]
+    by_cases ha : H.Active s j.1
+    · rw [dite_eq_left ha, H.fixedGenerator_some K s ⟨j.1, ha⟩ hp]
+      rfl
+    · rw [dite_eq_right ha]
+      have hdead : H.death j.1 ≤ s.val := by
+        by_contra hn
+        exact ha ⟨hbj, by omega⟩
+      have he := H.parent_points_coincide_after hp s hdead
+      simp only [location, dite_eq_left hps, dite_eq_left hbj, Option.some.injEq] at he
+      rw [he]
+      exact sub_self _
+
+theorem coordinates_natural {t s : Fin (n + 1)} (h : t ≤ s) (v : H.Alive t →₀ K) :
+    Finsupp.lmapDomain K K (H.diagram.map (homOfLE h)) (H.toComponents K t v) =
+      H.toComponents K s (H.intervalMap K h v) := by
+  classical
+  have he : (Finsupp.lmapDomain K K (H.diagram.map (homOfLE h))).comp
+      (H.toComponents K t).toLinearMap =
+      (H.toComponents K s).toLinearMap.comp (H.intervalMap K h) := by
+    apply (Finsupp.basisSingleOne : Basis (H.Alive t) K (H.Alive t →₀ K)).ext
+    intro j
+    change Finsupp.lmapDomain K K (H.diagram.map (homOfLE h))
+      ((H.stateBasis K t).repr.symm (Finsupp.single j 1)) =
+      (H.stateBasis K s).repr.symm (H.intervalMap K h (Finsupp.single j 1))
+    rw [Basis.repr_symm_single_one, H.stateBasis_apply, H.generator_transport K h j]
+    by_cases ha : H.Active s j.1
+    · simp only [intervalMap, dite_eq_left ha, Finsupp.linearCombination_single, one_smul]
+      rw [Basis.repr_symm_single_one, H.stateBasis_apply]
+    · simp [intervalMap, ha]
+  exact LinearMap.congr_fun he v
+
+end ElementaryHistory.History
+
+````
+
+### EventPersistence.lean — 2667 B; SHA256 b4bb31306cf4c3592ed350633cde5e3f357a4eac778050a410f590b77e64e480
+
+````lean
+import IntervalDecomposition
+import Mathlib.CategoryTheory.NatIso
+
+noncomputable section
+open CategoryTheory Module
+universe u v
+namespace ElementaryHistory.History
+variable {n : ℕ} (H : ElementaryHistory.History.{u} n)
+variable (K : Type u) [Field K]
+
+def intervalDiagram : Fin (n + 1) ⥤ ModuleCat K where
+  obj t := ModuleCat.of K (H.Alive t →₀ K)
+  map f := ModuleCat.ofHom (H.intervalMap K (leOfHom f))
+  map_id t := by
+    change ModuleCat.ofHom (H.intervalMap K (le_refl t)) = _
+    rw [H.intervalMap_id K]
+    rfl
+  map_comp f g := by
+    change ModuleCat.ofHom (H.intervalMap K ((leOfHom f).trans (leOfHom g))) = _
+    rw [H.intervalMap_comp K (leOfHom f) (leOfHom g)]
+    rfl
+
+def componentDiagram : Fin (n + 1) ⥤ ModuleCat K where
+  obj t := ModuleCat.of K (H.Component t →₀ K)
+  map f := ModuleCat.ofHom (Finsupp.lmapDomain K K (H.diagram.map f))
+  map_id t := by
+    simp only [H.diagram.map_id]
+    change ModuleCat.ofHom (Finsupp.lmapDomain K K (_root_.id : H.Component t → H.Component t)) = _
+    rw [Finsupp.lmapDomain_id]
+    rfl
+  map_comp f g := by
+    rw [H.diagram.map_comp]
+    change ModuleCat.ofHom (Finsupp.lmapDomain K K
+      (H.diagram.map g ∘ H.diagram.map f)) = _
+    rw [Finsupp.lmapDomain_comp]
+    rfl
+
+/-- Actual all-arrow interval decomposition of the primitive history's component module. -/
+def finiteIntervalIso : H.intervalDiagram K ≅ H.componentDiagram K := by
+  refine NatIso.ofComponents (fun t => (H.toComponents K t).toModuleIso) ?_
+  intro t s a
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro v
+  change H.toComponents K s (H.intervalMap K (leOfHom a) v) =
+    Finsupp.lmapDomain K K (H.diagram.map a) (H.toComponents K t v)
+  have he := (H.coordinates_natural K (leOfHom a) v).symm
+  have ha : (homOfLE (leOfHom a) : t ⟶ s) = a := Subsingleton.elim _ _
+  rw [ha] at he
+  exact he
+
+theorem terminal_active_iff_root (j : H.BirthTag) :
+    H.Active (Fin.last n) j ↔ H.parent j = none := by
+  constructor
+  · intro ha
+    by_contra hn
+    obtain ⟨p, hp⟩ := Option.ne_none_iff_exists'.mp hn
+    obtain ⟨d, hd, _, _⟩ := H.parent_collision hp
+    have hdn : H.death j ≤ (Fin.last n).val := by rw [hd]; exact Fin.le_last d
+    exact (not_le_of_gt ha.2) hdn
+  · intro hp
+    exact H.essential_active hp (Fin.last n) (Fin.le_last _)
+
+/-- Terminal component count is derived, with no connectedness or one-root premise. -/
+def terminalRootsEquiv : {j : H.BirthTag // H.parent j = none} ≃ H.Component (Fin.last n) := by
+  exact (Equiv.subtypeEquivProp (by funext j; exact propext (H.terminal_active_iff_root j).symm)).trans
+    (H.aliveEquiv (Fin.last n))
+
+end ElementaryHistory.History
+
+````
+
+### ClosedRealization.lean — 5682 B; SHA256 cdd14b43ad0b9ea420bac636618885d65bd04243682a8b75ba9e4e0be830be7f
+
+````lean
+import EventPersistence
+import GlobalFiniteComponents
+import Mathlib.Order.Interval.Finset.Fin
+import Mathlib.CategoryTheory.Whiskering
+
+noncomputable section
+open CategoryTheory Module OrderDual OrdinaryH0Elder GlobalMergeSemantics GlobalComponentMaps
+universe u
+namespace ElementaryHistory
+
+/-- Primitive geometric realization data only: ordered critical levels, actual component
+charts, and commutation with EVERY genuine closed-superlevel inclusion. The construction
+of this certificate from Morse geometry is a separate obligation. -/
+structure ClosedComponentCertificate {n : ℕ} (H : History.{u} n)
+    {X : Type u} [TopologicalSpace X] (f : X → ℝ) where
+  stage : ℝᵒᵈ ⥤ Fin (n + 1)
+  criticalHeight : Fin n → ℝ
+  ordered : StrictAnti criticalHeight
+  stage_count : ∀ h, (stage.obj h).val =
+    (Finset.univ.filter (fun i => OrderDual.ofDual h ≤ criticalHeight i)).card
+  chart : ∀ h, ZerothHomotopy (superlevel f (OrderDual.ofDual h)) ≃ H.Component (stage.obj h)
+  commute : ∀ {h s} (a : h ⟶ s) (c : ZerothHomotopy (superlevel f (OrderDual.ofDual h))),
+    chart s (componentMap ((superlevelFunctor f).map a) c) =
+      H.diagram.map (stage.map a) (chart h c)
+
+namespace ClosedComponentCertificate
+variable {n : ℕ} {H : History.{u} n} {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ClosedComponentCertificate H f) (K : Type u) [Field K]
+
+def intervalDiagram : ℝᵒᵈ ⥤ ModuleCat K := C.stage ⋙ H.intervalDiagram K
+
+private theorem stage_level_iff (i : Fin n) (h : ℝᵒᵈ) :
+    i.succ ≤ C.stage.obj h ↔ OrderDual.ofDual h ≤ C.criticalHeight i := by
+  classical
+  let S := Finset.univ.filter (fun k => OrderDual.ofDual h ≤ C.criticalHeight k)
+  have hc : (C.stage.obj h).val = S.card := C.stage_count h
+  constructor
+  · intro hs
+    by_contra hn
+    have hlt : C.criticalHeight i < OrderDual.ofDual h := lt_of_not_ge hn
+    have hsub : S ⊆ Finset.Iio i := by
+      intro k hk
+      have hkh : OrderDual.ofDual h ≤ C.criticalHeight k := (Finset.mem_filter.mp hk).2
+      apply Finset.mem_Iio.mpr
+      by_contra hki
+      have hik : i ≤ k := le_of_not_gt hki
+      have hfk := C.ordered.antitone hik
+      exact (not_lt_of_ge (hkh.trans hfk)) hlt
+    have hcard := Finset.card_le_card hsub
+    rw [Fin.card_Iio] at hcard
+    change i.val + 1 ≤ (C.stage.obj h).val at hs
+    omega
+  · intro hh
+    have hsub : Finset.Iic i ⊆ S := by
+      intro k hk
+      have hki := Finset.mem_Iic.mp hk
+      simp only [S, Finset.mem_filter, Finset.mem_univ, true_and]
+      exact hh.trans (C.ordered.antitone hki)
+    have hcard := Finset.card_le_card hsub
+    rw [Fin.card_Iic] at hcard
+    change i.val + 1 ≤ (C.stage.obj h).val
+    omega
+
+theorem born_level_iff (j : H.BirthTag) (h : ℝᵒᵈ) :
+    H.bornStage j ≤ C.stage.obj h ↔ OrderDual.ofDual h ≤ C.criticalHeight j.1 := by
+  exact C.stage_level_iff j.1 h
+
+/-- Essential roots have a closed birth endpoint and no finite death. -/
+theorem essential_support {j : H.BirthTag} (hp : H.parent j = none) (h : ℝᵒᵈ) :
+    H.Active (C.stage.obj h) j ↔ OrderDual.ofDual h ≤ C.criticalHeight j.1 := by
+  constructor
+  · intro ha
+    exact (C.born_level_iff j h).1 ha.1
+  · intro hb
+    exact H.essential_active hp _ ((C.born_level_iff j h).2 hb)
+
+/-- A finite derived parent supplies the OPEN death endpoint and CLOSED birth endpoint. -/
+theorem finite_support {j p : H.BirthTag} (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧ ∀ h : ℝᵒᵈ,
+      H.Active (C.stage.obj h) j ↔
+        C.criticalHeight d < OrderDual.ofDual h ∧ OrderDual.ofDual h ≤ C.criticalHeight j.1 := by
+  have hb := (H.birth_active j).2
+  have hbpos : 0 < (H.bornStage j).val := by change 0 < j.1.val + 1; omega
+  obtain ⟨t, hdt, _, _⟩ := H.parent_collision hp
+  have hdn : H.death j ≤ n := by rw [hdt]; exact Fin.le_last t
+  let d : Fin n := ⟨H.death j - 1, by omega⟩
+  have hd : H.death j = d.succ.val := by dsimp [d]; omega
+  refine ⟨d, hd, ?_⟩
+  intro h
+  constructor
+  · intro ha
+    have hn : ¬ d.succ ≤ C.stage.obj h := by
+      intro hi
+      have hv : H.death j ≤ (C.stage.obj h).val := by rw [hd]; exact hi
+      exact (not_le_of_gt ha.2) hv
+    refine ⟨?_, (C.born_level_iff j h).1 ha.1⟩
+    exact lt_of_not_ge (fun hh => hn ((C.stage_level_iff d h).2 hh))
+  · rintro ⟨hs, hb⟩
+    refine ⟨(C.born_level_iff j h).2 hb, ?_⟩
+    have hn : ¬ d.succ ≤ C.stage.obj h := fun hi =>
+      (not_le_of_gt hs) ((C.stage_level_iff d h).1 hi)
+    rw [hd]
+    exact lt_of_not_ge hn
+
+/-- Naturality uses the actual zeroth singular homology functor and actual inclusions. -/
+def componentIso : closedH0Persistence K f ≅ C.stage ⋙ H.componentDiagram K := by
+  refine NatIso.ofComponents (fun h =>
+    (componentChart K (superlevel f (OrderDual.ofDual h)) (C.chart h)).toModuleIso) ?_
+  intro h s a
+  apply ModuleCat.hom_ext
+  apply LinearMap.ext
+  intro v
+  change componentChart K (superlevel f (OrderDual.ofDual s)) (C.chart s)
+    ((h0Functor K).map ((superlevelFunctor f).map a) v) =
+    Finsupp.mapDomain (H.diagram.map (C.stage.map a))
+      (componentChart K (superlevel f (OrderDual.ofDual h)) (C.chart h) v)
+  exact chart_map K ((superlevelFunctor f).map a) (C.chart h) (C.chart s)
+    (H.diagram.map (C.stage.map a)) (C.commute a) v
+
+/-- Conditional global decomposition of GENUINE ordinary closed H0.
+No parent, basis or interval data are fields of C or H. -/
+def closedIntervalIso : C.intervalDiagram K ≅ closedH0Persistence K f := by
+  exact (Functor.isoWhiskerLeft C.stage (H.finiteIntervalIso K)) ≪≫ (C.componentIso K).symm
+
+end ClosedComponentCertificate
+end ElementaryHistory
+
+````
+
+### compile-context.json — 2847 B; SHA256 b3d9454a4b94b5a4e15ebc5381c34d8b4141cda9f092b63c074373303a8bb241
+
+````json
+{
+  "lean": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+  "LEAN_PATH": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-global/lean-project/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-global/lean-project/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-split/lean-project/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/Qq/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/aesop/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/batteries/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/importGraph/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/plausible/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/proofwidgets/.lake/build/lib/lean",
+  "LEAN_NUM_THREADS": "1",
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "output": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean"
+}
+
+````
+
+### run_compile.py — 931 B; SHA256 61ff4e707ee2e17c0d0854d214851382b66cc0df0a28f98500e3136652aca35c
+
+````python
+import json,pathlib,subprocess,os,sys,time,hashlib
+base=pathlib.Path(__file__).resolve().parent;c=json.loads((base/'compile-context.json').read_text()); tag,source=sys.argv[1:3];src=pathlib.Path(c['cwd'])/source;ev=base/'evidence';snap=ev/(tag+'.lean');snap.write_bytes(src.read_bytes());env=dict(os.environ,LEAN_PATH=c['LEAN_PATH'],LEAN_NUM_THREADS='1');argv=['nice','-n','10',c['lean'],source,'-o',str(pathlib.Path(c['output'])/(src.stem+'.olean'))];start=time.monotonic();p=subprocess.run(argv,cwd=c['cwd'],env=env,capture_output=True,timeout=180);log=ev/(tag+'.log');log.write_bytes(p.stdout+p.stderr);r=dict(argv=argv,cwd=c['cwd'],exit_code=p.returncode,elapsed=time.monotonic()-start,source_sha256=hashlib.sha256(snap.read_bytes()).hexdigest(),log_sha256=hashlib.sha256(log.read_bytes()).hexdigest(),LEAN_NUM_THREADS='1');(ev/(tag+'.json')).write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r));print(log.read_text())
+
+````
+
+### evidence/MAIN_SOURCE_FREEZE.json — 2593 B; SHA256 bda0cd444bc6b8a3c6f5f6ac6264a736131c9d641c5aa08857e12b80b202bcd7
+
+````json
+{
+  "frozen_utc": "2026-10-08T09:58:12.202164+00:00",
+  "scope": "eight completed producer modules, no planned source edits; tests/audit/documentary freeze follows",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/ElementaryHistory.lean",
+      "bytes": 4092,
+      "sha256": "3ed3cff14fe98400e585376bb0210a48f92e1f672351a922242b246ea71cbde4"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/ElderForest.lean",
+      "bytes": 6999,
+      "sha256": "e5468b3d425307a85f6e287d2ede9db30fd6c1941a7fc891af7812787eae9616"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/ActiveComponents.lean",
+      "bytes": 5005,
+      "sha256": "788641c66c9a86fa279bed1ba7b709ee693ab640d69f118e6c3ca70534e370ba"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/StrictParentBasis.lean",
+      "bytes": 3165,
+      "sha256": "e53723ec5c19f383e036e9601484222c87426c3fb3c7e7457733644c8377bed1"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/IntervalDecomposition.lean",
+      "bytes": 6057,
+      "sha256": "1f0139f2be553d5f28717f1e1cfe33399f0afa9769b800703095e1b262d858f0"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/EventPersistence.lean",
+      "bytes": 2667,
+      "sha256": "b4bb31306cf4c3592ed350633cde5e3f357a4eac778050a410f590b77e64e480"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/EventDeaths.lean",
+      "bytes": 11953,
+      "sha256": "42494f6b76e48359a6103a140d8b1c259f822dad2207456a15380702644a49ae"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/ClosedRealization.lean",
+      "bytes": 5682,
+      "sha256": "cdd14b43ad0b9ea420bac636618885d65bd04243682a8b75ba9e4e0be830be7f"
+    }
+  ]
+}
+
+````
+
+### evidence/history-attempt03.json — 869 B; SHA256 8c1431e7f5543aa870347386df22e39545b8ee66e4b4531436b400cfb6b53cff
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ElementaryHistory.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/ElementaryHistory.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 8.709657125000001,
+  "source_sha256": "3ed3cff14fe98400e585376bb0210a48f92e1f672351a922242b246ea71cbde4",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/forest-attempt02.json — 851 B; SHA256 30395844c96ce731857085f4e87e25a2385702babde9d329438c8100a5ceb0cf
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ElderForest.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/ElderForest.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 1.237258917,
+  "source_sha256": "e5468b3d425307a85f6e287d2ede9db30fd6c1941a7fc891af7812787eae9616",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/active-attempt02.json — 861 B; SHA256 3887774338cd1f9ff377022e69d8897d281fc1660427938bcb7a089660ef6b24
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ActiveComponents.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/ActiveComponents.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 1.198980417,
+  "source_sha256": "788641c66c9a86fa279bed1ba7b709ee693ab640d69f118e6c3ca70534e370ba",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/strict-parent-attempt02.json — 863 B; SHA256 916ef8d5b88423438a48e6bdb6d1ab92b95d5f0409a8963c76cae540dddbcc7f
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "StrictParentBasis.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/StrictParentBasis.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 2.038923459,
+  "source_sha256": "e53723ec5c19f383e036e9601484222c87426c3fb3c7e7457733644c8377bed1",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/interval-attempt03.json — 878 B; SHA256 23be92a03288b0e790f9c5fa0c159a0283cf3f53610f2b9a3b361f31d8a5c50c
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "IntervalDecomposition.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/IntervalDecomposition.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 5.1330754579999995,
+  "source_sha256": "1f0139f2be553d5f28717f1e1cfe33399f0afa9769b800703095e1b262d858f0",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/persistence-attempt02.json — 861 B; SHA256 75408943443f284386748fae776a4bdbb22ade264f88f5da922b77d2a149adef
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "EventPersistence.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/EventPersistence.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 2.166882625,
+  "source_sha256": "b4bb31306cf4c3592ed350633cde5e3f357a4eac778050a410f590b77e64e480",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/event-deaths-correction02.json — 848 B; SHA256 9e4064c6c68268b31eac8ad73a1eb0593eb8ce588b0089a34482fd7ce8921256
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "EventDeaths.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/EventDeaths.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 7.560557,
+  "source_sha256": "42494f6b76e48359a6103a140d8b1c259f822dad2207456a15380702644a49ae",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````
+
+### evidence/closed-attempt03.json — 864 B; SHA256 ce998bb869797dfd71bd9b339fa90465cb9cc49472c0b453d5c5b54946729ef9
+
+````json
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ClosedRealization.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project/.lake/build/lib/lean/ClosedRealization.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/lean-project",
+  "exit_code": 0,
+  "elapsed": 30.160478042,
+  "source_sha256": "cdd14b43ad0b9ea420bac636618885d65bd04243682a8b75ba9e4e0be830be7f",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+````

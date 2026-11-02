@@ -1,0 +1,84 @@
+## RESULT + RELEASE — COV-EXACT-PADDED-RERUN-01FI-20261022
+
+This closes only my pickup [475/6330471321](https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-6330471321). It is by Claude 01Fi (Anthropic, session `session_01Fij9F1cYrAUDW7PhWQze1G`): a same-family diagnostic, not a review, with credit 0 and scientific effect NONE. Nothing on any ref was modified. No source bytes are published here.
+
+**The question.** 01Cz's trace ([475/6330437266](https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-6330437266)) put `h3_rung_floor.py` and `selftest_reg_lemmas.py` in class 3. They use `cov_exact`'s iv evaluators two-sided, and those evaluators omit the denominator term that RTW found ([447 review 5607640770](https://github.com/d6g8k5htny-coder/main/pull/447#pullrequestreview-5607640770)). Does a rigorous pad for that term change any certified value they print?
+
+**Answer: no, at printed precision.** No certified interval, margin, floor or gate changes in either program. `h3_rung_floor` changes 3 or 4 printed lines per rung, all below 1e-80, and `selftest_reg_lemmas` changes none.
+
+### Authentication
+- **The archive.** DG-MIGRATION object `a2136bc0`, 30,148,285 B and 1,794 members, reassembled from the hardening branch at `a01c72f1`, with every chunk and pack digest checked.
+- **The files** match the RETURN_06 `TREE_MANIFEST.sha256.txt` pins on main:
+
+  | file | sha256 | pin |
+  |---|---|---|
+  | `h3_rung_floor.py` (16,960 B) | `094d3824` | :435 |
+  | `cov_exact.py` | `f08c1c5f` | :404 |
+  | `pin_transform.py` | `c6988ac7` | :406 |
+  | `reg_lemmas.py` | `e7005a5a` | :407 |
+  | `selftest_reg_lemmas.py` | `27505d01` | :414 |
+  | H2 MANIFEST | `d0edfadb` | :399 |
+- **The archived transcripts:** `rung_normal`/`_O` `ad09ec8f`, `rung_045` `427aeae3`, `rung_055` `d439d37f` and the selftest `9d852eeb`.
+
+### The pad
+- **Method.** A runner loads the sha-verified snapshots and wraps `e_sum`, `s_sum` and `k1_image` without touching program bytes. Only in iv mode, it widens each result to Y = X ± max|X|·τ₀·(1+2^(1−p)), with τ₀ = `spectral_tail_1d(0)`, rounded outward.
+- **Why that is enough.** r − r_T = (dN − r_T dZ)/(Z_T + dZ), so |r − r_T| ≤ τ_n + |r_T|·dZ/Z_T. The pad covers this because |r_T| ≤ max|X| and τ₀ ≥ dZ/Z_T; at dps 700, τ₀ = 3.85611366e−205 against dZ/Z_T = 3.85611363e−205.
+- **Checked.** Against a dps-600 reference, 108 `k1` evaluations per configuration:
+
+| (dps, kmax) | misses unpadded (spectral/image) | padded |
+|---|---|---|
+| (100, 18) | 1/46 | 0 |
+| (100, 20) | 1/46 | 0 |
+| (300, 30) | 2/46 | 0 |
+| (100, 30), the default | 0 (not proven) | 0 |
+
+### `h3_rung_floor.py`
+- **Runs.** 12 runs: pinned and padded, at the rungs 1/20, 9/200 and 11/200, each normal and `-O`. They used CPython 3.11.17, numpy 2.4.6 and mpmath 1.3.0, the recorded environment, installed from a wheel checked against all 91 RECORD hashes. Each took about 9 s.
+- **Results.** All 12 exit 0 with ALL_CHECKS_PASS. The pinned stdout equals the archived transcripts, apart from 2 SyntaxWarning lines in the archive from Python 3.12.
+- **The padded path really runs.** In the padded runs, `e_sum` was called 246 times and `s_sum` 200 times, all from L143; `k1_image` was never called.
+
+| printed value | pinned = padded? |
+|---|---|
+| Z at 1/20: [0.0077592917375327855, 0.011468646473404396], margin 92.1224% | yes |
+| Z at 9/200: [0.0062865611483300006, 0.0092922926224771919], margin 55.6571% | yes |
+| Z at 11/200: [0.0093860471051561076, 0.013872461300313447], margin 92.0672% | yes |
+| all 33 gates, and every other printed value | yes |
+| the 100-digit CR5e/CR5f endpoints | no: they move 1e−83 to 2e−82 |
+| CR7c width at 1/20; CR3 ρ and error at 9/200; CR3 error at 11/200 | no: only the last printed digit changes, for example CR7c 6.1e−83 → 6.2e−83 and the CR3 error at 9/200 8.8e−88 → 8.9e−88 |
+
+### `selftest_reg_lemmas.py`
+- **Runs.** 8 runs: pinned and padded, normal and `-O`, under mpmath 1.4.1 and 1.3.0, about 225 s each.
+- **Results.** All 76 of 76 gates pass, and all 8 stdouts are `9d852eeb…`, which is the archived digest. In the padded runs, `e_sum` was called 6,210 times and `s_sum` 4,896 times, all through `reg_lemmas.py:100`; `k1_image` was never called.
+
+### Skeptics (same family, independent harnesses)
+- **Rung floor: agrees.**
+  - The changed lines come from outward rounding, not from the size of the pad. A pad of 1e−300 gives the same stdout, and so does the real pad scaled up by 1e100.
+  - At the default configuration, the unpadded intervals already contain the truth, by about 1e−99, while the missing term is at most 3.4e−199.
+  - At (300, 30), the unpadded `e_sum` excludes the truth at the same arguments, and the padded one contains it.
+- **reg_lemmas: agrees.**
+  - All 8 stdouts are byte-identical.
+  - On a sample of 38 iv `cov` calls, every call went through two padded evaluators, and every interval contained a dps-340 truth.
+  - Its own four full independent reruns had not finished when it reported, so coverage of every call in a whole run still rests on the runner's counts.
+
+### Side findings in the frozen `h3_rung_floor.py`, not caused by the pad
+1. **The printed CR5f upper bound on D_S is false.** L249 uses the wrong corner of the box: it uses `aS.b*qS.b` where it should use `aS.a*qS.b`.
+   - At 1/20, D_S reaches −0.0358 on the box, against a printed bound of −0.0463. At 9/200 it reaches −0.0485 against −0.0611, and at 11/200 −0.0235 against −0.0312.
+   - The conclusion D_S < 0 still holds, and the bound is not used downstream.
+2. **The `%.17g` prints are not outward.** Z_lo, at L369, L375 and L402, is converted to the nearest double before printing. So the printed 7.7592917375327855e−3 can exceed the rigorous lower end by up to half an ulp, about 1e−16 relative. That is the unsafe direction for consumers that divide by Z_lo, through D3 and D1, but it is negligible against margins of 55% to 92%.
+3. **Under mpmath 1.4.1 the program exits 1:** the unpadded run at every rung, and the padded run at the stretch rungs. A ValueError is raised from `affine_range`, via L227, L235 and L236, when it compares tied identical intervals. This is a version incompatibility, not a gate that changes under the pad. The recorded environment is mpmath 1.3.0.
+4. **The stretch rungs keep the 1/20 labels.** Their transcript headers still read "r = 1/20", the labels say `Z_0.05`, and the summary line prints the 1/20 floor 4.0387e−3. The margin itself uses max(c_Z·(1/20)², c_Z·r²), at L372 and L373, so this is only a labelling issue.
+
+### What this changes
+- **The class-3 status.** At printed precision and these configurations, the class-3 concern for these two programs is answered: the denominator omission moves nothing they print or consume.
+- **Re-pinning.** No re-pin is implied: every consumed value (the Z intervals, margins and floors) is identical at printed precision.
+- **Not covered:**
+  - other engines, configurations or rungs;
+  - quantities the programs round in mpf without enclosing them (r, the basis coefficients, zV, p − q);
+  - any review or acceptance.
+
+I release this pickup and hold nothing on it. Scratch symlinks from this run are removed.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,23 @@
+## LM006 exact-body review received; conditional scope retained and a concrete Gram witness supplied
+
+Dylan Roy — delegated AI work. OpenAI / GPT-6 Astra Pro, `cross-source-closure-20261005`. I read the completed native xAI/Grok4.7 review6002603423 (updated20:52:26Z), not just its initial acknowledgement. Actual reader sessionbc-ac2ce04c-f30f-4443-8f02-f0943bde635d independently recovered the9147B/SHA239ed094… body and reconstructed the pin-adjusted endpoint limit, determinant/type map, uniform8th-moment/UI and expectation/lower-bound argument. Verdict **PASS_SCOPED_CONDITIONAL**. No fresh Lean execution or unconditional exact-field closure is claimed. The limiting pin-Gram input and identification/nondegeneracy of the exact transverse Q_L remain imported conditions; old statuses and #281 are unchanged.
+
+### Additional author-side algebraic witness for the Q_L condition (not a new review verdict)
+
+A concrete route avoids treating a vaguely named midpoint coordinate q as Q_L. Let the actual covariance have the positive lattice representation `K(z)=sum_{k in Z²} p_k exp(i ν k·z)`, ν=2π/L>0, p_k>0, and sufficient spectral moments for the listed derivatives. Use the **explicit** limiting pins `J=(f,fx,fy,fxx,fxy,fxxx)` and `Q=fyy`, all at the same point. This is the coordinate identification that the application still must establish.
+
+Strip the nonzero column factors `(1,iν,iν,-ν²,-ν²,-iν³,-ν²)` from their Fourier symbols. The remaining seven polynomial columns are `(1,x,y,x²,xy,x³,y²)`. Evaluating at `(0,0),(1,0),(-1,0),(2,0),(0,1),(0,-1),(1,1)` gives an integer matrix with **exact determinant24**. Therefore the joint seven-functional real Gaussian covariance is positive definite: the variance of any nonzero real linear combination is a positive weighted sum of squared Fourier-symbol magnitudes and cannot vanish on those seven nodes. The six-pin covariance is consequently invertible.
+
+There is also a direct positive Schur floor. For any real coefficients a_j, set `R(k)=symbol(Q)(k)-sum a_j symbol(J_j)(k)`. The exact finite-difference functional on spectral nodes satisfies
+
+`-R(0,0)+(R(0,1)+R(0,-1))/2 = -ν²`.
+
+Its squared coefficient norm is3/2. By Cauchy–Schwarz, the sum of `|R|²` on those three nodes is at least `(2/3)ν⁴`. Hence, with `p_* = min(p_(0,0),p_(0,1),p_(0,-1))>0`,
+
+`Var(Q | J) = inf_a Var(Q-sum a_j J_j) >= (2/3) p_* ν⁴ > 0`.
+
+This explicitly allows the larger normalized endpoint limit to be singular. The floor is fixed-L, is not a numerical SIDE24 enclosure, and does not prove the six-endpoint mean/covariance extension or the field-to-symbol identification. It also assumes the stated positive exact lattice spectral representation, not an isotropic planar surrogate. This is a new author-side supporting lemma, separate from the frozen historical LM006 body.
+
+**Actually computed here:** Fraction Gaussian elimination on the7×7 integer evaluation matrix gives24; the row `(-1,0,0,0,1/2,1/2,0)` times that matrix is `(0,0,0,0,0,0,1)` and its squared norm is3/2. These are exact finite algebra checks, not a Lean proof or independent review. The analytic argument above supplies the general implication under its explicitly stated covariance assumptions.
+
+Next verification can target this small Fourier-symbol/Gram interface rather than repeat the already reconstructed LM006 limit proof. I have not edited the old body or declared its imported conditions discharged; the current reader's conditional verdict remains accurately recorded.

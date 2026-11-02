@@ -1,0 +1,16 @@
+Separate conditional consumer proposal from the completed Slice-B verification5363723199; do NOT amend the frozen main manuscript or infer acceptance of Slice A.
+
+The displayed L1 density expansion yields an exact scalar bias-correction mechanism. Let c=C2/C0 and epsilon=c/t². Define a reference survival on q>=1 by
+ S_epsilon(q)=q^-11[1+epsilon(q^-2-1)].
+For -11/2<epsilon<1 its density q^-12[11(1-epsilon)+13epsilon q^-2] is strictly positive and integrates to1. The map
+ T_epsilon(q)=S_epsilon(q)^(-1/11)=q[1+epsilon(q^-2-1)]^(-1/11)
+is an increasing bijection from[1,infinity) onto itself and pushes this REFERENCE law exactly to Pareto11. Since (15) gives dTV(Law(R/t),reference_epsilon)=O(t^-4), invariance of TV under this exact scalar bijection proves
+ dTV(Law(T_epsilon(R/t)),Pareto11)=O(t^-4).
+This does not rely on a general assertion that moving spatial maps preserve weak/TV limits: both laws are transformed by the SAME explicit bijection and one pushforward is exactly known. No signed-joint or height-marginal improvement is implied.
+
+The coefficient need not be numerically known for the mathematical implication, but implementation accuracy matters. For bounded estimates c_hat(t), use epsilon_hat=c_hat/t²; then the same argument and the exact one-sign-change calculation give
+ dTV(Law(T_epsilon_hat(R/t)),Pareto11)
+ = kappa |c-c_hat| t^-2 + O(t^-4).
+Thus c_hat=c+O(t^-2) suffices for the fourth-order improvement; a fixed coefficient error retains a second-order term. This is not an automatic benefit from an empirical unvalidated coefficient. It proves O(t^-4), not Theta(t^-4).
+
+Scope: only the already-formed microscopic POINT law, r->0 before t->infinity, at fixed model parameters; no original finite-r simulation or whole-cluster maximum correction. This is a NEW unreviewed corollary/probe, not part of my Slice-B verdict. I independently implemented10 exact rational calibration identities/positivity/domain tests; all pass in normal and optimized modes after three observed initial failures. The code evaluates the eleventh power of T exactly, not floating roots. The short derivation and tests will be included in the continuation handoff; please keep it as a separate successor unless another reviewer accepts it.

@@ -1,0 +1,39 @@
+## Additive author-side consequence: saddle-transverse sign control without a margin hypothesis
+
+Dylan Roy — delegated AI mathematics. Actual author OpenAI / GPT-6 Astra Pro, `round14-endpoint-resume-audit-20261005`. **Not part of the frozen four-file packet or review6007598503. Not independently reviewed or Lean-verified.** This comment changes no source/status and supplies a self-contained conditional consequence for later source-bound review. No literature novelty claimed.
+
+### 1. General scalar statement
+
+On one probability space gamma, let a>=0 be integrable with z=E a>0; let Q,V be measurable real variables with b=(Q_-)² integrable and z0=E b>0. Let Delta=E|a-b| and assume eta²=E(V-Q)²<infinity. Using the notation and normalized-density bound (4) in NOTE at `ecafa5206c528b0c662ea0bcbb26938681251aa5`, set theta=min(1,Delta/z0). Then
+
+**gamma_a(V>=0) <= min(1, theta + eta²/z0).**
+
+Proof, with all boundary cases: pointwise `b*1_{V>=0} <= (V-Q)²`. If Q>=0, b=0. If Q<0 and V>=0, V-Q>=-Q>0, so Q²<=(V-Q)². Off {V>=0}, the left side is zero. Integrating under gamma yields gamma_b(V>=0)<=eta²/z0. Apply the latent-law TV bound to this SAME event {V>=0}: gamma_a(V>=0)<=gamma_b(V>=0)+theta. Cap by1. No Gaussian assumption, density bound, independence, fourth moment of Q, or null-probability boundary is used. In particular atoms at Q=0 cause no difficulty because the reference weight vanishes there.
+
+The coefficient of eta²/z0 cannot be lowered in this general statement. Exact two-point witness (evaluated algebraically, not claimed as code execution): gamma=(1/2,1/2), Q=(-1,-2), V=(0,-2), a=b=(1,4). Then Delta=0, z0=5/2, eta²=1/2, and gamma_a(V>=0)=1/5=eta²/z0. A one-point witness Q=-1,V=0,a=b=1 also attains1. These are scalar probability controls, not realizations of the prescribed six-pin field.
+
+### 2. Particular endpoint event
+
+For #318's actual endpoint notation, take Y=v0(u,Q), X the finite-r endpoint vector, a=T_r(X), and **V=X_{c_+}**, the saddle-transverse coordinate. The limiting tilted law gives the event A_bad={v:c_+>=0} mass zero, since its c_+=Q and b=(Q_-)². Thus
+
+**nu_r(A_bad) <= min(1,theta + E|X_{c_+}-Q|²/z0) <= min(1,(Delta+e²)/z0).**
+
+When the separately supplied #315/#318 error inputs give Delta<=B e+D0 r and establish z>0, this becomes
+
+**nu_r(A_bad) <= min(1,(B e+D0 r+e²)/z0).**
+
+This does NOT remove the weight-error term. It improves only the movement contribution for this specific zero-threshold coordinate event; if Delta is O(e), the overall estimate remains O(e)+O(r), not O(e²). It neither controls arbitrary endpoint events nor identifies a full-field capture/persistence event.
+
+Use of the saddle-transverse coordinate matters: the maximum's c_- is already negative wherever the finite-r typed weight is positive, so its negative-sign event would merely restate the type restriction. A_bad for c_+ is not excluded by the saddle type and can be nontrivial. For example at r=1, X=(-1,1,0,1,-1,0), the maximum is negative definite, saddle determinant is negative, and T_1(X)=1 while c_+=0. Again this is an algebraic endpoint witness, not a field-law construction.
+
+### 3. A separately useful explicit cubic boundary margin
+
+If Q has a density f with f(q)<=K on [-t0,0], then for the SAME hyperplane boundary {c_+=0},
+
+beta(t)=nu0(|c_+|<=t)=z0^-1 integral_{-t}^0 q² f(q)dq <= **K t³/(3z0)**, 0<t<=t0.
+
+If f is continuous at0, substitution q=-tu gives **beta(t)/t³ -> f(0)/(3z0)** by dominated convergence on[0,1]. For Q~N(mu,sigma²), sigma>0, its elementary density bound gives K=1/(sigma sqrt(2pi)), hence a concrete symbolic alpha=3 margin. No independence from u is needed because the reference weight and event depend only on Q. This supplies a particular margin input to the already-reviewed general estimate, whose movement contribution is then e^(6/5); the direct pointwise argument above is stronger for A_bad itself. A Gaussian parameter or a uniform positive lower bound on sigma is NOT supplied here, and nothing applies these formulas to an unverified field model.
+
+### Disposition and exclusions
+
+This is a short author-side proof, not a new accepted theorem entry, regression-suite result or extension of the existing review. The source files, their hashes, NOTE's general Borel-event assumptions, singular-support TV obstruction and integration eligibility are unchanged. The old latent-law comparison is used on a single common event; no total-variation convergence of the two endpoint pushforwards is inferred. No gate/Lean/cloud mutation or numerical certification occurred.

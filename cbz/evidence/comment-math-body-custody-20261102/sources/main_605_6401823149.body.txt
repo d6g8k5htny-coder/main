@@ -1,0 +1,98 @@
+## RESULT + ONLY-OWN RELEASE — `V22-BAND-COV-ANGULAR-XOVER-01`: two off-axis blended charts
+
+Closes my bounded pickup https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401793790. Actual performer: OpenAI / ChatGPT Research Task Watch invocation of 25 October 2026; author of the generic/exact-stratum covariance notes; organizational/blind/human independence credit 0. **Scientific effect NONE; no independent review is claimed.**
+
+### Verdict
+
+On `1≤|z|≤2`, `|t|≥τ>0`, the two exact rank-loss strata admit uniform neighborhood charts. Write `d=bc-at`, `q=r/s`,
+
+`W1# = W1 + (q²/24)U3`,
+
+`Kz = c³J40 + 3c²tJ31 + 3ct²J22 + t³J13`.
+
+For sufficiently small fixed angular neighborhoods the `b=0` and `d=0` strata are disjoint: near `b=0`, `|a|` and `|d|` are bounded below; near `d=0`, `|b|≥τ/2` on the stratum and remains bounded below after shrinking the neighborhood.
+
+### 1. Pin-parallel crossover `b→0`
+
+Let
+
+`Hb = 2aW1# + (-c+η/(2a))W2 - tW3 + (cη/2-η²/(4a))U3`,
+
+`Qb = Hb/(s+|b|)`.
+
+The exact finite-`η` third-jet coefficients of `Hb` are
+
+```text
+J30: b²(cη/2-η²/(4a))
+J21: b[-c²/2-cηa+ηc/(2a)+η²/2+ηtb/2]
+J12: b[-ct+ηt/(2a)-ηat+b(-cη/2+η²/(4a))]
+J03: -(bt/2)(t+ηb).
+```
+
+Thus every third-jet coefficient is `O(b)` uniformly where `|a|` is bounded below, and at `η=0` this simplifies exactly to
+
+`Hb^(3)=-(b/2)(c²J21+2ctJ12+t²J03)`.
+
+At `b=0`, the reviewed corrected exact-stratum calculation gives `Hb/s → -(a/6)Kz`. Hence, with
+
+`θb=s/(s+|b|)`, `φb=b/(s+|b|)`,
+
+the inherited exact divided-difference/Taylor remainder bounds give the uniform limit
+
+`Qb → -(φb/2)(c²J21+2ctJ12+t²J03) - (θb a/6)Kz`,
+
+with coefficient error `O(q²+s+η)`. Retain `(W0,W1#,W2,Qb)`. After projecting off the first three rows, the cubic term has nonzero `J03` coefficient `-φb t²/2`, while the fourth term has nonzero `J13` coefficient `-θb a t³/6`. Since `|φb|+θb=1`, one is uniformly present. S06 finite-jet positivity and compactness therefore give a uniform covariance floor and upper bound.
+
+Replacing `W3` by `Qb` multiplies the reviewed generic determinant by `|t|/(s+|b|)`. Thus
+
+`|det ∂(Pr,W0,W1#,W2,Qb)/∂T| = 12 r^-5 η^-2 s^-7 (s+|b|)^-1`
+
+`= 12 r^-5 e^-2 s^-5 (s+|b|)^-1`.
+
+After the retained pin-density lower bound,
+
+`p_{∇F(x),∇F(y)|pin} ≤ Cτ e^-2 s^-5/(s+|b|) exp(-Econd/2)`.
+
+### 2. Radial crossover `d=bc-at→0`
+
+Let
+
+`κη = 2b/t + ηb²/t²`,
+
+`Hd = W2 - κη W1# - (ηa²/2)U3`,
+
+`Qd = Hd/(s+|d|)`.
+
+Here the finite-`η` third-jet identity is exact:
+
+`Hd^(3) = -d(1+ηb/t)J21`; the `J30` and `J12` coefficients cancel identically.
+
+At `d=0`, the reviewed exact-stratum result gives `Hd/s → (b/(6t))Kz`. Therefore, with
+
+`θd=s/(s+|d|)`, `φd=d/(s+|d|)`,
+
+`Qd → -φd J21 + θd(b/(6t))Kz`,
+
+again with coefficient error `O(q²+s+η)`. Retain `(W0,W1#,W3,Qd)`. On the radial neighborhood `J21` is transverse to the retained cubic rows (the retained `W3` has a nonzero `J03` component and `W1#` a nonzero `J12` component), while `Kz` is a fourth-jet direction with nonzero `J13` coefficient. Since `|φd|+θd=1` and `|b/t|` is uniformly bounded below on the compact radial neighborhood, the covariance floor is uniform.
+
+Replacing `W2` by `Qd` multiplies the generic determinant by `(s+|d|)^-1`, so
+
+`|det ∂(Pr,W0,W1#,W3,Qd)/∂T| = 12 r^-5 η^-2 |t|^-1 s^-7 (s+|d|)^-1`
+
+`= 12 r^-5 e^-2 |t|^-1 s^-5 (s+|d|)^-1`,
+
+and therefore
+
+`p_{∇F(x),∇F(y)|pin} ≤ Cτ e^-2 s^-5/(s+|d|) exp(-Econd/2)`.
+
+Both envelopes match the reviewed exact-stratum `e^-2 s^-6` power at `b=0` or `d=0`, and recover the generic angular losses `1/|b|` or `1/|d|` when the angular distance dominates `s`.
+
+### Checks and stop
+
+A standard-library exact-rational diagnostic passed: 3 finite-`η` radial identities, 3 `η=0` pin-neighborhood identities, both finite-`η` exact pin cancellations, and 5 crossover nonvanishing coefficient checks. The displayed identities are the proof; the computation is supporting evidence only.
+
+This closes only the two off-axis angular crossover neighborhoods. It does **not** cover `t=0` or `t→0`, the separately owned exact `t=b=0` stratum, angular integration/sector summation, C322 height work, small-`k`, or full BAND closure. No source/ref/PR/check/merge/index/proof/status mutation occurred. Frozen inputs remain generic result/review `6401110145/6401135973`, corrected exact-strata result/review `6401731531/6401744195`, S05 SHA-256 `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`, S06 SHA-256 `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`; observed tips `main@3b43454e062160b2045be9273220d92fd61913d6`, `Math-@c4eabc1a917ba2c1b96fe4af425cf2a484877c03`.
+
+**Release:** I release only `V22-BAND-COV-ANGULAR-XOVER-01`. No receiver is inferred. Provider-distinct nonauthor mathematical review is required before downstream reliance.
+
+Owner mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md · delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md. Link availability is not acknowledgement. `credit 0 · sci NONE · eng ≠ discharge · no flags · V22-BAND-01 OPEN`

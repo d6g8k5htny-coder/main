@@ -1,0 +1,68 @@
+# Nonauthor mathematical review of PR176 scalar calibration proposal
+
+Disposition: ACCEPT as a separate conditional scalar corollary of frozen parent (15), with deterministic bounded calibration coefficients. No amendment to the frozen parent or to the separate proposal is required. This review does not revalidate the imported Gaussian/contact premises, change any existing Slice-A/Slice-B verdict, or certify the author's reported test history.
+
+## Exact binding and review provenance
+
+- Public object: PR176 separate proposal comment5907571058; root pickup comment5907751117. The exact proposal text was supplied by the root reviewer for this review.
+- Frozen parent: `elder_selected_work/sources/proof176.md`, head `71772a8906cf6663d16be2cd5f63e5d4ebdcee2b`, Git blob `65f24b1f9a7b80522a2ee059f5f6877c9f970f0d`, SHA-256 `a3693664900e23e1e763d88a0b5609936a6f31d844cbe6f18c7d0379b94ba710`.
+- I read the full frozen parent, and independently checked the local SHA-256 and Git blob against those bindings. The head identity is the supplied frozen provenance, not a separate remote checkout verification.
+- Reviewer role: NONAUTHOR analytic reviewer of this separate proposal; no authoring or proposal amendment and no remote writes. All agents involved use the same provider, OpenAI. This offers zero organization-level independence. Separate reasoning must not be presented as independent institutional verification.
+
+## Parent implication and remainder
+
+Projecting parent (15) onto q gives
+
+`p_t(q)=11q^-12 + c t^-2 h(q) + r_t(q)`,
+
+where `h(q)=13q^-14-11q^-12`, `c=C_2/C_0`, and `||r_t||_1=O(t^-4)` on `[1,infinity)`. Projection cannot increase the L1 error. The parent's displayed proof in fact bounds the q-marginal remainder by `C t^-4 q^-12` after integrating the retained variables: the smooth numerator expansion gives terms bounded by `t^-4 q^-16`, and normalization creates additional `t^-4 q^-12` and `t^-4 q^-14` terms. All are bounded by `C t^-4 q^-12` for q>=1. Thus any weighted L1 use with weight bounded by a constant times q^a, a<11, is justified; no critical-eleventh-moment weighted integrability is inferred. The proposed total-variation argument requires only unweighted L1.
+
+This consumes the already-formed, sign-forgotten microscopic POINT law, with fixed parameters and r->0 before t->infinity. It does not concern finite-r errors, signed joint marks, joint spatial positions, height correction, whole-cluster maxima, or their tie boundaries.
+
+## Exact reference law and endpoints
+
+For `S_e(q)=q^-11[1+e(q^-2-1)]`, direct differentiation gives
+
+`p_e(q)=-S'_e(q)=q^-12[11(1-e)+13e q^-2]`.
+
+For `-11/2<e<1`, this is strictly positive at every q in `[1,infinity)`. If e<0 its bracket is smallest at q=1 and equals 11+2e>0. If e>=0 the bracket is bounded below by 11(1-e)>0. Also `S_e(1)=1`, `S_e(infinity)=0`, and integrating the two density terms gives `(1-e)+e=1`. Hence it is exactly a probability survival function, not a truncated formal expansion.
+
+The stated interval is sufficient and sound. At e=1 the density is still positive for every finite q and the law is Pareto13, so that endpoint could also be admitted; its exclusion does not make the stated proposition false. At e=-11/2 the density vanishes at q=1 but is positive for q>1. That endpoint would not meet the proposal's strictly positive density on the closed domain. Outside these endpoint bounds positivity fails either near q=1 or in the far tail. With fixed finite c, or a bounded deterministic function c_hat(t), the stated open interval holds for all sufficiently large t; it is not asserted for every small t.
+
+## Exact pushforward and the moving-map issue
+
+`T_e(q)=S_e(q)^(-1/11)` is continuous, satisfies T_e(1)=1, tends to infinity, and has derivative `p_e(q) S_e(q)^(-12/11)/11>0`. It is therefore an increasing bijection of `[1,infinity)` onto itself, with a measurable inverse. If Q_e has the reference law, then for x>=1,
+
+`P(T_e(Q_e)>x)=S_e(T_e^-1(x))=x^-11`.
+
+Thus its pushforward is exactly Pareto11. For any two probability laws mu and nu on this domain, a measurable bijection with a measurable inverse preserves TV: inverse images identify all measurable events on either space. In particular, for each fixed t,
+
+`dTV(T_e#Law(R/t),Pareto11)=dTV(Law(R/t),reference_e)`.
+
+The equality is exact even though e and the map vary with t. There is no appeal to a general weak-convergence principle for moving maps, and no extension to spatial coordinates. Taking e=c/t^2 makes the reference density equal to the displayed first two terms of p_t, so the right-hand side is O(t^-4).
+
+## Calibration error and sharp coefficient
+
+For a bounded deterministic calibration function c_hat(t), the exact reference density at e_hat=c_hat/t^2 yields
+
+`p_t-p_e_hat=(c-c_hat)t^-2 h+r_t`.
+
+The reverse triangle inequality for L1 shows
+
+`|dTV(Law(R/t),reference_e_hat) - |c-c_hat|t^-2 ||h||_1/2| <= ||r_t||_1/2 = O(t^-4)`.
+
+This bound is uniform over bounded calibration choices; indeed the remainder is the same actual-law remainder, independent of c_hat. The sole sign change of h is at q0=sqrt(13/11). Its total integral is zero, and its positive integral is
+
+`integral_1^q0 h(q)dq=q0^-11-q0^-13=(2/13)(11/13)^(11/2)=kappa`.
+
+Consequently `||h||_1/2=kappa`. Combining this identity with exact TV invariance proves precisely the proposal's formula
+
+`dTV(Law(T_e_hat(R/t)),Pareto11)=kappa |c-c_hat|t^-2+O(t^-4)`.
+
+The sufficient condition c_hat=c+O(t^-2) is correct. A fixed nonzero coefficient error gives a genuine order-t^-2 term. The fourth-order conclusion is an upper bound only: the parent neither supplies nor proves nonvanishing of the remaining coefficient. No Theta(t^-4) claim follows.
+
+Here c_hat(t) is a deterministic mathematical or numerical calibration value, as in the proposal's use of a bounded function of t. If instead one makes c_hat a random estimator coupled to the sampled Q, the displayed unconditional transformed-law identity is not automatically applicable: the same fixed reference/map comparison is then unavailable without an additional joint or conditional argument. The proposal explicitly declines an automatic empirical benefit; this review likewise makes no data-dependent-estimator claim. This boundary does not require amendment of the deterministic corollary.
+
+## Verdict and verification limits
+
+The exact reference construction, domain, endpoint behavior, weighted remainder needed for the scalar proof, moving-map justification, and calibration constant all check analytically. ACCEPT the separately scoped conditional corollary. No smallest AMEND is needed. No source premise, existing verdict, register, prize, global acceptance state, or frozen manuscript is changed by this review. The author's claim of ten rational tests and their failure/recovery history is not independently certified here; the analytic proof above does not depend on that claim.

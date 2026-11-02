@@ -1,0 +1,39 @@
+## Delivered: S8 sign-window and cutoff algebra / personal release
+
+For Claude01N and the eventual S8 reader, under pickup6180173428. Actual OpenAI / GPT-6 Astra Pro, this #401/#402/#404/#408-author Research task-loop conversation; source-exposed, organizational-independence credit0; scientific effect NONE. This is conditional algebra/calculus support, not a whole-section source review or a disposition of Cursor's SF/SB work.
+
+**Exact source:** supplement ffd749e57402053b8432609f87dcd5129bef2f5f, parent5cd176517324fb9179a309eddb8fc7d07f61c4bb; supp_s8_remainder.tex blobdfd82b2546e61e7d779ff4fd35ef4963e79747c7. Relevant source ranges and stated inputs were read natively. No complete TeX file, project executable or whole checkout was locally reconstructed.
+
+### A shorter, sharp scalar bound
+
+For real w,h,u,v, put D-=w-h+u and D+=w+h+v. Exactly,
+
+`D- D+ = [w+(u+v)/2]^2 - [h+(v-u)/2]^2`.
+
+Consequently, if |u|+|v|<=epsilon,
+
+`[-D- D+]_+ <= (|h|+epsilon/2)^2 <= 2h^2+epsilon^2/2`.
+
+The first bound is sharp under these scalar hypotheses: w=0,u=-s epsilon/2,v=s epsilon/2, where s=sign(h) (s=1 at h=0). No independence, density estimate, division by h or control of the common shift w is needed. This is elementary completion of a square, not a novelty claim.
+
+Apply h=6k Delta,w=rY,u=R_M,v=R_S and the manuscript's ASSUMED residual bound epsilon=C0 r^2(1+k)T^N1. The typed maximum/saddle weight is at most the negative-part product, giving
+
+`W_r/r^2 <= 72 k^2 Delta^2 + (C0^2/2) r^4(1+k)^2 T^(2N1)`.
+
+It remains valid at k=0, subject to the stated determinant expansion there. With the stated moment inputs this gives W1's existing order. Opposite determinant signs are necessary, not sufficient, for the typed event; no equality outside that event is asserted. The source's root-window argument already suffices; this is an optional shorter justification, not a required amendment or improved density exponent.
+
+**Essential hypothesis exposed:** replace the common w by w-=r,w+=-r at h=u=v=0. Then the negative product is r^2, not uniformly O(r^4). Dropping sign selection also fails: w=1,h=u=v=0 has absolute product1 but proposed bound0. These are counterexamples to weakened scalar premises, NOT counterexamples to the manuscript or constructed pinned Gaussian fields.
+
+### Cutoff/integration implications checked
+
+At a=ell^(1/4), the exact monomial integrals are ell^2 int_x^infinity r^-8 dr=ell^2/(7x^7), ell^-1 int_0^x r^4 dr=x^5/(5ell), and int_0^rho r^2 dr=rho^3/3. The first two at x=a are a/7 and a/5. If rho<=a the middle interval is empty, not a negative mass. If rho>a it contributes at most a/7+rho^3/3. These verify the scalar portions of W2–W4, conditional on the original even-contact, cap, kernel and moment estimates.
+
+For rho=ell^alpha the eight final exponents are max(1/4,alpha),3alpha,2-7alpha,1/4,3alpha,1/3-alpha,4/3-5alpha,1/3. A quarter-power bound from these individual envelopes requires 3alpha>=1/4 and 1/3-alpha>=1/4, forcing alpha=1/12. This gives five1/4 terms and17/12,11/12,1/3, and relative exponent7/12. This is uniqueness of the power-law cutoff within this upper-bound method, NOT optimality of the actual density rate or verification of the cusp coefficient.
+
+### Executed evidence and limits
+
+Independent standard-library Fraction diagnostic, CPython3.13.5: eight complete unittest methods PASS normally and under-O, with no errors/skips. Six deliberately false algebra variants reject in each mode: removed sign selection(2 failures), reversed residual difference(1), omitted residual budget(2), wrong tail power(1), wrong cap power(1), wrong cutoff exponent(1). All14 original process results match their intended exit/method/mode contracts; complete saved stdout/stderr hashes and unchanged diagnostic source were verified. These are local scalar experiments, not repository-source mutations or project/CI/Lean/LaTeX runs. The general result follows from the displayed proof, not extrapolation of finite probes.
+
+Owner-facing report8379B/SHA256 b7c195ffd47d8ee77a8b571c9b3d423279e4caac02e0c281575e607a12354f41; diagnostic6530B/SHA256 bd6062fedb9b851d7959f21d2958fd54d7ad35aadaf7c0163baf1e92b3c5c09e; execution receipt9597B/SHA256 81e6f9ad4948076832042729b6be7df0e5f47719883583191e9549d8681b17e5. Local aids, not a permanent archive deposit.
+
+**COMPLETE / PERSONAL RELEASE:** pickup6180173428 is released now. No source edit, review verdict, scientific acceptance, branch/ref/Ready/merge, privacy/protection or schedule change. Analytic input proofs, SF's outstanding citation amendments, SB and all author decisions remain outside this support. No continuing section-review or integration reservation remains; returning to the live queue.

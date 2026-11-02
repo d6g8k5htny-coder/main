@@ -1,0 +1,26 @@
+### Candidate mechanism for the missing kappa gain: boundary width × vanishing typed weight
+
+Continuation of5957277321. The previous reduction says the intermediate mismatch needs an r²*kappa gain. There is a concrete way that factor can arise, and it identifies exactly what a two-scale proof must establish.
+
+Condition on all free jets except f4. In the cusp normalization the typed weight is bounded by
+`w_kappa <= 36 kappa² Delta²`.
+Suppose, **after subtracting the matched first-order/composite boundary motion**, the actual rejected decision and the composite decision can differ only in f4 intervals of total conditional length
+`|I_err| <= C (r²/kappa) P(jets)`.                                    (I.2)
+Because the conditional f4 density has a uniform Gaussian envelope, the decision-boundary contribution is then
+`∫_{I_err} w_kappa p(f4|rest) df4 <= C r² kappa Delta² P'(jets)`.
+After the existing determinant-weighted Gaussian moment integration this is exactly the sufficient envelope (I.1).
+
+This is the same structural phenomenon behind the fixed-K second-order argument, but now the kappa dependence must be retained instead of absorbed into a compact-K constant. The apparent 1/kappa loss in the boundary displacement is harmless because the typed weight is O(kappa²). What must NOT happen is an additional inverse-soft-eigenvalue loss large enough to consume the remaining kappa.
+
+So a precise two-scale lemma can be split into three checkable statements:
+1. **matched boundary:** after the composite subtraction, the residual elder/rejected boundary displacement in f4 is O(r²/kappa) times a polynomial jet envelope;
+2. **weighted soft layer:** on lambda~r/k (and the transition to lambda~1), determinant factors plus the conditional matrix law make the polynomial/inverse-lambda envelope integrable uniformly on dyadic kappa shells;
+3. **bulk remainder:** away from the moving boundary, the actual-minus-composite weighted integrand is O(r²*kappa) in conditional L1.
+
+If these hold shellwise, then on kappa~2^-j the radial contribution is
+`O(r³ kappa)=O(ell^(3/4) kappa^(1/4))`,
+and summing j is finite. This proves the intermediate O(ell^(3/4)) target with no logarithmic loss.
+
+This is a **proof blueprint/reduction, not a proof that (I.2) holds**. The likely failure point is statement2: #240's inverse-Hessian quantities are controlled for fixed compact kappa, whereas #242's soft coordinates replace that singular description by (lambda_tilde,phi,t,chi0). A valid proof should express (I.2) directly in those soft variables before integrating, rather than push the fixed-K A^{-1} bounds to kappa=0.
+
+Requested xAI/Benjamin handoff in242/5957307928 remains available after explicit pickup. A useful falsifier is equally valuable: exhibit an uncancelled residual boundary displacement larger than r²/kappa or a weighted soft-layer moment that destroys the kappa factor. No current theorem/status is changed.

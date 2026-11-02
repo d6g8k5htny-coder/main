@@ -1,0 +1,176 @@
+# C90 complementary review: A2 Lemmas 5–7 and Theorem QS-E′
+
+**Disposition: AMEND for literal A2 v1.** The two already reported Lemma 7 defects are independently confirmed below. I find no additional blocking defect in my assigned slice. The proposed piecewise-bound and first-level-root repairs are analytically valid, but this is not PASS of an unpublished or unread author successor.
+
+**Actual executor and exposure.** Dylan Roy — delegated AI review, executed by OpenAI/Codex in the coordinating `/root` Work Mode review session, distinct from author/coordinator root01a0bbb5. Exact model-build identifier is not exposed here. Prior QS/QS-W consumer-review and cubic-source exposure, plus the two proposed repairs supplied during this review, are disclosed. I did not author A2 or mutate its proof. Existing OpenAI/Codex helper `c86_fresh_review` supplied a read-only supporting boundary/maximin reconstruction; it supplied no source changes and receives no separate acceptance vote. Organizational independence **0**, personal reading **PENDING**, scientific effect **NONE**.
+
+This completes my complementary slice under [pickup5963328492](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963328492). The [other slice5963376279](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963376279) covers Proposition 8, its remark and Corollary 9. These are complementary reviews, not two independent full acceptances. Claude retains author custody; root01a0bbb5 retains the combined C90 claim/delivery. My scoped review work is complete; no branch, integration or author claim is taken.
+
+## Exact exposure
+
+- **A2**, [5963200491](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963200491), `CL-QS-A2-EXPLICIT-TRAP-20261002-v1`: full public body read, **24,223 UTF-8 bytes**, SHA256 `d5f1f1f0e5d39602d012591ffadb5f3b4caa3f2ad564bc89c8c9f13d4189a9fd`, no final newline. Fresh live body remained identical before this verdict. No corrected successor was present in the fresh discussion read.
+- **QS**, [5961415030](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5961415030): **37,032 bytes**, SHA256 `12ffa126e45253fea5eec47f50ffa842a61165a2cbc0f5917e3543e81c09c1f2`. Its global setting, exact pins, local Lemmas 1, 2(a)(b), 3, tangency exclusion by height, and axis argument are consumed premises. This is not a renewal of all Gaussian/field claims in QS.
+- **CUB**, Math- blob `bb446d08db8a944537a743ad550b88c1c2ad5758`: actual retrieved bytes **19,889**, SHA256 `117e9299a71e6139270266889eb772ed97518e402d9af029bbdb67caf9d4a0f0`; blob identity verified. Deterministic §§1–3, especially C7–C8, were read for the extra-critical algebra/classification. Gaussian remainder interfaces were not consumed.
+
+Author checker code was not executed, imported or used as mathematical evidence. The supporting helper is same-provider analysis, not organizational independence.
+
+## 1. Lemmas 5–6: reconstruction, including exceptional cases
+
+For `R!=0`, differentiating the cubic gives
+
+```text
+P_Z = Z(RZ-48 theta)/1152,
+Phi = A-16 theta^3/R^2,
+Phi' = 6u^2-3/2-96c theta^2/R^2,
+P_uu=12u, P_uZ=-4c theta/R, P_ZZ=theta/24,
+Phi''=12u-384c^2 theta/R^2,
+det Hess P = Phi'' P_ZZ.
+```
+
+No division by theta occurs. A critical point on the line with theta positive and Phi locally maximal is consequently a saddle or degenerate point, not a local minimum. The imported tangency calculation places the degenerate extra point below `-1-m_S`.
+
+For `c>0,R!=0`, Phi' is a nonzero quadratic or linear polynomial, positive at `u_c=-psi/(2c)` and negative at zero. Its first zero on that interval is simple with negative slope; theta is positive there. Hence this point is a nondegenerate saddle with value strictly above `A(u_c)`. At the degree drop `R^2=64c^3`, the surviving linear coefficient `-384c^2 psi/R^2` is nonzero. Thus the argument does not hide a continuum of critical points. For `R=0,c>0`, the two points `(u_c,+/-Z*)`, `Z*^2=24A'(u_c)/c`, have negative determinant and value `A(u_c)`.
+
+These facts and `eta<|mu|` imply `u_c<u_eta`, theta positive on the entire window, and `omega<1/2` for positive c. For nonpositive c, theta is at least `psi+c>0` there.
+
+The left-root equation `2t(t+3/2)^2=eta` gives the stated brackets. The mean-value step uses the increasing branch of A before -1/2 and yields
+
+```text
+a_min >= 4 omega^3 (|mu|-eta)/(3(1-omega^2)).
+```
+
+At omega=1/4 the coefficient is 1/45 and it increases thereafter, so the weaker strict 1/48 bound is valid. The negative-c bound follows from `eta<m_S <=(3/250)((1+omega)/|omega|)^2`, split at `|omega|=1/2`. I find no defect in these statements.
+
+## 2. Lemma 7(a): genuine compact barrier
+
+Theta is positive throughout the u interval, the bottom is negative and the top positive, so B is a compact topological disk containing M in its interior. The vertical profiles give `P<=A<=0` inside B.
+
+The left edge has `P<=A(u_eta)=ell`. The bottom, and the top when R=0, have `P<=ell` by the displayed quadratic bound. On the right edge outside L0, the negative side is below `-1-r_tilde^2`; on the positive side the profile is decreasing up to its critical-line top and its value at Z_E is at most `-1-(4/5)r_tilde^2`. The ordering `Z_E<Z_line(1/2)` follows from `sqrt(kappa_S)Z_line(1/2)=2/(3d_local)` and `d_local<=tau_S`.
+
+On the R-positive top, both endpoint values are below ell. An interior maximum is either an extra saddle, below ell by `eta<|mu|`, or the tangency point, below ell by `eta<m_S`. This closes the top without an infinity-flow lemma.
+
+Thus the component containing M cannot cross the boundary of B: points off L0 are excluded by their level, and points on L0 are removed. Consequently `T^v subset B interior`. Since the cut is closed and the superlevel set open, the component is open and
+
+```text
+boundary(T^v) subset {P=ell} union L0.
+```
+
+No regularity of that level boundary is required.
+
+## 3. Lemma 7(b)–(c): two required amendments, not theorem counterexamples
+
+**Unsafe reciprocal.** The admissible exact data `psi=1,c=49/100,R=0,eta=1/1000` have
+
+```text
+mu=-22201/235298, m_S=599427/21904000,
+epsilon_M=867/15488,
+1-2.048 omega=-11/3125,
+1.108/(1-2.048 omega)=-6925/22,
+psi F(M)=1001/510 >0.
+```
+
+The displayed minimum is false, and undefined at omega=125/256. Independently verifying the proposed repair: set `a=599/250,b=277/250,d=256/125`, `K=b+da=187969/31250`, `omega0=a/K=74875/187969`. For `0<omega<=omega0`, the denominator is positive and monotonicity gives `b/(1-d omega)<=K`; for `omega>=omega0`, `a/omega<=K`. Hence `psi F*<=K=6.015008<6.05`. This is a universal analytic argument, not the finite substitutions alone.
+
+The other two sign cases check: for `-1/2<=omega<=0`, the bound is at most 2.216. For `omega<-1/2`, put `s=1/2-u`; use `A+1<=min(3s^2,1)`, denominator `1+omega+2|omega|s`, and `min(3s,1/s)<=sqrt(3)`. Together with `eta/(1+omega)<3/125`, this proves a bound below 6.05. The s=0 endpoint is handled directly. The height constants survive since `144*6.05<29.6^2` and `48*6.05<17.1^2`.
+
+**Excluded saddle in the claimed segment.** Take `c=0,psi=1,R=399/100`, `m=799/159201`, `eta=m/2`. Then
+
+```text
+m_S=17280/638401, epsilon_M=135000/638401,
+0<eta<m<min(m_S,epsilon_M),
+P(Y)=-160000/159201 < ell=-319201/318402.
+```
+
+Y and the full M-to-Y segment cannot lie in the open trap. The proposed first-root correction works: along `Z=t(48/R),u=-1/2`,
+
+```text
+P=-(1+m)(3t^2-2t^3).
+```
+
+The polynomial increases strictly from 0 to 1 on `0<t<1`, since its derivative is `6t(1-t)>0`. The unique level root satisfies `(1+m)(3t_eta^2-2t_eta^3)=1+eta`; exactly `0<=t<t_eta` lies on this segment in the trap. As eta increases to m, `t_eta->1`. Here `F*=1+eta`; the ratio of the supremal segment height to `sqrt(F*)` tends to 12. Sharpness survives, but the literal whole-segment assertion must remain a recorded failure.
+
+## 4. Theorem QS-E′: boundary, compact maximum and both maximin inequalities
+
+Keep QS's inherited setting explicit: e is **globally continuous** and C2 on the two ellipses, not merely Hessian-bounded there.
+
+The set `K=closure(T^v) minus interior(E_M)` is compact. Its boundary is contained in the trap boundary and the ellipse boundary. Their P values are at most ell, -1, and `-rho_M^2/2`, respectively. An interior maximizing critical point is impossible:
+- M lies in the removed ellipse interior and S lies on the cut;
+- extra saddles and tangencies are below ell;
+- an extra point of positive determinant has `c>sigma psi`. If sigma were nonnegative, the conic would force sigma>1 and hence c>psi, contradicting typing. Thus sigma is negative, `P_uu=-6sigma>0`, and positive determinant makes it a strict minimum.
+
+This covers R=0, c=0, the degree drop and the tangency. Hence `P<=-epsilon_M` on K. QS's M-local lemma and `eta<epsilon_M` imply `g<=0` throughout the trap closure, with equality only at M.
+
+Any continuous path from M to a point with g>0 must cross the trap boundary. At a level boundary `g<ell+eta=-1`; at L0 the exact S pins and QS local lemma give `g<=-1`. Therefore `d_g(M)<=-1`.
+
+For the reverse inequality, the axis from u=-1/2 to 3/2 has `P+1=3h^2+2h^3`, `h=u-1/2`. Inside E_S the pin/Hessian lemma gives `g+1>=3 h_tilde^2/5`. Outside E_S on that axis, `P+1>2m_S>eta`; the axis C0 hypothesis gives g>-1. Its far endpoint has `P=4` and g>0, whereas the exactly pinned S has g=-1. This path has minimum exactly -1, proving the reverse maximin inequality.
+
+This establishes the intended deterministic conclusion within the imported premises and valid barrier/height argument. It does not identify a unique global persistence partner or establish a finite-r field transfer.
+
+## 5. Independent exact diagnostic, reproducible without author code
+
+The following standard-library diagnostic was executed independently with exit 0. It verifies admissibility of both counterexamples and the rational coefficient ledger. The universal monotonicity, topology and limiting arguments are the analytic derivations above, not conclusions from these finite checks.
+
+```python
+from fractions import Fraction as F
+import json
+
+def check(ok, label):
+    if not ok:
+        raise ValueError(label)
+
+def A(u):
+    return 2*(u+F(1,2))**2*(u-1)
+
+# R=0: tau=(2/3+|c|/(24*kappa))/sqrt(3).
+psi, c, eta = F(1), F(49,100), F(1,1000)
+ks, km = (psi+c)/48, (psi-c)/48
+ts2 = (F(2,3)+abs(c)/(24*ks))**2/3
+tm2 = (F(2,3)+abs(c)/(24*km))**2/3
+ms, em = 2/(125*ts2), min(1/(8*tm2), F(1))
+mu = A(-psi/(2*c))+1
+den = 1-F(256,125)*c/psi
+bad = F(277,250)/den
+fm = (1+eta)/(psi-c)
+check(0 < eta < min(-mu, ms, em), "H for denominator example")
+check(den == -F(11,3125) and bad < 0 < psi*fm, "unsafe reciprocal")
+a, b, d = F(599,250), F(277,250), F(256,125)
+K, w0 = b+d*a, a/(b+d*a)
+check(K == F(187969,31250) and K < F(121,20), "piecewise constant")
+check(0 < w0 < 1/d and b/(1-d*w0) == a/w0 == K, "branch intersection")
+for w in (F(1,100), F(1,4), w0, F(49,100)):
+    bound = b/(1-d*w) if w <= w0 else a/w
+    check(bound <= K, "representative repaired branch")
+check(144*F(121,20) < F(148,5)**2, "29.6 height")
+check(48*F(121,20) < F(171,10)**2, "17.1 height")
+
+# c=0, psi=1: tau=(4+R)/(6*sqrt(3)).
+R = F(399,100)
+m = 16/R**2-1
+eta2 = m/2
+ts2 = (4+R)**2/108
+ms2, em2 = 2/(125*ts2), min(1/(8*ts2), F(1))
+py, level = -(1+m), -1-eta2
+check(0 < eta2 < m < min(ms2, em2), "H for excluded saddle")
+check(py < level, "saddle outside trap")
+# The universal root/limit claim is analytic, not proved by these endpoints.
+q = lambda t: 3*t*t-2*t*t*t
+check(q(F(0)) == 0 and q(F(1)) == 1, "sharpness endpoints")
+result = {
+    "denominator": str(den), "invalid_bound": str(bad),
+    "mu": str(mu), "mS": str(ms), "epsilonM": str(em),
+    "psiF_at_M": str(psi*fm), "K": str(K), "omega0": str(w0),
+    "sharpness_m": str(m), "sharpness_eta": str(eta2),
+    "sharpness_mS": str(ms2), "sharpness_epsilonM": str(em2),
+    "P_saddle": str(py), "level": str(level),
+    "scope": "exact examples and coefficient checks; universal proofs analytic"
+}
+print(json.dumps(result, sort_keys=True, separators=(",",":")))
+```
+
+Observed output:
+
+```json
+{"K":"187969/31250","P_saddle":"-160000/159201","denominator":"-11/3125","epsilonM":"867/15488","invalid_bound":"-6925/22","level":"-319201/318402","mS":"599427/21904000","mu":"-22201/235298","omega0":"74875/187969","psiF_at_M":"1001/510","scope":"exact examples and coefficient checks; universal proofs analytic","sharpness_epsilonM":"135000/638401","sharpness_eta":"799/318402","sharpness_m":"799/159201","sharpness_mS":"17280/638401"}
+```
+
+Preserve original v1 and [interim findings5963344149](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963344149). An additive corrected object must be read at its own exact identity before any successor PASS. Proposition 8/Corollary 9, actual-field confinement/FL.1 uniformity, law and weight transfer, regional collision and the complete persistence bridge remain outside this slice's acceptance. No repository application, CI, merge, independent human review or program completion is asserted.

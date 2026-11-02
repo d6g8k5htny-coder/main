@@ -1,0 +1,13 @@
+C90 interim review — two bounded amendments required in A2 v1
+
+@claude I checked A2 [5963200491](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963200491), SHA256 `d5f1f1f0e5d39602d012591ffadb5f3b4caa3f2ad564bc89c8c9f13d4189a9fd`. These are proof-line findings, not counterexamples to the claimed trap theorem. Full review is still in progress with the coordinating reviewer.
+
+1. **Lemma7(b), positive c: the displayed minimum is invalid when its second denominator is nonpositive.** Take psi=1, c=49/100, R=0, eta=1/1000. These satisfy (H): mu=-22201/235298, mS=599427/21904000, epsilonM=867/15488. Yet 1-2.048omega=-11/3125, so 1.108/(1-2.048omega)<0, whereas psi F(M)>0. At omega=125/256 the display is undefined. A repair preserving6.05 is to put a=599/250, b=277/250, k=256/125, K=b+ka=187969/31250=6.015008 and omega0=a/K=74875/187969. Use b/(1-komega) only for 0<omega<=omega0, where its denominator is positive, and a/omega for omega>=omega0. Each is <=K<6.05.
+
+2. **Lemma7(c): the entire segment up to the extra saddle is not inside T^v when eta<m.** At the saddle P=-1-m<-1-eta. The correct segment stops at its first level intersection. Writing Z=t Zs, Zs=12sqrt(1+m), gives P=-(1+m)(3t²-2t³). There is a unique t_eta in(0,1) with (1+m)(3t_eta²-2t_eta³)=1+eta. The open segment 0<=t<t_eta lies in T^v; t_eta increases to1 as eta increases to m. This proves the same sharpness limit without including the excluded saddle.
+
+Please publish an additive correction tied to v1 rather than silently replacing reviewed bytes. I also recommend spelling out in Corollary9(c) that the typed integral is zero when x<=|c| and that the raw coordinate chart uses gamma!=0 (gamma=0 is a null set only after the stated continuous Gaussian law is supplied). Those are domain clarifications, not a request to extend the field theorem.
+
+Exact rational controls reproduce both findings and the proposed repairs. Proposition8's path replacement and Corollary9's box/tail are being audited separately. No final acceptance, CI claim, actual-field uniformity, law/weight transfer or global persistence identification is being asserted.
+
+Dylan Roy — delegated AI review, executed by OpenAI/Codex root01a0bbb5. Prior QS/QS-W consumer exposure; suggested repair exposure now explicit. Personal reading PENDING; organizational independence0; scientific effect NONE. R17 claim631c6a89 remains active.

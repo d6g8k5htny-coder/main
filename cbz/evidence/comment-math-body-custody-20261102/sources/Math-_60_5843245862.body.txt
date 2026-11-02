@@ -1,0 +1,108 @@
+## Exact-source nonauthor review — **ACCEPT_TECHNICAL (M1–M5 only)**
+
+**Reviewer/disclosure.** OpenAI / GPT-5 Codex, source-exposed, distinct session, no source edits. The source is OpenAI / ChatGPT. This is a legitimate nonauthor technical check under the current workflow but earns **zero organizational-independence credit**.
+
+**Bound object.** PR60 head `ad27c6b8802167ae8798221a9fb8ba3365162b63`; `reviews/pin_micro_covariance_20260926/NOTE.md`; git blob `36cc6cfcc0ab776bc22e5f1f480d4d264b1294a6`; 5,273 bytes; SHA-256 `0351da0680e81c2b001338ede50770b9e00fa5cb09aab438940a9b81d56fd866`.
+
+The exact test file is 1,108 bytes, SHA-256 `2821b146240e9a18ca5667f783b041527d00ced03fea0218711b4402f46f01c0`. It prints `ok` in normal and optimized Python. Hosted runs `36208206938` and `36208206954` are green at the same head. These executions corroborate algebra/custody only; the verdict below comes from the derivation.
+
+### M1 — endpoint solution and coefficient matrix: ACCEPT
+
+Let (a_2=f_{xx}(M)), (a_3=f_{xxx}(M)), and (R_4=f_{xxxx}(M)). The degree-four endpoint equations are
+[
+a_2r+rac12a_3r^2+rac16R_4r^3=0,qquad
+rac12a_2r^2+rac16a_3r^3+rac1{24}R_4r^4=-kr^3.
+]
+They solve to
+[
+a_2=-6kr+rac{r^2}{12}R_4,qquad
+a_3=12k-rac r2R_4.
+]
+The transverse endpoint-gradient equation similarly gives
+[
+f_{xz}(M)=-rac r2T+O_{L^2}(r^2),qquad T=f_{xxz}(M).
+]
+Substituting (Delta x=r^2P,Delta z=r^2Q) into ((f_x/r^3,f_z/r^2)) gives exactly the displayed selected-jet matrix
+[
+B_r=egin{pmatrix}
+0&Q(rP-	frac12)&rP(2rP-1)(rP-1)/12\
+Q&rP(rP-1)/2&0
+end{pmatrix}.
+]
+
+### M2 — minors and anisotropic floor: ACCEPT
+
+Direct expansion gives
+[
+m_{ST}=-rac12Q^2(2rP-1),quad
+m_{SR}=-rac1{12}rPQ(rP-1)(2rP-1),
+]
+[
+m_{TR}=-rac1{24}r^2P^2(rP-1)^2(2rP-1).
+]
+For (rKle1/4), (|m_{ST}|ge Q^2/4) and (|m_{TR}|ge3r^2P^2/256). Hence Cauchy–Binet and (a^2+b^2ge(a+b)^2/2) give
+[
+det(B_rB_r^	op)ge c,(Q^2+r^2P^2)^2=c,h^4.
+]
+Every entry is (O(h)), so (operatorname{tr}(B_rB_r^	op)le Ch^2); therefore both singular values are comparable to (h). I independently re-solved the pin equations and checked the matrix, all three minors, and axial mean coefficient on 144 exact-rational configurations in both normal and optimized Python.
+
+### M3 — residual Schur covariance: ACCEPT
+
+Modulo the contact observation frame
+[
+(f,f_x,f_{xx},f_{xxx},f_z,f_{xz}),
+]
+the residual derivative polynomials (f_{zz},f_{xxz},f_{xxxx}) are linearly independent. With the full positive Fourier spectrum, a zero-variance linear combination would be a polynomial in the rotated lattice frequency vanishing on all of (mathbb Z^2), hence the zero polynomial; its coefficients must vanish. Thus the joint contact covariance is positive definite. Frame compactness makes the Schur lower/upper bounds uniform. The desingularized six-pin observation frame converges to that contact frame, so its finite-(r) residual Schur complement remains between fixed positive matrices for sufficiently small (r).
+
+### M4 — uniform (o(h)) remainder, including both axes: ACCEPT
+
+This point needs a scale-relative estimate, not an absolute remainder. The endpoint equations with one further derivative give uniformly
+[
+a_2=-6kr+rac{r^2}{12}R_4+O_{L^2}(r^3),quad
+a_3=12k-rac r2R_4+O_{L^2}(r^2),
+]
+[
+f_{xz}(M)=-rac r2T+O_{L^2}(r^2).
+]
+After division by (r^3) and (r^2), respectively, these errors contribute
+[
+O_{L^2}(r^2|P|+r|Q|)quad	ext{to }G_1,qquad
+O_{L^2}(r^2|P|)quad	ext{to }G_2.
+]
+The unselected degree-four columns and the local integral remainders contribute no more than the same order plus (O_{L^2}(r^5|(P,Q)|^4)) and (O_{L^2}(r^6|(P,Q)|^4)). On the bounded chart,
+[
+r^2|P|le rh,qquad r|Q|le rh,
+]
+and the higher terms are (O(rh)) as well because (hge r|P|) and (hge|Q|). Consequently
+[
+|G_r-B_rJ_r-mu_r|_{L^2}le C_Krh=o(h)
+]
+uniformly over every nonzero ((P,Q)), including (Q=0) and (P=0). Combining this with M2 and the M3 Schur floor by the (L^2) triangle inequality yields
+[
+ch^2I_2preceqoperatorname{Cov}(G_rmid	ext{pins})preceq Ch^2I_2.
+]
+
+### M5 — mean coercivity and density: ACCEPT
+
+The selected axial calculation gives
+[
+m_1=6kP(rP-1)+O(h),qquad m_2=O(h).
+]
+Since (kge k_->0) and (rKle1/4), the covariance upper bound implies
+[
+m^	opSigma^{-1}mge c,rac{P^2}{h^2}-C;
+]
+one may use (|a+b|^2ge |a|^2/2-|b|^2) to absorb the (O(h)) regression mean. The determinant lower bound (detSigmage ch^4) then gives
+[
+p_{G_rmid	ext{pins}}(0)le Ch^{-2}exp[-cP^2/h^2].
+]
+Finally, (detoperatorname{diag}(r^{-3},r^{-2})=r^{-5}), so the physical-gradient density has the stated (r^{-5}) factor. On (Q=0), (h=r|P|) and the exponential is (e^{-c/r^2}); on (P=0), no artificial longitudinal penalty is asserted.
+
+### Scoped disposition
+
+- M1–M5: **ACCEPT_TECHNICAL**.
+- The determinant-repulsion estimate (5.1), the microdisk count, collar closure, global RN/elder/JETMOD, and any status promotion: **not reviewed and not implied**.
+- PR53 and PR69 are not reopened.
+- Organizational-independence credit: **zero**.
+
+**Next exact obligation:** prove the conditioned determinant estimate carrying the compensating (h^2) factor (or a stronger integrable replacement), on a new immutable source, then obtain a reviewer who did not author or amend that successor.

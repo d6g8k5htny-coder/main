@@ -1,0 +1,822 @@
+Exact scoped release: genuine jointly parameterized coefficient-regression probability kernel. Actualproducer /root/i2_formal_support; actual completed nonauthor reviewer /root/local_runtime_readonly, ACCEPT_SCOPED; earlier primaryAPI assistance disclosed, no PinKernel authorship. Rootfullread finalmain/15controls/audit/narrative/review, manually checked actual mode-gradient/jointtsum/kernelconstruction and independently matched59/59bindings,8triples,5literalheaders/import-definitionprefix,57PinMajorant/72TwoPinRank priorbindings at14:08:56UTC. Main/tests/audit actualinnerexits0/13.494924458s,5.381054459s,4.0596275s; main/tests emptylogs,five exactstd3 rows. No rootcompilerreplay. Kernel.id×constant sample retains actual parameters; PROVED jointlymeasurable G selects genuine kernel.map branch, not zero fallback. Equality with existingtransformedLaw holds EVERY parameter, arbitraryR/singular/colliding included. AllrealL here means fixed-L measurability, NOT jointL, L0C4/rank or prescribed pins; controls retain those distinctions and zeroR nonreproduction. Full literal finalsources/author/review/full59binding manifest/successfulreceipts/auditoutput below; omitted failedsnapshots/rawfailedlogs/objects and largeFINAL_METADATA remain LOCAL-BOUND, not serialized. Corrected actualcleanred02 preceded proof; initial Matrix instance importred/mainAPI/firstderivative/testzeroapply failures retained. NO inverse/pinreproduction/residualindependence/RCD/conditionalMorse/fullI4/scientificpromotion. Graph/STATUS unchanged, sourceexposed/org0. Nextactualproducer i4-pin-reproduction owns actualGram, canonicalinverse/Borelness and correctlawphysicalpinreproduction; its cleanfourtargetred exists, stop14:35/report14:40, no successpresumed.
+
+FULL literal lean-project/PinKernel.lean; 4566B; SHA256 27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678
+```````text
+import PinMajorant
+import Mathlib.Analysis.Matrix.MeasurableSpace
+import Mathlib.Probability.Kernel.Composition.Prod
+import Mathlib.Probability.Kernel.Composition.MapComap
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Jets I4PinMajorant MeasureTheory ProbabilityTheory
+open scoped BigOperators
+namespace I4PinKernel
+
+abbrev PinParameters (d : ℕ) :=
+  (Fin 2 → (Fin d → ℝ)) × (Matrix (PinIndex d) (PinIndex d) ℝ) × (PinIndex d → ℝ)
+def regressionJoint (d : ℕ) (L : ℝ) (p : PinParameters d × (SourceMode d → ℝ)) :
+    SourceMode d → ℝ :=
+  regressionCoefficients d L p.1.1 p.1.2.1 p.1.2.2 p.2
+def regressionKernel (d : ℕ) (L : ℝ) : Kernel (PinParameters d) (SourceMode d → ℝ) :=
+  (Kernel.id ×ₖ Kernel.const (PinParameters d) (sourceLaw d)).map (regressionJoint d L)
+
+private theorem actualMode_contDiff (d : ℕ) (L : ℝ) (m : SourceMode d) :
+    ContDiff ℝ 4 (modeCoefficient d L m) := by
+  cases m with
+  | none =>
+    change ContDiff ℝ 4 (fun _ : Fin d → ℝ => Real.sqrt (1 / sourceZ d L))
+    fun_prop
+  | some p =>
+    rcases p with ⟨k,b⟩
+    change ContDiff ℝ 4 (fun x : Fin d → ℝ =>
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *
+        (if b then Real.sin (phase d L k x) else Real.cos (phase d L k x)))
+    cases b <;> simp [phase] <;> fun_prop
+
+theorem pinCoefficient_joint_measurable (d : ℕ) (L : ℝ) (m : SourceMode d) :
+    Measurable (fun sites : Fin 2 → (Fin d → ℝ) => pinCoefficient d L sites m) := by
+  classical
+  apply Measurable.of_eval
+  intro i
+  rcases i with ⟨a,j⟩
+  cases j with
+  | none =>
+    change Measurable (fun sites : Fin 2 → (Fin d → ℝ) => modeCoefficient d L m (sites a))
+    exact (actualMode_contDiff d L m).continuous.measurable.comp (measurable_pi_apply a)
+  | some j =>
+    change Measurable (fun sites : Fin 2 → (Fin d → ℝ) =>
+      iteratedFDeriv ℝ 1 (modeCoefficient d L m) (sites a) (fun _ => Pi.single j 1))
+    simp_rw [iteratedFDeriv_one_apply]
+    have hh : Measurable (fun sites : Fin 2 → (Fin d → ℝ) =>
+        (sites a,(Pi.single j 1 : Fin d → ℝ))) :=
+      (measurable_pi_apply a).prodMk measurable_const
+    exact ((actualMode_contDiff d L m).continuous_fderiv_apply (by norm_num)).measurable.comp
+      hh
+
+theorem pinObservation_joint_measurable (d : ℕ) (L : ℝ) :
+    Measurable (fun p : (Fin 2 → (Fin d → ℝ)) × (SourceMode d → ℝ) =>
+      pinObservation d L p.1 p.2) := by
+  apply Measurable.of_eval
+  intro i
+  unfold pinObservation scalarSeries
+  apply Measurable.tsum
+  intro m
+  exact (((measurable_pi_apply i).comp (pinCoefficient_joint_measurable d L m)).comp measurable_fst).mul
+    ((measurable_pi_apply m).comp measurable_snd)
+
+theorem regressionJoint_measurable (d : ℕ) (L : ℝ) :
+    Measurable (regressionJoint d L) := by
+  classical
+  apply Measurable.of_eval
+  intro m
+  have hc (i : PinIndex d) : Measurable (fun p : PinParameters d × (SourceMode d → ℝ) =>
+      pinCoefficient d L p.1.1 m i) :=
+    ((measurable_pi_apply i).comp (pinCoefficient_joint_measurable d L m)).comp (measurable_fst.fst)
+  have hu (j : PinIndex d) : Measurable (fun p : PinParameters d × (SourceMode d → ℝ) =>
+      pinObservation d L p.1.1 p.2 j) :=
+    ((measurable_pi_apply j).comp (pinObservation_joint_measurable d L)).comp
+      (measurable_fst.fst.prodMk measurable_snd)
+  unfold regressionJoint regressionCoefficients
+  apply Measurable.add
+  · apply Measurable.sub
+    · exact (measurable_pi_apply m).comp measurable_snd
+    · apply Finset.measurable_sum
+      intro i _
+      apply Finset.measurable_sum
+      intro j _
+      exact ((hc i).mul (measurable_fst.snd.fst.eval_matrix)).mul (hu j)
+  · apply Finset.measurable_sum
+    intro i _
+    apply Finset.measurable_sum
+    intro j _
+    exact ((hc i).mul (measurable_fst.snd.fst.eval_matrix)).mul
+      ((measurable_pi_apply j).comp measurable_fst.snd.snd)
+
+theorem regressionKernel_markov (d : ℕ) (L : ℝ) :
+    IsMarkovKernel (regressionKernel d L) := by
+  unfold regressionKernel
+  exact Kernel.IsMarkovKernel.map _ (regressionJoint_measurable d L)
+
+theorem regressionKernel_apply (d : ℕ) (L : ℝ) (p : PinParameters d) :
+    regressionKernel d L p = transformedLaw d L p.1 p.2.1 p.2.2 := by
+  ext s hs : 1
+  rw [regressionKernel,Kernel.map_apply' _ (regressionJoint_measurable d L) _ hs,
+    Kernel.id_prod_apply' _ _ (regressionJoint_measurable d L hs),Kernel.const_apply,
+    transformedLaw,Measure.map_apply (regressionCoefficients_measurable d L p.1 p.2.1 p.2.2) hs]
+  rfl
+
+end I4PinKernel
+
+```````
+
+FULL literal lean-project/PinKernelTests.lean; 4048B; SHA256 868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9
+```````text
+import PinKernel
+
+noncomputable section
+open I4Foundation I4Source I4PinMajorant I4PinKernel I4DeterministicC4
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators Manifold ContDiff
+namespace PinKernelTests
+attribute [local instance] I4TorusC4.actualChartedSpace
+
+private theorem zeroR_law (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) : regressionKernel d L (sites,0,v) = sourceLaw d := by
+  classical
+  rw [regressionKernel_apply,transformedLaw]
+  have he : regressionCoefficients d L sites 0 v = id := by
+    funext omega m
+    simp [regressionCoefficients]
+  rw [he,Measure.map_id]
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) : regressionKernel d L (sites,0,v) = sourceLaw d :=
+  zeroR_law d L sites v
+
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) (omega : SourceMode d → ℝ) :
+    regressionJoint d L ((sites,0,v),omega) = omega := by
+  classical
+  funext m
+  simp [regressionJoint,regressionCoefficients]
+
+-- The complete parameter product is admitted, with no inverse/rank premise.
+example (d : ℕ) (L : ℝ) (p : PinParameters d) :
+    regressionKernel d L p = transformedLaw d L p.1 p.2.1 p.2.2 :=
+  regressionKernel_apply d L p
+
+-- Singular all-ones R and colliding physical sites still give the literal law.
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    regressionKernel d L (fun _ => x,fun _ _ => 1,v) =
+      transformedLaw d L (fun _ => x) (fun _ _ => 1) v :=
+  regressionKernel_apply d L _
+
+example (d : ℕ) (L : ℝ) : IsMarkovKernel (regressionKernel d L) :=
+  regressionKernel_markov d L
+
+example (d : ℕ) (L : ℝ) (p : PinParameters d) :
+    IsProbabilityMeasure (regressionKernel d L p) := by
+  let : IsMarkovKernel (regressionKernel d L) := regressionKernel_markov d L
+  infer_instance
+
+example (d : ℕ) (L : ℝ) (p : PinParameters d) :
+    regressionKernel d L p Set.univ = 1 := by
+  let : IsMarkovKernel (regressionKernel d L) := regressionKernel_markov d L
+  exact measure_univ
+
+-- This actual mapped kernel cannot be the nonmeasurable-map zero fallback.
+example (d : ℕ) (L : ℝ) (p : PinParameters d) : regressionKernel d L p ≠ 0 := by
+  let : IsMarkovKernel (regressionKernel d L) := regressionKernel_markov d L
+  intro h
+  have hu : regressionKernel d L p Set.univ = 1 := measure_univ
+  simp [h] at hu
+
+example (d : ℕ) (L : ℝ) (s : Set (SourceMode d → ℝ)) (hs : MeasurableSet s) :
+    Measurable (fun p => regressionKernel d L p s) :=
+  (regressionKernel d L).measurable_coe hs
+
+example (d : ℕ) (L : ℝ) (m : SourceMode d) :
+    Measurable (fun sites : Fin 2 → (Fin d → ℝ) => pinCoefficient d L sites m) :=
+  pinCoefficient_joint_measurable d L m
+
+example (d : ℕ) (L : ℝ) :
+    Measurable (fun p : (Fin 2 → (Fin d → ℝ)) × (SourceMode d → ℝ) =>
+      pinObservation d L p.1 p.2) := pinObservation_joint_measurable d L
+
+example (d : ℕ) (L : ℝ) : Measurable (regressionJoint d L) :=
+  regressionJoint_measurable d L
+
+-- d0 and L0 are valid measurability/probability boundaries, not regularity claims.
+example (v : PinIndex 0 → ℝ) : regressionKernel 0 0 (fun _ => 0,0,v) = sourceLaw 0 :=
+  zeroR_law 0 0 _ v
+
+-- Correct-law C4 consumer uses equality with the proved pushforward law.
+example (d : ℕ) (L : ℝ) [Fact (0 < L)] (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    ∀ᵐ eta ∂regressionKernel d L (fun _ => x,fun _ _ => 1,v),
+      ContDiff ℝ 4 (sourceField d L eta) ∧
+      ContMDiff 𝓘(ℝ,Fin d → ℝ) 𝓘(ℝ) 4 (I4Torus.torusSourceField d L eta) := by
+  rw [regressionKernel_apply]
+  exact (transformedLaw_regular d L (fun _ => x) (fun _ _ => 1) v).mono
+    (fun _ h => h.2)
+
+-- Zero R need not reproduce a nonzero prescribed observation.
+example : pinObservation 1 1 (fun _ => 0)
+    (regressionJoint 1 1 ((fun _ => 0,0,fun _ => 1),0)) (0,none) ≠ 1 := by
+  classical
+  simp [regressionJoint,regressionCoefficients,pinObservation,scalarSeries]
+
+end PinKernelTests
+
+```````
+
+FULL literal lean-project/PinKernelAxioms.lean; 285B; SHA256 e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4
+```````text
+import PinKernel
+#print axioms I4PinKernel.pinCoefficient_joint_measurable
+#print axioms I4PinKernel.pinObservation_joint_measurable
+#print axioms I4PinKernel.regressionJoint_measurable
+#print axioms I4PinKernel.regressionKernel_markov
+#print axioms I4PinKernel.regressionKernel_apply
+
+```````
+
+FULL literal EXACT_PARENT_REVIEW_LOCAL_RUNTIME_READONLY.md; 13890B; SHA256 d552308b16193e3dfc19a120fbde122d7b1aeae7d946182b18baa635c644312a
+```````text
+# Exact jointly parameterized PinKernel review
+
+Actual reviewer: OpenAI/Codex `/root/local_runtime_readonly`; producer: actual collaboration agent `/root/i2_formal_support`; owner: `/root`. Actual independent review cut **2026-10-08 14:03:20.535493 UTC**, followed by the separately recorded final report readback. I did not implement this kernel consumer, edit its sources or invoke a compiler. I supplied the earlier primary-API feasibility route: actual mode-row continuity, varying-coefficient `Measurable.tsum`, and the `id × const` mapped-kernel construction. I previously reviewed its source-law/jet/PinMajorant dependencies and authored a separate TwoPinAlgebra helper; this PinKernel module does not import that helper or TwoPinRank. These exposures are disclosed. Organizational independence **0**; reviewer compiler/replay, inference, runtime mutation and native-publication calls **0**.
+
+**Disposition: ACCEPT_SCOPED.** I independently inspected the completed exact five proofs, actual 15 controls, five axiom rows, all retained execution failures and authoritative final documentary freeze. The actual jointly measurable coefficient transformation and genuine probability-kernel family, including equality with the existing transformed law at **every parameter**, are proved in the reviewed scope. No must-fix found. This verdict is not an RCD, prescribed-pin reproduction, covariance-inverse, residual-independence, conditional Gaussian/Morse or full-I4 approval.
+
+## Exact reviewed version and binding readback
+
+Common absolute base for relative paths below:
+`/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/`.
+
+| Actual final object | Bytes | SHA-256 |
+|---|---:|---|
+| `i4-pin-kernel/lean-project/PinKernel.lean` | 4566 | `27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678` |
+| `i4-pin-kernel/lean-project/PinKernelTests.lean` | 4048 | `868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9` |
+| `i4-pin-kernel/lean-project/PinKernelAxioms.lean` | 285 | `e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4` |
+| `i4-pin-kernel/IMPLEMENTATION.md` | 8270 | `5dd0dbc830bb7347e5085ae64e2f24572dad2c7d10d8c2a4f83e09cbb9250cca` |
+| `i4-pin-kernel/FINAL_FREEZE.json` | 20379 | `7de967564d7f00399c2ff45c6fcfca35cbd66380225876d731828254dbfcfe17` |
+| `i4-pin-kernel/freeze-integrity.json` | 13286 | `d0e997808d1a749d976900bf16d5e8553981e09cfc56dd10012152b6706eea65` |
+| `i4-pin-kernel/evidence/FINAL_METADATA.json` | 39478 | `7c81f822d00dffb521336d63729a087728ba16cc3c8848c7dbd5d145088b9331` |
+
+The actual final manifest records **14:02:13.728945 UTC**. The producer separately notified me of the authoritative freeze and terminal compiler release. My read-only Python check at **14:02:58.522710 UTC** re-read every declared path and independently matched **59/59 byte counts and hashes**: 33 owned source/evidence files, 14 observed predecessor sources, nine pinned primary files and three actually emitted objects. I inspected the full main, tests, audit and author narrative, the exact red/failure/green logs and receipts, the driver/context and metadata structure. An additional direct check at 14:03:20 independently matched the five **raw-byte public theorem headers**, the complete pre-theorem definition/import prefix, all eight receipt/snapshot/log triples, and the anchored 15-example count. No declaration token `sorry`, `admit` or custom `axiom` occurs in the active main.
+
+I also independently refreshed the existing PinMajorant manifest **57/57** bindings (`84c1228ef820725286581162e11f0b15cc8dd8de551a1884256661d16cfd3912`) and TwoPinRank manifest **72/72** bindings (`c3e57e1d2c29d1611d8f966127aa39b98e894872dafb87dfbcb0af1fc2b73e70`); every binding remained unchanged. The latter is an observed preservation check, not an imported theorem or a second approval of my own earlier helper. The new 59-entry manifest is a declared observation set, not an invented transitive closure of every dependency.
+
+## Literal statements and actual source semantics
+
+The parameter space is the actual product
+
+`(Fin 2 → (Fin d → ℝ)) × Matrix (PinIndex d) (PinIndex d) ℝ × (PinIndex d → ℝ)`,
+
+with unchanged `PinIndex d = Fin 2 × Option (Fin d)`. The sample space is `SourceMode d → ℝ`, where the existing canonical real Fourier modes are the zero mode and the half-lattice cosine/sine pairs. `sourceLaw d` is exactly the existing independent variance-one Gaussian coefficient product law. Its actual probability instance supplies the constant kernel's Markov property. There is no alternate measure or assumed conditional-law interface.
+
+The exact five targets are:
+
+1. For each actual mode, its complete pin-coefficient row vector is measurable as **both physical sites vary**.
+2. The literal scalar-series observation vector is measurable jointly in **sites and coefficient sample**.
+3. The literal `regressionJoint` is measurable jointly in **sites, R, v and sample**.
+4. The actually defined `regressionKernel` is a genuine **IsMarkovKernel**.
+5. For **every** parameter p, its value equals the unchanged `transformedLaw d L p.1 p.2.1 p.2.2`.
+
+All hold for each fixed d and each fixed real L. They do not state joint measurability in L. Allowing every real L in a measurability signature is valid: each individual mode has a fixed real amplitude and a smooth trigonometric spatial factor, even at the algebraic L0 boundary. It does not extend physical normalization, rank or the positive-period C4 law to L0. Neither distinct sites nor an invertible R is assumed or needed for these five statements.
+
+## Proof inspection: actual rows and varying-coefficient sums
+
+The private `actualMode_contDiff` reconstructs the literal constant/cosine/sine formulas from the source module. It supplies no random regularity or desired rank assumption. Value rows are order-zero mode evaluations. Gradient rows retain the actual order-one `iteratedFDeriv` and explicitly rewrite with `iteratedFDeriv_one_apply`; the resulting actual `fderiv` evaluation at `Pi.single j 1` is continuous by the pinned `ContDiff.continuous_fderiv_apply`. The typed pair `(sites a, coordinate direction)` and Pi evaluation maps establish the required measurability. A supplied jointly measurable coefficient function is not a premise.
+
+The next proof unfolds the actual `pinObservation` and `scalarSeries`, rather than calling the predecessor's fixed-coefficient measurability theorem with varying coefficients. Each summand is jointly measurable in sites/sample, and actual countability of the canonical mode index licenses the generated additive `Measurable.tsum`. This proves Borel measurability of the literal unordered sum **including its default value outside the summability event**. It does not falsely assert convergence for every sample.
+
+Finite sums and products of actual matrix/target/sample coordinate evaluations prove the exact G formula measurable. The matrix measurable-space instance comes from the actual pinned matrix module, and the inferred entries in `eval_matrix` match the same i,j used in the definition. The output's countable-product measurable structure is handled by coordinatewise evaluation. No homeomorphism to an unrelated sample space, covariance inverse or source-law AE smoothness assumption enters this proof.
+
+The existing PinMajorant shared-event equality between Borel scalar-series observations and actual field/Fréchet observations remains a separate imported statement. The new proofs do not silently replace that AE equality by an every-sample derivative identity for arbitrary Fourier series.
+
+## Proof inspection: genuine kernel and every-parameter law
+
+The definition is exactly
+
+`(Kernel.id ×ₖ Kernel.const (PinParameters d) (sourceLaw d)).map (regressionJoint d L)`.
+
+The identity factor retains p in the sampled output `(p,omega)`; the constant factor provides the same actual Gaussian coefficient sample. This is not input-padding `prodMkLeft` and does not discard parameters before applying G. Both factors are Markov; their product is Markov. The proof then invokes `Kernel.IsMarkovKernel.map` with the **actually proved** `regressionJoint_measurable`.
+
+This explicit measurability proof is essential. In the actual pinned API `Kernel.map` has a **zero-kernel fallback** when the mapping function is not measurable. `IsZeroOrMarkovKernel` by itself would not certify a probability kernel. Here the correct branch is proved, and the tests separately establish actual mass one and nonzero value for every parameter. These claims are not inferred merely from a default measure-map probability instance.
+
+The last proof applies measurable-set extensionality, the explicit measurable `Kernel.map_apply'` branch, `Kernel.id_prod_apply'`, and `Kernel.const_apply`. It then uses the existing actual fixed-parameter measurable regression map in `Measure.map_apply`. Both sides reduce to the same literal preimage under `omega ↦ regressionCoefficients ... omega`. This establishes equality at **every p**, with no AE parameter exception, unspecified version or null-target disintegration convention. It also licenses the subsequent correct-law C4 control by equality to the existing transformed law.
+
+## Actual executions, failures and controls
+
+I inspected every retained compiler receipt and raw log. All eight source snapshots and logs matched their corresponding receipt hashes; none reports a timeout. The actual final command results are:
+
+| Actual producer command tag | Inner compiler exit | Elapsed | Observed output |
+|---|---:|---:|---|
+| `main-attempt03 PinKernel.lean` | 0 | 13.494924458s | empty |
+| `tests-attempt02 PinKernelTests.lean` | 0 | 5.381054459s | empty; 15 examples |
+| `axioms-attempt01 PinKernelAxioms.lean` | 0 | 4.0596275s | five exact standard-three rows |
+
+The initial target-red run is retained as an actual **invalid type/import red**: it lacked the matrix measurable-space instance. It is not credited as a clean mathematical red. Corrected target-red02 source `23e6040ece77afe4a4dacb89de036e5da8e47b697cc159ec8dafcd54b5c5a541` ran 10.650121458s, exit1, with exactly the five intended empty goals and no unrelated error. The final five raw headers and definition prefix are byte-identical to that clean red.
+
+Main01's actual 14.844531750s failure retained ambiguous `Measurable.eval` application/type inference and two unused simp warnings. Main02's 13.760897750s failure retained the nondefinitional iterated-first-derivative/fderiv conversion. The final proof uses the genuine theorem rather than changing the observable. Tests01's 13.132393417s failure retained unavailable `Measure.zero_apply` and its dependent unfinished contradiction; ordinary zero-measure simplification repaired that fixture. No failed run is recast as success, and no wrapper outer exit substitutes for the JSON's inner compiler exit.
+
+The 15 actual controls cover zeroR identity on samples and equality to sourceLaw; arbitrary every-parameter equality; singular all-ones R and coincident sites; Markov/probability/mass-one/nonzero-kernel properties; Borel measurable-set evaluation and the three actual measurable maps; and the d0/L0 identity boundary. Two scope controls are especially substantive:
+
+- A positive-period, singular/colliding transformed-kernel consumer obtains SAME-coefficient cover C4 and named-atlas torus C4 by **kernel-law equality then `transformedLaw_regular`**. It does not reuse original-source-law AE smoothness after changing the law.
+- ZeroR with a nonzero requested target and zero original sample does **not** reproduce that pin. This actual negative control rules out interpreting arbitrary-R K as an already conditioned law.
+
+I read the complete five-row audit log, SHA `6e308ed1e8b976638be2c663996d9483a22bd1d24d1da5eb8776fa742b22819f`. Each public theorem has exactly `[propext, Classical.choice, Quot.sound]`. The private mode proof is transitively covered by the public coefficient theorem's audit. No custom axiom or sorryAx appears. The source and fixture type checks are actual producer executions using the existing Lean4.34.1 context, one thread, nice10 and cached imports. I read the timeout-safe driver; no new compiler, imported-library rebuild or kernel replay was performed by me or credited implicitly to root.
+
+## Primary signatures and exact remaining gates
+
+I independently read the pinned actual signatures for matrix evaluation measurability; `ContDiff.continuous_fderiv_apply` (ContDiff/Defs.lean:1278); `iteratedFDeriv_one_apply` (FTaylorSeries.lean:939); generated additive `Measurable.tsum` (Polish/Basic.lean:1034); actual Kernel definition/evaluation measurability; identity/constant Markov kernels; product parameter retention; and measurable-map Markov/evaluation lemmas. Their actual nine file bindings were matched in the final manifest. The pinned source HEAD is `d13f23b723b8a846827a245b89c10fc7d3f11612`.
+
+This finishes the exact jointly parameterized transformation-kernel target. Choosing R as the actual covariance inverse on distinct torus pins, proving rank and pin reproduction, residual independence and Gaussian factorization, identifying an RCD/canonical every-prescribed-target law, handling quotient-site invariance, and conditional Morse/distinct critical values remain further consumers. Joint Banach-field measurability or whole-field Gaussianity is not a conclusion of these five coefficient-kernel theorems. No compact floor, full I4, global I2, numerical confirmation, scientific acceptance or local operating-rule/deployment approval is granted.
+
+No material amendment is needed in this frozen package. This is a completed exact-version nonauthor source/evidence review, with route assistance and prior exposures disclosed; no architecture approval, author self-claim, silence, unseen future source or deadline supplied the verdict.
+
+```````
+
+FULL literal FINAL_FREEZE.json; 20379B; SHA256 7de967564d7f00399c2ff45c6fcfca35cbd66380225876d731828254dbfcfe17
+```````text
+{
+  "actual_utc": "2026-10-08T14:02:13.728945+00:00",
+  "producer": "/root/i2_formal_support",
+  "entries": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/IMPLEMENTATION.md",
+      "bytes": 8270,
+      "sha256": "5dd0dbc830bb7347e5085ae64e2f24572dad2c7d10d8c2a4f83e09cbb9250cca",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/PLAN.md",
+      "bytes": 2783,
+      "sha256": "c8435998247e42b0478834bcfb5217e88758da163979bf0f9bdadaab94db3a03",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/compile-context.json",
+      "bytes": 3879,
+      "sha256": "74734fd489e073b37610eee01126fdbad5873856a85369348f5a25ee8ba7cea4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/FINAL_METADATA.json",
+      "bytes": 39478,
+      "sha256": "7c81f822d00dffb521336d63729a087728ba16cc3c8848c7dbd5d145088b9331",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/axioms-attempt01.json",
+      "bytes": 887,
+      "sha256": "15203313f22220b0b3f8e175ee932ff708c7474100774dc3e38dab3e63fde0a4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/axioms-attempt01.lean",
+      "bytes": 285,
+      "sha256": "e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/axioms-attempt01.log",
+      "bytes": 503,
+      "sha256": "6e308ed1e8b976638be2c663996d9483a22bd1d24d1da5eb8776fa742b22819f",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt01.json",
+      "bytes": 884,
+      "sha256": "002d39632a315ffd3b36ae9f72a06ae898637e49d13842aba2a0b91c1579a728",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt01.lean",
+      "bytes": 4274,
+      "sha256": "a8bb6b1630f6889a210d3f8b126e424047862f5d3cabe81e0a9a00691aceb566",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt01.log",
+      "bytes": 2245,
+      "sha256": "e0c929461a87d2e0984adeca372858d3cb8749697646d4a8b24cb32beb20f6ad",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt02.json",
+      "bytes": 884,
+      "sha256": "fbf6ea7bdcf3928faa13ae01c5c366ee2617929275b33a118989ca854a721a4d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt02.lean",
+      "bytes": 4508,
+      "sha256": "75b5a17c42dc9d5b64875d6bc49c277dc14e6461397bb5e7fe717489ff9a2a1e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt02.log",
+      "bytes": 244,
+      "sha256": "183c3b54755f91920b740b161a93e759ae811a5c027666b2793040c7896f4ee2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt03.json",
+      "bytes": 878,
+      "sha256": "1082e3b844897032578c60fe20c4cbdb630f4d992f60d648ca5807e9d63a85ed",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt03.lean",
+      "bytes": 4566,
+      "sha256": "27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/main-attempt03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red.json",
+      "bytes": 877,
+      "sha256": "7187ccb75ac2d77301739e4f13e64c40efac0944e93f28fbba10b9a528af5b9e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red.lean",
+      "bytes": 1498,
+      "sha256": "8bccff619731c9ef2f1fab0921669631f8c684a3662b81c274ef184082bf2167",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red.log",
+      "bytes": 1330,
+      "sha256": "ce81165b5c464b52567bb9a498ea3dc965f9954c7eb6e6d2d8baf86c49b0ebf5",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red02.json",
+      "bytes": 884,
+      "sha256": "44b2582f8966782544b5bb9cf486aa6922bb301a5613ca3f3679ed10833d7845",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red02.lean",
+      "bytes": 1545,
+      "sha256": "23e6040ece77afe4a4dacb89de036e5da8e47b697cc159ec8dafcd54b5c5a541",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/target-red02.log",
+      "bytes": 588,
+      "sha256": "05e5fcdc6cc3c39a0a9c4a45d8e12b9f65e60b5a61364a575bc4bd3fcbe83e84",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt01.json",
+      "bytes": 894,
+      "sha256": "b10af7f65035b46c0a83ed1f775a1482638fc64f19d77632ca0fe945dbc0d1f0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt01.lean",
+      "bytes": 4082,
+      "sha256": "963e4c64964128a060db7fce342ca580386683d63d391cfdf123f235ad520d22",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt01.log",
+      "bytes": 333,
+      "sha256": "966f32379ad758707ccad3ffd71ed7e7702f2afff06f966c82df7ea5fbe18e37",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt02.json",
+      "bytes": 894,
+      "sha256": "8e41c37f9c906eec7a5fa470e497a557eceaf6f09f06395f08ec4e5a300d9f9f",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt02.lean",
+      "bytes": 4048,
+      "sha256": "868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/evidence/tests-attempt02.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/freeze.py",
+      "bytes": 2978,
+      "sha256": "042fa1c811ded02cb66bb5070ac647c0d9689c320094fd22125a9c6191318763",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/PinKernel.lean",
+      "bytes": 4566,
+      "sha256": "27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/PinKernelAxioms.lean",
+      "bytes": 285,
+      "sha256": "e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/PinKernelTests.lean",
+      "bytes": 4048,
+      "sha256": "868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/run_compile.py",
+      "bytes": 1243,
+      "sha256": "a0764d8b52da5cb062a20b7f1f21021ed0e9efe6b57324c2af3355354945d85c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/GaussianSeriesFoundation.lean",
+      "bytes": 4262,
+      "sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SpectralWeights.lean",
+      "bytes": 6924,
+      "sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceFourierSeries.lean",
+      "bytes": 6524,
+      "sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceC4.lean",
+      "bytes": 6438,
+      "sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceLattice.lean",
+      "bytes": 6284,
+      "sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceKernel.lean",
+      "bytes": 5293,
+      "sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceGaussianLaw.lean",
+      "bytes": 8984,
+      "sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceCovariance.lean",
+      "bytes": 3925,
+      "sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceTorus.lean",
+      "bytes": 5182,
+      "sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean",
+      "bytes": 5044,
+      "sha256": "1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean",
+      "bytes": 6728,
+      "sha256": "e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-torus-c4/lean-project/SourceTorusC4.lean",
+      "bytes": 6081,
+      "sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/lean-project/DeterministicSourceC4.lean",
+      "bytes": 2551,
+      "sha256": "aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorant.lean",
+      "bytes": 7419,
+      "sha256": "859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Matrix/MeasurableSpace.lean",
+      "bytes": 2496,
+      "sha256": "85ec343854cd8c4460433760e4dffaa995681a1706f148b5c2e13ba5d0ff784f",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/ContDiff/Defs.lean",
+      "bytes": 64767,
+      "sha256": "b1bbfe431bab224de42a989f3f31d7480868b415dd80abf43bf318310c05ed02",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean",
+      "bytes": 52961,
+      "sha256": "f6ebee83905f13d5648f1a9bff39c15b6109f161fdf5d482af9c5f22176ba535",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Constructions/Polish/Basic.lean",
+      "bytes": 57591,
+      "sha256": "f064495bd1ffd52cf4866379acb6730f9bf07ebe3797edac8adcf00df93099b6",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Defs.lean",
+      "bytes": 17418,
+      "sha256": "7cae874284d0f392f432fa76c18abf676c953e23907019410099bbd03fddb7ac",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Basic.lean",
+      "bytes": 18895,
+      "sha256": "903572b8a1c881dd278ad402772be8616d69c6ceabf59bf70fb14a484163d331",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Composition/Prod.lean",
+      "bytes": 11666,
+      "sha256": "6162fc36bc105f1e6f60b81f21f19981b4c6c5176f6574911848ca72795fbda8",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Composition/MapComap.lean",
+      "bytes": 28496,
+      "sha256": "0dcdca1e7ed06827dc4295414354f81a1def7f1fc12fd51d409fb793fd242266",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Measure/Map.lean",
+      "bytes": 14164,
+      "sha256": "775c69d7084f194fedd5c0f67888432ae151bf68481f86e1b6e64b23da5ee7c1",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernel.olean",
+      "bytes": 171240,
+      "sha256": "3f756d4cb9cfeef58a51a7380a9dfc6e4bf83e4cfcfe90235256bc1e486ea953",
+      "kind": "actual-final-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernelTests.olean",
+      "bytes": 45272,
+      "sha256": "fd87861a773020e6ab61f07b5374a80e550e0dd2592d6ddda29f05d3c620d65f",
+      "kind": "actual-final-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernelAxioms.olean",
+      "bytes": 1400,
+      "sha256": "e6339906f506e955b0a55c2a89b0427c032b56ee0fd697dff7b73446c16ddd8b",
+      "kind": "actual-final-emitted-object"
+    }
+  ]
+}
+
+```````
+
+FULL literal IMPLEMENTATION.md; 8270B; SHA256 5dd0dbc830bb7347e5085ae64e2f24572dad2c7d10d8c2a4f83e09cbb9250cca
+```````text
+# Actual jointly parameterized pin-regression kernel
+
+Producer `/root/i2_formal_support`; owner and final acceptance coordinator `/root`. Source/API route assistance from actual `/root/local_runtime_readonly` is disclosed. That agent did not implement this consumer. The producer authored several imported foundation/Fourier/Gaussian/jet/torus/deterministic-C4/PinMajorant dependencies. This author record is source/proof-route exposed and has organizational independence zero; it supplies no independent final vote or scientific promotion. Previous frozen modules, local workers, runtime, rules, graph/STATUS and native records were not edited.
+
+## Five completed exact targets
+
+`PinKernel.lean` constructs the literal parameter space
+`PinParameters d = (Fin2 → physical sites) × Matrix (PinIndex d) (PinIndex d) ℝ × (PinIndex d → ℝ)`.
+It uses the unchanged `PinIndex d = Fin2 × Option(Fin d)`, actual per-mode value/physical-coordinate-gradient rows, scalar-series `pinObservation`, and exact `regressionCoefficients` from PinMajorant. `regressionJoint` is that actual coefficient transformation on `(parameter,sample)`. `regressionKernel` is exactly `(Kernel.id ×ₖ Kernel.const PinParameters (sourceLaw d)).map regressionJoint`.
+
+The five public theorems prove actual per-mode coefficient-vector measurability in both sites; actual scalar-series observation-vector joint measurability in sites/sample; joint measurability of the literal regression transformation in sites/R/v/sample; genuine `IsMarkovKernel`; and, for EVERY parameter p, `regressionKernel d L p = transformedLaw d L p.1 p.2.1 p.2.2`. No measurable-family, kernel, inverse, rank, desired law or sample-regularity interface is assumed. All five headers and the definition prefix are byte-identical to the genuine clean empty-goal red02.
+
+Measurability is valid for every real L, so the targets truthfully use that stronger domain. The required fixed `0<L` model is included. This makes no L0 covariance, normalization, smooth-law or conditioning claim. R is an arbitrary finite real matrix, and sites may coincide or alias on the torus; an inverse or nondegeneracy premise is unnecessary for this construction.
+
+Final files:
+
+- Main: 4,566B, SHA256 `27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678`.
+- Tests: 4,048B, SHA256 `868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9`.
+- Audit: 285B, SHA256 `e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4`.
+
+## Construction and safeguards
+
+The local private mode-smoothness proof reconstructs the actual constant/sine/cosine coefficient formulas. It does not edit or assume the private predecessor lemma. Value rows use continuous mode evaluation. Gradient rows use the genuine `iteratedFDeriv_one_apply` equality and the pinned `ContDiff.continuous_fderiv_apply`, composed with actual physical coordinate directions. Joint measurability therefore holds for the actual rows, with no original-law AE regularity invoked under a changed law.
+
+The countable `Measurable.tsum` theorem gives the literal `pinObservation` when rows and coefficient samples both vary. This includes the scalar-tsum fallback behavior rather than presupposing sample convergence. The function called U here is the unchanged Borel scalar-series observation; its equivalence with actual sample field/Fréchet observations is the separate imported shared-event PinMajorant theorem. No new EVERY-sample actual-derivative equality is claimed.
+
+Finite coordinate sums/products prove the exact joint G measurable, including matrix evaluation through the pinned actual matrix measurable-space instance. The product kernel retains the parameter via `Kernel.id` and supplies the actual independent source sample via the constant source-law kernel. The Markov proof explicitly invokes the proved measurable G. This is essential: pinned `Kernel.map` returns ZERO when its map is not measurable, and `IsZeroOrMarkovKernel` alone would not establish this result. The actual mass1/nonzero controls and explicit G proof rule out that fallback.
+
+Every-parameter equality is proved by measurable-set extensionality, `Kernel.map_apply'`, `Kernel.id_prod_apply'`, `Kernel.const_apply`, and the actual fixed-parameter measurable regression map's measure-pushforward formula. There is no AE parameter exception or arbitrary regular-conditional-kernel evaluation at a null pin target.
+
+## Actual execution and controls
+
+The saved commands use `python3 work/theorem-continuation-20261008/i4-pin-kernel/run_compile.py TAG FILE.lean`. The timeout-safe driver runs the existing Lean4.34.1 executable, nice10, one thread, own cwd/objects and a 180-second communication timeout. It binds exact source snapshot, command, inner compiler exit, elapsed time and raw log. The wrapper's outer normal exit is not compiler acceptance. Pinned mathlib HEAD was freshly read as `d13f23b723b8a846827a245b89c10fc7d3f11612`. No dependency build or fresh imported-environment kernel replay is claimed.
+
+Actual final outcomes:
+
+- `main-attempt03 PinKernel.lean`: exit0, 13.494924458s, empty log.
+- `tests-attempt02 PinKernelTests.lean`: exit0, 5.381054459s, empty log; 15 anchored examples.
+- `axioms-attempt01 PinKernelAxioms.lean`: exit0, 4.0596275s; five rows, each exactly `[propext, Classical.choice, Quot.sound]`, no sorryAx/custom axiom.
+
+Controls prove the zeroR kernel equals sourceLaw; the joint map with zeroR is the literal identity sample map; EVERY arbitrary parameter and singular all-ones R at colliding sites give the existing transformedLaw; the actual kernel is Markov/probability/mass1/nonzero; measurable-set evaluation and actual coefficient/U/G maps are Borel; and d0/L0 retain the measurability/identity scope. A positive-period, singular/colliding correct-law consumer obtains SAME-coefficient source ContDiff4 and named-atlas torus ContMDiff4 only by kernel-law equality followed by the imported transformedLaw regularity theorem. An explicit original-zero sample and zeroR/nonzero target shows this construction does not in general reproduce the prescribed pin.
+
+## Retained failures and custody
+
+Initial empty red exposed missing `MeasurableSpace (Matrix ...)`: this was a genuine type/import failure, not clean-red credit. Adding only `Mathlib.Analysis.Matrix.MeasurableSpace` produced clean red02, exit1/10.650121458s with exactly five intended empty goals and no unrelated errors/warnings; source SHA `23e6040ece77afe4a4dacb89de036e5da8e47b697cc159ec8dafcd54b5c5a541`. Implementation bodies were written only afterward.
+
+Main01 retained ambiguous `Measurable.eval` API resolution and gradient-product typing plus unused simp arguments. Main02 retained the exact first-derivative-versus-iterated-derivative definitional-equality failure. Explicit typed products/Pi evaluation and the actual order-one theorem repair preserve the target types. Tests01 retained an unknown `Measure.zero_apply` in its negative fallback fixture; ordinary literal zero-measure simplification repaired it. Eight actual execution receipt/snapshot/log triples remain intact. No timeout occurred in this capsule.
+
+Final metadata checks all five literal headers, unchanged definitions, all eight triples, 15 controls/five audit rows, and 23 observed predecessor/primary inputs. It freshly verifies every one of the previous PinMajorant57 and TwoPinRank72 declared bindings unchanged. Final manifest/integrity bind this narrative and all retained failures. Compiler ownership was explicitly returned after terminal audit at14:00:21UTC, before documentary freeze; no further main/tests/audit edits are planned.
+
+## Exact remaining scope
+
+This is a genuine measurable parameterized transformation kernel, not an RCD or a canonical conditional law. It does not choose covariance inverse R, prove pin reproduction, residual independence, Gaussian regression joint factorization, conditional projected/multipoint rank, compact floors/mesh genericity or conditional Morse/distinct critical values. Earlier two-pin rank and arbitrary-R correct-law regularity remain separate frozen leaves. No whole-field Banach Gaussian law or complete I4/theorem is inferred from these five results. Exact nonauthor review and root publication remain separate from this producer freeze.
+
+```````
+
+FULL literal evidence/main-attempt03.json; 878B; SHA256 1082e3b844897032578c60fe20c4cbdb630f4d992f60d648ca5807e9d63a85ed
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinKernel.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernel.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 13.494924458,
+  "source_sha256": "27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+FULL literal evidence/tests-attempt02.json; 894B; SHA256 8e41c37f9c906eec7a5fa470e497a557eceaf6f09f06395f08ec4e5a300d9f9f
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinKernelTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernelTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 5.3810544590000005,
+  "source_sha256": "868a851a744230df0199f61c8cf9c43fdc0f638af3f18a3e129646e3093c96b9",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+FULL literal evidence/axioms-attempt01.json; 887B; SHA256 15203313f22220b0b3f8e175ee932ff708c7474100774dc3e38dab3e63fde0a4
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinKernelAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/.lake/build/lib/lean/PinKernelAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 4.0596275,
+  "source_sha256": "e8e041003f7402a3b203abeba07668f826672b2887bf8b646078099b151422c4",
+  "log_sha256": "6e308ed1e8b976638be2c663996d9483a22bd1d24d1da5eb8776fa742b22819f",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+FULL literal evidence/axioms-attempt01.log; 503B; SHA256 6e308ed1e8b976638be2c663996d9483a22bd1d24d1da5eb8776fa742b22819f
+```````text
+'I4PinKernel.pinCoefficient_joint_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinKernel.pinObservation_joint_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinKernel.regressionJoint_measurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinKernel.regressionKernel_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinKernel.regressionKernel_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+```````
+

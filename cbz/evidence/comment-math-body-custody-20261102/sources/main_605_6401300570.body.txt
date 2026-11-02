@@ -1,0 +1,426 @@
+C321 full additive mathematical source and exact-source nonauthor review. Actual author OpenAI/Codex /root chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated for Dylan Roy. Actual reviewer /root/c317_h11_nonauthor: ACCEPT_SCOPED for final20140B/d3167c2d; initial extended-product finding corrected, history retained. Same-provider/source-exposed/org0/blind0/human0. The compact bound is CONDITIONAL on the exact numerator and SAME typed-weight normalizer; no actual ordinary-bar, BAND, regional-collision or theorem closure. Canonical pickup605/6400960393; complete independently executed finite controls605/6401283692. Final stable-input verification and Drive custody follow in separate receipts.
+
+### C321_EVIDENCE COUNT_INTERFACE.md
+Bytes: 20140
+SHA-256: `d3167c2d856cfe09f143af5264780042c9d91257873ec92156c639c19603dad5`
+~~~~~~~~~~~~~~~~~~~~
+# A pinned, weighted two-witness counting interface
+
+Object: C321-V22-COUNT-INTERFACE-20261025-v1.  
+Author: OpenAI/Codex /root, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated for Dylan Roy.  
+Disposition: additive mathematical candidate; exact-source nonauthor verdict is a separate artifact. Scientific effect NONE.
+
+This supplies the missing counting interface identified by the v22 challenge at [main605/6400744142](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400744142). It connects the existing Gaussian integrals to actual ordered pairs of critical witnesses. The compact estimate below is conditional on the stated numerator and same-weight normalizer premises. It is not a new proof of those estimates, an ordinary-bar correspondence, or an intermediate-band estimate.
+
+## 1. Source boundary
+
+The exact byte identities of seven retained sources are in `SOURCE_IDENTITIES.json`. Their roles are:
+
+- P, `UNIFORM_MATRIX_CAP_AND_LIFETIME.md`, SHA256 `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`: the exact field, smooth Fourier realization, full distinct-site rank and typed endpoint normalizer. Original Section9 is consumed with E2, not in isolation.
+- E2, `REPAIR.md`, SHA256 `845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f`: finite-measure extension from continuous cylinder marks to Borel marks.
+- C317 H11 qualification, SHA256 `b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb`: explicit compact-open topology and joint common-residual coupling; [full source/review](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6399918290). This replaces the overbroad assertion that continuous point evaluations alone suffice.
+- v22 `WITNESS_COLLISION_CANDIDATE.md`, SHA256 `197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3`, and `AXIAL_EXTENSION.md`, SHA256 `7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea`: the two explicitly delimited Gaussian-numerator estimates. Their status and source owners are unchanged; [unchanged texts](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400186679).
+- `GAUSSIAN_DERIVATIONS.md`, SHA256 `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`: exact-law identification and the source's regression conventions.
+- D4 `remote_collision_20260928/PROOF.md`, SHA256 `b9b8b58fd8266db7ffe6537078003888ef138b445d3289ec5588f116af9050c2`, Section3: an existing ordered-pair formula with one endpoint weight and witness determinants. Its later estimates require a fixed remote distance. Only its local formula structure is adapted here; its fixed-distance covariance floor is not imported as a uniform near-pin estimate.
+
+The analytic formula used below is the Gaussian and continuous-weight Kac–Rice formula of Armentano–Azaïs–León, [arXiv2304.07424v3](https://arxiv.org/html/2304.07424v3), Theorems2.2 and7.1. The former gives the unweighted formula and local finite expectation. The latter is used only with continuous nonnegative cylinder marks. Borel marks are obtained by the separate measure argument below. This invocation is an import, not a new proof of the general Kac–Rice theorem.
+
+## 2. Fix the law before counting
+
+Fix d=2 and L>0. On the flat torus X=R²/(LZ²), use unnormalized physical area and its usual global orthonormal frame. Let f have the smooth, centered, variance-one Gaussian law with covariance
+
+    K_L(z) = sum_(n in Z²) exp(-|z+Ln|²/2)
+             / sum_(n in Z²) exp(-|Ln|²/2).
+
+Its real Fourier coefficients have strictly positive spectral weights and decay faster than every polynomial. The corresponding random field is a measurable Gaussian element of the separable Banach space E=C²(X), with finite moments of every needed C^q norm. For example, absolute summability of the L² norms of the Fourier terms in C^q gives the required convergence and moment bounds. These are the exact source-field hypotheses; no Fourier cutoff, independent Hessian-entry model or finite grid replaces them.
+
+Fix r>0 small enough that the two pin sites a=-(r/2)Re1 and c=(r/2)Re1 are distinct on X, for R in O(2). Define the six real pin observations and their target by
+
+    P_r f = (f(a), grad f(a), f(c), grad f(c)),
+    p = (b,0,0,b-k r³,0,0),
+    Q = law(f | P_r f=p).
+
+Use the canonical whole-field Gaussian regression version for every p. All statements through Section5 are for this fixed r,b,k,R. No conditioning on a probability-zero event is left to an arbitrary version. Write m=E_Q f and C_Q for the centered conditional covariance. The means are retained everywhere.
+
+For a real symmetric two-by-two matrix H, put F_j(H)=|det H| when H is nonsingular with j negative eigenvalues, and zero otherwise. The typed weight is
+
+    W(f) = F_2(H_a) F_1(H_c),
+    Z = E_Q W,
+    dQ^W = (W/Z) dQ,             provided 0<Z<infinity.       (1)
+
+Sections3–5 in fact allow any nonnegative Borel W on E with that finite positive normalizer. The typed W is continuous, including at singular matrices, because the determinant vanishes at the index boundary. Finiteness follows from Gaussian Hessian moments; its positive small-r lower bound is a separate source premise in Section6. An upper bound on |det H_a det H_c| by itself supplies no lower bound for this typed Z.
+
+Let U=X\{a,c} and
+
+    Omega = {(x,y) in U x U: x != y},
+    Y_f(x,y) = (grad f(x),grad f(y)) in R⁴,
+    Delta_f(x,y) = |det H_x det H_y|.                         (2)
+
+For any Borel D contained in Omega and any nonnegative Borel function i:Omega x E -> [0,infinity], define the ordered marked count
+
+    C_(D,i)(f) = sum_((x,y) in D: grad f(x)=grad f(y)=0) i(x,y,f).  (3)
+
+Both sites are actual critical points and are different from one another and the pins. This is a count over field realizations; it is not a name for a spatial integral. For the probability bounds below i is an indicator. For general nonnegative marks the sum may be infinite.
+
+Throughout, extended nonnegative products use the convention 0 times infinity = 0. Equivalently W i and W C are the increasing limits of products of their finite truncations. Thus (3), (6), (8) and (9) are defined even when a mark or count is infinite on a field where W vanishes; the exceptional-field convention below is a separate matter.
+
+## 3. Local nondegeneracy and a canonical conditional field
+
+At each t=(x,y) in Omega, the covariance Sigma_t=Cov_Q(Y(t)) is positive definite. To check this, suppose a linear combination of the four witness gradients had zero conditional variance. In the original law it would equal a linear combination of the six pin observations in Gaussian L². Their difference is a distribution supported at the four distinct sites a,c,x,y, consisting of point evaluations and first derivatives. Zero variance under a strictly positive Fourier spectrum forces every Fourier coefficient of that distribution to vanish, hence the distribution is zero. Distributions supported at distinct sites, and the point/first-derivative distributions at each fixed site, are linearly independent. The witness coefficients therefore vanish. This proves the assertion for the exact infinite law, not only a truncated covariance matrix.
+
+Consequently, on each compact subset K of Omega the smallest eigenvalue has a positive minimum. The density p_t of Y(t) under Q is continuous and uniformly bounded there. No bound uniform in r, or across a pin or witness diagonal, is asserted by this compactness argument.
+
+Construct a further conditional law on E, under Q, explicitly. Put
+
+    B_t v = Cov_Q(f,Y(t)) Sigma_t^(-1) v,
+    Phi_(t,v)(f) = f + B_t(v-Y_f(t)),
+    K(t,v,.) = law_Q(Phi_(t,v)(f)).                            (4)
+
+The covariance in B_t is centered; equivalently Phi is the sum of m+B_t(v-E_QY(t)) and the centered regression residual. The residual is independent of Y(t), by joint Gaussianity first on finite continuous linear functionals and then on a countable determining family for E. Thus K is the canonical regular conditional law of the whole f given Y(t)=v under Q, defined for every v. It satisfies both P_r Phi=p and Y_Phi(t)=v. In particular the six pins are not lost on conditioning the witnesses.
+
+The map B_t into E varies continuously on compact subsets of Omega because the covariance is smooth and Sigma_t is invertible there. If t_n->t and v_n->v, then for every f in E,
+
+    Phi_(t_n,v_n)(f) -> Phi_(t,v)(f) in C²(X).                 (5)
+
+This single coupling implies joint conditional weak convergence of the zero field Y(.) in C¹_loc(Omega), the full continuous second-jet mark in compact-open topology, and every finite vector of fixed jet evaluations. It proves the needed joint statement rather than separate marginal convergence. A cylinder mark may have singular covariance; no inverse of that mark covariance is used. It also makes K a measurable probability kernel. These facts are the pinned-law adaptation of C317; they do not assert uniformity in a degenerating geometry.
+
+In torus charts, DY is the block matrix diag(H_x,H_y), so its absolute determinant is Delta. AAL Theorem2.2 applies locally. Its regularity conclusion, equivalently Proposition2.1 on compact neighborhoods with bounded density, implies almost surely that the zeros of Y in Omega are regular. Exhausting Omega by compact subsets then gives locally finite ordered-pair zero sets and finite expected counts on each compact subset. No claim is made about the singular covariance on the excluded diagonal itself.
+
+For completeness the zero-count kernel used below is measurable: for an open set in Omega, exhaust it by compact sets. Existence of n distinct zeros in one such compact set is the union over integers j of the event that an n-tuple separated by at least 1/j has maximum |Y| equal to zero. The minimum over that compact tuple space is a continuous function of f in C²; take its infimum as +infinity when the tuple space is empty. Thus counts on open sets are measurable. On the regular locus they define a locally finite counting measure, and the usual monotone-class extension gives its measurable evaluation on Borel sets. The exceptional nonregular locus is Borel by the same compact zero test applied to (Y,det DY); it has Q measure zero and is assigned the zero measure. This convention avoids undefined products on exceptional fields.
+
+## 4. Extend the continuous formula to full Borel marks
+
+Fix compact K contained in Omega. Define two measures on K x E:
+
+    mu(A) = E_Q sum_(t in K:Y_f(t)=0) 1_A(t,f),
+
+    nu(A) = integral_K p_t(0)
+              integral_E Delta_phi(t) 1_A(t,phi) K(t,0,dphi) dt.  (6)
+
+The preceding measurable counting kernel makes mu a Borel measure. The canonical kernel (4) makes nu one. Their total masses are equal and finite by the unweighted Gaussian formula; in particular there is no attempted finite-measure argument on the entire noncompact Omega.
+
+For a bounded nonnegative continuous cylinder function h(t,f), use the continuous-weight case of AAL Theorem7.1. Take the auxiliary mark to be the full continuous second-jet field with compact-open topology. Its joint conditional continuity with Y is (5); h is continuous in location and this mark. This verifies the continuous base case, including the path-space conditioning required by the theorem. One can work in chart neighborhoods of K, with bounded continuous extensions of h; a finite chart partition then gives
+
+    integral h dmu = integral h dnu.                           (7)
+
+To pass to all Borel h, choose countably many dense torus sites q and all jet evaluations partial^alpha f(q), |alpha|<=2. They generate Borel(E): suprema over this countable dense family recover the C² norm, and E is separable. Combine them with bounded continuous functions on the compact metric space K. The resulting bounded real continuous cylinder algebra contains constants and generates Borel(K x E). The real bounded functions for which (7) holds form a vector space closed under bounded pointwise convergence, since both measures are finite. The functional monotone-class theorem identifies mu and nu on every bounded Borel function. Increasing truncations extend (7) to every nonnegative Borel function, with infinite values allowed.
+
+Apply this to h(t,f)=W(f)i(t,f)1_D(t). For instance a global elder predicate, if independently established to be Borel for the prescribed convention, can appear in i. The argument does not assume that such a predicate is continuous or lower semicontinuous, and does not itself prove an elder correspondence. Likewise a choice of an actual height-window or Hessian-index indicator is Borel and permissible; including it does not introduce independent witness heights or detach it from the conditional field.
+
+Finally take an increasing compact exhaustion K_n of Omega. Monotone convergence on both sides, with their nonnegative integrands, proves
+
+    E_Q[ W C_(D,i) ]
+      = integral_D p_t(0)
+          E_K(t,0)[ W Delta_f(t) i(t,f) ] dx dy,               (8)
+
+    E_(Q^W) C_(D,i)
+      = (1/Z) integral_D p_t(0)
+          E_K(t,0)[ W |det H_x det H_y| i(t,f) ] dx dy.         (9)
+
+Equation (9) remains an extended nonnegative identity for arbitrary D and i. In the compact geometries with the bounds in Section6 its right side is finite, so the corresponding count is finite Q^W-almost surely. No dominated convergence, collision-diagonal density value, or near-diagonal uniform covariance lower bound is required for the exhaustion step. Infinite global counts on an exceptional or uncontrolled region are not used in a subtraction of infinities.
+
+There is exactly one endpoint W and exactly one division by its own Z. The two witness determinants come from the block Jacobian. The pin density does not appear because Q is already the pinned law. Reaggregating pins or dividing by torus volume would be different operations with additional explicitly chosen measures; neither is performed here.
+
+## 5. Ordered, unordered and factorial observables are different
+
+If D=A x A minus the diagonal for a Borel A contained in U, and i(t,f)=j(x,f)j(y,f) for a Borel indicator j, (3) is N_A(N_A-1), where N_A counts the critical points satisfying j. For infinite N_A interpret this through increasing finite-region counts, not the undefined expression infinity times infinity-minus-one in an algebraic manipulation. When the integral is finite, N_A is finite Q^W-almost surely and the usual identity applies. In particular
+
+    Q^W{N_A>=2} <= (1/2) E_(Q^W)[N_A(N_A-1)].                 (10)
+
+If D and i are invariant under (x,y)->(y,x), dividing C by two counts each marked unordered pair once. Symmetry is essential. In the source's short-edge geometry x is the anchor, |xi|<=B, whereas y=xi+epsilon w may lie outside that anchor set. That domain is generally asymmetric; its count is not automatically N_A(N_A-1), and no factor1/2 is licensed. For any indicator mark, without symmetry,
+
+    Q^W{C_(D,i)>=1} <= E_(Q^W) C_(D,i).                       (11)
+
+For a symmetric subdomain specifying only close pairs, C counts close ordered edges, not every pair of N_A. The event N_A>=2 need not imply the existence of a close edge. Equation (10) cannot be applied to such a restricted-domain estimate without a separate bound on the remaining pairs. These distinctions are part of the interface, not conventions to be changed after an estimate is obtained.
+
+## 6. Precise compact v22 corollary and parameter order
+
+Fix L, B>=1, delta in (0,1], a compact interval of b, and 0<k_-<=k<=k_+. Take R in O(2). The axial source's geometry consists of
+
+    x=rR xi, y=rR eta, eta=xi+epsilon w, |w|=1,
+    |xi|<=B,
+    dist(xi,{(-1/2,0),(1/2,0)})>=delta,
+    0<epsilon<=epsilon0<=min(1/4,delta/4,epsilon_confluent).   (12)
+
+Choose r small enough that this entire bounded geometry embeds in a single torus lift, for example r(B+epsilon0+1)<L/4. Thus (12) is an actual Borel subset D_r of Omega with no covering multiplicity. The further small-r threshold and epsilon_confluent are exactly those required by the source; this note supplies no new quantitative value. The source's physical change of variables is
+
+    dx dy = r⁴ epsilon dxi depsilon dtheta.                  (13)
+
+It is already included in its integrated numerator. Equation (9) uses dxdy directly and adds neither (13) a second time nor another power from a rescaled gradient density.
+
+Suppose the axial source's stated conclusion (2) is available for this exact field, pins and weight:
+
+    J_r(i) := integral_(D_r) p_t(0)
+       E_K(t,0)[W |det H_x det H_y| i(t,f)] dxdy <= C r⁵,    (14)
+
+for Borel 0<=i<=1. Suppose also that the separately justified, SAME typed weight in (1) satisfies
+
+    Z_r >= z_* r², z_*>0.                                  (15)
+
+Then the proved identity (9) implies the actual ordered critical-witness bound
+
+    E_(Q_r^W) C_(D_r,i) <= (C/z_*) r³.                      (16)
+
+For indicator i, (11) gives the same upper bound for existence of such an ordered witness pair. The original off-axis source gives the identical conclusion on its own smaller geometry with its fixed transverse cutoff. These are implications from exact source premises, not upgrades of the sources' author/review status. An arbitrary weight merely dominated by the endpoint determinant product cannot replace the typed weight in (15) without a new lower bound.
+
+An actual window mark is
+
+    i((x,y),f)=1{b-k r³<f(x)<b}1{b-k r³<f(y)<b},              (17)
+
+possibly multiplied by index predicates. It is Borel, so (16) applies if (14) does. The source may have discarded these indicators to prove its stronger all-height numerator estimate on fixed bounded scaled geometry; this does not justify discarding them in a new intermediate-band estimate.
+
+The order is fixed L,B,delta,compact b and positive compact k-range, then admissible epsilon0 and a sufficiently small r_*, then r down to zero. Witness separation epsilon may approach zero within that fixed geometry because (8)–(9) use monotone exhaustion and (14) already asserts its integrated control. There is no subsequent uniform limit B->infinity, delta->0, k_->0 or L->infinity asserted here. The conditional identity itself can be used on larger Borel regions, but it does not provide a finite bound there without a new numerator estimate.
+
+## 7. Negative controls and remaining dependencies
+
+The separately executed exact controls check ordered/asymmetric counting, the diagonal term, tilted-law dependence, normalizer identity, and physical Jacobian bookkeeping. They are finite counterexamples to tempting shortcuts, not evidence that the analytic Kac–Rice theorem or v22 numerator bounds are proved. Substantive nonauthor reconstruction of Sections2–6 is required.
+
+Two conceptual controls are particularly relevant. A region with two critical points farther apart than epsilon0 r has N_A=2 but no pair in the short-edge subdomain. Also a marked pair may satisfy the local critical-point tests while the corresponding critical values do not form an actual elder pair. Neither the count formula nor a Markov bound supplies the global component-history condition. A once-counted finite ordinary bar observable needs its own selection/bijection and essential-bar convention; branch adjacency alone cannot supply that condition.
+
+Still separate and open here: V22-BAND-01 and its active owner/reviewer; V22-K-01/unbounded marks; planar-to-higher-d transfer; pin-approaching or multi-pin clusters; regional shrinking multiple-witness estimates; all-small-bars converses; field-first sampling and the actual finite ordinary-bar bridge; full normalizer derivation and canonical source acceptance; formal/kernel and hosted execution gates. A global factorial bound, were one separately established, would not by itself discharge the regional shrinking node.
+
+No existing proof, status, graph, source branch or frozen handoff is changed. This note closes only its own formula-writing task if its exact-source nonauthor review succeeds. It does not close the project-wide audit or claim theorem completion, provider-distinct acceptance, a human review by Dylan, a repository commit, hosted CI or deployment.
+~~~~~~~~~~~~~~~~~~~~
+
+### C321_EVIDENCE REVIEW.md
+Bytes: 23860
+SHA-256: `88f1409c473dab0eb5d89c3cacd4cd81fb4fb650960cc70653c4411001a6a386`
+~~~~~~~~~~~~~~~~~~~~
+# C321 pinned weighted two-witness interface — exact-source nonauthor review
+
+**Disposition: ACCEPT_SCOPED for the corrected exact source identified below.** The argument supplies the pinned, marked ordered-pair identity and the explicitly conditional compact v22 corollary. One LOW formulation issue concerning extended nonnegative products was reported to the author and corrected before this disposition. No remaining mandatory amendment or mathematical counterexample was found within the selected scope.
+
+**Actual executor:** OpenAI/Codex `/root/c317_h11_nonauthor`, delegated work for Dylan Roy. This agent did not author C321. It previously reviewed the C317 H11 qualification and C320 SCC-GROWTH-01 correction; that prior exposure is retained here. This review is source-exposed, same-provider, organizational-independence 0, blind 0, human-review 0. Dylan Roy did not personally perform this review. Neither this review nor the assisting subagent supplies provider-distinct acceptance.
+
+## 1. Exact target, amendment history and sources
+
+Final target: `COUNT_INTERFACE.md`, **20,140 UTF-8 bytes**, SHA256:
+
+`d3167c2d856cfe09f143af5264780042c9d91257873ec92156c639c19603dad5`
+
+The initial candidate was 19,797 bytes, SHA256:
+
+`1ff3e3d00d5ac0ca0d33273f724455918731d93534658745db294501c2b077fc`
+
+**Review finding C321-REVIEW-01 — LOW, resolved.** The initial Sections 2–4 admitted infinite marks/counts and weights that vanish. Consequently the products W i and W C required the standard convention 0 times infinity = 0 even on regular fields. Resetting the counting measure on the exceptional nonregular locus alone did not specify those products. I reported this to the author rather than editing the source. The author inserted the paragraph now at line 59, expressly defining all extended nonnegative products and their finite-truncation interpretation. I checked its content and independently verified that removing exactly that paragraph reconstructs the original candidate's byte count and hash. There were no other changes between the two reviewed candidates. The final acceptance applies to the corrected hash only.
+
+I whole-read the candidate and verified all seven retained source files against `SOURCE_IDENTITIES.json`:
+
+| Source | Bytes | SHA256 |
+| --- | ---: | --- |
+| `sources/P.md` | 40261 | `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7` |
+| `sources/E2.md` | 9062 | `845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f` |
+| `sources/H11_QUALIFICATION.md` | 14524 | `b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb` |
+| `sources/WITNESS_COLLISION_CANDIDATE.md` | 17811 | `197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3` |
+| `sources/AXIAL_EXTENSION.md` | 16585 | `7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea` |
+| `sources/GAUSSIAN_DERIVATIONS.md` | 27912 | `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781` |
+| `sources/D4_REMOTE_COLLISION.md` | 26002 | `b9b8b58fd8266db7ffe6537078003888ef138b445d3289ec5588f116af9050c2` |
+
+The identity JSON itself is 1,638 bytes, SHA256 `0f0f2944d87667d75156df8bd4088d6bf9e07d07fa55d4abaf7dea5bc87dde9a`. These are direct local byte checks; I did not independently reacquire the remote archives or re-audit their historical custody.
+
+Load-bearing source inspection included P Sections 1–2 and its Section 5 normalizer definitions/boundary; Gaussian Derivations Sections 1–5; D4's setting and Section 3; and both v22 notes' exact law, observations, geometry, numerator statements, physical Jacobians and stated limits. E2 and H11 were previously read in full in C317, and their unchanged bytes were hash-verified for reuse here. I used their finite-measure and common-residual arguments explicitly in the reconstruction below. I did not review the complete v22 numerator proofs or run their programs.
+
+The retained [AAL exact v3 PDF](https://arxiv.org/pdf/2304.07424v3) was also rehashed: 326,691 bytes, SHA256 `636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f`. I directly extracted and read pages 3–5 and 15 for Proposition 2.1 and Theorems 2.1, 2.2 and 7.1. The same PDF's C1 topology on pages 9–10 was inspected in C317. This source check confirms the invoked Gaussian/continuous-weight statements; it is not a new proof of the general Kac–Rice theorem.
+
+## 2. Criterion-level disposition
+
+Line references below are to the final 20,140-byte candidate.
+
+| Criterion | Location | Disposition |
+| --- | --- | --- |
+| Exact field, six pins, typed weight and finite positive normalizer | Lines 24–45 | ACCEPT; the small-r typed floor remains an explicit separate premise |
+| Conditional rank modulo the six pins | Lines 63–65 | ACCEPT for four distinct sites and fixed r |
+| Whole C2 Gaussian kernel, retained means/pins and joint continuity | Lines 67–79 | ACCEPT; no covariance inverse for a mark is needed |
+| Local regularity and measurable zero-count kernel | Lines 81–83 | ACCEPT, localized off all excluded diagonals |
+| Two finite measures and continuous-cylinder to Borel extension | Lines 87–102 | ACCEPT conditional on the stated AAL imports |
+| Extended products and nonnegative exhaustion | Line 59 and lines 104–116 | ACCEPT after the recorded clarification |
+| Ordered, unordered, factorial and asymmetric-domain accounting | Lines 120–128 | ACCEPT; the restricted-edge caveat is essential and correct |
+| Compact axial corollary, physical Jacobian and parameter order | Lines 132–166 | ACCEPT as an implication from the exact numerator and same-weight floor |
+| Scientific/status and geometric boundaries | Lines 168–176 | ACCEPT; no global theorem, BAND or other owner scope is discharged |
+
+## 3. Reconstruction of the Gaussian conditional interface
+
+The image-sum covariance agrees with the retained normalized infinite Fourier law. Gaussian Derivations gives the real sine/cosine expansion with every spectral weight positive, including the constant mode. The coefficient decay makes the sums of the Lp norms of the Fourier terms, weighted by any fixed derivative order, finite. This gives one common smooth version and finite derivative-supremum moments. Its partial sums are measurable C2-valued random elements and converge in that norm, so the field is a Gaussian random element of the separable Banach space E=C2(X). No discrete grid or finite spectral approximation enters the argument.
+
+The two pin sites are distinct. Full-spectrum positivity and independence of the value/first-derivative distributions at two distinct sites give a positive definite covariance for all six pin observations. Thus the canonical initial conditional law Q exists at every target p. It has a generally nonzero smooth mean and a smooth centered covariance. Conditioning by finite continuous linear observations preserves the needed Gaussian random-element structure and finite derivative moments for each fixed target.
+
+For t=(x,y) in Omega, the ten observation functionals consisting of the six pins and the four witness gradients are linearly independent. A linear dependence in Gaussian L2 would annihilate every Fourier mode. Equivalently its finite sum of point masses and first derivatives would be the zero distribution. Smooth test functions supported separately near a,c,x,y and with specified local jets force each coefficient to vanish. The witness Schur complement Sigma_t is therefore positive definite. This proves conditional rank, rather than merely checking unconditional witness rank.
+
+Continuity of the covariance and compactness give a positive conditional covariance floor on each compact K contained in Omega, for the fixed pin configuration. The density bound is independent of the conditional mean because a Gaussian density is bounded by its determinant prefactor. No uniform floor near a pin, a witness diagonal, or r=0 follows from this step, and the candidate does not claim one.
+
+Let mu_t=E_Q Y(t) and use centered covariances in B_t. The field can be decomposed under Q as
+
+    f = m + R_t + B_t (Y(t)-mu_t),
+
+where R_t is a centered E-valued Gaussian residual independent of Y(t). Independence follows first for finite linear evaluation families by zero Gaussian cross-covariance and then for the whole E-valued field through a countable Borel-generating family. Thus the stated Phi map has law
+
+    law_Q(Phi_(t,v)(f)) = law(m + R_t + B_t(v-mu_t)),
+
+which is a specified regular conditional version at every v. This retains the actual conditional mean.
+
+The pin-preservation claim is valid under Q: P_r f=p Q-almost surely, and P_r B_t=Cov_Q(P_r f,Y(t)) Sigma_t^(-1)=0. Hence P_r Phi=p Q-almost surely for every fixed t,v. The witness identity is Y_Phi(t)=v. One should read the former as a statement on the pinned input law, not as a claim that Phi overwrites arbitrary off-support input fields with the pin target.
+
+Smooth covariance makes the columns of B_t continuous in the C2 norm, and Sigma_t^(-1) is continuous locally off the excluded sets. For each fixed f in E, evaluation of its gradient varies continuously with t. Therefore the displayed common coupling is continuous in (t,v) with values in E. The maps from E to the C1 zero field on compact subsets of Omega, to the continuous second jet, and to any fixed finite jet vector are continuous. Their joint conditional convergence follows simultaneously from this one coupling. The induced probability kernel is measurable; bounded continuous tests give weak continuity. Conditional or unconditional singularity of a finite mark vector is harmless because only Sigma_t is inverted.
+
+## 4. Measurable local count and the exceptional locus
+
+For a compact A contained in Omega and integers n,j, the set of n-tuples in A with pairwise separation at least 1/j is compact. The minimum there of the maximum zero-field norm is a continuous function of f in C2. The empty tuple-space case is assigned infimum +infinity. Taking the union over j gives the event that A contains at least n distinct zeros. This proves compact-count measurability without choosing or ordering random roots.
+
+Every open subset of Omega has an increasing compact exhaustion. Its zero count is the supremum of the compact counts and is measurable. The same compact existence test applied to the joint equations Y=0 and det DY=0 makes the nonregular locus Borel.
+
+AAL's local bounded-density regularity result applies on relatively compact coordinate neighborhoods. Here source and target dimensions are both four, so the stated zero Hausdorff measure of irregular zeros means that there are no irregular zeros. A countable collection of neighborhoods covers Omega. On the resulting probability-one regular locus, the inverse function theorem isolates each zero; compactness then makes every compact count finite. Assigning the zero measure on the exceptional Borel locus produces a measurable locally finite counting-kernel version.
+
+For completeness, the Borel-evaluation extension can be localized to each compact exhaustion member. Within that member, the total count is finite on the regular locus. Measurability on compact subsets, complements relative to the member, and disjoint countable unions gives measurability on its Borel sigma-algebra. Taking increasing restrictions gives Borel evaluations on all of Omega. Combining this counting kernel with the measurable map f -> f gives the joint counting measure on K x E by the usual rectangle/monotone-class construction.
+
+The exceptional reset changes no Q-almost-sure statement. Since Q^W is absolutely continuous with respect to Q for 0<Z<infinity, it changes no Q^W-almost-sure statement either. It is distinct from the extended-product convention, which is now explicitly present.
+
+## 5. Continuous marks, finite measures and Borel extension
+
+On a compact K contained in Omega, the unweighted Gaussian Kac–Rice formula gives equality and finiteness of the two total masses in equation (6). The Jacobian is exactly |det H_x det H_y| because DY is block diagonal. Smooth conditional Gaussian moments also ensure that the local determinant integrand is finite. The argument does not begin by assuming that either measure is finite on the noncompact Omega.
+
+For a bounded continuous cylinder coefficient, its finite derivative evaluations are continuous in the chosen second-jet topology. The common-residual argument above supplies joint conditional continuity with the C1 zero field. Continuous bounded extensions in local charts and a finite partition permit application on K without a boundary regularity assumption on K. Flat torus charts preserve the physical volume and gradient convention. The continuous weighted AAL base case therefore supplies equality on these test functions.
+
+The cylinder algebra generates all of Borel(K x E). Dense-site evaluations of derivatives through order two recover the C2 distance to each fixed function by countable suprema. Separability then expresses open sets through countably many such balls. Bounded continuous location functions generate Borel(K), and bounded continuous functions of finite evaluation vectors generate Borel(E). Their products form a bounded real algebra containing constants. Equality for nonnegative continuous cylinders also gives equality for its signed members by subtraction of finite integrals.
+
+Because mu and nu are finite, the bounded Borel functions on which they agree form a vector space closed under bounded pointwise convergence. The functional monotone-class theorem extends equality to every bounded Borel function. Nonnegative truncation then extends it to all extended nonnegative Borel functions. This is a separate finite-measure argument; it never declares a global elder predicate to be continuous or lower semicontinuous.
+
+Consequently W(f)i(t,f)1_D(t) is allowed with the stated nonnegative-product convention. In particular, geometric height-window and Hessian-index predicates are jointly Borel in t and f. A global elder mark can be inserted only if its Borel status has separately been proved for the intended convention; the formula provides neither that proof nor the elder correspondence.
+
+An increasing compact exhaustion of Omega now yields equations (8)–(9) by monotone convergence on both sides. Nothing requires a finite global unweighted count, dominated convergence, a value of the singular diagonal density, or a uniform covariance floor approaching that diagonal. The added convention defines zero times infinity consistently with the increasing finite truncations. If the final right side is finite, the corresponding nonnegative marked count is finite Q^W-almost surely.
+
+There is one endpoint weight W, one witness Jacobian product, and one division by the normalizer E_Q W. The pin density is absent because the entire formula is already under Q. No field-first sampling statement or unconditional pin integration is hidden in this division.
+
+## 6. Count accounting and compact corollary
+
+For a full product domain A x A with the diagonal removed and a product indicator j(x,f)j(y,f), the sum runs through every distinct ordered pair in the selected critical set. It equals N_A(N_A-1) when N_A is finite; increasing finite restrictions define its value at infinite N_A. If the second factorial expectation is finite, N_A cannot be infinite on a positive-probability event. The inequality 1{N_A>=2} <= N_A(N_A-1)/2 then gives the stated bound.
+
+An unordered interpretation requires both the domain and mark to be symmetric. On an asymmetric anchor domain, dividing by two is invalid. On a symmetric domain restricted to close pairs, division by two counts close unordered pairs, but it still does not produce the full factorial moment. Two selected critical points may lie farther apart than the cutoff. The candidate correctly retains the ordinary Markov bound for existence of one admitted ordered marked pair instead of asserting a global two-point event bound.
+
+The v22 source pins are expressed in the R-frame whereas C321 initially uses the global orthonormal frame. The two gradient observation systems differ by invertible orthogonal blocks, with zero gradient targets and absolute determinant one. They define the same canonical conditioned field law. Hessian determinant and inertia are invariant under the corresponding orthogonal congruence. This is coordinate consistency, not a claim that the periodic field is rotation-invariant.
+
+The short-edge domain in Section 6 is genuinely contained in Omega for the stated small-r embedding. The anchor is at scaled distance at least delta from either pin; the second witness is at least 3delta/4 away because epsilon0<=delta/4. Positive epsilon keeps the two witnesses distinct. The embedding avoids torus covering multiplicity.
+
+For fixed R, x=rR xi contributes r^2 and the polar difference y-x=r epsilon Rw contributes r^2 epsilon. Thus dxdy=r^4 epsilon dxi depsilon dtheta. The source's integrated numerator already contains this physical Jacobian. The conditional count identity uses physical dxdy, so it introduces no second Jacobian or density rescaling.
+
+Under the explicit premise that the axial numerator for this exact field, pins, region and typed weight satisfies J_r(i)<=C r^5, and the separate premise Z_r>=z_* r^2 for the same weight, equation (9) gives
+
+    E_(Q_r^W) C_(D_r,i) <= (C/z_*) r^3.
+
+For indicator marks, the same upper bound controls existence of an admitted ordered pair. The smaller off-axis source gives the analogous implication only on its own geometry. Neither result becomes a full factorial or finite-bar estimate by relabeling it.
+
+The parameter order is correct: fix the field and compact mark/geometric ranges, choose the admissible short-edge cutoff and the common sufficiently small r threshold, then vary r. Epsilon may approach zero because the imported integrated numerator, not compactness of a nondegenerate covariance family, supplies control there. No uniform statement in increasing B, decreasing delta or k_-, or changing L follows.
+
+## 7. Independent analytic controls
+
+These checks were derived analytically without executing the author's or another agent's finite test suite. They test specific implications and are not evidence that the imported continuum theorems or v22 numerator estimates are proved.
+
+1. **Excluded diagonal.** At x=y, Y=(grad f(x),grad f(x)) has rank at most two, not four. At x=a or c, part of Y is deterministic under Q. Thus extending the point-covariance assertion to any excluded diagonal would fail. C321 excludes these sets and uses exhaustion rather than inserting their densities.
+
+2. **Conditional means matter.** For independent standard normals P and E, set Y=P+E. Given P=p, Y has mean p. Further conditioning on Y=v gives E=v-p. Dropping the pinned mean would instead produce the wrong conditional value and replace the correct zero density proportional to exp(-p^2/2) by its centered value. The centered covariance in C321's B_t and its affine Phi formula preserve the correct mean.
+
+3. **One tilt, one normalizer.** In an abstract two-state probability model with equal masses, let W have values 1 and 3 and C have values 0 and 2. Then Z=2 and the tilted expected count is E_Q[WC]/Z=3/2. Omitting W but still dividing by Z gives 1/2. Inserting W twice gives 9/2, exceeding the largest possible count 2. This checks the algebra of the tilt; it is not a substitute model for the Gaussian field.
+
+4. **The same-weight floor is essential.** Replacing W by W'=r^100 W leaves its normalized tilted law unchanged when normalized by Z'=r^100 Z. It does not preserve a floor Z'>=z_* r^2 with the original positive constant. A numerator upper bound for a dominated weight therefore cannot be combined with a different weight's normalizer. Section 6 explicitly prevents this substitution.
+
+5. **Asymmetric and diagonal counts.** If just one orientation (x,y) is admitted, the ordered count is one and its existence event has probability one in a deterministic configuration. Dividing that expectation by two would give a false bound. With one selected point, the distinct ordered count is zero whereas N^2 equals one; including the diagonal would add a different observable. Both errors are excluded by the definitions.
+
+6. **Close pairs are not all pairs.** A configuration with two selected points farther apart than the short-edge cutoff has N_A(N_A-1)=2 and close-pair count zero. No estimate of that restricted count alone bounds the event N_A>=2. C321 states this limitation explicitly.
+
+7. **Extended products on regular fields.** A permitted weight can vanish while a permitted mark is infinite at an otherwise regular witness pair. Then W i and W C require a convention independently of the exceptional-field reset. The added line 59 defines their value as zero, agreeing with the monotone limits of finite truncations and with integration against the tilted measure.
+
+8. **Borel marks need the extension.** The indicator of a closed half-line in a nontrivial field-evaluation coordinate is Borel but is not lower semicontinuous at its boundary. One cannot invoke the continuous/LSC weighted theorem for every Borel mark merely by calling it a cylinder. The two finite measures and the generating-algebra argument provide the necessary separate passage.
+
+A same-provider assisting agent, `/root/c317_h11_nonauthor/count_measure_check`, independently scrutinized Sections 3–5 of the initial candidate. It reported no substantive defect in the measurable count, finite-measure extension, exhaustion or accounting, and independently identified the same extended-product clarification. Its source identity was supplied in its assignment; it did not independently compute the hash. It did not review the v22 estimates or AAL source. I independently checked the candidate bytes, primary AAL statements, corrected paragraph and remaining interfaces. The adviser was source/formulation-exposed, organizational-independence 0, blind 0, human-review 0; its agreement is not the mathematical proof.
+
+## 8. Conditional dependencies and final limits
+
+This acceptance depends on the exact smooth infinite Gaussian law and its full finite-jet rank, the standard Gaussian regression and measure-theoretic facts reconstructed above, and the imported AAL Gaussian/continuous-weight formula. It does not independently prove AAL. The compact O(r^3) consequence additionally depends on the exact stated v22 numerator bound and a separately justified positive r^2 floor for the SAME typed endpoint weight. P's historical derivation, its errata/reconciliation and all source-acceptance gates are not re-certified by matching the weight definition here.
+
+No complete v22 proof, intermediate-band estimate, V22-K-01 regime, pin collision, multi-pin cluster, higher-dimensional transfer, regional shrinking estimate, all-small-bars converse, field-first law, actual elder pairing or once-counted ordinary-bar correspondence is discharged. The review does not transfer earlier whole-proof judgments to new bytes and does not alter any owner's source or role.
+
+Actual actions were document reads and byte/hash checks, inert extraction from the retained primary PDF, analytic reconstruction, one scoped analytic adviser, and writing this report. No upstream/package program, mathematical replay, test suite, AST/import execution, Lean, CI, external post, candidate/source edit, branch/ref operation or scientific-status change was performed. The only output written by this reviewer for C321 is this report.
+
+**Final accepted target:** `COUNT_INTERFACE.md`, **20,140 bytes**, SHA256 **`d3167c2d856cfe09f143af5264780042c9d91257873ec92156c639c19603dad5`**. ACCEPT_SCOPED is an exact-source nonauthor analytic disposition, not provider-distinct or human acceptance, formal verification, hosted execution, or theorem completion.
+
+credit 0 · sci NONE · eng != discharge · no flags · OBL OPEN
+~~~~~~~~~~~~~~~~~~~~
+
+### C321_EVIDENCE SOURCE_IDENTITIES.json
+Bytes: 1638
+SHA-256: `0f0f2944d87667d75156df8bd4088d6bf9e07d07fa55d4abaf7dea5bc87dde9a`
+~~~~~~~~~~~~~~~~~~~~
+[
+  {
+    "path": "sources/E2.md",
+    "bytes": 9062,
+    "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+    "origin": "continuation317/sources/E2.md"
+  },
+  {
+    "path": "sources/P.md",
+    "bytes": 40261,
+    "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+    "origin": "continuation317/sources/P.md"
+  },
+  {
+    "path": "sources/H11_QUALIFICATION.md",
+    "bytes": 14524,
+    "sha256": "b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb",
+    "origin": "continuation317/QUALIFICATION.md"
+  },
+  {
+    "path": "sources/WITNESS_COLLISION_CANDIDATE.md",
+    "bytes": 17811,
+    "sha256": "197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3",
+    "origin": "continuation318/sources/WITNESS_COLLISION_CANDIDATE.md"
+  },
+  {
+    "path": "sources/AXIAL_EXTENSION.md",
+    "bytes": 16585,
+    "sha256": "7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea",
+    "origin": "continuation318/sources/AXIAL_EXTENSION.md"
+  },
+  {
+    "path": "sources/GAUSSIAN_DERIVATIONS.md",
+    "bytes": 27912,
+    "sha256": "946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781",
+    "origin": "continuation318/sources/GAUSSIAN_DERIVATIONS.md"
+  },
+  {
+    "path": "sources/D4_REMOTE_COLLISION.md",
+    "bytes": 26002,
+    "sha256": "b9b8b58fd8266db7ffe6537078003888ef138b445d3289ec5588f116af9050c2",
+    "archive_sha256": "82536fa4ed628a8f96cd4b8734a867c50f69b1d28cb55d810053cb449448754c",
+    "member": "Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/repos/Math-/frontiers/remote_collision_20260928/PROOF.md"
+  }
+]
+~~~~~~~~~~~~~~~~~~~~
+
+### C321_EVIDENCE README.md
+Bytes: 4111
+SHA-256: `dae39eab9b22a2bfaf8b978b25e25e2ee8e9840a746acb6d8f025eb63b5fdf1b`
+~~~~~~~~~~~~~~~~~~~~
+# C321 pinned weighted two-witness count interface
+
+Read COUNT_INTERFACE.md and the exact-source REVIEW.md together. The candidate connects a conditional Gaussian integral to an actual ordered critical-witness count. Its compact O(r³) count corollary remains conditional on the v22 O(r⁵) numerator and the same typed-weight Z>=z_*r² normalizer. Neither premise is promoted by this interface.
+
+This is one additive mathematical delivery under R17 claim32eee539-f4f1-4a0d-b427-1d990ba0c197 / Work Events2896, canonical pickup https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400960393. Existing source/branch owners and frozen sources are preserved. The full proof, review, source identities, standalone controls and verification records are published as exact framed native issue-comment payloads; PUBLICATION_INDEX.json gives the observed comment identities.
+
+Governing records: [owner mandate](https://github.com/d6g8k5htny-coder/main/blob/6b9bb7080fe091846825800c71b91857531ca03f/governance/OWNER_MANDATE_20261015.md), [standing delegation](https://github.com/d6g8k5htny-coder/main/blob/6b9bb7080fe091846825800c71b91857531ca03f/governance/OP-AUTONOMY-20260923-v2.1.md), and effective workflow/privacy at the same Main cut. Proposed governance changes are not substituted for those effective files.
+
+Actual author: OpenAI/Codex /root, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated for Dylan Roy. Exact-source analytic review is by a separate source-exposed nonauthor agent. Same-provider/organizational-independence0/blind0/human0. Dylan's personal reading is not asserted.
+
+The separate controls author/executor is OpenAI/Codex /root/c302_architecture_ownership. Its stable exact rational suite ran once under CPython3.9.6 with -I -S -B:9 positive and11 rejecting examples, exit0. These are bookkeeping controls, not Gaussian simulations or theorem proofs. Original execution paths remain only in the private receipt; CONTROL_RUN_PUBLIC.json explicitly labels the public path transcription. Unchanged controls are reused by identity rather than rerun.
+
+VERIFY_FINAL.py performs the complete applicable final stable-input handoff verification: retained sources, exact reviewed candidate, native body/frame equality, control execution records and own claim readback. It does not run the upstream research package, whole-project master, Lean/kernel or hosted CI. No repository/ref/PR change was selected; commit tools exist, while this native carrier isolates the additive proof from foreign source branches and runtime triggers. No commit, CI success, integration or deployment is claimed.
+
+The receiving Drive folder is private and the R17 register is publicly readable. Private Drive locators and absolute scratch paths are withheld from public records. Upload metadata, raw-byte and complete member equality are checked after archive creation; the later custody/registration/release receipts do not rewrite the frozen archive. No sharing or access changes are part of this delivery.
+
+CURRENT_PR_TRIAGE.md is a bounded as-of audit:66 current open PRs,62 unchanged heads and four changed heads; no genuinely unowned blocking repair established in that cut. Main275 remained at the previously read architecture discussion; proposed PR609 policy was not adopted. PRECLAIM_BAND_SCOUT.md is a read-only scout, not a new BAND result or an owner transfer. Later native BAND and K analyses remain with their actual authors/reviewers.
+
+Next useful task: consume this exact interface with the current independently reviewed two-scale numerator work through main605, preserving its live owners; identify the remaining actual joint height-window and determinant estimate before any band-count claim. The actual finite ordinary-bar/elder correspondence, field-first sampling, k-to-zero/unbounded marks, pin-approaching clusters and regional shrinking collisions remain separate. A future task requires fresh contention/source checks; this handoff reserves none.
+
+The entire project audit and mathematical theorem remain incomplete. Tests, custody, review and scientific acceptance are distinct.
+~~~~~~~~~~~~~~~~~~~~
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

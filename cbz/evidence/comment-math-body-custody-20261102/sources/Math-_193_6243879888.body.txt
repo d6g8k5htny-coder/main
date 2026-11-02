@@ -1,0 +1,1044 @@
+# NUM kernel frozen source and evidence, piece2/4
+
+Actual Root01a103c8 delivery for source review. Author claim761e41c4/WE2327; Root review7c4dab12/WE2325 remains ACTIVE. Final author freeze31723B/d4b8030409e85d4e1d70c73736029a10bf12bb9b80a05704006839e3fab6f170. All supplied computations are TEST_ONLY; no actual targetd/L or original coefficient enclosure. Final independent reviews PENDING; no numerical/scientific gate closure or installation. Source-exposed/OpenAI/org0; no blind or provider-diversity credit. New kernel review input is welcome through this existing task route. The separate earlier Claude normalization/premise input remains independently pending at the latest actual cut; silence is not assent.
+
+
+BEGIN EXACT_FILE NUM2F1 test_moment_kernel.py BYTES=10682 SHA256=36112e2add6aa2d1c198e919618e3379ebac1b37b9ea8f1a7456c6818891e4b0
+"""All inputs here are TEST_ONLY, never an original scientific target."""
+import copy
+import json
+import unittest
+import contextlib
+import io
+import os
+import sys
+import tempfile
+from pathlib import Path
+from fractions import Fraction as Q
+from moment_kernel import certify, KernelHold, exp_negative, main
+from verify_certificate import verify
+import verify_certificate as checker_module
+
+def request(**changes):
+    r = dict(L_lo="1/1", L_hi="1/1", cutoff=2, bits=80,
+             pi_terms=20, exp_pairs=16, input_role="TEST_ONLY")
+    r.update(changes)
+    return r
+
+def interval(v):
+    return Q(v[0]), Q(v[1])
+
+class KernelControls(unittest.TestCase):
+    def test_noninteger_and_nonpositive_cutoff_are_refused(self):
+        # A missing integer guard would accept V1's false real-M claim.
+        for m in [0, -1, 0.9, True, "2", Q(9, 10)]:
+            with self.subTest(m=m):
+                with self.assertRaises(KernelHold) as e:
+                    certify(request(cutoff=m))
+                self.assertEqual(e.exception.reason, "CUTOFF_NOT_POSITIVE_INTEGER")
+
+    def test_uncertified_monotonic_tail_threshold_is_refused(self):
+        with self.assertRaises(KernelHold) as e:
+            certify(request(L_lo="10/1", L_hi="10/1", cutoff=1))
+        self.assertEqual(e.exception.reason, "CUTOFF_THRESHOLD_NOT_CERTIFIED")
+
+    def test_positive_input_required(self):
+        for lo, hi in [("0/1", "1/1"), ("2/1", "1/1"), ("-1/1", "1/1")]:
+            with self.subTest(lo=lo, hi=hi):
+                with self.assertRaises(KernelHold):
+                    certify(request(L_lo=lo, L_hi=hi))
+
+    def test_zero_mode_and_independent_geometric_normalizer_control(self):
+        c = certify(request())
+        lo, hi = interval(c["bounds"]["z"])
+        self.assertGreater(lo, Q(1))
+        # pi>3 => alpha>18; e^3>20 by its positive Taylor terms.
+        # Sum exp(-alpha*m^2) < sum (20^-6)^m, so z<1+1e-6.
+        self.assertLess(hi, Q(1000001, 1000000))
+        self.assertGreater(interval(c["bounds"]["mu2"])[0], 0)
+
+    def test_physical_frequency_not_normalized_integer_frequency(self):
+        c = certify(request())
+        a, b, d = [interval(c["bounds"][k]) for k in ("mu2", "mu4", "mu6")]
+        # Every nonzero q has q^2=h^2*m^2>36 at L=1, since pi>3.
+        self.assertGreater(b[0], 36*a[1])
+        self.assertGreater(d[0], 36*b[1])
+
+    def test_pi_interval_has_independent_broad_analytic_guard(self):
+        lo, hi = interval(certify(request())["pi"]["interval"])
+        self.assertGreater(lo, 3)
+        self.assertLess(hi, 4)
+        self.assertLess(hi-lo, Q(1, 2**60))
+
+    def test_exponential_primitive_has_independent_e_bounds(self):
+        lo, hi = interval(exp_negative(Q(1))["result"])
+        # 8/3<e<3 follows from the positive series and its geometric tail.
+        self.assertGreater(lo, Q(1, 3))
+        self.assertLess(hi, Q(3, 8))
+
+    def test_valid_full_spectrum_certificate_replays_without_producer_import(self):
+        c = json.loads(json.dumps(certify(request())))
+        self.assertIsNone(verify(c))
+
+    def test_omitted_zero_mode_certificate_is_rejected(self):
+        c = certify(request())
+        c["finite"]["0"] = ["0/1", "0/1"]
+        with self.assertRaises(ValueError): verify(c)
+
+    def test_physical_frequency_certificate_perturbation_is_rejected(self):
+        c = certify(request())
+        c["h"] = ["1/1", "1/1"]
+        with self.assertRaises(ValueError): verify(c)
+
+    def test_understated_spectral_tail_is_rejected(self):
+        c = certify(request())
+        c["tail_upper"]["6"] = "0/1"
+        with self.assertRaises(ValueError): verify(c)
+
+    def test_narrowed_rounded_exponential_seed_is_rejected(self):
+        c = certify(request())
+        level = c["modes"][0]["exp_at_hi"]["levels"][0]
+        level[1] = level[0]
+        with self.assertRaises(ValueError): verify(c)
+
+    def test_wrong_source_pin_is_rejected(self):
+        c = certify(request())
+        c["sources"]["original"] = "0"*64
+        with self.assertRaises(ValueError): verify(c)
+
+    def test_coarse_input_is_not_misrepresented_as_a_tight_point(self):
+        c = certify(request(L_hi="2/1", width_goal="1/1000000000000"))
+        self.assertEqual(c["outcome"], "HOLD_INPUT_UNCERTAINTY")
+        self.assertGreater(Q(c["normalizer_input_spread_lower"]), Q(1, 10**12))
+        self.assertIsNone(verify(c))
+
+    def test_unmet_goal_does_not_start_unbounded_refinement(self):
+        c = certify(request(cutoff=1, bits=32, pi_terms=4, exp_pairs=4,
+                            width_goal="1/1000000000000000000000000000000"))
+        self.assertEqual(c["outcome"], "HOLD_TARGET_UNMET")
+        self.assertEqual(c["request"]["cutoff"], 1)
+        self.assertIsNone(verify(c))
+
+    def test_deterministic_work_exhaustion_is_an_attributable_hold(self):
+        with self.assertRaises(KernelHold) as e:
+            certify(request(limits={"max_work": 1}))
+        self.assertEqual(e.exception.reason, "WORK_LIMIT")
+
+    def _actual_cli(self, payload, existing=False):
+        # Real files and real parser/producer; no output mocked or precomputed.
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as d:
+            req, out = Path(d)/"request.json", Path(d)/"output.json"
+            req.write_text(payload); os.chmod(req, 0o600)
+            if existing:
+                out.write_text("KEEP_EXISTING_BYTES"); os.chmod(out, 0o600)
+            old = sys.argv
+            sys.argv = ["moment_kernel.py", str(req), "--output", str(out)]
+            stream = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(stream):
+                    try: code = main()
+                    except Exception as e: code = 99; stream.write(type(e).__name__)
+            finally:
+                sys.argv = old
+            return code, stream.getvalue(), out.read_text() if out.exists() else None
+
+    def test_malformed_json_cli_returns_machine_hold_not_traceback(self):
+        code, stdout, _ = self._actual_cli("{not-json")
+        self.assertEqual(code, 2, stdout)
+        self.assertEqual(json.loads(stdout)["reason"], "INVALID_JSON_REQUEST")
+
+    def test_existing_output_cli_is_preserved_and_returns_machine_hold(self):
+        code, stdout, saved = self._actual_cli(json.dumps(request()), existing=True)
+        self.assertEqual(saved, "KEEP_EXISTING_BYTES")
+        self.assertEqual(code, 2, stdout)
+        self.assertEqual(json.loads(stdout)["reason"], "OUTPUT_ALREADY_EXISTS")
+
+    def test_duplicate_json_request_keys_are_not_silently_overridden(self):
+        payload = '{"cutoff": 1,' + json.dumps(request())[1:]
+        code, stdout, _ = self._actual_cli(payload)
+        self.assertEqual(code, 2, stdout)
+        self.assertEqual(json.loads(stdout)["reason"], "INVALID_JSON_REQUEST")
+
+    def test_nonfinite_json_request_constant_is_rejected_by_parser(self):
+        payload = json.dumps(request())[:-1] + ',"width_goal": NaN}'
+        code, stdout, _ = self._actual_cli(payload)
+        self.assertEqual(code, 2, stdout)
+        self.assertEqual(json.loads(stdout)["reason"], "INVALID_JSON_REQUEST")
+
+    def _actual_checker_cli(self, payload):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as d:
+            f = Path(d)/"certificate.json"; f.write_text(payload); os.chmod(f, 0o600)
+            old = sys.argv; sys.argv = ["verify_certificate.py", str(f)]
+            stream = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(stream):
+                    try: code = checker_module.main()
+                    except Exception as e: code = 99; stream.write(type(e).__name__)
+            finally: sys.argv = old
+            return code, stream.getvalue()
+
+    def test_duplicate_certificate_keys_are_rejected(self):
+        payload = '{"outcome":"FAKE",' + json.dumps(certify(request()))[1:]
+        code, stdout = self._actual_checker_cli(payload)
+        self.assertEqual(code, 1, stdout)
+        self.assertIn("INVALID_JSON_CERTIFICATE", json.loads(stdout)["reason"])
+
+    def test_nonfinite_certificate_json_constant_is_rejected(self):
+        payload = json.dumps(certify(request())).replace('"max_seconds": 3', '"max_seconds": NaN')
+        code, stdout = self._actual_checker_cli(payload)
+        self.assertEqual(code, 1, stdout)
+        self.assertIn("INVALID_JSON_CERTIFICATE", json.loads(stdout)["reason"])
+
+    def test_checker_rejects_bool_float_oversized_strings_and_witness_arrays(self):
+        for kind in ("bool", "float", "string", "array"):
+            with self.subTest(kind=kind):
+                c = certify(request())
+                if kind == "bool": c["request"]["bits"] = True
+                elif kind == "float": c["request"]["cutoff"] = 2.0
+                elif kind == "string": c["h"][0] = "1"*3001 + "/1"
+                else: c["modes"][0]["exp_at_hi"]["levels"] *= 65
+                with self.assertRaises(ValueError): verify(c)
+
+    def test_unresolved_small_spread_is_not_called_inherent_input_obstruction(self):
+        hi = str((1 << 200) + 1) + "/" + str(1 << 200)
+        c = certify(request(L_hi=hi, bits=16, pi_terms=1, exp_pairs=1,
+                            width_goal="1/1000000000000000000000000000000"))
+        self.assertEqual(c["normalizer_input_spread_lower"], "0/1")
+        self.assertEqual(c["outcome"], "HOLD_TARGET_UNMET")
+        self.assertIsNone(verify(c))
+
+    def _sound_widened_normalizer_certificate(self):
+        c = certify(request())
+        def qs(q): return str(q.numerator)+"/"+str(q.denominator)
+        for container, key in (("finite", "0"), ("raw", "0"), ("bounds", "z")):
+            c[container][key][1] = qs(Q(c[container][key][1])+1)
+        for key in ("mu2", "mu4", "mu6"):
+            c["bounds"][key][0] = "0/1"
+        c["error_accounting"]["finite_widths"]["0"] = qs(Q(c["finite"]["0"][1])-Q(c["finite"]["0"][0]))
+        return c
+
+    def test_sound_wider_intervals_remain_checkable_without_minimal_rounding_claim(self):
+        self.assertIsNone(verify(self._sound_widened_normalizer_certificate()))
+
+    def test_sound_widening_does_not_certify_legacy_minimal_rounding_provenance(self):
+        c = self._sound_widened_normalizer_certificate()
+        widths = c["error_accounting"]["finite_widths"]
+        c["error_accounting"] = {
+            "rounding": "OUTWARD_DYADIC_EACH_RECORDED_OPERATION",
+            "per_endpoint_round_error_lt": "1/"+str(2**80),
+            "finite_widths": widths,
+            "finite_width_scope": "includes input uncertainty, pi, exp and arithmetic; not a global sum of local errors"}
+        with self.assertRaises(ValueError): verify(c)
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
+
+END EXACT_FILE NUM2F1 test_moment_kernel.py
+
+BEGIN EXACT_FILE NUM2F2 run_fixture_evidence.py BYTES=3844 SHA256=e32e3c0746daee79fdf6c70f1ab95f45cc3c5ddf8597f4cdf111269dca66122a
+"""Retained sequential TEST_ONLY CLI controls; no scientific target input."""
+from pathlib import Path
+import copy
+import datetime
+import hashlib
+import json
+import os
+import subprocess
+import time
+
+BASE=Path(__file__).resolve().parent
+EVIDENCE=BASE/"evidence"/"cli-fixtures"
+
+def binding(p):
+    b=p.read_bytes()
+    return {"path":str(p),"bytes":len(b),"sha256":hashlib.sha256(b).hexdigest()}
+
+def run(name,command,expected,inputs=(),outputs=()):
+    env=os.environ.copy();env["PYTHONDONTWRITEBYTECODE"]="1"
+    t=time.monotonic()
+    r=subprocess.run(command,cwd=BASE,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=5)
+    dt=time.monotonic()-t
+    log=EVIDENCE/(name+".log");log.write_bytes(r.stdout);os.chmod(log,0o600)
+    receipt={"label":"TEST_ONLY_CLI_CONTROL","utc":datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds").replace("+00:00","Z"),"command":command,"cwd":str(BASE),"expected_exit":expected,"actual_exit":r.returncode,"wall_seconds":dt,"outer_timeout_seconds":5,"producer_per_request_max_seconds":3,"checker_separate_max_seconds":3,"execution":"sequential; one controlled child at a time; no resource-profile changes","sources":[binding(BASE/n) for n in ("moment_kernel.py","verify_certificate.py","VERIFY_SPEC_V1.md")],"inputs":[binding(BASE/n) for n in inputs],"outputs":[binding(BASE/n) for n in outputs if (BASE/n).exists()],"raw_log":binding(log)}
+    p=EVIDENCE/(name+".json");p.write_text(json.dumps(receipt,indent=2)+"\n");os.chmod(p,0o600)
+    print(json.dumps({"case":name,"expected_exit":expected,"actual_exit":r.returncode,"wall_seconds":dt,"receipt":str(p)}))
+    if r.returncode!=expected:raise RuntimeError("unexpected CLI outcome; receipt retained: "+name)
+    return receipt
+
+def main():
+    EVIDENCE.mkdir();os.chmod(EVIDENCE,0o700)
+    receipts=[]
+    for label in ("point","interval"):
+        req="fixtures/"+label+"_request.json";cert="fixtures/"+label+"_certificate.TEST_ONLY.json"
+        receipts.append(run(label+"-produce",["python3","-B","moment_kernel.py",req,"--output",cert],0,[req],[cert]))
+        c=json.loads((BASE/cert).read_text())
+        expected="TOLERANCE_MET" if label=="point" else "HOLD_INPUT_UNCERTAINTY"
+        if c["outcome"]!=expected:raise RuntimeError("unexpected tolerance disposition; generated certificate retained")
+        receipts.append(run(label+"-verify",["python3","-B","verify_certificate.py",cert],0,[cert]))
+    for name in ("work","cutoff","real_cutoff"):
+        req="fixtures/"+name+"_hold_request.json"
+        receipts.append(run(name+"-hold",["python3","-B","moment_kernel.py",req],2,[req]))
+    parent=BASE/"fixtures/point_certificate.TEST_ONLY.json"
+    for label in ("tail-understatement","rounding-narrowing"):
+        c=copy.deepcopy(json.loads(parent.read_text()))
+        if label=="tail-understatement":c["tail_upper"]["6"]="0/1"
+        else:
+            level=c["modes"][0]["exp_at_hi"]["levels"][0]
+            level[1]=level[0]
+        target="fixtures/"+label+".INVALID_TEST_ONLY.json"
+        p=BASE/target;p.write_text(json.dumps(c,indent=2)+"\n");os.chmod(p,0o600)
+        receipts.append(run(label+"-reject",["python3","-B","verify_certificate.py",target],1,[target]))
+    summary={"label":"TEST_ONLY_NOT_ORIGINAL_SCIENTIFIC_EVIDENCE","runs":len(receipts),"all_expected_exits_match":True,"total_wall_seconds":sum(x["wall_seconds"] for x in receipts),"max_run_wall_seconds":max(x["wall_seconds"] for x in receipts),"receipts":[binding(EVIDENCE/(name+".json")) for name in ("point-produce","point-verify","interval-produce","interval-verify","work-hold","cutoff-hold","real_cutoff-hold","tail-understatement-reject","rounding-narrowing-reject")]}
+    p=EVIDENCE/"SUMMARY.json";p.write_text(json.dumps(summary,indent=2)+"\n");os.chmod(p,0o600);print(json.dumps(summary))
+
+if __name__=="__main__":main()
+
+END EXACT_FILE NUM2F2 run_fixture_evidence.py
+
+BEGIN EXACT_FILE NUM2F3 REVIEW_RESPONSE_V1.md BYTES=3550 SHA256=5c6d9293ce6c3f97ca49326250ce0e1e86ca0f266575887d6932b307add430b2
+# Actual technical review input and response
+
+Author: actual /root/blind_coefficient_oct08; org0/post-exposure. These are Root's actual collaboration inputs during this unit, not invented independent reports or final approval. Root personally read DESIGN_V1/plan and early producer/checker, found the core Machin/alternating-exp/integer-tail/full-normalization choices compatible, and asked precise questions. The original design and all intermediate sources remain in evidence snapshots.
+
+1. Root required lower exp at L_hi minus upper exp at L_lo, max0, and differentiation of an unresolved spread from proven inherent input obstruction. The implementation already used those endpoint directions. The test added at green03 uses a nonzero input width with deliberately coarse arithmetic, obtains spread lower0 and HOLD_TARGET_UNMET, and checks the certificate; it does not infer zero true spread. The coarse[1,2] fixture instead has a proved positive spread and HOLD_INPUT_UNCERTAINTY.
+2. Root required bounded independent schema/type/witness parsing, including bool/float/duplicate/nonfinite/oversized strings/arrays. Actual RED03 retained duplicate/nonfinite parsing failures; strict bounded JSON CLI loading and schema/type/length guards now reject them. APIs take bounded decoded JSON-shaped inputs, not arbitrary custom/cyclic Python objects; standard-library parsing is trusted and byte-capped, not marketed as a hardened network service.
+3. Root required distinct checker work/time bounds and no mathematically certified execution attestations. Both arithmetic engines have separate cooperative3s/100000-work caps. Wall time is measured in external receipts, not inferred from certificate metadata. File/JSON parsing is separately bounded by byte caps outside the cooperative arithmetic timer. No OS resource-profile changes were made.
+4. Root required nonnegative exp lower bounds before monotone squaring. Producer intersects the initial Taylor bracket with[0,1]; checker verifies nonnegative dyadic endpoints and valid bounded levels before every square. exp_pairs>=1; first-order-only approximation is not an admitted setting.
+5. Root precisely questioned the old machine field per_endpoint_round_error_lt when the checker permits broader intervals. A NEW actual RED04 widened finite/raw/z upper bounds consistently by1 and relaxed normalized lower bounds, preserving sound containment. The old checker accepted the legacy minimal-rounding provenance:26tests/1failure, exit1/0.309040750s. This is now explicitly scoped: producer_rounding_spec and producer_round_quantum describe the published producer's local source behavior, while checker_certifies says FORWARD_CONTAINMENT_ONLY_NOT_MINIMAL_ROUNDING_OR_EXECUTION. The old overclaim schema is rejected; a sound wider certificate with the new scoped metadata remains accepted. Green04:26/26, exit0/0.304657292s. No claim of a failing counterexample preceded its actual run.
+
+Additional author-discovered CLI contract defects were retained in RED02: malformed JSON and existing output raised exceptions instead of machine HOLD. The implementation now catches malformed input and preserves O_EXCL output bytes with an attributable HOLD. No original source/covariance/formula, old code package, worker/control/rule or installed resource profile changed.
+
+All these are author responses to source-exposed technical assistance. Root's final actual nonauthor reviewers and acceptance remain separate. No provider consensus, formal theorem or original scientific-target computation is inferred.
+
+END EXACT_FILE NUM2F3 REVIEW_RESPONSE_V1.md
+
+BEGIN EXACT_FILE NUM2F4 SOURCE_BINDINGS_V1.json BYTES=1684 SHA256=f76039d49862d118e83a4cdfb653a7c012d40e4f28e1e0a301dbbc14070418b3
+{
+  "author": "/root/blind_coefficient_oct08",
+  "claim_uuid": "761e41c4-059c-462b-aa6f-bdcb3b2ef75d",
+  "claim_row": 2327,
+  "verified_utc": "2026-10-18T00:40:09Z",
+  "mathematical_source_inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/blind-oct08-1022/independent-derivation.md",
+      "bytes": 24027,
+      "sha256": "f38c085ab5b15368e6989a1fd6298490f3b671f5a6c3a01bcdc81b516022bc33",
+      "personally_read_lines_this_unit": "64-104",
+      "relied_upon_lines": "64-89",
+      "unchanged": true
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-technical-unit-20261017-2303/technical/source-author/TECHNICAL_METHOD_V2.md",
+      "bytes": 32593,
+      "sha256": "8bdea4b42e9efd2d846cd1aa73691e8194fa26cd937ac02b79991334f88204f6",
+      "personally_read_lines_this_unit": "95-203 and 173-203",
+      "relied_upon_lines": "173-195",
+      "unchanged": true
+    }
+  ],
+  "additional_analytic_lemmas": "Elementary Machin/alternating-series/outward rational arithmetic proofs supplied in VERIFY_SPEC_V1.md; no external paper/library oracle used.",
+  "peer_global_proof_and_advisory_used_as_kernel_premises": false,
+  "actual_review_assistance": "Root read design/early code and supplied four concrete guard/parse/timer/positivity questions plus the precise containment-versus-minimal-rounding metadata question. Those led to retained behavioral RED controls and scoped fixes; final nonauthor review not presumed.",
+  "new_blind_credit": false,
+  "org": 0,
+  "actual_scientific_target_assigned": false
+}
+
+END EXACT_FILE NUM2F4 SOURCE_BINDINGS_V1.json
+
+BEGIN EXACT_FILE NUM2F5 evidence/green04-provenance/receipt.json BYTES=2033 SHA256=4c4242ae894d8ca61c4c0fb3078778804babdc8978d5820aea1b5543d2849bb6
+{
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_moment_kernel.py"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "exit_code": 0,
+  "wall_seconds": 0.30465729199999997,
+  "outer_timeout_seconds": 15,
+  "source_bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/green04-provenance/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/green04-provenance/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/green04-provenance/test_moment_kernel.py",
+      "bytes": 10682,
+      "sha256": "36112e2add6aa2d1c198e919618e3379ebac1b37b9ea8f1a7456c6818891e4b0"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/green04-provenance/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/green04-provenance/raw.log",
+    "bytes": 2672,
+    "sha256": "253cb54d317dd9a6b1ac0b07333c148511db1fcd3fb0f06d1840573fb2b16767"
+  },
+  "label": "TEST_ONLY_GREEN_CONTAINMENT_PROVENANCE_SCOPE",
+  "utc": "2026-10-18T00:38:21Z"
+}
+
+END EXACT_FILE NUM2F5 evidence/green04-provenance/receipt.json
+
+BEGIN EXACT_FILE NUM2F6 evidence/green04-provenance/raw.log BYTES=2672 SHA256=253cb54d317dd9a6b1ac0b07333c148511db1fcd3fb0f06d1840573fb2b16767
+test_checker_rejects_bool_float_oversized_strings_and_witness_arrays (test_moment_kernel.KernelControls) ... ok
+test_coarse_input_is_not_misrepresented_as_a_tight_point (test_moment_kernel.KernelControls) ... ok
+test_deterministic_work_exhaustion_is_an_attributable_hold (test_moment_kernel.KernelControls) ... ok
+test_duplicate_certificate_keys_are_rejected (test_moment_kernel.KernelControls) ... ok
+test_duplicate_json_request_keys_are_not_silently_overridden (test_moment_kernel.KernelControls) ... ok
+test_existing_output_cli_is_preserved_and_returns_machine_hold (test_moment_kernel.KernelControls) ... ok
+test_exponential_primitive_has_independent_e_bounds (test_moment_kernel.KernelControls) ... ok
+test_malformed_json_cli_returns_machine_hold_not_traceback (test_moment_kernel.KernelControls) ... ok
+test_narrowed_rounded_exponential_seed_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_nonfinite_certificate_json_constant_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_nonfinite_json_request_constant_is_rejected_by_parser (test_moment_kernel.KernelControls) ... ok
+test_noninteger_and_nonpositive_cutoff_are_refused (test_moment_kernel.KernelControls) ... ok
+test_omitted_zero_mode_certificate_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_certificate_perturbation_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_physical_frequency_not_normalized_integer_frequency (test_moment_kernel.KernelControls) ... ok
+test_pi_interval_has_independent_broad_analytic_guard (test_moment_kernel.KernelControls) ... ok
+test_positive_input_required (test_moment_kernel.KernelControls) ... ok
+test_sound_widening_does_not_certify_legacy_minimal_rounding_provenance (test_moment_kernel.KernelControls) ... ok
+test_sound_wider_intervals_remain_checkable_without_minimal_rounding_claim (test_moment_kernel.KernelControls) ... ok
+test_uncertified_monotonic_tail_threshold_is_refused (test_moment_kernel.KernelControls) ... ok
+test_understated_spectral_tail_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_unmet_goal_does_not_start_unbounded_refinement (test_moment_kernel.KernelControls) ... ok
+test_unresolved_small_spread_is_not_called_inherent_input_obstruction (test_moment_kernel.KernelControls) ... ok
+test_valid_full_spectrum_certificate_replays_without_producer_import (test_moment_kernel.KernelControls) ... ok
+test_wrong_source_pin_is_rejected (test_moment_kernel.KernelControls) ... ok
+test_zero_mode_and_independent_geometric_normalizer_control (test_moment_kernel.KernelControls) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.240s
+
+OK
+
+END EXACT_FILE NUM2F6 evidence/green04-provenance/raw.log
+
+BEGIN EXACT_FILE NUM2F7 evidence/cli-fixtures/SUMMARY.json BYTES=3011 SHA256=4576afb3f972ccb89eae9b29d0b3aaa5e6ba58cf1e48231414554f835a6023ea
+{
+  "label": "TEST_ONLY_NOT_ORIGINAL_SCIENTIFIC_EVIDENCE",
+  "runs": 9,
+  "all_expected_exits_match": true,
+  "total_wall_seconds": 0.654572915,
+  "max_run_wall_seconds": 0.12440975,
+  "receipts": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/point-produce.json",
+      "bytes": 2488,
+      "sha256": "61827ae66bed87d585acbe922aa1499433b226b8c053c368fb1a71823ab163c8"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/point-verify.json",
+      "bytes": 2155,
+      "sha256": "2aec1dc159abd5e50f52e28e9050c16dfe3a86613623211aed3fffaccf5b76ba"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/interval-produce.json",
+      "bytes": 2513,
+      "sha256": "b4abfc232a73ae30a6618281692602440b5dd979ff5cb980f4f6c7e35994b78e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/interval-verify.json",
+      "bytes": 2165,
+      "sha256": "99550f09d9d3644921861f77adb17607e6fab46c3857062406670a98e981b2c8"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/work-hold.json",
+      "bytes": 2125,
+      "sha256": "6ceb1331767baee02440ab7d050785f3044f63c0bb50edf60bd438a595cdd19b"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/cutoff-hold.json",
+      "bytes": 2130,
+      "sha256": "7e036a5713bb854a5182dc7e1a9dfa6d9e74f8079fc6bcbe8565365e5cb1bdd9"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/real_cutoff-hold.json",
+      "bytes": 2146,
+      "sha256": "eab50eb885958532889b15871a9aa4cb61ac6fa541a2d70d960c06cd0bf7c3c4"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/tail-understatement-reject.json",
+      "bytes": 2188,
+      "sha256": "9097f56ec72ac4bbffa36da701ea73980253a3758eadd9e116a5099f9a7bd347"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/rounding-narrowing-reject.json",
+      "bytes": 2185,
+      "sha256": "ad96c47ffc0af2d11e71850225e329062c2ee1efd17378ef90d096a627615a44"
+    }
+  ]
+}
+
+END EXACT_FILE NUM2F7 evidence/cli-fixtures/SUMMARY.json
+
+BEGIN EXACT_FILE NUM2F8 evidence/cli-fixtures/cutoff-hold.json BYTES=2130 SHA256=7e036a5713bb854a5182dc7e1a9dfa6d9e74f8079fc6bcbe8565365e5cb1bdd9
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "moment_kernel.py",
+    "fixtures/cutoff_hold_request.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 2,
+  "actual_exit": 2,
+  "wall_seconds": 0.08463162499999993,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/cutoff_hold_request.json",
+      "bytes": 169,
+      "sha256": "542dc776fc3b8552721e2a20711db605943c4e972c72fd976deea0db77891163"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/cutoff-hold.log",
+    "bytes": 63,
+    "sha256": "ae8adcc41988ae883da19461117ba69c9976a7bc1323d608f2de631bd1f0a1e2"
+  }
+}
+
+END EXACT_FILE NUM2F8 evidence/cli-fixtures/cutoff-hold.json
+
+BEGIN EXACT_FILE NUM2F9 evidence/cli-fixtures/interval-produce.json BYTES=2513 SHA256=b4abfc232a73ae30a6618281692602440b5dd979ff5cb980f4f6c7e35994b78e
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "moment_kernel.py",
+    "fixtures/interval_request.json",
+    "--output",
+    "fixtures/interval_certificate.TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 0,
+  "actual_exit": 0,
+  "wall_seconds": 0.059731290999999964,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/interval_request.json",
+      "bytes": 167,
+      "sha256": "f2e56cdad99fef0f77d588f28c9fe6b871eac34e389dd4b3e2da96fc5418e523"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/interval_certificate.TEST_ONLY.json",
+      "bytes": 13996,
+      "sha256": "16ea7bbedf68bb2259ac4b78236b21994209709852233ca6c800abfd1c33bb76"
+    }
+  ],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/interval-produce.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
+
+END EXACT_FILE NUM2F9 evidence/cli-fixtures/interval-produce.json
+
+BEGIN EXACT_FILE NUM2F10 evidence/cli-fixtures/interval-verify.json BYTES=2165 SHA256=99550f09d9d3644921861f77adb17607e6fab46c3857062406670a98e981b2c8
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "verify_certificate.py",
+    "fixtures/interval_certificate.TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 0,
+  "actual_exit": 0,
+  "wall_seconds": 0.049248875000000025,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/interval_certificate.TEST_ONLY.json",
+      "bytes": 13996,
+      "sha256": "16ea7bbedf68bb2259ac4b78236b21994209709852233ca6c800abfd1c33bb76"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/interval-verify.log",
+    "bytes": 135,
+    "sha256": "f995fb1b1a11916022cd5fa194d414a674341602ea66af862c7326e2d1942c98"
+  }
+}
+
+END EXACT_FILE NUM2F10 evidence/cli-fixtures/interval-verify.json
+
+BEGIN EXACT_FILE NUM2F11 evidence/cli-fixtures/point-produce.json BYTES=2488 SHA256=61827ae66bed87d585acbe922aa1499433b226b8c053c368fb1a71823ab163c8
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "moment_kernel.py",
+    "fixtures/point_request.json",
+    "--output",
+    "fixtures/point_certificate.TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 0,
+  "actual_exit": 0,
+  "wall_seconds": 0.12440975,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/point_request.json",
+      "bytes": 167,
+      "sha256": "566e1ca84e354cefebe8ce977b683fbddd07a5567cb432ec287c9cb37bc54459"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/point_certificate.TEST_ONLY.json",
+      "bytes": 11676,
+      "sha256": "4fe9a888e24738e107296fa8b3655c26cab85f865f4fc3d85ba318e9192bb9b5"
+    }
+  ],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/point-produce.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
+
+END EXACT_FILE NUM2F11 evidence/cli-fixtures/point-produce.json
+
+BEGIN EXACT_FILE NUM2F12 evidence/cli-fixtures/point-verify.json BYTES=2155 SHA256=2aec1dc159abd5e50f52e28e9050c16dfe3a86613623211aed3fffaccf5b76ba
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "verify_certificate.py",
+    "fixtures/point_certificate.TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 0,
+  "actual_exit": 0,
+  "wall_seconds": 0.09552083300000003,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/point_certificate.TEST_ONLY.json",
+      "bytes": 11676,
+      "sha256": "4fe9a888e24738e107296fa8b3655c26cab85f865f4fc3d85ba318e9192bb9b5"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/point-verify.log",
+    "bytes": 126,
+    "sha256": "af8720397652384545d27aaeafd09860ad18a17fa90d63360741e165b52238a5"
+  }
+}
+
+END EXACT_FILE NUM2F12 evidence/cli-fixtures/point-verify.json
+
+BEGIN EXACT_FILE NUM2F13 evidence/cli-fixtures/real_cutoff-hold.json BYTES=2146 SHA256=eab50eb885958532889b15871a9aa4cb61ac6fa541a2d70d960c06cd0bf7c3c4
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "moment_kernel.py",
+    "fixtures/real_cutoff_hold_request.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 2,
+  "actual_exit": 2,
+  "wall_seconds": 0.057057708000000096,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/real_cutoff_hold_request.json",
+      "bytes": 172,
+      "sha256": "4688d6d5d6961f70f422cf3eae0bada1bc2644076a988bed55210587fecd38bd"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/real_cutoff-hold.log",
+    "bytes": 60,
+    "sha256": "caa593089d3cfde910ee75f6e3ff0099e99456b15888efb4626caf0099eb46a2"
+  }
+}
+
+END EXACT_FILE NUM2F13 evidence/cli-fixtures/real_cutoff-hold.json
+
+BEGIN EXACT_FILE NUM2F14 evidence/cli-fixtures/rounding-narrowing-reject.json BYTES=2185 SHA256=ad96c47ffc0af2d11e71850225e329062c2ee1efd17378ef90d096a627615a44
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "verify_certificate.py",
+    "fixtures/rounding-narrowing.INVALID_TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 1,
+  "actual_exit": 1,
+  "wall_seconds": 0.07054479199999997,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/rounding-narrowing.INVALID_TEST_ONLY.json",
+      "bytes": 11675,
+      "sha256": "bf320cadc540270af394d117b8cc2f148dd7f449fae3fbe43dc69e50284434f7"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/rounding-narrowing-reject.log",
+    "bytes": 71,
+    "sha256": "f79d8cc3d92008f75a20d8eed3a504098ea7fb6f456cea8d22e98be8edc34cdc"
+  }
+}
+
+END EXACT_FILE NUM2F14 evidence/cli-fixtures/rounding-narrowing-reject.json
+
+BEGIN EXACT_FILE NUM2F15 evidence/cli-fixtures/tail-understatement-reject.json BYTES=2188 SHA256=9097f56ec72ac4bbffa36da701ea73980253a3758eadd9e116a5099f9a7bd347
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "verify_certificate.py",
+    "fixtures/tail-understatement.INVALID_TEST_ONLY.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 1,
+  "actual_exit": 1,
+  "wall_seconds": 0.06684120800000004,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/tail-understatement.INVALID_TEST_ONLY.json",
+      "bytes": 11649,
+      "sha256": "5d6ca02c49424c16ad138c69059696bf44b77351af278a06f3257dd1d5cecf3d"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/tail-understatement-reject.log",
+    "bytes": 74,
+    "sha256": "87f616697d214417a4f3fb33a2222778b2a951c979a5574b0cbf6dcfa98e251b"
+  }
+}
+
+END EXACT_FILE NUM2F15 evidence/cli-fixtures/tail-understatement-reject.json
+
+BEGIN EXACT_FILE NUM2F16 evidence/cli-fixtures/work-hold.json BYTES=2125 SHA256=6ceb1331767baee02440ab7d050785f3044f63c0bb50edf60bd438a595cdd19b
+{
+  "label": "TEST_ONLY_CLI_CONTROL",
+  "utc": "2026-10-18T00:38:57Z",
+  "command": [
+    "python3",
+    "-B",
+    "moment_kernel.py",
+    "fixtures/work_hold_request.json"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author",
+  "expected_exit": 2,
+  "actual_exit": 2,
+  "wall_seconds": 0.046586832999999994,
+  "outer_timeout_seconds": 5,
+  "producer_per_request_max_seconds": 3,
+  "checker_separate_max_seconds": 3,
+  "execution": "sequential; one controlled child at a time; no resource-profile changes",
+  "sources": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/moment_kernel.py",
+      "bytes": 12063,
+      "sha256": "68c3caf28190e8be58464cabfc39ab565449d9bb64716ab139ac0dd0a181193e"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/verify_certificate.py",
+      "bytes": 10829,
+      "sha256": "a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/VERIFY_SPEC_V1.md",
+      "bytes": 12757,
+      "sha256": "ed7da1635d91c8c770ad0d787d9cc178ea0ad2bbdd4153f8922477d8d1e27e05"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/fixtures/work_hold_request.json",
+      "bytes": 204,
+      "sha256": "89e27eb19d09de4bee7735820abb25a5cec545d8d6155a71dfbda435eff6f5ec"
+    }
+  ],
+  "outputs": [],
+  "raw_log": {
+    "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/num-i2-moment-kernel-20261018-0021/author/evidence/cli-fixtures/work-hold.log",
+    "bytes": 43,
+    "sha256": "0785811391c5c0c8ea823d895fe6e33e85e1678566e3be030ffaaa91b221da9a"
+  }
+}
+
+END EXACT_FILE NUM2F16 evidence/cli-fixtures/work-hold.json
+
+BEGIN EXACT_FILE NUM2F17 fixtures/cutoff_hold_request.json BYTES=169 SHA256=542dc776fc3b8552721e2a20711db605943c4e972c72fd976deea0db77891163
+{
+  "L_lo": "10/1",
+  "L_hi": "10/1",
+  "cutoff": 1,
+  "bits": 80,
+  "pi_terms": 20,
+  "exp_pairs": 16,
+  "width_goal": "1/1000000000000",
+  "input_role": "TEST_ONLY"
+}
+
+END EXACT_FILE NUM2F17 fixtures/cutoff_hold_request.json
+
+BEGIN EXACT_FILE NUM2F18 fixtures/interval_request.json BYTES=167 SHA256=f2e56cdad99fef0f77d588f28c9fe6b871eac34e389dd4b3e2da96fc5418e523
+{
+  "L_lo": "1/1",
+  "L_hi": "2/1",
+  "cutoff": 2,
+  "bits": 80,
+  "pi_terms": 20,
+  "exp_pairs": 16,
+  "width_goal": "1/1000000000000",
+  "input_role": "TEST_ONLY"
+}
+
+END EXACT_FILE NUM2F18 fixtures/interval_request.json
+
+BEGIN EXACT_FILE NUM2F19 fixtures/point_request.json BYTES=167 SHA256=566e1ca84e354cefebe8ce977b683fbddd07a5567cb432ec287c9cb37bc54459
+{
+  "L_lo": "1/1",
+  "L_hi": "1/1",
+  "cutoff": 2,
+  "bits": 80,
+  "pi_terms": 20,
+  "exp_pairs": 16,
+  "width_goal": "1/1000000000000",
+  "input_role": "TEST_ONLY"
+}
+
+END EXACT_FILE NUM2F19 fixtures/point_request.json
+
+BEGIN EXACT_FILE NUM2F20 fixtures/real_cutoff_hold_request.json BYTES=172 SHA256=4688d6d5d6961f70f422cf3eae0bada1bc2644076a988bed55210587fecd38bd
+{
+  "L_lo": "1/1",
+  "L_hi": "1/1",
+  "cutoff": "9/10",
+  "bits": 80,
+  "pi_terms": 20,
+  "exp_pairs": 16,
+  "width_goal": "1/1000000000000",
+  "input_role": "TEST_ONLY"
+}
+
+END EXACT_FILE NUM2F20 fixtures/real_cutoff_hold_request.json
+
+BEGIN EXACT_FILE NUM2F21 fixtures/work_hold_request.json BYTES=204 SHA256=89e27eb19d09de4bee7735820abb25a5cec545d8d6155a71dfbda435eff6f5ec
+{
+  "L_lo": "1/1",
+  "L_hi": "1/1",
+  "cutoff": 2,
+  "bits": 80,
+  "pi_terms": 20,
+  "exp_pairs": 16,
+  "width_goal": "1/1000000000000",
+  "input_role": "TEST_ONLY",
+  "limits": {
+    "max_work": 1
+  }
+}
+
+END EXACT_FILE NUM2F21 fixtures/work_hold_request.json

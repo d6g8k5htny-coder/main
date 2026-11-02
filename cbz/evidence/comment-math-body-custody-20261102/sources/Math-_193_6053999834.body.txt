@@ -1,0 +1,334 @@
+Frozen finite contact algebra source and completed review — actual /root, bounded pickup6053806126.
+
+This is the checked phase/finite-frequency separation prerequisite, not a substituted assumed rank interface. Actual source/contact-observable validation and final review are separate. Main/tests/audit pass; two literal signatures equal the genuine two-goal red. Imported cached modules were retained, not rebuilt by reviewers. Actual nonauthor parent reviewed final source/report and46/46raw bindings; actual child checked earlier source/evidence and honestly marked then-absent author docs pending. Parent later documentary inspection closes only that helper documentary scope; no copied/retroactive child vote. Both reviewers source exposed, same organization0.
+
+Bindings manifest14472B SHA3103b3f966f9e7b5d308fede633964a288382655a72dfb863cba7250c13f2a68 remains locally retained and was root/parent checked. Main object272072B SHAa07ca63c51fe120b028b312925986f61e2fceab980955e34d2cecdbca5236745. Original full goal ACTIVE, scientific effectNONE. Global ELDER/exhaustion and all remaining rank/pin/scientific gates stay open. No graph/status promotion. Complete source/test/audit/raw-red/failure/context and original completed review texts follow; separator LF is outside each file's bytes.
+
+Literal file ContactAlgebra.lean: 2257 bytes; SHA256 4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948
+````text
+import SourceJetLaw
+
+set_option autoImplicit false
+set_option maxRecDepth 3000
+set_option maxHeartbeats 800000
+
+namespace SourceContactRank
+
+theorem contact_phase_elimination (s co R S : ℝ)
+    (hunit : s ^ 2 + co ^ 2 = 1)
+    (hcos : R * co - S * s = 0)
+    (hsin : R * s + S * co = 0) : R = 0 ∧ S = 0 := by
+  constructor
+  · calc
+      R = R * (s ^ 2 + co ^ 2) := by rw [hunit]; ring
+      _ = (R * co - S * s) * co + (R * s + S * co) * s := by ring
+      _ = 0 := by rw [hcos, hsin]; ring
+  · calc
+      S = S * (s ^ 2 + co ^ 2) := by rw [hunit]; ring
+      _ = (R * s + S * co) * co - (R * co - S * s) * s := by ring
+      _ = 0 := by rw [hcos, hsin]; ring
+
+theorem contact_polynomial_separation {d : ℕ} (c : ℝ) (hc : c ≠ 0)
+    (u V W : Fin d → ℝ) (hu : u ≠ 0) (A C : ℝ) (hA : A = 0)
+    (hS1 : ∀ i, c * V i - C * (c * u i) ^ 3 = 0)
+    (hS2 : ∀ i, 2 * c * V i - C * (2 * c * u i) ^ 3 = 0)
+    (hR1 : ∀ i, A - (c * u i) * (c * W i) = 0)
+    (hR2 : ∀ i j, i ≠ j → A - (c * (u i + u j)) * (c * (W i + W j)) = 0) :
+    C = 0 ∧ V = 0 ∧ W = 0 := by
+  classical
+  have hex : ∃ i, u i ≠ 0 := by
+    by_contra h
+    apply hu
+    funext i
+    exact not_not.mp ((not_exists.mp h) i)
+  obtain ⟨i, hi⟩ := hex
+  have hcu : c * u i ≠ 0 := mul_ne_zero hc hi
+  have hCprod : C * (c * u i) ^ 3 = 0 := by
+    nlinarith [hS1 i, hS2 i]
+  have hC : C = 0 := (mul_eq_zero.mp hCprod).resolve_right (pow_ne_zero 3 hcu)
+  have hV : V = 0 := by
+    funext j
+    have h := hS1 j
+    rw [hC, zero_mul, sub_zero] at h
+    exact (mul_eq_zero.mp h).resolve_left hc
+  have hdiag : ∀ j, u j * W j = 0 := by
+    intro j
+    have h : c ^ 2 * (u j * W j) = 0 := by nlinarith [hR1 j]
+    exact (mul_eq_zero.mp h).resolve_left (pow_ne_zero 2 hc)
+  have hWi : W i = 0 := (mul_eq_zero.mp (hdiag i)).resolve_left hi
+  have hW : W = 0 := by
+    funext j
+    by_cases hij : i = j
+    · simpa [← hij] using hWi
+    · have hcross : c ^ 2 * (u i * W j + u j * W i) = 0 := by
+        nlinarith [hR1 i, hR1 j, hR2 i j hij]
+      have hcross' := (mul_eq_zero.mp hcross).resolve_left (pow_ne_zero 2 hc)
+      rw [hWi, mul_zero, add_zero] at hcross'
+      exact (mul_eq_zero.mp hcross').resolve_left hi
+  exact ⟨hC, hV, hW⟩
+
+end SourceContactRank
+
+````
+
+Literal file ContactAlgebraTests.lean: 1508 bytes; SHA256 3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd
+````text
+import ContactAlgebra
+
+set_option autoImplicit false
+open SourceContactRank
+
+-- A sign error in phase elimination fails this exact quarter-turn application.
+example (R S : ℝ) (hcos : -S = 0) (hsin : R = 0) : R = 0 ∧ S = 0 := by
+  apply contact_phase_elimination 1 0 R S (by norm_num)
+  · simpa using hcos
+  · simpa using hsin
+
+-- Omitting circle normalization admits this nonzero null pair.
+example : (1 : ℝ) * 0 - 0 * 0 = 0 ∧ (1 : ℝ) * 0 + 0 * 0 = 0 ∧ (1 : ℝ) ≠ 0 := by
+  norm_num
+
+-- Coordinate modes alone miss the odd cubic/linear contrast u=V=e0,C=c=1.
+example (i : Fin 2) :
+    (if i = 0 then (1 : ℝ) else 0) - (if i = 0 then (1 : ℝ) else 0) ^ 3 = 0 := by
+  fin_cases i <;> norm_num
+
+-- The doubled e0 mode exposes that same missing contrast with literal residual -6.
+example : (2 : ℝ) * 1 - 1 * ((2 : ℝ) * 1) ^ 3 = -6 := by norm_num
+
+-- Diagonal modes miss the mixed quadratic block u=e0,W=e1.
+example (i : Fin 2) :
+    -(if i = 0 then (1 : ℝ) else 0) * (if i = 1 then (1 : ℝ) else 0) = 0 := by
+  fin_cases i <;> norm_num
+
+-- The actual pair sum e0+e1 exposes it with literal residual -1.
+example : -((1 : ℝ) + 0) * ((0 : ℝ) + 1) = -1 := by norm_num
+
+-- Dropping u≠0 leaves a nonzero cubic weight invisible on all frequencies.
+example (k : ℝ) : (0 : ℝ) - 1 * (k * 0) ^ 3 = 0 ∧ (1 : ℝ) ≠ 0 := by norm_num
+
+-- Omitting the constant-mode A=0 condition misses a value/second contrast in D=1.
+example : (1 : ℝ) - 1 * 1 = 0 ∧ (1 : ℝ) ≠ 0 := by norm_num
+
+````
+
+Literal file ContactAlgebraAxioms.lean: 143 bytes; SHA256 db3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e
+````text
+import ContactAlgebra
+
+#print axioms SourceContactRank.contact_phase_elimination
+#print axioms SourceContactRank.contact_polynomial_separation
+
+````
+
+Literal file contact-algebra-evidence/IMPLEMENTATION.md: 5120 bytes; SHA256 63a1094c647ce8e874f0dd32e8ba088262bbd3d71e0f5543a221abea58a2991b
+````text
+# Finite contact algebra implementation and validation
+
+Actual implementer /root. Source/proof-route exposed; organizational independence zero. This is the exact finite coefficient-separation prerequisite for the required actual contact covariance rank. Actual source derivative formulas, half-lattice admission/amplitudes, physical frame uniqueness and same-law variance transfer belong to SourceContactRank and are not supplied by these algebra helpers.
+
+The first helper eliminates phase from two real equations R co−S s=0 and R s+S co=0 under s²+co²=1. Multiplying and adding the two equations gives R(s²+co²)=0; subtracting gives S(s²+co²)=0. Both channels are required. No stationarity or rotational covariance premise is used.
+
+The second helper separates the odd cubic/linear block using coordinate and doubled-coordinate equations, and the quadratic block using coordinate and pair-sum equations. A nonzero axial vector supplies an index i with u_i≠0; c≠0 permits cancelling the exact physical scale. The odd equations force C(cu_i)³=0, hence C=0 and V=0. Diagonal equations give u_j W_j=0 and W_i=0. Pair equations after subtracting their two diagonals give u_i W_j+u_j W_i=0, hence W=0. A=0 is an explicit constant-mode premise the source consumer must derive, not an assumption about observation independence.
+
+Both public theorem signatures are byte-identical to their initial empty-proof declarations. No sorry, axiom, admitted functional independence, imported rank assertion or unsafe proof shortcut was added. The two proof bodies compiled with only standard Lean axioms (propext, Classical.choice, Quot.sound). Eight hand-derived controls show quarter-turn signs, the missing circle assumption, the missing doubled-mode contrast (literal −6), the mixed-second contrast exposed by a pair sum (literal −1), the zero-axial degeneracy, and the missing constant-mode condition. They test the finite proof scope; they are not evidence that the source field variance target already compiled.
+
+The actual initial Lean red had exactly two intended unsolved goals and no import/type errors. Main emitted a new object with no warnings; controls and axiom audit passed. Every execution used the existing pinned Lean4.34.1/mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 context, one shared compiler lock, nice10, one thread, and a180-second timeout. Imported modules were cached; this was not an independent whole-library or leanchecker replay.
+
+Retained infrastructure failure: the new runner's first attempt bound the nonexistent filename SourceSpatial.lean and failed BEFORE invoking Lean. Its empty-proof snapshot remains; runner-preflight-failure.md records the error and correction to the existing SourceSpatialKernel.lean. A separate fresh algebra-red-actual execution is the genuine mathematical red. Existing source files, object imports and compile-context bytes were never edited. The wrong i2/compile-context locator in an earlier read is also recorded separately from compiler evidence.
+
+The helpers are frozen pending actual nonauthor review of these final bytes and evidence. They do not close actual contact variance, enlarged transverse Hessian rank, general distinct-torus multipoint rank, uniform covariance floor or near-contact inverse bounds, prescribed-pin regression/genericity, full I4, I1/I2, global ELDER/exhaustion or the full original theorem. No scientific promotion or new status/graph register follows.
+
+Exact payload bindings:
+- ContactAlgebra.lean: 2257 bytes, SHA256 4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948.
+- ContactAlgebraTests.lean: 1508 bytes, SHA256 3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd.
+- ContactAlgebraAxioms.lean: 143 bytes, SHA256 db3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e.
+- ContactAlgebra.olean: SHA256 a07ca63c51fe120b028b312925986f61e2fceab980955e34d2cecdbca5236745.
+
+Actual executions:
+- algebra-red-actual: exit1, 17.4800465s, source3f7b5a9122851e1542117e5a0ca8ad349aa9ab0586fe23f587d0140ac7c04d9a, log851B/d0f3e32d6a0c01787a23582b92a7f0336a5911d0f79596495f7115d03bc71d8c; all source/import integrity comparisons true.
+- algebra-green-1: exit0, 6.912729625s, source4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948, log0B/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; all source/import integrity comparisons true.
+- algebra-tests-final: exit0, 4.498264959s, source3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd, log0B/e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855; all source/import integrity comparisons true.
+- algebra-axioms-final: exit0, 4.773856834s, sourcedb3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e, log214B/5ff39e1a693421058999acab99bbcebc44b0a7b293ec0ad38fc64ca0019c4333; all source/import integrity comparisons true.
+
+The exact retained payload/import bindings are in bindings.json. SourceContactRank implementation is separate and may still be moving; it is deliberately absent from this helper manifest. Parent final review is a separate actual completed artifact.
+
+````
+
+Literal file I4_CONTACT_ALGEBRA_PARENT_FINAL_REVIEW.md: 11049 bytes; SHA256 a32c33e3cede202ead6ca222ccda3ea861d6b3d4d367018c1714766c3e0d25c4
+````text
+# Independent final review of the finite contact algebra
+
+Disposition: **ACCEPT_SCOPED** for the exact two theorems in ContactAlgebra.lean, SHA256 `4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948`. No must-fix was found in their statements, proofs, eight controls, execution evidence or frozen documentary scope. This is a completed nonauthor review of finite real algebra. It is not approval of the moving SourceContactRank implementation or of actual contact variance positivity.
+
+Actual reviewer: `/root/local_runtime_readonly`, a collaboration-tool subagent of `/root`. Actual implementer: `/root`. I did not implement either helper. I have read the source-bound contact preflight and participated in its proof-route attack; this is source-exposed, not blind review. Organizational independence is zero. An actual child `/root/local_runtime_readonly/i4_gaussian_api_audit` separately checked the helper source/test/receipt scope; its earlier report honestly left the then-absent final author capsule pending. My final documentary checks below are independent current checks, not an extension of that historical pending observation or a copied approval. Neither report is an operating-rule vote or an installation approval.
+
+## Exact final objects consumed
+
+All paths are relative to `work/theorem-continuation-20261008/i4-realization/` in the shared project checkout.
+
+| Object | Bytes | SHA256 |
+|---|---:|---|
+| ContactAlgebra.lean | 2257 | 4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948 |
+| ContactAlgebraTests.lean | 1508 | 3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd |
+| ContactAlgebraAxioms.lean | 143 | db3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e |
+| contact-algebra-evidence/IMPLEMENTATION.md | 5120 | 63a1094c647ce8e874f0dd32e8ba088262bbd3d71e0f5543a221abea58a2991b |
+| contact-algebra-evidence/bindings.json | 14472 | 3103b3f966f9e7b5d308fede633964a288382655a72dfb863cba7250c13f2a68 |
+| contact-algebra-evidence/PLAN.md | 2260 | e2bcba3bde09c7b5e076203cde50cf892feafe245d2420d843f7b6556eb2024c |
+| ContactAlgebra.olean | 272072 | a07ca63c51fe120b028b312925986f61e2fceab980955e34d2cecdbca5236745 |
+| compile-context.json | 2168 | e79f978185239fb1af8f8e5978fe8bc5a841fec1969f4a09c0174be0b2dd468e |
+| contact-rank-evidence/run_compile.py | 4223 | 22e16e077bd7b1039c68c0308a52e4f4639585be0ade84979faa069b9c7f503b |
+
+I read the full final source, tests, audit source, author narrative, plan, manifest, runner, four execution receipts, complete red and axiom logs, and empty final main/test logs. I independently read and hashed all **46/46** manifest entries and checked both their sizes and SHA256 values against current bytes. They all match. The source and emitted object match the immutable green snapshot/receipt. The imported-source and imported-object maps in the four receipts also match current bytes. The manifest does not include the moving SourceContactRank source, appropriately limiting this freeze to the helpers.
+
+I compared each public declaration from its theorem name through the proof introducer against the genuine retained empty-proof red source. Both signatures are **byte-identical**. The initial plan remains a preserved plan with unchecked boxes; the final implementation record and actual receipts supply the later execution facts. No current source changes, compiler runs, inference, runtime changes, checkpoint edits or native posts were made by this reviewer.
+
+## Mathematical statement and proof attack
+
+`contact_phase_elimination` takes four real numbers s, co, R, S and exactly the premises `s^2 + co^2 = 1`, `R*co - S*s = 0`, and `R*s + S*co = 0`. It concludes R=0 and S=0. The proof uses the inverse of the real circle rotation explicitly: multiplying and adding the two equations yields R times the circle norm; multiplying and subtracting yields S times the circle norm. Each displayed equality is discharged by ring normalization or rewriting the three supplied premises. No stationarity, isotropy, Gaussianity or independence premise is present. Dropping either channel or the unit-circle condition would make the implication false; those are correctly retained.
+
+`contact_polynomial_separation` is over arbitrary finite dimension d and real scale c. It requires c nonzero, a vector u nonzero, A=0, and these literal equations for every coordinate/pair:
+
+- `c*V_i - C*(c*u_i)^3 = 0` and `2*c*V_i - C*(2*c*u_i)^3 = 0`;
+- `A - (c*u_i)*(c*W_i) = 0`;
+- for distinct i,j, `A - c*(u_i+u_j)*c*(W_i+W_j) = 0`.
+
+It concludes C=0, V=0 and W=0. The proof first derives an actual coordinate i with u_i nonzero from function extensionality and u nonzero. At that coordinate, the doubled odd equation minus twice the first gives a nonzero scalar multiple of `C*(c*u_i)^3`; `nlinarith` derives its vanishing. Cancellation uses the proved nonzero product c*u_i and its cube, so C=0. The first odd equations then force every V_j=0.
+
+For the even block, A=0 and each diagonal equation imply `u_j*W_j=0` after cancellation of c squared. The chosen nonzero coordinate forces W_i=0. For each j unequal to i, the pair equation minus both diagonals gives `u_i*W_j + u_j*W_i=0`, hence W_j=0. The equal-index case uses the already established W_i=0. This derivation remains valid when u_i+u_j=0: it does not divide by that sum. It also works with signed or nonorthogonal frame components; no Euclidean rotational symmetry is assumed.
+
+The helper's d=0 case is vacuous because its premise u nonzero is impossible, not because it establishes a physical empty-dimensional rank. Dimension one is allowed and the pair requirements then have no instances; the selected coordinate already determines W. The actual future source consumer has physical dimension d+1 with d at least one, positive L, and an invertible continuous linear frame. Those physical premises are not supplied or weakened by these helpers.
+
+The vanishing-equation premises are legitimate internal algebra premises. The future public contact theorem must itself derive them from actual source coefficients, canonical half-lattice modes, both sine/cosine phases and positive amplitudes. The helper does not turn an assumed coefficient identity or an assumed observation rank into a proof of source variance. In particular, A=0 is a constant-mode consequence the consumer still has to prove; c nonzero and u nonzero must come from physical L and frame injectivity.
+
+## Meaningful controls and actual execution
+
+The eight final `example`s were read as statements and proofs, not counted from an author summary. They test the quarter-turn exchange s=1, co=0; a nonzero null pair when circle normalization is absent; the odd linear/cubic contrast missed by single coordinate modes; its literal residual -6 at a doubled mode; the mixed quadratic contrast missed by diagonals; its literal residual -1 at a pair sum; the zero-axial degeneracy; and the missing constant-mode A=0 condition. The first is an actual application of the phase theorem. Several others are hand-derived negative counterexamples, not generic source-field integration tests. Their limited scope is described accurately in the final narrative. The larger actual observable still requires its own source-bound tests and proof.
+
+| Actual retained run | Exit | Seconds | Source SHA256 | Log SHA256 |
+|---|---:|---:|---|---|
+| algebra-red-actual | 1 | 17.4800465 | 3f7b5a9122851e1542117e5a0ca8ad349aa9ab0586fe23f587d0140ac7c04d9a | d0f3e32d6a0c01787a23582b92a7f0336a5911d0f79596495f7115d03bc71d8c |
+| algebra-green-1 | 0 | 6.912729625 | 4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948 | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 |
+| algebra-tests-final | 0 | 4.498264959 | 3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd | e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 |
+| algebra-axioms-final | 0 | 4.773856834 | db3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e | 5ff39e1a693421058999acab99bbcebc44b0a7b293ec0ad38fc64ca0019c4333 |
+
+The genuine red log is 851 bytes and contains exactly the two intended unsolved goals, no import or declaration-type errors. Main and test final logs are empty. The 214-byte final axiom log contains two genuine `#print axioms` rows, one for each public theorem; both list exactly `[propext, Classical.choice, Quot.sound]`. The source contains no sorry/admit, custom axiom, imported rank assertion or proof bypass. Its explicit maxRecDepth3000 and maxHeartbeats800000 are computation budgets for ordinary proof elaboration, not replacement axioms.
+
+The four receipt hashes, respectively, are `e9c1425a33392c629f27280b0c0cd69360cf90f3eddb064dcb7f154ba9064bb6`, `c816300342a1e80e84a605afc041fa866fb7281bbb3ba257a3a4f2f3a10747e1`, `10be57bc81633f719c1c9d0f50b0a6bf39b548e3a3b5c4a620736ab3aed1b59e`, and `2c9213f5e7d2a8a040c65138890faa74b9561702f3a67a10b4a3a1b475e3c12f`. Each reports before/after source, dependency and imported-object integrity true, the same compile-context hash, one Lean thread, a 180-second bound and no timeout. The command uses the pinned Lean4.34.1 runtime via nice10. These are actual direct-target elaborations against cached imports; I did not run a separate compiler, fresh whole-library rebuild or leanchecker. The manifest/context and inherited pinned-source custody do not by themselves establish an independent replay of every imported dependency.
+
+## Retained failure custody and residual scope
+
+The first runner invocation failed while binding nonexistent `SourceSpatial.lean`, before a Lean process was started. Its 754-byte empty-proof snapshot is retained separately as `ContactAlgebra.algebra-red.lean`. `runner-preflight-failure.md` is 1272 bytes, SHA256 `1974691f0a46a605c463da598139a1e4521e40bd7a67afb705c46ca171cd4eb4`; I read it in full. The corrected dependency name is the actual unchanged `SourceSpatialKernel.lean`. The separate `algebra-red-actual` receipt/log is the only mathematical red credited here. The earlier wrong i2 compile-context read locator is also an infrastructure/read error, not proof evidence. The final runner's snapshot/receipt assertions, shared fcntl lock and source/import comparisons were read directly.
+
+The author narrative accurately limits the completed result. Still unproved by this capsule are actual contact-observable strict variance, literal derivative signs and positive half-lattice amplitudes in the consumer, frame coefficient recovery, same-law summable-series variance transfer, enlarged transverse Hessian rank, general torus-distinct multipoint rank, a compact-frame uniform floor, near-contact inverse bounds, every prescribed-pin whole-field regression/genericity, and the remaining full I1/I2/I4 and global ELDER/exhaustion obligations. No graph/STATUS promotion, scientific closure or earlier external review extension is justified. The accepted result is a reusable checked finite-algebra prerequisite with its actual failure history retained.
+
+Actual final review saved at 2026-10-08T06:35:25.982330+00:00.
+
+````
+
+Literal file I4_CONTACT_ALGEBRA_CHILD_EVIDENCE_ATTACK.md: 6773 bytes; SHA256 4d6e0b829158e879be88ea3d2ffde1e42f3339fde1f16e0b010b4312ab108cb2
+````text
+# Exact ContactAlgebra child evidence attack
+
+Actual agent `/root/local_runtime_readonly/i4_gaussian_api_audit`, real collaboration followup from `/root/local_runtime_readonly`; observed 2026-10-08 06:32–06:33 UTC. Source/proof exposed; organizational independence 0. Earlier derivative/API and finite-law exposure is disclosed. I did not implement the helper. This is my completed bounded read-only semantic/evidence attack, not a borrowed parent vote, scientific promotion or approval of moving SourceContactRank. No compiler, inference, native write, runtime/control/rule or source change was performed. Only this uniquely assigned ordinary report was exclusively created.
+
+**No must-fix found in the two exact real-algebra targets and their final proofs.** Author final narrative/manifest are **PENDING / NOT READ**: no such files existed in contact-algebra-evidence at the actual inspection cut. This report binds the actual currently available source/receipts, without inferring a nonexistent final documentary capsule.
+
+## Exact source and statement bindings
+
+| Artifact | Bytes | SHA-256 |
+|---|---:|---|
+| `ContactAlgebra.lean` | 2257 | `4c0ba69436c155ee4d98a43f1e8532fe15e0bb9582d965677f98e4770f81a948` |
+| `ContactAlgebraTests.lean` | 1508 | `3083d822fd244b807fecc9c809dac60dfa6cf74faebee4fb8b6c3f447e97c9dd` |
+| `ContactAlgebraAxioms.lean` | 143 | `db3036a19a020d97bebae8e2f8f5d9a6fdfc835450780b95134d2541c070905e` |
+| Both retained red snapshots | 754 each | `3f7b5a9122851e1542117e5a0ca8ad349aa9ab0586fe23f587d0140ac7c04d9a` |
+| `contact-algebra-evidence/PLAN.md` | 2260 | `e2bcba3bde09c7b5e076203cde50cf892feafe245d2420d843f7b6556eb2024c` |
+| `contact-algebra-evidence/runner-preflight-failure.md` | 1272 | `1974691f0a46a605c463da598139a1e4521e40bd7a67afb705c46ca171cd4eb4` |
+
+Both literal target signature substrings were independently compared against the initial red and match exactly. The phase target has s²+co²=1 and both rotated equations, concluding R=S=0. The polynomial target has c≠0, u≠0, A=0 and each exact axis/double-axis/cross equation, concluding C=0,V=0,W=0. No hypothesis was dropped or Gaussian rank conclusion inserted.
+
+## Proof and test assessment
+
+Main9–21 applies the explicit inverse rotation identities: R=hcos*co+hsin*s and S=hsin*co−hcos*s, after multiplication by s²+co². Both channels and normalization are used; signs are correct.
+
+Main23–60 chooses an actual nonzero coordinate u_i. At e_i and2e_i, the odd equations have linear scaling2 and cubic scaling8, so their difference forces 6*C*(c*u_i)³=0. The nonzero c/u_i premises force C=0, then all V_j=0. A=0 plus each diagonal equation forces u_j W_j=0. At the chosen coordinate W_i=0; each mixed equation gives u_i W_j+u_j W_i=0, so every W_j=0. Although hA is not explicitly named in the nlinarith argument lists, it is an available context hypothesis and is used by those steps. Dimension1 works through the diagonal alone after u_0≠0; dimension0 is correctly excluded by impossible u≠0. No c positivity or isotropy assumption is needed for this finite algebra.
+
+Actual tests contain **eight examples**. The first genuinely applies phase elimination at the quarter turn s=1,co=0. The others are hand-derived missing-premise/missing-mode controls: absent circle normalization permits nonzero R; coordinate modes alone hide the cubic contrast, while the double mode leaves residual−6; diagonal modes hide u=e0,W=e1, while e0+e1 leaves residual−1; zero u hides nonzero cubic C; absent A=0 hides a value/second-order contrast. These controls distinguish the required channels and frequencies rather than repeating the helper implementation. They do not claim a probability law, witness half-lattice admission, a contact floor, or enlarged Hessian rank. The suite has no separate successful direct application fixture of the full polynomial theorem and no c=0 control; the generic proof itself is compiled, and these limits do not amount to a proof defect.
+
+## Actual retained execution evidence
+
+All four receipt snapshot/log byte/hash bindings were independently checked. The actual four commands are pinned Lean direct elaborations under nice10, one thread, 180s bound; source/config/import identities are retained. All current dependency source and cached-object hashes match the receipts:12+12 for red/green,13+13 for tests/audit,26 unique source/object paths overall. Current compile-context SHA is `e79f978185239fb1af8f8e5978fe8bc5a841fec1969f4a09c0174be0b2dd468e`.
+
+| Receipt in contact-algebra-evidence | Actual outcome | Receipt SHA-256 |
+|---|---|---|
+| `algebra-red-actual.json` | exit1/17.4800465s; exactly2 intended unsolved goals | `e9c1425a33392c629f27280b0c0cd69360cf90f3eddb064dcb7f154ba9064bb6` |
+| `algebra-green-1.json` | exit0/6.912729625s; empty log; final main | `c816300342a1e80e84a605afc041fa866fb7281bbb3ba257a3a4f2f3a10747e1` |
+| `algebra-tests-final.json` | exit0/4.498264959s; empty log;8 examples | `10be57bc81633f719c1c9d0f50b0a6bf39b548e3a3b5c4a620736ab3aed1b59e` |
+| `algebra-axioms-final.json` | exit0/4.773856834s;2 standard-three rows | `2c9213f5e7d2a8a040c65138890faa74b9561702f3a67a10b4a3a1b475e3c12f` |
+
+The actual851B red log SHA `d0f3e32d6a0c01787a23582b92a7f0336a5911d0f79596495f7115d03bc71d8c` has only the two intended goals. Audit214B SHA `5ff39e1a693421058999acab99bbcebc44b0a7b293ec0ad38fc64ca0019c4333` reports exactly `[propext, Classical.choice, Quot.sound]` for each public theorem. The emitted ContactAlgebra olean SHA `a07ca63c51fe120b028b312925986f61e2fceab980955e34d2cecdbca5236745` matches the object actually consumed by tests/audit.
+
+The retained runner preflight failed before starting Lean because it bound nonexistent SourceSpatial.lean; the corrected source name is SourceSpatialKernel.lean. The earlier wrong compile-context locator is also recorded. Neither preflight failure is the mathematical red or a kernel failure. The unique actual red run is retained separately. These are observed author executions with cached imports, not compiler replay by me, fresh library/object provenance reconstruction, leanchecker or whole-import kernel rebuild.
+
+## Remaining scope
+
+The consumer must separately prove literal Fourier derivative formulas and their signs, exact half-lattice witness membership, distinct witnesses, positive amplitudes/normalization, reconstruction of rotated V/W from an orthogonal frame, same-law variance transfer and a legitimate nonnegative finite subsum. Neither helper proves actual contact covariance rank, its compact floor, covariance inverse, multipoint or enlarged transverse-Hessian rank, scaled-r limit, every-pin kernel, or complete I4. Final author documentary freeze remains pending at this report's cut. No future implementation approval is inferred.
+
+````
+
+Literal file contact-algebra-evidence/algebra-red-actual.log: 851 bytes; SHA256 d0f3e32d6a0c01787a23582b92a7f0336a5911d0f79596495f7115d03bc71d8c
+````text
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/ContactAlgebra.lean:12:51: error: unsolved goals
+s co R S : ℝ
+hunit : s ^ 2 + co ^ 2 = 1
+hcos : R * co - S * s = 0
+hsin : R * s + S * co = 0
+⊢ R = 0 ∧ S = 0
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/ContactAlgebra.lean:20:29: error: unsolved goals
+d : ℕ
+c : ℝ
+hc : c ≠ 0
+u V W : Fin d → ℝ
+hu : u ≠ 0
+A C : ℝ
+hA : A = 0
+hS1 : ∀ (i : Fin d), c * V i - C * (c * u i) ^ 3 = 0
+hS2 : ∀ (i : Fin d), 2 * c * V i - C * (2 * c * u i) ^ 3 = 0
+hR1 : ∀ (i : Fin d), A - c * u i * (c * W i) = 0
+hR2 : ∀ (i j : Fin d), i ≠ j → A - c * (u i + u j) * (c * (W i + W j)) = 0
+⊢ C = 0 ∧ V = 0 ∧ W = 0
+
+````
+
+Literal file contact-algebra-evidence/algebra-axioms-final.log: 214 bytes; SHA256 5ff39e1a693421058999acab99bbcebc44b0a7b293ec0ad38fc64ca0019c4333
+````text
+'SourceContactRank.contact_phase_elimination' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceContactRank.contact_polynomial_separation' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+````
+
+Literal file contact-algebra-evidence/runner-preflight-failure.md: 1272 bytes; SHA256 1974691f0a46a605c463da598139a1e4521e40bd7a67afb705c46ca171cd4eb4
+````text
+# Retained compiler-runner preflight failure
+
+Actual /root call at approximately06:28 UTC invoked `python3 contact-rank-evidence/run_compile.py ContactAlgebra.lean algebra-red --evidence contact-algebra-evidence`.
+The runner saved the literal empty-proof source as ContactAlgebra.algebra-red.lean, then failed during dependency binding with FileNotFoundError for incorrectly named SourceSpatial.lean. No Lean process was started; this is not the intended mathematical red.
+
+Actual final error: FileNotFoundError: [Errno 2] No such file or directory: '/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceSpatial.lean'
+
+The existing reviewed module is SourceSpatialKernel.lean. Only the new runner's binding list was corrected; no existing source or imported artifact was altered. The fresh unique algebra-red-actual execution then ran Lean and produced exactly the two intended unsolved goals. Both snapshots and actual execution receipts remain retained. The earlier failed `cat .../i2/compile-context.json` was also a wrong local locator; the authoritative existing context is i4-realization/compile-context.json. Neither locator error was a compiler or mathematical obstruction.
+
+````
+
+Literal file compile-context.json: 2168 bytes; SHA256 e79f978185239fb1af8f8e5978fe8bc5a841fec1969f4a09c0174be0b2dd468e
+````text
+{
+  "lean": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+  "LEAN_PATH": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/Qq/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/aesop/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/batteries/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/importGraph/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/plausible/.lake/build/lib/lean:/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/lean-project/.lake/packages/proofwidgets/.lake/build/lib/lean",
+  "LEAN_NUM_THREADS": "1",
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization",
+  "output": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/.lake/build/lib/lean"
+}
+
+````
+

@@ -1,0 +1,556 @@
+C318 exact-source text transport, part 3/3 — actual OpenAI/Codex /root, delegated for Dylan Roy. Canonical pickup605/6400139872; source-only custody, not a fresh mathematical review or proof verdict. These are unchanged frozen project-source texts, including their historical assertions and limitations. The words independent review inside a retained document do not establish the original reviewer/provider/exposure from this transport. No Dylan human review is claimed. All8 members total97,327B; nestedv22ZIP SHA25682536fa4ed628a8f96cd4b8734a867c50f69b1d28cb55d810053cb449448754c.
+
+Frame rule: after each twenty-tilde opening line, exactly the declared UTF-8 byte count is the original member, including its final LF. The next line is the closing fence. No source newline/normalization changes. S01-S05/S07-S08 use `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/`; S06 is the exact retained v21 Gaussian reference under the same archive's `custody/workspace/universal-law/v21-proof-supplement/references/`. Full source identities and member paths follow.
+
+### C318_SOURCE S05
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/pin-collision/CONFLUENT_COVARIANCE_FLOOR.md`
+Bytes: 6437
+SHA-256: `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`
+~~~~~~~~~~~~~~~~~~~~
+# Uniform covariance floor for one short critical-point edge
+
+Additive analytic candidate, 2026-10-25. Exact scalar infinite periodic
+Gaussian law, fixed L, all positive Fourier weights including the constant
+mode. Inputs are the common smooth field, its finite C10 moments and positive
+finite scalar-jet covariance from retained v19 `GAUSSIAN_DERIVATIONS.md`.
+No sealed product, source acceptance, count identity or certificate changes.
+
+## Geometry and observation convention
+
+Let three scaled centers z1,z2,z3 have norm at most B and pairwise separation
+at least delta>0. A fourth site is z*=zj+epsilon w, with |w|=1 and
+0<epsilon<=epsilon_*. Choose epsilon_* below delta/4. Physical sites are
+rRz, R in O(2). The ten observations consist of the six pin value/gradient
+coordinates at two of the centers and the two witness gradients, with the
+short edge either pin--witness or witness--witness. Replace the gradient at
+z* by
+
+    D_epsilon=[grad_R F(rRz*)-grad_R F(rRzj)]/epsilon.   (1)
+
+Keep the gradient at zj among the other rows. Call the resulting ten-vector
+Z. The two possibilities at epsilon=0 are pin6, grad_y, r H_pin w, and
+pin6, grad_z, r H_z w. The target of (1) is zero for zero critical gradients.
+The exact absolute raw-observation-to-Z Jacobian is epsilon^-2.
+
+There are constants epsilon_*,r_*,c,C>0 depending only on B,delta,L such that
+
+    c r^16 I <= Cov(Z) <= C I                         (2)
+
+for 0<r<=r_* and 0<=epsilon<=epsilon_*. The endpoint epsilon=0 uses (1)'s
+continuous extension rH_zj w. In particular no constant in (2) depends on the
+short-edge length epsilon. Dividing by r epsilon instead of epsilon is a
+different convention; the Taylor orders and Jacobians below use exactly (1).
+
+## Degree-eight interpolation at the three distinct centers
+
+For i!=j put
+
+    ell_ij(z)=((z-zj) dot (zi-zj))/|zi-zj|^2,
+    L_i(z)=product_(j!=i) ell_ij(z)^3.
+
+L_i has degree six, equals one at zi, and vanishes through derivative order
+two at the other two centers. For each multiindex alpha with |alpha|<=2,
+let T_i^(2-|alpha|) denote Taylor truncation at zi and set
+
+    H_i,alpha(z)=L_i(z) (z-zi)^alpha/alpha!
+                   T_i^(2-|alpha|)(1/L_i)(z).
+
+This degree-at-most-eight polynomial has jet D^beta H_i,alpha(zj)
+=1_(i=j)1_(alpha=beta) for |beta|<=2. The identity follows because the
+product with the truncated reciprocal equals (z-zi)^alpha/alpha! modulo
+terms of total degree at least three. Its coefficients are rational
+functions of separated center coordinates, bounded on the specified compact
+family. Thus arbitrary full scalar second jets at the three centers admit
+a degree-eight right inverse with a uniform coefficient-norm bound C_H.
+
+Directional Hessian data H w=v can be prescribed with
+
+    H=v w^T+w v^T-(v dot w) w w^T,
+
+which is symmetric, has H w=v, and norm at most 3|v|. Prescribe unused jet
+coordinates as zero. Hence the ten confluent rows at epsilon=0 have a
+degree-eight polynomial right inverse bounded uniformly in the centers and
+unit w. This is a scalar interpolation argument, preserving Hessian symmetry.
+
+Let A_epsilon map the 45 scalar polynomial coefficients of degree <=8 to
+the ten scaled rows: pin values, all retained scaled gradients, and
+[grad p(z*)-grad p(zj)]/epsilon. Polynomial division or the integral formula
+extends A_epsilon continuously to epsilon=0. Uniformly on bounded geometry,
+
+    ||A_epsilon-A_0||<=C_A epsilon.
+
+The lower singular-value floor supplied by the preceding right inverse
+therefore persists after choosing epsilon_* small enough. Consequently
+A_epsilon has a uniformly bounded right inverse H_epsilon for the entire
+compact family 0<=epsilon<=epsilon_*. No four-distinct-site interpolation
+constant with separation epsilon is used.
+
+## Physical scaling and the correlated Taylor error
+
+If Q(x)=p(x/r), its physical value rows equal the scaled values, while each
+physical gradient row, including the difference row (1), is r^-1 times its
+scaled polynomial row. For prescribed physical ten-data v, multiply its
+eight derivative-type entries by r, apply H_epsilon, then rescale degree-d
+coefficients by r^-d. For r<=1 this constructs a physical right inverse with
+norm <=C r^-8. Embed it in the degree-nine polynomial coefficient space.
+
+Let J9_R be all scalar physical Taylor coefficients through degree nine at
+the origin in frame R. Their exact covariance has a uniform positive floor
+m9>0 over O(2). If A_phys,9 maps degree-nine polynomials to the physical rows,
+the right-inverse dual inequality gives, for every ten-row vector v,
+
+    ||v^T A_phys,9 J9_R||L2 >=c r^8 |v|.              (3)
+
+Let P9 be the degree-nine Taylor polynomial of the field. Its gradient
+remainder is O(r^9 ||F||C10); its Hessian remainder is
+O(r^8 ||F||C10) on the bounded physical domain. For the difference row,
+apply the fundamental theorem of calculus along the short edge:
+
+    [grad(F-P9)(r(zj+epsilon w))-grad(F-P9)(rzj)]/epsilon
+       =r integral_0^1 Hess(F-P9)(r(zj+u epsilon w)) w du.
+
+The extra geometric r proves an O(r^9 ||F||C10) bound uniformly down to
+epsilon=0. Values have the smaller O(r^10 ||F||C10) remainder. Thus
+
+    Z=A_phys,9 J9_R+R_r,   (E|R_r|^2)^(1/2)<=C r^9.   (4)
+
+The error and jet need not be independent. Reverse triangle inequality in
+L2 applied to (3),(4) gives sqrt(Var(v^T Z))>=cr^8|v|-Cr^9|v|.
+Choose r_* to absorb the second term. This proves the lower bound in (2).
+The upper bound follows from bounded value/gradient second moments and (1)'s
+integral representation r integral H w. This proof does not make an invalid
+Loewner comparison of a jet covariance and its correlated remainder.
+
+## Density and energy interface
+
+Write E for the full exact regression energy, invariant under the invertible
+row transformation for epsilon>0. Then
+
+    p_Z(target)<=C r^-80 exp(-E/2),
+    p_T(target)<=C epsilon^-2 r^-80 exp(-E/2).
+
+The actual six-pin density at compact b and positive compact k is bounded
+below by c r^-5 using the retained pin rows. Hence the conditional four-
+witness-gradient density is at most
+
+    C epsilon^-2 r^-75 exp(-E/2).                     (5)
+
+Retained v19's energy moment bound applies unchanged:
+E[||F||Cq^p | T=target]<=C_pq(1+sqrt(E))^p. All actual regression means are
+retained. Estimates (2),(5) are deliberately coarse but uniform in epsilon,
+including axial/radial approach directions. Kac--Rice, normalization by the
+endpoint weight, a global pair cover and full D5 remain separate.
+~~~~~~~~~~~~~~~~~~~~
+
+### C318_SOURCE S06
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/universal-law/v21-proof-supplement/references/GAUSSIAN_DERIVATIONS.md`
+Bytes: 27912
+SHA-256: `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`
+~~~~~~~~~~~~~~~~~~~~
+# Exact periodic Gaussian fields: smooth conditional kernels and moment envelopes
+
+New analytic audit, 2026-10-24. This note proves the lemmas stated here for the exact fixed periodic Gaussian law. It changes no canonical mathematics, import status, acceptance decision, or v17 release file. These are classical Fourier/Gaussian arguments reconstructed in detail; no novelty or formal-kernel certificate is claimed. Finite checks below supplement the written arguments.
+
+The target interfaces are v17 `EXT-C2-KERNEL` and the field-norm/finite-jet part of `EXT-GAUSS-MOMENTS`. Weighted critical-point counts, persistence selection, and the complete marked Kac–Rice theorem remain separate.
+
+## 1. Model, sources and constants
+
+Fix an integer \(d\geq1\) and \(L>0\), once and for all. Let \(X=\mathbb R^d/(L\mathbb Z^d)\), \(\omega=2\pi/L\), and
+
+\[
+a_n=Z^{-1}e^{-\omega^2|n|^2/2},\qquad
+Z=\sum_{j\in\mathbb Z^d}e^{-\omega^2|j|^2/2}.
+\tag{1}
+\]
+
+Thus every \(a_n>0\), \(a_{-n}=a_n\), and \(\sum_n a_n=1\). This is the exact infinite spectrum, including the random constant mode. There is no finite cutoff, sample-mean subtraction, variance renormalization, or substitution by an unperiodized field.
+
+For identification with the image-sum covariance, integrate its periodization over a fundamental cube against \(e^{-i\omega n\cdot x}\). Translating the images tiles \(\mathbb R^d\), so the coefficient is
+
+\[
+\frac{(2\pi)^{d/2}}{L^d\sum_m e^{-|Lm|^2/2}}
+ e^{-\omega^2|n|^2/2}.
+\]
+
+The Gaussian Fourier transform used here follows in one dimension from integration by parts: its derivative in frequency is minus frequency times itself, and its value at zero is \(\sqrt{2\pi}\); take products in \(d\) dimensions. Absolute summability identifies the continuous periodic series with the image sum by uniqueness of continuous periodic Fourier coefficients, and evaluating at zero gives (1). Everything below may instead take (1) as the definition, so that this Fourier-identification fact is not a hidden stochastic hypothesis.
+
+Write
+
+\[
+\|f\|_{C^q}=\max_{|\alpha|\leq q}\sup_{x\in X}|D^\alpha f(x)|.
+\]
+
+All constants may depend on the fixed \(d,L,q,p\). On separated parameter sets they may also depend on the separation and on the named observation family. No estimate uniform as \(L\to\infty\), \(d\to\infty\), or separation tends to zero is inferred from a compactness argument.
+
+The seven restored v16 analysis notes and historical source ledgers were reviewed, particularly V10, V17, V24, V26 and V36–V40. Relevant acquired source texts are:
+
+- D1 parent §§2–4, `Math-@9f3fb6918b28e6378c034ebc19e76d432f5391cb/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md`, SHA-256 `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`. The same parent is pinned separately at `82247833b5dd58e04291d55353b52938d73ec614` in the v16 index.
+- Mandatory §9 replacement, same `9f3fb691...` commit, `reviews/d1_section9_borel_repair_20260925/REPAIR.md`, SHA-256 `845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f`.
+- Mandatory congruence erratum and reconciliation, same commit. Their restrictions are preserved; this note does not reassert the uncorrected Hessian congruence or an in-probability identification of contact matrices from different laws.
+- Acquired later adapter `repos/main/experiments/universality/periodized_gaussian_h0/PROOF.md`, SHA-256 `c8bd489ca3fbb3760f7b2d53e7385131ac5336c51ba983e00e4d540fe2f00aaa`, §§1–4 and 7. Its more extensive topology and counting claims are not assumptions in the proofs below.
+
+Local file hashes identify the reviewed bytes. They do not constitute independent scientific acceptance.
+
+## 2. An explicit common smooth version and all supremum moments
+
+Let \(H\subset\mathbb Z^d\setminus\{0\}\) contain one representative of each pair \(\{n,-n\}\). On one probability space take independent real standard normals \(\xi_0,(\xi_n,\eta_n)_{n\in H}\), and define
+
+\[
+F(x)=\sqrt{a_0}\xi_0+
+\sum_{n\in H}\sqrt{2a_n}
+  [\xi_n\cos(\omega n\cdot x)+\eta_n\sin(\omega n\cdot x)].
+\tag{2}
+\]
+
+Put
+
+\[
+A_q=\sqrt{a_0}+2\sum_{n\in H}\sqrt{2a_n}(1+\omega|n|)^q.
+\tag{3}
+\]
+
+This definition includes the factor two for the two real coefficients. Since \(\sqrt{a_n}=Z^{-1/2}e^{-\pi^2|n|^2/L^2}\), a polynomial times this Gaussian lattice weight is summable. For example, for \(\beta=\pi^2/L^2\),
+
+\[
+(1+\omega r)^q e^{-\beta r^2}
+ \leq C_{q,\omega,\beta}e^{-\beta r^2/2},\quad
+C_{q,\omega,\beta}=\sup_{r\geq0}(1+\omega r)^q e^{-\beta r^2/2}<\infty,
+\]
+
+and the remaining lattice sum is bounded by the product of \(d\) convergent one-dimensional sums. Hence \(A_q<\infty\).
+
+Every \(C^q\) norm of a finite partial sum is bounded by
+
+\[
+\sqrt{a_0}|\xi_0|+
+\sum_{n\in H}\sqrt{2a_n}(1+\omega|n|)^q(|\xi_n|+|\eta_n|).
+\tag{4}
+\]
+
+The infinite positive sum in (4) has finite expectation, so is finite almost surely. On that event the series of every derivative of order at most \(q\) converges absolutely uniformly. Intersect the probability-one events over integer \(q\geq0\). Uniform convergence of each derivative series and the fundamental theorem of calculus identify the limiting derivatives, yielding **one almost surely \(C^\infty\) version**. Define the field to be zero on the single exceptional null set.
+
+For \(p\geq1\), Minkowski's inequality applied first to finite sums, then to tails, gives
+
+\[
+\left(\mathbb E\|F\|_{C^q}^{p}\right)^{1/p}
+ \leq A_q g_p,\quad
+ g_p=\left(\frac{2^{p/2}\Gamma((p+1)/2)}{\sqrt\pi}\right)^{1/p}.
+\tag{5}
+\]
+
+The formula for \(g_p=\|N(0,1)\|_p\) is the Gaussian integral after \(t=x^2/2\). For \(0<p<1\), Jensen applied to the concave power gives \(\mathbb E\|F\|_{C^q}^p\leq(A_qg_1)^p\). The same estimates for omitted Fourier terms give convergence in \(L^p(C^q)\) for every finite \(p\geq1\), not merely pointwise smoothness.
+
+The covariance of (2) is \(\sum_n a_ne^{i\omega n\cdot(x-y)}\). Its derivative series converge absolutely at every order. Thus all finite derivative covariance formulas below refer to the exact infinite law.
+
+The Banach space \(C^q(X)\) is separable: map it isometrically into the finite product of (C(X)) spaces by all derivatives through order \(q\); its image is closed by the fundamental theorem of calculus, and (C(X)) is separable for compact metric (X). Finite partial sums are measurable \(C^q\)-valued random elements, so their norm limit is measurable. Every continuous linear functional of \(F\) is Gaussian, since its finite-partial-sum Gaussian laws converge in \(L^2\) and hence in distribution, with convergent means and variances. This constructs the needed Banach-valued Gaussian random element explicitly.
+
+## 3. Finite jet nondegeneracy without a sampled covariance argument
+
+**Lemma 1.** Any finite family of distinct physical derivative evaluation coordinates at finitely many distinct torus sites is linearly independent and has positive definite Gaussian covariance. At a single site, only distinct symmetric Hessian coordinates (indices i≤j) are used; statistical independence of those entries is not asserted, and \(D_{ij}=D_{ji}\) is not counted twice. An invertible change to an orthonormal frame preserves the assertion for an independent selected jet family.
+
+**Proof.** Write a linear combination as \(\Lambda f=\sum_{j,\alpha}c_{j\alpha}D^\alpha f(x_j)\). If its variance under (2) vanishes, positivity of every mode weight and nonnegativity of the variance sum imply that it annihilates the constant, every sine, and every cosine. Thus it annihilates every trigonometric polynomial.
+
+Choose disjoint coordinate balls around the finitely many sites. A smooth cutoff equal to one near one site and zero outside its ball, multiplied by \((x-x_j)^\alpha/\alpha!\), gives a smooth periodic function with that single jet coordinate one and all other selected coordinates zero. Such cutoffs can be formed from the smooth step built from \(e^{-1/t}\mathbf1_{t>0}\). Therefore a nonzero coefficient gives a smooth periodic (h) with \(\Lambda h\ne0\).
+
+For completeness, a smooth periodic (h) is approximated in \(C^s\) by its Fourier partial sums, where (s) is the largest selected derivative order. Indeed integration by parts with \((1-\Delta)^k\) gives \(|\widehat h(n)|\leq C_k(1+|n|^2)^{-k}\). Choose \(2k>d+s\); the differentiated Fourier series is absolutely uniformly convergent through order (s). It equals (h) by continuous Fourier uniqueness, hence convergence is in \(C^s\). Continuity of the finite evaluation functional now gives \(\Lambda h=0\), a contradiction. This proves positive variance of every nonzero combination. \(\square\)
+
+Consequently the pair-gradient vector \((\nabla F(x),\nabla F(y))\), and the full values-and-gradients vector at two distinct points, have positive definite covariance. On a compact separated domain
+
+\[
+D_\delta=\{(x,y)\in X^2:\operatorname{dist}(x,y)\geq\delta\},\quad\delta>0,
+\]
+
+their covariance matrices have common positive lower and finite upper eigenvalue bounds. Entries are continuous by the derivative covariance series; \(\lambda_{\min}\) is continuous because \(|\lambda_{\min}(A)-\lambda_{\min}(B)|\leq\|A-B\|_{op}\); compactness supplies the bounds. These constants may deteriorate as \(\delta\downarrow0\).
+
+## 4. Whole-field regression, independence and the regular conditional kernel
+
+Let (T) be a compact metric parameter space. For each \(\theta\in T\) let \(Z_\theta\in\mathbb R^m\) consist of finitely many linear combinations of derivative evaluations of \(F\), with continuous coefficients and sites and a fixed finite derivative-order bound. Integral averages of such evaluations with continuous parameters, as in §7, are also allowed. Assume explicitly that
+
+\[
+\Sigma_\theta=\operatorname{Cov}(Z_\theta)>0\quad\hbox{for every }\theta\in T.
+\tag{6}
+\]
+
+Continuity and compactness then give \(\lambda_*I\preceq\Sigma_\theta\preceq\lambda^*I\) with \(0<\lambda_*\leq\lambda^*<\infty\). For the two-site physical pins on \(D_\delta\), Lemma 1 proves (6).
+
+Define \(C^q(X)\)-valued rows
+
+\[
+H_\theta(x)=\operatorname{Cov}(F(x),Z_\theta),\quad
+B_\theta=H_\theta\Sigma_\theta^{-1},\quad
+R_\theta=F-B_\theta Z_\theta,\quad
+F_{\theta,z}=R_\theta+B_\theta z.
+\tag{7}
+\]
+
+Every derivative covariance series is uniformly absolutely summable. It follows that \(\theta\mapsto H_\theta\) is continuous in every finite \(C^q\) norm; \(\theta\mapsto\Sigma_\theta^{-1}\) is continuous and bounded. In particular \(B_\theta\) is \(C^q\)-continuous. The common smooth version makes \(\theta\mapsto Z_\theta(\omega)\) continuous for almost every sample; consequently \((\theta,z)\mapsto F_{\theta,z}(\omega)\) is continuous in \(C^q\). This is pathwise continuity of a common coupling. It does not incorrectly assume operator-norm continuity of highest-order point evaluations on a \(C^q\) unit ball.
+
+For every finite derivative evaluation vector \(J(R_\theta)\), direct expansion gives
+
+\[
+\operatorname{Cov}(J(R_\theta),Z_\theta)=0.
+\]
+
+The joint vector is Gaussian; its characteristic function factors because its covariance is block diagonal. Hence that evaluation vector is independent of \(Z_\theta\).
+
+This is independence of the **whole residual field**, not only of a chosen finite jet. Choose a countable dense set \(Q\subset X\). The maps \(f\mapsto D^\alpha f(x)\), \(x\in Q, |\alpha|\leq q\), generate the Borel sigma-algebra of \(C^q(X)\): the norm distance to any fixed (g) is the maximum of countable suprema of these coordinate differences, and separability expresses open sets as countable unions of balls. Finite-coordinate cylinder events form a generating algebra. A monotone-class argument therefore extends the finite-coordinate independence to \(R_\theta\) as a \(C^q\)-valued variable. Its residual covariance is
+
+\[
+K(x-y)-H_\theta(x)\Sigma_\theta^{-1}H_\theta(y)^T.
+\]
+
+For \(A\in\mathcal B(C^q(X))\), put
+
+\[
+\kappa(\theta,z,A)=\mathbb P\{F_{\theta,z}\in A\}.
+\tag{8}
+\]
+
+The coupled map is jointly measurable (pathwise continuous in parameters and measurable in the sample), so (8) is a jointly measurable probability kernel. For bounded Borel \(\Phi\) and bounded Borel \(h\), residual independence and \(F=R_\theta+B_\theta Z_\theta\) give
+
+\[
+\mathbb E[\Phi(F)h(Z_\theta)]
+=\int_{\mathbb R^m}h(z)\!\int\Phi(f)\kappa(\theta,z,df)
+  \varphi_{\Sigma_\theta}(z)\,dz.
+\tag{9}
+\]
+
+Thus (8) is a regular conditional law on the entire field space for each fixed parameter, and supplies a specified version at **every** target \(z\). Equation (9) is the conditional-law assertion; no conditioning on a positive-probability exact-pin event is used.
+
+For bounded continuous \(\Phi(\theta,z,f)\), pathwise continuity and dominated convergence prove continuity of
+
+\[
+(\theta,z)\longmapsto\int\Phi(\theta,z,f)\kappa(\theta,z,df).
+\tag{10}
+\]
+
+This includes bounded continuous cylinders of field derivatives through order \(q\), also at continuously varying sites. Hence the kernels are weakly continuous. Total-variation continuity is not claimed: different exact constraints can put the conditional laws on different affine subspaces.
+
+Taking \(q=2\), \(T=D_\delta\), \(Z_{(x,y)}=(\nabla F(x),\nabla F(y))\), proves the concrete \(C^2\) kernel and conditional bounded-continuous expectation continuity required in the repaired §9 Gaussian interface. It does not by itself prove any Kac–Rice theorem or extend a continuous mark identity to a Borel elder mark.
+
+## 5. Conditional moment bounds with an explicit regression-energy parameter
+
+A useful stronger bound does not require a common covariance floor. Fix any finite nondegenerate observation vector (Z) and target \(z\); let
+
+\[
+E_Z(z)=z^T\Sigma^{-1}z.
+\]
+
+For any one standardized Fourier coefficient \(\zeta\) from (2), put \(c=\operatorname{Cov}(\zeta,Z)\). Positivity of the covariance of \((\zeta,Z)\), or the variance of \(\zeta-c\Sigma^{-1}Z\), gives
+
+\[
+0\leq c\Sigma^{-1}c^T\leq1,\quad
+|c\Sigma^{-1}z|\leq\sqrt{E_Z(z)},\quad
+\operatorname{Var}(\zeta-c\Sigma^{-1}Z)\leq1.
+\tag{11}
+\]
+
+The middle inequality is Cauchy–Schwarz in the \(\Sigma^{-1}\) inner product. Therefore the conditional coefficient has \(L^p\) norm at most \(g_p+\sqrt{E_Z(z)}\), for \(p\geq1\). Conditional coefficients need not be independent.
+
+Apply Minkowski to the absolutely summable weighted coefficient series. Its conditional mean series and residual series converge in \(L^p(C^q)\), by the same tail estimates as §2 and (11), and agree with (7). This yields the explicit bound
+
+\[
+\boxed{\quad
+\bigl(\mathbb E\|F_{\theta,z}\|_{C^q}^{p}\bigr)^{1/p}
+ \leq A_q\,[g_p+\sqrt{z^T\Sigma_\theta^{-1}z}],\qquad p\geq1.
+\quad}
+\tag{12}
+\]
+
+In particular every centered residual obeys \(\|\|R_\theta\|_{C^q}\|_p\leq A_qg_p\), uniformly over **all** nondegenerate finite observation families, even when the observation covariance floors shrink. This is a bound on each marginal expectation followed by a supremum over parameters. It does **not** assert a bound for \(\mathbb E\sup_\theta\|R_\theta\|^p\) over an arbitrary degenerating family.
+
+On a compact family satisfying (6),
+
+\[
+\|\|F_{\theta,z}\|_{C^q}\|_p
+ \leq A_q(g_p+\lambda_*^{-1/2}|z|)
+ \leq C_{p,q,T}(1+|z|).
+\tag{13}
+\]
+
+Thus every product of finitely many derivative evaluations, of total degree \(D\), has conditional absolute expectation bounded by \(C(1+|z|)^D\). Continuous functionals of polynomial growth also have continuous conditional expectations in (10): use a moment of order greater than their growth order for uniform integrability on compact target sets, then bounded truncation and (10). No critical-point count is automatically a polynomially bounded functional of a \(C^q\) norm.
+
+For example, since \(\|H_f(x)\|_{op}\leq d\|f\|_{C^2}\),
+
+\[
+\mathbb E\{|\det H_F(x)\det H_F(y)|\mid Z_\theta=z\}
+\leq d^{2d}A_2^{2d}
+       (g_{2d}+\lambda_*^{-1/2}|z|)^{2d}.
+\tag{14}
+\]
+
+The determinant product is a continuous polynomial-growth functional, so its conditional expectation times any bounded continuous cylinder weight is continuous on a compact separated pair domain. Bare Hessian-type indicators and the elder indicator need not be continuous; this proof does not assert their conditional expectations are continuous.
+
+## 6. Unnormalized Gaussian envelopes and the fixed-far integral
+
+On a compact nondegenerate family, the density satisfies
+
+\[
+\varphi_{\Sigma_\theta}(z)
+ \leq (2\pi)^{-m/2}\lambda_*^{-m/2}
+        e^{-|z|^2/(2\lambda^*)}.
+\tag{15}
+\]
+
+Combining (13) with (15) gives an **unnormalized** envelope
+
+\[
+\varphi_{\Sigma_\theta}(z)
+ \mathbb E[|P(JF)|\mid Z_\theta=z]
+ \leq C(1+|z|)^D e^{-c|z|^2}
+\tag{16}
+\]
+
+for a finite-jet polynomial \(P\) of degree \(D\) with bounded coefficients. Appending distinct symmetric-coordinate evaluations (one coordinate for each i≤j) \(A\) to the observation vector gives the same conclusion with \(z\) replaced by \((z,a)\), provided the **joint** enlarged covariance is uniformly nondegenerate. In particular its joint density is bounded by \(C e^{-c(|z|^2+\|a\|^2)}\). This avoids dividing by a small pin density.
+
+For full physical values-and-gradients at a pair with distance at least \(\delta>0\), use target
+
+\[
+z=(b,0_d,b-\ell,0_d),\qquad 0<\ell\leq1.
+\]
+
+Then \(|z|^2\geq b^2\) and \(|z|\leq C(1+|b|)\), so (14)–(16) prove
+
+\[
+\int_{\mathbb R}\varphi_{\Sigma_\theta}(b,0_d,b-\ell,0_d)
+\mathbb E[|\det H_F(x)\det H_F(y)|\mid Z_\theta=z],db\leq C_\delta,
+\tag{17}
+\]
+
+uniformly in the separated pair and \(0<\ell\leq1\). Polynomial times a one-dimensional Gaussian is integrable, and the spatial domain has finite volume. Formula (17) is a completely derived Gaussian integrand bound. Identifying it as a bound for a candidate or elder density still requires the appropriate counting/Kac–Rice identity; that identity is not proved here.
+
+## 7. Exact contact rows, their Peano kernels and a controlled contact extension
+
+This section checks the source's actual parent (3.1), including its potentially ill-conditioned cancellation. Let \(R=(u,v_1,\ldots,v_{d-1})\in O(d)\), with midpoint zero, endpoints \(a=-ru/2,c=ru/2\). Put \(g(t)=F(tu)\). The four axial observations are exactly
+
+\[
+U_0=\frac{g(-r/2)+g(r/2)}2,\quad
+U_1=\frac{g(r/2)-g(-r/2)}r,\quad
+U_2=\frac{g'(r/2)-g'(-r/2)}r,
+\]
+
+\[
+U_3=\frac6{r^2}\left[g'(-r/2)+g'(r/2)
+           -2\frac{g(r/2)-g(-r/2)}r\right].
+\tag{18}
+\]
+
+Twice integrating by parts, with \(w(s)=(s+r/2)(r/2-s)\), gives
+
+\[
+\int_{-r/2}^{r/2}w(s)g'''(s)\,ds
+ =r[g'(-r/2)+g'(r/2)]-2[g(r/2)-g(-r/2)].
+\]
+
+Therefore the exact normalized kernel identity is
+
+\[
+\boxed{\quad U_3=\int_{-1/2}^{1/2}6(1/4-t^2)D_u^3F(rtu)\,dt.\quad}
+\tag{19}
+\]
+
+The kernel is nonnegative, has mass one, zero first moment, and second moment \(1/20\). The analogous exact formulas are
+
+\[
+U_1=\int_{-1/2}^{1/2}D_uF(rtu)\,dt,\quad
+U_2=\int_{-1/2}^{1/2}D_u^2F(rtu)\,dt,
+\]
+
+\[
+V_{j0}=\tfrac12[D_{v_j}F(-ru/2)+D_{v_j}F(ru/2)],\quad
+V_{j1}=\int_{-1/2}^{1/2}D_uD_{v_j}F(rtu)\,dt.
+\tag{20}
+\]
+
+All rows extend at \(r=0\) to the distinct contact coordinates
+
+\[
+U_0^*=(F,D_uF,D_u^2F,D_u^3F,
+       (D_{v_j}F,D_uD_{v_j}F)_{j=1}^{d-1})(0).
+\tag{21}
+\]
+
+These extensions are continuous in \(r,R\) on every smooth sample and in every finite \(L^p\). One can also quantify the row errors. If derivatives are measured along the displayed frame, symmetry of the averaging measures and Taylor's integral remainder give the bounds
+
+| Row | Error from its contact value |
+|---|---|
+| \(U_0\) | \(r^2\sup|D_u^2F|/8\) |
+| \(U_1\) | \(r^2\sup|D_u^3F|/24\) |
+| \(U_2\) | \(r^2\sup|D_u^4F|/24\) |
+| \(U_3\) | \(r^2\sup|D_u^5F|/40\) |
+| \(V_{j0}\) | \(r^2\sup|D_u^2D_{v_j}F|/8\) |
+| \(V_{j1}\) | \(r^2\sup|D_u^3D_{v_j}F|/24\) |
+
+The suprema may be taken globally. A product of \(s\) unit directional derivatives is bounded by \(d^{s/2}\|F\|_{C^s}\), since every unit direction has \(\ell^1\) norm at most \(\sqrt d\). Equations (5) and the table therefore prove uniform \(O(r^2)\) row convergence in every finite \(L^p\), and corresponding uniform covariance and \(C^q\) cross-covariance convergence. For the latter, apply the row formulas to derivatives of the smooth covariance; absolute Fourier summability supplies their uniform bounds.
+
+Lemma 1 at a single site proves positive definite covariance of (21): in a rotated frame these are independent coordinates of the third-order jet, with no repeated Hessian entries. The compact group \(O(d)\) supplies a positive contact floor. Uniform covariance convergence then gives an existential \(r_*>0\) and common positive lower and finite upper covariance eigenvalues for all \(R\) and \(0\leq r\leq r_*\). For \(r>0\) the transformation from the original endpoint observations to (18),(20) is invertible, so it defines the same conditional law. This argument evaluates no numerical \(r_*\), covariance floor, or condition number.
+
+The exact full-pin target becomes
+
+\[
+v_r=(b-kr^3/2,-kr^2,0,12k,0,\ldots,0).
+\tag{22}
+\]
+
+Indeed the height difference is \(-kr^3\) and both endpoint gradients vanish. For \(r\leq\min(r_*,1)\), \(|v_r|\leq C(|b|+|k|)\). Applying (12) to the uniformly nondegenerate transformed rows proves, for every finite \(p\geq1,q\),
+
+\[
+\sup_{R,\,0\leq r\leq\min(r_*,1)}
+ \|\|F\|_{C^q}\|_{L^p(U_r=v_r)}
+ \leq C_{p,q,d,L}(1+|b|+|k|).
+\tag{23}
+\]
+
+This is all-mark polynomial target growth for the **unweighted** conditional field. It is not a normalized elder-selection estimate.
+
+Contact-kernel and conditional-mean continuity are local in the targets: equivalently they are uniform after restricting \(b,k\) to a fixed compact set. They are not uniform convergence over all unbounded targets. In fact the row and cross-covariance estimates show that the common conditional-field coupling differs from its contact counterpart by at most \(Cr^2(1+|b|+|k|)\) in \(L^p(C^q)\): write the residual difference as \(-(B_r-B_0)U_r-B_0(U_r-U_0)\), use \(B_r-B_0=O(r^2)\), and include the target difference \(v_r-v_0=O(r^2|k|)\). The explicit polynomial factor is retained. This \(O(r^2)\) statement concerns \(U_r\) only; the enlarged endpoint matrix in the next paragraph has only \(O(r)\) control.
+
+The same common-coupling construction in §4, now using (19)–(20), gives \(C^q\)-continuous conditional means and residuals through \(r=0\). Appending distinct transverse Hessian-coordinate evaluations (i≤j, not statistically independent entries)
+
+\[
+A_r=(D_{v_i}D_{v_j}F(-ru/2))_{1\leq i\leq j\leq d-1}
+\]
+
+retains positive contact covariance, since the new jet coordinates do not duplicate (21). Its entries converge to \(A_0\) with uniform **\(O(r)\)** \(L^p\) error. No \(O(r^2)\) claim is made for this enlarged endpoint observation. Continuity and compactness again give a uniform joint covariance floor for sufficiently small \(r\). Regression on the **entire joint vector** \((U_r,A_r)\) yields a centered smooth residual jointly independent of that vector. By (12) it has all \(C^q\) moments bounded by \(A_qg_p\), and its conditional mean has norm at most \(C(|v|+|a|)\). Thus, under \(U_r=v_r\), the full-field residual after further regressing on \(A_r\) is independent of the entire symmetric matrix, with polynomial mean growth. Independence of separately chosen entries is not substituted for this statement.
+
+For the joint **unnormalized** density, \(|v_r|^2\geq\tfrac12(b^2+k^2)\) when \(r\leq1\): from \(b=(b-kr^3/2)+kr^3/2\) one gets \(b^2\leq2(b-kr^3/2)^2+k^2/2\), while the \(12k\) coordinate supplies \(144k^2\). Hence
+
+\[
+\varphi_{(U_r,A_r)}(v_r,a)
+ \leq C\exp[-c(b^2+k^2+\|a\|^2)].
+\tag{24}
+\]
+
+Coordinates \(a\) comprise distinct symmetric coordinate entries (i≤j), not statistically independent random entries; their Euclidean norm and the Frobenius norm are equivalent, with constants depending only on \(d\). Combining (24) with residual moments gives the polynomial-Gaussian **field/finite-jet** envelope. It does not alone give the normalized determinant \(W_r/r^2\) bound: the endpoint Taylor/Hermite determinant cancellation must be proved and composed separately.
+
+## 8. What is now proved, and what remains outside this note
+
+For the exact fixed \(d,L\) law, the preceding arguments prove:
+
+1. One common smooth Gaussian version with all finite \(C^q\) supremum moments and \(L^p(C^q)\) Fourier convergence.
+2. Exact finite-jet covariance positivity, compact separated covariance floors, and a measurable, weakly continuous whole-field conditional kernel, including its regular conditional identity.
+3. Residual independence at the Banach-field level; explicit regression-energy and polynomial target-growth bounds for global derivative norms and finite jets.
+4. A uniform fixed-far unnormalized Gaussian determinant-product integrand bound.
+5. For the **specific source-defined centered contact rows**, the exact \(U_3\) Peano kernel, their continuous contact extension, an existential compact-frame covariance floor, unweighted all-mark field moments, and the corresponding enlarged-matrix joint Gaussian envelope. The enlarged \(A_r\) convergence is only \(O(r)\).
+
+Still separate are: a usable certified numerical covariance floor/radius; uniform control for arbitrary coalescing observation schemes or multiple contacts; normalized endpoint determinant/cap-loss estimates and rates; Kac–Rice theorem hypotheses and the Borel mark extension; conditional Morse/distinct-value genericity; the global elder topology; expectation/moments of critical-point counts; all spatial and mark exhaustion steps; the full D1/D2 theorem composition; outside review and formal verification. The density bound (24) must not be divided by an uncontrolled normalizer, and (23) must not be read as a uniform bound on the weighted law \(Q^W\).
+
+No v17 import status is promoted. These written lemmas are new audit evidence for later explicit source-aligned validation, with the listed remaining boundaries.
+
+
+## 9. Finite controls and the recovered historical carrier
+
+Run from any directory:
+
+```bash
+python /workspace/research/historical-recovery/gaussian_checks.py
+```
+
+The script uses only the Python standard library. Its actual run passed **181 exact rational checks**, including kernel mass, first/second moments, the U3 identity on monomials of degrees 3–12 at four rational radii, the original pin-transform determinant through dimension five, and finite target-coercivity cases. Changing the source U3 prefactor from 6/r² to 3/r² is rejected exactly on the cubic. The analytic integration-by-parts identity and inequalities above supply the general proofs; the finite list is not substituted for them.
+
+Twelve floating finite-Fourier covariance controls use d=2,L=8 and the renormalized finite block |n_i|≤10, with three orientations and r=0,.05,.1,.2. All tested enlarged matrices admit positive Cholesky pivots. Pin-covariance errors divided by r² remain near 5.2; enlarged errors divided by r remain near 1.5. These are diagnostics for a **different finite-cutoff law**, with no interval rounding, no infinite-tail enclosure and no uniformity certificate. The full case table, script hash and explicit scope are in `gaussian_checks.json`. No random samples were taken.
+
+A historical exact SIDE24 far-annulus carrier has separately been recovered at `carriers/CLOSE-20260917-b9c2/closure_round2/RN_FIELD_PROOF.md`, with its original `rn_field.py`, certificate and audit. It states a finite-scope author-side result for r=1/20, b=6/5, 5≤|y|≤17 in its declared periodic lift, all marks in its stated height interval, and directional derivatives through order four. It explicitly leaves the full far budget, near annulus and all-small-r theorem separate. That carrier is preserved and is not rebuilt or replaced by this note. Its exact arithmetic replay and applicability audit belong to the separate recovery work. The new argument here supplies generic field-level regularity and conditional-moment lemmas; it does not claim to upgrade that historical carrier or replace its source-specific enclosures.
+~~~~~~~~~~~~~~~~~~~~
+
+Transport preserves bounded Gaussian numerator scope, compact marks, exact weight/normalizer obligations, and the distinction from actual elder/ordinary-bar events. Pin-involving clusters, unbounded scales/marks and whole-D5 composition are not established here. Repaired axial hash7affe4ee is expressly covered by the retained review repair-validation suffix; earlier awaiting-review language remains historical. No package checker/analytic replay/Lean/hosted CI ran for this transfer. credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

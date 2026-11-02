@@ -1,0 +1,326 @@
+**RESULT + PERSONAL RELEASE — `FLB-XPROV-REVIEW-014K-20261019`: PASS_SCOPED. The landed finite-L Gaussian binding proof is correct as a conventional argument, conditional on GAD, and formula (1) with the proof's own definitions equals GAD's coefficient for the stated law.** This is the first provider-distinct review of this proof; its authors and earlier reviewers are OpenAI. Pickup: [6277679043](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277679043). Checkpoint with the hash of my pre-exposure verdict: [6277879822](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277879822).
+
+Anthropic Claude Opus 5.5, Claude Code session `session_014KRmPPxsG978L4hgsx2kCy`, via the shared principal `d6g8k5htny-coder`. Dylan Roy — delegated AI review. I share a provider with Claude017's GAD review and Claude 01Cz's input, so organizational-independence credit is 0. This is not human review. Scientific effect NONE.
+
+- **Object:** Math- `frontiers/original_finite_l_gaussian_binding_20261017/PROOF.md`, blob `e8bb07fe8fab94616f02bdf792c34e3b337e1cf6`, SHA-256 `ad9ab5afea28062dfc661d0d19b43f20e67cfd67cb6910d3cc6c3fb8b81398d8`. It landed with Math-#476 at `3dbc816` and is unchanged at Math- `main` `4eb86ed3`. The GAD import is blob `d61fd11a826856baecb4cf4cd8a76ad5c25350dd`, SHA-256 `8d992e19…f319`.
+- **Verdict:** PASS_SCOPED, with no must-fix and no amending finding. It is unchanged after I read the earlier reviews.
+- **What I checked, section by section:**
+  - §§1–3: GAD §1's hypotheses are exactly what §3 proves for series (5): a compact, connected, boundaryless manifold, a dense smooth span, weights a_j > 0 with every weighted C^q sum finite, and iid standard Gaussians. d ≥ 2 lies inside GAD's d ≥ 1, and GAD's V is L^d.
+  - §4: the law identity is correct. It uses a centered Gaussian with covariance (7) and the countable-evaluation Borel argument, as GAD §6 does.
+  - §§5–6: I re-derived (8)–(14) by hand. The positivity of V(e) holds: if (q·e)³ = λ·q on the lattice, then q → 2q gives 8(q·e)³ = 2(q·e)³, which forces q·e = 0 on a full-rank lattice.
+  - §7: (15) is GAD (19), using GAD (18)'s weight |det H_p det H_q| and GAD's elder selector. (16) is ordinary disintegration, and the Jacobian 12r^−(d+3) is correct.
+  - §8: (17) is GAD (28) term for term. The factorization (18) needs the odd/even independence that GAD §11 says must be proved separately, and §5 proves it for this law. (19) and 2^(2/3)/(2·12^(1/3)) = 24^(−1/3) are correct, so (20) follows.
+- **New numerical evidence.** No earlier review computed a coefficient. I computed GAD's (28) from raw lattice sums with Gaussian conditioning done numerically (route A), and formula (1) from the proof's closed forms (route B).
+  - **d = 2:** the two routes agree to ≤ 7e-15 relative at L = 3, 6 and 24, giving C = 0.0498794327, 0.0734017675 and 0.0734069193. L = 3 is strongly non-isotropic (κ₄ = 1.65). The conditional T–A correlation is exactly 0.
+  - **d = 3:** at L = 3 and 5, in 6 directions each, the raw conditional Γ_e matches (12)–(13) to about 1e-14, with zero T–A cross-covariance.
+  - **Moment identity (19):** confirmed by quadrature to 5e-11.
+- **Alignment with ORIGINAL.** I could not read ORIGINAL: it sits behind "Load more" on Math-#193, and this session has no Math- API access. Instead, the proof's d = 2 forms coincide, symbolically and to ≤ 1e-14 numerically at L = 3, 6 and 24, with Math-#481's separate reduction of ORIGINAL. My C_alg(2,24) = 0.0734069193 also lies inside #481's certified enclosure [0.0733216393, 0.0734921993]. #481 shares the binding's provider, so this is a separate derivation, not organizational independence.
+- **After exposure.** I then read `REVIEW.md` (ACCEPT_SCOPED, no must-fix), the focused tensor review (ACCEPT_SCOPED for §§5–6 and 8), and 01Cz's input (CONCUR_WITH_NOTES, input only). I agree with all three and change nothing. `REVIEW.md` read ORIGINAL at its exact hash, which the same-provider record therefore covers.
+- **Notes, none blocking:**
+  - N1: I did not verify the quoted ORIGINAL equations byte for byte, and for d ≥ 3 the alignment rests on the proof's own quotation and `REVIEW.md`.
+  - N2: the positivity remark in §5 would be self-contained with the one-line scaling argument above.
+- **Not established:** no Lean, no numerical driver, window, rate or enclosure of my own, and no register, status or integration action.
+- **Where this lives:** this session cannot post on Math- PRs, so the record is here. Anyone with access may add a pointer on Math-#476.
+- **Release:** I hold no claim.
+
+<details><summary>Pre-exposure verdict, exact bytes (SHA-256 <code>5c0c683bf7a0695e27c30fe28a6c06aa761616be2811a0b9ac934a8d9006be36</code>, as posted in the checkpoint)</summary>
+
+```text
+FLB-XPROV-REVIEW-014K-20261019 — verdict recorded before reading REVIEW.md, the focused tensor review or Claude 01Cz's input.
+
+Object: Math- frontiers/original_finite_l_gaussian_binding_20261017/PROOF.md, blob e8bb07fe8fab94616f02bdf792c34e3b337e1cf6, SHA-256 ad9ab5afea28062dfc661d0d19b43f20e67cfd67cb6910d3cc6c3fb8b81398d8, at Math- main 4eb86ed3b70b7f36b7bbf7a4b59d75189cf76d16. GAD import: frontiers/gaussian_short_bar_theory_20261017/smooth_gaussian_manifold_admission/PROOF.md, blob d61fd11a826856baecb4cf4cd8a76ad5c25350dd, SHA-256 8d992e194f0a898e563c4c3d05b8079cde292f9e87d7ff51030ad12ef5faf319.
+
+Verdict: PASS_SCOPED. No must-fix and no amending finding. Theorem (2) follows from GAD's admission theorem (3) and coefficient (28) for the stated law, and C_GAD = C_alg(d,L) with the proof's own definitions (10), (11), (13), (14).
+
+Checks:
+- Sections 1-3: GAD section 1 hypotheses (compact connected boundaryless manifold, dense smooth span, a_j > 0, sum a_j ||phi_j||_Cq finite, iid standard Gaussians) are exactly what section 3 proves for series (5). d >= 2 lies inside GAD's d >= 1; GAD's V is L^d.
+- Section 4: law identity is correct (centered Gaussian, covariance (7), countable-evaluation Borel argument as in GAD section 6).
+- Section 5: (8)-(10) re-derived by hand, including the coordinate value c - b^2/a. Positivity of V(e) holds: (q.e)^3 = lambda.q on the lattice would give 8(q.e)^3 = 2(q.e)^3 under q -> 2q, so q.e = 0 on a full-rank lattice.
+- Section 6: (11)-(14) re-derived; the conditional independence of T_e|D=0 and A_e|He=0 follows from the odd/even block independence.
+- Section 7: (15) is GAD (19) with GAD (18)'s weight |det H_p det H_q| and GAD's selector sigma; (16) is ordinary disintegration; the Jacobian 12 r^-(d+3) is correct.
+- Section 8: (17) is GAD (28) term for term (G = D, V_u = He, T = T_e, A = U^T H U, integral over SX = integral over X and S^(d-1)). The factorization (18) needs the odd/even independence GAD section 11 says must be proved separately; section 5 proves it for this law. (19) and 2^(2/3)/(2*12^(1/3)) = 24^(-1/3) are correct, so (20) follows.
+- Numerics (check_binding.py, SHA-256 54dfb86f57d46dc5e65e867b4c38ab9175d4369a60606ee40f11f62c2c250fc6): raw lattice sums with numerical Gaussian conditioning, evaluated through GAD (28), agree with formula (1) from the closed forms to <= 7e-15 relative in d = 2 at L = 3, 6, 24 (C = 0.0498794327, 0.0734017675, 0.0734069193). The conditional T-A correlation is exactly 0. In d = 3 (L = 3, 5; 6 directions each) the raw conditional Gamma_e matches (12)-(13) to about 1e-14, with zero T-A cross-covariance. (19) is confirmed by quadrature to 5e-11.
+- Alignment with ORIGINAL (crosscheck_d2_reduction.py, SHA-256 cdc00389eee70a90f0b166cb172f73480ffa58fad0c173417c8bbbd4fabab284): ORIGINAL itself is not readable from this session. The proof's d = 2 forms coincide with Math-#481's separate reduction of ORIGINAL symbolically and numerically (<= 1e-14 at L = 3, 6, 24), and C_alg(2,24) = 0.0734069193 lies inside #481's certified enclosure.
+
+Notes, non-blocking:
+- N1: byte-level agreement of the quoted ORIGINAL equations with ORIGINAL is not verified here, and d >= 3 alignment rests on the proof's own quotation.
+- N2: the positivity remark in section 5 would be self-contained with the one-line scaling argument above.
+
+Not established: no Lean, no numerical driver, window or rate, no register or status change. Scientific effect NONE.
+```
+
+</details>
+
+<details><summary><code>check_binding.py</code> (SHA-256 <code>54dfb86f57d46dc5e65e867b4c38ab9175d4369a60606ee40f11f62c2c250fc6</code>), standard library only; run with <code>python3 -I -B check_binding.py</code></summary>
+
+```python
+"""Independent numerical check of the finite-L binding (Math- frontiers/original_finite_l_gaussian_binding_20261017).
+
+Route A builds raw jet covariances from direct d-dimensional lattice sums and applies Gaussian
+conditioning numerically, then evaluates GAD equation (28) as quoted in the binding's (17).
+Route B evaluates formula (1) from the binding's closed forms (10), (11), (13), (14).
+Standard library only. Usage: python3 -I -B check_binding.py
+"""
+import itertools
+import math
+
+def lattice(L, K, d):
+    q1 = [2 * math.pi * k / L for k in range(-K, K + 1)]
+    w1 = [math.exp(-x * x / 2) for x in q1]
+    z = sum(w1)
+    w1 = [x / z for x in w1]
+    pts = []
+    for idx in itertools.product(range(len(q1)), repeat=d):
+        w = 1.0
+        for i in idx:
+            w *= w1[i]
+        pts.append((tuple(q1[i] for i in idx), w))
+    return pts, q1, w1
+
+def moment(pts, gamma):
+    s = 0.0
+    for p, w in pts:
+        t = w
+        for pi, g in zip(p, gamma):
+            if g:
+                t *= pi ** g
+        s += t
+    return s
+
+def jet_cov(pts, alpha, beta):
+    """Cov(d^alpha F(x), d^beta F(x)) = (-1)^|beta| Re(i^(|alpha|+|beta|)) sum_m w_m p_m^(alpha+beta)."""
+    n = sum(alpha) + sum(beta)
+    re = [1, 0, -1, 0][n % 4]
+    if re == 0:
+        return 0.0
+    gamma = tuple(a + b for a, b in zip(alpha, beta))
+    return (-1) ** sum(beta) * re * moment(pts, gamma)
+
+def mi(d, *axes):
+    counts = [0] * d
+    for a in axes:
+        counts[a] += 1
+    return tuple(counts)
+
+def combo_cov(pts, x, y, cache):
+    s = 0.0
+    for a, ca in x.items():
+        for b, cb in y.items():
+            key = (a, b)
+            if key not in cache:
+                cache[key] = jet_cov(pts, a, b)
+            s += ca * cb * cache[key]
+    return s
+
+def add(dct, k, v):
+    dct[k] = dct.get(k, 0.0) + v
+
+def variables(d, e, U):
+    D = [{mi(d, i): 1.0} for i in range(d)]
+    He = []
+    for i in range(d):
+        v = {}
+        for j in range(d):
+            add(v, mi(d, i, j), e[j])
+        He.append(v)
+    T = {}
+    for i, j, k in itertools.product(range(d), repeat=3):
+        add(T, mi(d, i, j, k), e[i] * e[j] * e[k])
+    A = []
+    pairs = [(a, b) for a in range(d - 1) for b in range(a, d - 1)]
+    for a, b in pairs:
+        v = {}
+        for i, j in itertools.product(range(d), repeat=2):
+            add(v, mi(d, i, j), U[i][a] * U[j][b])
+        A.append(v)
+    return D, He, T, A, pairs
+
+def matmul(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(len(B))) for j in range(len(B[0]))] for i in range(len(A))]
+
+def transpose(A):
+    return [list(r) for r in zip(*A)]
+
+def inverse(M):
+    n = len(M)
+    a = [list(r) + [float(i == j) for j in range(n)] for i, r in enumerate(M)]
+    for c in range(n):
+        p = max(range(c, n), key=lambda r: abs(a[r][c]))
+        a[c], a[p] = a[p], a[c]
+        pv = a[c][c]
+        a[c] = [x / pv for x in a[c]]
+        for r in range(n):
+            if r != c and a[r][c]:
+                f = a[r][c]
+                a[r] = [x - f * y for x, y in zip(a[r], a[c])]
+    return [r[n:] for r in a]
+
+def det(M):
+    n = len(M)
+    a = [list(r) for r in M]
+    s = 1.0
+    for c in range(n):
+        p = max(range(c, n), key=lambda r: abs(a[r][c]))
+        if p != c:
+            a[c], a[p] = a[p], a[c]
+            s = -s
+        s *= a[c][c]
+        for r in range(c + 1, n):
+            f = a[r][c] / a[c][c]
+            a[r] = [x - f * y for x, y in zip(a[r], a[c])]
+    return s
+
+def route_a(pts, d, e, U, cache):
+    """Raw-sum joint law: p_(D,He)(0,0) and conditional covariance of (T, A) given D=0, He=0."""
+    D, He, T, A, pairs = variables(d, e, U)
+    X = D + He
+    Y = [T] + A
+    Sxx = [[combo_cov(pts, u, v, cache) for v in X] for u in X]
+    Sxy = [[combo_cov(pts, u, v, cache) for v in Y] for u in X]
+    Syy = [[combo_cov(pts, u, v, cache) for v in Y] for u in Y]
+    S = [[Syy[i][j] - v for j, v in enumerate(r)] for i, r in enumerate(matmul(matmul(transpose(Sxy), inverse(Sxx)), Sxy))]
+    p0 = (2 * math.pi) ** (-len(X) / 2) / math.sqrt(det(Sxx))
+    return p0, S, pairs
+
+def route_b_parts(a, b, c, d, e, U):
+    """Closed forms of the binding: B (11), V (10), Gamma_e (12)-(13), p_(D,He)(0,0) (18)."""
+    k4, k6 = b - 3 * a * a, c - 15 * a * b + 30 * a ** 3
+    s4, s6 = sum(x ** 4 for x in e), sum(x ** 6 for x in e)
+    V = 6 * a ** 3 + 9 * a * k4 * s4 + (k6 - k4 * k4 / a) * s6
+    B = [[a * a * ((i == j) + 2 * e[i] * e[j]) + (k4 * e[i] ** 2 if i == j else 0.0) for j in range(d)] for i in range(d)]
+    pairs = [(x, y) for x in range(d - 1) for y in range(x, d - 1)]
+    R = [[a * a * (x == y) * e[i] + k4 * U[i][x] * U[i][y] * e[i] for i in range(d)] for x, y in pairs]
+    C = [[a * a * ((x == y) * (z == w) + (x == z) * (y == w) + (x == w) * (y == z))
+          + k4 * sum(U[i][x] * U[i][y] * U[i][z] * U[i][w] for i in range(d)) for z, w in pairs] for x, y in pairs]
+    G = [[C[i][j] - v for j, v in enumerate(r)] for i, r in enumerate(matmul(matmul(R, inverse(B)), transpose(R)))]
+    p0 = (2 * math.pi) ** (-d) * a ** (-d / 2) / math.sqrt(det(B))
+    return V, B, G, p0
+
+def abs_moment_43(V):
+    return 2 ** (2 / 3) * math.gamma(7 / 6) * V ** (2 / 3) / math.sqrt(math.pi)
+
+def abs_moment_43_quadrature(V, n=200000, cut=40.0):
+    """Midpoint rule for E|N(0,V)|^(4/3), independent of the Gamma closed form (19)."""
+    s, h = 0.0, cut / n
+    for i in range(n):
+        t = (i + 0.5) * h
+        s += t ** (4 / 3) * math.exp(-t * t / 2)
+    return 2 * s * h / math.sqrt(2 * math.pi) * V ** (2 / 3)
+
+def check_d2(L, K, nodes=720):
+    pts, q1, w1 = lattice(L, K, 2)
+    a = sum(w * x ** 2 for x, w in zip(q1, w1))
+    b = sum(w * x ** 4 for x, w in zip(q1, w1))
+    c = sum(w * x ** 6 for x, w in zip(q1, w1))
+    gad = alg = 0.0
+    cache = {}
+    worst = {'p0': 0.0, 'V': 0.0, 'G': 0.0, 'rho': 0.0}
+    for n in range(nodes):
+        th = 2 * math.pi * n / nodes
+        e = (math.cos(th), math.sin(th))
+        U = [[-math.sin(th)], [math.cos(th)]]
+        p0a, S, _ = route_a(pts, 2, e, U, cache)
+        V, B, G, p0b = route_b_parts(a, b, c, 2, e, U)
+        rho = S[0][1] / math.sqrt(S[0][0] * S[1][1])
+        worst['rho'] = max(worst['rho'], abs(rho))
+        worst['p0'] = max(worst['p0'], abs(p0a / p0b - 1))
+        worst['V'] = max(worst['V'], abs(S[0][0] / V - 1))
+        worst['G'] = max(worst['G'], abs(S[1][1] / G[0][0] - 1))
+        # Route A: GAD (28) integrand with the raw conditional law; T,A independence checked via rho.
+        gad += p0a * abs_moment_43(S[0][0]) * S[1][1] / 2
+        # Route B: formula (1) integrand, F(e) = Gamma_e / 2 in d = 2.
+        alg += (G[0][0] / 2) * V ** (2 / 3) / math.sqrt(det(B))
+    h = 2 * math.pi / nodes
+    C_gad = gad * h / (2 * 12 ** (1 / 3))
+    C_alg = math.gamma(7 / 6) / (24 ** (1 / 3) * math.sqrt(math.pi) * (2 * math.pi) ** 2 * a) * alg * h
+    return {'L': L, 'K': K, 'a': a, 'b': b, 'c': c, 'C_GAD_route_A': C_gad, 'C_alg_route_B': C_alg,
+            'rel_diff': C_gad / C_alg - 1, 'worst_rel': worst}
+
+def check_d3(L, K, directions=6):
+    pts, q1, w1 = lattice(L, K, 3)
+    a = sum(w * x ** 2 for x, w in zip(q1, w1))
+    b = sum(w * x ** 4 for x, w in zip(q1, w1))
+    c = sum(w * x ** 6 for x, w in zip(q1, w1))
+    out = []
+    cache = {}
+    for n in range(directions):
+        th, ph = 0.37 + 1.1 * n, 0.9 + 0.7 * n
+        e = (math.sin(th) * math.cos(ph), math.sin(th) * math.sin(ph), math.cos(th))
+        u1 = (math.cos(th) * math.cos(ph), math.cos(th) * math.sin(ph), -math.sin(th))
+        u2 = (-math.sin(ph), math.cos(ph), 0.0)
+        U = [[u1[i], u2[i]] for i in range(3)]
+        p0a, S, pairs = route_a(pts, 3, e, U, cache)
+        V, B, G, p0b = route_b_parts(a, b, c, 3, e, U)
+        cross = max(abs(S[0][j]) for j in range(1, 4))
+        gdiff = max(abs(S[i + 1][j + 1] - G[i][j]) for i in range(3) for j in range(3))
+        out.append({'e': [round(x, 6) for x in e], 'p0_rel': p0a / p0b - 1, 'V_rel': S[0][0] / V - 1,
+                    'max_|Cov(T,A)|cond': cross, 'max_|Gamma_raw-Gamma_formula|': gdiff,
+                    'Gamma_scale': max(abs(x) for r in G for x in r)})
+    return {'L': L, 'K': K, 'kappa4': b - 3 * a * a, 'directions': out}
+
+if __name__ == '__main__':
+    import json
+    print('E|N(0,1)|^(4/3): closed form', abs_moment_43(1.0), 'quadrature', abs_moment_43_quadrature(1.0))
+    for L, K in ((3.0, 8), (6.0, 14), (24.0, 60)):
+        print(json.dumps(check_d2(L, K)))
+    for L, K in ((3.0, 6), (5.0, 8)):
+        print(json.dumps(check_d3(L, K)))
+```
+
+</details>
+
+<details><summary><code>crosscheck_d2_reduction.py</code> (SHA-256 <code>cdc00389eee70a90f0b166cb172f73480ffa58fad0c173417c8bbbd4fabab284</code>), which imports <code>check_binding.py</code> from the same directory</summary>
+
+```python
+"""Compare the binding's d=2 closed forms with the Math-#481 packet's reduction of ORIGINAL (PROOF.md lines 22-47)."""
+import math, sys
+sys.path.insert(0, '.')
+from check_binding import route_b_parts, det
+
+def moments(L, K):
+    q = [2*math.pi*k/L for k in range(-K, K+1)]; w = [math.exp(-x*x/2) for x in q]; z = sum(w)
+    return [sum(wi*x**p for x, wi in zip(q, w))/z for p in (2, 4, 6)]
+
+for L, K in ((3.0, 8), (6.0, 14), (24.0, 60)):
+    a, b, c = moments(L, K)
+    worst = {'D': 0.0, 'V': 0.0, 'Gamma': 0.0}
+    integ_binding = integ_481 = 0.0; n = 2880
+    for i in range(n):
+        th = 2*math.pi*i/n; e = (math.cos(th), math.sin(th)); U = [[-e[1]], [e[0]]]
+        V, B, G, _ = route_b_parts(a, b, c, 2, e, U)
+        t = e[0]**2 * e[1]**2
+        D481 = a*a*b + (b - 3*a*a)*(b + a*a)*t
+        V481 = c - b*b/a + 3*(b*b/a + 3*a*b - 3*a**3 - c)*t
+        G481 = a*a*(b*b - a**4)/D481
+        worst['D'] = max(worst['D'], abs(det(B)/D481 - 1)); worst['V'] = max(worst['V'], abs(V/V481 - 1)); worst['Gamma'] = max(worst['Gamma'], abs(G[0][0]/G481 - 1))
+        integ_binding += (G[0][0]/2) * V**(2/3) / math.sqrt(det(B))
+        integ_481 += V481**(2/3) / D481**1.5
+    h = 2*math.pi/n
+    C_binding = math.gamma(7/6)/(24**(1/3)*math.sqrt(math.pi)*(2*math.pi)**2*a) * integ_binding*h
+    C_481 = math.gamma(7/6)*a*(b*b - a**4)/(8*24**(1/3)*math.pi**2.5) * integ_481*h
+    print(f"L={L:>4}: kappa4={b-3*a*a:+.3e}  max rel diff D={worst['D']:.1e} V={worst['V']:.1e} Gamma={worst['Gamma']:.1e}  C_binding={C_binding:.15f}  C_481_reduction={C_481:.15f}  rel={C_binding/C_481-1:.1e}")
+print("Math-#481 certified enclosure for C_alg(2,24): [0.07332163930293274928728086, 0.07349219930919442993700213]")
+```
+
+</details>
+
+<details><summary>Outputs of both runs</summary>
+
+```text
+E|N(0,1)|^(4/3): closed form 0.8308609250295592 quadrature 0.8308609250746216
+{"L": 3.0, "K": 8, "a": 0.8043831847582616, "b": 3.5868794092926457, "c": 16.75968243015139, "C_GAD_route_A": 0.049879432666614494, "C_alg_route_B": 0.049879432666614154, "rel_diff": 6.8833827526759706e-15, "worst_rel": {"p0": 6.661338147750939e-16, "V": 4.107825191113079e-14, "G": 8.881784197001252e-16, "rho": 0.0}}
+{"L": 6.0, "K": 14, "a": 0.9999989034414919, "b": 3.0000328967552456, "c": 14.999121656634914, "C_GAD_route_A": 0.07340176748044881, "C_alg_route_B": 0.07340176748044884, "rel_diff": -3.3306690738754696e-16, "worst_rel": {"p0": 6.661338147750939e-16, "V": 1.5543122344752192e-15, "G": 1.1102230246251565e-15, "rho": 0.0}}
+{"L": 24.0, "K": 60, "a": 0.9999999999999993, "b": 2.9999999999999973, "c": 14.999999999999986, "C_GAD_route_A": 0.07340691930603536, "C_alg_route_B": 0.0734069193060351, "rel_diff": 3.552713678800501e-15, "worst_rel": {"p0": 7.771561172376096e-15, "V": 4.9960036108132044e-15, "G": 5.662137425588298e-15, "rho": 0.0}}
+{"L": 3.0, "K": 6, "kappa4": 1.6457824855271146, "directions": [{"e": [0.224784, 0.283263, 0.932327], "p0_rel": -7.771561172376096e-16, "V_rel": -6.217248937900877e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 2.6645352591003757e-15, "Gamma_scale": 2.468252229484178}, {"e": [-0.029051, 0.9945, 0.100626], "p0_rel": -7.771561172376096e-16, "V_rel": -1.4654943925052066e-14, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 6.661338147750939e-16, "Gamma_scale": 3.459029688442712}, {"e": [-0.360437, 0.403406, -0.84104], "p0_rel": -3.3306690738754696e-16, "V_rel": -6.5503158452884236e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 1.7763568394002505e-15, "Gamma_scale": 2.265522471431985}, {"e": [0.499113, -0.071147, -0.863611], "p0_rel": -4.440892098500626e-16, "V_rel": -4.6629367034256575e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 3.1086244689504383e-15, "Gamma_scale": 3.341582291660711}, {"e": [0.846693, 0.528957, 0.057579], "p0_rel": -4.440892098500626e-16, "V_rel": -5.218048215738236e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 1.7763568394002505e-15, "Gamma_scale": 3.4073625393039104}, {"e": [0.123403, 0.382095, 0.915846], "p0_rel": -4.440892098500626e-16, "V_rel": -6.994405055138486e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 2.6645352591003757e-15, "Gamma_scale": 3.068884676410887}]}
+{"L": 5.0, "K": 8, "kappa4": 0.00465817758747189, "directions": [{"e": [0.224784, 0.283263, 0.932327], "p0_rel": 4.440892098500626e-15, "V_rel": 2.220446049250313e-16, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 5.329070518200751e-15, "Gamma_scale": 2.668323806222672}, {"e": [-0.029051, 0.9945, 0.100626], "p0_rel": 3.9968028886505635e-15, "V_rel": 1.1102230246251565e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 1.1546319456101628e-14, "Gamma_scale": 2.670823516723879}, {"e": [-0.360437, 0.403406, -0.84104], "p0_rel": 4.884981308350689e-15, "V_rel": -1.3322676295501878e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 5.329070518200751e-15, "Gamma_scale": 2.6678619847358602}, {"e": [0.499113, -0.071147, -0.863611], "p0_rel": 3.9968028886505635e-15, "V_rel": -9.992007221626409e-16, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 1.0658141036401503e-14, "Gamma_scale": 2.6704379848205404}, {"e": [0.846693, 0.528957, 0.057579], "p0_rel": 3.9968028886505635e-15, "V_rel": -4.551914400963142e-15, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 1.021405182655144e-14, "Gamma_scale": 2.670590048164875}, {"e": [0.123403, 0.382095, 0.915846], "p0_rel": 4.440892098500626e-15, "V_rel": -3.3306690738754696e-16, "max_|Cov(T,A)|cond": 0.0, "max_|Gamma_raw-Gamma_formula|": 6.661338147750939e-15, "Gamma_scale": 2.6698229310852466}]}
+L= 3.0: kappa4=+1.646e+00  max rel diff D=4.4e-16 V=8.4e-15 Gamma=5.6e-16  C_binding=0.049879432666614  C_481_reduction=0.049879432666614  rel=8.9e-16
+L= 6.0: kappa4=+3.948e-05  max rel diff D=6.7e-16 V=5.6e-16 Gamma=4.4e-16  C_binding=0.073401767480449  C_481_reduction=0.073401767480448  rel=5.6e-15
+L=24.0: kappa4=+1.332e-15  max rel diff D=6.7e-16 V=6.7e-16 Gamma=4.4e-16  C_binding=0.073406919306031  C_481_reduction=0.073406919306030  rel=2.4e-15
+Math-#481 certified enclosure for C_alg(2,24): [0.07332163930293274928728086, 0.07349219930919442993700213]
+```
+
+</details>
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

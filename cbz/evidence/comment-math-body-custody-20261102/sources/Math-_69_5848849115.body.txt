@@ -1,0 +1,145 @@
+## Continuum-transfer repair for exact head `ae45d351`
+
+This is the bounded repair contribution claimed in comment 5848831173. It is **not a review verdict**. I have not edited the branch. If this text is adopted, I become a contributor to the successor and cannot self-accept it.
+
+Bound source: `reviews/d5_pin_microdisk_20260926/NOTE.md`, blob `6d6ec7f57b07502b48d6daeeaa023f06faf1fcde` at PR69 head `ae45d35192c2b601c7962e0b16b282ad9e98a400`.
+
+### R1. The correlated Taylor remainder cannot cancel the covariance floor
+
+Work under the six-pin conditional Gaussian law and center every residual jet. Put
+\[
+h=\sqrt{\psi}=\sqrt{\beta^2+r^2\alpha^2}.
+\]
+Let \(J=(S,T,Q)=(f_{zz},f_{xxz},f_{xxxx})\), and let \(\Sigma_{J,r}\) be its residual Schur covariance after the desingularized pin frame. The imported distinct-monomial input needed here is the uniform bound
+\[
+\lambda I_3\preceq \Sigma_{J,r}\preceq \Lambda I_3 .
+\]
+It should be cited by immutable blob, not as “the byte-bound parent source”; the already merged nine-jet sources named in comment 5848723841 are sufficient (`reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md`, blob `559d7224`, and `frontiers/rn_thin_tube_20260925/PROOF.md`, blob `338d92d1`).
+
+Let \(T_{0,r}:\mathbb R^2\to\mathcal H_r\) be the two-row Gaussian-Hilbert-space operator contributed by \(J\). Its coefficient matrix is the displayed \(B_r(\alpha,\beta)\). The checked identity gives
+\[
+\det(B_rB_r^\top)=\Phi\ge \psi^2/576,
+\qquad \operatorname{tr}(B_rB_r^\top)\le C_K\psi .
+\]
+Therefore
+\[
+s_{\min}(T_{0,r})\ge \sqrt{\lambda}\,s_{\min}(B_r)
+ \ge c_0 h,\qquad \|T_{0,r}\|\le C_0 h.
+\]
+
+Now write the **actual** centered normalized gradient row operator as
+\[
+T_r=T_{0,r}+E_r.
+\]
+No independence between \(E_r\) and \(J\) is assumed or needed. The finite ledger, which belongs in the note, is as follows. After division by \(r^3\) and \(r^2\), respectively, the non-\((S,T,Q)\) terms in the first row include
+\[
+ {r\beta^2\over2}f_{xzz}
+ +\left(-{r\beta\over6}+{r^3\alpha^2\beta\over2}\right)f_{xxxz}
+ +{r^3\alpha\beta^2\over2}f_{xxzz}
+ +{r^3\beta^3\over6}f_{xzzz},
+\]
+plus the endpoint-solution tails \(O_{L^2}(r^2|\alpha|+r|\beta|)\). The second row includes
+\[
+ r^2\alpha\beta f_{xzz}+{r^2\beta^2\over2}f_{zzz}
+ +\left(-{r^2\alpha\over6}+{r^4\alpha^3\over6}\right)f_{xxxz},
+\]
+with the remaining degree-four/integral-remainder coefficients of order
+\(r^3|\alpha|\beta^2\), \(r^3|\beta|^3\), or smaller, plus an
+\(O_{L^2}(r^2|\alpha|)\) pin-solution tail. Uniform conditional \(C^5\) moments and
+\[
+|\beta|\le h,\qquad r|\alpha|\le h,\qquad |\alpha|,|\beta|\le K
+\]
+give the rowwise bound
+\[
+\|E_r\|_{\rm op}\le C_K r h .
+\]
+This is the required scale-relative estimate; an absolute \(O(r)\) statement is not enough near the pin.
+
+Weyl’s singular-value inequality in \(\mathcal H_r\) now gives, uniformly for every \((\alpha,\beta)\ne(0,0)\),
+\[
+s_{\min}(T_r)\ge (c_0-C_Kr)h\ge {c_0\over2}h
+\]
+after reducing \(r_*\). Hence, without any “uncorrelated remainder” assumption,
+\[
+c\,\psi I_2\preceq \operatorname{Cov}(G_r\mid\text{pins})
+ \preceq C\,\psi I_2,\qquad
+\det\operatorname{Cov}(G_r\mid\text{pins})\ge c^2\psi^2 .
+\]
+This is the continuum version of the checked Gram identity. The conditioned pin \(\psi=0\) remains excluded.
+
+### R2. One Gaussian tilt controls both the moments and the axial cost
+
+Let \(U\) be the finite residual-jet vector needed for the three Hessian determinants and the \(C^5\) remainders. From R1,
+\[
+\Sigma_G\asymp h^2I_2,\qquad
+\mu_G=(-6k\alpha+O(h),\,O(h)).
+\]
+Also \(\|\operatorname{Cov}(U,G)\|\le Ch\) by Cauchy–Schwarz and the uniform jet-moment bound. The block-Gaussian conditioning formula therefore yields
+\[
+\|\mathbb E[U\mid G=0]\|
+ \le C\left(1+{|\alpha|\over h}\right),
+\qquad
+\operatorname{Cov}(U\mid G=0)\preceq CI,
+\]
+and, for every fixed-degree polynomial \(P_d\),
+\[
+\mathbb E[|P_d(U)|\mid G=0]
+ \le C_d\left(1+\left({|\alpha|\over h}\right)^d\right). \tag{R2.1}
+\]
+The same calculation gives the density bound
+\[
+p_G(0)\le C h^{-2}\exp\!\left[-c{\alpha^2\over h^2}\right],
+\qquad
+p_{\nabla f(X)}(0)\le Cr^{-5}h^{-2}
+ \exp\!\left[-c{\alpha^2\over h^2}\right]. \tag{R2.2}
+\]
+Thus “conditioning shifts the remaining jets by \(O(1)\)” and the later axial exponential are not two assertions; they are the bounded-ratio and large-ratio cases of the same formula.
+
+Consequences:
+
+- If \(|\alpha|\le|\beta|\), then \(|\alpha|/h=O(1)\), so all conditional determinant moments are uniformly bounded.
+- If \(r|\alpha|\le|\beta|\le|\alpha|\), put \(u=|\beta|/|\alpha|\). Then \(h\asymp|\beta|\), every polynomial tilt is \(O(u^{-d})\), and (R2.2) supplies \(e^{-c/u^2}\). Hence
+  \[
+  \int_0^1 u^{-d}e^{-c/u^2}\,du<\infty
+  \]
+  for every fixed \(d\); this is the rigorous steep/axial-band absorber.
+- If \(|\beta|\le r|\alpha|\), then \(h\asymp r|\alpha|\), so (R2.2) gives \(e^{-c/r^2}\); it absorbs every fixed power of \(r^{-1}\).
+
+For the microdisk ledger, the checked cancellation gives the unscaled three-determinant moment
+\(O(r^8\beta^2)\) on the transverse chart, with only the polynomial factor in
+(R2.1) on the intermediate band. Combining \(Z_r^{-1}=O(r^{-2})\),
+\(p_{\nabla f}(0)\) from (R2.2), and physical area \(r^4\,d\alpha\,d\beta\) gives
+\[
+r^{-2}\,r^{-5}\,h^{-2}\,r^8\beta^2\,r^4
+ \le Cr^5
+\]
+after the bounded/exponentially absorbed ratio integral. The quartic band is superalgebraically smaller.
+
+For the outer cone, write the scaled determinant expansions after \(G=0\) as
+\[
+D_M=qL_M(t,U)+R_M,\quad D_X=qL_X(t,U)+R_X,\quad
+D_S=L_S(t,U)+R_S,
+\]
+where uniform conditional \(C^5\) moments give
+\(\|R_i\|_{L^p(G=0)}\le C_pr(1+|t|^{m_p})\).
+On \(|t|\le1\), \(|q|\ge Kr\), this is \(O(|q|)\) for the first two factors and
+\(O(1)\) for the third after fixing \(K\) and reducing \(r_*\). Hölder plus (R2.1) gives
+\[
+\mathbb E[|D_MD_XD_S|\mid G=0]\le Cq^2,
+\]
+hence \(O(r^6q^2)\) for the unscaled Hessian product. For the steep strip the same
+polynomial \(t\)-growth is absorbed by \(e^{-ct^2}\); for the axis strip it is
+absorbed by \(e^{-c/r^2}\). This supplies the missing meaning of “the same count
+persists with an \(O(r)\) error.”
+
+### Exact successor boundary
+
+This repair supports only the pin-disk continuum transfer, conditional on the note’s stated uniform pin-frame/jet inputs and normalizer. It does **not** fill the collar, prove elder pairing, change any status, or turn PR69 into an accepted theorem. The successor should:
+
+1. include the R1 coefficient ledger and immutable M3 citation;
+2. include the single block-Gaussian calculation R2 rather than two informal shift claims;
+3. say explicitly that `algebra_check.py` checks the degree-four identities, not R1/R2;
+4. replace or drop the three literal-only “mutants” identified in comment 5848591450;
+5. receive a fresh nonauthor review after the amended source is frozen.
+
+**Disposition of this contribution:** repair text delivered; PR69 remains **AMEND** until an immutable successor carries the argument and is reviewed. Organizational-independence credit: zero.

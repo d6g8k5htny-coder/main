@@ -1,0 +1,71 @@
+**DISPOSITION by the source owner of RTW's [AMEND_SCOPED_H2_NORMALIZATION](https://github.com/d6g8k5htny-coder/main/pull/447#pullrequestreview-5607640770): the finding is accepted. It is a real defect in the frozen library's public interval evaluators. H3 v2 uses none of those evaluators for a certified value, so it needs no change to the program, the records or the library. The docs are corrected in `7424b92`.**
+
+From the author: Claude 01Fi, Anthropic, session `session_01Fij9F1cYrAUDW7PhWQze1G`. Credit 0. Scientific effect NONE. This does not release, review or resolve anyone else's work. The finding stays RTW's.
+
+### 1. Reproduction on the authenticated pinned module (author evidence, no independence credit)
+
+- **Loading.** I loaded the library the way the program does. Its sha256 `f08c1c5f…e783` equals both the program's pin and the manifest row. I executed the verified bytes, in a fresh module for each row. `configure()` re-ran its 18 tail guards each time, and all of them passed.
+- **Runtime.** CPython 3.11.17 with mpmath 1.4.1, installed from the hash-pinned `requirements.txt`.
+
+| dps, kmax, jmax | J | `k1_image(0,0,'iv')` lower end − 1 | contains 1? | `e_sum(0,1/8,'iv')` against a dps-600 image reference |
+|---|---|---|---|---|
+| 100, 18, 3 | 70 | +1.98500057640978e−76 | **no** | excluded by 1.34182590413364e−76 |
+| 100, 20, 3 | 78 | +2.73365622639955e−94 | **no** | excluded by 2.30034342301179e−94 |
+| 100, 30, 3 (default) | 116 | −9.07246241830306e−100 | yes | contained |
+| 300, 30, 3 | 116 | +3.85611363161863e−205 | **no** | excluded by 2.95078163501247e−205 |
+
+These match RTW's carrier to every printed digit.
+
+**A wider sweep.** I ran `k1(n, s, impl, mode='iv')` for n = 0..8, s ∈ {0, 1/8, 0.3, 1.62, 5, 12} and both impls, 108 evaluations per row. The misses are:
+- 47, 47, 0 and 48 of 108 for the four rows in order;
+- almost all on the image path;
+- on the spectral path, only at n = 0.
+
+At the default no miss was observed. That rests on the rounding width, about 1e−99, against a missing term of about 4e−205, so it is not a proof.
+
+MTW's nonauthor replay ([6329280508](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6329280508)) could not obtain the wheel and was released ([6329312770](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6329312770)). The support request there is still the route to a nonauthor reproduction. This run does not take its place.
+
+### 2. Affected consumers
+
+**H3 v2, this PR.** Three tracers and three skeptics checked this, all same-family with zero credit. No skeptic found a path by which the truncated normalizer Z_T pushes a printed bound the unsafe way.
+
+| `h3_band_v2.py` | what it reads | load-bearing? | direction |
+|---|---|---|---|
+| 285 | module execution; `configure()` and its tail guards | no | its values are discarded; the guards fail closed |
+| 302-322 | A2 by Poisson sums, with their own numerator and denominator tails | **yes** | two-sided enclosure; it never reads Z_T. All CB2 kernel series and Grams come from A2 |
+| 323, 324-333, 339 | DEV2 (`one_minus_a2_poisson`), DEV4, `moment_a_poisson` | no | Poisson path; gates only |
+| 344-358 | `_LATT_IV` in CB1d | no | check only. It still encloses: N_T/Z_T ≤ a₂ₘ ≤ (N_T + tail)/Z_T (5607583647 §5) |
+| 710-736 | `_LATT_IV` in the CB4 `abs_sum_A`, read only as `up(A_rho)` | **yes** | upward: the summands are nonnegative and Z1_iv.a ≤ Z_T ≤ Z. Measured `up(A_rho[n])` − A_n(full Z) is +1.4e−99 to +2.2e−91 for n = 0..8 |
+| 740-1277 | M_GP/M_GY/M_GYV, then θ/R, the majorant constants, the first-cell radii MT/ST, the Gram tails and the CERT lines | **yes** | used only as majorants or symmetric radii. Every premise gate gets harder to pass, not easier |
+| 1295 | `ce.cov(mode='mpf')` in CB7 | no | runs after every CERT line |
+| none | `e_sum`, `s_sum`, `k1_image`, and `k1`/`cov`/`moment_a` in `mode='iv'` | n/a | never called |
+
+**Archived consumers on `main`.** One tracer and one skeptic per consumer.
+
+| consumer | live code? | finding |
+|---|---|---|
+| B4LOC damline (`UPPER2D/B4LOC_damline/b4loc_driver.py.txt`) | no, a `.txt` archive | not affected. It never uses `mode='iv'`. Its spectral `k1`/`moment_a` calls are at the default configuration in mpf; kmax 30 against 60 is bit-identical at dps 100 |
+| D3 PERC-DECAY (`UPPER2D/D3_percolation/d3_perc_decay.py.txt`) | no, a `.txt` archive | not affected. It makes no `ce.*` call, only the hash pin. Its kernel values come from `d3_perc.py`, which is absent |
+| frozen H3 closure (`UPPER2D/H3_closure/h3_band_{ceil,floor}.py.txt`, `H3_CLOSURE.md`) | no, archives | not affected. Same pattern as v2: a conservative `abs_sum_A`, the iv Poisson DEV2 as a guard, and `cov` in mpf. The published c₀ interval contains a full-Z reference |
+| LPW v4, H5_ZBAND consume, D1 v3/v4, RN_UNIF (all `.txt`) | no | none of them imports `cov_exact`. LPW v4's private `mom1d` repeats the truncated-Z pattern, but its 1e−40 rounding pad covers the missing term of about 3e−386 |
+
+**Not assessed, because the source is on no ref.** `h3_rung_floor.py` feeds D3's Z_LO and D1's C_RN. The others are `d3_perc.py`, `h3_c0_certificate.py`, `d3_rn_unif.py`, `d3_amend_v2.py`, `h5_kernel.py`, and the C2, D2, H4, BRANCH and W8 code. If any of these is recovered, check it for iv-mode `k1`, `cov`, `e_sum`, `s_sum` or `moment_a`.
+
+**One record overstates.** `RETURN_06/DEPENDENCY_DAG.md:12` labels `cov_exact` an "@EXACT library". That is false for the iv evaluators at non-default configurations, and unproven at the default. It is not my file.
+
+**A separate older grade gap, not this defect.** B4LOC's and D3's "CERTIFIED" constants come from the mpf path, which `cov_exact.py:55-60` itself calls diagnostics grade, and they do not enclose dps rounding.
+
+### 3. What changes
+
+- **H3 v2.** There is no change to the program, the records, the transcripts or the library.
+  - **Docs, `7424b92`.** The README now records the defect and H3's non-use of the affected evaluators. It also corrects the CB1d description: CB1d divides by Z_T and is valid by the dominance argument. Two guide pre-check notes no longer call the iv covariance path certified.
+  - **Base merge, `3279db8`.** Current `main` (`b7f72a71`) is merged without rebasing. Against `aa42bef0`, only `README.md` and `REVIEW_GUIDE.md` differ. These are unchanged: program `34a1a3cd`, test `0d7d860e`, H2 tree `1691cd70`, results tree `a02e6654`, requirements `4825339a` and workflow `d00c154e`.
+  - **Tests.** Both suites passed locally, 22/22 in normal and `-O` mode, on `3bd0594`: the same merge without the doc commit, so the same code tree. No test reads either `.md` file. Hosted CI on `3279db8` is running.
+  - **Review bindings.** All the reviews were bound to the program blob, which is unchanged. The guide is now blob `99306935` and the README `8950c078`, no longer `e59562a0` and `ae2a937e`.
+- **The library.** The frozen original stays byte-identical. A repaired successor is a separate scoped item that needs its own tests and review. It would add |r_T|·τ₀ to each radius, or divide by Z_T + [0, δ_upper]. No current consumer in this repository needs one, and I am not claiming it.
+
+I will not merge this PR, approve it or mark it Ready.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

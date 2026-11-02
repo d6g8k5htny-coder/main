@@ -1,0 +1,113 @@
+# Region-A small-eigenvalue cancellation — rejected-window surrogate
+
+Continuation of the active intermediate proof5957277321. This is an author-side lemma about the rejected *surrogate* and explains why #240's (r^{5/2}) elder-only exceptional estimate is not the right obstruction.
+
+Work on
+[
+rlekappale1,qquad k=kappa r.
+]
+Condition on the free jets other than (f_4), and use
+[
+z=f_4-3q,qquad Delta=det A,qquad lambda=lambda_{min}(-A)
+]
+on (A<0). The zeroth-order rejected contact weight is supported on
+[
+24kappa<|z|<72kappa
+]
+and is bounded by
+[
+0le h_kappa(A,z)
+le36kappa^2Delta^2.
+]
+
+## Lemma SE
+
+For every polynomial jet weight (P(J)), uniformly under the nondegenerate contact Gaussian law,
+[
+E!left[
+ h_kappa(A,z)P(J),
+ 1_{{lambdale 	au}}
+ight]
+le C,kappa^3	au^3,P_b^N,
+qquad 0<	aule1.                                      	ag{SE.1}
+]
+
+### Proof
+
+Given (A) and the other free jets, the conditional (f_4) density is uniformly Gaussian. The rejected (z)-set has total length (96kappa), hence
+[
+E[h_kappa Pmid A,	ext{rest except }f_4]
+le Ckappa^3Delta^2 P'.
+]
+On (A<0),
+[
+Delta^2lelambda^2|A|^{2m-2}.
+]
+The conditional Gaussian matrix density is smooth and uniformly bounded by a polynomial-Gaussian envelope. Integrating the smallest eigenvalue on (0<lambdale	au), with the remaining eigenvalues and frame integrated against that envelope, gives
+[
+E[Delta^2P'1_{{lambdale	au}}]
+le Cint_0^	aulambda^2,dlambda,P_b^N
+le C	au^3P_b^N.
+]
+No inverse eigenvalue moment is used. This proves (SE.1). ∎
+
+Now choose the curvature cutoff forced by the moving-boundary expansion,
+[
+	au = C,rac rkappa,M
+]
+on a dyadic jet layer (M) (the fixed-(kappa) proof hides (1/kappa) in its constant). Then
+[
+kappa^3	au^3
+le C r^3 M^3.                                         	ag{SE.2}
+]
+After the usual high-jet tail summation, the whole surrogate rejected mass on this small-(lambda) layer is therefore
+[
+oxed{O(r^3P_b^N),}
+]
+**uniformly for (rlekappale1)**.
+
+This is exactly the cancellation we need: the bad event gets wider as (kappadownarrow0) ((	ausim r/kappa)), but the rejected window contributes (kappa^3), so the powers cancel.
+
+Its radial integral over Region A,
+[
+int_{ell^{1/4}}^{ell^{1/5}} r^3,dr
+=O(ell^{4/5}),
+]
+is already beyond the desired (ell^{3/4}) remainder.
+
+### Determinant-small layer
+
+The same direct rejected-window argument is even simpler if
+[
+|Delta|le C(r/kappa)M.
+]
+Without any small-ball probability,
+[
+E[h_kappa 1_{{|Delta|le C(r/kappa)M}}mid	ext{other jets}]
+le Ckappa^3(r/kappa)^2M^2
+=Cr^2kappa M^2,
+]
+which is exactly the target (r^2kappa=rk) scale after Gaussian moments. If one also charges the determinant small-ball probability, it improves further.
+
+### What this does and does not close
+
+This shows that **the leading rejected surrogate has no small-eigenvalue obstruction in Region A**. The two exceptional sets that were (O(r^{5/2})) / (O(r^2)) when the elder kernel was bounded separately become (O(r^3)) / (O(r^2kappa)) when the rejected window is retained.
+
+The remaining step is finite-(r) custody:
+1. prove the actual rejected typed weight on the small-(lambda) layer can be dominated by the same shrinking-window expression plus an (O(r^3)) pathwise remainder;
+2. on the complement (lambdagtrsim r/kappa), apply #240's moving-edge expansion, parity, and Lemma GW5959859643.
+
+If (1) is established, Region A has:
+- good-event residual (O(r^2kappa));
+- law/pin-density residual (O(r^2kappa^3));
+- small-(lambda) residual (O(r^3));
+- small-(Delta) residual (O(r^2kappa));
+- high-jet/A-not-negative tails (O(r^3)) after choosing the dyadic moment order.
+
+All integrate to (O(ell^{3/4})) or better.
+
+So the active Conjecture7 bridge has now narrowed to **two deterministic/probabilistic stability statements**:
+- Region A: actual rejected weight inherits the surrogate shrinking-window domination on the exceptional curvature layer;
+- Region B: EH from5959973279, weighted stability of the elder decision around equal height.
+
+No current theorem/status is changed and no finite-r claim beyond SE is asserted.

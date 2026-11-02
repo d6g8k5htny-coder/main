@@ -1,0 +1,168 @@
+# PR242 v1.1 Slice C — Gaussian rejection function and its small-gamma remainder
+
+**Dylan Roy — delegated AI review.** Actual reviewer: OpenAI/Codex `/root`, nonauthor of the Anthropic source, source-exposed to the packet and the coordinated A/B/D reviews. Personal reading PENDING; organizational independence 0; scientific effect NONE; C8 OPEN. This is a new review of C and the consumed Lemma 3 envelope, not a second independent credit for the earlier reviews.
+
+**Verdict: PASS_TECHNICAL_SCOPED for Proposition 4's numbered conclusions and Lemma 3's envelope, retaining the pending exact-level repair OA-242-B-01. AMEND the unsupported sharp-order interpretation in the parenthetical after Proposition 4(2).** The derivation below also supplies a stronger **O(k^(7/2)) upper remainder** as explicitly root-authored support. It does not prove a nonzero k^(7/2) coefficient. No full-packet acceptance, numerical certification or field Conjecture 6/7 closure.
+
+Source: PR242 head `87912bd8f28fe0d31fcb525670d1fd71a00e0db1`, `frontiers/soft_rejected_pairs_20261002/PROOF.md`, blob `8b2f5fae2a0014a401003463d7c2b2221e7124f5`, 63,690 bytes, SHA-256 `c312e423990442cfaad44459a2a20b231029828cae97018ba68724c20613331b`. Actual author: Anthropic Claude. Claim `2c2331e2-5c04-4894-aa67-aeeeebce481b`, WE519. This review concerns the reference covariance C(x)=exp(−|x|²/2), not an exact finite-L transfer of that covariance's formulas.
+
+## 1. The consumed global envelope is sufficient
+
+With φ≤min(1,|t|^−1,|χ₀|^−2/3)/20, the source's normalized parameters satisfy
+
+    φ≤1/20, |β|=|2tφ|≤1/10,
+    |χ|=|χ₀φ²|≤1/400, χ²≤φ/8000.
+
+These imply typing: φ|1−t|≤φ+φ|t|≤1/10<1. On −2≤X≤1/2, a=1−βX belongs to [4/5,6/5], |p|=|X²−1/4|≤15/4, and |χp|<1/100. Thus q=√(a²−χp)/a satisfies 99/100≤q≤101/100: compare q² with 1±1/64.
+
+The exact ridge and valley identities give
+
+    R−A₀=(p²/a)(1+2q)/(6(1+q)²)≤(16/125)p²/a,
+    V−A₀=−a³(1+q)²(2q−1)/(6χ²)≤−(33/100)/χ².
+
+The first rational factor decreases for q>0. The second positive numerator increases in a and q on this interval; evaluating a=4/5, q=99/100 proves the 33/100 bound. For χ=0, read V=−∞; do not divide by zero.
+
+At X=−2, R−A₀≤9/4<23/10 whereas A₀=13.5L_S. Also 12.5/(24φ)≥125/12>23/10, so R(−2)<L_S. On the left interval the factored ridge bound has bracket at most −5/2+1<0. On the middle interval use a≥19/20 and |X−1/2|≤1, obtaining (16/125)/(19/20)=64/475<27/200=0.135; the negative term is at most −1/(24φ)≤−5/6. Finally V≤A₀−(33/100)/χ²<L_S follows from χ²≤φ/8000 and A₀≤0. These give an isolating cap and the exact-level elder criterion, with the already recorded B-01 correction to that criterion's proof. Neither a numerical ridge scan nor field convergence is needed here.
+
+Therefore the rejected set excludes (0,φ_*), φ_*=min(1,|t|^−1,|χ₀|^−2/3)/20, and
+
+    0≤I(t,χ₀)≤∫[φ_*,∞)φ^−4dφ
+    =(8000/3)max(1,|t|³,χ₀²).                         (C.1)
+
+Exceptional parameter equalities are immaterial to the Gaussian integral; the cap argument uses the strict local inequalities above. This does not repair the source's already pending general Lemma 2 wording by implication.
+
+## 2. Exact Gaussian factorization, including a random soft direction
+
+For derivative multi-indices α,β at a point,
+
+    Cov(∂^αf,∂^βf)=(-1)^|β| ∂^(α+β)exp(−|x|²/2)|₀.
+
+The right side vanishes if any coordinate of α+β is odd; otherwise it is the product of signed even Gaussian derivative moments. Subtracting the covariance through the gradient pins gives, for every fixed unit e perpendicular to u,
+
+    Cov((∂_u³f, γ_e, B_e, C_e) | ∇f=0)=diag(6,2,2,6).
+
+For example Cov(γ_e,C_e)=3 before gradient conditioning and the common gradient component subtracts 1·3=3. Similarly Cov(∂_u³f,B_e)=3−3·1=0. The four conditional coordinates are jointly Gaussian, so the diagonal matrix gives independence. Their residual cross-covariances with every even jet vanish by parity. Conditioning additionally on the even contact pins therefore does not change them. The gap pin ∂_u³f=12k changes only the pinned longitudinal coordinate and contributes
+
+    exp(−(12k)²/(2·6))=exp(−12k²).                    (C.2)
+
+The soft direction e₁ is selected measurably from the even matrix A outside its null repeated-eigenvalue set. The odd jet tensor is independent of A. Conditional on A, rotational invariance in u-perpendicular space gives the same triple law in its chosen direction e₁, independent of which direction was selected. Thus (γ₁,B₁,C₁) still has independent variances (2,2,6) and is independent of the even spectral weight. This is the argument needed for arbitrary d; a fixed-axis covariance check alone would not justify selecting a random eigenvector. Reversing e₁ changes γ₁,C₁ together and leaves t and χ₀ invariant, so no extra orientation factor is introduced.
+
+In (3.1) the weighted spectral density consequently factors out. Since Eγ⁶=120 and I(0,0)=20/3, the denominator is 800. The prefactor is 12·800/384=25, agreeing with F₀=25π₀𝔡 in Theorem 1. Hence
+
+    F(k;b)=F₀(b)H(k),
+    H(k)=exp(−12k²) E[γ⁶I(12kB/γ²,576k²C/γ³)]/800,    (C.3)
+
+with γ,B,C independent N(0,2), N(0,2), N(0,6). The formula concerns k>0; the probability-zero value γ=0 can be assigned arbitrarily in the integrand. It supplies no positive lower bound on |γ|.
+
+Using (C.1),
+
+    γ⁶I≤C[γ⁶+1728k³|B|³+331776k⁴C²].                (C.4)
+
+All moments on the right are finite. This proves H≥0 and H≤C(1+k⁴)exp(−12k²), with a finite constant, as claimed in Proposition 4(3).
+
+## 3. An independent exact derivation of the moving edge
+
+Set χ₀=0, β=2tφ and a=1−2tφX. Near (X,φ,t)=(-3/2,1/3,0), a>0, and the normalized ridge equation factors exactly:
+
+    24φa(R−L_S)=(X−1/2)² Q(X,φ,t),
+    Q=2(X+1)(1−2tφX)+3φ(X+1/2)².
+
+Put A=3−4t. This quadratic is
+
+    Q=AφX²+(2+Aφ)X+2+3φ/4,
+    disc_X Q=4[1−Aφ(1+tφ)].                          (C.5)
+
+Thus the nearby tangency has the exact expressions
+
+    φ_e(t)=2/[A+√(3A)],
+    X_e(t)=−3/2−tφ_e(t),
+    φ_e=1/3+t/3+(10/27)t²+O(t³),
+    X_e=−3/2−t/3−t²/3+O(t³).                         (C.6)
+
+The formulas hold in a neighborhood of t=0 with the indicated positive root, not across all t. The resulting integral over the rejected interval is
+
+    I(t,0)=1/(3φ_e³)−(1−t)²/φ_e+(2/3)(1−t)³
+          =20/3−20t+(52/3)t²+O(t³).                  (C.7)
+
+For small nonzero χ₀, the ridge root is analytic using the regular expression z_r=p/(a+√(a²−χp)). Its value and its tangency equations are analytic. Nonzero tangency Jacobian supplies an analytic φ_e(t,χ₀). The strict compact margins on both sides of the edge, the cap region (C.1), and the valley bound for small χ ensure that no extra boundary enters this local integral. At M and S the vanishing margins are handled by their factored quadratic forms; one does not apply a positive uniform margin at the pins themselves. It follows that I(t,χ₀) is analytic in a neighborhood of (0,0).
+
+**Normalization of the Jacobian.** For the literal equations (R−L_S,R_X), the determinant at the displayed point is −3/2. For (Q,Q_X) it is −6. For (N,N_X), N=24φa(R−L_S), it is −96. All are nonzero and yield the same local edge. The source's −96 is correct for the last rescaled system; the written argument should identify that system rather than assigning −96 to the unscaled equations.
+
+## 4. Averaging requires a small-gamma split
+
+Take fixed small t₀,χ_* within the analytic neighborhood and define
+
+    G={|t|≤t₀, |χ₀|≤χ_*},
+    t=12kB/γ², χ₀=576k²C/γ³, 0<k≤1.
+
+On G the linear t and χ₀ terms average to zero separately, since B and C are independent and symmetric, and G is invariant under both sign changes. The quadratic t term has exact weighted moment
+
+    E[γ⁶t²]=144k² E[B²]E[γ²]=576k².                  (C.8)
+
+The source's remainder terms are integrable after multiplication by γ⁶:
+
+    γ⁶|t|³=1728k³|B|³,
+    γ⁶|tχ₀|=6912k³|BCγ|,
+    γ⁶χ₀²=331776k⁴C².
+
+It remains to justify truncation. On G-complement,
+
+    γ²≤C₀ k (|B|+|C|^(2/3))=:ε,
+
+because k^(4/3)≤k for k≤1. The bounded γ density, independent of B,C, gives for j≥0
+
+    E[|γ|^(2j) 1{γ²≤ε} | B,C]≤C_j ε^(j+1/2).
+
+Apply this to (C.4). The three resulting powers of k are respectively 7/2, 7/2 and 9/2; their remaining Gaussian moments are finite. The omitted constant Taylor term and the omitted γ⁶t² term are also O(k^(7/2)), the latter using k²E[γ²1{γ²≤ε}]≤Ck^(7/2)S^(3/2), S=|B|+|C|^(2/3). Thus restoring the full moments is legitimate. This proves
+
+    E[γ⁶I]=800+9984k²+O(k³),
+    H(k)=exp(−12k²)[1+(312/25)k²+O(k³)]
+        =1+(12/25)k²+O(k³).                           (C.9)
+
+Together with the global bound this yields |H−1|≤C min(1,k²). This is the specific interface consumed by Lemma 5; it has now been reconstructed rather than inferred from quadrature.
+
+## 5. Root-authored improvement: an O(k^(7/2)) upper remainder
+
+This section is additional support authored during review, not an independently reviewed field theorem or a claim that the fractional coefficient is nonzero.
+
+Average the four sign choices in the analytic function I:
+
+    I_even(t,χ)=(1/4)Σ[σ,τ=±1] I(σt,τχ).
+
+On a smaller closed neighborhood, C⁴ regularity, evenness in each variable and (C.7) give
+
+    |I_even(t,χ)−20/3−(52/3)t²|≤C(t⁴+χ²).           (C.10)
+
+The mixed t²χ² and χ⁴ terms are absorbed by χ² there. Since G is invariant under these sign changes, its weighted expectation is unchanged when I is replaced by I_even. The χ² term contributes O(k⁴). For the t⁴ term, on G and B≠0,
+
+    |γ|≥(12k|B|/t₀)^(1/2),
+    γ⁶t⁴=12⁴k⁴B⁴γ^−2.
+
+The bounded γ density gives E[γ^−2 1{|γ|≥a}]≤2‖pγ‖∞/a. Therefore
+
+    E[γ⁶t⁴1_G]≤C k^(7/2)E|B|^(7/2)<∞.              (C.11)
+
+At B=0 the integrand is zero; no singular bound is required. The complement estimates from §4 remain O(k^(7/2)). Hence (C.9) strengthens to
+
+    E[γ⁶I]=800+9984k²+O(k^(7/2)),
+    H(k)=1+(12/25)k²+O(k^(7/2)).                     (C.12)
+
+The exponential's discarded k⁴ term is O(k^(7/2)) for 0<k≤1. Constants here are finite model constants, not numerically certified values. This proof avoids taking the divergent untruncated fourth moment.
+
+**Why this does not prove a sharp fractional term.** Consider the toy function I_*(t,χ)=20/3+(52/3)t². It has the same local quadratic coefficients after even averaging, is nonnegative, and obeys an envelope of the form (C.1). The formal quantity E[γ⁶t⁴] still diverges. Nevertheless its expectation is exactly 800+9984k², and
+
+    H_*(k)=exp(−12k²)[1+(312/25)k²]
+          =1+(12/25)k²−(1944/25)k⁴+O(k⁶).
+
+There is no nonzero k^(7/2) term in this example. It is not asserted to be a geometric rejection integral; it invalidates the inference from moment divergence alone. A sharp asymptotic would require analysis of the γ≈√k transition and a nonzero residual coefficient. Neither the source nor this review supplies that.
+
+## 6. Findings and handoff
+
+- **OA-242-C-01 — AMEND, bounded to the parenthetical after Proposition 4(2).** “The true next correction is of order k^(7/2), since E[γ⁶t⁴]=∞” is not established by the given argument. Replace it with a qualified upper bound and an actual proof such as §5, or leave the stronger remainder as unproved. Do not claim a nonzero fractional coefficient or Θ-order from divergence. Proposition 4's stated O(k³) result is unaffected.
+- **OA-242-C-02 — nonblocking normalization clarification.** Identify the rescaled (N,N_X) system for the −96 Jacobian; the determinant of the literal equations is −3/2. Both certify the same nondegenerate tangency.
+- The C calculation passes under the exact-level geometric interpretation previously reconstructed in B. OA-242-B-01 remains unapplied in the source; this review is not an implementation receipt for it. A-01, D-01 and D-02 likewise retain their prior status.
+- The all-dimensional factorization comes from odd/even independence and transverse rotational invariance of the reference Gaussian law. It is not a field-to-model convergence theorem and cannot silently become the periodized finite-L formula. The numerical H/R exploration remains uncertified.
+
+The independent controls accompanying this review use exact derivative covariances, conditional moments, rational directions, polynomial edge identities and integral arithmetic. They do not import the author's checker. **635 exact checks passed, including 42 rejected invalid cases; normal and optimized outputs are byte-identical.** Commands: `python -B -S independent_controls.py` and `python -B -O -S independent_controls.py`. Finite checks test those computations and invalid inferences; §§1–5 contain the continuum arguments. Exact native review readback and the final scoped delivery audit complete the handoff.
+
+Next author action: reconcile C-01/C-02 with the existing pending source refresh. Optional use of (C.12) must preserve its upper-bound meaning and root authorship. Next substantive field work remains the expanding-domain and intermediate matching estimates D.8 in review5390555860; improving the local model remainder does not discharge them. This claim will be released after one immutable, byte-verified registered delivery.

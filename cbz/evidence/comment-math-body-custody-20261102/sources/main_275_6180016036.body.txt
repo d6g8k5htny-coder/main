@@ -1,0 +1,74 @@
+## D2 literature comparison — classical residual mechanism; specialized application kept distinct
+
+Dylan Roy — delegated AI research. Actual performer: OpenAI / GPT-6 Astra Pro, this #407-author/#405-reviewer Research task-loop conversation, under recorded/read-back pickup6179893713 (RLOOP-D2-MOMENT-PRIOR-ART-20261014). Source/discussion exposed; ONE search lineage, organizational-independence credit0; scientific effect NONE. This is a prior-art/hypothesis comparison, not another packet review, a worldwide-priority certificate or a scientific-status decision.
+
+**Finding.** The shared two-mass moment floors are explicit specializations of the classical minimum-quadratic-residual characterization of a Schur complement. Their harmonic-looking coefficient is the scalar parallel sum. The existing #328 note already disclaims novelty of square completion; this comparison supplies precise classical references and the reduction, not a finding that its disclaimer was missing. The exact all-direction bound remains a specialized algebraic application: I did not locate a primary source literally stating the project's entire D2 interface, and this bounded search cannot establish its priority.
+
+### Frozen project scope
+
+I read the complete connected-source versions:
+
+- [#328 NOTE](https://github.com/d6g8k5htny-coder/Math-/blob/fb67ddc4b087f66d500bdd2d88d4d6fd80c5fd99/reviews/d2_two_atom_floors_20261006/NOTE.md), head `fb67ddc4b087f66d500bdd2d88d4d6fd80c5fd99`, native blob `cedbb44a237d1a158111dca81c30983f7efd37f1`; its PR-reported historical base is `516235290e12decdcd223cfb20928a2d97b824f1`, not today's main.
+- [#326 NOTE on current Math main](https://github.com/d6g8k5htny-coder/Math-/blob/6e502c1f8a5632eb90670fd9fc0d52e421c015a2/reviews/d2_two_mass_floors_20261006/NOTE.md), commit `6e502c1f8a5632eb90670fd9fc0d52e421c015a2`, native blob `b3e3b337697e4bf8c15bdab3666e49dc8833ca80`.
+- [Existing canonical comparison6009510800](https://github.com/d6g8k5htny-coder/Math-/pull/328#issuecomment-6009510800).
+
+These are native source identities, not a claimed new local rehash, formal build or execution audit. No other proof family, optional Part B refinement, original private evidence or full scalar-core review was included.
+
+### Primary references actually inspected
+
+**Boyd–Vandenberghe, Convex Optimization, Cambridge University Press, 2004**, author-hosted [PDF](https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf). Appendix A.5.5, printed p650, equations (A.13)–(A.14), identifies the minimum over one block of a quadratic form with its Schur complement when the leading block is positive definite. Example3.15, p88, gives the corresponding partial-minimization example. Example3.32, p97, treats positive-denominator linear-fractional functions. I inspected the relevant rendered pages, not merely a search snippet. These are generic principles, not a theorem about the project's Gaussian field.
+
+**W.N. Anderson Jr.–R.J. Duffin, “Series and parallel addition of matrices,” J. Math. Anal. Appl. 26(3), 576–594 (1969)**, [publisher record](https://www.sciencedirect.com/science/article/pii/0022247X69902005), DOI10.1016/0022-247X(69)90200-5. Its publisher-indexed abstract defines the matrix parallel sum and gives `(A^-1+B^-1)^-1` in the nonsingular case. Thus for positive scalars its coefficient is `AB/(A+B)`. Coverage is the indexed publisher abstract, NOT the complete article or an inspected numbered theorem. Direct article/catalog opens returned the web tool's `Internal Error`; no permission/safety-denial cause is inferred and no unseen article contents are assumed.
+
+### Exact reduction, with the hypotheses exposed
+
+Use Y=X² and let ν be its law. For a nonnegative weight w define the two-by-two Gram matrix
+
+    Q_w(ν) = ∫ w(y) [[1,y],[y,y²]] dν(y) = [[α,β],[β,γ]].
+
+Assuming its entries are finite and α>0, elementary expansion gives
+
+    Φ(Q_w) := γ−β²/α = inf_c ∫ w(y)(y−c)² dν(y).
+
+This is the scalar instance of the cited variational Schur formula. The following comparison is derived here explicitly to avoid attributing an uninspected theorem to an earlier paper. If ν≥ν₀ as nonnegative measures, then for EVERY c the full residual integral dominates the retained one; taking infima preserves that inequality. Equivalently Q_w(ν)−Q_w(ν₀) is positive semidefinite. **Do not renormalize ν₀ to probability**, which would change the coefficient.
+
+Let ν₀=pδ_u+qδ_v with p,q>0, u,v>0, u≠v. For the project, ν is a probability law with finite third Y-moment, and ν≥ν₀ follows from the squared-radius mass bounds. Individual atoms X=a,b imply the special case u=a²,v=b², but the converse with the same single-atom masses is not assumed.
+
+| Choice | Full-law residual | Retained two-mass residual |
+|---|---|---|
+| w(y)=1 | E[Y²]−E[Y]² = g | `pq(u−v)²/(p+q)` |
+| w(y)=y | E[Y³]−E[Y²]²/E[Y] = Δ | `(pu)(qv)(u−v)²/(pu+qv)` |
+
+Also E[Y]≥pu+qv by retaining nonnegative contributions. These are exactly the three common floors after the existing notation crosswalk. The Δ row is weighted least squares, or projection of X³ onto the span of X in L²; it is not a claim that the scalar matrix has already been identified with a Gaussian/Palm conditional covariance.
+
+**Normalization and strictness survive the reduction.** For a finite measure of mass M>0, the first Schur residual is `∫Y²−(∫Y)²/M`, not the probability-only expression. The second row needs E[Y]>0 and suitable integrability, not mass one. A zero radius removes a weight from the Δ row, and coincident squared radii remove its separation. Positive pointwise floors need not stay uniformly positive as masses/radii vary. The notes' different gap-optimal and Δ-optimal remainder placements give separate sharpness, not a simultaneous extremizer claim.
+
+### What the upper-moment-free directional argument adds
+
+In #328 §5 let x=s², with s=E[X²]>0 and g>0. For direction θ∈[0,1/4], the source gives
+
+    D0=x(g+x), D1=g(g+4x)/4,
+    D(θ)=(1−4θ)D0+4θD1, N=xg(g+2x), S(θ)=N/D(θ).
+
+Because N is positive and independent of θ while D is positive affine, `S(θ)≥min(N/D0,N/D1)`. The source's explicit simplifications yield `N/D0≥g` and `N/D1≥2x`, hence `S(θ)≥min(g0,2s0²)`. This explains why no upper moment input is needed: it does NOT substitute independent lower bounds into an uncontrolled quotient denominator. The generic endpoint/linear-fractional mechanism is classical; the displayed D2 formulas and their scoped application still belong to their project sources. Neither reference alone establishes their probabilistic identification or any parent persistence result.
+
+The [canonical relationship6009510800](https://github.com/d6g8k5htny-coder/Math-/pull/328#issuecomment-6009510800) remains controlling: #326 is the broader squared-radius statement for the common moment floors; #328 separately supplies the reviewed upper-moment-free Schur argument under its atom hypotheses. No consolidation, source replacement or repeat unchanged mathematical review is requested.
+
+### Actually executed comparison examples
+
+I ran standalone CPython3.13.5 Fraction arithmetic, with no project imports. For `(p,q,u,v)=(1/5,1/3,2,5)`, the floors are `(s0,g0,δ0)=(31/15,9/8,90/31)` and leftover mass is7/15.
+
+- Remainder at Y=0: `g=1094/225`, `Δ=90/31`.
+- Remainder at Y=31/8: `g=9/8`, `Δ=6327/1984`.
+- Half mass at each of Y=0,1: `g=1/4`, `Δ=0`.
+- Nonprobability measure2δ₁: the inappropriate unnormalized gap is−2, whereas its mass-normalized Schur residual is0.
+
+All eight explicitly evaluated arithmetic conditions were true. These four exact examples illustrate the hypothesis/optimizer boundaries; they are not eight project tests, a general proof from examples, an optimized-mode campaign or new CI. Local JSON output SHA256 `76b46da4dace26085218fe2bb4d60681af5e5407fe10aa2922170cf6da193c78` identifies this invocation's comparison output only.
+
+### Search limits and useful disposition
+
+Representative exact queries included `variance lower bound two atoms pq p+q weighted moment Schur complement`, `"variance" "pq/(p+q)"`, `"variance lower bound" "two point masses"`, `"moment inequalities" "Schur complement" probability`, `Boyd Vandenberghe convex optimization Schur complement minimization A.5.5 pdf`, and `"Series and parallel addition of matrices" Anderson Duffin pdf 1969`. Additional title/least-squares/monotonicity variants and publisher-scoped queries were used. Multiple queries and reopens are still ONE search lineage. Unread results, failed opens and broad-keyword misses do not constitute independent searches or exhaustive negative coverage.
+
+For a later authorized literature edit, cite the classical residual/parallel-sum mechanism and describe the packet as an explicit specialization and propagation through its stated D2 scalar interface. This comparison supplies no basis for calling the full interface either globally first or entirely anticipated verbatim. It does not establish the separate two-independent-search requirement for all item9 targets, inspect C6/C244-A, or decide any scientific predicate. Existing D2 source/retrofit/integration owners, candidate-bound checks, serial protections and all named stops remain unchanged.
+
+The bounded comparison is delivered here; native readback and the D2-owner pointer/personal release follow. No source/ref/Ready/merge, repository test, hosted rerun, private transfer, ledger or schedule change occurred.

@@ -1,0 +1,16 @@
+Separate auxiliary result from the completed A/B review5364616731; this is a NEW source-bound deduction offered for review, not an extra acceptance of LP= or a rewrite of your proof.
+
+**Uniform window-root confinement without D or the homogeneous discriminant.** Write x=-s>0 and consider any critical point of the typed cubic with P∈[-k,0]. The exact Euler and conic identities are
+ P=-ku-k/2-x Z²/6,
+ u²=1/4-B Z²/(12k).
+Put y=xZ²/(6k) and t=|B|/(2x)<1. If B>=0, |u|<=1/2 and y<=1 from P>=-k. If B<0, u²=1/4+t y; for y>0 the positive-u branch contradicts u+y<=1/2, so u< -1/2. For y>=1/2, (y-1/2)²<=u²=1/4+t y implies y<=1+t; for y<1/2 this is automatic. Therefore in every case
+ -3/2<u<=1/2,      Z²<12k/(-s).
+The endpoint equality u=1/2 is just the pinned S. For B<0 the sharper bounds are u>=-1/2-t and Z²<=6k(1+t)/x. This holds across12kD²+B³=0, with no inverse D and no whole-space gradient-rate assumption.
+
+The constant12 is sharp uniformly over the typed domain: take s=-1,Z=1,t_n=1-1/n,u_n=-1/2-t_n+1/n², k_n=t_n/[6(u_n²-1/4)], B_n=-2t_n, D_n=-(s+B_n u_n). These are exact typed strict-window critical points, and Z²/k_n tends to12 from below. Thus replacing12 by a smaller universal number fails near the typed boundary.
+
+**Approximate-critical slab version.** For k in[k_-,k_+], -s>=sigma>0, |B|<=B0, |P|<=H and |grad P|<=G, set a=sqrt(1/4+G/(6k_-)), c=sqrt(B0/(12k_-)), c0=(k_++G/3)a+k_+/2+H, c1=(k_++G/3)c+G/3. Then |u|<=a+c|Z| and
+ |Z| <= (3/sigma)[c1+sqrt(c1²+(2sigma/3)c0)].
+This follows from the same Euler identity with the gradient terms retained. It supplies uniform compactness on bounded-height/bounded-gradient slabs without a D bound. On a compact parameter set and a uniformly critical-free closed height band, it yields a uniform positive gradient floor by ordinary compactness. It does NOT claim uniform full-space coercivity across degree drop: the tests include a compact parameter sequence with critical points escaping at heights below-k.
+
+The exact finite controls include540 typed rational window roots, a sharpness sequence and an outside-typing falsifier. The bounds themselves are proved by the displayed inequalities, not inferred from those samples. This can simplify future compactness estimates while leaving your existing pointwise infinity proof and all frozen bytes intact.

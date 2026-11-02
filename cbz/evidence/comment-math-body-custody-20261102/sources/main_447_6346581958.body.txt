@@ -1,0 +1,402 @@
+## PUBLIC SUPPORT SOURCE — global weighted Gaussian transfer
+
+Under canonical author pickup [6346254910](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6346254910), PR463-H2-GLOBAL-WEIGHTED-TRANSFER-20261022. Actual author OpenAI / GPT-6 Astra Pro, returning PR463/H3-scope4 conversation; not RTW, RL or PARTIALREVIEW. Author-side finite support, not a review, production certificate or scientific acceptance.
+
+The complete `check_global_transfer.py` below is **14466 bytes**, SHA256 **b4e57fc95afc7dc599caaefc6f7909356970a84ffec7c2afcccf8936d25a243f**. Save the fence as UTF-8/LF with one terminal LF and authenticate before execution. It uses only the standard library, reads its own source for a digest, makes no network request, imports no project code and writes JSON to stdout. No repository source file is created by this comment.
+
+Actual CPython3.13.5 commands `python -I -B -S check_global_transfer.py` and `python -I -B -O -S check_global_transfer.py` each completed **1095 explicit checks**, exit0, empty stderr. Fresh final repeats at17:05:19UTC reproduced both earlier saved streams exactly. Each JSON is1907B/SHA256 **a4ad7c6e6b416e96c9f9123837fed10b9380c3a6d56906dfffb4a71be939b3b5**. The output includes the interpreter version; a different version string changes the digest. Normal/-O are the same logical cases, not2190 independent results.
+
+The mathematical statement and complete derivation are delivered separately in this same thread. Finite rational checks support them; neither samples nor the finite exponential-series checks replace the general proof. No H2/H3/rung/REG execution is claimed.
+
+```python
+#!/usr/bin/env python3
+"""Exact-rational support for an AUTHOR Gaussian weighted-transfer lemma.
+
+Standard library only. No project imports, network, certificate execution, or
+scientific acceptance. Finite checks support, but do not replace, the proof.
+Run: python -I -B -S check_global_transfer.py (also with -O).
+"""
+from collections import Counter
+from fractions import Fraction as F
+from functools import lru_cache
+from itertools import permutations, product
+from math import factorial, isqrt
+from pathlib import Path
+import hashlib
+import json
+import random
+import sys
+
+COUNTS = Counter()
+
+
+def check(group, condition, detail=''):
+    COUNTS[group] += 1
+    if not condition:
+        raise RuntimeError(group + ': ' + detail)
+
+
+def eye(n):
+    return [[F(i == j) for j in range(n)] for i in range(n)]
+
+
+def tr(a):
+    return [list(row) for row in zip(*a)]
+
+
+def mm(a, b):
+    return [[sum((x*y for x, y in zip(row, col)), F(0))
+             for col in zip(*b)] for row in a]
+
+
+def add(a, b):
+    return [[x+y for x, y in zip(ar, br)] for ar, br in zip(a, b)]
+
+
+def scale(c, a):
+    return [[c*x for x in row] for row in a]
+
+
+def mv(a, x):
+    return [sum((u*v for u, v in zip(row, x)), F(0)) for row in a]
+
+
+def dot(x, y):
+    return sum((a*b for a, b in zip(x, y)), F(0))
+
+
+def quad(x, a):
+    return dot(x, mv(a, x))
+
+
+def det(a):
+    b = [row[:] for row in a]
+    d = F(1)
+    for k in range(len(a)):
+        pivot = next((j for j in range(k, len(a)) if b[j][k]), None)
+        if pivot is None:
+            return F(0)
+        if pivot != k:
+            b[k], b[pivot] = b[pivot], b[k]
+            d = -d
+        p = b[k][k]
+        d *= p
+        for j in range(k+1, len(a)):
+            c = b[j][k]/p
+            for i in range(k+1, len(a)):
+                b[j][i] -= c*b[k][i]
+    return d
+
+
+def det_permutation(a):
+    total = F(0)
+    n = len(a)
+    for p in permutations(range(n)):
+        inversions = sum(p[i] > p[j] for i in range(n) for j in range(i+1, n))
+        v = F((-1)**inversions)
+        for i in range(n):
+            v *= a[i][p[i]]
+        total += v
+    return total
+
+
+def inv(a):
+    n = len(a)
+    b = [a[i][:] + eye(n)[i] for i in range(n)]
+    for k in range(n):
+        pivot = next((j for j in range(k, n) if b[j][k]), None)
+        if pivot is None:
+            raise ValueError('singular')
+        b[k], b[pivot] = b[pivot], b[k]
+        p = b[k][k]
+        b[k] = [x/p for x in b[k]]
+        for j in range(n):
+            if j != k:
+                c = b[j][k]
+                b[j] = [x-c*y for x, y in zip(b[j], b[k])]
+    return [row[n:] for row in b]
+
+
+def spd(a):
+    return (a == tr(a) and all(det([row[:k] for row in a[:k]]) > 0
+                               for k in range(1, len(a)+1)))
+
+
+def all_principal_nonnegative(a):
+    n = len(a)
+    return all(det([[a[i][j] for j in range(n) if mask >> j & 1]
+                    for i in range(n) if mask >> i & 1]) >= 0
+               for mask in range(1, 1 << n))
+
+
+def closed_parameters(s0, s, delta):
+    """Return rational (squared prefactor, exponent) of 1+chi^2(P||Q)."""
+    k = add(scale(F(2), s0), scale(F(-1), s))
+    if not spd(s0) or not spd(s) or not spd(k):
+        raise ValueError('requires S0>0, S>0, and 2*S0-S>0')
+    return det(s0)**2/(det(s)*det(k)), quad(delta, inv(k))
+
+
+def rho_bound(n, eta, b2):
+    if type(n) is not int or n < 1 or not (0 <= eta < 1) or b2 < 0:
+        raise ValueError('invalid envelope')
+    r = F(n, 2)*eta**2/(1-eta**2) + b2/(1-eta)
+    if not (0 <= r < 1):
+        raise ValueError('rational shortcut requires rho<1; exact route may exist')
+    return r, r/(1-r)
+
+
+def sqrt_upper(x, digits=12):
+    if x < 0:
+        raise ValueError('negative square')
+    base = 10**digits
+    y = isqrt(x.numerator*base*base//x.denominator)
+    if F(y*y, base*base) < x:
+        y += 1
+    return F(y, base)
+
+
+def polynomial_add(a, b):
+    c = a.copy()
+    for k, v in b.items():
+        c[k] = c.get(k, F(0)) + v
+    return {k: v for k, v in c.items() if v}
+
+
+def polynomial_mul(a, b):
+    c = {}
+    for ka, va in a.items():
+        for kb, vb in b.items():
+            k = tuple(x+y for x, y in zip(ka, kb))
+            c[k] = c.get(k, F(0)) + va*vb
+    return {k: v for k, v in c.items() if v}
+
+
+def standard_moment(powers):
+    ans = 1
+    for k in powers:
+        if k % 2:
+            return F(0)
+        ans *= factorial(k)//(2**(k//2)*factorial(k//2))
+    return F(ans)
+
+
+def latent_expectation(poly):
+    return sum((v*standard_moment(k) for k, v in poly.items()), F(0))
+
+
+def moment_function(mu, cov):
+    @lru_cache(None)
+    def moment(powers):
+        if not any(powers):
+            return F(1)
+        i = next(i for i, x in enumerate(powers) if x)
+        b = list(powers)
+        b[i] -= 1
+        answer = mu[i]*moment(tuple(b))
+        for j, v in enumerate(b):
+            if v:
+                c = b[:]
+                c[j] -= 1
+                answer += v*cov[i][j]*moment(tuple(c))
+        return answer
+    return moment
+
+
+def matrix_campaign(rng):
+    models = noncommuting = 0
+    for n in range(1, 5):
+        for case in range(12):
+            unit = eye(n)
+            l = [[F(1)+F(i+1, 10) if i == j else
+                  F(rng.randint(-3, 3), 7) if j < i else F(0)
+                  for j in range(n)] for i in range(n)]
+            e = [[F(0) for _ in range(n)] for _ in range(n)]
+            for i in range(n):
+                for j in range(i+1):
+                    e[i][j] = e[j][i] = F(rng.randint(-2, 2), 12*n)
+            eta = max(sum(abs(v) for v in row) for row in e)
+            c = add(unit, e)
+            s0, s = mm(l, tr(l)), mm(mm(l, c), tr(l))
+            mu0 = [F(rng.randint(-4, 4), 3) for _ in range(n)]
+            h = [F(rng.randint(-3, 3), 20) for _ in range(n)]
+            delta = mv(l, h)
+            mu = [x+y for x, y in zip(mu0, delta)]
+            t0, t = inv(s0), inv(s)
+            m = add(scale(F(2), t), scale(F(-1), t0))
+            v = [2*x-y for x, y in zip(mv(t, mu), mv(t0, mu0))]
+            minv = inv(m)
+            shift = mv(minv, v)
+            exponent = -quad(mu, t)+quad(mu0, t0)/2+quad(v, minv)/2
+            prefactor2 = det(s0)/(det(s)**2*det(m))
+            p2, ex = closed_parameters(s0, s, delta)
+            check('matrix_domain', spd(s0) and spd(s) and spd(m))
+            check('determinant_oracle', det(s) == det_permutation(s))
+            check('inverse_oracle', mm(t, s) == unit and mm(s, t) == unit)
+            check('gaussian_integral_identity', (prefactor2, exponent) == (p2, ex))
+            for _ in range(3):
+                y = [F(rng.randint(-5, 5), 2) for _ in range(n)]
+                ya = [x-z for x, z in zip(y, mu)]
+                yb = [x-z for x, z in zip(y, mu0)]
+                yc = [x-z for x, z in zip(y, shift)]
+                check('completion_of_square',
+                      -quad(ya, t)+quad(yb, t0)/2 == -quad(yc, m)/2+exponent)
+            # Independent whitening uses the known L, avoiding square-root numerics.
+            wp2, wex = closed_parameters(unit, c, h)
+            check('affine_invariance', (p2, ex) == (wp2, wex))
+            check('norm_envelope', eta < 1 and
+                  all_principal_nonnegative(add(scale(eta, unit), e)) and
+                  all_principal_nonnegative(add(scale(eta, unit), scale(F(-1), e))))
+            determinant_product = det(c)*det(add(unit, scale(F(-1), e)))
+            check('spectral_determinant_bound',
+                  determinant_product == det(add(unit, scale(F(-1), mm(e, e)))) and
+                  determinant_product >= (1-eta**2)**n)
+            check('mean_exponent_bound', ex <= dot(h, h)/(1-eta))
+            noncommuting += int(mm(s0, s) != mm(s, s0))
+            models += 1
+    return {'models': models, 'noncommuting_covariance_pairs': noncommuting,
+            'dimensions': [1, 2, 3, 4]}
+
+
+def moment_campaign(rng):
+    cases = 0
+    for n in (1, 2, 3):
+        for _ in range(3):
+            z = (0,)*n
+            l = [[F(1) if i == j else F(rng.randint(-2, 2), 5) if j < i else F(0)
+                  for j in range(n)] for i in range(n)]
+            mu = [F(rng.randint(-2, 2), 3) for _ in range(n)]
+            moment = moment_function(mu, mm(l, tr(l)))
+            polys = []
+            for i in range(n):
+                p = {z: mu[i]}
+                for j in range(n):
+                    k = tuple(int(a == j) for a in range(n))
+                    p[k] = l[i][j]
+                polys.append(p)
+            for powers in product(range(5), repeat=n):
+                if sum(powers) > 4:
+                    continue
+                poly = {z: F(1)}
+                for i, power in enumerate(powers):
+                    for _ in range(power):
+                        poly = polynomial_mul(poly, polys[i])
+                check('gaussian_moments', moment(powers) == latent_expectation(poly))
+            # U=product(1+Y_i^2). Compute E U^2 by two independent expansions.
+            u = {z: F(1)}
+            for p in polys:
+                u = polynomial_mul(u, polynomial_add({z: F(1)}, polynomial_mul(p, p)))
+            latent = latent_expectation(polynomial_mul(u, u))
+            recurrence = F(0)
+            for choices in product((0, 1, 2), repeat=n):
+                coefficient = 1
+                for choice in choices:
+                    coefficient *= (1, 2, 1)[choice]
+                recurrence += coefficient*moment(tuple(2*x for x in choices))
+            check('polynomial_second_moment', recurrence == latent and latent > 0)
+            cases += 1
+    check('worked_example_moment', (F(1)+2*F(1)+F(3))**2/F(4) == 9)
+    return {'affine_gaussian_models': cases, 'majorant': 'U=product(1+Y_i^2)'}
+
+
+def discrete_campaign(rng):
+    tight = 0
+    for k in range(80):
+        n = 2+k % 5
+        qw = [rng.randint(1, 12) for _ in range(n)]
+        pw = [rng.randint(1, 12) for _ in range(n)]
+        q = [F(x, sum(qw)) for x in qw]
+        p = [F(x, sum(pw)) for x in pw]
+        f = [F(rng.randint(-8, 8), 3) for _ in range(n)]
+        eq, ep = dot(q, f), dot(p, f)
+        var = dot(q, [(x-eq)**2 for x in f])
+        second = dot(q, [x*x for x in f])
+        chi = sum(((x-y)**2/y for x, y in zip(p, q)), F(0))
+        check('weighted_cauchy_schwarz', (ep-eq)**2 <= var*chi <= second*chi)
+        witness = [x/y-1 for x, y in zip(p, q)]
+        eqw, epw = dot(q, witness), dot(p, witness)
+        varw = dot(q, [x*x for x in witness])-eqw**2
+        check('weighted_bound_sharpness', (epw-eqw)**2 == varw*chi)
+        tight += int(chi > 0)
+    return {'discrete_models': 80, 'nonzero_equality_witnesses': tight}
+
+
+def boundary_campaign():
+    witnesses = []
+    for cov in ([[F(2)]], [[F(3)]], [[F(3), F(0)], [F(0), F(3)]]):
+        try:
+            closed_parameters(eye(len(cov)), cov, [F(0)]*len(cov))
+        except ValueError:
+            check('domain_refusals', True)
+        else:
+            check('domain_refusals', False)
+    bad = [[F(-1), F(0)], [F(0), F(-1)]]
+    check('domain_refusals', det(bad) > 0 and not spd(bad))
+    witnesses.append('positive determinant is not positive definiteness')
+    p2, _ = closed_parameters([[F(1)]], [[F(3, 2)]], [F(0)])
+    reverse2, _ = closed_parameters([[F(3, 2)]], [[F(1)]], [F(0)])
+    check('false_formula_witnesses', p2 == F(4, 3) and reverse2 == F(9, 8) and p2 != reverse2)
+    witnesses.append('reversing chi-square orientation changes the bound')
+    p2, exponent = closed_parameters([[F(1)]], [[F(1)]], [F(1, 10)])
+    check('false_formula_witnesses', p2 == 1 and exponent == F(1, 100))
+    # exp(t)-1 <= t/(1-t); hence omitting the outer CS square root fails for f=x.
+    check('false_formula_witnesses', exponent/(1-exponent) < F(1, 10))
+    witnesses += ['omitting mean shift falsely gives zero', 'omitting Cauchy-Schwarz square root fails']
+    p2, ex = closed_parameters([[F(1)]], [[F(11, 10)]], [F(0)])
+    check('false_formula_witnesses', p2 == F(100, 99) and ex == 0)
+    witnesses.append('omitting covariance determinant falsely gives zero')
+    c = scale(F(11, 10), eye(3))
+    p3, _ = closed_parameters(eye(3), c, [F(0)]*3)
+    check('false_formula_witnesses', p3 == F(100, 99)**3 and p3 > p2)
+    witnesses.append('dimension cannot be discarded')
+    for args in ((0, F(0), F(0)), (2, F(1), F(0)),
+                 (2, F(-1, 10), F(0)), (2, F(0), F(-1)),
+                 (2, F(0), F(1))):
+        try:
+            rho_bound(*args)
+        except ValueError:
+            check('rational_shortcut_refusals', True)
+        else:
+            check('rational_shortcut_refusals', False)
+    for n in range(1, 7):
+        for eta in (F(0), F(1, 100), F(1, 10), F(1, 4)):
+            for b2 in (F(0), F(1, 10000), F(1, 100)):
+                r, bound = rho_bound(n, eta, b2)
+                check('rational_shortcut', 0 <= r < 1 and bound >= r)
+                # Each finite positive exp series lies below 1/(1-r), exactly.
+                series = sum((r**k/F(factorial(k)) for k in range(21)), F(0))
+                check('rational_series_control', series-1 <= bound)
+                upper = sqrt_upper(9*bound)
+                check('outward_square_root', upper**2 >= 9*bound and
+                      (upper == 0 or (upper-F(1, 10**12))**2 < 9*bound))
+    # Verify the toy lower endpoint without any floating-point rounding.
+    r, bound = rho_bound(2, F(1, 100), F(0))
+    error = sqrt_upper(9*bound)
+    check('worked_example', r == F(1, 9999) and bound == F(1, 9998))
+    check('worked_example', F(1)-error > F(9699969995, 10**10))
+    return {'false_formula_families': witnesses,
+            'example': {'dimension': 2, 'eta': '1/100', 'b2': '0', 'L_Q': '1',
+                        'M2': '9', 'rho': str(r), 'chi_square_upper': str(bound),
+                        'error_upper': str(error), 'lower_bound': str(F(1)-error)}}
+
+
+def main():
+    rng = random.Random(20261022)
+    result = {'scope': 'AUTHOR_SUPPORT_ONLY; NOT_A_PRODUCTION_CERTIFICATE',
+              'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+              'python': sys.version.split()[0], 'seed': 20261022}
+    result['matrices'] = matrix_campaign(rng)
+    result['moments'] = moment_campaign(rng)
+    result['weighted_transfer'] = discrete_campaign(rng)
+    result['boundaries'] = boundary_campaign()
+    result['checks_by_group'] = dict(sorted(COUNTS.items()))
+    result['checks_total'] = sum(COUNTS.values())
+    result['status'] = 'PASS'
+    print(json.dumps(result, sort_keys=True, indent=2))
+
+
+if __name__ == '__main__':
+    main()
+```
+
+The preceding failures/holds in other tasks are unchanged. This source publication takes no new branch, reviewer or integration reservation. [Mandate](https://github.com/d6g8k5htny-coder/main/blob/b665307520948308a53d190d7341bf301df3b3a2/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md). Scientific effect NONE; independence0.

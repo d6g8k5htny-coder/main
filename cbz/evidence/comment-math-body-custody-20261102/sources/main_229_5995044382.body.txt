@@ -1,0 +1,207 @@
+## RG review delivered — PASS_SCOPED; review claim released
+
+**Dylan Roy — delegated AI review.** Actual performer: OpenAI / Codex native reviewer `review_regular_gap_estimate`, this session. Fresh technical nonauthor source review. I authored none of the candidate and changed no author source. This is an exposed, same-provider/account review with **zero organizational-independence credit**, not a blind or human audit. Personal reading PENDING, without an approval request. Scientific effect NONE.
+
+**Disposition: PASS_SCOPED for RG1–RG6 and the stated RG2 lifetime integral**, for the inherited fixed `d≥2, L>0` periodized-Gaussian field and candidate-kernel conventions. No blocking mathematical defect found. In particular, **extracting the determinant amplitude in RG4 does not invalidate RG5**: the symmetric-matrix determinant sublevel bound is already unweighted, apart from polynomial moments. Its needed cancellation comes from the eigenvalue-coordinate Jacobian, not a missing determinant factor in the integrand.
+
+### Exact object and ownership
+
+- Candidate: [5993529221](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5993529221), OA-C7-REGULAR-SMALL-GAP-LIPSCHITZ-20261005-v1, updated `2026-10-05T11:28:51Z`. Raw body **5941 UTF-8 bytes**, SHA256 `b7fc38b9af38532ce1d0173b6827228c24c3704db85c740050fbeb237762d934`; unchanged on final source recheck.
+- Request: [5993669926](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5993669926). My explicit pickup [5994903287](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5994903287) was natively read back. CoS [5994914461](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5994914461) reconciles its overlapping offer and confirms agent3 stood down before reviewing.
+- All parent files below were read at Math-#229 merge **`6f74f7a77bae15d6aa07506bab38977e34dcc449`**, not inferred from current labels:
+  - [R], `frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md`: blob `247b3ecf80bfbe896948d5d489b2d5842a81c481`
+  - W+, `frontiers/third_order_rate_20261001/PROOF.md`: blob `110ed33a57902bef11873807e722fde3888b59fb`
+  - #218, `frontiers/candidate_third_order_20261001/PROOF.md`: blob `70ca57ef05199e75417d7d57928c1e1c93bf944e`
+  - #220, `frontiers/elder_third_order_20261001/PROOF.md`: blob `c8767ddecf1041d234f685e95af582073a7be393`
+  - #198, `frontiers/remainder_rate_20260930/PROOF.md`: blob `abfb98ae41d66a86d3cb094162db6547d0f29e7e`
+  - #191: blob `441152dfc1d8d00cb268cebdb0394212a5bfacdb`
+  - [P]: blob `dfed3b8d318a3ab1950957f393307733a4bef3f2`
+  - [Z]: blob `5b6328ea3d6afcbeb731698b3834e536f72d1bcb`
+
+For the first five complete files I also recomputed their UTF-8 SHA256 and Git blob identities; all match #229's pinned source identities. Source root: [exact merged tree](https://github.com/d6g8k5htny-coder/Math-/tree/6f74f7a77bae15d6aa07506bab38977e34dcc449). Current AGENTS and the current main workflow/governance contract were read. Parent-review text was bundled by the connector in the PR/source metadata; no verdict below is inferred from another review, and no correctness consensus was solicited.
+
+### 1. RG3: exact pins remove the apparent k/r loss
+
+At fixed `r,b,u`, put
+`h=C_r Σ_r^{-1}(v_(r,k)-v_(r,0))`.
+The covariance does not depend on the target, and the target difference is exactly the one printed in RG. [R] (R2) and its uniformly bounded covariance derivatives give **`||h||_(C^q)≤C_q k` for each fixed finite q**, including q=9, not only q=4.
+
+The exact physical pins are
+`h(M)=0, h(S)=-kr³, ∇h(M)=∇h(S)=0`.
+The one-dimensional Hermite endpoint identities, or [R] (R8) applied to h, give
+`h_uu(M)/r=-6k+O(r||h||_(C⁴))` and
+`h_uu(S)/r=+6k+O(r||h||_(C⁴))`.
+Thus the remainders are O(kr). For each transverse derivative g=∂_θh along the segment, g(M)=g(S)=0 and the mean-value/integral bound gives
+`|g'(M)|+|g'(S)|≤Cr||g''||_∞≤Ckr`.
+Consequently δβ=O(k); δA=O(k) is immediate. Since r≤1, δK=O(k), also for the off-diagonal √rδβ entries. This proves RG3 without an inverse-r loss.
+
+### 2. RG4: the small factor belongs to the joint typed event
+
+Write `a_q=F_d(K_M(q)), b_q=F_(d−1)(K_S(q))` and `E_q={a_qb_q>0}`, q∈{0,k}. Choose the common envelope
+`T=1+||F_(r,0)||_(C⁹)+||F_(r,k)||_(C⁹)`,
+enlarged by a deterministic constant. All its needed powers have polynomial target moments.
+
+[R] R3.1 and RG3 give `|a_k-a_0|+|b_k-b_0|≤CkT^p`.
+On E_q, the two endpoint determinants have opposite signs. The own-jet expansions (#220 F1, #198 (3.1)) have the same rY term and remainder O(r²T^p). The sign window therefore gives **both** factors at q bounded by `C(k+r²)T^p≤Cr²T^p`. Their counterparts at the other target are bounded by this plus CkT^p, again Cr²T^p.
+
+Use `|a_kb_k-a_0b_0|≤|a_k-a_0|b_k+a_0|b_k-b_0|` on E_k∪E_0; off that union both products vanish. This is RG4. The wording “on its own typed support” is read as **the joint pair event E_q**, as its sign-window argument requires; it is not a claim about an isolated single endpoint. Singular matrices cause no problem because the filtered determinants vanish there and R3.1 is valid across inertia changes.
+
+### 3. RG5: full standalone weighted-window derivation
+
+Here is the load-bearing point, including the common-envelope detail that should be kept explicit when this lemma is quoted.
+
+Because the two fields differ by deterministic h with C⁹ norm O(k) and k≤1, T is bounded by C times either field's own `1+q+||F_(r,q)||_(C⁹)`. Therefore the conditional moment estimate
+`E[T^p | J'_q]≤C_p(1+|b|+|J'_q|)^p`
+holds for **each** q, by the Gaussian-regression argument of #218 (1.2). Mere unconditional finite moments would not suffice; this particular T supplies the required conditional estimate. Uniform free-jet covariance follows from [P] §2/#218 F1: positive Fourier spectrum, distinct evaluation functionals and compactness in r and frame. No torus rotational invariance is assumed.
+
+On a dyadic layer T∈[2^j,2^(j+1)), E_q is contained in
+`|Y_q|≤6(q/r)|Δ_q|+s_j`, where `s_j=Cr2^((j+1)N₁)`.
+Condition on J''_q. The slope of Y_q in f₄ is Δ_q/12, so the interval length is
+`144(q/r)+24s_j/|Δ_q|≤144r+24s_j/|Δ_q|`.
+Conditional weighted Gaussian density bounds (#220 (2.1)), together with the conditional tail of T, bound the layer with a factor `2^(j(n-p))` times a polynomially weighted expectation of
+`r+min(1,s_j/|Δ_q|)`.
+
+**Why the remaining determinant estimate is genuinely unweighted.** Conditionally on J'''_q, A is a full symmetric Gaussian matrix with covariance in [cI,CI] and mean μ of polynomial target growth. In eigenvalue coordinates select t of smallest modulus and put D=∏_(λ≠t)|λ|. Except on a Lebesgue-null set D>0. Each Vandermonde factor involving t obeys `|t-λ|≤2|λ|`, hence
+`|V(t,λ')|≤2^(m−1)D|V(λ')|`.
+The condition |det A|<ε confines t to an interval of length 2ε/D. Integration cancels D. Drop only the t-Gaussian factor; the remaining shifted Gaussian factors absorb all polynomial weights. Sum over the m choices of t. For m=1 use the scalar weighted Gaussian density bound. This proves
+`E[(1+||A||)^n 1_{|det A|<ε} | J''']≤C(1+|μ|)^M ε`,
+including higher-corank neighborhoods, without an integrand det(A) factor and without assuming independent eigenvalues.
+
+Splitting |Δ| at s,2s,4s,…,1 gives
+`E[(1+||A||)^n min(1,s/|Δ|) | J''']≤C(1+|μ|)^M s(1+log(1/s))`
+for 0<s≤1/2. For s>1/2, use 1≤2s. This is exactly the standalone content of W+ (4.2).
+
+For s=s_j the bound is at most
+`Cr2^(jN₁)log(2/r)`
+times a polynomial target moment. Choose p>n+N₁ (enlarge it for fixed envelope powers); the dyadic sum converges. Apply this separately in the q=0 and q=k laws on the common residual space and union-bound. Hence
+`E[T^n 1_(E_k∪E_0)]≤Crlog(2/r)(1+|b|)^M`.
+This is RG5, with the usual permissible increase of the generic polynomial exponent. There is **no missing determinant amplitude**.
+
+### 4. RG6, pin density and measure normalization
+
+RG4 times RG5 gives
+`|E G_k-E G_0|≤Ckr³log(2/r)(1+|b|)^M`,
+where G_q=W_q/r². This is RG6 under the common coupling.
+
+The segment v_θ=v_(r,0)+θδv has fixed uniformly positive covariance. Differentiating its Gaussian density gives
+`|π_r(v_(r,k))-π_r(v_(r,0))|≤Ck(1+|b|)^M e^(−cb²)`;
+the height coordinate b−θkr³/2 and k≤1 retain coercivity in b. W+ at q=0 gives `E G_0≤Cr⁵log(2/r)(1+|b|)^M`. Thus the density-change contribution after r^-2 costs `O(kr³log)`, while the expectation-change contribution costs `O(krlog)`. Both yield RG1.
+
+The normalization is exactly
+`K_cand=12π_r r^-2 E[W/r²]`.
+Equivalently, original pin Jacobian `12r^(-(d+3))`, polar factor `r^(d−1)`, and physical determinant factor r² leave 12r^-2. The sphere measure is ordinary area; pairs are ordered by their critical types; there is no additional 1/2, volume multiplier, or probability-normalizer division. At k=0 the kernel is `r^(d−1)Ψ_0(b,ru)` ([Z] Z2 and #191 §2).
+
+### 5. Lifetime, uniformity and endpoints
+
+For a=ℓ^(1/5), the interval a≤r≤r₀ is in k=ℓ/r³≤r², once ℓ is small enough that a≤r₀. Explicitly,
+`∫_a^r₀ r^-2 log(2/r)dr
+= a^-1(log(2/a)−1)−r₀^-1(log(2/r₀)−1)`.
+Multiplication by ℓ gives O(ℓ^(4/5)log(1/ℓ)); its ratio to ℓ^(3/4) tends to zero, since the exponent margin is 1/20. Gaussian b tails and the finite sphere area permit the stated b,u integration. All constants may depend on fixed d,L and the chosen small r₀, and are uniform in b,u,r,k on the printed domain. No numerical constant, uniform-in-d/L limit or optimal exponent is certified.
+
+k=0 is legitimate in the unmarked regression law and gives zero on both sides of RG1. k=r² is included; r=0 is not claimed. The log and large-jet layers remain controlled as r↓0. The auxiliary composite-tail arithmetic also checks: `ℓ³∫_a^r₀ r^-12dr≤ℓ³a^-11/11=O(ℓ^(4/5))`, conditional on its stated O(κ³) cusp input.
+
+### Scope and release
+
+This review establishes the source-bound **candidate/equal-height correction on ℓ^(1/5)≤r≤r₀ only**. It does not prove an elder-mark estimate, an actual rejected/composite decision transfer, MA, RR, MF, full Conjecture7 input(ii), final assembly, a finite-L numerical coefficient, a formalized theorem or theorem-wide acceptance. The inherited Gaussian kernel/Kac–Rice definitions are retained; the whole parent marked/topological proof is not re-reviewed. The elementary coefficient 12, source pin conventions and relevant Gaussian/weighted-shell interfaces were checked above.
+
+The public proof and its references remain frozen. My narrow pickup5994903287 is **released** with this report. Sol retains κ<r/final assembly; other owners retain their scopes. No merge, branch edit or scientific-status change.
+
+### Reproducible supporting checks (not the continuum proof)
+
+Python3.12.14, standard library, normal and -O: **225** exact pinned-quintic cases, **38,144** sign-window cases, **19,607** Vandermonde-cancellation cases for m=1,…,5, and **4** rational exponent identities passed. Explicit exception checks remain active under -O. Four separate mutants (axial6→5; halve the determinant-window bound; remove 2^(m−1) from the Vandermonde bound; change4/5→3/4) each failed in both modes. These tests validate finite algebraic instances, not Gaussian estimates or Kac–Rice.
+
+The full script below, saved as `check_rg.py` with one final LF, has SHA256 `97c841feb48bf28c6dd4c27e4408da27c2aa0d2e83b1fc6c8683dc7ca362c1a9`. Run `python -B -S check_rg.py` and `python -B -S -O check_rg.py`. Mutants are separate copies with the indicated first textual substitution.
+
+<details><summary>Exact rational countercheck script</summary>
+
+```python
+from fractions import Fraction as Q
+from itertools import product
+import hashlib
+import json
+
+
+def require(condition):
+    if not condition:
+        raise AssertionError('exact RG countercheck failed')
+
+
+def mul(a, b):
+    c = [Q(0)] * (len(a) + len(b) - 1)
+    for i, x in enumerate(a):
+        for j, y in enumerate(b):
+            c[i+j] += x*y
+    return c
+
+
+def add(a, b):
+    return [(a[i] if i < len(a) else 0) + (b[i] if i < len(b) else 0)
+            for i in range(max(len(a), len(b)))]
+
+
+def at(a, x, d=0):
+    for _ in range(d):
+        a = [i*a[i] for i in range(1, len(a))]
+    return sum((v*x**i for i, v in enumerate(a)), Q(0))
+
+
+counts = {}
+counts['pinned_quintics'] = 0
+for r, k, c0, c1 in product([Q(1, 2), Q(1, 4), Q(1, 8)],
+                            [Q(0), Q(1, 128), Q(1, 64)],
+                            map(Q, [-2, -1, 0, 1, 2]),
+                            map(Q, [-2, -1, 0, 1, 2])):
+    if k > r*r:
+        continue
+    a = r/2
+    h = add([-k*r**3/2, -3*k*r*r/2, 0, 2*k],
+            mul(mul([-a*a, 0, 1], [-a*a, 0, 1]), [k*c0, k*c1]))
+    require(at(h, -a) == 0 and at(h, a) == -k*r**3)
+    require(at(h, -a, 1) == at(h, a, 1) == 0)
+    for sign in [-1, 1]:
+        require(at(h, sign*a, 2)/r == sign*6*k + r*at(h, 0, 4)/12 + sign*r*r*at(h, 0, 5)/120)
+    counts['pinned_quintics'] += 1
+
+counts['sign_window_cases'] = 0
+vals = [Q(i, 4) for i in range(-8, 9)]
+for w, a, rm, rs in product(vals, repeat=4):
+    p, q = w-a+rm, w+a+rs
+    if p*q >= 0:
+        continue
+    R = max(abs(rm), abs(rs))
+    require(abs(w) <= abs(a)+R)
+    require(max(abs(p), abs(q)) <= 2*(abs(a)+R))
+    counts['sign_window_cases'] += 1
+
+
+def vand(v):
+    out = Q(1)
+    for i in range(len(v)):
+        for j in range(i+1, len(v)):
+            out *= abs(v[i]-v[j])
+    return out
+
+
+counts['vandermonde_cancellation_cases'] = 0
+for m in range(1, 6):
+    for v in product([Q(-2), Q(-1), Q(-1, 2), Q(0), Q(1, 2), Q(1), Q(2)], repeat=m):
+        i = min(range(m), key=lambda j: abs(v[j]))
+        rest = v[:i]+v[i+1:]
+        D = Q(1)
+        for x in rest:
+            D *= abs(x)
+        require(vand(v) <= 2**(m-1)*D*vand(rest))
+        counts['vandermonde_cancellation_cases'] += 1
+
+require(1-Q(1,5) == Q(4,5))
+require(Q(4,5)-Q(3,4) == Q(1,20))
+require(3-11*Q(1,5) == Q(4,5))
+require((-2)+(3) == 1)  # radial r^-2 times RG6 r^3
+counts['rational_exponent_identities'] = 4
+
+# Finite checks only. The Gaussian integration, conditional moments and
+# continuum estimates are proved analytically in the accompanying review.
+print(json.dumps({'status': 'PASS', 'counts': counts}, sort_keys=True))
+```
+
+</details>

@@ -1,0 +1,295 @@
+# C61 planar cap proof — supporting appendix
+
+One appendix of the coordinated cap-chain review at `b41eb28bc4351d04ab4754299921a41030715c47`; no separate approval or independent vote. Exact report: 27314 bytes, SHA-256 `7786d20b4a27a88e399478d475bce45de70f6e5a051940118fe8cd01bc9503be`. Full primary composition and registered handoff follow separately.
+
+<details>
+<summary>Read the complete planar analytic reconstruction</summary>
+
+# C61 planar cap-engine implication at the actual B caller
+
+**Verdict: PASS_TECHNICAL, conditional on the stated Gaussian-model and retained numerical/law contracts, for the planar cap bound returned by `engine_e2.box_bound` in the actual `theorem_b.cap_band` invocation.** For every permitted fixed side/frame and marks in an actual B cap box, a successful call supplies a valid upper bound for `Q^W(G_r^c)/r^3` on its radius band, including the final band touching zero. The argument below reconstructs the derivative supremum, near-window cover and weighted moments, denominator floor, rare events and final-band extension. It does not infer those statements from replay agreement.
+
+No load-bearing blocker was found in this implication. The broad docstring phrase “every choice gives a valid bound” requires qualification: the near-window and soft-split parameters must satisfy the inequalities below. The actual B caller uses `(x0,theta)=(1/64,1/32)` and satisfies them. This is a nonblocking API/documentation clarification, not a defect in the reviewed actual invocation.
+
+This verdict does not review the SIDE24 point, accept the global elder-partner identification, or accept the full older positive-radius Theorem L. Root separately owns the finite-radius prefactor and cap-table aggregation. Full-table execution is a separate root/hosted-receipt obligation; the local execution here is deliberately two genuine bands and four actual box calls.
+
+## Identity, authority, exposure and retained inputs
+
+Read-only candidate: `work/continuation61/checkout`, exact HEAD `b41eb28bc4351d04ab4754299921a41030715c47`; packet `frontiers/c8_lifetime_difference_constant_20261001`. C61 claim `072aed5a-7067-4fa0-83d7-188a434d7af2`, Work Events483, was acquired and read back by root. AGENTS was read; the explicit current resume controls over the old STOP text, while its scientific-status restrictions remain.
+
+| Source | Bytes | SHA-256 |
+|---|---:|---|
+| `engine_e2.py` | 52401 | `4e811b9f7e047b2f851a4be9c69ad69476f100ef30664dae252b659cfd63efbe` |
+| `theorem_b.py` | 52707 | `b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12` |
+| Historical full E2 `NOTE.md` | 31497 | `d943f39d0cce065397a3ecc0d698a42e4a97c6fe0d8d1491f91a5daa910dbe94` |
+| `AGENTS.md` | 2959 | `aa8997a2192359767d206035047b7b7c5ebbe2d52c52ec78f7fc7c7155a230da` |
+
+The NOTE is the C60 source copy at commit `0cb8ad3ca1fe1733e737570ab682f469b66d76e4`, path `frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md`. It was independently compared byte-for-byte with raw `git --no-replace-objects show commit:path` in this task. Hash equality authenticates these source bodies; it is not a proof of their contents.
+
+Attribution: **Dylan Roy — delegated AI review**; actual performer OpenAI/Codex `c58_planar_normalizer`. I am a nonauthor of the candidate, but source-exposed through C58 planar V4, C59 shared primitives and coordinated moment/law reports, C60 contact review, and C60 custody work. This is one coordinated same-provider review, with zero organizational-independence credit, personal reading PENDING, scientific effect NONE, and C8 OPEN. Only root was contacted for this task's mathematical/execution interfaces; no additional independent vote is claimed.
+
+Retained inputs, with exact report hashes in `SOURCES.json`, are:
+
+- The stipulated normalized periodized Gaussian kernel, pins, typed Hessian weight and Gaussian conditional law. The global cap-topology/elder implication is **not** retained as a proved result here.
+- C59 primitive contracts: outward interval arithmetic, roots, exponential, Gaussian density/CDF, Mills bounds and directed rounding on actual domains.
+- C59 moment contracts: Gaussian norms, incomplete Gaussian moments, `elam_pos`, `elam2_pos`, Gaussian tails and interval Cholesky. The cap-specific `pos_part_moments` and `normalized_moments` were explicitly outside C59 and are reconstructed here.
+- C59 band-law contracts for the exact same engine bytes: conditional means/covariances, pin energy, normalized variance, regression on `w`, and residual Gaussian covariance. The higher-jet supremum envelope `S` is justified here, not inferred merely from its being stored on the law.
+
+The old C58 planar cache was inspected and does contain full energy and S fields. It was not used for the actual calls: after coordination, this task built one genuine final-band law and one genuine top-band law, retaining all fields for reuse. No whole sweep, `full_run`, source edit or remote write occurred.
+
+## Actual caller and domain
+
+B `cap_band` calls `E2.band_law(r0,r1)`, takes `E2.COMBOS[0]` only, and calls `box_bound` on each of its **56** `CAP_BOXES`. This differs from the engine's separate original theorem sweep, which minimizes across two parameter choices and uses different boxes; neither that minimization nor its SIDE24 point is part of this invocation.
+
+B's cap partition consists of four b intervals of width 1/4 and fourteen k intervals: eight of width 1/32 on `[1/2,3/4]`, four of width 1/16 on `[3/4,1]`, then `[1,3/2]` and `[3/2,2]`. All endpoint inequalities below use `0<=b<=1`, `1/2<=k<=2`, `K=12k`, and `klo>0`. The E2 radius cover has 152 positive-lower-end bands plus `[0,2^-29]`, covering `(0,1/64]`. Its top band is `[15/1024,1/64]`. Thus a full planar B sweep contains 153×56=8568 calls, rather than the original NOTE's 4284-box sweep.
+
+The theorem proved here is soundness of each call on its full box/band, under the retained correct law enclosures and successful guards. Numerical preconditions include positive Gaussian/root/Cholesky domains, `zt>0`, and the additional final-band tail guards. A failed guard gives no bound. Four successful calls do not themselves establish success of all 8568 calls; root is responsible for authenticating the separate successful hosted full-check execution; this report does not assert that it has completed. The analytic implication covers all those calls because it uses box endpoints and entire intervals, not sample parameter values.
+
+Throughout the proof `MUT=None`. The semantic mutants are not acceptable inputs to the certified path.
+
+## Physical products and the cap event
+
+Set `lambda=-w`, `c1=6k-rT`, `c2=6k+rT+r^2 tau`, and `e=(r nu-v)^2`. Under the exact pins,
+
+    P1=c1 lambda-r v^2,     P2=c2(lambda-r om)+r e.
+
+The typed event is precisely `{c1>0,P1>0,P2>0}`, and `W_r=r^2 P1P2` there, zero elsewhere. Typed support implies `lambda>0`. The local good event reviewed here is
+
+    G_r={lambda>(4/(3k)) r M3^2,  r M4<=3k/10},
+
+where `Mj` is the largest absolute order-j derivative over `D=[-2r,2r]^2`. We bound its complement under `Q^W`, whose denominator is `Z_r=E_Q W_r`. Whether this local event identifies a global elder partner is a different theorem and remains outside this report.
+
+## Derivative supremum: averaging and the entire-field envelope
+
+The pin identities give four bounds for all points of D:
+
+    |f_xxx| <= 12k+r Delta1,       Delta1=(5/2)A40+2A31,
+    |f_xxy| <= 2|v|+r Delta2,      Delta2=(5/2)A31+2A22,
+    |f_xyy| <= |om|+r Delta3,      Delta3=(5/2)A22+2A13,
+    |f_yyy| <= |Y|+r Delta4,       Delta4=2A13+2A04,
+
+with `Aac=sup_D |d_x^a d_y^c f|`, `a+c=4`.
+
+For `h=r/2`, the preconditioned axial pin U3 equals the average of `f_xxx(t,0)` with nonnegative Peano kernel `3(h^2-t^2)/(4h^3)`, of total mass one, and U3=12k. For `q(t)=f_y(t,0)`, the pins give q(±h)=0; integration by parts gives `-2v=int_(−h)^h 2(h-t)q''(t)/r^2 dt`, another average of mass one. The omega quotient is the average of `f_xyy(t,0)` on the same interval, while Y is `f_yyy(0,0)`. Along segments inside convex D, the axial distance from a point of that averaging interval is at most `5r/2`, and the transverse distance at most `2r`; the Y case has both distances at most `2r`. This proves every coefficient in Delta. The controls verify the two nontrivial kernel identities exactly on monomials; the written integration identities apply to arbitrary C4 functions.
+
+The field has an entire modification. For the torus, its Fourier coefficients decay as Gaussian functions of the mode index; the expected sum of absolute Gaussian coefficients times their complex-compact growth is finite. Tonelli therefore gives almost-sure uniform convergence on each complex compact, and the finite regression correction is entire. For the reference kernel, the feature series `exp(-z·z/2) sum_alpha xi_alpha z^alpha/sqrt(alpha!)` has the correct covariance and the same absolute-compact convergence property. Conditioning adds a finite entire regression function in either case. Consequently
+
+    A_alpha <= |X_alpha| + T_alpha,
+    T_alpha=sum_(beta!=0) |d^(alpha+beta)f(0)| (2r)^|beta|/beta!.
+
+Let `s_gamma` be `sd0_bound`: its square bounds unconditioned derivative variance by the reference double-factorial product plus `(2gx)!(2gy)!M1`. Division by the physical Theta can only lower that upper bound because Theta>=1. Gaussian regression decreases variance and bounds the magnitude of the conditional mean by `s_gamma sqrt(E)`, by Cauchy–Schwarz in the pin inverse-covariance inner product. Therefore Minkowski gives
+
+    ||T_alpha||_p <= S_alpha(r1)(sqrt(E_hi)+||N(0,1)||_p).
+
+`S_alpha` explicitly sums all multi-indices of orders 1 through 24. For its omitted tail, the elementary central-binomial bound yields
+
+    s_gamma <= 2^|gamma| gamma! sqrt(1+M1)
+            <= 2^(|gamma|+1) gamma!,
+
+using the retained `M1(10)<1`. With `|alpha|=4`, `(alpha+beta)!/beta! <= (n+4)^4 <= (n+4)^8` at `|beta|=n`, and there are n+1 such two-dimensional multi-indices. The code deliberately uses the larger eighth power. For n>=25, the consecutive ratio of `(n+1)(n+4)^8 q^n` is at most `2q`; this follows from the decreasing rational ratio and its value at n=25. Here `q=4r1<=1/16`. Its geometric sum is exactly bounded by
+
+    2^(|alpha|+1) (NB+2)(NB+5)^8 (4r1)^(NB+1)/(1-8r1), NB=24.
+
+This proves `taylor_tail_coefficient` and its endpoint use, including convergence and finite Lp moments. It is not a replacement of the spatial supremum by a midpoint or grid maximum.
+
+Regress every jet and target on w: `J=J_g+beta_J(w-mu_w)`. The whole countable residual Gaussian jet family is independent of w, has the same means and smaller variances. Its regression coefficient obeys `|beta_J|<=s_gamma/sigma_w`. Thus
+
+    A_alpha <= A_alpha^g + B_alpha |w-mu_w|,
+    B_alpha <= |bw_Xalpha|+S_alpha/sw_lo.
+
+This is code `B(n)`. `nA` bounds `||A_alpha^g||_p` by the residual order-four Gaussian norm plus its Taylor-tail norm; `nDelta` applies the averaging coefficients. No independence between the residual derivatives is assumed for these Minkowski bounds.
+
+## Quadratic near/far cover
+
+On typed support, `|w-mu_w|<=lambda+|mu_w|`. The preceding bounds give
+
+    M3 <= max_i (y_i'+beta_bar_i lambda),
+
+where `y'` is residual-field measurable and nonnegative. The four `beta_bar_i` are exactly `bbars`: the residual-regression coefficients of `2v,om,Y`, plus r times the corresponding B-alpha combination. Replacing r by r1 and taking interval absolute upper bounds only increases them. Similarly the `|mu_w|` used in y' is bounded by the box maximum.
+
+Put `a=4/(3k)` and `x_i=a r beta_bar_i y_i'`. If cap failure `lambda<=a r M3^2` occurs, then one component satisfies `lambda<=a r(y_i'+beta_bar_i lambda)^2`. For x<=1/4 its roots obey
+
+    lambda_minus <= a r y'^2/(1-3x),
+    lambda_plus  >= 1/(4 a r beta_bar^2).
+
+For beta_bar=0 only the small branch exists. These inequalities follow from the quadratic formula and `sqrt(1-4x)>=1-4x`; a direct alternative checks the quadratic signs at the proposed intermediate endpoints.
+
+With actual x0=1/64, let `kappa=3/(1-3x0)` and `Fk=1+kappa x0`. On `0<=x<=x0`, `1/(1-3x)<=1+kappa x`. Hence typed cap failure is covered by four events:
+
+- N: a small branch, `0<lambda<=rU`, with all x_i<=x0, and `U=max_i a y_i'^2(1+kappa x_i)`.
+- F: `lambda>=1/(4a r beta_bar^2)`, with beta_bar the maximum of the four coefficients.
+- X: some x_i>x0.
+- A: `rM4>3k/10`.
+
+The entire near-window endpoint U and the x_i restrictions depend only on the residual field, independent of lambda. If a beta_bar is zero, its X event is empty and it creates no far branch; the code's zero-coefficient branches implement this correctly.
+
+For the main-term estimates it is convenient to set U to zero outside the residual event `{all x_i<=x0}`. Every near-event integrand is unaffected, and all ensuing moments admit unconditional nonnegative majorants. This makes precise the implementation comments “on the event” and avoids treating a restricted bound as a global one.
+
+## Cap-specific soft moments and dependence
+
+Normalize `K=12k`, so `aK^2=192k` and `aK=16`. Let tilde-y=y'/K. For the first component,
+
+    tilde-y1 <= 1+bbars[1]|mu_w|/Klo+(r1/Klo)Delta1^g,
+
+whose baseline is at least one. The other three components are bounded by `u_i+delta_i`, with
+
+    u2=(2 l11_hi/Klo)|z1|,
+    u3=(l22_hi/Klo)|z2|,
+    u4=(l33_hi/Klo)|z3|.
+
+The independent standard normals z1,z2,z3 arise from the retained actual residual Cholesky representation. The delta terms include means, the off-diagonal Cholesky pieces, beta-bar times |mu_w| and r Delta. These terms may depend on all residual variables; `nd` uses only their Lp norm, never false independence.
+
+Put `c=1-kappa x0/2`. For the actual x0, `0<c<=1` and `Fk c^2<=1`. On the near event,
+
+    Utilde=U/(aK^2) <= max(Z1,Fk tilde-y2^2,Fk tilde-y3^2,Fk tilde-y4^2),
+    Z1=tilde-y1^2(1+eta1 tilde-y1),  eta1=16 kappa r1 bbars[1].
+
+Since Z1>=1>=Fk c^2, for integer p>=1,
+
+    Utilde^p <= Z1^p + Fk^p sum_(i=2..4)(tilde-yi^(2p)-c^(2p))_+.
+
+For `theta=1/32`, set `cp=c(1-theta)`. Weighted Young convexity gives
+
+    ((u+delta)^n-c^n)_+
+      <= (1+theta)^(n-1)(u^n-cp^n)_+
+         +(1+1/theta)^(n-1)delta^n.
+
+Indeed `(u+delta)^n` is bounded by the corresponding two weighted powers, and `(1+theta)^(n-1)cp^n<=c^n`; moving the threshold into the first nonnegative term gives the displayed positive-part bound. The latter threshold inequality holds because `0<theta<1` and `(1-theta)^n(1+theta)^(n-1)<=1`.
+
+`pos_part_moments` has the exact formula, for u=s|Z| and x=cp/s,
+
+    E[u^e(u^n-cp^n)_+]
+      =2[s^(n+e)M_(n+e)(x)-cp^n s^e M_e(x)].
+
+The retained incomplete-moment enclosures carry the subtraction in an interval before selecting the upper end. Correlation lost there only enlarges it. The actual domain has s>0 and cp>0. `habs_moment(1)` is sqrt(2/pi) and `habs_moment(2)=1`; the general wrapper follows the Gaussian absolute-moment recurrence. These cap-only uses are justified without accepting new special-function primitives.
+
+`normalized_moments` implements six collections:
+
+- `E1[n]`: binomial expansion of the first-component majorant, using `||Delta||_pow2(j)^j`.
+- `E1o[n]`, `E1v[n]`: the same expansion multiplied by `o0=s3|z2|` or `v0^2=s2^2 z1^2/4`; the nonconstant terms use Cauchy–Schwarz, hence moment order at least 2j.
+- `Tn[n]`: the three soft positive-part upper bounds.
+- `To[n]`: the same bounds weighted by o0. For i=3 it uses the shared-coordinate moment `P[n,1]` times s3/s[3]; only for i!=3 does it multiply independent expectations.
+- `Tv[n]`: for i=2 it uses the shared-coordinate moment `P[n,2]` times `(s2/s[2])^2`, and for the other coordinates independent expectations; the final division by four is the physical v0^2 factor.
+
+Every delta-weighted remainder uses Cauchy–Schwarz, without independence. Treating the shared coordinates as independent would give a false inequality; an exact adverse control compares E|Z|^3 with E|Z| E Z^2.
+
+`EUt(p)` expands Z1^p and adds the soft tails. `EoUt2/3` and `EvUt2/3` apply the corresponding weighted collections. For norms used inside target majorants, the simpler near-event inequality `U<=aK^2 Fk max_i tilde-yi^2` gives
+
+    ||U||_p <= aK2_hi Fk [E1[2p]+Tn[2p]]^(1/p).
+
+Because c<=1 and tilde-y1>=1, the bracket bounds the maximum moment. `nU` requires a power-of-two p and `2p<=24`; its actual orders are 2,4,8. The largest `EUt` call has p=8 and uses E1[24]. Thus NMAX=24 covers all indices. `nbar(F,p)` follows from `|F|<=|F_g|+|bw_F|(|mu_w|+r1 U)` on N.
+
+## Near-event weighted integral
+
+On typed support, `P1<=|c1|lambda` and
+
+    P2<=|c2|(lambda+r|om|)+r e.
+
+Condition on the residual field and integrate lambda over `[0,rU]`. Its density is independent of that field. With every target replaced by its near-window majorant, the polynomial integral yields
+
+    E[W 1_N] <= r^5 pbar E[|c1 c2|(U^3/3+bar-om U^2/2)+|c1|bar-e U^2/2].
+
+The density also satisfies `p(lambda)<=p0+lambda Lp`, giving the extra r times the same terms with powers U^4/4 and U^3/3. The endpoint enclosures are valid:
+
+    pbar <=code phi(max(0,mu_w.lo)/sw_hi)/sw_lo,
+    p(0) <=code phi(m0/sw_hi)/sw_lo,
+    sup |p'| <= phi(1)/sw_lo^2 < 0.24198/sw_lo^2.
+
+Here m0 is the smallest |mu_w| permitted by its interval, or zero if it straddles zero. Density monotonicity in its nonnegative argument explains the upper standard-deviation endpoint inside phi and the lower endpoint in the denominator. The rational `0.24198` bound is also checked using the retained phi enclosure.
+
+Divide the numerator by `36k^2 r^5`. The product of coefficient majorants satisfies
+
+    |bar-c1 bar-c2|/(36k^2) <= 1+epsc,
+    epsc=(2r bar-T+r^2 bar-tau)/(6k)
+           +r bar-T(r bar-T+r^2 bar-tau)/(36k^2).
+
+`epsc2` and `epsc4` bound its L2/L4 norms with Hölder and `nbar`; their product factors need orders 4 and 8, respectively. Then:
+
+| Code | Bound before its displayed scalar prefactor |
+|---|---|
+| `termA` | `E Utilde^3 + ||epsc||2 ||Utilde^3||2` |
+| `termB` | `E[o0 Utilde^2] + (||delta-om||2 + ||epsc||4 ||bar-om||4) ||Utilde^2||2` |
+| `termC` | `E[bar-e Utilde^2] + r/(6klo) ||bar-T||4 ||bar-e||4 ||Utilde^2||2` |
+
+The scalar factors are `(aK2_hi)^3/3`, `(aK2_hi)^2/2`, `(aK2_hi)^2/(12klo)`, exactly as obtained from the integral. For termC, two applications of weighted Young with theta_E=1/16 give
+
+    bar-e <= (1+theta_E)^2 v0^2
+             +(1+theta_E)(1+1/theta_E)delta-v^2
+             +(1+1/theta_E)r^2 bar-nu^2.
+
+The v0^2 term uses the dependence-aware `EvUt2`; the others use Cauchy–Schwarz. `ebar4` is the square of the L8 norm bound of `r bar-nu+v0+delta-v`, so it bounds `||bar-e||4`. The remaining product uses Hölder exponents 4,4,2. The primed terms use the identical proof with one more power of U, giving prefactors `(aK2_hi)^4/4`, `(aK2_hi)^3/3`, `(aK2_hi)^3/(18klo)`. Thus both numerator formulas used in the minimum are independently upper bounds.
+
+## Normalizer floor and its direction
+
+Let `G0={r|T|<=3k/2,r^2|tau|<=3k/2}` and `D0=(2r|T|+r^2|tau|)/(6k)`. On G0,
+
+    c1>=9k/2,  3k<=c2<=9k,  D0<=3/4,
+    c1 c2>=36k^2(1-D0).
+
+Writing lambda-plus for max(lambda,0), the typed product obeys the pointwise lower bound
+
+    W/r^2 >= 1_G0 {36k^2[lambda-plus^2-r om-plus lambda-plus-D0 lambda-plus^2]
+                     -r c2 v^2 lambda-plus}.
+
+If lambda<=r om-plus the displayed right side is nonpositive. Otherwise, use `c2(c1 lambda-rv^2)_+(lambda-r om-plus)_+` below the typed product, expand, and apply the positive coefficient floor; the dropped cross correction is nonnegative. This proves the sign of every subtraction. In particular the lower bound does not replace the typed indicator by the full positive-lambda cone without a correction.
+
+After expectation and division by `36k^2`, Cauchy–Schwarz bounds the removed `lambda^2 1_G0c` by `||lambda||4^2 sqrt(q_bad)`. Hölder bounds the D0 term. Since c2<=9k, the v term could use `1/(4k)`; the code uses the larger `1/(3k)` as safe slack. The regression bounds are
+
+    E[|om|lambda-plus] <= E|om_g| E lambda-plus
+                +|bw_om|[|mu_w| ||lambda||1+||lambda||2^2],
+
+    E[v^2 lambda-plus] <= 2 E[v_g^2] E lambda-plus
+                +2 |bw_v|^2 (sw_hi ||Z||4)^2 ||lambda||2.
+
+Independence is used only for the residual factor and lambda in the first terms; the latter terms use Cauchy–Schwarz. `Eom_g`, `Evg2`, `Elp` and `lam_n` are the corresponding upper bounds. `El2=elam2_pos(-mu_w.hi,sw_lo).lo` is a lower bound because the positive-part second moment increases in mean and standard deviation. `q_bad` is a Gaussian-tail union bound for G0c.
+
+It follows that `zt=El2-corr` satisfies `Z_r>=36k^2 r^2 zt` over the whole box/band. The guard `zt>0` is essential. Dividing either near numerator bound by this positive floor yields the two candidates for `main`; taking their minimum is valid. No positivity of the signed pointwise expression itself is required.
+
+## Rare events and final band
+
+For q in `{2,4,8,16}`, the typed-product upper bound and Hölder give `||W||q<=r^2 wnorm(q)`. Each coefficient/product factor is bounded in L(4q), so multiplying the two L(2q) polynomial bounds gives exactly code `g1*g2`. These use full-Q Gaussian norms, unlike the residual norms of the near branch.
+
+The three rare probabilities are bounded independently:
+
+- A: `M4<=max_alpha(|X_alpha|+T_alpha)`. At `t=3klo/(10r1)`, split at 7t/8 and t/8. The five Gaussian tails plus order-32 Markov bounds are `qA2`.
+- F: the quadratic cover threshold is at least `1/(4 a_hi r1 bbar^2)`. A one-sided Gaussian upper bound with `|mu_w|` and `sw_hi` gives `qfar`.
+- X: a component requires `y_i'>tx=x0/(a_hi r1 bbars_i)`. For i=1, its deterministic baseline is at most `12khi+bbars1 |mu_w|`; if the threshold does not exceed that baseline, probability one is safe, otherwise Markov bounds the residual r Delta term. For i>=2, split the positive sum at tx/2 into a half-normal Gaussian tail and a delta Markov tail. This is `qx`.
+
+Cap each event bound at one. Then Holder gives
+
+    E[W 1_(A union F union X)] <= r^2 min_q wnorm(q) sum_E P_bound(E)^(1-1/q).
+
+`pow_tail` encloses each fractional power by raising an upward-rounded nonnegative input to q−1 and taking an outward q-th root. Its contract only needs the actual nonnegative inputs and power-of-two q. Minima across q remain bounds. On a positive-lower-end band, divide by `36klo^2 zt r0^3`; monotonic endpoint use ensures this bounds the probability divided by actual r^3.
+
+For the final band `[0,R]`, keep every mean/variance, regression, S, moment and weight bound frozen at its whole-band value. Reconsider the threshold inequalities at r=R/2^j:
+
+- Every Gaussian threshold argument grows by at least 2 per halving. A threshold of the form `(c/r-m)/s` does so because m>=0; the X Gaussian thresholds are exactly proportional to 1/r. The far threshold is at least proportional to 1/r with frozen bbar.
+- If x>=3, shifting the Gaussian-tail integral gives `Phibar(2x)<=exp(-3x^2/2)Phibar(x)<Phibar(x)/64`. The last strict inequality already follows from `1+27/2+(27/2)^2/2>64`. This proof uses the true Gaussian tail before enclosing it, so no scaling identity for the piecewise numerical tail wrapper or its rounding is assumed.
+- Every Markov piece drops at least as `2^-32` per halving. For X's first component, `tx-cb` at least doubles once positive; using the frozen R Delta norm is already enough, and using r Delta only improves the decay.
+
+The code requires all initial Gaussian arguments >=3 and each uncapped sum `qA2,qfar,qx<1`. These conditions rule out a cap-at-one obstruction or a unit-probability first-component X branch. Therefore each probability sum drops by at least 64 per halving. After exponent `1-1/q`, q>=2, it drops by at least 8. Choose the q attaining the minimum at R and keep it fixed. For the dyadic interval `[R/2^(j+1),R/2^j]`, its radius-cube divisor increases the bound by 8^j, cancelled by that probability decrease. The uniform bound is thus the initial top-subband estimate using divisor `(R/2)^3`, precisely `rdiv=R/2`. The near term already used only whole-band constants and needs no radius-cube division.
+
+This proves the final-band extension to every positive r, including arbitrarily small r, without building infinitely many laws or asserting that numerical tail bounds themselves scale exactly.
+
+## Execution, controls and remaining boundaries
+
+Two exact standard-library scripts were run with `work/venv/bin/python -B -S`; both exited zero. `build_and_audit.py` built exactly two complete laws and called the unmodified E2 function on the first and last **actual B** cap boxes on each band:
+
+| Radius band | b box | k box | Upward total | Downward zt |
+|---|---|---|---:|---:|
+| `[0,2^-29]` | `[0,1/4]` | `[1/2,17/32]` | 105538.4460 | 0.99999999170603753246 |
+| `[0,2^-29]` | `[3/4,1]` | `[3/2,2]` | 2144967.5884 | 2.16665706580510048857 |
+| `[15/1024,1/64]` | `[0,1/4]` | `[1/2,17/32]` | 29864159.4958 | 0.95616853308116334706 |
+| `[15/1024,1/64]` | `[3/4,1]` | `[3/2,2]` | 43934834.6988 | 2.10908028693167758358 |
+
+These are calls with genuine matching band laws, not broader cached-law substitutions. `BAND_LAWS.json` retains every exact field; `ACTUAL_CALLS.json` retains relevant original-frame locals, moment values and returns. `CALL_RECEIPT.json` records **2 band builds, 4 box calls, 0 sweeps, 0 full runs**, exact combo, clean candidate and source identities. The cache is available for future reuse; it is not a new input assumption.
+
+`exact_controls.py` adds **4703 positive checks and 11 strict adverse controls**, with no new law builds or bounds calls. Its 1080 exact pointwise product cases exercise positive, negative and boundary lambda, mixed-sign T/tau/om/v and both extreme k values. Other controls check the averaging kernels, Taylor-factorial/tail ratio majorants, quadratic endpoints, soft threshold/max/split inequalities, half-normal recurrence and density derivative constant, Holder tail powers and final-band decay, followed by arithmetic/guard inspection of the four actual call traces.
+
+The adverse witnesses show that the following altered inequalities are false: dropping the quadratic far branch; halving the cap coefficient; discarding the residual delta in the soft split; removing Fk inflation; treating a shared Gaussian coordinate as independent; replacing the derivative supremum by its midpoint value or an endpoint value; dropping the normalizer correction; omitting the omega numerator term; asserting factor-64 tail decay without the large-argument condition; or dividing a whole positive-lower-end band's tail by its top radius instead of its lower radius. Their strict gaps are retained in CHECKS. These are algebraic/synthetic witnesses, not assertions that those arbitrary deterministic tuples are samples of the particular torus field. No control merely changes a result and compares it with saved output.
+
+The scripts and logs retain the full successful execution history; there were no failed iterations or hidden reruns. Candidate source hashes and clean status were checked after the actual calls and again at final freeze. All new files are confined to this task's planar-review directory.
+
+The finite controls support the written proof and test its sensitive signs/constants; they do not establish the general theorem by enumeration. Remaining external boundaries are the stipulated Gaussian model and physical cap-event definition, the exact retained C59 numerical/law scopes, all-box successful execution through root's actual full-check receipt, root's finite-radius prefactor/aggregation argument, and any subsequent global elder/persistence implication. Within the reviewed cap-engine implication and actual parameter choice, no unresolved analytic defect remains.
+
+</details>

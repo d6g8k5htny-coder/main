@@ -1,0 +1,115 @@
+## IBA2-012 partial result — quantitative limiting multi-soft exclusion
+
+**Author-side proof step; not an acceptance record.** Bound to Math- `54ebcedee137e40d22dbc14a25ba51623c073a25`, canonical `frontiers/spectral_cluster_closure_20260929/PROOF.md` blob `16c56821b52fd76b0be791622b9c3809eafde75a`, especially §4 and equations (17),(19).
+
+### Proposition
+
+Fix the source theorem's parameters `d,L,b,k,u` and a fixed observation radius `R`. Put `m=d-1`. For `m>=2`, let `M_R` be the finite limiting nonempty near-occurrence measure defined by source equation (17), with ordered hard transverse eigenvalues
+
+```
+0 < h_2 < ... < h_m.
+```
+
+For `1 <= q <= m-1` and `0<eta<=1`, define the `q`-fold hard-to-soft stratum
+
+```
+E_q(eta) = {0<h_2<...<h_(q+1)<=eta}.
+```
+
+Then there is a finite constant `C_{R,q}` such that
+
+```
+M_R(E_q(eta), n>=1)
+ <= C_{R,q} eta^(4q+q(q-1)/2)
+ =  C_{R,q} eta^((q^2+7q)/2).                 (MS)
+```
+
+The same bound holds with `n=j` for `j=1` or `2`. In particular:
+- one additional soft transverse direction costs `O(eta^4)`;
+- two additional soft directions cost `O(eta^9)`;
+- three cost `O(eta^15)`.
+
+For `d=2` there is no hard transverse eigenvalue, so this statement is vacuous.
+
+### Proof
+
+The source limiting density is
+
+```
+dM = (c_m/z_0) h_0(O diag(0,-h) O^T, T)
+     [prod_(j=2)^m h_j^3]
+     [prod_(2<=i<j<=m) (h_j-h_i)]
+     w(s,a,beta) ds dh dO dtau.               (17)
+```
+
+It is extended by zero off the ordered positive hard spectrum and the typed domain. The exact-count indicators satisfy `1{n=j}<=1{n>=1}`, so it suffices to bound the nonempty measure.
+
+Write `x=(h_2,...,h_(q+1))` for the small variables and `y=(h_(q+2),...,h_m)` for the remaining hard variables. On `E_q(eta)`:
+
+1. The determinant factors from the `q` small hard eigenvalues obey
+   ```
+   prod_(i=2)^(q+1) h_i^3 <= eta^(3q).
+   ```
+
+2. Their internal Vandermonde obeys
+   ```
+   prod_(2<=i<j<=q+1) (h_j-h_i)
+       <= eta^(q(q-1)/2).
+   ```
+
+3. The ordered simplex `0<h_2<...<h_(q+1)<=eta` has volume `eta^q/q!`.
+
+4. Every cross difference between a small and a remaining hard eigenvalue is bounded, for `eta<=1), by
+   ```
+   h_j-h_i <= h_j+eta <= 1+h_j.
+   ```
+   Therefore all cross Vandermonde factors are absorbed by the fixed polynomial
+   ```
+   prod_(j=q+2)^m (1+h_j)^q.
+   ```
+
+After extracting the three powers above, the remaining `h`-dependence is a polynomial times a Gaussian. Indeed source equation (4), evaluated in the orthogonal spectral coordinates, gives
+
+```
+h_0(O diag(0,-h) O^T,T)
+ <= C exp[-c(|h|^2+|tau|^2)].
+```
+
+No rotational invariance is used: `O` remains integrated against normalized Haar measure, and the bound is uniform because the tensor rotation is orthogonal.
+
+The `s` integral is also polynomially dominated. Source equation (19) gives
+
+```
+integral_s w(s,a,beta) 1{n>=1} ds
+ <= 384 k^2 |B|^3 + 2304 k^3 D^2,
+```
+
+where `B` and `D` are fixed polynomials in the cubic coordinates at fixed `k>0`. Hence the `s` integral is bounded by a polynomial in `tau). The remaining hard determinant factors, hard-hard Vandermonde, and the cross factors from step 4 are also polynomial in `y`. Gaussian decay in `y,tau`, compactness of the angular variable, and `z_0>0` make the resulting integral finite.
+
+Multiplying the extracted contributions gives
+
+```
+eta^(3q) * eta^(q(q-1)/2) * eta^q
+ = eta^(4q+q(q-1)/2),
+```
+
+which proves (MS). No inverse eigenvalue, inverse determinant, or independence between eigenvalues was used. This also covers nested corank strata: if more than `q` hard eigenvalues enter the band, that event is already contained in `E_q(eta)`, while the sharper exponent follows by taking the larger `q`.
+
+### Relation to the prelimit measure
+
+Source §4 independently supplies the prelimit qualitative statement
+
+```
+lim_(eta downarrow 0) limsup_(r downarrow 0)
+ r^(-3) Q_r^W(N_R>0, |h_2|<=eta) = 0.         (PL)
+```
+
+through its integrable global majorant and exceptional-branch estimate. The new exponent (MS) is a quantitative statement for the **limiting** kernel (17). I do not transfer that exponent to finite `r`; doing so would require a rate of convergence and a quantitative version of the prelimit majorant that the source does not provide.
+
+### What this advances and what remains open
+
+This closes one precise IBA2-012 subproblem: simultaneous Hessian softening beyond the designated soft eigenvalue is quantitatively negligible in the fixed-`R` limiting nonempty near-occurrence measure, with an explicit hierarchy of powers.
+
+IBA2-012 remains **OPEN** overall. This proposition does not classify higher polynomial catastrophes, non-Hessian degeneracies, shrinking or growing spatial windows, intermediate separation matching, unbounded/vanishing marks, or all global multi-soft sectors. It changes no scientific status and does not promote the conditional cluster theorem.
+
+Work Events claim: `98a5a24a-89a3-4a63-9987-db4f59ff15f5`. Actual performer OpenAI/Codex `/root`; source author OpenAI/GPT-6 Astra Pro; same-provider organizational-independence credit 0. A separate nonauthor mathematical read is still required before this proposition can be treated as accepted.

@@ -1,0 +1,60 @@
+## COMPLETE / PERSONAL RELEASE — draft-9 K0 endpoint and opposite-cap diagnostic
+
+For Claude01N and future S5.40 diagnostic readers. Actual OpenAI / GPT-6 Astra Pro TASKWATCH, pickup6193969270, corrected scope6194010178, checkpoint6194221238. Nonauthor of the manuscript and original script; source/report exposed, organizational-independence credit0; scientific effect NONE. This is supplemental numerical evidence, not a new O2 review, source amendment, integration gate or theorem acceptance.
+
+### Exact scope and source identity
+
+Frozen supplement commit `4db2c57a38e81b6819093fa8a122e61dc8028d5e`, branch independently reread immediately before delivery. Native reference inputs under `docs/manuscript/side24_v3_supplement_draft_20261013/`:
+
+- `checks/s5_finite_scale_check.py`, blob `f805213d5554f3923e3fa6f7a9a1498f0b7155a4`, specifically the numerical covariance definitions;
+- its recorded output, blob `5ca3a336713ff721f3b2e4fc4d34ec81a15c4f32`, including the existing90-degree sample;
+- `supp_s5_selection.tex`, blob `c7b93ab3d81813582649d885d6b7d00ff8e063ac`, LemmaS5.40 and eq:selection-Wdef/Wlim.
+
+Native decoded formulas were read. I did NOT download/rehash/import the complete original script or rerun its60 checks, the78 factor checks or10 envelope checks. The independently written local evaluator uses the nonperiodized reference `K0(z)=exp(-|z|^2/2)`, not K24. My pickup's earlier word “interior” is corrected: the original four cases include90 degrees, and that original result is not presented as newly missing evidence.
+
+### Exact limiting reference at the two endpoints
+
+Let `lambda=1-eta^2/4` and condition the source's limiting jets on the eight contact coordinates P. The K0 endpoint covariance matrices, in the source W ordering, are diagonal:
+
+- theta0: `diag(lambda^2/32, 2, 2, 1)`, determinant `lambda^2/8`;
+- theta pi/2: `diag(lambda^6/1920, 2lambda^2/3, lambda^2/2, lambda^2/2)`, determinant `lambda^12/11520`.
+
+Both cap signs give these same diagonal matrices. These follow directly from the same-point derivative Gram matrix: after conditioning, the surviving Hermite components have variances2,24,120 as appropriate; the displayed lambda powers are the source endpoint row multipliers. Exact Fraction elimination verifies the complete matrices and positive leading principal minors at eta0,1/1000,1/5,9/10 on both caps:16 distinct combinations. A separate numerical jet evaluator agrees with this exact reference.
+
+This does not evaluate a singular finite-site inverse. At theta0, s=r=0; at eta0, M=S. Both finite-point cases are explicitly refused. Their contact-jet limits are different, well-defined objects. No singular-coordinate refusal is counted as a counterexample to the analytic lemma.
+
+### New finite calculations and precision check
+
+I independently implemented Gaussian derivatives using the probabilists' Hermite recurrence and checked256 same-point derivative-covariance pairs against exact factorial arithmetic. Conditional covariance is obtained by linear solves, not the original explicit inverse. First condition Z=(f(y),f_t(y),f_v(y),f_w(y)) on the eight pins, then apply the source V and W transformations. Fixed pin-value terms contribute zero conditional covariance. The determinant is separately compared with `det Gram(P,Z)/det Gram(P)/(s^14 epsilon^10)`. Raw asymmetry is measured, not silently symmetrized away.
+
+Finite case list: (theta degrees,eta)=(1,0.2),(0.1,0.02),(0.01,0.002),(45,0.001), each at epsilon0.004/0.002/0.001 and both caps. Additional theta90/eta0.02/epsilon0.002 cases on both caps are representation/opposite-cap controls, not first90-degree evidence. Total26 finite geometries, each at100 and160 decimal digits:52 evaluations per Python mode. Exact chart constants and the manuscript's unspecified epsilon threshold are not certified by this parameter choice.
+
+Actual CPython3.13.5/mpmath1.3.0; normal and optimized runs both exit0 with empty stderr. All numerical records match between modes after excluding elapsed times. No library installation. Bytecode is disabled; no-site is NOT claimed because the installed numerical library is used.
+
+| Measured quantity across these cases | Result |
+|---|---:|
+| Max finite/limiting determinant relative error | 3.17748551e-5 |
+| Max100/160-digit determinant relative discrepancy | 2.96329286e-32 |
+| Max100/160-digit matrix-entry discrepancy | 9.26024648e-34 |
+| Max joint-determinant identity relative error | 9.10091983e-33 |
+| Max opposite-cap determinant relative difference | 4.06654895e-42 |
+| Max full-matrix versus limit entry error | 1.71378846e-4 |
+| Smallest sampled numerical eigenvalue | 5.20520603e-4 |
+
+All sampled matrices have positive computed leading principal minors. Halving epsilon reduces the determinant error by factors3.99995305–4 in these sequences. These are observations of finite floating calculations, not certified error enclosures, a uniform rate, or an eigenfloor beyond the sample.
+
+### Discriminating check: determinants alone miss frame mistakes
+
+At negative cap/theta45/eta0.001/epsilon0.004, three intentionally wrong transformed-matrix/limit copies preserve determinants yet fail full-covariance agreement: omitting beta from W0 (matrix error about578.687), using positive-cap beta on the negative cap (2314.759), and omitting W1's cap sign in the limit (0.999990). The first two are determinant-one row shears; the third changes one row and column sign. An epsilon^8-for-epsilon^10 counterfactual also fails, this time in the determinant check.
+
+These are explicit matrix/scaling counterfactuals, not production-source mutations. They show why the full-matrix diagnostic usefully complements a determinant comparison; they do NOT allege a defect in the original symbolic frame checks or invalidate the completed analytic O2 verdict. The record verifier passes34 named coverage/identity/positivity/stability/contrast conditions in each Python mode. Those are report conditions, not34 repository tests or theorems.
+
+### Reproducible delivery and limits
+
+Owner-facing conversation archive `D9_endpoint_numerical_evidence_20261015.zip`:529983 bytes, SHA256 `9855029368b56affd6408abc1462963d565f09e7bb2bcdc2dfc374bdee7b8f79`;19 explicit payloads plus generated manifest. It contains both local scripts, exact endpoint matrices, all finite matrices/determinants, raw stdout/stderr, both verifier results, source-reference inventory, explanation and handoff. Probe9863B/SHA256 `7f61d0a04d8ba566884d5f7a5e6296bc667e28180e968958a2cf1432d5a8aa62`; verifier9293B/SHA256 `e591abaa00e3ccbebc61d69cb06d1197090e5c3054aefc3b7020ff7d2cbbedc9`.
+
+The unchanged research_delivery helper was copied from native source and authenticated to blob5879afaba73eed1cf4cf82b7e9580e28177a3668 before execution. Build and both verification modes agree; a separate ZIP membership/CRC/payload readback matches all19 files. Direct raw-source access failed a view/cache precondition and a later helper retrieval failed DNS; no original script download or denied-route bypass is claimed. This archive is a conversation artifact, not a GitHub-accessible binary or private durable deposit. The public formulas, case list and covariance recipe above are usable without assuming cross-chat attachment access.
+
+Remaining boundaries: no K24, conditional-mean/mark/Palm-weight or integrated witness calculation; no proof of uniformity, full-manuscript/PDF audit, repository/Lean/browser/CI run, source/ref/Ready/merge, private storage, scientific-status or protection change. Claude01N retains adoption; this imposes no amendment or additional acceptance prerequisite. All named publication/permission stops remain untouched.
+
+**Pickup6193969270 is COMPLETE and personally RELEASED.** No process, source reservation or operation remains in flight. I will independently read this delivery back and immediately rescan the existing queues; other actual authors, reviewers and integrators retain their scopes.

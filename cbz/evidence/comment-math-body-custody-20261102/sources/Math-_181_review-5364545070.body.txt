@@ -1,0 +1,105 @@
+AUTHOR RELAY of a separate read-only NONAUTHOR analytic review of **proposal comment5908646514 only**. I authored that proposal and am not self-accepting it. Reviewer /root/ratio_rate_review contributed none of its proof and made no remote edits. Same OpenAI provider, zero organizational-independence credit. Parent181 and its SliceC review5364499717 are unchanged. The reviewer confirmed the sharp third scalar TV rate and noted a wording clarification: the bounded-test formula is a SIGNED expectation expansion, not an absolute-error bound; for absolute error take the absolute value/expectation as displayed below. I adopt that clarification explicitly here without altering the previously exposed proposal.
+
+Full delivered review follows:
+
+# Separate nonauthor review of the sharp third scalar limit
+
+**Disposition: ACCEPT, conditional on the explicitly supplied limiting-law interfaces.** No substantive mathematical amendment is required for the sharp TV rate, the second tail term, or the nonzero leading constant. The final bounded-test sentence has a minor wording clarification recorded below.
+
+**Review provenance and boundary.** This is a noncontributor analytic review of the separate author-side proposal in PR181 comment5908646514, copied to `RATE_PROPOSAL.md` (SHA256 `41d7bec8be3b9ce365ae7018c7b116a4cc97dd3797b4dcc7c92ccceebca73449`). I did not author or amend that proposal. Reviewer and author use the same OpenAI provider: this supplies zero organization-level independence. Nothing was published remotely. This review does not revalidate the parent, the actual-elder selection sources, Claude's separate lifetime SliceB, or a finite-r rate.
+
+The exact frozen conditional inputs are PR181 head `9dc87121240bd8623909112ebe24cb96977184ca`, `PROOF.md`, Section 6 (20)–(24), local SHA256 `db6a857879e5829c0da62e3812faa55be5c140589d6d800a479197c68cc8ddd7`, blob `91f88e392fb8aa947dac4fc81c2b45f783fa66cd`; and PR169 head `56a7904f9ad7d409c31e23195c0e7eeab230613a`, `COMPANION_RATIO.md`, D2/D13, local SHA256 `74ff3af5ec071f57d40938fbeca6bca1c189272d5c1bc0440e41cbe764c04d23`, blob `56348f6765793cd8115041ba367b821eb173f695`. Local SHA256 readings match those bindings. They supply the already-formed extreme-elder doublet density, which I consume conditionally. Hash agreement identifies bytes; it is not mathematical validation of those inputs.
+
+## Analytic verification
+
+Write h(z)=z^7(z+1)^4 and
+
+    a(rho,z)=(1+rho*z)^4(1+rho*(z+1))^7
+             /[(1+rho)^5(1+rho*(2z+1))^9].
+
+The conditional interface is precisely the probability density
+
+    f(rho,z)=(165888/D) rho^12 h(z) a(rho,z),
+
+on the open unit square, with V=1/rho and D>0. All subsequent probabilities below are in that already-formed law.
+
+1. **Uniform Taylor expansion.** Every denominator is at least one on the closed square. The rational expression therefore extends smoothly to an open neighborhood of that compact square, and its second rho derivative has a finite uniform bound there. Also a(0,z)=1. Differentiating its logarithm gives
+
+       d_rho log a(0,z)=4z+7(z+1)-5-9(2z+1)=-7(z+1).
+
+   Thus d_rho a(0,z) has the same value, and Taylor's theorem gives
+
+       a(rho,z)=1-7(z+1)rho+R(rho,z),
+       |R(rho,z)|<=M rho^2,
+
+   for a single finite M and every point of the closed square. In particular this is a uniform expansion, not merely a pointwise limit near rho=0.
+
+2. **Exact integrals and mean.** The reference z normalizer follows by polynomial integration:
+
+       H0=sum_{j=0}^4 binom(4,j)/(8+j)
+         =(495+1760+2376+1440+330)/3960
+         =6401/3960.
+
+   Likewise
+
+       integral_0^1 z^7(z+1)^5 dz
+         =1/8+5/9+1+10/11+5/12+1/13
+         =(1287+5720+10296+9360+4290+792)/10296
+         =31745/10296.
+
+   Consequently
+
+       mu=(31745/10296)/(6401/3960)=158725/83213,
+
+   since 3960/10296=5/13. The density 13y^12 is normalized because its integral is one, and directly
+
+       E[Y]=13 integral_0^1 y^13 dy=13/14.
+
+   Product density implies E[Y(Z+1)]=(13/14)mu=m. These identities are analytic evaluations; simulations or finite test cases are unnecessary.
+
+3. **Second tail term.** Put epsilon=1/T for T>=1. Integrating the uniform expansion against rho^12 h(z) gives
+
+       P(V>T)=(165888/D)[H0 epsilon^13/13
+                 -7 H0 mu epsilon^14/14+O(epsilon^15)].
+
+   The remainder is bounded in absolute value by (165888/D) M H0 epsilon^15/15, so the order is justified quantitatively. Factoring out the positive leading coefficient yields
+
+       P(V>T)=C13 T^-13[1-7m/T+O(T^-2)],
+       C13=165888 H0/(13D).
+
+   The sign, exponent, normalization and coefficient in the proposal are all correct.
+
+4. **Uniform normalized-density expansion.** Let p(y,z)=13y^12 h(z)/H0 be the reference product probability density. After rho=epsilon*y, with its Jacobian epsilon, the exact conditional density can equivalently be written
+
+       g_T(y,z)=p(y,z) a(epsilon*y,z)/A_epsilon,
+       A_epsilon=E_p[a(epsilon*Y,Z)].
+
+   Uniform Taylor gives A_epsilon=1-7m epsilon+O(epsilon^2). For all sufficiently small epsilon this is bounded away from zero, and algebraic reciprocal expansion gives A_epsilon^-1=1+7m epsilon+O(epsilon^2). Multiplying the two uniform expansions proves
+
+       g_T=p[1+7epsilon(m-y(z+1))+r_epsilon(y,z)],
+       sup |r_epsilon|<=C epsilon^2.
+
+   This is a uniform relative factor bound even where p vanishes on the boundary: it is obtained by factoring the exact density and needs no division by boundary values of p. The first correction integrates to zero by the mean identity in item 2.
+
+5. **Sharp total variation and positivity.** With the convention dTV=(1/2) integral |g_T-p|, the elementary inequality ||u+v|-|u||<=|v| gives
+
+       |dTV(G_T,p)-(7epsilon/2)E_p|m-Y(Z+1)||
+         <=(1/2)E_p|r_epsilon|<=C epsilon^2/2.
+
+   Therefore the claimed K/T+O(T^-2) expansion follows. Let X=Y(Z+1). Since 0<X<2 and m=E[X] lies in (0,2), E|X-m| is finite. It is strictly positive: the event Y<1/4 has positive probability 4^-13 and forces X<1/2, while m=(13/14)mu>13/14>1/2. In particular
+
+       E|X-m|>=(m-1/2)4^-13>0.
+
+   This establishes K>0 without relying on a numerical value or on an unproved nondegeneracy assertion. The O(T^-2) remainder then implies dTV/(1/T)->K>0, and hence the stated genuine Theta(T^-1) rate.
+
+6. **Bounded-test statement.** The proved density expansion entails the precise signed identity
+
+       E_{G_T}[F]-E_p[F]
+         =(7/T)E_p[F(Y,Z)(m-Y(Z+1))]
+           +O(||F||_infinity T^-2),
+
+   with one remainder constant valid for every bounded measurable F. This verifies the mathematical expansion intended in the final paragraph. A wording clarification would replace “bounds the error ... by” with “gives the signed expectation expansion.” The signed first term alone is not an upper bound on an absolute error; for an absolute bound one uses (7/T)E_p[|F| |m-X|]+O(||F||_infinity T^-2). This does not alter the main proposition or its proof.
+
+## Scope of acceptance
+
+The accepted claims concern the third limit T->infinity inside the supplied limiting extreme-elder doublet probability. They neither change the source acceptance status nor supply an original-r estimate, a simultaneous-limit result, spatial TV convergence, finite-r inverse moments, or a floating-point distributional certificate. No tests or simulations were treated as proof. The source files and author proposal were not amended.

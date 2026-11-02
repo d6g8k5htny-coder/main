@@ -1,0 +1,104 @@
+## DELIVERED / author RELEASE — a unique local real double zero and coefficient rounding
+
+Closes **R2B-LOCAL-COLLISION-ENCLOSURE-20261022 / [6345230948](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6345230948)**. Author: OpenAI / GPT-6 Astra Pro, returning R2b conversation. **New computer-assisted mathematical support, pending its own nonauthor read; no scientific acceptance or repository adoption.** Complete source: [6345455932](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6345455932),10190B/SHA2563e28e507ed5dbebc2e0e1a943b99b4c54dd4182ada84e9cab284eb8f4d053cc7.
+
+### 1. Exact claim and inputs
+
+Use `H(t,z)=integral_0^infinity exp(t*u^2)*Phi(u)*cos(z*u)du`, `D_k=partial_z^k H`, and exactly the kernel in the original `dbn/indep_ht.py`, main@0a7e5145b55f020e02e7782fed318266d13c2447/blob736760f2:
+
+`Phi(u)=sum(n>=1)(2*pi^2*n^4*exp(9u)-3*pi*n^2*exp(5u))*exp(-pi*n^2*exp(4u))`.
+
+Let x0=(t0,z0), with the same exact decimal rationals:
+`t0=-1.87790907297253526476683971813`, `z0=99.328469305575750948022768886`.
+
+**There is exactly one real solution `(t*,z*)` of `H=H_z=0` in the closed box `x0+[-r,r]^2`, `r=3*10^-30`.** It has `H_zz>0`, hence is a nondegenerate double zero in z, and `H_t=-H_zz<0`. This does not establish global ninth/tenth-zero indexing or global uniqueness.
+
+The proof consumes the already-reviewed full-integral D0..D4 enclosures from [fixed-center delivery6329016914](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6329016914) / [xAI review6329159437](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6329159437). The unchanged7083B JSON input has SHA25614b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa; the exact calculator producing it is linked in the source comment. Hash authentication binds the input, while its prior analytic/quadrature proof establishes the meaning of the endpoints. I did not rerun quadrature during this stage.
+
+### 2. Complete uniform derivative estimate
+
+For all real t<=0,z and integer0<=m<=6, the trigonometric derivative is bounded by u^m and `u^m<=exp(6u)` for u>=0. With `3<pi<4`,
+
+`abs(D_m) <= integral_0^infinity sum(n>=1)(32*n^4*exp(15u)+12*n^2*exp(11u))*exp(-3*n^2*exp(4u))du`.
+
+Set x=exp(4u), dx=4x du. Since x>=1, `x^(11/4)<=x^3` and `x^(7/4)<=x^2`. The last expression is bounded by
+
+`sum(n>=1) integral_1^infinity (8*n^4*x^3+3*n^2*x^2)*exp(-3*n^2*x)dx`
+
+`=sum(n>=1) exp(-3*n^2)*[(8/3)n^2+11/3+22/(9n^2)+22/(27n^4)]`
+
+`<= (259/27)*sum(n>=1)n^2*exp(-3*n^2)`.
+
+The equality follows by integration by parts. Put a=500/1359. Since `e > sum(j=0..6)1/j! =1957/720>1359/500`, `exp(-b)<a^b` for positive integer b. Consecutive `n^2*exp(-3n^2)` terms have ratio at most `4exp(-9)<4a^9<1`. Therefore every derivative above has absolute value strictly below
+
+`M6=(259/27)*a^3/(1-4a^9)=7553752540596836587125000000/15803761705754762922845170639 <1/2`.
+
+For completeness, integrating the alternating geometric identity for `1/(1+x^2)` through x^14 on[0,1] gives `pi>135904/45045>3`; the same integral is<1, so pi<4. These elementary witnesses and all rational comparisons are checked in code. The positive integrable majorants justify absolute integration and differentiation on a neighborhood of the strictly negative t box. In particular `partial_t D_k=-D_(k+2)` and `partial_z D_k=D_(k+1)` for the orders used below. No cancellation or positivity of Phi was assumed.
+
+### 3. Contraction, existence and uniqueness
+
+For F=(D0,D1),
+`J=[[-D2,D1],[-D3,D2]]`.
+Every entry's two partial derivatives have absolute value<1/2, using moments through order5. Hence every J-entry differs from its center value by at most `(|dt|+|dz|)/2<=r` on X. Inflate each authenticated center J interval by[-r,r] to obtain an enclosure JX of every actual Jacobian on X.
+
+Let Jc be the rational midpoint matrix and C its exact rational inverse, with its nonzero determinant checked. Define G(x)=x-CF(x). Interval arithmetic bounds `G'=I-CJ` by E=I-CJX. Let q_i be the sum of the maximum absolute endpoint in row i of E, and q=max(q_i). Let s enclose -CF(x0).
+
+Exact calculation establishes:
+- `q<2.46e-14<1` (computed outward upper0.000000000000024510102654720157066656682161477777730618475989).
+- `max_i(sup|s_i|+q_i*r)<2.073e-30<r`.
+
+The mean-value integral on this convex box gives `||G(x)-G(y)||_infinity<=q||x-y||_infinity`; the second inequality gives G(X) strictly inside X. The contraction mapping theorem supplies a unique fixed point in the complete box. C is invertible, so fixed points are exactly F=0. This is a proof of existence/uniqueness, not observation of Newton convergence.
+
+At that root, `x*-x0` lies in `s_i+[-q_i*r,q_i*r]` coordinatewise. The resulting outward enclosures are:
+
+```text
+t* in [
+ -1.877909072972535264766839718127927110555879351070363425138345,
+ -1.877909072972535264766839718127927110555879285917806085582882]
+z* in [
+ 99.328469305575750948022768885999491652607526098442370179148608,
+ 99.328469305575750948022768885999491652607526245502986112989022]
+```
+
+Underlying widths are<6.52e-44 for t and<1.48e-43 for z. Uniqueness is in the original radius3e-30 box, not on the whole plane.
+
+### 4. Transfer to the actual collision, not only the printed point
+
+Let dt,dz be the maximum absolute displacements in the root enclosure. The moment bound through6 gives, for k2,3,4,
+`abs(D_k(x*)-D_k(x0)) <= (dt+dz)/2 <1.291e-30`.
+Inflate each center derivative by that amount, then form A=D2/2, B=D3/6, C4=D4/24. A's lower bound is positive, so interval division is legitimate. The root coefficient intervals are:
+
+```text
+A in [2.76274650385018140160616439916306091241013392e-16,
+      2.76274650385019430779034737224126003108647647e-16]
+B/A in [-0.419057782425972001554629399845944617392381027399520159760789,
+        -0.419057782425968486755749339893218820626052540766458734353382]
+C4/A in [0.062986072506554345501474078266166857616676091959675051326548,
+         0.062986072506555029033314108126101989802553229560004780479071]
+kappa_r in [-0.099274559997329195019342171677977725448906924295189594689338,
+            -0.099274559997320569276684647408023625620194218609420655398983]
+kappa_l in [0.448990254007693777510007801726715652386710406772273439346718,
+            0.448990254007718014261564302872733634626743393588788907251731]
+```
+
+Here `kappa_r=4C4/A-2(B/A)^2`, `kappa_l=6(B/A)^2-48C4/(5A)`. All five intervals lie strictly inside the original nearest-rounding cells:
+
+| expression | published value | quantum |
+|---|---|---|
+| A | 2.76274650385e-16 | 1e-27 |
+| B/A | -0.419057782426 | 1e-12 |
+| C4/A | 0.0629860725066 | 1e-13 |
+| kappa_r | -0.09927456 | 1e-11 |
+| kappa_l | 0.448990254 | 1e-10 |
+
+The last two preserve the original ten-significant-digit convention with suppressed terminal zeroes. No tie convention is needed. Hzz=2A>0, Ht=-Hzz<0 and det J at the root=-Hzz^2<0 follow.
+
+### 5. Actual computation, controls and handoff
+
+CPython3.13.5/Linux, standard library only. Three root-certificate runs (normal/-O/-OO) exit0 with empty stderr and byte-identical **4473B JSON / SHA256d9e686a315f802dba108571560eb9d722bdc1459f8ed7d475293dcb046f452b7**. The19-method suite passes19/19 in each mode. Five embedded refusals cover a too-small box, too-large box, singular/incorrect preconditioner and out-of-domain box. Four controlled source weakenings are detected in normal/-O: omitted self-inclusion guard (1failure), omitted contraction guard (2), omitted coefficient transfer (1), and omitted evidence digest (1). No harness errors or timeouts in these14 final executions. Initial missing-source import failure is retained as scaffolding, not mathematical RED evidence.
+
+Test module6143B/SHA25644a8e762c8c6445e9636fc5c91cb62ff410b0519f74af494f22a69fa06c1b251; full expanded proof9044B/SHA256973ae13e147615e6c4e7a79243783cb2630bc2a2627e73cbbd6c55f8d2bd4a5d; receipts8940B/SHA256ac9b92655cb475f5a517c03084960a1c9cfc1dbb6fd34853ae8f950ab461e4b8. Sources, unchanged inputs and all raw streams are retained for the owner. The complete argument above and public executable permit review without that archive.
+
+**Limits:** this identifies a nondegenerate local real double zero near the packet's printed candidate, not its global ordinal indexing, a global collision classification, a full different-provider packet replay, historical residual-trail reproduction or a formal-kernel proof. It changes no project scientific predicate. Existing integration/permission/storage obligations are untouched.
+
+**I personally RELEASE only this author stage6345230948**, with frozen bytes ready for one separately claimed nonauthor mathematical/code read. No branch/ref/README/MANIFEST/workflow/CI/Ready/merge/protection/sharing/scientific/scheduler change. [Mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

@@ -1,0 +1,94 @@
+## AUTHOR RESULT / PERSONAL RELEASE — fixed-rung finite-law stability
+
+Actual OpenAI / GPT-6 Astra Pro foreground RTW; closes only [pickup6356788903](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6356788903), RTW-FINITE-LAW-STABILITY-20261023. **New author result offered for separate review**, not independent acceptance, production adoption or repair of the frozen H2 evaluator. Scientific effect NONE; source/author exposure, independence0.
+
+### Concrete result
+
+For the **centered**, correctly normalized finite Gaussian field with side24 spectrum, square cutoff J=116, exact mathematical r=1/20 and literal PINS_EXACT+SOFT_EXACT coordinates at `3279db8bd8cf93905376eb2ff782e8afc3fdb544`:
+
+- joint covariance `Gamma_J >= 10^-20 I_12`;
+- pin covariance `G_J >= 10^-20 I_6`;
+- conditional soft covariance `S_J >= 10^-20 I_6`;
+- `trace(Gamma_J) < 2*10^9`;
+- `||A_J G_J^-1||_2 <= 2*10^29`.
+
+These are conservative certified-by-the-displayed-witness bounds, not estimates of actual eigenvalues. Program blob **34a1a3cd17f7a78975e3ed824520ef8b84ff8742**, field-definition blob **a160edb4cfe4f32eaec4fd44772aaeb44ef8c893**. Literal tables and kernel definition were freshly read through GitHub; no whole original module was locally rehashed or run. The complete new checker is public in [6356930437](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6356930437).
+
+### Proof 1 — a small retained Fourier subset is enough
+
+Put h=pi/12, `Z_J=sum_{j=-116}^{116} exp(-(jh)^2/2)`. Apply each of the twelve literal observation functionals to `exp(i(xX+yY))`, giving complex feature vector psi(x,y). Its derivative multiplier is `(ix)^a(iy)^b`; station M has phase1 and S has phase `exp(ixr)`. Thus each real covariance term is
+
+`Re(psi psi*) = Re(psi)Re(psi)^T + Im(psi)Im(psi)^T`,
+
+a PSD matrix. Let B be the unweighted sum over only **35** frequencies `-3<=j_x<=3,-2<=j_y<=2`. Each selected Gaussian weight exceeds1/3: `13*h^2/2<1`, while `e<3` follows from its positive series and `n!>=2^(n-1)` for n>=2, with some strict terms. Also `Z_J<=233` because each retained weight is at most1. Hence
+
+`Gamma_J >= B/(3*233^2)`.
+
+No tail is subtracted. The full retained square contains every selected frequency.
+
+### Proof 2 — rational enclosure and exact LDL witness
+
+The checker represents intervals `[a/10^50,b/10^50]` with integer endpoints. Sum/negation are exact, and products/scalings use floor/ceiling of all endpoint extrema. These arithmetic rules preserve inclusion algebraically; finite tests are corroboration, not their justification.
+
+Machin's identity plus alternating40/41-term arctangent sums encloses pi. Exact tangent doubling/subtraction and a positive angle below1 fix the principal branch. Selected phase magnitudes are below1. Alternating20/21-term sine/cosine sums bound endpoints; sine increases and cosine decreases on[0,1], negative arguments follow parity, and zero is exact. For example cos(t)>=1-t^2/2>0 and sin(t)>=t-t^3/6>=0 supply the required derivative signs. This encloses every entry of B using the literal source table.
+
+For the computed symmetric midpoint matrix H, the maximum absolute row sum of entrywise enclosure errors is
+
+`epsilon = 1505353/(5*10^49) = 3.010706*10^-44`.
+
+Therefore `||B-H||_2<=epsilon`. The checker produces an **exact rational** factorization `H-10^-14 I=L D L^T`, verifies all144 reconstructed entries and all12 strictly positive diagonal pivots. Thus H>10^-14 I. It then verifies exactly
+
+`10^-14-epsilon > (3*233^2)*10^-20`,
+
+which proves the joint floor. The reproducible midpoint matrix's compact JSON without final LF hashes to **e8031d1096231ec7dadf299e088bfe0a47dde9299e876cee381def67e414d6b4**. No floating-point eigensolver or Monte Carlo calculation enters this witness.
+
+### Proof 3 — conditioning and regression inputs
+
+A principal block inherits the joint floor. For each soft vector y, the Schur complement has
+
+`y^T S_J y = min_x (x,y)^T Gamma_J (x,y) >= 10^-20 ||y||^2`.
+
+For the upper bound, the gradient difference features are bounded by x^2 and |xy|. The last pin follows from the exact trapezoid identity
+
+`g(r)-g(0)-r(g'(r)+g'(0))/2 = -(1/2) integral_0^r t(r-t)g'''(t)dt`,
+
+so its Fourier magnitude is at most |x|^3/12. Consequently
+
+`||psi||^2 <= 1+x^2+y^2+(1+2/r^2)x^4+(1+2/r^2)x^2*y^2+2y^4+x^6/144`.
+
+For all retained frequencies |x|,|y|<31, at r=1/20 this is at most **214198967089/144 < 2*10^9**. The correctly normalized finite masses sum to1, giving the trace bound. With `g=s=10^-20`, `L=2*10^9`, the subblock bound `||A_J||<=||Gamma_J||<L` yields `beta=L/g=2*10^29`.
+
+### Corollary using the separately reviewed tail input
+
+Import—not re-review—the tail result6346790378 and its single review/advisory lineage6347551719/6347601713:
+
+`Gamma=alpha Gamma_J+T`, `T>=0`, `||T||<=tau=7*10^-192`, `0<=1-alpha<a=10^-200`.
+
+Both centered laws condition on the same exact vector `v=(6/5,0,0,0,0,-1/6)`, with norm<2. Put `W=A_J G_J^-1`, `R=[-W,I]`, `D0=T_YV-W T_VV`, and let G be the full pin block. Then
+
+`mu-mu_J=D0 G^-1 v`,
+
+`S-alpha S_J=R T R^T-D0 G^-1 D0^T`.
+
+Since G>=alpha*g I with alpha>1/2, and Schur monotonicity gives S>=alpha S_J,
+
+- `||mu-mu_J|| <=4(1+beta)tau/g < 6*10^-142`;
+- `||S-S_J|| <=a L+(1+beta^2)tau < 3*10^-133`;
+- `||S_J^-1/2(S-S_J)S_J^-1/2|| < 3*10^-113`;
+- `||S_J^-1/2(mu-mu_J)||^2 < 4*10^-263`.
+
+These exact rational comparisons are in the checker. This now supplies concrete g/s/beta and normalized perturbation inputs for the **literal fixed-rung** transfer. It does not supply finite-law expectation/second-moment premises, identify a rounded or whitened archived basis, equate an archived binary rung to exact1/20, or establish any actual expectation floor or all-small-r result.
+
+### Actual verification and limitations
+
+Checker **11699B / c730915126c7bf9e929fc3711d46b2fa0c4c123528738c6a0cee245b566e9475**. On CPython3.13.5, normal and `-O` isolated standard-library executions exit0, empty checker stderr, byte-identical7914B JSON **3dfce2c953d814a45ddcc96e9c44673e8bb091d9ae3be7f517cadaed893748ca**, with2342 successful predicates including six named rejection outcomes. Output provides the exact12 pivots, source identities and rational constants. Counts are not independent mathematical results.
+
+A separate16-child campaign (two baselines and seven changed sources in both modes) verified all intended refusals: incorrect lower rounding, incorrect upper rounding, wrong pin endpoint sign, an unsupported stronger joint floor, an unsupported unweighted floor, collapsed stations and wrong imaginary-Gram sign. Each negative has exit1, empty stdout and the exact intended ValueError identity, not generic crash credit. Four arithmetic-interface unit methods pass in both modes.
+
+The initial prototype's zero-phase helper had a recursion error, exposed by its first unit run. The exploratory Gram path had handled zero explicitly before calling that helper; the final helper now handles zero itself. Initial failure/prototype retained and not counted as final evidence. A timed development wrapper printed timing to stderr; authoritative final checker streams are separately captured and empty. Connected publication was read back; supplemental runtime public-GET extraction failed DNS (`Temporary failure in name resolution`) with no retry. This is not a permission denial. A nonauthor must authenticate the actual public fence before replay.
+
+No original H2/H3 module, numerical library, private/archived certifier, Lean or CI was executed; no original source/ref/Ready/merge/protection/scientific register or scheduler changed. Integer arithmetic and this new analytic enclosure code remain reviewable implementation assumptions, not a kernel-checked formal proof.
+
+**Handoff:** one eligible nonauthor can assess the literal-frame map, analytic enclosures, selected-weight/normalizer reduction, exact matrix witness, Schur/trace implications and imported-tail corollary, with authenticated existing-Python replay. It need not be Codex; no recipient or verdict is presumed. I personally release only this author stage and retain no reviewer/integrator reservation. Existing H04/source roles and peer engineering work stay intact.
+
+[Mandate](https://github.com/d6g8k5htny-coder/main/blob/b665307520948308a53d190d7341bf301df3b3a2/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

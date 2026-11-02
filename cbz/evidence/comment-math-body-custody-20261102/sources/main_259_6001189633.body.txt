@@ -1,0 +1,50 @@
+## IBA2-009 focused progress — exact two-tail matching criterion, not closure
+
+Dylan Roy — delegated AI mathematical work. Actual performer OpenAI / GPT-5.6 Sol, session `github-closure-round5-20261005`. This is an author-side coverage attack informed by the published audit; it is **not** a blind-auditor continuation and carries organizational-independence credit 0. Scientific effect NONE.
+
+I claim only a bounded reduction of **IBA2-009**: identify the quantitative uniformity needed to promote fixed-κ parity to a global absence of an ℓ^(1/2) term. I do not claim the two tail estimates themselves.
+
+### 1. Why CE⁺⁺ alone cannot remove an ℓ^(1/2) term
+
+For κ=ℓ/r⁴, Proposition CE⁺⁺ gives the pointwise cusp-kernel error
+`E(r,κ) <= C r(1+κ)`.
+On a moving window `κ0 <= κ <= κ1`, equivalently
+`r in [(ℓ/κ1)^(1/4),(ℓ/κ0)^(1/4)]`, direct integration gives
+
+`∫ E dr <= (C/2) ℓ^(1/2)[(κ0^(-1/2)-κ1^(-1/2)) + (κ1^(1/2)-κ0^(1/2))]`.
+
+Thus the first-order CE⁺⁺ estimate is generically **order ℓ^(1/2)** even on fixed positive κ windows. Theorem N's parity cancellation to O(r²) is essential; one cannot obtain global no-ℓ^(1/2) merely by expanding the CE⁺⁺ window.
+
+### 2. Exact sufficient moving-window criterion
+
+Suppose a successor proves a uniform second-order estimate on a moving cusp window of the form
+
+`E2(r,κ) <= C r²(1 + κ^p + κ^(-q))`,  p,q >= 0,
+
+with the same birth/direction envelope integrable uniformly. Using
+`r=ℓ^(1/4)κ^(-1/4)`, `|dr|=(1/4)ℓ^(1/4)κ^(-5/4)dκ`, the integrated error is bounded by
+
+`C' ℓ^(3/4) ∫_{κ0}^{κ1} [κ^(-7/4) + κ^(p-7/4) + κ^(-q-7/4)] dκ`.
+
+Therefore it is enough, for κ0=κ0(ℓ)↓0 and κ1=κ1(ℓ)→∞, that
+
+- small-κ tail: `ℓ^(1/4) κ0^(-(q+3/4)) -> 0`;
+- large-κ tail when p>3/4: `ℓ^(1/4) κ1^(p-3/4) -> 0`;
+- for p=3/4: `ℓ^(1/4) log κ1 -> 0`;
+- for p<3/4: the large-κ contribution is automatically O(ℓ^(3/4)) once the estimate itself is valid there.
+
+These conditions make the **moving-window second-order error o(ℓ^(1/2))**. They are not claims that existing Theorem N has such p,q; its constants currently depend on a fixed compact K.
+
+### 3. What remains to discharge IBA2-009
+
+Two independent analytic tasks can now be attacked without duplicating the fixed-window parity proof:
+
+**TAIL-S (κ↓0):** derive an explicit q (or stronger structure) for Theorem N's constant as the cusp gap parameter vanishes, including edge-density / soft-Hessian effects. Then combine with a small-κ model-tail estimate so the omitted κ<κ0(ℓ) contribution is itself o(ℓ^(1/2)) after subtracting the known leading/ℓ^(1/4) terms.
+
+**TAIL-L (κ→∞):** derive an explicit p (or Gaussian/pin-density suppression stronger than polynomial) for the parity-cancelled remainder and control the omitted κ>κ1(ℓ) contribution. C7's unnormalized target-growth estimates may help here, but #291's fixed-gap rate is a different variable regime and is **not** being silently substituted for this cusp-tail proof.
+
+Only after both tails and the overlap/matching identities are source-bound may one assert global absence of an ℓ^(1/2) term. The fixed-window Corollary N' remains valid and unchanged.
+
+**CoS support request:** if agents 3 and 8 are actually free, route one read-only mathematical attack to TAIL-S and the other to TAIL-L, each binding to `frontiers/elder_cusp_parity_20261002/PROOF.md` blob `16a1db0658918057ff741df888c13702763d9919` plus the exact named dependencies they consume. No source edits or status changes; each should return either a proved quantitative tail lemma with hypotheses or a precise obstruction/counterexample. Do not repeat Theorem N's fixed-K proof. If either agent is occupied, leave that task unclaimed rather than inventing availability.
+
+IBA2-009 remains **OPEN**. This comment narrows the missing theorem to explicit quantitative conditions and two separable tail problems.

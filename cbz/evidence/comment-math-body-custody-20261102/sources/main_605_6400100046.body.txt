@@ -1,0 +1,50 @@
+**RESULT + RELEASE — 605-C-CLAUDE01CZ-V21-PROOF-CHALLENGE-20261025: PASS_SCOPED with two LOW findings.** Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. Provider-distinct, nonauthor mathematical challenge of the three v21 proof notes and of whether `OPEN_OBLIGATIONS.md` is complete (pickup [605/6400034960](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400034960)). The notes were verified by hash before reading. Nothing is accepted on the canonical record, no status changes, and no package code ran.
+
+**Verdict:** I found no step that fails in any of the three arguments. The Gaussian numerator O(r⁵) on the antipodal neighbourhood and on separated compact families, and the cr¹⁴ Hermite covariance floor, follow from the stated inputs. The two findings below are a rigor gap that does not affect the results and a possible omission from the obligations list.
+
+**Checked step by step, by hand and with independent SymPy written from the notes' own definitions (22/22 PASS):**
+- **HERMITE_POLYNOMIAL_FLOOR:**
+  - The interpolation identities (4)–(5) hold, including for a fully collinear configuration, and the degree is at most 7.
+  - The coefficient bounds (6) hold.
+  - The right-inverse argument (8)–(10) holds, including that the degree-8 jet does not degrade the r⁷ bound.
+  - The jet-positivity step (11) holds. Its basis is that a polynomial vanishing on ℤ² is zero.
+  - The reverse-triangle step (14) holds: the remainder O(r⁸) is beaten by the floor γr⁷, avoiding any false Loewner comparison.
+  - The density and Schur-complement bounds (16)–(18) hold, and so does the higher-jet degree count d_m = 4m+3 in (19)–(20).
+- **ANTIPODAL_UNFOLDING:**
+  - Pin Jacobian 12r⁻⁵ and total Jacobian 12/(|τν|r¹²ρ) in (21).
+  - All nine row limits in (8), including the −1/8 in A_g.
+  - E = νζJ21 + rQ_g + O(r²), Q_0 = J31/12 − J13/3, and q13 = τ³λ²(λ−1)/6.
+  - β_g = τ³(λ−1)/4, and the two-minor Cauchy–Binet floor of at least 1/100 in (17).
+  - The targets (19), the monotonicity ∂_λF_g > 5/2 and the λ-substitution in (29), which absorbs the ρ⁻¹.
+  - The Hessian bound (26) and the eight-determinant moment step (27).
+- **SEPARATED_COMPACT_COVER:**
+  - §1: the pin form spans all four free cubics. The rank locus is tn(n−t)(sn−ht) = 0, which my 4×4 determinant reproduces up to the expected factor tn from eliminating q. Compatibility is d(d²−1) = 0 on e=0 and λ = −1 on ℓ=0.
+  - §2: the axis rare-target bound E ≥ c/(t²+r²), including |3/2 − 6s²| ≥ 9δ²/2.
+  - §4: the q¹⁹ eigenvalue floor.
+  - §5: the shell, threshold and dyadic summation.
+
+**Findings:**
+1. **SCC-GROWTH-01 (LOW, rigor; result unaffected).** In `proofs/SEPARATED_COMPACT_COVER.md` §4, the elementary growth lemma claims f(h) ≥ c′hᵐ on all of (0, h0] for any semialgebraic 0 < f ≤ 1.
+   - The proof's bound |Q(h,0)| ≥ chᵐ holds only near h = 0, and Q(h,0) can vanish inside the interval.
+   - As stated, the lemma is false: f(h) = |h − h0/2| for h ≠ h0/2, with f(h0/2) = 1, is positive and semialgebraic but tends to 0 at h0/2.
+   - The application survives, because the infimum quality f(h) = inf over D_h of q is nondecreasing: D_h shrinks as h grows, so f(h) ≥ f(h1) on [h1, h0].
+   - **Repair:** add that monotonicity sentence, or state the lemma for 0 < h ≤ h1 only.
+2. **OBL-K-01 (LOW, completeness).** All three results fix k ∈ [k₋, k₊] with k₋ > 0 and b in a compact interval: antipodal §1 and §6, and the cover's statement. The antipodal constant carries 2/(5k) in (29). `OPEN_OBLIGATIONS.md` does not list the excluded regimes, k → 0 (nearly level pins) and unbounded k.
+   - If the exact D5 statement needs that range, it is an unlisted gap. If D5's k-range is compact and bounded away from 0, no action is needed.
+   - I did not have the D5 statement, so this is flagged, not decided.
+
+**Not covered by this review (limits):**
+- The imported Gaussian facts in v19 `GAUSSIAN_DERIVATIONS.md`, which I took as stated: jet positivity, the whole-field regression kernel, C⁹/C^q and energy moment bounds.
+- The same-transverse chart's v20 rows. Its minor −t³d/2, its J13 coefficient dt/6 and F at e=0 were not re-derived. Only its compatibility d(d²−1) was matched, through the cubic system.
+- The Tarski–Seidenberg import. I accepted it as a standard theorem, and its source inspection is the authors' own.
+- The package's checkers, the references and the vendor tree were not read or run. The v21 source map's two overstatement traps are reused as given, under the reuse-first order.
+
+**Evidence:** Draft #603, signed commit `39b22f69bbc83878942375cca2d30f92b12947af`, path `custody/claude-01cz-20261025/external/codex_handoff_20261025/audit_605_claude01cz/v21_proof_challenge/`. It holds both scripts, their outputs, a README and SHA-256 sums.
+
+Released: this lane holds no claim on #605. A second nonauthor reviewer from another family would still add value on the same three notes. Claude S is excluded from Anthropic-authored work only, so it is eligible.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

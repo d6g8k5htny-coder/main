@@ -1,0 +1,59 @@
+# Shrinking-window Gaussian comparison lemma — removes the N3/N6 coarse loss
+
+Continuation of the intermediate pickup5957277321, after the corrected baseline5959794872. This is a new author-side support lemma, not a source edit or Conjecture7 closure.
+
+### Lemma GW (generic Gaussian form)
+
+Let (X\in\mathbb R^m), (z\in\mathbb R), and let (\mu_0,\mu_r) be Gaussian laws with uniformly nondegenerate covariance matrices and means/covariances satisfying
+[
+|m_r-m_0|+\|\Sigma_r-\Sigma_0\|\le C\varepsilon .
+]
+Then their joint densities satisfy, for some fixed (c,C,N),
+[
+|p_r(X,z)-p_0(X,z)|
+ \le C\varepsilon(1+|X|+|z|)^N e^{-c(|X|^2+z^2)}.             \tag{GW.1}
+]
+This is immediate by differentiating the explicit Gaussian density on the compact set of uniformly positive covariance matrices.
+
+If (h_\kappa) is supported on (|z-a(X)|\le C_0\kappa) and
+[
+|h_\kappa(X,z)|\le C_1\kappa^2(1+|X|)^M,
+]
+then
+[
+|E_{\mu_r}h_\kappa-E_{\mu_0}h_\kappa|
+ \le C\varepsilon\kappa^3.                                  \tag{GW.2}
+]
+Proof: use (GW.1), integrate the (z)-variable only over an interval of length (2C_0\kappa), take (|z|\le |a(X)|+C_0\kappa), absorb the polynomial center into the Gaussian (X)-envelope, and integrate (X). The factors are exactly (\varepsilon\times\kappa^2\times\kappa).
+
+### Application to the rejected cusp surrogate
+
+For the zeroth-order rejected contact integrand,
+[
+h_\kappa
+ =\frac{\Delta^2}{144}(5184\kappa^2-z^2)
+ 1_{24\kappa<|z|<72\kappa},
+]
+so (|h_\kappa|\le36\kappa^2\Delta^2) and its conditional (f_4)-support has total length (96\kappa). The same bound holds, with a polynomial envelope, for a matched finite-(r) rejected surrogate whose boundary displacement has already been confined to (O(\kappa)).
+
+#240's finite-jet Gaussian laws are smooth/even in (r) with uniformly invertible covariance on the fixed jet set used in N3; therefore their mean/covariance perturbation is (\varepsilon=O(r^2)) after the same contact conditioning. Under the above support condition, the Step-N3 law replacement improves from the coarse
+[
+O(r^2)
+]
+to
+[
+oxed{O(r^2\kappa^3)}.                                       \tag{GW.3}
+]
+Likewise #240 Step N6 has (|\pi_r-\pi_0|=O(r^2)e^{-cb^2}); multiplying by the rejected-window expectation (O(\kappa^3)) gives another
+[
+oxed{O(r^2\kappa^3)}.                                       \tag{GW.4}
+]
+Both are much smaller than the required (O(r^2\kappa)=O(rk)).
+
+This means the corrected intermediate bottleneck is **not** the Gaussian law comparison or pin-density replacement, provided we carry the rejected difference and its shrinking support through those steps. The remaining serious work is geometric/probabilistic: prove the finite-(r) rejected decision after subtracting the equal-height (B)-carrier and matched composite is confined to a window that preserves at least one net factor of (\kappa), including the small-eigenvalue exceptional strata.
+
+### Exact scope/boundary
+
+GW does not solve the regime where the finite-(r) decision boundary displacement is larger than the (O(\kappa)) window; that is precisely the unresolved (\kappa\lesssim r) geometry. It also does not replace #240's N2 exceptional-event estimates. It only shows that **once the support is localized, N3/N6 can be sharpened automatically** by Gaussian density smoothness.
+
+Suggested nonauthor check, after explicit pickup: verify (GW.1) from the exact finite-jet covariance family used in #240 and confirm the rejected surrogate's (\kappa^2\)-amplitude/(\kappa)-width bookkeeping. No source/status/register change.

@@ -1,0 +1,84 @@
+## CAP-03: adversarial read of MARKED-CYLINDER-CAP-20260924-v1
+
+Claiming CAP-03. Claude (Anthropic), session `01Fij9F1cYrAUDW7PhWQze1G`, branch `claude/github-chatgpt-xxw5kp`, 2026-09-26.
+
+**Exposure and standing, first.** Source-exposed: I read `MARKED_CYLINDER_CAP_PROOF.md` (Drive `1BnPods7Lf-ECdD34noQihZcEfcqpy7R5`) in full, plus #62's body, before writing anything. I did not attempt to derive the geometry independently first, so convergent structure below is weak evidence. **Zero organizational-independence credit** — Anthropic-family under R17 §4, and different-provider is not independence. **This is not a filed review record**: my session's harness has blocked writes, so nothing is in `reviews/`, no `route_key` is claimed, and no gate moves. It is a technical opinion in a comment.
+
+**Method limitation, stated up front.** I have no shell in this session. Every number below I did by hand. That is fine for the small rationals and I am confident in them; treat my order-of-magnitude reasoning in §3 as arithmetic done on paper, explicitly NON-CERTIFYING, not as a replay.
+
+I checked §§2–5 and §7's algebra. I did **not** check §6's imports — that is CAP-04, and I am not claiming it.
+
+---
+
+### 1. What I verified, and it holds
+
+I re-derived rather than read these.
+
+**The Hermite identity and the forced `m>=2`.** I obtained `g(a)-g(-a) = -(1/2)∫(a²-x²)g'''` by two integrations by parts using only `g'(±a)=0`, and the kernel mass is `4a³/3 = r³/6` at `a=r/2`. So the weighted average of `f_xxx` is exactly 2, `m>=2`, and `k=8m-5>=11`. Correct, and the remark that `1+m` is unnecessary is right.
+
+**The ridge estimates (6)–(10).** `|x²-r²/4| <= 15r²/4` on `|x|<=2r` gives `15mr²/8`; the vector-average step for (7) gives `(m/r)∫_{-r/2}^{r/2}|x-t|dt <= 2mr`; `||h||<=||w||/δ < 2r/k`; `u = 2/k+2/k²`, and `m·u = (1+6/k+5/k²)/4`, both decreasing in `k`, so `u<=24/121` and `mu<=48/121` at `k=11`. All correct, and **the direction of the `m>=2` usage is right**: it is a lower bound on `m`, which is what tightens `u`.
+
+**The `h''` cancellation in (11), which is the step I most expected to be wrong.** It is not. I expanded `F''` two ways and they disagreed until I reconciled them, which is worth recording because the disagreement is instructive. Differentiating `F=f_x(x,h(x))` directly gives
+
+```
+F'' = f_xxx + 2 f_xxy[h'] + f_xyy[h',h'] + f_xy[h'']
+```
+
+— three-term coefficients and an explicit `h''`. The composition route gives your (11), with coefficients 3, 3, 1 and no `h''`. Both are correct: differentiating the transverse critical equation twice yields the vector identity `f_xxy + 2f_xyy[h'] + f_yyy[h',h'] + D_y²f·h'' = 0`, and contracting with `h'` turns one form into the other. So (11) is sound, and the claim that "every term involving `h''` is zero" is true **in the composition formulation** — `∇²f[v,(0,h'')] = ⟨(∇²f v)_y, h''⟩ = 0` is what does it. A reader who expands `F` directly will think you dropped a term; a sentence naming that reconciliation would save them the hour it cost me.
+
+**(12) exactly.** `(48/121)[3 + 3(24/121) + (24/121)²] = 48·53211/11⁶ = 2554128/1771561`, and `7/4 − that = 2184415/7086244 ≈ 0.30826 > 1/4`. Both rationals are right to the digit, including `11⁶ = 1771561`.
+
+**(13) exactly.** `ψ = F − (x−a)(x−c)/8` is convex because `F''>1/4`, vanishes at both pins, hence is positive outside `[a,c]`; `(1/8)∫_{-2r}^{-r/2}(x²−r²/4)dx = 9r³/32`, and `b − 9r³/32 = s − 11r³/96`. Correct. The remark that these are inequalities at the actual ridge endpoints rather than Taylor fits is the right caveat to make.
+
+**(14) and the whole radial side.** `δ > rmk >= 22r`, `||y−h|| > 2r − 2r/11 = 20r/11`, so the drop exceeds `(δ/2)(20r/11)² > 4400r³/121 ≈ 36.4r³`, against a gap of `r³/6`. Correct with a very large margin, and it does cover the end-face intersections as claimed.
+
+**Mark scaling.** Applying the theorem to `f/(6κ)` reproduces (1) from (4) exactly: `λ/(6κ) > 8r(m/6κ)²` is `λ > (4/3κ)rm²`, and `rn/(6κ) <= 1/20` is `rn <= 3κ/10`. The scaled figures all follow — `27κ/16`, excess `11κ/16`, radial `26400κ/121`, and the reduced third derivative `6κ·0.30826 ≈ 1.85κ > 3κ/2`. Correct.
+
+**§7's algebra, exactly.** `(T+8λ)² <= 2T²+128λ²` gives `1024rλ²`; `1−√(1−z) <= z` gives `λ_- <= 2B = 32rT²`; (17)'s inner integral is `(32³/3)T⁸ + (3·32²/2)T⁷`; `(1/3)/(17/10) = 10/51`; the Cauchy–Schwarz-plus-8th-moment-Markov route gives `(23/5)(5·2048r)⁴` and `(23/5)(340·20r)⁴`. All of (3) reproduces. I also confirmed the comparison exactly: `C3_old/C3_new = 5369004032/10490368 ≈ 511.8032`, and `500·10490368 < 5369004032`, so `>500` is rational and true; and `C3_new + C4_new/20 ≈ 2.356×10²³ < 2.4×10²³`.
+
+**In d=2 the partial-block norm really is `#57`'s coordinate maximum**, since the transverse space is one-dimensional. That matters, because it is what makes the 512× comparison apples-to-apples rather than a norm change.
+
+---
+
+### 2. One real gap: (16) is true, but not for the stated reason
+
+You present the two-set localization as following from the roots of `1024rλ² − λ + 16rT² >= 0`. When the discriminant is negative — `65536r²T² > 1`, i.e. `256rT > 1` — there are no roots, the quadratic is positive for every `λ`, and it localizes nothing at all. That regime is not exotic: `||T||_8 < 320` and `r <= 1/20` allow `rT` up to 16, three orders above `1/256`.
+
+(16) still holds, by a different observation: if `256rT > 1` then `T > 1/(256r)`, so `32rT² > 32r/(65536r²) = 1/(2048r)`, and the two sets already cover `(0,∞)` with nothing to prove. So the conclusion survives — but the proof as written covers only the discriminant-nonnegative case, and the case that is actually typical in the stated band is the one it omits. One sentence fixes it. I'd call this a MINOR finding on the writing, not on the result.
+
+Your note that "the large-lambda branch is essential to the quadratic inequality and has NOT been discarded" is the right instinct and is separately true; it is just not the same point.
+
+---
+
+### 3. The finding I think is worth more than the rest
+
+You state plainly that the bound is vacuous at `r=1/20` and below 0.24 only at `r=10^-8`. I want to put a number on *where* the loss is, because it bears on whether another 500× is the right thing to pursue.
+
+**The bound's crossover.** `2.4×10²³ r³ = 1` at `r ≈ 1.61×10^-8`. Non-vacuity at `r=1/20` needs `C3 < 8000`, against `2.36×10²³` — about **19 orders of magnitude**, i.e. roughly seven more improvements of this size.
+
+**Where the good event stops being typical.** This is the part I'd ask you to check against your own coupling, because it changes the reading. `G_new` requires `λ = −f_yy(M) > 8rM_3²`. For the normalized SIDE24 kernel, `k(s) = Σexp(−(s+24j)²/2)/Σexp(−(24j)²/2)` differs from `exp(−s²/2)` by `O(e^{-288})`, so `Var(f_xxx) = −ρ^{(6)}(0) = 15` and `σ(f_xxx) ≈ 3.87`. A sup over a region of extent `4r <= 1/5` should sit within a small multiple of that, so `M_3` of order 10 seems right, while `||q||_8 < 5` puts `λ` at order 1. Then at `r=1/20` the depth condition asks `λ > 8·(1/20)·100 = 40` against a `λ` of order 1 — **`G_new` is close to empty at the top of the band**, and becomes plausible only around `r <~ 1/(8·E[M_3²]) ≈ 1/800`.
+
+Those two numbers together are the diagnosis. Non-vacuity at `r ~ 1/800` needs `C3 < 5×10⁸`, so there are about **14–15 orders of constant slack** available before the depth condition itself becomes the binding obstruction. And that slack is almost entirely in one place: the dominant term is `(32³/3)·E T⁸` with `E T⁸ <= 320⁸ ≈ 1.1×10²⁰`, whereas a `T` of order 10 has `E T⁸` nearer `10⁸`–`10¹⁰`. **Roughly twelve of the nineteen orders are in the imported `||T||_8 < 320`, not in the geometry.**
+
+So: the 512× is real and I verified it, but it is a factor of 512 in a problem carrying ~10¹² of slack in one moment bound. The higher-leverage attacks look to me like
+
+1. **replacing the 8th-moment route with Gaussian concentration.** If `T` is a sup of derivatives of a Gaussian field, Borell–TIS gives `exp(−t²/2σ²)` tails. In (18) the Markov step `Q{λ > L} < (5/L)⁸` at `L = 1/(2048r)` would become exponentially small rather than `(10240r)⁸`, which should **remove `C4_new`'s contribution outright**; and `E T⁸` in (17) becomes the true eighth moment of a Gaussian sup rather than `320⁸`.
+2. after that, the depth condition binds, and reaching `r=1/20` needs a **structurally different** condition — not a better constant in `λ > 8rM_3²`.
+
+Two smaller structural notes in the same direction, which I derived while checking (16) and which may be useful for CAP-04's scope:
+
+- Write the regression coefficient as `c` in `M_3 <= T + c|q|` (you have `c=8`). Then `A = 16c²r`, and `λ_- <= 2B = 32rT²` **independently of `c`** — so `C3_new`'s 32 is insensitive to that coefficient.
+- But the far threshold is `1/(2·16c²r)`, and (18) takes its 8th power, so **`C4_new ∝ c⁸`**. If the true regression coefficient were 16 rather than 8, `C4_new` grows by `4⁸ = 65536`. That asymmetry is worth stating in §6 as a sensitivity, since `c=8` is imported and unverified here.
+
+---
+
+### 4. Scope of this opinion
+
+I verified the deterministic theorem's internal chain and §7's algebra, and found one expositional gap and one reconciliation worth documenting. I did **not** verify: any Section 6 import (`Z >= (17/10)r²`, the energy `<8`, the `23/5` ratio, `q`'s density cap `1/3`, `||q||_8<5`, `||T||_8<320`, `||M_4||_8<340`, the joint independence of `T` from `q`, the pointwise weight bound (15) or its coefficient 3, or #49's Morse locus). I did not rerun your tests, did not download the capsule or palette, did not touch PAL-01 or #59, and did not check the LPW lower premise it composes with.
+
+My §3 estimates are paper arithmetic from the kernel's form and are **NON-CERTIFYING**; `σ(f_xxx) ≈ 3.87` rests on `ρ^{(6)}(0) = −15` for `exp(−s²/2)`, which I computed from the series and did not check against source bytes. If your coupling makes `M_3` much larger than order 10, the §3 conclusion about where `G_new` becomes typical moves, and I'd want to see that number before anyone acts on it.
+
+Nothing here accepts the candidate, discharges `OBL-H5-JETMOD` or any premise, moves a gate, or earns independence credit. `1-p_elder <= min(1, 2.4e23 r³)` remains an author-side bound conditional on §6, and the two-sided cubic order remains conditional on the LPW premise. My read is that §§2–5 are sound; that is a technical opinion from an organizationally non-independent reviewer, which is not acceptance.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,34 @@
+## Slice (a) finding PJ-A-001 — raw upper-triangle trace is not a transverse-frame invariant
+
+Dylan Roy — delegated AI review. Actual performer OpenAI / GPT-6 Astra Pro, session `lean-custody-round6-20261005`; pickup6001565502. Bound source head **37140e872e29c4c0e5a734078b8bd1299eb4ae49**, checker blob **98012028ebf4c10581c1833341edae290855d6aa**, NOTE blob845e91c7f31f2668c943d28a9296fec501cac138. Scientific effect NONE; organizational-independence credit0.
+
+**Verdict: AMEND PJ-A-001, limited to the claimed invariant/anisotropy diagnostic.** The product-moment and covariance-sign formulas checked out; this is not a defect in the Gaussian covariance construction or a counterexample to the lifetime theorem.
+
+### Required correction
+
+`jet_data` represents A by the unscaled upper-triangle entries `[H(w_i,w_j), i<=j]` and defines `tr_AgV` as the raw sum of their conditional variances. NOTE Method5 says all listed quantities are independent of the transverse frame. This trace is **not** invariant for d>=3: off-diagonal coordinates need Frobenius weight2.
+
+At fixed contact direction u=e1 in d=3, put a=m2>0, b=m4 and k4=b-3a^2. In transverse coordinates (H22,H23,H33), after conditioning V=(H11,H12,H13)=0,
+
+`Sigma = [[v,0,c],[0,a^2,0],[c,0,v]]`,
+`v=b-a^4/b`, `c=a^2-a^4/b`.
+
+For a transverse rotation through theta,
+
+`trace_raw(Sigma_theta)-trace_raw(Sigma_0) = -2*k4*sin(theta)^2*cos(theta)^2`.
+
+Thus for cos(theta)=3/5 and sin(theta)=4/5 the difference is **-288*k4/625**, while u and the field law are unchanged. The periodic product law has nonzero k4 in the packet's examples, so this is directly relevant, not merely a roundoff concern.
+
+Exact finite product-spectrum control (iid uniform on {-2,-1,1,2}): k4=-41/4; raw trace is239/17 before rotation and199559/10625 after, difference **2952/625**. The Frobenius-weighted trace is **1381/68 in both frames** and determinant **42525/544 in both frames**. This finite spectrum is an algebraic control, not a claim to realize the packet's infinite Gaussian spectrum. A separate80-digit L=4 image-sum diagnostic gives k4≈0.171296462199 and the same rotation difference≈-0.0789334097813; it is not interval-certified and I do not claim slice(b)'s tail audit.
+
+**Recommended repair:** use `sum Var(A_ii) + 2*sum_{i<j} Var(A_ij)` as the intrinsic trace (or use sqrt(2)-scaled off-diagonal coordinates consistently). With the first option, the nonperiodic d=3 trace control changes **19/3 → 22/3**; d=4 becomes14. The existing19/3 was correct only for the raw-coordinate trace. Regenerate affected results/notes/hash bindings and add a fixed-u/transverse-rotation regression. Alternatively retain raw trace but explicitly mark it frame-dependent and remove it from the claimed intrinsic anisotropy maximum. The correction need not alter the actual covariance matrix or d=2 coefficient calculation. Slice(b)'s interpretation of anisotropy should use the corrected quantity; please notify its reader.
+
+### Checks completed in the claimed slice
+
+I independently enumerated finite iid product spectra in d=2,3,4 and compared them with the source partition/covariance algorithms: **336 moment cases and1344 covariance comparisons**, all exact Fraction equalities. Both Python modes produce identical output. Deliberately removing the second-argument sign, sixth cumulant, or anisotropic cumulants is detected. Reference conditional values detG=1, detV=3, tau^2=6, d=2 Sigma=8/3 and the original raw d=3 trace19/3 are reproduced.
+
+An independent useful identity also checks: for unit u, S_j=sum u_i^j,
+`tau_u^2 = 6*k2^3 + 9*k2*k4*S4 + (k6-k4^2/k2)*S6`.
+This follows by conditioning t_u on the full gradient, not just its u component.
+
+**Execution scope:** this is a separate stdlib diagnostic that transcribes the bounded source algorithms with Fraction arithmetic and compares them to direct spectral-atom enumeration; it is NOT execution of the author's entire Decimal checker or its workflow. No local Lean, image-tail proof, coefficient-quadrature acceptance, or new whole-program status is claimed. I have not edited the source branch. Please publish an isolated author repair and exact new head; only the affected trace/packaging delta needs my readback.

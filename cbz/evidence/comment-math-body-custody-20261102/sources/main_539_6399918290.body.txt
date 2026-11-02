@@ -1,0 +1,528 @@
+## RESULT — C317 W2D-H11-01 source qualification, exact nonauthor review and final verification
+
+**Scoped result:** the unsupported “any topology with continuous evaluations” generalization is replaced by an explicit compact-open mark topology and a common-residual Gaussian argument for the **joint** conditional law. Actual nonauthor disposition: **ACCEPT_SCOPED**, no mandatory amendment. This is an append-only qualification; the original W2d and its baseline review remain unchanged.
+
+Canonical pickup: [539/6399765806](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6399765806). Finding: [539/6399706147](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6399706147). Original source: [281/6049773244](https://github.com/d6g8k5htny-coder/main/issues/281#issuecomment-6049773244). R17 claim806dba8a-771a-4873-b0d0-6eeb0805e4f1, WE2867 and append-only scope/time correction2868. Release follows verified immutable custody and registration.
+
+**Attribution:** author OpenAI/Codex `/root`, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2; actual nonauthor reviewer OpenAI/Codex `/root/c317_h11_nonauthor`, both delegated AI work for Dylan Roy. Same-provider and source-exposed; organizational/blind/human review credit0. Dylan did not personally perform the review. The reviewer’s disclosed control adviser is also same-provider and formulation-exposed.
+
+**Verification:** one final applicable stable-input run, exit0, **16/16** identity/native-source/exact rational-algebra checks. The separate full analytic review is below. These checks do not establish theorem completion. No repository source/ref/PR mutation, project runtime/master program, Lean, hosted CI, merge or deployment is represented. GitHub write capability exists; the unqualified repository path/owner fence caused the pre-authoring choice of the original comment-native route. Existing owners/stops remain.
+
+The following five payloads are complete. **Extraction rule:** for each filename, take the UTF-8 bytes strictly after its unique `<!-- C317-BEGIN filename -->` line and immediately following ````text LF, and strictly before its matching closing four-backtick fence followed by `<!-- C317-END filename -->`. Preserve the payload’s final LF. Fences/markers are not payload bytes. Each payload’s byte count and SHA256 are listed immediately before it. The full native comment will be reread and each payload independently byte-compared.
+
+### QUALIFICATION.md
+
+14524 bytes · SHA256 `b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb`
+
+<!-- C317-BEGIN QUALIFICATION.md -->
+````text
+# W2d H11 qualification: compact-open marks and a joint conditional coupling
+
+Object: C317-W2D-H11-QUALIFICATION-20261025-v1  
+Finding addressed: W2D-H11-01  
+Author: OpenAI/Codex /root, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated work for Dylan Roy  
+Status: author-side analytic qualification; exact-source nonauthor disposition is recorded separately. Scientific effect NONE.
+
+This is an append-only qualification of [W2d](https://github.com/d6g8k5htny-coder/main/issues/281#issuecomment-6049773244), consumed with its [25 October nonauthor review](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6399706147). It changes the interpretation to be used for H11 and its classification sentence. It does not edit the original comment, rename its author, replace its historical UNVERIFIED banner, or extend that review to a new source.
+
+## 1. Exact sources and the correction
+
+| Source | Exact identity | Use here |
+| --- | --- | --- |
+| W2d original comment6049773244 | 11229 UTF-8 bytes; SHA25613cf4bd04cd567222c5d31b8de68c671d8dda18f014553af47954007d0710756 | Original H11 steps and R-b; H4/H7/X3 retained as named interfaces |
+| New finding/review6399706147 | 8871 UTF-8 bytes; SHA2561b03b2784e987768488edbff4887290df4504f7f44e5119a7d7b490f19c4bd24 | W2D-H11-01 and the proposed common-residual qualification |
+| P | Math-9fd261135b41daf1e377f9ef2db193fee6ec36be, blob dfed3b8d318a3ab1950957f393307733a4bef3f2; 40261B; SHA2569350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7 | Sections1–2: exact Gaussian torus law, smoothness, moments and distinct-site rank |
+| E2 | Same Math cut, blob fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a; 9062B; SHA256845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f | Sections9.1–9.3: canonical whole-field kernel and the continuous-cylinder interface |
+| AAL | [arXiv2304.07424v3](https://arxiv.org/pdf/2304.07424v3), 5December2023; PDF326691B; SHA256636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f | Equation5.1/Proposition5.2, pp.9–10; weighted Theorem7.1/Remark8, p.15 |
+
+[P](https://github.com/d6g8k5htny-coder/Math-/blob/9fd261135b41daf1e377f9ef2db193fee6ec36be/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md) and [E2](https://github.com/d6g8k5htny-coder/Math-/blob/9fd261135b41daf1e377f9ef2db193fee6ec36be/reviews/d1_section9_borel_repair_20260925/REPAIR.md) are immutable imports, not claims of newly accepted whole proofs.
+
+W2d's R-b asserts that its steps2–4 hold under any topology having continuous finite point evaluations. That condition establishes continuity of a continuous cylinder functional. It does not, by itself, establish continuity of the regression translations or weak continuity of the resulting path laws. Moreover, convergence of the zero-field and mark marginals separately is not a substitute for their joint convergence.
+
+The correction is to choose explicit topologies and prove joint conditional convergence with the same residual field. AAL's p.15 phrase concerning convergence of continuous functions is not further defined there; this note does not invent an authorial definition. The claim below is an explicit application-level sufficient condition for the continuous finite-cylinder case, compatible with the C1 zero-field topology used in AAL's proof. It is not a claim about every possible interpretation of the undefined phrase.
+
+## 2. Fixed hypotheses and topology
+
+Fix d>=2 and L>0. Let X=R^d/(LZ^d), with the canonical flat frame and unnormalized torus volume. The field f is P's centered, variance-one, stationary Gaussian field with covariance
+
+    K_L(z) = [sum_(n in Z^d) exp(-|z+Ln|^2/2)]
+             / [sum_(n in Z^d) exp(-|Ln|^2/2)].
+
+Use its real Fourier realization and smooth version from P Section2. Its strictly positive coefficients a_n obey sum_n sqrt(a_n)(1+|n|)^q<infinity for every q. In particular f is a measurable Gaussian random element of the separable Banach space E=C2(X), and E||f||_E^2<infinity. One direct justification of the measurability assertion is that the expected sum of the C2 norms of the real Fourier terms is finite, by the displayed summability and the finite first moment of a standard Gaussian coefficient. Tonelli gives almost-sure absolute C2 convergence of measurable partial sums. The second-moment bound follows from the same summability in L2. These are consequences of P's hypotheses, not extra sampling assumptions.
+
+Let F=f composed with the covering map pi:R^d->X. Put
+
+    T_hat = {(x,y) in R^(2d) : x-y not in LZ^d},
+    X_hat(x,y) = (grad F(x), grad F(y)) in R^(2d),
+    Z = J2F in C(R^d,R^N),  N=1+d+d(d+1)/2.
+
+All translated diagonals are excluded. On C(R^d,R^N) use the compact-open, equivalently local-uniform, topology. On C1(T_hat,R^(2d)) use uniform convergence of the function and first derivatives on each compact subset. On a compact torus the induced topology on periodic marks is uniform convergence on one fundamental domain. Norm choices for the finite jet coordinates are equivalent; no literal equality between differently chosen norms is needed.
+
+Fix finitely many torus sites q_i and derivatives of order at most2 and collect their evaluations into a vector V=L_V f in R^M. Repetitions are allowed in V. Its covariance, conditional or unconditional, is allowed to be singular. The cylinder coefficient H(t,V) is bounded, nonnegative and continuous on a compact ordered off-diagonal domain D times R^M. W2d H4 supplies its bounded continuous extension for the lifted calculation. No global elder indicator is presumed continuous.
+
+The only covariance inverted below is that of U_s=X_hat(s), for fixed s in T_hat. P's full positive spectrum and distinct-site jet argument make that 2d by2d matrix positive definite. This does not follow from positivity at a sampled finite grid.
+
+## 3. Proposition and proof of the joint conditional interface
+
+**Proposition.** Under Section2, for every s in T_hat there is a canonical conditional law of (X_hat(.),Z,V) given U_s=v, defined for every v in R^(2d), such that v_n->v implies joint weak convergence in
+
+    C1_loc(T_hat,R^(2d)) x C_loc(R^d,R^N) x R^M.
+
+The same statement holds along s_n->s in T_hat and v_n->v with the common whole-field realization below. This is local in the off-diagonal pin s; it asserts no uniform estimate as s approaches a translated diagonal.
+
+**Proof.** Let L_s:E->R^(2d) be the continuous gradient-evaluation map, Sigma_s=Cov(U_s), and define the E-valued regression operator
+
+    B_s v = Cov(f,U_s) Sigma_s^(-1) v,
+    R_s = f - B_s U_s.
+
+The covariance columns belong to E; in fact they are smooth deterministic functions. Smooth covariance and the finite E second moment justify these definitions. Gaussian regression gives Cov(R_s,U_s)=0. Every finite family of continuous linear functionals of R_s is jointly Gaussian with U_s, so zero cross-covariance implies independence. A countable determining family for the separable E-valued random element then gives independence of R_s and U_s as random elements.
+
+Thus
+
+    K(s,v,.) = law(R_s+B_s v)
+
+is a regular conditional-law version for f given U_s=v, specified for every v, not merely almost every v. This follows directly by independence and f=R_s+B_s U_s. It is a measurable probability kernel; the map (s,v,omega)->R_s(omega)+B_s v is measurable. Also L_s B_s=I and L_s R_s=0 almost surely, so the kernel satisfies the prescribed pin at every v. There is no arbitrary null-set alteration at v=0.
+
+For fixed s use this one residual R_s for all v. Since B_s has finite-dimensional domain and is a continuous linear map into E,
+
+    ||(R_s+B_s v_n)-(R_s+B_s v)||_E
+      <= ||B_s|| ||v_n-v|| -> 0
+
+pathwise. The three maps
+f->X_hat(.), f->J2F, and f->L_V f
+are continuous from E into their displayed spaces. The first uses derivatives through order2 of f; the second uses the same finite derivative orders on periodic lifts. Consequently all three conditional components converge together almost surely under this coupling. Bounded continuous tests and dominated convergence give joint weak convergence.
+
+For the optional varying-pin assertion, on every compact subset of T_hat the entries of Sigma_s and Cov(f,U_s) vary continuously, Sigma_s^(-1) is continuous and bounded, and B_s varies continuously in operator norm into E. For each sample f in E, U_(s_n)->U_s, hence R_(s_n)->R_s in E. Therefore R_(s_n)+B_(s_n)v_n->R_s+B_s v in E. This proves the asserted local joint convergence and the corresponding measurability statement. It provides no constant uniform over the diagonal degeneration. QED.
+
+In particular, the finite-mark formulation requested in W2D-H11-01 is obtained by applying the continuous map f->(X_hat(.),L_V f):
+
+    Y=(X_hat(.),V),
+    B_s^Y=Cov(Y,U_s) Sigma_s^(-1),
+    R_s^Y=Y-B_s^Y U_s,
+    law(Y | U_s=v)=law(R_s^Y+B_s^Y v).
+
+The covariance notation for Y is read componentwise in the indicated function space. This is the image of the already constructed E-valued kernel; it does not introduce a second conditional version.
+
+For continuous H, g(t,Z)=H(t,V(Z)) is continuous in the explicit mark topology and jointly continuous with t. The proposition supplies the joint conditional convergence used with the continuous weighted case of AAL's argument. This verifies the H11 topology/conditioning interface. It does not, by itself, re-prove the entire weighted Kac–Rice theorem, E2's finite-measure extension, or the global elder correspondence.
+
+## 4. Exact controls: which shortcuts fail
+
+These controls test implications used in this note; none is a simulation of the research field.
+
+**A. Point evaluations alone do not control translations.** Give the space C([0,1],R) the discrete topology. Every point evaluation into usual R is continuous. Nevertheless v->(the constant function v), from usual R into that discrete space, is not continuous at0: the constants1/n do not converge to the constant0. Their point-mass probability laws also fail to converge weakly in the discrete topology, as the bounded continuous indicator of the singleton zero function separates them. This is a deterministic topological counterexample to the asserted implication, not a claim that the project's Gaussian field is a measurable random element of this discrete space. Compact-open topology removes this obstruction.
+
+**B. Gaussian marginal continuity does not imply joint continuity.** Let xi be standard normal. The sequence of pairs (xi,(-1)^n xi) has constant N(0,1) marginals and is jointly Gaussian for each n. Its joint laws do not converge: the bounded continuous test cos(x-y) has expectation1 for even n and exp(-2) for odd n, by the normal characteristic function. Thus replacing the common-residual joint argument by two marginal arguments is invalid, even within Gaussian examples.
+
+**C. Singular mark covariance is not an obstruction.** For independent standard normals xi,eta, set U=xi and Y=(xi+eta,2xi-eta). Regression gives
+
+    Cov(Y,U)=(1,2)^T,
+    R=Y-(1,2)^T U=(eta,-eta),
+    Cov(R)=[[1,-1],[-1,1]].
+
+This covariance has determinant0 and rank1. Yet Y conditional on U=v is exactly (v+eta,2v-eta), which depends continuously on v with the same eta. Under that law Y1+Y2=3v surely and Var(Y1)=1. No inverse of Cov(R) or of a mark covariance is required. This checks why the proof in Section3 only inverts Sigma_s.
+
+## 5. Precise consumer replacement and unchanged scope
+
+For H11/R-b and the H11 row of W2d's classification table, consume the following qualified statement in place of the universal topology assertion:
+
+> For this application equip continuous jet marks with compact-open topology and their probability laws with weak convergence. The canonical Gaussian regression on E=C2(X), using one residual field, yields joint conditional continuity of the C1 zero field and every finite jet-mark vector (and of the full continuous jet mark) as the pin value varies. The continuous cylinder coefficient is therefore continuous in the selected mark topology. This is an explicit application-level qualification; it does not identify an unstated definition in AAL or claim validity for arbitrary topologies with continuous evaluations.
+
+The original historical note and original review remain independently addressable. H4 and H7 keep their original source-bound hypotheses and their25October scoped dispositions; they are inputs to this qualification. X3's counting construction is not rewritten here. When consuming that construction, retain the review's conventions: infimum over an empty compact-tuple set is +infinity; define counts piecewise as zero on the exceptional infinite-count event before forming products; and use the canonical kernel at the zero pin. Those conventions are already in the review and are not new global claims.
+
+For clarity, the continuous-cylinder identity that this interface supports retains ordered pairs, the full block Jacobian and ordinary unnormalized torus volume:
+
+    E sum_(t in D : G(t)=0) H(t,L_V f)
+      = integral_D p_(G(t))(0)
+          E[ |det H_x det H_y| H(t,L_V f) | G(t)=0 ] dt.
+
+This display identifies the imported E2/AAL interface; it is not an independent new proof of all its other hypotheses. H4's half-open fundamental domain counts each ordered pair once; no factor1/2 or covering multiplier is introduced. Per-volume normalization, if subsequently requested, remains a separate division by L^d. P's full normalizer Z_r=E_Q W_r and its determinant-weighted conditional law are unchanged; this qualification adds no extra determinant or pin density to Z_r.
+
+The order of the claim is fixed d,L, fixed compact off-diagonal context, and then variation of the conditional pin value. There is no near-diagonal uniform rate, lifetime limit exchange, small-bar converse, coefficient, regional collision or field-first sampling result here. In particular continuous finite jet marks are not global Borel elder marks, branch adjacency is not elder pairing, candidate counts are not once-counted finite ordinary bars, and a global factorial estimate is not a shrinking regional multiple-witness bound. Their existing source hypotheses and separate obligations remain.
+
+This qualification addresses one analytic import interface. It supplies no kernel proof, execution admission, hosted CI result, graph/status promotion, independent-human review, provider-distinct sector review or theorem completion. Actual exact-source nonauthor review is a separate record, with the reviewer's provider and exposure stated rather than inferred from a shared account.
+````
+<!-- C317-END QUALIFICATION.md -->
+
+### REVIEW.md
+
+15077 bytes · SHA256 `09b065ee87caab08bd904d64c42eafa2f7d4078d21f10e2c7038c70e176da870`
+
+<!-- C317-BEGIN REVIEW.md -->
+````text
+# C317 H11 qualification — exact-source nonauthor review
+
+Disposition: **ACCEPT_SCOPED** for the topology and joint conditional-law interface stated in the frozen qualification. No mandatory amendment or counterexample was found. This disposition is not acceptance of the parent lifetime theorems, a new provider-distinct sector review, or scientific-status promotion.
+
+Actual reviewer: OpenAI/Codex subagent `/root/c317_h11_nonauthor`, delegated work for Dylan Roy. The author is the separate OpenAI/Codex `/root` agent; this reviewer did not author the qualification. This review is source-exposed, same-provider, organizational-independence 0, blind 0, human-review 0. I read the author's argument and its stated predecessor finding before forming this disposition. Dylan Roy did not personally perform this review.
+
+## Exact target and exposure
+
+The entire file reviewed is `QUALIFICATION.md`, object C317-W2D-H11-QUALIFICATION-20261025-v1:
+
+- 14,524 UTF-8 bytes.
+- SHA256 `b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb`.
+- `AUTHOR_FREEZE_V1.json`: 283 bytes, SHA256 `759508721dbb15c68d7f43a7b416aa8caeb2266f1d64168c229fb5fe046ed353`; records the same target size/hash and author freeze at 2026-10-25T15:55:29.686861+00:00.
+
+I read all of the qualification, all of E2, P Sections 1–2, the entire original W2d comment, and the entire W2d finding/review. I extracted and read PDF pages 9–10 and 15 directly from the supplied exact AAL PDF. The supplied local source bytes have these identities:
+
+| Input | Bytes | SHA256 / independently computed Git blob where applicable |
+| --- | ---: | --- |
+| P | 40261 | `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`; Git-framed blob `dfed3b8d318a3ab1950957f393307733a4bef3f2` |
+| E2 | 9062 | `845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f`; Git-framed blob `fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a` |
+| W2d original | 11229 | `13cf4bd04cd567222c5d31b8de68c671d8dda18f014553af47954007d0710756` |
+| W2d finding | 8871 | `1b03b2784e987768488edbff4887290df4504f7f44e5119a7d7b490f19c4bd24` |
+| AAL v3 PDF | 326691 | `636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f` |
+
+The Git blob values were recomputed as SHA1 of the literal `blob <byte-count>\0` framing followed by the file bytes. They match the advertised pinned blobs. I did not independently query the remote commit tree or re-download these sources; remote custody is not a result of this review. The original W2d and its completed baseline review remain distinct, frozen source objects.
+
+## 1. Source model, moments and topology
+
+**Accepted.** The qualification uses P's actual periodized covariance and its full strictly positive Fourier spectrum, at fixed d and L. It does not replace that law by a finite grid, a finite-mode numerical approximation, an isotropic Euclidean law, or a different sampling measure. The displayed jet dimension uses independent symmetric Hessian coordinates.
+
+P Section 2 supplies more than bare pathwise smoothness: the square-root Fourier-coefficient sum with every polynomial weight is finite. For the real Fourier expansion, the sum of the expected C2 norms of its terms is therefore finite. Tonelli gives absolute C2 convergence almost surely. C2(X) is a separable Banach space, so measurable partial sums and their almost-sure limit yield an E-valued random element, after a harmless choice on the common exceptional event. The corresponding L2 triangle inequality applied to the term norms gives E||f||_E^2 < infinity. Continuous linear functionals of the partial sums are Gaussian and converge in L2, which also substantiates the claimed Gaussian random-element property.
+
+The topology choices are sufficient and correctly differentiated:
+
+- E = C2(X) controls the function and all derivatives through order two on the compact torus.
+- The lifted gradient-pair map into C1_loc(T_hat) is continuous: its first derivatives use only second derivatives of f.
+- The full jet map into C_loc(R^d,R^N) is continuous, and periodicity reduces uniform bounds to a compact fundamental domain.
+- Every fixed finite vector of derivatives of order at most two is a continuous map from E. Repeated coordinates may make its covariance singular without harming continuity.
+
+All lattice-translated diagonals are excluded. For s outside that set, the two torus sites are distinct. P's full-spectrum distribution argument proves that the 2d gradient evaluation functionals are linearly independent, so Sigma_s is positive definite. No assertion of independent repeated Hessian entries or mark-coordinate nonsingularity is needed.
+
+The replacement appropriately avoids the original literal equality between potentially different C2/jet norm conventions; equivalence of finite-coordinate norms suffices.
+
+## 2. Whole-field conditional kernel, including every pin value
+
+**Accepted.** The proof constructs one whole-field conditional version before applying the mark maps. This resolves the issue that separate conditional marginals alone do not specify the needed joint limit.
+
+For fixed s, L_s is continuous on E. The covariance columns E[f(U_s)_j] exist as Bochner integrals, since their E norms are integrable by Cauchy–Schwarz and the finite second moments. Smooth covariance makes these columns smooth deterministic functions. Consequently B_s = Cov(f,U_s) Sigma_s^(-1) is a continuous linear map from a finite-dimensional Euclidean space into E.
+
+For R_s = f - B_s U_s, every finite collection of continuous linear functionals of R_s is jointly Gaussian with U_s and has zero cross-covariance with it. Finite-dimensional Gaussian independence, followed by a countable family generating the Borel sigma-algebra of E, gives independence of the E-valued R_s and U_s. The reconstruction f = R_s + B_s U_s then proves the disintegration identity for K(s,v,.) = law(R_s+B_s v).
+
+This is more than a conditional expectation specified only almost everywhere in v: the explicit expression is defined at every v and is a regular conditional version. The identities L_s B_s = I and L_s R_s = 0 place its mass on the prescribed pin. There is no appeal to an arbitrary almost-everywhere version at v = 0.
+
+With the same R_s for all v, the E-distance is bounded by ||B_s|| |v_n-v|, deterministically. Applying the three continuous maps yields simultaneous almost-sure convergence of the zero field, full jet mark and finite mark vector. Bounded continuous tests and dominated convergence imply the asserted joint weak convergence. No inverse of an auxiliary mark covariance is used.
+
+The notation Cov(Y,U_s) in the finite-mark restatement does not introduce a competing conditional version. It is correctly identified as the continuous image of the E-valued construction.
+
+## 3. Varying the pin location and measurability
+
+**Accepted locally off the diagonal.** Smooth covariance gives continuous dependence of the covariance columns in the C2 norm, not merely pointwise dependence. On a compact subset of T_hat, continuity and positive definiteness bound Sigma_s^(-1); hence B_s varies continuously in operator norm into E. For each f in E, gradient evaluation varies continuously with s. Thus R_(s_n)+B_(s_n)v_n converges in E to R_s+B_s v whenever (s_n,v_n) converges to (s,v) off the translated diagonals.
+
+The underlying map (s,v,f) -> f-B_s L_s f+B_s v is jointly continuous on this domain times E. With the measurable E-valued f, its pushforward defines a measurable probability kernel in (s,v). This justifies the proof's joint measurability statement as well as the varying-pin conclusion.
+
+The qualification does not claim an operator bound or convergence rate uniform as the sites collide. Its fixed-parameter/off-diagonal order is necessary and is retained.
+
+## 4. AAL import and integrability boundaries
+
+**Accepted as an application-level sufficient condition.** Exact AAL PDF page 9 gives the C1 norm of the zero field in equation (5.1); Proposition 5.2 on pages 9–10 uses convergence in that norm on a compact set. The qualification's C1_loc convergence gives that convergence on each relevant compact. The proposition's separate root-regularity and boundary conditions are not newly discharged by this note and are not represented as discharged.
+
+Page 15 states the weighted hypotheses and Remark 8. It does not supply a more precise definition of its phrase concerning weak convergence of continuous functions. The qualification correctly refrains from attributing a new definition to the paper. Instead it proves a concrete joint coupling strong enough for the stated continuous finite-cylinder application. In the selected compact-open mark topology, fixed point evaluations are continuous, so bounded continuous H(t,V) gives a continuous cylinder coefficient. H4's previously reviewed bounded continuous extension remains an imported input.
+
+The proof of weak convergence only needs bounded continuous test functions. It does not improperly use weak convergence alone to pass an unbounded determinant-weighted expectation. The later displayed continuous-cylinder identity is expressly an E2/AAL interface with other hypotheses imported, not a new stand-alone theorem derived solely from this proposition.
+
+The stated moment assumptions are adequate for that limited role. If one checks the local determinant moment separately, P supplies all finite derivative-supremum moments, and Gaussian regression preserves finite moments of the finitely many Hessian coordinates. On a compact off-diagonal set with v in a compact set, the means and covariance matrices of those coordinates are bounded, so every fixed polynomial determinant moment is uniformly finite. Also, for bounded nonnegative H, the weighted counting side is bounded by ||H||_infinity times the imported finite unweighted count. No unexplained mark-covariance inverse or extra field hypothesis is introduced here. These observations do not re-review all of E2's finite-measure extension or the rest of AAL's proof.
+
+## 5. All three exact controls
+
+**A — accepted, with its explicit deterministic scope.** In the discrete topology on C([0,1],R), every point evaluation is continuous. The preimage of the singleton zero function under v -> constant(v) is {0}, which is not open in the usual real line. The indicator of that singleton is a bounded continuous test on the discrete space and separates the point-mass sequence from its proposed limit. Thus evaluation continuity by itself does not prove continuity of the parameterized regression translation. A fixed translation on a discrete space is still a homeomorphism; the failed continuity is dependence on the usual-real parameter, precisely as the displayed example says. No measurable Gaussian random-element model on the uncountable discrete space is asserted or needed. The control does not purport to refute the intended compact-open Gaussian conclusion.
+
+**B — accepted.** The covariance matrices of (xi,(-1)^n xi) have off-diagonal entry (-1)^n, while each marginal remains standard normal. The bounded continuous test cos(x-y) has mean 1 for even n and E cos(2xi) = exp(-2) for odd n. Therefore the joint laws cannot converge. Degenerate joint Gaussian distributions are legitimate here and are relevant to the allowed singular marks. This is a direct negative control for replacing the joint coupling by two marginal arguments.
+
+**C — accepted.** Cov(Y,U) = (1,2)^T and Var(U) = 1 give residual (eta,-eta). Its covariance has eigenvalues 2 and 0, determinant zero and rank one. Under the explicit conditional kernel, Y = (v+eta,2v-eta), Y1+Y2 = 3v almost surely and Var(Y1 | U=v) = 1. The same eta supplies almost-sure Euclidean convergence as v varies and hence weak continuity. The singular covariance demonstrated is conditional/residual; the unconditional covariance of Y is [[2,1],[1,5]], of determinant 9. This matches the note's allowance of conditional singularity. The example says nothing about singularity of the conditioning covariance, which remains invertible in the main proposition. Continuity here is weak, not total variation or setwise: the conditional supports at distinct v are disjoint parallel lines.
+
+I independently checked these algebraic and topological steps. A separate same-provider adviser, `/root/c317_h11_nonauthor/negative_controls`, received only the three control formulations and their intended framing, re-derived them without project execution, and returned the same conclusions plus the fixed-translation and weak-versus-total-variation clarifications above. That assistance is formulation-exposed and is not provider-distinct or human review; agreement is not the proof of the conclusions.
+
+## 6. Replacement scope and verdict limits
+
+**Accepted.** The replacement is confined to the original H11/R-b topology assertion and its classification sentence. It preserves the undefined-language qualification in AAL and supplies an explicit compact-open/C1 joint conditional argument for this application. It does not overwrite agent 10's original W2d note, remove its historical UNVERIFIED banner, or extend the earlier completed nonauthor review to this new source.
+
+The displayed identity retains ordered pairs, the full product |det H_x det H_y|, and unnormalized torus volume. No factor 1/2, additional covering factor, second determinant, or new pin density is inserted. The separate division by L^d for per-volume intensity and P's full normalizer Z_r = E_Q W_r remain unchanged.
+
+H4/H7 and X3 remain imported interfaces with the existing exceptional-event and canonical-zero-pin conventions. This acceptance does not accept the elder-mark extension or global elder correspondence, change a candidate count into once-counted finite ordinary bars, establish any lifetime asymptotic/coefficient, exchange limits, prove a shrinking regional collision estimate from a global factorial estimate, or establish field-first sampling. The original finite-bar provider-distinct review request remains separate.
+
+## Execution record and final confirmation
+
+Only source-text reads, source byte/hash checks, Git-blob framing, inert local PDF text extraction, and handwritten analytic reasoning were used. The first PDF extraction attempt found `pdftotext` absent; local Python PDF packages were also absent. A subsequent macOS PDFKit extraction succeeded for the requested pages. PDFKit emitted a CoreGraphics diagnostic while returning the readable page text; there was no project runtime or scientific validation associated with that extraction.
+
+No held project program, import/AST/test suite, Lean, Docker, hosted CI, source mutation, external comment, PR/ref mutation, or status/binding change was performed. The only review output is this report. This is an exact-source analytic nonauthor review, not formal proof-kernel checking, a runtime admission, hosted CI success, independent-human review, or theorem completion.
+
+Final target confirmation: **14,524 bytes; SHA256 b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb**. This ACCEPT_SCOPED disposition applies only to those bytes.
+````
+<!-- C317-END REVIEW.md -->
+
+### MASTER_VERIFICATION.md
+
+3298 bytes · SHA256 `2a3a190ecc7e22270a6180db8c092bb08cbe796a5303da4556e2e10a62b702be`
+
+<!-- C317-BEGIN MASTER_VERIFICATION.md -->
+````text
+# C317 final applicable verification receipt
+
+Actual executor: OpenAI/Codex /root, delegated work for Dylan Roy. The mathematical review was performed by the distinct source-exposed OpenAI/Codex /root/c317_h11_nonauthor agent; its exact report is REVIEW.md. Both use the same provider. Human-review and organizational-independence credit are zero.
+
+Final stable inputs: QUALIFICATION.md, 14524 bytes, SHA256 b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb; REVIEW.md, 15077 bytes, SHA256 09b065ee87caab08bd904d64c42eafa2f7d4078d21f10e2c7038c70e176da870. The reviewer returned ACCEPT_SCOPED with no mandatory amendment. The author imported its bytes unchanged.
+
+The complete applicable final check for this comment-native source qualification was run once on these stable inputs:
+
+    python3 VERIFY_FINAL.py . --review-sha256 09b065ee87caab08bd904d64c42eafa2f7d4078d21f10e2c7038c70e176da870
+
+Actual exit 0; 16 checks passed, 0 failed. The execution's combined output is preserved in evidence/FINAL_EXECUTION_RECEIPT.json; the detailed results and observation time are in FINAL_VERIFICATION.json. Coverage: six fixed source identities, the exact reviewer report, two independently framed Git blob identities, two fresh native GitHub comment-to-source byte joins, and five exact rational regression checks for control C. The source extraction's initial extra-final-LF mismatch and exact repair are retained separately; the original remote sources were not changed.
+
+The analytic portion is the full exact-source nonauthor review of the topology, Gaussian random element, canonical every-value conditioning kernel, joint and local varying-pin continuity, source/moment assumptions, all three controls, and scope boundaries. Controls A and B are analytic counterexamples, not executed stochastic models. Control C's finite algebra is supporting verification and does not establish the general theorem.
+
+No project-wide runtime/master program, field simulation, Lean/kernel check, hosted CI, integration or deployment was run. Such checks are not results of this source-only delivery; the project's overall master verification remains unmet. Hosted CI is not applicable to a comment-only qualification with no repository/ref/PR mutation, and zero jobs must not be represented as passing CI.
+
+Repository write tools exist. Repository publication was not attempted because the complete current by-path contender qualification is unestablished. The canonical pickup and R17 correction narrowed the delivery before authoring to the original comment-native route. No absent commit capability is claimed, and no unresolved owner/path fence is bypassed. The full qualification, nonauthor review and this receipt are published natively, then independently checked by exact UTF-8 byte extraction. Archive/Drive readbacks are custody checks on the frozen delivery, not repeats of the mathematical verification.
+
+Scientific effect NONE. H11's application-level topology/conditioning interface is qualified at the specified source only. The finite ordinary-bar bridge, elder-versus-adjacency distinction, field-first sampling, all-small-bars converse and shrinking regional multiple-witness collision obligations remain separate and open. Existing source owners and explicit stops remain in force.
+````
+<!-- C317-END MASTER_VERIFICATION.md -->
+
+### FINAL_VERIFICATION.json
+
+4265 bytes · SHA256 `dd5059c38ee9b61fe447a9859d33fabee77cae0e9c3201ab8f6cd2c93179c499`
+
+<!-- C317-BEGIN FINAL_VERIFICATION.json -->
+````text
+{
+  "checked_at": "2026-10-25T16:03:21.171342+00:00",
+  "claim": "806dba8a-771a-4873-b0d0-6eeb0805e4f1",
+  "qualification": "b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb",
+  "checks": [
+    {
+      "check": "identity:QUALIFICATION.md",
+      "passed": true,
+      "detail": {
+        "bytes": 14524,
+        "sha256": "b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb"
+      }
+    },
+    {
+      "check": "identity:sources/W2D_ORIGINAL.md",
+      "passed": true,
+      "detail": {
+        "bytes": 11229,
+        "sha256": "13cf4bd04cd567222c5d31b8de68c671d8dda18f014553af47954007d0710756"
+      }
+    },
+    {
+      "check": "identity:sources/W2D_FINDING.md",
+      "passed": true,
+      "detail": {
+        "bytes": 8871,
+        "sha256": "1b03b2784e987768488edbff4887290df4504f7f44e5119a7d7b490f19c4bd24"
+      }
+    },
+    {
+      "check": "identity:sources/P.md",
+      "passed": true,
+      "detail": {
+        "bytes": 40261,
+        "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+      }
+    },
+    {
+      "check": "identity:sources/E2.md",
+      "passed": true,
+      "detail": {
+        "bytes": 9062,
+        "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f"
+      }
+    },
+    {
+      "check": "identity:sources/AAL_v3.pdf",
+      "passed": true,
+      "detail": {
+        "bytes": 326691,
+        "sha256": "636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f"
+      }
+    },
+    {
+      "check": "review_identity",
+      "passed": true,
+      "detail": {
+        "bytes": 15077,
+        "sha256": "09b065ee87caab08bd904d64c42eafa2f7d4078d21f10e2c7038c70e176da870"
+      }
+    },
+    {
+      "check": "git_blob:P.md",
+      "passed": true,
+      "detail": "dfed3b8d318a3ab1950957f393307733a4bef3f2"
+    },
+    {
+      "check": "git_blob:E2.md",
+      "passed": true,
+      "detail": "fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a"
+    },
+    {
+      "check": "current_native_comment:W2D_ORIGINAL.md",
+      "passed": true,
+      "detail": {
+        "id": 6049773244,
+        "updated_at": "2026-10-08T00:41:52Z"
+      }
+    },
+    {
+      "check": "current_native_comment:W2D_FINDING.md",
+      "passed": true,
+      "detail": {
+        "id": 6399706147,
+        "updated_at": "2026-10-25T15:45:33Z"
+      }
+    },
+    {
+      "check": "control_C_regression",
+      "passed": true,
+      "detail": {
+        "B": [
+          "1",
+          "2"
+        ],
+        "R": [
+          [
+            "0",
+            "1"
+          ],
+          [
+            "0",
+            "-1"
+          ]
+        ]
+      }
+    },
+    {
+      "check": "control_C_cross_covariance",
+      "passed": true,
+      "detail": [
+        "0",
+        "0"
+      ]
+    },
+    {
+      "check": "control_C_singular_mark",
+      "passed": true,
+      "detail": [
+        [
+          "1",
+          "-1"
+        ],
+        [
+          "-1",
+          "1"
+        ]
+      ]
+    },
+    {
+      "check": "control_C_pin_sum",
+      "passed": true,
+      "detail": "Y1+Y2=3v for every residual sample"
+    },
+    {
+      "check": "control_C_translation_norm",
+      "passed": true,
+      "detail": "Squared Euclidean displacement is exactly 5*(v-w)^2"
+    }
+  ],
+  "passed": 16,
+  "failed": 0,
+  "semantic_controls": {
+    "A": "Deterministic topological counterexample; assessed analytically in qualification and nonauthor review, not an executed Gaussian model.",
+    "B": "Alternating joint Gaussian laws; exact characteristic-function derivation assessed analytically, not a numerical convergence test.",
+    "C": "Exact rational matrix arithmetic above; supports only the finite algebra, not the general theorem."
+  },
+  "applicable_master_boundary": "One final source-identity/native-comment join and exact finite algebra run on stable candidate/review. Analytic adequacy is the separate full nonauthor source review.",
+  "not_run": [
+    "project programs",
+    "field simulations",
+    "Lean/kernel",
+    "hosted CI",
+    "integration/deployment",
+    "whole-project master execution"
+  ],
+  "hosted_ci_applicability": "No repository source/ref/PR mutation in this comment-native source delivery; no candidate hosted checks exist or are claimed.",
+  "scientific_effect": "NONE"
+}
+````
+<!-- C317-END FINAL_VERIFICATION.json -->
+
+### VERIFY_FINAL.py
+
+4555 bytes · SHA256 `4a38fb169255981984b71bcb4b7b460abf1b4aef0e0ef9413a6554beaede2bc0`
+
+<!-- C317-BEGIN VERIFY_FINAL.py -->
+````text
+#!/usr/bin/env python3
+"""C317 final byte joins and exact finite regression algebra; not a theorem test."""
+import argparse
+from datetime import datetime, timezone
+from fractions import Fraction as F
+import hashlib
+import json
+from pathlib import Path
+
+p=argparse.ArgumentParser()
+p.add_argument("root",type=Path)
+p.add_argument("--review-sha256",required=True)
+args=p.parse_args(); root=args.root
+checks=[]
+def check(name, ok, detail):
+    checks.append({"check":name,"passed":bool(ok),"detail":detail})
+    if not ok: raise AssertionError(name)
+def digest(b): return hashlib.sha256(b).hexdigest()
+specs={
+"QUALIFICATION.md":(14524,"b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb"),
+"sources/W2D_ORIGINAL.md":(11229,"13cf4bd04cd567222c5d31b8de68c671d8dda18f014553af47954007d0710756"),
+"sources/W2D_FINDING.md":(8871,"1b03b2784e987768488edbff4887290df4504f7f44e5119a7d7b490f19c4bd24"),
+"sources/P.md":(40261,"9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"),
+"sources/E2.md":(9062,"845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f"),
+"sources/AAL_v3.pdf":(326691,"636aa9274e6acc3bec5f2eec87918cdf72e36386a757615f9e37a5a5c743a03f"),
+}
+for name,(size,sha) in specs.items():
+    b=(root/name).read_bytes()
+    check("identity:"+name,len(b)==size and digest(b)==sha,{"bytes":len(b),"sha256":digest(b)})
+b=(root/"REVIEW.md").read_bytes()
+check("review_identity",digest(b)==args.review_sha256,{"bytes":len(b),"sha256":digest(b)})
+for name,blob in [("P.md","dfed3b8d318a3ab1950957f393307733a4bef3f2"),("E2.md","fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a")]:
+    b=(root/"sources"/name).read_bytes()
+    observed=hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+    check("git_blob:"+name,observed==blob,observed)
+for filename,identity in [("ORIGINAL_FINAL_NATIVE.json","W2D_ORIGINAL.md"),("FINDING_FINAL_NATIVE.json","W2D_FINDING.md")]:
+    envelope=json.loads((root/"evidence"/filename).read_text())
+    native=json.loads(envelope["structuredContent"]["content"])
+    check("current_native_comment:"+identity,native["body"].encode("utf-8")==(root/"sources"/identity).read_bytes(),{"id":native["id"],"updated_at":native["updated_at"]})
+# Independent coordinate construction: Y=A*(xi,eta), U=xi, Cov(xi,eta)=I.
+A=[[F(1),F(1)],[F(2),F(-1)]]
+u=[F(1),F(0)]
+sigma=sum(x*x for x in u)
+B=[sum(row[j]*u[j] for j in range(2))/sigma for row in A]
+R=[[A[i][j]-B[i]*u[j] for j in range(2)] for i in range(2)]
+CovR=[[sum(R[i][k]*R[j][k] for k in range(2)) for j in range(2)] for i in range(2)]
+cross=[sum(row[j]*u[j] for j in range(2)) for row in R]
+check("control_C_regression",B==[1,2] and R==[[0,1],[0,-1]],{"B":list(map(str,B)),"R":[list(map(str,r)) for r in R]})
+check("control_C_cross_covariance",cross==[0,0],list(map(str,cross)))
+check("control_C_singular_mark",CovR==[[1,-1],[-1,1]] and CovR[0][0]*CovR[1][1]-CovR[0][1]*CovR[1][0]==0 and CovR[0][0]!=0,[list(map(str,r)) for r in CovR])
+check("control_C_pin_sum",sum(B)==3 and all(sum(R[i][j] for i in range(2))==0 for j in range(2)),"Y1+Y2=3v for every residual sample")
+check("control_C_translation_norm",sum(x*x for x in B)==5,"Squared Euclidean displacement is exactly 5*(v-w)^2")
+report={
+"checked_at":datetime.now(timezone.utc).isoformat(),
+"claim":"806dba8a-771a-4873-b0d0-6eeb0805e4f1",
+"qualification":"b98c6700e78cd9544ddab29d353d58414574182a59160e4e54b9ea3dc4b73adb",
+"checks":checks,"passed":len(checks),"failed":0,
+"semantic_controls":{"A":"Deterministic topological counterexample; assessed analytically in qualification and nonauthor review, not an executed Gaussian model.","B":"Alternating joint Gaussian laws; exact characteristic-function derivation assessed analytically, not a numerical convergence test.","C":"Exact rational matrix arithmetic above; supports only the finite algebra, not the general theorem."},
+"applicable_master_boundary":"One final source-identity/native-comment join and exact finite algebra run on stable candidate/review. Analytic adequacy is the separate full nonauthor source review.",
+"not_run":["project programs","field simulations","Lean/kernel","hosted CI","integration/deployment","whole-project master execution"],
+"hosted_ci_applicability":"No repository source/ref/PR mutation in this comment-native source delivery; no candidate hosted checks exist or are claimed.",
+"scientific_effect":"NONE"
+}
+(root/"FINAL_VERIFICATION.json").write_text(json.dumps(report,indent=2)+"\n")
+print(json.dumps({"passed":len(checks),"failed":0,"qualification":report["qualification"],"review":args.review_sha256}))
+````
+<!-- C317-END VERIFY_FINAL.py -->
+
+The registered immutable private delivery and own-claim release will be recorded in a short custody receipt after exact remote-byte verification. This result does not certify any unreviewed parent theorem or close finite-bar, field-first, all-small-bars or shrinking regional multiple-witness obligations.
+
+[Owner mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Standing delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md)
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

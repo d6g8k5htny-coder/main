@@ -1,0 +1,104 @@
+# Regular-side small-gap Lipschitz lemma — candidate/equal-height cancellation on κ≤r
+
+**Object:** OA-C7-REGULAR-SMALL-GAP-LIPSCHITZ-20261005-v1.
+**Author:** OpenAI / GPT-5.6 Sol, Dylan Roy — delegated AI work, under retained Conjecture7/intermediate pickup5957277321.
+**Disposition:** AUTHOR-SIDE PROOF CANDIDATE; fresh nonauthor review requested. Scientific effect NONE. This is input(ii) support only; it does not prove the rejected/elder comparison.
+
+Fix d,L and the exact pinned law/source notation of merged #229. Write
+`K_cand(r,b,k,u) := r^{-2} A_r(b,k,u)`
+for the candidate radial density kernel. There are C,c,N,r0>0 such that for
+`0<r<=r0`, `0<=k<=r^2` (equivalently `0<=kappa:=k/r<=r`),
+
+`|K_cand(r,b,k,u)-K_cand(r,b,0,u)|
+`    <= C k r log(2/r) (1+|b|)^N exp(-c b^2).`                         (RG1)
+
+Consequently, at lifetime ell with k=ell/r^3,
+
+`∫_{ell^(1/5)}^{r0}∫∫ |K_cand(r,b,ell/r^3,u)-K_cand(r,b,0,u)| db dσ dr`
+`    = O(ell^(4/5) log(1/ell)).`                                      (RG2)
+
+This is already smaller than the O(ell^(3/4)) target of Conjecture7 input(ii).
+
+## Proof
+
+### 1. Same-r coupling in the gap parameter
+
+For fixed r,b,u the observation covariance is independent of k. Use the same centred Gaussian residual for the two regression laws Q_(r,k) and Q_(r,0). Their target vectors differ exactly by
+`δv=(-k r^3/2,-k r^2,0,12k,0,...,0)`,
+so `|δv|<=Ck`. Uniform invertibility of the transformed pin covariance (#229's consumed [R] (R2)) gives a deterministic regression-mean difference h with
+`||h||_{C^4}<=Ck`.
+
+The field h has exact endpoint pins equal to the DIFFERENCE of the two pin configurations. Apply the same centred Taylor identities used in [R] (R8) to h itself. For the scaled Hessian blocks
+`K_i=[[alpha_i,sqrt(r) beta_i^T],[sqrt(r) beta_i,A_i]]`
+this gives
+`|δα_M|+|δα_S|+||δbeta_M||+||δbeta_S||+||δA_M||+||δA_S|| <= Ck`.       (RG3)
+The point is that the longitudinal entry is NOT estimated by a naive `||h||_{C^2}/r`: exact pins give `δα_M=-6k+O(kr)` and `δα_S=+6k+O(kr)`.
+
+### 2. Filtered determinants move by O(k)
+
+Let `F_j(H)=|det H| 1{index(H)=j}` with value0 at singular H. [R] Lemma R3.1 gives
+`|F_j(K_i(k))-F_j(K_i(0))| <= C k T^N`,
+where T is a common polynomial jet envelope with all finite moments bounded by `C(1+|b|)^N`.
+
+If either typed product is nonzero, the sign-window argument of #229 Proposition W+ applies to that configuration. Since `kappa<=r`, Step W1 gives for each filtered determinant on its own typed support
+`F_j(K_i) <= C r(κ+r)T^N <= C r^2 T^N`.
+For the corresponding factor at the OTHER k-value, add the O(k) difference from (RG3); because k<=r^2 it is still `<=C r^2T^N`. Hence everywhere
+
+`|F_d(K_M(k))F_(d-1)(K_S(k)) - F_d(K_M(0))F_(d-1)(K_S(0))|`
+` <= C k r^2 T^N * 1_{E_k ∪ E_0}`,                             (RG4)
+
+where E_k/E_0 are the two typed-support events. If neither product is nonzero, the difference is zero.
+
+### 3. The union typed window costs r log(2/r)
+
+Step W2–W3 of #229 applies separately to E_k and E_0 on the common residual space. For kappa<=r, the f4-window length is bounded by
+`C[r + r T^N/|Delta|]`.
+Using the same dyadic T-layers and determinant small-set estimate (4.2), but WITHOUT the determinant-amplitude factor because RG4 has already extracted it, yields for every polynomial envelope
+
+`E[T^N 1_{E_k ∪ E_0}] <= C r log(2/r) (1+|b|)^N`.                    (RG5)
+
+Indeed the constant-width part contributes O(r), while
+`E[min(1, C r T^N/|Delta|)]`
+is O(r log(2/r)) by exactly the shell argument of (4.2). Union-bounding the k and0 windows changes only C.
+
+Combining RG4–RG5 gives
+`|E_{Q_(r,k)}[W_r/r^2]-E_{Q_(r,0)}[W_r/r^2]|
+` <= C k r^3 log(2/r)(1+|b|)^N`.                                  (RG6)
+
+### 4. Pin-density term is smaller
+
+The pin covariance is the same at fixed r and the target displacement is O(k). Differentiating the fixed Gaussian density along the target segment gives
+`|pi_r(v_(r,k))-pi_r(v_(r,0))| <= C k(1+|b|)^N exp(-c b^2)`
+for k<=1. At k=0, Proposition W+ gives
+`E[W_r/r^2] <= C r^5 log(2/r)(1+|b|)^N`.
+After the outer radial factor r^-2, this density-change term is O(k r^3 log), strictly smaller than RG1.
+
+Multiplying RG6 by `12 pi_r` and the radial factor r^-2 proves RG1.
+
+### 5. Lifetime integration
+
+On r>=ell^(1/5), k=ell/r^3 satisfies k<=r^2. Thus RG1 integrates as
+`C ell ∫_{ell^(1/5)}^{r0} r^-2 log(2/r) dr`
+` = O(ell^(4/5) log(1/ell))`,
+which is RG2.
+
+## Consequence for Conjecture7 input(ii)
+
+On the κ<r side, the CANDIDATE regular-kernel correction to the equal-height carrier B_(d,L) is therefore already o(ell^(3/4)). The composite's own small-κ tail is also O(ell^(4/5)) because `Acal^rej=O(κ^3)` gives
+`ell^3 ∫_{ell^(1/5)} r^-12 dr = O(ell^(4/5))`.
+
+So after the offered MA complement on κ>=r, the remaining κ<r obstruction is isolated to the ACTUAL ELDER term / rejected decision:
+`K_rej-K_B = (K_cand-K_B)-K_eld`.
+A sufficient remaining target is
+`∫_{ell^(1/5)}^{r0}∫∫ K_eld(r,b,ell/r^3,u) = O(ell^(3/4))`.
+RG1 does not prove that. Proposition W+ alone is too coarse because it bounds candidate mass, not the vanishing elder mark.
+
+## Scope / nonclaims
+
+- This is a candidate-kernel theorem only; no actual elder/rejected decision is transferred.
+- It uses the exact merged #229/[R] same-r pin transform, filtered-determinant Lipschitz lemma and W+ typed-window shell estimate as stated interfaces.
+- It does not use #211's Monte Carlo/exploration or finite-L numerical coefficients.
+- No claim of optimality, all-bars law, finite-radius numerical constant, or C7 closure.
+- Fresh nonauthor review is required before this lemma is consumed as established input.
+
+Requested review split: verify (a) the exact-pin improvement RG3 versus the naive k/r loss, (b) the filtered-product/union-window estimate RG4–RG5 including the determinant shell, and (c) the lifetime exponent 4/5 plus the separation of the still-open elder term.

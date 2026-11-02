@@ -1,0 +1,809 @@
+Completed actual projected-Morse rank leaf — producer /root/i2_formal_support, independent nonauthor exact reviewer /root/local_runtime_readonly, root mathematical acceptance scoped to the four final public targets.
+
+Root fully read main, all ten controls, audit stdout, author narrative and completed12169-byte review4933eb6d. Fresh13:04:10UTC root readback matched72/72 frozen bindings. An invertible frame is actually constructed for every nonzero u; scalar physical weights transfer through its inverse under the unchanged sourceLaw. The actual2n vector is genuinely jointly Gaussian, and its actual covariance is Matrix.PosDef via derived L2 moments, finite covariance expansion and strict variance. No supplied frame, rank/PosDef or moment premise, isotropy or global sphere frame is used. Physical dimension n=p+1>=2/L>0 for strict rank; Gaussianity permits the negative-control u=0.
+
+Actual main/tests/audit exit0, four exact standard-three axiom rows and ten controls. Separate genuine three-target red and one-target covariance amendment red, initial malformed red, failed attempts and six warnings remain retained. Source/proof-route exposed, organizational independence0; reviewers/root did not replay the compiler or imported environment. Actual terminal compiler release12:58:58UTC, finalauthorfreeze13:00:14UTC.
+
+The following17 files are serialized literally and completely. Full FINAL_FREEZE.json25004B/SHA f0bd139058edeaedfeab83b00f9fa57a0859a8dea67d4ff2edd20375dd2a0dd3 and freeze-integrity.json16258B/SHA0d1381f8898f84db8a6b4d694dfb61fbb38a7e6c148cea344b70c77ae942765b remain locally retained and ARE NOT serialized here. Other omitted snapshots/objects/upstream sources remain manifest-bound; their hashes do not publish their bytes. Original three-target red is included fully; amendment red source is locally bound and its actual receipt/log are included.
+
+Pointwise actual projected covariance rank is proved. Compact floors, the all-point mesh/Morse/distinct-values argument, multipoint/prescribed-pin law, whole-field Borel/KR, genuine Euclidean charts, stopped maps, certificates, ELDER/exhaustion and full I4/scientific gates remain separate. The original eight-part goal stays ACTIVE; no graph/status change or scientific promotion follows.
+
+### Literal file: i4-morse-rank/lean-project/ProjectedMorseRank.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/ProjectedMorseRank.lean
+Bytes: 10064; SHA-256: c7e2dfc0fb25960df65791271cc64f015c9e1219add7ee0c767ec5547b8cf369
+
+```````text
+import SourceContactRank
+import Mathlib.LinearAlgebra.Matrix.PosDef
+import Mathlib.Topology.Algebra.Module.FiniteDimension
+import Mathlib.Analysis.Normed.Module.Multilinear.Curry
+
+noncomputable section
+open I4Source I4Jets I4JetLaw I4ContactRank MeasureTheory ProbabilityTheory
+open scoped BigOperators NNReal Matrix
+namespace I4MorseRank
+
+def morseObservable (p : ℕ) (L : ℝ) (x u alpha beta : Fin (p+1) → ℝ)
+    (sample : SourceMode (p+1) → ℝ) : ℝ :=
+  sourceJet (p+1) L 1 sample x (fun _ => alpha) +
+  sourceJet (p+1) L 2 sample x (fun k : Fin 2 => if k=0 then u else beta)
+
+abbrev MorseIndex (p : ℕ) := Fin (p+1) ⊕ Fin (p+1)
+def observationOrder (p : ℕ) : MorseIndex p → ℕ := Sum.elim (fun _ => 1) (fun _ => 2)
+def observationDirections (p : ℕ) (u : Fin (p+1) → ℝ) (i : MorseIndex p) :
+    Fin (observationOrder p i) → (Fin (p+1) → ℝ) := by
+  cases i with
+  | inl j => exact fun _ => Pi.single j 1
+  | inr j =>
+    change Fin 2 → (Fin (p+1) → ℝ)
+    exact fun k => if k=0 then u else Pi.single j 1
+
+def projectedMorseVector (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ)
+    (sample : SourceMode (p+1) → ℝ) : MorseIndex p → ℝ :=
+  fun i => sourceJet (p+1) L (observationOrder p i) sample x (observationDirections p u i)
+
+def morseCovariance (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ) :
+    Matrix (MorseIndex p) (MorseIndex p) ℝ :=
+  fun i j => cov[fun sample => projectedMorseVector p L x u sample i,
+    fun sample => projectedMorseVector p L x u sample j; sourceLaw (p+1)]
+
+private def columnEquiv (p : ℕ) (u : Fin (p+1) → ℝ) (i : Fin (p+1)) (hi : u i ≠ 0) :
+    (Fin (p+1) → ℝ) ≃ₗ[ℝ] (Fin (p+1) → ℝ) where
+  toFun z := fun j => if j=i then u i*z i else z j+u j*z i
+  invFun z := fun j => if j=i then z i/u i else z j-u j*(z i/u i)
+  left_inv z := by
+    funext j
+    by_cases h : j=i <;> simp [h] <;> field_simp [hi] <;> ring
+  right_inv z := by
+    funext j
+    by_cases h : j=i <;> simp [h] <;> field_simp [hi] <;> ring
+  map_add' z w := by
+    funext j
+    by_cases h : j=i <;> simp [h] <;> ring
+  map_smul' c z := by
+    funext j
+    by_cases h : j=i <;> simp [h,smul_eq_mul] <;> ring
+
+private def swapEquiv (p : ℕ) (i : Fin (p+1)) :
+    (Fin (p+1) → ℝ) ≃ₗ[ℝ] (Fin (p+1) → ℝ) where
+  toFun z := fun j => z (Equiv.swap 0 i j)
+  invFun z := fun j => z (Equiv.swap 0 i j)
+  left_inv z := by funext j; simp
+  right_inv z := by funext j; simp
+  map_add' z w := rfl
+  map_smul' c z := rfl
+
+private theorem frame_sum (p : ℕ)
+    (T : (Fin (p+1) → ℝ) ≃L[ℝ] (Fin (p+1) → ℝ))
+    (ell : (Fin (p+1) → ℝ) →L[ℝ] ℝ) (a : Fin (p+1) → ℝ) :
+    (∑ i, a i * ell (frameVector p T i)) = ell (T a) := by
+  classical
+  symm
+  conv_lhs => rw [← LinearMap.sum_single_apply (fun _ : Fin (p+1) => ℝ) a]
+  rw [map_sum,map_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  have hs : Pi.single i (a i) = a i • Pi.single i (1 : ℝ) := by
+    rw [← Pi.single_smul,smul_eq_mul,mul_one]
+  rw [hs,map_smul,map_smul]
+  rfl
+
+private def hessianCLM (p : ℕ) (L : ℝ) (sample : SourceMode (p+1) → ℝ)
+    (x u : Fin (p+1) → ℝ) : (Fin (p+1) → ℝ) →L[ℝ] ℝ :=
+  (iteratedFDeriv ℝ 2 (sourceField (p+1) L sample) x).curryRight (fun _ : Fin 1 => u)
+
+private theorem jet1_eq (p : ℕ) (L : ℝ) (sample : SourceMode (p+1) → ℝ)
+    (x a : Fin (p+1) → ℝ) : sourceJet (p+1) L 1 sample x (fun _ => a) =
+      fderiv ℝ (sourceField (p+1) L sample) x a := by
+  simp only [sourceJet,iteratedFDeriv_one_apply]
+
+private theorem jet2_eq (p : ℕ) (L : ℝ) (sample : SourceMode (p+1) → ℝ)
+    (x u b : Fin (p+1) → ℝ) :
+    sourceJet (p+1) L 2 sample x (fun k : Fin 2 => if k=0 then u else b) =
+      hessianCLM p L sample x u b := by
+  unfold hessianCLM sourceJet
+  rw [ContinuousMultilinearMap.curryRight_apply]
+  congr 1
+  funext k
+  fin_cases k <;> rfl
+
+private theorem observable_contact (p : ℕ) (L : ℝ)
+    (T : (Fin (p+1) → ℝ) ≃L[ℝ] (Fin (p+1) → ℝ))
+    (x a w : Fin (p+1) → ℝ) :
+    contactObservable p L T x 0 a (w 0) 0 (fun j => w j.succ) =
+      morseObservable p L x (frameVector p T 0) (T a) (T w) := by
+  classical
+  funext sample
+  simp only [contactObservable,morseObservable,zero_mul,zero_add,add_zero,jet1_eq,jet2_eq]
+  rw [frame_sum]
+  have hsame : sourceJet (p+1) L 2 sample x (fun _ => frameVector p T 0) =
+      hessianCLM p L sample x (frameVector p T 0) (frameVector p T 0) := by
+    simpa only [ite_self] using jet2_eq p L sample x (frameVector p T 0) (frameVector p T 0)
+  rw [hsame]
+  have he := frame_sum p T (hessianCLM p L sample x (frameVector p T 0)) w
+  rw [Fin.sum_univ_succ] at he
+  rw [add_assoc,he]
+
+theorem exists_axial_frame (p : ℕ) (u : Fin (p+1) → ℝ) (hu : u ≠ 0) :
+    ∃ T : (Fin (p+1) → ℝ) ≃L[ℝ] (Fin (p+1) → ℝ), T (Pi.single 0 1) = u := by
+  classical
+  obtain ⟨i,hi⟩ : ∃ i, u i ≠ 0 := by
+    by_contra hn
+    push Not at hn
+    exact hu (funext hn)
+  let P := swapEquiv p i
+  let S := columnEquiv p u i hi
+  have he : P (Pi.single 0 1) = Pi.single i 1 := by
+    funext j
+    by_cases h : i=j
+    · subst j
+      simp [P,swapEquiv,Pi.single_apply]
+    · have hj : Equiv.swap (0 : Fin (p+1)) i j ≠ 0 := by
+        intro hz
+        have hji : j=i := by
+          simpa only [Equiv.swap_apply_left] using (Equiv.swap_apply_eq_iff.mp hz)
+        exact h hji.symm
+      simp [P,swapEquiv,Pi.single_apply,h,hj.symm]
+  refine ⟨(P.trans S).toContinuousLinearEquiv,?_⟩
+  change S (P (Pi.single 0 1)) = u
+  rw [he]
+  funext j
+  by_cases h : j=i <;> simp [S,columnEquiv,h]
+
+theorem morseObservable_variance_pos (p : ℕ) (hp : 1 ≤ p) {L : ℝ} (hL : 0 < L)
+    (x u alpha beta : Fin (p+1) → ℝ) (hu : u ≠ 0) (hw : alpha ≠ 0 ∨ beta ≠ 0) :
+    0 < Var[morseObservable p L x u alpha beta; sourceLaw (p+1)] := by
+  classical
+  obtain ⟨T,hT⟩ := exists_axial_frame p u hu
+  let a := T.symm alpha
+  let w := T.symm beta
+  have hw' : a ≠ 0 ∨ w 0 ≠ 0 ∨ (fun j : Fin p => w j.succ) ≠ 0 := by
+    by_contra hn
+    push Not at hn
+    have ha : alpha = 0 := by rw [← T.apply_symm_apply alpha]; change T a = 0; rw [hn.1,map_zero]
+    have hw0 : w = 0 := by
+      funext i
+      exact Fin.cases hn.2.1 (fun j => congrFun hn.2.2 j) i
+    have hb : beta = 0 := by rw [← T.apply_symm_apply beta]; change T w = 0; rw [hw0,map_zero]
+    exact hw.elim (fun h => h ha) (fun h => h hb)
+  have hpv := contactObservable_variance_pos p hp hL T x 0 a (w 0) 0 (fun j => w j.succ)
+    (hw'.elim (fun h => Or.inr (Or.inl h)) (fun h => h.elim
+      (fun h => Or.inr (Or.inr (Or.inl h)))
+      (fun h => Or.inr (Or.inr (Or.inr (Or.inr h))))))
+  have he := observable_contact p L T x a w
+  have he' : contactObservable p L T x 0 a (w 0) 0 (fun j => w j.succ) =
+      morseObservable p L x u alpha beta := by
+    simpa only [frameVector,hT,a,w,T.apply_symm_apply] using he
+  rw [he'] at hpv
+  exact hpv
+
+theorem projectedMorseVector_hasGaussianLaw (p : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (x u : Fin (p+1) → ℝ) :
+    HasGaussianLaw (projectedMorseVector p L x u) (sourceLaw (p+1)) := by
+  classical
+  let e := Fintype.equivFin (MorseIndex p)
+  let r := fun i => observationOrder p (e.symm i)
+  let v := fun i => observationDirections p u (e.symm i)
+  have hr : ∀ i, r i ≤ 4 := by
+    intro i
+    dsimp [r]
+    cases e.symm i <;> norm_num [observationOrder]
+  have hg := sourceJet_finiteVector_hasGaussianLaw (p+1) hL _ r hr (fun _ => x) v
+  let A := (LinearEquiv.piCongrLeft ℝ (fun _ : MorseIndex p => ℝ) e.symm).toContinuousLinearEquiv
+  apply (hg.map A.toContinuousLinearMap).congr
+  exact Filter.Eventually.of_forall (fun sample => by
+    funext i
+    simp [A,LinearEquiv.piCongrLeft,LinearEquiv.piCongrLeft',Equiv.piCongrLeft',
+      r,v,projectedMorseVector]
+    rw [e.symm_apply_apply])
+
+theorem morseCovariance_posDef (p : ℕ) (hp : 1 ≤ p) {L : ℝ} (hL : 0 < L)
+    (x u : Fin (p+1) → ℝ) (hu : u ≠ 0) :
+    (morseCovariance p L x u).PosDef := by
+  classical
+  rw [Matrix.posDef_iff_dotProduct_mulVec]
+  refine ⟨?_,?_⟩
+  · ext i j
+    simp [morseCovariance,Matrix.conjTranspose_apply,covariance_comm]
+  · intro z hz
+    let alpha : Fin (p+1) → ℝ := fun i => z (Sum.inl i)
+    let beta : Fin (p+1) → ℝ := fun i => z (Sum.inr i)
+    have hw : alpha ≠ 0 ∨ beta ≠ 0 := by
+      by_contra hn
+      push Not at hn
+      apply hz
+      funext i
+      cases i with
+      | inl j => exact congrFun hn.1 j
+      | inr j => exact congrFun hn.2 j
+    have hpv := morseObservable_variance_pos p hp hL x u alpha beta hu hw
+    have hsum : (fun sample => ∑ i, z i * projectedMorseVector p L x u sample i) =
+        morseObservable p L x u alpha beta := by
+      funext sample
+      simp only [Fintype.sum_sum_type,projectedMorseVector,observationOrder,observationDirections,
+        morseObservable,Sum.elim_inl,Sum.elim_inr,id_eq,jet1_eq,jet2_eq]
+      have ha := frame_sum p (ContinuousLinearEquiv.refl ℝ (Fin (p+1) → ℝ))
+        (fderiv ℝ (sourceField (p+1) L sample) x) alpha
+      have hb := frame_sum p (ContinuousLinearEquiv.refl ℝ (Fin (p+1) → ℝ))
+        (hessianCLM p L sample x u) beta
+      simpa only [frameVector,ContinuousLinearEquiv.refl_apply,alpha,beta] using congrArg₂ (·+·) ha hb
+    have hg := projectedMorseVector_hasGaussianLaw p hL.ne' x u
+    have hm (i : MorseIndex p) :
+        MemLp (fun sample => projectedMorseVector p L x u sample i) 2 (sourceLaw (p+1)) :=
+      (hg.map (ContinuousLinearMap.proj i)).memLp_two
+    have hv := variance_fun_sum (fun i => (hm i).const_mul (z i))
+    rw [hsum] at hv
+    simp only [covariance_const_mul_left,covariance_const_mul_right] at hv
+    have he : star z ⬝ᵥ (morseCovariance p L x u *ᵥ z) =
+        Var[morseObservable p L x u alpha beta;sourceLaw (p+1)] := by
+      rw [hv]
+      simp only [Matrix.mulVec,dotProduct,Pi.star_apply,star_trivial,Finset.mul_sum,morseCovariance]
+      apply Finset.sum_congr rfl
+      intro i _
+      apply Finset.sum_congr rfl
+      intro j _
+      ring
+    rw [he]
+    exact hpv
+
+end I4MorseRank
+
+```````
+
+### Literal file: i4-morse-rank/lean-project/MorseRankTests.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/MorseRankTests.lean
+Bytes: 3293; SHA-256: e98fb855b2e2212dd4c2b485c85c8cc82d9a04cbf7afa5ccd58ce37775774a5f
+
+```````text
+import ProjectedMorseRank
+
+noncomputable section
+open I4Source I4Jets I4MorseRank MeasureTheory ProbabilityTheory
+open scoped BigOperators
+namespace MorseRankTests
+
+private theorem single_ne (p : ℕ) (i : Fin (p+1)) :
+    (Pi.single i 1 : Fin (p+1) → ℝ) ≠ 0 := by
+  intro h
+  have hi := congrFun h i
+  simp at hi
+
+-- Frame construction must work even when u's first coordinate is ZERO.
+example : ∃ T : (Fin 2 → ℝ) ≃L[ℝ] (Fin 2 → ℝ),
+    T (Pi.single 0 1) = Pi.single 1 1 :=
+  exists_axial_frame 1 _ (single_ne 1 1)
+example (p : ℕ) (u : Fin (p+1) → ℝ) (hu : u ≠ 0) :
+    ∃ T : (Fin (p+1) → ℝ) ≃L[ℝ] (Fin (p+1) → ℝ),
+      Function.Bijective T ∧ T (Pi.single 0 1) = u := by
+  obtain ⟨T,hT⟩ := exists_axial_frame p u hu
+  exact ⟨T,T.bijective,hT⟩
+example (x : Fin 2 → ℝ) {L : ℝ} (hL : 0 < L) :
+    0 < Var[morseObservable 1 L x (Pi.single 0 1) (Pi.single 1 1) 0;sourceLaw 2] :=
+  morseObservable_variance_pos 1 (by omega) hL x _ _ _ (single_ne 1 0)
+    (Or.inl (single_ne 1 1))
+example (x : Fin 2 → ℝ) {L : ℝ} (hL : 0 < L) :
+    0 < Var[morseObservable 1 L x (Pi.single 1 1) 0 (Pi.single 0 1);sourceLaw 2] :=
+  morseObservable_variance_pos 1 (by omega) hL x _ _ _ (single_ne 1 1)
+    (Or.inr (single_ne 1 0))
+example (p : ℕ) (hp : 1 ≤ p) (x u : Fin (p+1) → ℝ) {L : ℝ} (hL : 0 < L)
+    (hu : u ≠ 0) : (morseCovariance p L x u).PosDef :=
+  morseCovariance_posDef p hp hL x u hu
+
+private theorem zero_weights (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ) :
+    morseObservable p L x u 0 0 = 0 := by
+  funext sample
+  unfold morseObservable sourceJet
+  have h1 := (iteratedFDeriv ℝ 1 (sourceField (p+1) L sample) x).map_coord_zero
+    (m := fun _ : Fin 1 => (0 : Fin (p+1) → ℝ)) 0 rfl
+  have h2 := (iteratedFDeriv ℝ 2 (sourceField (p+1) L sample) x).map_coord_zero
+    (m := fun k : Fin 2 => if k=0 then u else 0) 1 (by norm_num)
+  rw [h1,h2]
+  simp
+example (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ) :
+    Var[morseObservable p L x u 0 0;sourceLaw (p+1)] = 0 := by
+  rw [zero_weights]
+  simp
+example (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ) :
+    ¬ 0 < Var[morseObservable p L x u 0 0;sourceLaw (p+1)] := by
+  rw [zero_weights]
+  simp
+example (p : ℕ) (L : ℝ) (x beta : Fin (p+1) → ℝ) :
+    Var[morseObservable p L x 0 0 beta;sourceLaw (p+1)] = 0 := by
+  have he : morseObservable p L x 0 0 beta = 0 := by
+    funext sample
+    unfold morseObservable sourceJet
+    have h1 := (iteratedFDeriv ℝ 1 (sourceField (p+1) L sample) x).map_coord_zero
+      (m := fun _ : Fin 1 => (0 : Fin (p+1) → ℝ)) 0 rfl
+    have h2 := (iteratedFDeriv ℝ 2 (sourceField (p+1) L sample) x).map_coord_zero
+      (m := fun k : Fin 2 => if k=0 then (0 : Fin (p+1) → ℝ) else beta) 0 (by simp)
+    rw [h1,h2]
+    simp
+  rw [he]
+  simp
+-- Gaussianity includes degenerate u=0; it cannot replace the variance-rank theorem.
+example (p : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin (p+1) → ℝ) :
+    HasGaussianLaw (projectedMorseVector p L x 0) (sourceLaw (p+1)) :=
+  projectedMorseVector_hasGaussianLaw p hL x 0
+example (p : ℕ) {L : ℝ} (hL : L ≠ 0) (x u : Fin (p+1) → ℝ) :
+    HasGaussianLaw (projectedMorseVector p L x u) (sourceLaw (p+1)) :=
+  projectedMorseVector_hasGaussianLaw p hL x u
+end MorseRankTests
+
+```````
+
+### Literal file: i4-morse-rank/lean-project/MorseRankAxioms.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/MorseRankAxioms.lean
+Bytes: 327; SHA-256: ca35327445e795c0ab815265dd20e9124ffe3d6fc43e51136847ab595ad66822
+
+```````text
+import ProjectedMorseRank
+#print axioms I4MorseRank.exists_axial_frame
+#print axioms I4MorseRank.morseObservable_variance_pos
+#print axioms I4MorseRank.projectedMorseVector_hasGaussianLaw
+#print axioms I4MorseRank.morseCovariance_posDef
+#check I4MorseRank.morseObservable_variance_pos
+#check I4MorseRank.morseCovariance_posDef
+
+```````
+
+### Literal file: i4-morse-rank/IMPLEMENTATION.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/IMPLEMENTATION.md
+Bytes: 9258; SHA-256: aaf1148d233aa7c1da97e6c82941a54569026d7c6b4137c8d25cddd3a69d5e2a
+
+```````text
+# Actual projected Morse covariance rank
+
+Producer `/root/i2_formal_support`, owner `/root`. This bounded required I4 leaf proves all four frozen public targets for the original `sourceField`, actual Fréchet derivatives and unchanged `sourceLaw`. No covariance-positive, independent-functional, frame or Morse premise is supplied. Code/testing finished before the 13:05 UTC author stop on 2026-10-08; the sole compiler was explicitly returned to root after the actual terminal audit at 12:58:58 UTC. No further source edits are planned. This is a formal pointwise rank result, not full I4 or theorem completion.
+
+## Exact result and physical convention
+
+`ProjectedMorseRank.lean` defines the scalar observable
+`sourceJet 1 [alpha] + sourceJet 2 [u,beta]` on the original coefficient sample. The finite vector has index `Fin (p+1) ⊕ Fin (p+1)`: its first block is `Df[e_i]`, and its second block is the actual ordered second derivative `D²f[u,e_i]`. The covariance matrix is defined entry by entry as the actual probability covariance of these coordinates under `sourceLaw (p+1)`. It is not an assumed Gram matrix or independently declared Gaussian vector.
+
+The four public theorems are:
+
+1. `exists_axial_frame`: for every nonzero physical `u`, construct an actual continuous linear equivalence sending `e_0` to `u`.
+2. `morseObservable_variance_pos`: for `1 ≤ p`, `0 < L`, any site `x`, nonzero `u`, and `alpha ≠ 0 ∨ beta ≠ 0`, the actual scalar observable has strictly positive variance.
+3. `projectedMorseVector_hasGaussianLaw`: for `L ≠ 0`, the entire finite `2(p+1)` vector has a genuine joint Gaussian law. This deliberately permits `u = 0` and the resulting singular vector.
+4. `morseCovariance_posDef`: for `1 ≤ p`, `0 < L` and nonzero `u`, the actual covariance matrix is `Matrix.PosDef`.
+
+The physical dimension is `p+1 ≥ 2`. All sites and arbitrary nonzero directions are covered; no orthogonality, unit norm, rotated law or isotropy is used. Plain finite Pi spaces have their existing topology/norm. The constructed frame is an invertible coordinate map, not an isometry. At regular samples the actual second Fréchet derivative is symmetric, which identifies the defined second block with the usual physical Hessian applied to `u`; the theorem itself retains its literal ordered-slot convention. No global continuous choice of frame over the sphere is asserted.
+
+## Noncircular construction and moment bridge
+
+The frame proof finds an actual coordinate `i` with `u i ≠ 0`. A proved coordinate swap sends `e_0` to `e_i`. A proved invertible column replacement sends `e_i` to `u`: at coordinate `i` it multiplies by `u i`, and at another coordinate `j` it adds `u j` times coordinate `i`. Its explicitly proved inverse divides coordinate `i` by `u i` and subtracts the corresponding term elsewhere. Finite-dimensional `LinearEquiv.toContinuousLinearEquiv` supplies continuity; no basis-completion result or desired frame is a hypothesis.
+
+Actual multilinearity gives an all-sample function equality between the observable and the existing contact observable with `A=C=0`, gradient weights `T⁻¹ alpha`, axial-second weight `(T⁻¹ beta)_0`, and mixed-second weights `(T⁻¹ beta)_{j+1}`. A nonzero physical weight pair forces a nonzero contact weight by invertibility and the actual Fin head/tail decomposition. The existing source-bound contact variance theorem then proves strict positivity. This transfer never changes coefficient law and does not invoke the sourceLaw almost-sure C4 theorem under another measure.
+
+Joint Gaussianity uses the existing genuine heterogeneous finite-jet theorem, a finite index equivalence and an actual continuous linear reindexing. Its equality with the defined vector holds for every sample. The covariance proof derives each coordinate's `MemLp 2` from this joint Gaussian law via continuous linear projection. It proves, for every sample, that the coordinate-weighted finite sum equals the physical scalar observable with `alpha_i=z(inl i)` and `beta_i=z(inr i)`. The justified finite variance expansion and covariance multiplication identities identify `zᵀΣz` with its actual variance. Covariance symmetry gives the required Hermitian condition, and strict scalar variance gives `Matrix.PosDef`. There is no unbounded integral/series interchange, assumed moment bound or covariance premise.
+
+Primary pinned API locators consumed by this proof are `Topology/Algebra/Module/FiniteDimension.lean:368` (`toContinuousLinearEquiv`), `LinearAlgebra/Pi.lean:178` (finite standard-coordinate sum), `Analysis/Normed/Module/Multilinear/Curry.lean:229` (actual curry evaluation), `Analysis/Calculus/ContDiff/FTaylorSeries.lean:939` (first derivative evaluation), `Gaussian/HasGaussianLaw/Basic.lean:138` (Gaussian `MemLp 2`), `Probability/Moments/Variance.lean:304` (finite variance expansion), `Probability/Moments/Covariance.lean:136,139` (constant multipliers), and `LinearAlgebra/Matrix/PosDef.lean:454` (quadratic-form criterion). Full paths and source hashes are recorded in `evidence/SOURCE_BINDINGS.json`.
+
+## Actual verification and retained history
+
+The cached runtime is Lean 4.34.1, full commit `5045d0056413266e57c625dcd7c365b10e377c52`; pinned mathlib is `d13f23b723b8a846827a245b89c10fc7d3f11612`. Every invocation is the captured `nice -n 10` direct Lean command in `run_compile.py`, with `LEAN_NUM_THREADS=1`, the explicit cached `LEAN_PATH`, own emitted objects and a timeout-safe 180-second process-group limit. No dependency install/update, broad build or fresh imported-environment kernel replay is claimed.
+
+The initial red exposed a dependent-Fin numeral typing error plus three empty goals. It was retained and is not clean target credit. The corrected three-target red exited 1 in 12.362891375 seconds with exactly the three intended empty goals and no unrelated errors or warnings, source `ebcec14bd394c9c658d59b3874813dc5f39bccf5351ffa4d3430b151b9756d43`. Only then were proofs implemented. Attempt01 retained contact-sum associativity, swap orientation and inverse-coordinate simplification errors. Attempt02 proved the original three targets. A separate covariance amendment red exited 1 in 15.492501666 seconds with exactly one new intended empty PosDef goal and the already retained six main warnings, source `4d6249e9ad82250e32440065feefcfe368a9243d7ee484fa06b80f6966317711`. Attempt03 retained two covariance proof API/normalization errors; attempt04 proved all four targets. Original three literal headers and the fourth amendment header are compared byte for byte in `target-head-integrity.json`.
+
+Final main attempt04: exit 0, 57.440340875 seconds, SHA256 `c7e2dfc0fb25960df65791271cc64f015c9e1219add7ee0c767ec5547b8cf369`. Its log retains six tactic/simp warnings: redundant/unreachable ring, two unnecessary focus combinators and two unused simp arguments. These are disclosed rather than suppressed. No error or timeout remains.
+
+The ten actual compiled controls cover a direction whose first coordinate is zero, actual invertible frame construction, pure-gradient and pure-Hessian positivity, actual covariance PosDef, zero-weight zero variance/nonpositivity, zero-direction degeneracy, and joint Gaussianity including the singular `u=0` case. Tests01 retained a stylistic warning and two final zero-function/arithmetic normalization failures; tests02 repaired only those test proof steps. Tests02: exit 0, 20.519388541 seconds, empty log, SHA256 `e98fb855b2e2212dd4c2b485c85c8cc82d9a04cbf7afa5ccd58ce37775774a5f`.
+
+Axioms01: exit 0, 4.382043583 seconds, source SHA256 `ca35327445e795c0ab815265dd20e9124ffe3d6fc43e51136847ab595ad66822`. All four public targets print exactly `[propext, Classical.choice, Quot.sound]`; no `sorryAx` or custom axiom appears. All ten actual command/snapshot/log receipt triples, including every failed red/proof/test attempt, are retained. `FINAL_FREEZE.json` binds final code, plan, context, runner, narrative, evidence, emitted objects, actual Lean executable and observed unchanged predecessor/primary sources; `freeze-integrity.json` records actual byte readback.
+
+## Scientific scope and review exposure
+
+The exact conventional Morse derivation `ACTUAL_SOURCE_MORSE_MESH_DERIVATION_20261008.md` (SHA256 `a4bc17d9bc5522b8b91250d318ae6d57e42362c4852855505ceba81d7b52309c`) identified this missing formal rank leaf. This implementation does not formalize that derivation's compact covariance floor, all-point mesh argument, almost-sure Morse conclusion, distinct critical values, multipoint projected rank, transformed/prescribed-pin law or conditional genericity. Those remain separate obligations. It also does not close the I2 Morse geometry constructor.
+
+Producer authored this module and several imported foundation/Fourier/Gaussian/jet/contact dependencies. Root mathematical suggestions and earlier API/source exposure are disclosed; organizational independence is zero. The producer asserts actual local verification, not nonauthor acceptance. Root owns independent review/publication and any later kernel replay. No frozen predecessor, worker/runtime policy, graph, status or authoritative source was edited. The final four theorem types have no desired covariance or Morse assumption hidden in their premises.
+
+```````
+
+### Literal file: i4-morse-rank/EXACT_PARENT_REVIEW_LOCAL_RUNTIME_READONLY.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/EXACT_PARENT_REVIEW_LOCAL_RUNTIME_READONLY.md
+Bytes: 12169; SHA-256: 4933eb6d1905d2819cd32a34d3cc71c38eeacde7e44243ebd977407241787747
+
+```````text
+# Exact projected-Morse rank review
+
+Actual reviewer: `/root/local_runtime_readonly`. Actual producer: `/root/i2_formal_support`; owner: `/root`. I did not implement this module or its tests. I independently read the full final main, all ten final controls, audit source and raw stdout, original and amended red sources/logs, all failed main/test logs, runner/context, final author narrative and documentary bindings. I inspected the relevant literal predecessor definitions/proofs and pinned primary API statements. Source and proof routes are exposed; organizational independence is zero. I previously reviewed several dependencies, but did not treat their old reviews or root's current conclusion as this new proof's acceptance. No child verdict supplies this review.
+
+**ACCEPT_SCOPED for these exact four completed theorems and their actual evidence. No mathematical or implementation must-fix was found.** This proves pointwise projected covariance rank under the unchanged source law. It does not prove a compact lower bound, almost-sure Morse law, prescribed-pin genericity or full I4. No compiler, inference, imported-environment replay or native publication was run by this reviewer.
+
+## Exact final version
+
+The authoritative author freeze is actual 2026-10-08 13:00:14 UTC. All following hashes are SHA-256. I independently reread all **72/72** manifest entries and checked actual size/hash equality, rather than accepting the integrity flags. I also checked all ten real receipt/snapshot/log triples and all four original public headers byte for byte.
+
+| Object | Bytes | Exact reviewed hash |
+|---|---:|---|
+| `lean-project/ProjectedMorseRank.lean` | 10064 | `c7e2dfc0fb25960df65791271cc64f015c9e1219add7ee0c767ec5547b8cf369` |
+| `lean-project/MorseRankTests.lean` | 3293 | `e98fb855b2e2212dd4c2b485c85c8cc82d9a04cbf7afa5ccd58ce37775774a5f` |
+| `lean-project/MorseRankAxioms.lean` | 327 | `ca35327445e795c0ab815265dd20e9124ffe3d6fc43e51136847ab595ad66822` |
+| `FINAL_FREEZE.json` | 25004 | `f0bd139058edeaedfeab83b00f9fa57a0859a8dea67d4ff2edd20375dd2a0dd3` |
+| `freeze-integrity.json` | 16258 | `0d1381f8898f84db8a6b4d694dfb61fbb38a7e6c148cea344b70c77ae942765b` |
+| `IMPLEMENTATION.md` | 9258 | `aaf1148d233aa7c1da97e6c82941a54569026d7c6b4137c8d25cddd3a69d5e2a` |
+| `evidence/SOURCE_BINDINGS.json` | 9141 | `c7a9de1cca40fd31f5dbcda8b560920c16d8d97f97f14765180ebb6b8ddfc1be` |
+| `compile-context.json` | 3537 | `18b6b3b0b6e5863b596183f249bbc877e36830513ad0625b4e7c1a3e6176129b` |
+
+Direct proof dependencies retain their exact reviewed source bytes: `SourceContactRank.lean` c0b565f501908da378b865104544be62f99c65649c28f9eeb40cb5e8dc7527bf; `SourceJetLaw.lean` e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e; `SourceJets.lean` 1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412; `SourceFourierSeries.lean` 5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014. The full manifest binds the further named predecessor/primary sources, actual Lean executable and three newly emitted owned objects. Those observed predecessor identities are not a fresh reconstruction or replay of their complete imported environment.
+
+## Literal claims and noncircular proof inspection
+
+Write n=p+1. `sourceJet` is literally evaluation of `iteratedFDeriv` of the original `sourceField`, not an independently declared derivative variable. `sourceLaw n` is the original product law on canonical constant/cosine/sine coefficient modes. `morseObservable` is Df[alpha] + D²f[u,beta]. The second derivative retains ordered slots `[u,beta]`. The vector is indexed by `Fin n ⊕ Fin n`, hence has exactly 2n coordinates: Df[e_i] and D²f[u,e_i]. `morseCovariance` is entrywise probability covariance of that actual vector under `sourceLaw n`.
+
+1. **Actual frame construction.** `exists_axial_frame` assumes only u≠0 and returns a continuous linear equivalence T with T(e_0)=u, for every p. The proof finds i with u_i≠0, swaps e_0 with e_i, and composes an explicit column replacement. That replacement maps coordinate i to u_i z_i and another coordinate j to z_j+u_j z_i; its stated inverse divides at i and subtracts at j. Both inverse laws and linearity are proved. Finite-dimensional continuity is then supplied by the actual primary theorem. This is an invertible frame, not an orthogonal one; no supplied frame, isotropy, rotated law or globally continuous frame selection is used.
+
+2. **Strict scalar variance.** `morseObservable_variance_pos` has literal premises 1≤p, 0<L, arbitrary site x, u≠0, and alpha≠0 OR beta≠0. Set a=T⁻¹alpha and w=T⁻¹beta. The proof derives a≠0 OR w_0≠0 OR tail(w)≠0 by invertibility and the exact Fin head/tail decomposition. Its all-sample multilinear equality identifies the scalar observable with `contactObservable` at A=C=0, full gradient weights a, axial second weight w_0 and mixed second weights tail(w). Thus alpha and beta remain the physical weights; there is no unnoticed application of T or T transpose to them. The existing actual contact-variance theorem supplies positivity for the same law and same L. No variance, nonzero coefficient, rank or covariance-positive assumption is substituted for the conclusion.
+
+3. **True joint Gaussianity.** `projectedMorseVector_hasGaussianLaw` assumes L≠0 and permits arbitrary x and u, including u=0. It instantiates the actual heterogeneous finite-jet joint law with orders 1 and 2, proves those orders are ≤4, and applies a genuine finite-index continuous linear reindexing. Equality with the defined vector is proved for every sample. This uses a joint law, not just separate Gaussian marginals, and does not claim that Gaussianity excludes singularity.
+
+4. **Actual covariance PosDef.** `morseCovariance_posDef` assumes 1≤p, 0<L and u≠0. For a nonzero 2n-vector z, its two blocks define alpha and beta; the proof derives their nonzero disjunction. It proves for every sample that the weighted finite coordinate sum equals `morseObservable`. Joint Gaussianity supplies `MemLp 2` for each coordinate via actual continuous linear projections. After scaling those L2 coordinates, `variance_fun_sum` gives the justified finite double covariance expansion. Constant-multiplier identities and finite algebra identify zᵀΣz with the positive scalar variance. Covariance symmetry proves the Hermitian condition required by `Matrix.PosDef`. No infinite integral/series interchange or hidden moment assumption occurs in this step.
+
+The all-sample first/second-derivative and multilinearity equalities are valid identities between Lean's total derivative objects even outside the almost-sure smoothness event. They do not assert that every coefficient sample is classically smooth. Gaussianity and contact variance are obtained through the imported shared-event derivative/series law under the original source measure. At regular samples, symmetry identifies the ordered second block with the usual physical Hessian times u; no Hessian symmetry is needed to justify the displayed all-sample transfer itself. No almost-sure statement was transported to a different conditional law.
+
+I reread the primary statements for finite-dimensional conversion of a linear equivalence, finite coordinate sums, `curryRight_apply`, `iteratedFDeriv_one_apply`, Gaussian `memLp_two`, covariance scaling, finite variance expansion and the matrix quadratic-form criterion. In particular, the curry operation appends beta after the fixed u slot; the variance expansion requires exactly the L2 premises derived here. The actual pinned mathlib HEAD independently read in this review is d13f23b723b8a846827a245b89c10fc7d3f11612. The configured/runtime-bound compiler is Lean 4.34.1; no new compiler-version invocation or kernel replay is credited to me.
+
+## Genuine evidence and negative controls
+
+All four current public headers are byte-identical to their actual clean preproof targets. The original three come from `morse-rank-typed-red.lean` SHA ebcec14bd394c9c658d59b3874813dc5f39bccf5351ffa4d3430b151b9756d43; its actual command exited 1 in 12.362891375 seconds with exactly three empty goals and no unrelated errors. The PosDef header comes from `covariance-target-red.lean` SHA 4d6249e9ad82250e32440065feefcfe368a9243d7ee484fa06b80f6966317711; its command exited 1 in 15.492501666 seconds with exactly one new empty goal and the retained six main warnings. The older initial red had an additional dependent-Fin numeral typing failure, is preserved, and is not counted as clean target evidence.
+
+I read actual failed attempts01 and03 and test attempt01. Attempt01 failed contact-sum reassociation, swap orientation and finite reindex simplification; attempt02 proved the initial three targets. After the new covariance red, attempt03 failed sum normalization and matrix notation; attempt04 repaired those proofs without changing their target types. Initial tests failed two zero-function/arithmetic normalization steps; tests02 repairs those steps. These failures remain in the exact ten receipt/snapshot/log triples. No timeout occurred in those ten captured executions.
+
+| Final actual producer command | Exit | Seconds | Raw log SHA-256 |
+|---|---:|---:|---|
+| Main attempt04 | 0 | 57.440340875 | `009570193b835e08d74c53f9b77eaea4b3016e0b2bad981f6273b720237d7b4b` |
+| Ten controls, tests02 | 0 | 20.519388541 | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| Four-target audit01 | 0 | 4.382043583 | `30396ea5b0d446a7b6e1496fa2cbb87e07e244fcc665171ad885e9fc26dff964` |
+
+The main retains six disclosed nonblocking tactic/simp warnings; final tests have empty stdout. The actual runner uses nice 10, one Lean thread, explicit cached imports, own emitted objects, and a timeout-safe process-group limit. These are direct target elaborations in the pinned cached environment, not a whole-library build or imported-environment kernel replay. The compiler's reported release after actual terminal audit is retained separately at 12:58:58 UTC.
+
+The ten compiled controls are substantive for the stated boundary: a nonzero u with its first coordinate zero; returned frame bijectivity; pure-gradient and pure-Hessian strict positivity; actual PosDef; zero weights giving zero variance and excluding strict positivity; u=0 giving zero variance for a pure Hessian weight; and joint Gaussianity including that degenerate u=0 case. They do not supply numerical variance values, a compact floor or a full Morse event. I independently counted the ten literal examples and read every proof. All four genuine `#print axioms` rows report exactly propext, Classical.choice and Quot.sound. No sorry/admit/custom-axiom/unsafe escape or global option suppression occurs in active main/tests/audit. Public axiom reports cover the used private helper dependencies transitively; I do not claim a separate private-declaration audit.
+
+## Remaining gates and final boundary
+
+This resolves the named pointwise projected-Morse rank leaf: actual finite joint Gaussian derivatives and actual positive-definite covariance at every fixed site and every nonzero u, in physical dimension n≥2 and L>0. A continuous global choice of frame is unnecessary here and is not constructed. Positivity does not provide a uniform floor on unbounded GL frames or on directions tending to zero.
+
+The compact covariance floor, all-location mesh argument, almost-sure Morse conclusion, distinct critical values, multipoint/prescribed-pin residual rank, canonical conditional genericity, and I2's geometric component constructor remain separate. No full I4, ELDER, exhaustion, numerical confirmation, scientific promotion, operating-rule vote or deployment approval follows from this review. The conventional Morse source bound in the manifest is observed provenance, not a newly reviewed all-section derivation in this report.
+
+The exact final main/test/audit/narrative and all 72 bound objects were inspected as described; final readback time and this report's hash are supplied with delivery. Root owns publication and any later verification. Material changes require renewed exact-version review. **No must-fix for this frozen scoped package; ACCEPT_SCOPED only.**
+
+```````
+
+### Literal file: i4-morse-rank/evidence/target-head-integrity.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/target-head-integrity.json
+Bytes: 154; SHA-256: 2f46ccde88806978cc5d3c42affea995ad6607208e727ccac748b6f857c55756
+
+```````text
+{
+  "exists_axial_frame": true,
+  "morseObservable_variance_pos": true,
+  "projectedMorseVector_hasGaussianLaw": true,
+  "morseCovariance_posDef": true
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-typed-red.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-typed-red.lean
+Bytes: 1844; SHA-256: ebcec14bd394c9c658d59b3874813dc5f39bccf5351ffa4d3430b151b9756d43
+
+```````text
+import SourceContactRank
+import Mathlib.Topology.Algebra.Module.FiniteDimension
+import Mathlib.Analysis.Normed.Module.Multilinear.Curry
+
+noncomputable section
+open I4Source I4Jets I4JetLaw I4ContactRank MeasureTheory ProbabilityTheory
+open scoped BigOperators NNReal
+namespace I4MorseRank
+
+def morseObservable (p : ℕ) (L : ℝ) (x u alpha beta : Fin (p+1) → ℝ)
+    (sample : SourceMode (p+1) → ℝ) : ℝ :=
+  sourceJet (p+1) L 1 sample x (fun _ => alpha) +
+  sourceJet (p+1) L 2 sample x (fun k : Fin 2 => if k=0 then u else beta)
+
+abbrev MorseIndex (p : ℕ) := Fin (p+1) ⊕ Fin (p+1)
+def observationOrder (p : ℕ) : MorseIndex p → ℕ := Sum.elim (fun _ => 1) (fun _ => 2)
+def observationDirections (p : ℕ) (u : Fin (p+1) → ℝ) (i : MorseIndex p) :
+    Fin (observationOrder p i) → (Fin (p+1) → ℝ) := by
+  cases i with
+  | inl j => exact fun _ => Pi.single j 1
+  | inr j =>
+    change Fin 2 → (Fin (p+1) → ℝ)
+    exact fun k => if k=0 then u else Pi.single j 1
+
+def projectedMorseVector (p : ℕ) (L : ℝ) (x u : Fin (p+1) → ℝ)
+    (sample : SourceMode (p+1) → ℝ) : MorseIndex p → ℝ :=
+  fun i => sourceJet (p+1) L (observationOrder p i) sample x (observationDirections p u i)
+
+theorem exists_axial_frame (p : ℕ) (u : Fin (p+1) → ℝ) (hu : u ≠ 0) :
+    ∃ T : (Fin (p+1) → ℝ) ≃L[ℝ] (Fin (p+1) → ℝ), T (Pi.single 0 1) = u := by
+
+theorem morseObservable_variance_pos (p : ℕ) (hp : 1 ≤ p) {L : ℝ} (hL : 0 < L)
+    (x u alpha beta : Fin (p+1) → ℝ) (hu : u ≠ 0) (hw : alpha ≠ 0 ∨ beta ≠ 0) :
+    0 < Var[morseObservable p L x u alpha beta; sourceLaw (p+1)] := by
+
+theorem projectedMorseVector_hasGaussianLaw (p : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (x u : Fin (p+1) → ℝ) :
+    HasGaussianLaw (projectedMorseVector p L x u) (sourceLaw (p+1)) := by
+
+end I4MorseRank
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-typed-red.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-typed-red.json
+Bytes: 896; SHA-256: b0ae6e5d1b1bd81c397058f3bd1aac33fe32f1f3be3b7533350edb6200d3d04a
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ProjectedMorseRank.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/.lake/build/lib/lean/ProjectedMorseRank.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed": 12.362891375,
+  "source_sha256": "ebcec14bd394c9c658d59b3874813dc5f39bccf5351ffa4d3430b151b9756d43",
+  "log_sha256": "784e1cbd88194993bead9df4c8af40f52f58d1f53c8fb8582c9d9ddf7cd75619",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-typed-red.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-typed-red.log
+Bytes: 551; SHA-256: 784e1cbd88194993bead9df4c8af40f52f58d1f53c8fb8582c9d9ddf7cd75619
+
+```````text
+ProjectedMorseRank.lean:30:74: error: unsolved goals
+p : ℕ
+u : Fin (p + 1) → ℝ
+hu : u ≠ 0
+⊢ ∃ T, T (Pi.single 0 1) = u
+ProjectedMorseRank.lean:34:68: error: unsolved goals
+p : ℕ
+hp : 1 ≤ p
+L : ℝ
+hL : 0 < L
+x u alpha beta : Fin (p + 1) → ℝ
+hu : u ≠ 0
+hw : alpha ≠ 0 ∨ beta ≠ 0
+⊢ 0 < Var[morseObservable p L x u alpha beta; sourceLaw (p + 1)]
+ProjectedMorseRank.lean:38:71: error: unsolved goals
+p : ℕ
+L : ℝ
+hL : L ≠ 0
+x u : Fin (p + 1) → ℝ
+⊢ HasGaussianLaw (projectedMorseVector p L x u) (sourceLaw (p + 1))
+
+```````
+
+### Literal file: i4-morse-rank/evidence/covariance-target-red.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/covariance-target-red.json
+Bytes: 902; SHA-256: 6f8ff1239b9e0807fab40c61e5433981b38b774cf580e51b5bfdee99e068258b
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ProjectedMorseRank.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/.lake/build/lib/lean/ProjectedMorseRank.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed": 15.492501665999999,
+  "source_sha256": "4d6249e9ad82250e32440065feefcfe368a9243d7ee484fa06b80f6966317711",
+  "log_sha256": "10d4b75bd85d87db26cb4e0f4e95e99ae7b35e91f65472a4cad16792f9ccf805",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/covariance-target-red.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/covariance-target-red.log
+Bytes: 1349; SHA-256: 10d4b75bd85d87db26cb4e0f4e95e99ae7b35e91f65472a4cad16792f9ccf805
+
+```````text
+ProjectedMorseRank.lean:44:58: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ProjectedMorseRank.lean:44:58: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ProjectedMorseRank.lean:41:54: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ProjectedMorseRank.lean:44:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ProjectedMorseRank.lean:125:24: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [P, swapEquiv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ProjectedMorseRank.lean:131:24: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [P, swapEquiv, h, hj.symm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ProjectedMorseRank.lean:187:40: error: unsolved goals
+p : ℕ
+hp : 1 ≤ p
+L : ℝ
+hL : 0 < L
+x u : Fin (p + 1) → ℝ
+hu : u ≠ 0
+⊢ (morseCovariance p L x u).PosDef
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-attempt04.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-attempt04.json
+Bytes: 896; SHA-256: e7ce9c56aabfef515891c2413bb334312750c2605447504f9446f54a8033c8fa
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "ProjectedMorseRank.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/.lake/build/lib/lean/ProjectedMorseRank.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 57.440340875,
+  "source_sha256": "c7e2dfc0fb25960df65791271cc64f015c9e1219add7ee0c767ec5547b8cf369",
+  "log_sha256": "009570193b835e08d74c53f9b77eaea4b3016e0b2bad981f6273b720237d7b4b",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-attempt04.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-attempt04.log
+Bytes: 1179; SHA-256: 009570193b835e08d74c53f9b77eaea4b3016e0b2bad981f6273b720237d7b4b
+
+```````text
+ProjectedMorseRank.lean:44:58: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+ProjectedMorseRank.lean:44:58: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+ProjectedMorseRank.lean:41:54: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ProjectedMorseRank.lean:44:34: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+ProjectedMorseRank.lean:125:24: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [P, swapEquiv]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+ProjectedMorseRank.lean:131:24: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [P, swapEquiv, h, hj.symm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-tests02.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-tests02.json
+Bytes: 888; SHA-256: e355aae14bf24f8f8f7344a04af274dfd9f48d0a67cd86576981e3354fd08aa9
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "MorseRankTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/.lake/build/lib/lean/MorseRankTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 20.519388541,
+  "source_sha256": "e98fb855b2e2212dd4c2b485c85c8cc82d9a04cbf7afa5ccd58ce37775774a5f",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-tests02.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-tests02.log
+Bytes: 0; SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+```````text
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-axioms01.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-axioms01.json
+Bytes: 889; SHA-256: 4ec1dd2c187fade21dd857b24f004b6ebec1e047e3585d97fa14b8f147c07e4b
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "MorseRankAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project/.lake/build/lib/lean/MorseRankAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 4.382043583,
+  "source_sha256": "ca35327445e795c0ab815265dd20e9124ffe3d6fc43e51136847ab595ad66822",
+  "log_sha256": "30396ea5b0d446a7b6e1496fa2cbb87e07e244fcc665171ad885e9fc26dff964",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i4-morse-rank/evidence/morse-rank-axioms01.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-morse-rank/evidence/morse-rank-axioms01.log
+Bytes: 866; SHA-256: 30396ea5b0d446a7b6e1496fa2cbb87e07e244fcc665171ad885e9fc26dff964
+
+```````text
+'I4MorseRank.exists_axial_frame' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4MorseRank.morseObservable_variance_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4MorseRank.projectedMorseVector_hasGaussianLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4MorseRank.morseCovariance_posDef' depends on axioms: [propext, Classical.choice, Quot.sound]
+I4MorseRank.morseObservable_variance_pos (p : ℕ) (hp : 1 ≤ p) {L : ℝ} (hL : 0 < L) (x u alpha beta : Fin (p + 1) → ℝ)
+  (hu : u ≠ 0) (hw : alpha ≠ 0 ∨ beta ≠ 0) :
+  0 < ProbabilityTheory.variance (I4MorseRank.morseObservable p L x u alpha beta) (I4Source.sourceLaw (p + 1))
+I4MorseRank.morseCovariance_posDef (p : ℕ) (hp : 1 ≤ p) {L : ℝ} (hL : 0 < L) (x u : Fin (p + 1) → ℝ) (hu : u ≠ 0) :
+  (I4MorseRank.morseCovariance p L x u).PosDef
+
+```````
+

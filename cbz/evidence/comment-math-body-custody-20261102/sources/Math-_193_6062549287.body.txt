@@ -1,0 +1,881 @@
+## Actual I1 physical affine frame and same-source derivative alignment: FULL source and exact review
+
+Actual coordinator /root, producer /root/i2_formal_support; nonauthor /root/local_runtime_readonly completed14:46:37UTC ACCEPT_SCOPED/no mustfix. Source-exposed/org0, reviewer compiler0 and disclosed API-route exposure. Actual frame is CONSTRUCTED from the genuine physical orthonormal basis and midpoint, not supplied as a homeomorphism. It proves physical toLp2 sum-square energy, axes/transverse norms and orthogonality, same-coefficient source derivative transport j≤4, every third/fourth mixed block, and literal CapFirstExit torus pullback. It does not assert the product sup norm is physical Euclidean norm; actual negative control rejects that isometry.
+
+Root read the exact final source and full final tests/audit/author/review, independently matched66current+59prior bindings and all10 actual execution triples at14:50:21UTC,13unchanged clean-red headers/fullconstructorprefix,14controls and15exactstd3auditrows. Main03 exit0/79.184776042s; finaltests04 exit0/72.091449791s, both empty logs; audit01 exit0/94.659350125s, all15 rows exactly propext/Classical.choice/Quot.sound. Genuine13-empty-goal correctedred, earlier constructor/API/test failures and test03 unused-simp warnings retained locally, all bound in FULL66-entry final manifest. No reviewer compiler replay or fresh whole-import rebuild is claimed.
+
+This comment contains NINE FULL literal files below: source/tests/audit, exact final review, entire final manifest, three actual final receipts and exact auditstdout. Author narrative, earlier snapshots/logs/receipts, metadata, compiled objects and transitive sources are explicitly LOCAL-BOUND, not serialized. Random frame measurability, rotated-law/isotropy, quantitative CAP inequalities, transverse Hessian/gap/critical pins, Morse/flow implementation and fullI1/I4/scientific theorem remain OPEN. Full goal ACTIVE; sole GRAPH/STATUS unchanged. No runtime/worker/rule/deployment change.
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrame.lean — 6807B SHA256 7cc9966f8f2eaabc31c70066706f043bcfc3333389c30c87c960e2b394bd3e75
+```````text
+import DeterministicSourceC4
+import CapFirstExit
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Analysis.Calculus.ContDiff.Basic
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Torus I4DeterministicC4
+open scoped BigOperators RealInnerProductSpace
+namespace I1PhysicalFrame
+
+abbrev E (n : ℕ) := EuclideanSpace ℝ (Fin n)
+
+def frame (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) :
+    (ℝ × E m) ≃L[ℝ] (Fin (m+1) → ℝ) :=
+  let e1 := (LinearEquiv.refl ℝ ℝ).prodCongr (WithLp.linearEquiv 2 ℝ (Fin m → ℝ))
+  let e2 := e1.trans (Fin.consLinearEquiv ℝ (fun _ : Fin (m+1) => ℝ))
+  let e3 := e2.trans (WithLp.linearEquiv 2 ℝ (Fin (m+1) → ℝ)).symm
+  let e4 := e3.trans b.repr.symm.toLinearEquiv
+  (e4.trans (WithLp.linearEquiv 2 ℝ (Fin (m+1) → ℝ))).toContinuousLinearEquiv
+
+def affineFrame (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (z0 : Fin (m+1) → ℝ) : (ℝ × E m) ≃ₜ (Fin (m+1) → ℝ) :=
+  (frame m b).toHomeomorph.trans (Homeomorph.addLeft z0)
+
+theorem frame_apply (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (t : ℝ) (y : E m) :
+    frame m b (t,y) = WithLp.ofLp (b.repr.symm (WithLp.toLp 2 (Fin.cons t (WithLp.ofLp y)))) := by
+  rfl
+
+theorem affine_apply (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (z0 : Fin (m+1) → ℝ) (t : ℝ) (y : E m) :
+    affineFrame m b z0 (t,y) = z0 + frame m b (t,y) := by
+  rfl
+
+theorem affine_midpoint (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (z0 : Fin (m+1) → ℝ) : affineFrame m b z0 (0,0) = z0 := by
+  rw [affine_apply]
+  change z0 + frame m b 0 = z0
+  simp
+
+theorem physical_energy (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (z0 : Fin (m+1) → ℝ) (t : ℝ) (y : E m) :
+    ‖WithLp.toLp 2 (affineFrame m b z0 (t,y) - z0)‖ ^ 2 = t^2 + ‖y‖^2 := by
+  rw [affine_apply, add_sub_cancel_left, frame_apply, WithLp.toLp_ofLp,
+    b.repr.symm.norm_map, EuclideanSpace.real_norm_sq_eq]
+  simp [Fin.sum_univ_succ, EuclideanSpace.real_norm_sq_eq]
+
+theorem frame_axial (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) :
+    frame m b (1,0) = WithLp.ofLp (b 0) := by
+  rw [frame_apply]
+  have he : WithLp.toLp 2 (Fin.cons (1:ℝ) (WithLp.ofLp (0:E m))) =
+      EuclideanSpace.single (0:Fin (m+1)) 1 := by
+    ext i
+    refine Fin.cases ?_ (fun j => ?_) i <;> simp
+  rw [he, b.repr_symm_single]
+
+theorem frame_transverse (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (y : E m) : frame m b (0,y) = WithLp.ofLp (∑ i, y i • b i.succ) := by
+  rw [frame_apply, ← b.sum_repr_symm]
+  congr 1
+  simp [Fin.sum_univ_succ]
+
+theorem axial_norm (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) :
+    ‖WithLp.toLp 2 (frame m b (1,0))‖ = 1 := by
+  rw [frame_axial, WithLp.toLp_ofLp]
+  exact b.norm_eq_one 0
+
+theorem transverse_norm (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (y : E m) : ‖WithLp.toLp 2 (frame m b (0,y))‖ = ‖y‖ := by
+  have h := physical_energy m b 0 0 y
+  simp only [affine_apply, zero_add, sub_zero] at h
+  nlinarith [norm_nonneg (WithLp.toLp 2 (frame m b (0,y))), norm_nonneg y]
+
+theorem axial_transverse_orthogonal (m : ℕ)
+    (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) (y : E m) :
+    inner ℝ (WithLp.toLp 2 (frame m b (1,0))) (WithLp.toLp 2 (frame m b (0,y))) = 0 := by
+  rw [frame_axial, frame_transverse, WithLp.toLp_ofLp, WithLp.toLp_ofLp]
+  simp [inner_sum, inner_smul_right, b.inner_eq_ite, eq_comm]
+
+theorem source_derivative_transfer (m : ℕ)
+    (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) (z0 : Fin (m+1) → ℝ)
+    {L : ℝ} (hL : L ≠ 0) (coeff : SourceMode (m+1) → ℝ)
+    (hcoeff : Summable (fun k => modeMajorant (m+1) L k * |coeff k|))
+    (j : ℕ) (hj : j ≤ 4) (q : ℝ × E m) (v : Fin j → (ℝ × E m)) :
+    iteratedFDeriv ℝ j (sourceField (m+1) L coeff ∘ affineFrame m b z0) q v =
+      iteratedFDeriv ℝ j (sourceField (m+1) L coeff) (affineFrame m b z0 q)
+        (fun i => frame m b (v i)) := by
+  have hs := sourceField_contDiff_of_majorant (m+1) hL coeff hcoeff
+  have hh : ContDiff ℝ 4 (fun x : Fin (m+1) → ℝ => sourceField (m+1) L coeff (z0+x)) :=
+    hs.comp (contDiff_const.add contDiff_id)
+  have he : sourceField (m+1) L coeff ∘ affineFrame m b z0 =
+      (fun x => sourceField (m+1) L coeff (z0+x)) ∘ (frame m b).toContinuousLinearMap := by
+    funext x
+    rcases x with ⟨t,y⟩
+    rw [Function.comp_apply, affine_apply]
+    rfl
+  rw [he, (frame m b).toContinuousLinearMap.iteratedFDeriv_comp_right hh q
+    (by exact_mod_cast hj), iteratedFDeriv_comp_add_left]
+  rcases q with ⟨t,y⟩
+  simp only [ContinuousMultilinearMap.compContinuousLinearMap_apply,
+    ContinuousLinearEquiv.coe_coe, affine_apply]
+
+theorem source_third_blocks (m : ℕ)
+    (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) (z0 : Fin (m+1) → ℝ)
+    {L : ℝ} (hL : L ≠ 0) (coeff : SourceMode (m+1) → ℝ)
+    (hcoeff : Summable (fun k => modeMajorant (m+1) L k * |coeff k|))
+    (q : ℝ × E m) (v : Fin 3 → E m) (axial : Fin 3 → Bool) :
+    iteratedFDeriv ℝ 3 (sourceField (m+1) L coeff ∘ affineFrame m b z0) q
+      (fun i => if axial i then (1,0) else (0,v i)) =
+    iteratedFDeriv ℝ 3 (sourceField (m+1) L coeff) (affineFrame m b z0 q)
+      (fun i => if axial i then WithLp.ofLp (b 0) else WithLp.ofLp (∑ k, v i k • b k.succ)) := by
+  rw [source_derivative_transfer m b z0 hL coeff hcoeff 3 (by omega)]
+  congr 1
+  funext i
+  cases axial i <;> simp [frame_axial, frame_transverse]
+
+theorem source_fourth_blocks (m : ℕ)
+    (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) (z0 : Fin (m+1) → ℝ)
+    {L : ℝ} (hL : L ≠ 0) (coeff : SourceMode (m+1) → ℝ)
+    (hcoeff : Summable (fun k => modeMajorant (m+1) L k * |coeff k|))
+    (q : ℝ × E m) (v : Fin 4 → E m) (axial : Fin 4 → Bool) :
+    iteratedFDeriv ℝ 4 (sourceField (m+1) L coeff ∘ affineFrame m b z0) q
+      (fun i => if axial i then (1,0) else (0,v i)) =
+    iteratedFDeriv ℝ 4 (sourceField (m+1) L coeff) (affineFrame m b z0 q)
+      (fun i => if axial i then WithLp.ofLp (b 0) else WithLp.ofLp (∑ k, v i k • b k.succ)) := by
+  rw [source_derivative_transfer m b z0 hL coeff hcoeff 4 (by omega)]
+  congr 1
+  funext i
+  cases axial i <;> simp [frame_axial, frame_transverse]
+
+theorem source_torus_pullback (m : ℕ)
+    (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1))) (z0 : Fin (m+1) → ℝ)
+    (L : ℝ) [Fact (0 < L)] (coeff : SourceMode (m+1) → ℝ) (q : ℝ × E m) :
+    (sourceField (m+1) L coeff ∘ affineFrame m b z0) q =
+      torusSourceField (m+1) L coeff (CapFirstExit.torusCover L (m+1) (affineFrame m b z0 q)) := by
+  exact (torusSourceField_pullback (m+1) L coeff (affineFrame m b z0 q)).symm
+
+end I1PhysicalFrame
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrameTests.lean — 5063B SHA256 a4417af2d61cd0a565d2dc9515dc833f386d709308aca5ff9b91d76cf34672ef
+```````text
+import PhysicalFrame
+
+noncomputable section
+open I1PhysicalFrame I4Foundation I4Weights I4Source I4Torus
+open scoped BigOperators RealInnerProductSpace
+namespace PhysicalFrameTests
+
+abbrev std (m : ℕ) := EuclideanSpace.basisFun (Fin (m+1)) ℝ
+
+example (m : ℕ) (t : ℝ) (y : E m) : frame m (std m) (t,y) = Fin.cons t (WithLp.ofLp y) := by
+  rw [frame_apply]
+  rfl
+
+example (m : ℕ) (z0 : Fin (m+1) → ℝ) : affineFrame m (std m) z0 (0,0) = z0 :=
+  affine_midpoint _ _ _
+
+-- The actual two axial pin images have the supplied midpoint, for an arbitrary physical basis.
+example (m : ℕ) (b : OrthonormalBasis (Fin (m+1)) ℝ (E (m+1)))
+    (z0 : Fin (m+1) → ℝ) (r : ℝ) :
+    (1/2:ℝ) • (affineFrame m b z0 (-r/2,0) + affineFrame m b z0 (r/2,0)) = z0 := by
+  have hn : frame m b (-r/2,0) = -frame m b (r/2,0) := by
+    rw [show ((-r/2,0) : ℝ × E m) = -(r/2,0) by simp [neg_div]]
+    exact (frame m b).map_neg _
+  rw [affine_apply,affine_apply,hn]
+  ext i
+  simp only [Pi.smul_apply,Pi.add_apply,Pi.neg_apply,smul_eq_mul]
+  ring
+
+example (t : ℝ) (y : E 0) : frame 0 (std 0) (t,y) 0 = t := by
+  rw [frame_apply]
+  rfl
+
+example : frame 0 (std 0) (0,(0:E 0)) = 0 := by simp
+
+example (b : OrthonormalBasis (Fin 3) ℝ (E 3)) (z0 : Fin 3 → ℝ) (y : E 2) :
+    ‖WithLp.toLp 2 (affineFrame 2 b z0 (2,y) - z0)‖^2 = 4 + ‖y‖^2 := by
+  simpa only [show (2:ℝ)^2 = 4 by norm_num] using physical_energy 2 b z0 2 y
+
+example (b : OrthonormalBasis (Fin 3) ℝ (E 3)) : frame 2 b (1,0) = WithLp.ofLp (b 0) :=
+  frame_axial _ _
+
+example (b : OrthonormalBasis (Fin 3) ℝ (E 3)) (y : E 2) :
+    frame 2 b (0,y) = WithLp.ofLp (y 0 • b 1 + y 1 • b 2) := by
+  simpa [Fin.sum_univ_succ] using frame_transverse 2 b y
+
+example (b : OrthonormalBasis (Fin 3) ℝ (E 3)) (y : E 2) :
+    inner ℝ (WithLp.toLp 2 (frame 2 b (1,0))) (WithLp.toLp 2 (frame 2 b (0,y))) = 0 :=
+  axial_transverse_orthogonal _ _ _
+
+-- The constructed equivalence preserves PHYSICAL Euclidean energy, not the product sup norm.
+example : ‖WithLp.toLp 2 (frame 1 (std 1) (1,EuclideanSpace.single 0 1))‖^2 ≠
+    ‖((1:ℝ),(EuclideanSpace.single 0 (1:ℝ) : E 1))‖^2 := by
+  intro he
+  have h := physical_energy 1 (std 1) 0 1 (EuclideanSpace.single 0 1)
+  simp only [affine_apply, zero_add, sub_zero] at h
+  norm_num at h
+  have hp : ‖((1:ℝ),(EuclideanSpace.single 0 (1:ℝ) : E 1))‖^2 = (1:ℝ) := by
+    norm_num [Prod.norm_def]
+  rw [hp] at he
+  linarith
+
+private theorem single_majorant (n : ℕ) (L : ℝ) (m : SourceMode n) :
+    Summable (fun k => modeMajorant n L k * |((Pi.single m (1:ℝ)) : SourceMode n → ℝ) k|) := by
+  have hs : Summable (fun k : SourceMode n => if k=m then modeMajorant n L m else 0) := by
+    exact (hasSum_ite_eq m (modeMajorant n L m)).summable
+  convert hs using 1
+  funext k
+  by_cases h : k=m <;> simp [h]
+
+-- A nonconstant actual paired cosine mode; derivatives stay on the SAME coefficients and field.
+def nonconstant : SourceMode 2 := some (⟨fun _ => 1,⟨0,by norm_num,
+  fun j hj => (Fin.not_lt_zero j hj).elim⟩⟩,false)
+
+example (q : ℝ × E 1) (v : Fin 2 → (ℝ × E 1)) :
+    iteratedFDeriv ℝ 2 (sourceField 2 1 (Pi.single nonconstant 1) ∘ affineFrame 1 (std 1) 0) q v =
+    iteratedFDeriv ℝ 2 (sourceField 2 1 (Pi.single nonconstant 1)) (affineFrame 1 (std 1) 0 q)
+      (fun i => frame 1 (std 1) (v i)) :=
+  source_derivative_transfer _ _ _ (by norm_num) _ (single_majorant 2 1 nonconstant) 2 (by omega) q v
+
+example (q : ℝ × E 1) (y : E 1) :
+    iteratedFDeriv ℝ 3 (sourceField 2 1 (Pi.single nonconstant 1) ∘ affineFrame 1 (std 1) 0) q
+      ![(0,y),(1,0),(1,0)] =
+    iteratedFDeriv ℝ 3 (sourceField 2 1 (Pi.single nonconstant 1)) (affineFrame 1 (std 1) 0 q)
+      ![WithLp.ofLp (y 0 • std 1 1),WithLp.ofLp (std 1 0),WithLp.ofLp (std 1 0)] := by
+  convert source_third_blocks 1 (std 1) 0 (by norm_num : (1:ℝ) ≠ 0)
+    (Pi.single nonconstant 1) (single_majorant 2 1 nonconstant) q (fun _ => y) ![false,true,true] using 1 <;>
+    congr 1 <;> funext i <;> fin_cases i <;> simp
+
+example (q : ℝ × E 1) (y : E 1) :
+    iteratedFDeriv ℝ 4 (sourceField 2 1 (Pi.single nonconstant 1) ∘ affineFrame 1 (std 1) 0) q
+      ![(0,y),(1,0),(1,0),(1,0)] =
+    iteratedFDeriv ℝ 4 (sourceField 2 1 (Pi.single nonconstant 1)) (affineFrame 1 (std 1) 0 q)
+      ![WithLp.ofLp (y 0 • std 1 1),WithLp.ofLp (std 1 0),WithLp.ofLp (std 1 0),WithLp.ofLp (std 1 0)] := by
+  convert source_fourth_blocks 1 (std 1) 0 (by norm_num : (1:ℝ) ≠ 0)
+    (Pi.single nonconstant 1) (single_majorant 2 1 nonconstant) q (fun _ => y) ![false,true,true,true] using 1 <;>
+    congr 1 <;> funext i <;> fin_cases i <;> simp
+
+example (b : OrthonormalBasis (Fin 2) ℝ (E 2)) (z0 : Fin 2 → ℝ)
+    (coeff : SourceMode 2 → ℝ) (q : ℝ × E 1) :
+    (sourceField 2 1 coeff ∘ affineFrame 1 b z0) q =
+      torusSourceField 2 1 coeff (CapFirstExit.torusCover 1 2 (affineFrame 1 b z0 q)) :=
+  by
+    let _ : Fact (0 < (1:ℝ)) := ⟨by norm_num⟩
+    exact source_torus_pullback _ _ _ _ _ _
+
+end PhysicalFrameTests
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrameAxioms.lean — 720B SHA256 05ef3b92a4c01aafca4b09c489af47c40ffec36f36067326de2c1d1f9c745a90
+```````text
+import PhysicalFrame
+#print axioms I1PhysicalFrame.frame
+#print axioms I1PhysicalFrame.affineFrame
+#print axioms I1PhysicalFrame.frame_apply
+#print axioms I1PhysicalFrame.affine_apply
+#print axioms I1PhysicalFrame.affine_midpoint
+#print axioms I1PhysicalFrame.physical_energy
+#print axioms I1PhysicalFrame.frame_axial
+#print axioms I1PhysicalFrame.frame_transverse
+#print axioms I1PhysicalFrame.axial_norm
+#print axioms I1PhysicalFrame.transverse_norm
+#print axioms I1PhysicalFrame.axial_transverse_orthogonal
+#print axioms I1PhysicalFrame.source_derivative_transfer
+#print axioms I1PhysicalFrame.source_third_blocks
+#print axioms I1PhysicalFrame.source_fourth_blocks
+#print axioms I1PhysicalFrame.source_torus_pullback
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/EXACT_PHYSICAL_FRAME_REVIEW_LOCAL_RUNTIME_READONLY_20261008.md — 15698B SHA256 0be569b952daf8544c5072df2c1d611bd55e1bfbc2b7caadaec68376ca3fa98c
+```````text
+# Exact nonauthor review: constructed physical affine frame
+
+Actual reviewer: `/root/local_runtime_readonly`. Completed at **2026-10-08T14:46:37.723111+00:00**. Owner/coordinator `/root`; implementation author `/root/i2_formal_support`. Disposition: **ACCEPT_SCOPED** for the exact constructor and thirteen same-source geometric/differential identities specified below. I found no must-fix in those proofs, their literal premises, or the final evidence. This is an independently completed source/semantic review, with organizational independence **0** and reviewer compiler executions **0**. It is not a full I1, CAP, probabilistic, or scientific acceptance.
+
+## Exact final version and actual inspection
+
+I read the complete current main, complete final test and axiom sources, whole final author narrative, PLAN, runner/context, both target-red logs, all failed main/test logs, the successful logs and their actual receipts. I inspected the relevant frozen deterministic regularity and source-torus definitions/proofs, the literal cap consumer, and the pinned constructor/calculus APIs. I did not rely on the producer's or root's verdict as a proof. The author freeze was actually recorded at `2026-10-08T14:43:12.303939+00:00`; it was available and consumed before this review was issued.
+
+| Exact object | Bytes | SHA-256 |
+|---|---:|---|
+| `lean-project/PhysicalFrame.lean` | 6807 | `7cc9966f8f2eaabc31c70066706f043bcfc3333389c30c87c960e2b394bd3e75` |
+| `lean-project/PhysicalFrameTests.lean` | 5063 | `a4417af2d61cd0a565d2dc9515dc833f386d709308aca5ff9b91d76cf34672ef` |
+| `lean-project/PhysicalFrameAxioms.lean` | 720 | `05ef3b92a4c01aafca4b09c489af47c40ffec36f36067326de2c1d1f9c745a90` |
+| `IMPLEMENTATION.md` | 10706 | `911ad6455ecc55c83efd574233c5bc239a2aa2c497c0dd16d89cc4d7cf81e852` |
+| `FINAL_FREEZE.json` | 23010 | `8a85907db1a67b093e13479c1d7b8321f32e0e3312cc457d68423761317a7e4d` |
+| `freeze-integrity.json` | 15005 | `2cb0dddedd5abc016de792a83ede1cedad1c62c48491ddf620a45ae507bc9751` |
+| `evidence/FINAL_METADATA.json` | 23694 | `b8782ea2aec572017f7161d2df653903d2c9f21562dcbc7cac1347f6ebd96cf0` |
+| Clean empty-target snapshot `evidence/target-red02.lean` | 4776 | `dc4879d24d13eeadc662b0776fa6dd62f6b0f7157807439eefb0ce8191b3f5fb` |
+
+My own fresh Python byte/size/SHA readback found **66/66 manifest entries matching**: 41 owned source/evidence, 12 observed frozen predecessors, eight pinned primary sources, two actual imported objects, and three emitted final objects. I independently recomputed each of the ten actual receipt/snapshot/log bindings, not merely the metadata's true flags. Each snapshot and log matches the SHA in its corresponding real execution receipt. I independently extracted all thirteen main theorem headers and compared their exact raw text to clean-red02: **13/13 equal**, with the entire constructor/definition prefix also byte-identical. The three final main/test/audit sources have no `sorry`, `admit`, or custom `axiom` declaration tokens.
+
+I also freshly checked the 59 entries of the prior PinReproduction manifest `e7f3ecd8130bfe63a450c95dc913925932a5c02a3a0f56c34288141d3c267e88`: all match. That is a custody observation, not a premise or new approval of that package. This review is not a claim of an exhaustive rebuilt transitive dependency closure.
+
+The actual Mathlib checkout HEAD read by `git rev-parse HEAD` is `d13f23b723b8a846827a245b89c10fc7d3f11612`. The actual runner receipts invoke the pinned Lean4.34.1 binary, `nice -n 10`, one Lean thread, and capsule-local emitted objects. This is cached-import target elaboration and a declaration-axiom audit. No reviewer compiler, fresh whole-library build, external kernel checker, whole-import replay, model inference, runtime installation, or authoritative source write occurred.
+
+## Constructed frame and physical norm audit
+
+The mathematical inputs are a natural number `m`, an actual physical orthonormal basis
+
+`b : OrthonormalBasis (Fin (m+1)) ℝ (EuclideanSpace ℝ (Fin (m+1)))`,
+
+and a midpoint `z0 : Fin (m+1) → ℝ`. No homeomorphism, isometry, derivative-transport conclusion, or cap conclusion is supplied as a premise.
+
+At main lines13–23 the code constructs a genuine continuous linear equivalence `A` and translated homeomorphism `phi`. The chain is correctly oriented: `WithLp.linearEquiv 2` first removes the transverse Euclidean wrapper; `Fin.consLinearEquiv` assembles axial and transverse coordinates; its next WithLp inverse supplies the Euclidean coefficient vector; `b.repr.symm` synthesizes the physical vector; the final WithLp map yields the existing plain Pi field coordinates. Finite-dimensional continuity upgrades the linear equivalence; translation by `z0` constructs `phi`. The exact formula at lines25–33 is proved definitionally:
+
+`phi(t,y) = z0 + ofLp (b.repr.symm (toLp 2 (Fin.cons t (ofLp y))))`.
+
+The midpoint proof is a genuine zero-image consequence of linearity. The energy proof at lines41–46 applies the physical isometry `b.repr.symm`, then the Euclidean sum-square formula and `Fin.sum_univ_succ`. It proves exactly
+
+`‖toLp 2 (phi(t,y) − z0)‖² = t² + ‖y‖²`.
+
+The `toLp 2` is essential. The theorem does not confuse the plain finite-Pi sup norm or the default product sup norm with physical Euclidean energy. The target `A` is a continuous linear equivalence rather than a falsely asserted product-norm isometry. Pure-axis and pure-transverse conclusions are valid physical norm statements: `A(1,0)=ofLp(b 0)`, `A(0,y)=ofLp(Σ_i y_i • b i.succ)`, axial norm one, transverse physical norm `‖y‖`, and physical inner product zero. The transverse norm follows from squared energy plus norm nonnegativity, not an unlicensed square-root sign cancellation. Orthogonality uses the actual basis inner-product Kronecker identity and zero-versus-successor index distinction.
+
+All of these statements permit `m=0`; the sole axial direction and empty transverse sum are meaningful. The physical dimension-at-least-two consumer specializes to `m≥1`. No arbitrary-frame uniform lower bound or covariance isotropy follows from these identities.
+
+I checked the actual pinned primary signatures, including WithLp's map direction (WithLp:237–245), the plain linear `Fin.consLinearEquiv` (LinearAlgebra/Pi:662), the finite-dimensional continuous upgrade (Topology/Algebra/Module/FiniteDimension:368), and physical Euclidean/basis identities in PiL2, including `real_norm_sq_eq`, `repr_symm_single`, `sum_repr_symm`, `norm_eq_one`, and `inner_eq_ite`. The orientation and types used by the source are faithful to those APIs.
+
+## Same actual field and derivative-block audit
+
+The exact differential premises at main lines80–87 are `L≠0`, arbitrary actual `coeff : SourceMode (m+1) → ℝ`, the explicit deterministic majorant
+
+`Summable (fun k => modeMajorant (m+1) L k * |coeff k|)`,
+
+and `j≤4`. There is no Gaussian-law or original-source almost-everywhere hypothesis. Both sides contain the **same literal** `sourceField (m+1) L coeff`.
+
+The proof obtains actual `ContDiff ℝ 4` from `sourceField_contDiff_of_majorant`; it composes with the actual translation, proves the function equality with the translated field composed with `A`, and applies the pinned continuous-linear iterated derivative rule plus the translation identity. The cast from `j≤4` reaches the required WithTop-ENat order. It then evaluates the actual composed continuous multilinear map on all directions. This supplies every order `j≤4`, including order0, every point and direction tuple. It is not merely an equality of surrogate formal jets or a supplied derivative relation. No probability measure is changed or transferred in this proof.
+
+The complete deterministic predecessor `DeterministicSourceC4.lean`, SHA `aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00`, was read. Its source theorem obtains `ContDiff` by actual `contDiff_tsum` using the explicit coefficient majorant and actual mode derivative bound. Thus this leaf can be used pointwise on any coefficients for which a later, separate law proves that majorant. It does not import an original-law AE conclusion into a changed law.
+
+The third- and fourth-order proofs at lines103–129 specialize the same transfer theorem in every Bool-selected axial/transverse slot. They use exact images `ofLp(b 0)` and `ofLp(Σ_k v_i k • b k.succ)`. No permutation or covariance-rotation argument is required. The actual pinned `ContinuousLinearMap.iteratedFDeriv_comp_right` in ContDiff/Basic:461 and `iteratedFDeriv_comp_add_left` in FTaylorSeries:959 support the applied identities.
+
+I read the literal unchanged `CapFirstExit.torus_capHyp_blocks` consumer at lines5214 onward in the frozen326607-byte source, SHA `040aa91fcbdf25ccdaced1c828dd779318217a7c41ac928f87e8d17a8d3c3ef0`. The third-order shapes are all-axial, one transverse, two transverse, and three transverse; fourth-order shapes are all-axial and one transverse. The new block theorems cover these exact ordered directional tuples; the pure transverse physical norm equality provides the corresponding norm factors. They do **not** supply the bounds `M3`, `M4`, transverse Hessian negativity, criticality, gap normalization, or the CAP numerical inequalities. Full continuous-multilinear-map operator norm preservation between product/Pi and physical spaces is not claimed or needed for the pointwise identities accepted here.
+
+The last main theorem, lines131–136, requires `0<L` and proves the actual same-coefficient pullback along the constructed frame to the literal `CapFirstExit.torusCover`. I checked the existing source-torus pullback at SourceTorus:58 and the actual cover definitions: both are coordinatewise quotient projection and agree definitionally. The equality is pointwise for arbitrary coefficients, and it is the consumer's `hg` field-alignment shape. It is not an application of the cap theorem, a new random field, or an unproved torus-law identification.
+
+## Actual controls and preserved negative evidence
+
+I counted and read exactly **14** final `example` declarations. They check standard-frame evaluation, midpoint, the midpoint of the two actual axial pin images for arbitrary basis, both `m=0` edge controls, arbitrary-basis physical energy, axial/transverse formulas and orthogonality, and the explicit failure of the product-sup isometry claim. In that negative control the actual physical squared norm is2 while the product squared norm is1.
+
+The remaining derivative controls use the actual paired cosine mode at nonzero half-lattice frequency `(1,1)` in dimension2, with a single supported coefficient and a genuinely proved finite-support majorant. They exercise a second-order same-field transfer and literal one-transverse third/fourth Fin-vector blocks at arbitrary points. These are meaningful instantiations rather than zero-coefficient vacuity or unrelated polynomial replacements. They check the identities, not a numerical nonzero value of a derivative or a probabilistic block bound. The final control uses the actual torus cover with arbitrary coefficients and basis at `L=1`.
+
+The paired-axis midpoint fixture was present before the first test compiler run. The initial thirteen/fourteen estimated-count history is not used as a false earlier passing count; the final count is independently fourteen. Tests03→tests04 changes only removal of two unused `Fin.sum_univ_one` simp arguments, verified by an actual diff. No fixture statement was removed or weakened.
+
+| Actual retained run | Exit | Seconds | Evidence interpretation |
+|---|---:|---:|---|
+| target-red | 1 | 86.017574834 | Actual constructor/type/parser errors; not a clean target red |
+| target-red02 | 1 | 73.567071084 | Exactly13 intended empty goals and no unrelated errors |
+| main-attempt01 | 1 | 76.107667042 | Fin annotation/parser and orthogonality errors; warnings retained |
+| main-attempt02 | 1 | 85.545703792 | Nonexistent Fin lemma and order-cast mismatch retained |
+| main-attempt03 | 0 | 79.184776042 | Exact final thirteen-target source; empty log |
+| tests-attempt01 | 1 | 74.400268084 | Numeric/negation-introduction and single-coefficient typing errors retained |
+| tests-attempt02 | 1 | 83.596012291 | Literal vector versus Bool-packed extensionality errors retained |
+| tests-attempt03 | 0 | 79.605915917 | Fourteen controls pass; two unused-simp warnings retained |
+| tests-attempt04 | 0 | 72.091449791 | Exact final fourteen controls; empty log |
+| axioms-attempt01 | 0 | 94.659350125 | Exact final fifteen declaration-axiom rows |
+
+These are the actual producer commands `python3 run_compile.py TAG FILE`, with the precise Lean argv/cwd/source/log identities retained in each JSON. The first constructor was corrected before clean-red02; the valid preproof constructor and thirteen target headers thereafter remain identical. I inspected the clean log and independently counted thirteen unsolved-goal errors. The producer's statement that the proof-string script was prepared while the clean red ran but applied after terminal empty-goal validation is retained as disclosed authorship timing, not credited as a pre-draft test. Historical parser-generated `sorry` expressions in failed compiler diagnostics are not proofs or accepted source escapes. All final active sources are free of escape tokens.
+
+The full audit log is1404bytes SHA `8fbde63e26df9d339dcd143d23e76216ed0e49596a749a2dc9520c86a3873740`. Its fifteen names exactly match the fifteen literal audit commands: two constructor definitions and all thirteen public theorems. Every row is exactly `[propext, Classical.choice, Quot.sound]`; no custom axiom or `sorryAx` is present. Final main and test logs are empty, with SHA `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`.
+
+## Disposition, exposure, and remaining gates
+
+**ACCEPT_SCOPED**, with no must-fix found, for this exact final leaf: a physical-basis/midpoint-constructed affine homeomorphism, the physical energy/axis/transverse/norm/orthogonality identities, deterministic same-field derivative transfer through order4, its literal mixed-block specializations, and actual torus pullback. This completes that previously missing constructor/alignment obligation. The supplied basis is a genuine orthonormal basis, not a disguised supplied homeomorphism or desired derivative theorem.
+
+I had earlier read-only API/construction-route exposure, including the basis/WithLp/Fin-cons chain, and communicated feasibility to root/producer. I did not implement this source, its tests, or its integration fixes. I have unrelated prior implementation authorship in TwoPinAlgebra, which is not imported by this frame module; an ancestor project appearing in `LEAN_PATH` is not an import or an independence claim. The producer authored several source-field dependencies. These roles, source exposure and same-organization status are explicit; no blind review, distinct organization, copied child vote, or reviewer compiler replay is claimed.
+
+The following remain separate: measurable random frame selection and its compatibility with conditioned-law parameters; quantitative partial-block estimates; transverse Hessian negativity and critical pin equations; cubic gap normalization; CAP inequalities and cap/elder analytic hypotheses; the full Morse chart/flow/component certificate; full I1/I4 and the global theorem's scientific/numerical gates. This acceptance gives no rotationally invariant covariance or GOE/isotropy premise. It does not infer a physical-frame law from an orthonormal deterministic constructor. No predecessor source, control, worker, graph or STATUS was changed by this review; only this reviewer-owned report was written.
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/FINAL_FREEZE.json — 23010B SHA256 8a85907db1a67b093e13479c1d7b8321f32e0e3312cc457d68423761317a7e4d
+```````text
+{
+  "actual_utc": "2026-10-08T14:43:12.303939+00:00",
+  "producer": "/root/i2_formal_support",
+  "entries": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/IMPLEMENTATION.md",
+      "bytes": 10706,
+      "sha256": "911ad6455ecc55c83efd574233c5bc239a2aa2c497c0dd16d89cc4d7cf81e852",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/PLAN.md",
+      "bytes": 2151,
+      "sha256": "6225bdce9819175db9d193f8a3e9868d054ff7f33b802e7de10b0c62eaf77d96",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/apply_proofs.py",
+      "bytes": 2808,
+      "sha256": "88c7eb9a6aade8e357caade978041137f1a6fe881df2cca52336931906739cc1",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/compile-context.json",
+      "bytes": 4579,
+      "sha256": "e48dc8c04153fc7754ed663d56db1b1eb92ab221ee8fb58c2287a5b7f91d8223",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/FINAL_METADATA.json",
+      "bytes": 23694,
+      "sha256": "b8782ea2aec572017f7161d2df653903d2c9f21562dcbc7cac1347f6ebd96cf0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/axioms-attempt01.json",
+      "bytes": 906,
+      "sha256": "c64c4f20ff16157efed93510dd51757d3bd68815515ca3e83f64cc70c2414662",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/axioms-attempt01.lean",
+      "bytes": 720,
+      "sha256": "05ef3b92a4c01aafca4b09c489af47c40ffec36f36067326de2c1d1f9c745a90",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/axioms-attempt01.log",
+      "bytes": 1404,
+      "sha256": "8fbde63e26df9d339dcd143d23e76216ed0e49596a749a2dc9520c86a3873740",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt01.json",
+      "bytes": 894,
+      "sha256": "1da438f6549c4ec1b9ecb353498627d19b9a9136dab20461e9b9b13414839846",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt01.lean",
+      "bytes": 6862,
+      "sha256": "eb77c4e7a74c5463a8a58e441faefda66c9f5c138dcca69220a4a4c1f6319ec8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt01.log",
+      "bytes": 2445,
+      "sha256": "481255dad7577637f92a6be46500ebe7f8482ccaf98a01acb356150d7c9ed426",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt02.json",
+      "bytes": 899,
+      "sha256": "74663be015344d5bfcd9f6f862c7153d8dc052ca27bd84f0fa7b151fe7200b2a",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt02.lean",
+      "bytes": 6838,
+      "sha256": "04e960a9428efe24e9654a813300414376bdd9a5159b1893ecb55bbc9472a23b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt02.log",
+      "bytes": 448,
+      "sha256": "878025a2cfd34601f17a432022c08e90b061ba1751e3d3fe47eee1d919080e2d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt03.json",
+      "bytes": 894,
+      "sha256": "20c7a0ca5de31eba92d4f6a3d9275033af22a486da2811faccc49d782d9b992d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt03.lean",
+      "bytes": 6807,
+      "sha256": "7cc9966f8f2eaabc31c70066706f043bcfc3333389c30c87c960e2b394bd3e75",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red.json",
+      "bytes": 899,
+      "sha256": "2767019ede40be5e2b785596c9f0289b4511c243a830ec160a2213fb742c4268",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red.lean",
+      "bytes": 4744,
+      "sha256": "fb9bda6c52dbc129c9d41104d311eab0ada04f2941e1f8e1d46f9617b11d6bfa",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red.log",
+      "bytes": 4275,
+      "sha256": "690fdd9033adb5b8eb7f719518f47a8740cceb421611a4a5eac2e6e217b56b1d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red02.json",
+      "bytes": 899,
+      "sha256": "67d69e50b627e0ca7cf313231122a5eabc37d76e061c3767a4e3908fe2c6efcf",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red02.lean",
+      "bytes": 4776,
+      "sha256": "dc4879d24d13eeadc662b0776fa6dd62f6b0f7157807439eefb0ce8191b3f5fb",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/target-red02.log",
+      "bytes": 3814,
+      "sha256": "10271a11d150101fa7e7b0fca8e0237eed9191beeb1ab3cc40724fd6e560ceef",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt01.json",
+      "bytes": 909,
+      "sha256": "3c2a7ba4ef8b8ae606899255b7ebfb8fb2477ad69fe3b33ea71363a58a317b44",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt01.lean",
+      "bytes": 4816,
+      "sha256": "e4218941639da8d96b2f6f04ec4c006a244f1505afacf2e9394002983e0c670c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt01.log",
+      "bytes": 941,
+      "sha256": "f2e6cbb455c51fe83673fba9396d28d10e335d29ec515603db25015c37202f8a",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt02.json",
+      "bytes": 909,
+      "sha256": "47b5fbd7e0008623e3792ae6604c79c907fd66373e50d3b8bb20bcabf8ad9146",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt02.lean",
+      "bytes": 5001,
+      "sha256": "d0796600fd571c5a74728bed168d43dd4d7c5fb070dd3eb3b6d49f191b0e1014",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt02.log",
+      "bytes": 2486,
+      "sha256": "11fa46be510be9fd57c4da2e2ff00041f14d98466667dfa7cacfeb0d9ad686ba",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt03.json",
+      "bytes": 904,
+      "sha256": "7bfbd586676b6fa6d854dfe3cbb31319e5b8f224dfd29040d7c9bfbe3c8ef79b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt03.lean",
+      "bytes": 5101,
+      "sha256": "97e00c6e064fdcd513cc1c1feb4b1d759e322874c1c6593b4acfb46bb0f1430c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt03.log",
+      "bytes": 458,
+      "sha256": "e17738d8d20aa353b216e10c30e83a641505aa8db052f2251a79980444b8143e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt04.json",
+      "bytes": 904,
+      "sha256": "c8056d8a88a24d543cf0767eb19a5e02a9c1efa985785255c9dfe8abac1101b4",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt04.lean",
+      "bytes": 5063,
+      "sha256": "a4417af2d61cd0a565d2dc9515dc833f386d709308aca5ff9b91d76cf34672ef",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt04.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/finalize_report.py",
+      "bytes": 10789,
+      "sha256": "812896c5cff10fda204538510431cf2ac7244ede162ddb4f116038e21f2f44a2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/freeze.py",
+      "bytes": 5304,
+      "sha256": "7aa426dd21b0d27955af7efa844b822b89bf4ae365a05900f5cebc72df5706b7",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrame.lean",
+      "bytes": 6807,
+      "sha256": "7cc9966f8f2eaabc31c70066706f043bcfc3333389c30c87c960e2b394bd3e75",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrameAxioms.lean",
+      "bytes": 720,
+      "sha256": "05ef3b92a4c01aafca4b09c489af47c40ffec36f36067326de2c1d1f9c745a90",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/PhysicalFrameTests.lean",
+      "bytes": 5063,
+      "sha256": "a4417af2d61cd0a565d2dc9515dc833f386d709308aca5ff9b91d76cf34672ef",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/run_compile.py",
+      "bytes": 1243,
+      "sha256": "a0764d8b52da5cb062a20b7f1f21021ed0e9efe6b57324c2af3355354945d85c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/GaussianSeriesFoundation.lean",
+      "bytes": 4262,
+      "sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SpectralWeights.lean",
+      "bytes": 6924,
+      "sha256": "92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceFourierSeries.lean",
+      "bytes": 6524,
+      "sha256": "5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceC4.lean",
+      "bytes": 6438,
+      "sha256": "b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceLattice.lean",
+      "bytes": 6284,
+      "sha256": "c644305a426bc876f609c055ce999b8008f028c67a1091639d919f4122981b7b",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceKernel.lean",
+      "bytes": 5293,
+      "sha256": "5fa3abc8fb0db0c14c67b4ee840e659cdf80f7d22c9fd4cb5e6c1c7b204fbd21",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceGaussianLaw.lean",
+      "bytes": 8984,
+      "sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceCovariance.lean",
+      "bytes": 3925,
+      "sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceTorus.lean",
+      "bytes": 5182,
+      "sha256": "02857b44552ab0e51a756b3b095c4ba43f8168ac332b069acb5bc8146d337eef",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-torus-c4/lean-project/SourceTorusC4.lean",
+      "bytes": 6081,
+      "sha256": "b67b13030389dea4521e8e2afcac30ea44f84abd65c374bf208067b288fc64a1",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/lean-project/DeterministicSourceC4.lean",
+      "bytes": 2551,
+      "sha256": "aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-split/lean-project/CapFirstExit.lean",
+      "bytes": 326607,
+      "sha256": "040aa91fcbdf25ccdaced1c828dd779318217a7c41ac928f87e8d17a8d3c3ef0",
+      "kind": "frozen-predecessor-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Normed/Lp/WithLp.lean",
+      "bytes": 11031,
+      "sha256": "f02507031f01c655e61dd1894b74a3452b2f8aedcba55dda9fa0d60e4db0d57d",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/LinearAlgebra/Pi.lean",
+      "bytes": 31698,
+      "sha256": "7216df49a09c85120c95db570a663a572320c92ceda0c04e0af706539b37d0c1",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/InnerProductSpace/PiL2.lean",
+      "bytes": 59486,
+      "sha256": "e721db719dcfdaa8b26fca4dded8b6b7b47206e46fe600294aa2fed1ad130036",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/InnerProductSpace/LinearMap.lean",
+      "bytes": 17255,
+      "sha256": "8b88e65383029c397906c6029ea3d593502074a222207b13226b6af5b9bf0aba",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Topology/Algebra/Module/FiniteDimension.lean",
+      "bytes": 39236,
+      "sha256": "aae1cf2eb90fc1b11375074ec2bb8eccc904e3221d1ee4bfa65b806d971d9367",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Topology/Algebra/Group/Basic.lean",
+      "bytes": 18712,
+      "sha256": "8952ca2bfa3522f39a4611086179675ddc5aea13a5301a61c9cdd5227789f81f",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/ContDiff/Basic.lean",
+      "bytes": 32992,
+      "sha256": "9cce7fc6cd06b7ce6f11c764b68e9cd9a9507deae676c34f0efb926aba661748",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean",
+      "bytes": 52961,
+      "sha256": "f6ebee83905f13d5648f1a9bff39c15b6109f161fdf5d482af9c5f22176ba535",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-split/lean-project/.lake/build/lib/lean/CapFirstExit.olean",
+      "bytes": 13807904,
+      "sha256": "a8ef0f40555e620ec8d448e7d649b3ec683ba18b02766f0ba43b72db02cd50e7",
+      "kind": "actual-imported-object-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/lean-project/.lake/build/lib/lean/DeterministicSourceC4.olean",
+      "bytes": 129576,
+      "sha256": "49c3c3a054af629eb20744b7b628b98918a7330e6322b0d0266893fea3a877eb",
+      "kind": "actual-imported-object-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrame.olean",
+      "bytes": 490648,
+      "sha256": "218a483d75bcf22abf3f11c84b1281eeeecd2034fe8d29b68451d6493eaadf56",
+      "kind": "actual-final-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrameTests.olean",
+      "bytes": 76272,
+      "sha256": "0a96bc6049b945d3561971cfa9d406008058d342f8912570474de5115ef7dda0",
+      "kind": "actual-final-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrameAxioms.olean",
+      "bytes": 1400,
+      "sha256": "ec5cb26f28a7105a9873cd20c6ef23f1475cc52b14ed62d419c28066bcbf10e9",
+      "kind": "actual-final-emitted-object"
+    }
+  ]
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/evidence/main-attempt03.json — 894B SHA256 20c7a0ca5de31eba92d4f6a3d9275033af22a486da2811faccc49d782d9b992d
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PhysicalFrame.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrame.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 79.184776042,
+  "source_sha256": "7cc9966f8f2eaabc31c70066706f043bcfc3333389c30c87c960e2b394bd3e75",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/evidence/tests-attempt04.json — 904B SHA256 c8056d8a88a24d543cf0767eb19a5e02a9c1efa985785255c9dfe8abac1101b4
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PhysicalFrameTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrameTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 72.091449791,
+  "source_sha256": "a4417af2d61cd0a565d2dc9515dc833f386d709308aca5ff9b91d76cf34672ef",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/evidence/axioms-attempt01.json — 906B SHA256 c64c4f20ff16157efed93510dd51757d3bd68815515ca3e83f64cc70c2414662
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PhysicalFrameAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project/.lake/build/lib/lean/PhysicalFrameAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i1-physical-frame/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 94.659350125,
+  "source_sha256": "05ef3b92a4c01aafca4b09c489af47c40ffec36f36067326de2c1d1f9c745a90",
+  "log_sha256": "8fbde63e26df9d339dcd143d23e76216ed0e49596a749a2dc9520c86a3873740",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i1-physical-frame/evidence/axioms-attempt01.log — 1404B SHA256 8fbde63e26df9d339dcd143d23e76216ed0e49596a749a2dc9520c86a3873740
+```````text
+'I1PhysicalFrame.frame' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.affineFrame' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.frame_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.affine_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.affine_midpoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.physical_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.frame_axial' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.frame_transverse' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.axial_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.transverse_norm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.axial_transverse_orthogonal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.source_derivative_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.source_third_blocks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.source_fourth_blocks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I1PhysicalFrame.source_torus_pullback' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+```````
+

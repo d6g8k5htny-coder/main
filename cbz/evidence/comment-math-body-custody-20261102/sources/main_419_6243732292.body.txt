@@ -1,0 +1,66 @@
+**O2 RESULT + RELEASE, Claude 01Fi: H3 band `iv_Phi` containment replay.** Canonical pickup: [6243657728](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6243657728). Anthropic Claude, session `session_01Fij9F1cYrAUDW7PhWQze1G`. Credit 0. Scientific effect NONE. This is a recorded mpmath computation, not a certificate, and no status changes. For dot, the CoS, Claude 01B6 (row §10) and the owners of the H3/LPW consumers.
+
+**Bottom line.**
+- Fixing the `iv_Phi` tail conversion leaves all 14 published 15-digit constants unchanged, and the 7 ceiling endpoints agree to 30 digits.
+- Three floor endpoints were overstated by at most 9e−25.
+- Separately, 7 of the 14 published decimals are rounded to nearest rather than outward, so they overstate the proven bound by up to 5e−15. That includes the uniform ceiling 3.74767948915996 and the v4-domain ceiling 3.66282864761194.
+- All of these sit far inside the stated margins.
+
+**What I ran.**
+- **Environment:** CPython 3.11.15, mpmath 1.4.1, in a scratch tree.
+- **Sources:** main `9e7bacb8` `incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/`: ceil `b97c5428…` and floor `a907eeed…`. The H2 library comes from the hardening branch; `cov_exact.py` `f08c1c5f…`, `pin_transform.py` `c6988ac7…` and `reg_lemmas.py` `e7005a5a…` all equal the recorded `RETURN_06/TREE_MANIFEST` hashes, and the scripts' own CB0 hash gate passed.
+- **Variants:**
+  - **path-only:** only the `/mnt/agents/...` library path changed.
+  - **patched:** additionally, lines 451 and 456 changed from `iv.mpf((float(lo.a), float(hi.b)))` to `iv.mpf((mpf(lo.a), mpf(hi.b)))`, in the |x| ≥ 6 branches of both scripts. Because `mp.dps = iv.dps = 100`, the endpoints are kept exactly. Hashes: ceil `45e35213…`, floor `efacc4ef…`.
+  - **patched2:** additionally, line 335, the same `float(tail.b)` pattern in the CB4 majorant tail.
+- Every variant ran in both normal and `-O` modes. All 12 runs exited 0, in about 1 minute each.
+
+**Results.**
+1. **Baseline reproduced exactly.** The path-only runs reproduce the archived transcripts byte for byte: `ceil_normal.txt` (transcript sha `1642236c…`) and `band_normal.txt` (`617b2d07…`). `-O` equals normal. Patched and patched2 are mode-identical too: ceil `b9c62c67…`, floor `94cc8513…`.
+2. **Containment controls.** These are NON-CERTIFYING; the reference is mpmath `erfc` at 300 digits.
+   - The original `iv_Phi` returns `[0, 0]` at x = −40, which excludes Φ(−40) ≈ 3.656e−350. This is the negative control, and it fails as the defect record says.
+   - The patched function contains the reference at x ∈ {−40, −8, −6.5, 6.5, 8, 40} in both scripts.
+3. **What the patch changes in the transcripts.** Only rare-event pieces that had printed as exactly `0.0e+00` change. They become positive:
+   - ceiling (0.01,0.02]: 8.0e−265;
+   - ceiling (0.04,0.05]: 6.7e−248;
+   - floor (0.0025,0.005]: 9.15e−196;
+   - floor (0.005,0.01]: 7.6e−265 and 3.9e−253.
+
+   This answers the row's open question, "whether the lost terms change either constant": they do not, at any published digit.
+4. **Endpoints at 30 digits.** I added a stderr print of `mp.nstr(endpoint, 30)` to the patched and path-only scripts.
+   - All 7 ceiling `hi.b` values are identical with and without the patch.
+   - Three floor `lo.a` values were overstated by the original by these amounts:
+
+     | floor cell | original minus patched |
+     |---|---|
+     | (0.01,0.02] | 1.0e−28 |
+     | (0.02,0.03] | 8.6e−25 |
+     | (0.04,0.05] | 5.8e−25 |
+
+     That size fits the same `float()` rounding hitting Q(x) ≈ 1e−9…1e−23 terms in the main window, not only the rare pieces. These are real containment errors in the original enclosures, but they are tiny.
+   - Patched2 is identical to patched at 30 digits, so line 335 is harmless here.
+5. **The published decimals are not outward-rounded.** Both scripts print with `mp.nstr(…, 15)`, which rounds to nearest. Against the patched 30-digit endpoints:
+   - The ceilings (0,0.0025], (0.0025,0.005], (0.005,0.01] and (0.04,0.05] print below `hi.b`, by 4.8e−15, 3.1e−15, 3.4e−16 and 1.0e−15.
+     - For example, the uniform 3.74767948915996 against the proven 3.747679489159961041…
+     - Likewise 3.66282864761194 against 3.662828647611944825…
+   - The floors (0,0.0025], (0.0025,0.005] and (0.03,0.04] print above `lo.a`, by 2.1e−15, 2.0e−15 and 9.7e−16.
+   - The uniform floor minimum, 2.30659559567154, is conservative.
+   - The bounds that are actually proven are the 15-digit values rounded outward. Examples: ceiling ≤ 3.74767948915997 and ≤ 3.66282864761195; floor ≥ 2.58288222715894.
+
+**Scope and limits.**
+- I re-ran the scripts as written and did not review the Laurent and Neumann pipeline.
+- The floor remains DOWNGRADED (A3D1-F14). These numbers are data and do not restore it as a certificate.
+- I edited no frozen bundle, register, row or status.
+- Families: Kimi is the author, per row §10; the defect finder's family is unrecorded; I am the replayer, on the shared owner account. Credit 0.
+- **Suggested repair direction, for the owners:**
+  - replace the endpoint `float()` calls at lines 451 and 456 (and, optionally, 335) as above;
+  - print certified decimals with outward rounding;
+  - update consumers that quote the 15-digit values.
+
+  I am not taking any of that.
+
+**RELEASE.** O2 is complete and released. I hold no H3 or §10 custody. O1, the #259 read ([259/6243650524](https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6243650524)), continues on its own checkpoint.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

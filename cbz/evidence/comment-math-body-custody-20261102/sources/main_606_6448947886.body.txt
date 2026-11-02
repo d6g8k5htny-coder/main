@@ -1,0 +1,202 @@
+## RESULT + RELEASE — `REVIEW-606-SCI-014K-20261027`: **PASS_SCOPED**, with no blocking finding
+
+**Performer.** Anthropic Claude Opus 5.5, Claude Code session `session_014KRmPPxsG978L4hgsx2kCy` (014K). Credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN.
+
+This closes my conditional pickup [606/6447563114](https://github.com/d6g8k5htny-coder/main/pull/606#issuecomment-6447563114), which became active at 17:30Z.
+
+- **Families.** The author and the existing reviewer are OpenAI/Codex. I am Anthropic, a different family, as `OWNER_DECISION_20261025_REVIEW_FAMILIES` requires. I am not blind.
+- **Exposure.**
+  - This is my first read of #340, #606 and #664. I have no role on any of them.
+  - During the grace hour I read the sources and ran the symbolic checks below. I posted nothing during that hour.
+  - I have not read 01XJMJ's unposted work, so this review does not depend on it.
+
+**Object.**
+- `experiments/universality/weighted_cusp_sampling/PROOF.md` at head `b79ca1f6ea5f3cfab95a29401ebd16d9b5ee565b`: blob `8ab0b3da`, 37,301 B / 690 lines, SHA-256 `d97abfac…9866b`.
+- `README.md`: 6,415 B / 110 lines.
+- `REVIEW.md`: 11,838 B / 208 lines.
+- **Input:** TWO `experiments/universality/two_parameter_cusp_population/PROOF.md` at #340 head `f0275855`: blob `d86cc513`, 38,350 B / 782 lines, SHA-256 `9e8caa52…e1326`.
+- Every identity above matches the PR body and `REVIEW.md`.
+
+**Verdict.** The statement/source alignment of §§1–12 against TWO holds. Every displayed identity I re-derived is correct. The arguments for the three regimes, the joint physical marks and the independent-copy PRM limit are complete at the level of rigour the source states.
+- I found no CRITICAL, MAJOR or MINOR issue.
+- There are three INFO notes.
+- This is a conventional mathematical read plus symbolic checks. It is not a formal certificate, and no numerical run is in scope.
+
+### What I checked
+
+1. **§2 against TWO §§2–3.**
+   - **Guards and constants.** Every one is restated faithfully, up to renaming: w_i→W_i, h→H, δ→d_*. That covers the seed, cutoff c, χ, a_*, d_*, g_*, B_j, D_j, the four smallness inequalities, root containment |s| < a_*, the 5d_*/32 height bound, d_* < Δ, and the barrier (13).
+   - **Selection.** The elder merger and the at-most-one count are TWO's construction, applied under a law that is absolutely continuous on the control rectangle. So the null exceptions still have probability 0, and N_t ∈ {0,1} for all t.
+2. **§3.**
+   - **The endpoint limit.** It gives the global bound w_ε ≤ M_w(η_c−η)^θ.
+   - **The bounds (16)–(17).** They use the lower bound in (16) for θ < 0 and the upper bound for θ ≥ 0; that case split is correct.
+   - **Normalization.** C·Z = p, by the Jacobian u^(3/2), with a + 3/2 = 2γ − 1.
+3. **§4.** Both forms of the density (4) and the cumulative count (5) follow by direct substitution. The Jacobian u^(a−1/2)|du| = ½·t^(γ−1)·h^(−γ)·dh checks symbolically, with endpoints h = t/u0² and h = 1/4.
+4. **§5.**
+   - **Edge.** The domination by u^(2(γ−β)−1) is integrable exactly when γ > β. The tail bound (19) is correct, including the factor 2 for the two signs.
+   - **Tip.** w·κ^(−γ) behaves like (η_c−η)^(θ−3γ/2), which is integrable exactly when γ < β.
+   - **Critical.** The coefficient C·Rsum/2 carries the Jacobian one-half. The exact integral is log(u0²/(4t)), whose fixed "4" does not change the leading term.
+   - **Elsewhere in §5.** The all-lifetime bounds (22) and the tightness near lifetime 0 are correct. That includes the x^(β−1)(1+|log x|) majorant at criticality.
+5. **§§6–9: physical marks.** I checked these symbolically.
+   - **Edge:** g(u) = g0·[1−u/(6W_1)]^(−1/2), k(u) = √u/(2√3·g³), from K_c/(8a_c³) = 1/(2√3), and B_c(u) = b − u²/12.
+   - **Tip:** A4, the exact S, Q4 = x/A4⁴, and k3/t^(1/4) → x/A4³.
+   - **Critical:**
+     - A0^(−3) = 1/(2√3·g0³).
+     - r = A0·(tx)^(1/3)·u^(−1/6).
+     - h = x·e^(−L(1−2Θ)), with endpoint q_t(x) = 1/2 − log(4x)/(2L).
+     - J = 1/3 − Θ/6, which has density 12 on (1/4, 1/3).
+     - H = Θ/2 = 1 − 3J.
+   - **Order of limits.** Truncation always comes before the physical expansions, and the tails are then removed by the proven bounds. No moving-endpoint uniformity is assumed.
+6. **§10.**
+   - **Laplace identity.** The at-most-one property gives E[1−e^(−Ξf)] = E Ξ(1−e^(−f)). Then (1−q)^n → exp(−λ∫(1−e^(−f))dμ_T), since n·q² → 0.
+   - **Bernoulli/binomial formulation.** It is a valid finite-window proof.
+7. **§11: recovery of the uniform source.**
+   - C = c0.
+   - p = (4c0·η_c/5)·u0^(5/2), which is TWO's (26) wedge mass.
+   - D = (8c0/7)·K_c^(−2/3)·u0^(7/6), which is TWO's C_edge.
+   - The edge U density is (7/6)·u0^(−7/6)·u^(1/6).
+   - The restricted-tip coefficient is c0·∫κ^(−5/4)dη, as in TWO (9).
+8. **§12: the four predictions.**
+   - Wsum and C_θ in (41) are correct.
+   - The critical value is θ = 7/8, the root of β = γ = 5/4.
+   - D_θ = 8C_θ/(7−8θ)·K_c^(−2(θ+1)/3)·u0^((7−8θ)/6) for θ < 7/8, and (2C_θ/3)·K_c^(−5/4) at θ = 7/8.
+   - All four table rows are correct: exponents, cumulative factors and J limits.
+
+**Symbolic script.** `sym606.py`, my own code (sympy 1.13.3), runs 33 checks and all pass. The script is attached below.
+
+### INFO notes (none blocks anything)
+
+- **N1.** §2's added remark, "r1²/16<1 follows from R²<1", supplies a step that TWO leaves implicit in its barrier inequality: b − F0 ≥ (r1²/16)|z|² needs |z_⊥|² ≥ (r1²/16)|z_⊥|². The remark is correct.
+- **N2.** README's prediction table gives the scales only, while PROOF §12 also carries the coefficients D_θ. A future falsifier such as #664 should bind to §12, not to the README table.
+- **N3.** `REVIEW.md` binds only the V1 PASS of 25 October, because it cannot carry its own successor's verdict. The V2 composition PASS (C0/I0/M0) is recorded only in the PR body. For custody, a dated comment that binds the V2 verdict to `d97abfac`/`fc8a8a40`/`c7307648` would make the chain complete. This is Root01a11cbf's call.
+
+### Release
+
+- This releases my pickup and its mirror [619/6447563508](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6447563508).
+- If 01XJMJ posts its own read, the two are separate Anthropic records. They do not count as two families.
+- An xAI or Google read would add a second family.
+- #664's falsifier scope is untouched.
+
+<details><summary><code>sym606.py</code>: 33 symbolic checks, run with <code>python3 -I sym606.py</code> (sympy 1.13.3)</summary>
+
+```python
+"""Symbolic checks of identities stated in #606 PROOF.md (weighted cusp sampling), my own code."""
+import sys
+sys.path.insert(0, '/tmp/claude-0/-home-user-main/ced74b96-60a0-5d59-b364-fb9a44030ace/scratchpad/pylib')
+import sympy as sp
+
+a, th, t, h, u, u0, p, x, L, Th, w, eta, g0, W1, c0, v0 = sp.symbols(
+    'a theta t h u u0 p x L Theta w eta g0 W1 c0 v0', positive=True)
+ok = {}
+
+gamma = a / 2 + sp.Rational(5, 4)
+beta = 2 * (th + 1) / 3
+ac = 3 ** sp.Rational(-1, 4)
+Kc = sp.integrate(1 - sp.sqrt(3) * w ** 2, (w, -ac, ac))
+ok['Kc = 4 a_c/3 = 4/3^(5/4)'] = sp.simplify(Kc - 4 * ac / 3) == 0 and sp.simplify(Kc - 4 / 3 ** sp.Rational(5, 4)) == 0
+Qc = Kc ** sp.Rational(1, 3) / (2 * ac)
+ok['Q_c = Kc^(1/3)/(2a_c) = (2/3)Kc^(-2/3)'] = sp.simplify(Qc - sp.Rational(2, 3) * Kc ** sp.Rational(-2, 3)) == 0
+
+# (2)->(18): v = eps u^(3/2) eta, Jacobian u^(3/2); u^a * u^(3/2) = u^(2 gamma - 1)
+ok['a+3/2 = 2gamma-1'] = sp.simplify(a + sp.Rational(3, 2) - (2 * gamma - 1)) == 0
+
+# (4) second form: u = sqrt(t/h), u^(a-1/2)|du/dh| = (1/2) t^(gamma-1) h^(-gamma)
+uu = sp.sqrt(t / h)
+lhs = uu ** (a - sp.Rational(1, 2)) * sp.Abs(sp.diff(uu, h))
+ok['(4) substitution'] = sp.simplify(sp.powsimp(lhs / (sp.Rational(1, 2) * t ** (gamma - 1) * h ** (-gamma)), force=True)) == 1
+
+# (4) first form from (18): for fixed u, h = kappa(eta), ell = u^2 h -> u^(2gamma-1) * u^(-2) = u^(a-1/2)
+ok['(4) first-form exponent'] = sp.simplify((2 * gamma - 1 - 2) - (a - sp.Rational(1, 2))) == 0
+
+# (5) cumulative: integral_0^min(u0, sqrt(t/k)) u^(2gamma-1) du = min(...)^(2gamma)/(2gamma)
+k = sp.symbols('k', positive=True)
+ok['(5) cumulative'] = sp.simplify(sp.integrate(u ** (2 * gamma - 1), (u, 0, sp.sqrt(t / k))) - (t / k) ** gamma / (2 * gamma)) == 0
+
+# (6): exponent after dividing by t^(beta-1): a - 1/2 - 2(beta-1) = 2(gamma-beta) - 1
+ok['(6) u exponent'] = sp.simplify(a - sp.Rational(1, 2) - 2 * (beta - 1) - (2 * (gamma - beta) - 1)) == 0
+
+# R_eps(h) ~ c * (h/Kc)^(2theta/3) * Qc h^(-1/3) = r_eps h^(beta-1), r_eps = (2/3) c Kc^(-beta)
+c = sp.symbols('c', positive=True)
+R_lead = c * (h / Kc) ** (2 * th / 3) * Qc * h ** sp.Rational(-1, 3)
+ok['(3),(17) r_eps and power'] = sp.simplify(sp.powsimp(R_lead / (sp.Rational(2, 3) * c * Kc ** (-beta) * h ** (beta - 1)), force=True)) == 1
+
+# (8) integrability: w kappa^(-gamma) ~ d^(theta - 3gamma/2) integrable iff theta - 3gamma/2 > -1 iff gamma < beta
+ok['(8) criterion'] = sp.simplify((th - 3 * gamma / 2 + 1) - sp.Rational(3, 2) * (beta - gamma)) == 0
+
+# Section 6/9 constants
+ok['Kc/(8 a_c^3) = 1/(2 sqrt 3)'] = sp.simplify(Kc / (8 * ac ** 3) - 1 / (2 * sp.sqrt(3))) == 0
+A0 = 2 * g0 * ac * Kc ** sp.Rational(-1, 3)
+ok['A0^(-3) = 1/(2 sqrt3 g0^3)'] = sp.simplify(A0 ** -3 - 1 / (2 * sp.sqrt(3) * g0 ** 3)) == 0
+# (36): r = g0 sqrt(u) * 2 a_c Kc^(-1/3) h^(1/3), h = t x/u^2  ->  A0 (t x)^(1/3) u^(-1/6)
+r36 = g0 * sp.sqrt(u) * 2 * ac * Kc ** sp.Rational(-1, 3) * (t * x / u ** 2) ** sp.Rational(1, 3)
+ok['(36) r'] = sp.simplify(sp.powsimp(r36 / (A0 * (t * x) ** sp.Rational(1, 3) * u ** sp.Rational(-1, 6)), force=True)) == 1
+# k3 = ell / r^3 = t x / r^3 -> A0^(-3) sqrt(u)
+ok['(36) k3'] = sp.simplify(sp.powsimp(t * x / (A0 * (t * x) ** sp.Rational(1, 3) * u ** sp.Rational(-1, 6)) ** 3 / (A0 ** -3 * sp.sqrt(u)), force=True)) == 1
+# edge k(u): ell = u^2 Kc d^(3/2), r = 2 g sqrt(u) a_c sqrt(d) -> ell/r^3 = sqrt(u)/(2 sqrt3 g^3)
+d, g = sp.symbols('d g', positive=True)
+ok['(24) k(u)'] = sp.simplify(u ** 2 * Kc * d ** sp.Rational(3, 2) / (2 * g * sp.sqrt(u) * ac * sp.sqrt(d)) ** 3 - sp.sqrt(u) / (2 * sp.sqrt(3) * g ** 3)) == 0
+# tip (31): u = sqrt(t x / kappa), r = g0 sqrt(u) D -> r/t^(1/4) = g0 x^(1/4) D/kappa^(1/4); ell/r^4 = kappa/(g0^4 D^4)
+kap, D = sp.symbols('kappa D', positive=True)
+ut = sp.sqrt(t * x / kap)
+rt = g0 * sp.sqrt(ut) * D
+ok['(31) A4'] = sp.simplify(sp.powsimp(rt / t ** sp.Rational(1, 4) - g0 * x ** sp.Rational(1, 4) * D / kap ** sp.Rational(1, 4), force=True)) == 0
+ok['(31) Q4'] = sp.simplify(t * x / rt ** 4 - kap / (g0 ** 4 * D ** 4)) == 0
+ok['(31) k3/t^(1/4)'] = sp.simplify(sp.powsimp((t * x / rt ** 3) / t ** sp.Rational(1, 4) - x / (g0 * x ** sp.Rational(1, 4) * D / kap ** sp.Rational(1, 4)) ** 3, force=True)) == 0
+# (24) g(u): y(s) = (2/omega) asin(s/sqrt(2W1)), g0 = y'(0); y'(-sqrt(u/3)) = g0 (1 - u/(6W1))^(-1/2)
+om, s = sp.symbols('omega s', positive=True)
+y = 2 / om * sp.asin(s / sp.sqrt(2 * W1))
+gg0 = sp.diff(y, s).subs(s, 0)
+ok['(24) g(u)'] = sp.simplify(sp.diff(y, s).subs(s, -sp.sqrt(u / 3)) - gg0 * (1 - u / (6 * W1)) ** sp.Rational(-1, 2)) == 0
+
+# Section 9: tau = t/u0^2, L = log(1/tau), u = u0 exp(-L Theta): h = t x/u^2 = x exp(-L(1-2Theta))
+tau = sp.exp(-L)
+hh = (tau * u0 ** 2) * x / (u0 * sp.exp(-L * Th)) ** 2
+ok['(32) h'] = sp.simplify(hh - x * sp.exp(-L * (1 - 2 * Th))) == 0
+ok['(32) endpoint'] = sp.simplify(sp.solve(sp.Eq(x * sp.exp(-L * (1 - 2 * Th)), sp.Rational(1, 4)), Th)[0] - (sp.Rational(1, 2) - sp.log(4 * x) / (2 * L))) == 0
+# J = 1/3 - Theta/6 on Theta in (0,1/2): range (1/4,1/3), density 2*6 = 12; H = Theta/2 = 1 - 3J
+J = sp.Rational(1, 3) - Th / 6
+ok['J range and density'] = (J.subs(Th, 0) == sp.Rational(1, 3) and J.subs(Th, sp.Rational(1, 2)) == sp.Rational(1, 4)
+                             and 2 * abs(1 / sp.diff(J, Th)) == 12)
+ok['H = 1 - 3J'] = sp.simplify(Th / 2 - (1 - 3 * J)) == 0
+
+# Section 11 recovery: a = theta = 0, w = 1, p = (4 c0 eta_c/5) u0^(5/2)
+etac = 2 / (3 * sp.sqrt(3))
+g11, b11 = gamma.subs(a, 0), beta.subs(th, 0)
+Wsum = 2 * etac
+Z = u0 ** (2 * g11) * Wsum / (2 * g11)
+p11 = 4 * c0 * etac / 5 * u0 ** sp.Rational(5, 2)
+C11 = sp.simplify(p11 / Z)
+ok['(11) C = c0'] = sp.simplify(C11 - c0) == 0
+ok['(11) W area = p/c0'] = sp.simplify(2 * sp.integrate(etac * u ** sp.Rational(3, 2), (u, 0, u0)) - p11 / c0) == 0
+Rsum = 2 * sp.Rational(2, 3) * Kc ** (-b11)
+D11 = C11 * Rsum * u0 ** (2 * (g11 - b11)) / (2 * (g11 - b11))
+Cedge = sp.Rational(8, 7) * c0 * Kc ** sp.Rational(-2, 3) * u0 ** sp.Rational(7, 6)
+ok['(11) D = TWO C_edge'] = sp.simplify(D11 - Cedge) == 0
+ok['(11) edge U density exponent 7/6'] = sp.simplify(2 * (g11 - b11) - sp.Rational(7, 6)) == 0
+ok['(26) TWO mass = eta_c u0^(3/2)/(5 v0) with c0 = 1/(4u0v0)'] = sp.simplify(p11.subs(c0, 1 / (4 * u0 * v0)) - etac * u0 ** sp.Rational(3, 2) / (5 * v0)) == 0
+
+# Section 12: a = 0, w = (eta_c - eta)^theta
+Ws = 2 * sp.integrate((etac - eta) ** th, (eta, 0, etac))
+ok['(41) Wsum'] = sp.simplify(Ws - 2 * etac ** (th + 1) / (th + 1)) == 0
+Z12 = u0 ** sp.Rational(5, 2) * Ws / sp.Rational(5, 2)
+Cth = sp.simplify(p / Z12)
+ok['(41) C_theta'] = sp.simplify(sp.powsimp(sp.expand_power_base(
+    Cth / (5 * p * (th + 1) / (4 * u0 ** sp.Rational(5, 2) * etac ** (th + 1))), force=True), force=True)) == 1
+g12 = sp.Rational(5, 4)
+Dedge = Cth * 2 * sp.Rational(2, 3) * Kc ** (-beta) * u0 ** (2 * (g12 - beta)) / (2 * (g12 - beta))
+ok['(12) D_theta edge'] = sp.simplify(Dedge - 8 * Cth / (7 - 8 * th) * Kc ** (-2 * (th + 1) / 3) * u0 ** ((7 - 8 * th) / 6)) == 0
+ok['(12) critical theta = 7/8'] = sp.solve(sp.Eq(beta, g12), th) == [sp.Rational(7, 8)]
+ok['(12) D at 7/8'] = sp.simplify((Cth * 2 * sp.Rational(2, 3) * Kc ** (-beta) / 2).subs(th, sp.Rational(7, 8)) - (2 * Cth / 3 * Kc ** sp.Rational(-5, 4)).subs(th, sp.Rational(7, 8))) == 0
+rows = {0: beta.subs(th, 0), sp.Rational(1, 2): beta.subs(th, sp.Rational(1, 2)), 1: beta.subs(th, 1)}
+ok['(12) table exponents'] = (rows[0] == sp.Rational(2, 3) and rows[sp.Rational(1, 2)] == 1 and rows[1] == sp.Rational(4, 3) > g12)
+
+for name, val in ok.items():
+    print('PASS' if val else 'FAIL', name)
+print('all', all(ok.values()), len(ok))
+```
+
+</details>
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

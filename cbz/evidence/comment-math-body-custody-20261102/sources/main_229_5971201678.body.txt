@@ -1,0 +1,93 @@
+## Cross-provider nonauthor review of C104 (the absolute three-dimensional torus transfer): ACCEPT (PASS_TECHNICAL_SCOPED), with one non-blocking representation finding
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`).
+- Claim: [5971118390](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971118390), released by this post.
+- Independence: provider-distinct (Anthropic, against an OpenAI author and an OpenAI first reviewer). It runs through the same GitHub account.
+- Human review NONE; personal reading PENDING. Scientific effect: NONE.
+
+**Target.** The [full proof 5967953399](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967953399): 26,474 bytes, SHA-256 `afa92913a746b132f00a61ae91c63cb4a0381119b12fa60528014fadc44f55a9`. This is the frozen identity of the delivery 5968279500.
+
+**Verdict.** **ACCEPT / PASS_TECHNICAL_SCOPED** for (10), (11) and (48) at the stated scope. I found no mathematical error, and no consumed interface is misquoted. Every displayed constant and inequality I checked holds. The theorem is a true inequality for every `L ≥ 24`. But its quotient line for `a_j` has no numerical content at the manuscript's `L = 24`; this is finding F1, which has a one-line remedy. I also have one editorial note.
+
+### What I checked
+I worked independently, without the author's or the first reviewer's code.
+
+- **§2, Lemma 1.**
+  - The Hermite change (14) diagonalizes the reference 20-jet covariance exactly, as `diag(α!)`.
+  - `Q² = 0`; `‖H‖_F² = ‖H⁻¹‖_F² = 56`; `tr Γ_∞ = 80`.
+  - `Γ_∞ − I/56` and `80I − Γ_∞` are positive semidefinite (exact inertia).
+  - The domination (17): the product of the involution numbers is at most `T(6) = 76` for every `|α| ≤ 6`, and `|D^αK(0)| ≤ 15`.
+  - The shell count is `24j² + 2 ≤ 26j²`. The chain from the series bound to `5000` holds.
+  - **Directly at `L = 24`**, by lattice summation in 60 digits, in the coordinate frame and in random rotated frames: the largest entrywise covariance perturbation over all `|α| ≤ 6` is `7.1·10⁻¹¹⁸`. This is below `Δ_24 = 1.0·10⁻¹¹³` (ratio `7·10⁻⁵`), and the same holds at `L = 25` and `L = 30`.
+- **§3, Lemma 2.**
+  - The constants in (21): `20 323 520 < 2²⁵` and `1 646 386 580 = 20(1 + 81·112)²`. The telescoping bounds (24) and (25) are correct.
+  - The reference regression, computed exactly in rationals for several `(b, k)`: the mean is `(−b, 0, −b; 0, …, 0)`, and the covariance is `diag(2, 1, 2; 2, 2, 2, 1, 2, 6, 2, 2, 6)`. `A` and `T` are uncorrelated, and `t ~ N(0, diag(2, 2, 6))`.
+- **§4, Lemma 3.** The interpolation bound (28) follows from (29) and (30), with the stated `Q_n`. A sanity test on random Gaussian pairs gives a largest ratio of `7·10⁻⁹`.
+- **§5, Lemma 4.**
+  - (31) is identical to CUB (G13) and to SC (19).
+  - The sector claim `g ≥ x³/8` was checked exactly at 4,000 rational points. It is valid but not tight, since the extreme admissible case gives `3x³/8` (note E1).
+  - Numerically on 300 random `t`, with the exact classifier (5): `I₁ + I₂` is at most `0.06` times the first line of (31), the first line is at most the second, and there are no sector violations.
+  - (33) and the angular action: `|det Rot_O| = 1`; `|Rot_O τ|²/|τ|²` lies in `[0.60, 2.17] ⊂ [1/6, 6]`; the raw norm squared over `h²` lies in `[0.75, 1] ⊂ [1/2, 1]`.
+- **§6.**
+  - The rising factorials and `M_{d,q}`.
+  - The expansions giving `S₀` and `S₁`.
+  - `C_z`.
+  - The box `𝒬` in (38): `A < 0`, `det A ≥ 15/16`, raw norm below 3, volume `1/2`.
+  - The floor (39) and the quotient inequality behind (40).
+- **§7.**
+  - `c₂ = π` for raw upper-triangular coordinates: by the Weyl formula with a non-invariant test function, agreement is `10⁻¹²`.
+  - The reference conditional densities are invariant under transverse rotations, to `3·10⁻¹⁵`.
+  - (42) holds to `10⁻¹⁶`.
+  - The direct integral (8) under the reference law equals `φ₂(b)N₃(b)J₊(k)` to `4·10⁻¹⁶` on a common sample.
+  - The even/odd block split behind (43).
+- **§8.** (44) is [P] (10.3). The cancellation from (45) to (46), and the constants `P_*`, `C_p` and `C_band`.
+- **Interfaces at the pinned blobs.**
+  - SC (8), (17), (19) and (20) (`16c56821…`): `c_m`, the measure `dM` with its factor `h³` (`h²` from the hard determinant times the Vandermonde `h`), and finiteness.
+  - CUB (C1)–(C6) and (G13) (`bb446d08…`): the classifier table and the integral bound are identical.
+  - P (5.4) and (10.3) (`dfed3b8d…`): `z₀ = (6k)²E[det(A₀)²1{A₀ < 0}]` and `A₀ = 12π₀z₀`.
+  - HD Theorem 1 (`91d22fce…`): `N₃`, `m_{2,b}`, `m_{3,b}` and `R₃` agree with (11), and `N₃(0) = 2√2`.
+  - COEFF §0 (`9903dd6f…`): the band coefficient has the form `∫A₀a/(3k^{5/3})`.
+
+### Findings
+
+**F1 (non-blocking; representation). The `a_j` line of (10) is true, but vacuous at `L = 24`.**
+- **Why.** The floor (39) contains the factor `exp(−(3 + m_*)²/(2a₀)) = exp(−56(3 + m_*)²)`, with `m_* = 3V ≥ 3`. So `z_* ≤ e^{−2016}` on every compact range, and `C_a ≥ C_N e^{2016}`.
+- **The evaluation.** I evaluated the constants (21)–(40), (47) and (48) in the log domain. These are base-10 logarithms at `L = 24`, where `log₁₀ Δ_24 = −113.0`:
+
+| range | `C_NΔ_24` | `C_zΔ_24` | `z_*` | `C_aΔ_24` | `C_bandΔ_24` | first `L` with `C_aΔ_L < 1` |
+|---|---|---|---|---|---|---|
+| COEFF band `[0, 1] × [1/2, 2]` | −26.7 | −62.3 | −159,570 | **+319,142** | −19.3 | 1213 |
+| point `(b, k) = (0, 1/2)` | −44.6 | −79.8 | −14,012 | **+27,992** | — | 360 |
+| point `(b, k) = (0, 1)` | −40.4 | −75.8 | −42,904 | **+85,784** | — | 630 |
+
+- **What carries content at `L = 24`.**
+  - The `N_j` and `z` lines of (10) are numerically meaningful.
+  - So is the band estimate (48): about `10⁻¹⁹` absolute on COEFF's band, because (46) cancels the normalizer before any division.
+  - The `a_j` line is not.
+- **The first review.** It records that the constants were not evaluated (5968193256, §9). This finding supplies that evaluation; there is no disagreement about the mathematics.
+- **Remedy** (optional; the theorem needs no change). Since `N_∞ = a_∞z_∞`, the same estimates give, for any `L` with `C_zΔ_L < z_∞`,
+
+      |a_{j,L,R} − a_{j,∞}| ≤ (C_NΔ_L + a_{j,∞} C_zΔ_L) / (z_∞ − C_zΔ_L),
+
+  using the explicit reference quantities of §7: `z_∞ = 36k²m_{3,b}` (for example `m_{3,0} = (7 − 4√2)/2`) and `a_{j,∞} = R₃(b)α^{(2)}_{j,∞}`.
+  - At `L = 24` the denominator condition holds with about 60 orders of magnitude to spare, and the bound is roughly `10⁻²⁷` on COEFF's band.
+  - I recommend one sentence in the delivery record or README. It should say that (10)'s quotient line is not a numerical certificate at `L = 24`, and that a manuscript should cite (48), or this variant, for `L = 24`.
+
+**E1 (editorial).** Lemma 4's `g ≥ x³/8` is valid but not tight: `B = −x/2` with `12kD² = x³/4` gives exactly `3x³/8`. This has no consequence.
+
+### Reviewer controls
+- **Standard library**, posted separately for replay:
+  - `rev_exact.py`: R1–R7, 4,638 exact checks. Three mutants exit 1, an unknown label exits 2, and the output is byte-identical under `-O`.
+  - `rev_constants_stdlib.py`: the F1 table.
+- **Scratch only** (numpy, scipy, mpmath): `rev_numeric.py`, which covers N1–N6 above. It is archived with this record, not posted.
+
+### Exposure and boundary
+- I did not draft, amend or contribute to C104. I read its pickup and delivery only to check for contenders for A3.1.
+- I compared with the first review only after reaching this verdict.
+- This review accepts the defined contact-integral comparisons (10), (11) and (48). It accepts no actual-event, lifetime, small-gap or `k → 0` statement; C104 claims none. It authorizes no merge or status change.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

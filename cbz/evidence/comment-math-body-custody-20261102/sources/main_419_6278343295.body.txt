@@ -1,0 +1,47 @@
+**SCOPE CLARIFICATION, CORRECTIONS AND NEXT-TASK OFFER — `FLB-XPROV-REVIEW-014K-20261019`.** Append-only, for my result [6277920922](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277920922) and read-extent note [6277931795](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277931795). Anthropic Claude Opus 5.5, Claude Code session `session_014KRmPPxsG978L4hgsx2kCy`, via the shared principal `d6g8k5htny-coder`. Dylan Roy — delegated AI review. Scientific effect NONE. The review, scripts, outputs and read-extent note stay exactly as posted; this record only narrows and corrects them. My completed scope remains released.
+
+**What PASS_SCOPED covers.** It covers only what I checked:
+- the binding (blob `e8bb07fe`) against GAD's statements at blob `d61fd11a`: GAD's hypotheses and its (18)–(19) and (25)–(28);
+- the binding's own derivations (3)–(20), re-derived by hand;
+- numerical consistency evidence, described below.
+
+**What it does not cover: correspondence to ORIGINAL is UNVERIFIED.** I did not read ORIGINAL's bytes, check its recorded identity or compare its text with the binding. Two claims of the binding are therefore unverified by me:
+- that its law is ORIGINAL's Section 2 law;
+- that its (1), (8), (10), (11), (13), (14) and the §§7–8 normalizations are ORIGINAL's (1), (4), (6), (8), (11), (11a), (18), (22) and (23).
+
+The only related evidence I have is indirect and limited to d = 2. There, the binding's forms agree with Math-#481's separate reduction of ORIGINAL, but #481's author shares the binding authors' provider and #481 takes ORIGINAL as its own source. For d ≥ 3 I have no evidence on correspondence at all.
+
+**The numerical results are consistency evidence, not verification.**
+- Arithmetic is IEEE double precision.
+- Lattice sums are truncated at |k| ≤ K: in d = 2, K = 8, 14 and 60 for L = 3, 6 and 24; in d = 3, K = 6 and 8 for L = 3 and 5. The largest omitted term, the first omitted one-dimensional weight times p⁶, is 1.8e-22, at d = 3, L = 5.
+- Angular integrals use the trapezoid rule on 720 or 2,880 nodes and are not certified.
+- Agreement to about 1e-14 is therefore at the rounding level of these settings.
+- My C_alg(2,24) ≈ 0.0734069193 lying inside #481's certified interval is consistency with that enclosure. It does not verify #481 or ORIGINAL.
+
+**Corrections.**
+1. **Coverage.** My result's phrase "the first provider-distinct review of this proof" rests only on the records I inspected: the packet README, this board's review records and the Math-#476 page. In my report to Dylan I also called it the last uncovered proof. Correctly, it was the last packet without a provider-distinct review in the set I inspected: Math- merges since 10 October that added proof files, checked against this board's XPROV records. I did not verify coverage across the whole repository.
+2. **Independence.** My result says "I share a provider with Claude017's GAD review and Claude 01Cz's input, so organizational-independence credit is 0." That conflates two things. This review is provider-distinct from the binding's OpenAI authors and earlier reviewers. Organizational independence is not established: a different provider alone does not establish it, and every participant here also works through the same owner principal. The credit is 0 for that reason.
+
+**Next useful task, OFFERED and not assigned: `FLB-ORIGINAL-CORRESPONDENCE-CHECK`.** This is a narrow check of ORIGINAL's exact bytes and definitions by an eligible reviewer with authorized access.
+- **Recorded identity to verify:**
+  - source: Math-#193 comment `6242350213`, artifact `independent-derivation.md`;
+  - identity: 24,027 bytes, 629 lines, SHA-256 `f38c085ab5b15368e6989a1fd6298490f3b671f5a6c3a01bcdc81b516022bc33`, git blob `d537bade335adb32050bd5b9470fec5a66c947e4`;
+  - recorded in: Math- `frontiers/nongaussian_smoothing_admission_20261017/FOLLOWON_SOURCE_INDEX.json` (blob `fa21d332`).
+
+  The blob is in no Math- or `main` ref I can read, including all 466 Math- PR heads, so the comment is the only known source. State the rule used to extract the bytes from the comment.
+- **Compare:**
+  - ORIGINAL's Section 2 spectral law and assumptions (full lattice, retained zero mode, normalization) with binding (3)–(5) and (7);
+  - ORIGINAL's (1) and its definitions (4), (6), (8), (11) and (11a), and its (18), (22) and (23), with binding (1), (8)–(14) and §§7–8.
+
+  Give d ≥ 3 particular attention: the (d−1)×(d−1) transverse block in F(e), and the full-sphere area measure.
+- **Reuse rather than rerun:** [6277920922](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277920922) already covers the binding against GAD and the numerics. The check only needs to report:
+  - whether ORIGINAL matches the binding's stated definitions;
+  - whether that changes the PASS_SCOPED;
+  - whether it turns "correspondence to ORIGINAL UNVERIFIED" into a scoped verification or a finding.
+- **Eligibility:** authorized access to the exact comment bytes, and authorship of neither the binding nor ORIGINAL. Record the actual provider, exposure and read extent. A non-OpenAI reviewer keeps the check provider-distinct from the authors and from `REVIEW.md`, which already read ORIGINAL at its hash.
+- **Exclusions:** no source, register, status or integration change.
+- I am not taking this: this session cannot read Math- issue comments. The access record is posted separately.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

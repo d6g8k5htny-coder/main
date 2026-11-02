@@ -1,0 +1,61 @@
+## DELIVERED / author release — new fixed-center interval enclosure, including quadrature and arithmetic
+
+Closes only **R2B-CERTIFIED-FIXED-CENTER-QUADRATURE-20261021 / [6328858795](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328858795)**. Author: OpenAI / GPT-6 Astra Pro, returning R2b conversation. **New author-derived computer-assisted result, pending nonauthor review; not a historical replay or scientific acceptance.** Complete executable source is [6328992616](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328992616), 11105B/SHA256 `0d996aa24933db95e72dd3f173a44e9ac39a52bdc51b8188c75ab41155581359`.
+
+### Exact target and result
+
+Use the same defining kernel as source main@0a7e5145b55f020e02e7782fed318266d13c2447, `experiments/zeta_fold_exploration/dbn/indep_ht.py`, blob736760f202e2d5fda04315baad61aa00612e2d2a:
+
+`Phi(u)=sum(n>=1)(2*pi^2*n^4*exp(9u)-3*pi*n^2*exp(5u))*exp(-pi*n^2*exp(4u))`.
+
+Let `D_k=integral_0^infinity exp(t*u^2)*Phi(u)*partial_z^k cos(z*u) du`. Evaluate at the **exact printed decimal rationals**, not an exact collision:
+`t=-1.87790907297253526476683971813`, `z=99.328469305575750948022768886`.
+
+The new program encloses all five D_k with total interval widths **<1.36e-69**, using N12, exactU13/10, 26 equal panels and 64-node Gauss–Legendre per panel. Every interval includes kernel/integration truncation, an analytic quadrature remainder and outward evaluation arithmetic. In particular its endpoints imply these deliberately wider readable bounds:
+
+- `1.1453736129224744e-45 < D_0 < 1.1453736129224745e-45`.
+- `-1.1590461825818558e-45 < D_1 < -1.1590461825818557e-45`.
+- `2.7627465038501878546982558857021604e-16 < A=D_2/2 < 2.7627465038501878546982558857021605e-16`.
+- `-0.419057782425970244155189369865477 < B/A < -0.419057782425970244155189369865476`, with B=D_3/6.
+- `0.0629860725065546872673940931953361 < C/A < 0.0629860725065546872673940931953362`, with C=D_4/24.
+- `-0.099274559997324882148013409533137 < 4*C/A-2*(B/A)^2 < -0.099274559997324882148013409533136`.
+- `0.448990254007705895885786052268215 < 6*(B/A)^2-48*C/(5*A) < 0.448990254007705895885786052268216`.
+
+Full raw dyadic endpoints and separately outward-rounded decimal endpoints are emitted by the source. The strictly positive A interval permits the ratio divisions; D0>0 and D1<0 confirm this rounded point is not an exact collision. **These coefficient expressions are evaluated at that fixed point, not at an enclosed true root.**
+
+### Analytic quadrature argument
+
+For finiteN integrand f_k(w), set U=13/10, R=1/8, h=U/(2*26)=1/40, rho=h/R=1/5. Each panel center c lies in[0,U]. On |w-c|<=R, write w=x+iy. For real -2<=t<=0, |z|<=100 and k0..4:
+
+1. `|exp(t*w^2)|<=exp(2R^2)<3`; `|sin(zw)|,|cos(zw)|<=exp(100R)<3^13`; `|w|^k<=(57/40)^4`.
+2. `cos(4y)>=1-(4y)^2/2>=7/8`, hence `|exp(-pi*n^2*exp(4w))|<=1`.
+3. `exp(9x)<3^13`, `exp(5x)<3^8`, using x<=57/40 and e<3. With pi<4, all five integrands are bounded by the same rational
+`M=3*(57/40)^4*3^13*(32*3^13*sum(n=1..12)n^4+12*3^8*sum(n=1..12)n^2)`.
+4. Cauchy's estimate gives a degree127 Taylor remainder <=`M*rho^128/(1-rho)` on each panel. The 64-node Gaussian rule is exact through degree127, has positive weights, and their sum is2h. Integration and this rule each have operator norm2h on that panel. Their difference on the remainder is therefore <=4h times its supremum. Across26 panels:
+`E_Q=2U*M*(1/5)^128/(1-1/5) < 6.76e-70`.
+
+This is an a priori bound for the **exact** rule, not run-to-run agreement. Standard reference facts: [NIST DLMF1.9](https://dlmf.nist.gov/1.9) for Cauchy and [DLMF3.5(v)](https://dlmf.nist.gov/3.5.v) for Gaussian rules. The displayed M/remainder derivation is new support here. The previously [derived6328317007](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328317007) / [reviewed6328406152](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328406152) N12 truncation bound <1e-207 is recomputed from its exact rational majorants and added separately.
+
+### Why the arithmetic encloses the exact rule
+
+- Endpoints are integers divided by2^P (P384 or448). All arithmetic, rational input conversion and final decimal printing use outward floor/ceiling, not rounding-to-nearest. Division refuses any interval containing zero.
+- Float Newton iterations supply **only seeds**. Exact integer evaluation of `2^n P_n` at rational dyadics certifies opposite signs before bisection. Sixty-four disjoint brackets exhaust the roots of the degree64 polynomial. Symmetry is valid because64 is even. A bad seed cannot silently become a node.
+- Normalized Legendre values are enclosed by Bonnet's recurrence; `P'_n=n*(P_(n-1)-x*P_n)/(1-x^2)`. Weights are enclosed by `2/((1-x^2)*P'_n^2)` with positive denominators and positive weights. The weight formula follows by integrating the Lagrange basis with Christoffel–Darboux; orthogonality yields exactness through2n-1, and exactness on squared Lagrange bases yields positivity. All128 monomial moments are also checked; those checks supplement, not replace, this mathematical argument.
+- Pi uses Machin's identity and alternating rational arctangent brackets. No decimal pi is trusted. `tan(2 atan(1/5))=5/12`, `tan(4 atan(1/5))=120/119`, giving `tan(4 atan(1/5)-atan(1/239))=1` in the correct quadrant.
+- Exponential arguments are halved into[-1/8,1/8], the degree64 Taylor polynomial is evaluated outward, and `3/(8^65*65!)` bounds its remainder. Repeated outward squares undo the halving. For an interval entirely<=-P, `[0,2^-P]` encloses the exponential becausee>2; this is **not exact zero underflow**.
+- Sine/cosine use the same halving, degree65/64 Taylor polynomials with common remainder `1/(8^65*65!)`, then outward double-angle operations. Bounds are real-argument bounds; Cauchy's complex calculation is only for the analytic remainder proof.
+- Each interval sum therefore encloses the exact Q_k. Expanding by `E_Q+1e-207` encloses D_k. Subsequent coefficient expressions use those expanded intervals, not unexpanded point values.
+
+### Executions and controls actually completed
+
+CPython3.13.5/Linux, standard library only. Frozen384-bit normal/-O runs exit0 with empty stderr and byte-identical **7083B JSON / SHA256 `14b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa`**. The448-bit run exits0, empty stderr, **7557B / SHA256 `452170dd8ddb9081dc043fb1b4ef028e62cf3d4b3ced78f2df700adc382cda5b`**. Its final D intervals are contained in the384-bit ones. Maximum raw arithmetic widths: <9.67e-94 at384bits and <5.21e-113 at448bits; the analytic remainder dominates. No network or historical CI execution was used.
+
+The15-method source test suite (5222B/SHA256 `ff3c47e52f35746c41678dd5cd21a230233b938bcf893099534f9f38870ad5c7`) passes in normal/-O/-OO, covering signed interval corners, rational Taylor sandwiches, trig identities, pi, exact moments, positive weights and invalid brackets/domains. Four controlled weakenings fail in both normal/-O: remove the root sign guard (1failure); treat exponential underflow as exact0 (1); falsely double the Gaussian error exponent (1); round rational upper endpoints inward (2). These failures detect those specific mistakes, not every possible bug.
+
+Preserved limitations/failures: initial preimplementation import failure is scaffolding history, not mathematical RED. The first control harness had an ambiguous textual substitution occurring in both I.rat and I.expand; only the mutation harness anchor was narrowed, no calculator change. One public raw readback attempt failed DNS; connected native comment readback succeeded. No denied artifact was requested. Full proof8925B/SHA256 `94a947e10ff4f1ffc8a8ef4bf50b9c53b2d5f70bd8cd6c93f89b065dc6cede2c`, sources, all streams/receipts and unchanged prior truncation proof/checker are retained for the owner.
+
+### Scope and handoff
+
+This supplies **new fixed-center** quadrature+arithmetic enclosures, not certification of the old adaptive mpmath algorithm, a root enclosure, general collision uniqueness, a full packet replay or a Lean proof. The historical Newton-trail discrepancies and missing R2a bytes are untouched. One nonauthor mathematical/code read of this frozen proof/source/output is the next offered stage. No unchanged-source reviews, workflow/branch adoption, mandatory gate or follow-on owner is created.
+
+**I personally RELEASE only the author stage6328858795**, keeping its bytes frozen for review. No repository file/ref/README/MANIFEST/CI/Ready/merge/protection/scientific/scheduler change. [Mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

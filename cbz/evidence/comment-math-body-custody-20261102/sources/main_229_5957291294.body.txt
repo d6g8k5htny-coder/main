@@ -1,0 +1,32 @@
+## Intermediate/shrinking coarea reduction — a concrete sufficient lemma
+
+New author-side mathematical finding from pickup5957277321; no source edit and no claim that #242 Conjecture 7 is proved.
+
+Write the actual rejected radial kernel (after b,u integration or with the same Gaussian envelope retained) as
+`R_ell(r)=r^{-2}A_r^{rej}(b,ell/r^3,u)`
+and #242's matched composite kernel as
+`C_ell(r)=Acal^{rej}(b,kappa,u) H(k;b,u)`, with
+`kappa=ell/r^4`, `k=ell/r^3=kappa r`.
+The unresolved intermediate side is `r >= ell^(1/4)`, equivalently `0<kappa<=1`.
+
+A **sufficient uniform two-scale estimate** for the entire intermediate mismatch to be `O(ell^(3/4))` is
+
+`|R_ell(r)-C_ell(r)| <= C H_b(b) r^2 kappa = C H_b(b) ell/r^2`      (I.1)
+
+for `ell^(1/4)<=r<=r0`, with integrable birth envelope and uniform frame constant. Indeed,
+`int_{ell^(1/4)}^{r0} ell r^{-2}dr <= ell^(3/4)`.
+No logarithm or arbitrary moving split is needed.
+
+More generally, if the mismatch is `O(r^a kappa^q)`, substitution `r=ell^(1/4)kappa^{-1/4}` gives
+`ell^((a+1)/4) int kappa^{q-(a+5)/4}dkappa`.
+For the natural second-order case `a=2`, the endpoint is integrable exactly when `q>3/4`; **one full factor of kappa is enough**. This identifies the missing gain in a form directly comparable with #240's compact-K `O(r^2)`: compact-K control alone has q=0 and cannot be integrated uniformly to kappa=0, while an additional kappa factor reaches the desired ell^(3/4) scale.
+
+This also sharpens the research target. We do NOT need a global pointwise `O(r^2 kappa)` theorem if a weighted coarea estimate gives the same integral:
+`int_{ell^(1/4)}^{r0} |R_ell-C_ell|dr <= C ell^(3/4)`.
+A dyadic version is enough: on `kappa in[2^{-j-1},2^{-j}]`, it suffices to gain `2^{-j}` relative to the compact-K r² error with constants summable after the Jacobian. This is likely the right interface for the soft-eigenvalue layer because the dangerous set changes with kappa.
+
+Why existing interfaces do not yet imply (I.1): #240 gives r² only for kappa in a fixed compact subset of(0,infinity); #229's intermediate elder estimate is an integrated O(ell^(4/9)log) bound; #237's candidate intermediate bound is O(ell^(3/5)); and #242 itself explicitly states that the composite is non-negligible as kappa→0. None supplies the missing kappa gain in the actual-minus-composite error.
+
+**Proposed next lemma for a qualified source author/reviewer:** prove a dyadic `kappa`-weighted rejected-kernel comparison by keeping the typed-window probability instead of bounding it by1, analogous in spirit to #229 Proposition W+ charging the window. The desired output is either (I.1) or a shell bound whose sum is O(ell^(3/4)). It must compare the ACTUAL rejected decision with the matched composite, not merely candidate minus elder separately, and must retain the soft-eigenvalue/determinant weight. Endpoint kappa→0 is the point; fixed-K parity does not solve it.
+
+This reduction is rigorous algebra/calculus conditional only on the definitions of the two kernels. It does not consume #243's open Conjecture-6 identification and does not certify R_{2/3}. It narrows #242 input(ii) to an explicit quantitative target. Pickup remains open for a further attempt at the kappa gain; other active #242/#243/#244 review/source lanes remain untouched.

@@ -1,0 +1,328 @@
+## Frozen field-only reconstruction — symbolic MATCH, independent full-proof claim AMEND
+
+Dylan Roy — delegated AI theorem work. Actual coordinator OpenAI/Codex root, native chat01a103c8-7a8e-7461-8e9f-36e3b02757c5. Actual fresh reconstructor `/root/field_only_coefficient_reconstructor`, no-history fork with only field/covariance/criticaltypes/observable. Repository tools were available but expressly prohibited and unused. This is prompt isolation, not an enforced no-access sandbox or verified provider/organizational independence.
+
+Its FINAL was frozen before any comparison, and archived unchanged13280B SHA256ca0efe95a96f61bff4638be294280a20fd6a16e47af5d83bd3a2180f7b077847. The failed strongly isolated local Qwen attempt6049491387 remains preserved and is not reclassified. A distinct third participant `/root/coefficient_third_comparator` then checked exact P/CAP/E1/E2/REC/R bytes and returned **MATCH for the symbolic coefficient, AMEND for the independent all-bar/exhaustion proof claim**. The completed comparison is12773B SHA2561f03e911a4b2d7133f715d49b166677e205a4229a5180a6897ce4f26b28f99e1. No comparison feedback was sent to the reconstructor and its proof bytes remain unchanged.
+
+Mapping g→G,He→V_e,v(e)→tau_e²,W(e)→D_e gives P(15.2) exactly, including ordinary sphere, ordered roles/no1/2, per-volume normalization, factor24 and amplitude a^(-2/3). Earliest unsupported proof inference: exact ridge roots plus an additive O(r³) error do not establish the quotient's sign near those roots; an explicit h''' positivity argument is required. Also required: global Borel elder mark/whole-C² regression kernel and finite-measure extension, pinned genericity, uniform conditional C4 moments/coupling and a chosen marked lifetime-density version. The existing source chain supplies relevant mechanisms; it does not retroactively insert them into this independent frozen answer. This is a leading-coefficient reconstruction, not reconstruction of R's stronger O(1) remainder or a formal/numerical certificate.
+
+The complete unamended frozen derivation follows. Its concluding closure claim retains the AMEND just stated. No source/status/graph/acceptance flag changes.
+
+I obtain a symbolic coefficient expressed through exact lattice moments and a finite Gaussian integral. The close-pair correspondence and the exhaustion of the leading singularity are justified below; the coefficient does not assume rotational invariance.
+
+Actual exposure: I used only the supplied definitions and general mathematical reasoning. Repository tools were technically available but prohibited and unused. This was prompt isolation, not an enforced no-access sandbox. No project proofs, other agents, other chats, numerical computations, or source feedback entered this derivation.
+
+Write
+\[
+q_n=\frac{2\pi n}{L},\qquad
+Z_L=\sum_{n\in\mathbb Z}e^{-q_n^2/2},
+\qquad
+p_n=\frac{e^{-q_n^2/2}}{Z_L},
+\]
+and define the exact one-coordinate spectral moments
+\[
+\alpha=\sum_n p_nq_n^2,\qquad
+\beta=\sum_n p_nq_n^4,\qquad
+\gamma=\sum_n p_nq_n^6.
+\]
+Also set
+\[
+\kappa_4=\beta-3\alpha^2,\qquad
+\kappa_6=\gamma-15\alpha\beta+30\alpha^3.
+\]
+
+For \(e\in S^{d-1}\), define
+\[
+M(e)=\alpha^2\bigl(I+2ee^{\mathsf T}\bigr)
+       +\kappa_4\operatorname{diag}(e_1^2,\ldots,e_d^2)
+\]
+and
+\[
+v(e)=
+6\alpha^3
++9\alpha\kappa_4\sum_i e_i^4
++\left(\kappa_6-\frac{\kappa_4^2}{\alpha}\right)
+ \sum_i e_i^6.
+\]
+Both \(M(e)\) and \(v(e)\) are strictly positive in the appropriate sense: \(M(e)\) is positive definite and \(v(e)>0\).
+
+Let \(H\) be a centered Gaussian symmetric matrix with covariance
+\[
+\mathbb E[H_{ij}H_{kl}]
+=
+C_{ijkl}
+=
+\alpha^2
+ \bigl(\delta_{ij}\delta_{kl}
+       +\delta_{ik}\delta_{jl}
+       +\delta_{il}\delta_{jk}\bigr)
++\kappa_4\,\mathbf 1_{\{i=j=k=l\}}.
+\]
+Choose any orthonormal frame \(U_e\) for \(e^\perp\), and put
+\[
+W(e)=
+\mathbb E\!\left[
+  \det(U_e^{\mathsf T}HU_e)^2\,
+  \mathbf 1_{\{U_e^{\mathsf T}HU_e\prec0\}}
+  \,\middle|\,He=0
+\right].
+\]
+This definition is independent of the choice of frame.
+
+Then the coefficient is
+\[
+\boxed{
+c_{d,L}
+=
+\frac{\Gamma(7/6)}
+     {24^{1/3}\sqrt{\pi}\,(2\pi)^d\alpha^{d/2}}
+\int_{S^{d-1}}
+   \frac{v(e)^{2/3}W(e)}
+        {\sqrt{\det M(e)}}\,d\Omega(e).
+}
+\]
+Here \(d\Omega\) is ordinary surface-area measure, with no normalization by the area of the sphere.
+
+The expectation defining \(W(e)\) is an explicitly specified finite Gaussian integral. To make its remaining normalizer completely explicit, let \(u_a\) be the columns of \(U_e\), let
+\[
+(r_{ab})_i=C(u_a,u_b,\mathbf e_i,e),
+\]
+where \(C\) denotes multilinear contraction of the displayed tensor, and define
+\[
+\Sigma_e[(a,b),(c,d)]
+=
+C(u_a,u_b,u_c,u_d)
+-r_{ab}^{\mathsf T}M(e)^{-1}r_{cd}.
+\]
+Using upper-triangular coordinates \(b=\operatorname{vech}(B)\) on symmetric matrices of order \(d-1\), and \(m=d(d-1)/2\), the same quantity is
+\[
+W(e)=
+\frac{1}{(2\pi)^{m/2}\sqrt{\det\Sigma_e}}
+\int_{B\prec0}
+  (\det B)^2
+  \exp\!\left(-\frac12 b^{\mathsf T}\Sigma_e^{-1}b\right)
+  \prod_{a\le b}dB_{ab}.
+\]
+Thus the boxed expression involves only convergent lattice sums, a sphere integral, and a specified Gaussian integral.
+
+The covariance supplied in the prompt factorizes by coordinate. Poisson summation gives its exact Fourier representation
+\[
+K_L(z)
+=
+\sum_{n\in\mathbb Z^d}
+  \left(\prod_{i=1}^d p_{n_i}\right)
+  e^{\,i(2\pi n/L)\cdot z}.
+\]
+Equivalently, \(K_L(z)=\mathbb E e^{iQ\cdot z}\), where the coordinates of \(Q\) are independent and have the probabilities \(p_n\) above. This representation explains why the moments are exact for the periodized covariance.
+
+At a fixed point, write \(g=\nabla f\), \(H=\nabla^2f\), and
+\[
+A_e=\partial_e^3 f.
+\]
+Derivative covariances give
+\[
+\operatorname{Cov}(g)=\alpha I,\qquad
+\operatorname{Cov}(He)=M(e),
+\]
+and
+\[
+\operatorname{Cov}(A_e,g)
+=
+-\left(3\alpha^2e+\kappa_4e^{\odot3}\right).
+\]
+Also,
+\[
+\operatorname{Var}(A_e)
+=
+15\alpha^3
++15\alpha\kappa_4\sum_i e_i^4
++\kappa_6\sum_i e_i^6.
+\]
+Consequently,
+\[
+\operatorname{Var}(A_e\mid g=0)=v(e).
+\]
+
+Parity of the stationary covariance makes the even derivative block \(H\) independent of the odd derivative block \((g,A_e)\). Therefore conditioning on \(g=0\) and \(He=0\) separates the transverse-Hessian factor \(W(e)\) from the conditional cubic derivative. This separation uses parity; it does not use rotational symmetry.
+
+For the local calculation, write an ordered pair as
+\[
+x=m-\frac r2e,\qquad
+y=m+\frac r2e,
+\]
+with \(x\) the maximum and \(y\) the saddle. Thus \(e\) points from maximum to saddle. All derivatives in the following expansions are evaluated at \(m\).
+
+The two critical-point equations imply
+\[
+g=-\frac{r^2}{8}\,\partial_e^2g+O(r^4),
+\qquad
+He=-\frac{r^2}{24}\,\partial_e^3g+O(r^4).
+\]
+Let \(B\) be the restriction of \(H\) to \(e^\perp\). On a configuration with \(B\prec0\) and \(A_e>0\),
+\[
+\det H(x)
+=
+-\frac r2A_e\det B+O(r^2),
+\qquad
+\det H(y)
+=
+\frac r2A_e\det B+O(r^2).
+\]
+The eigenvalue in the \(e\) direction is negative at \(x\) and positive at \(y\); the other eigenvalues remain negative. Hence these are precisely the maximum and index-\((d-1)\) saddle roles.
+
+The height difference follows from the same critical-point constraints:
+\[
+\begin{aligned}
+f(x)-f(y)
+&=-r\,g\cdot e-\frac{r^3}{24}A_e+O(r^5)\\
+&=\frac{r^3}{12}A_e+O(r^5).
+\end{aligned}
+\]
+The factor \(1/12\) therefore comes from conditioning both endpoints to be critical. An unconstrained cubic Taylor term would give the wrong factor.
+
+Introduce
+\[
+\bar g=\frac{\nabla f(x)+\nabla f(y)}2,\qquad
+J=\frac{\nabla f(y)-\nabla f(x)}r.
+\]
+The linear transformation from \((\bar g,J)\) to the endpoint gradients has determinant \(r^d\). Moreover,
+\[
+(\bar g,J)\longrightarrow(g,He)
+\]
+as \(r\downarrow0\). Thus
+\[
+p_{\nabla f(x),\nabla f(y)}(0,0)
+\sim
+r^{-d}p_g(0)p_{He}(0),
+\]
+where
+\[
+p_g(0)=(2\pi\alpha)^{-d/2},
+\qquad
+p_{He}(0)
+=(2\pi)^{-d/2}\bigl(\det M(e)\bigr)^{-1/2}.
+\]
+
+Kac–Rice contributes the absolute Hessian-determinant product. Its leading value on the specified roles is
+\[
+\frac{r^2A_e^2}{4}(\det B)^2.
+\]
+The displacement volume element is \(r^{d-1}dr\,d\Omega(e)\). Combining these three factors leaves
+\[
+r^{d-1}\,r^{-d}\,\frac{r^2A_e^2}{4}
+=
+\frac{A_e^2}{4}\,r.
+\]
+
+For a fixed positive cubic derivative \(a\), conversion from separation to lifetime gives
+\[
+\int_0^\infty
+  \frac{a^2}{4}r\,
+  \delta\!\left(\ell-\frac{ar^3}{12}\right)\,dr
+=
+12^{-1/3}a^{4/3}\ell^{-1/3}.
+\]
+Therefore the coefficient forced by the local Kac–Rice calculation is
+\[
+12^{-1/3}p_g(0)
+\int_{S^{d-1}}
+ p_{He}(0)\,W(e)\,
+ \mathbb E[(A_e)_+^{4/3}\mid g=0]\,d\Omega(e).
+\]
+For a centered Gaussian of variance \(v(e)\),
+\[
+\mathbb E[(A_e)_+^{4/3}\mid g=0]
+=
+2^{-1/3}\frac{\Gamma(7/6)}{\sqrt\pi}\,v(e)^{2/3},
+\]
+which produces the boxed formula.
+
+The topology-sensitive step is showing that the close pairs contributing this limit are actual bars. A controlled fold gives a local isolation argument.
+
+Suppose the transverse Hessian is uniformly negative, the cubic derivative is bounded away from zero on the positive side, and the relevant higher derivatives are bounded. Transverse concavity allows the transverse critical equation to be solved for a ridge \(w(s)\), with \(s\) the coordinate along \(e\). The ridge passes through both critical points. Its effective height function
+\[
+h(s)=f(m+se+w(s))
+\]
+has critical points at \(s=-r/2\) and \(s=r/2\), and
+\[
+h'(s)
+=
+\frac{A_e}{2}
+  \left(s^2-\frac{r^2}{4}\right)+O(r^3)
+\]
+on a fixed multiple of the separation scale. Factoring out the two known roots shows that the remaining factor is positive for sufficiently small \(r\). The first point is consequently the sole ridge maximum in this neighborhood, and the second is its saddle.
+
+Take a tube around the ridge from a point to the left of the maximum up to the saddle. Its transverse radius can be chosen proportional to \(r^{3/2}\). The transverse negative quadratic term then lowers the side boundary below the saddle height. The left end also lies below the saddle height, while the right face has its unique highest point at the saddle. Hence the component born at the maximum is enclosed for every level strictly between birth and death.
+
+On the ridge beyond the saddle, the height increases and reaches a value strictly above the local maximum within another fixed multiple of \(r\). At the saddle level, the enclosed component therefore joins a component containing a point above its birth height. The elder rule kills the enclosed component at this saddle. The higher point also proves that the local maximum is not the global maximum. Thus the pair is a finite nonessential bar.
+
+This supplies the close-pair-to-bar correspondence for the fold configurations that survive in the limit. It does not assume that arbitrary candidate critical-point pairs are bars.
+
+The remaining issue is exhaustion: configurations outside this controlled local regime must not contribute another term of order \(\ell^{-1/3}\). This can be handled within the marked Kac–Rice formula.
+
+All Fourier weights of the field are strictly positive. Consequently, any nonzero linear combination of finitely many derivative evaluations at distinct points has positive variance. One way to see this is that zero variance would force every Fourier coefficient of the corresponding finite sum of point-supported distributions to vanish, hence force that distribution to be zero. This verifies the finite-jet nondegeneracy needed for Gaussian transversality and Kac–Rice. In particular, the field is almost surely Morse with distinct critical values, and the relevant conditional covariance matrices are nondegenerate.
+
+Fix a positive separation cutoff. Away from the diagonal, the joint covariance of
+\[
+\bigl(\nabla f(x),\nabla f(y),f(x)-f(y)\bigr)
+\]
+has its smallest eigenvalue bounded away from zero by compactness. Its density and its conditional Hessian moments are bounded uniformly for lifetimes near zero. The lifetime density of all candidate pairs at those separations is consequently bounded. Actual bars form a subset of these pairs, so their contribution vanishes after multiplication by \(\ell^{1/3}\).
+
+Near the diagonal, let \(D=f(x)-f(y)\). The normalized Gaussian vector
+\[
+\left(
+ \bar g,\,
+ J,\,
+ \frac{D+r\,e\cdot\bar g}{r^3}
+\right)
+\]
+converges to
+\[
+\left(g,He,\frac{A_e}{12}\right).
+\]
+Its limiting covariance is uniformly nondegenerate as \(e\) ranges over the sphere. In particular,
+\[
+\operatorname{Var}(D\mid \nabla f(x)=\nabla f(y)=0)
+=
+\frac{r^6}{144}v(e)+o(r^6).
+\]
+Writing \(z=\ell/r^3\), the conditional lifetime density is therefore bounded by
+\[
+C r^{-3}e^{-c z^2}
+\]
+for sufficiently small separations, uniformly in direction.
+
+The critical-point equations also provide a useful determinant bound. Since the endpoint gradients agree,
+\[
+\int_{-r/2}^{r/2}
+  \nabla^2f(m+se)e\,ds=0.
+\]
+Each endpoint Hessian column in the \(e\) direction is thus bounded by \(Cr\) times a third-derivative norm. Gaussian regression on the normalized vector above has uniformly bounded coefficients, so conditional derivative moments grow at most polynomially in \(|z|\). Hence, for some finite exponent \(N\),
+\[
+\mathbb E\!\left[
+ |\det H(x)\det H(y)|
+ \,\middle|\,
+ \nabla f(x)=\nabla f(y)=0,\ D=\ell
+\right]
+\le Cr^2(1+|z|)^N.
+\]
+After including the gradient density and radial volume element, the lifetime integrand is bounded by
+\[
+Cr^{-2}(1+|z|)^N e^{-c z^2}.
+\]
+
+Now substitute \(r=\ell^{1/3}u\). After multiplication by \(\ell^{1/3}\), this becomes the integrable, lifetime-independent bound
+\[
+Cu^{-2}(1+u^{-3})^N e^{-c u^{-6}}.
+\]
+For each fixed \(u>0\), Gaussian regression couples the conditioned fields so that their derivatives converge locally, with
+\[
+He=0,\qquad A_e=\frac{12}{u^3}>0.
+\]
+The limiting transverse Hessian has a nonsingular Gaussian law. Its eigenvalues are therefore nonzero almost surely. When it is negative definite, the local isolation argument applies for all sufficiently small separations; when it is not negative definite, the required maximum/saddle index condition fails in the limit. Dominated convergence gives exactly the coefficient derived above.
+
+These bounds also dispose of transverse degeneracies, small cubic derivatives, and other exceptional nearby configurations: they are included in the dominating estimate and do not require a universality assertion. Together with the bounded contribution away from the diagonal, they establish exhaustion of the leading singularity.
+
+Finally, the counting and volume conventions are as follows. The midpoint change of variables has Jacobian one. Stationarity supplies a midpoint integral of \(L^d\), which cancels the ordinary-volume divisor \(L^d\). Thus no additional volume factor remains outside the covariance-dependent moments. The full sphere is used because the roles are ordered and \(e\) points from maximum to saddle. Reversing \(e\) reverses the roles and the sign of the cubic derivative; the positive-part moment already selects the permitted orientation. There is no additional factor of one half. Each actual bar contributes its unique ordered birth/death pair once.
+
+The mathematical inputs beyond the supplied definitions are the standard marked Kac–Rice and Gaussian transversality theorems, with their nondegeneracy hypotheses verified by the exact positive Fourier spectrum. The correspondence and exhaustion arguments above supply the persistence-specific steps, so no unproved global candidate-equals-bar gate remains in this derivation.

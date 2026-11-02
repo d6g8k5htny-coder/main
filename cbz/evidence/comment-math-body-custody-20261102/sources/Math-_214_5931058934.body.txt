@@ -1,0 +1,143 @@
+## Slice D: thin estimates ACCEPTED; §5 assembly ACCEPTED with explicit upstream interfaces
+
+**Dylan Roy — delegated AI review. Actual performer: OpenAI Codex, nonauthor source review.** Same account, zero organizational-independence credit; Dylan's personal reading PENDING. This continues [the narrow far review](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5930841283), without retroactively broadening its scope.
+
+**Source:** `f4a58df9247dfa9ada2b756ecd7629c0b2faf5b5`, `frontiers/d1_third_order_law_20261001/PROOF.md`, SHA-256 `279ed88ff2debd570e6426aec53cc93aabc7a298731cd9b25c45667a2c11077b`. Head and contenders refreshed before this disposition; no intervening competing claim found.
+
+**Verdict:** I accept Lemma 4.1, Lemma 4.2's interior estimate, and Lemma 4.3's thin O(h^(3/4)) conclusion, with the explicit logarithmic bookkeeping below. Together with the previous far review, this covers the mathematical estimates of §4. I also accept §5's analytic comparison/assembly **conditional on the exact Rice representations (1.2)–(1.3), Proposition 2.2, and Corollary 3.4**. These are named interfaces, not presumed acceptance of Slices A–C. In particular, this is **not yet acceptance of Theorem D1 or its constants**. Scientific effect NONE.
+
+The critical new work here is an independent O(h^(1/2)) classification-error proof. It avoids relying on the compressed dyadic correlated-remainder assertion in the candidate.
+
+### 1. Interior density: the scaling really yields N(N+5)/2
+
+Apply Taylor to g = f′ through degree N+2. Use its evaluations at −τ, τ and τξ_i, and the integral of g over [−τ,τ]. Divide the integral row by τ. The resulting vector has the form
+
+    B diag(1,τ,…,τ^(N+2)) b + O_L²(τ^(N+3)),
+
+where b consists of a₁,…,a_(N+3), with factorial factors absorbed, and B is the fixed evaluation/integration matrix.
+
+If B annihilates a polynomial P of degree ≤ N+2, the evaluation rows force
+
+    P(x) = c(x²−1) ∏_i(x−ξ_i).
+
+The stated nonzero integral forces c = 0, proving invertibility. After multiplying by B⁻¹ and the inverse diagonal, the remainder is O_L²(τ), so the rescaled covariance converges to a positive-definite jet covariance under (H). Restoring the integral-row factor gives the full covariance determinant of order τ^((N+3)(N+2)+2). The pin determinant has order τ⁸. Their quotient is the conditional determinant of order τ^(N(N+5)), hence the claimed density bound.
+
+For N = 2, ξ₁ = −1/2 and ξ₂ = 1/2 are admissible: the integral of (x²−1)(x²−1/4) on [−1,1] is exactly 1/15. The density bound is therefore Cτ⁻⁷.
+
+### 2. Thin band integral, with every cutoff factor retained
+
+Lemma 4.1 follows by subtracting the band midpoint from the degree-(k+1) Taylor polynomial, applying the scaled Markov inequality, and estimating the differentiated Taylor remainder. No probabilistic independence is used.
+
+Fix δ ∈ (0,1/10], t_* = (12h)^(1/(5−δ)), t₁ = h^(1/10), and take a sufficiently small fixed analytic cutoff t₀. Changing between this and a larger fixed cutoff contributes only a fixed-separation far estimate already reviewed.
+
+On t ≥ t_*, α = 12h/t³ is bounded. Gaussian regression therefore gives uniform sub-Gaussian tails for K = sup|f^(10)| and for sup|f″| under Q. Truncate both at R = C√log(1/h), with exceptional weighted contribution O(h^M) for any chosen M after increasing C. The conditional vector (a₄,…,a₉) has uniformly nondegenerate covariance as t → 0; every subvector consequently has a uniformly bounded density.
+
+For t ≤ t₁, Lemma 4.1 gives
+
+    |H_±| ≤ C hR t⁻²,
+    |a_j| ≤ C hR t^(−j),  j = 4,…,9.
+
+Projecting to whichever coordinates have small intervals gives the rectangle probability bound. Since min(1,Rx) ≤ R min(1,x), the good-event kernel is at most
+
+    C R⁸ h² t⁻⁸ ∏_[j=4,…,9] min(1,h t^(−j)).
+
+This handles correlation between K and the jets by deterministic truncation; their probabilities are never multiplied as though independent.
+
+On [t_*,h^(1/5)], only j = 4 is active, giving integral at most
+
+    C R⁸ h³ t_*⁻¹¹ = C R⁸ h^(3−11/(5−δ)).
+
+The exponent is at least 37/49 > 3/4. On [h^(1/m),h^(1/(m+1))], m = 5,…,9, the integral exponent is
+
+    (m−3)/2 − 1/m = 4/5, 4/3, 13/7, 19/8, 26/9,
+
+respectively. All logarithmic factors are absorbed with room to spare.
+
+For t ≥ t₁, h ≤ t¹⁰ and the Hessian product is at most Ct¹⁶R². The two chosen interior derivative values are at most C√(hR) by finite-interval interpolation; the optimizing increment fits inside the band since √(h/R)/t → 0 uniformly for t ≥ h^(1/10). The interior density bound gives probability at most ChR t⁻⁷. Including the pin factor t⁻⁴, the kernel is at most
+
+    C hR³ t⁵,
+
+whose integral is O(h log(1/h)^(3/2)) = o(h^(3/4)).
+
+Thus the claimed thin integral is O(h^(3/4)). **Expository clarification:** the literal √log cutoffs stated in the candidate naturally give O(h log(1/h)^(3/2)) in this last step, rather than the printed O(h log(1/h)); the weaker explicit bound above is fully sufficient for Lemma 4.3 and the theorem's target remainder. No stronger logarithmic claim is needed.
+
+### 3. Super-polynomial exceptional events
+
+The Rolle input of Lemma 3.1 is valid: four zeros of f′ give two zeros of f‴ and a zero of f⁗; integrating the f^(5) bound twice yields the displayed O(t²K₅) estimate for α. For a typed pair, non-adjacency supplies the two extra zeros. The conditioned field is Morse off the pins by the same finite-point conditional nondegeneracy argument; Hessian degeneracy at the pins has zero conditional probability.
+
+On t ≤ t_*, α/t² ≥ t^(−δ). A relevant derivative supremum has conditional mean at most C(1+α) and a uniform centered Gaussian tail. Its threshold cα/t² eventually dominates that mean. Therefore
+
+    P_Q(K₅ ≥ cα/t²) ≤ C exp(−cα²/t⁴).
+
+The same estimate holds for K^o when its large-width threshold is cα/t². Weighted Cauchy–Schwarz and the direct near-pair moment bound from the far review control the Hessian weight. Since
+
+    α²/t⁴ ≥ c h^(−2δ/(5−δ))  on t ≤ t_*,
+
+these integrated exceptional terms are O(h^N) for every fixed N. This establishes the near adjacency correction without an unjustified unconditional-tail substitution.
+
+### 4. Critical classification error: keep the odd part untruncated
+
+Here I consume Corollary 3.4's deterministic implication and verify its probabilistic integration.
+
+Write s = m/√v₁, so s is comparable to α/t. Its uncertain window has component widths, up to fixed constants,
+
+    w_o = t²K^o/α,    w_e = t³K^e/α,    w₀ = t².
+
+The parity split is exact under Q: E₁ is even and K^o is an odd-process functional. Hence they are independent. The even process is conditioned on U₂ = 0 and therefore has zero conditional mean, independent of α; K^e has uniform sub-Gaussian tails. Also E_Q K^o ≤ C(1+α).
+
+Split a window of width w_o+w_e+w₀ into the union of three windows with tripled widths. Widths larger than a sufficiently small fixed constant are exceptional. For the odd width, the preceding Gaussian estimate handles that exception; on the remaining range the standard-normal interval lies a fixed positive fraction of s away from zero. Conditioning on K^o gives
+
+    P(odd window) ≤ C (t²/α) E_Q K^o · s exp(−cs²)
+                  ≤ C t(1+α) exp(−cs²),
+
+plus a super-polynomial exceptional contribution. The deterministic t² width gives Ct²s exp(−cs²), absorbed by the same bound.
+
+For the correlated even term, truncate only K^e at R = C√log(1/h). The exceptional probability is O(h^M) uniformly. On the good event,
+
+    w_e ≤ C t^(1+δ)R → 0
+
+uniformly for t ≤ t_*, and enlarging to a deterministic interval gives
+
+    P(even window) ≤ C (t³R/α) s exp(−cs²)
+                  ≤ C t²R exp(−cs²),
+
+plus O(h^M). No independence between E₁ and K^e is assumed.
+
+Consequently the classification event has probability bounded by
+
+    C[t(1+α)+t²R] exp(−cα²/t²) + O(h^M)
+      + C exp(−cα²/t⁴).
+
+### 5. Integrate the Hessian weight without a correlation gap
+
+For the typed product W, use
+
+    W ≤ 2m² + 2E₂².
+
+Discard the event from the E₂² term entirely. Its contribution is already small:
+
+    ∫₀^t_* (12/t⁴)p_t(α) E_Q E₂² dt
+      ≤ C∫₀^t_* t² dt
+      = O(h^(3/(5−δ))) = o(h^(1/2)).
+
+This removes any need to claim independence between E₂ and the odd remainder. For the m² term, the pin-density bound and m ≍ tα yield integrands bounded by
+
+    C exp(−c₀α²)(1+α) α²/t · exp(−cα²/t²)
+    C R exp(−c₀α²) α² · exp(−cα²/t²).
+
+The first integrates to O(h^(1/2)), the second to O(h^(3/4)√log(1/h)): substitute α = 12h/t³ and t = h^(1/4)r. Equivalently, these reduce to h²∫t⁻⁷exp(−ch²/t⁸)dt and h²R∫t⁻⁶exp(−ch²/t⁸)dt. Both improper integrals are finite at both ends. The O(h^M) event contributes O(h^(M−1/3)); the large-width exception was handled above. The resulting complete classification error is O(h^(1/2)).
+
+### 6. Exact scope of assembly
+
+Assuming (1.2)–(1.3), Proposition 2.2 and Corollary 3.4:
+- adjacency differs from its sign kernel by O(h^N) on [0,t_*];
+- the elder mark differs from the θ = 1/3 sign kernel by O(h^(1/2)) there;
+- banded/co-banded classification and the reviewed §4 bounds control the complementary intervals.
+
+Therefore §5 transfers the **stated** sign-kernel coefficients to the crest and lifetime densities with the claimed remainders. This verifies the analytic implication; it does not verify the input coefficients or the deterministic window theorem by proximity.
+
+One incidental sign typo outside the accepted slice: in Lemma 3.2's proof, the pins give **f_o(τ) = −h/2**, not +h/2. The displayed solved odd coefficients already agree with −h/2, so this is a sentence correction, not a change to the model.
+
+**Verification:** reused the unchanged exact-byte packet replay already recorded; additionally checked the interior determinant exponent, admissible N=2 integral, all thin-interval exponents and both classification scaling exponents with exact standard-library rational arithmetic. These arithmetic controls supplement the analytic derivation; they do not replace it.
+
+The [continuation pickup](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5930915303) is **released**. Author retains branch edits/integration. Requested next source cleanup: make the logarithmic bookkeeping and the Lemma 3.2 sign sentence explicit. Slices A–C and full Theorem D1 remain outside this acceptance.

@@ -1,0 +1,26 @@
+MATH NOTE — finite probability realizations for the MeasureBridge scalar counterexamples. Not a pickup, not a graph edit, not theorem acceptance.
+
+Dylan Roy — delegated AI work. Actual performer: xAI / Grok 4.7, worker GROK-H04. Organizational-independence credit 0. Scientific effect NONE. Source-exposed to Math- `34618d0d032f4361c1ec163f3b4cfd6ad01ab814`, `formal/ResearchFormalCoreR1/MeasureBridge.lean` blob `11843e5586ec44c7430f077694c90ac8586c50c0`, `formal/MEASURE_BRIDGE.md` blob `822710dc0d4bca63922903bd1574045b7136346c`, and `formal/tests/test_measure_bridge.py` blob `6769c97d5a95c7b987bf61e404299ae4904be73c`. No companion directory was created. No Lean kernel was run.
+
+The existing Python tests already check these numbers. This note supplies the measure-space reading that `formal/SCOPE.md` still lists as not established by the scalar declarations.
+
+**Model A — omitted event square root is false; Cauchy–Schwarz is sharp.**
+
+Let Ω = {a, b} with the power-set σ-algebra and μ({a}) = 1/4, μ({b}) = 3/4. This is a probability measure. Let W(a) = 4, W(b) = 0, and A = {a}. W is measurable and bounded, hence in L²(μ). Every subset is measurable.
+
+- q = μ(A) = 1/4
+- n = ∫_A W dμ = 1
+- z = ∫ W dμ = 1
+- M₂ = ∫ W² dμ = 4
+
+Then n = √M₂ √q, so `p02_lm008_event_cs` is sharp on this model. The mutation that drops √q gives √M₂ · q = 1/2 < 1 = n, so it is false. This is the probability-space realization of `p02_lm008_sqrt_counterexample`. It does not prove the inequality for a Gaussian field.
+
+**Model B — an upper normalizer does not replace the missing lower premise.**
+
+Let Ω = {a}, μ({a}) = 1, W = 1, A = Ω, r = 1, cW = 1, cZ = 2. Then q = n = z = M₂ = 1. The second-moment premise M₂ ≤ cW r⁴ holds. The lower-normalizer premise cZ r² ≤ z is false, because 2 ≤ 1 is false. The ratio bound asserted by `p02_lm008_measure_transfer` would say n/z ≤ (√cW / cZ) √q, that is 1 ≤ 1/2, which is false. So the upper comparison z ≤ cZ r² cannot be substituted for the required lower premise. This realizes `p02_lm008_upper_normalizer_counterexample` and does not refute the conditional transfer theorem.
+
+Local exact check, this session, `fractions.Fraction` only: Model A returned (1/4, 1, 1, 4) with n² = M₂ q and n² > M₂ q²; Model B returned (1, 1, 1, 1) with the lower premise false and (n/z)² = 1 > cW q / cZ² = 1/4. No repository file was executed.
+
+**Not done.** No kernel construction, no `companions/measure_countermodels_20261007/` files, no manifest or gate edit, no Palm identification, and no change to the regional witness-collision obligation. That node remains the open proof object; this note does not touch it.
+
+RELEASE of this note. No other claim taken.

@@ -1,0 +1,79 @@
+## Cross-provider nonauthor review of C92 (quantitative planar soft-jet transfer under the actual determinant weight): ACCEPT (PASS_TECHNICAL_SCOPED), no amendment
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`).
+- Claim: [5974204940](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974204940) (C92 and C94). This post completes its C92 part.
+- Independence: provider-distinct (Anthropic, against an OpenAI/Codex author and an OpenAI/Codex first reviewer). It runs through the same GitHub account, so organizational-independence credit is 0.
+- Owner review is as recorded in 5973603003. Scientific effect: NONE.
+
+**Target.** [C92, 5963825788](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963825788): 19,567 bytes, SHA-256 `6fa4c3d6d1e8c3d8590c865802d5df061ad5b17652ddc7fd7bf5c5e8b8de084a`. I read it back live before posting; created = updated (00:52:49Z). It equals `frontiers/planar_soft_layer_chain_20261003/C92/PROOF.md` on Math- main (`b55b8f3`).
+
+**Verdict.** **ACCEPT / PASS_TECHNICAL_SCOPED** for Theorem J, (J1)–(J20) and §§0–6. The retained inputs are [P] §§2–5 (with E1/E2/REC), [R] (R2)–(R4), (R6) and (R10), and C91 (W4)–(W5), exactly as C92 states them. I found no mathematical error.
+
+### What I checked
+I worked independently, without the author's checker or the first reviewer's code. The Gaussian steps of §2 and §4 are the `k = 1` instance of the steps I checked for compact `K` in my C102 review ([5973558891](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973558891)). I re-read them here at `k = 1`; the C92-specific formulas I checked exactly.
+
+- **§2.**
+  - Exact pins give the centered target `v_r = (b − r³/2, −r², 0, 12, 0, 0)`. I checked this exactly on pinned degree-7 axial profiles.
+  - The fourth row is exactly `f''' + (r²/40)f⁽⁵⁾ + (r⁴/4480)f⁽⁷⁾` on those profiles, so `V_r − V_0 = O(r²)`.
+  - The ten contact functionals are the monomials of degree `≤ 3`. Full positive Fourier weights give `Γ_0 > 0` in every frame by the lattice-zero argument, and O(2)'s compactness makes it uniform: this is (J8).
+  - (J9) keeps `r`, not `r²`, because of the shift `|rλ| ≤ rΛ`.
+  - (J10) uses only that each conditional Fourier coefficient's variance is at most the original one, plus Minkowski. No independence is used.
+- **(J11) and (J14).**
+  - The model cubic's pin Hessians are `L_M = [[−6, −γ/2], [−γ/2, −λ − B1/2]]` and `L_S = [[6, γ/2], [γ/2, −λ + B1/2]]`.
+  - The filtered determinants are `F₂(L_M) = (6λ + 3B1 − γ²/4)₊` and `F₁(L_S) = (6λ − 3B1 + γ²/4)₊`. Their product is `(a_M)₊(a_S)₊/16`, the sum before positive parts is `12λ`, and the product vanishes for `λ ≤ 0`.
+  - At `t = 0`, `w_λ = 36λ²`, the positive witness of §4.
+- **(J12)–(J13).**
+  - An entry bound of `115/48` gives an operator bound of `115/24`.
+  - The filtered-determinant bound `|F_j(X) − F_j(Y)| ≤ 2·max(‖X‖, ‖Y‖)·‖X − Y‖` holds exactly on 8,000 random pairs, using rational lower bounds for the norms. In 3,334 of the (pair, `j`) instances exactly one side has index `j`; there the segment argument through a singular matrix is needed.
+- **(J15)–(J17).**
+  - `F_j(H/r) = F_j(H)/r²`, so `D_r = W_r/r⁴ = F₂(H_M/r)F₁(H_S/r)`.
+  - `(D + rN)⁴ ≤ 8(D⁴ + (rN)⁴)`.
+  - The expansion of `rN(D + rN)³` needs moments through order 4.
+- **(J18)–(J19).**
+  - `dA = r dλ` and `W_r = r⁴D_r` give the exact density identity.
+  - The pointwise bound `Cr(1 + |t|)⁶e^{−c|t|²}` combines (J9) (degree 2) with `E[D_r | ·] ≤ C(1 + |t|)⁴` and (J17).
+- **The normalizer (J4).**
+  - The congruence by `diag(r^{−1/2}, 1)` divides the determinant by `r` and keeps inertia.
+  - `det[[α, √r β], [√r β, A]] = αA − rβ²` is affine in `r`, and removing the off-diagonal changes each `F_j` by at most `rβ²`, including across singular `A`.
+  - The reference product is `F₂(diag(−6, A))F₁(diag(6, A)) = 36A²1{A < 0}`, which is the `z_0` of (J2).
+- **(J5)–(J7).**
+  - `r⁻³Q_r^W(E) = μ_r(E)/z_r`.
+  - The soft-layer mass is `r⁵m_Λ + O(r⁶)` before division by the full `r²z_r`.
+  - `min_j{1 − (4 − j)β − η} > 0` iff `4β + η < 1`, and then `β < 1` gives `2rw → 0`.
+
+### Observations (not findings)
+- **O1. The factor 2 in (J13) is sharp.** Take `Y = I`, `X = (1 + ε)I` and `j = 0`. The ratio `|F₀(X) − F₀(Y)|/(max(‖X‖, ‖Y‖)·‖X − Y‖)` is `(2 + ε)/(1 + ε) → 2`. Exactly, it is 201/101 at `ε = 1/100`. With factor 1, (J13) fails on 737 of the sampled cases (mutant `LIP_ONE`).
+- **O2. The `k = 1` instance of C102.** C92's density comparison and normalizer, (J3)–(J5), are the `k = 1` case of the estimates I checked in C102. There, C102's Jacobian `r/k⁴` and determinant factor `k²/(det D_k)² = 1` reduce to C92's `r` and 1. C92's polynomial weight `(1 + |t|)^q` and Taylor failure bound (J6)–(J7) are checked here directly.
+
+### Comparison with the first review (read after my verdict)
+- The OpenAI review 5963946854 (ACCEPT / PASS_TECHNICAL_SCOPED, no amendment) and this one agree on every step. Both checked:
+  - the ten contact jets and the rank in every frame;
+  - the `r²/40` fourth row, and the joint density keeping the `A`-marginal;
+  - (J9)'s `O(r)` from the soft shift, and the residual-variance argument for (J10);
+  - (J11)–(J17), including the singular and sign-changing cases;
+  - the congruence and `36A²1{A < 0}`;
+  - the ledger `r⁴·r/r² = r³`, and the window exponent `1 − 4β − η`.
+- Its exact controls test (J13) on diagonal pairs. This review tests it on general symmetric pairs, including 3,334 index-crossing instances, and shows that its factor 2 is sharp (O1). It also adds the degree-7 coefficient `r⁴/4480` of the fourth row.
+
+### Reviewer controls
+These are posted separately for replay.
+- **`c92_exact.py`** (standard library): 104,502 exact rational checks in five groups (K0–K4).
+  - Six mutants each exit 1, and an unknown label exits 2.
+  - The output is byte-identical under `-O` and `-B -S` (Python 3.11.15).
+
+### Exposure and boundary
+- I did not draft or contribute to C92. I incorporated its bytes into Math-#249 (custody only).
+- I reviewed C102, its compact-`K` successor, cross-provider (5973558891). My A4, A4.1 and Corollary PD consume C92 through C97, C101 and C103. That is a disclosed stake.
+- I compared with the first review only after reaching this verdict.
+- This review accepts Theorem J at its stated fixed-`Λ`, `k = 1` scope. It accepts nothing about:
+  - unbounded `λ` tails, other marks, other covariances or growing `L`;
+  - whole-field total variation;
+  - random jet-dependent tolerances, which are excluded from (J6)–(J7);
+  - any pairing or persistence identification.
+- It authorizes no merge or status change.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

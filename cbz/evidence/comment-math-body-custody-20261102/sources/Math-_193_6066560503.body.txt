@@ -1,0 +1,1167 @@
+# C210 actual-source coordinates — actual nonauthor review and complete command evidence
+
+Complete current sources and scope: https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6066554517 .
+
+This is exact local author execution and a distinct source-exposed OpenAI review, reviewer compiler NOT_RUN, organizational independence0. No repository commit/hosted CI/deployment/scientific promotion. The final3 commands were run once on stable inputs; all earlier failures and both expected arithmetic rejections remain below.
+
+
+<details>
+<summary>review/REVIEW_C210.md — 14991 bytes; SHA256 9ae41d51f2ff905fa4432e34b19e0d4aaf8eeee1531637956a1ff32bec0525b9</summary>
+
+```text
+# C210 nonauthor mathematical and exact-version review
+
+Review status: **ACCEPT — the exact C210 local source-coordinate candidate identified below.** No outstanding mathematical or test-coverage amendment was found after the final frozen-candidate signal. Final read-only checks were completed at **2026-10-08 18:31:57 UTC**. This verdict does not assert completion of a broader theorem or research program.
+
+Reviewer: actual distinct OpenAI/Codex subagent `/root/c210_nonauthor_review`, delegated for Dylan Roy; nonauthor, source-exposed, same organization, organizational independence **0**. This is an AI review, not a human review. Reviewer compiler status: **NOT_RUN**. The reviewer has not edited the target source, tests, predecessor files, runtime, or dependency caches, and has not published anything over the network. The sole reviewer-owned artifact is this file.
+
+Scope: the C210 local actual-source coordinate construction over the C209 frame, symmetric Taylor lift, and congruence branch. No theorem-wide promotion, global/torus coordinate claim, elder/exhaustion/remainder closure, or scientific-status change is reviewed or asserted. The verdict is bound to the exact source, tests, audit, negative controls, and compiler evidence in `FINAL_INPUTS.json`, SHA-256 `c4f271eb3bd146c80c705cee66ca59dd80af8a7cb5cc12994fab8c586716a5b8`. The author/compiler is root `01a0bbb5`; this reviewer inspected the author's local compiler receipts and did not independently execute Lean.
+
+## Independent mathematical reconstruction checked against the final source
+
+Let `E n = EuclideanSpace ℝ (Fin n)` and `X n = Fin n → ℝ`. These have different normed-space presentations. The matrix action is explicitly constructed on `E n`, while the source field lives on `X n`; the continuous linear equivalence `P : E n ≃L[ℝ] X n` crosses that boundary. No orthogonality of `P` is assumed.
+
+For the actual source `F = I4Source.sourceField n L omega`, the C209 normalization bundle returns one frame `P` and positive-first signature `J = signSym n k`. The weighted Taylor integral uses that very `P` in both its parameter point `x0 + t • P u` and its two Hessian slots. At zero its weight integrates to one half, while C209 normalizes the directional Hessian to `2J`; therefore the same symmetric Taylor field has `M 0 = J`. Its `C²` regularity follows from the actual source's `C⁴` majorant theorem and the pinned Taylor integral result, followed by the continuous-linear self-adjoint projection. This is a literal source construction, not an arbitrary supplied matrix witness.
+
+The pinned congruence theorem first applies the inverse function theorem on the space of symmetric matrices to `S ↦ J + 2S + SJS`. Its derivative at zero is multiplication by two, an equivalence. The local inverse `s` therefore satisfies `s J = 0` and is `C²` on an open branch neighborhood `V` of `J`. Using symmetry of `S` and `J` and `J² = I`, the polynomial equals `(I + JS)ᵀ J (I + JS)`. Consequently `M = Rᵀ J R` on the branch, where `R(u) = I + J s(Mu)`.
+
+C210 pulls the branch back to the open neighborhood `U = M⁻¹' V`, proves that `R` and `A(u) = action(R(u))` are `C²` on `U`, and defines the actual map `Theta(u) = A(u)u`. Since `M0 = J` and `sJ = 0`, `A(0) = Id`. The product derivative is
+
+`DTheta(0)[h] = DA(0)[h](0) + A(0)[h] = h`.
+
+This uses differentiability of `A` and linearity in the applied vector. It does not require `DM(0) = 0`, `DA(0) = 0`, or a constant Taylor field.
+
+The second inverse function theorem is applied to this actual `Theta` at zero with derivative equivalence `Id`. It creates `e0`, with its forward function definitionally equal to `Theta`. The final proof derives `e0.symm 0 = 0` from its left-inverse law and invokes `e0.contDiffAt_symm` using the actual derivative and regularity of `Theta`; the inverse is therefore `C²` at zero. This is not a circular assumption of the desired chart: the open partial homeomorphism was just constructed by `ContDiffAt.toOpenPartialHomeomorph`. The proof extracts an open neighborhood `W` of zero where that inverse is `C²`, defines `e1 = e0.restrOpen U`, and then defines `e = (e1.symm.restrOpen W).symm`. Thus
+
+- `e.source = (e0.source ∩ U) ∩ Theta⁻¹' W`;
+- `e.target = (e0.target ∩ e0.symm⁻¹' U) ∩ W`.
+
+Both sets are open by the `OpenPartialHomeomorph` restrictions, both contain zero, and their inherited forward/inverse functions and inverse laws match. The forward `C²` assertion restricts the established regularity on `U`; the inverse `C²` assertion restricts the established regularity on `W`. The forward energy identity applies only on `e.source`, where `M u ∈ V` has been proved. The inverse energy identity first maps `v ∈ e.target` back to `e.source` and then applies the same forward quadratic identity and `e.right_inv`. It does not silently substitute a different inverse or unrelated domain.
+
+The source energy identity needs criticality: the Taylor formula otherwise contains the linear term `DF(x0)[P u]`. C210 explicitly passes `hcrit` to `sourceSymMatrix_quadratic` in each direction. The normalization and generic coordinate core do not assume criticality or the desired energy identity.
+
+## Independent counterexample search
+
+These are mathematical reconstruction checks, not claims of compiled C210 tests.
+
+1. **Nonzero derivative of the Taylor field.** In one dimension, `M(u) = 1 + u` and `J = 1` give the local branch `s(M) = sqrt(M) - 1`, hence `Theta(u) = u sqrt(1+u)`. Then `DM(0) = 1` but `DTheta(0) = 1`. The energy `u² + u³` is correctly transformed. Any replacement of the stated derivative argument by a hidden `DM(0)=0` assumption would exclude this valid example.
+2. **Mixed-sign, genuinely nonlinear action.** With `J = diag(1,-1)` and symmetric `S(x,y) = [[0,x],[x,0]]`, the congruence gives `R = [[1,x],[-x,1]]`, `M = [[1-x²,2x],[2x,x²-1]]`, and `Theta(x,y) = (x+xy,y-x²)`. Its derivative at zero is identity although `DM(0)` is nonzero. The Jacobian determinant is `1+y+2x²`, which vanishes away from zero; this illustrates why the construction is local and why a global inverse conclusion would be unwarranted.
+3. **Criticality cannot be removed.** For `F(x)=x+x²` at zero, the normalized Hessian is two and the Taylor matrix is one, but `F(x)-F(0)` is not just `x²`. The missing term is precisely the derivative contribution. The current target avoids this failure by explicitly requiring actual-source criticality.
+4. **Frame normalization factor.** The Taylor integral contributes one half, so using a frame that normalizes the Hessian merely to `J` would leave center `J/2` and would not feed the branch centered at `J`. C209's factor `2J` is the necessary one.
+5. **Zero dimension.** Empty sums and the unique maps on the zero-dimensional spaces cause no mathematical obstruction. `J²=I` and the identity derivative are statements in zero-dimensional spaces. The final `empty_actual_source_consumer` test supplies the corresponding Lean implementation check, including both `C²` directions and the actual-source inverse energy identity.
+
+## Final test and rejection-control review
+
+The test source was read end-to-end at the exact final hash. Its checks address substantive failure modes:
+
+- `scalarOp_deriv`, `scalarTheta_formula`, `scalarTheta_deriv`, and `scalar_operator_derivative_nonzero` establish an explicitly nonlinear application map `u ↦ (1+u)u`, identity derivative at zero, and a nonzero derivative of its operator field.
+- `scalarM_contDiff`, `scalarM_center`, `scalarM_deriv`, and `actual_symmetric_matrix_derivative_nonzero` use the explicit symmetric field `scalarM(u)=(1+p1(u))² • signSym 1 1`. Its derivative at zero is `h ↦ 2p1(h) • J`, and evaluating at the unit vector gives the nonzero matrix entry two. `nonlinear_congruence_consumer` passes this very field into `exists_coordinates` and retains `e=theta`, zero in both domains, derivative identity, both `C²` assertions, and the quadratic identity. This directly exercises the coordinate constructor with `DM(0)≠0`.
+- The mixed-sign shear controls use `J2=diag(1,-1)`, `R=[[1,x],[0,1]]`, and `M=RᵀJ2R`. They check matrix congruence, the energy identity, the explicit action formula, necessity of the transpose, necessity of using the transformed coordinate, and failure of Euclidean isometry. These are generic matrix-action/congruence controls; they are **not** being presented as the specific symmetric-branch formula `R=I+Js(M)`.
+- `shear_everywhere_invertible` proves that both the shear matrix and its congruence matrix are nonsingular everywhere, while `shear_not_globally_injective` exhibits two distinct inputs mapped to the same output. Thus pointwise matrix invertibility does not warrant replacing the actual second inverse function theorem or claiming a global coordinate map.
+- `criticality_is_required` compares the derivative one of `x+x²` with the derivative zero of a squared centered coordinate, ruling out even an eventual energy equality of that form. `noncritical_hessian_is_two` checks that this counterexample nevertheless has nonzero Hessian.
+- `empty_actual_source_consumer` invokes the actual source theorem in dimension zero, derives criticality from the zero-dimensional domain, uses the empty determinant, and preserves both regularity directions and the source identity. It is not just an empty matrix arithmetic test.
+
+The frozen C209 tests were also read, including `nonorthogonal_control` and `coordinate_map_not_energy_isometry` for a physical normalization frame. C210 does not strengthen `P` to an isometry; the same continuous linear equivalence returned by C209 is used throughout its source construction.
+
+The two negative-control source files match their compiler snapshots and fail with exit code 1, without timeout, for their intended arithmetic contradictions:
+
+| Control | Rejected proposition | Observed terminal goal |
+| --- | --- | --- |
+| `NegativeDMZero.lean` | The directional derivative of the tested nonlinear symmetric `scalarM` at zero vanishes | `False` after substituting the proved derivative and evaluating its matrix entry |
+| `NegativeMissingTheta.lean` | The mixed shear's energy equals the original signature energy without the coordinate change | `False` after concrete evaluation at `(1,1)` |
+
+Neither rejection is caused by an import error, parser error, missing declaration, or unrelated elaboration failure. Neither negative-control `.olean` exists. The controls remain expected failures and are not part of the accepted proof module.
+
+Contribution/exposure disclosure: before the final candidate, this reviewer identified that a nonzero derivative of `A(u)` alone did not explicitly meet the requested nonzero-`DM(0)` test coverage. The reviewer proposed adding a symmetric field with nonzero derivative consumed by the same constructor and pointed out that the generic shear is not a witness of the branch-specific `I+JS` form. The author implemented and compiled the added `scalarM` tests. This reviewer wrote no Lean source, supplied no accepted proof body, and made no compiler invocation. The review is distinct-nonauthor and source-exposed, not blind and not organizationally independent.
+
+## Exact-version evidence
+
+The final frozen input file has 14 entries; every entry's byte length and SHA-256 matched during this review. The principal source hashes are:
+
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `SourceCoordinates.lean` | 8161 | `b92d2936525bd120f41badb2bd9018714546d986b6ced9c4326bee9e0b1939da` |
+| `SourceCoordinatesTests.lean` | 7410 | `b9d046673bb1515382e8fbf653f31b7e0d64284e0f0ee52b1f06dd81d70c5c74` |
+| `SourceCoordinatesAxioms.lean` | 2202 | `afcc194a9ee1668de04ea66e408de97d4c3c61f820a5997c8e9ac31b754f08b6` |
+| `NegativeDMZero.lean` | 580 | `68a6f41fe265d9409fad138d66b13608ef7d1d6e31f4248f578e7f3a9d3ebdfe` |
+| `NegativeMissingTheta.lean` | 410 | `08538ca99f77630860ef3f79655a39e398ef8509ccc88b7aa2468b7d127c6e45` |
+
+The two original theorem headers in `target-red-01.lean` are byte-identical to the final `exists_coordinates` and `source_coordinates` headers. The initial typed RED log contains the intended two unsolved target goals. The accepted claims were not weakened after the typed RED.
+
+All 15 compiler receipt triples were independently checked for source-snapshot and log hashes. Their recorded execution intervals do not overlap; each command uses `nice -n 10`, the pinned Lean path, one thread, and records no timeout. The runner was read: it enforces the stated 180-second command limit. The retained history includes the typed RED, four failed main attempts, the first successful main attempt, three failed test attempts, the first successful test attempt, two expected arithmetic rejection controls, and these three final stable commands:
+
+| Final command | Started UTC | Completed UTC | Result |
+| --- | --- | --- | --- |
+| `final-main` | 18:27:05.029085 | 18:27:25.076007 | Exit 0, empty log, snapshot identical to accepted main source |
+| `final-tests` | 18:27:25.110681 | 18:27:30.246482 | Exit 0, empty log, snapshot identical to accepted test source |
+| `final-axioms` | 18:27:30.284169 | 18:27:35.000944 | Exit 0, exactly 42 audited declarations |
+
+The complete 42-name roster was independently extracted from the actual `def`, `abbrev`, and `theorem` declarations and compared with both `SourceCoordinatesAxioms.lean` and every row of `final-axioms.log`: 13 main declarations and 29 test declarations, no missing name, extra name, or duplicate. Every audit row lists only `propext`, `Classical.choice`, and `Quot.sound`. The accepted main and test sources contain no `sorry`, `admit`, new `axiom`, or `unsafe` declaration. The audit log SHA-256 is `e845ae9d0af7027c34d03607c74632c33308bff71591d0da918d021b56d9f189`.
+
+Read-only final integrity checks matched all 131 entries in the copied C209 archive specification, all 89 entries in the copied Taylor-matrix freeze, and all 40 entries in the copied symmetric-lift freeze: **260 matching manifest bindings**. This count includes repeated inherited references rather than claiming 260 unique mathematical inputs. The pinned Mathlib Git commit was read as `d13f23b723b8a846827a245b89c10fc7d3f11612`. The Lean binary at the configured `lean-4.34.1-darwin_aarch64/bin/lean` path hashes to `1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554`. The inspected author verification file hashes to `9a87f7aa27f365e0f3cdcd5cdfae17e7a5f880ec34ff8528b0cadacf8bd33890`.
+
+The mathematical reconstruction, assumption checks, and counterexample search above are the substantive review. Hash comparisons establish that the reviewed content is the frozen content; they are not mathematical proofs. Compiler claims here are supported by the author's exact local receipts and the checked axiom output, with reviewer compiler status **NOT_RUN**. No hosted CI result, remote publication, repository commit, deployment, or new scientific closure is asserted by this review.
+```
+</details>
+
+<details>
+<summary>FINAL_INPUTS.json — 4324 bytes; SHA256 c4f271eb3bd146c80c705cee66ca59dd80af8a7cb5cc12994fab8c586716a5b8</summary>
+
+```text
+{
+  "task": "C210-SAME-P-SOURCE-COORDINATES-20261008-v1",
+  "files": [
+    {
+      "path": "lean-project/NegativeDMZero.lean",
+      "bytes": 580,
+      "sha256": "68a6f41fe265d9409fad138d66b13608ef7d1d6e31f4248f578e7f3a9d3ebdfe"
+    },
+    {
+      "path": "lean-project/NegativeMissingTheta.lean",
+      "bytes": 410,
+      "sha256": "08538ca99f77630860ef3f79655a39e398ef8509ccc88b7aa2468b7d127c6e45"
+    },
+    {
+      "path": "lean-project/SourceCoordinates.lean",
+      "bytes": 8161,
+      "sha256": "b92d2936525bd120f41badb2bd9018714546d986b6ced9c4326bee9e0b1939da"
+    },
+    {
+      "path": "lean-project/SourceCoordinatesAxioms.lean",
+      "bytes": 2202,
+      "sha256": "afcc194a9ee1668de04ea66e408de97d4c3c61f820a5997c8e9ac31b754f08b6"
+    },
+    {
+      "path": "lean-project/SourceCoordinatesTests.lean",
+      "bytes": 7410,
+      "sha256": "b9d046673bb1515382e8fbf653f31b7e0d64284e0f0ee52b1f06dd81d70c5c74"
+    },
+    {
+      "path": "evidence/final-axioms.json",
+      "bytes": 920,
+      "sha256": "35e7a6ccebfaa6cef989e7e3880bbbffc882447d48a2d5efa39e6f5e1da4d0c7"
+    },
+    {
+      "path": "evidence/final-axioms.lean",
+      "bytes": 2202,
+      "sha256": "afcc194a9ee1668de04ea66e408de97d4c3c61f820a5997c8e9ac31b754f08b6"
+    },
+    {
+      "path": "evidence/final-axioms.log",
+      "bytes": 4147,
+      "sha256": "e845ae9d0af7027c34d03607c74632c33308bff71591d0da918d021b56d9f189"
+    },
+    {
+      "path": "evidence/final-main.json",
+      "bytes": 909,
+      "sha256": "0feacb4c19b348a91e695b9d122f5e79b5c91c7a86cc314bd9e554384dd2a241"
+    },
+    {
+      "path": "evidence/final-main.lean",
+      "bytes": 8161,
+      "sha256": "b92d2936525bd120f41badb2bd9018714546d986b6ced9c4326bee9e0b1939da"
+    },
+    {
+      "path": "evidence/final-main.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/final-tests.json",
+      "bytes": 918,
+      "sha256": "5ce2924d5b0cbc78a1534dad2c28e4b5587bef2927ee76531d0b8a99cae06401"
+    },
+    {
+      "path": "evidence/final-tests.lean",
+      "bytes": 7410,
+      "sha256": "b9d046673bb1515382e8fbf653f31b7e0d64284e0f0ee52b1f06dd81d70c5c74"
+    },
+    {
+      "path": "evidence/final-tests.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "audit_names": [
+    "SourceCoordinates.E",
+    "SourceCoordinates.X",
+    "SourceCoordinates.action",
+    "SourceCoordinates.R",
+    "SourceCoordinates.theta",
+    "SourceCoordinates.quadratic",
+    "SourceCoordinates.action_one",
+    "SourceCoordinates.action_apply",
+    "SourceCoordinates.quadratic_eq_dot",
+    "SourceCoordinates.quadratic_congruence",
+    "SourceCoordinates.apply_hasFDerivAt_zero",
+    "SourceCoordinates.exists_coordinates",
+    "SourceCoordinates.source_coordinates",
+    "SourceCoordinatesTests.p1",
+    "SourceCoordinatesTests.p1_apply",
+    "SourceCoordinatesTests.scalarOp",
+    "SourceCoordinatesTests.scalarTheta",
+    "SourceCoordinatesTests.scalarOp_deriv",
+    "SourceCoordinatesTests.scalarTheta_formula",
+    "SourceCoordinatesTests.scalarTheta_deriv",
+    "SourceCoordinatesTests.scalar_operator_derivative_nonzero",
+    "SourceCoordinatesTests.scalarM",
+    "SourceCoordinatesTests.scalarM_contDiff",
+    "SourceCoordinatesTests.scalarM_center",
+    "SourceCoordinatesTests.scalarM_deriv",
+    "SourceCoordinatesTests.actual_symmetric_matrix_derivative_nonzero",
+    "SourceCoordinatesTests.nonlinear_congruence_consumer",
+    "SourceCoordinatesTests.J2",
+    "SourceCoordinatesTests.shearR",
+    "SourceCoordinatesTests.shearM",
+    "SourceCoordinatesTests.shearTheta",
+    "SourceCoordinatesTests.shear_congruence",
+    "SourceCoordinatesTests.shear_energy",
+    "SourceCoordinatesTests.shearTheta_formula",
+    "SourceCoordinatesTests.transpose_is_required",
+    "SourceCoordinatesTests.coordinate_map_is_required",
+    "SourceCoordinatesTests.shear_not_isometry",
+    "SourceCoordinatesTests.shear_everywhere_invertible",
+    "SourceCoordinatesTests.shear_not_globally_injective",
+    "SourceCoordinatesTests.criticality_is_required",
+    "SourceCoordinatesTests.noncritical_hessian_is_two",
+    "SourceCoordinatesTests.empty_actual_source_consumer"
+  ],
+  "compiler_stopped_at": "2026-10-08T18:27:35.000944+00:00"
+}
+```
+</details>
+
+<details>
+<summary>evidence/final-axioms.json — 920 bytes; SHA256 35e7a6ccebfaa6cef989e7e3880bbbffc882447d48a2d5efa39e6f5e1da4d0c7</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:27:30.284169+00:00",
+  "completed_at": "2026-10-08T18:27:35.000944+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 4.716394917,
+  "source_sha256": "afcc194a9ee1668de04ea66e408de97d4c3c61f820a5997c8e9ac31b754f08b6",
+  "log_sha256": "e845ae9d0af7027c34d03607c74632c33308bff71591d0da918d021b56d9f189",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/final-axioms.log — 4147 bytes; SHA256 e845ae9d0af7027c34d03607c74632c33308bff71591d0da918d021b56d9f189</summary>
+
+```text
+'SourceCoordinates.E' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.X' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.action' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.R' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.theta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.action_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.action_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.quadratic_eq_dot' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.quadratic_congruence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.apply_hasFDerivAt_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.exists_coordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinates.source_coordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.p1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.p1_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarOp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarTheta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarOp_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarTheta_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarTheta_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalar_operator_derivative_nonzero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarM_contDiff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarM_center' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.scalarM_deriv' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.actual_symmetric_matrix_derivative_nonzero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'SourceCoordinatesTests.nonlinear_congruence_consumer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.J2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shearR' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shearM' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shearTheta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shear_congruence' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shear_energy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shearTheta_formula' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.transpose_is_required' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.coordinate_map_is_required' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shear_not_isometry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shear_everywhere_invertible' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.shear_not_globally_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.criticality_is_required' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.noncritical_hessian_is_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'SourceCoordinatesTests.empty_actual_source_consumer' depends on axioms: [propext, Classical.choice, Quot.sound]
+```
+</details>
+
+<details>
+<summary>evidence/final-main.json — 909 bytes; SHA256 0feacb4c19b348a91e695b9d122f5e79b5c91c7a86cc314bd9e554384dd2a241</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:27:05.029085+00:00",
+  "completed_at": "2026-10-08T18:27:25.076007+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 20.046818458,
+  "source_sha256": "b92d2936525bd120f41badb2bd9018714546d986b6ced9c4326bee9e0b1939da",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/final-main.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</summary>
+
+```text
+```
+</details>
+
+<details>
+<summary>evidence/final-tests.json — 918 bytes; SHA256 5ce2924d5b0cbc78a1534dad2c28e4b5587bef2927ee76531d0b8a99cae06401</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:27:25.110681+00:00",
+  "completed_at": "2026-10-08T18:27:30.246482+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 5.135605917,
+  "source_sha256": "b9d046673bb1515382e8fbf653f31b7e0d64284e0f0ee52b1f06dd81d70c5c74",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/final-tests.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</summary>
+
+```text
+```
+</details>
+
+<details>
+<summary>evidence/main-01.json — 909 bytes; SHA256 29ed61897299236786daba7c343943e3177612603dc19a08b8b62b5c65289e08</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:15:52.072647+00:00",
+  "completed_at": "2026-10-08T18:16:43.560921+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 51.488002584,
+  "source_sha256": "9022461df16c3bb003e38b264638ebd3bb1d394c92038e29f9bce555df228359",
+  "log_sha256": "ec63e194a61a5ba2b04a533e22d862ffcaf76ce54e8e07e7a2d77dc4902ff58a",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/main-01.log — 5095 bytes; SHA256 ec63e194a61a5ba2b04a533e22d862ffcaf76ce54e8e07e7a2d77dc4902ff58a</summary>
+
+```text
+SourceCoordinates.lean:28:2: error: 'change' tactic failed, pattern
+  ((Matrix.toLpLin 2 2) 1) u = u
+is not definitionally equal to target
+  (((action n) 1) u).ofLp i✝ = ((ContinuousLinearMap.id ℝ (E n)) u).ofLp i✝
+SourceCoordinates.lean:33:36: error: elaboration function for `Mathlib.Tactic.subscriptTerm` has not been implemented
+  ᵥ
+SourceCoordinates.lean:36:51: error: elaboration function for `Mathlib.Tactic.subscriptTerm` has not been implemented
+  ᵥ
+SourceCoordinates.lean:36:71: error: unsolved goals
+n : ℕ
+A : Mat n
+u : E n
+⊢ ∑ x, ∑ x_1, u.ofLp x * (A x x_1 * u.ofLp x_1) = ∑ x, u.ofLp x * (A * sorry ()) x
+SourceCoordinates.lean:37:31: warning: This simp argument is unused:
+  Matrix.mulVec
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [quadratic, dotProduct, Finset.mul_sum, mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+SourceCoordinates.lean:37:46: warning: This simp argument is unused:
+  Finset.mul_sum
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [quadratic, dotProduct, Matrix.mulVec, mul_assoc]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+SourceCoordinates.lean:41:6: error(lean.unknownIdentifier): Unknown identifier `quadratic_eq_dot`
+SourceCoordinates.lean:40:65: error: unsolved goals
+n : ℕ
+J A : Mat n
+u : E n
+⊢ quadratic (star A * J * A) u = quadratic J (((action n) A) u)
+SourceCoordinates.lean:49:2: error: Type mismatch: After simplification, term
+  HasFDerivAt.clm_apply (DifferentiableAt.hasFDerivAt hA) (hasFDerivAt_id 0)
+ has type
+  HasFDerivAt (fun y => (A y) (id y)) (ContinuousLinearMap.id ℝ (E n) + (fderiv ℝ A 0).flip (id 0)) 0
+but is expected to have type
+  HasFDerivAt (fun u => (A u) u) (ContinuousLinearMap.id ℝ (E n)) 0
+SourceCoordinates.lean:83:48: error: Application type mismatch: The argument
+  hd
+has type
+  HasFDerivAt (theta J s M) (ContinuousLinearMap.id ℝ (E n)) 0
+but is expected to have type
+  HasFDerivAt (theta J s M) (↑?m.603) 0
+in the application
+  ContDiffAt.mem_toOpenPartialHomeomorph_source hthetaAt hd
+SourceCoordinates.lean:85:80: error: Application type mismatch: The argument
+  hd
+has type
+  HasFDerivAt (theta J s M) (ContinuousLinearMap.id ℝ (E n)) 0
+but is expected to have type
+  HasFDerivAt (theta J s M) (↑?m.630) 0
+in the application
+  ContDiffAt.image_mem_toOpenPartialHomeomorph_target hthetaAt hd
+SourceCoordinates.lean:87:64: error: Application type mismatch: The argument
+  hd
+has type
+  HasFDerivAt (theta J s M) (ContinuousLinearMap.id ℝ (E n)) 0
+but is expected to have type
+  HasFDerivAt (theta J s M) (↑?m.667) 0
+in the application
+  ContDiffAt.localInverse_apply_image hthetaAt hd
+SourceCoordinates.lean:89:55: error: Application type mismatch: The argument
+  hd
+has type
+  HasFDerivAt (theta J s M) (ContinuousLinearMap.id ℝ (E n)) 0
+but is expected to have type
+  HasFDerivAt (theta J s M) (↑?m.710) 0
+in the application
+  ContDiffAt.to_localInverse hthetaAt hd
+SourceCoordinates.lean:140:8: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  I4Source.sourceField n L omega (x0 + ↑P u)
+in the target expression
+  I4Source.sourceField n L omega (x0 + P u) =
+    I4Source.sourceField n L omega x0 + quadratic (↑(PhysicalSpectral.signSym n k)) (↑e u)
+
+case refine_1
+n : ℕ
+L : ℝ
+hL : L ≠ 0
+omega : I4Source.SourceMode n → ℝ
+hmajor : Summable fun m => I4Source.modeMajorant n L m * |omega m|
+x0 : X n
+hdet : (PhysicalSpectral.hessian omega x0).det ≠ 0
+hcrit : fderiv ℝ (I4Source.sourceField n L omega) x0 = 0
+k : ℕ
+hk : k ≤ n
+P : TaylorMatrix.E n ≃L[ℝ] TaylorMatrix.X n
+hJ : PhysicalSpectral.signMatrix n k * PhysicalSpectral.signMatrix n k = 1
+hH :
+  ∀ (i j : Fin n),
+    (iteratedFDeriv ℝ 2 (I4Source.sourceField n L omega) x0)
+        ![P (EuclideanSpace.single i 1), P (EuclideanSpace.single j 1)] =
+      2 * PhysicalSpectral.signMatrix n k i j
+hM0 : TaylorSymLift.sourceSymMatrix omega x0 (↑P) 0 = PhysicalSpectral.signSym n k
+hM : ContDiff ℝ 2 (TaylorSymLift.sourceSymMatrix omega x0 ↑P)
+V : Set ↥(MorseCongruence.Sym n)
+s : ↥(MorseCongruence.Sym n) → ↥(MorseCongruence.Sym n)
+e : OpenPartialHomeomorph (E n) (E n)
+hV : IsOpen V
+hJV : PhysicalSpectral.signSym n k ∈ V
+hs0 : s (PhysicalSpectral.signSym n k) = 0
+hs : ContDiffOn ℝ 2 s V
+heq : ∀ (u : E n), ↑e u = theta (PhysicalSpectral.signSym n k) s (TaylorSymLift.sourceSymMatrix omega x0 ↑P) u
+he0 : ↑e 0 = 0
+hi0 : ↑e.symm 0 = 0
+h0s : 0 ∈ e.source
+h0t : 0 ∈ e.target
+hd : HasFDerivAt (↑e) (ContinuousLinearMap.id ℝ (E n)) 0
+heC : ContDiffOn ℝ 2 (↑e) e.source
+hiC : ContDiffOn ℝ 2 (↑e.symm) e.target
+hq :
+  ∀ u ∈ e.source,
+    TaylorSymLift.sourceSymMatrix omega x0 (↑P) u ∈ V ∧
+      quadratic (↑(TaylorSymLift.sourceSymMatrix omega x0 (↑P) u)) u =
+        quadratic (↑(PhysicalSpectral.signSym n k)) (↑e u)
+u : E n
+hu : u ∈ e.source
+⊢ I4Source.sourceField n L omega (x0 + P u) =
+    I4Source.sourceField n L omega x0 + quadratic (↑(PhysicalSpectral.signSym n k)) (↑e u)
+```
+</details>
+
+<details>
+<summary>evidence/main-02.json — 915 bytes; SHA256 e24b7b799bfbcef4abc968f0cba800dfd43fdb44fdd6a33ab5ef5d9a0014bc2d</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:17:19.844447+00:00",
+  "completed_at": "2026-10-08T18:18:09.860867+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 50.016962791999994,
+  "source_sha256": "a98565b19c7bc269535996376d71c2ee2b596c08057828b6ba6ebca928857e0a",
+  "log_sha256": "acf754db4ad77194ca5e24a7fc57a4a635138ef9acc2f4ee39b84819e149c252",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/main-02.log — 1419 bytes; SHA256 acf754db4ad77194ca5e24a7fc57a4a635138ef9acc2f4ee39b84819e149c252</summary>
+
+```text
+SourceCoordinates.lean:88:4: error: Type mismatch: After simplification, term
+  ContDiffAt.localInverse_apply_image hthetaAt hd
+    (Mathlib.Meta.NormNum.isNat_eq_false (Mathlib.Meta.NormNum.isNat_ofNat ℕ∞ω (Eq.refl 2))
+      (Mathlib.Meta.NormNum.isNat_ofNat ℕ∞ω Nat.cast_zero) (Eq.refl false))
+ has type
+  @Eq (E n) (hthetaAt.localInverse hd ⋯ 0) 0
+but is expected to have type
+  @Eq (E n) (↑(ContDiffAt.toOpenPartialHomeomorph (theta J s M) hthetaAt hd ⋯).symm 0) 0
+SourceCoordinates.lean:90:4: error: Type mismatch: After simplification, term
+  ContDiffAt.to_localInverse hthetaAt hd
+    (Mathlib.Meta.NormNum.isNat_eq_false (Mathlib.Meta.NormNum.isNat_ofNat ℕ∞ω (Eq.refl 2))
+      (Mathlib.Meta.NormNum.isNat_ofNat ℕ∞ω Nat.cast_zero) (Eq.refl false))
+ has type
+  @ContDiffAt ℝ DenselyNormedField.toNontriviallyNormedField (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ)
+    (PiLp.normedSpace 2 ℝ fun x => ℝ) (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ) (PiLp.normedSpace 2 ℝ fun x => ℝ) 2
+    (hthetaAt.localInverse hd ⋯) 0
+but is expected to have type
+  @ContDiffAt ℝ DenselyNormedField.toNontriviallyNormedField (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ)
+    (PiLp.normedSpace 2 ℝ fun x => ℝ) (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ) (PiLp.normedSpace 2 ℝ fun x => ℝ) 2
+    (↑(ContDiffAt.toOpenPartialHomeomorph (theta J s M) hthetaAt hd ⋯).symm) 0
+```
+</details>
+
+<details>
+<summary>evidence/main-03.json — 909 bytes; SHA256 add35234a65079cb1895374433f50237eb8b2639b956a034285ff57a46e94b35</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:18:46.930577+00:00",
+  "completed_at": "2026-10-08T18:19:28.703116+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 41.772382291,
+  "source_sha256": "8a383b218c46508b5fc8dc36ae015fc5fed0afd92c573f7a050c0c96228945d2",
+  "log_sha256": "e5ee58e6809ead5cecffca28f819700ab2ee8b5ab7466d747c59701cd60758c1",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/main-03.log — 470 bytes; SHA256 e5ee58e6809ead5cecffca28f819700ab2ee8b5ab7466d747c59701cd60758c1</summary>
+
+```text
+SourceCoordinates.lean:92:29: error: Invalid argument name `f'` for function `OpenPartialHomeomorph.contDiffAt_symm`
+
+Hint: Perhaps you meant one of the following parameter names:
+  • `𝕜`: f̵'̵𝕜̲
+  • `E`: f̵'̵E̲
+  • `F`: f̵'̵F̲
+  • `n`: f̵'̵n̲
+  • `f`: f'̵
+  • `f₀'`: f₀̲'
+  • `a`: f̵'̵a̲
+  • `ha`: f̵'̵h̲a̲
+  • `hf₀'`: f̵'̵h̲f̲₀̲'̲
+  • `hf`: h̲f'̵
+SourceCoordinates.lean:93:4: error: No goals to be solved
+```
+</details>
+
+<details>
+<summary>evidence/main-04.json — 909 bytes; SHA256 3f1307b503e0162b1dd4a32ef43fe79a3ca99c257c6e577a0f48057e85fd45fe</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:20:36.567776+00:00",
+  "completed_at": "2026-10-08T18:21:31.663104+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 55.094985625,
+  "source_sha256": "ed2aecee4b043314824f93abec24d1ac9ec8e632b8399659bbef224ae632a1b8",
+  "log_sha256": "e50c4ae9af3ca48605853dc1a4aa690664c8911e8d782ed30ffcfad37ad5a165",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/main-04.log — 1678 bytes; SHA256 e50c4ae9af3ca48605853dc1a4aa690664c8911e8d782ed30ffcfad37ad5a165</summary>
+
+```text
+SourceCoordinates.lean:93:6: error: Type mismatch: After simplification, term
+  hd
+ has type
+  @HasFDerivAt ℝ DenselyNormedField.toNontriviallyNormedField (E n)
+    (WithLp.instAddCommGroup 2 ((i : Fin n) → (fun x => ℝ) i)) (WithLp.instModule 2 ℝ ((i : Fin n) → (fun x => ℝ) i))
+    (PiLp.topologicalSpace 2 fun x => ℝ) (E n) (WithLp.instAddCommGroup 2 ((i : Fin n) → (fun x => ℝ) i))
+    (WithLp.instModule 2 ℝ ((i : Fin n) → (fun x => ℝ) i)) (PiLp.topologicalSpace 2 fun x => ℝ) (theta J s M)
+    (ContinuousLinearMap.id ℝ (E n)) 0
+but is expected to have type
+  @HasFDerivAt ℝ DenselyNormedField.toNontriviallyNormedField (E n)
+    (PiLp.normedAddCommGroup 2 fun x => ℝ).toAddCommGroup (PiLp.normedSpace 2 ℝ fun x => ℝ).toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ).toAddCommGroup
+    (PiLp.normedSpace 2 ℝ fun x => ℝ).toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace (↑e0)
+    (ContinuousLinearMap.id ℝ (E n)) 0
+SourceCoordinates.lean:94:6: error: Type mismatch: After simplification, term
+  hthetaAt
+ has type
+  @ContDiffAt ℝ DenselyNormedField.toNontriviallyNormedField (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ)
+    (PiLp.normedSpace 2 ℝ fun x => ℝ) (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ) (PiLp.normedSpace 2 ℝ fun x => ℝ) 2
+    (theta J s M) 0
+but is expected to have type
+  @ContDiffAt ℝ DenselyNormedField.toNontriviallyNormedField (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ)
+    (PiLp.normedSpace 2 ℝ fun x => ℝ) (E n) (PiLp.normedAddCommGroup 2 fun x => ℝ) (PiLp.normedSpace 2 ℝ fun x => ℝ) 2
+    (↑e0) 0
+```
+</details>
+
+<details>
+<summary>evidence/main-05.json — 906 bytes; SHA256 91c67ed754ac8b86fef8f08e1b1c6053244d0982afba46f973f9b1d3a3de3d40</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:22:30.752539+00:00",
+  "completed_at": "2026-10-08T18:22:47.725663+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 16.972934,
+  "source_sha256": "b92d2936525bd120f41badb2bd9018714546d986b6ced9c4326bee9e0b1939da",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/main-05.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</summary>
+
+```text
+```
+</details>
+
+<details>
+<summary>evidence/negative-DM-zero.json — 902 bytes; SHA256 644a7733250432a7bf7229a07c2a42dc74265e50f56c8f411f0fee78e9528628</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "NegativeDMZero.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/NegativeDMZero.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:26:14.530257+00:00",
+  "completed_at": "2026-10-08T18:26:19.063749+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 4.533403166,
+  "source_sha256": "68a6f41fe265d9409fad138d66b13608ef7d1d6e31f4248f578e7f3a9d3ebdfe",
+  "log_sha256": "e1e5fcc18afa0646a6b40f8d21000c513d901ee0f474014e1cb73acb1afd2dc7",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/negative-DM-zero.log — 75 bytes; SHA256 e1e5fcc18afa0646a6b40f8d21000c513d901ee0f474014e1cb73acb1afd2dc7</summary>
+
+```text
+NegativeDMZero.lean:9:60: error: unsolved goals
+case «0».«0»
+⊢ False
+```
+</details>
+
+<details>
+<summary>evidence/negative-missing-Theta.json — 914 bytes; SHA256 7a6dae16cd46038f2e492532034da5ac2650cc90e6b04e8dbcfb62b1615656fd</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "NegativeMissingTheta.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/NegativeMissingTheta.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:26:19.088293+00:00",
+  "completed_at": "2026-10-08T18:26:23.367397+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 4.279019625,
+  "source_sha256": "08538ca99f77630860ef3f79655a39e398ef8509ccc88b7aa2468b7d127c6e45",
+  "log_sha256": "802f666f2b67e8afbc6c35c63abe810375a79c1d20daeafb19555b859cf7cde5",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/negative-missing-Theta.log — 64 bytes; SHA256 802f666f2b67e8afbc6c35c63abe810375a79c1d20daeafb19555b859cf7cde5</summary>
+
+```text
+NegativeMissingTheta.lean:9:47: error: unsolved goals
+⊢ False
+```
+</details>
+
+<details>
+<summary>evidence/target-red-01.json — 909 bytes; SHA256 54d35eb15603fa3632d74408e4d067f31ffd4f629f36250a3b2f57276b45a0c0</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinates.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinates.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:14:22.848162+00:00",
+  "completed_at": "2026-10-08T18:14:46.424349+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 23.576092958,
+  "source_sha256": "145d346bf2bfb345b25dbccc368437399d8130f3c5b395291c3ef5a93bf2fe1a",
+  "log_sha256": "d09ebb7fef405c10d2b360bdd75a07d445c76657b048d465a5da0ac8363953fb",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/target-red-01.log — 2354 bytes; SHA256 d09ebb7fef405c10d2b360bdd75a07d445c76657b048d465a5da0ac8363953fb</summary>
+
+```text
+SourceCoordinates.lean:34:93: error: unsolved goals
+n : ℕ
+J : ↥(MorseCongruence.Sym n)
+hJ : ↑J * ↑J = 1
+M : E n → ↥(MorseCongruence.Sym n)
+hM : ContDiff ℝ 2 M
+hM0 : M 0 = J
+⊢ ∃ V s e,
+    IsOpen V ∧
+      J ∈ V ∧
+        s J = 0 ∧
+          ContDiffOn ℝ 2 s V ∧
+            (∀ (u : E n), ↑e u = theta J s M u) ∧
+              ↑e 0 = 0 ∧
+                ↑e.symm 0 = 0 ∧
+                  0 ∈ e.source ∧
+                    0 ∈ e.target ∧
+                      HasFDerivAt (↑e) (ContinuousLinearMap.id ℝ (E n)) 0 ∧
+                        ContDiffOn ℝ 2 (↑e) e.source ∧
+                          ContDiffOn ℝ 2 (↑e.symm) e.target ∧
+                            ∀ u ∈ e.source, M u ∈ V ∧ quadratic (↑(M u)) u = quadratic (↑J) (↑e u)
+SourceCoordinates.lean:53:72: error: unsolved goals
+n : ℕ
+L : ℝ
+hL : L ≠ 0
+omega : I4Source.SourceMode n → ℝ
+hmajor : Summable fun m => I4Source.modeMajorant n L m * |omega m|
+x0 : X n
+hdet : (PhysicalSpectral.hessian omega x0).det ≠ 0
+hcrit : fderiv ℝ (I4Source.sourceField n L omega) x0 = 0
+⊢ ∃ k ≤ n,
+    ∃ P V s e,
+      let J := PhysicalSpectral.signSym n k;
+      let M := TaylorSymLift.sourceSymMatrix omega x0 ↑P;
+      M 0 = J ∧
+        IsOpen V ∧
+          J ∈ V ∧
+            s J = 0 ∧
+              ContDiffOn ℝ 2 s V ∧
+                (∀ (u : E n), ↑e u = theta J s M u) ∧
+                  ↑e 0 = 0 ∧
+                    ↑e.symm 0 = 0 ∧
+                      0 ∈ e.source ∧
+                        0 ∈ e.target ∧
+                          HasFDerivAt (↑e) (ContinuousLinearMap.id ℝ (E n)) 0 ∧
+                            ContDiffOn ℝ 2 (↑e) e.source ∧
+                              ContDiffOn ℝ 2 (↑e.symm) e.target ∧
+                                (∀ u ∈ e.source,
+                                    M u ∈ V ∧
+                                      I4Source.sourceField n L omega (x0 + P u) =
+                                        I4Source.sourceField n L omega x0 + quadratic (↑J) (↑e u)) ∧
+                                  ∀ v ∈ e.target,
+                                    I4Source.sourceField n L omega (x0 + P (↑e.symm v)) =
+                                      I4Source.sourceField n L omega x0 + quadratic (↑J) v
+```
+</details>
+
+<details>
+<summary>evidence/tests-01.json — 918 bytes; SHA256 e70955555304b5c344fb54884c543f0fe54901883c6916b42f8b772182424f3b</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:22:57.006772+00:00",
+  "completed_at": "2026-10-08T18:23:03.065080+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 6.057873083,
+  "source_sha256": "1aff0213c989cf145ab76826ec2222fa6a166f3ca2129aa6dbcd747e2278a144",
+  "log_sha256": "7d323e02c34dfa9c7d88f8a1f5393f2996d3cb9110abff29e0be333a34104fc6",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/tests-01.log — 4207 bytes; SHA256 7d323e02c34dfa9c7d88f8a1f5393f2996d3cb9110abff29e0be333a34104fc6</summary>
+
+```text
+SourceCoordinatesTests.lean:16:4: error: Type mismatch: After simplification, term
+  HasFDerivAt.add (hasFDerivAt_const 1 0) (ContinuousLinearMap.hasFDerivAt p1)
+ has type
+  HasFDerivAt ((fun x => 1) + ⇑p1) p1 0
+but is expected to have type
+  HasFDerivAt (⇑p1) p1 0
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+SourceCoordinatesTests.lean:19:75: error: unsolved goals
+u : E 1
+⊢ { toLinearMap := PiLp.projₗ 2 (fun x => ℝ) 0, cont := ⋯ } u * u.ofLp 0 + u.ofLp 0 = u.ofLp 0 + u.ofLp 0 ^ 2
+SourceCoordinatesTests.lean:28:72: error: unsolved goals
+h : fderiv ℝ scalarOp 0 = 0
+hval : { toLinearMap := PiLp.projₗ 2 (fun x => ℝ) 0, cont := ⋯ } (EuclideanSpace.single 0 1) = 0
+⊢ False
+SourceCoordinatesTests.lean:43:65: error: unsolved goals
+case e'_12
+h : HasFDerivAt (fun u => (1 + p1 u) ^ 2) (2 • p1) 0
+e_4✝ : WithLp.instAddCommGroup 2 ((i : Fin 1) → (fun x => ℝ) i) = (PiLp.normedAddCommGroup 2 fun x => ℝ).toAddCommGroup
+he✝¹ : WithLp.instModule 2 ℝ ((i : Fin 1) → (fun x => ℝ) i) = (PiLp.normedSpace 2 ℝ fun x => ℝ).toModule
+e_6✝ : (PiLp.topologicalSpace 2 fun x => ℝ) = PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+e_8✝ : (MorseCongruence.Sym 1).addCommGroup = (MorseCongruence.Sym 1).normedAddCommGroup.toAddCommGroup
+he✝ : (MorseCongruence.Sym 1).module = (MorseCongruence.Sym 1).normedSpace.toModule
+e_10✝ : instTopologicalSpaceSubtype = PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+u : E 1
+i j : Fin 1
+⊢ 2 * (p1 u * ↑(PhysicalSpectral.signSym 1 1) i j) = ↑(((2 • p1).smulRight (PhysicalSpectral.signSym 1 1)) u) i j
+SourceCoordinatesTests.lean:51:79: error: unsolved goals
+h : fderiv ℝ scalarM 0 = 0
+hv : { toLinearMap := PiLp.projₗ 2 (fun x => ℝ) 0, cont := ⋯ } (EuclideanSpace.single 0 1) = 0
+⊢ False
+SourceCoordinatesTests.lean:80:85: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:112:48: error: unsolved goals
+u : E 2
+⊢ u.ofLp 0 ^ 2 - 1 - u.ofLp 0 * u.ofLp 0 = -1
+SourceCoordinatesTests.lean:132:4: error: Type mismatch: After simplification, term
+  HasDerivAt.add (hasDerivAt_id 0) (HasDerivAt.pow (hasDerivAt_id 0) 2)
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.normedAddCommGroup.toAddCommGroup
+    RCLike.toInnerProductSpaceReal.toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (id + id ^ 2) 1 0
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun x => x + x ^ 2) 1 0
+SourceCoordinatesTests.lean:134:4: error: Type mismatch: After simplification, term
+  HasDerivAt.pow hf 2
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.normedCommRing.toCommRing.toAddCommGroup
+    (NormedAlgebra.toNormedSpace ℝ).toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (f ^ 2) 0 0
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun x => f x ^ 2) 0 0
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+SourceCoordinatesTests.lean:140:63: error: unsolved goals
+case e'_3
+x : ℝ
+⊢ 1 + x * 2 = 1 + id x * 2
+SourceCoordinatesTests.lean:155:67: error: unsolved goals
+L : ℝ
+hL : L ≠ 0
+omega : I4Source.SourceMode 0 → ℝ
+hmajor : Summable fun m => I4Source.modeMajorant 0 L m * |omega m|
+x0 : X 0
+v : Fin 0 → ℝ
+hv : v = 0
+⊢ (fderiv ℝ (I4Source.sourceField 0 L omega) x0) ![] = 0
+```
+</details>
+
+<details>
+<summary>evidence/tests-02.json — 918 bytes; SHA256 c6bd798efb94a5bc3feea9e8be04d9ff1202e77088cdf0fd8a05a846d8f8a057</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:24:00.847709+00:00",
+  "completed_at": "2026-10-08T18:24:20.628792+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 19.78086425,
+  "source_sha256": "ba97969085561896b81e553ad1575ebbe7787db79ca5b6a2726832f7a47a2c7b",
+  "log_sha256": "f545ee93b1fb9b6be9654fcc6b027b71c8d76df1f0e773aa9c57cf5ea28810c7",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/tests-02.log — 3652 bytes; SHA256 f545ee93b1fb9b6be9654fcc6b027b71c8d76df1f0e773aa9c57cf5ea28810c7</summary>
+
+```text
+SourceCoordinatesTests.lean:37:22: warning: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
+
+Note: The updated constant has a different type:
+  ∀ (p : ENNReal) (𝕜 : Type u_1) {ι : Type u_2} [inst : DecidableEq ι] [inst_1 : Zero 𝕜] (i : ι) (a : 𝕜) (j : ι),
+    (PiLp.single p i a).ofLp j = if j = i then a else 0
+instead of
+  ∀ {ι : Type u_1} {𝕜 : Type u_3} [inst : RCLike 𝕜] [inst_1 : DecidableEq ι] (i : ι) (a : 𝕜) (j : ι),
+    (EuclideanSpace.single i a).ofLp j = if j = i then a else 0
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.single_apply` to `PiLp.single_apply x`).
+SourceCoordinatesTests.lean:58:22: warning: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
+
+Note: The updated constant has a different type:
+  ∀ (p : ENNReal) (𝕜 : Type u_1) {ι : Type u_2} [inst : DecidableEq ι] [inst_1 : Zero 𝕜] (i : ι) (a : 𝕜) (j : ι),
+    (PiLp.single p i a).ofLp j = if j = i then a else 0
+instead of
+  ∀ {ι : Type u_1} {𝕜 : Type u_3} [inst : RCLike 𝕜] [inst_1 : DecidableEq ι] (i : ι) (a : 𝕜) (j : ι),
+    (EuclideanSpace.single i a).ofLp j = if j = i then a else 0
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.single_apply` to `PiLp.single_apply x`).
+SourceCoordinatesTests.lean:82:85: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:115:48: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:134:4: error: Type mismatch: After simplification, term
+  HasDerivAt.add (hasDerivAt_id 0) (HasDerivAt.pow (hasDerivAt_id 0) 2)
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.normedAddCommGroup.toAddCommGroup
+    RCLike.toInnerProductSpaceReal.toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (id + id ^ 2) 1 0
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun x => x + x ^ 2) 1 0
+SourceCoordinatesTests.lean:136:4: error: Type mismatch: After simplification, term
+  HasDerivAt.pow hf 2
+ has type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.normedCommRing.toCommRing.toAddCommGroup
+    (NormedAlgebra.toNormedSpace ℝ).toModule PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (f ^ 2) 0 0
+but is expected to have type
+  @HasDerivAt ℝ DenselyNormedField.toNontriviallyNormedField ℝ Real.instAddCommGroup Semiring.toModule
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace ⋯ (fun x => f x ^ 2) 0 0
+SourceCoordinatesTests.lean:144:90: warning: Unused tactic linter: `ring` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+SourceCoordinatesTests.lean:144:90: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+SourceCoordinatesTests.lean:144:77: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:147:57: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+```
+</details>
+
+<details>
+<summary>evidence/tests-03.json — 925 bytes; SHA256 29dfbf4c4c8e58668a517a7ff8e150bcae13305d267f2b4d1df163d476640b5f</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:24:55.706783+00:00",
+  "completed_at": "2026-10-08T18:25:12.884465+00:00",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed_seconds": 17.176089625000003,
+  "source_sha256": "ac2eae1693e007a26fe4afbc442565f711bbac5d3334b14cd46b8d0374246545",
+  "log_sha256": "bfc74922718595877f78b00f188e76cb4abc46cba9274382ae3bf2e2ce25be51",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/tests-03.log — 698 bytes; SHA256 bfc74922718595877f78b00f188e76cb4abc46cba9274382ae3bf2e2ce25be51</summary>
+
+```text
+SourceCoordinatesTests.lean:79:83: error: unsolved goals
+case «1».«1»
+u : E 2
+⊢ u.ofLp 0 * u.ofLp 0 - 1 = u.ofLp 0 * u.ofLp 0 + -1
+SourceCoordinatesTests.lean:135:81: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:137:30: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+SourceCoordinatesTests.lean:145:77: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+```
+</details>
+
+<details>
+<summary>evidence/tests-04.json — 918 bytes; SHA256 780ab1d307e3aa425c8c410db9a1f5b0ea841b2203f1c927fb7281ec53980c03</summary>
+
+```text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "SourceCoordinatesTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project/.lake/build/lib/lean/SourceCoordinatesTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation210/lean-project",
+  "started_at": "2026-10-08T18:25:41.225111+00:00",
+  "completed_at": "2026-10-08T18:25:51.219496+00:00",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed_seconds": 9.994240292,
+  "source_sha256": "b9d046673bb1515382e8fbf653f31b7e0d64284e0f0ee52b1f06dd81d70c5c74",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "threads": 1
+}
+```
+</details>
+
+<details>
+<summary>evidence/tests-04.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</summary>
+
+```text
+```
+</details>

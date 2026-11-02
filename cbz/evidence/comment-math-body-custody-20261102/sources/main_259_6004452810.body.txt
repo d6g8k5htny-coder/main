@@ -1,0 +1,168 @@
+## IBA2-012 — source-bound sector audit beyond P §7; finite-radius moving-soft contribution
+
+**Performer:** OpenAI / GPT-6 Astra Pro, session `iba2-012-sector-audit-20261005`, acting for Dylan Roy. **Scientific effect: NONE.** Append-only delivery for pickup 6004048213. No source body, acceptance record, status, theorem register, Boolean, prize or prior review is changed. No organizational-independence or pristine-blindness credit. The new proof below is **AUTHOR-SIDE / NONAUTHOR REVIEW REQUIRED**, not an accepted theorem or closure of IBA2-012 as a whole.
+
+### Outcome
+
+P §§6–7 is not the missing sector: its cap estimate already includes arbitrary further transverse softening. There is also covered work *beyond* P: CT's determinant layers, CP's two-small-eigenvalue estimate, SR's large-kappa double-soft tail, and SC's integrable multi-soft majorant. These must not be re-presented as uncovered.
+
+The genuinely nonuniform mechanism audited here is **simultaneous small kappa, small transverse curvature and an effective higher-order ridge coefficient**. A bounded-raw-jet, exactly pinned family below has effective quartic coefficient zero but `r Q1/kappa=1`, so its leading rescaled ridge is quintic. A new original-law, finite-radius estimate controls that sector without a compact-positive-k normalizer. It gives `O(ell^(11/18))=o(ell^(1/2))` through the existing cusp/intermediate split, and `O(ell^(10/13))=o(ell^(2/3))` on the narrower quintic corner.
+
+Live reconciliation: Codex `/root` already claimed the limiting additional-hard-eigenvalue slice in 6003533425 and reported it in 6003547392. That slice is credited, not reclaimed. This delivery does not take over IBA2-009 global matching.
+
+### 1. Immutable source bindings
+
+All following IDs refer to **Math- commit `c08e83597f94f923b8411dc13cdf28be3f214b37`**. Each binding was read with `fetch_file` at that commit; these are complete Git blob IDs. A statement/interface read does not imply a new whole-proof review.
+
+| ID | Path | Git blob |
+|---|---|---|
+| P | `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md` | `dfed3b8d318a3ab1950957f393307733a4bef3f2` |
+| CU | `frontiers/cusp_second_order_20261001/PROOF.md` | `f6df5a7356a54771b0052e42a864a140709903ad` |
+| CT | `frontiers/candidate_third_order_20261001/PROOF.md` | `70ca57ef05199e75417d7d57928c1e1c93bf944e` |
+| E3 | `frontiers/elder_third_order_20261001/PROOF.md` | `c8767ddecf1041d234f685e95af582073a7be393` |
+| RATE | `frontiers/third_order_rate_20261001/PROOF.md` | `110ed33a57902bef11873807e722fde3888b59fb` |
+| CP | `frontiers/candidate_parity_rate_20261001/PROOF.md` | `a97bf528b4e073c6e12fd2d4616be77e8bbae16b` |
+| N | `frontiers/elder_cusp_parity_20261002/PROOF.md` | `16a1db0658918057ff741df888c13702763d9919` |
+| SR | `frontiers/soft_rejected_pairs_20261002/PROOF.md` | `271412dbc96a29590f5f805258e15c9e335cb430` |
+| FL | `frontiers/soft_fold_limit_20261002/PROOF.md` | `6502cf7ba2edee47761e40308c15b7563b06d1f8` |
+| CUB | `frontiers/planar_cubic_cluster_20260929/PROOF.md` | `bb446d08db8a944537a743ad550b88c1c2ad5758` |
+| SC | `frontiers/spectral_cluster_closure_20260929/PROOF.md` | `16c56821b52fd76b0be791622b9c3809eafde75a` |
+| SC-SOURCES | `frontiers/spectral_cluster_closure_20260929/SOURCES.json` | `8daf24b7ea01e889102170dcd056634b4f67e911` |
+| D5 | `frontiers/d5_dimension_lift_20260929/PROOF.md` | `9d82c707fdb17d3072a8930f26dabedf59e456fc` |
+| C6 | `frontiers/c6_palm_route_20260929/PROOF.md` | `89eb8adf08fe7afc2cab9662d3a9875c05ae5cc5` |
+
+SC-SOURCES additionally binds its historical imports RM, `frontiers/remote_window_20260924/PROOF.md`, blob `b383bfcc88ec4ad497dff01fb6640e429ba24a84`, and RC, `frontiers/remote_collision_20260928/PROOF.md`, blob `7b48a88e2af54e759e89a8c8219573bb450a65ea`, at `7a1cb09a9d58d179393e6d29146252f714b9c9bf`. Their full proofs are not independently re-reviewed here.
+
+`PASS_SCOPED` below means only that the named sector/interface is accounted for at its stated scope. `AMEND_EXTRAPOLATION` rejects the explicitly named stronger inference, not a source that already disclaims it. These labels do not edit any scientific disposition.
+
+### 2. Sector inventory
+
+Let `m=d-1`, `ell=k r^3=kappa r^4`. A symmetric transverse corank-p stratum has codimension `c_p=p(p+1)/2`: p eigenvalue widths plus internal Vandermonde degree `p(p-1)/2`. A repeated nonzero eigenvalue of multiplicity t has codimension `(t-1)(t+2)/2`, not one. Singular intersections need not be transverse.
+
+**S1 — Cap depth failure and further soft transverse eigenvalues.** Soft variables are `lambda_1,...,lambda_p`, with the depth layer `lambda_1<=Cr(J+Lambda)^2` on compact positive marks. P (6.2) retains `r^2 h^2 lambda_1(lambda_1+3rh/2) prod_(j>=2)lambda_j(lambda_j+rh)/4`. The first eigenvalue integration gives numerator `O(r^5)`, divided by the full `Z>=c r^2`; all other eigenvalues may approach zero. Prescribed compact p-soft widths `O(r)` give `r^[p+p(p-1)/2+2p]=r^[p(p+5)/2]`, not a global all-mark law. **PASS_SCOPED: P §§6–7. AMEND_EXTRAPOLATION:** using that compact normalizer as `k->0`, or globalizing the compact power count. Binding P.
+
+**S2 — Determinant and higher-corank layers in the remainder proofs.** A regular determinant-zero surface has codimension one, with corank-p singular strata of codimension `c_p`. CT Lemma D gives polynomially weighted `O(epsilon)` for `|lambda_max(A)|<epsilon` and `|det A|<epsilon`: the least-modulus eigenvalue interval has length `epsilon/D`, while its Vandermonde supplies D. CP Lemma D-double-prime gives `O(epsilon^2)` for the product of the largest m-1 eigenvalue moduli being small. That event is not a simple isotropic corank tube. No radial exponent follows without its moving threshold. **PASS_SCOPED:** CT §1, CP §3. No arbitrary inverse-determinant moments follow. Bindings CT, CP.
+
+**S3 — Cusp type edges and elder height ties.** With `Delta=det A`, `Y=f4 Delta/12-gamma^T adj(A)gamma/4`, `z=f4-3gamma^T A^-1 gamma`, and `phi=z/(72kappa)`, each regular surface `|phi|=1` or `1/3` is codimension one because z is affine in f4. The weight `(36kappa^2 Delta^2-Y^2)_+` vanishes at the typed edges but is `32kappa^2 Delta^2` at the elder edges. E3's determinant square cancels its ridge-margin inverse-curvature factors. N retains `P1=Delta^2 Q1` and integrates the moving edge. Fixed kappa uses x~r, y~r^2, height r^4 and lifetime order `ell^(1/4)`; N gives `O(ell^(3/4))` only on a fixed compact kappa window. **PASS_SCOPED:** these boundary distinctions and their weighted accounting, CU §§3–4, E3 §2, N §§4–6. **AMEND_EXTRAPOLATION:** uniformizing N at the two kappa ends. Bindings CU, E3, N.
+
+**S4 — Effective quartic zero and quintic/higher reductions.** On a hard-Hessian chart, z=0 is codimension one, and also imposing `Q1=f5/120-eta^T A^-1 gamma/12+gamma^T A^-1 B A^-1 gamma/8=0` adds one condition, since the coefficient of f5 is 1/120. This coordinate argument is not valid across singular A. CU's coefficient weight is `|Y|^(7/4)|Delta|^(1/4)=12^(-7/4)Delta^2 |z|^(7/4)`. Conditioning on all jets except f4 using E3 (F3) shows its `|z|<=epsilon` part is `O(epsilon^(11/4))`, allowing other eigenvalues to soften. That is a **coefficient-measure** bound, not a finite-radius remainder. A putative degree-j ridge balance has height r^j, k~r^(j-3), kappa~r^(j-4); these balances do not themselves prove contribution exponents. **PASS_SCOPED:** coefficient integrability and hard-chart coordinates; **AMEND_EXTRAPOLATION:** converting them into general prelimit power counts. Bindings CU (CU.2), E3 (F3), N (0.1). The simultaneous moving corner is treated below.
+
+**S5 — Small-kappa typed windows and intermediate elder barriers.** A moving mark is not a finite-codimension jet event. RATE §4 uses the conditional f4 window of width `O(kappa+r N^a/|Delta|)` and proves `E[W/r^4]<=C(kappa^3+kappa^2r+kappa r^2+r^3 log(2/r))P^N` for `0<k<=r`. Its logarithm is a truncated inverse-determinant integral controlled by CT, not an assumed finite inverse moment. E3 Lemma S-prime uses the full rescaled maximum Hessian, one determinant soft factor and a Gaussian spectral-window probability. **PASS_SCOPED:** existing aggregate mechanisms, not a separate sharp classification. Bindings E3 Lemmas H/S-prime and RATE §4.
+
+**S6 — Large-kappa rejected cusp tail and its double-soft edge.** SR §1 localizes the one-soft tail to `lambda_1~gamma_1^2/kappa`. The two-soft corner `lambda_1<lambda_2<=delta` has codimension three; weight and Vandermonde give `kappa^2 lambda_1^2 lambda_2^3`, hence `O(kappa^2 delta^7)`. For `delta=O(|gamma|^2/kappa)`, the kappa-normalized tail cost is `O(kappa^-4)`. The limiting coefficient has additional-hard mass `O(delta^4)` from `lambda_2^3 d lambda_2`. Remaining inverse hard factors cancel against determinants. **PASS_SCOPED:** SR §1 Steps 1–3, already covered beyond P. FL's statement supplies a fixed-positive-k, locally compact-uniform limit, not an all-mark matching error. **AMEND_EXTRAPOLATION:** identifying these limits with uniform k->0 matching. Bindings SR, FL (statement scope only).
+
+**S7 — Spectral clusters, extra soft directions and repeated hard spectra.** SC uses `lambda_1=-rs`, ordered hard `h_2,...,h_m`, angles and cubic jets. Its finite-r nonempty majorant has no inverse-hard factor. Its limiting measure contains `prod h_a^3 prod_(a<b)(h_b-h_a) w ds dh dO dTau`: two powers of each h come from the endpoint determinants and one from the gap to the designated zero eigenvalue. Thus j additional hard eigenvalues <=eta have limiting mass `O(eta^[4j+j(j-1)/2])`; this is the already-claimed 6003547392 slice. Here total transverse corank is j+1, not j. Fixed k,R use soft coordinates x,z~r, slaved hard critical coordinates ~r^2, height r^3 and nonempty probability O(r^3). Repeated-hard neighborhoods are included by absolute continuity and domination. **PASS_SCOPED:** SC §§3–6. **AMEND_EXTRAPOLATION:** substituting eta=r in the limiting estimate without quantitative prelimit control, or moving k,R using fixed-parameter constants. Binding SC.
+
+**S8 — Cubic coefficient zeros, discriminants, ties and observation boundaries.** CUB includes B=0, D=0, s=B, degree drops and conic tangencies. Regular discriminant/height-threshold hypersurfaces are generically codimension one; their intersections need not have additive codimension. Crucially every extra point inside the strict cubic height window is a nondegenerate saddle: `det Hess P=-3k(B+4su)<0` there, so in-window tangency is deterministically impossible in that model. Other ties/boundary crossings are treated a.e. plus SC domination, with no rate merely from nullity. **PASS_SCOPED:** CUB §2 and SC §5. **AMEND_EXTRAPOLATION:** arbitrary higher-degree finite-r fields, or a rate from an a.e. statement. Bindings CUB, SC.
+
+**S9 — Pin collisions, near-axis Gram degeneracy and many-witness counts.** One pin collision has spatial codimension d; the transverse axis v=0 has codimension m; a generic j-witness diagonal has codimension d(j-1). No matrix Vandermonde should be invented for these spatial coordinates. D5 gives pin-ball O(r^3) with density `max(|q|,r|p|)^(2-d)`, nested physical O(r^2) pin balls O(r^5), collar O(r^3), shells `O(r^3[(r/s)^2+s^2])`. C6's Palm integrand is `W F_j(H_X) Psi^(q-1)/Z`: **one endpoint weight**, not a product of independent pair weights. Its regime table pays for degenerating Gram floors by penalties `exp(-c r^-2/3)`, `exp(-c s^-1/4)` or `exp(-c/|v|^2)`. **INPUT_SCOPE_CONFIRMED**, not a new full C6/D5 acceptance: D5 §1 and C6 §§5–6. Their all-fixed-order factorial bound is O_q(r^3) on compact positive marks, not a sharp codimension classification of every collision tree. Bindings D5, C6.
+
+**S10 — Remote collisions, mixtures and escaping parameters.** SC imports fixed-remote first moment `k r^3 integral Lambda+O_rho(r^4)` and second factorial moment O_rho(r^5), and its mixed near/far event is o(r^3). Exceptional derivative branches are bounded in original Q coordinates before exhaustion. Escaping marks, norms and radii are not finite-codimension strata. **INPUT_SCOPE_CONFIRMED:** SC §§3–7 and the exact RM/RC imports in SC-SOURCES. **AMEND_EXTRAPOLATION:** torus-wide O(r^5) factorial moments, all-mark uniform cluster laws, or discarding exceptional branches without paying their weighted mass.
+
+### 3. Exact moving-corner obstruction
+
+For d=2 put `r=t^3`, `kappa=t`, `k=t^4`, `ell=t^13`, `lambda=t^2`, `gamma=t`, and
+
+```
+f_r(x,y)=p_r(x)+g_r(x)y+(-lambda+8x)y^2/2,
+p_r(x)=b+2k(x+r/2)^2(x-r)-(x^2-r^2/4)^2/8,
+g_r(x)=gamma(x^2-r^2/4)/2.
+```
+
+The pins are exact, all raw local jets remain bounded, and at the midpoint `A=-lambda, f4=-3, f5=eta=0, B=8`. Thus `z=0`, `Q1=gamma^2/lambda^2=1/lambda`, and **`r Q1/kappa=1`**. This is not a vanishing perturbation. The two rescaled Schur complements are `-6t-t/(1+4t)<0` and `6t+t/(1-4t)>0`; their transverse blocks are negative, so the pair is typed. A fixed cutoff embeds the local polynomial in a torus chart, and fixed negative quadratic directions embed it in higher d.
+
+Eliminating y exactly gives, on bounded X sets,
+
+```
+(max_y f_r(rX,y)-b)/ell
+ = 2(X+1/2)^2(X-1)+X(X^2-1/4)^2/(1-8tX).
+```
+
+The limit is quintic, generated by a transverse cubic although the raw fifth derivative is zero. The ridge displacement is O(r^(5/3)), not the hard-cusp O(r^2). Its maximum transverse eigenvalue magnitude is `lambda+4r <= C r/kappa`.
+
+This refutes a uniform hard-cusp extrapolation, **not** the sources' scoped theorems. On `r~ell^(3/13)`, RATE's bulk window bound yields only O(ell^(6/13)), not o(ell^(1/2)). The following sector estimate pays the missing soft mass.
+
+### 4. NEW_AUTHOR_PROOF — finite-radius transverse-sector bound
+
+Use E3 Lemma H's range `0<k<=r`, with fixed d,L. Write `N=1+k+||f||_(C^9)`, `Lambda_r=diag(r,I_m)`, and `Htilde_i=Lambda_r^-1 H_i Lambda_r^-1`. On W>0 let `B_M=-D_Theta^2 f(M)>0` have ordered eigenvalues lambda_i. For every fixed a>=0, `1<=p<=m` and `0<epsilon<=1`,
+
+**(A)**
+```
+E_Q[(W_r/r^4) N^a ; lambda_p(B_M)<=epsilon]
+ <= C_a (1+|b|+k)^N_a epsilon^[p(p+4)/2] (epsilon+r)^p.
+```
+
+No remaining eigenvalue has a positive floor; no isotropy, eigenvalue independence or compact positive lower bound on k is used. This is an upper bound, not a sharp asymptotic.
+
+**Proof.** E3 Lemma H at blob `c8767ddecf1041d234f685e95af582073a7be393` proves that Htilde_M is a uniformly nondegenerate full Gaussian on Sym(d), with mean O(1+|b|+k), and `E[N^s|Htilde_M]<=C_s(1+|b|+k+|Htilde_M|)^s`. This uses the full averaged pin/jet Gram, not an almost-pinned unscaled derivative.
+
+In the eigenbasis of B_M write `Htilde_M=[[a_M,b_M^T],[b_M,-diag(lambda)]]`. Negative definiteness implies
+
+```
+a_M<0,  sum_i b_M,i^2/lambda_i < -a_M,
+|det Htilde_M| <= (-a_M) prod_i lambda_i.
+```
+
+In particular `|b_M,i|<=sqrt((-a_M)lambda_i)`.
+
+The exact pins and Taylor identities give, with T=C N>=1, `|a_M|+|a_S|<=CT`, `||A_S-A_M||<=CrT`, and `|b_S+b_M|<=CrT`. The last follows by applying the trapezoidal remainder to g=f_Theta along the segment: g(M)=g(S)=0 implies g'(M)+g'(S)=O(r^2||f||C4), followed by division by r. The axial bound is E3 Lemma H's averaged fourth-derivative pin identity at each endpoint.
+
+Put `D=diag(lambda_i+rT)`. The transverse block of `diag(1,D^-1/2) Htilde_S diag(1,D^-1/2)` has bounded operator norm, its mixed block is O(sqrt(T)) by the maximum-cone constraint and the O(rT) error, and its axial entry is O(T). Hadamard therefore gives `|det Htilde_S|<=CT^d prod_i(lambda_i+rT)`. Since det H_i=r^2 det Htilde_i and `lambda_i+rT<=T(lambda_i+r)`,
+
+**(B)** `W_r/r^4 <= CT^(2d) prod_i lambda_i(lambda_i+r) 1{Htilde_M<0}`.
+
+Condition all N powers on Htilde_M with Lemma H. The remaining integral has a polynomial weight and a shifted full Gaussian density. Diagonalize B_M and rotate b_M by the same orthogonal matrix; keep the actual rotated density, not an isotropic replacement. For the first p eigenvalues <=epsilon, their mixed-coordinate integrations contribute `prod lambda_i^(1/2)` through `|b_M,i|<=sqrt((-a_M)lambda_i)`. The other shifted Gaussian integrals, angles and cross-Vandermonde factors cost only a polynomial in 1+|b|+k. All remaining eigenvalues can also approach zero.
+
+The soft integral is bounded by
+
+```
+C (epsilon+r)^p integral_(0<lambda_1<...<lambda_p<epsilon)
+       prod_i lambda_i^(3/2) prod_(i<j)(lambda_j-lambda_i) d lambda.
+```
+
+Rescaling supplies `p+p/2+p+p(p-1)/2=p(p+4)/2`: eigenvalue widths, **mixed-coordinate widths**, maximum determinant, internal Vandermonde. The other determinant remains `(epsilon+r)^p`. This proves (A), including p=m and m=1. No norm-tail branch was discarded. QED.
+
+The compatible full-matrix boundary has transverse corank p **and** zero mixed entries along its kernel, codimension `c_p+p=p(p+3)/2`; the widths are anisotropic, epsilon and sqrt(epsilon). An integer codimension alone is insufficient.
+
+### 5. Moving cutoff and radial pushforward
+
+For epsilon>=r let `e_p=p(p+6)/2`, so e_1=7/2, e_2=8, e_3=27/2. For every fixed C0,A0 and `r<=kappa<=1`, (A) also gives
+
+**(C)**
+```
+E_Q[W_r/r^4 ; lambda_p(B_M)<=C0(r/kappa) N^A0]
+ <= C (1+|b|+k)^N (r/kappa)^e_p.
+```
+
+To prove this with norm-dependent thresholds, split N into dyadic layers, replace the threshold on layer j by `C0(r/kappa)2^((j+1)A0)`, and insert `N^s 2^-js`. Apply (A) for widths <=1 and the unconditional weighted moment bound beyond 1. Choose s>A0 e_p (and enlarge s for the tail); both series are O((r/kappa)^e_p). For A0=0 use (A) directly. Midpoint thresholds are covered by Weyl's inequality and `||A_M-A(0)||<=CrN`, since r/kappa>=r.
+
+The **unnormalized** lifetime dictionary is
+
+```
+A_r=12 pi_r E_Q[W_r/r^2],
+d nu(ell)=12 pi_r E_Q[W_r/r^4] dr db d sigma,  k=ell/r^3.
+```
+
+P's covariance bounds and explicit pin target give `pi_r<=C exp[-c(b^2+k^2)]`. Integrating (C) over b and u and over `ell^(1/4)<=r<=rho<=ell^(1/5)` yields
+
+**(D)** `nu_soft,p(ell;rho) <= C ell^-e_p rho^(5e_p+1)`.
+
+At RATE's existing `rho_c=ell^(2/9)`, this is
+
+| Soft directions p | e_p | Actual lifetime contribution |
+|---|---:|---:|
+| 1 | 7/2 | O(ell^(11/18)) |
+| 2 | 8 | O(ell^(10/9)) |
+| 3 | 27/2 | O(ell^(31/18)) |
+
+The one-soft sector is already o(ell^(1/2)), hence o(ell^(3/7)); further degeneracy is included. Elder and rejected subpopulations obey the same positive upper bound. For the exact quintic corner, stop at a fixed multiple of `ell^(3/13)` instead: (D) gives O(ell^(10/13))=o(ell^(2/3)). This proves a genuine finite-radius sector contribution, not just a null limiting set or a normalized compact-mark probability.
+
+### 6. Remaining gaps, checks and release
+
+The general IBA2-012 taxonomy remains open. In particular this does **not** supply the elder/rejected two-scale matching theorem outside the new core; CP's global candidate-only rate cannot be transferred to elder selection. It does not supply a quantitative finite-r comparison for the SC limiting j-soft slice with eta=eta(r), moving marks or moving R. Nor does it turn generic discriminant codimensions into higher-degree spatial/classifier rates.
+
+The new local input is precisely (A), with (C)–(D). An attempted uniform inverse-hard-Hessian lemma would be false on the explicit witness; determinant-weighted Gaussian integration is the replacement. Review can stay bounded to the paired-endpoint determinant estimate (B), the soft mixed-coordinate integration, and the norm-layer/radial transfer, all against E3 Lemma H's exact blob. Existing global matching ownership is unchanged.
+
+A fresh stdlib/Fraction checker passed **83 exact arithmetic/algebra controls**: exponent ledger, exact pin conditions, typed Hessian signs, rescaled determinant identities, effective fifth correction, moving-core membership, and rational evaluations of the exact ridge identity. A negative control detects omission of B. These controls are **not formal verification of the analytic Gaussian proof**. The written proof above still needs nonauthor mathematical review.
+
+**Delivery:** source-bound partial sector closure, NEW_AUTHOR_PROOF for (A)–(D), scientific effect NONE; **IBA2-012 remains open at general scope**. Pickup 6004048213 is released with this report. Nonauthor review requested for the new lemma and transfer; no owner approval or global re-audit is requested.

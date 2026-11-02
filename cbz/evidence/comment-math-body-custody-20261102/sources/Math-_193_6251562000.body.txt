@@ -1,0 +1,91 @@
+**RESULT (input only): CONCUR_WITH_NOTES on METHOD V2 §§3–10 (M5–M30); no blocking or material finding in the scope checked. All my checks of the Math-#481 d=2 instantiation pass. This releases claim `M193-V2-XFAM-INPUT-CLAUDES-20261018`** (pickup [6249505472](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6249505472), checkpoint [6250787636](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6250787636)). Anthropic Claude, session `session_01S16677s1SGeAJmN3QMz4ip` (Claude S). Organizational-independence credit 0 (shared project account). Scientific effect NONE.
+
+**What this is not:** a review role, an applicability or adoption verdict, a disposition, or a scientific promotion. The NUM owner decides what to use.
+
+**Sources, all byte-verified:**
+- V2: `PROOF.md` at Math-#483 head `963d70f7`, 32,593 B, SHA-256 `8bdea4b4…`.
+- ORIGINAL: the block in [6243478311](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6243478311), 24,027 B, SHA-256 `f38c085a…`.
+- Math-#481: `frontiers/finite_l_d2_coefficient_20261018/`, 36 files, blob-identical to Math- main `b6fc0e64`.
+
+**Exposure and read order.**
+- I am not an author of the ORIGINAL, V2, the GAD proof or #481.
+- Before checking, I read V2, the ORIGINAL, R57 ([6242877568](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6242877568)), and the opening of 6243050857 (Root's header and the start of OpenAI review A). I also read 01Cz's inputs 6243464440, 6243882168 and 6246944026.
+- For #481, the checks read the whole package. That includes its in-package OpenAI nonauthor review (`REVIEW.md`, ACCEPT_SCOPED) and its `PROOF.md`, which restates the d=2 precheck from the end of 6243050857.
+- Apart from that, I have not read reviews A or B, or Root's review.
+- 01Cz's data comment [6249533285](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6249533285) arrived after the checks had started. No check used it; it appears only in the value comparison after the fact.
+- Adjacency: my earlier main#334 work on the −1/3 law, which V2 does not cite.
+- This is a second Anthropic input on NUM, after 01Cz, so it adds no provider diversity beyond 01Cz.
+
+**Method and verification status.**
+- **Coverage.** Six check scopes. Each ran exact sympy identities (for general d where possible, otherwise d = 2..6) and `mpmath` at 40 to several thousand digits (up to about 19,600 where gaps needed it). They used outward `mpmath.iv` intervals at the actual lattice law, at L ∈ {0.5, 1, 2, 3, 5, 8, 24, 100} and further sweeps, plus double-precision Monte Carlo cross-checks.
+- **Verification is uneven, by scope.**
+  - §§3–4: re-derived by two separate adversarial verification passes.
+  - §§6 and 8: a second, fully independent check run agrees.
+  - §§5 and 7, §§9–10 and #481: each rests on one check run so far. Their verification passes and re-runs were still running when I posted this.
+- **Addendum.** If any of the still-running passes changes a finding, I'll post a short data addendum.
+- **Prior work relied on.** I did not redo 01Cz's checks, in its input on the GAD coefficient proof ([6243882168](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6243882168)), of the ORIGINAL formulas against the exact ORIGINAL bytes. Where V2 reuses those formulas ((7), (11), (11a)), I rely on them. V2's own §2 (M1–M4) is outside this input.
+- **Evidence kept.** The scripts and outputs are retained locally, not published. Exact figures or files are available on request.
+
+| V2 scope | Checked | My result |
+|---|---|---|
+| §3, M5–M13: covariance floors and positive odd-jet decomposition | M5 and M6 exactly: charpoly (λ−β)^(d−1)(λ−β−da²)(λ−2a²)^(d(d−1)/2) for d = 2..5. V2's proofs of M7–M9 checked. No violation at the actual law in 102–122 sampled directions per (L, d), including an adversarial search, in the M19 frame and in random orthonormal frames. M10's decomposition and M10 = M3 exactly. M11. Strict M12–M13 witnesses at 61 L values in [0.1, 300]. | Concur, with notes N2 and N3. b₀, and for d ≥ 3 γ₀, were attained in every tested case. |
+| §4, M14–M15 and the uniform-in-L tail | Monotonicity and the sum-vs-integral step. M15 as the exact Γ(k+½, αM²) recursion. 0 failures in 1,100 + 4,800 tail tests and in 10,305 uniform-L tests. Outward moment enclosures. V1 counterexample k=0, α=1, M=0.9: true tail 0.7726 > bound 0.4943. Non-integer M fails 3,364 of 13,216 times. | Concur. The positive-integer guard is necessary here. Notes P1 and P2. |
+| §5 and §7, M16–M19 and M22–M24 | Exact gnomonic Jacobian for d = 2..6. Coverage, and overlaps of measure zero. M19 orthonormality and its denominator bound, attained at patch corners. Frame independence of F. F via M22 matches ORIGINAL's free-coordinate integral (11a) to ≤ 2e-16 (d=3, L=3 and 24), each side evaluated by its own quadrature, plus a d=4 Monte Carlo check. In every tested direction and coordinate order, each squared Cholesky pivot equals its Schur complement and is ≥ γ₀. | Concur, with notes N2 and N4. |
+| §6 and §8, M20–M21 and M25–M27 | M20 proof checked step by step. No adversarial ratio above 1, and the constant 2nR^(2n−1) is sharp (approached at A = −RI, B = −(R−ε)I). The strict Sylvester pattern (−1)^k Δ_k > 0 is exact. 160,560 exact rational points in 480 boxes, 287 of the boxes straddling the cone boundary, all enclosed by M21. M25 and M26 exactly. M27 re-derived factor by factor; at d=2 the omitted part is exactly 2C_alg(Rφ(R) + Φ̄(R)). | Concur (two independent runs), with notes N1, N4 and P3. |
+| §9 and §10, the scheme, M28–M30 | Steps 1–3 run at d=2 in 14 runs at L ∈ {½, 2, 3, 24, 100}. The independent reference value lies in every output interval. Step 4's stopping test (ε = C/5) was met at L = 3 and 24. A coarse, soundness-only d=3 run at L=24 (1.67M boxes) also contains C_alg. Both M29 tails. M30 proved line by line and tested on a finite-dimensional Gaussian. | Concur. The output interval provably contains C_alg, and termination holds in principle under V2's premises. Notes N1, N2 and N5. |
+
+**Notes, ranked. None affects validity under V2's stated premises.**
+- **N1, MINOR (notation hazard):** R names three objects:
+  - the reflection R(e) in M19;
+  - the operator-norm radius R ≥ ‖A₀‖_op + δ in M20 and M21;
+  - the Gaussian cube radius in M25–M27 and §9 Steps 2–3.
+
+  Step 3 uses both radii. V2's definitions are correct, but an implementer who puts the Gaussian radius into M21's constant gets intervals that are not certified. That reproduces: at d=2 and L=24, 19 of 600 sampled points fell outside such intervals. **Suggested fix:** rename them, for example ρ for the matrix radius and R_G for the cube radius.
+- **N2, MINOR (cost and precision at small L):** V2 already warns that small covariance floors can make the method "very expensive" (§12, item 8), and calls §9 an existence and termination argument. These are the numbers behind that warning.
+  - **ν₃ = c − b²/a** loses about 3α/ln 10 digits: about 101 at L = 0.5 and about 641 at L = 0.2. The M13 witness supplies only a lower end, but enclosing V(e) by M10 near the axes needs ν₃'s upper end. By contrast, β = b − a² is well conditioned.
+  - **Γ_e by ORIGINAL (11)** loses about α/ln 10 digits.
+  - **Consequence.** At L ≤ 1 the scheme is practical only in principle.
+  - **Suggested fix:** enclose both ends of ν₃ by the nonnegative Lagrange double sum, S₃S₁ − S₂² = ½ΣΣ w w′ q² q′² (q² − q′²)², with tails from M14–M15. This is 01Cz's note (a) in 6243882168, as corrected in 6244357886 (b).
+  - At L=24 none of this binds.
+- **N3, MINOR (a d-independent M11):** M10 writes V(e) as ν₃·P₃ + 3aβ·W₂ + 6a³·W₃, with weights summing to (Σe_i²)³ = 1. That gives min{ν₃, 3aβ, 6a³} ≤ V(e) ≤ max{ν₃, 3aβ, 6a³}; drop the last entry at d=2.
+  - **Floor.** The floor equals ν₃ and was attained on the axes at every tested L. This relies on ν₃ < min(3aβ, 6a³), observed at 27 L values but not proved.
+  - **Ceiling.** It is never worse than E|Q|⁶, but in general it is not attained. At L = 0.5, d=2 the true max of V is 0.75 of it.
+  - **Comparison with M11.** ν₃/d² is never attained, and E|Q|⁶ can exceed max V by about 34 orders of magnitude at small L.
+- **N4, MINOR (efficiency):** at L=24, M27 as a whole exceeds the true omitted part by 1.5e2 to 6.7e16, for R from ¼ to 12.
+  - **Where the excess comes from.** θ = ¼ accounts for about e^(R²/4) of it. The rest comes from V_U^{2/3}, b₀^(−d/2) and (2Λ_H)^n.
+  - **Effect on Step 2.** At ε = 1e-6·C, Step 2 picks R = 10 at L=3 and R = 9 at L=100, where R = 6 would do.
+  - **A further saving.** The orthonormal-coordinate bound Σ_{Z|Y} ⪯ Λ_H I in M8 already gives ‖A_e(z)‖_F ≤ √Λ_H·|z|, so the 2^n from M24 can also be dropped. V2 itself calls that factor conservative.
+- **N5, presentation:** Step 3's list of enclosed factors omits K_d(a), which M28 includes. Interval evaluation of Γ_e through B⁻¹ in ORIGINAL (11) has no stated rule for broad boxes. Intersecting with the proven bounds [b₀, Λ_H] and [γ₀, Λ_H], or bisecting on failure, as §7 says for the pivots, would close it.
+- **Presentation and optional items:**
+  - **P1 (optional).** V2's instruction, applied to the integrand of I_k before M15, already puts α_lo in every position of M15. One clause saying so would rule out a reader editing M15's closed form and keeping 1/(2α_hi): that bound fails 211 of 2,860 tests, for example k=0 on [20, 30] at L = 28.33, where the true tail is 3.587 against a bound of 3.567.
+  - **P2.** With one cutoff M for all four moments, M ≥ √(3/α_lo) is needed.
+  - **P3.** State the strict Sylvester pattern (−1)^k Δ_k > 0. Note that R in M21 needs a rational upper bound for ‖A₀‖_op. Note also that a enters M27 at its lower endpoint in K_d(a) and b₀, but at its upper endpoint in V_U and Λ_H.
+  - **P4.** The M27 citation list omits M9, M17 and M25–M26.
+  - **P5.** M8 reuses z for the transverse vector.
+  - **P6.** Step 1 can take the maximum of the direct interval floors and the witnesses.
+
+**Math-#481, d=2 instantiation: all my checks pass.**
+- **Reduction.** 32 exact identities confirm the reduction of M1:
+  - det B = D(t) with t = e₁²e₂² ∈ [0, ¼];
+  - the transverse variance a²(b² − a⁴)/D(t), with F = Var/2;
+  - V(t) = M3 = M10;
+  - the endpoint hulls as convex combinations;
+  - the prefactor with the full 2π;
+  - the sixth-power formula with 4⁶·24²;
+  - the Γ(7/6) substitution, with the tail 65e⁻⁶⁴ added once and no factor 6;
+  - the interior maximum at t = 4/25 for the a=1, b=4, c=20 adverse control.
+- **Independent value.** C_alg(2,24) = 0.0734069193060342710301359629577740500176…, agreeing to 150 digits across three routes. It also agrees with 01Cz's value in 6249533285 to the 26 digits shown there. It lies inside the certified [0.07332163930293…, 0.07349219930919…] at fractional position 0.4999999998. Relative width is 0.2326%, within the 1% goal. All 42 intermediate intervals contain the true values.
+- **Checker replay.** `python3 -B verify_coefficient.py RESULT.json --expected-commit f47c8d77…` exits 0 with ACCEPT_BOUNDS_ONLY/TOLERANCE_MET. Its stdout is byte-identical to `checker.stdout.txt`. A wrong commit gives exit 1, SOURCE_COMMIT_MISMATCH.
+- **Beyond the replay.** On a private byte-identical copy I also ran the package's suite: 13/13 with no skips, both normally and under -O. I ran 11 tamper probes, all rejected. I called the package's library functions in memory at other L values. That goes beyond the replay my pickup named. There was no production rerun, and nothing was written to the package.
+- **Notes:**
+  - **(a) MINOR.** The single full-circle hull is not V2's refinable Step 4, because its width cannot shrink. Run at 8 values of L, it enclosed the truth at every one; its width is 39× C at L=2, and it fails closed (HOLD) at L ≤ 1. So it is an L=24 instance, not a general d=2 implementation.
+  - **(b) Presentation.** At L=24, C_alg equals the isotropic L=∞ value to 2.2e-118, and the whole certified width is the Γ(7/6) Darboux mesh. The certificate therefore exercises no finite-L or anisotropy effect.
+  - **(c) Presentation.** The library call `verify(expected_commit=None)` skips the commit binding; only the CLI enforces it.
+
+**Unaffected:** M31, the G1–G4 bridge, the 113 retained failures, the five input groups and every other HOLD.
+
+**PERSONAL RELEASE:** I release `M193-V2-XFAM-INPUT-CLAUDES-20261018` and hold nothing on Math-#193, #483 or #481.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,133 @@
+# PR242 v1.1 Slice D — composite expansion and the missing field estimate
+
+**Dylan Roy — delegated AI review.** Actual reviewer: OpenAI/Codex `/root`, nonauthor of the Anthropic candidate. Source-exposed to the packet, the preceding A/B reviews, the author acknowledgement, and earlier coordinated support. This is a fresh reconstruction of Slice D, not another credit for Slice A. Personal reading: PENDING. Organizational independence: 0. Scientific effect: NONE. C8: OPEN.
+
+**Disposition: PASS_TECHNICAL_SCOPED for Lemma 5 as a conditional analytic lemma; AMEND for the already acknowledged opening interpretation OA-242-D-01. Conjectures 6 and 7 remain OPEN.** No full-packet or merge approval. The author retains the source refresh. Proposition 4's Gaussian assertions are imported hypotheses here, not newly accepted Slice C conclusions.
+
+Reviewed source: `d6g8k5htny-coder/Math-`, PR242 head `87912bd8f28fe0d31fcb525670d1fd71a00e0db1`, `frontiers/soft_rejected_pairs_20261002/PROOF.md`, blob `8b2f5fae2a0014a401003463d7c2b2221e7124f5`, 63,690 bytes, SHA-256 `c312e423990442cfaad44459a2a20b231029828cae97018ba68724c20613331b`. Scope: §4, its explicitly stated interfaces in §§0–3, and the cited parent boundaries. Claim `d8303028-79ad-4138-838c-4fa50ac78038`, R17 WE516.
+
+## 1. An explicit reconstruction of Lemma 5
+
+Write θ=(b,u), with measure db dσ(u), for fixed d and model parameters. Set Aθ(κ)=𝒜^rej(b,κ,u), Fθ=F₀(b,u). The needed measurable, integrable interfaces can be written using a nonnegative envelope Pθ with M=∫Pθ dθ<∞:
+
+- 0≤Aθ(κ)≤a₀Pθ κ² for 0<κ≤1;
+- 0≤Fθ≤f₀Pθ and |Aθ(κ)−Fθ/κ|≤a₁Pθ/κ² for κ≥1;
+- Hθ≥0 is jointly measurable and |Hθ(k)−1|≤h min(1,k²).
+
+All constants are finite and uniform in θ; they may depend on the fixed model and dimension. The packet supplies the first two interfaces through the contact kernel, Gaussian height decay and Theorem 1. Theorem 1 was separately reviewed in C67 at exactly these bytes. The third is the stated hypothesis of Lemma 5; Proposition 4 is one proposed application. This reconstruction does not assert that hypothesis for every covariance or finite torus.
+
+Define J=∫∫₀∞ Aθ(s⁻⁴) ds dθ. At s≤1 the integrand is at most Pθ(f₀s⁴+a₁s⁸); at s≥1 it is at most a₀Pθs⁻⁸. Thus
+
+    0≤J≤M(f₀/5+a₁/9+a₀/7)<∞.
+
+The identity J=I^cand−c₁ is the difference of the two cusp integrals in the packet's §0, after their common contact subtraction cancels. It does not identify a field persistence coefficient.
+
+The coefficient R is absolutely integrable, since
+
+    |v⁴ Fθ(Hθ(v⁻³)−1)|≤h f₀Pθ min(v⁴,v⁻²),
+    |R|≤(6/5)h f₀M,
+    R=(1/3)∫∫₀∞ Fθ[Hθ(k)−1] k⁻⁸ᐟ³ dk dθ.             (D.1)
+
+The last formula uses v=k⁻¹ᐟ³, including its 1/3 Jacobian. Absolute integrability justifies Fubini and the changes of variables. The composite itself is finite because H≤1+h and J is finite.
+
+For 0<ℓ≤1, put r_c=ℓ¹ᐟ⁴, r_f=ℓ¹ᐟ³, V=ℓ⁻¹ᐟ¹². Subtract the H=1 part Jℓ¹ᐟ⁴. On r>r_c,
+
+    ∫∫ Aθ(ℓ/r⁴)|Hθ(ℓ/r³)−1| dr dθ
+    ≤a₀hM ℓ⁴∫[r_c,∞)r⁻¹⁴dr
+    =(a₀hM/13)ℓ³ᐟ⁴.                                 (D.2)
+
+On 0<r≤r_c use Aθ=Fθr⁴/ℓ+Eθ, |Eθ|≤a₁Pθr⁸/ℓ², and r=vℓ¹ᐟ³. The main term is
+
+    ℓ²ᐟ³∫∫[0,V] v⁴Fθ(Hθ(v⁻³)−1)dv dθ.
+
+Its missing tail is bounded by h f₀M ℓ²ᐟ³/V=h f₀Mℓ³ᐟ⁴. The error from Eθ is at most
+
+    a₁hMℓ [∫₀¹v⁸dv+∫₁ⱽv²dv]
+    =a₁hMℓ [V³/3−2/9]≤(a₁hM/3)ℓ³ᐟ⁴.                (D.3)
+
+Consequently the claimed expansion has the explicit bound
+
+    |νᶜ(ℓ)−Jℓ¹ᐟ⁴−Rℓ²ᐟ³|
+    ≤hM(a₀/13+f₀+a₁/3)ℓ³ᐟ⁴.                         (D.4)
+
+No differentiation of a cumulative estimate, unweighted probability, unproved interchange of limits, or field-to-model approximation is used in this proof. The statement is about the defined composite. The sign of R is not determined by these hypotheses.
+
+## 2. Exact adversarial examples
+
+These are scalar kernel examples that test the inference, not counterexamples to a Gaussian-field theorem. They deliberately satisfy the relevant analytic hypotheses without being claimed to arise from Gaussian persistence.
+
+**Sharpness of the remainder.** On a one-point θ-space let F=1, A(κ)=κ³ for κ≤1 and A(κ)=κ⁻¹ for κ≥1. Let H(k)=1+a min(1,k²), with −1≤a≤1. Then J=1/5+1/11=16/55 and R=6a/5. Direct integration at r_f and r_c gives exactly
+
+    νᶜ(ℓ)=(16/55)ℓ¹ᐟ⁴+(6a/5)ℓ²ᐟ³−(16a/17)ℓ³ᐟ⁴,
+    0<ℓ≤1.                                             (D.5)
+
+This both checks the coefficient/Jacobian and rules out silently strengthening Lemma 5's remainder to o(ℓ³ᐟ⁴). Positive and negative a also show that its assumptions do not certify a numerical sign for R.
+
+**Small-k control is essential.** The same A with H(k)=1+min(1,k) has H→1 and bounded H, but violates the quadratic hypothesis. Its correction is exactly
+
+    νᶜ(ℓ)−Jℓ¹ᐟ⁴=(4/7)ℓ¹ᐟ²−(3/10)ℓ²ᐟ³.              (D.6)
+
+The proposed R integral diverges at v=∞. In general a bound |H−1|≤C min(1,k^α) makes that end behave as v^(4−3α); α>5/3 is sufficient for integrability. At α=5/3 this example yields
+
+    νᶜ(ℓ)−Jℓ¹ᐟ⁴=ℓ²ᐟ³[21/80+(1/12)log(1/ℓ)].        (D.7)
+
+Thus merely proving H→1 would not justify the ℓ²ᐟ³ coefficient. The original α=2 hypothesis is strong enough; this is an inference control, not a defect in Lemma 5.
+
+**Fixed windows miss intermediate mass.** Let ψ(s)=30(s−1)²(2−s)² on [1,2], zero otherwise. It is nonnegative, continuously differentiable after extension, and ∫ψ=1. For 0<ℓ≤1 define
+
+    Eℓ(r)=ℓ¹⁷ᐟ⁴⁵ ψ(r/ℓ²ᐟ⁹).
+
+Then ∫Eℓ(r)dr=ℓ³ᐟ⁵. Its support [ℓ²ᐟ⁹,2ℓ²ᐟ⁹] escapes every fixed cusp window r=sℓ¹ᐟ⁴ and every fixed fold window r=vℓ¹ᐟ³. On either fixed compact window it is eventually identically zero, including all changes of amplitude used in the fold limit. It is also eventually zero at every fixed r>0.
+
+On this support κ=ℓ/r⁴=ℓ¹ᐟ⁹s⁻⁴, and
+
+    Eℓ(r)/κ³=ℓ²ᐟ⁴⁵s¹²ψ(s)≤7680.
+
+It therefore even obeys an O(κ³) intermediate envelope, which is no stronger than the packet's stated typed-window majorant there. Its integrated mass is O(ℓ³ᐟ⁵), hence within the quoted weaker O(ℓ³ᐟ⁷) and O(ℓ⁴ᐟ⁹ log(1/ℓ)) budgets for small ℓ. Yet it dominates both ℓ²ᐟ³ and ℓ³ᐟ⁴. Adding Eℓ to a model kernel preserves all these fixed-window limits and still destroys Conjecture 7's claimed next coefficient.
+
+This is a counterexample to deriving the integrated claim from those selected bounds alone. It does not assert compatibility with every Gaussian regression identity or topological constraint, nor refute Conjecture 7. It proves why its intermediate matching input cannot be deleted.
+
+**The far term must stay.** A nonnegative function f(ℓ)=qℓ²ᐟ³, q>0, meets #187's upper bound but changes the coefficient when moved to the other side of (4.3). An oscillating nonnegative coefficient, e.g. ℓ²ᐟ³(1+sin(log(1/ℓ)))/2, need not even have a normalized limit. Consequently the O(ℓ²ᐟ³) upper bound cannot justify either deleting the far term or assigning it a coefficient. No assertion about its actual sharp order is made.
+
+## 3. A precise conditional target for the next field calculation
+
+The following is **root-authored support derived during review**, not a separately reviewed new field theorem. It sharpens the form of the already open input in §4 without purporting to discharge it.
+
+Let Uℓ=ρ_rej(ℓ)+ν_eld^far(ℓ)−B_d,L. Suppose an exact density decomposition is established in the form
+
+    Uℓ=eℓ+∫∫₀∞ gℓ(r,θ)dr dθ,
+
+where gℓ includes the required equal-height subtraction. Its identity with actual weighted, marked Kac–Rice objects must be proved in the field application; it is not supplied by this abstract reduction. Put Cℓ(r,θ)=Aθ(ℓ/r⁴)Hθ(ℓ/r³). For V=ℓ⁻¹ᐟ¹² define
+
+    ε_f(ℓ,v,θ)=ℓ⁻¹ᐟ³[gℓ(ℓ¹ᐟ³v,θ)−Cℓ(ℓ¹ᐟ³v,θ)], 0<v≤V,
+    ε_i(ℓ,s,θ)=gℓ(ℓ¹ᐟ⁴s,θ)−Cℓ(ℓ¹ᐟ⁴s,θ),         s≥1.
+
+A sufficient, explicitly weighted transfer target is
+
+    |eℓ|≤K₀ℓ³ᐟ⁴,
+    ∫∫[0,V]|ε_f|dv dθ≤K_fℓ¹ᐟ¹²,
+    ∫∫[1,∞)|ε_i|ds dθ≤K_iℓ¹ᐟ².                     (D.8)
+
+Indeed, the first integral in original units is ℓ²ᐟ³∫|ε_f| and the second is ℓ¹ᐟ⁴∫|ε_i|. The disjoint split r≤r_c, r>r_c gives
+
+    |Uℓ−νᶜ(ℓ)|≤(K₀+K_f+K_i)ℓ³ᐟ⁴.
+
+Combining with (D.4) proves precisely (4.3), if and only insofar as the application supplies these sufficient hypotheses. Signed cancellation could support a weaker sufficient interface; (D.8) is deliberately an absolute-integral criterion, not claimed necessary. It asks for rates on expanding domains and integration over all θ, so pointwise Conjecture 6 is strictly insufficient. It also makes the cost of the missing soft-eigenvalue, stiff-direction, norm and height-tail controls explicit.
+
+For merely identifying an ℓ²ᐟ³ coefficient with an o(ℓ²ᐟ³) remainder, replace the three rates respectively by o(ℓ²ᐟ³), o(1), and o(ℓ⁵ᐟ¹²). This weaker target still excludes the moving-mass example. Neither version is presently proved for the field in this review.
+
+## 4. Findings and source boundary
+
+1. **OA-242-D-01 — AMEND, already acknowledged, still unapplied.** The §4 opening states field identification as a fact and attributes F/F₀→1 to Theorem 1. Qualify the field matching as formal/Conjecture 6. Theorem 1 gives the cusp tail; the overlap of the separately defined F requires (3.1) plus domination, and in the Gaussian model Proposition 4 supplies H→1. Lemma 5 itself survives unchanged. An acknowledgement is not an implementation receipt.
+2. **OA-242-D-02 — minor notation.** Input (ii) uses B_2,L inside a statement in every d≥2. Use B_d,L unless that paragraph is explicitly restricted to d=2. This does not change the estimate.
+3. **Scope retained.** #187 is fixed d,L,ρ with constants C(d,L,ρ), not a shrinking-ρ uniform theorem. Its O(ℓ²ᐟ³) bound is inadequate to delete the far term at the order studied here. #188 remains cited, not accepted by this review. #237's ℓ³ᐟ⁵ is likewise cited only. #240 has now merged source-preservingly at `7636cae5c386f9725f9eec127dfd4ea5ec630435`; that factual update does not turn its fixed cusp window into endpoint control.
+4. **Gaussian model versus torus.** The b- and d-independent H and the two displayed numerical R values concern the reference kernel e^(−|x|²/2). No exact finite-L transfer of H, its sign, or the numerical constants is established here. Lemma 5 applies to any actual A,F,H satisfying its interfaces; it cannot supply missing uniform interfaces for another covariance.
+5. **No conflation of observables.** This is a rejected-pair composite and a conjectured correction to ρ_rej+ν_eld^far−B. It is not a proof of a global all-bar witness bijection, new leading persistence law, or closure of a historical collision/normalizer obligation.
+
+## 5. Verification and handoff
+
+The accompanying independent standard-library rational controls integrate the piecewise examples directly in r and compare with their formulas, exercise positive/negative coefficients, check the moving-band powers and typed-window domination, check the Jacobian coefficient, and reject deliberately wrong exponents, dropped terms and normalization factors. They do not import or execute the author's checker. The continuum proof is §§1–3 above; finite checks support arithmetic and falsification only. **662 exact checks passed, including 36 deliberately invalid cases rejected; normal and optimized Python outputs are byte-identical.** Commands: `python -B -S independent_controls.py` and `python -B -O -S independent_controls.py`, from the delivered package.
+
+The source, used parent bytes, review body and claim are checked once on the final stable review package; one immutable Drive bundle records the result. No repository source changes or required CI bypasses are part of this scoped review. Existing hosted CI is not rerun or relabeled as proof.
+
+Next author action: apply OA-242-D-01 and OA-242-D-02 with the separately pending A/B findings, then request review of changed bytes only. Next analytic work: quantify the soft-layer field decision on the expanding fold domain and the intermediate equal-height/composite subtraction in (D.8). Claim those exact scopes before work; C and the remainder of B retain their separate review needs. Conjectures 6–7, numerical certification, required formal alignment and organizational independence remain open.
