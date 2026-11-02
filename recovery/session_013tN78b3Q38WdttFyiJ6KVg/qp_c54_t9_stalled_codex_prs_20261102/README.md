@@ -115,6 +115,10 @@ These records make either choice safe for the accounting; they decide nothing.
 ## Limits
 
 - All agents are Anthropic Claude; the authors are OpenAI Codex. This is engineering accounting, not a review of the mathematics.
+- *Latent parser defect (found during tranche 10).* `pr_inventory.py`, `pr_inventory_v2.py` and `stack_checks.py` split
+  `git diff --raw -z` output on `:`, which mis-parses a path containing a colon. None of these PRs changes such a path (checked
+  with `git diff --name-only -z` at every head), so no result here is affected. Tranche 10's census parses the NUL-separated
+  records instead.
 - #482 and #487 are left out: their tip-syncs are read back (main#738 comment 6575161860) and they are moving toward
   integration. Other PR heads and branch tips are tranche 10 (main#684 comment 6575726856).
 - The workflow agents were told not to write files; one wrote two scratch files (`b1_base.txt`, `b1_main.txt`) beside the
