@@ -42,7 +42,8 @@ for r in cat['quarantines']:
             continue
         before = s[max(0, m.start() - 12):m.start()]
         if re.search(r'not in\s*`?$', before, re.I):
-            skipped.append({'record': r['id'], 'path': path, 'reason': f'negated mention: ...{before}{path}'})
+            if not any(k['record'] == r['id'] and k['path'] == path for k in skipped):
+                skipped.append({'record': r['id'], 'path': path, 'reason': f'negated mention: ...{before}{path}'})
             continue
         chosen = None
         for repo in ('Math-', 'main'):
@@ -58,12 +59,20 @@ for r in cat['quarantines']:
             skipped.append({'record': r['id'], 'path': path, 'reason': 'path not found at any commit named in the record or at the cuts'})
             continue
         repo, commit, why = chosen
-        data = git(CLONES[repo], 'cat-file', 'blob', f'{commit}:{path}')
-        blob = git(CLONES[repo], 'rev-parse', f'{commit}:{path}').decode().strip()
-        tip_blob = git(CLONES[repo], 'rev-parse', f'{TIPS[repo]}:{path}')
-        pins.append({'record': r['id'], 'repository': f'd6g8k5htny-coder/{repo}', 'commit': commit, 'commit_basis': why,
-                     'path': path, 'git_blob': blob, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
-                     'tip': TIPS[repo], 'identical_at_tip': bool(tip_blob) and tip_blob.decode().strip() == blob})
+        # Bare companion names in the title (e.g. "nodal_core.py", "EXACT_H0.md") resolve in the named path's directory.
+        directory = path.rsplit('/', 1)[0]
+        companions = [f'{directory}/{n}' for n in re.findall(r'(?<![/\w])([A-Za-z0-9_]+\.(?:py|md|json))\b', r.get('title', ''))]
+        for q, basis in [(path, why)] + [(c, why + '; bare name in the title, resolved in the directory of ' + path) for c in companions]:
+            if q in bound or any(p['record'] == r['id'] and p['path'] == q for p in pins):
+                continue
+            data = git(CLONES[repo], 'cat-file', 'blob', f'{commit}:{q}')
+            if data is None:
+                continue
+            blob = git(CLONES[repo], 'rev-parse', f'{commit}:{q}').decode().strip()
+            tip_blob = git(CLONES[repo], 'rev-parse', f'{TIPS[repo]}:{q}')
+            pins.append({'record': r['id'], 'repository': f'd6g8k5htny-coder/{repo}', 'commit': commit, 'commit_basis': basis,
+                         'path': q, 'git_blob': blob, 'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest(),
+                         'tip': TIPS[repo], 'identical_at_tip': bool(tip_blob) and tip_blob.decode().strip() == blob})
 for i, p in enumerate(pins, 1):
     p['id'] = f'QP-C54-PIN-{i:03d}'
 json.dump({'schema': 'claude54.pinning-sweep.v1', 'proposal_status': 'PROPOSED', 'pins': pins, 'skipped': skipped},

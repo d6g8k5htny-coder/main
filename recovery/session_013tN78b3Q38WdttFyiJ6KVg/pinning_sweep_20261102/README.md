@@ -18,27 +18,32 @@ For each adopted row whose text says "not pinned", take every repository path th
   (`formal/manifest.json`).
 - Each remaining path is pinned at the first commit named in the row's own text at which the path exists, or else at
   the catalog's source cut.
+- Bare file names in the row's title, with no directory (for example `nodal_core.py` or `EXACT_H0.md`), are resolved
+  in the directory of the named path and pinned at the same commit when they exist there.
 - Recorded for each pin: blob, bytes, SHA-256, and whether the bytes are identical at the current tip (Math- `3b11bff6`,
   main `d2b0216e`).
 
 ## Result (`pins.json`)
 
-**23 pins across 14 records. All 23 are byte-identical at the current tip.**
+**41 pins across 14 records. All 41 are byte-identical at the current tip.**
 
 | Records | Repository and commit | Paths |
 |---|---|---|
 | Q-1025, Q-1043 | Math- `8151f592` | `frontiers/rn_mesoscopic_20260925/PROOF.md`, `frontiers/intermediate_window_20260928/PROOF.md`. These are the same blobs as tranche-2 amendments T2-034 and T2-031, so the two agree. |
 | Q-1032, Q-1041 | Math- `8151f592` | `reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md`, `COLLAR_PROOF.md`. Q-1022's own `next_step` asks for exactly these two pins. |
-| Q-1160 to Q-1168 | main `f6deeba7`, the commit the rows name | The 9 `experiments/periodic_h0/*_certificate.py` (or `exact_h0.py`) programs and their `results/*/CERTIFICATE.json` |
-| Q-1169 | main `81acc060`, the cut | `experiments/universality/fold_controls.py` |
+| Q-1160 to Q-1168 | main `f6deeba7`, the commit the rows name | For each of the nine `experiments/periodic_h0/` certificates: the program, its `results/*/CERTIFICATE.json`, and the core module and note its title names (for example `nodal_core.py`, `NODAL_CERTIFICATE.md`). That is 3 or 4 files per row. |
+| Q-1169 | main `81acc060`, the cut | `experiments/universality/fold_controls.py` and `test_fold_controls.py` |
+
+I read the titles of all 14 rows. Each names its pinned files as its subject or the subject's inputs; Q-1025's title
+gives the claim id, and tranche 2 established its source file.
 
 ## Limits
 
 - A pin binds bytes to a record that already quarantines the claim. It does not say the bytes prove the claim.
 - The rule finds paths by pattern. A row that names its source without one of these roots, or names a directory rather
   than a file, is not swept.
-- Whether a pinned file is the row's source rather than a related file is judged only by the text naming it. All
-  23 were read for that, and Q-1169's title names `fold_controls.py` as its subject.
+- Whether a pinned file is the row's source rather than a related file rests on the row's title naming it. The
+  titles were read, but no file's content was compared with the row's claim.
 
 ```sh
 python3 -I -B pin_sweep.py STAGING_CATALOG MATH_CLONE MAIN_CLONE OUT.json
