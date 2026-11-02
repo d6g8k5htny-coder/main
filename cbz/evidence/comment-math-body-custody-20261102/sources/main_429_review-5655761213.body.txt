@@ -1,0 +1,417 @@
+**AMEND_SCOPED (non-blocking) — `R429-JET-OBSTRUCTION-S1-5-01DKKE-20261026`: different-family scientific review of `JET_NONDEGENERACY_FACTORIZATION_OBSTRUCTION.md` §§1–5, with its controls, at exact head `16764aab8ce7b74327276ac4be619f2d3e4ed4af`.** This closes my pickup [429/6421434952](https://github.com/d6g8k5htny-coder/main/pull/429#issuecomment-6421434952). Credit 0. No status change.
+
+**Reviewer.** Anthropic Claude Opus 5.5 (`claude-opus-5-5`), Claude Code session `session_01DKKe26v3CSgdYch8kiJLt9`. The model family is Anthropic Claude. The author is OpenAI/Codex `/root/core_theorem_audit_20261015`, so this is a different family under the [review-family rule](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md).
+- A subagent of this same session, also Anthropic Claude, drafted the independent checks. I read every script, re-ran all of them, re-derived §§3–4 by hand and checked each finding against the sources. The verdict is mine.
+- I had not read this packet before today. Organizational, blind and human independence credit 0.
+
+**Object, unchanged at this head:**
+
+| File | SHA-256 |
+|---|---|
+| `JET_NONDEGENERACY_FACTORIZATION_OBSTRUCTION.md` (blob `c3358bfd`, 34,627 B) | `0dfdddfb…0b5766` |
+| `jet_factorization_obstruction_controls.py` | `5b1e8fc1…ad4df541f` |
+| `JET_FACTORIZATION_OBSTRUCTION_CONTROLS.json` | `1d79c4f4…f012e764` |
+| `jet-factorization-primary-sources/SOURCE_IDENTITY.json` | `683fb8d2…3ac88492` |
+
+The three consumed sources are pinned from Main `85b928b3`, and their blobs, sizes and SHA-256 all match §2's table.
+
+**Scope.** §§1–5 only: the two counterfamilies, the candidate-process obstruction and its first-moment variant, the §2 source ledger, and the controls that check them.
+- This does not cover §§6–10, fold isolation, the finite-Fourier count route, the uniform local norm, or the README and source-boundary alignment.
+- It does not satisfy the separate specialist-human requirement ([5635594683](https://github.com/d6g8k5htny-coder/main/pull/429#pullrequestreview-5635594683)).
+- It does not qualify Ready, composition or integration.
+
+## Verdict
+
+I found no mathematical error in §§3–5.
+- Both counterfamilies behave as stated, in exact arithmetic and numerically.
+- The §5 process argument is sound, and its quantifiers are in the right order.
+- Three corrections are needed: one wording fix with a missing hypothesis, one uncited consumed source, and one control that tests nothing but reports PASS. None changes a conclusion. Five further items are informational.
+
+## Corrections
+
+**F1 — §1 line 10, and §4 lines 58–66 and 103: the correlation claim holds only at lattice separations, and the collapse needs ε_N→0.**
+- **Generality.** Line 10 says "correlations at macroscopic torus separations tend to one". §4 proves this only for h ∈ 2πZ² that are nonzero modulo L_N, for example h_N=(2π⌊N/2⌋,0).
+- **Counterexample.** At the equally macroscopic non-lattice separation h_N+(π/2,0):
+  - by hand, R_N → R_G(π/2,0) = (1/5)·Σ_{m=−2}^{2} cos(mπ/2) = −1/5;
+  - numerically, R_N = −0.2000 for every N in {4,5,8,16,32,64} once ε ≤ 10⁻⁴, and −0.198 at ε = 10⁻².
+- **Missing hypothesis.** (1) is stated for every 0<ε_N<1, but (5) bounds the two-contact eigenvalue only by ε_N. "Tends to zero" therefore needs ε_N→0, which §1's phrase "arbitrarily small" implies but §4 never states.
+- **Smallest fix.**
+  - Line 10: "…correlations at macroscopic lattice separations h∈2πZ² (nonzero mod L_N) tend to one when ε_N→0".
+  - Line 103: "…tends to zero, for ε_N→0, even at macroscopic separations…".
+
+**F2 — §5 line 170, with the §2 ledger (lines 18–26): the count cap's source is not cited.**
+- "The accepted a.s. count bound for K=2N" names no source. The bound Ncrit ≤ 16K² is eq. (11) of `FINITE_FOURIER_CRITICAL_COUNT_DIAGONAL_ROUTE.md` (line 132).
+- The controls already hash that file (py line 113, `621cee96…`), but §2's "Authoritative consumed source" table lists only the three PROOF.md files.
+- "Accepted" means `NONAUTHOR_FINITE_COUNT_DIAGONAL_REVIEW.md`'s ACCEPT_SCOPED. That reviewer is OpenAI/Codex `/root/c261a_local_runtime_20261016`, the same provider as this author.
+- **Fix.**
+  - Cite the route and its review at line 170.
+  - Add the route to §2's table.
+  - Replace "accepted" with "packet-reviewed (ACCEPT_SCOPED, same provider)".
+- The use itself is correct. The route applies the bound to each positive full-square law at fixed K (line 135), which covers every F_{ε,N} with ε>0. The sparse repeated field is bounded separately, by N²·C_G with C_G ≤ (16·2²)² = 4096.
+
+**F3 — controls `.py` lines 87–90, and JSON line 12: one control is a tautology.**
+- `DC_single_jet_failure_bookkeeping` runs `assert eps*8 <= 8*eps`, which is always true. It builds no DC covariance and never tests the axial variant, but the JSON reports `"PASS"`.
+- **Fix.** Either rename it as arithmetic bookkeeping only, or make it test the identity below.
+- **The identity it should test.** For the §3 DC family, Var(F_u) = ε·2(2N+1)/(3N) exactly, which is at most 8ε. Numerically this is 1.50ε at N=4 and 1.354ε at N=32 (verified).
+
+## Informational
+
+- **F4 — line 177 understates what is proved.** It says (6)–(7) hold "for that explicit sequence". They hold for every 0<ε_N≤N⁻¹², because 960²ε_N(4N+1)² ≤ 960²·25·N⁻¹⁰ (checked exactly for N=4..199).
+  - So the diagonal sequence of the strengthening satisfies (6)–(7) as well.
+  - So the "empty in probability" conclusion and the "finite positive mean" conclusion hold for one and the same sequence.
+  - Suggested addition: "…and for every 0<ε_N≤N⁻¹², in particular the diagonal sequence."
+- **F5 — §2 line 26 should state K≥2.** "Contact rank for each fixed positive square spectrum" should add K≥2. FG fixes "an integer K>=2" (line 41), and its lines 440–442 show the seven rows become dependent at K=1. Both families satisfy K≥2 (K_N=2N; the base has K=2).
+- **F6 — §5 line 121 is terse in two places.**
+  - "The implicit branch supplies the root there" needs a contraction or degree step with C¹-smallness, ‖H_p⁻¹∇f(p)‖ below the ball radius over 2.
+  - δ(G) needs to be measurable, or replaced by a measurable lower bound, for the step at line 131.
+  - Both are standard, and `COUNTERFAMILY_NONAUTHOR_REVIEW.md` §5 supplies them. I checked the logic, not a formal proof.
+- **F7 — optional: the bar disclaimer (lines 12, 133) is safe but stronger than needed.**
+  - For each N with ε>0, F_N is Morse with distinct critical values almost surely (FCL §§4 and 6).
+  - On that set, every finite superlevel H0 bar is a younger maximum with its merging saddle, with ℓ>0 (iid source lines 33–38). It therefore lies in FCL (2)'s candidate population ("every such positive-gap pair", lines 123–125).
+  - So (7) already gives P(some finite bar has lifetime ≤ T·t_N) → 0.
+  - The mean-preserving strengthening does not transfer. No change is required.
+- **F8 — what the controls actually check.**
+  - `resonant_uniform_fill_geometric_sum` (py lines 73–80) counts residues and then types 1−ε+ε/(4N+1) in as a formula. It never computes the correlation from the weights.
+  - `consumed_frozen_files_unchanged` hashes six packet files, not the three §2 PROOF.md sources.
+  - The LDL control uses the axial frame only (§10 says so).
+  - The frozen JSON equals a fresh run byte for byte: exit 0, empty stderr.
+
+## Verified independently
+
+- **§2 source qualifications are accurate.**
+  - FG line 63: constants "not uniform over all possible positive spectra, K, L or dimension".
+  - FCL lines 543–545: no uniformity over weights near the simplex boundary, over unbounded K, or over variable L.
+  - The iid source: fixed L, the infinite periodized law. Lines 61–63: not a spatial increasing-domain theorem.
+  - iid §6: a separated-center, sufficiently-small-radius twofold O_η₀(t^{4/3}) bound (lines 443–454), with K7 at line 427 and K5 at lines 438–439. It gives no bound as the centers coalesce (lines 456–460). One precision note: that bound concerns actual bars with four distinct endpoints (lines 411–416).
+- **§3 is correct.**
+  - The weights are positive, symmetric and sum to one; |ξ| ≤ 2√2; M12 ≤ (2√2)¹² = 262144. Exactly, M12 = 13348773921/10485760 at N=4, ε=1/10.
+  - The F_u row's diagonal entry bounds λ_min by Var(F_u) ≤ 8ε. Over 181 frames, λ_min ≈ 0.19–0.21ε for N∈{4,8,16,32} and ε∈{10⁻¹,…,10⁻⁶}, always positive.
+  - Axial variant: Var(F_u) = (1−ε)/(2N²) + O(ε). At N=32, ε=10⁻⁶ it is 4.896×10⁻⁴.
+- **§4 is correct.**
+  - (1) is an ideal Gaussian law: overlapping frequencies add independent Gaussian coefficients. The variance is one, and (2) holds.
+  - The base floor is m_G = 0.207248, attained at the axial frame, with the same value on the full circle and for reflected frames. It comes from a 2001-point grid on [0,π/2] backed by FG's proof, not an enclosure.
+  - Axial pivots are 1, 2, 14/5, 72/25, 2, 4, 14/5, equal to the controls JSON.
+  - det Γ_G = 361.2672 at θ=0 and 1670.8608 at θ=π/4. Both match the existing review's formula 3136(72+1044q)/625.
+  - **(3).** On L_N=2πN, built directly from q^(N), λ_min Γ_N ≥ (1−ε)m_G in every case. That covers N∈{4,5,8,16,32,64} and ε∈{½, 10⁻², 10⁻⁴, N⁻¹²}.
+  - **(4).** Σ_{n=−2N}^{2N} cos(2πnj/N) = 1 at 50 digits in all 780 cases with N≤40 and 1≤j<N, including non-primitive roots. So R_H(h_N) = 1/(4N+1), and R_N matches (4) to 10⁻¹⁵.
+  - **(5).** The fourteen-row two-contact λ_min at h_N, frames θ∈{0, 0.3, π/4}, is about 0.16–0.25ε. That is below the difference variance ε(1−1/(4N+1)) wherever floating point resolves ε (ε ≥ 4×10⁻⁹). At ε=N⁻¹² with N≥16, double precision cannot resolve it, and the claim rests on the algebra.
+  - The torus distance of h_N is L_N/2 for even N.
+- **§5's logic is correct.**
+  - **(6).** The row norms sqrt(Σ_n q_n ξ^{2α}) for |α|≤4 are at most 6.66, so the constant 64·15 = 960 is valid, though loose.
+  - The stability radius is uniform over repetitions. The positive gap is at least Δ(G)/2. (7) follows.
+  - The marked-process Laplace-functional step is correct, and it is compatible with the zero-intensity Poisson limit, as stated.
+  - **(8).** The coefficient 6 = 4·(3/2) comes from ∫_{t/2}^{t} ℓ^{−1/3} dℓ = (3/2)t^{2/3}(1−2^{−2/3}). The arclength is 2π. V0 = (2π)². The conditional A-variance is positive (minimum 2.8 over frames).
+  - **(9).** Exactly N² short lifts exist, since the other copies are at distance at least 2π−r. N²·t_N^{2/3} = 1. C_G(t_N) → 0 almost surely.
+  - The window boundaries used for fixed-N continuity are null by FCL (12), (14), (15) and FG (7). Only pairs with r ≤ N⁻¹ < r0 can meet a window boundary.
+  - **(10).** (16(2N)²)² = 4096N⁴, and (4096N⁴+4096N²)·N⁻¹⁰ ≤ 8192N⁻⁶. Checked exactly for N=4..199.
+  - A quadrature gives c_W ≈ 5.16×10⁻⁴, so the limiting mean is about 1.91×10⁻⁴. This is not certified, and the text claims no value; only positivity matters, and that holds analytically.
+- **Labels are truthful.** The text says "pending separate nonauthor review", claims no acceptance and makes no status transition. The words "exhibits" and "existence construction" are used accurately.
+- **Against the existing nonauthor review** (`COUNTERFAMILY_NONAUTHOR_REVIEW.md`, as incorporated):
+  - I agree with all of its §§3–5 mathematics.
+  - Its m_G lower bound of 1.13×10⁻⁹ is valid but far below the actual 0.207.
+  - It says no amendment is required. It did not raise F1 or F3, or §2's omission of the count source in F2.
+
+## Not verified
+
+- The 16K² cap itself. It is imported, and I checked only the arithmetic that uses it.
+- A rigorous all-frame enclosure of m_G. I have a grid plus FG's proof.
+- The restricted asymptotic (8). I checked it as a specialization of FCL's kernel by DCT, as logic only.
+- Formal proofs of the Morse stability, of δ(G)'s measurability, and of fixed-N count continuity.
+- Process simulation of the empty limit or of the uniform-integrability failure.
+- Anything in §§6–10.
+
+## Reproduction
+
+Environment: CPython 3.13.16, numpy 2.5.3, mpmath 1.4.1, with `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1`. Each check runs as `python -I -B <check>.py <dir containing jetcov.py>`. The author's controls ran from a copy, and the worktree was not modified. The scripts are inlined below so that this review does not depend on this session's container.
+
+`jetcov.py` builds the seven contact rows J=(F,F_u,F_uu,F_uuu,F_v,F_uv,F_vv) (FG line 98) as Γ=LLᵀ, directly from FG eq. (1)'s real cos/sin coefficients. It does not use the controls' moment formula.
+
+<details><summary><code>jetcov.py</code> — SHA-256 <code>52859e61f386afe8e54334982eb46c4f2debfbab43bebbcfb7e31457e5e2ff08</code></summary>
+
+```python
+"""Independent jet-covariance builder for the ideal finite Gaussian field (FG eq. (1)).
+
+F(x) = sqrt(q_0) C_0 + sum_{n in P} sqrt(2 q_n) [C_n cos(omega n.x) + S_n sin(omega n.x)]
+
+Rows are built directly from the real coefficient representation J = L xi, Gamma = L L^T,
+NOT from the moment formula used by the author controls.
+Contact rows (FG Sec. 2, J_0): (F, F_u, F_uu, F_uuu, F_v, F_uv, F_vv) with orders (a,c)
+in (u,v): (0,0),(1,0),(2,0),(3,0),(0,1),(1,1),(0,2).
+"""
+import numpy as np
+
+ROWS = ((0, 0), (1, 0), (2, 0), (3, 0), (0, 1), (1, 1), (0, 2))
+
+
+def modes(K):
+    n1, n2 = np.meshgrid(np.arange(-K, K + 1), np.arange(-K, K + 1), indexing="ij")
+    n1 = n1.ravel(); n2 = n2.ravel()
+    rep = (n1 > 0) | ((n1 == 0) & (n2 > 0))  # one member of each nonzero pair
+    return n1, n2, rep
+
+
+def row_matrix(weights, K, omega, x, theta, reflect=False):
+    """weights: array over the (2K+1)^2 grid in modes(K) order (symmetric, positive).
+    Returns L of shape (7, 1 + 2*#pairs): row coefficients of the seven contact rows at x."""
+    n1, n2, rep = modes(K)
+    zero = (n1 == 0) & (n2 == 0)
+    u = np.array([np.cos(theta), np.sin(theta)])
+    v = np.array([-np.sin(theta), np.cos(theta)])
+    if reflect:
+        v = -v
+    xi1 = omega * n1[rep]; xi2 = omega * n2[rep]
+    au = xi1 * u[0] + xi2 * u[1]
+    cv = xi1 * v[0] + xi2 * v[1]
+    ph = xi1 * x[0] + xi2 * x[1]
+    amp = np.sqrt(2 * weights[rep])
+    e = np.exp(1j * ph)
+    L = np.zeros((7, 1 + 2 * rep.sum()))
+    for r, (a, c) in enumerate(ROWS):
+        P = (1j) ** (a + c) * au ** a * cv ** c * e
+        if a == 0 and c == 0:
+            L[r, 0] = np.sqrt(weights[zero][0])
+        L[r, 1::2] = amp * P.real  # cos coefficient
+        L[r, 2::2] = amp * P.imag  # sin coefficient
+    return L
+
+
+def gamma(weights, K, omega, theta, x=(0.0, 0.0), reflect=False):
+    L = row_matrix(weights, K, omega, np.array(x), theta, reflect)
+    return L @ L.T
+
+
+def lam_min_over_frames(weights, K, omega, nth=721):
+    ths = np.linspace(0, 2 * np.pi, nth)
+    vals = [np.linalg.eigvalsh(gamma(weights, K, omega, t))[0] for t in ths]
+    i = int(np.argmin(vals))
+    return vals[i], ths[i], vals
+```
+
+</details>
+
+<details><summary><code>check_s3.py</code> — SHA-256 <code>bd7c3e14d74717f4a0597a68a5183cc6252d9cd7da7c432efe085a4edc53379a</code></summary>
+
+```python
+"""Section 3 counterfamily 1: DC-dominant and axial-dominant positive full-square spectra.
+L_N = 2 pi N (omega = 1/N), K_N = 2N, fill uniform on {-2N..2N}^2."""
+import sys, json
+from fractions import Fraction as Q
+import numpy as np
+sys.path.insert(0, sys.argv[1])
+from jetcov import modes, gamma, lam_min_over_frames
+
+out = {}
+for N in (4, 8, 16, 32):
+    K = 2 * N; om = 1.0 / N
+    n1, n2, _ = modes(K)
+    size = (4 * N + 1) ** 2
+    for eps in (1e-1, 1e-2, 1e-4, 1e-6):
+        fill = np.full(n1.shape, 1.0 / size)
+        dc = eps * fill.copy(); dc[(n1 == 0) & (n2 == 0)] += 1 - eps
+        ax = eps * fill.copy()
+        for (a, b) in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            ax[(n1 == a) & (n2 == b)] += (1 - eps) / 4
+        rec = {}
+        for name, w in (("DC", dc), ("axial", ax)):
+            assert np.all(w > 0) and abs(w.sum() - 1) < 1e-12
+            assert np.allclose(w, w[::-1])  # q_n = q_-n (grid reversal)
+            xi2 = (n1 ** 2 + n2 ** 2) / N ** 2
+            m12 = float(np.sum(w * xi2 ** 6)); maxxi = float(np.sqrt(xi2.max()))
+            lmin, th, vals = lam_min_over_frames(w, K, om, nth=181)
+            G0 = gamma(w, K, om, 0.0)
+            varFu = [gamma(w, K, om, t)[1, 1] for t in np.linspace(0, np.pi, 19)]
+            pos = min(vals)
+            rec[name] = dict(M12=m12, max_abs_xi=maxxi, lam_min_frames=lmin,
+                             max_VarFu=max(varFu), bound_8eps=8 * eps,
+                             axial_bound=1 / (2 * N ** 2) + 8 * eps,
+                             all_positive=bool(pos > 0))
+            if name == "DC":
+                exact = eps * 2 * (2 * N + 1) / (3 * N)
+                assert abs(G0[1, 1] - exact) < 1e-12 * max(1, exact) + 1e-15, (G0[1, 1], exact)
+                assert max(varFu) <= 8 * eps and lmin <= 8 * eps
+            else:
+                assert max(varFu) <= 1 / (2 * N ** 2) + 8 * eps and lmin <= max(varFu)
+            assert m12 <= 262144 and maxxi <= 2 * np.sqrt(2) + 1e-12
+        out[f"N={N},eps={eps}"] = rec
+
+# exact Fraction M12 for DC family at N=4, eps=1/10 (sanity)
+N = 4; eps = Q(1, 10); size = (4 * N + 1) ** 2
+m12 = sum((eps / size) * Q(i * i + j * j, N * N) ** 6 for i in range(-2 * N, 2 * N + 1) for j in range(-2 * N, 2 * N + 1))
+out["exact_M12_DC_N4_eps0.1"] = str(m12); assert m12 <= 262144
+print(json.dumps(out, indent=1))
+```
+
+</details>
+
+<details><summary><code>check_s4.py</code> — SHA-256 <code>b2d929fbe339d831c81476990abb3034c6b2780c998c2097a6c27d64bc3a5fcd</code></summary>
+
+```python
+"""Section 4 counterfamily 2: repeated base G (uniform 1/25 on {-2..2}^2, L=2pi) + eps * uniform fill,
+built directly on the large torus L_N = 2 pi N with the q^(N) weights of eq. (1)."""
+import sys, json
+import numpy as np
+sys.path.insert(0, sys.argv[1])
+from jetcov import modes, gamma, row_matrix
+
+out = {}
+# ---- base field one-contact floor m_G over all frames (and reflected frames)
+wb = np.full(25, 1 / 25)
+ths = np.linspace(0, np.pi / 2, 2001)  # square symmetry: period pi/2 suffices; also check full circle coarse
+lb = np.array([np.linalg.eigvalsh(gamma(wb, 2, 1.0, t))[0] for t in ths])
+ths_full = np.linspace(0, 2 * np.pi, 721)
+lb_full = [np.linalg.eigvalsh(gamma(wb, 2, 1.0, t))[0] for t in ths_full]
+lb_ref = [np.linalg.eigvalsh(gamma(wb, 2, 1.0, t, reflect=True))[0] for t in ths_full]
+mG = float(lb.min())
+out["base"] = dict(m_G=mG, argmin_theta=float(ths[lb.argmin()]), lam_min_theta0=float(lb[0]),
+                   lam_min_theta_pi4=float(lb[1000]), full_circle_min=float(min(lb_full)),
+                   reflected_min=float(min(lb_ref)),
+                   review_lower_bound=361267200 / 319913861015774089)
+# axial LDL pivots (compare with author JSON 1,2,14/5,72/25,2,4,14/5)
+G0 = gamma(wb, 2, 1.0, 0.0)
+Lc = np.linalg.cholesky(G0); out["base"]["axial_pivots"] = list(np.round(np.diag(Lc) ** 2, 12))
+out["base"]["axial_det"] = float(np.linalg.det(G0)); out["base"]["axial_trace"] = float(np.trace(G0))
+out["base"]["pi4_det"] = float(np.linalg.det(gamma(wb, 2, 1.0, np.pi / 4)))
+
+rows = []
+for N in (4, 5, 8, 16, 32, 64):
+    K = 2 * N; om = 1.0 / N
+    n1, n2, rep = modes(K)
+    size = (4 * N + 1) ** 2
+    for eps in (0.5, 1e-2, 1e-4, float(N) ** -12):
+        w = np.full(n1.shape, eps / size)
+        lat = (n1 % N == 0) & (n2 % N == 0)
+        w[lat] += (1 - eps) / 25  # n = N m, m in {-2..2}^2
+        assert lat.sum() == 25 and np.all(w > 0) and abs(w.sum() - 1) < 1e-12
+        m12 = float(np.sum(w * ((n1 ** 2 + n2 ** 2) / N ** 2) ** 6))
+        # one-contact floor over frames, direct from q^(N)
+        tt = np.linspace(0, np.pi / 2, 91)
+        lN = min(np.linalg.eigvalsh(gamma(w, K, om, t, x=(0.37, -1.1)))[0] for t in tt)
+        # two-contact at h=(2 pi j,0), j=floor(N/2): fourteen-row covariance, same frame
+        j = N // 2; h = np.array([2 * np.pi * j, 0.0]); x = np.array([0.37, -1.1])
+        res = {}
+        for t in (0.0, 0.3, np.pi / 4):
+            L1 = row_matrix(w, K, om, x, t); L2 = row_matrix(w, K, om, x + h, t)
+            S = np.vstack([L1, L2]); Sig = S @ S.T
+            d = (L1[0] - L2[0]) / np.sqrt(2)  # unit vector selecting (F(x)-F(x+h))/sqrt2
+            res[round(t, 3)] = dict(lam14=float(np.linalg.eigvalsh(Sig)[0]), diffvar=float(d @ d))
+        # fill-only correlation at h (no cancellation issue)
+        wf = np.full(n1.shape, 1.0 / size)
+        Lf1 = row_matrix(wf, K, om, x, 0.0); Lf2 = row_matrix(wf, K, om, x + h, 0.0)
+        RH = float(Lf1[0] @ Lf2[0])
+        Rn = float(row_matrix(w, K, om, x, 0.0)[0] @ row_matrix(w, K, om, x + h, 0.0)[0])
+        # a NON-lattice macroscopic separation for contrast
+        h2 = np.array([2 * np.pi * j + np.pi / 2, 0.0])
+        Rnon = float(row_matrix(w, K, om, x, 0.0)[0] @ row_matrix(w, K, om, x + h2, 0.0)[0])
+        rows.append(dict(N=N, eps=eps, M12=m12, one_contact_floor=lN, claimed_floor=(1 - eps) * mG,
+                         floor_ok=bool(lN >= (1 - eps) * mG * (1 - 1e-9)),
+                         R_H=RH, claimed_R_H=1 / (4 * N + 1), R_N=Rn, claimed_R_N=1 - eps + eps / (4 * N + 1),
+                         claimed_small=eps * (1 - 1 / (4 * N + 1)), two_contact=res,
+                         torus_dist_over_L=min(j, N - j) / N, R_nonlattice=Rnon))
+out["family"] = rows
+print(json.dumps(out, indent=1, default=float))
+```
+
+</details>
+
+<details><summary><code>check_s5.py</code> — SHA-256 <code>9e32b20e50e90f733b7d645bc09837f3e9a8bbf3699778409591e79921e9a496</code></summary>
+
+```python
+"""Section 5 checks: C4 row-norm constant, perturbation ledger, count-cap transfer arithmetic,
+and a numerical evaluation of the restricted fixed-base coefficient c_W of eq. (8)."""
+import sys, json
+from fractions import Fraction as Q
+import numpy as np
+sys.path.insert(0, sys.argv[1])
+from jetcov import modes, gamma
+
+out = {}
+# (a) row norm of d^alpha H_N at a point = sqrt(sum_n q_n xi^(2 alpha)), |alpha|<=4
+rn = {}
+for N in (4, 8, 32):
+    n1, n2, _ = modes(2 * N); q = 1.0 / (4 * N + 1) ** 2
+    x1 = n1 / N; x2 = n2 / N
+    alphas = [(a, b) for s in range(5) for a in range(s + 1) for b in [s - a]]
+    assert len(alphas) == 15
+    norms = [float(np.sqrt(np.sum(q * x1 ** (2 * a) * x2 ** (2 * b)))) for a, b in alphas]
+    rn[N] = dict(max_row_norm=max(norms), claimed_bound=64, n_multi=len(alphas))
+    assert max(norms) <= 64
+out["C4_row_norms"] = rn
+# (b) ledger arithmetic with exact rationals
+led = []
+for N in range(4, 200):
+    eps = Q(1, N ** 12)
+    e6 = 960 ** 2 * eps * (4 * N + 1) ** 2
+    assert e6 <= Q(960 ** 2 * 25, N ** 10)
+    assert 1 - (1 - float(eps)) ** 0.5 <= float(eps) * (1 + 1e-12)
+    cap = (16 * (2 * N) ** 2) ** 2; assert cap == 4096 * N ** 4
+    assert (cap + 4096 * N * N) * Q(1, N ** 10) <= Q(8192, N ** 6)
+    # radius in window: ell<=t_N=N^-3, k>=1  =>  r=(ell/k)^(1/3)<=1/N
+    assert (Q(1, N ** 3)) <= Q(1, N) ** 3
+led.append("exact ledger checks passed for N=4..199")
+out["ledger"] = led
+# also: N^2 * t_N^(2/3) = 1
+out["N2_tN23"] = [float(N ** 2 * (N ** -3.0) ** (2 / 3)) for N in (4, 10, 100)]
+
+# (c) restricted coefficient c_W for the base G (uniform 1/25, K=2, L=2pi)
+wb = np.full(25, 1 / 25)
+gb, gwb = np.polynomial.legendre.leggauss(24)
+B = gb; WB = gwb                      # b in [-1,1]
+Kk = 1.5 + 0.5 * gb; WK = 0.5 * gwb   # k in [1,2]
+Aa = -1.5 + 0.5 * gb; WA = 0.5 * gwb  # A in [-2,-1]
+def theta_integrand(t, window=True):
+    G = gamma(wb, 2, 1.0, t)
+    GU = G[:6, :6]; GAU = G[6, :6]; GAA = G[6, 6]
+    Gi = np.linalg.inv(GU); det = np.linalg.det(GU)
+    s2 = GAA - GAU @ Gi @ GAU; s = np.sqrt(s2)
+    tot = 0.0
+    for b, wbq in zip(B, WB):
+        for k, wk in zip(Kk, WK):
+            v = np.array([b, 0, 0, 12 * k, 0, 0])
+            pi0 = np.exp(-0.5 * v @ Gi @ v) / ((2 * np.pi) ** 3 * np.sqrt(det))
+            mu = GAU @ Gi @ v
+            if window:
+                dens = np.exp(-0.5 * ((Aa - mu) / s) ** 2) / (np.sqrt(2 * np.pi) * s)
+                EA = np.sum(WA * Aa ** 2 * dens)
+            z = 36 * k * k * EA
+            tot += wbq * wk * k ** (-2 / 3) * pi0 * z
+    return tot, s2
+ths = np.linspace(0, 2 * np.pi, 361)[:-1]
+vals = [theta_integrand(t) for t in ths]
+I = np.mean([v[0] for v in vals]) * 2 * np.pi  # unnormalized arclength
+V0 = (2 * np.pi) ** 2
+cW = 6 * V0 * I
+out["c_W"] = dict(c_W=cW, limiting_mean=cW * (1 - 2 ** (-2 / 3)),
+                  min_cond_var_A=float(min(v[1] for v in vals)),
+                  min_theta_integrand=float(min(v[0] for v in vals)))
+print(json.dumps(out, indent=1, default=float))
+```
+
+</details>
+
+<details><summary><code>check_resonance.py</code> — SHA-256 <code>67e8d8d1ece11194fe799744882548d3b6240024e8cf702ca1034fb24222ef22</code></summary>
+
+```python
+"""Exact check of eq. (4): sum_{n=-2N}^{2N} exp(2 pi i n j/N) = 1 for every 1<=j<N (incl. non-primitive),
+using high-precision mpmath, and the resulting fill correlation 1/(4N+1)."""
+import mpmath as mp
+mp.mp.dps = 50
+bad = []
+for N in range(2, 41):
+    for j in range(1, N):
+        s = mp.fsum(mp.cos(2 * mp.pi * n * j / N) for n in range(-2 * N, 2 * N + 1))
+        if abs(s - 1) > mp.mpf(10) ** -40:
+            bad.append((N, j, s))
+        RH = s * (4 * N + 1) / (4 * N + 1) ** 2
+        assert abs(RH - mp.mpf(1) / (4 * N + 1)) < mp.mpf(10) ** -40
+print({"cases": sum(N - 1 for N in range(2, 41)), "failures": bad})
+```
+
+</details>
+
+## Release
+
+I release `R429-JET-OBSTRUCTION-S1-5-01DKKE-20261026`. I hold nothing on #429. The corrections are the author's to accept or decline. I make no edit, and I take no review, preparer, composition or integration seat. The head was `16764aab` throughout. The current-`main` composition that OpenAI/Codex's coordination record describes ([429/6421747376](https://github.com/d6g8k5htny-coder/main/pull/429#issuecomment-6421747376)) may now proceed.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

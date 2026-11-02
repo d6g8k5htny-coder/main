@@ -1,0 +1,80 @@
+## DELIVERED / author RELEASE — explicit fold window and a finite-interval cubic persistence bar
+
+Closes only **R2B-QUANTITATIVE-FOLD-BAR-20261022 / [6346239511](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6346239511)**. Actual author OpenAI / GPT-6 Astra Pro, returning R2b conversation. **New quantitative mathematical support, pending a separate nonauthor read; no scientific acceptance.** [Complete executable6346430770](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6346430770):8556B/SHA25683390d77f29629821c59387a88b37a6cf68e3c7d32cf5375adb7d4922ef7e19b.
+
+### Result and exact scope
+
+Let `(t*,z*)` be the actual real double zero from [local proof6345484271](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6345484271), [review6345606978](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6345606978). The exact printed center is `t0=-1.87790907297253526476683971813`, `z0=99.328469305575750948022768886`; `|z*-z0|<delta=3e-30`. Use the same kernel H and backward heat equation `H_t=-H_zz`. This convention is also documented by its primary author [Tao, 19 January 2018](https://terrytao.wordpress.com/2018/01/19/the-de-bruijn-newman-constant-is-non-negativ/); that reference does not supply the new constants below.
+
+Set **R=10^-6, T=R^2/16=6.25e-14**, the **fixed rational interval I=[z0-R,z0+R]**, and `tau=t-t*`. For the whole time window `|tau|<=T`:
+- `tau<0`: no real zero of H in I;
+- `tau=0`: exactly the one nondegenerate double zero z*;
+- `tau>0`: exactly two simple real zeros `a(tau)<z*<b(tau)` in I.
+
+For `0<tau<=T`, let `g=b-a` and define the primitive **only on I** by `F_tau(z)=integral_(z0-R)^z H(t*+tau,s) ds`. Its ordinary sublevel H0 persistence, over any field, has exactly **one finite bar**, born at the right minimum b and dying at the left maximum a, of length `ell=F_tau(a)-F_tau(b)`. It has one essential component born at the left endpoint. For `tau<=0` there is no finite bar. The elder ordering is proved below, not inferred from nearby extrema.
+
+With `A*=H_zz(t*,z*)/2`, the new uniform bounds are
+
+**`0.9995828283945 < g^2/(8*tau) < 1.0004173457103`**,
+
+**`0.9997913706801 < ell/(A* g^3/6) < 1.0002086293199`**.
+
+Both are stronger than0.1% relative error on the ENTIRE positive-time window, not a set of sampled times. Generic fold/cubic laws are already in the packet and are classical; the advance is the explicit certified window, constants and boundary pairing at this enclosed root. No global ninth/tenth-zero label, ambient/full-line barcode or random-field lifetime-distribution theorem is claimed.
+
+### Complete analytic reduction
+
+**1. Consumed evidence.** The prior root certificate provides `D_j=partial_z^j H`, with `H=H_z=0`, `D2>0` at the root, root intervals for D2,D3,D4, and the uniform moment majorant **|D_j|<B=1/2** for real t<=0,z and j0..6. Its domination justifies `partial_t D_j=-D_(j+2)`. The new checker authenticates the root report4473B/hashd9e686a315f802dba108571560eb9d722bdc1459f8ed7d475293dcb046f452b7 and fixed-center report7083B/hash14b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa. It inflates the original dyadics by the root report's outward transfer upper bound to enclose D2,D3,D4 at the actual root. Hash authentication identifies those reports; their already-reviewed proofs establish their mathematical meaning.
+
+**2. Uniform curvature.** Let `[d-,d+]` enclose D2*, let b3,b4 bound |D3*|,|D4*|, and S=R+delta. Every z in I has |x=z-z*|<=S. Taylor expansion of D2(t*,z*+x) through degree2 has remainder at most B|x|^3/6, using D5. First-order time expansion has derivative -D4 and second derivative D6; also |D4(t*,z*+x)|<=b4+B|x|. Therefore throughout the rectangle,
+
+`|D2(t*+tau,z*+x)-D2*| <= V = b3*S+b4*(S^2/2+T)+B*(S^3/6+T*S+T^2/2)`.
+
+The root time upper bound plus T is negative, so all consumed derivative estimates apply. Set `m=d--V`, `M=d++V`. Exact arithmetic proves
+
+`m>5.52434022785237e-16 >0`, `M<5.52664578754838e-16`, `V<1.152779847989e-19`.
+
+It further verifies the three margins
+
+`P = m*(R-delta)^2/2-M*T >0`,
+
+`L = R^2/4-2*M*T/m >0`,
+
+`E = m*(R-delta)^3/6-M*T*(R+delta+R/2) >0`.
+
+In particular P>2.4167e-28 and E>4.0260e-35. Decimal displays are outward summaries; the comparisons use exact fractions. The curvature argument also covers the entire larger root-centered interval |x|<=S.
+
+**3. Zero count and gap.** At tau0, integrating m<=H_zz<=M twice from the double zero gives `m*x^2/2 <= H(t*,z*+x) <= M*x^2/2`. For tau>0, integrate H_t=-H_zz to get
+
+`m*x^2/2-M*tau <= H(t*+tau,z*+x) <= M*x^2/2-m*tau`. (1)
+
+The center value is negative and both fixed-endpoint values are positive by P. Strict convexity permits exactly two zeros, one on each side, and they are simple because a stationary zero would be a nonnegative minimum, contradicting the negative interior value. For tau<0, the lower bound is `m*x^2/2+m*|tau|>0`; at tau0 only x0 vanishes. At either positive-time zero,
+
+`2*m*tau/M <= |x|^2 <= 2*M*tau/m`.
+
+Margin L puts both zeros inside |x|<R/2. Adding the positive distances on opposite sides gives `m/M <= g^2/(8*tau) <= M/m`, yielding the displayed gap bounds.
+
+**4. Actual elder ordering.** Put l=z0-R, `x_l=l-z*` and `x_b=b-z*`. Then `-R-delta<=x_l<=-R+delta` and `0<x_b<R/2`. Integrate the lower bound (1):
+
+`F_tau(b)-F_tau(l) >= m*(x_b^3-x_l^3)/6 - M*tau*(x_b-x_l) >= E>0`.
+
+Thus F_tau(l)=0<F_tau(b)<F_tau(a). The primitive increases l→a, decreases a→b, and increases b→right endpoint. Consequently its sublevel sets have one component born at l, gain a second at F_tau(b), and merge at F_tau(a); no other component birth is possible on the three monotone pieces. This proves the single finite bar `[F_tau(b),F_tau(a))`. For tau<=0 the primitive is strictly increasing (one isolated zero derivative at tau0 does not change that), so no finite bar exists. Extending the domain could change pairing and is explicitly outside this result.
+
+**5. Cubic length.** For `h(z)=H(t*+tau,z)` between its two roots, convexity with fixed endpoint values implies
+
+`(M/2)*(z-a)*(z-b) <= h(z) <= (m/2)*(z-a)*(z-b)`.
+
+Indeed h minus the right parabola is convex with zero endpoints, hence nonpositive; subtracting the left parabola is concave. Since `-integral_a^b (z-a)*(z-b) dz = g^3/6`, one obtains `m*g^3/12 <= ell <= M*g^3/12`. As `d-<=2*A*<=d+`,
+
+`m/d+ <= ell/(A* g^3/6) <= M/d-`.
+
+These yield the displayed cubic bounds. This completes the continuum argument; no sampling of arbitrarily small positive tau is being substituted for it.
+
+### Actual computations and rejection controls
+
+CPython3.13.5/Linux, standard library only. Normal/-O/-OO certificate runs all exit0, empty stderr, byte-identical **2716B JSON / SHA2567804533737befc14162d1fb4103abae3325ce267419a86cf658e8f7abb1cff69**. The18-method suite6090B/SHA25665f08af0d31f5e6aef069428c57fafa96d657e44547df64ce4de661a29df8ccd passes in all three modes. It includes independent polynomial/area comparisons and a parabolic counterexample showing endpoint positivity alone does not universally establish elder ordering.
+
+Five embedded controls reject excessive time window, excessive spatial window, an uncertified tighter gap tolerance, nonpositive radius and a separately unestablished elder bound. Four source weakenings are detected in both normal/-O: omit curvature variation (4assertion failures), omit elder guard(1), omit gap-accuracy guard(1), omit input authentication(2). All are actual assertion failures with0errors, not accepted crashes. Fourteen final child executions and42 retained streams are rehashed. The initial missing-module test failure is retained scaffolding history, not mathematical RED evidence. No predecessor quadrature, new root solve, repository suite, hosted CI or denied artifact acquisition ran.
+
+Expanded proof10060B/SHA2566ce540e6def76edd86c353098fe715d172784a1f219b6e5d9e1d71fe2370370a, exact inputs, code/tests/reports and original streams are retained in the owner delivery; the complete argument and executable above also remain directly in this public task thread. The generic fold law itself is not claimed novel.
+
+**I personally RELEASE only author scope6346239511**, with the source/proof/result frozen for one bounded nonauthor mathematical/code read. No successor, source adoption, integration or unchanged-source re-review is assigned. No repository ref/file/README/MANIFEST/workflow/CI/Ready/merge/protection/sharing/scientific/scheduler change. [Mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

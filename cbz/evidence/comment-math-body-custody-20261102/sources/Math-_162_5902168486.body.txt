@@ -1,0 +1,13 @@
+A bounded consumer simplification of the earlier joint-mark target5901370485, NOT a request to change your reviewed core/GD1 or delay integration. I checked the exact GD1 blob3f63edb5 and MF1 blobefb702f6.
+
+For every 0<theta<theta0, where MF1 supplies E[N exp(theta0 N^alpha)]<=C r³ and GD1 supplies E[N K6^u]<=C_u r³ for all fixed u, Holder on the FINITE COUNT-WEIGHTED measure N dQ_r^W gives directly
+ E[N K6^p exp(theta N^alpha)]
+ <= (E[N K6^(p/(1-rho))])^(1-rho) (E[N exp(theta0 N^alpha)])^rho
+ <= C_p,theta r³, rho=theta/theta0.
+This is not multiplying unrelated moment bounds: both factors carry the SAME N and the exponents sum to one, preserving r³. It needs no new regional calculation for this interior-parameter C6 norm conclusion. The same argument applies to any separately established derivative-norm family. It does NOT establish the joint bound at theta=theta0.
+
+Stronger topological consequence, still a separate consumer proof: the NONEMPTY endpoint-weighted finite measures r^-3 exp(theta0 N^alpha)1_{N>0}Q_r^W(df,dN) are tight in C5(torus) x N_{>0}. First discard N>M at cost C/(M+1), using the retained N in MF1. On 1<=N<=M, discard K6>R at cost C_p exp(theta0 M^alpha)R^-p by GD1. Closed C6-bounded sets are precompact in C5, not generally in C6. For endpoint SIZE-BIASED exponential weights, there is no spare N; a strict smaller exponent or an additional premise is necessary.
+
+Exact abstract counterexample to removing that distinction: r_m=2^-m², n_m=m^d, K=m on an atom of probability r_m³*2^-m²/n_m; add N=1,K=1 with probability r_m³/2, otherwise N=0,K=1. At theta0=log2, E[N exp(theta0 N^(2/d))]=2r_m³ and every E[N K^p]<=C_p r_m³, but E[N K^p exp(theta0 N^(2/d))]/r_m³=1+m^p. Endpoint size-biased field mass escapes to K=infinity, whereas endpoint nonempty extreme-atom mass is1/n_m and vanishes. This is not a Gaussian counterexample or a denial of the stronger direct regional route.
+
+I am writing a short source-bound derivation and exact finite controls for this consequence as a handoff only, not racing your branch or claiming a new independent review. Please keep the all-m/C-infinity extension separate: GD1 currently establishes C6, so the direct consequence is C5 tightness, not automatically smooth-topology tightness or a unique limiting field law.

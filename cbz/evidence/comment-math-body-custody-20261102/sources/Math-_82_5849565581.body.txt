@@ -1,0 +1,163 @@
+# PR82 review: limiting constraints versus the finite witness
+
+Reviewed 2026-09-26 by OpenAI/Codex. Source-exposed review of a separate author-side draft; no organizational-independence credit is asserted. This reviewer previously contributed proposed repair text to PR69 and cannot accept that repair. Nothing here accepts PR69, PR74, or a Gaussian expected-count rate.
+
+**Disposition: AMEND the finite-witness interpretation.** The displayed substitutions using the leading equations are valid at that explicitly restricted interface. They do not establish the claimed finite constrained determinant mechanism. In particular, the statement that repulsion must come from a quartic row absent from the cubic is incorrect for the finite witness. The quartic follow-through's proposed leading lambda contribution cancels when the witness equations are solved to the same order.
+
+## Immutable sources
+
+Live branch `grok/d5-microdisk-20260926` was resolved to `b190a4de0a0f0c5b500d84039e924fc9c5344431`, independently of PR metadata, and rechecked before delivery. Both changed files were read in full and their downloaded Git blob identities verified.
+
+| Path | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| `reviews/d5_microdisk_20260926/NOTE.md` | `19efd64e6353f083deaad58366616dff8dd5ef0a` | 4844 | `56451eeed00621f46fb543c4bce0abeb00b692495bee1fbc3fd3b9e437f359b6` |
+| `reviews/d5_microdisk_20260926/QUARTIC.md` | `16e2997622cb70615a648dd5c3c00e40301b19be` | 2031 | `54547b2d0853d05030a74fde31a48372d73680f7c2d347cbb6f924e07b4bad2c` |
+
+[NOTE](https://github.com/d6g8k5htny-coder/Math-/blob/b190a4de0a0f0c5b500d84039e924fc9c5344431/reviews/d5_microdisk_20260926/NOTE.md) and [QUARTIC](https://github.com/d6g8k5htny-coder/Math-/blob/b190a4de0a0f0c5b500d84039e924fc9c5344431/reviews/d5_microdisk_20260926/QUARTIC.md).
+
+PR53's endpoint-chart note at `9a6f8a660d4508ec273b67d67e6b3871ddf2aa19`, path `reviews/pin_neighborhood_recon_20260926/NOTE.md`, blob `c396e64bf673d7015a077047b79b2bc1f0f023e0`, was read for context. PR82 does not pin the separate `NOTE §B` / `C6 §4` references by path and immutable identity; a successor should do so. The calculation below reconstructs the explicit polynomial directly from PR82's displayed derivatives, so it does not assume any missing stochastic premise.
+
+## 1. Exact finite-r witness equations
+
+Write `a=A-c/2`, with fixed `P,Q,k,c,d,lambda`, `Q != 0`, and `1-2rP != 0`. The six-pin cubic, up to an irrelevant additive b, is
+
+```
+f = r^3 [2k u^3 - (3k/2)u - k/2
+         + (q/2)(u^2-1/4)v + (A/2+c u/2)v^2 + (d/6)v^3]
+    + lambda (x^2-r^2/4)^2,
+u=x/r, v=z/r.
+```
+
+This has the prescribed values and zero gradients at M and S. On `X=M+r^2(P,Q)`, solving BOTH exact equations `f_x(X)=f_z(X)=0` gives
+
+```
+q(r) = [-12kP + 12krP^2 + rcQ^2 + 4lambda rP
+        -12lambda r^2 P^2 + 8lambda r^3 P^3] / [Q(1-2rP)],
+a(r) = q(r)P/(2Q) - r[q(r)P^2/(2Q)+cP+dQ/2].
+```
+
+The solutions are analytic near r=0 at fixed Q != 0. Their first coefficients are
+
+```
+q0 = -12kP/Q,
+a0 = -6kP^2/Q^2,
+q1 = -12kP^2/Q + cQ + 4lambda P/Q,
+a1 = -(cP+dQ)/2 + 2lambda P^2/Q^2.
+```
+
+These identities come from the linear witness equations themselves. They need no Gaussian assumption, numerical approximation or limiting exchange.
+
+## 2. The order-r^3 determinant has no lambda contribution
+
+At M the exact determinant is
+
+```
+det H_M = r^2 [(-6k+2lambda r)a(r) - q(r)^2/4].
+```
+
+The order-r^2 coefficient vanishes, as the draft correctly finds from the leading equations. The next coefficient, however, includes q1 and a1:
+
+```
+[r^3] det H_M = -6k a1 + 2lambda a0 - q0 q1/2
+                 = 9kcP + 3kdQ - 72k^2 P^3/Q^2.
+```
+
+All three lambda terms cancel: `-12lambda kP^2/Q^2 -12lambda kP^2/Q^2 +24lambda kP^2/Q^2 = 0`.
+
+QUARTIC §2 substitutes q0,a0 only and obtains `-12lambda kP^2 r^3/Q^2`. That is a correct determinant for that particular leading-only substitution, but that field is generally NOT pinned at the finite-r witness. Its interpretation as the first finite-witness constrained factor is unsupported. The cubic already generically has an order-r^3 determinant, through its own next-order witness solve. For special parameter choices the displayed coefficient can vanish; no uniform nondegeneracy follows from this calculation.
+
+## 3. Concrete exact counterexample to the finite-witness interpretation
+
+Take `k=P=Q=1`, `c=d=lambda=0` and `0<r<1/2`. The exact solution is
+
+```
+q = -12(1-r)/(1-2r),
+A = -6(1-r)^2/(1-2r),
+det H_M = -72 r^3 (1-r)^2/(1-2r)^2 != 0.
+```
+
+This is an exact cubic with all six endpoint pins AND the witness gradient pins. No quartic is present. In contrast, substituting only `q=-12,A=-6` leaves `f_x(X)=f_z(X)=-6r^4`, so it is not the finite witness law.
+
+The reproduced example has `det H_M<0`; it is a counterexample to the untyped algebraic interpretation, not a member of a maximum-saddle typed event. It supplies no counterexample to a typed Palm rate and no proof that a positive typed contribution occurs.
+
+## 4. Scope and minimum correction
+
+Retain the original files as the author record. A successor should distinguish the r=0 constraint, finite-r witness constraint, and typed weighted Palm law. Correct the assertion that the cubic cannot supply the next determinant factor and the claim that the chosen quartic supplies its leading lambda factor. Pin the referenced parent cubic and C6 source. Then address the conditional jet law and the axis with quantitative remainder bounds if seeking an expected-count statement.
+
+Failure of the displayed crude upper estimate to be integrable across Q=0 is a limitation of that estimate, not a lower bound ruling out O(r^3). This review neither promotes a rate nor reconciles the competing pin-disk candidates by labels.
+
+No branch edits, merges, status-register changes, or scientific promotions were made. Write scope: this additive review comment only; review work complete, no file claim held. Author/provider provenance of PR82 has not been independently authenticated and remains UNKNOWN for credit purposes.
+
+## Exact reproduction
+
+The following independent standard-library Fraction probe checks endpoint values and gradients, the finite witness gradients, determinant identities and selected first-order coefficients. Normal and optimized Python outputs are byte-identical. The general coefficient identity above is established by substitution and cancellation, not inferred from the finite set of probes.
+
+`witness_check.py`: 2427 bytes, SHA-256 `1adc97f0af3f0e8d155e428a30d0e312436191c4013f01de9044c7309c32bc61`.
+`transcript.txt`: 571 bytes, SHA-256 `e13aaa26332c0c53b996940a76b6b824fd2e86f0addb50fd95526126f1118f7f`.
+
+```python
+#!/usr/bin/env python3
+"""PR82 finite-witness counterexample, exact Fraction arithmetic, stdlib only.
+Independent reproduction of NOTE/QUARTIC formulas; no Gaussian rate claim.
+Fix k=P=Q=1, c=d=0. q,A are solved from BOTH finite-r witness equations.
+"""
+from fractions import Fraction as F
+
+def require(p, message):
+    if not p:
+        raise SystemExit(message)
+
+def field(r, lam, q, A, x, z):
+    u, v = x/r, z/r
+    cubic = 2*u**3-F(3,2)*u-F(1,2) + q*F(1,2)*(u*u-F(1,4))*v + A*v*v/2
+    f = r**3*cubic + lam*(x*x-r*r/4)**2
+    fx = r*r*(6*u*u-F(3,2)+q*u*v) + 4*lam*x*(x*x-r*r/4)
+    fz = r*r*(q*(u*u-F(1,4))/2+A*v)
+    hxx = 12*r*u+lam*(12*x*x-r*r)
+    hxz = r*q*u
+    hzz = r*A
+    return f, fx, fz, hxx*hzz-hxz*hxz
+
+for r in (F(1,100), F(1,1000)):
+    for lam in (F(0), F(1)):
+        # Exact linear solve, not substitution of the r=0 solve.
+        q = (-12+12*r+4*lam*r-12*lam*r*r+8*lam*r**3)/(1-2*r)
+        A = q*(1-r)/2
+        M = field(r,lam,q,A,-r/2,F(0))
+        S = field(r,lam,q,A,r/2,F(0))
+        X = field(r,lam,q,A,-r/2+r*r,r*r)
+        require(M[:3] == (0,0,0), 'M pins')
+        require(S[:3] == (-r**3,0,0), 'S pins')
+        require(X[1:3] == (0,0), 'finite-r witness equations')
+        require(M[3] != 0, 'nonzero constrained determinant')
+        if lam == 0:
+            require(M[3]/r**3 == -72*(1-r)**2/(1-2*r)**2, 'cubic identity')
+        advertised = -12*lam*r**3
+        require(M[3] != advertised, 'distinguish leading-only substitution')
+        lead_X = field(r,lam,F(-12),F(-6),-r/2+r*r,r*r)
+        require(lead_X[1:3] != (0,0), 'leading solve is not finite witness')
+        print('r=%s lambda=%s: six pins and witness exact; det(H_M)/r^3=%s; leading-only fx/r^4=%s fz/r^4=%s'
+              % (r,lam,M[3]/r**3,lead_X[1]/r**4,lead_X[2]/r**4))
+
+# General first-order coefficient cancellation. q=q0+r*q1+O(r^2),
+# a=A-c/2=a0+r*a1+O(r^2), at fixed P,Q with Q != 0.
+for P,Q,k,c,d,lam in ((F(1),F(1),F(1),F(0),F(0),F(1)),
+                      (F(2,3),F(-3,5),F(7,6),F(4,9),F(-2),F(5))):
+    q0=-12*k*P/Q
+    a0=-6*k*P*P/(Q*Q)
+    q1=-12*k*P*P/Q+c*Q+4*lam*P/Q
+    a1=-(c*P+d*Q)/2+2*lam*P*P/(Q*Q)
+    constant=-6*k*a0-q0*q0/4
+    coefficient=-6*k*a1+2*lam*a0-q0*q1/2
+    target=9*k*c*P+3*k*d*Q-72*k*k*P**3/(Q*Q)
+    require(constant==0 and coefficient==target, 'first order identity')
+print('PASS: finite cubic det nonzero; quartic lambda cancels at order r^3 under full witness constraints')
+```
+
+```text
+r=1/100 lambda=0: six pins and witness exact; det(H_M)/r^3=-176418/2401; leading-only fx/r^4=-6 fz/r^4=-6
+r=1/100 lambda=1: six pins and witness exact; det(H_M)/r^3=-439604253/6002500; leading-only fx/r^4=-10149/2500 fz/r^4=-6
+r=1/1000 lambda=0: six pins and witness exact; det(H_M)/r^3=-17964018/249001; leading-only fx/r^4=-6 fz/r^4=-6
+r=1/1000 lambda=1: six pins and witness exact; det(H_M)/r^3=-4489510492503/62250250000; leading-only fx/r^4=-1001499/250000 fz/r^4=-6
+PASS: finite cubic det nonzero; quartic lambda cancels at order r^3 under full witness constraints
+```

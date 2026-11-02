@@ -1,0 +1,270 @@
+# Actual elder tails at simultaneous fold-to-cusp cutoffs
+
+Object OA-ELDER-MOVING-CONTACT-TAIL-20261001-v1. Author: OpenAI / Codex,
+`/root/review_density_proof_gaps`, under Dylan Roy's delegation. This is an
+additive **conditional analytic consequence** of the exact source interfaces
+below. Scientific effect NONE; personal reading PENDING; organizational
+independence credit 0. It does not accept its source theorems or change a
+scientific register. The previously retained polynomial-prefactor candidate
+is not used or published here.
+
+## Scope and exact inputs
+
+Fix d >= 2 and L > 0. Use the variance-one periodized Gaussian field on the
+fixed torus R^d/(L Z^d), and the canonical marked Kac--Rice density of actual
+finite ordinary superlevel H0 bars. The birth maximum is the maximum of the
+dying component; its death saddle is the actual global elder-selected saddle.
+The essential class is excluded. Density is per unit spatial volume and
+integrated over **all birth heights and directions**. Nothing here establishes
+an arbitrary-mark total-variation rate or a field-conditioned sampling law.
+
+Primary quantitative input, with all its mathematical hypotheses retained:
+
+- [Math #198](https://github.com/d6g8k5htny-coder/Math-/blob/a28d13c91ef17ffd2c129322457845cd09e713ac/frontiers/remainder_rate_20260930/PROOF.md),
+  head `a28d13c91ef17ffd2c129322457845cd09e713ac`, proof blob
+  `abfb98ae41d66a86d3cb094162db6547d0f29e7e`, 33,131 bytes, SHA256
+  `0b690df6ac40707ca06783f5641d8b480277c716df75b1031d84ee53a0575f72`.
+  Consume Theorem R++ (0.1), the exact decomposition and integral estimate in
+  the **proof of W.2**, W.3, and the actual near/far identity. This proof was
+  merged at `124c37d9218120245098df453cf88d3e54b8c9ca` with the same blob.
+- [P](https://github.com/d6g8k5htny-coder/Math-/blob/124c37d9218120245098df453cf88d3e54b8c9ca/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md),
+  blob `dfed3b8d318a3ab1950957f393307733a4bef3f2`, especially §§2, 10, 13--15:
+  the positive-spectrum fixed field, contact kernel and all-frame Gaussian
+  disintegration, positivity, and expected-count normalization.
+- [R](https://github.com/d6g8k5htny-coder/Math-/blob/124c37d9218120245098df453cf88d3e54b8c9ca/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md),
+  blob `247b3ecf80bfbe896948d5d489b2d5842a81c481`: contact normalization and
+  Gaussian target domination (R5), (R10)--(R11).
+- The retained reading set is CAP `0633aca3c2a2882b0de4399da0a75d64c2e6b2e1`,
+  E1 `213594d6ca6a86fb938110f4d166d9ce275a02d0`,
+  E2 `fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a`,
+  REC `75da2597971510f843f8d90c743950cb8c177342`.
+  #198's #191 `441152df` and [C7-K] `28748b08` proof premises remain imported,
+  in particular the second-order contact error used in W.2 and the
+  unnormalized cap-loss/actual-elder implication used in W.3. No new acceptance
+  of that parent chain is asserted.
+
+#188 at `85f0586a` / `50cfbf4f` and its
+[diagonal-cutoff consequence](https://github.com/d6g8k5htny-coder/Math-/pull/188#issuecomment-5938629116)
+motivate the question, but **Theorem G is not a premise of this result**.
+The seventh-power tail already appears in T5 of the
+[endpoint-law packet](https://github.com/d6g8k5htny-coder/Math-/blob/7fe06b01489af8181e53f26d520810829f146094/frontiers/short_bar_endpoint_law_20261001/PROOF.md)
+and in [the elongated-mark consequence](https://github.com/d6g8k5htny-coder/Math-/pull/235#issuecomment-5938885261).
+Those records take the limiting bar law first, or impose an unquantified
+relative-error condition. The scope here is a simultaneous, explicit
+shrinking-cutoff scalar asymptotic obtained from the stronger #198 estimates.
+It does not claim discovery of the seventh-power exponent.
+
+## 1. Keep the contact tail in the exact identity
+
+Write F(rho,ell) for the actual elder density from endpoint distances at least
+rho. Let r_* > 0 be the common admissible radius r_0^* of #198, and shrink the
+fixed lifetime threshold ell_* if necessary. Put
+
+    Abar_0(k) = integral_R integral_S^(d-1) A_0(b,k,u) d sigma(u) db,
+    T(rho,ell) = integral_rho^infinity r^(-2) Abar_0(ell/r^3) dr.
+
+This is the formal contact-kernel tail. Its integration to infinity is part
+of the contact coefficient identity; it is not a claim that the torus has
+unbounded physical separation. The ordinary sphere measure is used, without
+a role-order factor 1/2.
+
+For 0 < rho <= r_* and 0 < ell <= ell_*, the proof of #198 W.2 gives the
+**signed identity**
+
+    nu_cand^(near,rho)(ell)
+      = c ell^(-1/3) - T(rho,ell) + E(rho,ell),
+    |E(rho,ell)| <= C[min(ell^(1/4),rho) + rho^3].           (1.1)
+
+This is stronger information than the displayed absolute upper bound W.2:
+that bound replaced T by C ell^2 rho^(-7). Here it is retained. To check
+uniformity, split its difference integral at r_1=ell^(1/4). On
+(0,min(r_1,rho)), #191 E.1 gives |r^(-2)(A_r-A_0)| <= H(b,k), and the
+integral is O(min(r_1,rho)). Above r_1, W.1 and R5 give
+C(ell^2 r^(-8)+r^2) after integrating b,u, whose integral is
+O(ell^(1/4)+rho^3). The second interval is empty if rho <= r_1. These are
+constants independent of both rho and ell on their stated domain.
+
+The marked measure identity and W.3 give
+
+    F = nu_eld - nu_cand^(near,rho) + rho_rej^(near,rho),
+    0 <= rho_rej^(near,rho) <= C(ell^(1/4)+rho^3).
+
+Combining with R++, nu_eld=c ell^(-1/3)+O(ell^(1/4)), proves
+
+    |F(rho,ell)-T(rho,ell)| <= C(ell^(1/4)+rho^3).         (1.2)
+
+The signs in (1.1)--(1.2) are essential: omitting candidate contact mass
+appears with a positive sign in the far actual-elder density. This argument
+uses the actual elder mark, not a candidate-only estimate promoted to an
+elder assertion.
+
+## 2. The positive contact coefficient and a uniform two-parameter estimate
+
+Use the notation of P §15: G=grad f, V_u=H_f u, A_u the transverse Hessian,
+tau_u^2=Var(partial_u^3 f | G=0), and
+D_u=E[(det A_u)^2 1{A_u<0} | V_u=0]. Define
+
+    a_0 = 432 integral_S^(d-1)
+          p_G(0) p_(V_u)(0) D_u phi_(tau_u)(0) d sigma(u).       (2.1)
+
+Here phi_tau is the centered scalar Gaussian density with standard deviation
+tau. P's finite-jet rank and compactness over frames imply positive finite
+p_G(0), p_(V_u)(0), D_u and a positive lower bound for tau_u. Hence
+0 < a_0 < infinity. The transverse conditional Gaussian has full support on
+Sym(d-1); the negative-definite cone contains an open set where det squared
+is strictly positive. This supplies positivity, not just an upper envelope.
+No rotational isotropy or evaluated numerical constant is used.
+
+P's odd/even factorization and birth disintegration give exactly
+
+    Abar_0(k) = 432 k^2 integral_S^(d-1)
+                 p_G(0)p_(V_u)(0)D_u phi_(tau_u)(12k) d sigma(u).
+
+Because tau_u is bounded below, phi_(tau_u)(12k)
+=phi_(tau_u)(0)+O(k^2) uniformly in u for 0<=k<=1. Thus
+
+    Abar_0(k) = a_0 k^2 + O(k^4),  0<=k<=1.              (2.2)
+
+The factor 432 is 12*(6k)^2/k^2. Birth is already integrated out; no extra
+height, direction or role-order normalization is inserted.
+
+For ell/rho^3<=1, (2.2) can be integrated directly for all r>=rho:
+
+    T(rho,ell) = (a_0/7) ell^2 rho^(-7)
+                  + O(ell^4 rho^(-13)).                 (2.3)
+
+Equivalently, the exact substitution k=ell/r^3 gives
+T=(ell^(-1/3)/3) integral_0^(ell/rho^3) Abar_0(k) k^(-2/3) dk,
+with coefficient (1/3)*(3/7)=1/7. The remainder integrates r^(-14),
+giving rho^(-13)/13 inside its constant.
+
+Consequently there is C=C(d,L, imported source bounds) such that
+
+    |F(rho,ell) - (a_0/7) ell^2 rho^(-7)|
+      <= C[ell^(1/4)+rho^3+ell^4 rho^(-13)]               (2.4)
+
+whenever 0<rho<=r_* and 0<ell<=min(ell_*,rho^3). This is a uniform
+two-parameter estimate, not a substitution into a fixed-rho little-o.
+
+## 3. Simultaneous shrinking-cutoff asymptotic and its boundary
+
+Let rho(ell)>0 satisfy
+
+    ell^(1/3)/rho(ell) -> 0,
+    rho(ell)/ell^(1/4) -> 0.                             (3.1)
+
+Then eventually rho<=r_* and ell<=rho^3. Dividing (2.4) by its positive
+main term gives a relative error bounded by a constant times
+
+    rho^7 ell^(-7/4) + rho^10 ell^(-2) + ell^2 rho^(-6).  (3.2)
+
+The first term is (rho/ell^(1/4))^7 and the third is (ell/rho^3)^2.
+The second equals ell^(1/2)(rho/ell^(1/4))^10. All tend to zero under
+(3.1). Therefore
+
+    F(rho(ell),ell) ~ (a_0/7) ell^2 rho(ell)^(-7).        (3.3)
+
+In particular, for fixed eta>0 and 1/4<a<1/3,
+
+    F(eta ell^a,ell) ~ a_0/(7 eta^7) ell^(2-7a).         (3.4)
+
+Its relative error is
+O(ell^(7a-7/4)+ell^(10a-2)+ell^(2-6a)). The inequalities a>1/4 and
+a<1/3 are strict and load-bearing. At a=1/4 the cusp-size remainder can
+match the proposed main term; at a=1/3 the contact k cutoff no longer tends
+to zero. Neither endpoint is included in (3.4).
+
+Within this interval, (3.4) gives absolute density decay for a<2/7, a
+strictly positive finite limit a_0/(7 eta^7) at a=2/7, and divergence for
+a>2/7. In all three cases it is negligible relative to the full leading
+density c ell^(-1/3), since their ratio is asymptotic to
+(a_0/(7c eta^7)) ell^(7/3-7a), which tends to zero.
+
+Thus **all-order far-density decay fails in this simultaneous range** for
+the stated actual-model source interface: it is not even O(ell) there,
+because 2-7a<1/4<1 and a_0>0. This is compatible with #188's fixed-cutoff
+Theorem G and its much slower, existential diagonal cutoff. It does not
+settle all-order decay for the slower algebraic range 0<a<=1/4.
+
+## 4. Common cutoff for all short bars; lifetime-dependent cutoff is different
+
+Let N_(t,rho) count actual finite bars on the whole torus with 0<ell<=t
+and endpoint separation at least the one common radius rho. The marked
+counting identity gives E N_(t,rho)=L^d integral_0^t F(rho,ell) d ell.
+
+For 0<rho<=r_* and 0<t<=min(ell_*,rho^3), (2.4) holds uniformly throughout this lifetime
+integral. Integrating its three errors gives
+
+    E N_(t,rho)/L^d
+      = (a_0/21)t^3 rho^(-7)
+          + O(t^(5/4)+t rho^3+t^5 rho^(-13)).            (4.1)
+
+For any common cutoff rho(t) with t^(1/3)<<rho(t)<<t^(1/4), the relative
+errors have exactly the form (3.2) with t in place of ell. Hence
+
+    E N_(t,rho(t)) ~ L^d (a_0/21)t^3 rho(t)^(-7).        (4.2)
+
+In particular rho(t)=eta t^a gives L^d a_0/(21 eta^7)t^(3-7a).
+The coefficient 1/21 is (1/7)*integral_0^1 y^2 dy. No monotonicity of
+rho(t) is needed: at each t it is held fixed through the lifetime integral.
+
+By contrast, counting each bar with its own lifetime-dependent rule
+r>=eta ell^a gives, from (3.4),
+
+    E N_lifetime(t)
+       ~ L^d a_0/[7 eta^7(3-7a)] t^(3-7a).             (4.3)
+
+The two counts have different coefficients. The latter integral is finite
+because 2-7a>-1 in the stated range. A uniform small-lifetime relative
+bound from (3.4) justifies integrating its asymptotic; no differentiation
+of a cumulative statement is used.
+
+Equations (4.1)--(4.3) are expected counts only. Markov supplies an occurrence
+upper bound, but a matching occurrence probability, singleton conditional
+law, field-first mark law or rare-event total-variation theorem would need
+separate relative cluster/mark control. Those claims are not made here.
+
+## 5. Relation to prior seventh-power laws and remaining work
+
+Writing W=a_0/432, the known T5 tail coefficient is 96W/(7c).
+Normalizing (4.2) by the mean short-bar count
+L^d*(3/2)c*t^(2/3) gives
+
+    [96W/(7c)] (rho(t)/t^(1/3))^(-7) (1+o(1)),
+
+which is exactly that coefficient. The contribution of the present argument
+is the explicitly justified simultaneous cutoff range, obtained by retaining
+#198's contact tail and comparing quantified errors. It neither re-proves
+T5 as a new discovery nor transfers the full conditional marks of #235.
+
+The whole interval between the cusp scale and #188's slowly shrinking remote
+cutoff is still outside (3.3). In particular no mixed-witness estimate,
+actual-pairing bridge beyond the imported source interface, conditional
+cluster rate, RN/24-jet claim or numerical finite-band constant follows.
+The result stays conditional if any stated #198/P/R or reading-rule premise
+is unavailable. A merge or technical check is not substituted for such a
+premise, and no whole-theorem acceptance declaration is made.
+
+Author/source exposure: this agent previously reviewed the consumed #198
+and #220 slices. A separate OpenAI source audit checked (1.1), positivity,
+the strict exponent range and the distinct cumulative coefficients; it
+shares provider/account lineage and earns no organizational independence.
+
+## Scoped review and disposition
+
+A fresh nonauthor OpenAI reviewer, `/root/review_density_proof_gaps/review_moving_contact_tail`,
+read this derivation against the exact local #198/P/R sources, the relevant
+#191 identity/domination, [C7-K] rejection interface, and E2 marked-measure
+repair. It returned a **conditional technical pass, with no material defect**:
+the signed contact-tail retention, uniformity, positive coefficient and 432
+factor, strict scale range, and two different cumulative constants all
+check. It requested only that (4.1)'s sentence repeat `0<rho<=r_*`; that
+inherited restriction is now explicit. No reviewer edits or GitHub writes
+were made, and no finite numerical tests were offered as analytic evidence.
+This is same-provider review with zero organizational-independence credit,
+not independent acceptance of the imported source theorems. Dylan Roy's
+personal reading remains PENDING.
+
+The [narrow pickup](https://github.com/d6g8k5htny-coder/Math-/pull/188#issuecomment-5940085827)
+is released upon delivery of this full conditional argument. #188's proof,
+its review status, and all integration/scientific registers remain separate.

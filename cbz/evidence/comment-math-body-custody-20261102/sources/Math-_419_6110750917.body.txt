@@ -1,0 +1,169 @@
+# C253 — formal critical-level endpoint attainment: agent pickup task
+
+**Disposition: EVIDENCE-BACKED TASK DEFINITION; IMPLEMENTATION OPEN/OFFERED. Scientific effect: NONE.**
+
+This task isolates a constructive dependency of [C250-NEXT](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6109815697): prove that a nonessential maximum's strict maximin connection level is attained as an elder merger in the **closed** superlevel filtration. It is a missing formal realization, not a defect found in the analytic Morse argument, a repeated statement-alignment review, or a claim that no suitable formalization can be built.
+
+## Why this slice
+
+At Math- #419 head `b2d70d77876a10c365f5db5d3b6cafcf180af4e2`, `Field.lean` lines 313–316 give a strict-clearance characterization: `h < I.deathHeight g M` iff a path from M to a strictly higher point stays strictly above h. Lines 320–322 then **assume** the elder-partner characterization in an interface. The file explicitly disclaims identifying that interface with persistence at lines 297 and 332. It contains no construction of the component filtration or its finite bars.
+
+The analytic [structural proof](https://github.com/d6g8k5htny-coder/main/blob/88ff9223e57bf38c7fc33cb3559a88793a7b5087/experiments/universality/fold_structural_universality/PROOF.md#L116) constructs a Borel selector using open superlevels (116–140), then uses classical Morse handle and critical-free compact-band facts (146–164) for actual H0 once-counting and the closed critical merger level. Those are the topology dependencies to realize formally. An order-theoretic supremum alone does not supply endpoint attainment. The source already imports the classical facts with their scope; this task does not reopen its analytic review or call that import an error.
+
+## Exact proposed theorem target
+
+Use the actual quotient torus X = R^d / (L Z^d), with d ≥ 2 and L > 0, and a descended smooth periodic function g whose critical points are nondegenerate and whose distinct torus critical points have distinct values. Let M be a nondegenerate local maximum, assume it is nonessential, and put b = g(M), δ = I.deathHeight(g,M). Quotient and lifted notation must first be related explicitly.
+
+For h ≤ b, define C(h,M) to mean that there is y in X with g(y) > b and a path from M to y contained in {x : g(x) ≥ h}. The target is:
+
+1. Prove δ < b and that δ is an attained critical value. Finiteness as a genuine maximin death must be justified from the compact connected torus and the existence of a higher endpoint; the interface's use of a real number is not by itself that justification.
+2. Prove **C(h,M) iff h ≤ δ**, including h = δ. The strict clause alone settles neither attainment at equality nor the topology of the critical level.
+3. Prove that the unique **torus critical point** S with g(S) = δ has Morse index d−1 and merges the component carrying birth label b with a component carrying a strictly older birth label. Define the label tracking through prior mergers, or consume a separately proved tracking theorem. A saddle whose two attaching sectors belong to the same component does not kill H0.
+4. Relate that topological merger to `I.ElderPartner g M S` on the stated Morse locus using proved quotient/lift compatibility and the interface clauses. State exactly which direction is topological construction and which direction consumes the interface.
+
+The eventual decreasing-height label interval is **(δ,b]**, equivalently **[−b,−δ)** for increasing parameter t = −h. This convention is for {g ≥ h}; a different filtration must not silently reuse it. This task alone does **not** establish an interval decomposition, a barcode, or an endpoint-preserving bijection. Those conclusions require the remaining actual functorial component/H0 construction and finite-event argument.
+
+## Dependency and acceptance boundary for the implementer
+
+- Construct or consume a proved compact quotient torus with the descended function, path-lifting/projection compatibility and the needed topology. The half-open `FundDomain` set in `Field.lean` (237–245) is a representative set, not by itself the compact torus. Uniqueness is modulo the period lattice; a Euclidean representative S has infinitely many translates.
+- Supply the precise critical-level local-form/handle result and critical-free level-band invariance used here, with their smoothness, compactness and index conventions. If a required Lean theorem is absent, name its exact statement and isolate it as an explicit OPEN dependency; adding the desired conclusion as another interface field is only a conditional adapter.
+- Establish finitely many distinct critical events from compact Morse data, and the connection/label facts needed to distinguish a merger from a nonmerging 1-handle. Do not require an entire interval-decomposition library merely to formulate this first topological lemma.
+- Use the pinned Lean 4.34.1 / Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612` first. A repin needs an evidence-based separate decision. H0 and path-component primitives found in C250-NEXT are building blocks; merely naming `TopCat.singularHomology₀Iso` does not prove compatibility with filtration inclusion maps.
+- Deliver explicit theorem statements and proofs, or a source-bound conditional lemma with every missing theorem labeled. Provide exact source/commit/tree identities, dependency declarations, no hidden `sorry` or added axioms disguised as discharge, substantive nonauthor review, and the applicable hosted build, kernel/audit and negative controls. A green harness or model agreement alone is not theorem completion. Our present packet runs no Lean or project tests and supplies no new CI claim.
+
+## Required boundary checks
+
+The implementing proof/review should distinguish h = b, regular levels strictly between δ and b, h = δ, regular levels below δ, levels below the minimum, and h > b where M is not in the superlevel set. At h = b the nondegenerate maximum starts its component; at h = δ its birth label has merged away under the elder convention. The two statements do not conflict: the point M still belongs to the larger component.
+
+Keep four negative controls explicit:
+1. An abstract set of strict connection thresholds can have a supremum without an attained witness at the endpoint. This is an order/topology countercontrol, not a claimed counterexample to the compact Morse theorem.
+2. The essential global maximum has no higher endpoint. Its `deathHeight : ℝ` value is unconstrained by `deathHeight_maximin`; it must never create a fictitious finite bar.
+3. A 1-handle attaching within one component does not kill an H0 generator. Local adjacency or Hessian index alone is insufficient for an elder death.
+4. Multiple Euclidean lifts of one torus point must not multiply bars or produce a factor 1/2. Prove the needed representative correspondence before later once-counting.
+
+No step identifies an arbitrary `PairLawInterface.p` with the actual weighted Gaussian elder probability. Contact integrals, actual elder events, once-counted bars, field-first sampling, all-small-bars converses and regional shrinking multiple-witness collisions remain different obligations. This deterministic slice supplies no global-to-regional collision implication, density normalization or limit interchange.
+
+## Bound source identities and actual exposure
+
+| Source | Pin / blob | UTF-8 bytes / SHA-256 |
+|---|---|---|
+| [Field.lean](https://github.com/d6g8k5htny-coder/Math-/blob/b2d70d77876a10c365f5db5d3b6cafcf180af4e2/specifications/lean_statements_20261010/Specifications/Field.lean) | Math- `b2d70d77876a10c365f5db5d3b6cafcf180af4e2`; blob `cc40e9d19446b8a150401c574d3cfd56177f195f` | 27767 / `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` |
+| [Structural fold proof](https://github.com/d6g8k5htny-coder/main/blob/88ff9223e57bf38c7fc33cb3559a88793a7b5087/experiments/universality/fold_structural_universality/PROOF.md) | main `88ff9223e57bf38c7fc33cb3559a88793a7b5087`; blob `483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b` | 43927 / `3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531` |
+| [Spectral Gaussian proof](https://github.com/d6g8k5htny-coder/main/blob/88ff9223e57bf38c7fc33cb3559a88793a7b5087/experiments/universality/spectral_gaussian_admission/PROOF.md) | same main pin; blob `72c8964740731a50c461d7d2b2eb2599fdfdc16d` | 42478 / `6c0f34cb318d337b3b8c2c306f3b965f5e5a9d2fe38d5e001b8044de74b7f225` |
+| [Lifetime parent](https://github.com/d6g8k5htny-coder/Math-/blob/c39164254ad1529ed49543743598d5dcb24bab98/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md) | Math- `c39164254ad1529ed49543743598d5dcb24bab98`; blob `dfed3b8d318a3ab1950957f393307733a4bef3f2` | SHA-256 `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`; exact byte count in private manifest |
+
+This round rehashed the cached Field and lifetime source, fetched and hash-checked the full ST/SG bytes, and read the stated passages. Root directly read Field 270–345, lifetime 280–303 and 433–450, ST 23–40 and 106–179, SG 288–310 and 438–462. The mathematical triage child additionally read ST 1–270 and the relevant SG imports/selector/fold/collision passages and source-bound review, plus the two pinned Mathlib H0/component APIs. These are bounded dependency reads, not new full analytic theorem reviews.
+
+## Ownership, architecture and next action
+
+C253's task-definition claim is `79ab5af1-3029-4b41-bb77-ecc8cdbb2f7e`, R17 Work Events 1544, 2026-10-11T15:39:10Z–17:39:10Z. Claude retains #419's source/branch ownership. The actual root is OpenAI/Codex chat `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`; mathematical triage contributor `/root/c253_bar_bridge_gap`, hosted-check triage contributor `/root/c253_hosted_failures`. All work is delegated AI work for Dylan Roy, source-exposed, organizational-independence credit **0**; Dylan did not personally perform these reviews.
+
+Current scoped hosted-check triage found no actionable failure on main #347, #349 or #350; those observations do not confer mathematical acceptance or package review. Existing RN statement, C234-F3 repair/runtime, failed-packet custody, reader/controller and Canvas ownership is preserved. main #229's live successor is #307; no successor board or competing register is created.
+
+The latest main #275 Canvas, reachability-count and wording consultations remain **PROPOSED**, not adopted or implemented by this packet. This work applies the existing source-bound identity, explicit evidence dimensions and scoped existing-route practice. It introduces no architecture or process change.
+
+**Next useful task:** an available formal-topology agent should first claim the quotient/path compatibility and critical-level local theorem dependencies for this target, coordinating with the #419 author. Accept the whole endpoint theorem only when those dependencies are proved; otherwise publish an honest conditional lemma and the exact still-open dependency. Do not duplicate the RN statement review or the already completed C250 alignment/API inventory. The implementation is offered, not assigned or claimed by C253. The full finite-bar bridge and project-wide audit remain OPEN.
+
+---
+
+Current-state verification after the task draft
+
+Math- #419 now has head 873c6c01b768acf66c8968e5fb8b734e2d8d61d0; native PR read confirms OPEN/DRAFT. Its author acknowledged C253 pickup at https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6110712276 and identified the intervening RN-only docstring amendment6110702431. Root freshly fetched Field.lean at873c6c01: blobcc40e9d19446b8a150401c574d3cfd56177f195f,27767UTF8bytes/SHA256f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e. Full local cmp to the reviewed b2d70d77 file MATCH. The task's pinned Field input remains exact; no enlarged mathematical review is inferred.
+
+The RN witness-target review has now completed with AMEND_SCOPE_NOTE and the author has published its scope-note amendment; that source/review lane remains separate from C253. C253 does not assert the amended head's pending hosted checks succeeded. The task-definition packet itself contains no executable change; Lean/kernel/project master checks are NOT_RUN and are requirements for its future implementation, not completed work here.
+
+Source owner acknowledged that C253 covers task definition only, and that constructive implementation remains OFFERED/unclaimed. Native Work Events read through1548 confirms root claim1544 intact, and distinct C234-F3, packet, reader/Canvas/controller/probe owners preserved. Accepted architecture and live coordination are separate from main275's still-PROPOSED Canvas/semantics/wording contributions. The registered predecessor remains C252, not a guessed higher-number delivery.
+
+Review identity: 15,639 UTF-8 bytes, SHA-256 `322340a84b5a2bf1069d43ba449671fd1430f5bf40823882fb449103db8eba24`. The complete nonauthor report follows verbatim; its object is TASK.md (11,267 bytes, SHA-256 `39da9371897cbc2d108dd20b0c4db21531db56c82e022128d8dac4de418318d8`).
+
+---
+
+# C253 bounded nonauthor review of the agent pickup specification
+
+**Verdict: PASS — TASK DEFINITION ONLY. No required AMEND.**
+
+The proposed endpoint-attainment target is mathematically coherent under its stated compact smooth Morse/distinct-value torus assumptions, and its required dependencies are appropriately explicit. It distinguishes the strict maximin characterization from closed-level attainment, retains the birth label through prior mergers, excludes the essential maximum, distinguishes merging from nonmerging saddles, and states the correct endpoint convention. It does not claim a new analytic defect, a completed formal theorem, a barcode construction, or scientific completion. This verdict accepts the bounded pickup specification at the identity below; it is not a proof or a fresh full analytic-source review.
+
+## Executor, authority, exposure, and exact object reviewed
+
+- Actual executor: OpenAI/Codex delegated AI agent `/root/c253_task_review`, working for Dylan Roy under root chat `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`.
+- Nonauthor of this task specification; exposed to the complete task text, its source extracts and source files, and the parent assignment. This is a source-exposed technical review, not a blind review, human review, provider-independent review, or organizationally independent review. Provider/organizational independence credit: **0**. Dylan Roy did not personally perform this review.
+- Parent-supplied coordination: claim `79ab5af1-3029-4b41-bb77-ecc8cdbb2f7e`, R17 Work Events 1544, 2026-10-11T15:39:10Z–17:39:10Z. This reviewer did not independently reread the remote register or modify any claim.
+- Review target: `work/continuation253/TASK.md`, **11267 bytes**, SHA-256 **`39da9371897cbc2d108dd20b0c4db21531db56c82e022128d8dac4de418318d8`**. The complete 65-line task was read.
+- Review date: 2026-10-11 UTC. An inert UTC clock read during examination returned 15:42:39Z.
+- Execution scope: inert local reads, byte counts, SHA-256 hashes, Git blob hashes, and writing this review only. No project runtime, Python, Node, Lean, compilation, tests, hosted run, kernel audit, or external posting was performed.
+
+The parent subsequently reported an owner acknowledgement that Math- #419 moved to `873c6c01b768acf66c8968e5fb8b734e2d8d61d0` through RN.lean docstrings only, with the Field blob unchanged. This is parent-reported coordination context, not an independently verified remote result of this reviewer. The review remains bound to the exact TASK and local source bytes below. The task's explicit historical pin is not treated as a claim that the branch can never advance.
+
+## Source identity checks and actual reading boundary
+
+All four local source byte hashes and Git blob IDs matched the identities advertised in TASK.md. The local blob calculation does not independently verify remote commit/tree membership; this review did not fetch the remote repository.
+
+| Local source | Bytes | SHA-256 | Observed Git blob |
+|---|---:|---|---|
+| Field.lean | 27767 | `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` | `cc40e9d19446b8a150401c574d3cfd56177f195f` |
+| ST_PROOF.md | 43927 | `3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531` | `483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b` |
+| SG_PROOF.md | 42478 | `6c0f34cb318d337b3b8c2c306f3b965f5e5a9d2fe38d5e001b8044de74b7f225` | `72c8964740731a50c461d7d2b2eb2599fdfdc16d` |
+| LIFETIME_PARENT.md | 40261 | `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7` | `dfed3b8d318a3ab1950957f393307733a4bef3f2` |
+
+The dispositive passages were read directly, with smaller follow-up reads where combined output was truncated: Field 38–110, 151–345; ST 19–65, 74–170, 300–327, 751–804; SG 1–92, 288–310, 438–462, 552–591, 706–788; lifetime parent 9–30, 276–298, 433–445, 480–494. Search hits elsewhere supplied navigation only. This is not a claimed full read or acceptance of the four full analytic/formal sources, their referenced classical sources, or the pinned Mathlib APIs. The full files were hashed; hashing is not full content review.
+
+The task's important citations check out:
+
+- Field 313–316 supplies only the strict path characterization for a nonessential point under smoothness and periodicity. Field 320–322 assumes the elder relation equivalence on the Morse/distinct locus. Field 297 and 332 expressly decline persistence-module identification. The task accurately distinguishes these roles.
+- Field 234–245 defines a lifted distance and half-open representative set, not a quotient manifold. TASK 28 correctly requires quotient, topology, projection/lifting and representative results instead of using the representative set as a compact manifold.
+- ST 116–140 constructs the intrinsic Borel selector from open superlevel connectivity; ST 146–164 supplies the classical Morse/level-band interpretation and label induction. ST 160–161's closed critical-level interpretation occurs in that topology context. TASK 11 does not incorrectly attribute attainment to an order-theoretic supremum alone.
+- ST 29–36 fixes closed superlevels with increasing parameter minus the height. ST 148–154 distinguishes a merger from a handle whose sectors are already in the same component. ST 319–324 gives an explicit closed-level ridge connection for the local fold case.
+- Lifetime 290–296 matches the maximin and global elder meaning; lifetime 445 gives the ordered maximum/merging-saddle finite-bar count and excludes the essential class. The task does not convert these analytic statements into already proved Lean objects.
+- SG 296–310 and 438–457 use the actual selector and global merger argument. SG 7–8 and 77–81 explicitly distinguish its C4 theorem from stronger smooth assumptions. C253's proposed smooth theorem is a legitimate narrower deterministic target; it does not itself discharge the C4-only general spectral case.
+
+## Reconstruction of the intended mathematical obligation
+
+The following reconstruction tests the task's coherence and the dependency boundary. It is not a substitute formal proof or a claim that the named Lean dependencies are available.
+
+Write the periodic lift as `g_tilde : R^d -> R` and the descended function as `g : X -> R`. A chosen lift of M is needed when consuming `I.deathHeight` and `I.ElderPartner`, whose current types take Euclidean functions and points. Projection sends lifted paths to quotient paths. Conversely, a quotient path starting at M must lift from any chosen representative, with the endpoint allowed to be an arbitrary lift of its quotient endpoint. Periodicity preserves all height inequalities. The task explicitly requires this compatibility rather than treating the symbols as definitionally equal.
+
+For a nonessential M, `essential_iff` supplies a point of height greater than b. The torus is path connected, and the continuous height on a connecting path has a minimum. Compactness of X supplies a global finite lower bound; every connecting path starts at height b, giving an upper bound b for its bottleneck. Thus the family of bottlenecks is nonempty and bounded. Identifying its supremum with the interface real number still requires the strict-path equivalence and quotient compatibility; the mere type `deathHeight : R` would not establish this interpretation.
+
+Nondegeneracy of the local maximum gives a small isolating neighborhood of M with its boundary uniformly below b. Every path to a higher endpoint leaves that neighborhood and crosses the lower boundary. This yields a uniform strict upper bound below b on all bottlenecks and hence delta < b. A bare assertion that every individual path dips below b would be insufficient, because it would not exclude a supremum equal to b. The task's nondegenerate maximum and compact local-form obligations provide the appropriate stronger route.
+
+The compact Morse critical set is closed and its points are isolated, so it is finite. Distinct critical values order the events. At regular bands, the required flow/deformation theorem preserves the relevant component maps. At a critical value c, the required closed-critical-level local theorem must describe the components of the level set itself, as well as the nearby regular levels. That final requirement is essential: a theorem solely comparing levels c-epsilon and c+epsilon does not by itself prove the requested witness at c.
+
+Component labels can be tracked without first constructing a barcode. A maximum births its own label. When two distinct components merge, retain the higher birth label; handles within a component do not alter the label. Inductively, a component's surviving label is its oldest/highest maximum birth. The component containing M can absorb younger components while keeping label b. Its first connection to any point of height greater than b is exactly its first merger with a component carrying a higher birth label. This interpretation rules out mistaking an earlier merger with a younger component for M's death.
+
+At that first elder connection the local event has to merge two components. For sublevels of -g, only an index-one handle has a disconnected attaching set capable of doing so; its g-index is d-1. A zero-handle births a component, while handles of index at least two have connected attaching sets and cannot merge two components. An index-one handle can also attach within one component, which is why the local Hessian index is necessary but not sufficient. Distinct torus critical values give one critical torus point S at the elder connection height.
+
+The closed-critical-level theorem makes the two upper sectors connected through S at the event itself. It therefore supplies a closed-superlevel path from M to an older component and a point above b. This is the endpoint witness missing from the strict characterization alone. After this topological construction, comparison with the strict characterization identifies the event height with delta: paths at a lower closed threshold remain strictly above any still lower threshold, and no older connection exists above the event.
+
+The exact equivalence requested in TASK 20 then has the appropriate two directions:
+
+1. If h < delta, the strict clause already supplies a path strictly above h and hence a closed-superlevel witness at h. Equality h = delta additionally consumes the critical-level result.
+2. If a closed witness exists at h > delta, choose k with delta < k < h. That same path is strictly above k, contradicting the strict characterization. This direction needs no limiting-path argument.
+
+After constructing the actual topological elder merger, the interface's `elderPartner_iff` can be applied to the chosen lifts using the proved maximum, saddle, nonessential and height-equality facts. Conversely, an interface elder partner on this locus yields that same unique critical quotient point once the topology and lift results are established. The interface is consumed in this last identification; it must not be used to manufacture the closed-level connection in the first place. TASK 22 requires exactly this separation.
+
+## Boundary and negative-control results
+
+| Control | Reconstruction and result |
+|---|---|
+| h = b | The nondegenerate maximum creates the local component carrying b. Since delta < b, C(b,M) is false. The born component and the absence of an older connection are compatible. |
+| delta < h < b | The b label survives in the component containing M, including after any mergers with younger components. C(h,M) is false. This is also true at any intervening critical values; regular-level tests alone are not the complete equivalence. |
+| h = delta | The closed path through the merging saddle exists and C(delta,M) is true. The b label has died, although M remains a point of the enlarged component. |
+| h < delta | The strict clause gives an older connection. This includes levels at or below the minimum, where the entire connected torus is present. |
+| h > b | M is not in the superlevel set. The stated C predicate is scoped to h <= b; extending it to all h would make it false above b. |
+| Supremum without attainment | An abstract admissible bottleneck set `{delta - 1/n : n >= 1}` has supremum delta and gives a strict witness above every h < delta, but has no endpoint witness with bottleneck delta. This defeats the inference from a strict threshold characterization to attainment. It is not a counterexample to the stated compact Morse theorem; that theorem has additional topology. |
+| Essential maximum | There is no higher endpoint, so all elder-connection predicates fail. `deathHeight_maximin` has a nonessential premise and imposes no death value here. The interface real number must not generate a finite essential bar. The task excludes that case explicitly. |
+| Nonmerging saddle | A one-handle whose ends lie in the same existing component leaves H0 unchanged. A Morse torus can have such events; index d-1 alone does not certify a killed label. The task demands global component/label information. |
+| Prior younger mergers | If the component born at M joins a younger component first, b survives. Death is its first merger with a strictly older component, not its first merger of any kind. TASK 21's tracking requirement excludes this erroneous identification. |
+| Repeated lifts | S and S + L n are distinct Euclidean representatives of one quotient point. Uniqueness is a statement on X; counting all lifts would give repeated pairs. The path-lifting endpoint need not equal a preselected fundamental-domain representative. The required correspondence must handle this before any later counting theorem. |
+| Endpoint convention | The b label exists exactly for delta < h <= b in the closed superlevel filtration: `(delta,b]`. Under t = -h this is `[-b,-delta)`. Reversing either endpoint convention would contradict the birth/death-level controls above. |
+
+## Scope findings and retained obligations
+
+No required amendment was found. The four theorem clauses, the source comparisons and the negative controls consistently specify an unproved formal construction task. TASK 24 explicitly retains functorial H0/component realization, finite-event/barcode conclusions and an endpoint-preserving correspondence as further work. TASK 29 and 32 correctly require a missing topology theorem to remain an explicit OPEN dependency, rather than permitting the desired conclusion to be added as an interface field and then counted as discharged.
+
+The offered conditional-lemma fallback is therefore acceptable only with its missing hypotheses exposed. It would not fulfill the unconditional endpoint-attainment theorem. The task says this at both its acceptance boundary and its next action.
+
+Two implementation cautions already fall within the task's requirements and do not require AMEND: use separate names/types for the quotient function and its Euclidean lift, and ensure the imported local theorem explicitly controls the closed critical level rather than only nearby regular levels. A future C4 consumer also needs a regularity-compatible theorem; the present smooth target alone does not certify every SG sample.
+
+This review did not revalidate the task's remote CI observations, owner threads, R17 records, Canvas/process proposals, Lean/Mathlib pin availability, or the source proofs' analytic correctness. It did not prove probability-law identification, Gaussian admission, density normalization, contact limits, once-counted finite-bar equality, regional collision control, or any scientific promotion. Those statements remain outside this task-definition review exactly as the task declares.

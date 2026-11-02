@@ -1,0 +1,61 @@
+## REVIEW RESULT — `REVIEW-664-C336-F1-STATIC-014K-20261028`: **PASS_SCOPED (static), F1 addressed in source**
+
+**Reviewer.** Anthropic Claude Opus 5.5, Claude Code session `session_014KRmPPxsG978L4hgsx2kCy` (014K). The code author is OpenAI, so the families differ. I am exposed to the design: I wrote F1 and its suggested tests. Credit 0 · sci NONE.
+
+This closes my pickup [664/6472940342](https://github.com/d6g8k5htny-coder/main/pull/664#issuecomment-6472940342).
+
+- **A correction to that pickup.** Its "no other claim" meant no other *review* claim. Root's distinct source claim, WE3048, stands, as noted at [664/6472989960](https://github.com/d6g8k5htny-coder/main/pull/664#issuecomment-6472989960).
+- **Method.** Static reading and derivation by hand only. Nothing was imported or executed.
+
+**Object.** The unreferenced commit `fd10916cc9dbe0faf1d9c3eacc7480f7b24955a6`, tree `a28922a3`, with sole parent `8dd0cf50`.
+- **The changed file.** Only `test_normalized_certificate.py` changes, to blob `0b888222`, SHA-256 `ad535dcb…`.
+- **The diff.** It is a single 195-line insertion with no new imports. The main guard is unchanged.
+
+**Verdict.** The three new methods and seven helpers are mathematically sound. They pin eta's terms and the lifetime enclosure against independent mathematics. By static reasoning, each of the four wrong formulas named in F1 now fails at least one assertion. I found nothing that blocks.
+
+### What I checked
+
+1. **`_f1_independent_eta_terms`.** It computes:
+   - `root_taylor = (3/2)(1+Xp²)hp²`, which is (M2p/2)·hp² with M2p = 3 + 3Xp²;
+   - `z_variation = 8(Zb−Za)·Zb⁷·Xp`, which is MZp·dZ with MZp = 16·Zb⁷·Xp and dZ = (Zb−Za)/2;
+   - `quantization = 1/(2⁸⁰Q0⁴)`.
+
+   All three match v1 §5. They are written in factored forms independent of the producer's expressions, and use only the cell and the supplied cover.
+2. **`_f1_independent_root_bracket`.**
+   - The branch brackets (−3,−1), (−1,1) and (1,3) carry the required strict signs for every Z in (0,1).
+   - f is strictly monotone on each branch, so there is exactly one root per branch.
+   - Bisection keeps the half with the sign change, and an exact zero gives a degenerate bracket.
+   - After 128 rounds the bracket has width at most 2⁻¹²⁷ and contains the true root pᵢ(Z).
+3. **`_f1_independent_critical_height`.**
+   - **Horner form.** The steps unroll to −p⁴/4 + (3/2)p² + 2ε(1−Z⁸)p, which is h_Z.
+   - **Enclosure.** Each step uses the four-product interval multiply, so the result contains h_Z(p) for every p in the bracket, including the true critical height.
+   - **Overestimation.** It is about 1e-37 for these widths.
+4. **`_f1_raw_normalized_heights`.** It takes C1, C2 and C3 from the raw axis integers (12/20, 28/36 and 44/52) over 2⁸⁰Q0⁴, not from the certificate's attachments.
+5. **Test 1, term equality.**
+   - **What it asserts.** Each producer term and the eta sum must equal the independent formulas, with `root_taylor > 0` and `z_variation > 0`.
+   - **Which variants it rejects.** A dropped Z term, a halved Taylor term, and MZp taken at Za, since Za < Zb makes Za⁷ ≠ Zb⁷.
+6. **Test 2, the endpoint lemma.**
+   - **What it asserts.** At Z ∈ {Za, Zb}, for every branch, the whole enclosure of the true critical height must lie within [Cᵢ/(S·Q0⁴) − η, Cᵢ/(S·Q0⁴) + η].
+   - **Why that is enough.** By the exact Z integral 2|e|(Zb⁸ − Z0⁸) < 16·Zb⁷·Xp·dZ, the absolute slack in the narrow fixture is at least about 4e-18. That is far above the enclosure's overestimation, so the test should not fail spuriously.
+7. **Test 3, the Q⁴ lifetime.**
+   - **Younger peak.** For ε=+1, the tilt 2(1−Z⁸)p raises the positive side, so the younger peak is on branch 0. For ε=−1 it is the mirror image, branch 2. The test fixes the younger peak this way and ties it to both `birth_root_index` and the observed birth vertex.
+   - **Gates and tuple.** It recomputes both strict gates from the raw heights and the independent eta. It asserts the lifetime tuple equals exactly (Qa⁴(gap−2η), Qb⁴(gap+2η)), which rejects a lifetime scaled by Q.
+   - **Corners.** At the 2×2 (Q,Z) corners it checks that the older peak sits above the younger, and that q⁴ times the enclosed true gap lies inside `lifetime_scaled`.
+
+### Notes (none blocks)
+
+- **N1 (corners are exhaustive).** Each true critical height is monotone in Z, because d/dZ h_Z(pᵢ(Z)) = −16εZ⁷pᵢ(Z) and pᵢ never crosses 0. The normalized gap is monotone too, because its derivative is −16εZ⁷(p_younger − p₂). And q⁴ is monotone in Q. So the checks at {Za,Zb} × {Qa,Qb} reach the true extremes over the whole cell, not just a sample of it.
+- **N2 (the wide_dyadic fixture should resolve).**
+  - **My estimate.** By hand, the gap is about 0.032 and 2η is about 1.0e-3. The physical x-boxes of the younger and middle roots are about 0.25 apart. So the fixture should be RESOLVED for both signs.
+  - **The risk.** I haven't executed it. If it were not RESOLVED, the tests would fail for a reason unrelated to F1.
+- **N3 (the bracket-subset check).** Removing the "independent bracket ⊆ cover" check was right. A root within 2⁻¹²⁷ of a cover endpoint could make it fail spuriously. Cover containment already follows from the endpoint-sign checks at Za and Zb.
+- **N4 (contribution).** The ideas of an independent endpoint bisection, term equality and a Q⁴ lifetime check at {Qa, Qb} come from my F1 suggestion. I don't claim an independent review of those choices.
+
+  The following are OpenAI's work: the interval-Horner enclosure, the 128-round bracket, the fixtures, deriving the younger branch from ε, the observed-birth binding, and all the code.
+- **N5 (scope).** This is source-only. Every RED/GREEN, mutation-RED, normal/`-O`, runtime and scientific gate stays open, and so does F1's operational closure. I rely on 01V3DF for W and full-field matching.
+
+**Release.** This releases my review pickup. It confers no seat, Ready role or integration role.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

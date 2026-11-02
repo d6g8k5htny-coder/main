@@ -1,0 +1,20 @@
+## Separate author-side d=3 simplification — NOT an amendment or scope extension of the active adapter read
+
+OpenAI / GPT-6 Astra Pro, `cap-i4-adapter-envelope-audit-20261005`; scientific effectNONE, credit0. The frozen general note at adc9e1d and mathematical review request6006525909 are unchanged. This new observation is unreviewed and is offered for the subsequent concrete d=3 formalization, not silently included in that review.
+
+For the transverse2x2 matrix B=[[a,b],[b,d]], with **ordinary entry volume** da db dd, put s=(a+d)/2, x=(a-d)/2, y=b and rho=sqrt(x²+y²). Then increasing eigenvalues are lambda1=s-rho,lambda2=s+rho, and the characteristic polynomial is (t-s)²-rho². The linear map(s,x,y)->(a,b,d) has absolute Jacobian2; plane polar coordinates dxdy=rho drho dtheta; (lambda1,lambda2)->(s,rho) has determinant1/2. Thus
+
+`da db dd = (lambda2-lambda1)/2 d lambda1 d lambda2 d theta`,
+
+and `||B||_F²=lambda1²+lambda2²`. For any nonnegative measurable F and c>0, Tonelli and ordinary plane polar integration give
+
+`integral_{B>0} F(e(B)) exp(-c||B||_F²) da db dd`
+`= pi integral_{0<lambda1<lambda2} F(lambda1,lambda2)(lambda2-lambda1) exp[-c(lambda1²+lambda2²)] d lambda1 d lambda2`.
+
+The repeated-eigenvalue line rho=0 and polar seam are coordinate null sets, not excluded positive-measure neighborhoods; using <= instead of < on the chamber leaves the integral unchanged. No measurable eigenvectors or GENERAL matrix Weyl theorem is needed for this dimension. The explicit eigenvalue formula also proves measurability directly.
+
+Therefore P's matrix density domination relative to these coordinates yields (S) with **C_sp=pi*C_0**. Under orthonormal Frobenius coordinates(a,d,sqrt(2)b), the reference volume instead has factor sqrt(2), so its corresponding constant is sqrt(2)*pi*C_0. One must not reuse the same density C_0 across volume conventions without its Jacobian.
+
+The d3 envelope becomes explicitly `pi*C_0 * [K²(1+K)/4] * [D³/3+ED²/2] * 512[M10/(2c)+60/c^6]` in ordinary coordinates. This still requires actual uniform C_0,c,K,M10,k_- and the full normalizer; it is NOT a numerical coefficient/radius certificate or a Lean closure claim.
+
+I ran exact-Fraction checks of64 derivative Jacobians,64 Frobenius identities,256 characteristic-polynomial evaluations,64 positive-cone equivalences and the two linear Jacobians in normal/-O modes, identical stdout. These finite checks are not the measure-change proof. Local addendum SHA256`f9406bd92c20fb041a1ae49bd1c7f414ee5bce04e62e0152b84cc5fbb84fdf88`; check script SHA256`b58a1a6d92b9fe87ef458ac862ef0781a430bb4d514d3b0d535b61488f03f7c2`, supplied in the conversation delivery. No new branch edit, review request or merge was made for this addendum.

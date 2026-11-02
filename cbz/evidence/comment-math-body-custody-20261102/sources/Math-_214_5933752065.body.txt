@@ -1,0 +1,154 @@
+## Final analytic review: Slices A–D and Theorem D1 ACCEPTED at the stated circle scope
+
+**Dylan Roy — delegated AI review. Actual performer: OpenAI Codex, nonauthor mathematical source review.** This is AI analytic review, not a human review or organizationally independent certification. Same GitHub account; zero organizational-independence credit; Dylan's personal reading PENDING. I read the candidate and earlier public findings; this is not a clean-room review.
+
+**Exact source:** `f4a58df9247dfa9ada2b756ecd7629c0b2faf5b5`; `frontiers/d1_third_order_law_20261001/PROOF.md`, 44,378 bytes, SHA-256 `279ed88ff2debd570e6426aec53cc93aabc7a298731cd9b25c45667a2c11077b`. The current head and review ownership were refreshed. This comment supplies the A–C verification; it completes, rather than presumes, the interfaces left open in [the thin/assembly review](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5931058934) and [the far review](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5930841283).
+
+**Mathematical verdict:** ACCEPT Theorem D1 for each fixed circle length L and fixed centered stationary Gaussian covariance satisfying (H), for the canonical two-point Kac–Rice density versions, with exactly the stated C₀, C₁, I, B₂ and O(h^(1/2)) remainders. The explicit supplementary derivations in these three reviews close the compressed proof steps. This does not accept a real-line theorem, covariance-uniform errors, explicit remainder constants, sharp next-order claims, Monte Carlo results, or any parent/higher-dimensional theorem. Scientific effect **NONE**: no register, status Boolean, branch-readiness, protection or merge action.
+
+There are minor source clarifications to incorporate, consolidated at the end. They do not alter the theorem or any coefficient.
+
+### A. Hypotheses, marked Rice, and the general pinned law
+
+(H) supplies a smooth modification: the positive Fourier coefficients decay faster than every power, and the expected sums of absolute derivative-series coefficients are finite. All finite jets at distinct points are nondegenerate. A vanishing variance would give an exponential polynomial Σ P_i(n)z_i^n vanishing at every integer; its one-sided rational generating function has distinct pole locations, so all P_i vanish.
+
+Bounded densities and a Lipschitz/grid argument exclude simultaneous zeros of (f′,f″), and of (f′(x),f′(y),f(x)−f(y)) away from the diagonal. Countable exhaustion handles all distinct pairs. Thus the field is Morse with finitely many critical points and distinct critical values. The same reasoning after Gaussian conditioning handles additional critical points for every fixed positive pin gap, not merely almost every gap.
+
+The linear map from (f′(−τ),f′(τ),f(−τ)−f(τ)) to U has matrix
+
+    [ 1/2       1/2       0      ]
+    [ −1/t      1/t       0      ]
+    [ 6/t²      6/t²      12/t³  ]
+
+and determinant 12/t⁴. There is no additional height Jacobian. The zero-field Jacobian contributes |f″(−τ)f″(τ)|; restricting to maximum/minimum types gives exactly the product in (1.2)–(1.3). Stationarity cancels the intensity factor L⁻¹.
+
+For completeness, the continuous marked formula is available in Theorem 3 of [Azaïs–Wschebor's author-hosted proof](https://www.math.univ-toulouse.fr/~azais/styles/other/preprint/completeproof.pdf). On a compact pair set off the diagonal, it equates finite measures on pair location × path space. Equality on bounded continuous functions extends to Borel functions by uniqueness of finite Borel measures. Both adjacency and the elder mark are Borel; then monotone exhaustion and Gaussian disintegration in the nondegenerate gap coordinate give the asserted absolutely continuous measures and selected density versions. Reflection preserves the elder mark and sends t to L−t, proving the factor two for ν. It does not assert symmetry of K₊.
+
+The parity decomposition is exact under Q. In particular E₁ is independent of E₂ and of odd-process functionals. Using arbitrary spectral moments, the odd conditioning block is
+
+    Var U₁       = λ₂ − λ₄τ² + O(τ⁴)
+    Cov(U₁,U₃)   = −λ₄ + (3/5)λ₆τ² + O(τ⁴)
+    Var U₃       = λ₆ − (1/5)λ₈τ² + O(τ⁴)
+    Var U₂       = λ₄ − (1/3)λ₆τ² + O(τ⁴).
+
+Its determinant is D + (λ₄λ₆−λ₂λ₈)τ²/5 + O(τ⁴). Multiplication by Var U₂ and inversion give exactly the printed d₂ and q₂. Further,
+
+    (H₊−H₋)/2 = τU₃ + (τ³/15)a₅ + O_L²(τ⁵)
+    E₁         = U₂ + (τ²/3)a₄ + O_L²(τ⁴).
+
+Regression of a₅ on (a₁,a₃) gives conditional mean α(λ₄λ₆−λ₂λ₈)/D. These identities reproduce c₂, v₁ and v₂, including the printed residual variance of a₅. Positivity of the conditional jet covariances justifies the multiplicative variance remainders.
+
+I independently reran **14 universal covariance-polynomial identities**, generated directly from the covariance of derivatives at ±τ with formal moment variables. This is not inference from the two supplied kernels. It verifies the cancellations below τ⁴ in v₁ and below τ⁶ in v₂.
+
+The density remainder follows by expanding its logarithm:
+
+    log[p_t(α)/(p₁₂p₃(α))] = τ²u(α) + O(τ⁴(1+α²)).
+
+Exponentiation is uniform on 0 ≤ α ≤ τ⁻¹, the positive-gap range used throughout the proof. The Gaussian upper bound handles its complement.
+
+### B. Proposition 2.2: the three coefficients and all remainder scales
+
+I checked the convexity step with the fixed-a function
+
+    F_a(z) = (z−a)⁺(z+a),  a = |E₁|.
+
+Its curvature is 2 above a, with the additional slope jump 2a at a. Subtracting the linear term and averaging centered E₂ gives the stated v₂-plus-straddle bound, also when the fixed window a < m/3 is present. On |E₂| ≤ m/2, the folded-normal density in the straddle interval is bounded by C v₁^(−1/2) exp(−s²/8); the complementary tail is super-polynomial because m²/v₂ ≥ ct^(−2δ). The resulting integrated E₂ error is O(t_*³) = O(h^(3/(5−δ))).
+
+The reduction to v₁γ_θ(s) is exact. Tonelli gives
+
+    ∫₀^∞ ζ_θ(s)s^(−5/4) ds
+      = [4θ^(1/4) + (4/7)θ^(−7/4)] E|Z|^(7/4).
+
+This establishes k₁ = 32/7 and k_(1/3) = (64/7)3^(−1/4) analytically, without numerical quadrature.
+
+For the fold part, α = 12h/t³ gives the two required moment integrals:
+
+    p₁₂(12h)^(−1/3) ∫₀^∞ α^(4/3)p₃(α)dα
+    (p₁₂/4)(12h)^(1/3) ∫₀^∞ α^(2/3)p₃(α)[u(α)+2c₂]dα.
+
+The first is (C₀/2)h^(−1/3), and the second is B₂^(1)h^(1/3). The τ⁴ remainder is O(h). Extending the leading fold integral past t_* costs O(h²t_*⁻⁷); extending its correction costs only O(h²t_*⁻⁵+h⁴t_*⁻¹¹), also negligible at the claimed rate.
+
+For the cusp part, set s₀ = 72h/(σ₄t⁴). The uniform relative expansion reduces it to
+
+    (σ₄²p₁₂/12) ∫ p₃(α)ζ_θ(s₀) dt,
+
+with error O(h^(3/4)). Extend this **combined** integrand first, then split p₃(α) = p₃(0) + [p₃(α)−p₃(0)]; this keeps the small-t cancellation explicit.
+
+The constant-density part gives
+
+    I_θ/2 = −(σ₄²/48)(72/σ₄)^(1/4)k_θ E|Z|^(7/4)p₁₂p₃(0).
+
+Hence I₁ = I, I_(1/3) = C₁, and I/C₁ = 3^(1/4)/2, with exactly the displayed C₁ normalization.
+
+For the finite part, put M = ∫₀^∞ α^(2/3)p₃(α)dα. Integration by parts, with vanishing boundary terms at both ends, gives
+
+    ∫₀^∞ [p₃(α)−p₃(0)] α^(−4/3)dα = −3M/σ₃².
+
+Therefore
+
+    B₂^(2) = 12^(1/3)p₁₂ M · σ₄²/(12σ₃²).
+
+The remaining factor 1−ζ_θ(s₀) contributes O(h^(3/4)). At the cusp scale this follows directly from t = h^(1/4)r, the Gaussian tail in s₀, and p₃(α)−p₃(0) = O(α²). The cusp-tail extension is again O(h²t_*⁻⁷).
+
+Finally M_(8/3) = (5/3)σ₃²M, and the exact algebra gives
+
+    B₂ = 12^(1/3)p₁₂ M [
+           (2c₂−d₂/2−5q₂/6)/4 + σ₄²/(12σ₃²)]
+       = 12^(1/3)p₁₂ M · 𝒬/(120λ₂λ₄D).
+
+I independently checked this universal polynomial identity and the prime-exponent normalizations of C₀, C₁ and B₂. The repaired sign decomposition of 𝒬 is also correct; no positivity of B₂ is used.
+
+All errors above are O(h^0.57): the worst stated tail exponent is 2−7/(5−δ) ≥ 4/7 > 0.57. This verifies Proposition 2.2 for both θ values.
+
+### C. The global elder decision and transport are valid
+
+The key perturbation fact can be made completely explicit. Put r = F−g. Since the values and first derivatives agree at both pins,
+
+    |r(X)| ≤ (ε/2) min{(X+1/2)²,(X−1/2)²}.
+
+Thus pointwise curvature signs at the pins are not being used as a substitute for control in their neighborhoods. One may take, for example, c₀ = 1/16 in Lemma 3.3.
+
+For |φ| ≤ 1/3−η, the two factorizations in (3.1) imply
+
+    F(X) ≤ −(1−ε/2)(X+1/2)²        on [−3/2,1/2],
+    F(X)+1 ≥ (1−ε/2)(X−1/2)²      on [−1/2,3/2].
+
+Moreover F(−3/2) < −1 and F(3/2) > 0. The positive arc reaches a higher point with minimum exactly −1 at S. The negative arc falls below −1 before reaching any higher point. Hence S is the global elder partner, irrespective of the continuation outside the window.
+
+For φ ≥ 1/3+η and φ < 1, the negative-side model minimum is above −1+3η/2 and g(−2) ≥ 9/16. The perturbed negative arc reaches a higher point with minimum above −1. For φ ≥ 1, g ≥ 0 on that arc, so the same conclusion holds, including the positive typing collar.
+
+For every φ ≤ −1/3−η, the first factorization has bracket bounded by
+
+    −(X−3/2)² − 3η(X−1/2)²
+      ≤ −3η/(1+3η) ≤ −12η/7.
+
+The double-zero estimate therefore makes F < 0 everywhere in the window except M, while F(−3/2) < −1 and F(2) < −1. Both directions fall below the proposed death value before a higher point is encountered. A nonglobal M therefore dies below −1; a global M has no finite elder partner. This covers the entire negative typing collar without falsely requiring F < −1 immediately to the right of the typed minimum.
+
+Typing gives |φ| < 1+ε/6. The even Taylor expansion and m expansion give
+
+    φ_G−φ = O(τ²|φ| + τ³Kᵉ/α),
+    τ³/α = τ²/(24κ).
+
+Let q = tKᵒ/κ+t²Kᵉ/κ+τ² and d_G = min{||φ_G|−1/3|,1/4}. Outside 𝔅, q is sufficiently small relative to d_G. First ε ≤ Cq and typing give |φ| ≤ 2. Then |φ_G−φ| ≤ C′q. Choosing the constant defining 𝔅 large enough ensures both |φ_G−φ| < d_G/2 and ε < c₀d_G/2. The parameters remain on the same side of the threshold and Lemma 3.3 applies. This proves Corollary 3.4, including why its deterministic τ² term is required.
+
+The Taylor solution in Lemma 3.2 independently reproduces the cubic/quartic model and its C² error. Its one sign typo is listed below.
+
+### Complete scope and source cleanup
+
+With A–C now checked, the earlier §4–§5 conditional assembly becomes applicable. It gives exactly
+
+    ν₊(h) = (C₀/2)h^(−1/3) + (I/2)h^(1/4) + B₂h^(1/3) + O(h^(1/2))
+    ν(ℓ)  = C₀ℓ^(−1/3) + C₁ℓ^(1/4) + 2B₂ℓ^(1/3) + O(ℓ^(1/2)).
+
+The mathematical acceptance is tied to this source plus the explicit supplementary derivations in the three linked review records. The standalone manuscript should retain the following clarifications when the author next updates it:
+
+1. Lemma 3.2: f_o(τ) = **−h/2**; the solved coefficients already have the correct sign
+2. Lemma 4.3: keep the explicit O(h log(1/h)^(3/2)) cutoff bound, or supply a stronger argument for the printed logarithm; either gives the required O(h^(3/4))
+3. Lemma 1.3: write **0 ≤ α ≤ τ⁻¹**, or **|α| ≤ τ⁻¹**, for the relative density expansion
+4. In the negative-rejection argument, state the global-maximum alternative explicitly; Corollary 3.4 is used only in the sufficiently small-t neighborhood
+
+These are localized exposition/range fixes. The supplementary proofs above and in the earlier review already establish the claimed conclusions without them.
+
+**Validation:** unchanged exact-source packet controls passed in normal/optimized modes with byte-identical RESULTS; M1–M5 rejected and M9 returned 2 in both modes. In addition, the independent universal-moment checker passed 14 identities in normal `-B -S` execution, and independent exact rational checks confirmed the B₂ assembly and constant normalizations. I am not claiming a fresh full-repository hosted aggregate, formal proof, human review, or acceptance of the numerical exploration.
+
+The [A–C pickup](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5931080723) is **released**. Author retains all source edits and integration. No branch or protected scientific state was changed.

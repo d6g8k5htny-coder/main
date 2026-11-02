@@ -1,0 +1,226 @@
+# A fixed signed margin does not provide uniform fold geometry
+
+Object: C81-SIGNED-MARGIN-GEOMETRY-20261002-v1.
+
+Actual author: OpenAI/Codex agent `/root/signed_margin_obstruction`, delegated by the coordinating root under Dylan Roy's delegation. The clean-context OpenAI/Codex helper `/root/signed_margin_obstruction/margin_geometry_check` independently reconstructed the two-cubic example, its shear, critical points and FL.4 generic exclusions. This is author-side mathematical work, not a nonauthor review of C81 or PR243. Organizational independence: 0. Dylan Roy's personal reading: PENDING. Scientific effect: NONE.
+
+## 1. Exact sources and scope
+
+The public C81 proof is [main issue 229, comment 5957815904](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5957815904), created and last updated 2026-10-02T17:32:50Z. Its source author's reported local-proof SHA256 is `1cd4f238de1a005bf84b70d07317a9b91c9fa99d209f9c3051a42f984b53e6e7`; this is author provenance, not a hash of the public comment body. We use only its displayed signed coordinate and source-scoped classifier:
+
+    q_c(psi) = 4(psi-2c)sqrt(psi+c),   psi>|c|,
+    e(G)=1 iff q_c(psi)>=|R|.
+
+The normalized cubic and pointwise stability interface are read directly from Math- PR243 at commit `3a188bef39f5eca6fbb7c0cc43be86a52140895c`, path `frontiers/soft_fold_limit_20261002/PROOF.md`, blob `6502cf7ba2edee47761e40308c15b7563b06d1f8`. The source author's successor receipt records SHA256 `f972f46d6b7348a4ff5d2eea022694364895a5273265818533dd01204b4c06a0` and §§0–7 byte-identical to historical commit `15870b638748eb3f4e152fbb77ff41dac264e923`, blob `64091adf95bf21e4445c4effa70ee92f84ad2da6`. We do not re-review either source. Relevant clauses are §0's model, §2.1's generic set K, and Proposition FL.4 in §2.3. [Exact current source](https://github.com/d6g8k5htny-coder/Math-/blob/3a188bef39f5eca6fbb7c0cc43be86a52140895c/frontiers/soft_fold_limit_20261002/PROOF.md).
+
+The algebraic classifier's pinned interface is Math- PR244 at commit `446ea03d555968557136e9f7f569d6c56359bd76`, path `frontiers/soft_closed_form_20261002/PROOF.md`, blob `e0aff5ad5bb757eb759b64e5ba746e8491250391`, Lemma 1 and Theorem A. [Exact source](https://github.com/d6g8k5htny-coder/Math-/blob/446ea03d555968557136e9f7f569d6c56359bd76/frontiers/soft_closed_form_20261002/PROOF.md).
+
+Here we give exact counterexamples to inferring a universal absolute C² stability tolerance or a universal compact window from the raw signed margin alone. They are model and arbitrary-perturbation statements. They are not counterexamples to a finite-r field bridge, a probabilistically weighted confinement theorem, or Conjecture 7. No actual field/law/determinant/radial comparison is asserted; main229/5957277321's intermediate research is untouched.
+
+For consistency, a C² norm below is the sum of the suprema of all derivatives of total order at most two; any usual equivalent convention gives the same conclusions.
+
+## 2. The exact family
+
+Fix a margin m>0. For P sufficiently large put
+
+    c=0, psi=P, q=4P^(3/2), R_-=q-m, R_+=q+m.
+
+Both R signs here are positive. Converting to PR243's parameters gives
+
+    phi=1/P, beta=2/P, chi_R=(R+4)/P²,
+
+and the model is
+
+    G_R(X,z)=A_P(X)+(X²-1/4)z/2-z²/2+Xz²/P+(R+4)z³/(6P²),
+    A_P(X)=P(X+1/2)²(X-1)/12.
+
+Both models are typed because psi>|c|. Their raw signed margins are exactly
+
+    q-|R_-|=m,    q-|R_+|=-m.
+
+The shear U=X+2z/P gives the exact identity
+
+    G_R(X,z)=A_P(U)+B_R(z),
+    B_R(z)=-z²/2+Rz³/(6P²).                              (1)
+
+It is an invertible linear coordinate change, with determinant one. It fixes both pins M=(-1/2,0), S=(1/2,0).
+
+The critical points are the four combinations
+
+    U=-1/2 or 1/2,    z=0 or z_*=2P²/R.
+
+Their values are respectively
+
+    0, L_S=-P/24, h_R=-2P⁴/(3R²), L_S+h_R.                (2)
+
+In (U,z) coordinates their Hessians are diagonal, with entries ±P/4 and ±1; the Hessian determinants in (X,z) coordinates are therefore ±P/4. All four critical points are Morse. In particular, the obstruction below does not arise by losing the types at the two pins. At the pins the models have identical full 2-jets:
+
+    H_M=[[-P/4,-1/2],[-1/2,-1-1/P]],
+    H_S=[[ P/4, 1/2],[ 1/2,-1+1/P]].                     (3)
+
+For P≥4 their pin Hessian eigenvalues are bounded away from zero: the negative eigenvalues at M have magnitude at least 1/2, and the positive and negative eigenvalues at S have magnitude at least 1/2. For M this follows from the two Gershgorin intervals; for S the variational bounds lambda_max≥P/4 and lambda_min≤-1+1/P suffice.
+
+## 3. Direct elder decisions, without generic classifier assumptions
+
+A_P has a maximum 0 at U=-1/2 and a minimum L_S at U=1/2. B_R has a maximum 0 at z=0 and a minimum h_R at z=z_*>0. Both cubics tend to +infinity in their positive direction. Their sum in (1) is understood on all of R², and the maximin is from M to any point with value greater than 0.
+
+For R_-<q, (2) gives h_-<L_S. The axial path z=0 from U=-1/2 to U=2 has minimum L_S and ends above 0, so d_G(M)≥L_S.
+
+For the converse let J_B be the component of {B_R>L_S} containing 0. Because h_R<L_S<0, J_B is a bounded interval; B_R≤0 on its closure, with equality only at 0. Also the component of {A_P>L_S} containing -1/2 is exactly (-1,1/2), and A_P≤0 on its closure, with equality only at -1/2. The rectangle
+
+    D=(-1,1/2)×J_B
+
+contains M and has compact closure. On its boundary A_P+B_R≤L_S; inside it A_P+B_R≤0, with equality only at M. Every path from M to a point above 0 must leave D and meet that boundary. Hence d_G(M)≤L_S. Therefore
+
+    e(G_-)=1.
+
+For R_+>q, h_+>L_S. Follow U=-1/2 and increase z from 0 to 2z_*. The minimum is h_+, and at the endpoint B_R(2z_*)=(2/3)z_*²>0. This gives d_G(M)≥h_+>L_S, and therefore
+
+    e(G_+)=0.                                           (4)
+
+These are direct global path/trap proofs. They do not depend on an interpretation of critical labels on an exceptional algebraic curve.
+
+## 4. All generic exclusions needed by FL.4 also hold
+
+For completeness, the family is inside PR243's K for sufficiently large P.
+
+- G0: beta≠2 once P≠1, chi_R>0, and chi_R-beta²=R/P²>0.
+- G1: the four critical points in (2) are exhaustive. Their values are distinct for R=R_±: the only possible equality of L_S and h_R is R=q; neither R_± equals q. Thus M is the only critical point at 0 and S the only one at L_S.
+- G2: beta²<chi_R, so the vertical discriminant tends to -infinity at each end of the X-axis and I_M is bounded. There is no unbounded direction in I_M to which the finite-limit exclusion could apply.
+- G3: write a(X)=1-2X/P. The vertical discriminant is
+
+      D(X)=1-4X/P-RX²/P²+(R+4)/(4P²).
+
+  Its two zeros are exactly
+
+      x_±=(-2P±sqrt((R+4)(P²+R/4)))/R.
+
+  Along either R=4P^(3/2)±m,
+
+      x_±/P^(1/4)→±1/2,   chi_R P^(1/2)→4,   a(x_±)→1.
+
+  The common ridge/valley inflection value is
+
+      G_inf=A_P(x_±)+a(x_±)³/(6chi_R²).
+
+  Consequently
+
+      (G_inf-L_S)/P^(7/4)→±1/96.                       (5)
+
+  Indeed the cubic term P x_±³/12 gives that limit, while the linear and constant terms of A_P, L_S, and the inflection correction have strictly smaller powers of P. Both limits are nonzero, so neither inflection value equals L_S for sufficiently large P.
+
+The exclusions in PR244 Theorem A hold as well: its discriminant exception is R²=64c³=0, whereas R_±>0; its level exception is R²=q², whereas R_±≠q. The direct proof in §3 remains stronger than what is needed for these exclusions.
+
+## 5. Failure of a universal compact window
+
+The two models differ exactly by
+
+    G_+-G_-=m z³/(3P²).                                (6)
+
+For a fixed compact window W let Z=sup_W|z|. Then
+
+    ||G_+-G_-||_{C²(W)}
+      ≤ (m/P²)(Z³/3+Z²+2Z)→0.                         (7)
+
+Their values, gradients and Hessians at the pins coincide. By (4), their decisions differ. Thus no fixed rectangle W and positive tolerance epsilon depending only on m can have FL.4's stability property for every generic typed model with raw signed margin at least m. The same construction works if the requirement is exactly m.
+
+The geometry explains this: the deciding second saddle has
+
+    z_*^±=2P²/R_±~sqrt(P)/2,
+    X_*^±=-1/2-4P/R_±→-1/2.                           (8)
+
+It escapes every fixed transverse window. A C² bound alone on such a window cannot detect the difference in (6).
+
+## 6. Failure of a universal absolute tolerance, even with growing windows
+
+The previous pair rules out a fixed-window/tolerance pair. There is a stronger arbitrary-perturbation statement which also rules out a uniform positive absolute tolerance when the rectangle may depend on the model.
+
+For G_- define its positive height slack
+
+    a_P=L_S-h_-
+       =(P/24)[(1-m/(4P^(3/2)))^(-2)-1]
+       ~m/(48sqrt(P)).                                 (9)
+
+Choose once and for all a smooth bump rho:R→[0,1], equal to 1 on [-1/2,1/2] and equal to 0 outside [-1,1]. Let z_*=2P²/R_- and set
+
+    H_P(X,z)=G_-(X,z)+2a_P rho(z-z_*).                  (10)
+
+For large P, z_*>1, so H_P agrees with G_- on neighborhoods of both pins. In particular, all pin values, gradients, Hessians and types remain identical. On all of R²,
+
+    ||H_P-G_-||_{C²(R²)}
+       ≤2a_P (||rho||∞+||rho'||∞+||rho''||∞)→0.         (11)
+
+Here the norm is of the difference; neither unbounded polynomial is asserted to have finite global C² norm.
+
+The decision nevertheless changes. In sheared coordinates write B=B_{R_-}. Exactly,
+
+    B(z_*+s)=h_-+s²/2+(R_-/(6P²))s³.                   (12)
+
+Take P large enough that R_-/(6P²)≤1/4 and a_P≤1/32. At s=±1/2, (12) gives B≥h_-+1/16. Since B decreases on (0,z_*) and increases on (z_*,infinity), for all z≥0 outside |z-z_*|<1/2,
+
+    B(z)+2a_P rho(z-z_*)≥h_-+1/16≥L_S+a_P.
+
+Inside that interval rho=1 and B≥h_-, so the same lower bound holds:
+
+    B(z)+2a_P rho(z-z_*)≥h_-+2a_P=L_S+a_P.
+
+Follow U=-1/2 from z=0 to z=2z_*. Its endpoint has positive value; its whole path has value at least L_S+a_P>L_S. Therefore
+
+    d_{H_P}(M)≥L_S+a_P>L_S=H_P(S),
+    e(H_P)=0,   whereas e(G_-)=1.                      (13)
+
+PR243 FL.4 expressly allows arbitrary C² perturbations with the two pins critical and an otherwise continuous global realizing field; its remark permits X=R² and the identity embedding. Thus (10)–(13) imply that for this family every valid FL.4 tolerance epsilon_P satisfies
+
+    epsilon_P < 2a_P (||rho||∞+||rho'||∞+||rho''||∞)
+
+whenever the norm convention is the one fixed above. Otherwise (10) would satisfy its hypotheses on whatever compact rectangle was selected, while contradicting its conclusion. In particular a tolerance depending only on m cannot stay positive. This is a counterexample to a proposed uniform strengthening, not to the actual pointwise proposition.
+
+For reference the other cubic's slack is
+
+    h_+-L_S=(P/24)[1-(1+m/(4P^(3/2)))^(-2)]
+           ~m/(48sqrt(P)).                             (14)
+
+The raw margin m stays fixed, whereas the actual critical-height slack tends to zero.
+
+## 7. Exact realization with bounded raw jets at fixed k
+
+This family does not require raw Gaussian jets to become unbounded. At any fixed k>0 choose
+
+    gamma=P^(-1/2),  B=1/(12kP),  lambda_tilde=1/24,
+    C_±=[4+(4±m)P^(-3/2)]/(576k²).                     (15)
+
+Then PR243 (0.3) and C81's displayed Gaussian-model normalization give exactly
+
+    t=12kB/gamma²=1,  c=0,
+    chi0=576k²C_±/gamma³=4P^(3/2)+4±m=R_±+4,
+    phi=gamma²/(24lambda_tilde)=1/P.
+
+All three raw jets stay bounded along the family, while gamma tends to zero; lambda_tilde stays strictly positive. The bounds are for fixed k, not uniform as k tends to zero.
+
+The original soft coordinate in PR243 (0.4) is zeta=(gamma/lambda_tilde)z. Thus the second saddle has
+
+    zeta_*^±=24P^(-1/2)z_*^±=12q/R_±→12.               (16)
+
+Its escape in normalized z is therefore a degenerating-coordinate phenomenon. No universal-window failure in the raw zeta coordinate is inferred from (8). The failure of height slack remains: the original soft model is multiplied by gamma²/lambda_tilde=24/P relative to the normalized model, so its height slack is
+
+    (24/P)a_P~m/(2P^(3/2)).                             (17)
+
+Also, directly,
+
+    C_+-C_-=m/(288k²P^(3/2))=m gamma³/(288k²).          (18)
+
+In the raw soft cubic the two models differ only by the zeta³ term, by m zeta³/(1728P^(3/2)). This is an exact normalization insight: a fixed normalized signed margin can coexist with arbitrarily small raw jet displacement and collapsing raw critical-height slack. We make no Gaussian-measure lower-bound, probabilistic error, finite-r realization or field-existence claim from this one-parameter family. If a field bridge uses raw-coordinate windows, it must account for this near-gamma-zero height degeneracy rather than interpret normalized escape as literal physical escape.
+
+## 8. An additional sufficient geometric condition
+
+For a compact subset A of FL.4's generic typed parameter set K, there is a common finite rectangle and positive tolerance for all planar models in A. With stiff variables, the same conclusion holds when (varpi,Q) ranges over a compact subset of K×PD(m-1), where PD denotes positive definite matrices.
+
+To see this, take the pointwise rectangle and tolerance at each parameter. On its fixed rectangle, the model coefficients and the quadratic stiff form depend continuously on the parameters. A sufficiently small parameter neighborhood is within one quarter of the pointwise tolerance there. Any further perturbation within one quarter of that tolerance is therefore within half the original tolerance of the center model. FL.4 applies both to the neighboring model and to its perturbation, so their decisions agree. A finite subcover of the compact parameter set supplies a minimum positive tolerance and a rectangle/stiff ball containing the finite union of the certificate domains. No explicit rate is obtained by this argument.
+
+Equivalently, an explicit quantitative proof can impose uniform bounds on the path/trap window sizes, their height slacks away from the critical crossing arcs, the crossing-form eigenvalues/radii, and, in higher dimensions, the smallest stiff eigenvalue. Those are the geometric quantities appearing in FL.4's own epsilon choice. A raw signed margin does not bound them: (8) and (9) exhibit escape and collapse while m is fixed.
+
+The unresolved finite-r bridge must therefore control such geometric quantities or use a parameter-dependent signed-width envelope with a justified weighted estimate. C81's tube estimate alone does not supply that control.
+
+## 9. Verification
+
+The accompanying standard-library `check.py` performs exact rational checks of the shear identity, all four critical points and their values, Hessian determinants, identical pin 2-jets, the two-cubic difference, the inflection-discriminant roots' polynomial identity, the exact height-slack formula, the translated cubic identity (12), and the bounded raw-jet realization with its coordinate and cubic-difference factors. Its negative controls reject sign reversal of the saddle-height test, a missing shear contribution, and a missing normalization power. The maximin/path/trap and asymptotic arguments are proved above; finite arithmetic checks do not replace them. The checker is run in both ordinary and optimized Python.

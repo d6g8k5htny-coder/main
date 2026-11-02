@@ -1,0 +1,490 @@
+# C64 — PR240 Slice C algebra, moving-edge integration and parity
+
+**PASS_TECHNICAL for Slice C at exact head `eb797e4899df87bf8c860cb43bf33b4a6e06b83d`. No substantive defect found.** This review accepts the all-dimensional matrix cancellation and the conditional contact-law steps (5.3)–(5.5), under the explicitly consumed parent interfaces. It does not accept the whole PR or Theorem N: Slices A/B/D/E, especially N1–N3's geometric and exceptional-event estimates, still require their own coverage.
+
+The mathematical point is precise. The fixed-`k` determinant product is even in signed `r`, but substituting `k=κr` creates the generally nonzero term `12κrP₁`. The first-order edge and weight corrections then have an odd integrand at the centered contact law. At the actual shifted law that expectation is `O(k)`, so multiplying by `r` leaves `O(r²)` for `κ` in a fixed compact subset of `(0,∞)`. No uniform conclusion as `κ→0` or `κ→∞` follows.
+
+## Exact object, role and method
+
+- Candidate: [PROOF.md at the reviewed commit](https://github.com/d6g8k5htny-coder/Math-/blob/eb797e4899df87bf8c860cb43bf33b4a6e06b83d/frontiers/elder_cusp_parity_20261002/PROOF.md), 51,848 bytes, SHA256 `35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd`, Git blob `16a1db0658918057ff741df888c13702763d9919`.
+- Author: Anthropic/Claude, session `session_01NMeKEismAyeqgdB4sy2NJU`. Reviewers: actual OpenAI/Codex root, `/root/c64_algebra`, `/root/c64_parity`, `/root/c64_interface`; three coordinated disjoint readers, not three independence votes. Prior source and review exposure is disclosed in each report. The root cross-read all reports and the parity reader cross-read N4.
+- Attribution: **Dylan Roy — delegated AI review**. This does not record Dylan personally reading the proof. Personal reading **PENDING**; organizational independence **0**; scientific effect **NONE**; **C8 OPEN**.
+- R17 claim `a5d2ce1d-1ec9-4cf5-b100-ae9d8b534482`, Work Events492, native pickup5943809286; fresh bounded prepublication source/claim/history checks found the same head and no competing Slice C review.
+
+## Findings and scope decision
+
+1. **Lemma Ω:** the block determinant derivation and adjugate derivative identity are valid in every finite matrix dimension. Polynomial identities extend to singular A; the rational expression Q₁ itself is restricted to invertible A. P₁ need not vanish on a singular matrix.
+2. **N4:** direct Leibniz differentiation supplies both same-sign endpoint terms and the interior-weight term, with coefficients 1152 and 12. The complement of the Q₁ cutoff also costs quadratically. The conditional Gaussian tail, together with the determinant weight, supplies integrability near a soft eigenvalue; neither an unweighted Q₁ moment nor the determinant weight alone is substituted for this argument.
+3. **N5:** parity-separated contact pins preserve even/odd Gaussian independence. The conditional f₄ mean depends only on the remaining even jets and b. The first-order expectation vanishes at k=0 for each fixed b; a Gaussian-score interpolation bounds the shift by O(k(1+|b|)^N). The zeroth-order even functional changes by O(k²).
+4. **Nonblocking notation only:** after integrating f₄, write E* for the remaining even coordinates and explicitly zero-extend inverse-containing integrands off A<0. These conventions are already consistent with the stated domain; no mathematical repair is requested.
+
+The review does not infer witness-to-persistence identification, converse exhaustiveness, a shrinking-witness collision theorem, all-height/all-radius uniformity, a stronger global elder remainder, or a completed dependency graph from this cancellation. It is a local analytic review result, not the requested final mathematical completion certificate.
+
+## Executed checks and custody
+
+The exact author checker matched its declared RESULTS under ordinary and optimized Python. All seven declared mutants rejected with exit1; unknown M99 rejected with exit2. Root additionally ran 146 independent exact bookkeeping/domain probes under both modes, with five assumption-breaking families. The matrix reader ran its own cofactor and pinned-field controls, including singular cases and fixed-k versus fixed-κ counterexamples. The parity reader ran exact rational conditional-regression and soft-singularity probes. The analytic arguments below carry the all-dimensional conclusion; finite controls supplement them.
+
+All eleven declared consumed parents (341,080 bytes) were hash-verified from existing raw caches and rebound to fresh native exact base/head/tested-merge metadata. Their exact identities and cache origins are retained in `parents/IDENTITIES.json`. No whole-Drive crawl or unchanged expensive numerical sweep was performed.
+
+Hosted [run36949483789/job110658993048](https://github.com/d6g8k5htny-coder/Math-/actions/runs/36949483789/job/110658993048) completed successfully on tested merge `62a4c3e62ffa55da627d3b67129de19c276edcde`, with parents base `6f74f7a77bae15d6aa07506bab38977e34dcc449` and this exact head. Packet/workflow/consumed-parent blobs match that tested tree. The fresh prepublication snapshot has four successful checks. Only the target completed log was analyzed in detail; green checks are execution evidence, not mathematical acceptance.
+
+The actual source guard checks recorded identities of cited-only PRs237/238/216 but deliberately does not check their latest heads (`current_ref_checked:null`); no current-head or mathematical verdict on those cited-only objects is claimed. Lemma Ω was reconstructed from the consumed 191/218/220/232 interfaces rather than borrowing unmerged237's conclusion.
+
+Reproduce the author controls at the exact source with `python -B -S frontiers/elder_cusp_parity_20261002/ecp_check.py`, and repeat using `-O`; mutant arguments are `--mutant M1` through `M7` (expected exit1), and `M99` (expected exit2). The coordinated review bundle preserves the independent control programs, all actual command outputs, exact source bytes, reports, and native source/execution receipts. One immutable Drive delivery and its registration will be linked in the completion handoff.
+
+## Retained work and handoff
+
+Author and other reviewers may take distinct A/B/D/E after a live pickup check. Preserve PR239 Claude A/B pickup5943747792, delivered C5387254977, PR231E/F and214/238 owners. No whole-PR approval; C64 does not close geometric/exceptional-event steps, kappa-end uniformity, all-bar identification or shrinking-witness obligations.
+
+The following reconstructions are the supporting review, with their imported hypotheses and limits intact.
+
+---
+
+## Matrix reconstruction
+
+# PR240 §4 algebra review
+
+Object: CL-ELDER-CUSP-PARITY-20261002-v1. Scope: Lemma Ω(a)–(c), its cofactor identity at singular matrices, the relation between V_o and Q₁, and the exact substitution k=κr. This is a bounded mathematical review of the algebra; it does not accept Theorem N or any geometric, exceptional-event, transfer, Gaussian, or whole-density argument.
+
+**Result:** no mathematical defect found in the stated §4 algebra. The claims follow by the dimension-independent derivations below. The exact controls support those derivations but are not the proof for all dimensions. There are no blocking findings within this slice. The limitations and the three interpretation cautions below remain part of the result.
+
+**Performer and disposition:** OpenAI/Codex, nonauthor, source-exposed; delegated AI review on behalf of Dylan Roy. The proof author is Anthropic Claude. This is not Dylan Roy's personal mathematical reading. Personal reading: **PENDING**. Organizational-independence credit: **0**. Scientific effect: **NONE**. C8: **OPEN**. No candidate file, register, status, graph, Boolean, or remote object was changed by this reviewer.
+
+## Exact source and exposure
+
+The target is Math- PR240, head `eb797e4899df87bf8c860cb43bf33b4a6e06b83d`, proof blob `16a1db0658918057ff741df888c13702763d9919`, 51,848 bytes, SHA-256 `35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd`. The local proof is `../source/PROOF.md`. Local byte and blob hashes were independently checked against the supplied inventory; source identity details are in `REVIEW.json`.
+
+The reviewer read the target proof and its source/identity records, author-reported results, and relevant author-checker excerpts (header; UVparts; the fixed-k portion of X3; X4). Therefore this is explicitly **source-exposed**, not a blind or clean-context replication. The reviewer did not execute or import `ecp_check.py`. Its full replay belongs to the parent task.
+
+Exact parent passages read for this slice:
+
+| Parent | Exact blob | Passage used |
+|---|---|---|
+| #232 | `54cc4a1ae274842bc2c01f9c207549e7b07de7bc` | §2, (2.1)–(2.4), endpoint block expansion and polynomial family |
+| #191 | `441152dfc1d8d00cb268cebdb0394212a5bfacdb` | Lemma E Steps 1–3, pin reductions and signed endpoint exchange |
+| #218 | `70ca57ef05199e75417d7d57928c1e1c93bf944e` | Step F1, especially (2.1)–(2.2), polynomial transfer with fourth-order remainder |
+| #220 | `c8767ddecf1041d234f685e95af582073a7be393` | §2 notation and F1, own-jet remainder controlled by the C⁹ norm |
+| E1 | `213594d6ca6a86fb938110f4d166d9ce275a02d0` | Entire congruence erratum: K=diag(r⁻¹ᐟ²,I) H diag(r⁻¹ᐟ²,I), det K=det H/r |
+
+The parent source reader supplied these local files and their remote immutable-tree bindings. This reviewer checked their local bytes, SHA-256 hashes and Git blob hashes against `SOURCES.json`; this reviewer did not independently repeat the remote tree requests. The target source, exact parents, and author-control descriptions are all exposure. No result below is attributed to organizational or human independence.
+
+## 1. The cofactor identity holds in every transverse dimension
+
+Let m≥1, A a real symmetric m×m matrix and B a symmetric direction. Put Δ=det A, J=adj A, Δ_B=Ddet(A)[B], and J_B=Dadj(A)[B]. Each is a polynomial in the entries of A and B.
+
+For invertible A, differentiate J=ΔA⁻¹ in direction B:
+
+    J_B = Δ_B A⁻¹ − Δ A⁻¹ B A⁻¹.
+
+Multiplying by Δ and replacing ΔA⁻¹ by J gives
+
+    Δ J_B = Δ_B J − J B J.                                      (A)
+
+There is no division in (A). To establish it at any singular symmetric A, replace A by A+tI. This is invertible for all but finitely many real t. Every entry of the difference between the two sides is a polynomial in t, vanishes for infinitely many t, and therefore vanishes identically, including at t=0. This proves the singular extension for every m. In fact (A) also holds without symmetry; symmetry is used below when scalar products involving A⁻¹ are transposed.
+
+For m=1, J=1, J_B=0 and Δ_B=B, so the identity becomes 0=B−B. Thus its lowest allowed dimension does not need a separate convention beyond adj([a])=[1]. The case m=0 (d=1) is outside this review's claim.
+
+## 2. P₁, Q₁, V_o and the first-order cancellation
+
+For invertible symmetric A, replacing J with ΔA⁻¹ in the source definition yields, term by term,
+
+    P₁ = Δ² f₅/120 − Δ γᵀJη/12 + γᵀJBJγ/8
+       = Δ²[f₅/120 − ηᵀA⁻¹γ/12 + γᵀA⁻¹BA⁻¹γ/8]
+       = Δ²Q₁.                                                  (B)
+
+The equality γᵀA⁻¹η=ηᵀA⁻¹γ uses symmetry. P₁ is polynomial on all symmetric A. Formula (B) identifies that polynomial with the rational expression on the invertible locus; it does not define a finite Q₁ at a singular matrix.
+
+Write
+
+    V_o = f₄ Δ_B/24 + f₅ Δ/120 − γᵀJη/12 − γᵀJ_Bγ/8,
+    Y′ = f₄ Δ/12 − γᵀJγ/4.
+
+Direct expansion gives
+
+    12ΔV_o − 6Y′Δ_B
+      = Δ²f₅/10 − ΔγᵀJη
+        + (3/2)γᵀ(Δ_BJ − ΔJ_B)γ
+      = Δ²f₅/10 − ΔγᵀJη + (3/2)γᵀJBJγ
+      = 12P₁.                                                   (C)
+
+In the first line the two f₄ΔΔ_B/2 terms cancel. The second line is (A). Consequently (C) is a polynomial identity and remains true at singular A.
+
+On the invertible locus, let q=γᵀA⁻¹γ, z=f₄−3q and α₄=z/24. Substituting the differentiated inverse expression for J_B into V_o gives
+
+    V_o = ΔQ₁ + (f₄/24 − q/8)Δ_B = ΔQ₁ + α₄Δ_B,
+    Y′ = Δ(f₄−3q)/12 = 2Δα₄.                                   (D)
+
+These are exactly the relations following Lemma Ω. They also explain (C): the α₄ terms cancel. The source correctly restricts (B) and (D) to invertible A.
+
+## 3. Endpoint expansion and the absence of a cubic product coefficient
+
+Use x along u and y in the m transverse coordinates. Set σ=−1 at M and σ=+1 at S, and
+
+    α_σ=f_xx(σr/2)/r,
+    β_σ=∇_y f_x(σr/2)/r,
+    A_σ=D_y²f(σr/2).
+
+The congruence normalization is det K_σ=det H_σ/r. Its exact block determinant formula is
+
+    D_σ := det K_σ = α_σ det A_σ − r β_σᵀ adj(A_σ) β_σ.           (E)
+
+(E) holds for singular A_σ: expand the bordered determinant by cofactors, or first prove it for invertible A_σ and apply the same polynomial-extension argument. No inverse or eigenvalue lower bound enters the determinant expansion.
+
+The critical-point pins and height gap imply
+
+    f₂ = −r² f₄/24 − r⁴ f₆/1920 + O(r⁶𝒩),
+    f₃ = 12k − r² f₅/40 + O(r⁴𝒩),
+    ∇_y f_x(0) = −r²η/24 + O(r⁴𝒩).
+
+Here 𝒩 controls the C⁹ norm; the source assumes more regularity than these particular terms need. Taylor expansion at σr/2 then gives
+
+    α_σ = σ6k + r f₄/12 + σr² f₅/120 + r³ f₆/480 + O(r⁴𝒩),
+    β_σ = σγ/2 + rη/12 + σr²θ/48 + O(r³𝒩),
+    A_σ = A + σrB/2 + r²C/8 + σr³E/48 + O(r⁴𝒩),
+
+where θ=∇_y∂_x⁴f(0) and E=∂_x³A(0). In particular the source's factors 1/120 and 1/12 require the pin corrections; using the raw endpoint Taylor coefficients 1/48 and 1/8 would be incorrect.
+
+For the terms through r²,
+
+    det A_σ = Δ + σrΔ_B/2 + r²(Δ_C+Δ_BB)/8 + O(r³𝒩ᴺ),
+    adj(A_σ) = J + σrJ_B/2 + O(r²𝒩ᴺ).
+
+Substitution into (E) yields
+
+    D_σ = σ6kΔ + rU + σr²V + O(r³(1+k)𝒩ᴺ),
+    U = Y′+3kΔ_B,
+    V = (3k/4)(Δ_C+Δ_BB)+V_o.
+
+This derivation holds in every m≥1. For example, the r² contribution from the off-diagonal block is
+
+    −σr²[γᵀJη/12 + γᵀJ_Bγ/8],
+
+which verifies both signs and both numerical factors in V.
+
+It is important not to multiply two unstructured O(r³) remainders and simply declare an O(r⁴) product remainder. The missing information is the shared cubic coefficient. The expanded blocks above imply, for a polynomial Z in the relevant jets,
+
+    D_σ = σa + rU + σr²V + r³Z + O(r⁴(1+k)𝒩ᴺ),  a=6kΔ.        (F)
+
+Indeed α_σ has signs σ,1,σ,1 by degree; det A_σ and adj(A_σ) have signs 1,σ,1,σ; and β_σ has signs σ,1,σ. Each contribution to degree three in (E) therefore has the same sign at both endpoints. Polynomial boundedness of determinant and adjugate controls the displayed remainders without any inverse bound. The pin/Taylor reductions above and the C⁹ norm justify (F) for the actual own jets, rather than only for test polynomials.
+
+Multiplying (F), the degree-one terms cancel; the degree-three terms −aZ+aZ and UV−VU cancel. Thus
+
+    −D_−D_+ = a² + r²(2aV−U²) + O(r⁴(1+k)ᴺ𝒩ᴺ),
+
+which is (4.1). This also supplies a direct all-dimensional Taylor justification for the proof's polynomial-parity argument.
+
+For an exactly pinned polynomial family with fixed free jets and fixed k, the stronger formal reflection statement is easy to see. All pinned derivatives entering the Hessian have only even powers of signed r. The constant f(0) can contain the term −kr³/2 needed to anchor the height b, but this constant drops out of the Hessian. Therefore H_−(−r)=H_+(r), D_−(−r)=−D_+(r), and −D_−D_+ is even. This is the mechanism in #191 and in the target proof. It does not assert that an arbitrary coupled random sample F_r has even sample paths as r varies; the conclusion used here is the universal coefficient identity in its own jets.
+
+## 4. Formula (4.2), cusp substitution, and jet parity
+
+Set S=Δ_C+Δ_BB. Since U=Y′+3kΔ_B and V=V_o+(3k/4)S,
+
+    36κ²Δ²+12kΔV−U²
+      = (36κ²Δ²−Y′²)
+        + k(12ΔV_o−6Y′Δ_B)
+        + 9k²(ΔS−Δ_B²)
+      = w₀ + 12kP₁ + 9k²[Δ(Δ_C+Δ_BB)−Δ_B²].                 (G)
+
+This is the exact polynomial identity (4.2), valid for every real k and κ and all symmetric A, including singular A. No relation between k and κ is needed for (G) itself.
+
+Now impose k=κr in the determinant expansion and divide by r². The leading 36k²Δ²/r² is exactly 36κ²Δ². Combining with (G) gives
+
+    −r⁻² D_−D_+
+      = w₀ + 12κrP₁
+        + 9κ²r²[Δ(Δ_C+Δ_BB)−Δ_B²]
+        + O(r²(1+κr)ᴺ𝒩ᴺ).                                  (H)
+
+On an invertible typed pair, P₁=Δ²Q₁ and its typed weight equals this normalized signed product. In the source's range k≤1, the discarded terms in (H) are bounded by C(r²+k²)𝒩ᴺ. For κ in a fixed compact subset of (0,∞) they are O(r²𝒩ᴺ). Establishing that a pair is typed or that the elder mark selects it belongs to other slices; it is not proved here.
+
+Under the specified point-reflection map, A,C,η,f₄ are fixed and B,γ,f₅ change sign. Consequently Δ,J,Δ_C are fixed; Δ_B and J_B change sign; and Δ_BB is fixed. Every monomial of P₁ has an odd number of odd factors (respectively f₅, γ, and γBγ), so P₁ is odd, including at singular A. On invertible A, Q₁ is odd and q is even. Y′ and w₀ are even. This is the algebraic parity of Lemma Ω(c); its integration under the contact law is outside this review.
+
+## 5. Independent exact controls and negative witnesses
+
+`controls.py` uses only Python's standard library and exact `Fraction` arithmetic, with its own polynomial, cofactor and column-replacement routines. It neither imports nor executes the author checker. Its matrix inputs are deterministic and every exact input and computed polynomial is recorded in `CONTROL_RESULTS.json`.
+
+The baseline checked 26 rational matrix instances. Sizes m=1,…,6 each include negative definite, corank-one, zero and indefinite A; two transparent m=1 examples are additional. The controls check (A), (B) when defined, (C), (D) when defined, (G) at exact k=κr, and polynomial/rational jet parities. Corank-one controls include nonzero adjugates; they are not all trivial zero-matrix tests.
+
+Five independent exactly pinned polynomial fields were built by solving the pin equations for g₀,g₁,g₂,g₃,a₀,a₁ in
+
+    f(x,y)=g(x)+a(x)·y+(1/2)yᵀD(x)y.
+
+The free derivatives include axial orders four through nine, transverse-linear axial orders two through eight, and transverse-quadratic axial orders zero through seven. Higher transverse-degree terms do not affect the endpoint Hessians at y=0. These fields cover d=2,3,4,5 and a singular-A d=3 case. The controls verify the full value/gradient pins, full endpoint-exchange polynomial, full product evenness at fixed k=3/5, the endpoint coefficients through r², the product coefficients through r³, and the exact rebuilding at k=(2/3)r followed by division of the full product by r². The latter has the predicted constant and linear coefficients in every instance.
+
+All baseline checks passed. The output is byte-identical under normal CPython 3.11.16 and `-O`. These are finite, reproducible observations, not an all-dimensional proof.
+
+Five deliberate false alternatives were each rejected with exit code 1 and an exact nonzero witness:
+
+| False alternative | Exact nonzero witness |
+|---|---|
+| Change the sign of ηᵀA⁻¹γ/12 in Q₁ | P₁−Δ²Q_wrong = 2 |
+| Drop JBJ from the cofactor identity | ΔJ_B−Δ_BJ = −1 in the transparent m=1 case |
+| Set P₁=0 whenever Δ=0 | 12ΔV_o−6Y′Δ_B = 27, while 12P₁=27 |
+| Transfer fixed-k product evenness to the normalized fixed-κ product | Nonzero predicted linear coefficient 12κP₁=208/15 |
+| Evaluate the second endpoint at r/2+r⁴ while keeping the symmetric pinned family | Cubic coefficient of the determinant product becomes 2592/25 |
+
+The transparent nonsingular input is A=[−2], B=[1], C=[3], γ=[2], η=[3], f₄=5, f₅=7. It gives q=−2, Q₁=13/30, P₁=26/15 and V_o=−49/120. The singular input is A=[0], B=[2], C=[5], γ=[3], η=[4], f₄=7, f₅=11. It gives Δ=0, J=1, J_B=0, Y′=−9/4, V_o=−5/12 and P₁=9/4. The asymmetric endpoint control intentionally violates the symmetric endpoint hypothesis; it is a check that the parity mechanism detects that change, not a counterexample to the source theorem.
+
+The normal and optimized positive outputs are `CONTROL_RESULTS.json` and `CONTROL_RESULTS.optimized.json`. Individual negative outputs have their label as filename; `NEGATIVE_RUNS.json` records exit codes. Reproduction from the workspace root:
+
+```sh
+work/venv/bin/python work/continuation64/algebra-review/controls.py
+work/venv/bin/python -O work/continuation64/algebra-review/controls.py
+work/venv/bin/python work/continuation64/algebra-review/controls.py --mutant flip_eta_sign
+```
+
+The last command deliberately exits 1. Other labels are `omit_JBJ`, `singular_P1_zero`, `cusp_product_even`, and `asymmetric_endpoint`.
+
+## 6. Findings retained and limits
+
+No concrete algebraic flaw was found. Three interpretation cautions were identified during review and are retained, rather than silently discarded after the controls passed:
+
+1. The singular extension concerns the polynomial P₁ and the cofactor/cancellation identities. Q₁, q and V_o=ΔQ₁+α₄Δ_B are used on the invertible locus. The source states these restrictions correctly; the singular example explains why they matter.
+2. Fixed-k formal reflection does not remove 12κrP₁ after k=κr. The source retains that term correctly. Its eventual small expectation needs the analytic parity/transfer argument reviewed elsewhere.
+3. A fourth-order product remainder requires the shared cubic coefficient, not just the two displayed second-order endpoint expansions. The source invokes polynomial reflection and #218's fourth-order Taylor transfer. The block derivation above supplies that missing-in-a-naive-multiplication step in every dimension.
+
+None of these is classified as a defect in the scoped source statement. This review does not certify Lemmas Q′, Q″, the geometry of the elder decision, Proposition CE⁺⁺, Steps N1–N3, conditional Gaussian decay, Step N4's integrated remainder, Step N5's shifted-law estimate, Step N6's density assembly, Corollary N′, uniformity as κ approaches zero or infinity, or the whole Theorem N. Source-exposure and same-account organizational limitations remain even when exact controls pass. The result supplies no scientific promotion: **scientific effect NONE; C8 OPEN; Dylan personal reading PENDING**.
+
+---
+
+## Conditional moving-window reconstruction
+
+# C64 root reconstruction of the conditional moving-window integral
+
+Exact source: Math- PR240 head eb797e4899df87bf8c860cb43bf33b4a6e06b83d; PROOF.md blob 16a1db0658918057ff741df888c13702763d9919, 51848 bytes, SHA256 35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd. Scope: Step N4 (5.3)-(5.4) and its input/output interface only. This is a substantive reconstruction, not a new unconditional persistence theorem. The local-to-global geometric and exceptional-event steps N1-N3 remain outside this slice.
+
+Actual reviewer: OpenAI/Codex /root, nonauthor of the candidate, source-exposed to the parent chain and its prior reviews. Dylan Roy — delegated AI review; personal reading PENDING; organizational independence 0; scientific effect NONE; C8 OPEN.
+
+## 1. Conditioning and the precise domain
+
+Fix d,L and K=[kappa0,kappa1] contained in (0,infinity). Under the contact law at v0(b,k), k=kappa*r<=1, condition on J'' consisting of all free jets except f4. Restrict to A<0. Every displayed conditional integral below is multiplied by 1{A<0}, and extended by zero on its complement. No inverse of a singular A is ever evaluated there. Let E* denote the even coordinates of J'', excluding f4. By the exact parent220 F3/F7, f4 given J'' is Gaussian with variance in [c,C] and affine mean m4(b,E*), independent of the odd coordinates after E* is fixed. Constants can be uniform over frames for the fixed d,L; they are not asserted uniform in d,L.
+
+Set q=gamma^T A^{-1}gamma<=0, z=f4-3q and p(z)=p_f4(z+3q). The rest of J'' determines Delta,Q1,q. In particular Q1 has no f4 coordinate. Put a=24*kappa, delta=36*r*Q1, B0=kappa*Delta^2/3 and F(z)=Delta^2(5184*kappa^2-z^2)/144. Then
+
+    E[G_r | J''] = 1{A<0} I(delta)1{|delta|<=36*c_e*kappa},
+    I(s) = integral_{-a-s}^{a+s} [F(z)+B0*s] p(z) dz.
+
+This uses the singular-safe polynomial identity Delta^2 Q1=P1 on A<0 and 12*k*P1=B0*delta, with k=kappa*r. The cutoff is independent of f4. At c_e=1/200, |delta|<=0.18*kappa, so all edge evaluation points below lie between 23*kappa and 25*kappa in absolute value.
+
+## 2. Edge and interior terms both matter
+
+Write t=a+s, H(t)=p(t)+p(-t), H'(t)=p'(t)-p'(-t), and M(t)=integral_{-t}^t p. Ordinary Leibniz differentiation, conditional on J'', gives
+
+    I'(s) = [F(t)+B0*s] H(t) + B0*M(t),
+    I''(s) = [F'(t)+2*B0] H(t) + [F(t)+B0*s] H'(t).
+
+F(a)=32*kappa^2*Delta^2, F'(t)=-Delta^2*t/72. Therefore
+
+    36*I'(0) = 1152*kappa^2*Delta^2[p(a)+p(-a)]
+                +12*kappa*Delta^2 M(a) = Psi_kappa.
+
+Thus delta*I'(0)=r*Q1*Psi_kappa. The two boundary contributions have the same sign, even for an asymmetric conditional density. The interior-weight term is also essential. The exact coefficients 1152 and 12 follow from these two different sources.
+
+For |s|<=36*c_e*kappa, the explicit I'' formula gives the manuscript's bound
+
+    |I''(s)| <= C*Delta^2*(kappa+kappa^2)
+                 sup_{23*kappa<=|x|<=25*kappa} [p(x)+|p'(x)|].
+
+This is a derivative of the one-dimensional Gaussian integral, not a derivative of an indicator-valued jet functional. Taylor's theorem hence controls the inside-cutoff conditional error by one half delta^2 times this bound.
+
+## 3. Removing the cutoff also costs quadratically
+
+On |delta|>h=36*c_e*kappa, G_r=0. Since F is nonnegative on [-a,a], Psi_kappa>=0 and
+
+    |I(0)| <= 36*kappa^2*Delta^2 M(a),
+    |I(0)|+|delta I'(0)|
+       <= |I(0)|*delta^2/h^2 + delta^2*Psi_kappa/(36*h).
+
+The second inequality follows from |delta|<=delta^2/h. Its constants are uniform on fixed K. This justifies replacing the truncated expansion by I(0)+delta I'(0) with a quadratic residual; simply dropping this complement would not be justified.
+
+## 4. Near-singular A: where integrability actually comes from
+
+Let lambda=lambda_min(-A)>0 and Gamma=|A^{-1}gamma|. Spectral diagonalization gives Gamma^2<=|q|/lambda and Delta^2<=lambda^2||A||^{2m-2}, m=d-1. Since
+
+    |Q1| <= |f5|/120+|eta|*Gamma/12+||B||*Gamma^2/8,
+
+we obtain
+
+    Delta^2*delta^2 <= C*r^2 ||A||^{2m-2}
+        [f5^2*lambda^2+|eta|^2*|q|*lambda+||B||^2*q^2].
+
+This is not by itself a polynomial envelope in the free jets: q may diverge as A approaches singularity. The conditional Gaussian density is indispensable. If y=x+3q-m4 and |x|<=25*kappa, then
+
+    3|q| <= |y|+25*kappa+|m4|.
+
+For variance in [c,C], every finite power of |y| times the Gaussian density or its first derivative is uniformly bounded. Consequently, for each fixed nonnegative integer j,
+
+    |q|^j sup_{|x|<=25*kappa}(p(x)+|p'(x)|)
+       <= C_j(1+|m4|+kappa)^j,
+    |q|^j M(a) <= C_j*kappa*(1+|m4|+kappa)^j.
+
+The proof does not assume q independent of m4. These are pointwise inequalities conditional on J''. Using lambda<=||A||, the remaining factors are bounded by a polynomial envelope in A,B,eta,f5,m4. Gaussian free-jet moments and the affine mean bound give C_K(1+|b|+k)^N after outer integration. This supplies a finite, frame-uniform O(r^2 P^N) residual and validates all conditional expectation and outer integration operations in this step. No bare inverse-eigenvalue moment is used.
+
+An explicit diagnostic is the scalar family A=-eps, gamma=B=1, eta=f5=0. Here q=-1/eps, Q1=1/(8eps^2) and Delta^2 Q1^2=1/(64eps^2). Discarding the density factor would leave a divergent singular expression. At a bounded z and bounded m4 the Gaussian factor instead decays in 1/eps^2. This example is a negative control against claiming the determinant weight alone resolves the soft singularity.
+
+## 5. Exact output and boundary
+
+The preceding bounds prove the reviewed contact-law expansion
+
+    E G_r = E w_kappa^eld + r E[1{A<0} Q1 Psi_kappa]
+            +O_K(r^2 P^N).
+
+The zero extension is understood in (5.4)-(5.5). Parent220 F7 and the separate parity reconstruction apply to the linear coefficient: it is zero at k=0 and O(k(1+|b|)^N) at shifted k, so the displayed correction is O_K(r^2(1+|b|)^N). This is not exact cancellation at every positive k. Together with the imported even-functional O(k^2) comparison, the algebraic/contact-law part has no order-r contribution for fixed compact kappa.
+
+This does not prove the comparison of the true elder kernel to G_r, the good-event geometry, the exceptional estimates in N2, uniformity as kappa tends to zero or infinity, the all-separation density theorem, shrinking multiple-witness control, all-bar exhaustiveness, or mathematical completion. Those require their own arguments and exact review scopes.
+
+## 6. Executed controls, not substituted proofs
+
+edge_controls.py independently computes moving-interval polynomial integrals in exact fractions. It checks I'(0), both edge terms, I''(s), the shifted-mean distinction, and the scalar soft-singularity identity. It rejects omitting the interior weight, reversing the lower-edge sign, changing 1152, asserting zero at shifted odd mean, and dropping the Gaussian-tail requirement. The root script produced 146 checks in both ordinary and optimized Python, with identical output. Polynomial densities test Leibniz bookkeeping only; they do not certify Gaussian regression or the analytic estimates above.
+
+run_controls.py also ran the exact author checker once in ordinary and optimized Python, obtained identical declared RESULTS, rejected all seven declared mutants (exit1), and rejected unknown M99 (exit2). Original stdout/stderr and command receipts are retained. These finite probes support the reconstruction and do not constitute an all-dimensional proof.
+
+Verdict: PASS_TECHNICAL for Step N4 (5.3)-(5.4) at the stated imported-contact-law scope. No substantive defect found. Optional notation clarification: explicitly write E* and the A<0 zero extension; this does not alter the argument.
+
+---
+
+## Contact parity reconstruction
+
+# C64 / Math- PR240 — N5 parity and integrability subreview
+
+**Verdict: PASS_TECHNICAL_SCOPED.** At exact head `eb797e4899df87bf8c860cb43bf33b4a6e06b83d`, I find no blocking or major defect in Step N5, equation (5.5), including its pointwise-in-`b` interpretation, the conditional `f₄` density used by (5.3), and the soft-eigenvalue integrability needed at the N4/N5 interface. This is a bounded subreview of Slice C. It does not accept the complete Slice C expansion independently of the coordinating reader, and does not accept Slices A, B, D, E, Theorem N, or the entire pull request.
+
+Actual performer: OpenAI / Codex `/root/c64_parity`, source-exposed nonauthor reader, under Dylan Roy's delegated AI review. Candidate author: Anthropic / Claude. Personal reading: **PENDING**. Organizational independence credit: **0**. Scientific effect: **NONE**. **C8 remains OPEN.** Claim `a5d2ce1d-1ec9-4cf5-b100-ae9d8b534482`, Work Event 492, expiry `2026-10-02T03:19:26Z`, and native pickup `240/5943809286` were supplied by the coordinating agent; this subreview did not independently refresh their remote state.
+
+## Source identity and actual scope
+
+The candidate `source/PROOF.md` was independently checked as 51,848 bytes, SHA256 `35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd`, framed Git blob `16a1db0658918057ff741df888c13702763d9919`. I read the full candidate for context, with load-bearing attention to lines 430–456 and the candidate parity statement at lines 474–480. I read its README and SOURCES metadata, including their summaries of the author's prior referee; I did not read that referee's underlying report. I also saw a previous C55 review JSON while inspecting report format, so this is not represented as a clean-context or source-unexposed review.
+
+The following local parent bytes were checked against `SOURCES.json` by byte count, SHA256, and framed Git blob: `R`, `P`, `E1`, `REC`, `218`, `220`. Mathematical consumption here is limited to:
+
+- `220.md` lines 356–415: free-jet definitions, F3, F6–F7, and Lemma G; lines 488–500: E6's even-integrand comparison.
+- `218.md` lines 145–156 and 302–310: the genuinely free jet coordinates, compact-frame covariance argument, and parity-separated contact pin targets.
+- `P.md` §§1–2 and §15: the exact periodized Gaussian field, full positive Fourier spectrum, finite-jet rank, and central inversion parity. E1 and REC were read as reading-rule context; their unrelated conclusions are not reaccepted here.
+- `R.md` (R2)–(R5): uniform covariance/regression and polynomial moment bounds, with fixed `d,L` and arbitrary `b`.
+
+The coordinating reader owns the moving-edge/weight expansion (5.4); the matrix reader owns Lemma Ω. I use their stated interface `Δ²Q₁=P₁`, with `P₁` polynomial, to review the probabilistic step. I did not run or import the author's `ecp_check.py`, mutate candidate files, issue a remote write, or replay the full checker.
+
+## 1. Conditioning on `J″` preserves the required parity at contact
+
+Write `E_*` for the even free jets **excluding** `f₄`, and `O` for all odd free jets. Then `J″=(E_*,O)`, up to coordinate order. This avoids the harmless ambiguity of using `E` both before and after integrating out `f₄`.
+
+For a centered stationary real Gaussian field, the covariance is even under central inversion. The covariance of derivative jets of total orders `a` and `b` at the origin is a derivative of total order `a+b` of that covariance at zero. It vanishes when `a+b` is odd. This proves block orthogonality of **all** even and odd finite jets, not only `(A,f₄)` versus `γ`. Since the vector is Gaussian, the blocks are independent.
+
+The contact observations also separate into these same blocks:
+
+    U_e = (f, ∂_u²f, ∇_Θ∂_uf),   target (b,0,0),
+    U_o = (∂_uf, ∂_u³f, ∇_Θf),   target (0,12k,0).
+
+Conditioning independent Gaussian blocks separately does not introduce cross covariance. Their regression laws therefore have the form
+
+    (E_*,f₄) ∼ N(μ_e(b),Σ_e),
+    O ∼ N(12k w,Σ_o),
+
+independently. The even law does not depend on `k`; the odd covariance and `w` do not depend on `k` or `b`. This statement is specific to the contact law. It is not asserted for the positive-separation law `Q`, which is why the prior N3 transfer matters.
+
+Consequently
+
+    f₄ | J″ ∼ N(m₄(b,E_*),σ₄²),
+
+with `m₄` affine in `b,E_*`, independent of `O,k`, and `c≤σ₄²≤C`. Explicitly, Gaussian regression on the even block gives `m₄=μ₄+Σ_{4,*}Σ_{*,*}^{−1}(E_*−μ_*)`; the regression coefficients on `O` are zero. F3's bounds extend to `r=0` by the same joint Gram-matrix rank argument in #218 F1, rather than by assuming an endpoint not contained in a displayed open interval.
+
+The claim uses true free coordinates: duplicate symmetric Hessian entries and pinned jets must not be appended as independent coordinates. The source defines these correctly. Thus the conditional variance is a genuine uniformly positive Schur complement.
+
+## 2. The first-order integrand is odd and absolutely integrable
+
+On `A<0`, set `q=γᵀA^{−1}γ` and
+
+    p_z(x)=p_{f₄}(x+3q | E_*).
+
+Under simultaneous negation of all odd jets, `γ,B,f₅` change sign, while `A,η` do not. Therefore `q` stays fixed and
+
+    Q₁(e,−o)=−Q₁(e,o).
+
+Because the conditional `f₄` density just established has no odd-jet dependence, `p_z(±24κ)` and `P(|z|<24κ | J″)` are invariant under `o↦−o`. The factor `Ψ_κ` in (5.3) is even. Thus `G=Q₁Ψ_κ` is odd in the full odd block.
+
+The essential integrability estimate is most transparent after clearing the determinant factor:
+
+    G = 1{A<0} P₁ [1152κ²(p_z(24κ)+p_z(−24κ))
+                   +12κ P(|z|<24κ | J″)].
+
+The density is bounded by `(2πc)^(−1/2)`, and the probability by one. Each term of `P₁` is a polynomial of total jet degree `2m+1`. Hence, uniformly in `b,k`, for `κ` in a fixed compact `K⊂(0,∞)`,
+
+    |G| ≤ C_K |P₁| ≤ C_K (1+|J″|)^(2m+1).
+
+No inverse-eigenvalue moment is required for this estimate. In particular, it does not presume integrability of `Q₁` alone. The dependence of `G` on the fixed parameter `b` through `m₄` is harmless because this envelope is independent of `m₄` and `b`.
+
+For complete Borel notation, all expressions involving `A^{−1}` in this argument are restricted to `A<0` and `G` is extended by zero on its complement. This is already the source's convention for its new notation and kernels; making the zero extension explicit would be a nonblocking clarity improvement. The singular stratum is null under the full Gaussian matrix law, but the zero extension also avoids ever evaluating an undefined inverse there.
+
+At `k=0`, the odd law is centered, so its density is invariant under `o↦−o`. Absolute integrability now justifies the change of variables and gives
+
+    E_{v₀(b,0)}[G] = 0
+
+for **every fixed real `b`**. There is no change of the birth coordinate and no integration over birth height in this cancellation.
+
+## 3. An explicit Gaussian-score proof of (5.5)
+
+Keep `b,κ` and the frame fixed, and interpolate only the odd mean: `s_t=12tk w`, `0≤t≤1`. If `ρ_t` is the odd Gaussian density, then
+
+    ∂_tρ_t(o) = 12k wᵀΣ_o^(−1)(o−s_t)ρ_t(o).
+
+The polynomial envelope above, the covariance bounds, and `k≤1` give an integrable uniform majorant for `G∂_tρ_t`. The even mean is `O(|b|)`, so finite Gaussian moments yield
+
+    |E_{v₀(b,k)}G−E_{v₀(b,0)}G|
+      ≤ C_K |k| (1+|b|)^N.
+
+Together with the exact zero at `k=0`, this is (5.5). This is also a direct verification of the invocation of #220 Lemma G(a). Smoothness of `G`, the cone indicator, or the conditional window probability as functions of all jets is unnecessary; the differentiation acts on the density.
+
+The same proof applies to `Ψ_κ^cand=12κΔ²P(|z|<72κ | J″)`, with the simpler envelope `|Q₁Ψ_κ^cand|≤12κ|P₁|`. This checks only that candidate version of N5, not the candidate transfer, kink remainder, or N2 exclusions.
+
+The zeroth-order comparison following (5.5) is also legitimate. The elder weight is even in the odd jets and has a polynomial envelope. More specifically, the source's citation to #220 E6, which is written for `loss_κ`, transfers to the elder weight using
+
+    w_κ^eld = 36κ²Δ²1{A<0} − loss_κ.
+
+The first term's expectation is exactly `k`-independent because it uses only even jets; E6 supplies the `O(k²(1+|b|)^N)` change for the second. Alternatively Lemma G(b) applies directly on a fixed compact `K`. The same observation handles the candidate zeroth-order weight.
+
+## 4. Soft-eigenvalue integrability at the N4 interface
+
+I did not independently reconstruct the moving-edge derivative `I′(0)`; that is the coordinating reader's scope. I checked the integrability assertion required for its Taylor remainder and cutoff tail in lines 440–445.
+
+On `A<0`, `λ=λ_min(−A)>0`, `Γ̃=|A^{−1}γ|`, and
+
+    Γ̃² ≤ |q|/λ,       Δ² ≤ λ²‖A‖^(2m−2).
+
+Thus
+
+    Δ² Q₁² ≤ C ‖A‖^(2m−2)
+               [λ² f₅² + λ |η|² |q| + ‖B‖² q²].
+
+Only nonnegative powers of `λ` remain; `λ≤‖A‖` bounds them by polynomial jet factors. The remaining `q` powers must still be controlled, because `q` itself contains `A^{−1}`. This is precisely where the conditional `f₄` Gaussian density, or its probability over the bounded `z` window, is needed.
+
+For `a=0,1,2`, `σ₄²∈[c,C]`, and `|x|≤25κ`, write `y=x+3q−m₄`. Then `3|q|≤|y|+|m₄|+25κ`. Gaussian tails absorb any fixed power of `|y|`, including the extra factor in a first density derivative. Consequently
+
+    |q|^a sup_{|x|≤25κ}(p_z(x)+|p_z′(x)|)
+      ≤ C_a (1+|m₄|+κ)^a.
+
+Also, by integrating the same bound over the finite window,
+
+    |q|^a P(|z|≤25κ | J″)
+      ≤ C_{a,K}(1+|m₄|)^a.
+
+Multiplying by the displayed bound for `Δ²Q₁²` leaves only polynomial functions of `b` and the free jets, because `|m₄|≤C(1+|b|+|E_*|)`. Their contact Gaussian moments are bounded by `C_K(1+|b|)^N`. This verifies the specific integrability mechanism needed for the `r²` N4 Taylor and cutoff-tail estimates. It does not establish any of N2's random-event layering arguments.
+
+Two exact negative probes show why the source's weights are essential. In transverse dimension `m=1`, take `A=−a`, `γ=B=1`, `η=f₅=0`, `a>0`. Then
+
+    q=−1/a,   Q₁=1/(8a²),   Δ²Q₁=1/8,
+    Δ²Q₁²=1/(64a²)=q²/64.
+
+So an unweighted `Q₁` bound or an unweighted `Δ²Q₁²` moment assertion would fail near a soft eigenvalue. The first-order integrand uses the determinant cancellation; the quadratic error also needs the bounded-window Gaussian decay. The source uses both correctly at this interface.
+
+## 5. Uniformity, bounded controls, and limits of the verdict
+
+All parity statements use central inversion. No rotational isotropy of the torus is assumed. At a fixed `d,L`, full positive Fourier spectrum gives positive covariance for each genuinely distinct finite jet list in each frame. Covariance entries are continuous on the compact orthogonal-frame space. Their least eigenvalues therefore have a positive minimum, and all required Schur complements and regression coefficients have uniform bounds. This provides uniform `σ₄²`, `Σ_o`, `w`, conditional means, and Gaussian moment estimates over all frames. It need not provide constants uniform in `d` or `L`.
+
+For this step, an explicit first-order envelope is `C(κ+κ²)|P₁|`. Equation (5.5) is consequently uniform on each fixed compact `K`; its constant must not be read as uniform as `κ→∞`. The N4 remainder additionally uses bounded `z` windows and reciprocal-`κ` cutoff factors, so no uniformity at either end `κ→0,∞` is inferred. With `k=κr` and `κ∈K`, the bound is `r E G=O(rk(1+|b|)^N)=O(r²(1+|b|)^N)`; multiplication by the contact pin density supplies the Gaussian `b` tail in the assembly, which remains the coordinating reader's scope.
+
+I ran one bounded independent exact-arithmetic check using `work/venv/bin/python` (exit 0). It verified the above source identities; constructed separate positive-definite rational even/odd covariance blocks via lower-triangular factors; conditioned on one pin in each parity block; and then regressed `f₄` on all remaining free coordinates. In the explicit six-coordinate residual order `(A,η,f₄,γ,B,f₅)`, the cross-parity residual covariance was exactly zero, the `f₄` regression on `(A,η,γ,B,f₅)` was `(-23/30,1/4,0,0,0)`, and its residual variance was exactly `1`. The exact soft family identities above passed at `a=2^(−n)`, `n=1,…,10`.
+
+As an assumption-breaking negative control, independent centered unit Gaussians `X` (declared even) and `Y` (declared odd), conditioned on the mixed pin `X+Y=b`, have conditional cross covariance `−1/2` and odd conditional mean `b/2`. Thus a mixed parity pin would invalidate pointwise-`b` cancellation. The actual contact pins separate by parity and do not have this defect. The rational model is an arithmetic probe of the regression mechanism; it is not a numerical substitute for the full-spectrum torus proof.
+
+There are no unresolved source needs within this subreview. There is one optional notation clarification—write `E_*` and explicitly zero-extend `G`—but no mathematical repair request. The weakest hypotheses on which the positive verdict rests are: a genuine nonduplicated finite free-jet list; uniformly nondegenerate contact regression; separate even/odd pin targets; the stated polynomial identity `Δ²Q₁=P₁`; and the N4 interface actually having the factor (5.3). If any of those changes, this conclusion needs a new source-bound review.
+
+No approval, integration, whole-theorem acceptance, scientific register change, numerical-constant certification, or C8 closure is recorded by this report.

@@ -1,0 +1,17 @@
+## Recovered sharpening reconciled with your frozen reviewed packet — no overwrite
+
+Live #224 already has full transfer A/B/C review5932495260 on the existing1/3-floor proof. The user-attached recovery is a DIFFERENT, sharper local version (3/8 floor and full order-eight polynomial), not a missing copy to patch over these reviewed bytes. I freshly replayed that archive:38 tests per mode pass, seven semantic variants reject, historical Git authentication remains false locally. No shared branch or reviewed source was changed. Existing integration should not wait on this optional refinement.
+
+For that separate candidate the sharpened bound is
+`E_d(L)=2(3^d-1)[d^4 L^8+28d^3 L^6+210d^2 L^4+420d L^2+210] exp(-L^2/2)`, d<=3,
+with relative allowance `(320N/3)E_d(L)`. Exact endpoint arithmetic gives common bounds1.3e-7 for everyL>=10 and7e-108 for everyL>=24. These are coefficient-expression errors, not finite-lifetime guarantees. They are not covered by the old5932495260 verdict.
+
+**A further reusable covariance observation, now derived:** for the BIRTH-MARGINALIZED reference vector `(grad f,Hf*u,T3;A,gamma,T4)` in the same raw upper-triangle coordinates, the exact smallest covariance eigenvalue is **8-sqrt(58)** for EVERY d>=1. This does not apply to the larger vector retaining f(0).
+
+Proof: reorder the reference covariance into independent blocks. The odd axial block is `[[1,-3],[-3,15]]`, with minimum theta=8-sqrt58. Each transverse odd block is `[[1,-1],[-1,3]]`, with minimum2-sqrt2>theta; offdiagonal Hessian entries have variance1. The remaining even block consists of the d diagonal Hessians with covariance `2I+11^T`, their covariance with T4 equal to v=(-15,-3,...,-3), and Var(T4)=105. At t=theta<2, its Schur complement after subtracting tI is
+
+`105-t - [(9d+216)(d+2-t)-9(d+4)^2]/[(2-t)(d+2-t)]`.
+
+Using t²-16t+6=0, its numerator is `(42-82t)d+(1286t-426)>0`, since3/8<t<2/5. Hence that even block is strictly above theta, and the axial block ATTAINS theta. At t=3/8 the Schur complement is exactly `(5832d+35469)/[104(8d+13)]>0`, giving a short dimension-uniform proof of the recovered rational floor.
+
+Fresh exact controls reproduce the Schur complement for d=1..12 and the polynomial reductions in both Python modes (5 tests); the all-d proof is the displayed block argument, not that finite grid. This observation does NOT extend the d<=3 image-tail coefficient bound to all d or provide finite-L c2. It is an author-side optional lemma requiring its own review, shared to avoid repeated matrix-floor work in the dimension lanes. The reviewed #224 packet stays byte-identical and its nonauthor integrator keeps ownership.

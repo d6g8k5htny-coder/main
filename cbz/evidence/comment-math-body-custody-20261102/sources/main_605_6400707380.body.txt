@@ -1,0 +1,914 @@
+C320 — SCC-GROWTH-01 additive correction and exact-source nonauthor review.
+
+Dylan Roy — delegated AI work. Actual correction author: OpenAI/Codex /root chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2. Actual nonauthor analytic reviewer: OpenAI/Codex /root/c317_h11_nonauthor; source-exposed, same provider, organizational independence 0, blind 0, human review 0. Dylan personal reading PENDING; no approval requested. The reviewer read the complete candidate and baseline and returned ACCEPT_SCOPED for this correction only; full report below.
+
+Canonical pickup: [605/6400583186](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400583186), R17 WE2886, lease C320-SCC-GROWTH-01-20261025. Finding: [SCC-GROWTH-01](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400100046). Frozen original remains byte-identical. This additive reading rule is the delivered proof candidate, not a repository edit or transferred source ownership. OBL-K-01 remains open and outside this correction.
+
+The general lemma gives polynomial growth near zero; monotonicity of the infimum over the application's shrinking domains extends the bound to the selected full interval with c*=min(c0,f(h1)/h0^m), and actual quality q=f/2 retains its factor. The counterexample to the unqualified whole-interval claim is preserved. Exact finite rational controls: one actual exit-0 run, 84 checks and five negative-control classes; they do not prove the continuum statement. The separate analytic review includes three further conceptual controls.
+
+Full reviewable UTF-8 evidence follows. Each payload includes its final LF; the line after the closing tilde fence is framing, not payload. Final native-byte join, immutable private custody and registration will be linked in the completion receipt. No package-code, numerical Gaussian, AST/import, Lean/kernel or hosted-CI execution is claimed; no refs, PR, integration, merge, deployment, graph or scientific status changes. Public GitHub evidence is authorized; private locator fields are withheld.
+
+### C320_EVIDENCE CORRECTION.md
+Bytes: 8517
+SHA-256: `5b944a59879638055c9065e7aca525ae74b902b7f1961da185c0b3fed31c95aa`
+~~~~~~~~~~~~~~~~~~~~
+# SCC-GROWTH-01: near-zero growth and the nested-domain extension
+
+Additive correction, 25 October 2026. Author: OpenAI/Codex `/root`, chat
+`01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`, delegated for Dylan Roy. This is AI
+mathematical work, not a personal human review by Dylan Roy.
+
+This note responds only to finding SCC-GROWTH-01 in
+[Claude01Cz's review](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400100046).
+The frozen source is `proofs/SEPARATED_COMPACT_COVER.md`, 18,719 UTF-8 bytes,
+SHA-256 `b5aef6e1fa74f5883273fcfe97f629bf9fb82c66c08b243d67c9179ae5d2fd36`,
+preserved verbatim in this delivery. Exact archive/member identity is in
+`SOURCE_IDENTITY.json`. The target is its general growth argument at lines
+247–262 and its application at lines 268–299. No original source is edited.
+
+## 1. Correct general lemma
+
+Let h0>0 and let f:(0,h0]→(0,1] have a semialgebraic graph. There exist
+h1∈(0,h0], c0>0 and an integer m≥0 such that
+
+    f(h) ≥ c0 h^m                 for 0<h≤h1.                 (1)
+
+The general conclusion is near zero. No continuity or monotonicity is
+required for (1), and no bound on the rest of the interval is inferred.
+
+Proof. Express the graph by a finite Boolean combination of real-polynomial
+sign conditions, discarding identically zero polynomials. At every graph
+point at least one remaining polynomial vanishes. Otherwise every sign is
+constant in a neighborhood of that point, so that neighborhood would lie
+in the graph, contradicting that a function graph has empty interior in
+the plane. Their product P(h,y) is a nonzero polynomial vanishing on the
+whole graph. Factor its largest power of y: P=y^j Q. Then
+
+    A(h):=Q(h,0) is a nonzero polynomial,
+    Q(h,f(h))=0                  for 0<h≤h0.                 (2)
+
+Write A(h)=h^m a(h), where m≥0 is an integer and a(0)≠0. By continuity
+choose 0<h1≤h0 such that |a(h)|≥|a(0)|/2 on [0,h1]. Define
+
+    M = 1 + max{|∂_y Q(h,y)| : 0≤h≤h0, 0≤y≤1},
+    c0 = |a(0)|/(2M).                                      (3)
+
+The maximum is finite and M>0. For 0<h≤h1, the one-variable mean-value
+bound in y and (2) imply
+
+    (|a(0)|/2)h^m ≤ |Q(h,0)|
+                   = |Q(h,0)-Q(h,f(h))|
+                   ≤ M f(h).
+
+This proves (1). Interior zeros of A outside [0,h1] have no bearing on
+this conclusion. No Puiseux expansion is used. ∎
+
+The graph-to-polynomial argument uses the definition of semialgebraicity.
+The application below retains the source's separate Tarski–Seidenberg import
+to establish that its quality infimum has such a graph. The projection and
+Boolean-closure statements were re-inspected in the author-hosted exposition,
+[Hank Yang, Theorem 4.8](https://hankyang.seas.harvard.edu/Semidefinite/SOS.html).
+That is inspection of the imported statement, not a new proof, kernel
+certificate, or canonical acceptance of the import.
+
+## 2. Extension under the application's monotonicity
+
+If f in §1 is also nondecreasing, its bound extends to the whole interval.
+For the h1,c0,m obtained above set
+
+    c* = min{c0, f(h1)/h0^m} > 0.                           (4)
+
+For 0<h≤h1 use (1) and c*≤c0. For h1≤h≤h0, monotonicity and m≥0 give
+
+    f(h) ≥ f(h1) ≥ (f(h1)/h0^m) h^m ≥ c* h^m.
+
+Thus
+
+    f(h) ≥ c* h^m                 for 0<h≤h0.              (5)
+
+This includes m=0. More generally it is enough to know a positive lower
+bound on [h1,h0]; pointwise positivity alone does not supply one.
+
+## 3. Exact application to the frozen quality construction
+
+Use a distinct symbol η for the axial-distance parameter, to avoid confusion
+with the witness coordinate h in the source. Fix the source's geometry and
+marks first. Let κ(g)∈(0,1] be its admissible quality supremum. Retain the
+source's premises that κ is semialgebraic and locally bounded below by a
+positive constant on the off-axis domain. The chart relation defining κ
+does not depend on η. Its quantitative constraints, physical weight and
+normalization are not changed here.
+
+For the source's compact nonempty slices set
+
+    D_η = {g∈D : |t|≥η and |n|≥η},
+    f(η) = inf{κ(g) : g∈D_η},             0<η≤h0.           (6)
+
+Nonemptiness on this whole interval is ensured by the original selection
+of h0 below the transverse magnitudes of one off-axis point (lines 273–276).
+If there is no such point, the source's separate axial/vacuous case applies;
+no infimum over the empty set is inserted into (6).
+
+Compactness plus the retained local positive lower bounds implies f(η)>0
+for each η: a finite subcover of D_η gives a common positive lower bound.
+Also f(η)≤1. The source's quantifier-elimination argument supplies the
+semialgebraic graph. These are the original quality premises, not new
+claims that Gaussian covariance is semialgebraic.
+
+The missing interval-extension step is now explicit. If 0<η1≤η2≤h0, then
+
+    D_η2 ⊆ D_η1,
+    inf_(D_η2) κ ≥ inf_(D_η1) κ.                            (7)
+
+Consequently f is nondecreasing. Apply §§1–2 to obtain constants c*>0 and
+integer m≥0 such that f(η)≥c*η^m on 0<η≤h0. The source's actual chosen
+quality is half the infimum, so its lower bound is
+
+    q(η)=f(η)/2 ≥ (c*/2) η^m.                               (8)
+
+Attainment of neither supremum nor infimum is required. This supplies the
+specific polynomial quality bound used at source lines 281–299, with the
+factor 1/2 retained. Substitution into the source's already stated finite
+coefficient, Gram-floor and remainder bounds may change their positive
+constants and finite exponents. Their original hypotheses remain required.
+This correction does not independently re-prove the chart construction,
+covariance bounds, shell integration, or the full O(r^5) numerator theorem.
+
+Parameter order: fix L, B, δ>0 and the compact b interval and
+0<k_-≤k≤k_+ first; fix the chart data and the admissible h0; then choose
+h1,c0,m,c*. Only afterward vary η and take r small under the source's
+polynomial threshold in η. No uniformity as δ→0, k_-→0, k_+→∞, or in a
+changing field law is obtained.
+
+## 4. Counterexample and controls
+
+On (0,1] define
+
+    f_bad(h)=|h-1/2|  if h≠1/2,      f_bad(1/2)=1.           (9)
+
+This function has a semialgebraic graph and 0<f_bad≤1. For each fixed
+integer m≥0 and h_n=1/2+1/n, n≥3,
+
+    f_bad(h_n)/h_n^m = (1/n)/(1/2+1/n)^m ≤ 2^m/n → 0.       (10)
+
+Therefore no c>0 makes f_bad(h)≥c h^m on all of (0,1]. For instance the
+near-zero bound f_bad≥1/4 holds on (0,1/4], but it cannot simply be extended
+across the interior point. This is the reviewer's counterexample, retained
+as a negative control rather than silently discarded after the correction.
+
+For a contrasting explicit monotone example, f_good(h)=min(h^2,1/16) on
+(0,1] has c0=1,m=2,h1=1/4. Formula (4) gives c*=1/16, and (5) holds.
+Using c0 unchanged on the whole interval would fail at h=1. This checks
+the need to shrink the constant in the extension, separately from (9).
+
+The accompanying exact-rational controls check selected values, the
+displayed identity in (10), finite nested-set infima, and the necessity of
+the constant adjustment. They cannot establish a theorem over a continuum;
+the arguments in §§1–3 and the separate substantive review carry that work.
+
+## 5. Reading rule and unchanged boundaries
+
+Read the frozen paragraph at lines 247–262 with §1's near-zero conclusion
+and §§2–3's nested-domain extension. The original file remains unchanged;
+this separate source-bound note makes the corrected inference reviewable.
+Its disposition addresses SCC-GROWTH-01 only. OBL-K-01 remains a separate
+scope question, and no whole-proof review is transferred to altered bytes.
+
+The source's exact infinite periodic Gaussian law, actual conditional means,
+four-site separation, compact positive k range, determinant weight W and all
+normalizers retain their original meanings. The result remains a Gaussian
+numerator estimate at its stated scope. Matching weighted factorial counts
+still require the relevant Kac–Rice and Borel-mark results, and division
+still requires a floor for the same W. Actual elder pairing, once-counted
+finite ordinary persistence bars, field-first sampling, all-small-bars
+converses and regional shrinking witness collisions are not settled here.
+No proof source, dataset, claim graph, status, CI, formal certificate,
+scientific acceptance or original H3 program-recovery state is changed.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE REVIEW.md
+Bytes: 15154
+SHA-256: `2d2aab57da8b88db732a4ad3627294910b1de07382209522d28e50d808004895`
+~~~~~~~~~~~~~~~~~~~~
+# C320 SCC-GROWTH-01 — exact-source nonauthor delta review
+
+**Disposition: ACCEPT_SCOPED.** The candidate corrects the general semialgebraic growth statement to a near-zero statement, and its separate monotonicity argument validly extends the bound for the source's nested quality-infimum construction. No mandatory amendment or counterexample to this correction was found. This disposition addresses SCC-GROWTH-01 only and does not accept the complete separated-compact numerator theorem, decide OBL-K-01, or change any scientific status.
+
+**Actual reviewer:** OpenAI/Codex `/root/c317_h11_nonauthor`, delegated work for Dylan Roy. I did not author the C320 correction. I previously reviewed the separate C317 H11 qualification, and that prior role is disclosed rather than presented as fresh organizational independence. This C320 review is source-exposed and same-provider: organizational-independence 0, blind 0, human-review 0. Dylan Roy did not personally perform this review.
+
+## Exact reviewed source and exposure
+
+The complete candidate read is `CORRECTION.md`, 8,517 UTF-8 bytes, SHA256:
+
+`5b944a59879638055c9065e7aca525ae74b902b7f1961da185c0b3fed31c95aa`
+
+The complete frozen baseline read is `sources/SEPARATED_COMPACT_COVER.md`, 18,719 UTF-8 bytes, SHA256:
+
+`b5aef6e1fa74f5883273fcfe97f629bf9fb82c66c08b243d67c9179ae5d2fd36`
+
+Both byte counts and hashes were computed directly from the local bytes. All line references below refer to these exact decoded UTF-8 files. I read the full candidate and baseline, with detailed attention to baseline Section 4, its statement and boundaries, and Section 5's use of the quality bound. I also read the native current body of [Claude01Cz's finding, main605/6400100046](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400100046), updated 2026-10-25T16:22:00Z. The finding identifies the false whole-interval general inference, its positive semialgebraic counterexample, and the nested-domain monotonicity repair.
+
+I independently inspected the live author-hosted [Hank Yang exposition, Theorem 4.8 and its preceding Boolean-closure statement](https://hankyang.seas.harvard.edu/Semidefinite/SOS.html). That source states closure of semialgebraic sets under coordinate projection and Boolean operations, matching the retained import. This was inspection of the imported theorem statement, not a proof of Tarski–Seidenberg or a fresh byte-identity check of the baseline's historical HTML acquisition.
+
+I did not inspect or execute the accompanying rational-control script, any package checker, or the full upstream Gaussian implementation. No validity conclusion below relies on such execution.
+
+## Line-specific disposition
+
+| Location in CORRECTION.md | Finding / severity | Disposition |
+| --- | --- | --- |
+| Lines 17–50 | Original SCC-GROWTH-01 was LOW severity; this is the corrected general statement and proof | Accepted for 0<h<=h1 only; no continuity of f is silently assumed |
+| Lines 62–76 | Whole-interval extension | Accepted; monotonicity is explicit and the constant is correctly reduced |
+| Lines 80–102 | Quality-function premises and nonempty compact slices | Accepted as the stated source-bound premises; pointwise positivity is not substituted for local lower bounds |
+| Lines 104–119 | Nested-set inference, half-infimum quality, downstream substitution | Accepted; inclusion direction, infimum direction and factor 1/2 are correct |
+| Lines 123–127 | Parameter order | Accepted; the constants are chosen after fixed geometry/mark inputs and before varying eta/r |
+| Lines 131–148 | Counterexample and contrasting monotone example | Both are analytically correct and address different possible errors |
+| Lines 150–172 | Evidence and scope boundaries | Accepted; finite controls are not treated as continuum proof, and OBL-K-01/global conclusions are excluded |
+
+There are **no new actionable defects or required changes** in this candidate. The mathematical justifications and limits of these dispositions follow.
+
+## 1. Polynomial-graph proof and near-zero quantifiers
+
+Let f:(0,h0] -> (0,1] have semialgebraic graph, with h0 a positive finite real number. Its graph can be described by a finite Boolean combination of polynomial sign conditions. Identically zero polynomials may be replaced by their constant truth values and removed. At any graph point where every remaining polynomial is nonzero, all finitely many signs are constant on an open neighborhood. The formula would then hold on that neighborhood, impossible for the graph of a single-valued function. Therefore at least one polynomial vanishes at every graph point. The product of the finitely many nonzero polynomials is nonzero, since the real polynomial ring has no zero divisors, and vanishes on the graph.
+
+A description with no effective polynomial conditions cannot cause an exception: it would define either the empty set or the full plane, neither of which is the graph in question.
+
+Factoring the maximal power of y gives P(h,y)=y^j Q(h,y), with Q not divisible by y. Hence A(h)=Q(h,0) is a nonzero polynomial. The strict positivity of f, rather than any continuity of f, implies Q(h,f(h))=0 at every h in the domain. Write A(h)=h^m a(h) with integer m>=0 and a(0) nonzero. Continuity of this polynomial a permits one h1 in (0,h0] for which |a(h)|>=|a(0)|/2 throughout [0,h1].
+
+The candidate's M is finite because the derivative of Q is continuous on the compact rectangle [0,h0] x [0,1]. Its added 1 guarantees M>0. For each fixed h in (0,h1], integrate the polynomial derivative in the y variable between 0 and f(h). This gives
+
+    (|a(0)|/2) h^m <= |Q(h,0)|
+                    = |Q(h,0)-Q(h,f(h))|
+                    <= M f(h).
+
+Thus c0=|a(0)|/(2M)>0 proves the stated near-zero bound. Only polynomials are differentiated or assumed continuous. There is no differentiation of f, no continuity assumption on f, no Puiseux import, and no unjustified passage through an interior zero of A. Bounding the derivative on the larger rectangle up to h0 is valid even though the lower bound for |A(h)| is used only up to h1.
+
+The quantifiers are correctly ordered: for each fixed semialgebraic f and h0, there exist h1,c0,m that work for every h in the smaller interval. The proof supplies no lower bound away from zero for arbitrary positive f. That limitation is exactly what the original paragraph needed to make explicit.
+
+## 2. Monotone extension and its constant
+
+For nondecreasing f, the candidate's
+
+    c* = min(c0, f(h1)/h0^m)
+
+is positive. On (0,h1] the near-zero inequality applies. On [h1,h0], monotonicity gives f(h)>=f(h1), while m>=0 and h<=h0 give
+
+    f(h1) >= (f(h1)/h0^m) h^m >= c* h^m.
+
+This proof works for any positive finite h0, including h0>1, and for m=0. It does not silently keep the local constant c0 unchanged. Nor does it require continuity or attainment of a minimum on [h1,h0]: monotonicity directly supplies the needed positive lower bound f(h1).
+
+The slightly more general observation in line 75 is also correct: an independently known positive lower bound on [h1,h0] could replace monotonicity, with the same adjustment by h0^m. Pointwise positivity by itself cannot supply that bound.
+
+## 3. Application to the source's quality infimum
+
+The symbol eta avoids confusing the cutoff with the source's witness coordinate h. The application retains one fixed quality function kappa(g), independent of eta, derived from the fixed chart formulas and quality inequalities. This fixed-function premise is essential.
+
+The slices
+
+    D_eta = {g in D : |t|>=eta and |n|>=eta}
+
+are nested in the stated direction: eta1<=eta2 implies D_eta2 is a subset of D_eta1. For the same kappa, the infimum over the smaller nonempty set can only increase. Thus f(eta)=inf_D_eta kappa is nondecreasing. No property of covariance or the physical density is used to prove this monotonicity.
+
+For each fixed eta, compactness of D_eta and the retained local positive lower bounds for kappa give a finite cover with a common positive lower bound. This verifies f(eta)>0 without assuming that kappa is continuous or its infimum is attained. The upper bound kappa<=1 gives f<=1. Semialgebraicity of the graph of f follows from the retained quantifier-elimination premise. In particular, even without attainment, the infimum graph can be expressed by the combination of: z is a lower bound for all values on D_eta; and for each epsilon>0 some value is less than z+epsilon. Both can be written with first-order real-polynomial quantifiers using the semialgebraic graph of kappa.
+
+The selection of h0 below both transverse magnitudes of one off-axis point ensures all slices in (0,h0] are nonempty. The distinct no-off-axis case is kept separate. The correction never inserts infinity as a value of f by taking an empty-set infimum, nor applies its bounded-positive lemma to such a value. Larger cutoffs outside the chosen interval are not needed for this inference; baseline Section 5 handles the region H>=h0 as a fixed off-axis compact domain.
+
+Applying the near-zero lemma and the monotone extension therefore yields f(eta)>=c* eta^m for the whole selected interval. The source chooses q=f/2, and the correction explicitly carries the coefficient c*/2 into the lower bound for q. Since q is strictly below every kappa(g), an admissible quality greater than q exists by the definition of supremum; neither a maximizing chart nor an attained infimum is needed.
+
+Substituting this lower bound into a fixed finite collection of powers of q changes finite constants and exponents, as claimed. The correction does not purport to prove anew that all actual chart/remainder data satisfy the retained quality premises. In particular, it does not re-derive the chart formulas, the q^19 covariance estimate, the Gaussian moment inputs, or the shell argument merely from the growth lemma.
+
+## 4. Counterexamples and fresh conceptual controls
+
+The supplied bad example is positive and semialgebraic on (0,1], despite its discontinuity at 1/2. For n>=3, h_n=1/2+1/n lies in the domain, differs from 1/2, and satisfies
+
+    f_bad(h_n)/h_n^m = 1/[n(1/2+1/n)^m] <= 2^m/n -> 0.
+
+For every fixed integer m>=0, this rules out any positive global coefficient c. Its near-zero lower bound 1/4 on (0,1/4] is correct. It refutes the unqualified original whole-interval statement while leaving the corrected local statement intact.
+
+The contrasting monotone example min(h^2,1/16) has c0=1, m=2, h1=1/4 locally. The extension formula gives c*=1/16 on (0,1]. For h<=1/4, h^2>=(1/16)h^2; for larger h, the plateau 1/16>=(1/16)h^2 because h<=1. Keeping c0=1 would fail at h=1. Indeed, evaluation at h=1 also shows that 1/16 is the largest possible global constant for exponent 2 in this example. Thus this control tests constant adjustment, rather than repeating the nonmonotonicity counterexample.
+
+I additionally checked these fresh conceptual controls by analytic reasoning, without executing any mathematical program:
+
+1. **Nested domains alone do not suffice if quality changes with eta.** Let D_eta=[eta,1] for 0<eta<=1. For eta<1 set kappa_eta(x)=1-eta, and at eta=1 set kappa_1(1)=1. Every slice is nonempty and compact and every quality is positive, bounded and semialgebraic. But its infimum is 1-eta below 1, so it decreases and tends to zero as eta increases to 1. No positive bound c eta^m holds over the whole interval. This shows why candidate lines 84–85 must keep the chart-quality relation independent of eta; they do.
+
+2. **Pointwise positive quality is weaker than the retained local lower-bound condition.** On [0,1] take kappa(x)=|x-1/2| away from 1/2 and kappa(1/2)=1. This is positive and semialgebraic, but its infimum on [eta,1] is zero whenever eta<1/2. Local positive lower boundedness fails at 1/2. Hence the candidate correctly invokes the stronger retained premise and a finite subcover in lines 98–99 rather than claiming that positivity and compactness alone suffice.
+
+3. **Nonattainment does not invalidate the half-infimum construction.** On the compact interval [0,1], set kappa(0)=1 and kappa(x)=(1+x)/2 for x>0. It is semialgebraic and uniformly bounded below, with infimum 1/2 that is not attained. If the admissible qualities at x are the numbers strictly between 0 and kappa(x), their supremum need not be attained either. Nevertheless q=1/4 lies strictly below every supremum and admits a quality above q at every point. This verifies the logical role of the factor 1/2 independently of attainment.
+
+These are abstract quality-function controls, not models of the Gaussian field. They test necessity of the stated premises and do not replace the continuum proof.
+
+A separate same-provider adviser, `/root/c317_h11_nonauthor/growth_lemma_check`, was exposed to the proposed general lemma, extension and two supplied examples. It independently re-derived those claims and confirmed that continuity of f is unnecessary. Its response used a smaller compact derivative rectangle, which is also valid; I separately checked the candidate's actual larger [0,h0] rectangle. That adviser used no project execution and its agreement is not itself proof. It did not review the full source application, the fresh controls above, or global Gaussian conclusions.
+
+## 5. Parameter order and unchanged obligations
+
+The candidate fixes L, geometric bounds and positive separation, the compact b interval, and the positive compact k range before choosing chart data, h0 and growth constants. Eta varies only after those choices, and r is subsequently restricted by the source's polynomial threshold in eta. No assertion is made that c*,m or the threshold remain uniform when delta tends to zero, the mark range expands, k_- tends to zero, or the field law changes.
+
+The exact conditional Gaussian means, the four-site separation, the determinant weight and its normalizers are unchanged by this scalar growth correction. The source still concerns its stated numerator estimate. A matching factorial-count interpretation needs its own Kac–Rice/Borel-mark inputs; division needs a floor for the same weight. This review does not establish actual elder pairing, once-counted bars, field-first sampling, all-small-bars converses, or shrinking regional collisions. OBL-K-01 remains explicitly unselected, and no prior whole-proof review is transferred to different bytes.
+
+## Actual actions and final target confirmation
+
+Actions were limited to reading and hashing source documents, reading the exact public finding and an author-hosted theorem statement, analytic reasoning, and writing this review. No package code, checker, mathematical replay, AST/import inspection, Lean, CI, source edit, external post, branch/ref operation or status change was performed. The only file produced by this reviewer is this review report.
+
+**Final reviewed target:** `CORRECTION.md`, **8,517 bytes**, SHA256 **`5b944a59879638055c9065e7aca525ae74b902b7f1961da185c0b3fed31c95aa`**. ACCEPT_SCOPED applies only to these bytes and the SCC-GROWTH-01 correction, not to a future revision or to whole-project/theorem completion.
+
+credit 0 · sci NONE · eng != discharge · no flags · OBL OPEN
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE sources/SEPARATED_COMPACT_COVER.md
+Bytes: 18719
+SHA-256: `b5aef6e1fa74f5883273fcfe97f629bf9fb82c66c08b243d67c9179ae5d2fd36`
+~~~~~~~~~~~~~~~~~~~~
+# Separated scaled four-site compact cover
+
+Research derivation, 2026-10-25. This note is additive and does not edit v19,
+sealed v20, canonical 104/108/22, or the zero full-certificate count. It concerns
+the exact positive infinite periodic scalar Gaussian spectrum of retained v19
+`mathematics/GAUSSIAN_DERIVATIONS.md`. All Gaussian kernels below are the actual
+raw conditional kernels, with their actual means.
+
+## Statement and inputs
+
+Fix L, a compact interval of b, and 0<k_-<=k<=k_+. Let K be any compact set
+of pairs x=(s,t), y=(h,n), with |x|,|y|<=B, such that the four scaled sites
+(-1/2,0),(1/2,0),x,y have pairwise distances at least delta>0. At physical
+sites rR times these sites, prescribe pin values b,b-kr^3 and all four
+gradients zero. Write P for the six pin observations, Q_P for their raw
+conditional law, and T for all ten observations.
+
+For 0<=W<=|det H(a) det H(c)| and any measurable 0<=I<=1, the proposed
+conclusion, established below using the named analytic inputs, is
+
+    integral_(rRK) p_QP(grad F(x)=grad F(y)=0)
+      E_QP[W |det H(x) det H(y)| I | both gradients zero] dx dy <= C_K r^5.
+
+The inputs are: (i) retained exact-field smoothness, finite scalar-jet
+positivity, and the energy moment estimate in v19 §5; (ii) the degree-seven
+Hermite covariance floor proved separately in `../hermite-floor`, namely
+lambda_min Cov(T)>=c r^14 on this separated bounded family; (iii) the rational
+cubic/quartic observation expansions from v20 and the antipodal computation
+in `../antipodal`. The polynomial uniformity argument below is explicit about
+its additional standard real-algebraic ingredient: Tarski--Seidenberg
+projection/quantifier elimination for real semialgebraic sets. Its exact
+statement and the needed growth consequence are given below; this is an
+explicit candidate theorem import, not a promoted source acceptance. It is
+not a claim that the exact Gaussian covariance is semialgebraic.
+
+`check_classification.py` and `exact_classification_results.json` record exact
+symbolic identities for the full cubic determinant, both compatibility
+targets, the same-transverse quartic coefficient, and the generic symbolic
+axis ranks. The uniform analytic statements rely on the written arguments,
+not on these finite controls.
+
+## 1. Exhaustive cubic rank and target compatibility
+
+After the six pin constraints, the general scalar cubic has four free
+coefficients q,A,B,C, in the form
+
+    P(s,t)=-k/2+2ks^3-(3k/2)s
+             +(A/2)(s^2-1/4)t+(q/2)t^2+(B/2)st^2+(C/6)t^3.
+
+The two equations at a witness (s,t) are
+
+    st A+(t^2/2)B = k(3/2-6s^2),
+    (s^2/2-1/8)A+tq+stB+(t^2/2)C = 0.
+
+For tn!=0, eliminate q between the second equations. The resulting three by
+three determinant on (A,B,C) is
+
+    tn(n-t)(sn-ht)/4.
+
+Consequently the cubic rank is ten off the two hypersurfaces
+
+    e=n-t=0,                     ell=sn-ht=0.
+
+They cannot intersect in the offaxis separated domain: e=ell=0 and t!=0
+imply h=s, n=t. On either hypersurface the cubic rank is exactly nine.
+On e=0 put d=h-s. Then d!=0 and the first two equations determine A,B;
+the remaining compatibility condition is d(d^2-1)=0. Thus compatibility is
+exactly d=+1 or d=-1. On ell=0 put y=lambda x, lambda=n/t. Here lambda!=0,1.
+The first witness equation at y is lambda^2 times that at x, whereas their
+targets differ by (3k/2)(1-lambda^2). Compatibility is exactly lambda=-1.
+
+If exactly one witness is axial, its first equation is zero with target
+k(3/2-6s^2). Pairwise separation excludes s=+/-1/2, so the target is
+incompatible. Its second equation determines A; the offaxis witness supplies
+two independent further equations, giving cubic rank nine. If both witnesses
+are axial, their second equations constrain only A, giving cubic rank seven;
+again the target is incompatible. This exhausts the separated domain.
+
+## 2. A uniform rare-target estimate near either axis
+
+Use the exact row from v20, which has no division by a witness transverse
+coordinate:
+
+    M(s,t)=[DuF(rR(s,t))-A1-rsU2-rtV1]/r^2-(s^2/2)U3.
+
+Its exact target is k(3/2-6s^2). Uniform Taylor expansion on the bounded
+geometry gives
+
+    M(s,t)=st J21+(t^2/2)J12+O_L2(r),
+    Var M(s,t)<=C(t^2+r^2).
+
+Choose 0<h0<=delta/2. If |t|<=h0, separation from both pins implies
+|s-1/2|,|s+1/2|>=sqrt(3)delta/2. Hence |3/2-6s^2|>=9delta^2/2.
+For the actual full regression energy E=t_target^T Cov(T)^(-1)t_target,
+covariance Cauchy--Schwarz therefore proves
+
+    E>=c/(t^2+r^2).
+
+This uses an exact row of the actual observations; no limiting conditioning
+or centered-mean substitution occurs. With H=min(|t|,|n|)<=h0 it gives
+E>=c/(H^2+r^2).
+
+The Hermite floor gives joint density <=Cr^-70 exp(-E/2). The exact pin
+density is bounded below by c r^-5, because its transformed target and
+covariance stay in compact nondegenerate sets. Thus conditional gradient
+density <=Cr^-65 exp(-E/2). The v19 energy moment bound is
+
+    E[||F||Cq^p | T=target]<=C_pq(1+sqrt(E))^p,
+
+uniformly over all these nondegenerate observation families. A crude
+four-determinant bound and absorption of the polynomial in E give the
+pointwise Gaussian integrand bound
+
+    integrand <=Cr^-65 exp(-E/4)
+              <=Cr^-65 exp[-c/(H^2+r^2)].                 (A)
+
+In particular every strip H<=r^alpha, 0<alpha<1, contributes O(r^N) for every
+N after physical volume scaling. The estimate (A) is also used below for
+all shells where a Taylor chart has not yet reached its controlled radius.
+
+## 3. All offaxis local charts and their algebraic certificates
+
+Only finitely many *formula types* are needed, with continuous geometric
+centers. Their exact row coefficients are rational functions of the geometry;
+their limiting coefficients are scalar jet coefficients through degree four.
+
+Regular chart: use the ten v20 cubic rows. Nonzero tn e ell supplies a
+nonzero cubic minor. Its observation Jacobian is 12/(|tn|r^12).
+
+Same-transverse chart: use v20 `UNFOLDING_NEIGHBORHOOD.md` equations (5)--(11)
+with unrestricted bounded (s,t,h,n), setting e=n-t. Near any point e=0,
+t!=0,d=h-s!=0, the first nine rows have minor -t^3 d/2. The final row is
+
+    E_r=(e/2)J03+r Q_g+O(r^2 C5),
+
+and the coefficient of J13 in Q_g at e=0 is dt/6, nonzero. Normalize by
+rho=sqrt(e^2+r^2). The row family is free uniformly over the compact
+semicircle (e/rho,r/rho), as shown by the cubic minor and the quartic J13
+minor. The exact target is kF(g)/rho, with
+
+    F|_(e=0)=3d(d^2-1)/t^2.
+
+At either compatible branch d=+/-1, partial_h F=6/t^2, holding s,t,e fixed.
+The rank coordinate e and hence rho are independent of this integration
+coordinate h. At incompatible points F!=0. The observation Jacobian is
+12/(|tn|r^12 rho).
+
+Collinear chart: use coordinates n=lambda t, h=lambda s+zeta. Here t!=0,
+lambda!=0,1 on the rank locus zeta=0. Keep pin6,W0,M(x),D as nine rows;
+their cubic minor excluding J21 is t^3(lambda-1)/4. The final row is
+
+    E_r=M(y)-lambda^2 M(x)
+       =n zeta J21+r Q_g+O(r^2 C5),
+    Q_g=M4(h,n)-lambda^2 M4(s,t).
+
+At zeta=0 its J13 coefficient is t^3 lambda^2(lambda-1)/6, nonzero.
+Normalize by rho=sqrt(zeta^2+r^2). The same two-minor argument proves
+freedom over the semicircle. Its target is kPhi/rho, where
+
+    Phi=(3/2)(1-lambda^2)-12lambda s zeta-6zeta^2.
+
+At compatibility lambda=-1,zeta=0, partial_lambda Phi=3. The integration
+coordinate lambda is independent of rho. At all other rank points Phi!=0.
+The geometry Jacobian is |t|, and the observation Jacobian again has the
+form r^-12 rho^-1 times a nonzero rational geometry factor.
+
+Each nonzero minor, target derivative, or incompatible target remains bounded
+away from zero on a sufficiently small local box. The distinction between
+compatible and incompatible charts is a choice of which inequality is used,
+not an assumption that an incompatible target is uniformly separated from
+zero on the whole rank hypersurface.
+
+At any offaxis configuration the three zero-gradient sites a,c,x give the
+deterministic bound
+
+    max_i ||H(i)||<=Cr |t|^-1 ||F||C3.                    (B)
+
+Indeed gradient differences imply H(0)u=O(r C3) and
+H(0)((s+1/2)u+tv)=O(r C3); solve for the second column and move to the
+other bounded sites. Thus four determinants are bounded by
+Cr^8 |t|^-8 ||F||C3^8. This argument applies to actual conditioned fields.
+
+## 4. Why constants and radii have polynomial dependence on axial distance
+
+Here is the precise quantitative-cover ingredient, including its justification.
+
+**Semialgebraic cover lemma.** Suppose a bounded semialgebraic parameter
+domain D has a closed exceptional set Z, and finitely many rational local
+chart formulas cover D\Z. Suppose validity of a chart box and its quantitative
+quality are certified by polynomial/rational inequalities: bounds on
+the finite normalized Taylor-template coefficients and derivatives, coordinate
+ranges and distortions, a Gram determinant floor for the limiting row matrix,
+and nonzero target derivatives or targets. Boxes lie in an ambient open
+neighborhood, not necessarily in the closed set D. Uniformity over the
+compact semialgebraic parameter set alpha^2+sigma^2=1, sigma>=0, is permitted.
+Then on
+D_h={g in D:dist-to-the-designated-exception-coordinates>=h}, assumed compact,
+there exist a,N>0 such that at most a^-1 h^-N chart boxes suffice, all required
+coefficient/inverse/Jacobian bounds are <=a^-1 h^-N, all required floors and
+box radii are >=a h^N. The additional polynomial small-radius threshold is
+asserted only when the analytic remainders are finite sums with the controlled
+rational coefficients and a fixed smooth-field moment bound; this hypothesis
+is verified below for the present application. Exponents can be increased
+to one common N. Empty D_h require no cover and are omitted from infima.
+
+For precision, the admissible quality at g is the supremum of q in (0,1]
+for which one formula, one admissible center, and a box containing a Euclidean
+ball of radius q about g satisfy coefficient bounds q^-1 and all required
+floors q. The finite list includes coordinate ranges, Jacobians and inverse
+Jacobians, all rational geometry coefficients of the normalized Taylor
+templates and their remainder representations, and
+
+    det(A(g,alpha,sigma) A(g,alpha,sigma)^T)>=q,
+
+where A is the ten-row limiting coefficient matrix on scalar jets through
+degree four. For regular charts omit the mixture variables. A Gram determinant
+is a sum of squared maximal minors; individual minors need not stay nonzero
+throughout the semicircle. The known r^-12 and rho^-1 density powers are
+factored out before defining this finite list. These bounds concern the
+finite rational geometry data, not the raw exact observation-row coefficients
+containing r^-j, which cannot be bounded by q^-1 as r tends to zero.
+Include box points and the compact mixture parameters by universal quantifiers.
+After clearing denominators whose signs are fixed in each formula, this is a
+semialgebraic relation. The imported Tarski--Seidenberg statement is: a
+coordinate projection of a finite Boolean combination of real polynomial
+equalities and strict inequalities is again such a finite Boolean combination.
+Complements then permit universal quantifiers as well as existential ones.
+This applies with arbitrary fixed real coefficients and does not require
+rational numerical covariance floors. Projection/quantifier elimination makes the supremum
+semialgebraic. Validity on a neighborhood makes this quality locally bounded
+below by a positive number. Its infimum on D_h is therefore positive, and is
+a semialgebraic function of h, again by quantifier elimination. When selecting
+actual boxes, take q to be half this infimum. Since q is strictly below every
+supremum quality, some admissible box has quality above q; attainment of a
+supremum or infimum is not assumed.
+
+The acquired source is Hank Yang's author-hosted course exposition,
+[Theorem 4.8](https://hankyang.seas.harvard.edu/Semidefinite/SOS.html), whose
+projection statement and preceding Boolean-closure paragraph were inspected
+in the retained HTML. Acquisition and classification are recorded in
+`../sources/TARSKI_SOURCE_LEDGER.json`; the 178093-byte HTML has SHA-256
+`650a12928f8fd65579f725d73db07386445370375fb0287a9ae07b3722d29ad4`.
+This is statement inspection, not a kernel proof or automatic theorem/source
+admission. The attempted Coste author-PDF acquisitions failed with HTTP 503
+or timeout and supply no byte custody; see `../sources/acquisition-attempts.json`.
+
+Here is an elementary proof of the only growth consequence needed. Let
+0<f(h)<=1 be semialgebraic for 0<h<=h0. Write its graph as a finite Boolean
+combination of polynomial sign conditions, discarding identically zero
+polynomials. The graph has empty interior, so at each graph point at least
+one of those polynomials vanishes: otherwise all signs would be locally
+constant and an open ball would lie in the graph. Their product P(h,y) is a
+nonzero polynomial vanishing on the graph. Factor the largest power of y
+out of P, writing P=y^j Q; then Q(h,0) is a nonzero polynomial in h.
+Since f>0, Q(h,f(h))=0. Near h=0, the first nonzero monomial of Q(h,0)
+gives |Q(h,0)|>=c h^m. On the compact rectangle 0<=h<=h0,0<=y<=1,
+the derivative partial_y Q is bounded, so
+
+    c h^m <= |Q(h,0)-Q(h,f(h))| <= C f(h).
+
+This proves f(h)>=c' h^m, with no Puiseux theorem needed. It applies to the
+positive infimum quality function just constructed. A maximal q/4-separated selection in a fixed bounded four-dimensional
+box has at most Cq^-4 members and yields the claimed cover. Smaller coordinate
+boxes can be used so that the target-coordinate fibers are intervals. Their
+coordinate distortion and sizes are included among the algebraic quality
+inequalities.
+
+Apply this lemma to the universal bounded separated domain, which is
+semialgebraic even when the original K is not, and Z={tn=0}; use
+D_h={g in D:|t|,|n|>=h}. Use ambient boxes with witness norms below B+1 and
+all six pairwise distances above delta/2, decreasing their sizes as needed.
+Thus points on the boundary of D still admit ambient Euclidean balls. If D
+has no offaxis point, it is contained in the axial set of four-dimensional
+measure zero and the integral vanishes. Otherwise choose h0 also below
+min(|t|,|n|) at one offaxis point; then D_h is nonempty for every 0<h<=h0.
+For larger empty slices the cover is vacuous. The formulas and certificates
+in §3 are exactly of the required kind. In collinear coordinates lambda=n/t
+may grow like h^-1; its range, coordinate distortion, and all coefficients
+depending on it are included in the finite quality list.
+
+The finite jet covariance in the R-frame has a fixed positive floor m4
+uniformly over R in O(2), by retained jet positivity and compactness. If the
+finite entries of A are bounded by q^-1 and det(AA^T)>=q, then its ten
+eigenvalues have ceiling Cq^-2 and hence
+
+    lambda_min(AA^T)>=c q^19.
+
+Thus the limiting row covariance has floor c m4 q^19 and a polynomial
+ceiling. This step uses no semialgebraicity of Gaussian covariance. Every
+exact Taylor remainder is a finite sum of the controlled rational geometry
+coefficients times a fixed-order Taylor remainder. The fixed exact-field C5
+second moment therefore gives L2 row error <=C r q^-J for some fixed finite
+J. In fold charts the unnormalized error is O(r^2 C5), and rho>=r leaves
+O(r C5) after normalization. Consequently the covariance perturbation is
+<=C r q^-J' for a fixed finite J'. Choose r<=c q^(19+J') so this perturbation
+is smaller than half the limiting covariance floor. Substituting q>=c h^m
+gives the claimed polynomial h threshold. Cross-covariance bounds follow
+from the same finite-sum argument. This verifies the remainder hypothesis
+and small-radius conclusion in this concrete application.
+
+## 5. Shell estimates with the axis exponential retained
+
+Take a shell h<=H=min(|t|,|n|)<=2h, 2h<=h0. The preceding paragraph supplies
+a polynomial number of charts and polynomial constants for r<=a h^N. Increase
+N>=1 and decrease a so r<=h. Write E for the exact energy throughout.
+Then E>=c/h^2 by §2. In a normalized fold chart with target z=kF/rho or
+kPhi/rho, the polynomial covariance ceiling also gives E>=c h^N z^2.
+The joint density is bounded by its polynomial determinant prefactor times
+exp(-E/2); (B) and the energy moment bound give an extra r^8 h^-N(1+E)^4.
+Absorb the last factor into part of the exponential and retain separate
+fractions for the axis and fold-target penalties. The resulting pointwise
+fold integrand is at most
+
+    C h^-N r rho^-1 exp(-c/h^2) exp(-c h^N z^2).          (C)
+
+In compatible boxes, the target derivative is >=c h^N and rho is independent
+of its coordinate. Substitution z=kF/rho (or kPhi/rho) integrates rho^-1
+against the Gaussian to a further polynomial in h^-1. Any restricted shell
+or K may be bounded by the full target-coordinate interval; the axis factor
+in (C) has already been fixed using the original shell, so it remains a
+valid bound on that restricted set before enlargement.
+
+In incompatible boxes the target has a floor >=c h^N, so
+rho^-1 exp(-c h^N (kF/rho)^2) is uniformly bounded by a polynomial in h^-1;
+the same statement holds for Phi. Regular charts have no rho^-1 and are
+immediate. Summing the polynomial number of boxes, integrating the remaining
+bounded coordinates, and using dxdy=r^4 dgeometry yields
+
+    shell contribution <=C r^5 h^-N exp(-c/h^2),
+    provided r<=a h^N.                                  (D)
+
+The exponent N in (D) may be increased from the threshold exponent; take
+one common exponent and decrease a once more. On dyadic shells where this
+condition fails, h<(r/a)^(1/N). Their union lies in H<=C r^(1/N). Estimate
+(A) then gives total contribution
+
+    <=Cr^-61 exp[-c/(r^(2/N)+r^2)]=O(r^m)
+
+for every m. This includes H=0, which also has zero four-dimensional measure.
+On the remaining shells, the series sum_j h_j^-N exp(-c/h_j^2) converges,
+so (D) sums to O(r^5). The region H>=h0 is a single fixed offaxis compact
+domain handled by the same finite atlas with constant h0. This proves the
+stated separated-compact Gaussian numerator estimate.
+
+## Boundaries
+
+The argument supplies existential constants and an existential small-r
+threshold for each fixed delta,B,L and compact mark set. It does not supply
+numerical covariance floors or rates uniform as delta tends to zero. Both
+actual height-window indicators can be included in I but are not needed.
+No true witness--witness or witness--pin collision is covered. Identification
+with a weighted factorial count needs the matching Kac--Rice theorem and
+Borel-mark extension. Division by a normalizer needs a separately proved
+floor for the same W. Source applicability, full D5 composition, and external
+or formal acceptance remain separate; canonical state is unchanged.
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE SOURCE_IDENTITY.json
+Bytes: 727
+SHA-256: `9efaacec8a877b0b5c0ceaf9a14ed9b71cc03ec7b51ecf60d80e6da49e3c1f9d`
+~~~~~~~~~~~~~~~~~~~~
+{
+  "source_member": "Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/universal-law/v21-proof-supplement/proofs/SEPARATED_COMPACT_COVER.md",
+  "source_bytes": 18719,
+  "source_sha256": "b5aef6e1fa74f5883273fcfe97f629bf9fb82c66c08b243d67c9179ae5d2fd36",
+  "archive": "Universal_Law_v22_Root_Resolution_Supplement.zip",
+  "archive_bytes": 18489802,
+  "archive_sha256": "82536fa4ed628a8f96cd4b8734a867c50f69b1d28cb55d810053cb449448754c",
+  "source_owner": "original preserved; no branch/source takeover",
+  "finding": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400100046",
+  "actual_correction_author": "OpenAI/Codex /root chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2 delegated for Dylan Roy"
+}
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE exact_controls.py
+Bytes: 3334
+SHA-256: `18848a96bbebc7f6bac7afc2dd8e53c4db47782687f2e2be5702d072f2433b5a`
+~~~~~~~~~~~~~~~~~~~~
+"""Exact rational controls for C320; finite checks do not prove the lemma."""
+from fractions import Fraction as F
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+checks = []
+negative_controls = []
+
+
+def check(label, condition):
+    if not condition:
+        raise AssertionError(label)
+    checks.append(label)
+
+
+def bad(h):
+    return F(1) if h == F(1, 2) else abs(h - F(1, 2))
+
+
+def good(h):
+    return min(h * h, F(1, 16))
+
+
+for m in range(9):
+    n = 2 ** (m + 3)
+    h = F(1, 2) + F(1, n)
+    ratio = bad(h) / h ** m
+    check(f'bad m={m} point positive and in domain', 0 < h <= 1 and 0 < bad(h) <= 1)
+    check(f'bad m={m} exact sequence identity', bad(h) == F(1, n))
+    check(f'bad m={m} displayed ratio bound', ratio <= F(2 ** m, n))
+    check(f'bad m={m} global c=1/4 candidate fails', ratio < F(1, 4))
+negative_controls.append('pointwise-positive semialgebraic whole-interval claim fails')
+check('bad exceptional point is positive', bad(F(1, 2)) == 1)
+for h in [F(1, 64), F(1, 16), F(1, 8), F(1, 4)]:
+    check(f'bad near-zero control at {h}', bad(h) >= F(1, 4))
+
+h1, c0, m = F(1, 4), F(1), 2
+for h0 in [F(1, 4), F(1), F(2)]:
+    cstar = min(c0, good(h1) / h0 ** m)
+    probes = sorted({F(1, 64), F(1, 16), F(1, 8), h1, (h1+h0)/2, h0})
+    check(f'extension positive constant h0={h0}', cstar > 0)
+    for h in probes:
+        check(f'good bound h0={h0} h={h}', good(h) >= cstar * h ** m)
+        check(f'half-infimum bound h0={h0} h={h}', good(h)/2 >= cstar/2 * h ** m)
+
+check('unshrunk c0 counterexample', good(F(1)) < c0)
+negative_controls.append('reusing c0 without shrinking fails')
+check('omitting h0 power counterexample', good(F(2)) < good(h1) * F(2) ** m)
+negative_controls.append('omitting h0^m in extension constant fails')
+check('omitting half counterexample', good(F(1))/2 < F(1, 16))
+negative_controls.append('dropping half-infimum factor fails')
+
+# A finite analogue checks inclusion direction, not continuum compactness.
+points = [(F(1, 8), F(1, 8)), (F(1, 4), F(1, 16)),
+          (F(1, 2), F(1, 2)), (F(3, 4), F(1, 4)), (F(1), F(1, 8))]
+etas = [F(1, 16), F(1, 8), F(1, 4), F(1, 2), F(3, 4), F(1)]
+sets = [{i for i, (distance, quality) in enumerate(points) if distance >= eta} for eta in etas]
+infs = [min(points[i][1] for i in subset) for subset in sets]
+check('all selected finite slices nonempty', all(sets))
+check('finite slices shrink with increasing eta', all(b <= a for a, b in zip(sets, sets[1:])))
+check('finite infima are nondecreasing', all(a <= b for a, b in zip(infs, infs[1:])))
+check('reversed infimum inequality fails somewhere', any(b > a for a, b in zip(infs, infs[1:])))
+negative_controls.append('reversed nested-infimum direction fails')
+check('empty slice separated from infimum case', not [p for p in points if p[0] >= F(2)])
+
+result = {
+    'scope': 'Finite exact rational controls only; analytic proof and substantive review are separate',
+    'checks_passed': len(checks), 'checks': checks,
+    'negative_control_classes': negative_controls,
+    'arithmetic': 'fractions.Fraction; no floating point or sampled Gaussian field',
+    'package_code_executed': False, 'theorem_proved_by_tests': False,
+}
+(ROOT / 'EXACT_CONTROL_RESULTS.json').write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps({k:v for k,v in result.items() if k != 'checks'}))
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE EXACT_CONTROL_RESULTS.json
+Bytes: 3781
+SHA-256: `734d76a06ab3b6d056e4de3cbf7d4051c7a9d137f4bb39398f49972ccf309d67`
+~~~~~~~~~~~~~~~~~~~~
+{
+  "scope": "Finite exact rational controls only; analytic proof and substantive review are separate",
+  "checks_passed": 84,
+  "checks": [
+    "bad m=0 point positive and in domain",
+    "bad m=0 exact sequence identity",
+    "bad m=0 displayed ratio bound",
+    "bad m=0 global c=1/4 candidate fails",
+    "bad m=1 point positive and in domain",
+    "bad m=1 exact sequence identity",
+    "bad m=1 displayed ratio bound",
+    "bad m=1 global c=1/4 candidate fails",
+    "bad m=2 point positive and in domain",
+    "bad m=2 exact sequence identity",
+    "bad m=2 displayed ratio bound",
+    "bad m=2 global c=1/4 candidate fails",
+    "bad m=3 point positive and in domain",
+    "bad m=3 exact sequence identity",
+    "bad m=3 displayed ratio bound",
+    "bad m=3 global c=1/4 candidate fails",
+    "bad m=4 point positive and in domain",
+    "bad m=4 exact sequence identity",
+    "bad m=4 displayed ratio bound",
+    "bad m=4 global c=1/4 candidate fails",
+    "bad m=5 point positive and in domain",
+    "bad m=5 exact sequence identity",
+    "bad m=5 displayed ratio bound",
+    "bad m=5 global c=1/4 candidate fails",
+    "bad m=6 point positive and in domain",
+    "bad m=6 exact sequence identity",
+    "bad m=6 displayed ratio bound",
+    "bad m=6 global c=1/4 candidate fails",
+    "bad m=7 point positive and in domain",
+    "bad m=7 exact sequence identity",
+    "bad m=7 displayed ratio bound",
+    "bad m=7 global c=1/4 candidate fails",
+    "bad m=8 point positive and in domain",
+    "bad m=8 exact sequence identity",
+    "bad m=8 displayed ratio bound",
+    "bad m=8 global c=1/4 candidate fails",
+    "bad exceptional point is positive",
+    "bad near-zero control at 1/64",
+    "bad near-zero control at 1/16",
+    "bad near-zero control at 1/8",
+    "bad near-zero control at 1/4",
+    "extension positive constant h0=1/4",
+    "good bound h0=1/4 h=1/64",
+    "half-infimum bound h0=1/4 h=1/64",
+    "good bound h0=1/4 h=1/16",
+    "half-infimum bound h0=1/4 h=1/16",
+    "good bound h0=1/4 h=1/8",
+    "half-infimum bound h0=1/4 h=1/8",
+    "good bound h0=1/4 h=1/4",
+    "half-infimum bound h0=1/4 h=1/4",
+    "extension positive constant h0=1",
+    "good bound h0=1 h=1/64",
+    "half-infimum bound h0=1 h=1/64",
+    "good bound h0=1 h=1/16",
+    "half-infimum bound h0=1 h=1/16",
+    "good bound h0=1 h=1/8",
+    "half-infimum bound h0=1 h=1/8",
+    "good bound h0=1 h=1/4",
+    "half-infimum bound h0=1 h=1/4",
+    "good bound h0=1 h=5/8",
+    "half-infimum bound h0=1 h=5/8",
+    "good bound h0=1 h=1",
+    "half-infimum bound h0=1 h=1",
+    "extension positive constant h0=2",
+    "good bound h0=2 h=1/64",
+    "half-infimum bound h0=2 h=1/64",
+    "good bound h0=2 h=1/16",
+    "half-infimum bound h0=2 h=1/16",
+    "good bound h0=2 h=1/8",
+    "half-infimum bound h0=2 h=1/8",
+    "good bound h0=2 h=1/4",
+    "half-infimum bound h0=2 h=1/4",
+    "good bound h0=2 h=9/8",
+    "half-infimum bound h0=2 h=9/8",
+    "good bound h0=2 h=2",
+    "half-infimum bound h0=2 h=2",
+    "unshrunk c0 counterexample",
+    "omitting h0 power counterexample",
+    "omitting half counterexample",
+    "all selected finite slices nonempty",
+    "finite slices shrink with increasing eta",
+    "finite infima are nondecreasing",
+    "reversed infimum inequality fails somewhere",
+    "empty slice separated from infimum case"
+  ],
+  "negative_control_classes": [
+    "pointwise-positive semialgebraic whole-interval claim fails",
+    "reusing c0 without shrinking fails",
+    "omitting h0^m in extension constant fails",
+    "dropping half-infimum factor fails",
+    "reversed nested-infimum direction fails"
+  ],
+  "arithmetic": "fractions.Fraction; no floating point or sampled Gaussian field",
+  "package_code_executed": false,
+  "theorem_proved_by_tests": false
+}
+~~~~~~~~~~~~~~~~~~~~
+
+### C320_EVIDENCE EXACT_CONTROL_RUN_RECEIPT.json
+Bytes: 818
+SHA-256: `ff68fe7acb58ae8c6b6788fc40eb7b189d5e1dc42d775e93efa6a39f3cb8a88f`
+~~~~~~~~~~~~~~~~~~~~
+{
+  "observed_after_run_utc": "2026-10-25T17:11:43.702326+00:00",
+  "command": "python3 -B -S exact_controls.py",
+  "actual_executor": "OpenAI/Codex /root",
+  "runs": 1,
+  "exit_code": 0,
+  "checks_passed": 84,
+  "negative_control_classes": 5,
+  "inputs": {
+    "CORRECTION.md": {
+      "bytes": 8517,
+      "sha256": "5b944a59879638055c9065e7aca525ae74b902b7f1961da185c0b3fed31c95aa"
+    },
+    "exact_controls.py": {
+      "bytes": 3334,
+      "sha256": "18848a96bbebc7f6bac7afc2dd8e53c4db47782687f2e2be5702d072f2433b5a"
+    },
+    "sources/SEPARATED_COMPACT_COVER.md": {
+      "bytes": 18719,
+      "sha256": "b5aef6e1fa74f5883273fcfe97f629bf9fb82c66c08b243d67c9179ae5d2fd36"
+    }
+  },
+  "results_sha256": "734d76a06ab3b6d056e4de3cbf7d4051c7a9d137f4bb39398f49972ccf309d67",
+  "theorem_proved_by_controls": false
+}
+~~~~~~~~~~~~~~~~~~~~
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

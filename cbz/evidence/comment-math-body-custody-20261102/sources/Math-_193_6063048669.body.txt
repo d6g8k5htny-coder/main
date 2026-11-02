@@ -1,0 +1,1053 @@
+## Actual two-site pin disintegration — FULL exact source and final execution evidence
+
+Actual /root, OpenAI/Codex, chat01a103c8; narrow required I4 semantic progress, organizational independence0. Producer /root/i2_formal_support froze at15:03:27UTC. Main13561B/SHA390a61751a319e0497d5fd267b2949156ecfd652d4244d7f4ef8a26d99ec45d8. Actual nonauthor /root/pin_disintegration_review completed15:12:50; report24822B/SHA75bb530068655a7cf57ef352fa05091383106781d94fbe21aa159fd22d075a37 is serialized in the separate exact review/control release. Root read final main, tests, audit, author report and complete independent final review, independently rederived the joint-law argument and freshly checked78current+247overlapping predecessor bindings,12actual execution triples,5unchanged raw targets,20examples and14std3 axiom rows. This is retained cached-import elaboration/axiom evidence, not a new whole-library kernel replay or scientific promotion.
+
+For L>0 and distinct actual torus sites, derives finite JOINT residual/pin Gaussianity and actual crosscovariance cancellation R Sigma=I; finite cylinders extend independence to the WHOLE residual coefficient map. Pointwise reconstruction and the canonical every-v shift-law identity prove the literal pin-first joint law of(pins,ORIGINAL SAMPLE)=pin marginal compProd canonical kernel. The native condKernel agrees ONLY marginal-almost-everywhere. Every-target canonical evaluation and physical reproduction under the correct transformed law are separate proven statements. No arbitrary null-target native identity, independent residual coordinates, supplied covariance inverse/independence/RCD hypothesis, conditional Morse genericity or full I4 is inferred.
+
+Final main03/tests04/axioms02 exit0 in20.661896833/21.892517208/6.951251584seconds; main/test logs EMPTY; audit fourteen rows all exactly propext,Classical.choice,Quot.sound including three actual private helpers. Clean five-empty-target03 and all retained failed attempts are documented in the separate review/control release. ZeroR actual positive crosscovariance, singular collision/incompatible targets, torus alias and wrong-second-coordinate joint-law controls are substantive. The singular fallback is not arbitrary pin reproduction.
+
+Serialization boundary: EIGHT FULL literal files below, independently collected once. The manifest lists78 exact local byte bindings; dependencies, imported .oleans, history logs, metadata and author narrative not listed below are LOCAL-BOUND and NOT serialized by this comment. No source/runtime/rule/graph/STATUS mutation or final theorem merge/promotion.
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegration.lean
+
+Bytes 13561; SHA256 390a61751a319e0497d5fd267b2949156ecfd652d4244d7f4ef8a26d99ec45d8.
+
+```````
+import PinReproduction
+import Mathlib.Probability.Independence.Process.Basic
+import Mathlib.Probability.Kernel.Disintegration.Unique
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Jets I4SourceGaussian I4SourceCovariance
+  I4PinMajorant I4PinKernel I4TwoPinRank I4PinReproduction I4Torus
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators ProbabilityTheory
+namespace I4PinDisintegration
+
+abbrev Coefficients (d : ℕ) := SourceMode d → ℝ
+def residual (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) :
+    Coefficients d → Coefficients d :=
+  regressionCoefficients d L sites (canonicalR d L sites) 0
+def shift (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) (z : Coefficients d) (m : SourceMode d) : ℝ :=
+  z m + ∑ i, ∑ j, pinCoefficient d L sites m i * canonicalR d L sites i j * v j
+def canonicalKernel (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) :
+    Kernel (PinIndex d → ℝ) (Coefficients d) :=
+  (regressionKernel d L).comap (fun v => (sites,canonicalR d L sites,v)) (by fun_prop)
+def pinJoint (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) :
+    Measure ((PinIndex d → ℝ) × Coefficients d) :=
+  (sourceLaw d).map (fun omega => (pinObservation d L sites omega,omega))
+
+instance canonicalKernel_markov (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) :
+    IsMarkovKernel (canonicalKernel d L sites) := by
+  have := regressionKernel_markov d L
+  unfold canonicalKernel
+  infer_instance
+instance pinJoint_probability (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) :
+    IsProbabilityMeasure (pinJoint d L sites) := by
+  unfold pinJoint
+  change IsProbabilityMeasure ((coefficientLaw (SourceMode d)).map _)
+  infer_instance
+
+private theorem row_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (sites : Fin 2 → (Fin d → ℝ)) (i : PinIndex d) :
+    Summable (fun m => pinCoefficient d L sites m i) :=
+  modeJetCoefficient_summable d hL (pinOrder d i)
+    (by rcases i with ⟨a,j⟩; cases j <;> norm_num [pinOrder]) _ _
+
+private theorem series_gaussian {ι : Type*} [Countable ι] (a : ι → ℝ) (ha : Summable a) :
+    HasGaussianLaw (scalarSeries a) (coefficientLaw ι) := by
+  constructor
+  · exact (scalarSeries_measurable a).aemeasurable
+  · rw [scalarSeries_map_gaussian a ha]
+    infer_instance
+
+private theorem series_family_gaussian {ι J : Type*} [Countable ι] [Fintype J]
+    (a : J → ι → ℝ) (ha : ∀ j, Summable (a j)) :
+    HasGaussianLaw (fun omega j => scalarSeries (a j) omega) (coefficientLaw ι) := by
+  classical
+  have hm : Measurable (fun omega j => scalarSeries (a j) omega) :=
+    Measurable.of_eval (fun j => scalarSeries_measurable _)
+  refine ⟨hm.aemeasurable, ?_⟩
+  apply isGaussian_of_map_eq_gaussianReal
+  intro ell
+  let c : J → ℝ := fun j => ell (Pi.single j 1)
+  let b : ι → ℝ := fun m => ∑ j, c j * a j m
+  have hb : Summable b := summable_sum (fun j _ => (ha j).mul_left (c j))
+  have hrep (v : J → ℝ) : ell v = ∑ j, c j * v j := by
+    rw [← LinearMap.sum_single_apply (fun _ : J => ℝ) v, map_sum]
+    apply Finset.sum_congr rfl
+    intro j _
+    have hs : Pi.single j (v j) = v j • Pi.single j (1 : ℝ) := by
+      rw [← Pi.single_smul, smul_eq_mul, mul_one]
+    rw [hs,map_smul]
+    simp [c,smul_eq_mul,mul_comm]
+  have heq : scalarSeries b =ᵐ[coefficientLaw ι]
+      (fun omega => ell (fun j => scalarSeries (a j) omega)) := by
+    filter_upwards [ae_all_iff.2 (fun j => scalarSeries_hasSum_ae (a j) (ha j)),
+      scalarSeries_hasSum_ae b hb] with omega hs hbomega
+    rw [hrep]
+    apply hbomega.unique
+    simpa only [b,Finset.sum_mul,mul_assoc] using
+      hasSum_sum (fun j _ => (hs j).mul_left (c j))
+  have hg := (series_gaussian b hb).congr heq
+  refine ⟨(coefficientLaw ι)[fun omega => ell (fun j => scalarSeries (a j) omega)],
+    Var[fun omega => ell (fun j => scalarSeries (a j) omega);coefficientLaw ι].toNNReal,?_⟩
+  rw [Measure.map_map ell.continuous.measurable hm]
+  exact hg.map_eq_gaussianReal
+
+private theorem observation_measurable (d : ℕ) (L : ℝ)
+    (sites : Fin 2 → (Fin d → ℝ)) : Measurable (pinObservation d L sites) :=
+  Measurable.of_eval (fun _ => scalarSeries_measurable _)
+private theorem residual_measurable (d : ℕ) (L : ℝ)
+    (sites : Fin 2 → (Fin d → ℝ)) : Measurable (residual d L sites) :=
+  regressionCoefficients_measurable d L sites (canonicalR d L sites) 0
+private theorem shift_joint_measurable (d : ℕ) (L : ℝ)
+    (sites : Fin 2 → (Fin d → ℝ)) :
+    Measurable (fun p : (PinIndex d → ℝ) × Coefficients d => shift d L sites p.1 p.2) := by
+  classical
+  apply Measurable.of_eval
+  intro m
+  unfold shift
+  fun_prop
+
+private theorem coordinate_series (d : ℕ) (m : SourceMode d) (omega : Coefficients d) :
+    scalarSeries (Pi.single m 1) omega = omega m := by
+  classical
+  simp [scalarSeries,Pi.single_apply]
+
+private theorem single_summable {ι : Type*} [DecidableEq ι] (m : ι) :
+    Summable (Pi.single m (1 : ℝ)) :=
+  (hasSum_single m (fun n hn => by simp [hn])).summable
+private theorem shift_measurable (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) : Measurable (shift d L sites v) := by
+  apply Measurable.of_eval
+  intro m
+  unfold shift
+  fun_prop
+
+private theorem joint_block_gaussian (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (sites : Fin 2 → (Fin d → ℝ)) (S : Finset (SourceMode d)) :
+    HasGaussianLaw (fun omega => ((fun m : S => residual d L sites omega m),
+      pinObservation d L sites omega)) (sourceLaw d) := by
+  classical
+  let a : (S ⊕ PinIndex d) → SourceMode d → ℝ :=
+    Sum.elim (fun m => Pi.single m.val 1) (fun i m => pinCoefficient d L sites m i)
+  have ha : ∀ j, Summable (a j) := by
+    intro j
+    cases j with
+    | inl m => exact single_summable m.val
+    | inr i => exact row_summable d hL sites i
+  let Q : ((S ⊕ PinIndex d) → ℝ) →L[ℝ] ((S → ℝ) × (PinIndex d → ℝ)) :=
+    (ContinuousLinearMap.pi (fun m : S =>
+      ContinuousLinearMap.proj (Sum.inl m) - ∑ i, ∑ j,
+        (pinCoefficient d L sites m.val i * canonicalR d L sites i j) •
+          ContinuousLinearMap.proj (Sum.inr j))).prod
+    (ContinuousLinearMap.pi (fun j => ContinuousLinearMap.proj (Sum.inr j)))
+  have hg := (series_family_gaussian a ha).map_fun Q
+  apply hg.congr
+  filter_upwards with omega
+  ext i <;> simp [Q,a,residual,regressionCoefficients,coordinate_series,pinObservation,
+    smul_eq_mul,mul_assoc]
+
+private theorem shift_reconstruct (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (omega : Coefficients d) :
+    shift d L sites (pinObservation d L sites omega) (residual d L sites omega) = omega := by
+  classical
+  funext m
+  simp [shift,residual,regressionCoefficients]
+
+private theorem kernel_as_shift (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) :
+    canonicalKernel d L sites v = ((sourceLaw d).map (residual d L sites)).map
+      (shift d L sites v) := by
+  classical
+  rw [canonicalKernel,Kernel.comap_apply,regressionKernel_apply,transformedLaw,
+    Measure.map_map (shift_measurable d L sites v) (residual_measurable d L sites)]
+  congr 1
+  funext omega m
+  simp [shift,residual,regressionCoefficients]
+
+theorem canonicalKernel_apply (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ))
+    (v : PinIndex d → ℝ) :
+    canonicalKernel d L sites v = transformedLaw d L sites (canonicalR d L sites) v := by
+  exact regressionKernel_apply d L (sites,canonicalR d L sites,v)
+
+set_option maxHeartbeats 800000 in
+theorem residual_pin_covariance (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (sites : Fin 2 → (Fin d → ℝ))
+    (hxy : torusProjection d L (sites 0) ≠ torusProjection d L (sites 1))
+    (m : SourceMode d) (i : PinIndex d) :
+    cov[fun omega => residual d L sites omega m,
+      fun omega => pinObservation d L sites omega i;sourceLaw d] = 0 := by
+  classical
+  have hp (j : PinIndex d) : MemLp (fun omega => pinObservation d L sites omega j) 2
+      (sourceLaw d) := (series_gaussian _ (row_summable d hL.ne' sites j)).memLp_two
+  have ho : MemLp (fun omega : Coefficients d => omega m) 2 (sourceLaw d) := by
+    have he : scalarSeries (Pi.single m 1) = (fun omega : Coefficients d => omega m) :=
+      funext (coordinate_series d m)
+    rw [← he]
+    exact (series_gaussian (Pi.single m 1) (single_summable m)).memLp_two
+  have hc (j k : PinIndex d) : MemLp (fun omega =>
+      pinCoefficient d L sites m j * canonicalR d L sites j k *
+        pinObservation d L sites omega k) 2 (sourceLaw d) :=
+    (hp k).const_mul _
+  have hs (j : PinIndex d) : MemLp (fun omega => ∑ k,
+      pinCoefficient d L sites m j * canonicalR d L sites j k *
+        pinObservation d L sites omega k) 2 (sourceLaw d) :=
+    memLp_finsetSum Finset.univ (fun k _ => hc j k)
+  have htot : MemLp (fun omega => ∑ j, ∑ k,
+      pinCoefficient d L sites m j * canonicalR d L sites j k *
+        pinObservation d L sites omega k) 2 (sourceLaw d) :=
+    memLp_finsetSum Finset.univ (fun j _ => hs j)
+  have hcoord : cov[fun omega : Coefficients d => omega m,
+      fun omega => pinObservation d L sites omega i;sourceLaw d] =
+      pinCoefficient d L sites m i := by
+    have he : (fun omega : Coefficients d => omega m) = scalarSeries (Pi.single m 1) :=
+      funext (fun omega => (coordinate_series d m omega).symm)
+    rw [he]
+    exact (scalarSeries_covariance _ _ (single_summable m)
+      (row_summable d hL.ne' sites i)).trans (by simp [Pi.single_apply])
+  have hpin (j : PinIndex d) : cov[fun omega => pinObservation d L sites omega j,
+      fun omega => pinObservation d L sites omega i;sourceLaw d] =
+      pinCovariance d L sites j i := by
+    change cov[scalarSeries (fun m => pinCoefficient d L sites m j),
+      scalarSeries (fun m => pinCoefficient d L sites m i);coefficientLaw (SourceMode d)] = _
+    rw [scalarSeries_covariance _ _ (row_summable d hL.ne' sites j)
+      (row_summable d hL.ne' sites i)]
+    exact congrFun (congrFun (pinCovariance_eq_gram d hL.ne' sites).symm j) i
+  simp only [residual,regressionCoefficients,Pi.zero_apply,mul_zero,Finset.sum_const_zero,
+    add_zero]
+  rw [covariance_fun_sub_left ho htot (hp i),hcoord,
+    covariance_fun_sum_left hs (hp i)]
+  simp_rw [covariance_fun_sum_left (fun k => hc _ k) (hp i),
+    covariance_const_mul_left,hpin]
+  have hsum : (∑ j, ∑ k, pinCoefficient d L sites m j * canonicalR d L sites j k *
+      pinCovariance d L sites k i) = pinCoefficient d L sites m i := by
+    calc
+      _ = ∑ j, pinCoefficient d L sites m j *
+        (canonicalR d L sites * pinCovariance d L sites) j i := by
+          simp only [Matrix.mul_apply,Finset.mul_sum,mul_assoc]
+      _ = _ := by rw [(canonicalR_inverse d hL sites hxy).2]; simp [Matrix.one_apply]
+  rw [hsum,sub_self]
+
+
+theorem residual_independent (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (sites : Fin 2 → (Fin d → ℝ))
+    (hxy : torusProjection d L (sites 0) ≠ torusProjection d L (sites 1)) :
+    IndepFun (residual d L sites) (pinObservation d L sites) (sourceLaw d) := by
+  classical
+  apply IndepFun.process_indepFun
+    (fun m => (measurable_pi_apply m).comp (residual_measurable d L sites))
+    (observation_measurable d L sites)
+  intro S
+  exact (joint_block_gaussian d hL.ne' sites S).indepFun_of_covariance_eval
+    (fun m i => residual_pin_covariance d hL sites hxy m i)
+
+
+theorem canonical_disintegration (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (sites : Fin 2 → (Fin d → ℝ))
+    (hxy : torusProjection d L (sites 0) ≠ torusProjection d L (sites 1)) :
+    pinJoint d L sites = ((sourceLaw d).map (pinObservation d L sites)) ⊗ₘ
+      canonicalKernel d L sites := by
+  classical
+  let mu := (sourceLaw d).map (pinObservation d L sites)
+  let nu := (sourceLaw d).map (residual d L sites)
+  let P : (PinIndex d → ℝ) × Coefficients d → (PinIndex d → ℝ) × Coefficients d :=
+    fun p => (p.1,shift d L sites p.1 p.2)
+  have hP : Measurable P := measurable_fst.prodMk (shift_joint_measurable d L sites)
+  have hind : (sourceLaw d).map (fun omega =>
+      (pinObservation d L sites omega,residual d L sites omega)) = mu.prod nu :=
+    (residual_independent d hL sites hxy).symm.map_prod_eq_prod_map_map
+      (observation_measurable d L sites).aemeasurable
+      (residual_measurable d L sites).aemeasurable
+  have hrec : (mu.prod nu).map P = pinJoint d L sites := by
+    rw [← hind,Measure.map_map hP
+      ((observation_measurable d L sites).prodMk (residual_measurable d L sites))]
+    congr 1
+    funext omega
+    exact congrArg (Prod.mk (pinObservation d L sites omega)) (shift_reconstruct d L sites omega)
+  rw [← hrec]
+  ext s hs : 1
+  rw [Measure.map_apply hP hs,Measure.prod_apply (hs.preimage hP),Measure.compProd_apply hs]
+  apply lintegral_congr
+  intro v
+  rw [kernel_as_shift,Measure.map_apply
+    (shift_measurable d L sites v)
+    (hs.preimage measurable_prodMk_left)]
+  rfl
+
+
+theorem canonicalKernel_eq_condKernel_ae (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (sites : Fin 2 → (Fin d → ℝ))
+    (hxy : torusProjection d L (sites 0) ≠ torusProjection d L (sites 1)) :
+    ∀ᵐ v ∂(sourceLaw d).map (pinObservation d L sites),
+      canonicalKernel d L sites v = (pinJoint d L sites).condKernel v := by
+  have hfst : (pinJoint d L sites).fst = (sourceLaw d).map (pinObservation d L sites) := by
+    exact Measure.fst_map_prodMk (observation_measurable d L sites) measurable_id
+  rw [← hfst]
+  apply eq_condKernel_of_measure_eq_compProd
+  rw [hfst]
+  exact canonical_disintegration d hL sites hxy
+
+
+end I4PinDisintegration
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegrationTests.lean
+
+Bytes 6957; SHA256 68368a1e2b23d5646c78128d37eccb5eb4ec57b19669b8af9993da422c551e78.
+
+```````
+import PinDisintegration
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Jets I4SourceGaussian I4SourceCovariance
+  I4PinMajorant I4PinKernel I4TwoPinRank I4PinReproduction I4PinDisintegration I4Torus
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators Matrix ProbabilityTheory
+namespace PinDisintegrationTests
+
+def separatedSites (d : ℕ) : Fin 2 → (Fin (d+1) → ℝ) := ![0,fun _ => 1/2]
+private theorem separated (d : ℕ) :
+    torusProjection (d+1) 1 (separatedSites d 0) ≠
+      torusProjection (d+1) 1 (separatedSites d 1) := by
+  let : Fact (0 < (1:ℝ)) := ⟨by norm_num⟩
+  intro h
+  have h0 := congrFun h (0 : Fin (d+1))
+  change ((0:ℝ) : AddCircle (1:ℝ)) = ((1/2:ℝ) : AddCircle (1:ℝ)) at h0
+  have he := (AddCircle.coe_eq_coe_iff_of_mem_Ico
+    (p := (1:ℝ)) (a := 0) (by norm_num : (0:ℝ) ∈ Set.Ico 0 (0+1))
+    (by norm_num : (1/2:ℝ) ∈ Set.Ico 0 (0+1))).mp h0
+  norm_num at he
+
+-- Literal same-source residual and full pin observation, not scalar margins alone.
+example : IndepFun (residual 1 1 (separatedSites 0))
+    (pinObservation 1 1 (separatedSites 0)) (sourceLaw 1) :=
+  residual_independent 1 (by norm_num) _ (separated 0)
+example : IndepFun (residual 2 1 (separatedSites 1))
+    (pinObservation 2 1 (separatedSites 1)) (sourceLaw 2) :=
+  residual_independent 2 (by norm_num) _ (separated 1)
+example : cov[fun omega => residual 1 1 (separatedSites 0) omega none,
+    fun omega => pinObservation 1 1 (separatedSites 0) omega (0,none);sourceLaw 1]=0 :=
+  residual_pin_covariance 1 (by norm_num) _ (separated 0) none (0,none)
+example : pinJoint 1 1 (separatedSites 0) =
+    ((sourceLaw 1).map (pinObservation 1 1 (separatedSites 0))) ⊗ₘ
+      canonicalKernel 1 1 (separatedSites 0) :=
+  canonical_disintegration 1 (by norm_num) _ (separated 0)
+example : pinJoint 2 1 (separatedSites 1) =
+    ((sourceLaw 2).map (pinObservation 2 1 (separatedSites 1))) ⊗ₘ
+      canonicalKernel 2 1 (separatedSites 1) :=
+  canonical_disintegration 2 (by norm_num) _ (separated 1)
+example : ∀ᵐ v ∂(sourceLaw 1).map (pinObservation 1 1 (separatedSites 0)),
+    canonicalKernel 1 1 (separatedSites 0) v = (pinJoint 1 1 (separatedSites 0)).condKernel v :=
+  canonicalKernel_eq_condKernel_ae 1 (by norm_num) _ (separated 0)
+example (v : PinIndex 2 → ℝ) : canonicalKernel 2 1 (separatedSites 1) v =
+    transformedLaw 2 1 (separatedSites 1) (canonicalR 2 1 (separatedSites 1)) v :=
+  canonicalKernel_apply _ _ _ _
+example : IsMarkovKernel (canonicalKernel 1 1 (separatedSites 0)) := inferInstance
+example (v : PinIndex 1 → ℝ) : IsProbabilityMeasure (canonicalKernel 1 1 (separatedSites 0) v) :=
+  inferInstance
+-- Every target physical reproduction is imported separately, not inferred by native RCD a.e.
+example (v : PinIndex 1 → ℝ) : ∀ᵐ eta ∂canonicalKernel 1 1 (separatedSites 0) v,
+    actualPinObservation 1 1 (separatedSites 0) eta = v := by
+  rw [canonicalKernel_apply]
+  exact canonical_pin_reproduction 1 (by norm_num) _ (separated 0) v
+-- Pointwise reconstruction also holds on default-tsum exceptional samples.
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) (omega : Coefficients d) :
+    shift d L sites (pinObservation d L sites omega) (residual d L sites omega) = omega := by
+  classical
+  funext m
+  simp [shift,I4PinDisintegration.residual,regressionCoefficients]
+-- ZeroR leaves the actual coefficients unchanged: it cannot generally remove crosscovariance.
+example (d : ℕ) (L : ℝ) (sites : Fin 2 → (Fin d → ℝ)) (omega : Coefficients d) :
+    regressionCoefficients d L sites 0 0 omega = omega := by
+  classical
+  funext m
+  simp [regressionCoefficients]
+example : 0 < cov[fun omega : Coefficients 1 => omega none,
+    fun omega => pinObservation 1 1 (separatedSites 0) omega (0,none);sourceLaw 1] := by
+  classical
+  have hs : Summable (Pi.single (none : SourceMode 1) (1 : ℝ)) :=
+    (hasSum_single none (fun n hn => by simp [hn])).summable
+  have ha : Summable (fun m => pinCoefficient 1 1 (separatedSites 0) m (0,none)) :=
+    modeJetCoefficient_summable 1 (by norm_num) 0 (by norm_num) _ _
+  have he : (fun omega : Coefficients 1 => omega none) = scalarSeries (Pi.single none 1) := by
+    funext omega
+    simp [scalarSeries,Pi.single_apply]
+  rw [he]
+  change 0 < cov[scalarSeries (Pi.single none 1),
+    scalarSeries (fun m => pinCoefficient 1 1 (separatedSites 0) m (0,none));
+      coefficientLaw (SourceMode 1)]
+  rw [scalarSeries_covariance _ _ hs ha]
+  simp only [Pi.single_apply,ite_mul,one_mul,zero_mul,tsum_ite_eq]
+  simp only [pinCoefficient,pinOrder,pinDirections,I4Jets.modeJetCoefficient]
+  apply Real.sqrt_pos.2
+  exact one_div_pos.mpr (sourceZ_pos 1 (by norm_num))
+-- The singular canonical inverse fallback returns the unconditioned source law, not arbitrary pins.
+private theorem collision_zero (d : ℕ) (L : ℝ) (x : Fin d → ℝ) :
+    canonicalR d L (fun _ => x) = 0 := by
+  classical
+  have hrow : pinCovariance d L (fun _ => x) (0,none) =
+      pinCovariance d L (fun _ => x) (1,none) := by funext j; rfl
+  have hn : ((0,none) : PinIndex d) ≠ (1,none) := by
+    intro h; have hh := congrArg Prod.fst h; norm_num at hh
+  have hd := Matrix.det_zero_of_row_eq hn hrow
+  unfold canonicalR
+  apply Matrix.nonsing_inv_apply_not_isUnit
+  rw [hd]
+  simp
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) : canonicalR d L (fun _ => x) = 0 :=
+  collision_zero d L x
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) (v : PinIndex d → ℝ) :
+    canonicalKernel d L (fun _ => x) v = sourceLaw d := by
+  classical
+  rw [canonicalKernel_apply,collision_zero]
+  have he : regressionCoefficients d L (fun _ => x) 0 v = id := by
+    funext omega m; simp [regressionCoefficients]
+  rw [transformedLaw,he,Measure.map_id]
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) (eta : Coefficients d) :
+    actualPinObservation d L (fun _ => x) eta ≠ (fun i => if i.1=0 then 0 else 1) := by
+  intro h
+  have h0 := congrFun h (0,none)
+  have h1 := congrFun h (1,none)
+  norm_num [actualPinObservation] at h0 h1
+  linarith
+-- Collision/alias excluded by the actual quotient condition, not mere cover inequality.
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) :
+    ¬torusProjection d L x ≠ torusProjection d L x := by simp
+example : torusProjection 1 1 (0 : Fin 1 → ℝ) = torusProjection 1 1 (fun _ => 1) := by
+  funext i; simp [torusProjection,AddCircle.coe_period]
+example (L : ℝ) (x y : Fin 0 → ℝ) : torusProjection 0 L x = torusProjection 0 L y := by
+  funext i; exact Fin.elim0 i
+-- A kernel with the correct pin first coordinate but wrong sample coordinate is not a disintegration.
+example : (Measure.dirac ((0,0) : ℝ × ℝ)) ≠
+    (Measure.dirac (0 : ℝ)) ⊗ₘ (Kernel.const ℝ (Measure.dirac (1 : ℝ))) := by
+  intro h
+  have he := congrArg (fun mu : Measure (ℝ × ℝ) => mu {((0,0) : ℝ × ℝ)}) h
+  rw [Measure.compProd_const,Measure.prod_dirac] at he
+  norm_num at he
+
+end PinDisintegrationTests
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegrationAxioms.lean
+
+Bytes 1166; SHA256 138ea44e65bb1f93ecdb5c62313ecabc89928a43e10b38d03ef255116cdd6049.
+
+```````
+import PinDisintegration
+#print axioms I4PinDisintegration.canonicalKernel
+#print axioms I4PinDisintegration.pinJoint
+#print axioms I4PinDisintegration.canonicalKernel_markov
+#print axioms I4PinDisintegration.pinJoint_probability
+#print axioms I4PinDisintegration.canonicalKernel_apply
+#print axioms I4PinDisintegration.residual_pin_covariance
+#print axioms I4PinDisintegration.residual_independent
+#print axioms I4PinDisintegration.canonical_disintegration
+#print axioms I4PinDisintegration.canonicalKernel_eq_condKernel_ae
+#print axioms I4PinDisintegration.residual
+#print axioms I4PinDisintegration.shift
+
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  for suffix in ["I4PinDisintegration.series_family_gaussian",
+      "I4PinDisintegration.joint_block_gaussian", "I4PinDisintegration.kernel_as_shift"] do
+    let candidates := env.constants.toList.filter fun (name, _) =>
+      name.toString.startsWith "_private.PinDisintegration." && name.toString.endsWith suffix
+    match candidates with
+    | [(name, _)] => elabCommand (← `(#print axioms $(mkIdent name):ident))
+    | _ => throwError "Expected exactly one private helper ending in {suffix}"
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/FINAL_FREEZE.json
+
+Bytes 27119; SHA256 c5fe312c5c34f34b13eb3f9dca2a837e56ed82018440ce7009fb60f9ee724842.
+
+```````
+{
+  "actual_utc": "2026-10-08T15:03:27.469685+00:00",
+  "producer": "/root/i2_formal_support",
+  "entries": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Measure/Prod.lean",
+      "bytes": 63260,
+      "sha256": "62b4007fc8e0a0ddca557fcdacbe649752764d09c7a97763a5450146cb9d03c9",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/MeasureTheory/Measure/Typeclasses/Probability.lean",
+      "bytes": 10641,
+      "sha256": "054a34de6303b06fb714c4f8e583a92a3513a1ae95354e672404830c33ba3632",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Distributions/Gaussian/Basic.lean",
+      "bytes": 11670,
+      "sha256": "d787d5341155cbd9ab7dc19de55c8cf490ab109f70ffd69a5560cbc7e110e556",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Distributions/Gaussian/HasGaussianLaw/Basic.lean",
+      "bytes": 9496,
+      "sha256": "d7c068328671da9d3c753e7f1b2379b197d1a650753b2d3e67c5eaa2fd70816c",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Distributions/Gaussian/HasGaussianLaw/Independence.lean",
+      "bytes": 20833,
+      "sha256": "06f064a27a0fc4a08277d545b643e2f40e5adffec4c37917bd8bd3752070f1ff",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Independence/Process/Basic.lean",
+      "bytes": 25880,
+      "sha256": "37c8f68bfaa4a0c788e805a067a2fb6e907650e36ef5fa25cb064298c7b2d868",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Composition/MapComap.lean",
+      "bytes": 28496,
+      "sha256": "0dcdca1e7ed06827dc4295414354f81a1def7f1fc12fd51d409fb793fd242266",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean",
+      "bytes": 18730,
+      "sha256": "b591ce8d70883875dceafc16737ce643e18d31b82be9c3100eff2eda0a890386",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Kernel/Disintegration/Unique.lean",
+      "bytes": 8465,
+      "sha256": "8548ebe451cbe533816bee5fd76c3b2d23ae1defabac321c8af37463822bf0c2",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Probability/Moments/Covariance.lean",
+      "bytes": 14120,
+      "sha256": "627b0715f8603daff3a29a47cbd21ce3c192020295c96f088784f4b197bf0312",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Topology/Algebra/InfiniteSum/Basic.lean",
+      "bytes": 36476,
+      "sha256": "094ff4ec7f2d9bf9771423a60b18c521a2eae76cccb07dde114c14e4a2de3a73",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-deterministic-c4/lean-project/DeterministicSourceC4.lean",
+      "bytes": 2551,
+      "sha256": "aa30073e33ff50ab5a1bc00378ff5a83b47b5002c90610014798aa44bcc31e00",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/IMPLEMENTATION.md",
+      "bytes": 10172,
+      "sha256": "6bee4d2813f2ab30937ad65cd7a4e6df2ef517aecc6256dc15a3b32e869bd046",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/PLAN.md",
+      "bytes": 1895,
+      "sha256": "8dc836724fec80f9ab0247adbe9ad2feaed6b499f169e56040a875dea81cb6e8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/compile-context.json",
+      "bytes": 4591,
+      "sha256": "56c1dda3db620737660e2cc4810908921d4e5e9614724801c69e7b8b0b9209fe",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/FINAL_METADATA.json",
+      "bytes": 86252,
+      "sha256": "4aebfeb271131a1b5e203770a0acc2d309abf948ab43d2f093a7b40385e7b879",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/apply_proofs.py",
+      "bytes": 5465,
+      "sha256": "4410fc606d6f397434e73b98fa6344c6b2669ce8c52e23243cc90c9b3f7fd098",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms01.json",
+      "bytes": 922,
+      "sha256": "250e22f9943f8d5628f2a3abe6b2f0ca52ce7d85b9437acb8638906f110c16c6",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms01.lean",
+      "bytes": 869,
+      "sha256": "3ff85c4fe6c33697ba91aae21296d43e1cacb6ce4424e4cc61a19618b514a4ad",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms01.log",
+      "bytes": 1577,
+      "sha256": "132e5a08ae0263c13abc872dc76fb7e0623f0ed10d5ee1aed7c0b3159f5351ab",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms02.json",
+      "bytes": 921,
+      "sha256": "d282729f6464b26ad2411067678148eb3b805a988a38061fad2c6ff7d58d5239",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms02.lean",
+      "bytes": 1166,
+      "sha256": "138ea44e65bb1f93ecdb5c62313ecabc89928a43e10b38d03ef255116cdd6049",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms02.log",
+      "bytes": 1496,
+      "sha256": "75779567c4d6e741c2e0222cf62caa4c90f76c67b5e89c37b481454e3b629643",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/header-parity.json",
+      "bytes": 935,
+      "sha256": "53a4a7f6b4e299e30a82a2201902380f87c20c56826e178e28a5ae6ff78f4249",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main01.json",
+      "bytes": 916,
+      "sha256": "5651ddbe88b67d3480e07e793048512d4c67dce4956d6113d30007834a666fa5",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main01.lean",
+      "bytes": 12890,
+      "sha256": "6a70c207baa9f5d1d48ca9391eadb32bef434de27c225b26922c464e311975c3",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main01.log",
+      "bytes": 6814,
+      "sha256": "18cebe0b1b2c1b2588669daa3f332d9611dc087ff13752a43916dcfb83e9a402",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main02.json",
+      "bytes": 909,
+      "sha256": "62c44f13e0bb19205c7b8068e446c333441f3cf3e2e7dae145abfa21a50a8d8b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main02.lean",
+      "bytes": 13446,
+      "sha256": "b1fb2bf3782024b5d1ea6eb266da85cb4e1e9a37efaf4c10492b032f1a831dbd",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main02.log",
+      "bytes": 3947,
+      "sha256": "79b05bed6c7dff70ac1bdd4410eceee811992196743c970db855ce68950912cd",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main03.json",
+      "bytes": 910,
+      "sha256": "7408ea3cd22309b12fd314db1959104ae3689833ce784e474459584e77e164f6",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main03.lean",
+      "bytes": 13561,
+      "sha256": "390a61751a319e0497d5fd267b2949156ecfd652d4244d7f4ef8a26d99ec45d8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/proof-helpers-draft.txt",
+      "bytes": 5039,
+      "sha256": "67913c18f4a0d6a7531d40ca99063b81e2c1a15c0b0def49e5fc411fa6ebf9ff",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red.lean",
+      "bytes": 2759,
+      "sha256": "9acdb17b3a8666552b5f59250b523ec75ae2dbbf2c75513e0dc8105f140cc900",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red01.json",
+      "bytes": 910,
+      "sha256": "69161b4ee418535908aab1febb861123f179b943f895682bfd1876f99c3de9f5",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red01.lean",
+      "bytes": 2759,
+      "sha256": "9acdb17b3a8666552b5f59250b523ec75ae2dbbf2c75513e0dc8105f140cc900",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red01.log",
+      "bytes": 1659,
+      "sha256": "af7fed646cf73eea4334a1bdde2ca98fbf7ffce83bb7569b1fc28e8f4d41294b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red02.json",
+      "bytes": 909,
+      "sha256": "70b7ecb1e96ec92387d5c0bdd37817d370eeabcf34a28dfb5a12387026190573",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red02.lean",
+      "bytes": 3277,
+      "sha256": "c53e74e388a1ff408b741c46bccdee3ac3c03fbb462536e6d41dde04f9c5b441",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red02.log",
+      "bytes": 1895,
+      "sha256": "c6d61dc963689b5e6972b96fa1baea958bbf15076fd3c5ebdecc0f3946c52065",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red03.json",
+      "bytes": 908,
+      "sha256": "eb45b751f8ba56cd670817129b7812a38ba6654455963b9bbcec6996ebd085dc",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red03.lean",
+      "bytes": 3228,
+      "sha256": "bde5dfd503c099eb19f0dae80b48f6925cffa1a97bd5faa8543d2a295f611671",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/target-red03.log",
+      "bytes": 1420,
+      "sha256": "239c1569b76feb381288ee5e28eef75aee89a33f18da8b717a124e00c69e4205",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests01.json",
+      "bytes": 920,
+      "sha256": "dfb2c59617fed729bc87b5c9bc6414e06a2beda7ceea1f479de8fbba7141d510",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests01.lean",
+      "bytes": 5499,
+      "sha256": "c580b64f7ddac2d97b919ee75e43174742b42cee025b9f1bac1fccc2b4f07f5e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests01.log",
+      "bytes": 2327,
+      "sha256": "02ef059355e7f93af632b6b71953fb3ccf197c8a484b26fd3c9e94c930861846",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests02.json",
+      "bytes": 920,
+      "sha256": "1659d35a15f9d3d157f86243429dbcbae4165bb2a3ccdaed684db69b889c65fe",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests02.lean",
+      "bytes": 5663,
+      "sha256": "3e07d28ba8a27c543aeb3fe96a6bc173b91c85601a07738be5bd9f96e5cf0ab7",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests02.log",
+      "bytes": 665,
+      "sha256": "1ebb75cbe454417651964c8a9acfad1521335b947bd77a1f75ae1894c7782419",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests03.json",
+      "bytes": 920,
+      "sha256": "cbd9b3131f0c0ec0d7b3497e95914f89ba0ce4aa321d2e8e58689a84e818d13c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests03.lean",
+      "bytes": 5616,
+      "sha256": "2be5b21307fea00d7bf7a07ff62c28c7680ebcb35e164c0c2ad97eacde7e462d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests04.json",
+      "bytes": 920,
+      "sha256": "709f0e7dddf831dc1d03e1fecb5aa8125bce330f4a00a1a9b0b373fddda1c3b0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests04.lean",
+      "bytes": 6957,
+      "sha256": "68368a1e2b23d5646c78128d37eccb5eb4ec57b19669b8af9993da422c551e78",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests04.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/freeze.py",
+      "bytes": 6156,
+      "sha256": "ec387a5a1ff5466e77d8426e5492e524e6fb37a70d79619fca3e64998e439e77",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegration.olean",
+      "bytes": 524512,
+      "sha256": "f0e75e40e700a2aa83da1550bdedd04bcc7bc01fa96c34a0d0e605a7a4cf0149",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegrationAxioms.olean",
+      "bytes": 2376,
+      "sha256": "d687d8b4182c9abb3cf94f4e53e21c68b6779dd75d76977994ba6d0e994e3c8b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegrationTests.olean",
+      "bytes": 71848,
+      "sha256": "4876e872b10093459da3c63c2d55cab86f0660f978b0fc7f304cf362549e1f3b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegration.lean",
+      "bytes": 13561,
+      "sha256": "390a61751a319e0497d5fd267b2949156ecfd652d4244d7f4ef8a26d99ec45d8",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegrationAxioms.lean",
+      "bytes": 1166,
+      "sha256": "138ea44e65bb1f93ecdb5c62313ecabc89928a43e10b38d03ef255116cdd6049",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/PinDisintegrationTests.lean",
+      "bytes": 6957,
+      "sha256": "68368a1e2b23d5646c78128d37eccb5eb4ec57b19669b8af9993da422c551e78",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/run_compile.py",
+      "bytes": 1243,
+      "sha256": "a0764d8b52da5cb062a20b7f1f21021ed0e9efe6b57324c2af3355354945d85c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/FINAL_FREEZE.json",
+      "bytes": 20379,
+      "sha256": "7de967564d7f00399c2ff45c6fcfca35cbd66380225876d731828254dbfcfe17",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-kernel/lean-project/PinKernel.lean",
+      "bytes": 4566,
+      "sha256": "27dcf2924f9e0c82776e842aaef6b7065fdf15332b5839512a1b383f3f2dc678",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/FINAL_FREEZE.json",
+      "bytes": 19939,
+      "sha256": "84c1228ef820725286581162e11f0b15cc8dd8de551a1884256661d16cfd3912",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-majorant/lean-project/PinMajorant.lean",
+      "bytes": 7419,
+      "sha256": "859bd8a573b7923cd7ce99ee476329452f19cd6e43d03ee696791bb97cb7e6e0",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-reproduction/FINAL_FREEZE.json",
+      "bytes": 20703,
+      "sha256": "e7f3ecd8130bfe63a450c95dc913925932a5c02a3a0f56c34288141d3c267e88",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-reproduction/lean-project/PinReproduction.lean",
+      "bytes": 11717,
+      "sha256": "95a1173b7a11e77592d2f9161d962713f495f9f47b603e1b10328bbeaa2b49d9",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/GaussianSeriesFoundation.lean",
+      "bytes": 4262,
+      "sha256": "feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceCovariance.lean",
+      "bytes": 3925,
+      "sha256": "30560009582659a100637b5510c657cf1fa762f68a37bae8fab42c1eeee6aee5",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceGaussianLaw.lean",
+      "bytes": 8984,
+      "sha256": "a60ab6099d3cef0eeecaefa9e35d95ec14ec54ffd6c89e42dfcf6170907166e8",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean",
+      "bytes": 6728,
+      "sha256": "e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean",
+      "bytes": 5044,
+      "sha256": "1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-two-pin-rank/FINAL_FREEZE.json",
+      "bytes": 25135,
+      "sha256": "c3e57e1d2c29d1611d8f966127aa39b98e894872dafb87dfbcb0af1fc2b73e70",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-two-pin-rank/lean-project/TwoPinAlgebra.lean",
+      "bytes": 6657,
+      "sha256": "5ed62ac3ff71da950122ed091c5020b1514134c3616a1da4e1d942be0cfef03a",
+      "kind": "read-only-input"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-two-pin-rank/lean-project/TwoPinRank.lean",
+      "bytes": 14593,
+      "sha256": "0e6a7f6694b929f2253d3d316c737d4ce439ce27eb146a02f35a168da3291708",
+      "kind": "read-only-input"
+    }
+  ]
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/evidence/main03.json
+
+Bytes 910; SHA256 7408ea3cd22309b12fd314db1959104ae3689833ce784e474459584e77e164f6.
+
+```````
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinDisintegration.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegration.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 20.661896833,
+  "source_sha256": "390a61751a319e0497d5fd267b2949156ecfd652d4244d7f4ef8a26d99ec45d8",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/evidence/tests04.json
+
+Bytes 920; SHA256 709f0e7dddf831dc1d03e1fecb5aa8125bce330f4a00a1a9b0b373fddda1c3b0.
+
+```````
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinDisintegrationTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegrationTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 21.892517208,
+  "source_sha256": "68368a1e2b23d5646c78128d37eccb5eb4ec57b19669b8af9993da422c551e78",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms02.json
+
+Bytes 921; SHA256 d282729f6464b26ad2411067678148eb3b805a988a38061fad2c6ff7d58d5239.
+
+```````
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PinDisintegrationAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project/.lake/build/lib/lean/PinDisintegrationAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-pin-disintegration/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 6.951251584,
+  "source_sha256": "138ea44e65bb1f93ecdb5c62313ecabc89928a43e10b38d03ef255116cdd6049",
+  "log_sha256": "75779567c4d6e741c2e0222cf62caa4c90f76c67b5e89c37b481454e3b629643",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### FULL work/theorem-continuation-20261008/i4-pin-disintegration/evidence/axioms02.log
+
+Bytes 1496; SHA256 75779567c4d6e741c2e0222cf62caa4c90f76c67b5e89c37b481454e3b629643.
+
+```````
+'I4PinDisintegration.canonicalKernel' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.pinJoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.canonicalKernel_markov' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.pinJoint_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.canonicalKernel_apply' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.residual_pin_covariance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.residual_independent' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.canonical_disintegration' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.canonicalKernel_eq_condKernel_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4PinDisintegration.shift' depends on axioms: [propext, Classical.choice, Quot.sound]
+'_private.PinDisintegration.0.I4PinDisintegration.series_family_gaussian' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'_private.PinDisintegration.0.I4PinDisintegration.joint_block_gaussian' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'_private.PinDisintegration.0.I4PinDisintegration.kernel_as_shift' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+
+```````

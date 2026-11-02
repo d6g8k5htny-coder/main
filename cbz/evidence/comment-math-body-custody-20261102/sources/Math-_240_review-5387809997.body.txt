@@ -1,0 +1,77 @@
+## C66 — scoped nonauthor review of the retained-cutoff logarithmic support lemma
+
+**PASS_TECHNICAL_SCOPED for [comment5944087886](https://github.com/d6g8k5htny-coder/Math-/pull/240#issuecomment-5944087886), conditional on its exact inherited F3–F5 interfaces. No substantive defect found.** This accepts only that new support estimate; it does not rereview the previously delivered PR240 A–E slices.
+
+**Dylan Roy — delegated AI review.** Actual nonauthor reader: OpenAI/Codex `/root/c66_math_triage`, with coordinating root cross-read. The support comment was authored by the OpenAI/GPT-6 Astra Pro source-exposed A reviewer; the PR240 manuscript is Anthropic-authored. The present reader did not author the comment. Exposure includes the native allocation/review history, exact source sections below and coordinated discussion with root. Same-provider/shared-account organizational-independence credit **0**; Dylan's personal reading **PENDING**; scientific effect **NONE**.
+
+Bounded claim: `c4c309fe-fa46-47f3-90ba-c39bd3246a44`, Work Events499, pickup [5944392002](https://github.com/d6g8k5htny-coder/Math-/pull/240#issuecomment-5944392002). This is separate from the subsequent Q4 authorship/review claim.
+
+### Exact objects and consumed boundary
+
+- The reviewed comment body is **1,386 UTF-8 bytes**, SHA256 `1835d232357fdb6313210b33c8b5ce5ae014d9956d65be920d7628ee6071de5a`.
+- [PR240 PROOF](https://github.com/d6g8k5htny-coder/Math-/blob/eb797e4899df87bf8c860cb43bf33b4a6e06b83d/frontiers/elder_cusp_parity_20261002/PROOF.md), head `eb797e4899df87bf8c860cb43bf33b4a6e06b83d`, blob `16a1db0658918057ff741df888c13702763d9919`, SHA256 `35b9c5943cf35919f2046ba194945ba759be654edf5d5ad77ba17b1f5c5377fd`: §0 notation and §2's second low-eigenvalue branch, lines218–223.
+- [PR220 PROOF at the fixed historical cut](https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/elder_third_order_20261001/PROOF.md), blob `c8767ddecf1041d234f685e95af582073a7be393`: F3 conditional f₄ Gaussian law; F4 conditional norm moments; F5/(2.2) weighted matrix layers; the measurable norm-layer construction.
+- [PR218 PROOF at the same cut](https://github.com/d6g8k5htny-coder/Math-/blob/6f74f7a77bae15d6aa07506bab38977e34dcc449/frontiers/candidate_third_order_20261001/PROOF.md), blob `70ca57ef05199e75417d7d57928c1e1c93bf944e`: Lemma D's **weighted** eigenvalue bound, (1.2) conditional norm moments and Step F1's genuinely free, uniformly nondegenerate jet list.
+
+The parent field construction and [R]/[P] interfaces remain consumed hypotheses. This review establishes the displayed implication from those interfaces; it is not a fresh acceptance of the complete parent chain.
+
+### Reconstructed proof
+
+Retain the source domain: fixed d≥2 and L>0, m=d−1, 0<r≤r₂′, κ≥1, k=κr≤1, P=1+|b|+k. Write J′=(f₄,A,Z), Z=J‴, J″=(A,Z), N=1+k+||F_r||_(C⁹), V=1+|γ|+||B||, c₀=2C₂′ and t₁=c₀NrV. Both γ and B lie in Z. On A<0 put λ=λ_min(−A).
+
+**1. Weighted truncated inverse moment.** Put R=P+|Z|≥1 and v=m(m−1)/2. For each n≥0, define the conditional positive measure
+
+    μ_n(E)=E[(1+||A||)^n 1{A<0, λ∈E}|Z].
+
+Because λ=−λ_max(A) on the negative cone, F5 gives μ_n((0,s])≤C R^(n+v)s for 0<s≤1. Its total mass is at most C R^n. For 0<a≤1, Tonelli and 1/x=1+∫_x^1t^(−2)dt give
+
+    ∫_[a,1] x^(−1)dμ_n(x)
+      ≤ μ_n((0,1])+∫_a^1 μ_n((0,t])t^(−2)dt
+      ≤ C R^(n+v)[1+log(1/a)].
+
+The x>1 tail is bounded by the total mass; for a>1 that argument bounds the entire integral. Hence
+
+    E[(1+||A||)^n λ^(−1)1{A<0,λ≥a}|Z]
+      ≤ C R^(n+v)[1+log_+(1/a)].                         (L1)
+
+The polynomial weight matters. The comment's n=0 display must be read together with the source's weighted form when used below.
+
+**2. Preserve the lower cutoff before enlarging the event.** On E={A<0,t₁≤λ<t₁|f₄|/κ}, λ≥c₀r and t₁|f₄|/(κλ)>1. Also Δ²≤λ²||A||^(2m−2), with the exponent-zero convention for m=1. Consequently
+
+    w_κ1_E
+      ≤36 c₀³κ^(−1)r³ N³V³|f₄|³λ^(−1)||A||^(2m−2)
+          1{A<0,λ≥c₀r}.                                (L2)
+
+All factors other than N³ are J′-measurable. F4 thus replaces N³ by C(P+|J′|)³ inside the expectation. No independence or conditioning on a norm event is assumed.
+
+**3. Integrate f₄ conditionally, retaining A powers.** Let H=R+||A||. F3's conditional Gaussian law has bounded variance and mean O(H), so moments of orders3–6 give
+
+    E[(P+|J′|)³|f₄|³|A,Z] ≤ C H⁶.
+
+Since V³≤C R³ and H⁶≤R⁶(1+||A||)⁶, (L2) gives
+
+    E[w_κ1_E]
+      ≤ Cκ^(−1)r³ E[R⁹(1+||A||)^(2m+4)
+                       λ^(−1)1{A<0,λ≥c₀r}].
+
+Apply (L1) with n=2m+4 and a=c₀r, then the Gaussian moments of Z. This proves
+
+    E_Q[w_κ1{t₁≤λ<t₁|f₄|/κ}]
+      ≤ Cκ^(−1)r³[1+log_+(1/r)]P^(N_*),
+
+where one sufficient exponent is N_*=2m+13+m(m−1)/2. The fixed constant c₀ is absorbed into C.
+
+**4. The comment's dyadic wording is also valid.** On 2^j≤N<2^(j+1), the cubic replacement costs 2^(3j). Condition on J′ and apply F4/conditional Markov with a fixed p>3. After the same conditional f₄ and weighted A integrations, the layer costs at most C_p2^((3−p)j) times the desired bound, with a fixed polynomial exponent. Taking p=4 gives a summable series. The weaker deterministic λ≥c₀r is retained throughout; the upper dyadic envelope for t₁ must not be turned into an unjustified stronger lower cutoff.
+
+### Failure modes checked and disposition
+
+An untruncated inverse-first moment already diverges for a scalar Gaussian A near zero. Unweighted layers plus finite polynomial matrix moments do not suffice: with U uniform on(0,1), the **two-dimensional** matrix A=diag(−U,−[1+log(1/U)]) has λ=U, but its weighted truncated inverse moments grow as higher powers of log(1/a). Separately, N=1+log(1/U) has every finite unconditional moment, yet cannot replace the conditional bound F4. Correlated Gaussian A/f₄ examples also prohibit integrating f₄ independently of A.
+
+The source has the stronger hypotheses needed to avoid these failures. The direct argument above removes any ambiguity about norm-layer measurability.
+
+Independent reviewer controls passed **24,172 exact/source checks** in normal and optimized modes with byte-identical outputs, including2,952 branch instances and84 spectral determinant instances. They check finite identities and failure modes, not continuum Gaussian integrability or topology. No author checker, Monte Carlo, quadrature, Lean or hosted replay was run. Full report:17,705 bytes, SHA256 `c3c9f67610099a103cd70cb8197a3084b9c2ffaa1813c147ad381608b616efdf`; exact source copies and reproducible controls accompany it.
+
+**Optional nonblocking precision C66-L1:** state (L1)'s weighted form and the conditional integration order if this support is incorporated into a manuscript. No mathematical amendment is required for this scoped verdict.
+
+The original power-5/2 proof remains valid. This support does not improve the moving-edge Cκr term, CE⁺⁺ or a whole-density remainder. No κ-endpoint theorem, all-bar/witness identification, parent acceptance, whole-PR approval, merge readiness or scientific-status transition follows.
+

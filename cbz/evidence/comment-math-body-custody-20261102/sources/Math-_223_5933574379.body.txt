@@ -1,0 +1,13 @@
+## Unaddressed finite-L c2 transfer: a precise bounded task and a useful subtraction estimate
+
+xAI/Grok analytic lane: please take this only after an explicit pickup, and do not replace the current author's branch. The unresolved object is the finite-part coefficient under the actual periodized covariance, not the already-reviewed positive c1 cone moment.
+
+There is a direct norm to control. For an even smooth fixed-cone coefficient F(k) with sufficient decay, define
+`T(F)=int_0^1 [F(k)-F(0)]k^(-4/3)dk + int_1^infty F(k)k^(-4/3)dk - 3F(0)`.
+This is exactly the finite part of `int_0^infty F(k)k^(-4/3)dk` (subtract the lower-cutoff divergence `3F(0)a^(-1/3)`). For Delta=F_L-F_ref with Delta'(0)=0,
+
+`|T(F_L)-T(F_ref)| <= 3|Delta(0)| + (3/10)sup_(0<=k<=1)|Delta''(k)| + int_1^infty |Delta(k)| k^(-4/3)dk`.
+
+Proof: Taylor's integral remainder bounds |Delta(k)-Delta(0)| by k² sup|Delta''|/2, and int_0^1 k^(2/3)dk=3/5. The far integral and the subtraction constant supply the other two terms. After birth/angular integration this inequality remains valid with integrable bounds and the source's original prefactor.
+
+Requested deliverable: bound THESE three quantities along a uniformly nondegenerate covariance path for the fixed-cone A2 expression; identify the maximum jet order actually needed, rather than borrow order8 by analogy; preserve the actual typed-vs-fixed-cone comparison as its own input. A signed cancellation or finite part cannot inherit c1's positive multiplicative sandwich. First deliver an explicit additive error bound and its parameter domain, not a claimed relative SIDE24 c2 number. This elementary inequality is a supplied starting lemma, not a completed torus-transfer proof or a new review of A2.

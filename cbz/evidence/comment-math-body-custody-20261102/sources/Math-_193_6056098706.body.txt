@@ -1,0 +1,112 @@
+COMPLETE SOURCE — actual /root conventional finite-H0 leading statement. Exact11335B/af4dcf811c71343d07999b8c9f9625e332e8fdfb0d73f6fd791491589ccb289b, frozen08:28:39Z. Completed exact nonauthor reviews follow separately; this full source remains byte-unchanged including its at-freeze 'needs review' sentence. New statement is the canonical original-coordinate lifetime-integral density, with explicit E(ell), C_rel and positive symbolic ell0; arbitrary RN-version pointwise qualification retained. New finite signed-test measure statement is representative-independent. All prior sources/reviews and retained failures remain. No scientific/full-goal/formal/numerical closure, source branch, soleGRAPH/STATUS, local rule/runtime/deployment or weight change.
+
+FILE /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/FINITE_H0_LEADING_STATEMENT.md | 11335 bytes | SHA256 af4dcf811c71343d07999b8c9f9625e332e8fdfb0d73f6fd791491589ccb289b
+````markdown
+# Actual finite-H0 leading statement and explicit relative remainder
+
+Author `/root`, 2026-10-08. This is a conventional mathematical composition of the exact released source proofs. Its new exact statement needs nonauthor review. It creates no replacement status table, formal theorem, scientific promotion or evaluated coefficient. The original full goal remains active.
+
+## Observable, field and density version
+
+Fix physical dimension n>=2 and L>0. On the connected flat torus X=R^n/(L Z^n), of physical volume L^n, use exactly the variance-one centered Gaussian law `sourceLaw n` / `sourceField n L`, whose covariance is
+
+    K_L(z) = sum_(a in Z^n) exp(-|z+La|^2/2)
+             / sum_(a in Z^n) exp(-|La|^2/2).
+
+Use ordinary singular H0 over any coefficient field, and descending CLOSED superlevels {F>=h}. On the actual almost-sure Morse/distinct-critical-value locus, each nonglobal maximum M has one finite interval (s_M,b_M], b_M=F(M), and positive lifetime b_M-s_M. The global maximum supplies the one essential class, excluded from the observable. Let beta_F count these finite bar atoms with multiplicity. Equal lifetimes remain separate atoms. Define the finite expected lifetime measure per unit physical volume by
+
+    mu(B) = L^(-n) E sum_(M nonglobal maximum) 1_(b_M-s_M in B),
+                                  B Borel in (0,infinity).
+
+Define nu_all as the following SPECIFIC density version. At distinct x,y let O=(F(x),grad F(x),F(y),grad F(y)), p_O its actual Gaussian density, and Q_(x,y,b,s) its proved canonical every-target whole-C4-field kernel. Write d_phi(x) for the global maximin connection height to an older point, and W_xy for |det H_x det H_y| times the maximum/index-(n-1)-saddle indicators. Put
+
+    nu_all(ell) = L^(-n) integral_(x!=y) integral_(b in R)
+       p_O(b,0,b-ell,0)
+       E_Q_(x,y,b,b-ell)[ W_xy 1_(d_phi(x)=b-ell) ] db dx dy,
+                                                    ell>0.       (1)
+
+This is a jointly Borel nonnegative lifetime integral, initially allowed infinite. The actual bar-measure proof gives mu(B)=integral_B nu_all(ell)dell. Its height-to-lifetime Jacobian has absolute determinant one. The formula contains ONE endpoint determinant product, no role-reversal factor1/2, and exactly L^(-n) physical volume normalization.
+
+The pointwise statement below concerns (1). An arbitrary Radon-Nikodym representative can be altered on a null sequence and need not satisfy a pointwise asymptotic. The corresponding expected-measure statement is independent of representatives. Finiteness of mu follows separately from the actual one-point maximum bound; finiteness of nu_all on the stated lifetime band follows from the quantitative bounds below, not from finite total mass alone.
+
+## Exact conventional theorem
+
+Choose an admitted fixed radius
+
+    0<r0<min(rho,1,L/(4sqrt(2))),
+
+shrunk as necessary for the proved enlarged covariance and whole-field regression estimates. Here rho is the positive actual contact covariance radius, not an evaluated number or an L threshold. One permissible positive symbolic lifetime band is
+
+    ell0 = min(1/2, r0^3/2, r0^(18/5)/2, (39/40)^5/2).
+
+The final factor ensures that the physical small-cubic upper cutoff (40/39)^(5/6)ell^(1/6) is below one. The other factors ensure a=ell/r0^3<eta=ell^(1/6)<1 and retain the embedded near-pair domain.
+
+Use the EXACT contact coefficient already defined in the quantitative proof and P(15.2):
+
+    c_(n,L) = integral_(b in R,k>0,u in S^(n-1))
+                     A_0(b,k,u)/(3 k^(2/3)) db dk d sigma(u),
+    A_0 = 12 pi_0(v_0) (6k)^2
+                   E_Q0[ det(H_perp)^2 1_(H_perp<0) ].            (2)
+
+sigma is ordinary sphere area, pi_0 and Q0 are the actual contact observation density/kernel, and H_perp is its actual correlated transverse Hessian. The midpoint physical volume cancels by stationarity. The full-rank conditional transverse law charges the negative-definite cone, so c_(n,L)>0. The Gaussian-polynomial k^2 envelope makes it finite. No entry-independence, isotropy, new coefficient or numerical digit is used.
+
+There exist finite constants C_c,C_s,C_f, specified by the fixed source's covariance floors, regression bounds, determinant estimates, Gaussian polynomial integrals and mode-majorant moments, such that for EVERY 0<ell<=ell0 the density version (1) satisfies
+
+    nu_all(ell) = c_(n,L) ell^(-1/3) + R(ell),
+    |ell^(1/3) R(ell)| <= E(ell),                              (3)
+
+where the explicit relative-scale majorant is
+
+    E(ell) = C_c[ell^(7/3)/r0^7
+                    +(1+r0)ell^(1/3)+ell^(2/3)]
+                + C_s[ell^(7/18)+r0 ell^(1/3)]
+                + C_f ell^(1/3).                            (4)
+
+In particular
+
+    |nu_all(ell)/(c_(n,L)ell^(-1/3))-1|
+                         <= C_rel ell^(1/3),
+    C_rel = [C_c(r0^(-7)+2+r0)+C_s(1+r0)+C_f]/c_(n,L)<infinity.
+
+Thus R(ell)=O_(n,L)(1)=o(ell^(-1/3)). This does not assert R(ell) tends to zero or supply a second asymptotic term. All constants are finite and unevaluated at fixed n,L; (3)-(4) are symbolic rigorous error bounds, not a certified numerical finite-lifetime window.
+
+For every bounded Borel test g supported in (0,ell0], the expected-measure version follows by integration:
+
+    | integral g dmu - c_(n,L) integral g(ell)ell^(-1/3)dell |
+       <= integral |g(ell)| ell^(-1/3) E(ell)dell.
+
+This formulation is unaffected by changes to density representatives.
+
+## Proof and exhaustive dependence
+
+The actual-source whole-field proof constructs the separable C4 Banach Gaussian law on the extended absolute mode-majorant event, proves distinct-torus jet rank and canonical regression at EVERY target, and establishes all required moments, matrix factorization and O(r) same-source coupling. Positive-radius unequal-height critical pins are separately Morse/distinct-value almost surely; contact is deliberately non-Morse and is used only for the coefficient limit.
+
+The actual bar-measure proof derives the ordinary-H0 intervals from genuine closed-superlevel component transitions. It follows current older labels through nested merges, proves the unit-triangular point-difference basis and natural inclusion behavior, identifies maximin death and its unique merging saddle, and constructs Borel finite atoms. Its canonical zero-gradient height mixture and continuous-cylinder-to-Borel Kac-Rice extension prove (1) as expected-measure equality. This proves once-counting of ALL finite bars, rather than assuming cap certificates exhaust them. A nonmerging saddle creates no extra finite H0 death; repeated descriptions do not create extra bars.
+
+Separate pairs with torus distance r<r0 from the compact complement. For the near part the exact spatial/height/pin/determinant Jacobians give r A_r dr db dk d sigma, with lifetime ell=kr^3. Therefore r=(ell/k)^(1/3) and k>a=ell/r0^3. The contact approximation in the actual first-order quantitative proof gives
+
+    |ell^(1/3)nu_cand^near-c_(n,L)|
+       <= C_c[a^(7/3)+(1+r0)ell^(1/3)+ell^(2/3)].               (5)
+
+The r^2 error integrates FROM a; ell^(2/3)a^(-1/3)=r0 ell^(1/3). Deleting this cutoff would produce a divergent k^(-4/3) integral. The filtered determinant's affine off-diagonal cancellation preserves O(r) despite sqrt(r) entries and singular/index-crossing samples. No stronger O(r^2) coupled regression premise is used.
+
+CAP's full frontier first-exit/ridge argument, consumed with E1's corrected congruence and REC's embedding bound, implies GLOBAL elder selection on its sufficient good event. The complete determinant-weighted complement includes higher-corank intersections, the separate one-dimensional transverse near/far split and fourth-derivative failure. It yields
+
+    0<=nu_cand^near-nu_selected^near
+                                  <=C_s[ell^(1/18)+r0].        (6)
+
+This is all-mark control, without a positive normalizer floor as k approaches zero. It covers selected bars that fail the local cap conditions as well as unselected candidates. On the good event, the actual physical axial gap coefficient a3=F_uuu(M)/12 differs from k by at most rM4/12, so small |a3|<r^(3/5) implies k<(40/39)^(5/6)eta. Its fixed-lifetime integral is controlled by the same low-k bound. A fixed-radius rarity probability alone is not used as a density estimate.
+
+On the compact far domain, full-pin rank and actual conditional moments in original coordinates give 0<=nu_selected^far<=nu_cand^far<=C_f. This includes the torus cut locus. Hence nu_all=nu_selected^near+nu_selected^far, and the triangle inequality applied to (5)-(6) proves (3)-(4).
+
+The existing priority sector partition handles null nonregular/tied-critical-value samples, remote and annular pairs, near fourth-derivative/depth failures, good small-cubic and good principal pairs, assigning boundary equalities once. Every finite bar is already an atom in (1). All nonprincipal populations are bounded by the complete cap-complement, low-k and compact far estimates. Remote competitors, reentry and competing routes are addressed by the global cap/maximin argument; nested merges and equal lifetimes are addressed by actual once-counting. No adjacency-only or local-only population substitutes for all bars.
+
+The chain is Main (3) -> exhaustive near/far and priority sectors -> actual once-counting/Borel bar measure -> global elder/CAP first exit -> marked Kac-Rice -> actual every-target source law/rank/coupling. Exact current mathematical sources are `ACTUAL_FINITE_BAR_COUNTING_MEASURE.md` (15058B/7fec70dc...), `ACTUAL_C4_WEIGHTED_ELDER_REMAINDER_20261008T0800Z.md` (17423B/58b49c90...), whole-field0eadda..., enlarged-contactf5d235..., once-counting04a1602a..., sector2332cc7e..., CUB72540ca5..., and P/CAP/E1/E2/REC as bound by the released quantitative source. R's determinant/weighted branches are consumed; its stronger second-order regression claim is neither established nor required here. Native complete source/review release is Math1936055704349. This proof imports conventional Morse handle theory and the independently inspected continuous Kac-Rice base, not formal kernel proofs of those theories.
+
+## Full-goal acceptance boundary
+
+This is a conventional fixed-law mathematical theorem statement with explicit canonical-density and measure conventions. It is not the completion audit for the full user's goal. The formal I2 global Morse component/event/decomposition bridge is in progress under Math1936055783050; the already compiled local cap split does not supply it. Formal I1/I4 source, Banach law, rank, conditioning and measurable persistence semantics retain their exact unfinished obligations. The blinded reconstruction history, finite-L audit and numerical controls retain their own source/exposure/error limits.
+
+Fixed L=24 is included as a torus size in this conventional theorem; no large-volume L>L_* premise is imposed. A quantitatively certified coefficient approximation as L varies, an infinite-volume limit and universality require additional uniform results. No numerical ell0, C_rel or coefficient value is certified. Gaussian four-grid short-bin failures, free-alpha fitting and independent held-out coefficient confirmation remain separate from this analytic proof. No theorem merge, sole graph/status edit, worker rule/deployment change or scientific promotion is made by saving or reviewing this note.
+
+````

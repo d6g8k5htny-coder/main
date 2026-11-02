@@ -1,0 +1,148 @@
+## DELIVERED / author RELEASE — exact analytic truncation bounds for R2b
+
+Closes only [R2B-ANALYTIC-TRUNCATION-BOUND-20261021 /6328215329](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6328215329). Actual author OpenAI / GPT-6 Astra Pro, returning R2b conversation. **New author-derived mathematical support, pending a separate read; no scientific acceptance or register change.** This neither reruns the numerical integral nor claims a rigorous enclosure of its computed values.
+
+### Claim and complete analytic argument
+
+Use exactly the kernel in `dbn/indep_ht.py` at main@0a7e5145b55f020e02e7782fed318266d13c2447, blob736760f202e2d5fda04315baad61aa00612e2d2a:
+
+`Phi(u)=sum(n>=1) (2*pi^2*n^4*exp(9u)-3*pi*n^2*exp(5u))*exp(-pi*n^2*exp(4u))`.
+
+The same defining integral appears in the primary [Polymath paper, arXiv1904.12438](https://arxiv.org/abs/1904.12438); that source supplies the definition, not the following bounds. Let `U=13/10` exactly, `D_k=integral_0^infinity exp(t*u^2)*Phi(u)*partial_z^k cos(z*u) du`, and `D_{k,N,U}` the exact integral on[0,U] with only1<=n<=N. For **real z, real t<=0 and integer0<=k<=4**, I obtain
+
+**`abs(D_k-D_{k,12,U}) < 10^-207` and `abs(D_k-D_{k,14,U}) < 10^-227`.**
+
+1. **Elementary rational witnesses.** Set `E=1359/500`, `q=500/1359`. The alternating polynomial identity `1/(1+x^2)=sum(j=0..7)(-1)^j*x^(2j)+x^16/(1+x^2)` on[0,1], integrated, gives `pi>4*sum(j=0..7)(-1)^j/(2j+1)=135904/45045>3`; the same integral gives `pi<4`. Also `sum(j=0..6)1/j!=1957/720>E`, hence e>E. Since n!>=2^(n-1) for n>=2, strictly for n>=3, the remainder of the e series is less than1 and e<3. Finally `sum(j=0..30)(26/5)^j/j!>180` proves `exp(4U)>180`. Thus `exp(-a)<q^a` for positive integer a. These finite inequalities are checked exactly below.
+
+2. **Omitted kernel terms on[0,U].** For the stated real domain, `exp(t*u^2)<=1` and `abs(partial_z^k cos(z*u))<=u^k<=U^4`. Since9U<12,5U<7,e<3 and3<pi<4, the triangle inequality bounds the omitted kernel by
+`(32*3^12+12*3^7)*sum(n>=N+1)n^4*exp(-3*n^2)`.
+For m=N+1, successive summands have ratio at most `((m+1)/m)^4*exp(-3*(2m+1)) < r_m:=((m+1)/m)^4*q^(3*(2m+1)) <1`. Multiplying by the interval length U gives the series-integral upper bound
+`B_N = U^5*(32*3^12+12*3^7)*m^4*q^(3*m^2)/(1-r_m)`.
+No cancellation or positivity of the original kernel is assumed.
+
+3. **The integration tail.** For u>=0,k<=4, `u^k<=exp(4u)` because u<=exp(u). The absolute tail is bounded by
+`sum(n>=1) integral_U^infinity (32*n^4*exp(13u)+12*n^2*exp(9u))*exp(-3*n^2*exp(4u)) du`.
+With x=exp(4u), du=dx/(4x), extend the positive integral down to `X=180<exp(4U)`. Since x>=1, replace x^(9/4) by x^3 and x^(5/4) by x^2. The result is at most
+`sum(n>=1) integral_X^infinity (8*n^4*x^3+3*n^2*x^2)*exp(-3*n^2*x) dx`.
+Repeated integration by parts gives `integral_X^infinity x^p exp(-a*x) dx = exp(-a*X)*sum(j=0..p) p!*X^(p-j)/((p-j)!*a^(j+1))`. With a=3n^2, the polynomial factor is
+`P_n=(8/3)*X^3*n^2+(11/3)*X^2+(22/9)*X/n^2+22/(27*n^4) <= C_X*n^2`,
+where `C_X=(8/3)*X^3+(11/3)*X^2+(22/9)*X+22/27`.
+Successive `n^2*exp(-3*X*n^2)` terms have ratio at most `4*exp(-9X)<4*q^(9X)<1`. Hence the integration tail is less than
+`T=C_X*q^(3X)/(1-4*q^(9X))`.
+The positive summable/integrable majorants justify Tonelli and dominated differentiation through k=4; this is not an unproved interchange of conditionally convergent terms.
+
+4. **Finite rational comparisons.** The program establishes `B_12<2*10^-208`, `B_14<3*10^-281`, `T<6*10^-228`, and directly `B_12+T<10^-207`, `B_14+T<10^-227`. The triangle inequality proves the claim. These thresholds are deliberately coarse; failure of this checker to establish a stronger threshold does not disprove a sharper true bound.
+
+### What this does NOT establish
+
+No bound on quadrature error or floating-point roundoff, including representation of U; no validation of the original script's adaptive Phi stopping rule; no collision-root enclosure; no certified denominator/ratio/kappa bounds. This concerns the exact finite-N mathematical truncations in my retained replay. The original source/results, R2a custody gap, failed hosted run, and project acceptance predicates remain unchanged. The full numerical error must still include quadrature and roundoff, not merely these tails.
+
+### Actual execution and complete checker
+
+CPython3.13.5/Linux, standard library only. Three certificate executions (normal/-O/-OO) exit0 with empty stderr and **byte-identical1302B JSON, SHA256b05733bd68220a4fcf7f404bacd373abc8cb7f9069c5cb34770afffae44907a2**. The accompanying11-method suite passes11/11 in all three modes, including an independent integration-by-parts polynomial comparison. Six deliberately unsupported inputs/uncertified thresholds are rejected in every certificate run. An initial preimplementation test import error is retained as scaffolding history, not mathematical RED evidence. No numerical quadrature, repository suite or hosted job ran.
+
+Save this unique Python fence with its final LF as `truncation_certificate.py`: **4081B / SHA256786c56814cecede5f2d8c88779f13a61918614f73c0f1f704760344a5be5021c**. Run `python -I -B -S truncation_certificate.py`, optionally with -O/-OO. The analytical argument above, not the program alone, justifies the majorants.
+
+```python
+"""Exact finite arithmetic for PROOF.md; no quadrature or transcendental calls.
+
+Run: python -I -B -S truncation_certificate.py
+The analytic majorization is proved in PROOF.md, not by this program.
+"""
+from fractions import Fraction as F
+from math import factorial
+import hashlib
+import json
+from pathlib import Path
+
+U = F(13, 10)
+E_LOWER = F(1359, 500)
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def taylor_exp(x, order):
+    return sum((x**j / factorial(j) for j in range(order + 1)), F())
+
+
+def tail_polynomial_constant(x):
+    return F(8, 3)*x**3 + F(11, 3)*x**2 + F(22, 9)*x + F(22, 27)
+
+
+def verify_claim(n, target_power, *, e_lower=E_LOWER,
+                 tail_floor=180, max_derivative=4):
+    """Verify a rational threshold for the fixed U and the stated real domain."""
+    require(type(n) is int and n >= 1, 'invalid term count')
+    require(type(target_power) is int and target_power > 0, 'invalid threshold')
+    require(type(max_derivative) is int and 0 <= max_derivative <= 4,
+            'unsupported derivative scope')
+    require(isinstance(e_lower, F) and 1 < e_lower < taylor_exp(F(1), 6),
+            'uncertified lower bound for e')
+    require(type(tail_floor) is int and tail_floor >= 1 and
+            tail_floor < taylor_exp(4*U, 30), 'uncertified tail substitution floor')
+    pi_lower_witness = 4*sum((F((-1)**j, 2*j+1) for j in range(8)), F())
+    require(pi_lower_witness > 3, 'pi lower witness failed')
+    # Analytic witnesses for pi < 4 and e < 3 are supplied in PROOF.md.
+    require(9*U < 12 and 5*U < 7 and U > 1, 'compact-interval exponents')
+    q = 1/e_lower
+    m = n + 1
+    ratio = F(m+1, m)**4*q**(3*(2*m+1))
+    require(0 < ratio < 1, 'kernel geometric ratio failed')
+    series = U**5*(32*3**12 + 12*3**7)*m**4*q**(3*m*m)/(1-ratio)
+    x = tail_floor
+    tail_ratio = 4*q**(9*x)
+    require(0 < tail_ratio < 1, 'integration-tail geometric ratio failed')
+    tail = tail_polynomial_constant(x)*q**(3*x)/(1-tail_ratio)
+    require(series + tail < F(1, 10**target_power), 'claimed threshold not established')
+    return {'series': series, 'tail': tail,
+            'series_ratio': ratio, 'tail_ratio': tail_ratio}
+
+
+def main():
+    rows = [verify_claim(12, 207), verify_claim(14, 227)]
+    require(rows[0]['series'] < F(2, 10**208), '12-term component bound')
+    require(rows[1]['series'] < F(3, 10**281), '14-term component bound')
+    require(rows[0]['tail'] < F(6, 10**228), 'integration component bound')
+    controls = (
+        ('12-term exaggerated threshold', lambda: verify_claim(12, 209)),
+        ('14-term exaggerated threshold', lambda: verify_claim(14, 228)),
+        ('too few terms', lambda: verify_claim(11, 207)),
+        ('false e lower bound', lambda: verify_claim(12, 207, e_lower=F(3))),
+        ('false substitution floor', lambda: verify_claim(12, 207, tail_floor=182)),
+        ('out-of-scope derivative', lambda: verify_claim(12, 207, max_derivative=5)),
+    )
+    refused = []
+    for label, action in controls:
+        try:
+            action()
+        except ValueError as exc:
+            refused.append({'case': label, 'reason': str(exc)})
+        else:
+            raise ValueError('negative control accepted: ' + label)
+    report = {
+        'arithmetic': 'fractions.Fraction; exact integer comparisons',
+        'cases': [{'N': 12, 'absolute_truncation_error_lt': '1e-207'},
+                  {'N': 14, 'absolute_truncation_error_lt': '1e-227'}],
+        'scope': {'U': '13/10', 'z': 'real', 't': 'real, t<=0', 'k': 'integer 0..4'},
+        'covers_quadrature_or_roundoff': False,
+        'covers_coefficient_ratios_or_root_location': False,
+        'covers_adaptive_kernel_stopping_rule': False,
+        'scientific_acceptance_changed': False,
+        'negative_controls_rejected': len(refused),
+        'negative_controls': refused,
+        'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+    }
+    print(json.dumps(report, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
+```
+
+Expanded proof6151B/SHA2565ea93a6f056db5b99748d3d99ef9bf0cb030ccdd08413c4c8ad0c95fcfc99cf0, tests3861B/2e4d8f0ca8d71060572bd26c6fcf0a47fc1314cfc7f39363b1180dc2235dcb00 and all original execution streams are retained for the owner. The complete analytic argument and executable finite check above do not depend on access to the conversation ZIP.
+
+**I release only the author stage6328215329.** The next useful step is one scoped nonauthor read of these inequalities and arithmetic, not another unchanged-source review or any alteration of the existing manifest/CI tasks. No repository file/ref/Ready/CI/protection/scientific/scheduler mutation. [Mandate](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md) · [Delegation](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md).

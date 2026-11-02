@@ -1,0 +1,37 @@
+## Optional author-side supplement: cubic rate from the transverse difference alone
+
+Dylan Roy — delegated AI mathematical work. Actual author OpenAI / GPT-6 Astra Pro, the **alternative-container continuation** reconciled in6009095401. Source-exposed, organizational credit0, scientific effect NONE. This is not a nonauthor review or required amendment to frozen771913a7, and it does not expand the current reader's assignment. The existing NOTE's estimates remain valid. The formulas below are an additive possible simplification; they do not request a second branch, new review cycle, or change to #329's blocked readiness.
+
+### A. No full-vector coupling rate is needed for a cubic bound
+
+Keep NOTE(4)'s actual SAME-law conditional-density premise and exact typed weight, with G=c_plus−c_minus. Define
+
+`K4=E[a_minus²*a_plus²]`, `K6=E[a_minus²*b_plus^4]`, `g2=E[G²]`.
+
+Suppose G is Gaussian (its mean may be nonzero; no independence is required), K4,K6 are finite, and the conditional density of c_plus given H is bounded by L as proved in NOTE§5. Cauchy–Schwarz and the noncentral Gaussian fourth/sixth moment bounds give
+
+`N_r=E[T_r 1_E] <= L[(r/2)*sqrt(3K6)*g2 +(1/6)*sqrt(15K4)*g2^(3/2)].`  (A1)
+
+Indeed `E[|a_minus| b_plus² G_+²] <= sqrt(K6)*sqrt(E G^4) <= sqrt(3K6)*g2`, and `E[|a_minus|(a_plus)_- G_+³] <= sqrt(K4)*sqrt(E G^6) <= sqrt(15K4)*g2^(3/2)`. These are exactly the two terms of NOTE(4), with no substitution of marginal density and no removed normalizer.
+
+If uniformly `g2<=Gamma*r²`, `K4<=C4`, `K6<=C6`, and `z_r>=z_*>0`, then
+
+`nu_r(E) <= min(1, (L/z_*)[sqrt(3C6)*Gamma/2 +sqrt(15C4)*Gamma^(3/2)/6]*r³).`  (A2)
+
+One can obtain the required G bound directly under the original Gaussian pin law, without using the full e_r=O(r) theorem. Let the unconditioned centered row `R_r=(Q(h)−Q(−h))/r`, h=r/2. Its integral representation gives `||R_r||_L2<=sbar` when `sup||Q'||_L2<=sbar`. On one sufficiently small interval take `||P_r||_L2<=pbar`, `||d_r||<=dbar` and `||Cov(P_r)^−1||<=2/lambda`, with fixed lambda>0. Gaussian regression gives conditional variance at most sbar² and conditional mean at most `2*sbar*pbar*dbar/lambda`. Since G=r R_r on the pinned law,
+
+`E_pin[G²] <= Gamma*r²`, `Gamma=sbar²[1+(2*pbar*dbar/lambda)²].`  (A3)
+
+Both mean and variance are included. E301's bounded conditional endpoint means/covariances then give `C4=8(M^4+48 Lambda²)` and `C6=32(M^6+480 Lambda³)`. Its positive-part/UI normalizer argument supplies the separate z_* only after the relevant contact variance is shown positive. The stronger eleven-observation density Gram and F C5/Hy C3/Q C1 assumptions of THIS note remain indispensable to this route; (A3) does not weaken them or import numerical constants. This removes a full-vector coupling estimate from the logical prerequisites of the cubic exponent, not from the separately valid finer r³+r⁵ bound in NOTE(7).
+
+### B. A slightly smaller coefficient for the optional fifth-order term
+
+For the same Gaussian U=a_plus−1 and G, Holder with exponents5/2 and5/3 gives
+
+`E[U^4 G^6] <= (E U^10)^(2/5)*(E G^10)^(3/5) <=945*u2²*g2³`.
+
+The noncentral Gaussian tenth moment satisfies `E H^10<=945(E H²)^5`; this follows from the same coefficientwise argument already used in NOTE§4. Thus `(105*10395)^(1/4)` in NOTE(5) can, optionally, be replaced by `sqrt(945)`. In NOTE(6) the second coefficient becomes `sqrt(1890 K2)/12`. Both original and sharpened coefficients are valid; no previous claim is refuted. This is only a constants improvement, not a stronger exponent or a sharp-constant assertion.
+
+### C. Status and execution distinction
+
+These derivations were checked algebraically in this author continuation. The separate alternative finite packet has12 passing methods in each mode and1751 baseline controls, eight intended mutant failures and explicit eleven-row regression checks. It is not the canonical2214-control packet, not a Gaussian-field numerical certificate and not Lean. Its extra algebraic Gram witness and three-mode residual floor are retained in the user audit bundle as unreviewed supporting material, not silently substituted into this frozen NOTE. Any later adoption must identify the exact additional scope. No change to the canonical source or review is requested now.

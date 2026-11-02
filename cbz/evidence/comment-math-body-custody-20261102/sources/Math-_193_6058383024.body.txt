@@ -1,0 +1,1330 @@
+Fresh isolated coefficient reconstruction and separate post-exposure comparison; actual root review/replays complete. Original blind freeze10:36:02UTC precedes root native readback10:36:42 and authorized first prior-source exposure10:37:45. All original four frozen files are unchanged. Actual collaboration agent /root/blind_coefficient_oct08 received only field/covariance/critical-point/observable inputs before freeze. Comparison froze10:44:01. Root full-read both derivations and actually replayed both standard-library verification scripts: exit0. Symbolic MATCH to actual leading formula(2) and direct native P15.2: u=12k, complete common-height Gaussian mixture, exact finite-radius determinant-one secant/average-gradient shear, correlated finite-L angular Hessian law, directed endpoint roles/no extra half and midpoint/physical-volume cancellation. No numerical coefficient digits evaluated. Original G1–G4 uniform fold/global elder/counting-measure assumptions remain explicit; this algebraic coefficient agreement is not bounded-remainder/global bridge/full scientific acceptance. Source-exposed postcomparison and same-organization0; no serving-model independence inferred. Full exact source and retained evidence follow in one existing-board comment; original and exposed artifacts are distinguished.
+
+`independent-derivation.md` — 24027 bytes; SHA256 `f38c085ab5b15368e6989a1fd6298490f3b671f5a6c3a01bcdc81b516022bc33`
+````text
+# Independent collision coefficient derivation
+
+Author identity: collaboration subagent `/root/blind_coefficient_oct08`.
+Started: 2026-10-08 10:22 UTC. This directory contains new work only.
+Isolation: the author has not read project coefficients, earlier derivations,
+reviews, leading statements, experiment constants, or other agent outputs.
+The assigning agent confirmed that it owns the required foreground sync/status
+for this cycle. No local-worker result was inspected here.
+
+## 1. Observable and conclusion
+
+Let `rho_{d,L}(ell) d ell` be the expected number of **finite ordinary H0
+superlevel bars** with lifetime in `d ell`, divided by physical torus volume
+`L^d`. Birth is at a local maximum, death is at a merging saddle with one
+positive Hessian direction, and the older maximum survives. Essential bars
+are omitted. Heights have been integrated out; their difference alone is
+retained.
+
+The coefficient obtained independently below is
+
+\[
+\boxed{\displaystyle
+c_{d,L}
+=\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}\,
+  \frac{1}{(2\pi)^d a^{d/2}}
+  \int_{S^{d-1}}
+    \frac{F_L(e)\,V_L(e)^{2/3}}{\sqrt{\det B_L(e)}}\,d\omega(e).
+}\tag{1}
+\]
+
+Here `d omega` is ordinary surface area measure, not normalized probability
+measure. All ingredients are specified explicitly in Sections 2–3. In
+particular this is an angular integral for a finite torus, where lattice
+symmetry does not imply rotational invariance.
+
+The collision calculation gives the leading density
+
+\[
+\rho_{d,L}(\ell)=c_{d,L}\ell^{-1/3}+o(\ell^{-1/3})\qquad(\ell\downarrow0).
+\tag{2}
+\]
+
+The logical status of (2) is explicit: its algebraic coefficient and its
+all-max/saddle-pair counterpart follow from the two-point calculation below.
+The barcode statement also requires the global bridge requirements in
+Section 7. Sections 8–9 give an independent deterministic fold argument and
+a Gaussian exhaustion/dominance argument intended to discharge those
+requirements for the stated full-spectrum covariance. Those arguments are
+included rather than replacing them with an unstated assumption that a local
+max/saddle pair is a persistence pair. Formal theorem acceptance should check
+these arguments, including the marked Kac–Rice approximation and conditional
+C4 tightness. No other person's review has yet been used.
+
+Since a density is only defined up to null sets, the density claim may be read
+for the Kac–Rice representative when its barcode mark is admitted, or as an
+essential asymptotic obtained by the upper/lower measure sandwich in Section
+9. The latter also gives the unambiguous integrated statement
+
+\[
+L^{-d}\,\mathbb E\#\{\text{finite bars}:0<\operatorname{life}\le\ell\}
+\sim \tfrac32 c_{d,L}\ell^{2/3}.\tag{3}
+\]
+
+## 2. Spectral moments and the two regressions
+
+Write
+
+\[
+q_m=2\pi m/L,\quad
+z_L=\sum_{m\in\mathbb Z}e^{-q_m^2/2},\quad
+\mu_{2k}=z_L^{-1}\sum_{m\in\mathbb Z}q_m^{2k}e^{-q_m^2/2}.
+\]
+
+Set
+
+\[
+a=\mu_2,\quad b=\mu_4,\quad c=\mu_6,\quad
+\kappa_4=b-3a^2,\quad
+\kappa_6=c-15ab+30a^3.
+\tag{4}
+\]
+
+The supplied normalization satisfies `Z_L=z_L^d`. The spectral random vector
+`Q=(Q_1,...,Q_d)` has independent, symmetric coordinates with masses
+`P(Q_i=q_m)=e^{-q_m^2/2}/z_L`. Then `K_L(x)=E cos(Q dot x)`.
+All moments in this note refer to this probability distribution, including
+the normalization by the zero mode. Centered means ensemble mean zero as
+specified by the covariance; an additional samplewise spatial-mean removal
+has not been imposed.
+
+At one point denote the gradient by `G`, Hessian by `H`, and third directional
+derivative by `u=T(e,e,e)`. Their covariances are
+
+\[
+\operatorname{Cov}(G)=aI_d,
+\qquad
+\operatorname{Cov}(H_{ij},H_{kl})
+=M_{ijkl}:=\mathbb E[Q_iQ_jQ_kQ_l].
+\]
+
+In coordinates,
+
+\[
+M_{ijkl}
+=a^2(\delta_{ij}\delta_{kl}+\delta_{ik}\delta_{jl}
+      +\delta_{il}\delta_{jk})
+ +\kappa_4\sum_p\delta_{ip}\delta_{jp}\delta_{kp}\delta_{lp}.
+\tag{5}
+\]
+
+Even and odd derivative jets are independent by the symmetry of the spectral
+measure. In particular `H` is independent of `(G,u)`.
+
+The covariance of the constrained Hessian column is
+
+\[
+\boxed{B_L(e):=\operatorname{Cov}(He)
+ =a^2(I_d+2ee^T)+\kappa_4\operatorname{diag}(e_1^2,...,e_d^2).}\tag{6}
+\]
+
+The sign of the gradient/third-derivative covariance is negative:
+
+\[
+\operatorname{Cov}(u,G_i)=-v_i(e),\qquad
+v_i(e)=\mathbb E[Q_i(Q\cdot e)^3]
+=3a^2e_i+\kappa_4e_i^3.\tag{7}
+\]
+
+Therefore `u | G=0` is a centered Gaussian of variance
+
+\[
+\boxed{\begin{aligned}
+V_L(e)
+&=\mathbb E[(Q\cdot e)^6]-a^{-1}|v(e)|^2\\
+&=6a^3+9a\kappa_4\sum_i e_i^4
+ +(\kappa_6-\kappa_4^2/a)\sum_i e_i^6.
+\end{aligned}}\tag{8}
+\]
+
+The unregressed sixth directional moment used here is
+
+\[
+\mathbb E[(Q\cdot e)^6]
+=15a^3+15a\kappa_4\sum_i e_i^4+\kappa_6\sum_i e_i^6.
+\tag{9}
+\]
+
+For example, in a coordinate direction (8) becomes `c-b^2/a`, which is the
+one-dimensional regression variance. Omitting the regression in (7) changes
+the coefficient.
+
+All Fourier masses are strictly positive. Thus `a>0`, `B_L(e)` is positive
+definite, and `V_L(e)>0`. One way to see strict positivity is that a vanishing
+spectral variance would identify a nonzero quadratic polynomial, or the
+cubic `(Q dot e)^3` modulo linear polynomials, with zero on every lattice
+point. This is impossible. Continuity and compactness of the sphere give
+uniform positive lower bounds at fixed `d,L`.
+
+## 3. The transverse Hessian expectation
+
+Choose any matrix `U` with orthonormal columns spanning `e perpendicular`.
+Let
+
+\[
+A_e=U^THU\ \big|\ He=0,
+\qquad
+F_L(e):=\mathbb E[(\det A_e)^2\,\mathbf1_{\{A_e\prec0\}}].
+\tag{10}
+\]
+
+`A_e` is a centered Gaussian symmetric `(d-1)` by `(d-1)` matrix. Its law is
+the Gaussian regression of the **unconditioned-height** Hessian on `He=0`.
+It is independent of `u | G=0`. No conditioning on the common height of the
+pair is required, since the observable integrates that height out.
+
+An explicit covariance is convenient for reproducing (10). Define
+
+\[
+R_{ab,i}=a^2\delta_{ab}e_i+\kappa_4U_{ia}U_{ib}e_i.
+\]
+
+Then
+
+\[
+\begin{aligned}
+\operatorname{Cov}((A_e)_{ab},(A_e)_{cd})
+={}&a^2(\delta_{ab}\delta_{cd}+\delta_{ac}\delta_{bd}
+                       +\delta_{ad}\delta_{bc})\\
+ &+\kappa_4\sum_iU_{ia}U_{ib}U_{ic}U_{id}
+ -\sum_{i,j}R_{ab,i}(B_L(e)^{-1})_{ij}R_{cd,j}.
+\end{aligned}\tag{11}
+\]
+
+Equivalently, this is the Schur complement of `Cov(He)` in the joint
+covariance of `(U^THU,He)`. It is nondegenerate on the free symmetric
+coordinates because the covariance of the entire Hessian is nondegenerate.
+Consequently `P(det A_e=0)=0`, `F_L(e)>0`, and all determinant moments are
+finite. Formula (10) is independent of the choice of `U`.
+
+For an entirely deterministic integral specification, let `s(A)` list the
+free entries `A_ab`, `a<=b`, once, and let `Gamma_e` be their covariance
+from (11). With `N=d(d-1)/2`,
+
+\[
+F_L(e)=\frac{1}{(2\pi)^{N/2}\sqrt{\det\Gamma_e}}
+\int_{A\prec0}(\det A)^2
+\exp\{-\tfrac12s(A)^T\Gamma_e^{-1}s(A)\}
+\prod_{a\le b}dA_{ab}.\tag{11a}
+\]
+
+The measure here is free symmetric-coordinate Lebesgue measure; no
+off-diagonal factor from a different matrix-measure convention is implicit.
+
+In `d=2`, with a unit vector `v perpendicular e`, (10) simplifies to
+
+\[
+F_L(e)=\tfrac12\left[3a^2+\kappa_4\sum_i v_i^4
+ -D(e)^TB_L(e)^{-1}D(e)\right],
+\qquad D_i(e)=e_i(a^2+\kappa_4v_i^2).
+\tag{12}
+\]
+
+The factor one half in (12) is merely the second moment of a centered scalar
+Gaussian restricted to its negative half. It is not a point-pair counting
+factor.
+
+## 4. Collision jets and the height gap
+
+Use midpoint coordinates and a directed max-to-saddle displacement `r e`:
+the maximum is at `x_-=-r e/2` and the saddle at `x_+=r e/2`. Under
+`G_-=G_+=0`, Taylor expansion gives
+
+\[
+G(0)=-\frac{r^2}{8}T(e,e,\cdot)+o(r^2),
+\qquad H(0)e=O(r^2),
+\tag{13}
+\]
+
+and
+
+\[
+H_-e=-\frac r2 T(e,e,\cdot)+O(r^2),\qquad
+H_+e=+\frac r2 T(e,e,\cdot)+O(r^2).
+\tag{14}
+\]
+
+For a transverse negative definite limit `A_e`, the endpoint signatures are
+maximum and index `d-1` saddle precisely when the limiting `u=T(e,e,e)>0`.
+The ordinary absolute Kac–Rice determinant product has limit
+
+\[
+|\det H_-\det H_+|
+=\frac{r^2u^2}{4}(\det A_e)^2+o(r^2).
+\tag{15}
+\]
+
+The transverse entries of the longitudinal Hessian column are only `O(r)`;
+their contributions to a determinant begin one order later. The determinant
+limit is a polynomial identity and does not require a matrix inverse near
+singular transverse matrices.
+
+Let `Delta=f_- - f_+`. In particular the birth-minus-death sign is positive.
+From (13),
+
+\[
+\Delta
+=-r\,G(0)\cdot e-\frac{r^3}{24}u+o(r^3)
+=\boxed{\frac{r^3}{12}u+o(r^3)}.
+\tag{16}
+\]
+
+The gap is not the unrestricted cubic endpoint difference: the first-order
+term forced by the two zero gradients contributes to (16).
+
+For a well-conditioned exact Gaussian transformation, put
+
+\[
+\begin{aligned}
+P_r&=(G_-+G_+)/2,\\
+D_r&=(G_+-G_-)/r,\\
+W_r&=\frac{12}{r^3}\{f_- -f_+ +r\,e\cdot P_r\}.
+\end{aligned}\tag{17}
+\]
+
+Then `(P_r,D_r,W_r)` converges to `(G,He,u)` in every fixed derivative
+moment as `r->0`. Odd/even symmetry makes `D_r` independent of `(P_r,W_r)`
+exactly. At the imposed gradients, `W_r=12 ell/r^3`.
+
+The exact change of density has Jacobian
+
+\[
+p_{G_-,G_+,\Delta}(0,0,\ell)
+=12r^{-(d+3)}p_{P_r,D_r,W_r}(0,0,12\ell/r^3).
+\tag{18}
+\]
+
+The limiting density on its right is
+
+\[
+p_G(0)\,p_{He}(0)\,p_{u\mid G=0}(z),
+\quad p_G(0)=(2\pi)^{-d/2}a^{-d/2},
+\quad p_{He}(0)=(2\pi)^{-d/2}(\det B_L(e))^{-1/2}.
+\tag{19}
+\]
+
+## 5. Radial integration and the fractional moment
+
+Stationarity removes the base-point integral against volume: integrating the
+base point gives `L^d`, which is canceled by the observable's `L^{-d}`.
+Near the torus diagonal the remaining physical displacement measure is
+
+\[
+dy=r^{d-1}dr\,d\omega(e).
+\]
+
+The gradient-pair density is asymptotically `r^{-d}p_G(0)p_{He}(0)`.
+Combining it with (15) and the displacement measure leaves
+
+\[
+p_G(0)p_{He}(0)F_L(e)\,
+\frac14\,r\,dr\,
+\mathbb E[u_+^2\,\delta(\ell-u_+r^3/12)].
+\tag{20}
+\]
+
+For a fixed positive `u`,
+
+\[
+\int_0^\infty\frac{u^2}{4}r\,
+\delta(\ell-ur^3/12)\,dr
+=12^{-1/3}u^{4/3}\ell^{-1/3}.
+\tag{21}
+\]
+
+Thus the coefficient before evaluating the one-sided Gaussian moment is
+
+\[
+c_{d,L}=12^{-1/3}\int_{S^{d-1}}
+p_G(0)p_{He}(0)F_L(e)\,
+\mathbb E[(u_+)^{4/3}\mid G=0],d\omega(e).
+\tag{22}
+\]
+
+For `u | G=0 ~ N(0,V_L(e))`,
+
+\[
+\mathbb E[(u_+)^{4/3}\mid G=0]
+=2^{-1/3}\frac{\Gamma(7/6)}{\sqrt\pi}V_L(e)^{2/3},
+\tag{23}
+\]
+
+which gives (1).
+
+The same derivation without formal delta functions follows from (18): set
+`r=ell^{1/3}t`, so `z=12/t^3`. Its radial coefficient is
+
+\[
+3\int_0^\infty t^{-2}(12/t^3)^2p_{u\mid G=0}(12/t^3)\,dt
+=12^{-1/3}\int_0^\infty u^{4/3}p_{u\mid G=0}(u)\,du.
+\tag{24}
+\]
+
+## 6. Counting, signs, height, and units
+
+* Each geometric pair is directed by its roles: maximum first, saddle
+  second. Its displacement is integrated on the full sphere. This counts
+  that geometric pair once; there is **no extra factor one half**.
+* Swapping the points fails the maximum-first condition. If one instead
+  counted arbitrary ordered endpoints with both orientations/signs, one
+  would divide that count by two and use `E |u|^{4/3}`. This equals (22),
+  since `E(u_+)^{4/3}=E|u|^{4/3}/2`. Applying both reductions would be wrong.
+* The one-positive-direction saddle refers to the Hessian of `f`. The
+  superlevel merge therefore has negative Morse index `d-1` for `f`, or
+  index one for `-f`.
+* No density of the common height appears. That height is integrated out;
+  adding a `p_f(0)` or fixing a field value would change the observable and
+  the transverse regression.
+* All spatial derivatives use physical coordinates. The Fourier wave
+  numbers are `2 pi m/L`, not `m` or normalized torus coordinates.
+* There is no additional `L^{-d}` multiplying (1). It has already canceled
+  the base-point volume. Dimensional checking gives: `p_G p_He` has units
+  length `3d`, `F` length `-4(d-1)`, and `V^{2/3}` length `-4`; hence (1)
+  has units length `-d`, as required.
+* A good local fold has an exterior point higher than its maximum (Section
+  8), so its bar is finite and cannot be the essential surviving maximum.
+
+## 7. Explicit global bridge requirements
+
+The collision coefficient alone is not a proof of an ordinary persistence
+coefficient. The following are the requirements used here:
+
+**G1 — Morse barcode representation.** Almost surely the field is smooth,
+Morse, with distinct critical heights and finitely many critical points on
+the compact torus. Every finite ordinary H0 bar under the stated elder rule
+has exactly one maximum and one binary merging index `d-1` saddle. Thus the
+barcode counting measure is dominated by the counting measure of all
+maximum/saddle pairs with positive height gap. This does not assert that
+every such pair is paired.
+
+**G2 — Fold isolation and elder support.** For configurations converging to
+`He=0`, `A_e<0`, `u>0`, with controlled C4 derivatives, the two actual nearby
+critical points constitute an isolated cap above the saddle level. The cap
+cannot leave its neighborhood before the saddle, and the other saddle branch
+contains a point above the cap's maximum. Then the local maximum is the
+younger component and dies at this saddle. Mere Hessian signatures, or a
+candidate cancellation path alone, are insufficient.
+
+**G3 — Exhaustion at the density scale.** Noncolliding pairs must have a
+bounded small-gap density, while the complete near-diagonal all-pair density
+must admit an integrable bound after `r=ell^{1/3}t`. This bound must cover
+small third jets, nearly singular transverse Hessians, higher-order jets,
+and configurations outside any fixed good-fold cutoff. It is not enough to
+compute a leading term on a preselected fold subevent.
+
+**G4 — Kac–Rice/disintegration validity.** Two-point Kac–Rice with determinant
+weights and Gaussian conditioning is valid off the diagonal, extends to the
+diagonal by integrable bounds, and admits the local fold marks by continuous
+approximation. A direct barcode-mark formula needs the corresponding global
+measurable mark extension. Alternatively, the measure sandwich described in
+Section 9 avoids relying on continuity of the global barcode mark.
+
+The full-spectrum covariance supports G1 by smoothness, nonsingular spectral
+jet laws and the standard nondegenerate-root result. Distinct heights also
+follow by counting pairs marked with a height difference in a null set.
+The following two sections supply the substantive content for G2 and G3.
+
+## 8. Deterministic fold isolation argument (G2)
+
+Fix a good compact jet set: `A_e <= -eta I`, `u>=eta`, and a C4 norm at most
+`M`, with `eta>0`. Consider a sequence of functions satisfying the exact two
+gradient constraints at `+/-r e/2`, with midpoint jets tending to this set.
+The estimates here may be made uniform on such a set.
+
+Write physical coordinates as `(t,y)` in directions `(e,e perpendicular)`.
+Transverse negative definiteness and the implicit function theorem give a
+unique transverse critical graph `y=y_r(t)` in a fixed small tube. The two
+specified points lie on it, since their transverse gradients are zero.
+The parameter version of the Morse lemma, or a direct completion of the
+negative quadratic form, supplies tube coordinates `(t,w)` with
+
+\[
+f_r(t,w)=\phi_r(t)-|w|^2.\tag{25}
+\]
+
+At the midpoint, the exact gradient constraints imply `H(0)e=O(r^2)`;
+also `G(0)=O(r^2)`, so `y_r(0)=O(r^2)`. Thus the graph's mixed Hessian
+at its midpoint is `O(r^2)`, giving `y_r'(0)=O(r^2)` and
+`phi_r'''(0)->u`. Choose a fixed small tube
+so that `phi_r'''>eta/2` throughout it. The exact critical points give
+`phi_r'(-r/2)=phi_r'(r/2)=0`. Strict convexity of `phi_r'` implies it is
+positive outside those two roots and negative between them. Thus `phi_r`
+has a maximum on the left and a minimum on the right, and no other critical
+points in this tube.
+
+For a fixed small `delta`, the left tube end has
+`phi_r(-delta)<s`, while the right end has `phi_r(delta)>b`, for sufficiently
+small `r`. These inequalities follow from the strictly positive cubic limit
+and `b-s=O(r^3)`. Choose a fixed transverse wall radius whose squared size
+exceeds `b-s`; on the left half of the tube its wall is below `s` by (25).
+The plane `t=r/2` also has `f_r<=s`.
+
+Consequently, for each `h in (s,b)`, the excursion component born at the
+left maximum is confined within the left half-tube. No path can leave
+through the left end, the transverse walls, or the saddle plane above `s`.
+This is an isolation statement about the entire component, not just a
+statement about a single gradient path.
+
+At level `s`, this cap reaches the saddle and joins the right branch of
+(25). That branch contains a point of height `>b`. In the global superlevel
+set it therefore belongs to a component whose birth maximum has height
+`>b`. The cap has experienced no earlier merge, and the older right
+component survives under the given elder rule. The specified maximum dies
+at the specified saddle in an ordinary finite H0 bar.
+
+This reasoning is independent of distant critical points or possible
+global loops. The isolated cap guarantees distinct components at the
+saddle; the right point above `b` guarantees the elder comparison. A loop
+birth at a saddle, or a saddle whose other branch is younger, does not
+satisfy this good-fold conclusion.
+
+For the conditioned Gaussian fields in (17), uniform nonsingularity of
+`Cov(P_r,D_r,W_r)` and smooth derivative covariance imply conditional C4
+tightness for fixed `z` in compact sets. The regression means are bounded
+in C4 and linear in `z`; the residual covariance is bounded by the original
+smooth field covariance. More explicitly, take an integer `k>d/2+5`.
+The original Fourier decay gives finite expected squared Sobolev `H^k`
+norm. Gaussian conditioning decreases each derivative's residual variance,
+while the conditional mean functions have uniformly bounded `H^k` norm
+for bounded `z`: their covariance difference quotients converge smoothly
+to covariances with `(G,He,u)`, and the conditioning matrices are uniformly
+invertible. This gives uniform conditional `H^k` moment bounds and, by
+compact Sobolev embedding, tightness in C4. The same regression convergence
+identifies the conditional limit. On good cutoffs, the jet limits and the preceding
+deterministic argument make the true-pair indicator tend to one. Allowing
+`eta->0` and `M->infinity` covers the limiting event `A_e<0,u>0`.
+
+## 9. Gaussian domination and exhaustion (G3–G4)
+
+For any two distinct torus points, the Gaussian vector
+`(G_-,G_+,f_- -f_+)` is nondegenerate. If a linear combination had zero
+variance, positivity of every Fourier mass would make a distribution
+supported at the two distinct points, consisting of derivative evaluations
+and value differences, have all Fourier coefficients zero. It would then
+be the zero distribution, forcing every coefficient of that combination
+to be zero. This also proves gradient-pair nondegeneracy.
+
+Therefore, away from a fixed diagonal neighborhood, joint densities and
+conditional Hessian moments are bounded uniformly for `ell` near zero.
+The torus has finite volume, so that entire off-diagonal contribution is
+`O(1)=o(ell^{-1/3})`. This bounds true persistence pairs there as well. It
+does not deny the existence of short bars whose endpoints are far apart.
+
+Near the diagonal, the covariance of `(P_r,D_r,W_r)` converges uniformly
+over the sphere to the positive definite covariance of `(G,He,u)`. Thus,
+for `z=12 ell/r^3` and sufficiently small `r`,
+
+\[
+p_{P_r,D_r,W_r}(0,0,z)\le C\exp(-c_0z^2).\tag{26}
+\]
+
+Under `D_r=0`, the endpoint columns `H_+e` and `H_-e` are `O(r)` in all
+conditional Gaussian moments. Indeed `(H_+e-D_r)/r` and
+`(H_-e-D_r)/r` are Gaussian linear combinations of third derivatives with
+bounded covariance, by the integral form of Taylor's theorem. The remaining
+Hessian columns have bounded covariance. Conditioning additionally on
+`P_r=0,W_r=z` gives means bounded by `C|z|`. Hadamard's determinant
+bound and Gaussian moment bounds consequently give
+
+\[
+\mathbb E[|\det H_-\det H_+|\mid P_r=D_r=0,W_r=z]
+\le Cr^2(1+|z|)^{2d}.\tag{27}
+\]
+
+Use (18), physical polar measure, (26) and (27). The radial density integrand
+of **all** ordered critical pairs is bounded by
+
+\[
+Cr^{-2}(1+|12\ell/r^3|)^{2d}
+\exp\{-c_0(12\ell/r^3)^2\}.\tag{28}
+\]
+
+After `r=ell^{1/3}t`, multiplication by `ell^{1/3}` yields an
+ell-independent integrable majorant
+
+\[
+Ct^{-2}(1+12/t^3)^{2d}\exp\{-c_0(12/t^3)^2\}.
+\tag{29}
+\]
+
+It is integrable at zero by exponential decay and at infinity by `t^{-2}`.
+This is the needed density-scale exhaustion. In particular no separate
+assumption of a positive lower bound on `u` or on the transverse eigenvalues
+is imposed in the final integral.
+
+For fixed `t>0`, the conditional limiting third jet is `u=12/t^3>0`;
+the endpoint determinant/signature limit is exactly (15) times
+`1_{A_e<0}`. The transverse boundary has probability zero. Dominated
+convergence with (29) yields (1) for the full maximum/saddle gap density.
+It also controls the discarded tails and bad-jet sectors of any good-fold
+approximation.
+
+For the persistence observable, use upper and lower counting measures:
+every finite H0 bar is among the maximum/saddle pairs (G1), while every
+good isolated fold is a true finite H0 bar (Section 8). Kac–Rice for smooth
+local cutoff marks, followed by bounded approximation, gives the lower
+densities. Take increasingly broad good cutoffs; their coefficients tend to
+(1) by the same domination. The all-pair upper density also has coefficient
+(1). This proves the integrated statement and the essential density
+asymptotic, with no assumption that a globally defined persistence mark is
+continuous. If a direct global marked Kac–Rice representation is admitted,
+the identical limit gives (2) for that representative.
+
+The remaining formalization checks for an acceptance review are the
+uniform tube version of Section 8, the conditional C4 tightness statement,
+and the precise marked-measure approximation in this sandwich. They are
+openly retained as proof verification obligations; neither a numerical
+test nor agreement among agents would prove them.
+
+## 10. Independent consistency checks
+
+As `L->infinity`, the spectral coordinate law tends to `N(0,1)`, so
+`a->1`, `b->3`, `c->15`, `kappa_4,kappa_6->0`. Then
+
+\[
+B(e)=I+2ee^T,\quad \det B(e)=3,\quad V(e)=6,
+\quad A_e\overset d=\operatorname{GOE}_{d-1}+\sqrt{2/3}\,Z I.
+\tag{30}
+\]
+
+Here the GOE convention is independent off-diagonal variance one and
+diagonal variance two, and `Z~N(0,1)` is independent. The `2/3` scalar
+variance comes from conditioning the longitudinal Hessian on zero; it
+would be one without that constraint.
+
+Writing `F_{d-1}^*=E[(det A)^2 1_{A<0}]` for (30), the continuum check is
+
+\[
+c_{d,\infty}
+=\frac{|S^{d-1}|}{(2\pi)^d\sqrt3}\,
+ (3/2)^{1/3}\frac{\Gamma(7/6)}{\sqrt\pi}\,F_{d-1}^*.
+\tag{31}
+\]
+
+For `d=2`, `Var A=8/3` and `F_1^*=4/3`, hence
+
+\[
+c_{2,\infty}
+=\frac{2}{3\pi\sqrt3}(3/2)^{1/3}
+\frac{\Gamma(7/6)}{\sqrt\pi}.
+\tag{32}
+\]
+
+These are consistency checks derived within this note, not values read
+from project constants or earlier results. The accompanying standard-library
+script checks the finite-spectrum tensor and regression identities by
+independent direct lattice summation and checks the radial change of
+variables numerically. It does not prove the global bridge.
+
+## 11. General source used
+
+Only general Rice formulas were sought externally. The general two-point
+determinant formula and bounded continuous random-weight extension are
+supported by Jean-Marc Azaïs and Mario Wschebor, *A self contained proof of
+the Rice formula for random fields* (2006), Theorems 2 and 3:
+[author-hosted primary manuscript](https://www.math.univ-toulouse.fr/~azais/styles/other/preprint/completeproof.pdf).
+The source's hypotheses still need checking for the marks used here; its
+weighted theorem is not an automatic justification for a discontinuous
+global barcode mark. All collision constants, finite-torus regressions,
+and geometric/exhaustion arguments in this note were derived here.
+````
+
+`verify_derivation.py` — 8042 bytes; SHA256 `f4d9045b744aacc91d50f55656ce171f06554e1cb1ecb6ce7bf2216f9d556085`
+````text
+#!/usr/bin/env python3
+"""New, independent algebra checks; no project inputs or saved constants.
+
+Direct lattice sums use a finite product spectrum. The displayed moment
+identities are exact for every such finite spectrum, so these checks do not
+claim a truncation-error estimate for the infinite covariance. No inference,
+worker, rule, graph, runtime, or deployment changes are made.
+"""
+
+import itertools
+import math
+
+
+def dot(x, y):
+    return sum(a * b for a, b in zip(x, y))
+
+
+def normalized(x):
+    s = math.sqrt(dot(x, x))
+    return tuple(v / s for v in x)
+
+
+def inverse(matrix):
+    n = len(matrix)
+    rows = [list(row) + [float(i == j) for j in range(n)]
+            for i, row in enumerate(matrix)]
+    for j in range(n):
+        p = max(range(j, n), key=lambda i: abs(rows[i][j]))
+        rows[p], rows[j] = rows[j], rows[p]
+        assert abs(rows[j][j]) > 1e-14
+        pivot = rows[j][j]
+        rows[j] = [v / pivot for v in rows[j]]
+        for i in range(n):
+            if i != j:
+                factor = rows[i][j]
+                rows[i] = [a - factor * b for a, b in zip(rows[i], rows[j])]
+    return [row[n:] for row in rows]
+
+
+def bilinear(x, matrix, y):
+    return sum(x[i] * matrix[i][j] * y[j]
+               for i in range(len(x)) for j in range(len(y)))
+
+
+def transverse_basis(e):
+    basis = []
+    for j in range(len(e)):
+        v = [float(i == j) for i in range(len(e))]
+        for axis in [e] + basis:
+            proj = dot(v, axis)
+            v = [x - proj * y for x, y in zip(v, axis)]
+        if dot(v, v) > 1e-14:
+            basis.append(normalized(v))
+        if len(basis) == len(e) - 1:
+            break
+    return basis
+
+
+MAX_RELATIVE_ERROR = 0.0
+
+
+def close(x, y, description, tolerance=2e-11):
+    global MAX_RELATIVE_ERROR
+    error = abs(x - y) / max(1.0, abs(x), abs(y))
+    MAX_RELATIVE_ERROR = max(MAX_RELATIVE_ERROR, error)
+    assert error < tolerance, (description, error, x, y)
+
+
+def check_spectrum(d, L, radius, direction):
+    e = normalized(direction)
+    q = [2 * math.pi * m / L for m in range(-radius, radius + 1)]
+    weights = [math.exp(-x * x / 2) for x in q]
+    z = sum(weights)
+    probabilities = [w / z for w in weights]
+    moments = {k: sum(p * x ** k for p, x in zip(probabilities, q))
+               for k in (2, 4, 6)}
+    a, b, c = moments[2], moments[4], moments[6]
+    k4 = b - 3 * a * a
+    k6 = c - 15 * a * b + 30 * a ** 3
+    spectrum = []
+    for indices in itertools.product(range(len(q)), repeat=d):
+        vector = tuple(q[i] for i in indices)
+        mass = math.prod(probabilities[i] for i in indices)
+        spectrum.append((vector, mass))
+
+    def expected(fun):
+        return math.fsum(p * fun(vector) for vector, p in spectrum)
+
+    delta = lambda i, j: float(i == j)
+    for i, j, k, l in itertools.product(range(d), repeat=4):
+        direct = expected(lambda Q: Q[i] * Q[j] * Q[k] * Q[l])
+        formula = a ** 2 * (delta(i, j) * delta(k, l)
+                            + delta(i, k) * delta(j, l)
+                            + delta(i, l) * delta(j, k))
+        formula += k4 * float(i == j == k == l)
+        close(direct, formula, "fourth tensor")
+
+    B = [[a ** 2 * (delta(i, j) + 2 * e[i] * e[j])
+          + k4 * delta(i, j) * e[i] ** 2
+          for j in range(d)] for i in range(d)]
+    B_direct = [[expected(lambda Q: Q[i] * Q[j] * dot(Q, e) ** 2)
+                 for j in range(d)] for i in range(d)]
+    for i, j in itertools.product(range(d), repeat=2):
+        close(B[i][j], B_direct[i][j], "column covariance")
+
+    v = [3 * a ** 2 * e[i] + k4 * e[i] ** 3 for i in range(d)]
+    v_direct = [expected(lambda Q: Q[i] * dot(Q, e) ** 3)
+                for i in range(d)]
+    for i in range(d):
+        close(v[i], v_direct[i], "gradient-third covariance magnitude")
+    sixth = expected(lambda Q: dot(Q, e) ** 6)
+    sixth_formula = (15 * a ** 3 + 15 * a * k4 * sum(x ** 4 for x in e)
+                     + k6 * sum(x ** 6 for x in e))
+    close(sixth, sixth_formula, "sixth directional moment")
+    V_direct = sixth - dot(v_direct, v_direct) / a
+    V_formula = (6 * a ** 3 + 9 * a * k4 * sum(x ** 4 for x in e)
+                 + (k6 - k4 ** 2 / a) * sum(x ** 6 for x in e))
+    close(V_direct, V_formula, "third-jet regression variance")
+    assert V_direct > 0
+
+    U = transverse_basis(e)
+    B_inv = inverse(B)
+    n = d - 1
+    for aa, bb, cc, dd in itertools.product(range(n), repeat=4):
+        R = [a ** 2 * delta(aa, bb) * e[i]
+             + k4 * U[aa][i] * U[bb][i] * e[i] for i in range(d)]
+        S = [a ** 2 * delta(cc, dd) * e[i]
+             + k4 * U[cc][i] * U[dd][i] * e[i] for i in range(d)]
+        R_direct = [expected(lambda Q: dot(Q, U[aa]) * dot(Q, U[bb])
+                             * Q[i] * dot(Q, e)) for i in range(d)]
+        S_direct = [expected(lambda Q: dot(Q, U[cc]) * dot(Q, U[dd])
+                             * Q[i] * dot(Q, e)) for i in range(d)]
+        raw = expected(lambda Q: dot(Q, U[aa]) * dot(Q, U[bb])
+                       * dot(Q, U[cc]) * dot(Q, U[dd]))
+        raw_formula = a ** 2 * (delta(aa, bb) * delta(cc, dd)
+                               + delta(aa, cc) * delta(bb, dd)
+                               + delta(aa, dd) * delta(bb, cc))
+        raw_formula += k4 * sum(U[aa][i] * U[bb][i]
+                                * U[cc][i] * U[dd][i] for i in range(d))
+        conditioned_direct = raw - bilinear(R_direct, B_inv, S_direct)
+        conditioned_formula = raw_formula - bilinear(R, B_inv, S)
+        close(conditioned_direct, conditioned_formula,
+              "transverse Hessian Schur complement")
+        if aa == bb == cc == dd:
+            assert conditioned_direct > 0
+    print(f"PASS direct finite-spectrum tensors/regressions: d={d}, L={L}, cutoff={radius}")
+
+
+def simpson(fun, lo, hi, count):
+    assert count % 2 == 0
+    step = (hi - lo) / count
+    odd = math.fsum(fun(lo + i * step) for i in range(1, count, 2))
+    even = math.fsum(fun(lo + i * step) for i in range(2, count, 2))
+    return step / 3 * (fun(lo) + fun(hi) + 4 * odd + 2 * even)
+
+
+def check_radial_identity():
+    V = 5.0
+    sigma = math.sqrt(V)
+    density = lambda u: math.exp(-u * u / (2 * V)) / math.sqrt(2 * math.pi * V)
+    half_moment = simpson(lambda u: u ** (4 / 3) * density(u),
+                          0, 12 * sigma, 100000)
+    half_moment_formula = 2 ** (-1 / 3) * math.gamma(7 / 6) / math.sqrt(math.pi) * V ** (2 / 3)
+    close(half_moment, half_moment_formula, "one-sided fractional Gaussian moment", 2e-9)
+    # t=exp(s); the integrand 3 t^-2 z^2 p(z) dt becomes 3 exp(-s) z^2 p(z) ds.
+    def radial_log(s):
+        z = 12 * math.exp(-3 * s)
+        return 3 * math.exp(-s) * z * z * density(z)
+    radial = simpson(radial_log, -4, 12, 30000)
+    expected = 12 ** (-1 / 3) * half_moment_formula
+    close(radial, expected, "radial/fractional-moment identity", 2e-11)
+    print("PASS independent radial quadrature and one-sided Gaussian moment")
+
+
+def check_isotropic_regression():
+    # These exact rational identities follow from the independently specified GOE convention.
+    scalar_conditional_variance = 1 - 1 / 3
+    transverse_scalar_variance = 2 + scalar_conditional_variance
+    close(scalar_conditional_variance, 2 / 3, "isotropic scalar regression")
+    close(transverse_scalar_variance / 2, 4 / 3, "d=2 negative-half determinant moment")
+    close(15 - 3 ** 2, 6, "isotropic third-jet regression")
+    close(12 ** (-1 / 3) * 2 ** (-1 / 3) * 6 ** (2 / 3),
+          (3 / 2) ** (1 / 3), "continuum prefactor reduction")
+    print("PASS continuum-limit normalization/regression reductions")
+
+
+if __name__ == "__main__":
+    for case in [(2, 2.3, 4, (3, 4)), (2, 7.3, 6, (1, 0)),
+                 (3, 2.3, 4, (1, 2, 3)), (3, 7.3, 6, (2, -1, 2))]:
+        check_spectrum(*case)
+    check_radial_identity()
+    check_isotropic_regression()
+    print(f"All independent checks passed. Max scaled absolute discrepancy: {MAX_RELATIVE_ERROR:.3e}")
+    print("These checks validate algebra and integration only; they do not prove the global barcode bridge.")
+````
+
+`verification-output.txt` — 573 bytes; SHA256 `4f236a9c78dcddc2136c481e9d52b212e6bd89529440668515289ca2b9181967`
+````text
+PASS direct finite-spectrum tensors/regressions: d=2, L=2.3, cutoff=4
+PASS direct finite-spectrum tensors/regressions: d=2, L=7.3, cutoff=6
+PASS direct finite-spectrum tensors/regressions: d=3, L=2.3, cutoff=4
+PASS direct finite-spectrum tensors/regressions: d=3, L=7.3, cutoff=6
+PASS independent radial quadrature and one-sided Gaussian moment
+PASS continuum-limit normalization/regression reductions
+All independent checks passed. Max scaled absolute discrepancy: 9.469e-12
+These checks validate algebra and integration only; they do not prove the global barcode bridge.
+````
+
+`freeze-manifest.json` — 2369 bytes; SHA256 `fd1e6b526c7f5d0e12d05d596a93e73e1538a71f96e9df684d6acc40164b9dc3`
+````text
+{
+  "files": [
+    {
+      "bytes": 24027,
+      "name": "independent-derivation.md",
+      "sha256": "f38c085ab5b15368e6989a1fd6298490f3b671f5a6c3a01bcdc81b516022bc33"
+    },
+    {
+      "bytes": 8042,
+      "name": "verify_derivation.py",
+      "sha256": "f4d9045b744aacc91d50f55656ce171f06554e1cb1ecb6ce7bf2216f9d556085"
+    },
+    {
+      "bytes": 573,
+      "name": "verification-output.txt",
+      "sha256": "4f236a9c78dcddc2136c481e9d52b212e6bd89529440668515289ca2b9181967"
+    }
+  ],
+  "freeze_policy": "These three substantive files are frozen at the recorded hashes before any comparison. Later corrections require a new explicitly versioned artifact.",
+  "frozen_at_utc": "2026-10-08T10:36:02+00:00",
+  "global_bridge_requirements": [
+    "G1: Morse field with distinct critical heights and one max/merging-saddle representation per finite bar.",
+    "G2: Good fold encloses the newborn cap until its saddle, and the other branch contains a point above its maximum; detailed independent isolation argument supplied.",
+    "G3: Off-diagonal small-gap density is bounded; near-diagonal all-pair density admits the integrable Gaussian majorant after r=ell^(1/3)t; independent argument supplied.",
+    "G4: Valid two-point Kac-Rice and local continuous-mark approximation; a measure sandwich avoids assuming continuity of the global barcode mark."
+  ],
+  "independent_agent_identity": "/root/blind_coefficient_oct08",
+  "isolation": "No prior project coefficients, derivations, reviews, leading statements, experiment constants, or other agent outputs inspected; no comparison before freeze.",
+  "proof_verification_obligations_retained": [
+    "Uniform transverse tube/splitting implementation of the fold isolation lemma.",
+    "Conditional C4 tightness and convergence; a Sobolev/Gaussian-regression route is supplied.",
+    "Precise local marked-measure approximation and density representative in the barcode sandwich."
+  ],
+  "scope": "Independent coefficient derivation for the supplied periodic Gaussian covariance and ordinary finite H0 superlevel lifetimes",
+  "verification": {
+    "command": "python3 work/theorem-continuation-20261008/blind-oct08-1022/verify_derivation.py",
+    "exit_code": 0,
+    "status": "Tensor/regression identities and radial/one-sided Gaussian moment quadrature passed; no test is claimed to prove the global bridge."
+  }
+}
+````
+
+`comparison/post-freeze-comparison.md` — 13622 bytes; SHA256 `f65b96e262400edc6958aef6271796e328fb881260d5f5a415542e681af14bca`
+````text
+# Post-freeze coefficient comparison
+
+Author: actual collaboration agent `/root/blind_coefficient_oct08`.
+Scope: compare the frozen independent coefficient with the specified actual
+prior contact formula and its conventions. This is a **post-exposure,
+same-organization comparison; organizational independence = 0**. It creates
+no new blind credit, global bridge acceptance, numerical coefficient,
+formal theorem, rule change, runtime change, or scientific promotion.
+
+## 1. Custody and exposure boundary
+
+The independent derivation was frozen at **2026-10-08 10:36:02 UTC**.
+The assigning root reported fresh native byte/hash verification at
+**10:36:42 UTC**, and only then explicitly authorized the present comparison.
+My first authorized source read began **10:37:45 UTC**. All prior-formula
+exposure therefore began after the original freeze and its root readback.
+The original files remain unchanged.
+
+Original independent artifacts:
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `independent-derivation.md` |24027|`f38c085ab5b15368e6989a1fd6298490f3b671f5a6c3a01bcdc81b516022bc33`|
+| `verify_derivation.py` |8042|`f4d9045b744aacc91d50f55656ce171f06554e1cb1ecb6ce7bf2216f9d556085`|
+| `verification-output.txt` |573|`4f236a9c78dcddc2136c481e9d52b212e6bd89529440668515289ca2b9181967`|
+| `freeze-manifest.json` |2369|`fd1e6b526c7f5d0e12d05d596a93e73e1538a71f96e9df684d6acc40164b9dc3`|
+
+Freshly read prior sources, with their actual complete bytes hashed before
+content inspection:
+
+| Source | Bytes | SHA-256 | Directly used scope |
+|---|---:|---|---|
+| `work/theorem-continuation-20261008/FINITE_H0_LEADING_STATEMENT.md` |11335|`af4dcf811c71343d07999b8c9f9625e332e8fdfb0d73f6fd791491589ccb289b`|lines7–26 observable/law/density; lines40–47 formula(2); lines49–100 remainder and acceptance dependencies; lines102–106 boundary|
+| `work/theorem-continuation-20261008/i4-realization/ACTUAL_C4_WEIGHTED_ELDER_REMAINDER_20261008T0800Z.md` |17423|`58b49c90edf55811645c35c9ee1a32aefe0acae35c4f39d8b2863dd8930b0887`|lines28–42 critical pins; line57 contact target; lines77–96 determinants; lines138–154 coefficient/Jacobian; lines156–185 selection/exhaustion limits|
+| Native GitHub P, `Math-/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md`, saved unchanged as `comparison/source-P-native.md` |40261|`9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`|lines69–113 exact contact coordinates; lines447–480 parity/disintegration and actual(15.2)|
+
+The leading statement identifies its displayed coefficient with P(15.2).
+After requesting an accessible P source, root supplied its native GitHub
+contents URL. I independently fetched the complete source through the native
+GitHub tool, read its actual contact and Section15 text, and saved/rehashed
+the complete UTF-8 bytes at **10:41:26 UTC**. The resulting byte count and
+SHA-256 match the consumed pin above, and its independently computed Git
+blob is `dfed3b8d318a3ab1950957f393307733a4bef3f2`. This is a fresh direct
+source read, not an inferred P verdict from another paper's citation.
+Native source URL:
+`https://api.github.com/repos/d6g8k5htny-coder/Math-/contents/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md`.
+
+## 2. The field laws are exactly equal, at finite L
+
+The prior law in leading-statement lines7–10 is
+
+\[
+K_L(x)=\frac{\sum_{a\in\mathbb Z^d}e^{-|x+La|^2/2}}
+{\sum_{a\in\mathbb Z^d}e^{-|La|^2/2}}.
+\]
+
+For the numerator, the physical Fourier coefficient of mode `m` is
+
+\[
+L^{-d}\int_{[0,L)^d}\sum_a e^{-|x+La|^2/2}
+ e^{-2\pi i m\cdot x/L}\,dx
+=\frac{(2\pi)^{d/2}}{L^d}e^{-2\pi^2|m|^2/L^2}.
+\]
+
+This follows by shifting each translated cell to tile `R^d` and using the
+Gaussian Fourier integral. Dividing by the value at zero cancels the common
+Fourier prefactor. Pairing modes `m` and `-m` gives precisely the normalized
+cosine covariance specified to the blind derivation. Thus `n=d` matches
+the laws **exactly for every fixed positive L**, with physical coordinates
+unchanged; no large-L approximation is used in the comparison.
+
+## 3. Contact variable and determinant conversion
+
+To avoid a notation collision, write `e` for the prior source's sphere
+direction `u`, and use `u` only for the blind derivation's scalar third
+directional derivative `T(e,e,e)`.
+
+The C4 note pins the two actual critical points at `-r e/2,+r e/2` with
+heights `b,b-k r^3` (line28). Its normalized contact target is
+`v_0=(b;0;0;12k)` (line57), and its limiting axial Hessian pivots are
+`-6k,+6k` after division by `r` (lines79–88).
+
+The blind derivation has
+
+\[
+\ell=ur^3/12+o(r^3),\qquad
+H_{\max,ee}/r\longrightarrow-u/2,\quad
+H_{\mathrm{saddle},ee}/r\longrightarrow+u/2.
+\]
+
+Consequently the exact **contact** conversion is
+
+\[
+\boxed{u=12k},\qquad (6k)^2=u^2/4,\qquad dk=du/12.
+\tag{C1}
+\]
+
+This matches both the contact observation and the determinant product.
+It does not identify `f_eee(M)/12` with `k` at positive radius: C4 line173
+explicitly retains its fourth-derivative error.
+
+The direct P read also resolves the apparently different finite-radius
+gradient targets exactly. In P(3.1), lines78–86, the axial gradient
+observation is the height secant
+
+\[
+S_r=(f_+-f_-)/r,
+\]
+
+whereas frozen equation(17) uses the midpoint average
+`P_r=(G_-+G_+)/2`. The frozen and P third observations are identical:
+
+\[
+W_r=\frac{12}{r^2}(P_r\cdot e-S_r).
+\]
+
+Thus
+
+\[
+S_r=P_r\cdot e-r^2W_r/12.
+\tag{C1a}
+\]
+
+Changing `(P_r dot e,W_r)` to `(S_r,W_r)` is a determinant-one shear.
+The transverse average gradients and the gradient difference `D_r`
+coincide, modulo the orthogonal frame and coordinate permutation, also of
+absolute determinant one. After adjoining the average height, the complete
+observation transforms therefore agree up to that exact shear. At the pins,
+`P_r=0,W_r=12k` yields `S_r=-k r^2`, exactly P(3.3)/C4 line57.
+The average-height target is `b-k r^3/2` in both. Both full transforms have
+absolute determinant `12 r^{-(d+3)}` (P(3.2), line90; frozen equation(18)).
+No finite-radius covariance or target discrepancy remains.
+
+## 4. Common-height integration preserves the Hessian regression
+
+Let `F=f(0)`, `G=grad f(0)`, `C=He`, and `u=T(e,e,e)`. In the physical
+spectral convention of the frozen derivation,
+
+\[
+\operatorname{Cov}(F,C)=-a e,\quad
+\operatorname{Cov}(G)=aI,\quad
+\operatorname{Cov}(C)=B_L(e),\quad
+\operatorname{Cov}(G,u)=-v(e).
+\]
+
+The even block `(F,H)` is independent of the odd block `(G,u)`.
+The contact density at `(b,0,0,u)` therefore factors as
+
+\[
+\pi_0(b,0,0,u)
+=p_C(0)\,p_{F\mid C=0}(b)\,
+ p_G(0)\,p_{u\mid G=0}(u).\tag{C2}
+\]
+
+Denote the prior contact conditional transverse expectation by
+
+\[
+F(b,e)=\mathbb E[(\det A)^2\mathbf1_{A\prec0}
+ \mid C=0,F=b].
+\]
+
+The additional `G=0,u=12k` pins do not change this matrix law, by even/odd
+independence. Since the law of `A | C=0` is exactly the mixture of the laws
+`A | C=0,F=b` against `p_{F|C=0}(b) db`,
+
+\[
+\boxed{\int_{\mathbb R}\pi_0(b,0,0,u)F(b,e)\,db
+=p_G(0)p_C(0)p_{u\mid G=0}(u)F_L(e).}\tag{C3}
+\]
+
+This is an equality of the complete conditional matrix distributions, not
+an entry-independence claim or a simplification of the negative-cone event.
+In particular it is wrong to replace the height mixture by `F=0` and add a
+single `p_F(0)` factor.
+
+For an explicit check of the correlated conditional law, put
+
+\[
+\tau(e)=1-a^2e^TB_L(e)^{-1}e>0,
+\qquad
+R_{ab,i}=a^2\delta_{ab}e_i+\kappa_4U_{ia}U_{ib}e_i,
+\]
+
+\[
+\eta_{ab}(e)=-a\delta_{ab}
+ +a\sum_{ij}R_{ab,i}(B_L(e)^{-1})_{ij}e_j.
+\]
+
+The height-pinned matrix has mean `eta_ab b/tau` and covariance
+
+\[
+\Gamma_{ab,cd}(e)-\eta_{ab}(e)\eta_{cd}(e)/\tau(e),
+\]
+
+where `Gamma` is frozen equation(11), the Hessian covariance after the
+`He=0` regression. Integrating `b~N(0,tau)` recovers the complete centered
+Gaussian matrix law with covariance `Gamma`. This verifies the common-height
+step while preserving all finite-L angular correlations.
+
+At positive radius, switching birth height `b` to the midpoint height
+`b-ell/2` also has height Jacobian one for fixed lifetime. At contact the two
+coordinates coincide. This supplies no extra coefficient factor.
+
+## 5. Exact reduction of actual formula(2)
+
+The actual leading-statement formula(2), also C4 lines138–141, is
+
+\[
+c_{d,L}^{\rm prior}
+=\int_{S^{d-1}}\int_0^\infty\int_\mathbb R
+\frac{12\pi_0(b,0,0,12k)(6k)^2F(b,e)}{3k^{2/3}}
+\,db\,dk\,d\omega(e).
+\]
+
+Apply (C3) and then (C1). The scalar change of variables has coefficient
+
+\[
+\frac{12(6k)^2}{3k^{2/3}}\,dk
+=144k^{4/3}dk
+=12^{-1/3}u^{4/3}du.\tag{C4}
+\]
+
+Hence the inspected actual coefficient is exactly
+
+\[
+c_{d,L}^{\rm prior}
+=12^{-1/3}\int_{S^{d-1}}p_G(0)p_C(0)F_L(e)
+\int_0^\infty u^{4/3}p_{u\mid G=0}(u)\,du\,d\omega(e),
+\]
+
+which is **identical to frozen independent equation(22)**. Evaluating the
+one-sided Gaussian moment gives frozen equation(1), with exactly its
+`B_L(e)`, `V_L(e)` and transverse Schur complement. No coefficient has been
+numerically evaluated and no new coefficient digits are introduced.
+
+The direct actual P(15.2), lines476–478, states
+
+\[
+c_{d,L}=\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}
+\int_{S^{d-1}}p_G(0)p_{V_e}(0)\tau_e^{4/3}D_e\,d\omega(e).
+\]
+
+Its source definitions (P(15.1), lines449–454) identify
+
+\[
+V_e=He,\quad \tau_e^2=\operatorname{Var}(u\mid G=0)=V_L(e),
+\quad D_e=F_L(e).
+\]
+
+The notation `V_e` for the Hessian column in P must not be confused with
+the frozen scalar variance `V_L(e)`. The density substitutions are
+
+\[
+p_G(0)=(2\pi)^{-d/2}a^{-d/2},\qquad
+p_{V_e}(0)=(2\pi)^{-d/2}(\det B_L(e))^{-1/2}.
+\]
+
+These substitutions turn the **actual P(15.2)** into frozen equation(1)
+verbatim as a mathematical expression. P's angular matrix law is correlated
+and conditioned on `He=0`, precisely the frozen Schur complement. Expressing
+the column in an orthonormal physical frame changes its covariance by
+orthogonal congruence and leaves this density unchanged. P lines458–472
+also independently record the same parity factorization, common-height
+mixture and `u=12k` gamma conversion.
+
+## 6. Angular, role, and physical-volume checks
+
+* The prior `d sigma` is expressly ordinary sphere area (leading line47,
+  C4 line138). It agrees with frozen `d omega`; neither is normalized by
+  sphere area. Finite torus lattice symmetry leaves the same angular
+  covariance functions; isotropy has not been assumed.
+* Both formulas order the endpoint roles as maximum then saddle. The
+  contact third derivative is positive in that direction. There is no
+  role-reversal half factor in either formula (leading line24, C4 line138).
+  The half in a one-sided centered Gaussian moment already accounts for
+  the sign; adding a second half would be a discrepancy.
+* The prior observable has `L^{-d}` before the two-point integral (leading
+  lines14,19). Its midpoint integral cancels by stationarity (line47),
+  exactly as in the frozen derivation. The local linear transformation
+  `(x,y)->(midpoint,y-x)` has absolute Jacobian one. On the admitted
+  embedded near-pair domain the displacement is uniquely represented,
+  so no torus midpoint multiplicity appears.
+* Physical derivatives, displacement `r`, and wave numbers `2 pi m/L`
+  match. No conversion to a unit torus or integer-mode derivative is made.
+* The finite-bar ordinary-H0 convention and the exclusion of the essential
+  global maximum agree. Coefficient algebra alone does not verify the
+  prior maximin selection mark or the random-bar counting-measure equality.
+
+## 7. Scope of the agreement and retained obligations
+
+**Disposition: symbolic MATCH for the coefficient of the inspected actual
+formula(2) and the freshly read actual P(15.2). No field,
+regression, angular, role-half or volume normalization discrepancy was
+found.** The finite-radius normalized observation difference is resolved by
+the exact determinant-one shear(C1a), rather than discarded asymptotically.
+Direct parent-P identity/readback is tracked in Section1.
+
+The agreement does not validate the leading statement's `R(ell)=O(1)` or
+its pointwise canonical-density version. The frozen blind argument supplies
+a leading-scale domination and an essential density/measure route, not
+the quantitative first-order bounds consumed by C4 lines93–94 and149–169.
+Its `o(ell^{-1/3})` argument must not be relabeled as a bounded-remainder
+proof by this coefficient match.
+
+The prior global bridge depends on separately identified ordinary-H0
+once-counting/marked-Kac–Rice, CAP frontier/elder separation, actual every-
+target whole-field regression and all-sector weighted complements
+(leading lines78–100; C4 lines42,134,181–185). This comparison has not read
+or accepted all those proofs. It preserves the frozen G1–G4 requirements
+and the frozen proof-verification obligations, particularly the uniform
+fold tube, conditional C4 convergence, and marked counting-measure
+sandwich. It neither supersedes the prior formal I1/I2/I4 obligations nor
+uses contact (which is non-Morse) as a positive-radius persistence sample.
+
+Post-exposure comparison credit is same-organization0. Only the original
+unchanged hash-bound artifact retains its original blind derivation status.
+
+An accompanying post-exposure standard-library Fraction check,
+`comparison/verify_contact_conversion.py`, exited0. It checks the full
+axial observation matrices, the determinant-one shear, exact critical-pin
+targets and absolute axial Jacobian at three rational positive radii, plus
+the cubed scalar prefactor of(C4). The general equalities are derived above;
+these exact spot checks supplement that algebra and carry no new blind
+credit or global bridge proof. Its output is retained separately.
+````
+
+`comparison/verify_contact_conversion.py` — 1773 bytes; SHA256 `0d143fc8c523e16b2839bbc0674dc3061b6f1f3ea0e8e433012cd8b19ee7c690`
+````text
+#!/usr/bin/env python3
+"""Exact-arithmetic post-exposure comparison check; no blind credit."""
+from fractions import Fraction as F
+from itertools import permutations
+
+
+def determinant(a):
+    n = len(a)
+    total = F(0)
+    for p in permutations(range(n)):
+        inversions = sum(p[i] > p[j] for i in range(n) for j in range(i + 1, n))
+        value = F(-1 if inversions % 2 else 1)
+        for i in range(n):
+            value *= a[i][p[i]]
+        total += value
+    return total
+
+
+for r in (F(2, 3), F(1), F(7, 5)):
+    # Original observations: (f_minus, g_minus, f_plus, g_plus).
+    height = [F(1, 2), F(0), F(1, 2), F(0)]
+    average_gradient = [F(0), F(1, 2), F(0), F(1, 2)]
+    secant = [-1 / r, F(0), 1 / r, F(0)]
+    column = [F(0), -1 / r, F(0), 1 / r]
+    third = [12 / r ** 3, 6 / r ** 2, -12 / r ** 3, 6 / r ** 2]
+    assert secant == [p - r ** 2 * w / 12 for p, w in zip(average_gradient, third)]
+    blind = [height, average_gradient, column, third]
+    prior = [height, secant, column, third]
+    assert determinant(prior) == determinant(blind)
+    assert abs(determinant(prior)) == 12 / r ** 4
+    b, k = F(3, 7), F(5, 11)
+    pin = [b, F(0), b - k * r ** 3, F(0)]
+    observe = lambda row: sum(x * y for x, y in zip(row, pin))
+    assert observe(average_gradient) == 0
+    assert observe(secant) == -k * r ** 2
+    assert observe(third) == 12 * k
+    assert observe(height) == b - k * r ** 3 / 2
+
+# Cubed scalar conversion prefactor: 144 k^(4/3) dk, u=12k.
+assert F(144, 12) ** 3 / F(12) ** 4 == F(1, 12)
+print("PASS exact finite-radius secant/average-gradient shear, contact targets, and axial Jacobians")
+print("PASS exact cubed prefactor for the u=12k conversion")
+print("Post-exposure comparison only; no new blind credit or global-bridge proof.")
+````
+
+`comparison/contact-conversion-output.txt` — 220 bytes; SHA256 `88d6e2d1b042d134b496cf5037835941618491642e469ad3e55a17b21a785efa`
+````text
+PASS exact finite-radius secant/average-gradient shear, contact targets, and axial Jacobians
+PASS exact cubed prefactor for the u=12k conversion
+Post-exposure comparison only; no new blind credit or global-bridge proof.
+````
+
+`comparison/comparison-freeze-manifest.json` — 2232 bytes; SHA256 `6fc789ddc2cd99bfadc856295414547ee524979826e893351786f26f8082b897`
+````text
+{
+  "agent": "/root/blind_coefficient_oct08",
+  "disposition": "Exact symbolic coefficient MATCH to actual leading formula(2) and directly native-read P(15.2); finite-radius observation difference resolved by determinant-one shear; no numerical coefficient evaluated.",
+  "files": [
+    {
+      "bytes": 13622,
+      "name": "post-freeze-comparison.md",
+      "sha256": "f65b96e262400edc6958aef6271796e328fb881260d5f5a415542e681af14bca"
+    },
+    {
+      "bytes": 40261,
+      "name": "source-P-native.md",
+      "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+    },
+    {
+      "bytes": 1773,
+      "name": "verify_contact_conversion.py",
+      "sha256": "0d143fc8c523e16b2839bbc0674dc3061b6f1f3ea0e8e433012cd8b19ee7c690"
+    },
+    {
+      "bytes": 220,
+      "name": "contact-conversion-output.txt",
+      "sha256": "88d6e2d1b042d134b496cf5037835941618491642e469ad3e55a17b21a785efa"
+    }
+  ],
+  "first_prior_source_exposure_utc": "2026-10-08T10:37:45+00:00",
+  "frozen_at_utc": "2026-10-08T10:44:01+00:00",
+  "global_scope": "No expansion of G1-G4, global bridge, pointwise canonical-density or bounded-remainder acceptance.",
+  "new_blind_credit": false,
+  "organizational_independence": 0,
+  "original_blind_freeze_utc": "2026-10-08T10:36:02+00:00",
+  "original_four_files_unchanged": true,
+  "root_original_hash_readback_utc": "2026-10-08T10:36:42+00:00",
+  "sources": [
+    {
+      "bytes": 11335,
+      "path": "work/theorem-continuation-20261008/FINITE_H0_LEADING_STATEMENT.md",
+      "sha256": "af4dcf811c71343d07999b8c9f9625e332e8fdfb0d73f6fd791491589ccb289b"
+    },
+    {
+      "bytes": 17423,
+      "path": "work/theorem-continuation-20261008/i4-realization/ACTUAL_C4_WEIGHTED_ELDER_REMAINDER_20261008T0800Z.md",
+      "sha256": "58b49c90edf55811645c35c9ee1a32aefe0acae35c4f39d8b2863dd8930b0887"
+    },
+    {
+      "bytes": 40261,
+      "path": "work/theorem-continuation-20261008/blind-oct08-1022/comparison/source-P-native.md",
+      "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+    }
+  ],
+  "verification": {
+    "command": "python3 work/theorem-continuation-20261008/blind-oct08-1022/comparison/verify_contact_conversion.py",
+    "exit_code": 0
+  }
+}
+````
+

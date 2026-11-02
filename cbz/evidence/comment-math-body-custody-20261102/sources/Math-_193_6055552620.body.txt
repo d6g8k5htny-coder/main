@@ -1,0 +1,326 @@
+ROOT frozen actual finite-bar counting-measure candidate, pickup6055398805.15058B/7fec70dc5ca26364731ddd79a2ca1c0afe14c6cae02722053c5ca6664832ff92. Exact nonauthor attacks currently underway; no future approval or formal/scientific promotion. Actual source-law Borel finite-bar measure, ordinary component/difference interval derivation, EVERY-zero-target height mixture/Rice identity with one determinant and correct ordered/L^n normalization, explicit one-point finite expected selectedmass. Full8bindingfreeze below, not transitive import closure. Previous completed whole-field source/reviews/release6055091142/6055325794/6055347146 retained. No new compiler/numerical/inference/sampler. Sole graph/status unchanged.
+
+FILE ACTUAL_FINITE_BAR_COUNTING_MEASURE.md
+````
+# Actual source law to the finite ordinary-H0 counting measure
+
+Conventional author `/root`; native pickup Math1936055398805, actually
+2026-10-08T07:55:23Z. Checkpoint08:10, freeze08:20, release08:35 UTC.
+This proves the observable binding, including an explicit symbolic finite-mass
+bound. It is not a new Lean theorem, scientific acceptance, or proof of all
+the quantitative/asymptotic ancestors. Exact nonauthor review is pending.
+
+## 1. Fixed source, topology and conventions
+
+Fix n>=2 and L>0. Let X=R^n/(L Z^n), volume L^n, and use exactly
+`sourceLaw n` and `sourceField n L`. The retained SourceSpatialKernel equality
+identifies its centered, variance-one covariance with
+
+ K_L(z)=sum_(a in Z^n) exp(-|z+La|^2/2)
+                         /sum_(a in Z^n) exp(-|La|^2/2).
+
+Use the measurable periodic C4 Banach representative F of the actual source,
+with its source Pi-sup derivative norm, constructed in
+ACTUAL_MULTIPOINT_WHOLE_FIELD_PIN_KERNEL.md,25232B/SHA
+0eadda61649ce8b1d2f64a40d5a9be9ef73352eea28b3a1c3db26631900bba12.
+Its single absolute-majorant event uses the EXTENDED nonnegative sum
+J=sum_m b_m|omega_m|, B=sum_m b_m<infinity. It gives
+||F||C4<=J and ||J||Lp<=M_p B for p>=1, where
+M_p=(E|N(0,1)|^p)^(1/p). No divergent-real-tsum fallback defines J.
+F has the same actual field and jets everywhere on that event. Pushing F to
+C2 is continuous and retains measurability and the actual sample field.
+
+That proof derives packed distinct-site jet rank, every-target whole-field
+Gaussian regression, unconditional Morse/distinct critical values, and the
+corresponding fixed unequal-height two-critical-pin genericity. These are
+proved source-law facts at conventional scope, not assumptions of an abstract
+Gaussian replacement field. The standard finite Morse handle description
+used below is a separate conventional topological input, already made explicit
+in FINITE_BAR_ONCE_COUNTING_v2.md,8520B/SHA
+04a1602aced2ffeed964a9ce830cecf7467f51cadaf6368a3dba2c8be25b000d.
+C4 regularity suffices for that C2 Morse description.
+
+For descending CLOSED superlevels X_t={F>=t}, take ordinary singular H0 over
+any one fixed field. Birth is included and death excluded. A finite interval
+has support (s,b], lifetime ell=b-s>0. The global maximum's one essential
+interval is excluded. We count distinct bars with multiplicity, even when
+their lifetimes coincide. All expected measures below are divided by L^n.
+
+## 2. Pairing is derived from actual component maps
+
+On the probability-one Morse/distinct-value locus, critical points are finite.
+Singular H0 of each superlevel is the free vector space on its path components;
+inclusion maps send each component basis vector to the containing component.
+Morse normal forms make these superlevels locally path connected, including
+the exact critical levels. The sweep is constant between critical values.
+A maximum creates one component. A superlevel one-handle, corresponding to
+an f-index-(n-1) saddle, has two feet: it merges two components and kills one
+dimension if they are distinct, and kills no H0 dimension otherwise. Higher
+superlevel handles do not merge distinct components.
+
+Label every current component by its unique highest maximum. Existence uses
+compactness and the local maximum argument in once-countingv2, including the
+singleton birth level; uniqueness uses distinct critical values. At a merge
+retain the older, higher label. Since X is connected, every maximum M except
+the global maximum G dies once, at a unique saddle S(M). Let N(M) be the
+OTHER component's current older label at that event, b_M=F(M), s_M=F(S(M)).
+Then b_N>b_M and s_N<s_M, with s_G=-infinity.
+
+The actual dying class is [M]-[N(M)], not [M]. It is nonzero on (s_M,b_M]
+and zero at and below s_M. At any nonempty level the live parents are also
+live; their edges increase birth value and end at G. Thus [G] and these live
+differences form a unitriangular basis of the actual component vector space.
+This works also in characteristic two. Genuine inclusion maps transport each
+difference until its death and then send it to zero. This constructs the
+ordinary-H0 interval decomposition, without assuming a barcode pairing or
+choosing a gradient-adjacency edge. Above F(G) both the module and basis are
+empty. There is precisely one essential interval.
+
+Define the global older-point maximin mark
+
+ d_phi(x)=sup_(gamma(0)=x, phi(gamma(1))>phi(x)) min_t phi(gamma(t)),
+
+with the empty supremum -infinity. If a path from M to an older point had
+bottleneck greater than s_M, choose a regular level between them: M's component
+would already contain an older maximum while its current label is M. Conversely,
+the two local saddle feet, paths inside their premerge components, and the
+saddle itself give a path from M to N(M) at height at least s_M. Consequently
+d_F(M)=s_M, with a UNIQUE saddle at that height. G has no older endpoint.
+Nested mergers, previously absorbed maxima, remote paths and competing routes
+are included in this component/maximin construction, and create no duplicate
+death. One saddle cannot kill several current labels.
+
+Write chi(phi,x,y)=1 if phi is Morse/distinct-value, x is a maximum, y is an
+index-(n-1) saddle, and d_phi(x)=phi(y), and zero otherwise. We have the
+SAMPLEWISE equality of finite marked measures
+
+ beta_phi = sum_(finite bars) delta_(M,S,b,s)
+          = sum_(distinct critical x,y) chi(phi,x,y)
+                                      delta_(x,y,phi(x),phi(y)).       (1)
+
+In particular beta_phi(total)=N_max(phi)-1 on the regular locus. Locations in
+the left-hand notation are the birth/death critical points identified by the
+constructed decomposition, not extra cap labels. No arbitrary older cap
+endpoint is identified with N(M), and no cap certificate is counted as a bar.
+
+## 3. The actual finite-bar random measure is Borel
+
+Strict countable polygonal-path tests make d_phi(x)>h Borel jointly in
+(phi,x,h): strict value clearance and an older-endpoint margin are preserved
+by rational path approximation; a chartwise initial segment depends
+continuously on x. Use countably many quotient charts. Thus equality to
+phi(y), and the maximum/saddle type tests, are Borel. The essential
+-infinity value does not equal a finite critical value.
+
+To enumerate without a nonmeasurable choice, use the C2-open Morse locus.
+For each Morse phi, take disjoint chart balls around its finitely many critical
+points. Invertible Hessians and the parametric implicit function theorem give
+continuous critical branches on a C2 neighbourhood of phi. A positive gradient
+minimum on the compact complement excludes new critical points. Shrinking
+also preserves distinct critical values. Separability gives a countable such
+cover; subtract preceding neighbourhoods to obtain a Borel partition. On
+each piece, (1) is a finite sum of Borel marked atoms over the complete branch
+list. Every beta_phi(A) is therefore Borel for Borel A in
+X x X x {(b,s):b>s}. Define beta=0 off the regular locus, a source-law null
+set. Hence beta_F is a measurable finite random measure. Equal lifetimes
+remain repeated atoms after pushing forward by (b,s)->b-s.
+
+This is the argument of the exact KR applicabilityv2 and its completed
+attack, now supplied with the ACTUAL C4 law/rank/kernel/genericity above.
+It does not require a measurable cap, ridge, saddle trajectory or parent
+selection. Parent labels were used only to prove the deterministic identity.
+
+## 4. Actual marked Rice formula and full height pins
+
+On compact off-diagonal pair domains use
+V_phi(x,y)=(grad phi(x),grad phi(y)). It is a C1 Gaussian field in dimension
+2n with full point covariance by the constructive source rank. The Jacobian
+is exactly |det H_x det H_y|. Whole-field regression supplies a canonical
+C4 kernel at EVERY V-target, continuously in target and locally in location;
+its pushforward supplies the C1 pair-field conditional law.
+
+Apply the Gaussian zero-count theorem and the continuous-cylinder weighted
+theorem of Armentano-Azais-Leon, arXiv:2304.07424v3, Theorems2.2 and7.1.
+Use the full second-jet continuous mark, or equivalent constant finite-vector
+marks for each cylinder. Equality of two FINITE Borel measures on location
+times C2 for a bounded generating cylinder algebra extends by functional
+monotone class. This is precisely the read/proved argument in
+KR_INTERFACE_APPLICABILITY_v2.md,12369B/SHA
+39a63208df64ca0c24223566389766cc80a5b28dabd707954067fbf966e6555f.
+The primary theorem is not applied directly to the discontinuous elder mark.
+The Borel zero-count construction in Section3 handles arbitrary chart/domain
+boundaries. Exhaust off-diagonal compacts by nonnegative monotone convergence;
+do not assume total candidate-pair mass finite to justify this exhaustion.
+
+Let O=(phi(x),grad phi(x),phi(y),grad phi(y)), and denote its actual Gaussian
+density by p_O. Its covariance is positive for distinct x,y. Disintegrating
+heights at V=0 is legitimate AT THIS target: append A=(phi(x),phi(y)), put
+eta=A(F)-Cov(A,V)Cov(V)^(-1)V(F). The full (V,A) residual is independent of
+the ENTIRE vector, and the Schur covariance of eta is positive. Block regression
+gives R_V=R_(V,A)+D_A eta. Thus the canonical V-kernel at0 is the mixture of
+the canonical full-pin kernels against the actual Gaussian eta law. This is
+a direct independent-residual identity, not an arbitrary AE tower version
+evaluated at zero. The density identity p_V(0)p_(A|V)(b,s|0)=p_O(b,0,s,0)
+uses only a coordinate permutation of absolute determinant one.
+
+For every nonnegative Borel test psi(x,y,b,s), (1) now yields
+
+ E integral psi d beta_F / L^n
+  = (1/L^n) integral_(x!=y) integral_(b>s)
+       p_O(b,0,s,0)
+       E_Q[ |det H_x det H_y|
+            1_(H_x<0) 1_(index H_y=n-1)
+            1_(d_phi(x)=s) psi(x,y,b,s) ] db ds dx dy.              (2)
+
+Q is the actual EVERY-target whole-field pin law. At each unequal b,s it is
+Morse/distinct-value almost surely, as separately proved; no assertion about
+a common event for all pin laws is used. Formula(2) follows as an equality of
+nonnegative measures, including initially infinite integrals. It contains
+ONE endpoint determinant product and no reversal factor1/2. Height-null-set
+choices of a merely AE conditional distribution never enter its construction.
+
+## 5. Finite expected total selected-bar mass without a pair diagonal bound
+
+Let Sigma_1=Cov(grad F(x)); stationarity makes it independent of x, and the
+constructive one-site rank gives lambda_1=minEig(Sigma_1)>0. These are exact
+actual-spectrum quantities, not an isotropic/GOE substitution. A gradient
+map from the source C4 Pi norm to Euclidean R^n has norm<=sqrt(n).
+The Bochner cross-covariance operator has norm<=sqrt(n)B^2, so its regression
+D_1 has norm<=sqrt(n)B^2/lambda_1. At target0 the actual conditional field
+therefore satisfies
+
+ ||R_1||C4 <= (1+n B^2/lambda_1) J.
+
+Each Hessian entry is bounded by ||R_1||C4. Hadamard's row bound gives
+|det H|<=n^(n/2)||R_1||C4^n. One-point marked Gaussian Rice, with the same
+continuous-cylinder/Borel extension for the type indicator, proves
+
+ E N_max / L^n
+  = (2pi)^(-n/2) det(Sigma_1)^(-1/2)
+      E_(Q_grad=0)[|det H_x|1_(H_x<0)]
+  <= C_max,
+ C_max=(2pi)^(-n/2)det(Sigma_1)^(-1/2) n^(n/2)
+          [(1+nB^2/lambda_1)M_n B]^n < infinity.                 (3)
+
+Stationarity of the whole-field law follows from the centered Gaussian
+stationary covariance and the generating evaluation sigma algebra; derivative
+evaluations are Borel finite-difference limits of value evaluations. Translation
+is continuous on C4. Thus the one-point integrand is constant. Alternatively
+its compact uniform source bounds already suffice for the finite inequality.
+Connectedness and (1) give
+
+ E beta_F(total)/L^n=E N_max/L^n-L^(-n),
+       0<=E beta_F(total)/L^n<=C_max.                             (4)
+
+This proves selected-measure finiteness independently of any near-diagonal
+two-point candidate estimate. It does not imply finite expected total
+candidate-pair mass or a lifetime-density remainder bound by itself.
+
+## 6. Consistency with the existing radial/lifetime observable
+
+In the near injective displacement band use M=z-ru/2,S=z+ru/2, r>0, ordinary
+sphere area d sigma(u), and s=b-kr^3,k>0. The actual ordered-pair Jacobian is
+one, spatial polar measure is r^(n-1)dr d sigma, and height measure is
+r^3 db dk. The reviewed original-to-U_r observation map gives
+p_O=12 r^(-(n+3))pi_r. Hence (2)'s near selected intensity per midpoint
+volume is
+
+ r A_r^sel(b,k,u) dr db dk d sigma,
+ A_r^sel=12 pi_r E_Q[(W/r^2)1_(d_phi(M)=phi(S))],                 (5)
+
+where W is the SAME determinant/type weight. Translation stationarity makes
+the integrand independent of z, so dividing its torus integral by L^n gives
+(5). For a fixed radius cutoff r0, the lifetime pushforward has
+r=(ell/k)^(1/3), r dr/dell=(1/3)k^(-2/3)ell^(-1/3), with the indispensable
+lower gap cutoff k>=ell/r0^3. These are the exact measures consumed by
+P/R/CUB/exhaustion. Counting ordered maximum/saddle roles, essential exclusion,
+ordinary sphere area and per-volume normalization agree with (1)-(2).
+
+No quantitative cap-loss, coefficient or unrestricted remainder is inferred
+from finiteness or from Rice alone. Those need their actual P/E1/E2/CAP/REC/R
+proofs and the complete weighted complement/lifetime integrations. This note
+binds their selected observable to the actual source's finite ordinary bars.
+
+## 7. Controls and unfinished formal/scientific scope
+
+Dropping connectedness replaces the single essential class by one for each
+ambient component, so N_max-1 is restricted to this connected torus. Ordinary
+[M] does not die at a merger; the difference class is essential to the proof.
+Critical-value ties remove unique saddle/parent-event identification and are
+excluded by the actual genericity theorem. Distinct endpoint pairs with equal
+lifetimes still count twice. Torus-equivalent sites violate full-pin rank and
+are excluded from the off-diagonal. Local cap certificates are not multiplicity
+labels. Contact r=0 and equal-height forced pins are not treated as generic
+Morse laws. Formula(2) has positive lifetime support b>s only.
+
+The standard Morse handle interpretation and global triangular decomposition
+are conventional mathematical arguments. Existing OrdinaryH0Elder/Image/Split
+formalize actual singular-H0 point/map and cap-retract steps, not the GLOBAL
+natural isomorphism constructed conventionally in Section2. Source-to-formal
+I1/I2/I4, actual all-level interval multiplicity and formal Borel counting
+remain required. No new Lean declaration/compiler run, extra asymptotic term,
+evaluated constant/digit, L=24/L_* certificate, numerical experiment, infinite
+volume, universality or scientific promotion is claimed. Sole graph/STATUS
+remain unchanged; the original full goal stays ACTIVE.
+
+Exact-review exit: check ordinary-H0 generators/endpoints, Borel atom counting,
+zero-target height mixture, once-only determinant/ordered normalization, the
+one-point C_max constants and all null/genericity restrictions. Review earlier
+arguments as actual mathematical dependencies, not copied votes.
+
+````
+
+FILE actual-bar-measure-freeze.json
+````
+{
+  "actual_author": "/root",
+  "freeze_at": "2026-10-08T08:01:10.196476+00:00",
+  "pickup_comment": 6055398805,
+  "bindings": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/ACTUAL_FINITE_BAR_COUNTING_MEASURE.md",
+      "bytes": 15058,
+      "sha256": "7fec70dc5ca26364731ddd79a2ca1c0afe14c6cae02722053c5ca6664832ff92"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/ACTUAL_MULTIPOINT_WHOLE_FIELD_PIN_KERNEL.md",
+      "bytes": 25232,
+      "sha256": "0eadda61649ce8b1d2f64a40d5a9be9ef73352eea28b3a1c3db26631900bba12"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceSpatialKernel.lean",
+      "bytes": 10267,
+      "sha256": "2dea1176090cce0669f928caf5bf63f28b03fdd99b8601eae5fe351936fdf47c"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/FINITE_BAR_ONCE_COUNTING_v2.md",
+      "bytes": 8520,
+      "sha256": "04a1602aced2ffeed964a9ce830cecf7467f51cadaf6368a3dba2c8be25b000d"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/FINITE_BAR_ONCE_COUNTING_v2_ATTACK.md",
+      "bytes": 8959,
+      "sha256": "39e0578e6f93610ed84cd02b55e47a355f294de37b7e3ca0502ee792f549a6a3"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/KR_INTERFACE_APPLICABILITY_v2.md",
+      "bytes": 12369,
+      "sha256": "39a63208df64ca0c24223566389766cc80a5b28dabd707954067fbf966e6555f"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/KR_INTERFACE_APPLICABILITY_v2_ATTACK.md",
+      "bytes": 18243,
+      "sha256": "21052c469a9c9ef802b83adcd4f76615172cce84d3030044d6540c0f91bbe116"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/I4_KR_BAR_MARK_CHILD_AUDIT_20261008T0750Z.md",
+      "bytes": 9010,
+      "sha256": "518af2eb2f36decae42bf649843742033d3cf085bd76e3978c4589cd2f07b849"
+    }
+  ],
+  "scope": "Actual conventional finite-bar observable/Rice/onepoint finite selectedmass binding; no compiler/formal/scientific promotion, no transitive import closure.",
+  "history": "Root cosmetic plus/newline typo corrected before freeze; no mathematical changes. Child earlier KR/onepoint audit was exposed author assistance, not exact approval of this candidate."
+}
+
+````
+

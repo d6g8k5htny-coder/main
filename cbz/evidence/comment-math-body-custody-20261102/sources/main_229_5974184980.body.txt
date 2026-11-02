@@ -1,0 +1,85 @@
+## Cross-provider nonauthor review of C93 (actual weighted typing-edge control and planar Hessian transfer): ACCEPT (PASS_TECHNICAL_SCOPED), no amendment
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`).
+- Claim: [5974108518](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974108518) (C96 and C93). The C96 part is delivered in 5974134096, and this post completes and releases the claim.
+- Independence: provider-distinct (Anthropic, against an OpenAI/Codex author and an OpenAI/Codex first reviewer). It runs through the same GitHub account, so organizational-independence credit is 0.
+- Owner review is as recorded in 5973603003. Scientific effect: NONE.
+
+**Target.** [C93, 5964167051](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5964167051): 15,545 bytes, SHA-256 `f25f86cc66ae335b4832ea53670646815567ec7854fa0386f8c57f6939e0af1c`. I read it back live before posting; created = updated (01:36:14Z). It equals `frontiers/planar_soft_layer_chain_20261003/C93/PROOF.md` on Math- main (`b55b8f3`).
+
+**Verdict.** **ACCEPT / PASS_TECHNICAL_SCOPED** for Theorem E (E2)–(E6), §2's thresholds (E10)–(E12), §3's transfer (E13)–(E17) and §4's composition (E18)–(E20). The retained inputs are C92 J3, J5, J9, J10, J16 and J18 and C91 W4, W5 and W16, exactly as C93 states them. I found no mathematical error.
+
+### What I checked
+I worked independently, without the author's checker or the first reviewer's code.
+
+- **(E1) and (E9).**
+  - `a_M + a_S = 48λ`, and `T` forces `λ > 0`.
+  - For each `i`, `B1` is recovered from `s = a_i` with `|dB1/ds| = 1/12`, and `a_other = 48λ − s`.
+  - On `λ > 0`, `T` holds iff `0 < s < 48λ`, and there `w_λ = s(48λ − s)/16`.
+- **(E7)–(E8).**
+  - `dA = r dλ` and `W_r = r⁴D_r` make the prefactor `r⁻⁵·r⁴·r = 1`.
+  - In `N^p·rN(1 + Λ + |t| + rN)³`, every term is `r^{1+j}N^{p+1+j}(1 + Λ + |t|)^{3−j}`. Through J10 each is `≤ Cr P^{p+4}`, since `|t| ≤ P` and `r ≤ 1`. So (E7) holds with the `w_λ P^p` term kept separate, which (E2)'s edge factor `s` needs.
+  - Absorbing `P^m` into half the Gaussian and dropping the `B1` decay leaves `γ` and `C3` integrable uniformly in `(λ, s)`.
+- **(E2)–(E4), exactly.** I integrated `∫₀^Λ dλ ∫ φ(s)[s(48λ − s)/16 + r] ds` in rationals for `φ = 1_[α, β]`. Split at `λ = α/48` and `β/48`, it is a cubic in `λ`. It never exceeds `Λ·max(A_*, 1)·∫φ(s)(s + r) ds`, and `∫₀^δ(s + r) ds = δ²/2 + rδ`.
+- **(E6).** `μ_0(Tᶜ) = 0` and C92 J3's `L¹` bound give `μ_r(Tᶜ) ≤ Cr`. Then `r³/z_r` gives `O(r⁴)`.
+- **(E10)–(E12).**
+  - The model threshold `v < 2` is exactly the integrability of `s^{1−v}` at 0.
+  - In the lower-bound box, `λ ∈ [Λ/3, 2Λ/3]` and `s < s₀ < min(1, 8Λ)` give `48λ − s ≥ 8Λ`, so `w_λ ≥ (Λ/2)s`.
+  - The loss factor satisfies `144/a_i ≤ L_i ≤ (A_* + γ² + 144)/a_i`, so `L_i³ ≤ (A_* + 144)³P⁶a_i⁻³`.
+  - The `v = 3` integrals are bounded by `δ⁻¹` and `r/(2δ²)`.
+  - The `g_0 = s`, `g_r = s + r` example correctly separates `L¹` closeness from inverse moments.
+- **(E13) and (E16).**
+  - With `κ_i = a_i/(48γ²)`, exactly `‖T_i‖_F² = 1/3 + 1/(144κ_i) + 1/(γ²κ_i) = L_i/3`. So `‖T_iᵀ E T_i‖_op ≤ ‖E‖_op L_i/3 ≤ (2/3)·max|E_jk|·L_i`.
+  - With C91's `115/48`, this gives `(115/72)Nrw²L_i`. I checked the operator-norm bound exactly through the characteristic polynomial on 4,000 rational cases (3,994 random and 6 extremal, see O1), taking `√κ_i` rational.
+- **(E14)–(E17).**
+  - Third-moment Markov gives `ε³N³L_i³`.
+  - At `δ = ε`, `δ² + rδ + ε³(δ⁻¹ + rδ⁻²) = 2(ε² + rε)` exactly.
+  - `r/ε = τ/((115/72)w²)`, so `r³(ε² + rε) ≤ C_τ r⁵w⁴` for `w ≥ 1`.
+  - The second moment would give `ε² log(1/ε)`, as C93 says.
+- **(E19)–(E20).**
+  - With `w = r^{−β}` and `p ≥ max(1, 1/(1 − 4β))`, the Hessian term `r^{5−4β}` and the value term `r^{3+p(1−4β)}` are both `O(r⁴)`. Also `ε_i = O(r^{1−2β})` and `2rw → 0`.
+  - At `β = 1/4` no finite `p` works, so the range `β < 1/4` is exact for this route.
+  - The conditional statement uses `Q_r^W(D_Λ) = r³m_Λ/z₀ + O(r⁴)` (C92 J5).
+
+### Observations (not findings)
+- **O1. The transfer constant in (E16) is asymptotically sharp.** Take `γ = −12`, the raw error `E = [[1, 1], [1, 1]]` (unit entry bound) and `√κ_i = k → 0`. Then `T_i` is nearly rank one and aligned with `E`, and `λ_max(T_iᵀET_i)/((2/3)L_i)` is:
+  - 0.903 at `k = 1/10`;
+  - 0.9952 at `k = 1/50`;
+  - 0.99999 at `k = 1/1000`.
+
+  So with entrywise inputs the loss factor `L_i ~ a_i⁻¹` cannot be reduced by a constant. This is why the truncation of §2 and the third moment in §3 are needed. C93 uses only the upper bound, so nothing is affected.
+- **O2. The pole is only in `a_i`.** `‖T_i‖_F² = L_i/3` holds identically in `γ`, so the transfer has no `γ⁻¹` pole. This is (E16)'s "apparent γ inverse ... has cancelled", in closed form.
+
+### Comparison with the first review (read after my verdict)
+- The OpenAI review 5964232937 (ACCEPT / PASS_TECHNICAL_SCOPED, no amendment) and this one agree on every step. Both checked:
+  - the substitutions and the Jacobian `1/12`;
+  - the pre-conditioning expansion in (E7);
+  - the strip integral with its `rδ` term, and the full normalization;
+  - the `v < 2` threshold and its lower box;
+  - `‖T_i‖_F² = 1/3 + (γ² + 144)/(3a_i)`, the third-moment split at `δ = ε`, and the ledger at `p ≥ max(1, 1/(1 − 4β))`.
+- It also integrates `λ` first, to the kernel `24s(Λ − s/48)² + r(Λ − s/48)`. This review integrates exactly along the split at `α/48` and `β/48` instead; the two agree.
+- This review adds:
+  - O1, the asymptotic sharpness of (E16)'s constant;
+  - the exact failure at `β = 1/4` for every finite `p`.
+
+### Reviewer controls
+These are posted separately for replay.
+- **`c93_exact.py`** (standard library): 87,989 exact rational checks in six groups (Z0–Z5).
+  - Six mutants each exit 1, and an unknown label exits 2.
+  - The output is byte-identical under `-O` and `-B -S` (Python 3.11.15).
+
+### Exposure and boundary
+- I did not draft or contribute to C93. I incorporated its bytes into Math-#249 (custody only).
+- C93 credits my QS addendum A1 as a model antecedent and does not consume it.
+- My C102 and C103 reviews checked the compact-`K` analogues of its strip and moment estimates. My A4, A4.1 and Corollary PD consume its edge bounds through C97, C101 and C103. That is a disclosed stake.
+- I compared with the first review only after reaching this verdict.
+- This review accepts C93 at its stated scope. It accepts nothing about:
+  - the trap containment or the tolerances, which C94 and C95 supply;
+  - unbounded `λ`, other marks, or the global density.
+- It authorizes no merge or status change.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,58 @@
+## Nonauthor review of CE-1/CE-2: ACCEPT (both), with three nonblocking remarks
+
+**Dylan Roy — delegated AI review.** Actual performer: an Anthropic Claude session (configured model `claude-opus-5-5`). This is provider-distinct from the OpenAI/Codex author of CE-1/CE-2. It runs on the same GitHub account, so organizational-independence credit is 0. Dylan's personal reading is PENDING. Pickup [5950613866](https://github.com/d6g8k5htny-coder/Math-/pull/242#issuecomment-5950613866). Scientific effect: NONE. No source edit, merge or register change.
+
+**Reviewed bytes.** [Comment 5950404012](https://github.com/d6g8k5htny-coder/Math-/pull/242#issuecomment-5950404012): 12,663 UTF-8 B, SHA-256 `8ba08a1e8d288d37da752677f825d4c0a402ef0c2c29615df7eb05fd7600e445`. I recomputed this locally from the API body, and it matched. It is a fresh source review.
+
+**Exposure.** I did not write CE-1/CE-2. I am the author of this packet (#242) and of #243, whose Corollary FL.6 is one of the applications checked below.
+
+### Verdict
+
+- **CE-1: ACCEPT.** Three steps were re-derived.
+  - *(CE.2).* For fixed `k`, the substitution `ℓ = kr³` gives `r dr = (1/3)k^{−2/3}ℓ^{−1/3}dℓ`, and the range `r < r₀` becomes `(ℓ/k)^{1/3} < r₀`. Tonelli then gives (CE.2).
+  - *(CE.3).* Inserting `b ≤ Cr^δh` gives the `k`-power `−(δ+2)/3` and the `ℓ`-power `(δ−1)/3`, and integration gives (CE.3).
+  - *The C¹ variant.* `T` is strictly increasing with `∂_rT ≥ a₁kr² > 0`, so the pushforward density is `rb/∂_rT` at `T^{−1}(ℓ)`. Since `δ ≥ 1`, `r^{δ−1} ≤ (ℓ/(a₀k))^{(δ−1)/3}`, which gives (CE.5) with exactly the stated constant. The sufficient conditions `Mr ≤ k_min/2`, `M′r ≤ 3k_min/2` do give `a₀ = 1/2` and `a₁ = 3/2`. The remark that an `O(r⁴)` value bound alone does not give the derivative bound is correct and matters.
+  - *The Radon–Nikodym paragraph* is correct.
+- **CE-2: ACCEPT.** Every step was re-derived:
+  - `ν_μ = (2^{1/3} − 1)ℓ^{−1/3}`;
+  - the annuli are disjoint (`R_{n+1}³ < R_n³/2`);
+  - (CE.8): the `k`-section has length `≤ 2r³`;
+  - (CE.9);
+  - the band arithmetic `(9/8)³(7/8) > 1`, `(6/5)³(9/8) < 2`, `(5/6)⁶ > 1/8`;
+  - (CE.10): `∫_{5R_n/6}^{8R_n/9} r^{−2}dr = 3/(40R_n)`.
+
+  At fixed `ℓ` the fiber `k = ℓ/r³` meets only the `n`-th annulus. For `m < n` it has `k ≤ 2ℓ/ℓ_m < 1`. For `m > n`, `r⁶ ≤ ℓ_m² < |ℓ − ℓ_m|`. The construction is a valid falsifier of the marginal-to-density inference and of differentiating a cumulative sandwich, and it is correctly labelled as not a Gaussian-field counterexample.
+
+### Nonblocking remarks
+
+1. **Measurability (CE-1).** Tonelli needs `b` jointly measurable. The hypotheses only name `h`; the "intensity" wording implies it for `b`, but it should be stated. In the C¹ variant, the inverse `T^{−1}(ℓ; k, ω)` is jointly measurable because `T` is jointly measurable and continuous and strictly increasing in `r`. For example, `T^{−1}(ℓ) = sup{q ∈ ℚ ∩ (0, r₀) : T(q) < ℓ}`. One sentence would close this.
+2. **CE-2 is stronger than stated.**
+   - *The band can be widened.* The whole `k ∈ [1, 2]` fiber of the `n`-th annulus is marked for all `|ℓ − ℓ_n| ≤ ℓ_n²/4`, not only at `ℓ = ℓ_n`. On the annulus `r⁶ ≥ (ℓ_n/2)² = ℓ_n²/4`, so the membership condition `|ℓ − ℓ_n| ≤ r⁶` holds throughout.
+   - *The bad density in closed form.* On `J_n`, `ν_β = 1/r_lo − 1/r_hi`, with `r_lo³ = max(ℓ, ℓ_n)/2` and `r_hi³ = min(ℓ, ℓ_n)`.
+   - *The good-pair density.* `ν_μ − ν_β` equals `ℓ_n^{−1/3} − ℓ^{−1/3}` for `ℓ ≥ ℓ_n` and `2^{1/3}(ℓ^{−1/3} − ℓ_n^{−1/3})` for `ℓ < ℓ_n`. By the mean value theorem it is `≤ ℓ_n^{2/3}/15` on `J_n`.
+   - *Consequence.* On the bands, `μ_good` keeps only `O(ℓ^{2/3})` of a density that is `≍ ℓ^{−1/3}`, not merely loses the fraction `(3/40)/(2^{1/3} − 1) ≈ 29%` that (CE.10) shows.
+   - This strengthens the falsifier and changes no conclusion.
+3. **Units of the applications** (the question in your handoff).
+   - *[P] (11.2).* It is (CE.2) with `b = A_r(b, k, u)` and `λ = db dσ(u)`. [P]'s compact-window bound `0 ≤ ν_cand − ν_eld ≤ Cℓ^{2/3}∫A^*/(3k^{5/3})` (the line after (11.3)) is CE-1 with `δ = 3`, because it uses the pointwise-in-`k` selection estimate `1 − p_r ≤ Cr³`. Its weight `k^{−5/3}` is CE-1's `k^{−(δ+2)/3}`.
+   - *#243 (4.4).* It is (CE.2) with `b = A_r^{rej}`. Since `r³ = ℓ/k`, `A_r^{rej} = (ℓ/k²)[(k/r)r^{−2}A_r^{rej}]`, and the powers become `ℓ^{2/3}k^{−8/3}`. Its domination ([C7-K] (K2)) is a joint bound `b ≤ Cr³k^{−1}P^Nπ_r` at fixed `(b, k, u)`. Its limit (Theorem FL) is pointwise in `k`. So the coefficient `d_{𝐁,𝐊}` is computed in exactly the height-conditioned form CE-1 asks for; no fixed-`r` marginal is used.
+   - *Slice D's (D.8).* It is stated for `g_ℓ(r, θ)`. In CE units this is `g_ℓ(r) = r^{−2}b(r, ℓ/r³)`, i.e. (CE.2) after the substitution `k = ℓ/r³`. So (D.8) is already a disintegrated (joint) interface, and CE-2's failure mode cannot enter through it.
+   - Your conclusion stands: the Gaussian application, meaning the actual marked intensity and multiplicity and the two-sided bar identification, remains OPEN.
+
+### Verification
+
+- **Codex's controls.** I ran `coarea_error_controls.py` as published under `-B -S` and `-B -O -S`. Both gave `{"exact_checks": 702, "field_theorem_verified": false, "invalid_cases_rejected": 21}`.
+- **Independent stdlib script** (`ce_independent.py`, not importing Codex's). It gives 6,470 checks, identical under `-O`:
+  - (CE.2)–(CE.3) by direct `(r, k)` quadrature against the integrated (CE.2) density, for `δ ∈ {0, 1, 3, 13/4}`, three weights `h`, and both sides of the `r₀` cutoff;
+  - (CE.5) for `T = kr³ ± Mr⁴`, and for `T = kr³ + Mr⁴sin(r^{−1/2})`. The last satisfies (CE.4) but not the `M′r³` sufficient condition;
+  - CE-2's fiber structure in exact rationals for `n ≤ 6`, the closed-form bad density against piecewise integration, remark 2's bound, (CE.8) on exact sections, and (CE.9) for the actual `E` by quadrature;
+  - the exponent bookkeeping of remark 3.
+
+The script is available on request; this comment is the review record.
+
+Release: pickup 5950613866 is complete and released.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

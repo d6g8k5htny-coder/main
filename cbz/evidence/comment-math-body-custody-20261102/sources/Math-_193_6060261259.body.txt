@@ -1,0 +1,1159 @@
+Executed free-alpha analysis of exposed retained diagrams: implementation accepted in scope; numerical diagnostic FAIL14; scientific effect NONE.
+
+Actual author /root; actual nonauthor reviewer /root/local_runtime_readonly completed the exact final report at12:43:39 UTC. Root fully read that completed report and freshly matched all18 frozen bindings at12:48:15 UTC. Reviewer independently checked96 input rows/5780 lifetimes, all108 fit records (12 primary +96 delete-one), all12 summary projections and all14 failed predicates, without rerunning fits, optimization, tests or simulation. The protocol was frozen pre-FIT after reading retained data; no pre-data preregistration, held-out or blinded numerical confirmation is claimed.
+
+Eight implementation controls and fit execution passed; the fitted exponents vary across grids and all three finest-grid A values are nonpositive. Descriptive integrated-bin weighted least squares, unrestricted A/B, eight coupled source fields, non-certified global optimization and the near-zero logarithmic-limit issue remain explicit. Constant B need not represent an analytic O(1) remainder. Sensitivity ranges are not confidence intervals. This changes only free-alpha NOT_RUN to EXECUTED_EXPLORATORY_WITH_FAILED_STABILITY; it neither certifies nor rigorously refutes the continuum theorem.
+
+The following13 files are serialized literally and completely, including all primary-fit summary values, code/tests, protocol, author/final review and real execution logs/receipts. Full RESULTS.json is126498bytes/SHA c09ee966cd44df6209cc589dbb7bc227cffc933bc02dc9c1d731cef2ec5a56fd, remains locally retained and manifest-bound, and IS NOT serialized in this comment. Its complete108-record inspection is review evidence, not publication of its omitted bytes. Historical inputs/snapshots likewise remain bound local evidence. The raw red log has SIX actual test errors; receipt actual_error_count12 counts duplicate textual occurrences and is retained with that correction. No thresholds or failures were rewritten.
+
+Source/data exposed; organizational independence0. ELDER/exhaustion, semantic obligations, useful continuum windows and held-out/coefficient gates remain OPEN. The full original eight-part goal remains ACTIVE; no scientific promotion or graph/status change occurred.
+
+### Literal file: i2/free-alpha/free_alpha.py
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py
+Bytes: 8688; SHA-256: 13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd
+
+```````text
+"""Descriptive guarded profile fit; no continuum or statistical certificate."""
+import datetime
+import hashlib
+import itertools
+import json
+import math
+import platform
+import sys
+import time
+from pathlib import Path
+
+PROTOCOL_SHA = '4932ec5e35c89b282f98301f6cd0cc85b0c65ea0e23528bb9e9dde2a5b0be8aa'
+
+def power_integral(a, b, alpha):
+    if not all(math.isfinite(x) for x in (a,b,alpha)) or not 0<a<b:
+        raise ValueError('finite positive ordered bin required')
+    p=1-alpha
+    return math.log(b/a) if p==0 else a**p*math.expm1(p*math.log(b/a))/p
+
+def fit(edges, counts, exposure):
+    if (not math.isfinite(exposure) or exposure<=0 or len(edges)<4
+            or len(counts)!=len(edges)-1
+            or any(not math.isfinite(x) or x<0 for x in counts)
+            or any(not math.isfinite(x) or x<=0 for x in edges)
+            or any(a>=b for a,b in zip(edges,edges[1:]))):
+        raise ValueError('invalid edges, counts or exposure')
+    widths=[b-a for a,b in zip(edges,edges[1:])]
+    z=[exposure*w for w in widths]
+    weights=[1/(c+1) for c in counts]
+    szz=math.fsum(w*v*v for w,v in zip(weights,z))
+    szc=math.fsum(w*v*c for w,v,c in zip(weights,z,counts))
+    def profile(alpha):
+        if alpha==0:
+            A=0.0; B=szc/szz; relative_det=0.0
+            x=z
+        else:
+            x=[exposure*power_integral(a,b,alpha) for a,b in zip(edges,edges[1:])]
+            sxx=math.fsum(w*v*v for w,v in zip(weights,x))
+            sxz=math.fsum(w*v*u for w,v,u in zip(weights,x,z))
+            sxc=math.fsum(w*v*c for w,v,c in zip(weights,x,counts))
+            det=sxx*szz-sxz*sxz; relative_det=det/(sxx*szz)
+            if relative_det<=1e-14:
+                return {'alpha':alpha,'objective':math.inf,'rejected_ill_conditioned':True}
+            A=(sxc*szz-szc*sxz)/det
+            B=(sxx*szc-sxz*sxc)/det
+        predicted=[A*v+B*u for v,u in zip(x,z)]
+        return {'alpha':alpha,'A':A,'B':B,'predicted_counts':predicted,
+                'objective':math.fsum(w*(p-c)**2 for w,p,c in zip(weights,predicted,counts)),
+                'relative_normal_matrix_determinant':relative_det,
+                'constant_branch':alpha==0}
+    coarse=[profile(-1+i*.01) for i in range(301)]
+    candidates=list(coarse)
+    ratio=(math.sqrt(5)-1)/2
+    for i in range(1,300):
+        if coarse[i]['objective']>min(coarse[i-1]['objective'],coarse[i+1]['objective']):
+            continue
+        lo=coarse[i-1]['alpha']; hi=coarse[i+1]['alpha']
+        a=hi-ratio*(hi-lo);b=lo+ratio*(hi-lo)
+        fa=profile(a);fb=profile(b)
+        for _ in range(80):
+            if fa['objective']<=fb['objective']:
+                hi=b;b=a;fb=fa;a=hi-ratio*(hi-lo);fa=profile(a)
+            else:
+                lo=a;a=b;fa=fb;b=lo+ratio*(hi-lo);fb=profile(b)
+        candidates.extend((fa,fb,profile((lo+hi)/2)))
+    best=min(candidates,key=lambda d:(d['objective'],abs(d['alpha'])))
+    constant=profile(0)
+    if constant['objective']<=best['objective']+1e-20*max(1,math.fsum(w*c*c for w,c in zip(weights,counts))):
+        best=constant
+    endpoint_values=[best['A']*ell**(-best['alpha'])+best['B'] for ell in (edges[0],edges[-1])]
+    best.update(boundary_minimum=abs(best['alpha']+1)<1e-5 or abs(best['alpha']-2)<1e-5,
+                A_positive=best['A']>0,density_nonnegative=min(endpoint_values)>=0,
+                endpoint_densities=endpoint_values,
+                rejected_coarse_count=sum(not math.isfinite(x['objective']) for x in coarse),
+                search_scope='Guarded coarse profile with refined coarse local minima, not a certified global optimizer; near-zero log-limit and parameter identifiability unresolved.')
+    return best
+
+def main():
+    root=Path(__file__).resolve().parent
+    protocol_bytes=(root/'PROTOCOL.json').read_bytes()
+    assert hashlib.sha256(protocol_bytes).hexdigest()==PROTOCOL_SHA
+    protocol=json.loads(protocol_bytes)
+    inputs=[]
+    for binding in protocol['input_bindings']:
+        raw=Path(binding['path']).read_bytes()
+        assert len(raw)==binding['bytes'] and hashlib.sha256(raw).hexdigest()==binding['sha256']
+        assert hashlib.sha1(('blob '+str(len(raw))+'\0').encode()+raw).hexdigest()==binding['git_blob']
+        inputs.append(json.loads(raw))
+    config,data,run=inputs
+    assert data['config']==config
+    for key in ['dimension','side','grids','methods','seeds']:
+        assert config[key]==protocol[key]
+    assert config['bin_edges']==protocol['bins']
+    expected=set(itertools.product(protocol['seeds'],protocol['grids'],protocol['methods']))
+    indexed={}
+    edge=protocol['bins']
+    total_lifetimes=0
+    for record in data['records']:
+        key=(record['seed'],record['grid'],record['method'])
+        assert key in expected and key not in indexed
+        lifetimes=[b-d for b,d in record['intervals']]
+        assert all(math.isfinite(x) and x>0 for x in lifetimes)
+        counts=[sum(a<=x<b for x in lifetimes) for a,b in zip(edge,edge[1:])]
+        assert counts==record['counts']
+        indexed[key]=counts;total_lifetimes+=len(lifetimes)
+    assert set(indexed)==expected and len(indexed)==96
+    rows=[];started=time.monotonic()
+    for grid,method in itertools.product(protocol['grids'],protocol['methods']):
+        by_field=[indexed[(seed,grid,method)] for seed in protocol['seeds']]
+        pooled=[sum(xs[j] for xs in by_field) for j in range(len(edge)-1)]
+        row={'grid':grid,'method':method,'pooled_counts':pooled,'fit':fit(edge,pooled,8*protocol['side']**2),'delete_one':[]}
+        for i,seed in enumerate(protocol['seeds']):
+            remaining=[pooled[j]-by_field[i][j] for j in range(len(pooled))]
+            row['delete_one'].append({'omitted_seed':seed,'fit':fit(edge,remaining,7*protocol['side']**2)})
+        alphas=[x['fit']['alpha'] for x in row['delete_one']]
+        row['delete_one_alpha_range']=[min(alphas),max(alphas)]
+        rows.append(row)
+    gates=protocol['diagnostic_gates'];failed=[]
+    for row in rows:
+        f=row['fit'];name=str(row['grid'])+'/'+row['method']
+        for flag in ['A_positive','density_nonnegative']:
+            if not f[flag]:failed.append(name+':'+flag)
+        if f['boundary_minimum']:failed.append(name+':profile_boundary')
+        if row['delete_one_alpha_range'][1]-row['delete_one_alpha_range'][0]>gates['max_finest_delete_one_alpha_range_width'] and row['grid']==max(protocol['grids']):
+            failed.append(name+':delete_one_instability')
+    adjacent=[]
+    for method in protocol['methods']:
+        subset=[r for r in rows if r['method']==method]
+        for a,b in zip(subset,subset[1:]):
+            delta=abs(a['fit']['alpha']-b['fit']['alpha']);adjacent.append({'method':method,'from':a['grid'],'to':b['grid'],'alpha_difference':delta})
+            if delta>gates['max_adjacent_grid_alpha_difference']:
+                failed.append(method+':grid_'+str(a['grid'])+'_'+str(b['grid']))
+    finest=[r['fit']['alpha'] for r in rows if r['grid']==max(protocol['grids'])]
+    spread=max(finest)-min(finest)
+    if spread>gates['max_finest_method_alpha_spread']:failed.append('finest_method_spread')
+    output={'task_id':protocol['task_id'],'protocol_sha256':PROTOCOL_SHA,
+            'driver_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'actual_completed_at':datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            'elapsed_seconds':time.monotonic()-started,'python':sys.version,'executable':sys.executable,'platform':platform.platform(),
+            'input_validation':{'unique_rows':len(indexed),'positive_lifetimes_rebinned':total_lifetimes,'all_half_open_histograms_match':True},
+            'rows':rows,'adjacent_grid_differences':adjacent,'finest_method_spread':spread,
+            'failed_diagnostic_predicates':failed,'diagnostic_verdict':'FAIL' if failed else 'PASS',
+            'scientific_effect':'NONE','scope':protocol['scope'],
+            'interpretation':'The analytic O(1) remainder need not be constant B on these bins. Guarded exploratory curve fits do not test a certified continuum exponent or coefficient; near-zero log-limit, global optimization and identifiability are not certified. Delete-one ranges are not confidence intervals. Historical grid failures and held-out/continuum obligations remain.'}
+    raw=(json.dumps(output,indent=2,sort_keys=True,allow_nan=False)+'\n').encode()
+    with (root/'RESULTS.json').open('xb') as stream:stream.write(raw)
+    print(json.dumps({'status':'EXECUTED','diagnostic_verdict':output['diagnostic_verdict'],'failed':failed,'result_sha256':hashlib.sha256(raw).hexdigest(),'elapsed_seconds':output['elapsed_seconds']}))
+    return 0
+
+if __name__=='__main__':
+    raise SystemExit(main())
+
+```````
+
+### Literal file: i2/free-alpha/test_free_alpha.py
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py
+Bytes: 2034; SHA-256: 4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa
+
+```````text
+import math
+import unittest
+from free_alpha import fit, power_integral
+
+EDGES = [.001,.002,.004,.008,.016,.032,.064,.128,.256]
+
+class FitControls(unittest.TestCase):
+    def synthetic(self, alpha, A, B):
+        exposure=8*24**2
+        def independent_integral(a,b):
+            return math.log(b/a) if alpha==1 else (b**(1-alpha)-a**(1-alpha))/(1-alpha)
+        counts=[exposure*(A*independent_integral(a,b)+B*(b-a)) for a,b in zip(EDGES,EDGES[1:])]
+        result=fit(EDGES,counts,exposure)
+        self.assertLess(abs(result['alpha']-alpha),1e-5)
+        for actual,expected in zip(result['predicted_counts'],counts):
+            self.assertLess(abs(actual-expected),1e-7*max(1,abs(expected)))
+
+    def test_target_exponent_is_free(self):
+        self.synthetic(1/3,.015,.004)
+
+    def test_non_target_and_negative_remainder(self):
+        self.synthetic(.8,.001,-.001)
+
+    def test_negative_free_exponent(self):
+        self.synthetic(-.4,.02,.004)
+
+    def test_logarithmic_bin_integral(self):
+        self.assertAlmostEqual(power_integral(.01,.02,1),math.log(2),places=14)
+
+    def test_constant_is_unidentifiable(self):
+        counts=[100*.07*(b-a) for a,b in zip(EDGES,EDGES[1:])]
+        result=fit(EDGES,counts,100)
+        self.assertEqual(result['A'],0)
+        self.assertTrue(result['constant_branch'])
+
+    def test_invalid_counts_rejected(self):
+        with self.assertRaises(ValueError):
+            fit(EDGES,[-1]*8,100)
+
+    def test_boundary_flag_is_real(self):
+        counts=[100*(b**(-1.5)-a**(-1.5))/(-1.5) for a,b in zip(EDGES,EDGES[1:])]
+        self.assertTrue(fit(EDGES,counts,100)['boundary_minimum'])
+
+    def test_zero_and_malformed_inputs(self):
+        self.assertTrue(fit(EDGES,[0]*8,100)['constant_branch'])
+        for edges,counts,exposure in [(EDGES,[0]*7,100),(EDGES,[0]*8,0),
+                ([.001,.002,.002,.004],[1]*3,100),(EDGES,[math.inf]*8,100)]:
+            with self.assertRaises(ValueError):
+                fit(edges,counts,exposure)
+
+if __name__=='__main__':
+    unittest.main()
+
+```````
+
+### Literal file: i2/free-alpha/PROTOCOL.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/PROTOCOL.json
+Bytes: 4455; SHA-256: 4932ec5e35c89b282f98301f6cd0cc85b0c65ea0e23528bb9e9dde2a5b0be8aa
+
+```````text
+{
+  "author_stop_utc": "2026-10-08T12:40:00Z",
+  "bins": [
+    0.001,
+    0.002,
+    0.004,
+    0.008,
+    0.016,
+    0.032,
+    0.064,
+    0.128,
+    0.256
+  ],
+  "controls": "Synthetic integrated bins at alpha1/3 with B nonzero, alpha0.8 with negative B, alpha-0.4, and constant A0; analytic alpha1 logarithmic integral; invalid counts; no fit execution until actual meaningful controls pass.",
+  "created_at": "2026-10-08T12:30:33.588523+00:00",
+  "diagnostic_gates": {
+    "all_fit_A_positive": true,
+    "all_fit_density_nonnegative_on_closed_bin_span": true,
+    "max_adjacent_grid_alpha_difference": 0.1,
+    "max_finest_delete_one_alpha_range_width": 0.2,
+    "max_finest_method_alpha_spread": 0.05,
+    "no_profile_boundary_minimum": true
+  },
+  "dimension": 2,
+  "gate_scope": "Pre-fit chosen descriptive stability guards; prior data exposure prevents confirmatory interpretation. Failures retained and tolerances never tuned after execution. Even PASS would not certify theorem or continuum convergence.",
+  "grids": [
+    128,
+    256,
+    512,
+    1024
+  ],
+  "input_bindings": [
+    {
+      "bytes": 330,
+      "git_blob": "55d74c77013c2b35f63fd3307fb21220e68bfd98",
+      "path": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation146/snapshots/main/experiments/periodic_h0/refinement_config.json",
+      "sha256": "6925122f45a94ef4b895b16bf88a1983cd2651bcdf5150c6120b11c1c67f508e"
+    },
+    {
+      "bytes": 286986,
+      "git_blob": "a9fdf8d13ba99a3252df6789f858e9407fbd9d3d",
+      "path": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation146/snapshots/main/experiments/periodic_h0/results/refinement8/observations.json",
+      "sha256": "5ff75ce6517b236e4f6b3f03d764f9a136521001d8af2fb31e08d44781dc43a3"
+    },
+    {
+      "bytes": 1293,
+      "git_blob": "09049357086cbf7e90a0bc608c4ee9e1bf2e5dec",
+      "path": "/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation146/snapshots/main/experiments/periodic_h0/results/refinement8/RUN.json",
+      "sha256": "03d6966a5dcfdad0dc5f9b9cf6ce16eb5be1b54a081cf55e3b290ae1a3d39eb6"
+    }
+  ],
+  "input_validation": "96 unique seed/grid/method rows, exact config equality, per-row histogram recomputation using every positive finite lifetime and ALL half-open bins including final.",
+  "loss": "Weighted least squares of pooled counts with weights1/(count+1). This is a deterministic descriptive criterion, not a Poisson model or confidence interval.",
+  "methods": [
+    "cubical",
+    "plus",
+    "minus"
+  ],
+  "model": "nu(ell)=A ell^(-alpha)+B; bin count prediction is N*L^2*(A integral_bin ell^(-alpha)dell + B bin_width).",
+  "owner": "/root",
+  "parameters": "alpha FREE in [-1,2]; A,B unrestricted least-squares parameters. Report nonphysical A<=0 or negative fitted densities, do not hide them. At alpha=0 use constant branch A=0 because A+B is unidentifiable.",
+  "prior_exposure": "Root read retained aggregate counts and failed convergence before this plan. This is a pre-FIT freeze, not pre-data preregistration or held-out confirmation.",
+  "profile_grid_step": 0.01,
+  "refinement": "Golden-section refine each interior coarse local minimum over its neighboring grid points;80iterations; retain global coarse candidates and boundary minima. Reject relative normal-equation determinant<=1e-14 except exact alpha0 constant branch.",
+  "replication": "Eight independent retained source fields, coupled across all twelve grid/method outputs; never96 independent fields. Leave-one-field-out diagnostic range is not a confidence interval.",
+  "report_stop_utc": "2026-10-08T12:45:00Z",
+  "retain": "All12fits,8delete-onefits per grid/method, counts, predictions, objective, flags, actual commands/failure receipts, protocol/driver/input hashes, elapsed/version and no scientific promotion.",
+  "scope": "Required free-exponent exploratory analysis of retained exposed finite-Fourier sampled diagrams. No new Gaussian or held-out samples, blind coefficient confirmation, continuum error certificate, asymptotic window or scientific acceptance.",
+  "seeds": [
+    34000,
+    34001,
+    34002,
+    34003,
+    34004,
+    34005,
+    34006,
+    34007
+  ],
+  "side": 24,
+  "source_commit": "1653fe6740e9e2c8d36a47101bf7bb50c7aae273",
+  "synthetic_alpha_tolerance": 1e-05,
+  "synthetic_bin_prediction_relative_tolerance": 1e-07,
+  "task_id": "FREE-ALPHA-RETAINED-20261008-01"
+}
+
+```````
+
+### Literal file: i2/free-alpha/REPORT.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/REPORT.md
+Bytes: 5715; SHA-256: 10487e131ebb4693afd49f7647cb36ddd419a59dbd5e001dfb9dd6afbd326215
+
+```````text
+# Required free-exponent analysis of retained exposed diagrams
+
+Actual implementer /root. Scope: exploratory finite-cutoff float64 sampled-filtration curve fitting; no Gaussian generation, held-out consumption, blinded numerical coefficient, continuum approximation certificate or scientific acceptance. The exact pre-FIT protocol was frozen before any exponent fit, but AFTER root had read the retained counts and their historical convergence failures. It is not pre-data preregistration.
+
+## Execution and input evidence
+
+The three actual retained inputs at native main commit1653fe6740e9e2c8d36a47101bf7bb50c7aae273 were freshly identified against its native recursive tree: config55d74c77, observationsa9fdf8d1 and RUN09049357. Local Git-framed hashes match. The driver binds all three complete byte strings to protocol hashes, validates the exact configuration, all96 unique expected seed/grid/method rows and re-bins all5780 positive finite lifetimes. Every stored half-open histogram matches, including the final bin. An actual independent reviewer separately checked these inputs and histogram equality. Eight source fields are coupled across twelve grid/method outputs; these are never96 independent fields.
+
+A genuine six-control NotImplementedError red was retained before implementation. The red metadata actual_error_count12 counts repeated textual occurrences; the actual unittest result is SIX failed tests. Eight final meaningful controls passed: freely recover a nonzero-B exponent1/3, a non-target0.8 exponent with negative B, a negative free exponent, the alpha1 logarithmic integral, constant/zero nonidentifiability, boundary flagging and malformed inputs. Supplemental controls do not replace the original red history.
+
+Owned captured controls-green exited0 in0.423989459s. Fit-execution exited0 in0.552847041s; the result records computation0.494041833s. Execution success is separate from its FAIL diagnostic verdict. All snapshots, commands, logs and source/test/result bindings are retained. No source, threshold or result changed after the fit.
+
+## Model and observed failures
+
+The model is nu(ell)=A ell^(-alpha)+B, fitted to EXACT bin integrals with exposure N*24^2, using all eight original bins, every grid and every filtration. Alpha is free in[-1,2]; A and B are unrestricted. Weighted least squares uses1/(count+1). Signed or nonphysical fits remain visible. The search is a guarded coarse profile with refinement of coarse local minima, not a certified global minimizer. Near alpha0, diverging A,B can approach a nonconstant log curve; the exact alpha0 constant branch and determinant cutoff do not cover that limit. No global identifiability is claimed.
+
+The analytic theorem has an O(1) remainder, which need not be a constant B over these bins. This descriptive model therefore supplies no direct test of the continuum theorem or a certified exponent estimate. Delete-one-field ranges are sensitivity diagnostics, not confidence intervals.
+
+| Grid | Method | Fitted alpha (display rounded) | A positive | Delete-one alpha range (display rounded) |
+|---|---|---:|---|---|
+| 128 | cubical | 0.8567 | True | [0.8176, 0.9042] |
+| 128 | plus | 0.7892 | True | [0.7455, 0.8298] |
+| 128 | minus | 0.6109 | True | [0.5739, 0.6828] |
+| 256 | cubical | 1.5822 | True | [1.5015, 1.6945] |
+| 256 | plus | 1.5246 | True | [1.4130, 1.6639] |
+| 256 | minus | 1.1408 | True | [1.0290, 1.2662] |
+| 512 | cubical | 0.3985 | True | [0.2499, 0.5744] |
+| 512 | plus | 0.1325 | True | [-0.0232, 0.2546] |
+| 512 | minus | 0.3005 | True | [0.1716, 0.4641] |
+| 1024 | cubical | -0.0038 | False | [-0.1116, 0.0764] |
+| 1024 | plus | -0.1247 | False | [-0.3503, -0.0117] |
+| 1024 | minus | -0.0038 | False | [-0.1116, 0.0764] |
+
+All full-precision values, fitted A/B, predictions, objectives, flags and all96 delete-one fits are in RESULTS.json; SUMMARY.json contains all12 primary fits and diagnostic comparisons. The pre-fit stability tolerances remain unchanged: adjacent-grid alpha difference0.1, finest-method spread0.05 and finest delete-one range width0.2, plus positive primary A, nonnegative fitted densities and no boundary minimum.
+
+Actual failed predicates (14):
+- 1024/cubical:A_positive
+- 1024/plus:A_positive
+- 1024/plus:delete_one_instability
+- 1024/minus:A_positive
+- cubical:grid_128_256
+- cubical:grid_256_512
+- cubical:grid_512_1024
+- plus:grid_128_256
+- plus:grid_256_512
+- plus:grid_512_1024
+- minus:grid_128_256
+- minus:grid_256_512
+- minus:grid_512_1024
+- finest_method_spread
+
+Historical shortest-bin counts12→32→12→2 and26→26→3→2 remain failed empirical convergence, and no statistical power/certified continuum window is created by fitting. The finest leading amplitudes are negative; the profile changes across all three adjacent steps for all methods. These observations neither confirm nor rigorously refute the analytic law.
+
+## Acceptance boundary and next action
+
+This changes requirement7 from free-alpha NOT_RUN to EXECUTED_EXPLORATORY_WITH_FAILED_STABILITY. It leaves held-out/blinded coefficient testing, certified continuum/spectral/roundoff count sandwich, asymptotic remainder budgets and useful lifetime-window selection incomplete. No further sampling or confirmation threshold is authorized by this diagnostic; obtain those inputs and an exact held-out protocol first. The full original eight-part theorem goal, ELDER/exhaustion hard gates and semantic obligations remain active.
+
+Independent exact source/evidence review is pending at this author freeze. No graph/status table, worker, local rule, deployment, source snapshot or historical receipt was changed. Saved outputs, synthetic controls and prospective review are not scientific promotion.
+
+```````
+
+### Literal file: i2/free-alpha/SUMMARY.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/SUMMARY.json
+Bytes: 8752; SHA-256: c39e8489858d8069b3cbec53b3968bf5a4461b1111d63df6fb23e19f4c422b2d
+
+```````text
+{
+  "actual_completed_at": "2026-10-08T12:38:05.213363+00:00",
+  "adjacent_grid_differences": [
+    {
+      "alpha_difference": 0.7255033911304267,
+      "from": 128,
+      "method": "cubical",
+      "to": 256
+    },
+    {
+      "alpha_difference": 1.1836788580130642,
+      "from": 256,
+      "method": "cubical",
+      "to": 512
+    },
+    {
+      "alpha_difference": 0.4023321729170826,
+      "from": 512,
+      "method": "cubical",
+      "to": 1024
+    },
+    {
+      "alpha_difference": 0.7354026840548495,
+      "from": 128,
+      "method": "plus",
+      "to": 256
+    },
+    {
+      "alpha_difference": 1.3921311410757198,
+      "from": 256,
+      "method": "plus",
+      "to": 512
+    },
+    {
+      "alpha_difference": 0.2572402210282528,
+      "from": 512,
+      "method": "plus",
+      "to": 1024
+    },
+    {
+      "alpha_difference": 0.5299105432390279,
+      "from": 128,
+      "method": "minus",
+      "to": 256
+    },
+    {
+      "alpha_difference": 0.8403184514767589,
+      "from": 256,
+      "method": "minus",
+      "to": 512
+    },
+    {
+      "alpha_difference": 0.3043545796139209,
+      "from": 512,
+      "method": "minus",
+      "to": 1024
+    }
+  ],
+  "diagnostic_verdict": "FAIL",
+  "failed_diagnostic_predicates": [
+    "1024/cubical:A_positive",
+    "1024/plus:A_positive",
+    "1024/plus:delete_one_instability",
+    "1024/minus:A_positive",
+    "cubical:grid_128_256",
+    "cubical:grid_256_512",
+    "cubical:grid_512_1024",
+    "plus:grid_128_256",
+    "plus:grid_256_512",
+    "plus:grid_512_1024",
+    "minus:grid_128_256",
+    "minus:grid_256_512",
+    "minus:grid_512_1024",
+    "finest_method_spread"
+  ],
+  "finest_method_spread": 0.12090144753040044,
+  "input_validation": {
+    "all_half_open_histograms_match": true,
+    "positive_lifetimes_rebinned": 5780,
+    "unique_rows": 96
+  },
+  "interpretation": "The analytic O(1) remainder need not be constant B on these bins. Guarded exploratory curve fits do not test a certified continuum exponent or coefficient; near-zero log-limit, global optimization and identifiability are not certified. Delete-one ranges are not confidence intervals. Historical grid failures and held-out/continuum obligations remain.",
+  "protocol_sha256": "4932ec5e35c89b282f98301f6cd0cc85b0c65ea0e23528bb9e9dde2a5b0be8aa",
+  "results_sha256": "c09ee966cd44df6209cc589dbb7bc227cffc933bc02dc9c1d731cef2ec5a56fd",
+  "rows": [
+    {
+      "A": 0.015416365676782534,
+      "A_positive": true,
+      "B": 0.003022893630681896,
+      "alpha": 0.8566815987287055,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        0.8176274642315448,
+        0.9041604499733547
+      ],
+      "density_nonnegative": true,
+      "grid": 128,
+      "method": "cubical",
+      "objective": 29.903189429160008,
+      "pooled_counts": [
+        12,
+        26,
+        44,
+        44,
+        19,
+        38,
+        28,
+        46
+      ]
+    },
+    {
+      "A": 0.015197827267454412,
+      "A_positive": true,
+      "B": 0.013241286091834817,
+      "alpha": 0.789241189447708,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        0.745528956994467,
+        0.8298313957833108
+      ],
+      "density_nonnegative": true,
+      "grid": 128,
+      "method": "plus",
+      "objective": 15.618130107844365,
+      "pooled_counts": [
+        8,
+        17,
+        28,
+        22,
+        18,
+        38,
+        24,
+        48
+      ]
+    },
+    {
+      "A": 0.03424862713581961,
+      "A_positive": true,
+      "B": -0.025458124606079515,
+      "alpha": 0.6109364467806373,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        0.573890038029053,
+        0.6828492220506199
+      ],
+      "density_nonnegative": true,
+      "grid": 128,
+      "method": "minus",
+      "objective": 12.882096714125018,
+      "pooled_counts": [
+        5,
+        13,
+        20,
+        29,
+        17,
+        36,
+        29,
+        45
+      ]
+    },
+    {
+      "A": 0.0002245268048410561,
+      "A_positive": true,
+      "B": 0.0814656968376899,
+      "alpha": 1.5821849898591323,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        1.5014586801091538,
+        1.694454045185166
+      ],
+      "density_nonnegative": true,
+      "grid": 256,
+      "method": "cubical",
+      "objective": 14.991189595466693,
+      "pooled_counts": [
+        32,
+        26,
+        19,
+        8,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": 0.00019901704755511413,
+      "A_positive": true,
+      "B": 0.0840167499351295,
+      "alpha": 1.5246438735025576,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        1.413008636605077,
+        1.663925831115786
+      ],
+      "density_nonnegative": true,
+      "grid": 256,
+      "method": "plus",
+      "objective": 14.189302689252234,
+      "pooled_counts": [
+        23,
+        13,
+        11,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": 0.0016873695102405432,
+      "A_positive": true,
+      "B": 0.06923166917910728,
+      "alpha": 1.1408469900196652,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        1.0290471831353543,
+        1.2661775812351639
+      ],
+      "density_nonnegative": true,
+      "grid": 256,
+      "method": "minus",
+      "objective": 10.473489892662514,
+      "pooled_counts": [
+        14,
+        15,
+        13,
+        9,
+        12,
+        36,
+        27,
+        45
+      ]
+    },
+    {
+      "A": 0.043067378070253105,
+      "A_positive": true,
+      "B": -0.007033794628422374,
+      "alpha": 0.39850613184606803,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        0.24986843792079244,
+        0.5743913629004869
+      ],
+      "density_nonnegative": true,
+      "grid": 512,
+      "method": "cubical",
+      "objective": 15.880565009045561,
+      "pooled_counts": [
+        12,
+        3,
+        5,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": 0.2776699104716546,
+      "A_positive": true,
+      "B": -0.2714409159904208,
+      "alpha": 0.13251273242683775,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        -0.023212291441546348,
+        0.2545929691439984
+      ],
+      "density_nonnegative": true,
+      "grid": 512,
+      "method": "plus",
+      "objective": 11.173440992121185,
+      "pooled_counts": [
+        6,
+        2,
+        5,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": 0.07849500433914189,
+      "A_positive": true,
+      "B": -0.05423356145089428,
+      "alpha": 0.3005285385429063,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        0.17162079503222744,
+        0.4640852445588019
+      ],
+      "density_nonnegative": true,
+      "grid": 512,
+      "method": "minus",
+      "objective": 13.219148746707422,
+      "pooled_counts": [
+        9,
+        4,
+        4,
+        7,
+        12,
+        37,
+        27,
+        45
+      ]
+    },
+    {
+      "A": -13.753353088892567,
+      "A_positive": false,
+      "B": 13.740222697399306,
+      "alpha": -0.003826041071014585,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        -0.11164040451137558,
+        0.0763504852312657
+      ],
+      "density_nonnegative": true,
+      "grid": 1024,
+      "method": "cubical",
+      "objective": 8.489153394919613,
+      "pooled_counts": [
+        2,
+        2,
+        5,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": -0.5582739427601179,
+      "A_positive": false,
+      "B": 0.5277190737820973,
+      "alpha": -0.12472748860141503,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        -0.35032002188438904,
+        -0.011709027385912951
+      ],
+      "density_nonnegative": true,
+      "grid": 1024,
+      "method": "plus",
+      "objective": 10.074756632208832,
+      "pooled_counts": [
+        3,
+        1,
+        5,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    },
+    {
+      "A": -13.753353088892567,
+      "A_positive": false,
+      "B": 13.740222697399306,
+      "alpha": -0.003826041071014585,
+      "boundary_minimum": false,
+      "delete_one_alpha_range": [
+        -0.11164040451137558,
+        0.0763504852312657
+      ],
+      "density_nonnegative": true,
+      "grid": 1024,
+      "method": "minus",
+      "objective": 8.489153394919613,
+      "pooled_counts": [
+        2,
+        2,
+        5,
+        7,
+        12,
+        37,
+        26,
+        46
+      ]
+    }
+  ],
+  "scientific_effect": "NONE",
+  "source_sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd",
+  "task_id": "FREE-ALPHA-RETAINED-20261008-01"
+}
+
+```````
+
+### Literal file: i2/free-alpha/FINAL_FREEZE.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/FINAL_FREEZE.json
+Bytes: 5600; SHA-256: 2bb6d750bc07bd5276e305374e598af8f9a03854ab04a6461485baaff2db63e3
+
+```````text
+{
+  "actual_utc": "2026-10-08T12:40:29.762083+00:00",
+  "entries": [
+    {
+      "bytes": 4455,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/PROTOCOL.json",
+      "sha256": "4932ec5e35c89b282f98301f6cd0cc85b0c65ea0e23528bb9e9dde2a5b0be8aa"
+    },
+    {
+      "bytes": 5715,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/REPORT.md",
+      "sha256": "10487e131ebb4693afd49f7647cb36ddd419a59dbd5e001dfb9dd6afbd326215"
+    },
+    {
+      "bytes": 126498,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/RESULTS.json",
+      "sha256": "c09ee966cd44df6209cc589dbb7bc227cffc933bc02dc9c1d731cef2ec5a56fd"
+    },
+    {
+      "bytes": 8752,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/SUMMARY.json",
+      "sha256": "c39e8489858d8069b3cbec53b3968bf5a4461b1111d63df6fb23e19f4c422b2d"
+    },
+    {
+      "bytes": 8688,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green-free_alpha.py",
+      "sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd"
+    },
+    {
+      "bytes": 2034,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green-test_free_alpha.py",
+      "sha256": "4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa"
+    },
+    {
+      "bytes": 465,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green.json",
+      "sha256": "915788e784d5e837bef4188b299e6424b91f6dfa5e476c198a4e50563bce9dea"
+    },
+    {
+      "bytes": 639,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green.log",
+      "sha256": "dcb5e41147215da056713ed539708d6fb946bfc0117aaf9f8695007ffe7ee1b3"
+    },
+    {
+      "bytes": 214,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red-free_alpha.py",
+      "sha256": "510ba533db8a9fb35f8c8567469e895ec9a5b53aee6a2d459e5d78ce1ed86cfa"
+    },
+    {
+      "bytes": 1489,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red-test_free_alpha.py",
+      "sha256": "1c88bedaba9a8ea20067f6910863f28661fac8f843a69024d539f5f0a9fed513"
+    },
+    {
+      "bytes": 502,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red.json",
+      "sha256": "70c90e4612db332e450a44d06b5a79c82fa21af536795da50028c92f0836ddd0"
+    },
+    {
+      "bytes": 5538,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red.log",
+      "sha256": "0b31a75f6b6d284688847e857f93895487e888333284385abcb9b4dcdb00b745"
+    },
+    {
+      "bytes": 8688,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution-free_alpha.py",
+      "sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd"
+    },
+    {
+      "bytes": 2034,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution-test_free_alpha.py",
+      "sha256": "4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa"
+    },
+    {
+      "bytes": 434,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution.json",
+      "sha256": "c731c8750ca1a8b8c74b0bf6caf037a1bed798ae420ee002c551b3b38dd15f2c"
+    },
+    {
+      "bytes": 522,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution.log",
+      "sha256": "492a0e9cee4da942366e14b01fd00f374557b00226dd53f91ef1ac0ab97282ac"
+    },
+    {
+      "bytes": 8688,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py",
+      "sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd"
+    },
+    {
+      "bytes": 2034,
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py",
+      "sha256": "4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa"
+    }
+  ],
+  "producer": "/root",
+  "scope": "Exact retained-data guarded free-alpha implementation/control/execution evidence; report pending final independent review; no scientific promotion."
+}
+
+```````
+
+### Literal file: i2/free-alpha/FREE_ALPHA_PARENT_FINAL_REVIEW_20261008T1242Z.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/FREE_ALPHA_PARENT_FINAL_REVIEW_20261008T1242Z.md
+Bytes: 9725; SHA-256: f3a0f452dc3202283dc268b612162e7b8f07ad0925cb762b7315ea16fdd362c1
+
+```````text
+# Exact free-alpha implementation and retained-data review
+
+Actual reviewer: `/root/local_runtime_readonly`, nonauthor of this fitter, its protocol, controls and results. Review completed on 2026-10-08 after the author's actual 12:40:29 UTC documentary freeze. Source and retained data exposed; organizational independence is zero. I had previously read mathematical interfaces in this project and personally read retained counts during this preflight. This is an independent exact source/evidence assessment, not a blind or held-out numerical confirmation, a local-worker rule vote, or scientific promotion.
+
+**Disposition: ACCEPT_SCOPED for faithful exploratory implementation, execution and failure recording. Numerical diagnostic: FAIL, with exactly 14 failed predicates. No implementation must-fix remains in this frozen version.** The free-exponent requirement has an actual exploratory execution; it has no passing stability or continuum/coefficient acceptance.
+
+## Exact objects consumed
+
+All hashes below are SHA-256. I fully read the final source and tests, protocol, author report, summary, raw red/green/execution logs and receipts. I parsed the entire result and independently checked every reported fit record. I freshly checked all 18 author manifest entries against their actual sizes and bytes; all matched. These objects were unchanged at my final readback.
+
+| Object | Bytes | Exact hash |
+|---|---:|---|
+| `FINAL_FREEZE.json` | 5600 | `2bb6d750bc07bd5276e305374e598af8f9a03854ab04a6461485baaff2db63e3` |
+| `PROTOCOL.json` | 4455 | `4932ec5e35c89b282f98301f6cd0cc85b0c65ea0e23528bb9e9dde2a5b0be8aa` |
+| `free_alpha.py` | 8688 | `13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd` |
+| `test_free_alpha.py` | 2034 | `4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa` |
+| `RESULTS.json` | 126498 | `c09ee966cd44df6209cc589dbb7bc227cffc933bc02dc9c1d731cef2ec5a56fd` |
+| `SUMMARY.json` | 8752 | `c39e8489858d8069b3cbec53b3968bf5a4461b1111d63df6fb23e19f4c422b2d` |
+| `REPORT.md` | 5715 | `10487e131ebb4693afd49f7647cb36ddd419a59dbd5e001dfb9dd6afbd326215` |
+
+The three retained inputs are under `/Users/dylanroy/Documents/Codex/2026-09-19/connect-research-repository/work/continuation146/snapshots/main/experiments/periodic_h0/`. I independently read and checked their complete raw-byte and Git-framed blob hashes:
+
+| Input | Bytes | SHA-256 | Git blob |
+|---|---:|---|---|
+| `refinement_config.json` | 330 | `6925122f45a94ef4b895b16bf88a1983cd2651bcdf5150c6120b11c1c67f508e` | `55d74c77013c2b35f63fd3307fb21220e68bfd98` |
+| `results/refinement8/observations.json` | 286986 | `5ff75ce6517b236e4f6b3f03d764f9a136521001d8af2fb31e08d44781dc43a3` | `a9fdf8d13ba99a3252df6789f858e9407fbd9d3d` |
+| `results/refinement8/RUN.json` | 1293 | `03d6966a5dcfdad0dc5f9b9cf6ce16eb5be1b54a081cf55e3b290ae1a3d39eb6` | `09049357086cbf7e90a0bc608c4ee9e1bf2e5dec` |
+
+The author separately verified those blobs in the native recursive tree at `1653fe6740e9e2c8d36a47101bf7bb50c7aae273`. My independent check here verifies local bytes and Git blob identities; I did not independently re-fetch the containing native commit or rerun the historical generator.
+
+## Independent numerical and implementation checks
+
+I verified exactly 96 unique expected rows: eight original seeds, four grids and three filtrations. There were no missing or duplicate combinations. The observations' full configuration equals the retained config, protocol selections agree, and the RUN input links match. Recomputing every positive finite lifetime from birth minus death produced 5780 lifetimes. All 96 stored histograms equal direct re-binning into the prescribed half-open bins, including the last bin. Twelve outputs are coupled observations of eight fields, not 96 independent fields.
+
+The fitter uses integrated bin means with exposure `N*24^2` and descriptive weights `1/(count+1)`. The power integral is correct, including its logarithmic alpha=1 limit. The two-column weighted normal equations and conditioning guard are consistent with the declared profile. Alpha is free in [-1,2], A and B are unrestricted, and the source retains the constant alpha=0 nonidentifiability branch. The coarse 0.01 profile and refinement of detected coarse local minima match the protocol; they are not a certified global optimization algorithm. Endpoint checks correctly characterize nonnegative fitted density across the positive span because this two-term density is monotone there. Source/data/hash validation precedes execution, and outputs use exclusive creation.
+
+At 12:39:43 UTC I independently checked all 108 reported records: 12 pooled fits and 96 delete-one-field fits. I recomputed pooled and omitted-field counts/exposures, direct analytic bin integrals, predictions, weighted objectives, amplitude/density/boundary flags, deleted-field ranges, adjacent-grid comparisons and the finest-method spread. I did not import or call the fitter, profile an exponent, optimize, simulate, or run its tests. Maximum absolute prediction discrepancy was 2.39e-12 and objective discrepancy 6.92e-13, consistent with independent floating arithmetic. All 108 records matched their declared data. All 12 summary rows are exact projections of the full result; common summary/result metadata also matches exactly.
+
+All 12 primary fits receive amplitude, density and boundary guards. The 96 omitted-field fits retain their individual flags and serve sensitivity diagnostics; their finest-grid alpha ranges receive the prescribed stability guard. Nineteen deleted-field fits have nonpositive A and remain visible. This reading of `all_fit` as all primary fits is explicit in the final record and does not hide a passing result: the actual verdict is FAIL.
+
+## Actual red, controls and execution
+
+I verified each of the three real receipt/snapshot/log triples, including exact snapshot hashes and raw log hashes. The retained initial skeleton has two NotImplemented functions. Its unittest command exited 1 in 0.034408166 seconds. The raw output says six tests, six errors; the receipt's `actual_error_count:12` double-counts textual ERROR occurrences. The final author report explicitly preserves and corrects that interpretation. No clean-looking replacement red receipt is credited.
+
+Eight final controls actually passed in the author's captured execution: freely recovering a nonzero-B one-third exponent; recovering a different positive exponent with negative B; recovering a negative exponent; analytic alpha=1 bin integration; the constant branch; negative counts; boundary flagging for an out-of-band exponent; and malformed inputs. These tests independently construct their bin data rather than reuse the production integral. They are meaningful implementation checks, not evidence that the retained data obey the analytic law.
+
+The captured controls command exited 0 in 0.423989459 seconds; raw log SHA is `dcb5e41147215da056713ed539708d6fb946bfc0117aaf9f8695007ffe7ee1b3`. The captured fit command exited 0 in 0.552847041 seconds; raw log SHA is `492a0e9cee4da942366e14b01fd00f374557b00226dd53f91ef1ac0ab97282ac`. Both bind the exact final source/tests above. I did not rerun either command. There is execution evidence, not an independent repeated optimization or new sample.
+
+## Failed numerical exit and interpretive boundaries
+
+I independently recovered all 14 failed predicates: three finest-grid nonpositive amplitudes; the finest plus delete-one range width; all nine adjacent-grid alpha changes; and the finest-method alpha spread. No primary density or boundary flag failed. The finest method spread is 0.12090144753040044, exceeding 0.05. The plus omitted-field range is [-0.35032002188438904,-0.011709027385912951], exceeding width 0.2. At grid 1024, cubical and minus have alpha -0.003826041071014585, A -13.753353088892567, B 13.740222697399306; plus has alpha -0.12472748860141503, A -0.5582739427601179. Cubical/minus agree because their independently checked pooled counts agree. The strong cancellation near alpha=0 is retained, not dismissed as a physically positive leading coefficient.
+
+Three scope cautions are essential and correctly disclosed in the final source/result/report. First, as alpha approaches zero, unrestricted A and B can diverge while their combination approaches a nonconstant logarithmic curve; the exact constant alpha=0 branch and conditioning cutoff do not certify that limiting profile or global identifiability. Second, an analytic O(1) remainder need not equal a constant B on these bins, so this curve fit is not a direct test of the continuum theorem. Third, delete-one ranges are sensitivity diagnostics, not confidence intervals. These cautions block exponent/coefficient confirmation, but do not invalidate this explicitly guarded exploratory execution.
+
+The protocol was frozen before fitting, after the author had already read retained data and historical failures. My review is also data exposed. There is no pre-data preregistration, held-out test, blinded coefficient test, new sampling, certified spectral/continuum/roundoff count sandwich, or demonstrated useful lifetime window. Historical shortest-bin nonconvergence remains negative evidence. Synthetic-control success and correct evidence handling do not refute or certify the analytic theorem. No local runtime, operating rule, mathematical source, graph/status record or scientific gate was changed by this review.
+
+**Final scoped result: faithful exploratory execution accepted; all 14 failed stability predicates retained; scientific effect NONE.** Root owns any later publication, held-out protocol or numerical next action. Any material source, input, threshold or result change requires a new exact-version review.
+
+```````
+
+### Literal file: i2/free-alpha/evidence/controls-red.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red.json
+Bytes: 502; SHA-256: 70c90e4612db332e450a44d06b5a79c82fa21af536795da50028c92f0836ddd0
+
+```````text
+{
+  "command": [
+    "/usr/bin/nice",
+    "-n",
+    "10",
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_free_alpha"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 0.034408166000000004,
+  "source_sha256": "510ba533db8a9fb35f8c8567469e895ec9a5b53aee6a2d459e5d78ce1ed86cfa",
+  "tests_sha256": "1c88bedaba9a8ea20067f6910863f28661fac8f843a69024d539f5f0a9fed513",
+  "log_sha256": "0b31a75f6b6d284688847e857f93895487e888333284385abcb9b4dcdb00b745",
+  "actual_error_count": 12
+}
+
+```````
+
+### Literal file: i2/free-alpha/evidence/controls-red.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-red.log
+Bytes: 5538; SHA-256: 0b31a75f6b6d284688847e857f93895487e888333284385abcb9b4dcdb00b745
+
+```````text
+test_constant_is_unidentifiable (test_free_alpha.FitControls) ... ERROR
+test_invalid_counts_rejected (test_free_alpha.FitControls) ... ERROR
+test_logarithmic_bin_integral (test_free_alpha.FitControls) ... ERROR
+test_negative_free_exponent (test_free_alpha.FitControls) ... ERROR
+test_non_target_and_negative_remainder (test_free_alpha.FitControls) ... ERROR
+test_target_exponent_is_free (test_free_alpha.FitControls) ... ERROR
+
+======================================================================
+ERROR: test_constant_is_unidentifiable (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 32, in test_constant_is_unidentifiable
+    result=fit(EDGES,counts,100)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 7, in fit
+    raise NotImplementedError
+NotImplementedError
+
+======================================================================
+ERROR: test_invalid_counts_rejected (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 38, in test_invalid_counts_rejected
+    fit(EDGES,[-1]*8,100)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 7, in fit
+    raise NotImplementedError
+NotImplementedError
+
+======================================================================
+ERROR: test_logarithmic_bin_integral (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 28, in test_logarithmic_bin_integral
+    self.assertAlmostEqual(power_integral(.01,.02,1),math.log(2),places=14)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 4, in power_integral
+    raise NotImplementedError
+NotImplementedError
+
+======================================================================
+ERROR: test_negative_free_exponent (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 25, in test_negative_free_exponent
+    self.synthetic(-.4,.02,.004)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 13, in synthetic
+    result=fit(EDGES,counts,exposure)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 7, in fit
+    raise NotImplementedError
+NotImplementedError
+
+======================================================================
+ERROR: test_non_target_and_negative_remainder (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 22, in test_non_target_and_negative_remainder
+    self.synthetic(.8,.001,-.001)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 13, in synthetic
+    result=fit(EDGES,counts,exposure)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 7, in fit
+    raise NotImplementedError
+NotImplementedError
+
+======================================================================
+ERROR: test_target_exponent_is_free (test_free_alpha.FitControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 19, in test_target_exponent_is_free
+    self.synthetic(1/3,.015,.004)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/test_free_alpha.py", line 13, in synthetic
+    result=fit(EDGES,counts,exposure)
+  File "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/free_alpha.py", line 7, in fit
+    raise NotImplementedError
+NotImplementedError
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (errors=6)
+
+```````
+
+### Literal file: i2/free-alpha/evidence/controls-green.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green.json
+Bytes: 465; SHA-256: 915788e784d5e837bef4188b299e6424b91f6dfa5e476c198a4e50563bce9dea
+
+```````text
+{
+  "command": [
+    "/usr/bin/nice",
+    "-n",
+    "10",
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_free_alpha"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.423989459,
+  "source_sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd",
+  "tests_sha256": "4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa",
+  "log_sha256": "dcb5e41147215da056713ed539708d6fb946bfc0117aaf9f8695007ffe7ee1b3"
+}
+
+```````
+
+### Literal file: i2/free-alpha/evidence/controls-green.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/controls-green.log
+Bytes: 639; SHA-256: dcb5e41147215da056713ed539708d6fb946bfc0117aaf9f8695007ffe7ee1b3
+
+```````text
+test_boundary_flag_is_real (test_free_alpha.FitControls) ... ok
+test_constant_is_unidentifiable (test_free_alpha.FitControls) ... ok
+test_invalid_counts_rejected (test_free_alpha.FitControls) ... ok
+test_logarithmic_bin_integral (test_free_alpha.FitControls) ... ok
+test_negative_free_exponent (test_free_alpha.FitControls) ... ok
+test_non_target_and_negative_remainder (test_free_alpha.FitControls) ... ok
+test_target_exponent_is_free (test_free_alpha.FitControls) ... ok
+test_zero_and_malformed_inputs (test_free_alpha.FitControls) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.371s
+
+OK
+
+```````
+
+### Literal file: i2/free-alpha/evidence/fit-execution.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution.json
+Bytes: 434; SHA-256: c731c8750ca1a8b8c74b0bf6caf037a1bed798ae420ee002c551b3b38dd15f2c
+
+```````text
+{
+  "command": [
+    "/usr/bin/nice",
+    "-n",
+    "10",
+    "/usr/bin/python3",
+    "-B",
+    "free_alpha.py"
+  ],
+  "exit_code": 0,
+  "elapsed_seconds": 0.5528470410000002,
+  "source_sha256": "13376068fd5f63d836a66fd3a27f859b730cd82e2d68711eff8019d72416dcbd",
+  "tests_sha256": "4569f7cdf02e7591de87e2febf64eafe1dcd68732d92775fec6da5dd5c1c13aa",
+  "log_sha256": "492a0e9cee4da942366e14b01fd00f374557b00226dd53f91ef1ac0ab97282ac"
+}
+
+```````
+
+### Literal file: i2/free-alpha/evidence/fit-execution.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/free-alpha/evidence/fit-execution.log
+Bytes: 522; SHA-256: 492a0e9cee4da942366e14b01fd00f374557b00226dd53f91ef1ac0ab97282ac
+
+```````text
+{"status": "EXECUTED", "diagnostic_verdict": "FAIL", "failed": ["1024/cubical:A_positive", "1024/plus:A_positive", "1024/plus:delete_one_instability", "1024/minus:A_positive", "cubical:grid_128_256", "cubical:grid_256_512", "cubical:grid_512_1024", "plus:grid_128_256", "plus:grid_256_512", "plus:grid_512_1024", "minus:grid_128_256", "minus:grid_256_512", "minus:grid_512_1024", "finest_method_spread"], "result_sha256": "c09ee966cd44df6209cc589dbb7bc227cffc933bc02dc9c1d731cef2ec5a56fd", "elapsed_seconds": 0.494041833}
+
+```````
+

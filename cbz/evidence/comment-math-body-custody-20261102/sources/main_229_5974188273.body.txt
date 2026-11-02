@@ -1,0 +1,336 @@
+## C93 cross-provider review: reviewer controls, exact executable and stdout
+
+This is the standard-library script behind the [review 5974184980](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974184980). I wrote it independently of the author's and the first reviewer's code. It checks finite algebra, exact integrals and exponent bookkeeping only. It does not prove C92's Gaussian inputs, C91's Taylor bounds or the measure-theoretic steps.
+
+Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`). Scientific effect: NONE.
+
+**Extraction rule.**
+- The file is the exact text between the ```` ```python ```` fence under the `###` heading and the next ```` ``` ```` line, plus one final newline.
+- The expected stdout is the text in the following ```` ```text ```` fence, plus one final newline.
+- The byte counts below include those newlines.
+
+**Run.**
+- `python3 -B -S c93_exact.py`: exit 0, with exactly the stdout shown. A run takes about 3 seconds.
+- `-O` mode and plain `python3`: byte-identical output.
+- `python3 c93_exact.py BOGUS`: exit 2.
+- Each of the six mutant labels exits 1 (table below).
+
+The output was produced with Python 3.11.15.
+
+**Groups.**
+
+| group | what it checks |
+|---|---|
+| Z0 | (E1), (E9): `a_M + a_S = 48λ`, `T ⇒ λ > 0`, both substitutions `B1 ↔ s = a_i` with `\|dB1/ds\| = 1/12`, `a_other = 48λ − s`, `T ⟺ 0 < s < 48λ`, `w_λ = s(48λ − s)/16` |
+| Z1 | (E2)–(E4): the `λ`-`s` integral for `φ = 1_[α, β]`, integrated exactly (split at `α/48` and `β/48`), against `Λ·max(A_*, 1)∫φ(s)(s + r) ds`; the strip integral `δ²/2 + rδ` |
+| Z2 | (E10)–(E12): the lower-bound box, the bounds on `L_i` and `L_i³`, the truncated `v = 3` integrals, and the (E7) exponent bookkeeping |
+| Z3 | (E13), (E16): `‖T_i‖_F² = L_i/3`, the bound `‖T_iᵀET_i‖_op ≤ (2/3)max\|E_jk\|L_i` through the characteristic polynomial, and its asymptotic sharpness (`γ = −12`, `E = [[1,1],[1,1]]`, `√κ_i → 0`) |
+| Z4 | (E14), (E15), (E17): the third-moment Markov factor, the split at `δ = ε`, `r/ε`, and `r³(ε² + rε) ≤ C_τ r⁵w⁴` |
+| Z5 | (E19)–(E20): the ledger for `w = r^{−β}`, `p ≥ max(1, 1/(1 − 4β))`, and the failure at `β = 1/4` |
+
+**Mutants.** Each was actually run; each exits 1.
+
+| label | change | failing groups | failed checks |
+|---|---|---|---:|
+| `JAC_6` | `|dB1/ds| = 1/6` | Z0 | 10000 |
+| `EDGE_LINEAR` | model edge mass `δ` for `δ²` | Z1 | 1487 |
+| `FROB_HALF` | `‖T_i‖_F² = L_i/2` | Z3 | 4000 |
+| `TRANSFER_96` | transfer constant `115/96` for `115/72` | Z3 | 6 |
+| `DELTA_2EPS` | split at `δ = 2ε` | Z4 | 4000 |
+| `BETA_QUARTER` | `β = 1/4` admitted in (E20) | Z5 | 1 |
+
+### c93_exact.py
+
+- **File:** 13114 bytes, SHA-256 `12c4f5cfb55c4019ef6d943f0258c80b0601b7a05fdd35cc2d114b6f18bf7763`.
+- **Stdout:** 442 bytes, SHA-256 `325d9c29edfd1b9892f6db4c52b2379385ed4cd025bbe1cc26636c4b3d083a2b`.
+
+```python
+#!/usr/bin/env python3
+"""C93 cross-provider review controls: exact rational checks, standard library only.
+
+Target: C93-PLANAR-TYPING-EDGE-HESSIAN-TRANSFER-20261003-v1, main issue 229, comment 5964167051
+(15,545 bytes, SHA-256 f25f86cc...af1c).
+Reviewer: Anthropic Claude, session_01NMeKEismAyeqgdB4sy2NJU, for Dylan Roy (delegated AI review).
+Written without the author's or the first reviewer's code.
+
+Usage: python3 c93_exact.py [MUTANT]   (exit 0 pass, 1 fail, 2 unknown label)
+Mutants (each must exit 1):
+  JAC_6        |dB1/ds| = 1/6 in place of 1/12 (E9)
+  EDGE_LINEAR  model edge mass delta in place of delta^2 (E4)
+  FROB_HALF    ||T_i||_F^2 = L_i/2 in place of L_i/3 (E16)
+  TRANSFER_96  Hessian transfer constant 115/96 in place of 115/72 (E16)
+  DELTA_2EPS   the split delta = 2 eps in place of delta = eps (E17)
+  BETA_QUARTER the window exponent beta = 1/4 admitted in (E20)
+These checks test finite algebra, exact integrals and exponent bookkeeping only. They do not prove C92's
+Gaussian inputs (J3, J5, J9, J10, J16, J18), C91's Taylor bounds, or the measure-theoretic steps.
+"""
+import math
+import random
+import sys
+from fractions import Fraction as F
+
+MUTANTS = ("JAC_6", "EDGE_LINEAR", "FROB_HALF", "TRANSFER_96", "DELTA_2EPS", "BETA_QUARTER")
+MUT = None
+if len(sys.argv) > 1:
+    MUT = sys.argv[1]
+    if len(sys.argv) > 2 or MUT not in MUTANTS:
+        print("unknown mutant label: %s" % " ".join(sys.argv[1:]))
+        sys.exit(2)
+
+RNG = random.Random(93_5964167051)
+RESULTS, FAILS = [], []
+
+
+class Group:
+    def __init__(self, name):
+        self.name, self.n, self.bad = name, 0, 0
+
+    def check(self, ok, msg=""):
+        self.n += 1
+        if not ok:
+            self.bad += 1
+            if len(FAILS) < 12:
+                FAILS.append("%s: %s" % (self.name, msg))
+
+    def close(self):
+        RESULTS.append((self.name, self.n - self.bad, self.n))
+
+
+def rq(lo, hi, den=97):
+    a, b = int(math.floor(F(lo) * den)), int(math.floor(F(hi) * den))
+    return F(RNG.randint(a, b), den)
+
+
+def rq_pos(lo, hi, den=97):
+    while True:
+        x = rq(lo, hi, den)
+        if x > 0:
+            return x
+
+
+def poly_int(coeffs, a, b):
+    """Exact integral over [a, b] of sum c_k x^k (coeffs = {k: c_k}, k >= 0)."""
+    return sum(c * (b**(k + 1) - a**(k + 1)) / (k + 1) for k, c in coeffs.items())
+
+
+# =====================================================================
+# Z0  (E1), (E9): typing quantities and the change of variables B1 -> s = a_i
+# =====================================================================
+g = Group("Z0 (E1), (E9) typing and change of variables")
+for _ in range(5000):
+    lam, gam, B1 = rq(-3, 3), rq(-3, 3), rq(-3, 3)
+    aM, aS = 24 * lam - gam**2 + 12 * B1, 24 * lam + gam**2 - 12 * B1
+    D = gam**2 - 12 * B1
+    g.check(aM == 24 * lam - D and aS == 24 * lam + D and aM + aS == 48 * lam, "a_M + a_S = 48 lambda")
+    T = aM > 0 and aS > 0
+    if T:
+        g.check(lam > 0, "T implies lambda > 0")
+    for i, s in (("M", aM), ("S", aS)):
+        B1_back = (s - 24 * lam + gam**2) / 12 if i == "M" else (24 * lam + gam**2 - s) / 12
+        g.check(B1_back == B1, "(E9) B1 recovered from s = a_%s" % i)
+        h = F(1, 7)                                   # the map s -> B1 is affine: exact difference quotient
+        B1_h = (s + h - 24 * lam + gam**2) / 12 if i == "M" else (24 * lam + gam**2 - s - h) / 12
+        jac = F(1, 6) if MUT == "JAC_6" else F(1, 12)
+        g.check(abs((B1_h - B1_back) / h) == jac, "(E9) |dB1/ds| = 1/12")
+        other = aS if i == "M" else aM
+        g.check(other == 48 * lam - s, "(E9) a_other = 48 lambda - s")
+        if lam > 0:
+            g.check(T == (0 < s < 48 * lam), "(E9) on lambda > 0: T iff 0 < s < 48 lambda")
+        if T:
+            g.check(aM * aS / 16 == s * (48 * lam - s) / 16, "(E9) w_lambda = s(48 lambda - s)/16")
+g.close()
+
+# =====================================================================
+# Z1  (E2)-(E4): the lambda-s integral bound and the edge integral, exactly, for phi = 1_[alpha, beta]
+# =====================================================================
+g = Group("Z1 (E2)-(E4) edge integrals")
+for _ in range(1500):
+    Lam = rq_pos(F(1, 10), 4)
+    As = 48 * Lam
+    r = rq_pos(F(1, 1000), F(1, 4), 1000)
+    alpha = rq(0, As)
+    beta = rq(alpha, As)
+    # LHS = int_0^Lam dlam int_{alpha}^{min(beta, 48 lam)} [s(48 lam - s)/16 + r] ds  (zero where 48 lam <= alpha)
+    # piecewise in lam: [alpha/48, beta/48] (upper limit 48 lam) and [beta/48, Lam] (upper limit beta)
+
+    def inner(lam, top):
+        # int_alpha^top [ (48 lam s - s^2)/16 + r ] ds
+        return (48 * lam * (top**2 - alpha**2) / 2 - (top**3 - alpha**3) / 3) / 16 + r * (top - alpha)
+    # exact integration over lam of a polynomial in lam: integrate inner(lam, 48 lam) on [alpha/48, beta/48]
+    l0, l1 = alpha / 48, beta / 48
+    # inner(lam, 48 lam) = (48 lam (2304 lam^2 - alpha^2)/2 - (110592 lam^3 - alpha^3)/3)/16 + r (48 lam - alpha)
+    c3 = (48 * 2304 / F(2) - F(110592, 3)) / 16
+    c1 = (-48 * alpha**2 / F(2)) / 16 + 48 * r
+    c0 = (alpha**3 / 3) / 16 - r * alpha
+    part1 = poly_int({3: c3, 1: c1, 0: c0}, l0, l1)
+    # on [beta/48, Lam]: inner(lam, beta) is affine in lam
+    d1 = 48 * (beta**2 - alpha**2) / 2 / 16
+    d0 = -(beta**3 - alpha**3) / 3 / 16 + r * (beta - alpha)
+    part2 = poly_int({1: d1, 0: d0}, l1, Lam) if l1 < Lam else F(0)
+    lhs = part1 + part2
+    rhs_core = (beta**2 - alpha**2) / 2 + r * (beta - alpha)          # int_alpha^beta (s + r) ds
+    g.check(lhs <= Lam * max(As, 1) * rhs_core, "(E2) lambda-s integral <= Lambda max(A_*, 1) int phi(s)(s + r) ds")
+    # a numerical sanity value of the inner function at an interior point, to guard the closed form
+    lam_mid = (l0 + l1) / 2
+    g.check(inner(lam_mid, 48 * lam_mid) == c3 * lam_mid**3 + c1 * lam_mid + c0, "closed form of the inner integral")
+    # (E4): phi = 1_[0, delta]
+    delta = rq_pos(0, min(As, 1))
+    edge = delta**2 / 2 + r * delta
+    g.check(poly_int({1: F(1), 0: r}, F(0), delta) == edge, "(E4) int_0^delta (s + r) ds = delta^2/2 + r delta")
+    model = delta if MUT == "EDGE_LINEAR" else delta**2
+    g.check(poly_int({1: F(1)}, F(0), delta) * 2 == model, "(E4) model edge mass ~ delta^2 (E3 with phi = 1_[0,delta])")
+g.close()
+
+# =====================================================================
+# Z2  (E10)-(E12): inverse-moment threshold, truncated moments, loss factor L_i
+# =====================================================================
+g = Group("Z2 (E10)-(E12) thresholds and truncation")
+for _ in range(3000):
+    Lam = rq_pos(F(1, 10), 4)
+    As = 48 * Lam
+    r = rq_pos(F(1, 1000), F(1, 4), 1000)
+    delta = rq_pos(0, As)
+    if delta >= As:
+        continue
+    # v = 3: int_delta^A s^-2 ds = 1/delta - 1/A <= 1/delta; int_delta^A r s^-3 ds = r (delta^-2 - A^-2)/2 <= r/(2 delta^2)
+    i1, i2 = 1 / delta - 1 / As, r * (1 / delta**2 - 1 / As**2) / 2
+    g.check(0 < i1 <= 1 / delta and 0 < i2 <= r / (2 * delta**2), "(E12) truncated v = 3 integrals")
+    # lower-bound box of (E10): lambda in [Lam/3, 2Lam/3], 0 < s < s0 < min(1, 8 Lam)
+    lam = rq(Lam / 3, 2 * Lam / 3, 970)
+    s0 = min(F(1), 8 * Lam) * F(96, 97)
+    s = rq_pos(0, s0, 970)
+    if 0 < s < s0 and Lam / 3 <= lam <= 2 * Lam / 3:
+        g.check(48 * lam - s >= 8 * Lam and s * (48 * lam - s) / 16 >= Lam * s / 2, "(E10) box: 48 lambda - s >= 8 Lambda, w >= (Lambda/2) s")
+    # loss factor L_i = 1 + (gamma^2 + 144)/a_i on 0 < a_i <= A_*
+    gam, B1, C3 = rq(-5, 5), rq(-5, 5), rq(-5, 5)
+    a = rq_pos(0, As)
+    P = 1 + abs(gam) + abs(B1) + abs(C3)
+    L = 1 + (gam**2 + 144) / a
+    g.check(144 / a <= L <= (As + gam**2 + 144) / a, "(E10) 144/a_i <= L_i <= (A_* + gamma^2 + 144)/a_i")
+    g.check(L**3 <= (As + 144)**3 * P**6 / a**3, "L_i^3 <= (A_* + 144)^3 P^6 a_i^-3")
+# the exponent of (E7): N^p * N * (1 + Lambda + |t| + r N)^3 expands into terms N^(p+1+j) P^(3-j) r^j
+for p in range(0, 7):
+    for j in range(0, 4):
+        g.check((p + 1 + j) + (3 - j) == p + 4, "(E7) every term has total power P^(p+4)")
+g.close()
+
+# =====================================================================
+# Z3  (E13), (E16): the coordinate matrix T_i, ||T_i||_F^2 = L_i/3, and the operator-norm transfer
+# =====================================================================
+g = Group("Z3 (E13), (E16) Hessian transfer")
+frob_div = 2 if MUT == "FROB_HALF" else 3
+const = F(115, 96) if MUT == "TRANSFER_96" else F(115, 72)
+g.check(F(2, 3) * F(115, 48) == F(115, 72), "115/72 = (2/3) (115/48)")
+cases = []
+for _ in range(4000):
+    gam = rq(-4, 4)
+    if gam == 0:
+        continue
+    cases.append((gam, rq_pos(F(1, 20), 3), (rq(-1, 1), rq(-1, 1), rq(-1, 1)), False))
+# an extremal family: gamma = -12, E = [[1, 1], [1, 1]], k -> 0 (T_i nearly rank one, aligned with E)
+for kk in (F(1, 2), F(1, 5), F(1, 10), F(1, 50), F(1, 200), F(1, 1000)):
+    cases.append((F(-12), kk, (F(1), F(1), F(1)), True))
+
+
+def transfer(gam, k, E):
+    """(tr, det) of M = T^T E T and L_i, with sqrt(kappa_i) = k, a_i = 48 gamma^2 k^2 (M12 = m12/sqrt3)."""
+    e11, e12, e22 = E
+    L = 1 + (gam**2 + 144) / (48 * gam**2 * k**2)
+    M11 = e11 / 3
+    x, y = -1 / (12 * k), 1 / (gam * k)
+    m12 = e11 * x + e12 * y
+    M22 = e11 * x * x + 2 * e12 * x * y + e22 * y * y
+    return M11 + M22, M11 * M22 - m12**2 / 3, L
+
+
+for (gam, k, E, extremal) in cases:
+    a = 48 * gam**2 * k**2
+    L = 1 + (gam**2 + 144) / a
+    # T_i = [[1/sqrt3, -1/(12k)], [0, 1/(gamma k)]]: ||T||_F^2 = 1/3 + 1/(144 k^2) + 1/(gamma^2 k^2)
+    frob2 = F(1, 3) + 1 / (144 * k**2) + 1 / (gam**2 * k**2)
+    g.check(frob2 == L / frob_div, "||T_i||_F^2 = L_i/3")
+    emax = max(abs(e) for e in E)
+    if emax == 0:
+        continue
+    tr, det, L2 = transfer(gam, k, E)
+    B = 2 * emax * L / 3 * (const / F(115, 72))   # the claimed (E16) bound divided by (115/48) N r w^2
+    # both eigenvalues of the symmetric M lie in [-B, B] iff B >= |tr|/2 and B^2 -+ tr B + det >= 0
+    g.check(B >= abs(tr) / 2 and B * B - tr * B + det >= 0 and B * B + tr * B + det >= 0,
+            "(E16) ||T^T E T||_op <= (2/3) max|E_jk| L_i")
+    if extremal and k <= F(1, 50):
+        x = F(99, 100) * 2 * emax * L / 3       # lambda_max >= x iff x >= tr/2 and x^2 - tr x + det <= 0 (M is PSD here)
+        g.check(x >= tr / 2 and x * x - tr * x + det <= 0, "(E16) is asymptotically sharp: lambda_max >= 0.99 (2/3) L_i")
+g.close()
+
+# =====================================================================
+# Z4  (E14), (E15), (E17): the split at delta = eps and the fixed-tau consequence
+# =====================================================================
+g = Group("Z4 (E14), (E15), (E17) split and consequence")
+for _ in range(4000):
+    r = rq_pos(F(1, 10000), F(1, 10), 10000)
+    w = rq(1, 50)
+    tau = rq_pos(F(1, 10), 3)
+    eps = F(115, 72) * r * w**2 / tau
+    delta = eps
+    if MUT == "DELTA_2EPS":
+        delta = eps * 2
+    total = delta**2 + r * delta + eps**3 * (1 / delta + r / delta**2)
+    g.check(total == 2 * (eps**2 + r * eps), "(E17) at delta = eps: 2(eps^2 + r eps)")
+    g.check(r / eps == 72 * tau / (115 * w**2), "r/eps = tau/((115/72) w^2)")
+    C = F(115, 72)**2 / tau**2 + F(115, 72) / tau
+    g.check(r**3 * (eps**2 + r * eps) <= C * r**5 * w**4, "(E15) r^3(eps^2 + r eps) <= C_tau r^5 w^4 for w >= 1")
+    # Markov with the third moment: (H/tau)^3 <= eps^3 N^3 L^3 when H <= (115/72) N r w^2 L
+    N, L = rq(1, 10), rq(1, 100)
+    H = F(115, 72) * N * r * w**2 * L
+    g.check((H / tau)**3 == eps**3 * N**3 * L**3, "(E16)-(E17) Markov factor eps^3 N^3 L_i^3")
+g.close()
+
+# =====================================================================
+# Z5  (E19)-(E20): the window ledger w = r^-beta, p >= max(1, 1/(1 - 4 beta))
+# =====================================================================
+g = Group("Z5 (E19)-(E20) ledger")
+betas = [F(k, 400) for k in range(0, 100)]
+if MUT == "BETA_QUARTER":
+    betas.append(F(1, 4))
+for beta in betas:
+    if beta < F(1, 4) or MUT == "BETA_QUARTER":
+        if 1 - 4 * beta <= 0:
+            g.check(False, "beta = 1/4: no finite p gives exponent 4")
+            continue
+        p = max(F(1), 1 / (1 - 4 * beta))
+        hess = 5 - 4 * beta                       # r^5 w^4
+        value = 3 + p * (1 - 4 * beta)            # r^3 (r w^4)^p
+        g.check(hess > 4 and value >= 4 and min(F(4), hess, value) == 4, "(E20) every term is O(r^4)")
+        g.check(1 - 2 * beta > 0 and 1 - beta > 0, "eps_i = O(r^(1 - 2 beta)) -> 0 and 2 r w -> 0")
+        g.check(value - 3 >= 1, "the value term gains at least one power of r beyond r^3")
+g.check(3 + 10**6 * (1 - 4 * F(1, 4)) < 4, "at beta = 1/4 the value term is stuck at r^3 for every p")
+g.close()
+
+# ---------------------------------------------------------------------
+total = sum(t for _, _, t in RESULTS)
+passed = sum(p for _, p, _ in RESULTS)
+for name, p, t in RESULTS:
+    print("%-46s %6d/%-6d %s" % (name, p, t, "PASS" if p == t else "FAIL"))
+print("mutant: %s" % (MUT if MUT else "none"))
+print("total checks: %d; failures: %d" % (total, total - passed))
+for f_ in FAILS:
+    print("  FAIL " + f_)
+sys.exit(0 if passed == total else 1)
+```
+
+```text
+Z0 (E1), (E9) typing and change of variables    45664/45664  PASS
+Z1 (E2)-(E4) edge integrals                      6000/6000   PASS
+Z2 (E10)-(E12) thresholds and truncation        12020/12020  PASS
+Z3 (E13), (E16) Hessian transfer                 8004/8004   PASS
+Z4 (E14), (E15), (E17) split and consequence    16000/16000  PASS
+Z5 (E19)-(E20) ledger                             301/301    PASS
+mutant: none
+total checks: 87989; failures: 0
+```
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

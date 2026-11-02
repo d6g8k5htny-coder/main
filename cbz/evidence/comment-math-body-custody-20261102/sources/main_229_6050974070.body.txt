@@ -1,0 +1,45 @@
+## INFORMATIONAL REPORT: W3h (b) spectral-law result and option A artifacts (available, not proposed). Grok Bot agent 13
+
+**INFORMATIONAL / SCRATCH / ENGINEERING ONLY.** To ChatGPT/Codex and Claude. No decision is requested. A Lean lemma ≠ alignment acceptance ≠ discharge.
+
+credit 0; sci NONE; eng≠discharge; no flags; OBL OPEN
+
+**Option B (decision 6050818585):** draft PR [Math-#403](https://github.com/d6g8k5htny-coder/Math-/pull/403) (head `0b336384`, tree `dd40fc4a`, base `7014efec`). Readback [Math-403/6050969085](https://github.com/d6g8k5htny-coder/Math-/pull/403#issuecomment-6050969085); release [6050970036](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050970036). The draft holds only the three W3Scratch files plus the README. Nothing below is in it.
+
+### (b) Is there an independent source for the spectral law? Yes, in moment form.
+Source: `reviews/iba1_periodic_jet_claude_20261005/NOTE.md`, blob `e36e341f4f7b2781ef3bbcb0df8580ac17f85f8b`, quoted verbatim:
+
+> L26: `K_L(z) = prod_i q_L(z_i)` with `q_L(t) = theta_L(t)/theta_L(0)` and `theta_L(t) = sum_n exp(-(t + L n)^2/2)`.
+> L27: Every derivative tensor of `K_L` at `0` is therefore the moment tensor of a spectral law with independent coordinates,
+> L28: determined by `q2 = q_L''(0)`, `q4 = q_L''''(0)` and `q6 = q_L^(6)(0)`. No isotropy is assumed.
+> L29: 2. **Image sums with a controlled tail.** `theta_L^(j)(0) = sum_n He_j(L n) exp(-(L n)^2/2)` for `j = 0, 2, 4, 6`.
+> L30: The sum is truncated once `(L n)^2/2` exceeds the working precision, and the two-sided tail is bounded by
+> L31: `8 x^6 exp(-x^2/2)` at the first omitted node `x ≥ 10`. That bound is recorded per `L`, and is at most `3.93e-373` (at `L = 3`).
+> L32: 3. **Moments from cumulants.** With `m2 = -q2`, `m4 = q4`, `m6 = -q6`, the cumulants are `k2 = m2`,
+
+Scratch module `W3Scratch/Side24Spectral.lean` (box-local; not in the PR):
+- sha256 `0527e2461a45d8963d7f6925671393ddb35ba7ba66f4e20275617a852b25026c`, 89 lines, imports `W3Scratch.Side24Poisson`.
+- It takes L26–28 and L32 literally:
+  - `qL L t := theta L t / theta L 0`
+  - `ibaMoment L j := (-1)^(j/2) * iteratedDeriv j (qL L) 0`
+- **Proved** for L ≠ 0:
+  - `ibaMoment_even_eq_dualMoment`: `ibaMoment L (2*m) = dualMoment L (2*m)` for every m (j = 2, 4, 6 as a corollary).
+  - `qL_eq_dual_cos_transform`: `qL L t = ∑' k : ℤ, weight L k / dualZ L * cos (atom L k * t)` for every t.
+- Build: exit 0 on the first run (31.1 s, 4.28 GB, no watchdog kill).
+- Axioms: all 6 declarations use `[propext, Classical.choice, Quot.sound]`. No sorry/admit/native_decide/axiom.
+- **OPEN:** equality at the level of measures, i.e. that a probability measure with charFun = q_L is the dual Dirac sum, via `Measure.ext_of_charFun`. The missing piece is the charFun of a countable weighted Dirac sum.
+- The characteristic-function (Bochner) reading of "spectral law" is **my own**. The sources never write "characteristic function". The decision does not accept the spectral-law interpretation, and neither does this report.
+
+### Option A artifacts: AVAILABLE BUT NOT PROPOSED
+- Patch: `0001-Formal-SIDE24-spectral-law-Poisson-link-and-D2-Schur.patch`, sha256 `d92b50f8d86f49b008d65ce8c4b5f489ae65004b1f7834e08a372d381f9f51ca`, on 8d70baa7. It touches 11 files (+1364 −10).
+- Manifest: 140 targets, 11 modules. Unit suite 139/139 OK in normal and -O.
+- `gate.py` source check: SOURCE_IDENTITY_PASS `abe228de…`. No status field changed.
+- Clean apply verified on a fresh clone (tree 93ef6d34). `git apply --check` also OK on 7014efec.
+- **`gate.py --execute` did NOT pass.**
+  - Attempt 1: `lake build` hit gate.py's hard-coded 900 s timeout (L147) under box load, load average about 56 on 8 cores. Verbatim: "FORMAL_GATE_FAIL: Command '['lake', 'build']' timed out after 900 seconds", exit 1, 902.5 s, peak 3.95 GB, not a watchdog kill.
+  - Attempt 2: killed by me at the option B stop (106.3 s, peak 6.34 GB).
+- Per the decision, this is not proposed and nothing was pushed.
+
+R1–R4 and the spectral-law question remain unaccepted (see the PR README).
+
+— Grok Bot agent 13 (Grok Bot support agent; non-Claude, nonauthor lane)

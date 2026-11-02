@@ -1,0 +1,52 @@
+## Bounded v1.2 readback: B-01 / D-01 / exact D′ / strengthened rejection
+
+**Dylan Roy — delegated AI review.** Actual performer: OpenAI Codex, agent `review_soft_pair_scope`; source-exposed nonauthor. Reviewed head `1f86fea035f838cd3957b20bea58fc2082a4e3a4`, PROOF blob `ad4beb8467a775c7c76f85d5584c13338d0e66be`. Prior exposure is recorded in my model review [5948352439](https://github.com/d6g8k5htny-coder/Math-/pull/242#issuecomment-5948352439). Same account, organizational independence 0; Dylan's personal reading PENDING; scientific effect NONE.
+
+**PASS_TECHNICAL_SCOPED for this changed slice.** OA-242-B-01 and OA-242-D-01 are resolved in the actual source bytes, and the exact D′ witness/control insertion is implemented and checked. The strengthened `β>2, χ≤0` rejection is correct. No new gap was found within this bounded scope. This is not a transfer of the old full B/E review or an acceptance of any actual-field theorem, external prior-work interface, or whole packet. I release claim [5952487879](https://github.com/d6g8k5htny-coder/Math-/pull/242#issuecomment-5952487879).
+
+### 1. OA-242-B-01: resolved, with the endpoint argument checked
+
+The proof now works with the component U of `{G>L_S}` at the exact level. The displayed axial identity
+
+`A₀(X)−L_S=(X−1/2)²(X+1)/(12φ)`
+
+is correct on the indicated segment. A compact path in U to positive height has minimum strictly above `L_S`; if no such point belongs to U, the axial path gives death level exactly `L_S`. The explicit critical-level hypotheses and the subsequent slice analysis identify S. This removes the former use of the fixed interval `I_M` as though it indexed `{G>c}` at `c>L_S`.
+
+I also checked the new open-end reduction, rather than inferring it from the finite controls. For `χ≠0`, put
+
+`J(X)=A₀(X)+a(X)p(X)/(2χ)−a(X)³/(3χ²)`.
+
+Then `R=J+D^(3/2)/(3χ²)` and `V=J−D^(3/2)/(3χ²)`. At a finite open endpoint `X_e`, `D→0`. If the common value is `L_S` and the ridge remains above while the valley stays at or below it, then
+
+`|J−L_S| ≤ D^(3/2)/(3χ²)=O(|X−X_e|^(3/2))`.
+
+Thus `J′(X_e)=0`. At the inflection point `z=a/χ`, `G_z=0` when D=0 and `J′=G_X`, so this would be a critical point at `L_S`. It is not S because `D(1/2)=a(1/2)²>0`. This is exactly the excluded equality case. If the common value is larger, the valley trigger occurs before the endpoint. For `χ=0`, the pole case is excluded by `R→+∞`. The remaining bounded-ridge and critical-level exclusions are consistent with D/D′ under Lemma 2's stated hypotheses.
+
+### 2. The strengthened rejection has a direct finite-path proof
+
+For `β>2`, let `X₀=1/β∈(0,1/2)` and `p₀=X₀²−1/4<0`. The axial segment from M to `(X₀,0)` lies strictly above `L_S`. Since `a(X₀)=0`, for every `T≥0`,
+
+`G(X₀,−T)=A₀(X₀)+|p₀|T/2+|χ|T³/6`, whenever `χ≤0`.
+
+This is strictly increasing in T, starts above `L_S`, and reaches positive height at finite T. For example `T=1+2|A₀(X₀)|/|p₀|` suffices. Concatenating the two finite path segments proves death strictly above `L_S`, hence rejection. This checks both the `χ<0` and `χ=0` cases and does not require a grid, an asymptotic escape, or the generic critical-level exclusions. It independently supports the source's first-open-slice/pole argument. The new restriction `χ>0` in D′ therefore removes no elder configuration.
+
+### 3. Exact witness and S14/M14: implemented and checked
+
+The source contains the previously derived rational shear, base ridge factorizations, bounded D certificate and critical values. A fresh full-coefficient calculation independently verified
+
+`G_(3/2,8/3,20/3)(X,z)=(1/9)G_(1/6,0,0)(X+2z,3z)`.
+
+S14 in the actual checker tests that identity on a 4×4 rational grid. Here this is an exact polynomial identity test: both sides have degree at most three in each variable, so the grid is sufficient. Its exact derivative stencils, critical values, ridge factorizations and convex-quadratic sign certificate match the written witness. The strengthened negative-χ examples check the correct sign `D(1/β)=−χp₀<0`.
+
+The materialized checker was verified as **44,804 bytes**, SHA-256 `eea81fae5921103fccfece522925e3fc58b23dbf88fb00b3f5df52374c51aa15`, matching SOURCES.json. I extracted only the unchanged `Gn` definition and the new `control_S14` through Python's AST, then executed those functions with exact `Fraction` arithmetic at compile optimization levels 0 and 2:
+- S14 returned true in both modes
+- its structured result exactly matched the S14 entry in the archived RESULTS.json
+- changing `MUT` to M14 returned false in both modes
+
+Independent supplementary exact checks also verified the cubic critical-value formula above on three rational instances and 16 finite rejection-path witnesses. Those finite checks support, but do not replace, the continuum arguments above. No other controls, full B/E replay, or hosted CI were rerun in this bounded check; no claim about full CLI mutant isolation is added here.
+
+### 4. OA-242-D-01: resolved at its requested scope
+
+§4 now explicitly assigns the field matching to Conjecture 6 and distinguishes the separate overlap statement from Theorem 1: it requires (3.1) plus domination, with Proposition 4 supplying `H→1` for the Gaussian model. That fixes both parts of D-01. The new #170/#175/#243 attribution and identification claims require their own source-bound review and are not established by this readback. No pointwise result is promoted to the expanding two-scale/intermediate estimate needed for Conjecture 7, and the exploratory numerical coefficient remains uncertified.
+
+**Result:** the formerly accepted-but-unapplied items in my narrow model/scope review are now implemented and verified on these bytes. Other v1.2 changes remain with their appropriate reviewers; no branch, merge, register, or scientific-status mutation was made.

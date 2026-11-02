@@ -1,0 +1,604 @@
+C318 exact-source text transport, part 2/3 — actual OpenAI/Codex /root, delegated for Dylan Roy. Canonical pickup605/6400139872; source-only custody, not a fresh mathematical review or proof verdict. These are unchanged frozen project-source texts, including their historical assertions and limitations. The words independent review inside a retained document do not establish the original reviewer/provider/exposure from this transport. No Dylan human review is claimed. All8 members total97,327B; nestedv22ZIP SHA25682536fa4ed628a8f96cd4b8734a867c50f69b1d28cb55d810053cb449448754c.
+
+Frame rule: after each twenty-tilde opening line, exactly the declared UTF-8 byte count is the original member, including its final LF. The next line is the closing fence. No source newline/normalization changes. S01-S05/S07-S08 use `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/`; S06 is the exact retained v21 Gaussian reference under the same archive's `custody/workspace/universal-law/v21-proof-supplement/references/`. Full source identities and member paths follow.
+
+### C318_SOURCE S02
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/witness-collision/AXIAL_EXTENSION.md`
+Bytes: 16585
+SHA-256: `7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea`
+~~~~~~~~~~~~~~~~~~~~
+# Separate candidate extension: all short witness edges away from the pins
+
+2026-10-25. This is a new candidate proof, separate from the reviewed
+`WITNESS_COLLISION_CANDIDATE.md` (SHA-256
+`197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3`).
+That reviewed file is unchanged. All writes remain in the external v22 witness
+directory; sealed v19/v20/v21, canonical statuses, and full-certificate counts
+are unchanged. Independent review of this new extension is still needed.
+
+The purpose is to remove the fixed offaxis lower bound from the short
+witness–witness edge estimate while keeping the cluster separated from the
+two pins. The proof uses three explicit rational formula types and polynomial
+quality bounds; it does not require an additional semialgebraic-cover import.
+
+## 1. Precise enlarged statement
+
+Use the same exact infinite periodic scalar Gaussian field, compact b,
+`0<k_-<=k<=k_+`, orthogonal frames R, pin observations, raw conditional law
+Q_P, endpoint weight W_r, and measurable mark 0<=I<=1 as in the reviewed
+witness note. Fix B>=1 and 0<δ<=1. Take
+
+    ξ=(p,τ), |ξ|<=B,
+    dist(ξ,{(-1/2,0),(1/2,0)})>=δ,
+    w=(q,v), q²+v²=1,
+    η=ξ+εw=(p_ε,ν), p_ε=p+εq, ν=τ+εv,
+    0<ε<=ε0<=min(1/4,δ/4,ε_confluent).                   (1)
+
+Here ε_confluent is the shared three-center short-edge radius in
+`../pin-collision/CONFLUENT_COVARIANCE_FLOOR.md`. The three centers are the
+two fixed pins and ξ; they have separation at least min(1,δ), even when
+τ=0. The fourth point stays at least 3δ/4 from the pins. There is no lower
+bound on either witness transverse coordinate or on ε.
+
+The new candidate conclusion is
+
+    integral_(geometry (1))
+      p_QP(gradF(rRξ)=gradF(rRη)=0)
+      E_QP[W_r |detH(rRξ)detH(rRη)| I | both gradients zero]
+           dxdy <= Cr⁵                                 (2)
+
+for all sufficiently small r>0, uniformly over the fixed compact marks and R.
+Both actual height indicators may be included in I but are bounded by one
+in the proof. Division by a separately justified floor `E_QP W_r>=cr²` for
+the same weight gives O(r³). Matching Kac–Rice/Borel-mark interfaces remain
+separate from this Gaussian integral assertion.
+
+This covers a witness cluster approaching the scaled axis or the contact
+origin while remaining δ away from both pins. It does not cover the cluster
+approaching a pin, a cluster involving both pins, unbounded marks, or a full
+global D5/Universal Law composition.
+
+## 2. Common exact rows; a remainder identity that crosses the axis
+
+Retain U0,A1,U2,U3,V0,V1,B(s,t),M(s,t),M1,N,G and their exact targets from
+the reviewed witness note. Thus
+
+    M1=M(p,τ), N=[M(p_ε,ν)-M(p,τ)]/ε,
+    G=[B(p_ε,ν)/ν-B(p,τ)/τ]/(rε),
+    W0=B(p,τ)/τ,
+
+and the ten rows `pin6,W0,M1,N,G` have absolute raw observation Jacobian
+`12/(|τν|r¹²ε²)` when τν!=0. Put
+
+    c=pv-qτ, γ=v/τ, d=q-γp=-c/τ,
+    a_ε=[τpq+ετq²/2-v(p²/2-1/8)]/(τν).
+
+The cubic limits of M1,N,G are
+
+    M1*=pτJ21+(τ²/2)J12,
+    N*=(qτ+pv+εqv)J21+(τv+εv²/2)J12,
+    G*=a_εJ21+qJ12+(v/2)J03.                             (3)
+
+Their cubic minor is τνvc/4. The other seven rows tend to seven distinct
+scalar cubic coordinates, as in the reviewed note.
+
+When τ and ν have opposite signs, one must **not** integrate the remainder
+of B(s,t)/t along the segment through t=0. Instead use the exact identity
+
+    G=[τ δ_ε B-vB(p,τ)]/(rτν),
+    δ_ε B=[B(ξ+εw)-B(ξ)]/ε
+           =integral_0^1 D_w B(ξ+sεw) ds.               (4)
+
+B has no division by its transverse argument. Taylor-expand B and M on the
+whole bounded segment, including where that argument is zero. Equation (4)
+uses only the endpoint denominators τν. Consequently all finite coefficient functions in the divided Taylor and remainder
+representations are rational, with powers of τ and ν in their denominators.
+The actual field remainders are smooth and obey the stated C⁴/C⁵ norm bounds,
+with **no negative ε power** in those bounds.
+
+For precision, define the scalar quartic coefficient vector
+
+    M4(s,t)=((s³/6-s/24),t(s²/2-1/24),st²/2,t³/6,0)
+
+on `(J40,J31,J22,J13,J04)`. Set
+
+    N4=[M4(p_ε,ν)-M4(p,τ)]/ε,
+    f(s)=s³/6-s/24,
+    G4=(0,
+        [τ(f(p_ε)-f(p))/ε-vf(p)]/(τν),
+        pq+εq²/2,(pv+qτ+εqv)/2,(2τv+εv²)/6).             (5)
+
+Each polynomial numerator difference in (5) is exactly divisible by ε.
+These definitions extend to ε=0. The cubic remainders are O(r C⁴), and the
+remainders after the displayed quartic terms are O(r² C⁵), multiplied only
+by rational endpoint factors. The divided difference integral proves these
+bounds uniformly in ε, including zero; this is not division of an uncontrolled
+pointwise Taylor error by ε.
+
+## 3. Two fold normalizations and their exact targets
+
+Define the same horizontal and radial exact rows as before:
+
+    K_H=G-(2q/τ²)M1-b_H N, b_H=(-p+εq/2)/τ²,
+    K_R=N-(2γ+εγ²)M1.                                   (6)
+
+They have scalar expansions
+
+    K_H=v L_H(J3)+r Q_H(J4)+O(r² C⁵ times endpoint factors),
+    K_R=νd J21+r Q_R(J4)+O(r² C⁵ times endpoint factors),
+
+    Q_H=G4-(2q/τ²)M4(p,τ)-b_H N4,
+    Q_R=N4-(2γ+εγ²)M4(p,τ).                             (7)
+
+Here the J03 coefficient of L_H is exactly 1/2. In particular the missing
+cubic coordinate is not discarded. The useful quartic coefficients are
+
+    [Q_H]13=qτ/6+v L13,
+    L13=(p+εq)/2-b_H(τ²/2+ετv/2+ε²v²/6),
+    [Q_R]13=vν²/6.                                      (8)
+
+The exact targets, divided by k, are
+
+    F_H=-3q(1-ε²q²)/τ²,
+    F_R=-6(2pq+εq²)-(2γ+εγ²)(3/2-6p²).                  (9)
+
+Most importantly, F_R is affine in ε, while its rank coordinate d does not
+depend on ε when p,τ,w are fixed. Direct differentiation gives
+
+    ∂_εF_R=-(3/2)γ²-12γpd-6d².                          (10)
+
+At d=0 its zero target has compatibility εγ=-2, the antipodal branch. This
+can occur when ξ itself is small; it cannot be dismissed as a uniformly rare
+target. The correct treatment below integrates ε as the target coordinate.
+
+## 4. Explicit radial tube, horizontal strip, and regular remainder
+
+Consider a shell with
+
+    h<=A=min(|τ|,|ν|)<=2h, 0<h<=1.                       (11)
+
+Let
+
+    d0=1/(100B²), C_H=4(B+1)³, a_H=1/(100C_H).
+
+The following three regions cover (11):
+
+1. The radial tube |d|<=d0.
+2. Outside that tube, the horizontal strip |v|<=a_H h³.
+3. The remaining region |d|>d0, |v|>a_H h³.
+
+All formulas are valid on the actual ε interval including its zero limit.
+
+**Radial tube.** From `w=γξ+d e1` and |w|=1, |γ|>=1/(2B). Thus
+|v|>=h/(2B). Equation (10) has the uniform sign and floor
+
+    ∂_εF_R<=-γ²<=-1/(4B²).                              (12)
+
+Indeed the ratio of the error `12|γpd|+6d²` to γ² is at most
+`24B²d0+24B²d0²<=0.2424<1/2`. Normalize K_R by
+
+    ρ_R=sqrt(d²+r²).
+
+The first nine rows `pin6,W0,M1,G` have cubic minor excluding J21 equal to
+τ²v/4, of magnitude at least h³/(8B). The final normalized row is the mixture
+
+    ν(d/ρ_R)J21+(r/ρ_R)Q_R.
+
+The quartic coefficient in (8) has magnitude at least h³/(12B). Two maximal
+minors, one using all cubic coordinates and one replacing J21 by J13, have
+squared sum at least c_B h¹², since |ν|>=h and
+`(d/ρ_R)²+(r/ρ_R)²=1`. This gives a uniform row-rank estimate on the tube.
+Crucially ρ_R is independent of ε, which is the monotone target variable in
+(12).
+
+**Horizontal strip.** Since |τ|>=h and ε<=1/4, (8) implies
+`|L13|<=C_H h^-2`. For |v|<=a_H h³, |q|>=1/2 and
+
+    |[Q_H]13|>=h/12-h/100>h/24.
+
+Moreover `|c|>=|qτ|-|pv|>=h/4`. The first nine rows
+`pin6,W0,M1,N` have cubic minor excluding J03 equal to τνc/2, of magnitude
+at least h³/8. Normalize K_H by
+
+    ρ_H=sqrt(v²+r²).
+
+The missing cubic coefficient is `(v/ρ_H)/2`, and the quartic coefficient is
+`(r/ρ_H)[Q_H]13`. Their two minors give squared sum at least c h⁸, hence also
+at least c h¹² for h<=1. The exact target has |F_H|>=1/B², by (9). Its target
+gap is uniform; no target-coordinate substitution is required in this strip.
+
+**Regular remainder.** Its full scalar cubic determinant is
+
+    |τνvc/4|=|τ²νvd/4|>=c_B h⁶.                        (13)
+
+The square of that determinant is a c_B h¹² lower bound for the Gram
+determinant of the ten cubic rows. There is no fold normalization here.
+
+## 5. Polynomial covariance quality with no ε loss
+
+The preceding explicit regions replace an abstract quantitative atlas.
+All limiting coefficients and remainder bounds are rational expressions
+whose denominators contain only bounded fixed powers of τ and ν; equations
+(4),(5) remove any apparent ε denominator. On (11), a conservative common
+bound for template coefficients is Ch^-8, and the exact normalized row error
+in L² is at most
+
+    Cr h^-8.                                            (14)
+
+For fold rows use the quartic expansion in (7) and ρ_H,ρ_R>=r, so the
+unnormalized r² remainder leaves at most an r remainder. These bounds hold
+also when a short-edge segment crosses the axis.
+
+Here is one explicit nonoptimal small-r exponent. Let C be the ten-by-fifteen
+coefficient matrix on scalar physical jets through degree four, including the
+compact semicircle parameters in fold rows. Section 4 gives
+
+    det(CC^T)>=c h¹², ||C||<=Ch^-8.
+
+Its largest squared singular value is at most Ch^-16; its smallest is at
+least c h^(12+9·16)=c h¹⁵⁶. The fixed full scalar jet covariance has a positive
+floor and finite ceiling uniformly over R in O(2). Consequently the limiting
+observation covariance has a floor c h¹⁵⁶, ceiling Ch^-16, and determinant
+at least c h¹². By (14), its covariance perturbation is at most Cr h^-16.
+Thus choosing
+
+    r<=a h²⁰⁰                                           (15)
+
+with sufficiently small a>0 makes the actual covariance at least one half of
+the limiting covariance. The exponent 200 deliberately exceeds 156+16.
+Its density determinant prefactor is at most Ch^-6, and its covariance
+ceiling remains Ch^-16. No Gaussian covariance is asserted to be
+semialgebraic, no numerical infinite-law floor is claimed, and no coefficient
+constant depends on ε. All powers follow from the finite explicit scalar
+row formulas and fixed-law C⁵ moments.
+
+The exact raw-observation Jacobians are the common
+`12/(|τν|r¹²ε²)`, multiplied by ρ_H^-1 or ρ_R^-1 for the relevant fold.
+The pin density lower bound is cr^-5. Therefore the conditional gradient
+density is bounded, respectively, by
+
+    Ch^-8 r^-7 ε^-2 exp(-E/2),
+    Ch^-8 r^-7 ε^-2 ρ^-1 exp(-E/2).                     (16)
+
+E is the actual full regression energy. For fold target z=kF/ρ, the covariance
+ceiling also gives
+
+    E>=c h¹⁶ z².                                        (17)
+
+## 6. Exact axis energy and two deterministic determinant estimates
+
+For either witness z=(s,t), the exact row M(s,t) has target k(3/2-6s²) and
+
+    Var M(s,t)<=C(t²+r²).                                (18)
+
+The Taylor cubic part stJ21+(t²/2)J12 and uniform O(r C⁴) remainder prove
+(18) over the whole bounded geometry. Each witness stays at least δ/2 from
+both pins. If |t|<=δ/4, this implies
+
+    |s-1/2|,|s+1/2|>=sqrt(3)δ/4,
+    |3/2-6s²|>=9δ²/8.
+
+Covariance Cauchy–Schwarz applied to this actual observation row yields
+
+    E>=c/(A²+r²), A=min(|τ|,|ν|)<=h0,                    (19)
+
+with h0<=min(1,δ/4). This requires no division by ε and includes τ=0 or ν=0.
+
+On shell (11), the offaxis three-critical-site estimate gives
+
+    max_i ||H(i)||<=Cr h^-1 ||F||C3.
+
+The exact short-edge identity still gives
+`|H(x)w|+|H(y)w|<=Crε||F||C3`. Hence the conservative bound
+
+    |detH(a)detH(c)detH(x)detH(y)|
+        <=Cr⁸ε²h^-8 ||F||C3⁸                            (20)
+
+holds on the shell.
+
+For a fallback that is uniform even on the axis, use *both* critical
+segments. The pin segment gives `|H(a)u|+|H(c)u|<=Cr||F||C3`; the witness
+segment gives the analogous Crε bound. The remaining columns are at most
+||F||C². Thus everywhere in (1)
+
+    |detH(a)detH(c)detH(x)detH(y)|
+        <=Cr⁴ε²||F||C3⁸.                                (21)
+
+Both estimates apply to the actual full conditional field and retain its
+mean. Neither relies on a centered Hessian surrogate or independent entries.
+
+## 7. Controlled axis shells and the target integral
+
+Suppose (15) holds on shell (11), with 2h<=h0, and decrease a so r<=h.
+Use (16),(20) and the actual energy moment estimate (1) of the reviewed
+witness note. Absorb `(1+E)^4` in part of exp(-E/2). Retain separate fractions
+of (19) and (17). A fold integrand is then bounded by
+
+    Cr h^-16 ρ^-1 exp(-c/h²)
+                    exp[-c h¹⁶(kF/ρ)²].                (22)
+
+In the horizontal strip |F_H|>=1/B², so
+
+    ρ_H^-1 exp[-c h¹⁶(kF_H/ρ_H)²]<=Ch^-8.
+
+In the radial tube, for fixed p,τ,w, ρ_R is independent of ε and (12) gives
+a uniform inverse target Jacobian. Substitution z=kF_R/ρ_R proves
+
+    integral_ε ρ_R^-1 exp[-c h¹⁶(kF_R/ρ_R)²] dε<=Ch^-8.  (23)
+
+The original shell may restrict the ε interval because ν depends on ε. First
+fix the axis factor exp(-c/h²) and all polynomial h constants using the
+original restricted shell. The nonnegative function in (23) is defined on
+the entire interval [0,ε0], since F_R is affine and has no ν denominator.
+The restricted integral can then be enlarged to that interval even if it
+contains ν=0. No Gaussian estimate outside the original shell is assumed
+in making this enlargement. Its physical factor ε is bounded by ε0.
+
+Regular directions have no ρ factor and are easier. Integrating the other
+bounded parameters, with exact physical Jacobian
+
+    dxdy=r⁴ε dp dτ dε dθ,
+
+gives the controlled-shell bound
+
+    shell contribution <=Cr⁵ h^-24 exp(-c/h²),
+       provided r<=a h²⁰⁰.                              (24)
+
+The region A>=h0 is a fixed offaxis compact domain. The same three formula
+types at the fixed value h=h0, omitting the unused axis exponential, give
+an O(r⁵) contribution there as well.
+
+## 8. Thin axis fallback and the complete shell sum
+
+The shared confluent lemma applies uniformly on the whole geometry (1),
+including axis approaches and ε=0 in its divided sense. In its convention
+the short gradient difference is divided by ε, not rε. It gives
+
+    p_QP(gradF(x)=gradF(y)=0)<=Cε^-2r^-75 exp(-E/2).
+
+Together with (21), the exact energy moment bound, and polynomial absorption,
+this gives a pointwise weighted integrand at most
+
+    Cr^-71 exp[-c/(A²+r²)]                               (25)
+
+when A<=h0. The ε^-2 density cost was cancelled by ε² **before** this bound;
+there is no hidden short-edge integrability loss.
+
+Sum dyadic axis shells. Those failing r<=a h²⁰⁰ lie in
+`A<=C r^(1/200)`. Their union, including A=0, contributes at most
+
+    Cr^-67 exp[-c/(r^(1/100)+r²)]=O(r^N)
+
+for every fixed N after physical volume integration. On controlled shells,
+the sum of `h^-24 exp(-c/h²)` is finite. Equation (24) therefore sums to
+O(r⁵). Adding the fixed A>=h0 region proves the new candidate conclusion
+(2), with constants depending on B,δ,L and compact marks, but with no
+transverse or ε lower bound.
+
+## 9. Verification, source boundaries, and remaining root work
+
+Run
+
+    python /workspace/research/v22-root-resolution/witness-collision/check_axial_extension.py
+
+It writes `exact_axial_extension_results.json` and checks the new horizontal
+and radial minors, quartic coefficients, affine target derivative, exact
+removal of ε denominators, and the conservative quality exponents. The
+reviewed initial witness proof and its script/results are not rewritten by
+this replay. The uniformity and integration assertions are the analytic
+argument above, not a consequence of finite symbolic examples alone.
+
+The exact infinite periodic Gaussian inputs and raw mean/energy conventions
+are unchanged. The shared confluent floor is used at its uniform three-center
+scope; its constants do not come from substituting δ=ε into a separated
+four-site estimate. The E01/E02 joint-normalization and covariance methods
+are followed by keeping the actual determinant, targets, and density
+Jacobians together.
+
+Independent review of this new extension is the immediate remaining local
+step. At root level, clusters involving a pin, simultaneous clusters at the
+two pins, unbounded mark/scale regimes, and the exact count/normalizer/global
+composition remain separate. This file does not change the intended D5
+statement or declare canonical acceptance/full certification.
+~~~~~~~~~~~~~~~~~~~~
+
+### C318_SOURCE S04
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/reviews/AXIAL_EXTENSION_REVIEW.md`
+Bytes: 14664
+SHA-256: `e170a64602bb4645232c701a3ce7d8f1d8fd6d8c86e33e3dcc5e28243b59d510`
+~~~~~~~~~~~~~~~~~~~~
+# Independent review: axial extension of the short witness-edge bound
+
+2026-10-25. Independent analytic review of the separate axial extension, without source/status edits or subagents.
+
+## Frozen object and verdict
+
+Reviewed proof: `witness-collision/AXIAL_EXTENSION.md`, 16480 bytes, SHA256
+
+    53bfd7db57dbd65f549f14c54086b1f67dbe74dea42a3c328605e8042026b818
+
+Author checker: SHA256 `7013440415e6c329648f5546b61cc0b44b922cb3a5fa4f32d7bfd568b1acc163`.
+
+All three artifact bindings and all three read-only source bindings in `AXIAL_SOURCE_LEDGER.json` were independently checked against actual bytes and hashes. In particular, the prior offaxis witness proof remains `197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3`, the shared confluent floor remains `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`, and the exact Gaussian source remains `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`.
+
+**Verdict:** no substantive mathematical blocker found for the O(r^5) Gaussian numerator over the stated bounded witness-center domain, with the cluster uniformly separated from both pins, all unit edge directions, and no lower bound on either transverse coordinate or short-edge length. The radial target-coordinate substitution is valid even when the witness segment crosses the axis; the new explicit covariance construction and shell estimates supply the uniformity that the old offaxis proof did not supply.
+
+One wording-only precision repair is recommended at the end. It does not leave an unproved analytic estimate. The verdict is conditional on the declared exact-law and shared-floor inputs at their existing scopes. It does not certify Rice identification, normalization, pin-involving clusters, unbounded scaled geometry, or global D5.
+
+## Independent actual-row checks
+
+`reviews/check_axial_extension_independent.py` constructs the exact pin rows and B/M rows directly on normalized physical scalar monomials. It uses the endpoint-safe divided B identity, rather than copying the author's M4/G4 formulas. Its output, `reviews/axial_extension_independent_results.json`, is bound to the frozen proof hash.
+
+The direct calculations confirm:
+
+- The cubic determinant is `tau nu v(pv-q tau)/4`.
+- The J03 coefficient of K_H is v/2.
+- The cubic K_R row is precisely nu d J21, with no J12 or J03 remainder.
+- The quartic K_R coefficient on J13 is `v nu^2/6`.
+- The quartic K_H coefficient on J13 has the displayed `q tau/6+v L13` decomposition.
+- Applying the row operations to the actual gradient-zero targets gives the stated F_H and F_R, with F_R affine in epsilon and the displayed derivative formula.
+
+A useful obstruction check is p=q=0, v=-1, epsilon=2 tau. Then the radial target is exactly zero, while the witnesses are antipodal about the contact origin. Such configurations can occur at arbitrarily small transverse scale while staying separated from the pins. Thus a radial rare-target floor inherited from the original offaxis proof would be false. The extension correctly uses target integration instead.
+
+These exact identities supplement the continuum arguments below; they are not substituted for them.
+
+## Axis-crossing remainder control
+
+The identity
+
+    G = [tau delta_epsilon B-v B(xi)]/(r tau nu)
+
+is exact: use nu-tau=epsilon v and combine the two endpoint fractions before dividing by epsilon. Its divided difference integrates D_w B, a smooth row without a division by its transverse argument. Therefore a segment crossing t=0 causes no singularity inside the integral.
+
+On a bounded scaled segment, B has a cubic remainder O(r^2 C4) and a remainder after its quartic term O(r^3 C5), with the same bounds for one derivative in scaled geometry. The leading t J02 term cancels in the numerator of G exactly. Dividing the remaining errors by r tau nu gives O(r C4) and O(r^2 C5), with endpoint factors only. M's corresponding errors and their geometry derivatives are O(r C4) and O(r^2 C5). Their divided differences are therefore uniform in epsilon, including zero.
+
+This establishes the absence of an r/epsilon error independently of whether tau and nu have the same sign. The endpoint denominators are controlled on an axis shell; no transverse bound along the entire segment is assumed. The actual raw density is used only for epsilon>0, so the confluent extension does not count duplicate gradients as independent observations.
+
+## Radial target derivative and the valid integration variable
+
+In the radial tube, `w=gamma xi+d e1` and |xi|<=B give
+
+    |gamma| >= (1-|d|)/B >= 1/(2B).
+
+Consequently |v|>=h/(2B) on the shell. Since `q=gamma p+d`, differentiating the exact affine target gives
+
+    partial_epsilon F_R = -(3/2)gamma^2-12 gamma p d-6d^2.
+
+For d0=1/(100B^2), the absolute error relative to gamma^2 is bounded by
+`24B^2 d0+24B^2 d0^2 <= 0.2424 < 1/2`. Hence the derivative is at most `-gamma^2`, and therefore at most `-1/(4B^2)`. This bound is independent of epsilon and of nu.
+
+At fixed p,tau,w, both gamma and d are fixed. Thus rho_R=sqrt(d^2+r^2) is exactly independent of epsilon. Epsilon is a genuine free geometry coordinate: xi is fixed and eta moves along the fixed unit direction w. The Jacobian is the ordinary polar short-edge Jacobian, not a reparametrization that simultaneously changes the center or direction.
+
+The original shell can cut out several epsilon subintervals because nu depends on epsilon. This causes no difficulty. The pointwise estimate is first established on that restricted set, with its axis exponential and h powers fixed there. The nonnegative comparison function involving only F_R and rho_R is defined for every epsilon in [0,epsilon0], even when nu=0. Enlarging its integration set to the whole interval uses no Gaussian estimate outside the shell. Monotonicity then gives
+
+    integral rho_R^-1 exp[-c h^16(k F_R/rho_R)^2] d epsilon
+       <= C h^-8.
+
+The physical factor epsilon is bounded by epsilon0 before enlargement. There is no leftover inverse epsilon or derivative of the shell boundary.
+
+## Explicit three-region rank estimates
+
+The regions are exhaustive: the radial tube, the small-v horizontal strip outside it, and the remaining regular region. They are explicit inequalities, so no hidden finite-atlas selection, inverse-coordinate count or additional semialgebraic theorem is required.
+
+In the radial tube, the first nine limiting rows have minor tau^2 v/4 after deleting J21. The full-cubic maximal minor of the normalized ten-row matrix is this minor times `nu d/rho_R`. The maximal minor replacing J21 by J13 is the same first-nine minor times `(r/rho_R)Q_R13`. Since |nu|>=h, |v|>=h/(2B), and |Q_R13|=|v|nu^2/6>=h^3/(12B), their squared sum is bounded below by c_B h^12 on the entire mixture semicircle. This argument does not suppose that the two rows or scalar jet coordinates are statistically independent.
+
+In the horizontal strip, |v|<=a_H h^3 implies |q|>=1/2. The stated C_H is a valid generous bound on L13 after multiplication by h^2, using |p|,|tau|<=B, epsilon<=1/4 and |q|,|v|<=1. Hence
+
+    |Q_H13| >= h/12-h/100 > h/24.
+
+Also `|pv-q tau| >= h/2-B a_H h^3 >= h/4`. The first-nine minor is tau nu c/2, and the missing cubic coefficient is `(v/rho_H)/2`. Its cubic and quartic maximal minors yield a squared-sum floor c h^8, which implies the common c h^12 floor for h<=1. The actual target magnitude is at least 1/B^2 because epsilon^2 q^2<=1/16; this is an incompatible-target chart even at v=0.
+
+On the regular remainder, c=-tau d, |d|>d0 and |v|>a_H h^3. Thus the full cubic determinant has magnitude at least c_B h^6. Its square is the required Gram determinant floor. No boundary between the three regions is omitted; equality can be assigned to either adjacent bound.
+
+## Polynomial quality and actual covariance
+
+The claimed h^-8 coefficient/error ceiling is conservative. The common G coefficient denominator is tau nu. The divided cubic L_H expression, after its exact v factor is canceled, has denominator at most a fixed multiple of tau^2 nu and no inverse v. Q_H consists of G4 and bounded polynomials multiplied by tau^-2; Q_R uses gamma and gamma^2. On the bounded geometry these give fixed powers no worse than the asserted h^-8. The normalized fold multipliers v/rho_H, d/rho_R and r/rho are bounded by one. Relative remainders have only endpoint denominators and the same finite tau^-2 multipliers; rho>=r converts their r^2 errors to O(r) errors. Thus the uniform L2 error Cr h^-8 is valid without an epsilon denominator.
+
+For the ten-by-fifteen limiting coefficient matrix C, `det(CC^T)>=c h^12` and `||C||<=C h^-8` imply
+
+    lambda_min(CC^T) >= c h^(12+9*16) = c h^156.
+
+The fixed positive scalar-jet covariance transfers both this eigenvalue floor and the determinant floor to the limiting observation covariance. In particular the latter determinant floor is c h^12; it is not weakened unnecessarily to the tenth power of the eigenvalue bound. Its density prefactor is therefore C h^-6.
+
+The covariance perturbation is at most Cr h^-16 by the L2 error bound and the limiting row norm. With r<=a h^200 it is smaller than half the limiting eigenvalue floor, since 200>156+16. Consequently the actual covariance is at least one half of the limiting covariance in Loewner order, and its determinant/prefactor bounds follow. This comparison is justified by the operator-norm perturbation estimate; it does not incorrectly discard a correlated Taylor remainder.
+
+The raw Jacobians retain the common epsilon^-2 factor and the fold rho^-1 factor. Their additional endpoint factor is at most h^-2. The pin density ratio then gives exactly the stated h^-8 r^-7 epsilon^-2 density bound. The covariance ceiling C h^-16 yields the second energy inequality `E>=c h^16(kF/rho)^2`.
+
+## Axis energy, determinants and shell integration
+
+Both witnesses remain at least 3delta/4 from the pins, so the weaker delta/2 distance used in the proof is valid. At a small transverse coordinate, each longitudinal distance from a pin is bounded below as stated, giving a nonzero actual target for M. Its variance is O(t^2+r^2), with no short-edge division. Covariance Cauchy--Schwarz therefore gives the axis energy c/(A^2+r^2), including either exact axis.
+
+For the fine bound, the critical triangle a,c,xi controls both Hessian columns by Cr h^-1 C3; moving to eta preserves that bound even if eta lies on the other side of the axis. The witness edge gives a Cr epsilon C3 column at both witnesses. Combining these bounds gives the asserted r^8 epsilon^2 h^-8 estimate; indeed a slightly smaller negative h power would suffice. The epsilon^2 is exact in the needed sense and cancels the density's epsilon^-2 before integrating.
+
+For the axis-uniform fallback, the pin segment supplies one Cr C3 column at each pin and the witness segment supplies one Cr epsilon C3 column at each witness. Bounding the other columns by C2 gives r^4 epsilon^2 C3^8 without any angular or transverse denominator. The reviewed shared confluent lemma applies to the three separated centers a,c,xi with its original uniform constants, not with separation replaced by epsilon. Its epsilon^-2 r^-75 density bound then gives r^-71 after determinant cancellation and energy-moment absorption.
+
+The exact full-energy moment bound controls the actual mean and provides the factor (1+E)^4. Different remaining fractions of exp(-E/2) retain the axis penalty and target penalty; no independence is invoked. The horizontal target floor bounds its fold factor by C h^-8. The radial target integral above has the same cost. Regular charts have no fold factor.
+
+Physical geometry satisfies
+
+    dx dy = r^4 epsilon dp d tau d epsilon d theta.
+
+Center area, angle range and the bounded epsilon interval are uniformly finite. Thus controlled shells contribute `C r^5 h^-24 exp(-c/h^2)`. The estimates in the three regions use only lower bounds |tau|,|nu|>=h and fixed upper geometry bounds, so the same construction with h=h0 handles the outer region A>=h0 even though that region is not a two-sided shell; its unused axis exponential is omitted.
+
+Shells failing r<=a h^200 lie in A<=C r^(1/200). The all-angle fallback and bounded physical volume give `C r^-67 exp[-c/(r^(1/100)+r^2)]`, smaller than every fixed power. The controlled dyadic series converges. No transverse or epsilon lower bound is reintroduced, and no thin-set volume gain is needed.
+
+## Recommended wording repair and scope boundary
+
+Section 2 states that the divided Taylor coefficients and remainders are rational functions. Literally, the actual random field remainders are smooth field-dependent functions, not rational functions of geometry. The intended and sufficient statement is:
+
+    The finite coefficient functions in the Taylor and relative-remainder
+    representations are rational, with endpoint denominators only. The
+    actual remainders satisfy the stated C4/C5 bounds uniformly in epsilon.
+
+The proof already supplies those bounds through the endpoint-safe integral identity; its covariance argument does not require rationality of the actual random remainder. This is a precision repair, not a substantive blocker.
+
+The extension genuinely removes the former transverse floor for a short witness edge whose center remains delta-separated from the pins. It does not treat the cluster approaching a pin, arbitrary multiple-pin clusters, unbounded scaled distances or marks, or the count/normalizer/global theorem interfaces. The final scope statement should continue to be read at that local Gaussian numerator level.
+
+## Scoped wording-repair validation
+
+The repaired axial proof SHA256 `7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea` was compared directly with its preserved original `53bfd7db57dbd65f549f14c54086b1f67dbe74dea42a3c328605e8042026b818`. The sole proof change is exactly the recommended distinction between rational finite coefficient functions and actual smooth field remainders controlled by C4/C5 norms. No formula, hypothesis, scope or check code changed. The checker hash remains `7013440415e6c329648f5546b61cc0b44b922cb3a5fa4f32d7bfd568b1acc163`; no repeated algebra run is needed for this prose-only diff.
+
+The updated source ledger SHA256 `9325c189fdf27be8c74a3df4326fef47f957039efdad4d6d85c231df9ad7a446` changes the proof binding to the repaired hash and records the editorial repair. Both proof hashes and the new ledger hash were independently checked. The precision repair is addressed, and no regression was found. The scoped analytic verdict above applies to the repaired proof hash as well, with its original dependency and scope boundaries unchanged. The original review remains preserved above.
+~~~~~~~~~~~~~~~~~~~~
+
+### C318_SOURCE S07
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/witness-collision/AXIAL_SOURCE_LEDGER.json`
+Bytes: 2655
+SHA-256: `9325c189fdf27be8c74a3df4326fef47f957039efdad4d6d85c231df9ad7a446`
+~~~~~~~~~~~~~~~~~~~~
+{
+  "date": "2026-10-25",
+  "status": "Author-frozen separate candidate awaiting independent axial-extension review. Original WW proof remains unchanged.",
+  "claim": "Gaussian numerator O(r^5) for a bounded witness-witness short edge with cluster uniformly separated from both pins; includes all transverse coordinates and all unit directions.",
+  "conditions": {
+    "law": "exact positive infinite periodic scalar Gaussian law, retained constant mode, fixed L",
+    "marks": "compact b and 0<k_-<=k<=k_+",
+    "geometry": "|xi|<=B, dist(xi,pins)>=delta, |w|=1, eta=xi+epsilon*w, 0<epsilon<=epsilon0<=min(1/4,delta/4,epsilon_confluent)",
+    "small_radius": "existential fixed-law radius; explicit conservative axis-shell threshold r<=a*h^200"
+  },
+  "remaining_interfaces": [
+    "independent review of AXIAL_EXTENSION.md",
+    "matching weighted Kac-Rice/Borel-mark identity",
+    "matching endpoint-weight normalizer floor",
+    "pin-involving and simultaneous-pin cluster coverage",
+    "unbounded marks/scales and full theorem composition"
+  ],
+  "not_claimed": [
+    "full D5/global Universal Law proof",
+    "novelty",
+    "canonical acceptance or new full certificate",
+    "numerical infinite-law covariance floor/radius"
+  ],
+  "reproduce": "python /workspace/research/v22-root-resolution/witness-collision/check_axial_extension.py",
+  "fresh_check_assertions_passed": true,
+  "artifacts": {
+    "/workspace/research/v22-root-resolution/witness-collision/AXIAL_EXTENSION.md": "7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea",
+    "/workspace/research/v22-root-resolution/witness-collision/check_axial_extension.py": "7013440415e6c329648f5546b61cc0b44b922cb3a5fa4f32d7bfd568b1acc163",
+    "/workspace/research/v22-root-resolution/witness-collision/exact_axial_extension_results.json": "c271f7d33dbb27ba68aac2bc7925299e248e1c6a7d989cdc5a0ed4892d39d6f7"
+  },
+  "read_only_sources": {
+    "/workspace/research/v22-root-resolution/witness-collision/WITNESS_COLLISION_CANDIDATE.md": "197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3",
+    "/workspace/research/v22-root-resolution/pin-collision/CONFLUENT_COVARIANCE_FLOOR.md": "96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4",
+    "/workspace/universal-law/v21-proof-supplement/references/GAUSSIAN_DERIVATIONS.md": "946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781"
+  },
+  "editorial_repair": {
+    "original_proof_sha256": "53bfd7db57dbd65f549f14c54086b1f67dbe74dea42a3c328605e8042026b818",
+    "reason": "Clarify rational coefficient functions versus actual smooth field remainders; formulas/scopes/checkscripts unchanged."
+  }
+}
+~~~~~~~~~~~~~~~~~~~~
+
+### C318_SOURCE S08
+Member: `Universal_Law_v22_Root_Resolution_Supplement/custody/workspace/research/v22-root-resolution/witness-collision/AXIAL_REPAIR_CHANGELOG.json`
+Bytes: 338
+SHA-256: `9763e9ad2a0be842d31e85630400e397f68f047c3adca5065f5b37fd71ec9f02`
+~~~~~~~~~~~~~~~~~~~~
+{
+  "old_sha256": "53bfd7db57dbd65f549f14c54086b1f67dbe74dea42a3c328605e8042026b818",
+  "new_sha256": "7affe4ee13dac7c7d2cb8ff918a11c849e4114ecaed77c5e35db7b96ebbdedea",
+  "change": "Rationality wording precision only",
+  "original_history": "history/AXIAL_EXTENSION.53bfd7db57dbd65f549f14c54086b1f67dbe74dea42a3c328605e8042026b818.md"
+}
+~~~~~~~~~~~~~~~~~~~~
+
+Transport preserves bounded Gaussian numerator scope, compact marks, exact weight/normalizer obligations, and the distinction from actual elder/ordinary-bar events. Pin-involving clusters, unbounded scales/marks and whole-D5 composition are not established here. Repaired axial hash7affe4ee is expressly covered by the retained review repair-validation suffix; earlier awaiting-review language remains historical. No package checker/analytic replay/Lean/hosted CI ran for this transfer. credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

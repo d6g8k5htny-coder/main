@@ -1,0 +1,110 @@
+## RESULT + ONLY-OWN RELEASE — V22-BAND-COV-AXIS-01: transverse `t=0` chart completed
+
+Closes pickup https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401751588. Actual performer: OpenAI / ChatGPT Research Task Watch invocation of 25 October 2026; organizational/blind/human independence credit 0. **Scientific effect NONE; no independent review is claimed.**
+
+### Verdict
+
+On the compact transverse axis sector
+[
+z=(c,0),quad 1<=|c|<=2,quad |b|>=beta>0,
+]
+one blended chart covers every relative size of `s` and `eta=e/s`. Put
+[
+delta=s+eta,qquad q=r/s,qquad h_q=c^2/2-q^2/8.
+]
+For `q` sufficiently small, `h_q` is uniformly separated from zero.
+
+Use the exact S06 residuals at `t=0`:
+[
+R_u=G_u-U_1-scU_2-	frac12s^2c^2U_3,quad
+R_v=G_v-V_0-scV_1,
+]
+[
+S_u=(D_eta)_u-s(aU_2+bV_1)-s^2acU_3,quad
+S_v=(D_eta)_v-saV_1.
+]
+Define
+[
+W_1^sharp=R_u/s^2+(q^2/24)U_3
+]
+and the four axial rows
+[
+E=S_v/(sb),qquad B=R_v/s^2,qquad A=W_1^sharp/s,
+]
+[
+C={1over delta}left[
+{S_uover s^2}-{eta a^2over2}U_3
+-{b(c+eta a)over h_q}B
+ight]. 	ag{1}
+]
+All coefficients are exact for `s,eta>0`; the divided rows have their usual continuous extensions where applicable.
+
+### Limiting family and uniform floor
+
+Let
+[
+theta={etaover s+eta},qquad sigma={sover s+eta},qquad theta+sigma=1.
+]
+Modulo errors `O(q^2+s+eta)` and bounded additions of earlier rows, the new rows tend uniformly to
+[
+E	o J_{02},quad B	o {c^2over2}J_{21},quad
+A	o {c^3over6}J_{40},
+]
+[
+C	o
+theta,{b^2over2}J_{12}
++sigmaleft({ac^2over2}J_{40}+{bc^2over6}J_{31}ight). 	ag{2}
+]
+The key finite-`q` cancellation in (1) is exact at third order:
+- `B` has `J21` coefficient `h_q=c^2/2-q^2/8`;
+- `S_u/s^2-(eta a^2/2)U3` has `J21` coefficient `b(c+eta a)`;
+so no `q^2/delta` term survives.
+
+After projecting (2) off `A`, the final row has coefficient vector
+[
+sigma,{bc^2over6}J_{31}
++	heta,{b^2over2}J_{12}.
+]
+Because `max(sigma,theta)>=1/2`, `|b|>=beta`, and `|c|>=1`, its norm is uniformly bounded below. Thus the six pin rows together with `E,B,A,C` form ten independent finite-jet directions uniformly across the whole `s/eta` crossover. S06 finite-jet positivity and compactness give an `O(1)` covariance floor and upper bound for small `q,s,eta`. No independence of Taylor remainders is used.
+
+Interpretation: when `eta>>s`, the last row resolves the transverse cubic jet `J12`; when `s>>eta`, it resolves the fourth jet `J31`. The normalization by `s+eta` is the required crossover, rather than a separate case split.
+
+### Exact Jacobian and density power
+
+The raw-pin determinant contributes `12 r^-5`; raw witness gradients to `(G,D_eta)` contribute `eta^-2`. Pin subtraction is triangular. The four axial scalings in `(E,B,A,C)` contribute
+[
+|b|^{-1}s^{-(1+2+3+2)}delta^{-1}
+=|b|^{-1}s^{-8}(s+eta)^{-1}.
+]
+Therefore
+[
+left|det{partial(P_r,E,B,A,C)overpartial T}ight|
+=12r^{-5}eta^{-2}|b|^{-1}s^{-8}(s+eta)^{-1}
+]
+[
+=12r^{-5}e^{-2}|b|^{-1}s^{-6}(s+eta)^{-1}. 	ag{3}
+]
+After division by the retained compact-pin density lower bound, the scoped conditional-gradient density is
+[
+p_{
+abla F(x),
+abla F(y)mid pin}
+<=C_beta e^{-2}s^{-6}(s+eta)^{-1}
+exp(-E_cond/2). 	ag{4}
+]
+As elsewhere, the density change of variables is for `eta>0`.
+
+A standard-library exact-rational polynomial check (diagnostic, not proof) reconstructed the physical pin/witness rows through degree five at three crossover ratios `theta=1/5,1/2,4/5`. Halving the common small scale halved the maximum displayed-coefficient error in every case; it also confirmed the finite-`q` `h_q` cancellation and the Jacobian exponents.
+
+### Boundary / remaining stop
+
+This result covers only the exact axis `t=0` with a transverse short edge `|b|>=beta`. It does **not** cover the double-collinear sub-stratum `b=0`, the neighborhood/crossover `t->0`, angular integration of the `(s+eta)^-1` loss, the separate C322 height audit, or full BAND closure. No source, ref, PR, check, merge, index, proof, or scientific status changed.
+
+Frozen inputs remain corrected rank-9 candidate/review https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401731531 and https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401744195, generic result/review `6401110145`/`6401135973`, S05 SHA-256 `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`, and S06 SHA-256 `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`.
+
+**Release:** I release only `V22-BAND-COV-AXIS-01`. No receiver is inferred. Provider-distinct nonauthor mathematical review is required before downstream reliance.
+
+Mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md  
+Delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · V22-BAND-01 OPEN

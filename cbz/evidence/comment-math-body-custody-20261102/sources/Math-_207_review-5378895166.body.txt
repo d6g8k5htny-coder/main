@@ -1,0 +1,83 @@
+**Dylan Roy — delegated AI review.** Actual performer: **OpenAI / Codex, agent `/root/review_density_proof_gaps`**. Fresh nonauthor review; prior #191 C40/C41 and #198 C43/A-B-D exposure disclosed. Dylan's personal reading **PENDING**; organizational-independence credit **0**; scientific effect **NONE**. Several upstream sources are OpenAI-authored; this is not provider-independent reacceptance of that whole chain.
+
+**PASS_TECHNICAL for Slice E's Lemma L and candidate-density conclusion (CU′.1), with the exact imported premises retained. (CU′.2) passes as a subtraction implication conditional on the separately unaccepted elder theorem (CU.1).** No mathematical repair found in this scope.
+
+Reviewed head `826b8be512e86f2de73c33d6ac7a76908dc2e0e6`, [PROOF.md §7](https://github.com/d6g8k5htny-coder/Math-/blob/826b8be512e86f2de73c33d6ac7a76908dc2e0e6/frontiers/cusp_second_order_20261001/PROOF.md#L377-L474), plus **only the candidate/contact parts** of §4, steps (i), (ii), (iv), (v). Proof blob `f6df5a7356a54771b0052e42a864a140709903ad`, 52,605 bytes, SHA256 `cffc1b83ac364da58bd650c3c301ea1babd38e19af54f74010bdc120edce38a8`. Head/discussion were reread immediately before submission. This is a COMMENT, not whole-PR approval, integration authorization, or a protected verdict change.
+
+### 1. Lemma L: affine fields, polynomial determinants, and the correct Lipschitz loss
+
+The target moves in **three** observation rows:
+`delta v_r=(-r³/2,-r²,0,12,0,...)`.
+The exact Gaussian regression (R3) therefore gives
+`F_r^(k)=F_r^(0)+k omega_r`, `omega_r=C_r Sigma_r^-1 delta v_r`,
+with a deterministic uniformly C⁷-bounded shift by (R2). All `0<=k'<=1` share a single `T0` with `||T0||p<=C_p(1+|b|)`. There is no claim that the actual transverse Hessian is independent of k or that its determinant is affine in k. The **matrix** path is affine; each determinant is a polynomial of degree at most d.
+
+The scaled matrix derivative is uniformly bounded: the pinned shift obeys `alpha_M=-6+O(r)`, `alpha_S=6+O(r)`, bounded transverse blocks and bounded beta, so the apparently singular scaling introduces no 1/r derivative loss. Multilinearity gives `|D_i'|<=C T0^(d-1)`.
+
+The filtered product w is continuous. On each interval between roots of `p=D_M D_S`, inertia is constant and w is either `-p` or zero. At each root its determinant weight vanishes. If p is identically zero, w is identically zero. Thus w is absolutely continuous and
+`|w(k)-w(0)|<=integral_0^k |p'(t)|1_typed(t) dt`.
+An unweighted type indicator would not satisfy this argument.
+
+The common-shift sign-window expansion remains valid with the **actual midpoint transverse block of F_r^(k')** in place of the coupled contact block. This follows directly from the pinned Taylor identities:
+`alpha_M,S=∓6k'+r f4/12+O(r²T0)`,
+`A_M,S=A_mid∓rB/2+O(r²T0)`,
+`beta_M,S=∓gamma/2+O(rT0)`.
+The transverse gradient pins give the needed center mixed derivative `O(r²T0)). Consequently
+`D_M,S=∓6k' Delta+rY+O(r²T0^N)`
+with the same Y, and opposite determinant signs imply
+`|D_i|<=C(k'+r²)T0^N`.
+Combining this with the derivative bound, then integrating and taking moments, gives `C(k²+kr²)(1+|b|)^N`. No independence or eigenvalue-density estimate is used in this step.
+
+For the pin-density factor, differentiating the uniformly nonsingular Gaussian along the affine target gives `|pi(k)-pi(0)|<=Ck(1+|b|)exp(-cb²)` on `0<=k<=1`. With (W.1), the extra terms `k³` and `kr⁴` are absorbed into `k²+kr²` because `k<=1,r<=r0*<=1`. This proves (7.1).
+
+**A useful exact guard for this argument:** locally take
+`f_k(x,y)=2k(x-r)(x+r/2)²+x(x²-r²/4)²-y²/2`.
+At M=-r/2, S=r/2 it has the prescribed values and zero gradients. For k>=0, `det K_M=6k+r²`, `det K_S=-6k-r²`, and
+`w(k)-w(0)=36k²+12kr²`.
+Thus a purported pathwise O(k²) replacement would be false as k/r² tends to zero. This is a local deterministic control of the proof method, not a counterexample to the stated Gaussian lemma or a claim about necessity after Gaussian averaging.
+
+### 2. Far Lipschitz estimate (7.2)
+
+For fixed r0>0, the compact off-diagonal covariance floor and uniform smooth regression functions from #198 §2 apply also at ell=0. Thus `f_ell=f0+ell h_y` has `sup_y||h_y||C²<infinity`, and the relevant Gaussian polynomial moments grow only polynomially in b. The same determinant-weight continuity/finite-polynomial-piece argument bounds the derivative of the typed weight. The density derivative is
+`p_y(v)|(Gamma_y^-1 v)_(f(y))|`,
+bounded by `C_r0(1+|b|)exp(-cb²)`. These yield (7.2) after product decomposition. C_r0 need not stay bounded as r0 decreases; §7 fixes r0 before either limiting operation.
+
+### 3. Candidate-only CU.4: no elder topology is imported
+
+At k=kappa r with fixed kappa>0, the contact coupling differs from zero-gap contact by a deterministic O(kappa r) shift. #198 (3.1) gives
+`D_M/r -> Y-6kappa Delta`, `D_S/r -> Y+6kappa Delta`
+in every finite Lp norm.
+
+The contact transverse matrix A is nonsingular almost surely. On A<0, the Schur signs give exactly `|Y|<6kappa|Delta|`; off A<0, eventual negative definiteness of the maximum's principal block is impossible except on a vanishing-probability near-singular event. The type-boundary equations have zero probability: conditional on (A,gamma), f4 has positive Gaussian conditional variance by distinct-jet rank, and its coefficient in Y is Delta/12, nonzero on A<0. This establishes convergence of the type indicator in probability.
+
+The sign-window estimate bounds `w_r/r²` in L² for each fixed b,u,kappa, so the weights are uniformly integrable. Expectations and the pin-density factor converge, giving the displayed candidate/contact kernels. **This reconstruction uses neither Proposition CU.3 nor the elder-mark step §4(iii), nor Lemma CU.5.** The direct determinant argument also does not require accepting the full rescaled-field/topological theorem CU.1 as an additional premise.
+
+### 4. J1–J5 assembly and the coefficient
+
+The decomposition is exact: subtract the contact law on (0,infinity), subtract the equal-height kernel on (0,r0), and subtract the far equal-height mass, splitting at a=S ell^(1/4).
+
+- **J1:** after r=s ell^(1/4), the candidate/contact limit above holds at every fixed s>0. Full #191 (E.1), uniform over **all** k, gives an integrable b-majorant independent of s and ell on (0,S). Lemma L's k<=1 restriction is not improperly used here, where k can be large near s=0.
+- **J2:** (W.1) at k=0 gives O(S³ ell^(3/4)).
+- **J3:** k<=ell^(1/4)/S³<=1 on its domain, so (7.1) is applicable. Integrating its envelope gives `ell^(1/4)/(7S^7)+ell^(1/2)/(2S²)`, up to a common constant. Extending that nonnegative envelope to infinity does not extend the near Gaussian law.
+- **J4:** the formal contact reference tail is `O(ell^(1/4)S^-7)`.
+- **J5:** the fixed-cutoff far Lipschitz bound is O(ell).
+
+First send ell to zero **at fixed S and r0**; then send S to infinity. After division by ell^(1/4), J2 and the extra J3/J5 terms vanish, while the two tails are uniformly O(S^-7). No simultaneous-cutoff uniformity is assumed.
+
+The limiting candidate/contact difference is
+`-12 pi0 E[min(Y²,36s^-8 Delta²)1_(A<0)]`.
+For nonzero Y,Delta split at `s2=(6|Delta|/|Y|)^(1/4)`; the integral is exactly
+`(8/7)6^(1/4)|Y|^(7/4)|Delta|^(1/4)`.
+Zero cases extend by zero. Tonelli is justified by nonnegativity; the resulting absolute moment is finite because Y and Delta are polynomials of Gaussian jets and pi0 has a Gaussian b-tail. It is strictly positive because A<0 has positive probability and, there, Y is nonzero almost surely. This proves the stated negative candidate coefficient and (CU′.1).
+
+The ratio to the **displayed integral** defining c1 is algebraically `3^(1/4)/2`, in (0,1). Identifying that integral with the elder-density coefficient remains a separate obligation. Accordingly (CU′.2), its positive correction, and “approaches from above” follow **if (CU.1) holds**; this review does not independently establish (CU.1).
+
+### Source and verification boundary
+
+The ten consumed entries in SOURCES.json were matched by bytes/SHA256/Git blob, reusing exact bytes from the immediately completed #198 review. The candidate proof consumes [R] `247b3ecf` (regression/coupling/moments/dictionary), #191 `441152df` ((E.1), determinant expansions, §2 reference and measure identities), #198 `abfb98ae` (common determinant remainder, W, fixed-cutoff Gaussian facts), [Z] `5b6328ea` (equal-height definition/mass and far regression), and [P] with E1/E2/REC's retained reading rule (Fourier/jet rank, Borel Kac–Rice, coefficient/normalization). The candidate pass does not consume [C7-K], [182], #198's elder barrier/rate, or §7's separate elder subtraction premise.
+
+#191's current c402b78 head retains the reviewed proof blob; [C40](https://github.com/d6g8k5htny-coder/Math-/pull/191#pullrequestreview-5373331473) and [C41](https://github.com/d6g8k5htny-coder/Math-/pull/191#pullrequestreview-5373655781) remain scoped prior evidence. #198's [Slice C](https://github.com/d6g8k5htny-coder/Math-/pull/198#pullrequestreview-5377944222) and [A/B/D](https://github.com/d6g8k5htny-coder/Math-/pull/198#pullrequestreview-5378814263) are prior evidence, not a second fresh review here. None supplies whole imported-parent acceptance or current-head integration checks. The unmerged dependency/integration and rebinding rules remain intact.
+
+Fresh author cusp_check.py reproduces the 1,596-byte RESULTS.json under normal and -O Python; M1–M5 exit 1 and unknown labels exit 2. Independent exact controls verify **1,170 cases**: 72 dense affine-matrix determinant derivatives (including 17 non-affine determinant families), 324 filtered type-path integral identities including crossings and identically-zero products, 738 sign-window derivative cases, 15 pinned-quintic controls, nine J1–J5 scalings, and 12 cusp integrals. Five invalid variants reject in both modes: affine determinants, unweighted type jumps, dropping kr², silently substituting a simultaneous cutoff limit, and the wrong cusp factor. All **28 executions** have retained receipts; the exploration program was not replayed or used as proof.
+
+**Current disposition/release:** Slice E candidate analysis passes at the exact source; rejected-density subtraction is conditional on the unreviewed elder theorem. The [pickup](https://github.com/d6g8k5htny-coder/Math-/pull/207#issuecomment-5930694699) is **RELEASED**. No author bytes, readiness, merge, protected verdict, scientific register or premise changed. The remaining elder topology/anti-concentration/rate reviews in this PR and its successors remain separate.

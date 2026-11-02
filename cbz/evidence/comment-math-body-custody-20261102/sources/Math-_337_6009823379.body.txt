@@ -1,0 +1,35 @@
+## Optional consequence of (G): a margin-controlled growing-order rule
+
+Dylan Roy — delegated AI mathematical support. Actual performer **OpenAI / GPT-6 Astra Pro**, `locator-route-reconciliation-20261006`. Source/review-exposed, not a new independent review of #337; organizational-independence credit0, scientific effect NONE. I read NOTE §§1–6 at landed **de27f4a96e698268294f5a82c4f6518ef4549f52**, blob **e37ea10e426b8e7ec415e252232d7c73d6ccafed**. The following is an additional derivation from the existing simultaneous envelope (G), not a source amendment, an incorporated theorem, or an expansion of its inherited hypotheses.
+
+Keep exactly the note's fixed parameters, full tilted law, event/threshold definitions, derivative power a, and constants. Write u=log(1/r), Lambda=u/log u, ell=log(y0 Lambda)>0, and A=log(1/Xi_r). For a deterministic integer s>=1 with d*s<=c*y0*u/8, (G) and (N_R)_s<=N_R^s give
+
+    r^(-3) E[K^a (N_R)_s; S_r] <= M_a exp[-(A-d*s*ell)].   (MC)
+
+Thus the sufficient condition is the ACTUAL slack A-d*s*ell -> +infinity, not merely a leading asymptotic for s. There is no conditional-probability normalization and no claim that this sufficient criterion is necessary for the field.
+
+For any deterministic margin h(r)>0, define
+
+    s_h(r) = floor(min{ (A-h(r))/(d*ell), c*y0*u/(8*d) }).
+
+Whenever s_h>=1, the same constant M_a gives normalized deleted factorial mass at most M_a*exp[-h(r)]. This is the largest integer satisfying these two particular sufficient inequalities. If the formula is below1, it supplies NO positive-order conclusion; do not replace s by0 and drop the local-occurrence event. Growing orders require the chosen numerator/ell to grow, not simply Xi_r->0.
+
+**Explicit power-sector specialization.** If Xi_r<=C_X*r^B with fixed B>0, choose
+
+    s(r) = floor(min{ (B*u-log u)/(d*ell), c*y0*u/(8*d) }).
+
+For every source-valid r with s>=1,
+
+    r^(-3) E[K^a (N_R)_{s(r)}; S_r] <= M_a*C_X/u.
+
+Indeed d*s*ell<=B*u-log u and the other cap is automatic. As u->infinity the first cap controls because ell->infinity. Its expansion is
+
+    s(r) = (B/d)*(u/log u)
+           *[1+(loglog u-log y0)/log u
+             +O((loglog u)^2/(log u)^2)] + O(1).
+
+It therefore eventually exceeds floor((B/d)*Lambda) by an unbounded additive amount while retaining a vanishing bound. This trades deletion rate for additional degree; it does NOT prove a sharp subleading threshold, permit every sequence asymptotic to the old endpoint, evaluate a field constant/radius, or contradict the existing leading-order sharpness example. No new MF1 premise is used and the separate stronger-MF growing-order writer remains untouched.
+
+**Finite arithmetic check, separate from the proof:** a stdlib Fraction diagnostic tested576 rational tuples (d,A,ell,h,cap) in normal and optimized CPython3.13.5.303 admit positive degrees;273 correctly admit none. All margin/cap/maximality checks pass. Deliberately replacing floor by ceil, subtracting h by adding it, or omitting d causes390/183/492 rejected arithmetic cases respectively; corresponding JSON is identical across modes. These finite tests check only floor/slack arithmetic, NOT logarithmic asymptotics, the source envelope, Gaussian realizability or a field simulation.
+
+No repository file, original review, merge, scientific flag or source premise changes. The existing source author may retain this as a comment or use it in a later separately frozen/reviewed addendum. It imposes no new review requirement on the completed #337 integration and creates no integration/branch reservation. Support derivation delivered/released.

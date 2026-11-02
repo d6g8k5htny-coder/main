@@ -1,0 +1,68 @@
+## New author-side lemma: direct r² control of the saddle-transverse sign event
+
+Dylan Roy — delegated AI mathematics. Actual author OpenAI / GPT-6 Astra Pro, `round15-sign-review-and-integration-audit-20261005`. This is a NEW additive argument, not part of the four-file packet or either completed review6007598503/6008028956. Those sources remain frozen. No Lean, code execution, numerical certificate, scientific promotion or literature novelty is claimed.
+
+### 1. Exact endpoint weight and a sharper deterministic inequality
+
+Use precisely #315 NOTE definition(1), at source `5e027afcae8c7bd42a6df8ae2025f82105b3e586`, blob `5790aaa0332bd8e79b276be1577e4c5f3502eed6`:
+
+v=(a_-,a_+,b_-,b_+,c_-,c_+), x_-=max(-x,0),
+
+F_r=[(a_-)_-(c_-)_- - r b_-²]_+,
+G_r=[r b_+²-a_+c_+]_+,
+T_r=F_r G_r.
+
+For r>0 this is the exact typed maximum/saddle physical determinant product divided by r². For every real v and r>=0, writing d=c_+-c_-,
+
+**T_r(v) 1{c_+>=0} <= (a_-)_- [r |d| b_+² + (a_+)_- |d|²/4].** (D)
+
+Proof: outside the event, the left side is zero. On the event, if c_->=0 then F_r=0, so the inequality again holds. Otherwise put x=-c_->0 and y=c_+>=0. Then d=x+y>0, F_r<=(a_-)_- x, and G_r<=r b_+²+(a_+)_- y. Therefore T_r<=(a_-)_-[r x b_+²+(a_+)_- xy]. Use x<=d and xy<=(x+y)²/4. This handles c_+=0 and every singular determinant boundary. It does not assume a_+>=0 or impose independence.
+
+The two constants in (D) are individually sharp: with a_-=-1,a_+=1,b_-=0,b_+=1,c_-=-d,c_+=0, both sides equal r d. With a_-=a_+=-1,b_-=b_+=0,c_-=-d/2,c_+=d/2, both sides equal d²/4 (d>0). These are algebraic endpoint witnesses, not prescribed field realizations.
+
+### 2. Conditional family theorem with explicit same-law moment hypotheses
+
+For each 0<r<=r0<=1, let v_r be measurable on a probability space Q_r, with **finite** normalized weight mass z_r=E_Qr[T_r(v_r)] and z_r>=c>0. Let all following constants be finite, nonnegative and independent of r:
+
+||(a_-)_-||_4 <= M_-,
+||b_+||_4 <= M_b,
+||(a_+)_-||_4 <= M_+,
+||c_+-c_-||_4 <= K r.
+
+All norms and expectations are under the SAME Q_r and the SAME endpoint coordinates. The separate finite-z_r premise is retained; the displayed event-specific moments alone are not used to infer integrability of T_r off the event. Define P_r by density T_r/z_r with respect to Q_r. Then
+
+**P_r(c_+>=0) <= min(1, [M_-/c] [K M_b² + M_+ K²/4] r²).** (P)
+
+Proof: Holder with exponents4,4,2 gives
+
+E[(a_-)_- |d| b_+²] <= M_- ||d||_4 M_b²,
+E[(a_-)_- (a_+)_- |d|²] <= M_- M_+ ||d||_4².
+
+Integrate (D), substitute ||d||_4<=Kr, divide by z_r>=c, and cap by1. No limiting Gaussian Q, density, boundary margin, affine factor coupling, or Delta=E|T_r-T_0| occurs in this theorem. This is a genuinely different use of the exact typed weight from6007838056; merely deleting Delta from that earlier abstract comparison remains false.
+
+In physical notation Z_r=E_Qr[W_r]=r² z_r, so the normalizer input here is exactly Z_r>=c r², not an upper bound. Positive finite normalization is essential.
+
+### 3. Explicit derivative-moment route to the increment premise
+
+For a C³ field sample on the segment from p_- to p_+=p_-+r e_x, take c_±=f_yy(p_±). Suppose the conditional fields and the segment derivative are jointly measurable, the fundamental theorem of calculus holds Q_r-almost surely, and
+
+E_Qr |f_xyy(p_-+tr e_x)|⁴ <= K⁴ for Lebesgue-a.e. t in[0,1], uniformly in r.
+
+Pathwise d=r integral_0^1 f_xyy(p_-+tr e_x)dt. Jensen followed by Tonelli gives E_Qr|d|⁴<=K⁴r⁴. This proves the required L4 increment estimate under those hypotheses, without exchanging different conditioned laws: each r is fixed during both operations. It does NOT establish the uniform conditional derivative-moment premise, regular conditional field construction, or the normalizer for the concrete Gaussian model. Those must be source-bound separately. The actual torus use also retains its compatible domain r0<24.
+
+### 4. The power r² is optimal for this abstract moment interface
+
+One fixed two-atom probability space with masses1/2,1/2 suffices. For 0<r<=1 let the endpoint vectors be
+
+v_good=(-1,1,0,0,-1,-1),
+v_bad(r)=(-1,1,0,1,-r,0).
+
+Then T_r(v_good)=1, T_r(v_bad)=r², and only the bad atom has c_+>=0. Thus z_r=(1+r²)/2>=1/2 and
+
+**P_r(c_+>=0)=r²/(1+r²).**
+
+The moment assumptions hold with M_-=M_b=K=1, M_+=0 and c=1/2. In particular d is0 on the good atom and r on the bad atom. All coordinates are bounded. Therefore no o(r²) or uniform O(r^(2+epsilon)) conclusion follows from these premises alone. This family is not asserted to be a realization of the prescribed six-pin field.
+
+### Disposition
+
+Author proof only until its OWN nonauthor read is delivered; all calculations above are exact hand algebra, not a claimed local test run. This lemma concerns one saddle-coordinate sign event, not global matching, capture, persistence, arbitrary moving bands, or full endpoint total variation. The current #318 integration and other audit/Lean/gate owners retain their scopes. No file, historical review or status is changed by this additive comment.

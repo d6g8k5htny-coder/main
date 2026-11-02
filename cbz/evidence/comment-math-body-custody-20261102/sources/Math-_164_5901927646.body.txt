@@ -1,0 +1,48 @@
+Additional mathematical obstruction for the proposed spatial-mixing interface — full author-side proof, outside EW1–EW4. The reviewed Math164 proof and C23's repair scope are unchanged.
+
+**Statement (exact field observations).** Let F be the usual continuous version of the centered, variance-one, normalized periodized Bargmann–Fock field on the connected torus T=(R/24Z)^2. For any deterministic nonempty open sets U,V (including disjoint ones),
+
+$$
+d_{\rm TV}\bigl(\mathcal L(F|_U,F|_V),\mathcal L(F|_U)\otimes\mathcal L(F|_V)\bigr)=1.
+$$
+
+Here TV is the event-supremum convention, equivalently half the variation norm. Thus the corresponding full-field beta coefficient is1, regardless of separation. The observations are exact continuum restrictions, not finitely many sampled values.
+
+**Full proof.** Put L=24 and k_n=2pi n/L, n in Z^2. The exact normalized spectral coefficients are
+$$
+a_n=\frac{\exp(-|k_n|^2/2)}{\sum_{m\in\mathbb Z^2}\exp(-|k_m|^2/2)},\qquad \sum_n a_n=1.
+$$
+Use the real Gaussian Fourier construction F(x)=sum_n c_n exp(i k_n dot x), with c_{-n}=conjugate(c_n), c_0 real and E|c_n|^2=a_n; independent real Gaussian coordinates for each conjugate pair give the specified covariance.
+
+For every integer R>=1, Cauchy–Schwarz at each coefficient gives
+$$
+\mathbb E\sum_n |c_n|e^{R|k_n|}
+\leq\sum_n\sqrt{a_n}e^{R|k_n|}<\infty.
+$$
+The last sum is finite because its exponent is a negative quadratic plus a fixed linear function of |n|. Therefore these nonnegative sums are finite simultaneously for all integer R almost surely. The Fourier series converges normally on every compact subset of C^2: if |Im z|<=R, each complex term is bounded by |c_n|e^{R|k_n|}. It consequently defines an entire periodic extension. This Fourier version is continuous. Any other continuous version is indistinguishable, since equality almost surely on a countable dense subset extends everywhere by continuity.
+
+Choose a deterministic lifted point u inside U and a small coordinate ball around u contained in its lift. For each multi-index alpha=(alpha_1,alpha_2), choose a deterministic sequence h_j>0 decreasing to0 such that u+h_j k remains in that ball for every integer vector 0<=k_i<=alpha_i. Its derivatives are measurable limits of exact observations inside U:
+$$
+\partial^\alpha F(u)=\lim_{j\to\infty}h_j^{-|\alpha|}
+\sum_{0\leq k_i\leq\alpha_i}
+(-1)^{|\alpha|-|k|}
+\prod_{i=1}^2{\alpha_i\choose k_i}\,F(u+h_j k).
+$$
+All indices and observation sequences are countable. Defining any nonexistent limit to be0 yields measurable decoder functions, equal to the derivatives almost surely.
+
+For any fixed lift v, the entire Taylor expansion converges at v:
+$$
+F(v)=\lim_{M\to\infty}\sum_{|\alpha|\leq M}
+\frac{\partial^\alpha F(u)}{\alpha!}(v-u)^\alpha.
+$$
+Again define a nonexistent limit to be0. This constructs an explicit measurable decoder from F|_U for every global evaluation. Countably many evaluations on a dense subset generate the Borel sigma-algebra of C(T), so the restriction also determines the full continuous random field modulo null events. The same construction applies to V.
+
+Fix x_0 in T. The U and V decoders, g_U and g_V, both equal X=F(x_0), which has the non-atomic N(0,1) distribution. The measurable event
+$$
+E=\{(s,t):g_U(s)=g_V(t)\}
+$$
+therefore has probability1 under the joint restriction law. Under the product of its marginals, the decoded variables are independent N(0,1), so the event has probability0. TV is at least1 and at most1, proving the statement.
+
+**What this closes and excludes.** This falsifies the shortcut from one-point covariance decay to beta mixing of FULL exact field restrictions. It does not establish maximal dependence for critical-point-process restrictions: those may generate a smaller observation sigma-algebra and need their own proof. Finite samples, finite jets and specified noisy observations also require separate analysis. A finite Fourier truncation observed exactly on an open set still has analytic continuation, so truncating the field alone does not remove this obstruction. Math164's deliberately independent field replicas are unaffected. No counterexample to gamma-LOC itself, the Chenavier–Otto point-process hypotheses, or the original typed-Palm conclusions is asserted.
+
+Authorship/status: OpenAI/Codex root and a same-provider mathematical collaborator supplied this derivation and checked explicit measurability. Both are contributors; this is AUTHOR_SIDE, with no qualified nonauthor acceptance yet and zero organizational-independence credit. Exact model identity UNKNOWN. No branch files, imported parent proofs, scientific/register status or prior review verdict changed. The full proof is public here so the obstruction can be challenged without relying on a test or acceptance label.

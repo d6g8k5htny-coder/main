@@ -1,0 +1,198 @@
+## D.1 nonauthor model-integral review — PASS_TECHNICAL_SCOPED; claim released
+
+**Dylan Roy — delegated AI review.** Actual performer: OpenAI/Codex agent `prioritize_program_closure_work`, nonauthor of the D.1 supplement. Source-exposed, same provider/account as the supplement and antecedent OpenAI packets; **organizational independence 0**, Dylan personal reading PENDING, scientific effect NONE. This is a fresh check of [review5391986303 §3](https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5391986303), not another A–E vote and not whole-PR approval.
+
+**Result:** the direct equality `F = k A_* a_fail` is valid in every fixed dimension under the supplement's stated contact-density and deterministic-classifier interfaces. No new D.1 finding. It does not require #243 Theorem FL or #175 Theorem F. An author may adopt the direct model identity in FL.7 while separately retaining every hypothesis needed for any actual-field conclusion.
+
+### Exact source cut
+
+I fetched and verified the actual source bytes, including their Git blob hashes:
+
+- #242 head `b82b0ca16926666adb8895c21801b6e85d7e18df`, PROOF `ad4beb8467a775c7c76f85d5584c13338d0e66be`, 79,394 bytes, SHA256 `ab952b2a2c7648beb5f7473b3f028cdc495c8317c52522bee144d26eecc8e2bb`; §2 definitions/Lemma3 and §3(3.1)
+- #170 PROOF `ef2aa57959ea9f721bbf2316ce94cf616c1c9113`, 39,722 bytes; §2 Theorem E(1), §8(S1), and the original full normalizer
+- #175 PROOF `923d3236b5291a29bd162937f172190db84dcef5`, 23,416 bytes; §§2,5, especially model measure (S1)–(S2), without Theorem F
+- [SC] PROOF `16c56821b52fd76b0be791622b9c3809eafde75a`, 25,006 bytes; §2(4),(7)–(10), without its global count conclusion
+- #243 head `11a4cd4e3b3f927eb9d4a743d8a43e387f1a66da`, PROOF `3d9faa87d717fbd68b784b2ae408505fb2cc56dc`, 72,742 bytes; used only to locate the still uniqueness-based FL.7 statement
+
+### Independent reconstruction
+
+**1. Raw measure and multiplicities.** In upper-triangular matrix coordinates, the integral of `exp(-tr(A²)/2)` is `(2π)^(m/2) π^(m(m-1)/4)`. The off-diagonal variables have exponent `-a_ij²`, not `-a_ij²/2`. Ordered eigenvalues and normalized Haar therefore give exactly [SC](8)'s `c_m`. For example, in dimension m=2, the ordered spectral Gaussian integral is `H_2=2√π`, hence `c_2=π`; using an extra permutation/sign-frame factor would already fail this check.
+
+The symmetric third-tensor space excluding the pure axial entry is invariant under diag(1,O). The determinant argument is valid on this restricted space: its absolute determinant is a continuous multiplicative map from a compact group into the positive reals, and must equal one. Raw component coordinates are generally NOT Euclidean-isometric; they preserve the Frobenius metric with multinomial weights. This distinction does not invalidate the unit Jacobian. The complete joint coordinate Jacobian is block triangular. Thus no coordinate factor is missing, even for a non-isotropic contact law.
+
+**2. Boundary limit without a moving classifier.** At fixed rotated tensor τ define
+`q_k(τ)=(γ^6/384) I(12kB/γ²,576k²C/γ³)`, assigning any finite value at γ=0. The joint contact density makes that hyperplane null, including on A's boundary slice. Lemma3 gives
+`0 ≤ q_k ≤ (8000/1152)[γ^6+1728 k³|B|³+331776 k^4 C²]`.
+For fixed positive k this is polynomial growth.
+
+Writing `A=-O diag(x,h_2,...,h_m) O^T`, the average is over `0<x<min(ε,h_2)`, with factor
+`(Π h_j²) V(x,h) h_0(A,Rot_O τ) q_k(τ)`.
+For `ε≤1` its x-average is dominated by a fixed polynomial in `|h|+|τ|` times `exp[-c(|h|²+|τ|²)]`, uniformly in O. In particular the collapsing h_2 boundary does not defeat domination; the average's length divided by ε is at most one. For each fixed strictly ordered positive hard spectrum, the average converges to its x=0 value. No continuity of I in an eigenframe is invoked: τ and q_k are held fixed while the density changes. DCT yields
+`F/(12π_0)=c_m ∫ J(h) h_0(A_0,Rot_O τ) q_k(τ) dh dO dτ`,
+where `J(h)=Π h_j³ Π_(2≤i<j≤m)(h_j-h_i)`. Empty products give the planar case.
+
+The ordered boundary must remain explicit. As an elementary check, integrating `h²(h-x)` over `0<h<ε` gives `ε^4/10` after the correctly truncated x-average, versus `ε^4/12` with an untruncated x-average. Their difference `ε^4/60` is nonzero but tends to zero. D.1 uses the correct domain; this does not dismiss the separate unapplied OA-243-D-01 display fix.
+
+**3. Exact soft measure.** With `λ̃=γ²/(24φ)`, `Y=3kB-γ²/4` and `c'=1-12kB/γ²`,
+`(36λ̃²-Y²)|dλ̃|=(γ^6/384) φ^(-2)(φ^(-2)-c'^2)dφ`.
+The typed interval `0<φ<1/|c'|` maps onto `λ̃>|Y|/6`; for c'=0 both statements give the full positive half-line. The absolute derivative matters. The nonnegative rejected mark is transported without a sign or factor two, and Tonelli is justified before finiteness is used.
+
+**4. Exact cubic and single normalization.** Substituting `s=-λ̃/k, a=γ, β=B, c=C` gives the literal polynomial equality
+`G_k(X,ζ)=P_(s,a,β,c)(X,kζ)/k`.
+Both the spatial map and positive height scaling preserve the maximin mark. The retained deterministic #170 E(1) therefore identifies rejection with `n>0` outside its algebraic null set. The source weight becomes
+`9k²(4s²-(B-γ²/(12k))²)=36λ̃²-Y²`
+on the same typed domain. Reversing `dλ̃=-k ds` supplies exactly k.
+
+The remaining integral is precisely #175(S1), or #170(S1) when m=1, multiplied by z_0. Consequently
+`F = k·12π_0 z_0·a_fail = k A_* a_fail`.
+The same z_0 is the FULL Palm denominator and cancels once. The compact coefficient relation follows immediately from `k^(-8/3)·k=k^(-5/3)`, subject to the original compact integration hypotheses.
+
+### Executed controls and limits
+
+I wrote a separate standard-library exact Fraction diagnostic, reproduced below. Both `python3 -B -S` and `python3 -B -O -S` ran successfully with byte-identical output: **165 predicates, including 52 explicit negative controls**. Tensor representation determinants and weighted metrics were checked for m=1…4, hard factors through m=7, both γ signs, t=1, exact interval pushforwards and single-normalizer cancellation. Negative controls reject a second normalizer, inverse k, signed positive measure, doubled sign frames, omitted hard squares, and treating raw tensor rotation as Euclidean-isometric. These finite diagnostics supplement the analytic argument; they do not prove its continuous quantifiers or re-review the classifier theorem.
+
+No original numerical explorer, Monte Carlo batch, actual-field theorem, required hosted CI, or formal build was rerun in this scope. The first local source materialization had an extra trailing newline; that local copy was corrected and every listed Git blob hash was verified before use as exact-byte custody. No upstream source was modified.
+
+**Release and next action:** claim [5954411515](https://github.com/d6g8k5htny-coder/Math-/pull/243#issuecomment-5954411515) is complete and released. Anthropic/Claude retains the coordinated #242 numerical PROOF amendment, #243 B-01/B-02/B-03/D-01 changes, and any adoption/rebinding of D.1. #242 must precede #243. Theorem FL's field limit, its continuity/uniformity, Conjecture7's expanding/intermediate marked-coarea control, mixed-pair locality, and two-sided canonical-pair/bar identification keep their distinct scopes. This result supplies no theorem-wide scientific acceptance.
+
+<details><summary>Independent executable diagnostics (stdlib; SHA256 f46e47f4e12b423be8d560a3214623b674d3e80dab6803040d3d9a811a277c50)</summary>
+
+```python
+"""Independent exact diagnostics for D.1; no field-limit or classifier proof.
+
+Only Python stdlib. Raw symmetric tensor coordinates, not normalized tensors.
+"""
+from fractions import Fraction as Q
+from itertools import combinations_with_replacement, product
+from math import factorial, prod
+import json
+
+counts = {}
+negatives = {}
+
+def check(group, predicate):
+    if not predicate:
+        raise RuntimeError('failed: ' + group)
+    counts[group] = counts.get(group, 0) + 1
+
+def reject(group, predicate):
+    check(group, not predicate)
+    negatives[group] = negatives.get(group, 0) + 1
+
+def mm(a, b):
+    return [[sum(x*y for x, y in zip(row, col)) for col in zip(*b)] for row in a]
+
+def det(a):
+    a = [list(row) for row in a]
+    out = Q(1)
+    for i in range(len(a)):
+        pivot = next((j for j in range(i, len(a)) if a[j][i]), None)
+        if pivot is None:
+            return Q(0)
+        if pivot != i:
+            a[i], a[pivot] = a[pivot], a[i]
+            out = -out
+        p = a[i][i]
+        out *= p
+        for j in range(i+1, len(a)):
+            f = a[j][i]/p
+            for l in range(i+1, len(a)):
+                a[j][l] -= f*a[i][l]
+    return out
+
+def identity(n):
+    return [[Q(int(i == j)) for j in range(n)] for i in range(n)]
+
+def raw_tensor_representation(u):
+    n = len(u)
+    coords = [c for c in combinations_with_replacement(range(n), 3) if c != (0,0,0)]
+    lookup = {c:i for i,c in enumerate(coords)}
+    rep = []
+    for i,j,k in coords:
+        row = [Q(0)]*len(coords)
+        for a,b,c in product(range(n), repeat=3):
+            if (a,b,c) == (0,0,0):
+                continue
+            row[lookup[tuple(sorted((a,b,c)))]] += u[a][i]*u[b][j]*u[c][k]
+        rep.append(row)
+    weights = [factorial(3)//prod(factorial(c.count(i)) for i in range(n)) for c in coords]
+    return rep, weights
+
+for m in range(1,5):
+    n = m+1
+    u = identity(n)
+    for i in range(1,m):
+        g = identity(n)
+        g[i][i] = g[i+1][i+1] = Q(3,5)
+        g[i][i+1], g[i+1][i] = -Q(4,5), Q(4,5)
+        u = mm(u,g)
+    for reflection in (1,-1):
+        v = [row[:] for row in u]
+        for row in v:
+            row[1] *= reflection
+        check('rotation orthogonal', mm(list(zip(*v)),v) == identity(n))
+        rep, weights = raw_tensor_representation(v)
+        check('raw tensor abs determinant one', abs(det(rep)) == 1)
+        weighted = [[w*x for x in row] for w,row in zip(weights,rep)]
+        gram = mm(list(zip(*rep)),weighted)
+        check('tensor Frobenius metric', gram == [[Q(weights[i] if i==j else 0) for j in range(len(rep))] for i in range(len(rep))])
+        if m >= 2:
+            reject('reject raw Euclidean isometry', mm(list(zip(*rep)),rep) == identity(len(rep)))
+
+for k,gamma,t in product((Q(2,3),Q(5,2)), (Q(-3,2),Q(4,3)), (Q(-2),Q(1),Q(7,3))):
+    B=t*gamma**2/(12*k)
+    bp=B-gamma**2/(12*k)
+    Y=3*k*B-gamma**2/4
+    c=1-t
+    lo=1/(4*(1+abs(c)))
+    hi=1/(2*(1+abs(c)))
+    lamlo=gamma**2/(24*hi)
+    lamhi=gamma**2/(24*lo)
+    check('typed interval', abs(c)*hi<1 and abs(Y)<6*lamlo)
+    check('weight polynomial', 36*lamlo**2-Y**2 == 9*k*k*(4*(-lamlo/k)**2-bp**2))
+    iphi=gamma**6/Q(384)*((-1/(3*hi**3)+c*c/hi)-(-1/(3*lo**3)+c*c/lo))
+    ilam=(12*lamhi**3-Y*Y*lamhi)-(12*lamlo**3-Y*Y*lamlo)
+    slo,shi=-lamhi/k,-lamlo/k
+    iss=(12*k*k*shi**3-9*k*k*bp*bp*shi)-(12*k*k*slo**3-9*k*k*bp*bp*slo)
+    check('phi lambda exact integral', iphi==ilam)
+    check('lambda s positive factor k', ilam==k*iss and ilam>0)
+    reject('reject reciprocal k', ilam==iss/k)
+    reject('reject signed measure', iphi==-ilam)
+    reject('reject duplicate sign frame', iphi==2*ilam)
+    C=Q(7,5)
+    chi=576*k*k*C/gamma**3
+    check('sign frame gauge', chi==576*k*k*(-C)/(-gamma)**3)
+    # coefficient dictionaries for independent expansions P(X,k zeta)/k and G
+    lam=Q(13,7)
+    s=-lam/k
+    p={(3,0):2,(1,0):-Q(3,2),(0,0):-Q(1,2),(0,2):s*k/2,(2,1):gamma/2,(0,1):-gamma/8,(1,2):B*k/2,(0,3):C*k*k/6}
+    g={(3,0):2,(1,0):-Q(3,2),(0,0):-Q(1,2),(0,2):-lam/2,(2,1):gamma/2,(0,1):-gamma/8,(1,2):k*B/2,(0,3):k*k*C/6}
+    check('cubic coordinate polynomial', p==g)
+
+for m in range(1,8):
+    h=[Q(5+3*i,3) for i in range(m-1)]
+    eig=[Q(0)]+h
+    van=prod(eig[j]-eig[i] for i in range(m) for j in range(i+1,m))
+    hard=prod(h)**2
+    boundary=prod(x**3 for x in h)*prod(h[j]-h[i] for i in range(m-1) for j in range(i+1,m-1))
+    check('hard boundary factor',van*hard==boundary)
+    if m>1:
+        reject('reject omitted hard squares',van==boundary)
+
+for eps in (Q(1,2),Q(1,7),Q(1,101)):
+    # Integral h^2(h-x) over 0<x<min(eps,h),0<h<eps, divided by eps.
+    ordered=eps**4/10
+    unordered=eps**4/12
+    check('nonempty ordering strip',ordered-unordered==eps**4/60 and ordered>unordered)
+    check('ordering strip vanishes',0<ordered-unordered<eps**3)
+
+for k,pi,z,mass in product((Q(2,3),Q(5,2)),(Q(3,7),),(Q(7,3),Q(11,5)),(Q(13,17),)):
+    direct=k*12*pi*mass
+    A=12*pi*z
+    afail=mass/z
+    check('one Palm normalizer',direct==k*A*afail)
+    reject('reject second normalizer',direct==k*A*afail/z)
+
+print(json.dumps({'checks':sum(counts.values()),'negative_controls':sum(negatives.values()),'groups':counts,'scope':'exact model algebra diagnostics; no field-limit theorem or numeric reproduction'},sort_keys=True,indent=2))
+```
+</details>

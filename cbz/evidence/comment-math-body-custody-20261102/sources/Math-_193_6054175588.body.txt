@@ -1,0 +1,587 @@
+Frozen unconditioned actual-source contact covariance rank. Owner /root; producer /root/i2_formal_support; pickup6053806126. Complete source/tests/audit/author/raw intended red follow. Public type and both observable definitions equal initial target; root main/tests/audit replays passed; all83raw bindings matched final-freeze SHA0f85136be994d3b923586474cfdc3c557cb9213273fcd6e73203eebd3ec2032f. Root finite algebra source/reviews:6053999834. Actual completed parent/child final reports and raw failed-run history will have a separate companion. Cached imports, no whole-library replay. Full goal ACTIVE; remaining uniform/multipoint/enlarged-block/pin/I1/I2/I4/ELDER/exhaustion requirements persist. Scientific effectNONE. SeparatorLF is outside each exact file.
+
+Literal file SourceContactRank.lean: 18038 bytes; SHA256 c0b565f501908da378b865104544be62f99c65649c28f9eeb40cb5e8dc7527bf
+````text
+import SourceJetLaw
+import SourceLattice
+import ContactAlgebra
+
+/-! Positive actual variance of the required physical contact vector.
+No assumed functional independence, nonzero Fourier coefficient or pin covariance interface. -/
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4C4 I4Jets I4JetLaw I4SourceGaussian
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators
+
+namespace I4ContactRank
+
+def frameVector (d : ℕ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ)) (i : Fin (d+1)) :
+    Fin (d+1) → ℝ := T (Pi.single i 1)
+
+def contactObservable (d : ℕ) (L : ℝ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ)
+    (D : Fin d → ℝ) (ω : SourceMode (d+1) → ℝ) : ℝ :=
+  A * sourceField (d+1) L ω x +
+  (∑ i, a i * sourceJet (d+1) L 1 ω x (fun _ => frameVector d T i)) +
+  B * sourceJet (d+1) L 2 ω x (fun _ => frameVector d T 0) +
+  C * sourceJet (d+1) L 3 ω x (fun _ => frameVector d T 0) +
+  ∑ j, D j * sourceJet (d+1) L 2 ω x
+    (fun k : Fin 2 => if k = 0 then frameVector d T 0 else frameVector d T j.succ)
+
+private def contactCoefficient (d : ℕ) (L : ℝ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ)
+    (D : Fin d → ℝ) (m : SourceMode (d+1)) : ℝ :=
+  A * modeCoefficient (d+1) L m x +
+  (∑ i, a i * modeJetCoefficient (d+1) L m 1 x (fun _ => frameVector d T i)) +
+  B * modeJetCoefficient (d+1) L m 2 x (fun _ => frameVector d T 0) +
+  C * modeJetCoefficient (d+1) L m 3 x (fun _ => frameVector d T 0) +
+  ∑ j, D j * modeJetCoefficient (d+1) L m 2 x
+    (fun k : Fin 2 => if k = 0 then frameVector d T 0 else frameVector d T j.succ)
+
+private theorem modeJet_some (d : ℕ) (L : ℝ) (k : ↥(halfLattice d)) (b : Bool)
+    (j : ℕ) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    modeJetCoefficient d L (some (k,b)) j x v =
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *
+        ((∏ i, phaseCLM d L k (v i)) *
+          iteratedDeriv j (if b then Real.sin else Real.cos) (phase d L k x)) := by
+  classical
+  let g : ℝ → ℝ := if b then Real.sin else Real.cos
+  let ell := phaseCLM d L k
+  let amp := Real.sqrt (2 * sourceWeight d L k / sourceZ d L)
+  have hg : ContDiff ℝ j g := by cases b <;> simp [g] <;> fun_prop
+  have heq : modeCoefficient d L (some (k,b)) = amp • (g ∘ ell) := by
+    funext y
+    cases b <;> simp [modeCoefficient, amp, g, ell, Function.comp_apply,
+      Pi.smul_apply, smul_eq_mul, phaseCLM_apply]
+  unfold modeJetCoefficient
+  rw [heq, iteratedFDeriv_const_smul_apply (hg.comp_continuousLinearMap).contDiffAt,
+    ell.iteratedFDeriv_comp_right hg x le_rfl]
+  simp only [smul_apply,
+    ContinuousMultilinearMap.compContinuousLinearMap_apply,
+    iteratedFDeriv_apply_eq_iteratedDeriv_mul_prod, smul_eq_mul]
+  simp only [amp, g, ell, phaseCLM_apply]
+
+private theorem jet_one (d : ℕ) (L : ℝ) (k : ↥(halfLattice d)) (b : Bool)
+    (x u : Fin d → ℝ) :
+    modeJetCoefficient d L (some (k,b)) 1 x (fun _ => u) =
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) * phaseCLM d L k u *
+        (if b then Real.cos (phase d L k x) else -Real.sin (phase d L k x)) := by
+  rw [modeJet_some]
+  cases b <;> norm_num [Finset.prod_const, Fin.prod_univ_two] <;> ring
+
+private theorem jet_two (d : ℕ) (L : ℝ) (k : ↥(halfLattice d)) (b : Bool)
+    (x : Fin d → ℝ) (v : Fin 2 → (Fin d → ℝ)) :
+    modeJetCoefficient d L (some (k,b)) 2 x v =
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *
+        phaseCLM d L k (v 0) * phaseCLM d L k (v 1) *
+        (if b then -Real.sin (phase d L k x) else -Real.cos (phase d L k x)) := by
+  rw [modeJet_some]
+  cases b <;> norm_num [Finset.prod_const, Fin.prod_univ_two] <;> ring
+
+private theorem jet_three (d : ℕ) (L : ℝ) (k : ↥(halfLattice d)) (b : Bool)
+    (x u : Fin d → ℝ) :
+    modeJetCoefficient d L (some (k,b)) 3 x (fun _ => u) =
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) * (phaseCLM d L k u)^3 *
+        (if b then -Real.cos (phase d L k x) else Real.sin (phase d L k x)) := by
+  rw [modeJet_some]
+  cases b <;> norm_num [Finset.prod_const, Fin.prod_univ_two] <;> ring
+
+private theorem coefficient_none (d : ℕ) (L : ℝ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ) :
+    contactCoefficient d L T x A a B C D none = A * Real.sqrt (1 / sourceZ (d+1) L) := by
+  have hn (j : ℕ) (v : Fin (j+1) → (Fin (d+1) → ℝ)) :
+      modeJetCoefficient (d+1) L none (j+1) x v = 0 := by
+    unfold modeJetCoefficient
+    change (iteratedFDeriv ℝ (j+1)
+      (fun _ : Fin (d+1) → ℝ => Real.sqrt (1 / sourceZ (d+1) L)) x) v = 0
+    rw [iteratedFDeriv_succ_const]
+    rfl
+  simp [contactCoefficient, hn, modeCoefficient]
+
+private theorem frame_phase (d : ℕ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (ell : (Fin (d+1) → ℝ) →L[ℝ] ℝ) (a : Fin (d+1) → ℝ) :
+    (∑ i, a i * ell (frameVector d T i)) = ell (T a) := by
+  classical
+  symm
+  conv_lhs => rw [← LinearMap.sum_single_apply (fun _ : Fin (d+1) => ℝ) a]
+  rw [map_sum, map_sum]
+  apply Finset.sum_congr rfl
+  intro i _
+  have hs : Pi.single i (a i) = a i • Pi.single i (1 : ℝ) := by
+    rw [← Pi.single_smul, smul_eq_mul, mul_one]
+  rw [hs, map_smul, map_smul]
+  rfl
+
+private def contactW (d : ℕ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ)) (B : ℝ) (D : Fin d → ℝ) :
+    Fin (d+1) → ℝ := B • frameVector d T 0 + ∑ j, D j • frameVector d T j.succ
+
+private theorem coefficient_pair (d : ℕ) (L : ℝ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ)
+    (k : ↥(halfLattice (d+1))) (b : Bool) :
+    contactCoefficient d L T x A a B C D (some (k,b)) =
+      Real.sqrt (2 * sourceWeight (d+1) L k / sourceZ (d+1) L) *
+      (if b then
+        (A - phaseCLM (d+1) L k (frameVector d T 0) * phaseCLM (d+1) L k (contactW d T B D)) *
+          Real.sin (phase (d+1) L k x) +
+        (phaseCLM (d+1) L k (T a) - C * (phaseCLM (d+1) L k (frameVector d T 0))^3) *
+          Real.cos (phase (d+1) L k x)
+      else
+        (A - phaseCLM (d+1) L k (frameVector d T 0) * phaseCLM (d+1) L k (contactW d T B D)) *
+          Real.cos (phase (d+1) L k x) -
+        (phaseCLM (d+1) L k (T a) - C * (phaseCLM (d+1) L k (frameVector d T 0))^3) *
+          Real.sin (phase (d+1) L k x)) := by
+  classical
+  let ell := phaseCLM (d+1) L k
+  let amp := Real.sqrt (2 * sourceWeight (d+1) L k / sourceZ (d+1) L)
+  have hW : ell (contactW d T B D) =
+      B * ell (frameVector d T 0) + ∑ j, D j * ell (frameVector d T j.succ) := by
+    simp [contactW, map_add, map_sum, map_smul, smul_eq_mul]
+  unfold contactCoefficient
+  simp_rw [jet_one, jet_two, jet_three]
+  simp only [ite_true, show (1 : Fin 2) ≠ 0 from by decide, ite_false]
+  cases b <;> simp only [Bool.false_eq_true, ite_false, ite_true, modeCoefficient]
+  all_goals
+    have hgrad (q : ℝ) :
+        (∑ i, a i * (amp * ell (frameVector d T i) * q)) = amp * q * ell (T a) := by
+      rw [← frame_phase d T ell a, Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro i _
+      ring
+    have hmix (q : ℝ) :
+        (∑ j, D j * (amp * ell (frameVector d T 0) * ell (frameVector d T j.succ) * q)) =
+          amp * ell (frameVector d T 0) * q * ∑ j, D j * ell (frameVector d T j.succ) := by
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro i _
+      ring
+    change _ = amp * _
+    rw [hgrad, hmix]
+    rw [show phaseCLM (d+1) L k = ell from rfl, hW]
+    ring
+
+private theorem half_nonneg (n : ℕ) (k : Fin n → ℤ) (hk : k ≠ 0)
+    (hn : ∀ i, 0 ≤ k i) : k ∈ halfLattice n := by
+  rcases (I4Lattice.halfLattice_partition n hk).1 with h | h
+  · exact h
+  · rcases h with ⟨i, hi, _⟩
+    have hi' : 0 < -k i := by simpa using hi
+    have := hn i
+    omega
+
+private theorem phase_single (n : ℕ) (L : ℝ) (i : Fin n) (z : ℤ) (v : Fin n → ℝ) :
+    phaseCLM n L (Pi.single i z) v = sourceC L * (z : ℝ) * v i := by
+  classical
+  simp [phaseCLM_apply, phase, Pi.single_apply]
+
+private theorem phase_add (n : ℕ) (L : ℝ) (k l : Fin n → ℤ) (v : Fin n → ℝ) :
+    phaseCLM n L (k+l) v = phaseCLM n L k v + phaseCLM n L l v := by
+  simp [phaseCLM_apply, phase, mul_add, add_mul, Finset.sum_add_distrib]
+
+private theorem coefficient_zero_symbols (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ)
+    (hz : ∀ m, contactCoefficient d L T x A a B C D m = 0)
+    (k : ↥(halfLattice (d+1))) :
+    (A - phaseCLM (d+1) L k (frameVector d T 0) * phaseCLM (d+1) L k (contactW d T B D) = 0) ∧
+    (phaseCLM (d+1) L k (T a) - C * (phaseCLM (d+1) L k (frameVector d T 0))^3 = 0) := by
+  have ha : Real.sqrt (2 * sourceWeight (d+1) L k / sourceZ (d+1) L) ≠ 0 := by
+    apply ne_of_gt
+    apply Real.sqrt_pos.2
+    apply div_pos
+    · rw [sourceWeight_eq_physical]
+      positivity
+    · exact sourceZ_pos (d+1) (ne_of_gt hL)
+  have hc := hz (some (k,false))
+  have hs := hz (some (k,true))
+  rw [coefficient_pair] at hc hs
+  simp only [Bool.false_eq_true, ite_false, ite_true] at hc hs
+  have hc' := (mul_eq_zero.mp hc).resolve_left ha
+  have hs' := (mul_eq_zero.mp hs).resolve_left ha
+  exact SourceContactRank.contact_phase_elimination _ _ _ _
+    (Real.sin_sq_add_cos_sq _) hc' hs'
+
+private theorem coefficient_exists (d : ℕ) {L : ℝ} (hL : 0 < L)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ)
+    (hw : A ≠ 0 ∨ a ≠ 0 ∨ B ≠ 0 ∨ C ≠ 0 ∨ D ≠ 0) :
+    ∃ m, contactCoefficient d L T x A a B C D m ≠ 0 := by
+  classical
+  by_contra hn
+  push Not at hn
+  have hA : A = 0 := by
+    have h := hn none
+    rw [coefficient_none] at h
+    have hp : Real.sqrt (1 / sourceZ (d+1) L) ≠ 0 :=
+      ne_of_gt (Real.sqrt_pos.2 (one_div_pos.2 (sourceZ_pos (d+1) (ne_of_gt hL))))
+    exact (mul_eq_zero.mp h).resolve_right hp
+  let u := frameVector d T 0
+  let V := T a
+  let W := contactW d T B D
+  let c := sourceC L
+  have hc : c ≠ 0 := by dsimp [c, sourceC]; positivity
+  have hu : u ≠ 0 := by
+    intro h
+    change T (Pi.single (0 : Fin (d+1)) (1 : ℝ)) = 0 at h
+    have he : (Pi.single (0 : Fin (d+1)) (1 : ℝ)) = 0 :=
+      T.injective (h.trans (map_zero T).symm)
+    have he0 := congrFun he 0
+    norm_num at he0
+  have hbase (i : Fin (d+1)) :
+      A - (c * u i) * (c * W i) = 0 ∧ c * V i - C * (c * u i)^3 = 0 := by
+    let k : Fin (d+1) → ℤ := Pi.single i 1
+    have hk : k ≠ 0 := by
+      intro h
+      have h' := congrFun h i
+      simp [k] at h'
+    have hn' : ∀ j, 0 ≤ k j := by intro j; simp [k, Pi.single_apply]; split <;> norm_num
+    have hh := coefficient_zero_symbols d hL T x A a B C D hn ⟨k, half_nonneg _ k hk hn'⟩
+    simpa only [k, phase_single, Int.cast_one, mul_one, c, u, V, W] using hh
+  have hdouble (i : Fin (d+1)) : 2*c*V i - C*(2*c*u i)^3 = 0 := by
+    let k : Fin (d+1) → ℤ := Pi.single i 2
+    have hk : k ≠ 0 := by
+      intro h
+      have h' := congrFun h i
+      simp [k] at h'
+    have hn' : ∀ j, 0 ≤ k j := by intro j; simp [k, Pi.single_apply]; split <;> norm_num
+    have hh := (coefficient_zero_symbols d hL T x A a B C D hn
+      ⟨k, half_nonneg _ k hk hn'⟩).2
+    simp only [k, phase_single, Int.cast_ofNat] at hh
+    nlinarith [hh]
+  have hpair (i j : Fin (d+1)) (hij : i ≠ j) :
+      A - (c*(u i+u j)) * (c*(W i+W j)) = 0 := by
+    let k : Fin (d+1) → ℤ := Pi.single i 1 + Pi.single j 1
+    have hk : k ≠ 0 := by
+      intro h
+      have h' := congrFun h i
+      simp [k, hij] at h'
+    have hn' : ∀ t, 0 ≤ k t := by
+      intro t
+      simp only [k, Pi.add_apply, Pi.single_apply]
+      split <;> split <;> norm_num
+    have hh := (coefficient_zero_symbols d hL T x A a B C D hn
+      ⟨k, half_nonneg _ k hk hn'⟩).1
+    simp only [k, phase_add, phase_single, Int.cast_one, mul_one] at hh
+    nlinarith [hh]
+  obtain ⟨hC, hV, hW⟩ := SourceContactRank.contact_polynomial_separation c hc u V W hu A C hA
+    (fun i => (hbase i).2) hdouble (fun i => (hbase i).1) hpair
+  have ha : a = 0 := T.injective (by simpa [V] using hV)
+  have hrep : W = T (Fin.cons B D : Fin (d+1) → ℝ) := by
+    have he : (∑ i : Fin (d+1), (Fin.cons B D : Fin (d+1) → ℝ) i • frameVector d T i) = T (Fin.cons B D : Fin (d+1) → ℝ) := by
+      simp only [frameVector, ← map_smul, ← map_sum]
+      congr 1
+      simpa only [← Pi.single_smul, smul_eq_mul, mul_one] using
+        LinearMap.sum_single_apply (fun _ : Fin (d+1) => ℝ) (Fin.cons B D : Fin (d+1) → ℝ)
+    rw [← he, Fin.sum_univ_succ]
+    simp [W, contactW]
+  have hBD : (Fin.cons B D : Fin (d+1) → ℝ) = 0 := T.injective (by rw [← hrep]; simpa using hW)
+  have hB : B = 0 := by simpa using congrFun hBD 0
+  have hD : D = 0 := by ext j; simpa using congrFun hBD j.succ
+  rcases hw with h | h | h | h | h
+  · exact h hA
+  · exact h ha
+  · exact h hB
+  · exact h hC
+  · exact h hD
+
+private theorem coefficient_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ) :
+    Summable (contactCoefficient d L T x A a B C D) := by
+  classical
+  have h0 : Summable (fun m => modeCoefficient (d+1) L m x) :=
+    (modeMajorant_summable (d+1) hL).of_norm_bounded
+      (fun m => by simpa only [Real.norm_eq_abs] using modeCoefficient_bound (d+1) hL m x)
+  have h1 (i : Fin (d+1)) := modeJetCoefficient_summable (d+1) hL 1 (by norm_num) x
+    (fun _ => frameVector d T i)
+  have h2 := modeJetCoefficient_summable (d+1) hL 2 (by norm_num) x (fun _ => frameVector d T 0)
+  have h3 := modeJetCoefficient_summable (d+1) hL 3 (by norm_num) x (fun _ => frameVector d T 0)
+  have hm (j : Fin d) := modeJetCoefficient_summable (d+1) hL 2 (by norm_num) x
+    (fun k : Fin 2 => if k = 0 then frameVector d T 0 else frameVector d T j.succ)
+  exact ((((h0.mul_left A).add (summable_sum (fun i _ => (h1 i).mul_left (a i)))).add
+    (h2.mul_left B)).add (h3.mul_left C)).add (summable_sum (fun j _ => (hm j).mul_left (D j)))
+
+private theorem observable_eq_series (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ) (D : Fin d → ℝ) :
+    contactObservable d L T x A a B C D =ᵐ[sourceLaw (d+1)]
+      scalarSeries (contactCoefficient d L T x A a B C D) := by
+  classical
+  let q0 := fun m => modeCoefficient (d+1) L m x
+  let q1 := fun (i : Fin (d+1)) m => modeJetCoefficient (d+1) L m 1 x (fun _ => frameVector d T i)
+  let q2 := fun m => modeJetCoefficient (d+1) L m 2 x (fun _ => frameVector d T 0)
+  let q3 := fun m => modeJetCoefficient (d+1) L m 3 x (fun _ => frameVector d T 0)
+  let qm := fun (j : Fin d) m => modeJetCoefficient (d+1) L m 2 x
+    (fun k : Fin 2 => if k = 0 then frameVector d T 0 else frameVector d T j.succ)
+  have h0 : Summable q0 := (modeMajorant_summable (d+1) hL).of_norm_bounded
+    (fun m => by simpa only [q0, Real.norm_eq_abs] using modeCoefficient_bound (d+1) hL m x)
+  have h1 (i) : Summable (q1 i) := modeJetCoefficient_summable (d+1) hL 1 (by norm_num) x _
+  have h2 : Summable q2 := modeJetCoefficient_summable (d+1) hL 2 (by norm_num) x _
+  have h3 : Summable q3 := modeJetCoefficient_summable (d+1) hL 3 (by norm_num) x _
+  have hm (j) : Summable (qm j) := modeJetCoefficient_summable (d+1) hL 2 (by norm_num) x _
+  let q := contactCoefficient d L T x A a B C D
+  filter_upwards [scalarSeries_hasSum_ae q0 h0,
+    ae_all_iff.2 (fun i : Fin (d+1) => scalarSeries_hasSum_ae (q1 i) (h1 i)),
+    scalarSeries_hasSum_ae q2 h2, scalarSeries_hasSum_ae q3 h3,
+    ae_all_iff.2 (fun j : Fin d => scalarSeries_hasSum_ae (qm j) (hm j)),
+    scalarSeries_hasSum_ae q (coefficient_summable d hL T x A a B C D),
+    sourceJet_eq_series_ae (d+1) hL] with ω hω0 hω1 hω2 hω3 hωm hωq hjet
+  have hs := ((((hω0.mul_left A).add (hasSum_sum (s := Finset.univ) (fun i _ => (hω1 i).mul_left (a i)))).add
+    (hω2.mul_left B)).add (hω3.mul_left C)).add (hasSum_sum (s := Finset.univ) (fun j _ => (hωm j).mul_left (D j)))
+  have hs' : HasSum (fun m => q m * ω m) (contactObservable d L T x A a B C D ω) := by
+    convert hs using 1
+    · funext m
+      simp only [q, contactCoefficient, q0, q1, q2, q3, qm, add_mul, Finset.sum_mul, mul_assoc]
+    · unfold contactObservable
+      simp only [hjet 1 (by norm_num), hjet 2 (by norm_num), hjet 3 (by norm_num)]
+      rfl
+  exact (hωq.unique hs').symm
+
+theorem contactObservable_variance_pos (d : ℕ) (hd : 1 ≤ d) {L : ℝ} (hL : 0 < L)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ))
+    (x : Fin (d+1) → ℝ) (A : ℝ) (a : Fin (d+1) → ℝ) (B C : ℝ)
+    (D : Fin d → ℝ) (hw : A ≠ 0 ∨ a ≠ 0 ∨ B ≠ 0 ∨ C ≠ 0 ∨ D ≠ 0) :
+    0 < Var[contactObservable d L T x A a B C D; sourceLaw (d+1)] := by
+  classical
+  have _hDim : d ≠ 0 := Nat.one_le_iff_ne_zero.mp hd
+  have ha := coefficient_summable d (ne_of_gt hL) T x A a B C D
+  rw [variance_congr (observable_eq_series d (ne_of_gt hL) T x A a B C D),
+    scalarSeries_variance _ ha]
+  have hp := summable_mul_of_summable_norm ha.norm ha.norm
+  have hsq : Summable (fun m => (contactCoefficient d L T x A a B C D m)^2) := by
+    simpa only [Function.comp_def, pow_two] using hp.comp_injective
+      (show Function.Injective (fun m : SourceMode (d+1) => (m,m)) from
+        fun _ _ h => congrArg Prod.fst h)
+  obtain ⟨m, hm⟩ := coefficient_exists d hL T x A a B C D hw
+  exact hsq.tsum_pos (fun _ => sq_nonneg _) m (sq_pos_of_ne_zero hm)
+
+end I4ContactRank
+
+````
+
+Literal file ContactRankTests.lean: 6726 bytes; SHA256 457beab69200ad69fdc558be75c6c32f762b78c531eadb0112d5f429164184cb
+````text
+import SourceContactRank
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4C4 I4Jets I4ContactRank
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators
+
+namespace ContactRankTests
+
+-- A real shear: transverse vector has an axial component, so the frame is not orthogonal.
+private def shear : (Fin 2 → ℝ) ≃L[ℝ] (Fin 2 → ℝ) where
+  toFun x := ![x 0 + x 1, x 1]
+  invFun x := ![x 0 - x 1, x 1]
+  left_inv x := by ext i; fin_cases i <;> simp
+  right_inv x := by ext i; fin_cases i <;> simp
+  map_add' x y := by ext i; fin_cases i <;> simp; ring
+  map_smul' c x := by ext i; fin_cases i <;> simp; ring
+  continuous_toFun := by fun_prop
+  continuous_invFun := by fun_prop
+
+-- The nonorthogonal geometry is computed, not assumed.
+example : frameVector 1 shear 0 = ![1,0] := by ext i; fin_cases i <;> simp [frameVector, shear]
+example : frameVector 1 shear 1 = ![1,1] := by ext i; fin_cases i <;> simp [frameVector, shear]
+
+-- Every real-cover location and every actual invertible frame; weights mix every contact order.
+example {L : ℝ} (hL : 0 < L) (x : Fin 3 → ℝ)
+    (T : (Fin 3 → ℝ) ≃L[ℝ] (Fin 3 → ℝ)) :
+    0 < Var[contactObservable 2 L T x 1 ![2,-3,4] 5 (-6) ![7,-8]; sourceLaw 3] := by
+  exact contactObservable_variance_pos 2 (by norm_num) hL T x _ _ _ _ _ (Or.inl (by norm_num))
+
+-- Physical nonorthogonal frame, mixed second derivatives, arbitrary location.
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[contactObservable 1 L shear x 0 0 0 0 (fun _ => 1); sourceLaw 2] := by
+  apply contactObservable_variance_pos 1 (by norm_num) hL
+  exact Or.inr (Or.inr (Or.inr (Or.inr (by intro h; have := congrFun h 0; norm_num at this))))
+
+-- Pure original field observation, including the positive constant source mode.
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[fun ω => sourceField 2 L ω x; sourceLaw 2] := by
+  have h := contactObservable_variance_pos 1 (by norm_num) hL
+    (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 1 0 0 0 0 (Or.inl (by norm_num))
+  have he : contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 1 0 0 0 0 =
+      (fun ω => sourceField 2 L ω x) := by funext ω; simp [contactObservable]
+  rwa [he] at h
+
+-- Axial and transverse gradients are both literal Fréchet observations.
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[fun ω => sourceJet 2 L 1 ω x (fun _ => Pi.single 0 1); sourceLaw 2] := by
+  have hw : (Pi.single (0 : Fin 2) (1 : ℝ) : Fin 2 → ℝ) ≠ 0 := by intro h; have := congrFun h 0; norm_num at this
+  have h := contactObservable_variance_pos 1 (by norm_num) hL
+    (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 (Pi.single 0 1) 0 0 0 (Or.inr (Or.inl hw))
+  have he : contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 (Pi.single 0 1) 0 0 0 =
+      (fun ω => sourceJet 2 L 1 ω x (fun _ => Pi.single 0 1)) := by
+    funext ω; simp [contactObservable, frameVector]
+  rwa [he] at h
+
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[fun ω => sourceJet 2 L 1 ω x (fun _ => Pi.single 1 1); sourceLaw 2] := by
+  have hw : (Pi.single (1 : Fin 2) (1 : ℝ) : Fin 2 → ℝ) ≠ 0 := by intro h; have := congrFun h 1; norm_num at this
+  have h := contactObservable_variance_pos 1 (by norm_num) hL
+    (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 (Pi.single 1 1) 0 0 0 (Or.inr (Or.inl hw))
+  have he : contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 (Pi.single 1 1) 0 0 0 =
+      (fun ω => sourceJet 2 L 1 ω x (fun _ => Pi.single 1 1)) := by
+    funext ω; simp [contactObservable, frameVector]
+  rwa [he] at h
+
+-- Pure second, third and mixed-second contact entries.
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[fun ω => sourceJet 2 L 2 ω x (fun _ => Pi.single 0 1); sourceLaw 2] := by
+  have h := contactObservable_variance_pos 1 (by norm_num) hL
+    (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 0 1 0 0
+    (Or.inr (Or.inr (Or.inl (by norm_num))))
+  have he : contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 0 1 0 0 =
+      (fun ω => sourceJet 2 L 2 ω x (fun _ => Pi.single 0 1)) := by
+    funext ω; simp [contactObservable, frameVector]
+  rwa [he] at h
+
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[fun ω => sourceJet 2 L 3 ω x (fun _ => Pi.single 0 1); sourceLaw 2] := by
+  have h := contactObservable_variance_pos 1 (by norm_num) hL
+    (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 0 0 1 0
+    (Or.inr (Or.inr (Or.inr (Or.inl (by norm_num)))))
+  have he : contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ)) x 0 0 0 1 0 =
+      (fun ω => sourceJet 2 L 3 ω x (fun _ => Pi.single 0 1)) := by
+    funext ω; simp [contactObservable, frameVector]
+  rwa [he] at h
+
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ))
+      x 0 0 0 0 (fun _ => 1); sourceLaw 2] := by
+  apply contactObservable_variance_pos 1 (by norm_num) hL
+  exact Or.inr (Or.inr (Or.inr (Or.inr (by intro h; have := congrFun h 0; norm_num at this))))
+
+-- An odd contrast that cancels at the unit axial frequency still has positive actual variance.
+example {L : ℝ} (hL : 0 < L) (x : Fin 2 → ℝ) :
+    0 < Var[contactObservable 1 L (ContinuousLinearEquiv.refl ℝ (Fin 2 → ℝ))
+      x 0 (sourceC L ^ 2 • Pi.single 0 1) 0 1 0; sourceLaw 2] := by
+  apply contactObservable_variance_pos 1 (by norm_num) hL
+  exact Or.inr (Or.inr (Or.inr (Or.inl (by norm_num))))
+
+-- Zero weights are a genuine degeneracy: the positive-rank premise cannot be deleted.
+example (d : ℕ) (L : ℝ) (x : Fin (d+1) → ℝ)
+    (T : (Fin (d+1) → ℝ) ≃L[ℝ] (Fin (d+1) → ℝ)) :
+    Var[contactObservable d L T x 0 0 0 0 0; sourceLaw (d+1)] = 0 := by
+  have he : contactObservable d L T x 0 0 0 0 0 = 0 := by funext ω; simp [contactObservable]
+  rw [he, variance_zero]
+
+-- Exact third derivative sine/cosine signs at phase zero are independently evaluated.
+example : iteratedDeriv 3 Real.cos 0 = 0 := by norm_num
+example : iteratedDeriv 3 Real.sin 0 = -1 := by norm_num
+
+-- Finite-witness controls: basis frequencies miss linear/cubic and cross-quadratic contrasts.
+example (c : ℝ) (hc : c ≠ 0) :
+    c * c^2 - c^3 = 0 ∧ 2*c*c^2 - (2*c)^3 ≠ 0 := by
+  constructor
+  · ring
+  · have hc3 : c^3 ≠ 0 := pow_ne_zero 3 hc
+    intro h
+    have he : 2*c*c^2 - (2*c)^3 = -6*c^3 := by ring
+    rw [he] at h
+    exact hc3 ((mul_eq_zero.mp h).resolve_left (by norm_num))
+
+example (c : ℝ) (hc : c ≠ 0) :
+    (c*1)*(c*0) = 0 ∧ (c*0)*(c*1) = 0 ∧ (c*(1+0))*(c*(0+1)) ≠ 0 := by
+  simp [hc]
+
+end ContactRankTests
+
+````
+
+Literal file ContactRankAxioms.lean: 1085 bytes; SHA256 07ec1ca482a54fcbb9f626a4dcc1f0c494f9e44d47b2edb1865c3b991b7330e9
+````text
+import SourceContactRank
+#print axioms I4ContactRank.frameVector
+#print axioms I4ContactRank.contactObservable
+#print axioms I4ContactRank.contactObservable_variance_pos
+
+-- Use literal environment Names, including numeric private-name components.
+-- This is the same transitive collector used by #print axioms, without guessing parser aliases.
+open Lean Elab Command in
+run_cmd do
+  let env := (← getEnv).setExporting false
+  let targets := env.constants.toList.filter fun (n, c) =>
+    n.toString.startsWith "_private.SourceContactRank." &&
+      (c.isTheorem || n.toString.endsWith ".contactCoefficient" || n.toString.endsWith ".contactW")
+  unless targets.length == 22 do
+    throwError "expected 14 named private theorems, 2 private definitions and 6 generated proof/equation declarations; got {targets.length}"
+  for (n, _) in targets do
+    let axioms ← collectAxioms n
+    logInfo m!"private declaration {n}: {axioms.qsort Name.lt}"
+    unless axioms.all (fun a => a == `propext || a == `Classical.choice || a == `Quot.sound) do
+      throwError "nonstandard axiom in {n}"
+
+````
+
+Literal file contact-rank-evidence/IMPLEMENTATION.md: 6992 bytes; SHA256 687e84ddd5ad53c0b43912d1e57852aa616c8c6c6755e562a8691ade27ec6b5e
+````text
+# Actual contact variance: completed conditional rank capsule
+
+Owner `/root`; producer `/root/i2_formal_support`; actual pickup Math193/6053806126 (root reports separate GET byte equality). Planned checkpoint 06:50 UTC, implementation stop 07:15, release 07:25 on 2026-10-08. Main proof completed 06:35; no previous frozen source/config/runtime was edited.
+
+## Exact result
+
+`I4ContactRank.contactObservable_variance_pos` proves strictly positive variance on the actual `sourceLaw (d+1)` for the literal contact observable, for d≥1, L>0, arbitrary real-cover location x, actual invertible physical frame T, and nonzero contact weights. The observable is
+
+`A*f(x) + Σ_i a_i*f_(T e_i)(x) + B*f_uu(x) + C*f_uuu(x) + Σ_j D_j*f_(u,T e_(j.succ))(x)`, with u=T e0.
+
+Here f is the original sourceField and every derivative is its existing iterated Fréchet sourceJet. The nonzero premise is exactly `A≠0 ∨ a≠0 ∨ B≠0 ∨ C≠0 ∨ D≠0`. No assumed independent-functional interface, rank hypothesis or nonzero Fourier coefficient appears in the public target. Both public definitions and the theorem's literal type match the initial empty-target bytes; `target-identity.json` records the exact comparisons. No matrix wrapper was added.
+
+Final source: `SourceContactRank.lean`, 18,038B, SHA256 `c0b565f501908da378b865104544be62f99c65649c28f9eeb40cb5e8dc7527bf`. Final tests: `ContactRankTests.lean`, 6,726B, SHA256 `457beab69200ad69fdc558be75c6c32f762b78c531eadb0112d5f429164184cb`. Final audit: `ContactRankAxioms.lean`, 1,085B, SHA256 `07ec1ca482a54fcbb9f626a4dcc1f0c494f9e44d47b2edb1865c3b991b7330e9`.
+
+## Proof route
+
+Actual modeJetCoefficient is reduced through phaseCLM composition to scalar sine/cosine derivative cycles. For physical ξ=c*k, V=T a and W=B*u+ΣD_j*T e_(j.succ), put R=A−(ξ·u)(ξ·W), S=ξ·V−C(ξ·u)^3. The cosine/sine coefficients are the literal positive amplitude times `R cosθ−S sinθ` and `R sinθ+S cosθ`. Root's separately authored, proved ContactAlgebra phase helper and sin²+cos²=1 eliminate phase at every x.
+
+The constant mode forces A=0. Actual nonnegative integer frequencies e_i,2e_i,e_i+e_j are admitted to the canonical half-lattice, and their amplitudes are positive from the literal exponential sourceWeight and sourceZ_pos. Root's polynomial helper separates the linear/cubic and quadratic blocks, producing C=0,V=0,W=0. T injectivity then gives a=0 and recovers B,D from Fin.cons. Therefore a nonzero contact weight vector has a genuinely nonzero actual mode coefficient.
+
+The combined coefficient sequence is Summable. Finite HasSum addition and the existing ONE-event derivative-series identity identify the literal observable with scalarSeries on the SAME coefficient law. Existing scalarSeries_variance gives the squared coefficient tsum. Square summability and the proved nonzero coefficient make this tsum strictly positive. No all-sample derivative identity or exchange of uncountable ae quantifiers was used.
+
+## Actual verification and retained failures
+
+All runs use root's shared `run_compile.py`: fcntl serialized compiler lock, nice10, one Lean thread, 180s timeout, exact captured executable/LEAN_PATH/cwd, source snapshot and imported source/object hashes, stdout/stderr log and receipt. No runs timed out. Every completed producer receipt has source/dependency/import-object integrity true. Pinned Lean is 4.34.1 (commit 5045d0056413266e57c625dcd7c365b10e377c52), mathlib d13f23b723b8a846827a245b89c10fc7d3f11612. These are direct target elaborations against cached imports, not a fresh whole-library rebuild/replay.
+
+- `contact-target-red`: exit1, 3.088s, exactly one intended empty goal and no unrelated error, source57a6858…; raw target/log/receipt retained.
+- Main attempts01–05: exit1, retained source snapshots/logs/receipts. Corrections addressed redundant scalar-cycle rewrites after simplification, mixed-direction index simplification, basis expansion rewriting both sides, wrong imported namespace, missing dependent Fin.cons type, HasSum finite-set inference, distribution across finite sums, and explicit scalar basis type in T injectivity. Attempt02 retained one unused-tactic warning; later attempts removed it. The target was not weakened.
+- Main attempt06: exit0, 9.98270025s, EMPTY log, fresh olean558aec1f… . Root separately reran this exact main: exit0, 19.598359041s, empty log, unchanged bindings; actual root receipt/snapshot/log retained.
+- Tests01: exit1, 3.646s. Unsaturated observable simplification and dependent Pi.single annotations were corrected; private-name parser lookup was removed. Tests02: exit0, 12.798798334s, EMPTY log; final16 examples. The final two cycle fixtures are exact scalar third-derivative signs, not claimed literal source-mode tests.
+- Audit01: exit0, 5.703s, three public standard-three rows plus20 literal private theorem/generated rows. Audit02 adds both private definitions and an exact22-entry guard: exit0, 10.242001792s, 25 total rows. Three public rows use only propext/Classical.choice/Quot.sound; all22 private rows use subsets of those standard axioms. The audit uses the same Lean.collectAxioms transitive collector as #print axioms with actual environment Names, avoiding numeric private-name parsing. It emits no mathematical declarations and fails on nonstandard axioms or the wrong count.
+
+The16 semantic fixtures include a constructed invertible NONORTHOGONAL shear and computed vectors; mixed orders in dimension3; pure original value, axial/transverse gradients, second and third derivatives; mixed/shear contact contrasts at arbitrary x; an odd contrast canceling at a unit frequency but with positive actual variance; zero-weight Var0; third-derivative signs; and controls showing basis-only frequencies miss cubic and cross-quadratic contrasts. This does not supply a numerical covariance enclosure.
+
+## Custody, review and limits
+
+The producer authored older Foundation/Fourier/GaussianLaw/Torus/JetLaw dependencies, but not root's C4/Jets/Covariance/Spatial/ContactAlgebra. Conventional finite-witness analysis preceded implementation; root supplied the later arbitrary-location phase suggestion, disclosed in the retained preflight. Source/proof-route exposure and same-organization independence zero apply. The independent reader's early main inspection and root's replay are actual evidence, not final acceptance. Final nonauthor review/publication belongs to root; any subsequent root test/audit replay or completed review is separately bound evidence.
+
+Final freeze binds all producer red/failed/green runs, exact code/test/audit, observed prior sources/config and primary APIs. Full multipoint/symmetry-reduced rank, enlarged transverse-Hessian/Schur rank, compact-frame uniform floor, near-diagonal covariance/inverse control, prescribed-pin all-value regression/genericity, Banach C4 Gaussian law and complete I4/theorem closure remain OPEN. No worker/rule/deployment/author-repository/graph/STATUS/native write was made.
+
+````
+
+Literal file contact-rank-evidence/contact-target-red.log: 498 bytes; SHA256 cdf50f97d150a4607ae7cc33042208347f6f51915b74a42d4401bff81ad9d95a
+````text
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceContactRank.lean:33:69: error: unsolved goals
+d : ℕ
+hd : 1 ≤ d
+L : ℝ
+hL : 0 < L
+T : (Fin (d + 1) → ℝ) ≃L[ℝ] Fin (d + 1) → ℝ
+x : Fin (d + 1) → ℝ
+A : ℝ
+a : Fin (d + 1) → ℝ
+B C : ℝ
+D : Fin d → ℝ
+hw : A ≠ 0 ∨ a ≠ 0 ∨ B ≠ 0 ∨ C ≠ 0 ∨ D ≠ 0
+⊢ 0 < Var[contactObservable d L T x A a B C D; sourceLaw (d + 1)]
+
+````
+

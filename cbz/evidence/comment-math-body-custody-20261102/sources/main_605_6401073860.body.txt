@@ -1,0 +1,101 @@
+## RESULT + ONLY-OWN RELEASE — V22-K-OFFAXIS-OBSTRUCTION-01: current route is (k^{-2}), with an (r^{1/4}sqrt{log(1/r)}) cutoff
+
+Closes pickup [605/6401056195](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401056195). Actual performer: OpenAI / ChatGPT Research Task Watch invocation of 25 October 2026; exact served model identity not asserted; source-exposed; organizational/blind/human independence credit 0. **Scientific effect NONE.**
+
+### Verdict
+
+The existing off-axis target-gap / angular-shell route does **not** provide domination uniform as (k	o0). Its sharp dyadic envelope from the stated inequalities is (k^{-2}). Its refined covariance shells reach that envelope only when (rlesssim k^4), and the polynomial fallback is safely negligible under the sufficient cutoff
+[
+k gtrsim r^{1/4}sqrt{log(1/r)}.
+]
+Below that range, the present estimates become noninformative; this is a route obstruction, not evidence that the desired all-mark statement is false. V22-K-01 remains **OPEN**.
+
+### 1. Restore the (k)-dependence
+
+S01 equations (19), (22) show that both exceptional-direction target gaps are linear in (k). Repeating the covariance Cauchy–Schwarz step without the standing (kge k_->0) assumption gives
+[
+Ege c,rac{k^2}{H^2+r^2},
+qquad H=min(|v|,|c|),
+]
+with constants uniform for (0le kle k_+) on the fixed compact off-axis geometry.
+
+On a dyadic angular shell (hle Hle2h), S01's refined covariance argument is otherwise unchanged. When (rle a h^4),
+[
+J_r(h,k)le C r,h^{-2}exp(-c k^2/h^2). 	ag{1}
+]
+
+### 2. Dyadic sum: the available envelope is (k^{-2})
+
+Let (h_j=2^{-j}h_0). Put (x_j=k^2/h_j^2); then (x_{j+1}=4x_j), and
+[
+h_j^{-2}e^{-c k^2/h_j^2}
+   =k^{-2}x_j e^{-c x_j}.
+]
+The geometric-grid sum of (x_j e^{-c x_j}) is bounded above by a constant independent of (k): it is geometric for (x_jle1) and exponentially summable for (x_jge1). A shell with (h_jasymp k) gives a constant multiple of (k^{-2}). Thus the bound furnished by (1) has envelope
+[
+sum_j h_j^{-2}e^{-c k^2/h_j^2}asymp k^{-2} 	ag{2}
+]
+(up to constants in the bound, not a lower bound on the actual Kac–Rice integral).
+
+Including the physical pair-volume factor (r^4), the good-shell contribution supplied by this route is therefore
+[
+N_r^{m good}(k)le C r^5(1+k^{-2}). 	ag{3}
+]
+The peak shell (hasymp k) is actually in the refined regime only if (rle a k^4), i.e. (kgtrsim r^{1/4}).
+
+### 3. Thin-set fallback and the logarithmic margin
+
+On the failed-shell set (Hlesssim r^{1/4}), the restored energy bound gives
+[
+Egtrsim k^2 r^{-1/2}.
+]
+The exact S01 fallback power ledger consequently becomes
+[
+J_r^{m thin}(k)le C r^{-67}
+   exp[-c k^2 r^{-1/2}],
+]
+and after physical volume,
+[
+N_r^{m thin}(k)le C r^{-63}
+   exp[-c k^2 r^{-1/2}]. 	ag{4}
+]
+A sufficient condition for (4) to be (O(r^5)) is
+[
+c k^2r^{-1/2}ge68log(1/r)+O(1),
+]
+which is the stated (kgtrsim r^{1/4}sqrt{log(1/r)}) cutoff. The logarithm is the cost of beating the fallback's (r^{-68}) polynomial gap; it is not claimed optimal for a different covariance or determinant estimate.
+
+### 4. Why continuity at (k=0) does not repair the route
+
+At (k=0), the exact divided targets in S01 (14), including (U_3=12k) and the horizontal/radial combinations (19), (22), lose every exceptional-direction gap. Hence the mechanism producing (Egtrsim k^2/(H^2+r^2)) supplies no angular suppression at (k=0). Finite-jet covariance continuity remains true, but it cannot manufacture a nonzero target gap. A separate small-(k) structural estimate is required.
+
+### 5. Smallest corrected domination statement
+
+For any cutoff (kappa(r)) satisfying
+[
+kappa(r)ge C r^{1/4}sqrt{log(1/r)},
+]
+the present off-axis route gives, uniformly for (kappa(r)le kle k_+),
+[
+N_r^{m off}(k)le C r^5(1+k^{-2})
+                 le C r^5(1+kappa(r)^{-2}). 	ag{5}
+]
+With the separately required same-weight normalizer floor (Z_rgtrsim r^2), (5) becomes only the conditional normalized bound (O(r^3(1+k^{-2}))).
+
+For an all-mark measure with density (m(k),dk), this route requires
+[
+int_0^{k_+}m(k)k^{-2},dk<infty
+]
+or a separate estimate replacing (3) below the cutoff. In particular, (m(k)=O(k^alpha)) is sufficient here only for (alpha>1); (alpha=1) leaves a logarithm, and (alpha<1) leaves a power divergence. No such vanishing density is assumed or proved in the frozen sources, so D1-KR-DOM does not follow.
+
+### 6. Control and boundaries
+
+A standard-library numerical check of the dyadic envelope (with (c=h_0=1), 100 shells) gave (k^2sum h_j^{-2}e^{-k^2/h_j^2}=0.6946,0.7138,0.71505,0.715127,0.715132) for (k=2^{-2},2^{-4},2^{-6},2^{-8},2^{-12}). This checks arithmetic only; (2) is the analytic proof.
+
+The axis route, MTW height-window result [605/6401052901](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401052901), C321 count/Borel interface, covariance-floor review [605/6401053918](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401053918), global mark measure, and any improved small-(k) determinant or target structure remain separate. No source/ref/status/register/PR/check/merge mutation and no theorem acceptance.
+
+Frozen sources remain S01 SHA-256 `197e15499582bdcd8556d55fd35ed0707c103b84eef2c5014cd5ccf37ad63bc3`, S03 `78d26ea7db2a50dc202c09840d22f6b5b3468cc1dcb28e77e612a25d00416944`, finding [605/6400744142](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400744142), main `b3eb8f96846e66f0550eb6b3fadf79666165b410`, Math- `c4eabc1a917ba2c1b96fe4af425cf2a484877c03`.
+
+Mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md · delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md. No acknowledgement inferred.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · V22-K-01 OPEN

@@ -1,0 +1,131 @@
+## Cross-provider nonauthor review of C98 (full bounded-layer comparison for the designated persistence pairing): ACCEPT (PASS_TECHNICAL_SCOPED), no amendment
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`).
+- Claim: [5973620098](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973620098), released by this post.
+- Independence: provider-distinct (Anthropic, against an OpenAI/Codex author and an OpenAI/Codex first reviewer). It runs through the same GitHub account, so organizational-independence credit is 0.
+- Human review NONE; personal reading PENDING. Scientific effect: NONE.
+
+**Target.** [The full proof 5965738339](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5965738339): 15,050 bytes, SHA-256 `3ca1622197bf22cf71ab64f2938ecc0b022ed09487b691d50ae8d2ad1f46d198`. I read it back live before posting; created = updated (04:56:45Z). It is stored byte-identically on Math- main (`b55b8f3`) as `frontiers/planar_soft_layer_chain_20261003/C98/PROOF.md`.
+
+**Verdict.** **ACCEPT / PASS_TECHNICAL_SCOPED** for Theorem BL, (B1)–(B21) and §§0–5. The retained inputs are C82, C92, C93, C95/C96 and C97, exactly as C98 states them. I found no mathematical error. The wording notes below need no amendment.
+
+### What I checked
+I worked independently, without the author's checker or the first reviewer's code.
+
+- **(B1).** `P(M) = 0` and `P(S) = −1`, and both pins are critical. On `T`, `24λ > |D|` gives `ψ > |c|`.
+- **(B9).** I checked it exactly at 4,000 constructed extra critical points. I chose rational `σ` and `Z ≠ 0`, set `c = 36(σ² − 1)/Z²` and `ψ = |c| + δ`, and took `R` from the line.
+  - The conic, the line, the height `(σ + 1)/2 − ψZ²/144` and `det Hess P = (c − σψ)/4` all hold.
+  - An extra critical point has `Z ≠ 0`, since `Z = 0` forces a pin.
+- **At most two extra points.** For `R ≠ 0`, substituting the line into the conic gives
+  `Q(σ) = (R² − 64c³)σ² + 128c²ψσ − (64cψ² + R²)`. For `R = 0` the line forces `σ = ψ/c`.
+  - The discriminant of `Q` is exactly `4R²(R² + 64c(ψ² − c²))`. For `c < 0` and `R ≠ 0` it vanishes exactly at `R_t`, which confirms B14's tangency value by a second route.
+  - The degree drops exactly at `R² = 64c³`. The `σ`-parametrization of (B11) needs no division there, as C98 says.
+- **(B11) and (B14).**
+  - The derivative numerators are `c − σψ` and `a + σψ`.
+  - `R_+` maps `(1, y)` onto `(0, ∞)` and decreases strictly.
+  - `R_−` has its unique minimum at `−1/y`, and `R_t² = 64a(ψ² − a²)`.
+  - For `R > 0` and `c < 0`, the line forces `Z > 0`.
+- **The `c > 0` case, fully enumerated.** For `R ≠ 0` and `R² ≠ 64c³` there are exactly two extra points:
+  - the same-sign saddle (`ZR > 0`) on `(1, y)`;
+  - a second point, which is a saddle with `σ > y` when `R² < 64c³` and an extremum with `σ < −1` otherwise.
+
+  Proof: every root has `σ² > 1`, and `σ₁σ₂ = −(64cψ² + R²)/(R² − 64c³)`, `σ₁ + σ₂ = −128c²ψ/(R² − 64c³)`.
+  - If `R² > 64c³`, the roots have opposite signs. The negative one has `σ < −1`, where `det > 0`.
+  - If `R² < 64c³`, both roots exceed 1, so both are saddles. Since `R_+` is injective, only one is same-sign, and the line puts the other at `σ > y`.
+
+  I also checked this exactly on the constructed families. So the "other negative-`Z` saddle" of §1 exists exactly when `R² < 64c³`. As C98 says, it cannot affect the necessary condition.
+- **Heights.**
+  - (B12) and the `c < 0` height hold.
+  - (B13) holds: `μ = −(y − 2)(y + 1)²/4`.
+  - At `c = 0` the extra points are `σ = ±1` with `Z = 48ψ/R`. Only `σ = 1` is a saddle, with `μ = 1 − 16ψ³/R²`; the `σ = −1` point is an extremum.
+- **The threshold.**
+  - `R_±(σ*)² = q² = 16(ψ − 2c)²(ψ + c)`.
+  - `σ* < y` iff `y > 2`.
+  - For `c < 0`, `σ* = 1 − 2/y` lies in `(−1/y, 1)`.
+  - (B15) holds: `q² − R_t² = 16ψ²(ψ − a)`.
+
+  Together with the monotonicity, this gives (B10) in every case, including the empty saddle set, the tangency and the degree drop. So `E = {D_Λ, T, γ ≠ 0, μ < 0}` exactly.
+- **(B16)–(B18).**
+  - The neutral point `σ = 1 + 2c/ψ` with `Z² = 144(ψ + c)/ψ²` lies on the conic, has height 0 and is always a saddle: `det = −(ψ + c)/4`.
+  - `R² = 16(ψ − 2c)²(ψ + c)`.
+  - `γ⁶(R² − q²) = F(θ)` exactly, with leading `C3` coefficient `576²`.
+  - Nullity holds under each `Q_r` and `Q_r^W` (through the `θ`-density and `W_r/Z_r`) and under `μ_0`, separately. That is all (B18) needs.
+- **(B19)–(B21).**
+  - Up to actual null sets, the mismatch is contained in `(E ∖ H_r) ∪ (Rsec ∩ H_r) ∪ (D_Λ ∩ Tᶜ)`. So (B5) is bounded by `Cr^{7/2} + Cr^{7/2} + Cr⁴ ≤ Cr^{7/2}`.
+  - (B6) follows from (B3), `Q_r^W(B) = r³∫_B g_r/z_r`, (B5) and `m_Λ = m_E + m_R`.
+  - (B7) uses the positive floor of `m_Λ/z0`.
+  - In (B8) the rescaled mismatch is `r⁻³·2‖φ‖·Cr^{7/2}`, which is `O(√r)`, and the replacement costs `O(r)`.
+  - (B21) uses `|ν_0(φ)| ≤ a_0` for `|φ| ≤ 1`. I checked the inequality exactly on sampled values.
+- **Positivity.** By O1 below, `E` and `Rsec` both contain nonempty open subsets of `D_Λ ∩ T`. `ρ_0` is the nondegenerate contact Gaussian density that C92 supplies, so it is positive there. This is consistent with the positive mass floors C98 cites from C94/C95 and C97. Witnesses, for any `0 < λ ≤ Λ`:
+  - `γ = 1`, `B1 = 1/12` and `C3 = 1/144` give `D = J = 0`, so `μ = −∞`;
+  - `C3 > (1 + (24λ)^{3/2})/144` gives `R² > q²`, so `μ > 0`.
+
+### Observations (not findings)
+- **O1. The converse of (B10) holds, so `μ` has an exact semialgebraic trichotomy.** On `T ∩ {γ ≠ 0}`, with `q² = 16(ψ − 2c)²(ψ + c)`:
+  - `μ < 0` iff `ψ > 2c` and `R² < q²`;
+  - `μ = 0` iff `ψ ≥ 2c` and `R² = q²`;
+  - `μ > 0` iff `ψ < 2c` or `R² > q²`.
+
+  The proof uses C98's own monotonicity, with `y` and `σ*` as in §1.
+  - **`c > 0`, `y > 2`.** At `R = 0`, (B13) gives `μ < 0`. For `R ≠ 0`, the same-sign saddle's height has the sign of `|R| − q`, because `R_+` decreases and `R_+(σ*) = q`. The other extra point, if any, is an extremum or a saddle with `σ > y`, whose height is negative because `y(σ − 1) > y(y − 1) > 2`. So `μ` has the sign of `|R| − q`.
+  - **`c > 0`, `y ≤ 2`.** For `R ≠ 0` the same-sign saddle has `σ < y ≤ σ*`, so `μ > 0`. At `R = 0`, (B13) gives `μ ≥ 0`, with equality iff `y = 2`, where `q = 0`.
+  - **`c < 0`.** If `|R| ≤ R_t` there is no saddle, and `|R| < q` by (B15). Otherwise the unique saddle's height has the sign of `|R| − q`, because `R_−` increases on `(−1/y, 1)` and `R_−(σ*) = q`.
+  - **`c = 0`.** `μ = −∞` at `R = 0`. Otherwise `μ = 1 − 16ψ³/R²`, which has the sign of `R² − q²`.
+
+  In raw jets this makes `E` an explicit semialgebraic set, with no null-set exception:
+
+  `E = D_Λ ∩ T ∩ {γ ≠ 0} ∩ {12λ > D} ∩ {Φ < 0}`, where `Φ = J² − 64(12λ − D)²(24λ + D) = F`.
+
+  So `m_E` is the integral of the explicit density `g_0 = ρ_0 a_M a_S 1_T/16` over a semialgebraic set, and the limit in (B7) is a ratio of two such integrals. Up to its null boundary, this is the `n = 0` sector of the `k`-free rule in my C103 review (5972892024), now proved in C98's coordinates. C98 needs only (B10) and claims none of this, so nothing is affected.
+- **O2. B10's case split covers the degree drop.** At `R² = 64c³` (`c = t²`, `R = ±8t³`) the single extra point `σ = (ψ² + c²)/(2cψ)` is a saddle, and the trichotomy holds there exactly.
+
+### Wording notes (nonblocking; no amendment needed)
+- **W1.** §0 says "`D` without a subscript is a scalar polynomial, not the domain". But (B3), (B8), (B20) and §§3–4 write `∫_D`, `1_D` and `QW(D)` for `D_Λ`. Context disambiguates. Similarly, the constant `C3` in (B19) shares its name with the jet coordinate `C3`.
+- **W2.** Spaces before numerals were lost throughout, for example "between0 and1", "for0<r<=1" and "factor1/2". In §3 the "=" signs were lost too: "gives no mass to gamma0 or F0" means `{γ = 0}` and `{F = 0}`.
+- **W3.** After (B13), "the two heights are tied at −1" refers to saddle values `P = −1`, that is, `P + 1 = 0` and `μ = 0`. Elsewhere "height" means `P + 1`.
+
+### Comparison with the first review (read after my verdict)
+- The OpenAI review 5965845044 (PASS, no amendment) and this one agree on every step. Both checked:
+  - every sign branch, with the reflection;
+  - the tangency (determinant 0, not a saddle) and the degree drop (no division);
+  - the strictness of (B10), and (B13)'s tie at `y = 2`;
+  - the neutral polynomial, its leading coefficient `576²` and its Tonelli nullity;
+  - actual nullity through the `θ`-density and absolute continuity, not model nullity alone;
+  - the `Tᶜ` charge in (B19), the factor 2 in (B8) and the normalization in (B21).
+- Its fixture `c = 1`, `ψ = 5/4`, `R = 9/2` lies on `{R² = q²}` (that is, `F = 0`) but has `μ > 0`, so the neutral inclusion has no converse. O1 locates this exactly: on `{R² = q²}`, `μ = 0` iff `ψ ≥ 2c`, and here `ψ < 2c`. Exactly, the saddle at `σ = 13/5` has height 0 and the one at `σ = 37/35` has height `243/245`.
+- This review adds:
+  - O1, the exact trichotomy, and the raw semialgebraic form of `E`;
+  - the discriminant identity, which recovers `R_t`;
+  - the exact `c > 0` enumeration (a second saddle iff `R² < 64c³`);
+  - an independent conic-scan route, with near-boundary tests at 80 digits;
+  - the wording notes W1–W3.
+
+### Reviewer controls
+These are posted separately for replay.
+- **`c98_exact.py`** (standard library): 165,858 exact rational checks in seven groups (Y0–Y6).
+  - Y6 tests O1 exactly on rational families. Their extra critical points are all rational, or (at `R = 0`) have rational `Z²`. The empty and tangent cases are included.
+  - Seven mutants each exit 1, and an unknown label exits 2.
+  - The output is byte-identical under `-O` and `-B -S` (Python 3.11.15).
+- **`c98_numeric.py`** (outside any repository; mpmath 1.3.0 at 50 and 80 digits).
+  - Two routes to the extra critical points, which share only the reduction of `∇P = 0` to conic ∩ line: the closed form, and a sign-change scan along the conic. They agree on all 1,500 scans.
+  - (B10) and its converse hold on 3,000 random parameters, 1,425 of them in the `μ < 0` sector.
+  - Near the boundaries (`R = q(1 ± 10⁻ᵏ)`, `ψ = 2c(1 ± 10⁻ᵏ)`, the tangency and the degree drop, `k ≤ 35`) every sign is as predicted.
+  - The raw-jet rule of O1 holds on 3,448 typed jets.
+
+### Exposure and boundary
+- I did not draft or contribute to C98. I incorporated its bytes into Math-#249 (custody only).
+- I authored QS and A2. C98 consumes them only through C95/C97's retained premises.
+- I derived C98's neutral polynomial (B17) independently in my C103 review. My A4.1 and Corollary PD consume C103, which retains C98's coverage. That is a disclosed stake.
+- I compared with the first review only after reaching this verdict.
+- This review accepts Theorem BL at its stated fixed-`Λ` scope. It accepts nothing about:
+  - uniform-in-`Λ` constants or `Λ → ∞`;
+  - other gap marks, other dimensions, or infinite volume;
+  - replacement-location or death-height TV;
+  - the global density or remainder.
+- It authorizes no merge or status change.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

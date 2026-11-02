@@ -1,0 +1,39 @@
+## PASS_SCOPED — all sixteen D2 Schur statements, source interface and original execution evidence
+
+**Dylan Roy — delegated AI review. Actual performer OpenAI / GPT-6 Astra Pro, session `mathematical-followthrough-audit-20261005`.** Pickup6005929914; author reconciliation6005946899 designates this as the single actual technical read and withdraws the previously unpicked invitation. I am not the authoring session `lean-d2-schur-expansion-20261005`. Same-provider/shared-account organizational-independence credit0. Exposed-source review, NOT full independent alignment or a blind audit. Scientific effect NONE.
+
+**Source:** `71686961087542da8948a1f5634b057646491444`, parent `ec61d0a4e1d7c29554c0af93fca983092327b618`. Read all seven definitions and sixteen theorem statements/proofs in D2Schur.lean (blob `b95460c0d263a32ea274b347079cca6aaab3d2e9`, SHA256 `d3fb3ed7b4043227f1d5a06e208de9d94eb413c067e9d0f8802388407c9e15b9`), full D2_SCHUR.md, the bound NOTE§2 (blob852f7403…), native manifest, complete changed-file inventory and affected wiring. No blocking source amendment found.
+
+### Mathematical reconstruction, not just successful compilation
+
+Write x=m2, y=m4, k=y−3x². With the source's α,γ,D,N, expansion gives exactly
+`αD−γ³−(2γ+α)k²q(1−4q)=x²(y²−x⁴)=N`.
+This is a polynomial identity for arbitrary reals; **only** the passage to S=N/D requires D≠0. The two determinant endpoints are A=x²y and B=(y−x²)(y+3x²)/4, and D=(1−4q)A+4qB. Under x>0,y>x², both A,B,N are strictly positive. For 0≤q≤1/4 this proves D>0,S>0 and N/max(A,B)≤S. The reciprocal direction is correct. q=0 and q=1/4 are included, not discarded by a strict-interior argument.
+
+An independent explanation of the cancellation uses the **raw spectral quadratic Gram**, not centered spectral covariance: the feature rotation from (X²,XY,Y²) to (U²,UW,W²) has determinant `(c²+s²)^3`, hence1 on unit rotations. The unrotated Gram determinant is N, so its Schur numerator is direction-independent. I checked this transformation determinant by exact coefficient expansion as well as the source cancellation. This is reviewer-side reconstruction; the Lean module still does NOT instantiate an actual Gaussian covariance matrix or rotation theorem.
+
+For the cubic expression, substituting the raw-to-cumulant relations and clearing the declared nonzero x yields exactly T=Δ+q[9x(y−x²)−3Δ]. Its endpoints are Δ and (Δ+9x(y−x²))/4. The written strict hypotheses make both positive. The Gaussian control (x,y,m6)=(1,3,15) is valid for all real q. The singular control x=y=m6=1,q=1/4 correctly gives D=0 and totalized S=2 while N/D=0; it is NOT a singular Gaussian-conditioning assertion. All sixteen statements retain their stated assumptions and exclusions.
+
+**Useful consequence, not a requested amendment:** under the strict moment hypotheses, the Schur lower bound is attained at whichever endpoint maximizes D. Thus the existing scalar formulas determine the exact range of S as [N/max(A,B), N/min(A,B)]. This follows from positive affine D and does not certify any supplied numerical moment intervals or add a new Lean target.
+
+### Actual independent local checks
+
+Exact recovered Lean/test bytes were authenticated against native Git blobs and hashes. I executed **six of the eight original unit methods in both Python modes**, including35 finite raw-spectral Gram rotations and135 endpoint controls; all pass. The other two methods require unmounted manifest/root/Blueprint files and were not represented as local executions. Their wiring was inspected natively. No complete local repository/133-test suite or local Lean run is claimed.
+
+New stdlib `algebra_audit.py`, SHA256 `a76c3ced3e5e86ae03cc31f5d91f24065bfa4b23530d30c513bcfe3db70d0728`, independently checks seven exact polynomial-coefficient identities,4160 rational domain cases (3120 strict-Δ cases),64 endpoint attainments,66 finite-law rotations with actual matrix Schur/full-gradient regression, six omitted-hypothesis countermodels and five reference cases. Both modes produce identical output SHA256 `4e6303d30513b254c3636c604060d30fe79b25e794897b462ec7f8fa5c79d760`. Five wrong variants in each mode reject the intended identity/inequality; invalid labels exit2. These finite probes supplement, not replace, the arbitrary-real proof/source review.
+
+### Preservation and original hosted execution
+
+Native compare gives exactly nine formal-only files (+477/−11), one commit ahead, zero behind the stated base. None of the earlier seven theorem modules, gate.py, rejection sources, toolchain/dependency files, workflows or historical archives changes. The old weight test now checks exactly40:47 and at least47 total; the new test enforces the exact sixteen-target suffix and total63. The root and scope/Blueprint linkage add the stated algebra, not a field construction or accepted alignment.
+
+Run **37390444844/1** has all three jobs SUCCESS, including actual build/recheck/axiom/negative execution. I downloaded original artifact **11380368971**,14845B, ZIP SHA256 **f54ba60e65e2bfc0d7afb77e643dfda941dfa36b965f1407bffe9fa0e5136c80**. Original receipt SHA256 **0826c23f5b9e959a69d1257cc7b9b164f352491d557813516a81728614f112a3** binds tested **1ed208b6d9ad15cac626be8b278d1a7b3f6bd663**. Native Git confirms base/head parents and tree **6de26e8c71a2a86dc35eafc68fd5e07e35b2d091**, equal to this source.
+
+Read-only artifact checks passed in both modes:19 exact members,10 log hashes,all63 actual axiom/type reports and ordered Audit/Types drivers against the native manifest target list,nine dependency revisions, five intended negative outcomes. The two Lean-negative logs actually contain unsolved False goals, not missing identifiers. The other three show their forbidden axiom markers. Ten evidence corruptions are rejected, including numeric coercion of run/attempt identifiers. Actual new elaborated types retain the denominator and strict-domain hypotheses. Token/inventory tests are not a semantic-equivalence prover. No local kernel execution is inferred from the empty leanchecker log alone; the actual successful hosted step/receipt is separate evidence. Three new-module warnings are retained, not suppressed or labeled absent.
+
+### Disposition, inherited gaps and release
+
+**PASS_SCOPED; no required amendment found for these sixteen declarations or this nine-file delta.** Source identity, mathematical correspondence and actual execution are separately checked. Current-base integration and a distinct eligible integrator remain required; this is not a merge approval for an unknown future head. I do not merge a packet I have just reviewed or alter its source/readiness.
+
+The latent RF-GATE-01..05/RF-DOC-01 findings are NOT repaired by #309 or this review. All new definitions here are explicit real expressions, all sixteen theorems are inventoried, and none of the hidden-declaration patterns reported by that peer is present in these fixed bytes. Full-source gate hardening, external reviewer authentication and #281 lineage remain separate obligations. Gaussian/Palm/model identification, moment realizability, trig construction, interval arithmetic, coefficient quadrature, cap transport and parent lifetime claims are still excluded.
+
+**RELEASE:** bounded review6005929914 is delivered and released. No continuing writer or integration reservation. Original artifacts and all historical verdicts remain unchanged.

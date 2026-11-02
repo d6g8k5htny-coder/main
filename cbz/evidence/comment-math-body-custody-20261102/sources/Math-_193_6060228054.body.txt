@@ -1,0 +1,854 @@
+Exact reviewed global bounded-Lipschitz joint-flow leaf — actual producer /root/i2_formal_support, actual independent source reviewer /root/blind_coefficient_oct08, root acceptance limited to the stated analytic targets.
+
+Root fully read the final proof, 13 controls, audit, author narrative and completed exact review; fresh 12:48:15 UTC readback matched all 47 frozen bindings. Retained compiler receipts show two genuine empty targets before proof, final main/tests/audit exit 0 and two standard-three axiom rows. Root did not replay the compiler. Source/API/proof route exposed; organizational independence 0. Classical mathematical existence is not an executable solver.
+
+The result constructs jointly continuous all-real-time flow and uniqueness from BOTH actual global boundedness and global Lipschitz continuity. It does not derive those hypotheses for the patched periodic field, descend the flow to the torus, construct stopped maps, establish an I2 component certificate or close ELDER/exhaustion. W0/W1 controls use unbounded linear local models and are expressly outside the global-bound application. Failures and warnings remain retained.
+
+The following 13 files are serialized literally and completely. The complete manifest also binds local snapshots, failures, objects and upstream sources not serialized here; their hashes are not claimed to publish those bytes. Native publication and compiler/source review are not scientific promotion. The full original eight-part goal remains ACTIVE.
+
+### Literal file: i2-joint-flow/lean-project/GlobalJointFlow.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/GlobalJointFlow.lean
+Bytes: 7192; SHA-256: c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7
+
+```````text
+import Mathlib.Analysis.ODE.ExistUnique
+import Mathlib.Tactic
+
+noncomputable section
+open Set Metric
+open scoped Topology NNReal
+namespace ActualJointFlow
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+
+theorem global_solution_unique (V : E → E) (K : ℝ≥0) (hLip : LipschitzWith K V)
+    (f g : ℝ → E) (hf : ∀ t, HasDerivAt f (V (f t)) t)
+    (hg : ∀ t, HasDerivAt g (V (g t)) t) (heq : f 0 = g 0) : f = g := by
+  exact ODE_solution_unique_univ (v := fun _ => V) (s := fun _ => univ)
+    (fun _ => hLip.lipschitzOnWith) (fun t => ⟨hf t,mem_univ _⟩)
+    (fun t => ⟨hg t,mem_univ _⟩) heq
+
+section Construction
+variable (V : E → E) (K B : ℝ≥0) (hLip : LipschitzWith K V) (hBound : ∀ x, ‖V x‖ ≤ B)
+include hLip hBound
+
+private theorem finite_picard (x : E) (T : ℝ≥0) :
+    IsPicardLindelof (fun _ : ℝ => V)
+      (⟨0,neg_nonpos.mpr T.coe_nonneg,T.coe_nonneg⟩ : Icc (-(T:ℝ)) T) x (B*T+1) 1 B K where
+  lipschitzOnWith := fun _ _ => hLip.lipschitzOnWith
+  continuousOn := fun _ _ => continuousOn_const
+  norm_le := fun _ _ y _ => hBound y
+  mul_max_le := by simp
+
+private def family (x : E) (T : ℝ≥0) : E × ℝ → E :=
+  Classical.choose ((finite_picard V K B hLip hBound x T).exists_forall_mem_closedBall_eq_hasDerivWithinAt_continuousOn)
+
+private theorem family_spec (x : E) (T : ℝ≥0) :
+    (∀ y ∈ closedBall x (1:ℝ), family V K B hLip hBound x T (y,0) = y ∧
+      ∀ t ∈ Icc (-(T:ℝ)) T, HasDerivWithinAt
+        (fun s => family V K B hLip hBound x T (y,s))
+        (V (family V K B hLip hBound x T (y,t))) (Icc (-(T:ℝ)) T) t) ∧
+    ContinuousOn (family V K B hLip hBound x T) (closedBall x 1 ×ˢ Icc (-(T:ℝ)) T) :=
+  Classical.choose_spec ((finite_picard V K B hLip hBound x T).exists_forall_mem_closedBall_eq_hasDerivWithinAt_continuousOn)
+
+private theorem family_deriv (x : E) (T : ℝ≥0) (y : E) (hy : y ∈ closedBall x 1)
+    (t : ℝ) (ht : t ∈ Ioo (-(T:ℝ)) T) :
+    HasDerivAt (fun s => family V K B hLip hBound x T (y,s))
+      (V (family V K B hLip hBound x T (y,t))) t :=
+  ((family_spec V K B hLip hBound x T).1 y hy).2 t (Ioo_subset_Icc_self ht) |>.hasDerivAt
+    (Icc_mem_nhds ht.1 ht.2)
+
+private theorem family_agree (x z : E) (T S : ℝ≥0) (hT : 0 < T) (hS : 0 < S)
+    (y : E) (hyx : y ∈ closedBall x 1) (hyz : y ∈ closedBall z 1) (t : ℝ)
+    (htT : t ∈ Ioo (-(T:ℝ)) T) (htS : t ∈ Ioo (-(S:ℝ)) S) :
+    family V K B hLip hBound x T (y,t) = family V K B hLip hBound z S (y,t) := by
+  let R : ℝ := min (T:ℝ) S
+  have hR : 0 < R := lt_min hT hS
+  have hxsub : Ioo (-R) R ⊆ Ioo (-(T:ℝ)) T :=
+    Ioo_subset_Ioo (neg_le_neg (min_le_left _ _)) (min_le_left _ _)
+  have hzsub : Ioo (-R) R ⊆ Ioo (-(S:ℝ)) S :=
+    Ioo_subset_Ioo (neg_le_neg (min_le_right _ _)) (min_le_right _ _)
+  have h0 : (0:ℝ) ∈ Ioo (-R) R := ⟨by linarith,hR⟩
+  have ht : t ∈ Ioo (-R) R := by
+    refine ⟨?_,lt_min htT.2 htS.2⟩
+    dsimp [R]
+    rcases le_total (T:ℝ) S with h | h
+    · rw [min_eq_left h]; exact htT.1
+    · rw [min_eq_right h]; exact htS.1
+  have he := ODE_solution_unique_of_mem_Ioo (v := fun _ : ℝ => V) (s := fun _ => univ)
+    (fun _ _ => hLip.lipschitzOnWith) h0
+    (fun s hs => ⟨family_deriv V K B hLip hBound x T y hyx s (hxsub hs),mem_univ _⟩)
+    (fun s hs => ⟨family_deriv V K B hLip hBound z S y hyz s (hzsub hs),mem_univ _⟩)
+    (by rw [((family_spec V K B hLip hBound x T).1 y hyx).1,
+      ((family_spec V K B hLip hBound z S).1 y hyz).1])
+  exact he ht
+
+private def horizon (t : ℝ) : ℝ≥0 := ⟨|t|+1,by positivity⟩
+omit hLip hBound in
+private theorem horizon_pos (t : ℝ) : 0 < horizon t := by
+  change (0:ℝ)< |t|+1
+  positivity
+omit hLip hBound in
+private theorem horizon_contains (t : ℝ) : t ∈ Ioo (-(horizon t:ℝ)) (horizon t) := by
+  change -(|t|+1)<t ∧ t< |t|+1
+  constructor <;> linarith [neg_abs_le t,le_abs_self t]
+
+private def constructed : E × ℝ → E := fun p =>
+  family V K B hLip hBound p.1 (horizon p.2) p
+
+private theorem constructed_initial (x : E) : constructed V K B hLip hBound (x,0) = x :=
+  ((family_spec V K B hLip hBound x (horizon 0)).1 x (mem_closedBall_self (by norm_num))).1
+
+private theorem constructed_deriv (x : E) (t : ℝ) :
+    HasDerivAt (fun s => constructed V K B hLip hBound (x,s))
+      (V (constructed V K B hLip hBound (x,t))) t := by
+  let T := horizon t
+  have hEq : ∀ᶠ s in 𝓝 t,
+      constructed V K B hLip hBound (x,s) = family V K B hLip hBound x T (x,s) := by
+    filter_upwards [Ioo_mem_nhds (horizon_contains t).1 (horizon_contains t).2] with s hs
+    exact family_agree V K B hLip hBound x x (horizon s) T (horizon_pos s) (horizon_pos t)
+      x (mem_closedBall_self (by norm_num)) (mem_closedBall_self (by norm_num)) s
+      (horizon_contains s) hs
+  have hd := family_deriv V K B hLip hBound x T x (mem_closedBall_self (by norm_num)) t
+    (horizon_contains t)
+  exact hd.congr_of_eventuallyEq hEq
+
+private theorem constructed_continuous : Continuous (constructed V K B hLip hBound) := by
+  rw [continuous_iff_continuousAt]
+  intro p
+  let T := horizon p.2
+  have hn : closedBall p.1 (1:ℝ) ×ˢ Ioo (-(T:ℝ)) T ∈ 𝓝 p := by
+    rw [nhds_prod_eq]
+    exact Filter.prod_mem_prod (closedBall_mem_nhds p.1 (by norm_num))
+      (Ioo_mem_nhds (horizon_contains p.2).1 (horizon_contains p.2).2)
+  have hn' : closedBall p.1 (1:ℝ) ×ˢ Icc (-(T:ℝ)) T ∈ 𝓝 p :=
+    Filter.mem_of_superset hn (prod_mono (Subset.rfl) Ioo_subset_Icc_self)
+  have hc := (family_spec V K B hLip hBound p.1 T).2.continuousAt hn'
+  have heq : constructed V K B hLip hBound =ᶠ[𝓝 p] family V K B hLip hBound p.1 T := by
+    filter_upwards [hn] with q hq
+    exact family_agree V K B hLip hBound q.1 p.1 (horizon q.2) T
+      (horizon_pos q.2) (horizon_pos p.2) q.1 (mem_closedBall_self (by norm_num)) hq.1 q.2
+      (horizon_contains q.2) hq.2
+  exact hc.congr_of_eventuallyEq heq
+
+private theorem constructed_add (x : E) (s t : ℝ) :
+    constructed V K B hLip hBound (x,s+t) =
+      constructed V K B hLip hBound (constructed V K B hLip hBound (x,s),t) := by
+  let Φ := constructed V K B hLip hBound
+  have hshift : ∀ r, HasDerivAt (fun u => Φ (x,s+u)) (V (Φ (x,s+r))) r := by
+    intro r
+    simpa only [Function.comp_def,one_smul] using
+      (constructed_deriv V K B hLip hBound x (s+r)).scomp r ((hasDerivAt_id r).const_add s)
+  have he := global_solution_unique V K hLip (fun r => Φ (x,s+r))
+    (fun r => Φ (Φ (x,s),r)) hshift
+    (constructed_deriv V K B hLip hBound (Φ (x,s)))
+    (by simp only [add_zero,Φ,constructed_initial])
+  exact congrFun he t
+
+end Construction
+
+theorem exists_global_joint_flow (V : E → E) (K B : ℝ≥0)
+    (hLip : LipschitzWith K V) (hBound : ∀ x, ‖V x‖ ≤ B) :
+    ∃ Φ : E × ℝ → E, Continuous Φ ∧ (∀ x, Φ (x,0) = x) ∧
+      (∀ x t, HasDerivAt (fun s => Φ (x,s)) (V (Φ (x,t))) t) ∧
+      (∀ x s t, Φ (x,s+t) = Φ (Φ (x,s),t)) := by
+  exact ⟨constructed V K B hLip hBound,constructed_continuous V K B hLip hBound,
+    constructed_initial V K B hLip hBound,constructed_deriv V K B hLip hBound,
+    constructed_add V K B hLip hBound⟩
+
+end ActualJointFlow
+
+```````
+
+### Literal file: i2-joint-flow/lean-project/FlowTests.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/FlowTests.lean
+Bytes: 4617; SHA-256: a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13
+
+```````text
+import GlobalJointFlow
+import Mathlib.Analysis.InnerProductSpace.PiL2
+
+noncomputable section
+open ActualJointFlow Set
+open scoped NNReal
+namespace JointFlowTests
+
+private theorem constant_exact {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+    [CompleteSpace E] (c : E) : ∃ Φ : E × ℝ → E, Continuous Φ ∧
+      (∀ x t, Φ (x,t) = x + t • c) ∧ (∀ x s t, Φ (x,s+t) = Φ (Φ (x,s),t)) := by
+  obtain ⟨Φ,hc,h0,hd,ha⟩ := exists_global_joint_flow (fun _ : E => c) 0 ‖c‖₊
+    (LipschitzWith.const c) (fun _ => le_rfl)
+  refine ⟨Φ,hc,?_,ha⟩
+  intro x t
+  have hlin : ∀ r : ℝ, HasDerivAt (fun s : ℝ => x + s • c) c r := by
+    intro r
+    simpa only [id_eq,one_smul] using ((hasDerivAt_id r).smul_const c).const_add x
+  have he := global_solution_unique (fun _ : E => c) 0 (LipschitzWith.const c)
+    (fun r => Φ (x,r)) (fun r => x+r•c) (hd x) hlin (by simpa using h0 x)
+  exact congrFun he t
+
+-- Actual constructor outputs are identified by ODE uniqueness, including NEGATIVE time.
+example : ∃ Φ : ℝ × ℝ → ℝ, Continuous Φ ∧ ∀ x t, Φ (x,t) = x := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact (0:ℝ)
+  exact ⟨Φ,hc,by simpa using he⟩
+example : ∃ Φ : ℝ × ℝ → ℝ, Continuous Φ ∧ Φ (3,-2) = 1 := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact (1:ℝ)
+  exact ⟨Φ,hc,by have h := he 3 (-2); norm_num at h; exact h⟩
+example : ∃ Φ : ℝ × ℝ → ℝ, Continuous Φ ∧ Φ (3,2) = 5 := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact (1:ℝ)
+  exact ⟨Φ,hc,by have h := he 3 2; norm_num at h; exact h⟩
+example (c x : EuclideanSpace ℝ (Fin 2)) : ∃ Φ : EuclideanSpace ℝ (Fin 2) × ℝ → EuclideanSpace ℝ (Fin 2), Continuous Φ ∧ Φ (x,-1) = x-c := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact c
+  exact ⟨Φ,hc,by simpa [sub_eq_add_neg] using he x (-1)⟩
+example (c : ℝ) : ∃ Φ : ℝ × ℝ → ℝ, Continuous Φ ∧
+    ∀ x s t, Φ (x,s+t) = Φ (Φ (x,s),t) := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact c
+  exact ⟨Φ,hc,ha⟩
+example (c : ℝ) : ∃ Φ : ℝ × ℝ → ℝ, Continuous Φ ∧
+    ∀ x t, Φ (Φ (x,t),-t) = x := by
+  obtain ⟨Φ,hc,he,ha⟩ := constant_exact c
+  refine ⟨Φ,hc,?_⟩
+  intro x t
+  rw [he,he]
+  simp
+example {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+    (V : E → E) (K B : ℝ≥0) (hL : LipschitzWith K V) (hB : ∀ x, ‖V x‖ ≤ B)
+    (x : E) (hx : V x = 0) : ∃ Φ : E × ℝ → E, Continuous Φ ∧ ∀ t, Φ (x,t) = x := by
+  obtain ⟨Φ,hc,h0,hd,ha⟩ := exists_global_joint_flow V K B hL hB
+  refine ⟨Φ,hc,?_⟩
+  have he := global_solution_unique V K hL (fun t => Φ (x,t)) (fun _ => x)
+    (hd x) (fun t => by simpa only [hx] using hasDerivAt_const t x) (h0 x)
+  exact fun t => congrFun he t
+example (f g : ℝ → ℝ) (hf : ∀ t, HasDerivAt f 0 t)
+    (hg : ∀ t, HasDerivAt g 0 t) (h : f 0 = g 0) : f = g :=
+  global_solution_unique (fun _ => 0) 0 (LipschitzWith.const 0) f g hf hg h
+
+-- W0 local model: z'=-z, f=-z². These are explicit scalar controls, not a
+-- claim that the unbounded linear field satisfies the constructor's globalB hypothesis.
+example (y t : ℝ) : HasDerivAt (fun s => y * Real.exp (-s))
+    (-(y * Real.exp (-t))) t := by
+  simpa using ((Real.hasDerivAt_exp (-t)).comp t (hasDerivAt_neg t)).const_mul y
+example (y : ℝ) (hy : y≠0) : ∀ t : ℝ, -(y * Real.exp (-t))^2 < 0 := by
+  intro t
+  exact neg_neg_of_pos (sq_pos_of_ne_zero (mul_ne_zero hy (Real.exp_ne_zero _)))
+example (y : ℝ) (hy : y≠0) : ¬ ∃ t : ℝ, -(y * Real.exp (-t))^2 = 0 := by
+  rintro ⟨t,ht⟩
+  have hp := sq_pos_of_ne_zero (mul_ne_zero hy (Real.exp_ne_zero (-t)))
+  linarith
+
+-- W1 local model: y'=y, f=y². For every proposed nonnegative horizonT,
+-- an actual positive initial point remains below target1 for ALL0≤t≤T.
+example (y t : ℝ) : HasDerivAt (fun s => y * Real.exp s) (y * Real.exp t) t :=
+  (Real.hasDerivAt_exp t).const_mul y
+example (T : ℝ) (hT : 0≤T) : ∃ y : ℝ, 0<y ∧ y<1 ∧
+    ∀ t ∈ Icc 0 T, (y * Real.exp t)^2 < 1 := by
+  let y := Real.exp (-T)/2
+  have hy : 0<y := by dsimp [y]; positivity
+  have hb : Real.exp (-T) ≤ 1 := Real.exp_le_one_iff.mpr (by linarith)
+  have hmul : y * Real.exp T = 1/2 := by
+    dsimp [y]
+    rw [div_mul_eq_mul_div,← Real.exp_add]
+    simp
+  refine ⟨y,hy,by dsimp [y]; linarith,?_⟩
+  intro t ht
+  have hn : 0 < y * Real.exp t := mul_pos hy (Real.exp_pos _)
+  have hl : y * Real.exp t ≤ 1/2 := by
+    rw [← hmul]
+    exact mul_le_mul_of_nonneg_left (Real.exp_le_exp.mpr ht.2) hy.le
+  nlinarith
+end JointFlowTests
+
+```````
+
+### Literal file: i2-joint-flow/lean-project/FlowAxioms.lean
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/FlowAxioms.lean
+Bytes: 225; SHA-256: 33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565
+
+```````text
+import GlobalJointFlow
+#print axioms ActualJointFlow.global_solution_unique
+#print axioms ActualJointFlow.exists_global_joint_flow
+#check ActualJointFlow.global_solution_unique
+#check ActualJointFlow.exists_global_joint_flow
+
+```````
+
+### Literal file: i2-joint-flow/IMPLEMENTATION.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/IMPLEMENTATION.md
+Bytes: 7796; SHA-256: 2b09878daa34f794538102736738989cddbffd1bb0cff3786e008a05cc661e78
+
+```````text
+# Actual global bounded-Lipschitz autonomous joint flow
+
+Actual producer: `/root/i2_formal_support`. Root authorized this bounded I2 geometry leaf on 2026-10-08 around12:19UTC, with feasibility12:27, authorstop12:45 and report12:50. Main was green by12:27; controls and audit completed and the sole compiler slot was explicitly returned to root at12:31:20UTC. This is authored formal work, source-exposed/same-organization evidence, not an independent scientific acceptance. The completed cone capsule and every other frozen predecessor remain untouched.
+
+## Exact result and its assumptions
+
+`ActualJointFlow.exists_global_joint_flow` takes a complete real normed space, an actual autonomous vector field `V : E → E`, `K B : NNReal`, `LipschitzWith K V`, and the global bound `∀ x, ‖V x‖ ≤ B`. It constructs a function `Φ : E × ℝ → E` and proves genuine joint continuity, `Φ(x,0)=x`, the ordinary derivative identity at every real time, and `Φ(x,s+t)=Φ(Φ(x,s),t)`. Neither curves, a continuous family, a Flow object, semigroup laws nor component conclusions are supplied as premises. Negative times are included. `global_solution_unique` proves equality of any two all-time actual solutions with the same initial point, under the Lipschitz hypothesis.
+
+The two public declaration headers are byte-identical to the initial empty-proof target snapshot; their order changed only to permit direct use of uniqueness. The final `#check` output confirms the elaborated public hypotheses exactly, including a single Lipschitz and bound premise, without extra section variables. `CompleteSpace E` remains in the public uniqueness target for literal target parity even though that proof itself does not need it. The resulting function uses classical choice: this proves mathematical existence and compatibility, not an executable numerical ODE solver.
+
+## Construction checked by Lean
+
+For every finite nonnegative time radius T and initial center x, the actual pinned `IsPicardLindelof` structure holds on `[-T,T]` with vector-field ball radius `B*T+1`, initial-point radius1, boundB and Lipschitz constantK. The norm/time constraint is exactly `B*T ≤ (B*T+1)-1`. Thus arbitrary finite strips are available without a small `K*T` condition or a compact-manifold continuation assumption. The literal Picard–Lindelöf theorem supplies each jointly continuous initial-point/time family and its within-interval ODE property.
+
+The chosen global representative uses the family centered at x with horizon `|t|+1`. Two finite representatives are proved equal on their common OPEN time interval by `ODE_solution_unique_of_mem_Ioo`, with initial time0. Within derivatives are converted to ordinary derivatives only at interior points. Every queried time is strictly interior to its chosen strip; no unwarranted endpoint uniqueness or differentiability is used.
+
+Near a fixed `(x,t)`, one common finite family centered at x agrees with all chosen representatives on an initial-point closed ball of positive radius times an open time strip. That product is a neighborhood, and the actual PL joint continuity transfers across eventual equality. This is the substantive global joint-continuity proof; continuity of a choice function or pointwise continuity is not assumed. Ordinary derivatives transfer by the same overlap argument. Time-shifted curves satisfy the ODE by the scalar-to-Banach chain rule `HasDerivAt.scomp`; global uniqueness supplies the autonomous semigroup identity.
+
+Principal pinned APIs consumed are `Analysis/ODE/PicardLindelof.lean:79–88` (literal structure/constraint), `Analysis/ODE/ExistUnique.lean:113–121` (joint finite family), `:278` (interior uniqueness) and `:340` (global uniqueness), `Analysis/Calculus/Deriv/Comp.lean:100` (scomp), and `Topology/ContinuousOn.lean:446` (eventual-equality continuity transfer). Their full exact source bindings, compiler executable and actual mathlib HEAD are recorded in `evidence/SOURCE_BINDINGS.json`.
+
+## Actual validation and retained history
+
+All invocations use the owned timeout-safe `run_compile.py`: `nice -n10`, one Lean thread, the cached pinned runtime/dependencies, direct module elaboration and180s timeout with process-group termination/captured output. Exact argv, cwd, sources, logs, exit codes, elapsed times and timeout flags are retained in paired snapshot/log/JSON receipts. No dependency update, broad build or whole-import kernel replay was performed.
+
+- Initial `global-flow-target-red`: exit1 in37.182727708s, exactly two intended unsolved goals and no unrelated errors. Actual snapshot is808bytes, SHA`0be414a00beb5d2e91d27e93175b07d3f4da149e1f43d97333b7cea458021805`. An early message guessed951bytes; the actual readback808-byte correction was sent to root, and the SHA did not change.
+- Main attempts01/02: exit1 in13.829420208s/3.402586958s. They retain section-variable inclusion, notation, continuity-method and scalar/vector chain-rule API errors. A private Construction section prevents the public existence declaration from acquiring duplicate hidden proof arguments.
+- Main attempt03: exit0 in3.837617083s. It retains two harmless unused-section warnings (CompleteSpace on the fixed public uniqueness target; NormedSpace/CompleteSpace on the private finite-PL witness). They are not globally suppressed.
+- Tests01/02: exit1 in3.504479083s/3.543326916s. Only test-side identity simplification, numeric normalization, implicit time-type and NNReal-scope/subtraction issues were repaired; no main statement or proof changed.
+- Final tests03: exit0 in3.581119209s, empty log,13 actual `example` declarations.
+- Final axioms01: exit0 in3.3228135s, two actual public rows, each exactly `[propext, Classical.choice, Quot.sound]`, plus literal `#check` signatures. No sorryAx or custom axiom appears.
+
+The13 controls identify ACTUAL constructor outputs for zero and constant fields through ODE uniqueness, including negative time on ℝ and EuclideanSpace(Fin2), semigroup, reversal, equilibrium persistence and global uniqueness. They also prove the explicit W0 scalar model `z(t)=y exp(-t)` never reaches height0 in finite time for nonzero y, and the W1 scalar model `y(t)=y exp(t)` has no uniform positive initial-point hitting horizon: for everyT≥0, some0<y<1 stays below height1 throughout `[0,T]`. Those two local linear fields are unbounded and explicitly are not claimed to satisfy the constructor's globalB hypothesis. The controls falsify inappropriate finite-hit/uniform-hit assumptions needed later; they do not themselves build stopped maps.
+
+Final main:7192bytes/SHA`c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7`; tests:4617bytes/SHA`a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13`; audit:225bytes/SHA`33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565`. The authoritative manifest/integrity bind all owned source/evidence, emitted objects and inspected primary/background sources. Independent final review and any root replay are separate evidence, not implied by this author receipt.
+
+## Remaining geometric obligations
+
+This capsule proves the requested global analytic constructor under BOTH global boundedness and global Lipschitz continuity. Deriving those hypotheses for the actual smooth cutoff-patched periodic field is still OPEN. So are compatibility with lattice translations/torus descent, the actual height chain rule and band invariance, the W0 asymptotic critical stop with uniform endpoint control, W1 finite-hit existence and continuous hitting time on the puncture, C4→genuine Morse normal forms and construction of the all-real-level component certificate. No actual Morse maximum, physical critical transition, global certificate, complete I2/I4 or full theorem closure follows solely from this result.
+
+```````
+
+### Literal file: i2-joint-flow/EXACT_REVIEW_BLIND_COEFFICIENT_OCT08.md
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/EXACT_REVIEW_BLIND_COEFFICIENT_OCT08.md
+Bytes: 10452; SHA-256: 5b5b25e47eedb00593967519b55ce323b813df350d3e1310b65771b52e3974b5
+
+```````text
+# Exact review of the global bounded-Lipschitz joint-flow capsule
+
+Actual reviewer: `/root/blind_coefficient_oct08`, OpenAI/Codex, assigned by `/root`. I did not author the main proof or tests. I supplied earlier read-only ODE API reconnaissance and a Lipschitz-only uniform-local-time route; the producer explicitly chose the different BOTH-bounded-and-Lipschitz finite-strip construction reviewed here. I therefore disclose source/API/proof-route exposure, organizational independence 0, compiler 0. This is an exact source/evidence review, not blind architecture, independent compiler replay, a local-rule vote or scientific acceptance. The final freeze notification preceded my source inspection.
+
+**Disposition: ACCEPT_SCOPED.** No must-fix defect was found in the two literal public targets, the noncircular construction, negative-time coherence, joint continuity, semigroup identity or the stated 13 controls. The result requires BOTH global boundedness and global Lipschitz continuity on a complete real normed space. It does not derive those hypotheses for the actual patched periodic field, descend a flow to the torus, build stopped maps, or construct an I2 component certificate.
+
+## Exact final binding and evidence check
+
+Fresh readback matched all **47/47 unique final bindings**, with zero mismatches, before this review was written. The focal identities are:
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `FINAL_FREEZE.json` |16243|`50db39977bfe243be8ad73c6546adefb5bb27bf71832151a7f2aac9f067724bc`|
+| `freeze-integrity.json` |10660|`2e26ad71ee172dc142b5592ff61c7e334816ca92cf750eb336630e668c15bf5b`|
+| `IMPLEMENTATION.md` |7796|`2b09878daa34f794538102736738989cddbffd1bb0cff3786e008a05cc661e78`|
+| `lean-project/GlobalJointFlow.lean` |7192|`c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7`|
+| `lean-project/FlowTests.lean` |4617|`a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13`|
+| `lean-project/FlowAxioms.lean` |225|`33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565`|
+
+I fully read the three final Lean sources, implementation narrative, literal red targets, all eight receipts and logs, source bindings and integrity records. Independently hashed source-snapshot/log pairs match **8/8 receipt triples**. All three successful snapshots equal their corresponding current final source byte-for-byte. I independently extracted both public declaration headers and checked exact equality with the initial empty-proof snapshot; their changed declaration order does not change the literal statements. That original snapshot is 808 bytes / `0be414a00beb5d2e91d27e93175b07d3f4da149e1f43d97333b7cea458021805`, not the superseded guessed 951 bytes.
+
+The direct `#check` output has no hidden duplicate section proof assumptions. Each public axiom row is exactly `[propext, Classical.choice, Quot.sound]`. Final sources contain no `sorry`, `admit`, custom `axiom` or `unsafe` token. These are checks of the retained author receipts and bytes, not a fresh compiler invocation by this reviewer. Pinned Mathlib HEAD is `d13f23b723b8a846827a245b89c10fc7d3f11612`; this is cached direct module elaboration, not a full import rebuild or whole-import kernel replay.
+
+## Mathematical and semantic proof review
+
+The public existence theorem takes V,K,B,hLip,hBound and complete real normed-space instances. It supplies the continuous function, zero-time identity, all-real-time derivative identity and semigroup conclusion. A curve family, Flow, joint continuity or semigroup law is not a premise. Classical choice is used only to select the finite Picard families provided by the existing theorem.
+
+For any finite T>=0, the actual `IsPicardLindelof` witness uses vector-field ball radius B*T+1, initial-point radius1, bound B and Lipschitz K on [-T,T]. The time inequality is B*T <=(B*T+1)-1. This is valid even for B=0, K=0 or T=0. No small-K*T restriction or unproved compact continuation step is concealed. The local joint family is supplied by the literal `exists_forall_mem_closedBall_eq_hasDerivWithinAt_continuousOn` API.
+
+`family_deriv` converts within derivatives to ordinary derivatives only at strict interior times. `family_agree` uses the open interval (-min(T,S),min(T,S)), containing initial time 0 when T,S>0. Both selected curves have the same initial point and satisfy the same globally Lipschitz autonomous ODE throughout that interval. `ODE_solution_unique_of_mem_Ioo` therefore gives equality on the overlap. That API includes the reversed-time uniqueness branch for times below the initial time; I directly inspected it. The negative part of the overlap is not omitted.
+
+The chosen global value uses horizon |t|+1. Every real queried time, positive or negative, lies strictly inside its selected interval, with a unit margin. Near any fixed time, `constructed_deriv` proves eventual equality with ONE fixed finite family and transfers the derivative. It does not differentiate the discontinuous/classically selected horizon-family choice.
+
+For joint continuity near (x,t), the proof uses a fixed finite family centered at x and the product of closedBall(x,1) with a strict interior time interval. That product is a genuine neighborhood of (x,t). Every nearby chosen global value is proved equal to that fixed jointly continuous PL family via overlap uniqueness. ContinuousAt then transfers across eventual equality. This proves joint continuity from actual finite-family continuity, rather than assuming choice is continuous or invoking separate continuity.
+
+The time-shifted global curve r -> Phi(x,s+r) satisfies the same ODE by `HasDerivAt.scomp` with derivative 1 of s+r. The curve through Phi(x,s) has the same initial value; global uniqueness yields the semigroup identity for arbitrary signed s,t. Global uniqueness itself only assumes derivative identities for two supplied all-time curves and uses the pinned Lipschitz uniqueness theorem. It is not the global existence statement used as its own proof.
+
+## Controls inspected and their actual scope
+
+There are exactly 13 final `example` declarations. The constant-field helper first obtains the ACTUAL constructed flow from the public theorem and then identifies it with x+t*c by ODE uniqueness. Thus the zero-field result, Phi(3,-2)=1, Phi(3,2)=5, the EuclideanSpace(Fin2) negative-time translation, constant semigroup and reversal controls are tests of actual constructor outputs rather than unrelated explicitly supplied flows. The generic equilibrium control also starts with the constructor and uses uniqueness against the constant curve. The remaining zero-derivative global uniqueness example checks the separate uniqueness target.
+
+The W0 examples prove the explicit local scalar curve y exp(-t) has derivative -z, remains at negative height -z² for y!=0, and never reaches height 0 at any finite real time. They do not prove a globally bounded field hypothesis for z'=-z. The W1 examples prove the derivative of y exp(t), and for every T>=0 choose y=exp(-T)/2: 0<y<1 and y exp(t)<=1/2 on [0,T], hence height stays below 1. This is a genuine counter-control for a proposed uniform hitting horizon. The local linear fields are unbounded; the tests and narrative explicitly keep them outside the global-B constructor application. No stopped-map, actual height-chain-rule or critical-flow conclusion is inferred from these controls.
+
+No additional control is required to accept the two bounded-Lipschitz analytic targets in this capsule. A later actual-field consumer must meaningfully test cutoff-patch boundedness/Lipschitz estimates, lattice compatibility, band/height identities and stopping behavior. The current constant-field controls cannot certify those separate hypotheses.
+
+## Retained failed attempts, warnings and success receipts
+
+| Attempt | Exit | Elapsed seconds | Actual result |
+|---|---:|---:|---|
+| global-flow-target-red |1|37.182727708|Exactly two intended unsolved targets; no unrelated errors|
+| flow-attempt01 |1|13.829420208|Section-variable, notation and API elaboration failures retained|
+| flow-attempt02 |1|3.402586958|Eventual-equality field notation and scalar/vector chain-rule failures retained|
+| flow-attempt03 |0|3.837617083|Final main; two unused-section warnings retained|
+| tests-attempt01 |1|3.504479083|Identity simplification, numeric/time-type and scope failures retained|
+| tests-attempt02 |1|3.543326916|Numeric and subtraction simplification failures retained|
+| tests-attempt03 |0|3.581119209|Final 13 controls; empty log|
+| axioms-attempt01 |0|3.3228135|Two standard-three axiom rows and literal public signatures|
+
+All eight receipt timeout flags are false. I read the failure logs directly; their generated metavariable/sorry displays belong to failed attempts and are not present in the final successful source. Final main warnings concern the fixed public uniqueness declaration's unused CompleteSpace and the private PL witness's unused NormedSpace/CompleteSpace instances. They are preserved and not globally suppressed. The final successful main log SHA is `7657232e9c38ad635a423f1ece5429b22d73fb242c246dcceac9cc3f9bd0a1b0`; the final tests log is the empty-file SHA `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`; the audit log SHA is `41c20a9bd8811ced54dfa6f38e316dcdabe5ffaa6020b215ec75af5a993fb657`.
+
+## Acceptance boundary
+
+The actual mathematical construction and the literal public headers match the scoped analytic claim. BOTH global hypotheses are required and remain open for the smooth cutoff-patched periodic field. Torus/lattice descent, actual height chain rule and band invariance, W0 asymptotic endpoint control, W1 finite-hit existence and continuous first-hit time on the puncture, genuine Morse normal forms and all-level component certificates remain OPEN. No acceptance of I2/I4 as a whole, full ELDER/exhaustion, numerical work, original scientific claim, runtime/rule deployment or native publication follows from this report.
+
+Root remains responsible for independent mathematical acceptance and native publication/readback. This reviewer made no compiler invocation or edits to the author's source/evidence. After writing both review artifacts, the final 47 flow bindings and all 44 accepted atlas bindings were freshly rechecked with zero mismatches; the focal quantitative floor source, prior atlas review and own Morse derivation also retained their exact hashes. Final review bytes/SHA are returned separately.
+
+```````
+
+### Literal file: i2-joint-flow/FINAL_FREEZE.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/FINAL_FREEZE.json
+Bytes: 16243; SHA-256: 50db39977bfe243be8ad73c6546adefb5bb27bf71832151a7f2aac9f067724bc
+
+```````text
+{
+  "producer": "/root/i2_formal_support",
+  "entries": [
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/IMPLEMENTATION.md",
+      "bytes": 7796,
+      "sha256": "2b09878daa34f794538102736738989cddbffd1bb0cff3786e008a05cc661e78",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/PLAN.md",
+      "bytes": 1930,
+      "sha256": "c63e04cd45bb6dcbfa28aeaf636e6b32d27bdc6af88d0a3fd07df04f6c43b9e9",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/compile-context.json",
+      "bytes": 3367,
+      "sha256": "3d6b6977a65b0ef8c8749ab1993ab9d133132d86fd058298265d77b406c2a96a",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/FINAL_METADATA.json",
+      "bytes": 4610,
+      "sha256": "0b447558a8d5d275edf9d83a27c01748e6b4940408e63e7b8a30bf8ffc69f6e0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/SOURCE_BINDINGS.json",
+      "bytes": 2936,
+      "sha256": "0c4b03b284ecba52dc719e3c5c13e4cf5e8e78b2a1ee9689622f66ef7efdef75",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/axioms-attempt01.json",
+      "bytes": 877,
+      "sha256": "03bb7740635665eccdd36f83edbbbd3b1510b5f888681ba54bf66be982b424e2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/axioms-attempt01.lean",
+      "bytes": 225,
+      "sha256": "33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/axioms-attempt01.log",
+      "bytes": 972,
+      "sha256": "41c20a9bd8811ced54dfa6f38e316dcdabe5ffaa6020b215ec75af5a993fb657",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt01.json",
+      "bytes": 890,
+      "sha256": "a7d84391824eb318d644b0f99ab369e96b52a707c3f98a55af1ffc07beaa98f1",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt01.lean",
+      "bytes": 7024,
+      "sha256": "6aeeab8712a8a892147e903142d646c189e80d8386b63a6951b8852607404ab2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt01.log",
+      "bytes": 8262,
+      "sha256": "95cbac22446c801795aa874c7d54f24bdd3f0ae20b8b00617dd73969ee949347",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt02.json",
+      "bytes": 889,
+      "sha256": "52986b99018bd21f911d42c6ba86318099700e0b1d62d6a9a3a90dfe6adae283",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt02.lean",
+      "bytes": 7151,
+      "sha256": "73574310e746bae363b0989e382cf91f18113bdf823972f3f0bfab0e4185d2d3",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt02.log",
+      "bytes": 2007,
+      "sha256": "249ff34390d7fc2bb0c75e016f689c929641a8b543f6b022118eb7dbe5471077",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt03.json",
+      "bytes": 889,
+      "sha256": "958c0e5adee20d62985fd10e882c6475089e61c2d0e27dc22a65eb71efdbe528",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt03.lean",
+      "bytes": 7192,
+      "sha256": "c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt03.log",
+      "bytes": 858,
+      "sha256": "7657232e9c38ad635a423f1ece5429b22d73fb242c246dcceac9cc3f9bd0a1b0",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/freeze_artifacts.py",
+      "bytes": 4536,
+      "sha256": "4d57bf2c5a9de4b179c3deea6f0bf64431bdf2b9aecd982a54cfa3797d975062",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/global-flow-target-red.json",
+      "bytes": 890,
+      "sha256": "ead02fb25108602483ff0a291506ceb00eb028099c81f0456435dffdf2e63017",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/global-flow-target-red.lean",
+      "bytes": 808,
+      "sha256": "0be414a00beb5d2e91d27e93175b07d3f4da149e1f43d97333b7cea458021805",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/global-flow-target-red.log",
+      "bytes": 885,
+      "sha256": "ec5a191994eabed63911a67b80ea0907c7270af6ed3abff33797636ab3e4448e",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/proof-draft.lean",
+      "bytes": 7024,
+      "sha256": "6aeeab8712a8a892147e903142d646c189e80d8386b63a6951b8852607404ab2",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/target-head-integrity.json",
+      "bytes": 73,
+      "sha256": "fbba310df0309b4b1710b5281ad026b8b753eeb36a1683183fc037c71a26c48b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt01.json",
+      "bytes": 884,
+      "sha256": "a811e35c55b7a19262aa3dfbc2fb290f9ebe8c5fe46fcb6886d309c1631479d1",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt01.lean",
+      "bytes": 4464,
+      "sha256": "4293bd16a86d2ce1aa9558f098acbffcf559ff8abdd1156cb128cff223db393b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt01.log",
+      "bytes": 2435,
+      "sha256": "614377f2e8857c2a87b2a827d758c3a57ddfd9fd5f4e336afeff5583270d001d",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt02.json",
+      "bytes": 884,
+      "sha256": "64cab2c5fd8085ac65a82bde23d1c76c56112ee2a306787d2716ac4bf02c178b",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt02.lean",
+      "bytes": 4574,
+      "sha256": "6d0cf357cf0739e123dccc9a9633063194f89224b45514df9ba3ab779fca09dd",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt02.log",
+      "bytes": 493,
+      "sha256": "434fec8631b8ff587c901b6b401377bced4e381a072868d0317e5087f7ba3f92",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt03.json",
+      "bytes": 884,
+      "sha256": "4c0a36befa17aa9bb2a30ce82d5e1402f8268cb444ba8e104a447a625d6e67c6",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt03.lean",
+      "bytes": 4617,
+      "sha256": "a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt03.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/FlowAxioms.lean",
+      "bytes": 225,
+      "sha256": "33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/FlowTests.lean",
+      "bytes": 4617,
+      "sha256": "a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/GlobalJointFlow.lean",
+      "bytes": 7192,
+      "sha256": "c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/run_compile.py",
+      "bytes": 1243,
+      "sha256": "a0764d8b52da5cb062a20b7f1f21021ed0e9efe6b57324c2af3355354945d85c",
+      "kind": "owned-source-or-evidence"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/ODE/ExistUnique.lean",
+      "bytes": 17992,
+      "sha256": "1292496cc956302be52e934fd23c72ac414d82963177ebcac88faff4f6cec0a0",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/ODE/PicardLindelof.lean",
+      "bytes": 37093,
+      "sha256": "4b14c4f9eb935e5b28648a43466dd43c9629e3c4f57850e50701cabe16ec6576",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/Calculus/Deriv/Comp.lean",
+      "bytes": 20953,
+      "sha256": "4ed965b4b0a3a62724cade9cb1b89b00c2201195a575dc9ab2a2f32a42869bc3",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Topology/ContinuousOn.lean",
+      "bytes": 47264,
+      "sha256": "b2145ee5c7fae03717fa3666c3f8abf3674f510c7081abe678e66c652ae83ab1",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/mathlib-pinned/Mathlib/Analysis/InnerProductSpace/PiL2.lean",
+      "bytes": 59486,
+      "sha256": "e721db719dcfdaa8b26fca4dded8b6b7b47206e46fe600294aa2fed1ad130036",
+      "kind": "pinned-primary"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-morse-gluing/I2_CRITICAL_STOPPED_FLOW_PARENT_AUDIT_20261008T115631Z.md",
+      "bytes": 13818,
+      "sha256": "4427e800aceb2ab0fefe3ce99c63c3fd860d988275e955803d0214bc2d9b4432",
+      "kind": "frozen-background-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-events/CONVENTIONAL_FINITE_EVENT_ELDER_INDUCTION.md",
+      "bytes": 23026,
+      "sha256": "70a32b6f5b8d58171f1bf4a2f79dd0df5d289360b01aa9067b4e8530e93a067a",
+      "kind": "frozen-background-observed"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+      "bytes": 49968,
+      "sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+      "kind": "pinned-lean-executable"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/GlobalJointFlow.olean",
+      "bytes": 251904,
+      "sha256": "6f9cfebfd026f1551ed842fe8c3361cc7160a003b3b5dcb842618cd6b87414e7",
+      "kind": "actual-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/FlowTests.olean",
+      "bytes": 77808,
+      "sha256": "bfe94f96250105d48174e6d48254b70bd7092101ad04bf52bd75d3dad1d1f77c",
+      "kind": "actual-emitted-object"
+    },
+    {
+      "path": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/FlowAxioms.olean",
+      "bytes": 1400,
+      "sha256": "44d86977fd17ed15973b3fd0d659d2fab4a6c6377e4f6d6f8210420d2456c683",
+      "kind": "actual-emitted-object"
+    }
+  ]
+}
+
+```````
+
+### Literal file: i2-joint-flow/evidence/global-flow-target-red.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/global-flow-target-red.json
+Bytes: 890; SHA-256: ead02fb25108602483ff0a291506ceb00eb028099c81f0456435dffdf2e63017
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "GlobalJointFlow.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/GlobalJointFlow.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project",
+  "exit_code": 1,
+  "timed_out": false,
+  "elapsed": 37.182727708,
+  "source_sha256": "0be414a00beb5d2e91d27e93175b07d3f4da149e1f43d97333b7cea458021805",
+  "log_sha256": "ec5a191994eabed63911a67b80ea0907c7270af6ed3abff33797636ab3e4448e",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i2-joint-flow/evidence/flow-attempt03.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt03.json
+Bytes: 889; SHA-256: 958c0e5adee20d62985fd10e882c6475089e61c2d0e27dc22a65eb71efdbe528
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "GlobalJointFlow.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/GlobalJointFlow.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 3.837617083,
+  "source_sha256": "c22d884f96311617c06f598ba2d4c17e63480b8b1231d46d9ce6effa436de1c7",
+  "log_sha256": "7657232e9c38ad635a423f1ece5429b22d73fb242c246dcceac9cc3f9bd0a1b0",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i2-joint-flow/evidence/flow-attempt03.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/flow-attempt03.log
+Bytes: 858; SHA-256: 7657232e9c38ad635a423f1ece5429b22d73fb242c246dcceac9cc3f9bd0a1b0
+
+```````text
+GlobalJointFlow.lean:10:0: warning: automatically included section variable(s) unused in theorem `ActualJointFlow.global_solution_unique`:
+  [CompleteSpace E]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [CompleteSpace E] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+GlobalJointFlow.lean:21:8: warning: automatically included section variable(s) unused in theorem `_private.GlobalJointFlow.0.ActualJointFlow.finite_picard`:
+  [NormedSpace ℝ E]
+  [CompleteSpace E]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [NormedSpace ℝ E] [CompleteSpace E] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+
+```````
+
+### Literal file: i2-joint-flow/evidence/tests-attempt03.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt03.json
+Bytes: 884; SHA-256: 4c0a36befa17aa9bb2a30ce82d5e1402f8268cb444ba8e104a447a625d6e67c6
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "FlowTests.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/FlowTests.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 3.5811192089999997,
+  "source_sha256": "a3a2a3c261035160a16155926c8d4628da51b7d385dd68fa5335f547fa929d13",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i2-joint-flow/evidence/tests-attempt03.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/tests-attempt03.log
+Bytes: 0; SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+
+```````text
+
+```````
+
+### Literal file: i2-joint-flow/evidence/axioms-attempt01.json
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/axioms-attempt01.json
+Bytes: 877; SHA-256: 03bb7740635665eccdd36f83edbbbd3b1510b5f888681ba54bf66be982b424e2
+
+```````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "FlowAxioms.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project/.lake/build/lib/lean/FlowAxioms.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 3.3228135,
+  "source_sha256": "33fb91f59e2d3f357d1b4ac2f638135bdc2496cdfb29765f58fad3610efe4565",
+  "log_sha256": "41c20a9bd8811ced54dfa6f38e316dcdabe5ffaa6020b215ec75af5a993fb657",
+  "LEAN_NUM_THREADS": "1"
+}
+
+```````
+
+### Literal file: i2-joint-flow/evidence/axioms-attempt01.log
+
+Local path: /Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-joint-flow/evidence/axioms-attempt01.log
+Bytes: 972; SHA-256: 41c20a9bd8811ced54dfa6f38e316dcdabe5ffaa6020b215ec75af5a993fb657
+
+```````text
+'ActualJointFlow.global_solution_unique' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ActualJointFlow.exists_global_joint_flow' depends on axioms: [propext, Classical.choice, Quot.sound]
+ActualJointFlow.global_solution_unique.{u_1} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+  (V : E → E) (K : NNReal) (hLip : LipschitzWith K V) (f g : ℝ → E) (hf : ∀ (t : ℝ), HasDerivAt f (V (f t)) t)
+  (hg : ∀ (t : ℝ), HasDerivAt g (V (g t)) t) (heq : f 0 = g 0) : f = g
+ActualJointFlow.exists_global_joint_flow.{u_1} {E : Type u_1} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+  (V : E → E) (K B : NNReal) (hLip : LipschitzWith K V) (hBound : ∀ (x : E), ‖V x‖ ≤ ↑B) :
+  ∃ Φ,
+    Continuous Φ ∧
+      (∀ (x : E), Φ (x, 0) = x) ∧
+        (∀ (x : E) (t : ℝ), HasDerivAt (fun s => Φ (x, s)) (V (Φ (x, t))) t) ∧
+          ∀ (x : E) (s t : ℝ), Φ (x, s + t) = Φ (Φ (x, s), t)
+
+```````
+

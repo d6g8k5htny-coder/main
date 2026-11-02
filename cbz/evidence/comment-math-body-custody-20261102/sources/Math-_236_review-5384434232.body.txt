@@ -1,0 +1,393 @@
+C53 Slice B — Dylan Roy — delegated AI review. Actual performer and exposure are specified in the original report below. Technical verdict only; personal reading PENDING; organizational-independence credit 0; no merge or source/status promotion.
+
+Original report (verbatim):
+
+# PR236 Slice B — fresh nonauthor mathematical review
+
+Date: 2026-10-01. Reviewer: actual **OpenAI / Codex**, fresh delegated subagent
+`/root/c53_genericity_review`, working under Dylan Roy's delegation. Candidate
+author: Anthropic / Claude. Root custody: R17 claim
+`bc9d70f5-0e80-4d0e-86a6-41d730caa05a`, WE458; PR236 pickup
+`5938696772` covers A/B/C. This report covers **B only**.
+
+**Verdict: ACCEPT within the assigned Slice B scope.** I find no substantive
+gap in NOTE §§2.1, 2.3, or 2.5 for every fixed finite integer `d >= 2`, fixed
+`L > 0`, `b in R`, `k > 0`, orthonormal frame `R`, and fixed `y in (0,1]`.
+The acceptance of the weighted conclusion uses the local isolation and global
+value-separation conclusions of §§2.2/2.4 as separately reviewed interfaces.
+It does not independently accept those sections, the whole theorem, C52,
+or any imported source. No candidate amendment is required by this review.
+
+Scientific/status effect: **NONE**. Dylan Roy's personal reading: **PENDING**.
+Organizational-independence credit: **0**. This fresh agent is provider-distinct
+from the Claude candidate author, but shares the OpenAI provider with the
+planar ancestor and several source authors. Fresh-agent exposure is not a claim
+of independence from that shared intellectual ancestry.
+
+## 1. Exact target, custody, and exposure
+
+The exact target is:
+
+```
+repository: d6g8k5htny-coder/Math-
+PR: 236
+head: 5ae9529615937ab87c81c0a27b61b708c3eb0d1d
+path: frontiers/ordinary_short_bar_occurrence_all_d_20261001/NOTE.md
+bytes: 23284
+Git blob: b22b55904a9b0ed18910fcce7c692efae1b2a2ff
+SHA256: aa7fe2d106e662009d09486946b7e957568641a989ab6aadfa081b9f5b5b293a
+```
+
+I independently recomputed the byte length, SHA256, and Git blob hash of
+`../source-v11/NOTE.md`. The candidate's commit/path/blob binding was checked
+against the root-saved PR and PR-files API replies in `../entry/prepublication-pr.json`
+and `../entry/files236-v11.json`. I did not independently refetch the candidate
+from the network, and the candidate commit was not available in the local
+ancestral checkout. This is explicit custody reliance, not a claim of a second
+network retrieval.
+
+**Revision and exposure disclosure.** The first reconstruction and initial
+finite-control runs used head `cf95d824d31b514bc5083a2c553ccce6b08bb822`,
+NOTE blob `5a0fc6e6d1c7c9bfd191faf01413140a48d092bf`, 22759 bytes,
+SHA256 `fef5b88f1b1e0438783a186744b48e2da264d538055ab2b2258bfb4b928cd61c`.
+During review the author revised the source and merged the base. I inspected
+the actual local NOTE diff and the NOTE patch in `../entry/delta236.json`.
+The analytic change explicitly qualifies Lemma F_d item 3 and §2.4 by
+`A<0`; the other NOTE change describes the enhanced historical source
+verifier. The assigned sections' mathematical text is unchanged. I adopt
+only the **revised A<0-qualified exhaustion interface**, not the original
+unqualified item 3. The almost-sure typed vanishing outside A<0 remains the
+distinct argument of §2.5; its lambda_max=0 exceptional set remains null.
+The source-verifier engineering change is outside this slice. All seven
+retained source files are unchanged. The script's identity binding and the
+report were updated to the new exact target, and both control modes were
+run again after that update. The earlier target is retained in the output
+as `original_exposure`.
+
+For **all seven retained source files**, my independent control reads the
+`7fe06b01489af8181e53f26d520810829f146094:path` object using `git show` from
+`../../continuation52/checkout`, compares it byte-for-byte to the supplied
+source copy, and recomputes length/SHA256/Git blob. All seven match. Full
+commit/path/bytes/blob/SHA identities and the equality results are in
+`check-output.json` under `source_authentication.sources`; this machine-readable
+identity manifest forms part of this report.
+
+Load-bearing source locators for this slice, all at the above source commit:
+
+| Key | Exact path | Git blob | Bytes |
+|---|---|---|---:|
+| P | `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md` | `dfed3b8d318a3ab1950957f393307733a4bef3f2` | 40261 |
+| R | `frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md` | `247b3ecf80bfbe896948d5d489b2d5842a81c481` | 17734 |
+| E2 | `reviews/d1_section9_borel_repair_20260925/REPAIR.md` | `fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a` | 9062 |
+| E1 | `imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md` | `213594d6ca6a86fb938110f4d166d9ce275a02d0` | 1782 |
+| REC | `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md` | `75da2597971510f843f8d90c743950cb8c177342` | 23312 |
+
+I read NOTE directly, including neighboring sections to locate interfaces;
+P §§2–5 and §8; R §2 and surrounding setup; E2's whole-field/Borel replacement;
+E1; REC's mandatory reading rule and W1/embedding corrections; and CAP's
+scope statement. Other source sections appearing in the file searches and
+source inventory were not treated as reviewed premises. In particular CAP's
+specialized planar numerical corollary is not used here. T was authenticated
+but its theorem is outside this slice.
+
+Before this assignment I had no exposure to PR236, its candidate controls, or
+the planar C52 proof. During this review I did not read or execute the author's
+`check.py` or `test_check.py`, and I did not read another reviewer's Slice A
+conclusions. The root supplied the scope/custody identifiers and disclosed that
+it authored the planar predecessor. REC contains historical review judgments;
+I read its mandatory corrections, but those judgments are not substitutes for
+the arguments below. This is a fresh reconstruction of the assigned
+general-d interfaces, not a relabeling of an earlier acceptance.
+
+## 2. Whole-field coupling and contact jet — ACCEPT
+
+References: NOTE lines 113–149; P §§2–3; R §2, especially (R2)–(R3).
+
+There are `4 + 2(d-1) = 2d+2` rows. For `a=-r/2`, `c=r/2`, the first four rows
+act on `(f(a), f_x(a), f(c), f_x(c))`, and each transverse block acts on two
+first derivatives. The axial determinant has absolute value `12/r^4`; each
+transverse block has determinant `1/r`. Thus the product is
+`12 r^(-(d+3))`. Direct substitution of the pinned heights and zero gradients
+gives precisely `(b-kr^3/2, -kr^2, 0, 12k, 0, ..., 0)`.
+
+The apparent cancellation in the fourth row is controlled deterministically.
+For a smooth scalar restriction to the axis, two integrations by parts give
+
+```
+U3(f) = (6/r^3) integral_a^c (t-a)(c-t) f_xxx(t,0) dt.
+```
+
+The weight is nonnegative and has integral one after multiplication by
+`6/r^3`, because `integral_a^c (t-a)(c-t) dt = r^3/6`.
+Consequently this row converges to `f_xxx(0)` for every smooth realization,
+and is bounded by the axial third-derivative supremum. All other rows are
+averages or first difference quotients with the stated derivative limits.
+In particular, for a fixed frame and a small embedded radius band,
+`|U_r(f)| <= C_d ||f||_(C^3)` uniformly in `r`.
+
+P §2 supplies a smooth Gaussian version with rapidly summable positive Fourier
+weights. The same average representations applied to the smooth covariance
+kernel show that `C_r -> C_0` in global `C^4`, and `Sigma_r -> Sigma_0`.
+The contact rows are independent differential functionals, so the retained
+positive-spectrum argument gives `Sigma_0 > 0`. Hence inverse matrices are
+bounded for all sufficiently small `r` and converge to `Sigma_0^-1`.
+
+The common-sample construction
+
+```
+F_r = F + C_r Sigma_r^-1 (v_r - U_r(F))
+```
+
+has the correct conditional Gaussian mean and residual covariance. Moreover,
+`U_r(C_r) = Sigma_r`, so it satisfies all the transformed observations exactly;
+invertibility of the transform recovers the original pins. Taking limits in
+the displayed construction yields almost-sure convergence in global `C^4`.
+This is pathwise convergence over the whole real family `r -> 0`, not merely
+convergence in distribution or along a chosen sequence.
+
+There is no need for torus rotational invariance: the frame is fixed and
+constant directional derivatives are valid on a flat torus. The proof retains
+the actual covariance at that frame. No simultaneous probability-one event
+over uncountably many `(b,k,R,y)` is claimed or required.
+
+## 3. Full transverse covariance and the type boundary — ACCEPT
+
+References: NOTE lines 151–159 and 309–313; P §2 and §3.
+
+Let `m=d-1`. Adjoining `m(m+1)/2` independent symmetric transverse Hessian
+entries to the contact observation vector produces this list:
+
+* one value functional;
+* all `d` gradient components;
+* all `d(d+1)/2` independent full-Hessian components;
+* the single additional cubic functional `partial_x^3`.
+
+The Hessian column in `U_0` supplies the axial and mixed axial entries; the
+adjoined block supplies exactly the missing transverse entries. No symmetric
+off-diagonal coordinate is duplicated. Independence follows either from
+arbitrary finite jets of smooth test functions or from linear independence of
+these degree-separated derivative symbols in rotated coordinates.
+
+To connect this formal independence to the Gaussian covariance, suppose a
+linear combination has variance zero. The variance is a sum of nonnegative
+terms `a_n |T_hat(n)|^2` with every `a_n > 0`, so all Fourier coefficients of
+the corresponding finite-order distribution vanish. The distribution is zero;
+arbitrary local test jets force every coefficient to vanish. This reasoning
+works in every fixed finite dimension and for irrational as well as rational
+frame orientations.
+
+The enlarged covariance is positive definite. Its Schur complement gives a
+strictly positive definite conditional covariance for the transverse entries
+given `U_0=v_0`; the target changes the mean only. Thus `A` has a nondegenerate
+Gaussian density relative to ordinary Lebesgue coordinates on `Sym(m)`. No
+GOE law, independent matrix entries, or independence from the rest of the
+field is asserted.
+
+The determinant is a nonzero polynomial on `Sym(m)` (`det I_m=1`), so its zero
+set has Lebesgue measure zero. Since `lambda_max(A)=0` implies `det A=0`, that
+event is null. The partition used in §2.5 is exhaustive:
+
+```
+lambda_max(A)<0  <=> A is negative definite;
+lambda_max(A)>0;
+lambda_max(A)=0 (null).
+```
+
+Mixed inertia is handled by the second event; it is not an omitted case.
+This argument includes `m=1` without modification.
+
+## 4. Conditional remote genericity — ACCEPT
+
+References: NOTE lines 241–278; retained P §2 and the mesh argument in §8.
+
+For each remote observation vector `Z`, a singular conditional covariance
+would mean that a nonzero scalar combination of its random entries lies in
+the linear span of `U_0` almost surely. Equivalently, after adding an origin
+contact distribution, the resulting distribution has zero Gaussian variance.
+Positive Fourier spectrum makes it the zero distribution. Since the remote
+supports are separated from the origin, the distributions at those remote
+supports must vanish separately.
+
+For `Z_M(x,v)`, the order-two symbol of a combination of `H(x)v` is
+`(beta . xi)(v . xi)`. Since `v != 0`, the integral-domain property of the
+polynomial ring forces `beta=0`. The remaining first-order gradient symbol
+then forces its coefficients to vanish. An independent explicit version of
+the same fact is that, for any nonzero `v` and any `w`, the symmetric matrix
+
+```
+H = (w v^T + v w^T)/|v|^2 - (w.v) v v^T/|v|^4
+```
+
+satisfies `H v = w`. Thus the gradient plus Hessian-vector entries contribute
+`2d` independent residual functionals.
+
+For `Z_V(x,z)`, the value-difference coefficient appears as opposite
+zeroth-order coefficients at two distinct supports. The zeroth- and
+first-order coefficients must vanish at each support separately. This yields
+`2d+1` independent residual functionals. For `Z_b(x)`, the same one-support
+argument yields `d+1`; the fixed `b` shifts only the mean. Conditioning on
+the contact cubic derivative and all other contact rows cannot create a
+remote deterministic relation because their support remains at the origin.
+
+For zero exclusion, choose a compact parameter chart with positive distance
+from the forbidden supports (and, for `Z_V`, from the diagonal). Conditional
+covariance depends continuously on the parameters and is positive definite
+pointwise. Its determinant therefore has a positive lower bound on that
+compact chart. The Gaussian density is bounded by
+`(2 pi)^(-p/2) det(Sigma_cond)^(-1/2)`, independently of its mean.
+
+On a realization with chart `C^1` norm at most `N`, a zero forces some point of
+an epsilon net of cardinality at most `C epsilon^(-q)` to have norm at most
+`C N epsilon`. The union bound and density bound give
+`C' N^p epsilon^(p-q)`. The parameter/range dimensions are exactly
+
+| Map | Parameter dimension q | Range dimension p | p-q |
+|---|---:|---:|---:|
+| `Z_M` | `d+(d-1)=2d-1` | `2d` | 1 |
+| `Z_V` | `2d` | `2d+1` | 1 |
+| `Z_b` | `d` | `d+1` | 1 |
+
+Fix `N`, let epsilon tend to zero, then take the countable union over `N`.
+The random `C^1` norm is finite by smoothness. Compact chart subdomains can
+be chosen inside slightly larger charts to avoid boundary issues. Countably
+many such charts exhaust the punctured torus and the distinct-point domain;
+finitely many suffice in the sphere direction. Thus (N10) follows.
+
+No independence of mesh values, global density bound near collision, or
+uncountable intersection over independently conditioned laws is used. The
+argument establishes the claimed statements about the *single contact field*
+at the fixed target and frame. It does not itself assert finiteness of all
+remote critical points as they approach the origin; the local isolation and
+compact exhaustion in §§2.2/2.4 supply that separate step.
+
+## 5. Typed vanishing and uniform integrability — ACCEPT
+
+References: NOTE lines 307–324; P (4.1), (5.1), (5.3).
+
+On `A<0`, the separately reviewed local/global conclusion gives
+`K_(k r^3/y)(F_r) <= 1` eventually, so the marked weight is eventually zero.
+On `lambda_max(A)>0`, fix on that sample a vector `w` with `w^T A w>0`.
+The coupled `C^2` convergence and `M_r -> 0` imply
+`w^T D_y^2 F_r(M_r) w>0` eventually. The full Hessian at `M_r` therefore
+cannot be negative definite, and its typed weight is zero. This is a pathwise
+argument; no measurable choice of an eigenvector is needed. The remaining
+type boundary is null by §3 above. This proves (N0) using exactly the stated
+inputs, without dividing by `r^2` on any nonzero eventual contribution.
+
+The quoted P moment estimates apply in a compact neighborhood of the fixed
+target. A claim uniform over all real births or all positive gap marks is not
+needed for this pointwise step. Here is an independent simpler determinant
+bound that reconstructs the uniform-integrability implication and avoids
+endpoint congruence and inverse Hessians entirely.
+
+For either pin `i=a,c`, set `h(t)=grad f(t,0)`. Since `h(a)=h(c)=0`,
+`integral_a^c h'(t) dt=0`. Subtract this mean from `h'(i)` and use the mean
+value bound:
+
+```
+|H_f(i) e_x|
+ = |(1/r) integral_a^c [h'(i)-h'(t)] dt|
+ <= (r/2) sup_[a,c] |h''(t)|.
+```
+
+The other `d-1` Hessian columns are bounded by the `C^2` norm. Hadamard's
+determinant inequality consequently yields, with constants depending on `d`,
+
+```
+|det H_f(i)|/r <= C_d (1+||f||_(C^3))^d,
+0 <= W_r(f)/r^2 <= C_d (1+||f||_(C^3))^(2d).
+```
+
+P (4.1), with any sufficiently large finite moment (for example `4d` for the
+field norm), gives `sup_r E[(W_r/r^2)^2] < infinity`. Multiplication by either
+indicator in (N12) cannot increase this bound. Hence (N0) and uniform
+integrability imply (N12). It is an **unnormalized** expectation; no positive
+floor for `Z_r`, small-eigenvalue inverse moment, or change to the weighted
+probability law is used.
+
+There is also a direct domination check on this particular coupling. From the
+normalized-average representation in §2,
+`sup_(small r) |U_r(F)| <= C_d ||F||_(C^3)`. The deterministic operators
+`C_r Sigma_r^-1` are bounded in global `C^4` and `v_r` is bounded at the fixed
+target. Therefore
+
+```
+sup_(small r) ||F_r||_(C^4) <= C_(d,L,b,k,R) (1+||F||_(C^4)).
+```
+
+The unconditioned field has all finite derivative-supremum moments under the
+retained spectrum hypothesis. Combining this bound with Hadamard supplies
+one integrable random variable dominating `W_r(F_r)/r^2` throughout the small
+radius band. Dominated convergence is thus another valid route to the same
+expectation limit. This corroboration does not replace or reaccept P as a
+source and does not require a rate in `r`.
+
+E2 was checked for compatibility: its field space is `C^2` on the compact
+torus and its kernel is a whole-field Gaussian regression kernel; the present
+smooth coupling realizes such laws. Its extension to bounded Borel marks is
+an imported interface. Whether the global count mark and subsequent
+Kac–Rice consumer meet the remaining requirements is Slice C, not an extra
+conclusion of this report. Multiplying the already vanishing nonnegative
+weight by any measurable `0 <= J_eld <= 1` preserves the conclusion.
+
+## 6. Independent controls and actual verification
+
+I wrote `check_slice_b.py` from the above reconstruction without importing or
+reading any candidate control. It uses only the Python standard library and
+exact fractions. Formal derivative coordinates are indexed by support label
+and sorted derivative multi-index; this checks the finite linear algebra
+behind the distribution argument without sampling the Fourier spectrum.
+
+Executed successfully:
+
+```
+python3 -B -S work/continuation53/genericity-review/check_slice_b.py
+python3 -B -O -S work/continuation53/genericity-review/check_slice_b.py
+```
+
+Both runs exited 0, and the saved JSON outputs are byte-identical. The checks
+use explicit exceptions rather than assertions, so optimization does not
+disable them. The outputs are `check-output.json` and
+`check-output-optimized.json`.
+
+For `d=2,...,10`, the controls check:
+
+* contact rank and full symmetric transverse augmentation;
+* residual row gains `2d`, `2d+1`, `d+1` at distinct formal supports;
+* 492 rational instances of the symmetric right inverse `H v=w`;
+* 27 exact observation determinants and transformed targets;
+* 108 rank-loss negative controls, including repeated symmetric entries,
+  collision with the origin, collision of the two remote supports, and `v=0`;
+* the parameter/range dimension formulas used in the mesh argument.
+
+These are finite algebra controls. They do not prove smooth Gaussian sample
+paths, infinite-spectrum covariance positivity, continuum zero exclusion,
+uniform integrability, local isolation, or persistence. Those distinctions
+are essential; the all-d conclusions above are supplied by the mathematical
+arguments, not by extrapolating this finite dimension range.
+
+## 7. Findings and retained boundaries
+
+**No blocking finding and no required amendment in Slice B.** The potential
+failure points specifically challenged were: duplicate symmetric Hessian
+coordinates; a frame-dependent loss of contact rank; conditional remote rank
+loss; counting the sphere as dimension `d` instead of `d-1`; silently allowing
+point collisions; treating density bounds as uniform up to a collision;
+assuming independent mesh values; missing mixed transverse inertia; passing
+from almost-sure convergence to expectations without integrability; and
+borrowing a lower normalizer floor. None occurs in the assigned source.
+
+The exact acceptance is limited to the coupling, density/null-boundary,
+conditional genericity, and typed weighted-vanishing/UI interfaces described
+above. It retains:
+
+* §§2.2/2.4 as the separate local isolation and global exhaustion interfaces;
+* all seven source hypotheses and REC's mandatory P/CAP/E1/E2/REC reading rule;
+* E2's Borel marked Kac–Rice identity as an imported hypothesis;
+* all occurrence/intensity/field-first claims and their accounting as Slice C;
+* fixed finite dimension and fixed torus size, with no dimension-uniform or
+  increasing-volume assertion;
+* no remote publication, candidate edit, branch operation, or scientific gate
+  update performed by this reviewer.
+
+The report and its independent controls are additive local review artifacts.

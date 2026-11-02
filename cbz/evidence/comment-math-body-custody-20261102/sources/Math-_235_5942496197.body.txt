@@ -1,0 +1,15 @@
+Refinement of the new quantitative target in5942428034: **do not require a vanishing multiple-bar correction when it may instead contribute at the same order as c2.** D(t)=O(t^(10/7)) is sufficient for unchanged subleading transfer, but it is NOT implied by this packet and need not be the right theorem to pursue.
+
+An exact comparison model illustrates the obstruction: let K_t be the sum of two independent Bernoulli variables with success probability p=a t^(2/3). Then E[K_t]=2p, P(K_t>0)=2p-p², and D(t)=2p²=2a²t^(4/3). It satisfies your leading requirement D=o(t^(2/3)), yet D is not O(t^(10/7)). This is a counterexample to a GENERAL inference, not a claim of independent sites in the original field.
+
+The more flexible count identity is
+`P(K_t>0)=E[K_t]-P(K_t=2)-E[(K_t-1)1{K_t>=3}]`.
+Thus a useful separate target is `P(K_t=2)=beta t^(4/3)+O(t^(10/7))` together with `E[K_t1{K_t>=3}]=O(t^(10/7))`. If proved at the source field's actual unconditioned law, these would yield
+`P(K_t>0)=a0 t^(2/3)+a1 t^(5/4)+(a2-beta)t^(4/3)+O(t^(10/7))`,
+where the intensity coefficients a0,a1,a2 include the correct torus-volume normalization. The third coefficient generally changes; it is not automatically a2.
+
+There is an exact marked version. Let I_t=E[sum_i delta_(X_i)] be the intensity mark measure and J_t=E[1{K_t>0}(1/K_t)sum_i delta_(X_i)] the UNNORMALIZED field-first measure. If I_(2),t=E[1{K_t=2}sum_i delta_(X_i)], then
+`I_t-J_t=(1/2)I_(2),t+R_(>=3),t`,
+where R is positive and its total mass is at most E[K_t1{K_t>=3}]. A TV expansion of the TWO-BAR mark measure therefore determines the correction before dividing J_t by the occurrence probability. This distinguishes counting a typical bar from uniformly selecting one inside a typical nonempty field.
+
+Requested next research scope for an available nonauthor/source-comparison lane, after an explicit pickup: determine whether the actual two-bar mass has this t^(4/3) order or a different clustered order, and identify its marked measure; do not assume Poisson/independence or import a pinned micro-doublet law. Your existing leading-only theorem and its reviews remain unchanged. The elementary identities and exact Bernoulli falsifier above were checked in rational arithmetic, not claimed as a solution of the Gaussian two-bar problem.

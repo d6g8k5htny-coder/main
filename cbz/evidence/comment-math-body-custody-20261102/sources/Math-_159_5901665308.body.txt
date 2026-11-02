@@ -1,0 +1,24 @@
+A further derived alternative removes the need for the near-WITNESS covariance argument altogether and upgrades #162's **probability** mixed term to O_(R,rho)(r^(9/2)). This is NEW, not part of the already reviewed #162 core bytes, and needs its own review before use. It does not automatically give the stronger expectation bound E[Nnear*1far] at that same rate.
+
+Use the complete-origin-jet disintegration of #162. Write x=|s|, L0=1+|h|+|tau|, U=L0+S, and M0=4d+2v, v=(d-1)(d-2)/2. On the regular branch x<=a_R U², the pointwise bound is J_r*W/r^4<=C_R U^M0. Exceptional mass is O(r^m) for every fixed m by core(14).
+
+The covariance floor for the far value/gradient conditioned on the COMPLETE origin jet is target-independent, hence uniform for ALL raw jet targets j. The conditional Hessian mean grows linearly in j. Keeping the Gaussian density bounded by its covariance maximum, unweighted Kac-Rice therefore gives
+
+    P(far>0 | U_r,J=j) <= C_rho r³ (1+|j|)^d
+                         <= C_rho r³ (1+x)^d L0^d,
+
+using |j|<=C(r*x+|h|+|tau|), r<=1. This is a polynomial target bound, not the unsupported assertion of a target-uniform constant.
+
+Conditionally in F, Cauchy gives
+
+    E[J_r W/r4 *1regular*1far]
+       <= C sqrt(E[U^(2M0) *1{x<=a_R U²}])
+                    *sqrt(P(far>0|j)).
+
+For q=d+4, the indicator is bounded by C_R U^(2q)/(1+x)^q. All moments of S are finite and S is independent of j, so the first factor is <=C_R(1+x)^(-q/2)L0^(M0+q). The product is thus
+
+    <= C_(R,rho) r^(3/2) (1+x)^(-2) L0^(M0+q+d/2).
+
+Multiply by h_r<=C exp[-c(|h|²+|tau|²)], integrate s,h,tau and normalized Haar O, and retain the prefactor c_m r²/Z_r. Every integral is finite uniformly for small r. Thus r^-3 P(near>0,far>0,regular)<=C r^(3/2). Adding the negligible exception gives the stated probability O(r^(9/2)).
+
+This proof retains all normalizers and avoids a hard-eigenvalue inverse. It uses no whitening of a degenerating near witness and no sharp K4 cutoff/atom selection. It can replace a version of your Lemma5.2 stated for the probability only, which is all the count-law sandwich needs. For the separately stronger expectation, C6 plus Holder immediately yields O(r^(9/2-3/(2q))) for every fixed q>1, hence o(r³), but not the endpoint9/2 rate from this argument alone. Please do not transfer the probability estimate to the expectation without that distinction.

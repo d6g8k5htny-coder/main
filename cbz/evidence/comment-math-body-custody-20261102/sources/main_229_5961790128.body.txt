@@ -1,0 +1,343 @@
+# A uniform small-cusp surrogate estimate and its nonzero quadratic coefficient
+
+Object: OA-CLIPPED-CUSP-SURROGATE-20261002-v1.
+Author: OpenAI / GPT-6 Astra Pro, acting under Dylan Roy's current continuation.
+Research scope: main issue229 pickup5957277321; bounded continuation5961556181.
+Disposition: AUTHOR-SIDE CONDITIONAL PROOF; new nonauthor review requested.
+Personal reading PENDING; organizational-independence credit0. Scientific effect
+NONE. No source proof, review disposition, register or branch is changed.
+
+## 0. What is and is not proved
+
+This note proves a uniform estimate for an explicitly defined, CLIPPED finite-jet
+surrogate from Math-#240, not for the actual field's elder decision. Keeping the
+small window in the calculation gives an error O(r^2 kappa), uniformly for
+0<kappa<=1, even when kappa<r. We also identify a strictly negative quadratic
+coefficient of this surrogate: -288 times a positive Gaussian moment. Neither
+statement assumes that the clipping discards negligible actual-field mass.
+
+The exact source cut is Math- commit
+`07320089a9c690c154d2fa70e4ebc12f36f2422c`:
+- [N] `frontiers/elder_cusp_parity_20261002/PROOF.md`, blob
+  `16a1db0658918057ff741df888c13702763d9919`: Q1, Lemma Omega, and N3-N6, including
+  the two first-order surrogates and the cutoff r|Q1|<=kappa/200.
+- [E] `frontiers/elder_third_order_20261001/PROOF.md`, blob
+  `c8767ddecf1041d234f685e95af582073a7be393`: finite-jet Gaussian facts F3/F6/F7,
+  polynomial conditional moments, and Gaussian density differentiation.
+The older stochastic/source hypotheses remain conditional inputs. We do not
+revalidate those parent proofs or claim a new global density coefficient.
+
+The Gaussian-window comparison in this note uses the CORRECTED GW v2
+(main229/5960048281), reviewed in5960144336, with range correction5960193853.
+The original GW5959859643 AMEND5960011145 remains in the record. In particular:
+means need not be even in r; arbitrary window centers need no polynomial growth;
+and localization alone never supplies the required amplitude. The comparison
+below is reconstructed directly, rather than inferred from a review label.
+
+## 1. Gaussian and algebraic setting
+
+Fix d>=2, m=d-1 and a model/frame. Under the contact Gaussian law mu_(0,k),
+let A be an m by m symmetric matrix, gamma and eta vectors, B a symmetric matrix,
+f5 a scalar, and W=f4 a scalar. The remaining free jets may be included in X,
+where X denotes ALL free coordinates except W. On A<0 put
+
+    Delta=det A, lambda=lambda_min(-A), q=gamma^T A^(-1)gamma<=0,
+    Q=f5/120-eta^T A^(-1)gamma/12
+                       +gamma^T A^(-1)B A^(-1)gamma/8.             (1)
+
+On the null set det A=0 set the following expressions to zero. We use these
+explicit source hypotheses, stated so the scope is testable:
+
+(G1) The joint Gaussian covariance of (X,W) has eigenvalues in a fixed [c,C],
+0<c<C. Its mean has size at most C P, P=1+|b|+|k|, and all polynomial moments
+are correspondingly bounded. Conditional W given X has variance in [c,C] and
+an affine mean a(X) with |a(X)|<=C(P+|X|).
+
+(G2) Under mu_(0,k), even jets E (including A,eta,W) and odd jets O (including
+B,gamma,f5) are independent. The even law does not depend on k; the odd covariance
+is fixed and its mean is k v for a fixed vector v. Thus W|X depends on the even
+coordinates only. At k=0 the odd law is invariant under O->-O.
+
+(G3) An optional finite-r Gaussian law mu_(r,k) on the SAME free coordinates has
+mean/covariance differences from mu_(0,k) bounded by C r^2 P and C r^2. All
+covariance eigenvalues remain in [c,C]. The source pin densities obey
+
+    |pi_r(b,k)-pi_0(b,k)|<=C r^2 P^2 exp[-c(b^2+k^2)],
+    pi_0(b,k)=pi_0(b,0)exp[-a' k^2],   pi_0(b,0)<=C exp(-c b^2),  (2)
+
+with a' positive and bounded on the compact frame family. Constants in this
+note may depend on the fixed d,L and these bounds; no dimension/L-uniform or
+numerically calibrated constants are claimed.
+
+Put z=W-3q. This is a shifted integration variable, NOT a jointly Gaussian
+coordinate with X. Write p_X(z) for the conditional density of W at 3q+z.
+Fix a clipping constant 0<tau<=1; [N] uses tau=36/200=9/50. For 0<kappa<=1 set
+
+    delta=36rQ,
+    a_s=24kappa+s,          b_s=(5184kappa^2+48kappa s)^(1/2),
+    w_s(z)=Delta^2(b_s^2-z^2)/144.                           (3)
+
+For |s|<=kappa, 23kappa<=a_s<=25kappa and
+71kappa<b_s<73kappa. More importantly,
+
+    b_s^2-a_s^2=4608kappa^2-s^2>0.                          (4)
+
+Define the surrogate, setting it to zero outside the clip WITHOUT evaluating
+an invalid square root there:
+
+    hhat_(r,kappa)(X,W)=1{A<0, |delta|<=tau kappa}
+                           w_delta(z)1{a_delta<|z|<b_delta}. (5)
+
+It is nonnegative and equals the difference between [N]'s clipped first-order
+candidate positive-part surrogate and clipped first-order elder surrogate.
+On the clip it has amplitude <=37kappa^2 Delta^2 and total conditional W-support
+length <=146kappa. Both claims, not support alone, will be used.
+
+For A<0 define the conditional integral
+
+    J_kappa(s;X)=int_(a_s<|z|<b_s) w_s(z)p_X(z) dz,
+    Jhat_kappa(delta;X)=J_kappa(delta;X)1{|delta|<=tau kappa}. (6)
+
+At s=0 this is the original rejected cusp annulus. The unnormalized reference
+expectation below always includes 1{A<0}; we write that explicitly when helpful.
+
+## 2. Exact moving-boundary derivatives and clipping, including large shifts
+
+**Lemma 1.** Write S(x)=p_X(x)+p_X(-x), D(x)=p_X'(x)-p_X'(-x), and
+L_kappa(X)=sup_(|z|<=73kappa)(p_X(z)+|p_X'(z)|). For |s|<=kappa,
+
+    |J_kappa''(s;X)|<=66 Delta^2 kappa L_kappa(X).            (7)
+
+At zero,
+
+    J_kappa'(0)= (kappa Delta^2/3) P(24kappa<|z|<72kappa|X)
+                        -32kappa^2 Delta^2 S(24kappa),       (8)
+    |J_kappa(0)|<=1792 Delta^2 kappa^3 L_kappa,
+    |J_kappa'(0)|<=96 Delta^2 kappa^2 L_kappa.               (9)
+
+For EVERY real delta, including |delta|>tau kappa,
+
+ |Jhat_kappa(delta)-J_kappa(0)-delta J_kappa'(0)|
+        <=C_tau Delta^2 kappa delta^2 L_kappa,               (10)
+ C_tau=50+1792/tau^2+96/tau.
+
+*Proof.* Write J=C-I, where C integrates w_s over |z|<b_s and I over |z|<a_s.
+Since w_s vanishes at the outer endpoints and b_s'=24kappa/b_s,
+
+    C''(s)=8kappa^2 Delta^2 S(b_s)/b_s.
+
+The weight at an inner endpoint is Delta^2(32kappa^2-s^2/144), so Leibniz'
+rule, retaining both moving endpoints, gives
+
+ I''(s)=Delta^2(kappa/3-s/72)S(a_s)
+                 +Delta^2(32kappa^2-s^2/144)D(a_s).         (11)
+
+For kappa<=1 the absolute bounds on these terms sum to
+(16/71+25/36+64)Delta^2 kappa L_kappa<66 Delta^2 kappa L_kappa.
+The first derivative at zero gives (8). The interval has length96kappa,
+and its weight integral is exactly1792 Delta^2 kappa^3, proving (9).
+
+If |delta|<=tau kappa, Taylor's integral remainder and (7) prove (10), with
+33 in place of C_tau. If |delta|>tau kappa, Jhat=0 and (9) applies, using
+kappa^3<=kappa delta^2/tau^2 and |delta|kappa^2<=kappa delta^2/tau.
+This proves (10) without any assumption r<<kappa or a tail bound for Q. QED.
+
+The clip is essential to the object being proved: without it, a_s may exceed
+b_s or b_s^2 can be negative. Bounding the DISCARDED SURROGATE Taylor remainder
+is not permission to discard the corresponding actual field realizations.
+
+## 3. Integrability without an unweighted inverse-Hessian moment
+
+**Lemma 2.** Uniformly for 0<kappa<=1 and |k|<=1,
+
+    E_(0,k)[1{A<0} Delta^2 Q^2 L_kappa(X)]<=C P^N.         (12)
+
+The same assertion holds with any extra fixed polynomial factor in the jets.
+
+*Proof.* On A<0, Gamma=|A^(-1)gamma| satisfies Gamma^2<=|q|/lambda, and
+Delta^2<=lambda^2||A||^(2m-2). Squaring (1), with a fixed numerical factor,
+gives
+
+ Delta^2 Q^2<=C||A||^(2m-2)
+       [f5^2 lambda^2+|eta|^2 |q|lambda+||B||^2 q^2].       (13)
+
+For m=1 the displayed norm power is zero. In p_X(z) put
+v=3q+z-a(X). Since |z|<=73, powers of q are bounded by powers of
+|v|+|a(X)|+73. The Gaussian density and its first derivative absorb the v
+powers, with constants uniform in the conditional variance in [c,C]. Therefore
+
+    (1+|q|)^j L_kappa(X)<=C_j(1+|a(X)|)^j,   j=0,1,2,     (14)
+
+with harmless additive constants absorbed. Combining (13)-(14), using
+lambda<=||A||, leaves a polynomial in the ordinary Gaussian jets. Its expectation
+is at most C P^N by G1. Extra fixed polynomial factors are handled identically.
+No naked inverse-lambda moment, matrix isotropy or independence of A and its
+complement has been used. QED.
+
+A useful polynomial identity is
+
+ Delta^2 Q=Delta^2 f5/120-Delta eta^T adj(A)gamma/12
+                         +gamma^T adj(A)B adj(A)gamma/8.   (15)
+
+It remains meaningful at singular A and will control the linear term.
+
+## 4. Uniform surrogate theorem
+
+Let J0_kappa(X)=J_kappa(0;X), and h0_kappa the corresponding joint annulus test
+function. The conditional density p_X used here is independent of k given the
+even coordinates; (6) is therefore a fixed function of X as the odd mean varies.
+
+**Theorem CS.** Under G1-G2, for 0<r<=1, 0<kappa<=1 and |k|<=1,
+
+ |E_(0,k) hhat_(r,kappa)-E_(0,0) h0_kappa|
+  <=C P^N[r^2 kappa+r|k|kappa^2+k^2 kappa^3].             (16)
+
+In particular at k=kappa r this is O(r^2 kappa P^N), with no lower bound on
+kappa/r. Under G3 define the finite-jet radial surrogate
+
+    Khat_(r,kappa)=12pi_r(b,k) E_(r,k) hhat_(r,kappa),
+    Acal_rej(b,kappa,u)=12pi_0(b,0) E_(0,0) h0_kappa.
+
+Then, for k=kappa r and r in the source's allowed range,
+
+ |Khat_(r,kappa)-Acal_rej(b,kappa,u)|
+       <=C r^2 kappa (1+|b|)^N exp(-c b^2).                (17)
+
+*Proof of (16).* Substitute delta=36rQ in (10) and use (12):
+
+ E_(0,k)hhat=E_(0,k)h0+36r E_(0,k)[1{A<0}Q J_kappa'(0)]
+                                      +O(r^2 kappa P^N). (18)
+
+The factor J_kappa'(0)/Delta^2 depends on the odd jets only through q, and is
+even under O->-O. Q is odd. At k=0 their product therefore has mean zero.
+Equations (8)-(9), the uniform conditional density bound and (15) give
+
+    |Q J_kappa'(0)|<=C kappa^2 |Delta^2 Q|,
+    |E_(0,k)Q J_kappa'(0)|<=C|k|kappa^2 P^N.               (19)
+
+The second inequality follows by differentiating the shifted odd Gaussian
+density along its mean segment; its derivative is a linear score times that
+density. The test function need not be differentiable in the jets. All resulting
+polynomial moments are finite. This argument preserves the kappa^2 factor.
+
+Similarly J0 is even in the odd jets, and 0<=J0<=C kappa^3 Delta^2. The first
+odd-mean derivative at zero vanishes; differentiating the Gaussian density
+twice supplies
+
+    |E_(0,k)h0-E_(0,0)h0|<=C k^2 kappa^3 P^N.             (20)
+
+Equations (18)-(20) prove (16). Since k=kappa r and kappa<=1, both mean-shift
+terms are bounded by r^2 kappa.
+
+*Gaussian law and pin transport for (17).* Here the genuinely Gaussian variables
+are (X,W), not (X,z). On the clip, (5) has amplitude <=37kappa^2 Delta^2 and
+conditional W-support length <=146kappa, with an arbitrary X-dependent center.
+Interpolate the means and covariances in G3. The density derivative is bounded
+by C r^2 P(1+|y-m_t|^2)p_t(y). Complete the Gaussian square in W given X and take
+the supremum in W of this polynomial times density BEFORE applying the support
+length. The remaining X integral is a polynomial Gaussian moment. Thus
+
+    |E_(r,k)hhat-E_(0,k)hhat|<=C r^2 kappa^3 P^N.          (21)
+
+No growth condition on 3q(X) is required by this proof. The same support/amplitude
+estimate gives E_(r,k)hhat<=C kappa^3 P^N. Apply (2) to obtain a pin-factor error
+C r^2 kappa^3 P^(N+2)exp[-c(b^2+k^2)]. Finally, replacing pi_0(b,k) by pi_0(b,0)
+costs C k^2 kappa^3 P^N exp(-c b^2). Together with (16) these prove (17).
+A centered Gaussian envelope uniform over unbounded b is never asserted. QED.
+
+## 5. A nonzero quadratic coefficient: why r^2 kappa is a real scale
+
+Fix b,u and the contact law at gap zero. Define
+
+    M=E_(0,0)[1{A<0} Delta^2 Q^2 p_(W|X)(3q)].
+
+Under G1-G2, 0<M<infinity. Finiteness follows from Lemma2. Positivity follows
+because A<0 is an open set of positive Gaussian measure, the conditional density
+of W is everywhere positive, and Q is affine in f5 with coefficient1/120.
+The nondegenerate joint Gaussian law makes its conditional zero set null.
+
+**Theorem QC.** As kappa->0 and r/kappa->0, in any joint sequence,
+
+ [E_(0,0)hhat_(r,kappa)-E_(0,0)h0_kappa]/(r^2 kappa)
+                             -> -288 M < 0.               (22)
+
+*Proof.* From (11), at s=0,
+
+ J_kappa''(0)=Delta^2[(kappa/9)S(72kappa)
+             -(kappa/3)S(24kappa)-32kappa^2 D(24kappa)].   (23)
+
+For fixed X and any |s|/kappa->0 the exact formula (11) yields
+J_kappa''(s)/kappa -> -(4/9)Delta^2 p_X(0). Also delta/kappa=36(r/kappa)Q->0,
+so the clip is eventually satisfied for this X. Taylor's integral remainder gives
+
+ [Jhat(delta)-J0-delta J'(0)]/(r^2 kappa)
+   =36^2 Q^2 int_0^1 (1-t)J_kappa''(t delta)/kappa dt
+   -> -288 Delta^2 Q^2 p_X(0).
+
+By (10) its absolute value is bounded by a constant times
+Delta^2 Q^2 sup_(|z|<=73)(p_X+|p_X'|), integrable by Lemma2. Dominated convergence
+therefore includes the random tail where clipping is active. The linear term
+has exactly zero expectation by odd parity. This proves (22). QED.
+
+For a locally constant density with Delta=1, the exact expansion already has
+J_kappa(0)=1792kappa^3, J_kappa'(0)=-32kappa^2 and
+J_kappa''(0)=-(4/9)kappa. The factor -288 is (36^2/2)(-4/9), not -576.
+The executable diagnostic uses a genuine positive density profile exp(-z^2/2),
+symmetric shifts Q=+/-1 and r=kappa^2, with rational polynomial enclosures of the
+entire Gaussian integral. It approaches -288. It is a scalar diagnostic, not the
+Gaussian-jet expectation M or a field simulation.
+
+This is ONLY the quadratic correction caused by the first-order surrogate's
+moving boundaries and matched weight. The actual field has additional second-order
+jet, law and geometric-error terms. They may add to or cancel this coefficient.
+No coefficient or sign of the full field's next lifetime-density term follows.
+
+## 6. Relation to the limiting annulus and the intermediate research target
+
+Changing variables z=kappa s in J0 gives the fixed symmetric annulus
+D={24<|s|<72}:
+
+ J0=(Delta^2 kappa^3/144) int_D(5184-s^2)p_(W|X)(3q+kappa s)ds.
+
+For a C4 density, Taylor's theorem and symmetry give, conditionally,
+
+ J0=1792 Delta^2 p_(W|X)(3q)kappa^3
+       +(8183808/5)Delta^2 p_(W|X)''(3q)kappa^5+O_X(kappa^7). (24)
+
+There is no kappa^4 or kappa^6 term. The absolute conditional remainder is bounded
+by (11455561728/35)Delta^2 kappa^7 times the supremum of the fourth derivative
+on |W-3q|<=72kappa. This precise remainder, not a bare formal series, is checked
+against independent polynomial integrals in the companion tests.
+
+A uniform bound r^2 kappa with kappa=ell/r^4 integrates as
+
+ int_(ell^(1/4))^r0 r^2 kappa dr
+       =ell[(ell^(-1/4))-1/r0]=O(ell^(3/4)).               (25)
+
+This proves the scale of the SURROGATE contribution only. The actual rejected
+comparison still needs the equal-height carrier K_B(r)=r^-2 A_r(b,0,u) subtracted
+before comparing to Acal_rej H(k); main229/5959794872 corrects the old omission.
+The next missing interface is actual decision/weight confinement on the good
+region, together with source-bound assembly of the exceptional strata and the
+Region-B elder term. Neither a clip nor a bound on its discarded Taylor tail
+establishes that actual realizations may be discarded. The C83/C84 transverse
+sector results are separate source-owned inputs, not silently consumed here.
+
+Thus (17) closes a uniform finite-jet-surrogate calculation. It does not prove
+#242 Conjecture7, the numerical R_(2/3) values, an unconditioned field theorem,
+or a whole-space expansion merely by integrating this one error term.
+
+## 7. Evidence and review requested
+
+The tests evaluate finite rational identities, not continuous probability estimates.
+The new source proof is the calculation above. The standard-library oracle/tests
+include the annulus constants, independent second-order differentiation of moving
+boundaries, the clipping-tail inequalities, adjugate and inverse-direction identities,
+Gaussian integral enclosures and six rejected semantic mutants. Normal and optimized
+execution outcomes are recorded separately in VALIDATION.md.
+
+Requested nonauthor scopes: (A) equations(7)-(21), uniformity, clipping and Gaussian
+integrability; (B) coefficient(22), strict positivity and its limited interpretation;
+(C) exact source matching and exclusion of actual-field/Region-B claims. Reviewer
+requests do not imply a pickup or acceptance. Prior GW reviewers keep their exact
+original and corrected scopes; this author does not award itself another review.

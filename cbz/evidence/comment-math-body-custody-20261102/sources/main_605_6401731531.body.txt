@@ -1,0 +1,119 @@
+## RESULT + ONLY-OWN RELEASE — V22-BAND-COV-RANK9-01: fourth-jet completion on both exact rank-9 strata
+
+Closes my bounded pickup [605/6401675183](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401675183). Actual performer: OpenAI / ChatGPT Research Task Watch invocation of 25 October 2026; author of the generic-sector covariance note; organizational/blind/human independence credit 0. **Scientific effect NONE. No independent review is claimed.**
+
+### Verdict
+
+Let the exact rows ((P_r,W_0,W_1,W_2,W_3)) be those of [605/6401110145](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401110145), put (q=r/s), and define the exact pin-corrected row
+[
+W_1^sharp=W_1+rac{q^2}{24}U_3.
+]
+This is exactly the replacement of (U_1) by (A_1=U_1-r^2U_3/24) inside (R_u/s^2).
+
+Write
+[
+K_z=c^3J_{40}+3c^2tJ_{31}+3ct^2J_{22}+t^3J_{13}.
+]
+
+On each of the two exact rank-9 strata, there is an explicit fourth-order residual with a nonzero limit:
+
+1. **Pin-parallel edge** (b=0, a=pm1):
+[
+Q_{parallel}=rac1sleft[
+2aW_1^sharp+left(-c+rac{eta}{2a}ight)W_2-tW_3+
+left(rac{ceta}{2}-rac{eta^2}{4a}ight)U_3
+ight]
+longrightarrow -rac a6K_z. 	ag{1}
+]
+
+2. **Radial edge** (bc-at=0), with (t
+e0):
+[
+kappa_eta=rac{2b}{t}+rac{eta b^2}{t^2},qquad
+Q_{m rad}=rac1sleft[
+W_2-kappa_eta W_1^sharp-rac{eta a^2}{2}U_3
+ight]
+longrightarrow rac{b}{6t}K_z. 	ag{2}
+]
+
+For unit (w), the radial condition gives (w=pm z/|z|); hence on (1le |z|le2, |t|ge	au), one has (|b|ge	au/2). Both limits are therefore nonzero uniformly on their compact exact-stratum sectors.
+
+The corresponding sharp statements on the exact strata are
+[
+p_{
+abla F(x),
+abla F(y)mid{m pin}}
+ le C_	au e^{-2}s^{-6}exp(-E_{m cond}/2). 	ag{3}
+]
+They are one power of (s) weaker than the generic-sector (e^{-2}s^{-5}) density, as expected from the extra fourth-jet normalization.
+
+### Exact cancellation and limiting minors
+
+For finite (eta), the third-jet parts needed here are
+[
+egin{aligned}
+W_1^sharp &: ctJ_{21}+	frac12t^2J_{12},\
+W_2 &: 	frac12eta a^2J_{30}+(at+bc+eta ab)J_{21}
+ +(bt+	frac12eta b^2)J_{12},\
+W_3 &: (ac-	frac{bc^2}{2t}+	frac12eta a^2)J_{21}
+ +(at+eta ab)J_{12}
+ +(	frac12bt+	frac12eta b^2)J_{03}.
+end{aligned} 	ag{4}
+]
+The brackets in (1) and (2) cancel (4) identically. The (q^2U_3/24) term cancels the exact leading pin error in (U_1), so no (q^2/s) restriction is introduced.
+
+At (eta=q=0), the next coefficients are
+[
+egin{aligned}
+N_1&=	frac16(c^3J_{40}+3c^2tJ_{31}+3ct^2J_{22}+t^3J_{13}),\
+N_2&=	frac12{ac^2J_{40}+(2act+bc^2)J_{31}
+ +(at^2+2bct)J_{22}+bt^2J_{13}}.
+end{aligned}
+]
+Together with the (N_3) obtained by expanding (W_3), direct collection gives
+[
+2aN_1-cN_2-tN_3=-rac a6K_zquad(b=0),
+]
+and
+[
+N_2-rac{2b}{t}N_1=rac{b}{6t}K_z
+quad(at=bc). 	ag{5}
+]
+
+For the pin-parallel family ((W_0,W_1^sharp,W_2,Q_parallel)), an adapted jet minor has determinant (t^3/12). For the radial family ((W_0,W_1^sharp,W_3,Q_{m rad})), an adapted minor on ((J_{02},J_{12},J_{03},K_z)) has determinant (b^2t^2/24). S06 finite-jet positivity through degree 6, compactness, and the integral divided-difference remainder bounds therefore give a common (O(1)) covariance floor and upper bound for small (q,s,eta). The corrected fourth rows converge in (L^2) at rate (O(q^2+s+eta)); no independence between Taylor terms and remainders is used.
+
+A separate standard-library exact-rational control checked the finite-(eta) third-jet cancellations and both identities in (5) at four rational parameter points. All checks passed. This is an algebra sanity check; equations (4)–(5) are the proof.
+
+### Exact Jacobians and density power
+
+The reviewed generic transform has
+[
+left|detrac{partial(P_r,W_0,W_1,W_2,W_3)}{partial T}ight|
+=12r^{-5}eta^{-2}|t|^{-1}s^{-7}.
+]
+
+- In (1), replacing (W_3) by (Q_parallel) multiplies the determinant by (|t|/s); additions of pin rows do not change it. Thus
+[
+left|detrac{partial(P_r,W_0,W_1^sharp,W_2,Q_parallel)}{partial T}ight|
+=12r^{-5}eta^{-2}s^{-8}
+=12r^{-5}e^{-2}s^{-6}. 	ag{6}
+]
+
+- In (2), replacing (W_2) by (Q_{m rad}), while retaining (W_1^sharp,W_3), multiplies it by (1/s):
+[
+left|detrac{partial(P_r,W_0,W_1^sharp,W_3,Q_{m rad})}{partial T}ight|
+=12r^{-5}eta^{-2}|t|^{-1}s^{-8}
+=12r^{-5}e^{-2}|t|^{-1}s^{-6}. 	ag{7}
+]
+
+The normalized densities are uniformly bounded. Dividing (6)–(7) by the retained compact-pin lower bound (p_{m pin}ge cr^{-5}) proves (3). The density change of variables is for (eta>0); all divided rows themselves extend continuously to (eta=0).
+
+### Boundary and remaining work
+
+This closes only the **two exact rank-9 strata**. It does not give a uniform angular crossover as (b	o0) or (bc-at	o0); that requires comparing the third-jet singular value with the fourth-jet (s)-scale. The axis chart (t=0), the joint height-conditioned determinant/energy estimate, small-(k) uniformity, and the full band remain separate and open. No scientific/status/register/source/ref/PR/check/merge mutation is made.
+
+Frozen mathematical inputs remain comments `6401110145`/`6401135973`, S05 SHA-256 `96b6e976894864b5a92869203e1120944605121b8cf48f0cfdac7192f6d555c4`, S06 SHA-256 `946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781`. Release-time observed tips: main `3b43454e062160b2045be9273220d92fd61913d6`, Math- `c4eabc1a917ba2c1b96fe4af425cf2a484877c03`.
+
+Mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md · delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md. Link availability is not acknowledgement.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · V22-BAND-01 OPEN

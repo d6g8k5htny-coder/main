@@ -1,0 +1,730 @@
+# C257 — actual ordinary H0 intervals: complete proof and exact controls (part 1 of 2)
+
+Dylan Roy delegated AI work. Actual root OpenAI/Codex `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`; authors and roles are identified verbatim below. Source-exposed, organizational-independence credit 0, no human review. R17 claim `581320c7-19a0-4680-866f-20c85a4bc95f`, Work Events1650, is active through19:22:09Z. This is a prose proof/review handoff, not a repository commit, Lean compilation, CI result, deployment or scientific promotion. The separate full nonauthor review and actionable successor task are part 2. Private immutable custody/registration and release will be verified afterward.
+
+# C257 — actual ordinary H0 persistence from attained maximin endpoints
+
+**Status: authored substantive mathematical proof for distinct nonauthor review.**
+The theorem below constructs a natural isomorphism of the actual singular-H0
+persistence module. It assumes the explicitly stated compact smooth Morse
+hypotheses and consumes C256's proved endpoint theorem. It does not assume a
+barcode, elder-label, or persistence interface. Lean realization is OPEN;
+project runtime, compilation, hosted build, CI and kernel audit are NOT_RUN;
+canonical/scientific promotion is NONE.
+
+Author: OpenAI/Codex `/root/c257_h0_author`, delegated for Dylan Roy by actual
+coordinating root `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`. Root contributed the
+fixed-parent difference-basis design; this author reconstructed and proved its
+steps. Neither is the distinct nonauthor reviewer. Source exposed;
+organizational-independence credit 0; no human review claimed.
+
+Root's supplied claim is `581320c7-19a0-4680-866f-20c85a4bc95f`, R17 Work Events
+1650, expiring 2026-10-11T19:22:09Z; local `COORDINATION.json` records all 14
+cells read back and native pickup [Math- #419 comment 6111652687](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6111652687)
+exact-body MATCH. This author read that record and `LEDGER.md`, and did not
+independently fetch or write the remote register. This author writes only this
+file; existing source, branch, and C254 compile ownership are preserved.
+
+## 1. Hypotheses, imports, and the precise theorem
+
+Let X be a nonempty compact connected Hausdorff second-countable smooth
+manifold without boundary, of dimension d >= 1. Let g:X -> R be C-infinity,
+Morse, and have distinct values at distinct critical points. Let k be any
+field, including characteristic two. All paths are continuous maps [0,1] -> X.
+Write
+
+    F_h = {x in X : g(x) >= h},
+    V_t = H_0(F_{-t}; k),                    t in R,
+
+where H_0 is ordinary, unreduced singular homology. For s<=t the structure
+map V_s -> V_t is induced by the actual inclusion F_{-s} subset F_{-t}.
+Let P be the set of local maxima of g, put b_M=g(M), and let M_* be the
+unique global maximum with b_*=g(M_*). The finiteness and uniqueness in this
+notation are justified below.
+
+For each nonglobal M define, geometrically and independently of any interface,
+
+    A_M = {a in R : exists y, gamma with g(y)>b_M,
+            gamma(0)=M, gamma(1)=y, g(gamma(r))>a for all r in [0,1]},
+    delta_M = sup A_M.
+
+We consume the following exact C256 result: A_M is nonempty and bounded above,
+delta_M is real, min_X g <= delta_M < b_M, and for every real h,
+
+    exists y with g(y)>b_M and a path from M to y in F_h
+                         iff h <= delta_M.                  (E)
+
+In addition, there exists a **fixed local maximum** P_M with b_{P_M}>b_M
+and a path from M to P_M in F_{delta_M}. Choose one such P_M for each
+nonglobal M, once for all levels. C256 proves these statements in Sections
+2–6, including the fixed older-maximum choice and the closed equality case.
+Its Section 7 also proves delta_M is a critical value; we only use that
+additional conclusion when discussing the remaining critical-point boundary.
+No saddle-index or H0 statement is imported from C256.
+
+For a nonempty interval J of R, the interval module k_J is k at t in J and
+zero otherwise, with identity maps between two parameters in J and zero
+maps in all other cases. Convexity of J makes these maps a functor. We prove
+
+    V  is naturally isomorphic to
+       k_[ -b_*, infinity )
+         direct-sum over M in P\{M_*} of k_[ -b_M, -delta_M ).       (T)
+
+This is a finite sum of nonzero intervals, with each nonglobal maximum
+appearing once. In descending-height notation the finite support is
+(delta_M,b_M], not [delta_M,b_M). The essential interval has no finite death.
+We also prove that this interval multiset is uniquely determined among finite
+decompositions into nonempty intervals of the displayed half-open type, using
+ranks of the actual maps. Thus use of the word barcode here does not import a
+general interval-decomposition or uniqueness theorem.
+
+Beyond C256, the imports are elementary real linear algebra and compactness;
+components are closed; manifolds are locally path connected; the regular-point
+coordinate theorem; and the smooth Morse local normal form
+
+    g-g(p) = -|u|^2 + |v|^2
+
+at a critical point. The latter and isolation of nondegenerate critical points
+are verified reference facts in [Brian Conrad's Morse lemma handout, Theorem
+2.1 and Corollary 2.4](https://math.stanford.edu/~conrad/diffgeomPage/handouts/morselemma.pdf),
+opened by this author. The form is applied after subtracting g(p). C256 lists
+its own compactness/Morse imports and, separately, flow imports for criticality.
+No Morse handle theorem, generic barcode theorem, or named H0/component
+isomorphism is used as an unproved substitute for the arguments below. No
+Hatcher source was read or used by this author.
+
+## 2. Closed components really have maximum representatives
+
+The critical set is closed in compact X, and each critical point is isolated
+by the Morse chart. Covering that set by neighborhoods each containing just
+one critical point and extracting a finite subcover proves there are finitely
+many critical points. Every local maximum is critical, since X has no boundary.
+Thus P is finite. A global maximizer exists by compactness, is a local maximum,
+and is unique because two global maximizers would be distinct critical points
+of the same value. A connected manifold is path connected: local path
+connectivity makes path components open, and a second path component would
+give a separation. Thus the path-connectivity hypothesis in C256 is satisfied.
+
+Every F_h is compact and locally path connected. Here is the needed local
+argument, including critical levels. At p with g(p)>h there are arbitrarily
+small chart balls contained in {g>h}. At a regular point with g(p)=h, regular
+coordinates make F_h a coordinate half-space, and sufficiently small centered
+balls intersect it in convex half-balls. At a critical point with g(p)=h,
+a centered Morse chart identifies its intersection with small balls with
+
+    { (u,v) : |u|^2 <= |v|^2, |(u,v)|<r }.
+
+These sets are star-shaped at the origin, by radial contraction. In the
+negative-definite case they are singletons. In each case these neighborhoods
+form a path-connected neighborhood basis in F_h. A path component in a locally
+path-connected space is open; its complement is a union of other open path
+components. A connected component therefore consists of exactly one path
+component. Consequently all connected components of F_h are path connected.
+
+Fix a nonempty connected component K of F_h. It is closed in F_h, hence
+compact. Choose q maximizing g on K, with c=g(q)>=h. We prove q is a local
+maximum on X, rather than assume a constrained maximum is an unconstrained one.
+
+If c>h, choose a sufficiently small connected chart ball B about q contained
+in {g>h}. The connected set B intersects K, so B is contained in K, by maximality
+of the connected component. Thus g<=c on B, making q a local maximum on X.
+
+If c=h, a regular q is impossible: in regular coordinates a short positive
+coordinate ray from q stays in F_h and reaches a point of height >h. The ray
+belongs to K, contradicting maximality of c. If q is critical and the Morse
+form has any positive square, the ray u=0, v=r e_1 provides the same
+contradiction. The remaining Morse case is negative definite, which makes q
+a strict local maximum on X. This exhausts the equality case.
+
+In fact **every** maximizer of g on K is a local maximum by this argument.
+Distinct critical values therefore make the maximizer unique. Denote it by
+H_h(K), the head of K. It belongs to P, its value is the largest height of
+any point of K, and hence it is also the unique highest-birth maximum in K.
+Different components have different heads. It follows at once that F_h has
+finitely many components, bounded by |P|. The empty F_h has no components.
+
+For any M in P with h<=b_M, write K_h(M) for its component in F_h. By the
+maximization result,
+
+    H_h(K_h(M)) = M
+      iff K_h(M) contains no point of height greater than b_M.
+
+Indeed if it contains no such point, M maximizes g there and the maximizer is
+unique. Path connectivity of K_h(M) identifies the negation with the actual
+path predicate in (E). Hence, for nonglobal M,
+
+    M is a head at height h iff h<=b_M and delta_M<h.          (H)
+
+The global M_* is a head precisely when h<=b_*. These statements include
+equalities: M is a head at h=b_M, and is not a head at h=delta_M. At the
+birth height a negative-definite chart even makes {M} open in F_{b_M}; as a
+singleton it is also closed, so its connected component is exactly {M}.
+This last fact illustrates birth but is not needed for the subsequent basis.
+
+This defines and proves the elder labeling without postulating a label
+interface. Under a lowering h>=h', a component K of F_h is contained in a
+unique component K' of F_{h'}. The head of K' has birth at least the birth
+of the head of K, since K subset K'. If K' meets F_h, then H_{h'}(K') has height
+at least h and lies in F_h. The F_h component containing it has this same
+head. Thus among all F_h components entering K', the unique greatest-birth
+head is exactly H_{h'}(K'); newly available points below h cannot displace it.
+This proves retention of the older label at every change, without requiring
+that only two components participate or asserting a unique saddle event.
+
+## 3. The actual singular-H0/component comparison, including maps
+
+For an arbitrary space Y, let pi_0^p(Y) be its set of path components and
+k[pi_0^p(Y)] the free k-vector space on that set (finite linear combinations).
+A continuous f:Y->Z sends path components to path components, so it defines
+a linear map f_comp sending each component basis vector to the basis vector
+of its containing image component. Identities and compositions hold on basis
+vectors, making this a functor.
+
+The singular chain space C_0(Y;k) is the free vector space on the points of Y:
+a singular 0-simplex is exactly a point. A singular 1-simplex is a path
+sigma:[0,1]->Y, and its boundary is
+
+    partial_1(sigma) = [sigma(1)] - [sigma(0)].
+
+For ordinary homology partial_0=0, so H_0(Y;k)=C_0(Y;k)/im(partial_1).
+Define q_Y:C_0(Y;k)->k[pi_0^p(Y)] by [y] mapping to e_{component(y)}.
+It is surjective: each basis component is nonempty and has a point. Every
+path boundary maps to zero, so im(partial_1) is contained in ker(q_Y).
+
+For the reverse containment take a finite chain z=sum_i a_i[y_i] in ker(q_Y).
+Group its finite support by path component. In each component C meeting the
+support choose one point x_C in that support. The coefficient sum in C is
+zero because q_Y(z)=0. Its contribution is therefore
+
+    sum_{y_i in C} a_i[y_i]
+      = sum_{y_i in C} a_i([y_i]-[x_C]).
+
+For each such y_i choose a path from x_C to y_i in C; each difference on the
+right is its singular boundary. There are only finitely many terms, so z is
+a boundary of a finite singular 1-chain. Thus ker(q_Y)=im(partial_1), and q_Y
+induces an isomorphism
+
+    alpha_Y:H_0(Y;k) -> k[pi_0^p(Y)].                          (A)
+
+For empty Y both sides are zero and this remains valid. There is no connected
+versus path-connected substitution in (A): it uses path components throughout.
+Section 2 proves that those agree with connected components for our F_h.
+
+Naturality is literal on chains. For continuous f:Y->Z the induced chain map
+sends [y] to [f(y)] and sigma to f composed with sigma. Consequently
+
+    q_Z composed with C_0(f) = f_comp composed with q_Y.
+
+Both sides kill boundaries, giving
+
+    alpha_Z composed with H_0(f) = f_comp composed with alpha_Y.  (N)
+
+Hence alpha_{F_{-t}} is a natural isomorphism from V to the actual component
+persistence module W_t=k[pi_0^p(F_{-t})]. This establishes the compatibility
+with every filtration inclusion, rather than only an objectwise dimension
+identity or invocation of a library theorem by name.
+
+## 4. Fixed older-parent differences form a basis at every level
+
+Fix the endpoint-witness parents P_M from Section 1 once and for all. An
+arbitrary older maximum is not sufficient: it must connect to M in
+F_{delta_M}. For h<=b_M both M and
+P_M belong to F_h, since b_{P_M}>b_M. In k[pi_0^p(F_h)] define
+
+    w_M(h) = e_{K_h(M)} - e_{K_h(P_M)}.
+
+For h<=b_* define w_*(h)=e_{K_h(M_*)}. The fixed path in F_{delta_M} shows
+w_M(h)=0 for every h<=delta_M. Conversely, if delta_M<h<=b_M, equality of
+the two components would give a path from M to the strictly higher point
+P_M in F_h, contrary to (E). Their distinct basis vectors have nonzero
+difference over any field. In characteristic two the difference is a sum,
+and it remains nonzero because the coordinates are distinct. Thus
+
+    w_M(h) is nonzero iff delta_M<h<=b_M,
+    whenever the expression is defined (h<=b_M).              (D)
+
+To prove the basis statement, suppose F_h is nonempty. By (H), its components
+are in bijection with the active heads
+
+    Q_h = {M_*} union {M in P\{M_*}: delta_M<h<=b_M},
+
+where necessarily h<=b_*; put a basis vector e_M for the component headed
+by M. For an active nonglobal M, the component of its parent P_M has some
+head R_h(M). Section 2 gives
+
+    b_{R_h(M)} >= b_{P_M} > b_M.
+
+In particular R_h(M) is another active head, and
+
+    w_M(h) = e_M - e_{R_h(M)},       w_*(h)=e_{M_*}.
+
+The parent P_M need not itself be an active head at h: its own label may
+already have died. Only the head of its current component is used in this
+triangularity argument; the vector continues to use the same fixed point P_M.
+
+Order active heads by strictly decreasing birth height, with M_* first.
+Each w_M equals e_M plus a combination (here one term) of earlier basis
+vectors; w_* is the first basis vector. The change-of-basis matrix is
+triangular with all diagonal entries 1 and so is invertible over k.
+Alternatively solve successively for e_M=w_M+e_{R_h(M)}; the strictly
+increasing parent-head birth terminates at M_* in this finite set. Thus
+
+    {w_*(h)} union {w_M(h): delta_M<h<=b_M}
+
+is a basis of the actual component vector space at h. For h>b_* both the
+space and displayed active basis are empty. This handles all levels, with
+no regular-value restriction and no assumption of distinct death heights.
+
+## 5. Explicit interval isomorphism and naturality at birth and death
+
+Let U denote the direct sum on the right of (T). At t with h=-t define a
+linear map Phi_t:U_t->W_t by sending the unit of the essential summand, when
+present, to w_*(h), and the unit of the M summand, when present, to w_M(h).
+The basis result proves that Phi_t is an isomorphism for every real t.
+
+It remains to prove these isomorphisms commute with **all** structure maps.
+Take s<=t, so h_s=-s>=h_t=-t. Whenever a fixed point x belongs to F_{h_s},
+the component inclusion map sends e_{K_{h_s}(x)} to e_{K_{h_t}(x)}. Therefore,
+whenever the M summand is present at s, its image vector is exactly
+
+    e_{K_{h_t}(M)} - e_{K_{h_t}(P_M)} = w_M(h_t).              (P)
+
+If the M summand is also present at t, its interval structure map is the
+identity, and (P) proves commutativity. If it has ceased to be present at t,
+then t>=-delta_M (equivalently h_t<=delta_M); (D) makes (P) zero, exactly
+matching the zero structure map of the interval. It cannot cease by going
+back before birth since s<=t. If the summand is absent at s, its source
+space is zero, and both composites from that summand are zero, including
+when it first appears at t. The essential unit, once present, always maps
+to e_{K_{h_t}(M_*)}, as required. Linearity over the finite direct sum gives
+
+    W(s,t) composed with Phi_s = Phi_t composed with U(s,t).
+
+Thus Phi is a natural isomorphism U -> W. The componentwise inverses are
+also natural (multiply the displayed equation by the inverses). Composing
+Phi with alpha^{-1} from (N) proves (T) for actual ordinary singular H0.
+Explicitly, a finite summand's unit is represented by the singular 0-chain
+
+    [M] - [P_M]
+
+whenever -b_M<=t<-delta_M, and the essential unit by [M_*]. At t=-b_M
+the finite generator exists and is nonzero; at t=-delta_M its image is the
+boundary of the endpoint path (up to sign) and is already zero. These are
+the asserted closed-left/open-right endpoints, not merely limiting ranks.
+
+The point class [M] itself **does not die**. At a connected level it maps
+to the nonzero component class, equal there to [P_M]. The killed element is
+the difference. Nonzeroness of a point class also follows from the ordinary
+augmentation C_0->k summing coefficients, which kills all path boundaries
+and sends [M] to 1. This is why using ordinary H0, and retaining one essential
+summand, is essential to the statement.
+
+## 6. Multiplicities, uniqueness, and deterministic lifetime counting
+
+Formula (T) gives exactly |P|-1 finite nonzero summands and one essential
+summand. Their births are pairwise distinct; different maxima cannot index
+the same interval, even if death heights happen to coincide. Each maximum
+is used once, as an actual point of X. Changing the choices P_M can change
+the basis vectors and the natural isomorphism. It changes neither delta_M,
+which was defined by the actual path problem, nor the displayed intervals.
+
+Here is a direct check that the multiset is intrinsic within the stated
+finite half-open class, rather than just a favored choice of decomposition.
+For s<=t define r(s,t)=rank(V_s->V_t). An interval [a,d) contributes 1 to
+r(s,t) exactly when a<=s and t<d; an interval [a,infinity) contributes 1
+exactly when a<=s. These facts follow directly from interval structure maps
+and invariance of rank under the natural isomorphism.
+
+Compare any two finite decompositions into nonempty intervals of these forms.
+Fix a candidate finite endpoint pair a<d in the union of their endpoint lists.
+Choose u<a so (u,a] contains no birth in either list other than a. Choose
+v with a<=v<d so (v,d] contains no finite death in either list other than d.
+Finiteness and a<d allow these choices. Then the multiplicity of [a,d) in
+either decomposition is exactly
+
+    r(a,v) - r(u,v) - r(a,d) + r(u,d).                        (R)
+
+Indeed the birth difference selects births in (u,a], and the death difference
+selects deaths in (v,d]; essential summands cancel. All four ranks have ordered
+arguments since u<a<=v<d. For an essential endpoint a choose T>=a larger than
+all finite deaths in both lists. Its multiplicity is
+
+    r(a,T) - r(u,T).
+
+Every interval in either finite list is detected by one such formula, so the
+two multisets agree. This proves the exact finite-bar multiplicities and
+endpoint-preserving bijection with nonglobal maxima, among the standard
+half-open interval decompositions exhibited here. It makes no classification
+claim for arbitrary persistence modules or for invisible empty intervals.
+
+Define the finite deterministic lifetime counting measure
+
+    nu_g = sum_{M in P\{M_*}} Dirac_{b_M-delta_M}.
+
+Every lifetime is strictly positive and finite. The finite-interval barcode
+of actual V has exactly this counting measure: for every Borel set B subset R,
+
+    # {finite intervals of V, counted with multiplicity,
+                         whose length belongs to B}
+      = sum_{M in P\{M_*}} 1_B(b_M-delta_M) = nu_g(B).        (L)
+
+The identity in fact holds for every subset B; Borel is only needed to call
+nu_g a Borel measure. Essential lifetime is excluded, not assigned a spurious
+real value. This is a fixed-function statement. It proves no measurability
+of g mapping to nu_g, random-field expectation identity, density, density
+normalization, Gaussian elder probability, asymptotic, or interchange of limits.
+No factor 1/2 occurs because the index set is a set of maxima, once each.
+
+The proof applies in d=1 as well as d>=2. In d=1 it still does not identify
+a death point as an index-zero minimum; that extra identification is outside
+this argument. Specializing the geometric theorem to the project's d>=2
+quotient torus is allowed once its stated geometric hypotheses are established.
+For torus use, X consists of lattice-equivalence classes, so infinitely many
+Euclidean lifts of a maximum are not extra elements of P. If one later counts
+representatives, a separate choice of exactly one representative per class
+must be justified; this theorem makes no Euclidean-pair counting substitution.
+
+## 7. What has and has not been discharged for the source interface
+
+The actual component elder labels, singular-H0 identification, naturality,
+finite interval decomposition, endpoints, multiplicities, and the deterministic
+all-Borel count by nonglobal maxima have been proved above from the geometric
+hypotheses plus C256. These were not additional assumed interface fields.
+The proof does not need Morse handles to establish this particular conclusion.
+
+C256 also proves each delta_M is a critical value. Distinct critical values
+therefore supply, for each nonglobal M, a unique critical point S_M with
+g(S_M)=delta_M. This does **not** yet prove that M->S_M is injective, that
+S_M has index d-1, or that a critical point kills exactly one label. Our
+argument allows several maxima to share a death height; it neither asserts
+that this occurs for a Morse function nor rules it out by a handle argument.
+A Morse local/handle analysis relating the critical point's index and attaching
+components remains required for the ordered maximum/saddle correspondence.
+In particular a handle whose two attaching sectors belong to the same
+component must not be counted as an H0 death from its index alone.
+
+The supplied `Field.lean` definition `SuperlevelBarInterface` has given
+`deathHeight`, `IsEssential`, and `ElderPartner` fields. C256 Section 8 proves
+a uniqueness adapter: after genuine quotient/lift path compatibility and the
+stated smooth/periodic predicates, `essential_iff` identifies nonglobality and
+`deathHeight_maximin` forces `I.deathHeight g M = delta_M`. It does so by
+equality of all strict lower rays, not by assuming the closed endpoint.
+Combining that adapter with this theorem identifies the actual finite interval
+endpoints with the given death-height numbers for nonglobal maxima.
+
+However, `elderPartner_iff` additionally requires an index-(d-1) saddle, and
+`IsFiniteBar` requires the candidate-point, positive-distance and positive-gap
+conditions. We have the geometric gap b_M-delta_M>0, but have not supplied
+the full saddle-index, concrete derivative/Hessian predicate, quotient/lift,
+or representative alignment. Thus this packet does not establish a bijection
+between actual intervals and the concrete `IsFiniteBar` pair population or
+its `pairSet` counts. It does not discharge C253's whole saddle/Field target.
+No real-valued death field for M_* is used: the maximin clause excludes the
+essential case and cannot create a finite essential bar.
+
+The structural proof's imported handle assertions at lines 146–164 remain
+the relevant source for the stronger saddle-pair conclusion; this packet
+neither claims a new proof of those imports nor reclassifies their original
+analytic use as a failure. Formal realization of all geometric hypotheses,
+C256, chain quotient maps, and the natural isomorphism in the pinned Lean
+4.34.1 / Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612` environment remains
+OPEN, with hosted compile/kernel/audit evidence still separate. No C4
+extension, stochastic law, regional collision conclusion, or scientific
+acceptance follows from this prose construction alone.
+
+## 8. Exact exposure and source identity
+
+This author read complete C257 coordination/ledger, complete C256 endpoint
+proof and nonauthor review, C256 source-locator erratum, complete C253 task,
+Field lines 270–345, and structural proof lines 106–179. The following local
+hashes were recomputed by inert SHA-256 reads, with no project-code execution.
+Remote/current comparisons below are the root/source records' evidence, not
+new remote fetches by this author.
+
+| Source | Identity and SHA-256 |
+|---|---|
+| C256 `ENDPOINT_PROOF.md` | 21,194 bytes; `148e58717659feb83ca341824503a2dbf375f2412f76cd00121cfe3b35c39551`; native immutable proof/control/review delivery [Math- #419 comment 6111558322](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6111558322) |
+| C256 `NONAUTHOR_REVIEW.md` | `ce57e70a321c3737fdf1229787e1b22ff8ecf4be71ddcdc06dd996693a6c9124`; TECHNICAL ACCEPT only for its stated endpoint slice, source-exposed same-organization nonauthor review |
+| C253 `Field.lean` | actual path `specifications/lean_statements_20261010/Specifications/Field.lean`; Math- original commit `b2d70d77876a10c365f5db5d3b6cafcf180af4e2`, recorded matching current commit `873c6c01b768acf66c8968e5fb8b734e2d8d61d0`, blob `cc40e9d19446b8a150401c574d3cfd56177f195f`; 27,767 bytes; `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` |
+| C253 `ST_PROOF.md` cache | actual main path `experiments/universality/fold_structural_universality/PROOF.md`; commit `88ff9223e57bf38c7fc33cb3559a88793a7b5087`, blob `483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b`; 43,927 bytes; `3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531` |
+| C253 `TASK.md` | `39da9371897cbc2d108dd20b0c4db21531db56c82e022128d8dac4de418318d8`; inherited scope and source locators, not an assumed mathematical theorem |
+
+The Field locator above applies the preserved [C256 append-only locator
+erratum, Math- #419 comment 6111576469](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6111576469).
+It does not replace the immutable C256 bytes or claim that its original
+envelope locator was correct. C257 changes no source branch or Lean file.
+
+Required next validation is distinct nonauthor substantive reconstruction of
+this exact proof and its controls; author hash/readback is identity evidence,
+not that review. Any acceptance must retain the geometric/import boundaries
+and the still-open saddle/Field/formal/stochastic obligations above.
+
+---
+
+# C257 — exact ordinary H0 controls and contributor reconstruction
+
+**Status: mathematical contributor evidence, not nonauthor review, formal verification, runtime evidence, or scientific acceptance.**
+
+Contributor: OpenAI / GPT-6 Astra, delegated for Dylan Roy as `/root/c257_h0_controls`; source exposed, organizational-independence credit 0, no human review. Root supplied claim `581320c7-19a0-4680-866f-20c85a4bc95f`, R17 Work Events 1650, fresh all-14-cell readback and native Math- #419 comment 6111652687, expiry 2026-10-11T19:22:09Z. I read the local C257 coordination and ledger; I did not independently fetch or mutate the remote register. Root remains sole publisher. Claude's C254 source ownership is unchanged.
+
+This file contains handwritten exact calculations and theorem-adversarial checks. Only inert source reads, text writing, byte counts and hashes were used. No Lean, Lake, Python, Node, project runtime, tests, CI, service mutation, claim creation, or source-branch modification occurred. The finite filtered graphs below test the algebra and endpoint conventions; they do not prove smooth Morse geometry or identify a saddle index.
+
+## 1. Read objects and scope
+
+| Object read | Bytes | SHA-256 |
+|---|---:|---|
+| C256 `ENDPOINT_PROOF.md`, complete | 21194 | `148e58717659feb83ca341824503a2dbf375f2412f76cd00121cfe3b35c39551` |
+| C256 `NONAUTHOR_REVIEW.md`, complete | 16170 | `ce57e70a321c3737fdf1229787e1b22ff8ecf4be71ddcdc06dd996693a6c9124` |
+| C256 `NEGATIVE_CONTROLS.md`, complete | 14304 | `d20cb93b17dbb09688851e9473469bce42e5b6d1548a968683e1df1a37cf7c28` |
+| C253 `Field.lean`, lines 270–345 read; whole-file identity measured | 27767 | `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` |
+
+C257's coordination identifies the current Field source as Math- commit `873c6c01b768acf66c8968e5fb8b734e2d8d61d0`, path `specifications/lean_statements_20261010/Specifications/Field.lean`; the native comparison is root's evidence. The C256 locator erratum remains required in the root handoff. This contribution does not substitute the cached historical locator for the current source identity.
+
+The target is ordinary singular H0 of the actual closed superlevels F_h={g>=h}, with maps induced by inclusion F_h -> F_k for h>=k; equivalently V_t=H0(F_(-t);K), with increasing t. K is an arbitrary field. The geometric hypotheses are the C256 compact nonempty connected smooth boundaryless Morse manifold of dimension at least one, now with distinct critical values. No extension to merely C4 fields is asserted.
+
+C256 supplies, for every nonglobal maximum M of height b_M, a finite delta_M<b_M and a fixed older maximum P_M such that M and P_M are connected in F_(delta_M). Moreover M connects in F_h to some point of height greater than b_M exactly when h<=delta_M. No saddle index or Morse handle theorem is silently added here.
+
+## 2. Reconstruction of the singular H0/component comparison
+
+For any space Y, singular C0(Y;K) is the free K-vector space on its points; every 0-chain is a cycle. Send a point y to the formal basis vector of its path component. A singular 1-simplex is a path, and its boundary is its endpoint minus its starting point; therefore every boundary maps to zero. This gives
+
+    q_Y : H0(Y;K) -> K^(pi_0^path(Y)).
+
+The notation denotes finite-support vectors even if there are infinitely many components. This map is surjective because each represented component contains a point. For injectivity, let a finite 0-chain z have zero total coefficient in each component. In each of the finitely many components meeting its support, choose one support point r. Within that component, write its contribution as
+
+    sum_y a_y y = sum_y a_y (y-r),
+
+using sum_y a_y=0. Each difference y-r is the boundary of a path from r to y, so z is a finite sum of boundaries. Thus q_Y is an isomorphism, including Y empty, when both sides are zero.
+
+For a continuous map f:Y->Z, both ways around the naturality square send [y] to the basis vector of the component containing f(y). Thus q is natural. No local path connectivity is needed for this singular-H0/path-component result. C256's closed-level local path connectivity is needed separately to identify connected components, compactness of those components, and path connectivity in the geometric argument.
+
+**Point-class control.** For nonempty Y, the augmentation epsilon:C0(Y;K)->K sends every point to 1 and every boundary to 0. Hence [y] is never zero in ordinary H0. Inclusions carry [y] to the same point's nonzero class whenever y remains present. A dying finite-bar generator must therefore be a difference or another augmentation-zero combination; it cannot be the point class [M] itself. This argument works in every characteristic, including 2.
+
+## 3. Reconstruction of component heads and the fixed-parent basis
+
+This section states what the geometric proof must supply and checks that the linear algebra consumes exactly those facts.
+
+Every nonempty component C of F_h has a point R maximizing g on C: by C256 local path connectivity it is also a connected component, hence closed in compact F_h. If b_C=max_C g exceeds h, a sufficiently small path-connected neighborhood of R inside {g>h} lies in C, so R is a local maximum of g on the manifold.
+
+The equality b_C=h requires its own argument. Then g is identically h on C. If a point p in C is regular, regular coordinates give a short path from p to height greater than h inside F_h, contradicting maximality. If p is Morse critical but is not a local maximum, the positive direction in the Morse normal form gives such a path. Consequently every point of C is a Morse local maximum. There are finitely many critical points; a connected subset of this finite Hausdorff set is a singleton. Thus C={R}, where R is a local maximum of height h. This is the critical birth-level case that an argument using only open superlevels misses.
+
+Distinct critical values give a unique maximum R of greatest height in each C. Call it the head H(C). Conversely, a nonglobal maximum M is this head exactly at heights
+
+    delta_M < h <= b_M.
+
+For these heights M is present and C256 forbids a higher point in its component. If h<=delta_M, the fixed endpoint witness puts an older maximum in that component, so M is no longer its head. The unique global maximum Q is a head at every h<=b_Q. These statements give a bijection between components and active maxima, including every critical height.
+
+Fix once and for all one C256 endpoint maximum P_M for each nonglobal M. Define, whenever h<=b_M,
+
+    v_M(h) = e_[component of M at h] - e_[component of P_M at h].
+
+The second point is present because b_(P_M)>b_M. For h<=delta_M the two components agree, so v_M(h)=0. For delta_M<h<=b_M they differ, because P_M is older. Thus v_M is supported exactly on (delta_M,b_M] in height. For Q use v_Q(h)=e_[component of Q at h] for h<=b_Q.
+
+At a fixed nonempty level h, index the component basis by its active heads in decreasing birth-height order Q=R_1,R_2,...,R_r. For an active M=R_j, the head of P_M's current component is some R_i with i<j: its height is at least b_(P_M)>b_M. Therefore
+
+    v_Q=e_(R_1),
+    v_(R_j)=e_(R_j)-e_(R_i),  i<j.
+
+With rows and columns in this order, the matrix is upper triangular with diagonal entries 1. Its determinant is 1 over every field; alternatively back substitution proves bijectivity without determinants. It follows that the global column and the active finite columns form a basis.
+
+**No parent-survival assumption is permitted.** P_M may already have ceased to be a head at h. The formula uses its actual point component; the triangular comparison uses that component's head. Replacing this argument by “P_M is an active maximum” would be false. Section 5 gives an exact example.
+
+**Naturality.** Inclusion transports the two fixed point classes comprising v_M(h) to the same two fixed point classes at k<=h. If M is active at both levels, the image is exactly v_M(k); if M dies between the levels or at k=delta_M, the image is zero. If its interval is absent at the source, the corresponding source summand is zero. The global point class persists. Thus the pointwise basis maps are compatible with every structure map, not just adjacent regular levels. The result is the explicit natural isomorphism
+
+    H0(F_(-t);K)
+      ~= I[-b_Q,infinity)
+          direct_sum_(nonglobal maxima M) I[-b_M,-delta_M).
+
+This reconstruction is contributor work. Its finite-graph instances below are exact falsification controls; final acceptance of the smooth theorem belongs to the fresh nonauthor review.
+
+## 4. Four-maxima merge chain: explicit vectors, maps, endpoints, lengths
+
+Define a filtered finite tree with vertices Q,P,M,N, vertex birth heights respectively 12,10,8,6, and edges
+
+    Q --(2)-- P --(4)-- M --(5)-- N.
+
+At height h include a vertex when its height is at least h, and include a whole edge when its displayed threshold is at least h. Its endpoints are then present. This is an explicit finite CW filtration with closed event convention; it is not asserted to be a smooth Morse function. Ordinary singular H0 is precisely the free vector space on the displayed graph's components by section 2.
+
+| Height range | Components, in row order | Active maxima |
+|---|---|---|
+| h>12 | empty | none |
+| 10<h<=12 | Q | Q |
+| 8<h<=10 | Q; P | Q,P |
+| 6<h<=8 | Q; P; M | Q,P,M |
+| 5<h<=6 | Q; P; M; N | Q,P,M,N |
+| 4<h<=5 | Q; P; MN | Q,P,M |
+| 2<h<=4 | Q; PMN | Q,P |
+| h<=2 | QPMN | Q |
+
+Take P_P=Q, P_M=P, P_N=M. On the four-component range the generator columns, ordered Q,P,M,N, are
+
+    v_Q=e_Q, v_P=e_P-e_Q, v_M=e_M-e_P, v_N=e_N-e_M.
+
+In the component row basis (Q,P,M,N), the change-of-basis matrix is
+
+           [ 1 -1  0  0 ]
+    B_4 =  [ 0  1 -1  0 ].
+           [ 0  0  1 -1 ]
+           [ 0  0  0  1 ]
+
+Its determinant is 1. At the first merger, from a height in (5,6] to h=5, the component matrix is
+
+           [ 1 0 0 0 ]
+    J_5 =  [ 0 1 0 0 ],
+           [ 0 0 1 1 ]
+
+with target rows (Q,P,MN). Direct multiplication gives
+
+               [ 1 -1  0  0 ]
+    J_5 B_4 =  [ 0  1 -1  0 ] = [ B_3 | 0 ],
+               [ 0  0  1  0 ]
+
+where B_3 has rows (Q,P,MN) and columns (v_Q,v_P,v_M). Thus v_N dies exactly at 5, while v_M maps to e_MN-e_P.
+
+At h=4, the component map to rows (Q,PMN) is
+
+    J_4 = [ 1 0 0 ],
+          [ 0 1 1 ]
+
+and
+
+    J_4 B_3 = [ 1 -1 0 ] = [ B_2 | 0 ].
+              [ 0  1 0 ]
+
+Finally J_2=[1 1] and J_2 B_2=[1 0]. In the interval bases each merger is coordinate deletion of the dying last column. Between events the matrices are identities in the fixed component indexing. At each birth the map from the preceding generator basis is inclusion into the first columns of the new basis; the new column is independent and present already at the birth height itself.
+
+The resulting intervals and lengths are
+
+| Birth label | Increasing-time interval, t=-h | Height support | Lifetime |
+|---|---|---|---:|
+| Q | [-12,infinity) | h<=12 | essential/infinite |
+| P | [-10,-2) | 2<h<=10 | 8 |
+| M | [-8,-4) | 4<h<=8 | 4 |
+| N | [-6,-5) | 5<h<=6 | 1 |
+
+There are exactly three finite summands, each with multiplicity one, and one essential summand. M dies into P at height 4; P itself dies later in the descending filtration, at height 2, into Q. A point survives every merger: for example e_M maps to e_MN, then e_PMN, then e_QPMN, all nonzero.
+
+Two deliberately wrong choices are exposed:
+
+1. **Raw point basis.** Treating e_M as a finite-bar generator with death 4 fails because J_4(e_MN)=e_PMN is not zero. The claimed interval square fails to commute.
+2. **Arbitrary older parent.** Q is older than M, but choosing w_M=e_M-e_Q gives at h=4 the nonzero vector e_PMN-e_Q. It dies at 2, not at M's maximin threshold 4. Strictly greater birth height alone does not qualify a fixed parent; connection at delta_M is essential.
+
+A height-dependent change is also invalid without proof. Use e_M-e_P above height 5 and switch to e_M-e_Q at/below 5 while M remains active. The image of the former under J_5 is e_MN-e_P, whereas the declared latter is e_MN-e_Q; their difference is e_P-e_Q, a nonzero active P-column. Both are individually plausible nonzero vectors, and both can occur in pointwise bases, but these pointwise choices do not define the same natural interval generator. Fixing the actual endpoint P_M avoids this defect.
+
+## 5. A parent that is already dead: compatible with the connection inequality
+
+Use instead
+
+    Q(12) --(7)-- P(10) --(5)-- M(8) --(3)-- N(6).
+
+Parent choices are again P_P=Q, P_M=P, P_N=M. The exact intervals are
+
+    Q: [-12,infinity),
+    P: [-10,-7), length 3,
+    M: [-8,-5),  length 3,
+    N: [-6,-3),  length 3.
+
+For 7<h<=8 the heads are Q,P,M and the three-column bidiagonal basis applies. Crossing h=7 merges Q and P, so with source rows (Q,P,M) and target rows (QP,M) the component matrix and its effect are
+
+    J_7 = [ 1 1 0 ],       J_7 B_3 = [ 1 0 -1 ].
+          [ 0 0 1 ]                      [ 0 0  1 ]
+
+The second column, v_P, dies. The third is v_M=e_M-e_QP. Thus a non-last source generator can die while a younger one remains; reindexing by the remaining active maxima gives a triangular basis again.
+
+At h=6, N is born. For 5<h<=6 the active heads are Q,M,N, but M's chosen parent P is already dead as a label. In row order (QP,M,N), the active columns are
+
+    v_Q=(1,0,0), v_M=(-1,1,0), v_N=(0,-1,1).
+
+Their matrix is B_3, with the rows now indexed by current components. At h=5 the map to rows (QPM,N) is
+
+    J_5' = [ 1 1 0 ],      J_5' B_3 = [ 1 0 -1 ].
+           [ 0 0 1 ]                        [ 0 0  1 ]
+
+M dies, while N survives as e_N-e_QPM although its own fixed parent M has now died. At h=3 the final map [1 1] kills that difference. All calculations are characteristic independent.
+
+This is consistent with the maximin connection inequality. For two present vertices A,B let c(A,B) be the greatest height at which they connect. Concatenating paths gives
+
+    c(A,C) >= min(c(A,B),c(B,C)).
+
+In this tree c(M,P)=5, c(P,Q)=7 and c(M,Q)=5, so the inequality is an equality. P can die at a larger height than M while M remains separate above 5. There is no ultrametric obstruction to a dead parent. The only valid general statement needed by the basis proof is that the *current head of the parent's component* has birth height strictly greater than M's.
+
+## 6. Equal dimensions do not prove a persistence-module isomorphism
+
+Here use increasing time t directly. Start with vertices E,A,B born at times -1,0,1. Define two graph filtrations:
+
+- U: add edge EA at t=2, then edge EB at t=3.
+- V: add edge AB at t=2, then edge EA at t=3.
+
+Both graphs have no other edges. All event inclusions use <=t, so births and merges occur at the displayed times. Both ordinary H0 dimension functions are
+
+    0 for t<-1;
+    1 for -1<=t<0;
+    2 for 0<=t<1;
+    3 for 1<=t<2;
+    2 for 2<=t<3;
+    1 for t>=3.
+
+Their decompositions, calculated by the same difference generators, are
+
+    U = I[-1,infinity) + I[0,2) + I[1,3),
+    V = I[-1,infinity) + I[0,3) + I[1,2).
+
+Every time-slice dimension agrees. Nevertheless at s=1/2, t=5/2 the U map has source component rows (E,A), target rows (EA,B), and matrix
+
+    U(s->t) = [ 1 1 ],  rank 1.
+              [ 0 0 ]
+
+The V map has source (E,A), target (E,AB), and matrix
+
+    V(s->t) = [ 1 0 ],  rank 2.
+              [ 0 1 ]
+
+If a natural isomorphism existed, the two matrices would differ by invertible changes of basis at source and target and would therefore have equal rank. They do not. This is an ordinary-H0 graph countercontrol, with an essential summand retained; it is not only an abstract quiver example. It falsifies dimension-count-only proofs of the desired interval decomposition.
+
+## 7. Endpoint, multiplicity, and tie controls
+
+**Closed birth and death.** A maximum is present at h=b_M. The critical-level component argument in section 3 shows that its birth component is the singleton M. Its fixed parent lies in a different component because delta_M<b_M. Hence its difference generator is already nonzero at birth. At h=delta_M the closed endpoint path equates the two component vectors and the generator is exactly zero. Thus the correct interval is (delta_M,b_M] in decreasing height, or [-b_M,-delta_M) in increasing time. Reversing either bracket fails the explicit graph maps.
+
+**Essential class.** The unique global maximum Q has no older endpoint and gives a nonzero point class at every level at which it is present. For h below the global minimum, F_h=X is connected and H0=K; exactly one class must remain. Adding a finite artificial death for Q would incorrectly give eventual dimension zero. Reduced H0 would remove this essential summand, but the target is ordinary H0.
+
+**Field characteristic.** Every displayed basis matrix has diagonal 1, and all calculations use point differences. In characteristic 2 the sign -1 becomes +1, but 1-1=0 still makes the merging difference vanish and all triangular determinants remain 1. No division by 2 occurs.
+
+**Repeated lifetimes are not repeated births.** In section 5 all three finite intervals have lifetime 3. They remain three distinct summands because their birth/death pairs differ. A lifetime distribution can have multiplicity 3 at length 3; a count of distinct lengths would lose two bars.
+
+**Equal birth heights need extra data.** Take two vertices A,B born at height 2 and an edge between them at height 1. Both are global maxima in the sense “no strictly higher point,” but the actual module has one essential interval [-2,infinity) and one finite interval [-2,-1). The strict-higher endpoint predicate is empty for both. Thus dropping distinct critical values while retaining the strict-higher formula and declaring every global maximum essential would produce two essential summands, contradicting eventual connected H0. A tie-breaking order can select one essential label, but that changes the elder endpoint definition; it is not a consequence of C256's strictly greater-height predicate. Distinct critical values exclude this issue in C257.
+
+**Equal death levels are an algebraic boundary, not automatically a contradiction.** With distinct births Q=6,A=5,B=4, and edges QA and QB both appearing at height 2, there are two finite intervals [-5,-2) and [-4,-2). The graph component map at 2 is [1 1 1], killing both A-Q and B-Q. The fixed-parent proof handles such simultaneous deaths. This graph does not justify two maxima dying at a single isolated smooth Morse critical point: that requires the separate local index/handle analysis. Distinct critical values alone, as an input to the abstract component algebra, should not be silently substituted for that geometric analysis.
+
+## 8. Once-counting, torus lifts, and unclosed Field obligations
+
+The constructed decomposition has one explicitly indexed finite interval for each nonglobal maximum, and one essential interval for the unique global maximum. The basis maps account for every component at every height; section 6 explains why those maps, rather than dimensions alone, matter. There is no factor 1/2. For a genuine torus X=R^d/(L Z^d), maxima and components here are quotient points and subsets. Euclidean lifts of one maximum are not new summand indices; counting all lifts would duplicate the same quotient birth infinitely many times.
+
+This quotient statement does not assert that ordinary H0 of the full lifted superlevel subset of R^d is itself isomorphic to ordinary H0 of the torus superlevel. Such lifted subsets can have multiple components that project to one quotient component. C256's path-lifting adapter works because the higher endpoint is existential and its lifted representative is not prescribed. That adapter preserves the relevant connection threshold; it does not authorize counting lift components as torus bars. A half-open fundamental domain can select one representative per quotient critical point for population counts, but paths must not be forced to stay in that domain.
+
+The interface in Field lines 285–345 still has `deathHeight`, `IsEssential`, and `ElderPartner` as given relations. C256's strict-threshold uniqueness adapter can identify a supplied nonglobal `deathHeight` with the geometric delta after the explicit quotient and predicate compatibilities. C257's component-basis argument then identifies the actual finite H0 intervals with nonglobal maxima and these numerical death levels. It does **not**, by linear algebra alone, prove that the unique critical point at delta has Morse index d-1, that its local sectors join distinct pre-event components, or that the Field relation `ElderPartner` matches that actual killing event.
+
+In particular, a once-counted set of nonglobal maxima is not yet a proved bijection with Field's ordered maximum/saddle pairs. That further statement requires the death critical point's index, local/global event identification and predicate compatibility, including torus position and positive height gap. The positive gap is available from C256; the saddle-index and unique point-partner realization are not supplied by the interval basis. C256's explicit one-maximum torus example with a nonmerging index-(d-1) saddle remains a valid falsifier of the shortcut “every such saddle kills H0.”
+
+No Gaussian law, almost-sure Morse/distinct-value assertion, density identity, expected lifetime law, regional collision statement, Lean realization, hosted compilation, or kernel audit follows from these controls.
+
+## 9. Contributor disposition before nonauthor review
+
+The exact controls find no algebraic obstruction to the fixed C256 endpoint-parent construction when current component heads are used in the triangularity proof. They specifically reject raw point generators, arbitrary older parents, unexplained height-dependent basis switches, dimension-only comparison, omitted closed birth/death cases, lift duplication, and finite death for the essential class.
+
+The critical proof obligations to retain in the authored candidate are: compactness/path connectivity of every actual closed-level component; the equality b_C=h case for component maxima; strict older-height comparison for the current head of a possibly dead parent; and naturality for all real parameter pairs. The finite graphs verify the claimed matrices and boundary conventions by exact manual calculation. They are contributor evidence and do not replace smooth Morse proof or the fresh distinct nonauthor review.
+
+## 10. Authored-candidate exposure and rank-multiplicity control
+
+After writing sections 1–9, I read the complete authored candidate `ACTUAL_H0_PROOF.md`: 25,949 bytes, 456 lines, SHA-256 `5880e60282775b8ce0ac64ff749e92940802a160b62cc4163c4c588f3de166e5`. This identifies the snapshot inspected, not a claim that future candidate edits inherit these checks. I also read C256's complete `SOURCE_LOCATOR_ERRATUM.md`. My role remains source-exposed mathematical contributor, not a distinct nonauthor reviewer.
+
+The inspected author's sections 2–5 expressly supply the critical-level component-maximizer argument, the current head of a possibly dead parent, the triangular basis, and naturality at all parameter pairs. I found no blocking defect in those steps. Its section 6 additionally proves uniqueness within finite decompositions into nonempty [a,d) and [a,infinity) intervals by rank differences. This finite uniqueness claim is appropriate and avoids invoking a general barcode theorem.
+
+For the exact U,V countercontrol of section 6, the candidate's formula
+
+    multiplicity[a,d) = r(a,v)-r(u,v)-r(a,d)+r(u,d)
+
+can be checked numerically. For a=0,d=2,u=-1/2,v=3/2, its four ranks are (2,1,1,1) for U and (2,1,2,1) for V. It returns 1 and 0 respectively, as required. For a=0,d=3,u=-1/2,v=5/2, they are (1,1,1,1) for U and (2,1,1,1) for V; it returns 0 and 1 respectively. The essential multiplicity at a=-1, with u=-3/2 and T=4, is r(-1,4)-r(-3/2,4)=1-0=1 for both. These manually computed ranks test the actual map-based formula, including a death endpoint where the finite interval has already disappeared.
+
+In general, the birth difference selects intervals born in (u,a], and the death difference selects finite deaths in (v,d]. The author's finite endpoint lists allow u<a<=v<d with only a and d respectively in these windows. Every rank argument is ordered; essential intervals cancel in the finite-death difference. Choosing T past every finite death then detects the essential intervals. Thus no dimension-only or endpoint-limit substitution appears in the inspected uniqueness proof.
+
+Contributor outcome: no blocking mathematical defect found in that exact authored snapshot. Final independent-role review, formal realization, the saddle-index/point-pair bridge and the stochastic conclusions remain separate from this finding.

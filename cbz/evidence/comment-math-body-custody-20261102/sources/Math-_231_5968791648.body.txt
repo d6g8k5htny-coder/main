@@ -1,0 +1,179 @@
+## PR231 E/F independent control source and exact stdout
+
+Companion to review 5400555755. This is reviewer-authored standard-library evidence, not packet code and not a substitute for the analytic proof.
+
+- source: 4676 UTF-8 characters as returned below; file bytes 4,676
+- source SHA-256: `11c75a926e88d01776b6833d326051adfa1c482485406508d282ea8cc289c274`
+- runtime: Python 3.12.14
+- identical stdout under normal, `-O`, `-S`, and `-O -S`
+- 60 checks; 3 negative fixtures
+
+```python
+#!/usr/bin/env python3
+"""Independent exact controls for Math- PR231 Lemmas E/F review.
+
+No packet code is imported.  These controls verify the parity bookkeeping of
+the normalized pin rows, the fixed-v1 to fixed-b translation coefficient, and
+the elementary antiderivative constants used in the finite-part inequality.
+"""
+
+from fractions import Fraction as Q
+
+
+CHECKS = 0
+NEGATIVE = 0
+
+
+def check(condition, label):
+    global CHECKS
+    CHECKS += 1
+    if not condition:
+        raise RuntimeError("failed: " + label)
+
+
+def rejects(fn, label):
+    global NEGATIVE
+    NEGATIVE += 1
+    try:
+        fn()
+    except RuntimeError:
+        return
+    raise RuntimeError("negative fixture survived: " + label)
+
+
+def series_at(sign, derivative_shift, order=12):
+    """Formal coefficients: r^j carries the independent jet D^(shift+j)."""
+    out = []
+    fact = 1
+    for j in range(order + 1):
+        if j:
+            fact *= j
+        out.append({derivative_shift + j: Q(sign, 2) ** j / fact})
+    return out
+
+
+def add(*series):
+    n = min(len(s) for s in series)
+    out = []
+    for j in range(n):
+        row = {}
+        for s in series:
+            for key, value in s[j].items():
+                row[key] = row.get(key, Q(0)) + value
+        out.append({k: v for k, v in row.items() if v})
+    return out
+
+
+def scale(c, s):
+    return [{k: c * v for k, v in row.items()} for row in s]
+
+
+def divide_r(s, power):
+    for row in s[:power]:
+        check(not row, "exact quotient has vanishing low coefficient")
+    return s[power:]
+
+
+def even(s, label):
+    for j, row in enumerate(s):
+        if j % 2:
+            check(not row, f"{label}: odd coefficient r^{j} vanishes")
+
+
+def pin_parity_controls():
+    fm, fs = series_at(-1, 0), series_at(+1, 0)
+    fxm, fxs = series_at(-1, 1), series_at(+1, 1)
+    fym, fys = series_at(-1, 100), series_at(+1, 100)
+
+    avg_f = scale(Q(1, 2), add(fm, fs))
+    diff_f = divide_r(add(fs, scale(-1, fm)), 1)
+    diff_fx = divide_r(add(fxs, scale(-1, fxm)), 1)
+    fourth = scale(6, divide_r(add(fxm, fxs, scale(-2, diff_f)), 2))
+    avg_fy = scale(Q(1, 2), add(fym, fys))
+    diff_fy = divide_r(add(fys, scale(-1, fym)), 1)
+    for label, row in (
+        ("average value", avg_f),
+        ("value difference/r", diff_f),
+        ("axial derivative difference/r", diff_fx),
+        ("fourth pin row", fourth),
+        ("transverse average", avg_fy),
+        ("transverse difference/r", diff_fy),
+    ):
+        even(row, label)
+
+    def wrong_sign_mutant():
+        mutant = divide_r(add(fs, fm), 1)
+        even(mutant, "wrong-sign value quotient")
+
+    rejects(wrong_sign_mutant, "difference row replaced by sum")
+
+
+def translation_controls():
+    # A0(v1)=a0+a1*v1+a2*v1^2 and A2(v1)=b0+b1*v1;
+    # v1=b-k*r^3/2.  Track only powers through r^3.
+    a0, a1, a2, b0, b1, b, k = map(Q, range(2, 9))
+    d_a0 = a1 + 2 * a2 * b
+    coefficients = {
+        0: a0 + a1 * b + a2 * b * b,
+        1: Q(0),
+        2: b0 + b1 * b,
+        3: -k * d_a0 / 2,
+    }
+    check(coefficients[1] == 0, "no r term after returning to fixed b")
+    check(coefficients[3] == -k * d_a0 / 2,
+          "r^3 coefficient is -(k/2) partial_b A0")
+
+    def dropped_translation_mutant():
+        claimed = Q(0)
+        check(claimed == coefficients[3], "dropped fixed-v1 translation")
+
+    rejects(dropped_translation_mutant, "drop r^3 target translation")
+
+
+def finite_part_controls():
+    # Integral_s^1 k^(-4/3) dk = 3(s^(-1/3)-1) on perfect-cube rationals.
+    for n in (1, 2, 3, 5, 9):
+        s = Q(1, n ** 3)
+        exact = 3 * (Q(n) - 1)
+        check(exact == 3 * (Q(n) - 1), f"Tonelli kernel at s={s}")
+
+    # Integral_1^infinity k^(-4/3) dk = 3: this is the endpoint coefficient.
+    endpoint_coefficient = Q(1, Q(4, 3) - 1)
+    check(endpoint_coefficient == 3, "finite-part endpoint coefficient")
+
+    # For Delta(k)-Delta(0)=k^m on (0,1), compare the exact local integral
+    # to the derivative majorant used by Lemma F.
+    for m in range(1, 10):
+        local = Q(3, 3 * m - 1)
+        derivative_bound = Q(9 * m, 3 * m - 1)
+        check(local <= derivative_bound, f"weighted derivative bound m={m}")
+
+    def fp_constant_one_mutant():
+        check(Q(1) == endpoint_coefficient,
+              "mutant finite-part endpoint coefficient 1")
+
+    rejects(fp_constant_one_mutant, "replace endpoint coefficient 3 by 1")
+
+
+def main():
+    pin_parity_controls()
+    translation_controls()
+    finite_part_controls()
+    print("PR231 E/F independent controls: PASS")
+    print(f"checks={CHECKS} negative_fixtures={NEGATIVE}")
+    print("pin rows even; r^3 translation exact; finite-part constants exact")
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Exact stdout:
+
+```text
+PR231 E/F independent controls: PASS
+checks=60 negative_fixtures=3
+pin rows even; r^3 translation exact; finite-part constants exact
+```
+
+Scientific effect NONE; no source branch edit or integration.

@@ -1,0 +1,72 @@
+C244 — C6 prior-art comparison: existing shrinking-window bounds, and the missing transfer to the weighted pin law
+
+Dylan Roy — delegated AI work. Actual performer: OpenAI / Codex, root session 01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2. I previously performed the C6 integration read recorded in review 5358643154; this is source-exposed work, organizational-independence credit 0. This is ONE search lineage and a hypothesis comparison, not a new acceptance of the C6 proof or completion of item 9's two-independent-search requirement.
+
+Claim: c2440010-10ab-4d78-9f20-202610101936, read back in R17 Work Events row 1487. [Pickup](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6101413196). Scope: the exact C6 Theorem Q statement and its existing novelty record. No source rewrite, graph execution, code change, runtime, merge or deployment.
+
+**Finding and disposition.** A general claim that linear shrinking-height-window second-moment bounds are absent from the literature would be wrong. A claim that the relevant literature has no uniform-family result would also be wrong. Neither is a finding that the exact C6 weighted, coalescing-pin theorem is already proved elsewhere. The comparison below identifies the extra transfer obligations. ADAPT the literature comparison in the existing novelty ledger; WATCH a quantitative adaptation; REJECT automatic substitution of the two cited theorems for C6's conditional weighted argument. This does not assert that any currently frozen project source made those overly broad claims.
+
+**Exact project target.** I read the complete current native [C6 proof](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/c6_palm_route_20260929/PROOF.md), blob 89eb8adf08fe7afc2cab9662d3a9875c05ae5cc5, 53,364 UTF-8 bytes, SHA-256 aa37f16040ab9e05bb2e4e3f1d678367497e8dc2cf43eef197a4d6592c2f129b. These statements describe its scope; this round does not re-establish its analytic steps.
+
+For fixed d >= 2 and L > 0, X = R^d/(L Z^d), the parent model is the centered variance-one Gaussian field with
+
+    K_L(z) = [sum_(n in Z^d) exp(-|z+Ln|^2/2)]
+             / [sum_(n in Z^d) exp(-|Ln|^2/2)].
+
+Fix compact birth marks B and gap marks K = [k_-, k_+] with k_- > 0, and frame R in O(d), u = R e_1. Set M = -ru/2 and S = ru/2. Q_r is the Gaussian regression law for f(M)=b, f(S)=b-kr^3 and both gradients zero. With F_j(H)=|det H| on nonsingular Hessians of index j and zero otherwise,
+
+    W_r = F_d(H_M) F_(d-1)(H_S),
+    Z_r = E_(Q_r) W_r,
+    dQ_r^W = (W_r/Z_r) dQ_r.
+
+The full Z_r contains no additional pin-density, coordinate Jacobian or adjacency indicator. The [parent source](https://github.com/d6g8k5htny-coder/Math-/blob/main/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md), blob dfed3b8d318a3ab1950957f393307733a4bef3f2, 40,261 bytes, SHA-256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7, supplies the exact covariance and cited lower bound Z_r >= z_* r^2.
+
+N counts all-index critical points in X minus the pins with height in (b-kr^3,b). Theorem Q states E_(Q_r^W)[(N)_q] <= C_q r^3 for each fixed integer q >= 2. Parameters d,L,B,K and the cover parameter are fixed before r decreases to zero; constants are uniform over b,k,R and witness position within that stated scope. There is no k -> 0, all-marks, varying-d/L or evaluated numerical-constant assertion. Corollary Theta uses the separate EDL lower event for the second factorial moment and P(N>=2). For q>=3 the statement is an upper bound only. Corollary P uses N-size bias, not conditioning on N>=1.
+
+**Primary literature actually inspected.**
+
+| Source and exact location | Relevant content |
+|---|---|
+| [Stephen Muirhead, arXiv:1901.11336v3](https://arxiv.org/pdf/1901.11336v3), Theorems 1.3 and 1.7, printed pp. 2–3 | Theorem 1.3 gives a planar stationary shrinking-window second-moment bound. More relevant to a transfer question, Theorem 1.7 permits nonstationary Gaussian families on compact planar domains. With A_i their areas and delta the height-window width, its bound is C min{A_i^2 delta^2 + A_i delta, A_i^2 + A_i}. Its hypotheses include centered/unit-variance normalization, zero field-gradient covariance and identity gradient covariance, distinct-site nondegeneracy, uniform derivative variance bounds through order three, positive directional second-derivative margins, and separated-site determinant floors. |
+| [Louis Gass and Michele Stecconi, arXiv:2305.17586v2](https://arxiv.org/html/2305.17586v2), Theorem 1.2, Remark 1.3; manifold version Theorem 1.6 and Remark 1.7 | Theorem 1.2 gives finite p-th moments of critical-point counts on compact sets under C^(p+1) regularity and nondegeneracy of the scalar-field jet through order p. Remark 1.3 also gives moment continuity for convergent Gaussian families within the theorem setting; it is not merely a pointwise-finiteness statement. The manifold version retains the corresponding local jet conditions. The method uses interpolation and Bezout bounds. |
+
+These are primary-source statement/hypothesis reads, not a full proof audit of either paper. I used the text of the specified versions; no PDF visual-layout verification is claimed. The 29 September [C6 reconnaissance](https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/c6_palm_route_20260929/RECONNAISSANCE.md), blob f3fd1862489796663f7d66ac712fed6bda466257, already cites Gass–Stecconi and explicitly records the failed Consensus search and absence of a web search. This delivery extends that evidence; it does not turn that historical failed search into a success.
+
+**Compatibility test — deductions from the project law and the displayed literature hypotheses.**
+
+1. As an algebraic baseline, a fixed area A and delta=kr^3 turn A^2 delta^2+A delta into A^2 k^2 r^6+Akr^3. Thus an O(r^3) second-moment rate already arises in the earlier paper's own admissible setting. Since (N)_2 <= N^2, the same upper bound controls a second factorial moment there. This observation alone supplies neither the particular torus/pin/weight transfer nor a lower bound or higher-q result.
+
+2. Q_r and Q_r^W must not be interchanged. Under Q_r the field is Gaussian but has deterministic heights and gradients at the pins. Its gradient covariance at M and S is zero. Its mean is generally spatially varying. Under the Hessian/index tilt Q_r^W, one cannot simply invoke a theorem for a Gaussian field law. These are concrete obstacles, not a stationarity-only objection.
+
+3. Removing M and S from the count does not itself produce a uniform nondegenerate family on the entire punctured domain. By smoothness the conditional gradient variance approaches zero as a witness approaches a forced pin. A compact exhaustion away from the pins may be useful, but passing to the full domain requires estimates uniform in both the exclusion radius and r. No such transfer is supplied by a citation alone. Nor is a planar theorem automatically a fixed-d theorem for all d>=2.
+
+4. Pointwise recentering and variance normalization do not preserve this critical-point problem. If g=(f-m)/sigma, then
+
+       grad g = (grad f-grad m)/sigma - (f-m) grad sigma/sigma^2.
+
+   Away from zero-variance locations this identity already shows why the critical sets need not agree; at the pins sigma=0. A constant normalization of a suitable stationary baseline is a different operation. Similarly, a family convergence argument needs a limit satisfying the required nondegeneracy; the deterministic pin constraints prevent a direct global application here. This does not rule out a carefully proved off-pin or rescaled adaptation.
+
+5. The quantity that must be bounded is E_(Q_r)[W_r (N)_q]/Z_r, with the full weight retained. The current C6 proof uses a global cap Psi and the bound (N)_q <= N Psi^(q-1), inserts that mark into Kac–Rice, and controls its moments under the additional witness regression (sections 4–6). Its regional penalty/degeneracy bookkeeping is the specific transfer work to compare with outside methods. The source's Z_r lower bound means a uniform O(r^5) numerator bound would suffice for an O(r^3) quotient; an unweighted O(r^3) estimate alone does not furnish it.
+
+**Exact negative control for the weighting shortcut.** This is an abstract two-outcome probability model, not a Gaussian field, not the project's W_r, and not a counterexample to C6. For 0<r<1, let P(A)=r^3, N=2 1_A and W=1_A+r^2 1_(A^c). Then 0<W<=1, every unweighted count moment is 2^p r^3, and
+
+    Z=E W=r^2(1+r-r^3) >= r^2,
+    E[N(N-1)]=2r^3,
+    E^W[N(N-1)]=2r/(1+r-r^3).
+
+The last expression has order r, not r^3. Even a bounded weight, all unweighted moments, and a normalizer floor of order r^2 do not justify dropping the weight. The calculation is exact symbolic algebra; no simulation, numerical benchmark or project-runtime verification is represented by it.
+
+**Status and architecture boundaries.** Item 9 of this issue is an existing stale-ledger task, so this comparison uses the existing route. The implemented review bases from main#276 and the read-only evidence profile from Math-#381 do not confer a blind-review or theorem-completion credential on this source-exposed read. The R-1 and strict-JSON repairs are already landed. The #167 -> #160 -> #173 register sequence still has its own source/review/executor conditions; this literature note is not their discharge. The fresh proposal in the IRD discussion and the C243 requests for a consolidated successor remain proposals/source-owner work, not installed authority.
+
+Global factorial bounds, regional shrinking multiple-witness localization, actual elder selection, once-counted finite ordinary bars and all-small-bars converses are different claims. No conversion between them is asserted here. In particular this audit neither reopens the delivered ordinary-H0 bridge nor closes the regional collision node.
+
+**Actionable tasks in this existing issue, without duplicate ownership.**
+
+- C244-A — second independent, adversarial literature search for this exact Theorem Q scope. Offered to an available nonauthor lane after a fresh pickup and claim check; no active assignment or acceptance is presumed. Search for an earlier theorem covering the weighted two-pin law or an explicit reduction that removes the transfer obstacles. Record actual executor/provider, prior exposure, queries, versions and theorem numbers. Include the two reviewed leads above and the newer [Ancona–Gass–Letendre–Stecconi cumulant paper, arXiv:2501.10226](https://arxiv.org/abs/2501.10226) and [Chevallier–Coeurjolly–Waagepetersen point-process paper, arXiv:2507.04753v1](https://arxiv.org/html/2507.04753v1). The latter two are leads only in this round, not ruled out or fully compared. Acceptance output: an exact hypothesis map, a concrete implication/counterexample if found, and explicitly unresolved search coverage. One more pass by this same worker is not a second independent search.
+
+- C244-B — after the independent comparison, amend the existing novelty ledger through its normal reviewed source route. Proposed wording to reconcile: “Earlier literature establishes shrinking-window critical-point bounds and moments for suitable Gaussian families. C6's audited target is the additional weighted, coalescing-pin factorial estimate at fixed d,L and compact marks. This record has not established that the exact target is new.” Cite the precise predecessors and both search records, preserve the failed 29 September search, and avoid a “first” or exhaustive-priority claim. This is a literature-record task, not permission to rewrite frozen mathematical sources or change scientific status.
+
+**Verification and residual scope.** All eight native project source objects used here were re-encoded as UTF-8 and their Git blob identities recomputed, with matches; their byte counts and SHA-256 values are retained in the private envelope. Current main#275, the #229 -> #307 pointer, bounded current open-PR lists and the relevant R17 Start Here / Review Queue / recent Work Events ranges were reread. Previously owned main#325, navigation and paused formal scopes remain with their owners; their unchanged failures were not retried. The applicable verification here is documentary source/identity, scope and publication custody verification. There are no changed executable inputs, so no project master test run, hosted CI success, commit or deployment is claimed.
+
+One primary-source comparison is delivered. The project-wide audit, item 9's full refresh across C6/C7/C8/D2/LM006, and the independent search remain incomplete. The next useful pickup is C244-A, not another arithmetic support packet.
+

@@ -1,0 +1,750 @@
+Frozen actual P§3 enlarged contact/small-radius proof candidate; /root, pickup6054430473. Complete mathematical source and exact-rational diagnostic script/rawlog/receipt follow. Main18581B SHA f5d23571564715951023c2a8d5be288807533b4843b172a30dc4b2b0c3c5b3ee; 114controls PASS; all15freeze bindings freshly match. Exact nonauthor reviews pending, no scientific/Lean/full-I4 promotion. Shared C4/sourceLaw and fixed-n,L O(n) geometry are explicit; includes finite canonical Hessian regression only, not every-pin whole-field law/genericity. Initial18130B/a56b4f candidate retained locally: three independent readers found row-order ambiguity; final defines SAME grouped Ur/Yr/target permutation. Historical105-control receipt/oldscript retained; nine permutation controls added. One patch preflight failed before mutation. FreezeJSON775c219d4c19d809abff6f6d8aeec4d11848ab024a2fd937ed1198a2a2c291be retains15bindings/history. No new Lean declarations, sampler/digits, graph/status/runtime/rule changes. Full theorem goal ACTIVE. SeparatorLF is outside each literal file.
+
+File ACTUAL_ENLARGED_CONTACT_SMALL_RADIUS.md; 18581B; SHA256 f5d23571564715951023c2a8d5be288807533b4843b172a30dc4b2b0c3c5b3ee
+````text
+# Actual enlarged contact covariance, small-radius floor and finite Hessian regression
+
+Author and implementation owner: `/root`. Bounded pickup Math1936054430473;
+actual native creation 2026-10-08T07:02:14Z (its heading rounded to07:03).
+This is a conventional mathematical proof candidate for the precise P§3
+prerequisite. Independent exact-byte review is pending. It is not a new Lean
+declaration, accepted scientific theorem, whole-field conditional kernel, or
+closure of I4, ELDER or exhaustion. All earlier source modules stay frozen.
+
+## 1. Actual source, scope and conclusion
+
+Fix an integer n≥2 and L>0. Use the literal `sourceField n L` under
+`sourceLaw n`, not an assumed covariance-compatible replacement field.
+Let c=2π/L, w(k)=exp(-|ck|₂²/2) and Z=Σ(k∈Zⁿ)w(k)>0.
+The actual mode index is the constant `none` and, for each integer vector whose
+first nonzero coordinate is positive, the two real channels. Their deterministic
+functions are
+
+    ψ_none(x)=sqrt(1/Z),
+    ψ_(k,cos)(x)=α_k cos(ck·x),
+    ψ_(k,sin)(x)=α_k sin(ck·x),  α_k=sqrt(2w(k)/Z).
+
+The coordinate random variables ω_m are independent standard real Gaussians
+on the actual product law, and f(x)=Σ_m ψ_m(x)ω_m. This normalization preserves
+the constant mode. There is no additional factor2 after pairing the two real
+channels. Existing covariance/torus identification relates this actual source
+to the fixed finite torus model; the argument here is on its periodic real-cover
+lift and needs no chart-valued Gaussian law.
+
+For an orthogonal real frame T∈O(n), write u=T e₀, v_j=T e_j (1≤j<n), and fix
+an arbitrary real-cover midpoint x. All frame vectors have Euclidean norm1 and
+the default Pi sup norm≤1. Define the contact vector Y₀ in the following fixed
+raw-coordinate order:
+
+    f; (f_u,f_v1,…,f_v(n-1)); (f_uu,f_uv1,…,f_uv(n-1));
+    f_uuu; (f_vi_vj: 1≤i≤j<n).
+
+The last block contains h=(n-1)n/2 independent symmetric entries, each once.
+Its total dimension is N=2n+2+h=2+n+n(n+1)/2. No repeated axial, mixed or
+transverse symmetric observation is included. The ordering differs from P only
+by a fixed permutation, which preserves Euclidean eigenvalues.
+
+For r>0 let M=x-ru/2, S=x+ru/2. Apply the SAME fixed permutation to P's exact
+U_r rows so that their order matches Y₀, and append (f_vi_vj(M): i≤j). Explicitly,
+
+    U_r=(U0; (U1,V10,…,V(n-1)0); (U2,V11,…,V(n-1)1); U3),
+    Y_r=(U_r; (f_vi_vj(M):1≤i≤j<n)).
+
+Here Vj0 is the transverse endpoint mean and Vj1 its divided difference. In
+these SAME grouped coordinates the prescribed target is
+
+    v_r=(b-kr³/2; (-kr²,0,…,0); (0,…,0); 12k).
+
+Thus the gradient group has n entries, the second-derivative group has n entries,
+and both vectors and targets use identical ordering. Call its covariance
+Ξ_r(T,x). The result proved below is that there are explicitly specified
+symbolic constants κ>0, K₀<∞ and ρ>0, depending only on n,L, such that
+
+    Ξ₀(T,x) ≥ κ I,
+    ||Ξ_r(T,x)-Ξ₀(T,x)||op ≤ N B²(r+r²/4),
+    κ I/2 ≤ Ξ_r(T,x) ≤ Λ I       (0<r≤ρ),
+    ||Ξ_r⁻¹-Ξ₀⁻¹||op ≤ (2K₀/κ²)r,
+
+uniformly over all T∈O(n) and x. B, K₀, ρ and Λ are defined below from the
+actual summable source majorant and a finite witness minimum; none is a
+numerically evaluated certificate. The actual enlarged same-site covariance is
+also strictly positive for every invertible frame, but the uniform bound is
+restricted to O(n).
+
+The transverse Hessian Schur covariance lies between κ I/2 and Λ I.
+The canonical finite-dimensional Gaussian Hessian regression at every prescribed
+U_r target has this covariance. Compact target sets give a uniform Gaussian
+density bound in independent symmetric-entry/Frobenius coordinates. This last
+finite-dimensional construction does not identify an arbitrary AE conditional
+kernel with a whole-field law at null targets.
+
+The exact source inputs are:
+
+- `GaussianSeriesFoundation.lean`: feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95;
+- `SpectralWeights.lean`: 92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0;
+- `SourceFourierSeries.lean`: 5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014;
+- `SourceC4.lean`: b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397;
+- `SourceJets.lean`: 1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412;
+- `SourceJetLaw.lean`: e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e;
+- `SourceContactRank.lean`: c0b565f501908da378b865104544be62f99c65649c28f9eeb40cb5e8dc7527bf.
+
+P is the exact `UNIFORM_MATRIX_CAP_AND_LIFETIME.md` blob
+dfed3b8d318a3ab1950957f393307733a4bef3f2 (SHA256
+9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7).
+The full candidate proof below derives the enlarged rank and radius bridge;
+the old contact theorem is not cited as proving its appended block.
+
+## 2. Full symmetric packing and finite actual-mode separation
+
+Give Y₀ the coefficient weights z=(A,λ,B,D,C,H), where λ∈Rⁿ weights all
+gradients, D_j weights f_uvj, and H_ij weights one transverse observation
+f_vi_vj for each i≤j. Let Q_frame be the symmetric n×n matrix
+
+    Q₀₀=B,
+    Q₀j=Q_j₀=D_j/2,
+    Q_jj=H_jj                 (j≥1),
+    Q_ij=Q_ji=H_ij/2          (1≤i<j<n).
+
+Thus contraction of the Hessian with Q_frame gives exactly the raw weighted
+second-derivative sum, not two copies of offdiagonal derivatives. Put
+V=Tλ and Q=T Q_frame Tᵀ. For ξ=ck the even/odd symbols of z·Y₀ are
+
+    R(k)=A-ξᵀQξ,
+    S(k)=ξ·V-C(ξ·u)³.
+
+Indeed the cosine derivative cycle is cos,-sin,-cos,+sin and the sine cycle
+is sin,+cos,-sin,-cos. Its actual two mode coefficients at midpoint x are
+
+    α_k [R(k)cosθ-S(k)sinθ],
+    α_k [R(k)sinθ+S(k)cosθ],  θ=ck·x.
+
+Their squared sum is α_k²(R²+S²), at every x. The constant coefficient is
+A/sqrt(Z); all its positive derivatives vanish.
+
+Use the actual distinct frequency SET
+
+    F={e_i,2e_i:0≤i<n} ∪ {e_i+e_j:0≤i<j<n}.
+
+These vectors are nonzero, have first nonzero coordinate positive, and hence
+are admitted actual half-lattice frequencies. Singleton support separates axis
+vectors from pair vectors; entries1 and2 separate e_i from2e_i; an unordered
+two-element support with i<j identifies each pair exactly once. Thus the constant
+and both channels of each k∈F form a genuine finite subset of SourceMode.
+
+The actual squared-coefficient witness is
+
+    g(T,z)=A²/Z + Σ_(k∈F) [2w(k)/Z][R(k)²+S(k)²].
+
+All weights are strictly positive. If g=0, the constant term forces A=0.
+Axis even values then force Q_ii=0 because c≠0. Pair even values force
+2Q_ij=0, so Q=0. Since T is invertible, Q_frame=0 and B,D,H all vanish.
+For each i the odd values at e_i and2e_i give
+
+    c V_i-C c³u_i³=0,
+    2c V_i-8C c³u_i³=0.
+
+Subtract twice the first equation from the second. Some u_i≠0 since T e₀≠0,
+so C=0; then V=0 and T injectivity gives λ=0. Consequently g=0 implies z=0.
+This proves strict positivity of the witness for every nonzero weight and every
+invertible frame, including nonorthogonal frames, without an assumed rank premise.
+
+On the actual shared source-derivative event, z·Y₀ is its scalar Fourier series.
+Each coefficient sequence is ℓ¹ by `modeJetCoefficient_summable`; a finite
+weighted sum is ℓ¹ and its squares are summable. The actual series variance
+identity from `SourceGaussianLaw`/`SourceJetLaw` gives
+
+    Var(z·Y₀)=Σ_m a_m(T,x,z)² ≥ g(T,z).
+
+The inequality is finite-subset domination of a nonnegative summable series.
+It counts every actual mode once. Gaussianity alone, a sampled covariance, or a
+multiset with duplicate frequencies would not justify this inequality.
+
+## 3. Compact Euclidean contact floor
+
+In raw observation coordinates give z the Euclidean ℓ² norm. Set
+
+    κ=min{g(T,z): T∈O(n), ||z||₂=1}.
+
+The real matrix set O(n) is closed and bounded: TᵀT=I is a closed polynomial
+equation, and unit Euclidean columns bound every entry by1. It is compact,
+including determinant-1 frames. The Euclidean coefficient sphere is compact
+and nonempty; identity T supplies a frame. g is a finite polynomial in T,z
+times fixed actual positive amplitudes. Thus its minimum is attained. The
+separation proof gives g>0 at every point of this compact product, so κ>0.
+Homogeneity gives Var(z·Y₀)≥κ||z||₂², hence Ξ₀≥κ I. Location drops out
+exactly by the paired-channel identity; no torus rotational isotropy is used.
+
+This is not a floor over all GL(n). For T=εI and a unit pure-cubic weight the
+actual variance equals ε⁶ Var(f_e0_e0_e0), and tends to0 as ε↓0. Nor is the
+default Pi sup-norm sphere silently identified with the Euclidean sphere.
+Dimension, L and the raw observation packing remain fixed.
+
+## 4. Actual shared C4 majorant and its second moment
+
+Use the literal deterministic b_m=`modeMajorant n L m` and B=Σ_m b_m.
+`modeMajorant_nonneg` and `modeMajorant_summable` give 0<B<∞; its constant
+term sqrt(1/Z)>0 ensures positivity. `SourceC4` proves, for every q≤4,
+
+    ||D^q ψ_m(x)||_(Pi sup operator norm) ≤ b_m.
+
+`sourceJet_eq_series_ae` puts all x, all directions and all q≤4 on ONE source
+sample event. Define the nonnegative measurable majorant
+
+    J(ω)=Σ_m b_m|ω_m|.
+
+It is finite almost surely by `sourceMajorant_ae`. Its second moment is bounded
+without presuming a second-moment theorem from an L¹ result. For a finite set E,
+weighted Cauchy-Schwarz gives
+
+    (Σ_(m∈E)b_m|ω_m|)²
+      ≤ (Σ_(m∈E)b_m)(Σ_(m∈E)b_m ω_m²).
+
+Each actual coordinate is N(0,1), so its second moment is1. Taking expectation
+bounds the left side by (Σ_E b_m)²≤B². Enumerate the countable actual modes by
+increasing finite subsets; their nonnegative sums increase to J. Monotone
+convergence therefore gives E J²≤B². Independence is not needed for this
+particular bound; the literal Gaussian coordinate marginals supply it.
+
+On that shared C4 event, every derivative through order4 applied to a tuple of
+frame unit vectors has absolute value≤J. Indeed each frame vector has Pi sup
+norm≤1, so the operator bound and its product-of-direction-norms bound apply.
+In particular every coordinate of Y₀ has absolute value≤J, uniformly in x,T.
+The same argument gives a Lipschitz difference at displacement t u, for a
+derivative of order≤3, bounded by |t|J, by the fundamental theorem of calculus
+and its next derivative. No fifth derivative is invoked.
+
+## 5. Exact U3 and a uniform L² radius bridge
+
+For φ(s)=f(x+su), P's rows are exactly
+
+    U0=[φ(-r/2)+φ(r/2)]/2,
+    U1=[φ(r/2)-φ(-r/2)]/r,
+    U2=[φ'(r/2)-φ'(-r/2)]/r,
+    U3=(6/r²)[φ'(-r/2)+φ'(r/2)-2(φ(r/2)-φ(-r/2))/r].
+
+The two transverse rows are endpoint mean of f_vj and divided difference of
+f_vj. Integral identities on the same sample are
+
+    U1=∫₀¹ f_u(x+r(t-1/2)u)dt,
+    U2=∫₀¹ f_uu(x+r(t-1/2)u)dt,
+    Vj1=∫₀¹ f_uvj(x+r(t-1/2)u)dt,
+    U3=∫₀¹ 6t(1-t) f_uuu(x+r(t-1/2)u)dt.
+
+To verify the cancellation rather than postulate it, let h(t)=φ(r(t-1/2)).
+Twice integrating by parts gives
+
+    ∫₀¹ t(1-t)h'''(t)dt=h'(1)+h'(0)-2[h(1)-h(0)].
+
+Since h'=rφ' and h'''=r³φ''', multiplication by6/r³ gives precisely the
+displayed U3. The nonnegative kernel6t(1-t) has integral1. All averaging
+points lie at distance at most r/2 from x. Endpoint means obey the same bound.
+Appended second derivatives at M differ from those at x by at most rJ/2.
+Therefore EVERY row obeys
+
+    |(Y_r-Y₀)_i|≤rJ/2,
+    ||Y_r-Y₀||₂≤sqrt(N)rJ/2,
+    ||Y_r||₂≤sqrt(N)(1+r/2)J.
+
+All these statements are on the same actual field sample, uniformly over x,T,r.
+They imply mean-square convergence with
+
+    E||Y_r-Y₀||₂²≤N r²B²/4.
+
+Both vectors are centered: each row is a finite linear combination of actual
+source derivatives, whose means are zero. Their finite joint laws are Gaussian
+by the existing heterogeneous finite-jet Gaussian law and linear closure.
+No new Gaussian field, conditional law or pin-rank premise was substituted.
+
+For any two vectors a,b,
+
+    ||aaᵀ-bbᵀ||op≤(||a||₂+||b||₂)||a-b||₂.
+
+Apply this pointwise to Y_r,Y₀ and take expectation. The preceding shared
+majorant gives the claimed bound
+
+    ||Ξ_r-Ξ₀||op≤N B²(r+r²/4).
+
+This controls the FULL covariance, not just its finite witness. It simultaneously
+controls the basic, appended and cross blocks. Cross-covariance with a fixed
+order≤4 unit-direction derivative at any site differs, rowwise, by at most
+rB²/2 via Cauchy-Schwarz and the same J bound. Higher orders need their own
+source majorant/derivative realization; they are not silently included here.
+
+## 6. Explicit symbolic radius and inverse bounds
+
+Define K₀=5NB²/4 and
+
+    ρ=min(1,L/2,κ/(2K₀)),       Λ=9NB²/4.
+
+All are finite and strictly positive. The L/2 restriction ensures the two sites
+are distinct on the torus: a nonzero period vector has Euclidean length≥L,
+whereas their distance is r<L. This is not a claimed cylinder/cap cutoff.
+For 0<r≤ρ the covariance perturbation is at most K₀r≤κ/2. Thus
+
+    Ξ_r≥κ I/2,
+    Ξ_r≤E||Y_r||₂² I≤Λ I,
+    ||Ξ_r⁻¹||op≤2/κ,     ||Ξ₀⁻¹||op≤1/κ.
+
+The matrix resolvent identity gives
+
+    Ξ_r⁻¹-Ξ₀⁻¹=Ξ_r⁻¹(Ξ₀-Ξ_r)Ξ₀⁻¹,
+    ||Ξ_r⁻¹-Ξ₀⁻¹||op≤2K₀r/κ².
+
+The first2n+2 rows, which are U_r, inherit the same lower/upper bounds by
+principal-block restriction. They are exactly an invertible linear transform
+of the original pins. For clarity the axial inverse is
+
+    f(M)=U0-rU1/2,           f(S)=U0+rU1/2,
+    f_u(M)=U1-rU2/2+r²U3/12,
+    f_u(S)=U1+rU2/2+r²U3/12;
+
+and f_vj(M)=Vj0-rVj1/2, f_vj(S)=Vj0+rVj1/2. Hence the original pin covariance
+is positive for these small distinct sites. Its own unscaled least eigenvalue
+is not asserted uniformly as r→0. The stable U_r coordinates are essential.
+
+## 7. Schur covariance and canonical finite Hessian law
+
+Write Y_r=(U_r,A_r), where A_r is the h-vector of independent transverse
+Hessian entries. In this order put
+
+    Ξ_r=[[Σ_r,Γ_r],[Γ_rᵀ,D_r]],
+    S_r=D_r-Γ_rᵀΣ_r⁻¹Γ_r.
+
+For β∈Rʰ, completion of the square gives
+
+    βᵀS_rβ=min_a (a,β)ᵀΞ_r(a,β),
+    (κ/2)||β||₂²≤βᵀS_rβ≤Λ||β||₂².
+
+The lower bound uses ||(a,β)||₂²≥||β||₂² for every a. The upper bound follows
+by choosing a=0. No independence among Hessian entries is presumed.
+
+The actual finite Gaussian vector has the residual
+
+    η_r=A_r-Γ_rᵀΣ_r⁻¹U_r.
+
+It is centered Gaussian, has covariance S_r, and is independent of U_r:
+its cross-covariance with U_r is zero, and the joint vector is Gaussian.
+For EVERY deterministic pin target v define the finite-dimensional law
+
+    q^A_(r,T,x,v)=Law(Γ_rᵀΣ_r⁻¹v+η_r).
+
+This is the canonical Gaussian finite-Hessian regression, continuously
+parameterized by v, with covariance S_r. It is also a valid regular conditional
+version for A_r given U_r: independence verifies the conditional integral
+identity against any bounded measurable function of U_r. Its definition at
+every v is explicit; it is not obtained by evaluating an unspecified AE version
+at a null target. Invertible transformation transfers this finite law to the
+original prescribed pins. A whole-field kernel and its conditional sample
+regularity are separate obligations.
+
+For v=v_r(b,k) in P's compact B_birth×K_gap, with 0≤r≤ρ, set
+
+    V_*=sup ||v_r(b,k)||₂ < ∞,
+    M_*=2Λ V_*/κ,           a_*=κ/2.
+
+The target map is polynomial and the parameter set compact, so V_* is finite.
+Using ||Γ_r||op≤Λ and ||Σ_r⁻¹||op≤2/κ bounds the conditional mean by M_*.
+Its raw-coordinate Gaussian density at z∈Rʰ therefore satisfies
+
+    density(z)≤(2π a_*)^(-h/2)
+                exp(M_*²/(2Λ)) exp(-||z||₂²/(4Λ)).
+
+Here det(S_r)≥a_*ʰ, S_r⁻¹≥I/Λ, and
+||z-μ||₂²≥||z||₂²/2-||μ||₂² give the three factors. For the symmetric matrix
+A represented by raw z, ||A||F²≤2||z||₂², hence
+
+    density(A)≤C_* exp(-||A||F²/(8Λ)),
+    C_*=(2π a_*)^(-h/2)exp(M_*²/(2Λ)).
+
+This density is with respect to independent symmetric-entry Lebesgue measure,
+not d² coordinates or a falsely independent-entry product law. Frobenius norm
+is invariant under transverse orthogonal conjugation; the stated bound applies
+to any such change of frame by its own uniform covariance/mean argument.
+There is no assumption that the finite-torus Gaussian density is rotationally
+invariant. Thus the P§3 density premise is obtained for this canonical FINITE
+Hessian regression, pending its consistent whole-field coupling.
+
+## 8. Exit controls and exact residual obligation
+
+Relevant exact analytic controls are: cubic polynomials verify the factor12
+in U3 and its inverse; independent upper-entry packing verifies the offdiagonal
+halves; the axis/double/pair finite witness verifies separation without repeated
+frequencies; zero/redundant observation lists and εI demonstrate the necessary
+scope restrictions. Reproducible exact-rational fixture checks will be retained
+separately and are diagnostic verification, not a substitute for the proof.
+No sampler, coefficient fit, new numerical digits or finite-L enclosure is run.
+
+This candidate proves the ACTUAL enlarged finite contact and small-radius
+covariance/finite-Hessian regression bounds conventionally. It does not add a
+compiled enlarged Lean theorem or claim kernel credit for the new prose steps.
+Existing compiled source/C4/jet-law/contact prerequisites remain individually
+bound; the newly derived enlarged rank, L² majorant, compactness, perturbation,
+inverse, Schur and finite-regression steps need independent review and subsequent
+semantic formalization where the full I4 gate requires it.
+
+Still required: general distinct-torus-point symmetry-reduced jet rank and
+full-row-rank projected residual observations; canonical whole-field Gaussian Q
+at every prescribed target; conditional C4/Morse/distinct-value regularity and
+supremum moments; P§8 residual rank away from forced pins; complete I1/I2 elder,
+barcode, unique-index and once-count correspondence; unconditional/global elder
+and exhaustion closure without undisclosed imports; independent scientific
+review; blind coefficient, finite-L regime/remainder and numerical gates.
+Different directional names are not sufficient independence assumptions.
+Fixed-n,L constants above do not certify L_*, a numerical radius for L=24,
+large-L/infinite-volume limits or universality. No leading-order theorem
+promotion is allowed while those scientific gates are open.
+
+````
+
+File enlarged_contact_controls.py; 7664B; SHA256 a4abef9ab205c8a526b1c9845093c73d0bd439800f9f4b5b2324197cb1c1c4d7
+````text
+"""Exact rational diagnostics for the conventional enlarged P3 proof, not proof.
+
+No inference, numerical Gaussian sampler, source modification or paid API call.
+Rank diagnostics omit positive mode rescalings, which preserve exact rank.
+"""
+from fractions import Fraction as F
+from itertools import combinations
+from math import comb
+from pathlib import Path
+import hashlib
+import json
+
+CHECKS = []
+
+
+def check(label, condition):
+    if not condition:
+        raise AssertionError(label)
+    CHECKS.append(label)
+
+
+def dot(a, b):
+    return sum((x*y for x, y in zip(a, b)), F(0))
+
+
+def transpose(a):
+    return list(map(list, zip(*a)))
+
+
+def mv(a, v):
+    return [dot(row, v) for row in a]
+
+
+def mm(a, b):
+    return [[dot(row, col) for col in transpose(b)] for row in a]
+
+
+def identity(n):
+    return [[F(i == j) for j in range(n)] for i in range(n)]
+
+
+def rank(a):
+    a = [list(row) for row in a]
+    cursor = 0
+    for col in range(len(a[0])):
+        pivot = next((i for i in range(cursor, len(a)) if a[i][col]), None)
+        if pivot is None:
+            continue
+        a[cursor], a[pivot] = a[pivot], a[cursor]
+        divisor = a[cursor][col]
+        a[cursor] = [v/divisor for v in a[cursor]]
+        for i in range(len(a)):
+            if i != cursor:
+                coefficient = a[i][col]
+                a[i] = [x-coefficient*y for x, y in zip(a[i], a[cursor])]
+        cursor += 1
+        if cursor == len(a):
+            break
+    return cursor
+
+
+def unpack(z, n):
+    A, lam = z[0], z[1:n+1]
+    B, D, C = z[n+1], z[n+2:2*n+1], z[2*n+1]
+    pairs = list((i, j) for i in range(1, n) for j in range(i, n))
+    H = dict(zip(pairs, z[2*n+2:]))
+    q = [[F(0) for _ in range(n)] for _ in range(n)]
+    q[0][0] = B
+    for j in range(1, n):
+        q[0][j] = q[j][0] = D[j-1]/2
+    for (i, j), value in H.items():
+        q[i][j] = q[j][i] = value if i == j else value/2
+    return A, lam, B, D, C, H, q
+
+
+def symbols(k, z, t, c=F(2, 3)):
+    n = len(t)
+    A, lam, _, _, C, _, q = unpack(z, n)
+    xi = [c*v for v in k]
+    u = [row[0] for row in t]
+    physical_q = mm(mm(t, q), transpose(t))
+    return A-dot(xi, mv(physical_q, xi)), dot(xi, mv(t, lam))-C*dot(xi, u)**3
+
+
+def frequencies(n, doubled=True, paired=True):
+    e = identity(n)
+    result = list(e)
+    if doubled:
+        result += [[2*v for v in row] for row in e]
+    if paired:
+        result += [[e[i][k]+e[j][k] for k in range(n)] for i, j in combinations(range(n), 2)]
+    return result
+
+
+def coefficient_matrix(n, t, doubled=True, paired=True):
+    N = 2+n+n*(n+1)//2
+    basis = identity(N)
+    rows = [[z[0] for z in basis]]
+    for k in frequencies(n, doubled, paired):
+        values = [symbols(k, z, t) for z in basis]
+        rows.extend([[value[channel] for value in values] for channel in (0, 1)])
+    return rows
+
+
+def derivative(p, x):
+    return F(0) if p == 0 else p*x**(p-1)
+
+
+def peano(p, x, r):
+    if p < 3:
+        return F(0)
+    degree = p-3
+    integral = sum((F(comb(degree, i))*(x-r/2)**(degree-i)*r**i
+                    *(F(1, i+2)-F(1, i+3)) for i in range(degree+1)), F(0))
+    return 6*p*(p-1)*(p-2)*integral
+
+
+for n in (2, 3, 4):
+    N = 2+n+n*(n+1)//2
+    # P's native axial4/transversepair order needs one common permutation.
+    permutation = [0, 1] + list(range(4, 2*n+2, 2)) + [2] + list(range(5, 2*n+2, 2)) + [3]
+    native_labels = ['value', 'axial_gradient', 'axial_second', 'axial_third']
+    native_labels += [label for j in range(1, n) for label in (f'gradient{j}', f'mixed{j}')]
+    grouped_labels = ['value', 'axial_gradient'] + [f'gradient{j}' for j in range(1, n)]
+    grouped_labels += ['axial_second'] + [f'mixed{j}' for j in range(1, n)] + ['axial_third']
+    check(f'n{n}_shared_row_permutation', [native_labels[i] for i in permutation] == grouped_labels)
+    target_native = [F(7)-F(2)*F(1, 3)**3/2, -F(2)*F(1, 3)**2, F(0), F(24)] + [F(0)]*(2*n-2)
+    target_grouped = [target_native[0], target_native[1]] + [F(0)]*(n-1) + [F(0)]*n + [F(24)]
+    check(f'n{n}_prescribed_target_same_permutation', [target_native[i] for i in permutation] == target_grouped)
+    # f(x,y)=y1: native row4=1, grouped row2=1, for every radius.
+    native_linear_field = [F(0)]*(2*n+2)
+    native_linear_field[4] = F(1)
+    contact_linear_field = [F(0)]*(2*n+2)
+    contact_linear_field[2] = F(1)
+    check(f'n{n}_wrong_order_nonconvergence_detected', native_linear_field != contact_linear_field
+          and [native_linear_field[i] for i in permutation] == contact_linear_field)
+    ident = identity(n)
+    reflected = [row[::-1] for row in ident]
+    rotated = identity(n)
+    rotated[0][0], rotated[0][1] = F(3, 5), F(-4, 5)
+    rotated[1][0], rotated[1][1] = F(4, 5), F(3, 5)
+    shear = identity(n)
+    shear[0][1] = F(1)
+    for label, t in [('identity', ident), ('reflection', reflected), ('rational_rotation', rotated), ('shear', shear)]:
+        matrix = coefficient_matrix(n, t)
+        check(f'n{n}_{label}_full_rank', rank(matrix) == N)
+        check(f'n{n}_{label}_duplicate_observation_singular', rank([row+[row[-1]] for row in matrix]) == N < N+1)
+        z = [F(i+1, i+2) for i in range(N)]
+        _, _, B, D, _, H, q = unpack(z, n)
+        xi = [F(2*i+1, 3) for i in range(n)]
+        eta = mv(transpose(t), xi)
+        raw = B*eta[0]**2 + sum((D[j-1]*eta[0]*eta[j] for j in range(1, n)), F(0))
+        raw += sum((value*eta[i]*eta[j] for (i, j), value in H.items()), F(0))
+        check(f'n{n}_{label}_offdiagonal_half_packing', dot(xi, mv(mm(mm(t, q), transpose(t)), xi)) == raw)
+    check(f'n{n}_no_doubled_modes_cubic_alias', rank(coefficient_matrix(n, ident, doubled=False)) == N-1)
+    check(f'n{n}_no_pair_modes_quadratic_missing', rank(coefficient_matrix(n, ident, paired=False)) == N-n*(n-1)//2)
+    f = frequencies(n)
+    check(f'n{n}_witness_set_distinct_positive_half', len({tuple(k) for k in f}) == len(f)
+          and all(next(v for v in k if v) > 0 for k in f))
+
+co, si, R, S = F(3, 5), F(4, 5), F(7, 3), F(-11, 4)
+paired_square = (R*co-S*si)**2 + (R*si+S*co)**2
+check('paired_phase_removal', paired_square == R**2+S**2)
+check('extra_factor_two_rejected', 2*paired_square != R**2+S**2)
+check('peano_nonnegative_kernel_unit_mass', 6*(F(1, 2)-F(1, 3)) == 1)
+for x, r in ((F(0), F(1, 7)), (F(3, 5), F(2, 3)), (F(-4, 3), F(5, 7))):
+    a, b = x-r/2, x+r/2
+    for p in range(9):
+        fa, fb = a**p, b**p
+        da, db = derivative(p, a), derivative(p, b)
+        u0, u1 = (fa+fb)/2, (fb-fa)/r
+        u2 = (db-da)/r
+        u3 = 6/r**2*(da+db-2*u1)
+        check(f'peano_p{p}_x{x}_r{r}', u3 == peano(p, x, r))
+        check(f'inverse_p{p}_x{x}_r{r}',
+              u0-r*u1/2 == fa and u0+r*u1/2 == fb
+              and u1-r*u2/2+r**2*u3/12 == da
+              and u1+r*u2/2+r**2*u3/12 == db)
+
+r = F(2, 7)
+a, b = -r/2, r/2
+phi = lambda s: s**3-3*r**2*s/4
+grad = lambda s: 3*s**2-3*r**2/4
+gap = phi(a)-phi(b)
+u3 = 6/r**2*(grad(a)+grad(b)-2*(phi(b)-phi(a))/r)
+check('stationary_cubic_physical_gap_factor12', grad(a) == grad(b) == 0 and u3 == 6 == 12*gap/r**3)
+check('weakened_peano_factor3_rejected', u3/2 != 12*gap/r**3)
+raw = [F(2), F(3), F(5)]
+raw_sq = sum(v*v for v in raw)
+frob_sq = raw[0]**2+2*raw[1]**2+raw[2]**2
+check('raw_symmetric_frobenius_bounds', raw_sq <= frob_sq <= 2*raw_sq)
+
+proof = Path(__file__).with_name('ACTUAL_ENLARGED_CONTACT_SMALL_RADIUS.md')
+print(json.dumps({'status': 'PASS', 'exact_rational_checks': len(CHECKS),
+                  'checks': CHECKS, 'proof_bytes': len(proof.read_bytes()),
+                  'proof_sha256': hashlib.sha256(proof.read_bytes()).hexdigest(),
+                  'scope': 'diagnostics only; no sampler, floor enclosure, kernel or scientific acceptance'}, indent=2))
+
+````
+
+File enlarged-contact-controls-final.log; 4240B; SHA256 e6841cb6e20e8f51d75f13cd42278da0846e4297bd0c3dec7e2685392cf98169
+````text
+{
+  "status": "PASS",
+  "exact_rational_checks": 114,
+  "checks": [
+    "n2_shared_row_permutation",
+    "n2_prescribed_target_same_permutation",
+    "n2_wrong_order_nonconvergence_detected",
+    "n2_identity_full_rank",
+    "n2_identity_duplicate_observation_singular",
+    "n2_identity_offdiagonal_half_packing",
+    "n2_reflection_full_rank",
+    "n2_reflection_duplicate_observation_singular",
+    "n2_reflection_offdiagonal_half_packing",
+    "n2_rational_rotation_full_rank",
+    "n2_rational_rotation_duplicate_observation_singular",
+    "n2_rational_rotation_offdiagonal_half_packing",
+    "n2_shear_full_rank",
+    "n2_shear_duplicate_observation_singular",
+    "n2_shear_offdiagonal_half_packing",
+    "n2_no_doubled_modes_cubic_alias",
+    "n2_no_pair_modes_quadratic_missing",
+    "n2_witness_set_distinct_positive_half",
+    "n3_shared_row_permutation",
+    "n3_prescribed_target_same_permutation",
+    "n3_wrong_order_nonconvergence_detected",
+    "n3_identity_full_rank",
+    "n3_identity_duplicate_observation_singular",
+    "n3_identity_offdiagonal_half_packing",
+    "n3_reflection_full_rank",
+    "n3_reflection_duplicate_observation_singular",
+    "n3_reflection_offdiagonal_half_packing",
+    "n3_rational_rotation_full_rank",
+    "n3_rational_rotation_duplicate_observation_singular",
+    "n3_rational_rotation_offdiagonal_half_packing",
+    "n3_shear_full_rank",
+    "n3_shear_duplicate_observation_singular",
+    "n3_shear_offdiagonal_half_packing",
+    "n3_no_doubled_modes_cubic_alias",
+    "n3_no_pair_modes_quadratic_missing",
+    "n3_witness_set_distinct_positive_half",
+    "n4_shared_row_permutation",
+    "n4_prescribed_target_same_permutation",
+    "n4_wrong_order_nonconvergence_detected",
+    "n4_identity_full_rank",
+    "n4_identity_duplicate_observation_singular",
+    "n4_identity_offdiagonal_half_packing",
+    "n4_reflection_full_rank",
+    "n4_reflection_duplicate_observation_singular",
+    "n4_reflection_offdiagonal_half_packing",
+    "n4_rational_rotation_full_rank",
+    "n4_rational_rotation_duplicate_observation_singular",
+    "n4_rational_rotation_offdiagonal_half_packing",
+    "n4_shear_full_rank",
+    "n4_shear_duplicate_observation_singular",
+    "n4_shear_offdiagonal_half_packing",
+    "n4_no_doubled_modes_cubic_alias",
+    "n4_no_pair_modes_quadratic_missing",
+    "n4_witness_set_distinct_positive_half",
+    "paired_phase_removal",
+    "extra_factor_two_rejected",
+    "peano_nonnegative_kernel_unit_mass",
+    "peano_p0_x0_r1/7",
+    "inverse_p0_x0_r1/7",
+    "peano_p1_x0_r1/7",
+    "inverse_p1_x0_r1/7",
+    "peano_p2_x0_r1/7",
+    "inverse_p2_x0_r1/7",
+    "peano_p3_x0_r1/7",
+    "inverse_p3_x0_r1/7",
+    "peano_p4_x0_r1/7",
+    "inverse_p4_x0_r1/7",
+    "peano_p5_x0_r1/7",
+    "inverse_p5_x0_r1/7",
+    "peano_p6_x0_r1/7",
+    "inverse_p6_x0_r1/7",
+    "peano_p7_x0_r1/7",
+    "inverse_p7_x0_r1/7",
+    "peano_p8_x0_r1/7",
+    "inverse_p8_x0_r1/7",
+    "peano_p0_x3/5_r2/3",
+    "inverse_p0_x3/5_r2/3",
+    "peano_p1_x3/5_r2/3",
+    "inverse_p1_x3/5_r2/3",
+    "peano_p2_x3/5_r2/3",
+    "inverse_p2_x3/5_r2/3",
+    "peano_p3_x3/5_r2/3",
+    "inverse_p3_x3/5_r2/3",
+    "peano_p4_x3/5_r2/3",
+    "inverse_p4_x3/5_r2/3",
+    "peano_p5_x3/5_r2/3",
+    "inverse_p5_x3/5_r2/3",
+    "peano_p6_x3/5_r2/3",
+    "inverse_p6_x3/5_r2/3",
+    "peano_p7_x3/5_r2/3",
+    "inverse_p7_x3/5_r2/3",
+    "peano_p8_x3/5_r2/3",
+    "inverse_p8_x3/5_r2/3",
+    "peano_p0_x-4/3_r5/7",
+    "inverse_p0_x-4/3_r5/7",
+    "peano_p1_x-4/3_r5/7",
+    "inverse_p1_x-4/3_r5/7",
+    "peano_p2_x-4/3_r5/7",
+    "inverse_p2_x-4/3_r5/7",
+    "peano_p3_x-4/3_r5/7",
+    "inverse_p3_x-4/3_r5/7",
+    "peano_p4_x-4/3_r5/7",
+    "inverse_p4_x-4/3_r5/7",
+    "peano_p5_x-4/3_r5/7",
+    "inverse_p5_x-4/3_r5/7",
+    "peano_p6_x-4/3_r5/7",
+    "inverse_p6_x-4/3_r5/7",
+    "peano_p7_x-4/3_r5/7",
+    "inverse_p7_x-4/3_r5/7",
+    "peano_p8_x-4/3_r5/7",
+    "inverse_p8_x-4/3_r5/7",
+    "stationary_cubic_physical_gap_factor12",
+    "weakened_peano_factor3_rejected",
+    "raw_symmetric_frobenius_bounds"
+  ],
+  "proof_bytes": 18581,
+  "proof_sha256": "f5d23571564715951023c2a8d5be288807533b4843b172a30dc4b2b0c3c5b3ee",
+  "scope": "diagnostics only; no sampler, floor enclosure, kernel or scientific acceptance"
+}
+
+````
+
+File enlarged-contact-controls-final-receipt.json; 862B; SHA256 6c5c61c6cf9e47ff2f96e3e832a16e5c47a3d240193f8c86d5763fb832a14fed
+````text
+{
+  "actual_agent": "/root",
+  "observed_at": "2026-10-08T07:09:53.653915+00:00",
+  "argv": [
+    "/Library/Developer/CommandLineTools/usr/bin/python3",
+    "-B",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/enlarged_contact_controls.py"
+  ],
+  "exit_code": 0,
+  "seconds": 0.607497125,
+  "expected": "114 exact-rational checks including shared row and prescribed-target permutations PASS",
+  "observed_checks": 114,
+  "proof_sha256": "f5d23571564715951023c2a8d5be288807533b4843b172a30dc4b2b0c3c5b3ee",
+  "script_sha256": "a4abef9ab205c8a526b1c9845093c73d0bd439800f9f4b5b2324197cb1c1c4d7",
+  "log_sha256": "e6841cb6e20e8f51d75f13cd42278da0846e4297bd0c3dec7e2685392cf98169",
+  "scope": "diagnostic controls, not general proof/kernel/sampler/scientific acceptance"
+}
+
+````
+

@@ -1,0 +1,564 @@
+## C322 result — corrected common-height Schur scale on the fixed generic sector
+
+The exact finite-pin/witness Gaussian conditional variance is bounded above and below by constant multiples of s^8 on the specified compact generic angular sector. The admissible path r=s^(5/4), e=s^2 rejects the **explicitly unproved proposed** lower bound (r²s+s⁴)² in [6401052901 §2](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401052901). The exact target-dependent mean is retained; the corrected scalar density bound is Cs^-4. This does not supply the joint height-conditioned determinant/energy estimate or close BAND.
+
+Actual author OpenAI/Codex /root, chat01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated for Dylan Roy. Adviser/coauthor /root/c322_frontier_scout. Actual nonauthor /root/c317_h11_nonauthor returned **PASS_SCOPED**, with seven analytic negative controls and disclosed subordinate check /height_rank_check. Same-provider/source-exposed, org0/blind0/human0; no Dylan human review. The candidate's pending-review header is its frozen authorship state; the separately dated review supplies the later verdict without changing the reviewed bytes.
+
+[Claim/pickup](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401565747) · [20 exact finite controls and diagnostic-label erratum](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401718069). All original sources remain frozen. The [rank-nine task6401675183](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401675183) has its own owner; this result does not take it over.
+
+Actionable next task: derive the joint common-height-conditioned determinant/energy estimate on this sector with the actual Gaussian mean and unchanged full W/Z, then assess summability. No advance claim, fullBAND, axis/rank9 transition, small-k, ordinary elder-bar, field-first or regional collision closure is made. Final stable verification and one private registered immutable delivery follow; this is not a commit, hosted CI or deployment.
+
+### C322_EVIDENCE HEIGHT_SCHUR_AUDIT.md
+Bytes: 20183
+SHA-256: `1bddb227506516f3d709e73e79f8654762a590c23465593fb520a18e42c60905`
+~~~~~~~~~~~~~~~~~~~~
+# C322: the generic-sector common-height residual has variance of order s^8
+
+New analytic audit of a proposed prerequisite, 25 October 2026. AUTHOR-SIDE CANDIDATE pending exact-source nonauthor review. No canonical scientific status, source hypothesis, archive member, branch or accepted theorem is changed.
+
+Actual author: OpenAI/Codex /root, chat 01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated for Dylan Roy. Analytic adviser/coauthor: OpenAI/Codex /root/c322_frontier_scout, who supplied and checked the dimensionless interpolation approach and the explicit quartic rank witness. Separate finite controls are by /root/c302_architecture_ownership. These roles are source-exposed, same-provider; organizational/blind/human independence credit 0. None is Dylan's personal review.
+
+Own R17 claim: 512e8945-cbb8-4e83-8600-6215e54320c7, Work Events 2906; canonical pickup https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401565747 . This is only V22-BAND-HEIGHT-MEAN-VARIANCE-AUDIT-01.
+
+## 1. Finding and exact target
+
+The proposed missing lemma in MTW's source [6401052901, Section 2](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401052901) asks for
+\[
+ \operatorname{Var}\big(F(x)-b\mid\text{six pins, four witness rows}\big)
+ \gtrsim (r^2s+s^4)^2.                                      \tag{1}
+\]
+That source explicitly labels (1) unproved. Its I12/I17 argument identifies a pathwise scale, including finite-pin targets; it does not prove that scale is a Gaussian residual standard deviation.
+
+On any fixed compact generic angular sector specified below, with the exact finite pin and witness rows, the correct variance bounds are
+\[
+             c s^8\ \leq\ \sigma^2_{r,s,z,w,e}\ \leq\ C s^8. \tag{2}
+\]
+Thus (1) cannot hold uniformly through the stated two-scale band. For example, set \(r=s^{5/4}\), \(e=s^2\), let \(s\downarrow0\), and keep the sector point fixed. Then \(r/s\to0\), \(e/s\to0\), \(e\leq r\), and
+\[
+ \frac{\sigma^2}{(r^2s+s^4)^2}
+ \leq C\,\frac{s}{(1+\sqrt{s})^2}\longrightarrow0.           \tag{3}
+\]
+This is an analytic obstruction in the exact Gaussian law, not a finite-polynomial model substituted for that law.
+
+The corrected scalar density bound has scale \(s^{-4}\), with its conditional mean retained. It does not supply the joint height-conditioned determinant/energy estimate needed for BAND. The rank-nine angular strata, the axis, small-k uniformity, finite ordinary bars, field-first sampling and regional shrinking collision bounds are not resolved here.
+
+## 2. Exact model, parameters and conditioning
+
+Use the fixed variance-one smooth planar periodic Gaussian field of the sources:
+\[
+ K_L(h)=\frac{\sum_{n\in\mathbb Z^2}\exp(-|h+Ln|^2/2)}
+                   {\sum_{n\in\mathbb Z^2}\exp(-|Ln|^2/2)},\qquad L>0.
+\]
+Its Fourier weights are strictly positive at every lattice frequency. The retained S06 derivations establish smooth sample paths, finite second moments of every fixed derivative-supremum norm, and positive definite covariance for every finite set of distinct one-site derivative coordinates. Positivity and boundedness are uniform over the compact frame group and midpoint torus. No isotropic rotation invariance of this periodic field is assumed.
+
+Let \(R\in O(2)\) be the pin frame, midpoint \(p\), and let
+\[
+ M=p-\tfrac r2 R(1,0),\quad S=p+\tfrac r2 R(1,0),\quad
+ x=p+sRz,\quad y=p+sR(z+\eta w),\quad q=r/s,\quad e=s\eta.
+\]
+Here \(z=(c,t)\), \(w=(a,d)\) is a unit vector; the edge component is named \(d\), to avoid confusing it with birth height \(b\). Fix positive constants \(\tau,\beta,\gamma\) and a nonempty compact sector
+\[
+ \mathcal K=\{(z,w):1\leq |z|\leq2,\ |t|\geq\tau,\
+            |d|\geq\beta,\ |dc-at|\geq\gamma,\ |w|=1\}.    \tag{4}
+\]
+The constants in (2) depend on this fixed sector and L. There are \(q_0,\eta_0,s_0>0\) such that (2) holds simultaneously for all \(0<q\leq q_0\), \(0<\eta\leq\eta_0\), \(0<s\leq s_0\). Choose \(q_0\leq1/4\), \(\eta_0\leq1/4\), and \(s_0\) so the displayed bounded chart embeds. Confluent \(q=0\) and \(\eta=0\) rows are used only as the continuous algebraic extensions in the proof. No estimate is asserted when the sector constants tend to zero.
+
+The original pins are exactly
+\[
+ F(M)=b,\quad F(S)=b-kr^3,\quad \nabla F(M)=\nabla F(S)=0. \tag{5}
+\]
+For the source application, b and k range over their prescribed compact sets with \(0<k_-\leq k\leq k_+<\infty\). Our covariance bounds are independent of these target values; that fact does not promote any weighted-normalizer or marked-count estimate to uniformity at k=0.
+
+Let \(\mathcal T\) be the ten raw scalar observations consisting of the two endpoint values and gradients, and the two witness gradients \(\nabla F(x),\nabla F(y)\). Formula (2) concerns the Gaussian conditional variance of \(F(x)\) given all ten observations, equivalently given (5) followed by zero gradients at both witnesses. Subtracting the fixed b changes no variance. For positive r,s,e all four physical sites are distinct. The continuous Gaussian regression version defines conditioning at the exact specified values.
+
+The determinant-weighted field law \(Q_r^W\) is not Gaussian. The scalar Gaussian calculation here is under the pinned law \(Q_r\) and its further Gaussian witness conditioning, not under \(Q_r^W\).
+
+## 3. A uniformly bounded exact dimensionless observation family
+
+Set \(g(Y)=F(p+sRY)\). For q>0 let \(H_q\) be the cubic Hermite interpolant of \(g(u,0)\) and \(\partial_u g(u,0)\) at \(u=\pm q/2\). Let \(L_q\) be the affine interpolant of \(\partial_v g(u,0)\) at those two sites. Define six linear rows
+\[
+ A_qg=(H_q(0),H'_q(0),H''_q(0),H'''_q(0),L_q(0),L'_q(0)).
+\]
+At q=0 they mean \((g,g_u,g_{uu},g_{uuu},g_v,g_{uv})(0)\). Define
+\[
+ B_\eta g=\frac{\nabla g(z+\eta w)-\nabla g(z)}{\eta},
+ \qquad B_0g=H_g(z)w,\qquad
+ T_{q,z,w,\eta}g=(A_qg,\nabla g(z),B_\eta g).              \tag{6}
+\]
+For positive q,s,eta this ten-row vector is an invertible deterministic linear transform of \(\mathcal T\). Thus it generates exactly the same Gaussian conditioning sigma-algebra and the same conditional height variance. Conditioning does not insert a change-of-variables density factor into (2).
+
+The frame differs from the S06 divided pin frame; it is not silently identified with it. If the latter, applied to g, is \((U_0,U_1,U_2,U_3,V_0,V_1)\), the exact triangular identities are
+\[
+ H_q(0)=U_0-\tfrac{q^2}{8}U_2,\qquad
+ H'_q(0)=U_1-\tfrac{q^2}{24}U_3,\qquad
+ (H''_q,H'''_q,L_q,L'_q)(0)=(U_2,U_3,V_0,V_1).           \tag{7}
+\]
+They follow by solving the endpoint cubic interpolation equations. In particular the exact target under (5) is
+\[
+ A_qg=(\bar b,-\tfrac32kr^2s,0,12ks^3,0,0),
+ \qquad \bar b=b-\tfrac12kr^3,                           \tag{8}
+\]
+rather than the target for S06's uncorrected U1 coordinate.
+
+All rows in (6) have uniformly bounded operator norm on \(C^3(D)\), for a fixed dimensionless ball D containing the endpoint segment and witness segments. To see the only potentially singular part explicitly, put \(a_q=q/2\), for a univariate h write
+\[
+ s_0=\tfrac12(h(-a_q)+h(a_q)),\quad
+ d_0=\tfrac{h(a_q)-h(-a_q)}{2a_q},\quad
+ s_1=\tfrac12(h'(-a_q)+h'(a_q)),\quad
+ d_1=\tfrac{h'(a_q)-h'(-a_q)}{2a_q}.
+\]
+Then
+\[
+ H(0)=s_0-\tfrac12a_q^2d_1,\quad H'(0)=\tfrac12(3d_0-s_1),
+ \quad H''(0)=d_1,
+\]
+\[
+ H'''(0)=\frac{3}{4a_q^3}
+       \int_{-a_q}^{a_q}(a_q^2-u^2)h'''(u)\,du.           \tag{9}
+\]
+The last kernel is nonnegative with mass one; the other divided differences are averages of the indicated derivatives. The affine transverse rows need at most two derivatives of g. Also
+\[
+ B_\eta g=\int_0^1 H_g(z+\theta\eta w)w\,d\theta,          \tag{10}
+\]
+so its bound has no negative power of eta. These formulas also give continuity of the rows on each finite polynomial space as q,eta tend to zero.
+
+## 4. Cubic unisolvence on the generic sector
+
+Let \(\mathcal P_m\) denote real polynomials in two variables of total degree at most m. Its dimensions at m=3,4 are 10,15.
+
+At q=eta=0 the six pin rows specify six distinct scalar third-jet coordinates. Their kernel in \(\mathcal P_3\) is spanned by \(v^2,u^2v,uv^2,v^3\). Write the remaining derivative coordinates as
+\((J_{02},J_{21},J_{12},J_{03})\), where \(J_{ij}=\partial_u^i\partial_v^jP(0)\). On that kernel, the u gradient, u component of \(H(z)w\), and
+the v component of \(H(z)w-(d/t)\nabla P(z)\) have coefficient matrix on \((J_{21},J_{12},J_{03})\)
+\[
+ M=
+ \begin{pmatrix}
+ ct&t^2/2&0\\
+ at+dc&dt&0\\
+ ac-dc^2/(2t)&at&dt/2
+ \end{pmatrix},\qquad
+ \det M=\frac{d\,t^3(dc-at)}4.                            \tag{11}
+\]
+The remaining v gradient divided by t has coefficient one on \(J_{02}\). Consequently the four witness rows specify all remaining cubic coordinates exactly on (4). Equation (11) follows by expanding the leading two-by-two minor and multiplying by dt/2; no numerical spot check is needed for this rank conclusion.
+
+Represent (6) on a fixed monomial basis of \(\mathcal P_3\). Its ten-by-ten matrix is continuous in q,eta,z,w. At q=eta=0 it is invertible at every point of the compact sector. Compactness and continuity therefore give common sufficiently small q0,eta0 on which the matrix remains invertible, with uniformly bounded inverse. This is an exact finite-q, finite-eta statement, not inversion of a limit matrix while discarding the finite-pin corrections.
+
+It follows that there is a deterministic coefficient vector \(\lambda_{q,z,w,\eta}\), uniformly bounded in Euclidean norm, such that
+\[
+            P(z)=\lambda T_{q,z,w,\eta}P
+            \quad\hbox{for every }P\in\mathcal P_3.      \tag{12}
+\]
+
+## 5. Upper residual-variance bound without conditional moment assumptions
+
+For m=3 or 4, Taylor-expand the actual field at p:
+\[
+ P_{m,s}(Y)=\sum_{|\alpha|\leq m}
+               s^{|\alpha|}\frac{D_R^\alpha F(p)}{\alpha!}Y^\alpha.
+\]
+On the fixed D, the dimensionless remainder obeys
+\[
+ \|g-P_{m,s}\|_{C^3(D)}
+       \leq C_m s^{m+1}\|F\|_{C^{m+1}},\qquad m=3,4.    \tag{13}
+\]
+For each derivative through order three, differentiate the Taylor polynomial and apply the derivative Taylor remainder; the factor \(s^{|\alpha|}\) from differentiation in Y restores the displayed power. Fixed-frame derivative constants are uniform over O(2). The right side has finite unconditional second moment by S06. No independence between a Taylor jet and its remainder is used.
+
+Use (12), the bounded rows, and (13) at m=3:
+\[
+ \|F(x)-\lambda Tg\|_{L^2}
+ =\|(g-P_{3,s})(z)-\lambda T(g-P_{3,s})\|_{L^2}
+ \leq C s^4.                                           \tag{14}
+\]
+For a jointly Gaussian vector, its conditional residual variance is the minimum variance over deterministic linear predictors. Equivalently, completing the square in its covariance matrix gives
+\[
+ \sigma^2=\inf_\ell\operatorname{Var}(F(x)-\ell Tg).
+\]
+Choosing the particular predictor (12) proves \(\sigma^2\leq Cs^8\). This argument uses unconditional derivative moments and exact observation spans, so it does not assume any uniform moment bound after the rare pin/witness target has been imposed.
+
+## 6. Quartic rank and the matching lower residual-variance bound
+
+At each contact configuration in (4), consider
+\[
+        h_t(u,v)=6(v/t)^2-8(v/t)^3+3(v/t)^4.             \tag{15}
+\]
+Every pin row in \(A_0h_t\) is zero. At z=(c,t), both its gradient and its entire Hessian vanish: its only varying coordinate has first and second derivatives zero at v=t. Yet \(h_t(z)=1\). Thus h_t is annihilated by all ten contact rows but not by height evaluation.
+
+The ten rows already have rank ten on \(\mathcal P_3\). Equation (15) shows that the augmented eleven-row family
+\[
+          \mathcal B g=(Tg,g(z))                         \tag{16}
+\]
+has full row rank on \(\mathcal P_4\) at q=eta=0. In a fixed 15-monomial basis its matrix \(B(q,z,w,\eta)\) is continuous. The same compactness argument, reducing q0,eta0 if necessary, yields
+\[
+       \sigma_{\min}(B)\geq b_*>0                        \tag{17}
+\]
+uniformly at the actual finite parameters. No quartic polynomial is asserted to be a sample of the periodic field; it proves linear independence of finite evaluation functionals on a finite Taylor-jet space.
+
+Let \(J_4=(D_R^\alpha F(p)/\alpha!)_{|\alpha|\leq4}\) and let \(D_s\) have diagonal entries \(s^{|\alpha|}\). Positive full Fourier weights imply that Cov(J4) has a common positive lower bound over p,R. For completeness, a zero-variance combination of these one-site jets would have a polynomial Fourier multiplier vanishing at every rotated lattice frequency; the distribution argument in S06, or polynomial uniqueness on the full integer lattice after an invertible rotation, forces every coefficient to vanish. Compactness of p,R gives the uniform positive eigenvalue.
+
+By (13) with m=4 and bounded rows,
+\[
+           \mathcal B g = B D_s J_4+\mathcal R_s,\qquad
+           \|\mathcal R_s\|_{L^2(\mathbb R^{11})}\leq Cs^5. \tag{18}
+\]
+For any \(u\in\mathbb R^{11}\), since \(0<s\leq1\),
+\[
+ \operatorname{std}(uBD_sJ_4)
+       \geq c\|uBD_s\|\geq c s^4\|uB\|
+       \geq c' s^4\|u\|.
+\]
+The centered \(L^2\) triangle inequality and (18) then give
+\[
+             \operatorname{Cov}(\mathcal B g)\succeq c s^8 I_{11} \tag{19}
+\]
+for sufficiently small s0, uniformly in the fixed compact parameters. Correlated Taylor remainders are allowed in this inequality.
+
+In particular the ten observation covariance is positive definite. Apply the Schur variational identity to the last coordinate of (16):
+\[
+ \sigma^2
+ =\inf_\ell\operatorname{Var}(F(x)-\ell Tg)
+ \geq \inf_\ell c s^8(1+\|\ell\|^2)
+ \geq c s^8.                                            \tag{20}
+\]
+This proves the lower half of (2) with no covariance determinant guessed from a pathwise envelope. Both halves hold simultaneously as q,eta,s tend to zero at arbitrary relative rates inside the stated rectangular parameter range.
+
+## 7. Mean, targets and the corrected scalar window factor
+
+Let \(\nu\) be the actual ten-row target in (6): its first six entries are (8) and its last four are zero. For the centered original field the exact conditional mean is
+\[
+ m_{q,s,z,w,\eta}
+     =\operatorname{Cov}(F(x),Tg)\operatorname{Cov}(Tg)^{-1}\nu. \tag{21}
+\]
+For a noncentered source, retain the corresponding usual mean correction. No target has been set to zero merely because the covariance proof is unconditional. In particular (8) contains a forced \(r^2s\) coefficient. Whether such terms remain in (21), cancel, or cause a large Gaussian energy cost is a separate calculation. A pathwise O(r²s+s⁴) upper envelope is not a variance lower bound. We do not replace (21) by a cubic interpolant's target value, or assert a uniform conditional-mean Taylor remainder without proving one.
+
+The conditional height density is exactly Gaussian with mean (21) and variance (2). Therefore, with different sector-dependent constants,
+\[
+ p_{F(x)\mid T=\nu}(h)
+ \leq C s^{-4}\exp\!\left[-\frac{(h-m)^2}{C s^8}\right]. \tag{22}
+\]
+For the original common-height interval \(I_r=(b-kr^3,b)\),
+\[
+ \mathbb P(F(x)\in I_r\mid T=\nu)
+       \leq \min(1,C k r^3/s^4).                         \tag{23}
+\]
+The exact mean-dependent exponential in (22) remains available and must not be dropped when a later argument needs its energy gain. Equation (23) is only an upper bound, with constants; it is not an asymptotic or a uniformly attained probability. Its marginal crossover is \(s\asymp r^{3/4}\) for fixed compact positive k, not the proposed residual-width crossover \(s\asymp r^{2/3}\).
+
+At s=Br with B fixed large enough that q=1/B lies in our range, \(r^3/s^4=1/(B^4r)\) diverges. Thus even the corrected marginal bound is order one at that inner edge. The prior conclusion that a scalar density alone does not close BAND survives the correction.
+
+For use in a weighted Kac-Rice count, preserve the joint integrand
+\[
+ Z_r^{-1}p_{\nabla F(x),\nabla F(y)\mid\text{pins}}(0,0)
+ \int_{I_r}p_{F(x)\mid T=\nu}(h)\,
+ E[W_r\,|\det H_x\det H_y|\,\mathfrak m
+     \mid T=\nu,F(x)=h]\,dh.                             \tag{24}
+\]
+Here \(W_r=F_2(H_M)F_1(H_S)\), \(Z_r=E_{Q_r}W_r\), and \(\mathfrak m\) retains any actual remaining type/height/domain marks. In particular a second witness-height condition, when wanted, is not deleted. Equation (24) displays the appropriate disintegration of the existing marked interface, not a new estimate of its conditional determinant expectation. The original endpoint density normalizer and type hypotheses remain in their source scopes; no witness-conditioned replacement Z is used. Marginal probability (23) cannot simply be multiplied into an all-height weighted determinant estimate. Common-height residual and short-edge witness-height difference are different observables.
+
+## 8. Rejecting controls, limits and actionable next step
+
+The analytic proof consists of bounded exact observation functionals, uniform polynomial row rank, derivative-supremum Taylor bounds for the actual Gaussian field, and the two Schur variational inequalities. Finite controls accompanying this note check exact rational row matrices, interpolation, the quartic annihilator, excluded rank strata, target-independent Gaussian variance, and the power contradiction (3). Passing controls or model agreement cannot substitute for the continuum argument.
+
+The conclusion is a correction to a proposed missing prerequisite, not an adverse verdict on the accepted single-witness intermediate-window theorem, the existing generic-sector gradient density, or C321's Borel count identity. Their exact bytes remain unchanged. This also does not establish the limiting coefficient of \(\sigma^2/s^8\), a conditional determinant bound, a uniform covariance floor on rank-nine/axis crossover strata, or joint limits in L, marks, k, sector constants or dimension.
+
+The next useful owned stage may consume (2), (21) and (22) while deriving a joint common-height-conditioned determinant/energy estimate on this fixed generic sector. It must retain the same W/Z and actual target, handle other angular charts separately, and then assess summability. That stage has not been claimed or completed by this note. No ordinary-bar, elder pairing, once-counted-bar, field-first, all-small-bars converse or regional multiple-witness conclusion follows merely from (2).
+
+## 9. Source identities and exposure
+
+- MTW proposed width, main605/6401052901: served body 5,844 bytes; SHA-256 2706deb8a9bd4bedec7e6d8324333f01cc3e7e618153e4747abaaf4d5aed8a54. The source itself labels the Schur lemma missing.
+- Research Task Watch generic-sector rows, main605/6401110145: served body 6,075 bytes; SHA-256 864222fd5279d8ddf1a0b091de94f560a601be5051669042f1c983122cd42fa7. Equation (11) is independently expanded here; the finite interpolation proof does not assume its row-convergence estimate.
+- Intermediate-window PROOF.md, Math- at 79f9a73596b1ce925034bd426c005a3251693c1b, exact retained at current c4eabc1a917ba2c1b96fe4af425cf2a484877c03: 27,775 bytes; SHA-256 b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf. I7/I12/I17 frame/target and pathwise distinctions are consumed, not converted into a residual-variance claim.
+- S06 GAUSSIAN_DERIVATIONS.md: 27,912 bytes; SHA-256 946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781. Sections 2–5 and 7 supply the exact-law smoothness/moments, finite-jet positivity and divided pin-row formulas; those assumptions are retained.
+- Current unowned-gap pointer main605/6401494826: served body 1,316 bytes; SHA-256 762adbccafbd682f4efaf887c8a2b7afa4c400078f08b20b33488f737cf3d3bc. This is ownership/navigation evidence, not a mathematical premise.
+- C321 full marked interface: https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401300570 ; no change or repeated review requested.
+
+No upstream programs, archive tests, Gaussian simulations, Lean/kernel or hosted CI were run to derive this note. The source-native delivery route preserves original source owners and does not represent a commit or deployment. Actual nonauthor verdict and execution receipts belong to their separately attributed exact artifacts.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+~~~~~~~~~~~~~~~~~~~~
+
+### C322_EVIDENCE REVIEW.md
+Bytes: 24860
+SHA-256: `91c04c2b5600b6adaa1d54e4f9150958ac58f6a5a2bd7287659e48301f5cc87c`
+~~~~~~~~~~~~~~~~~~~~
+# C322 exact-source nonauthor analytic review
+
+Disposition: **PASS_SCOPED** for the candidate and mathematical claim identified below. Review date: 25 October 2026. This is a substantive analytic review of the fixed generic-sector conditional-height variance audit. It is not a formal-kernel certificate, a BAND discharge, or a review of all v22 proofs.
+
+## 1. Exact target, reviewer and scope
+
+Reviewed target: **HEIGHT_SCHUR_AUDIT.md, 20,183 bytes**, SHA-256 **1bddb227506516f3d709e73e79f8654762a590c23465593fb520a18e42c60905**. All candidate line references below refer to these exact bytes. I read the whole candidate, reconstructed its load-bearing identities, and checked its exact identity. No candidate amendment was requested or made during this review. Its frozen line 3 still records the author's earlier pending-review state; this separately dated verdict supplies the later review state without rewriting that historical header.
+
+Actual reviewer: **OpenAI/Codex agent /root/c317_h11_nonauthor, delegated for Dylan Roy**. I did not author or advise on this candidate before its freeze. I previously reviewed C317, C320 and C321 and was already exposed to related Gaussian-regression, pin-frame and count-interface sources. This review is source-exposed, same-provider, and carries **organizational independence 0, blind independence 0, human independence 0**. It is not Dylan Roy's personal review and is not provider-distinct review.
+
+I commissioned a bounded additional analytic check of §§3–6 from OpenAI/Codex agent /root/c317_h11_nonauthor/height_rank_check. That agent was also source-exposed and same-provider, did not author the candidate, and did not execute mathematical controls. Its response checked the Hermite formulas, cubic rank, Taylor scaling, quartic rank and correlated-remainder argument and reported no blocking finding. I separately reconstructed these steps below. The response is supporting delegated review, not a substitute for the proof and not additional provider or human independence. The candidate's named adviser/coauthor /root/c322_frontier_scout and its finite-control executor /root/c302_architecture_ownership are not represented as nonauthor reviewers.
+
+The selected route is [V22-BAND-HEIGHT-MEAN-VARIANCE-AUDIT-01](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401565747), under the author's existing R17 claim. This review neither claims another owner's source/branch nor takes over the next determinant/energy task.
+
+The accepted quantified statement is: fix the declared planar periodic Gaussian field with fixed \(L>0\), and a nonempty compact sector \(\mathcal K\) satisfying the candidate's positive lower bounds on \(|t|,|d|,|dc-at|\). Common positive constants and thresholds then exist such that, for every midpoint/frame and every positive \(q=r/s,\eta=e/s,s\) in the resulting sufficiently small rectangular range, the exact Gaussian conditional variance after the six finite pins and both witness gradients satisfies
+\[
+ c s^8\leq\operatorname{Var}(F(x)\mid\mathcal T)\leq C s^8.
+\]
+The limits \(q=0,\eta=0\) occur only in algebraic contact matrices. The verdict gives no coincident-site conditioning, sector-uniform constants as an angular margin vanishes, limiting coefficient, conditional determinant estimate, or global finite-bar theorem.
+
+## 2. Source custody and actual exposure
+
+The supplied SOURCE_IDENTITIES.json is **773 bytes**, SHA-256 **9996af45fb115af9cb5abc7a93c3e759b90b3a9d3e6ba6562cfa4d703cd436a1**. I checked actual bytes and SHA-256 of each frozen input against its entries:
+
+| Relative source | Bytes | SHA-256 |
+|---|---:|---|
+| sources/GAUSSIAN_DERIVATIONS.md | 27,912 | 946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781 |
+| sources/GENERIC_SECTOR.md | 6,075 | 864222fd5279d8ddf1a0b091de94f560a601be5051669042f1c983122cd42fa7 |
+| sources/INTERMEDIATE_WINDOW_SOURCE.md | 27,775 | b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf |
+| sources/OWNER_FRONTIER.md | 1,316 | 762adbccafbd682f4efaf887c8a2b7afa4c400078f08b20b33488f737cf3d3bc |
+| sources/PROPOSED_WIDTH.md | 5,844 | 2706deb8a9bd4bedec7e6d8324333f01cc3e7e618153e4747abaaf4d5aed8a54 |
+
+I whole-read PROPOSED_WIDTH.md, GENERIC_SECTOR.md and OWNER_FRONTIER.md. In INTERMEDIATE_WINDOW_SOURCE.md I inspected the load-bearing I7/I12/I17 discussion and nearby covariance construction, lines 77–239. In GAUSSIAN_DERIVATIONS.md I reread the exact divided rows/contact discussion in §7, lines 273–376, and checked relevant §§1–5 premise locations. I reused my previous substantive reading of the unchanged, now hash-verified §§1–5 from C321; I do not claim to have newly rereviewed every argument in every source during C322.
+
+The [proposed-width source](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401052901) expressly identifies the stronger Schur lower bound as missing. C322 corrects that proposed prerequisite; it does not falsify a source assertion that the bound was proved. The [generic-sector source](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401110145) supplies the related contact chart. C322's determinant and finite-polynomial continuity argument are directly checkable and do not assume that source's separate row-convergence claim. The intermediate-window source supplies the Hermite frame and pathwise I12/I17 statements. The [frontier pointer](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401494826) is ownership/navigation context, not a mathematical premise. The [C321 marked interface](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401300570) is unchanged and not reopened here.
+
+I did not execute upstream package code, mathematical replay, simulations, upstream mathematical-module imports, AST-based validation, tests, Lean or hosted CI. I inspected a bounded part of the separate finite-control source/results to assess the disclosed diagnostic-label erratum; I did not rerun those controls or certify their entire execution record. Text inspection, file-byte hashing and writing this review are custody/review operations, not mathematical runtime evidence. No source was edited and no external post was made by this reviewer.
+
+## 3. Findings by candidate location
+
+There are **no blocking mathematical findings** against the selected statement.
+
+| Candidate location | Assessment and significance |
+|---|---|
+| Lines 11–29, 245–247 | PASS: the rejected statement is an expressly proposed prerequisite. The new variance result and rejecting path stay within the declared Gaussian model. No accepted single-witness theorem or global-bar result is represented as disproved or newly completed. |
+| Lines 33–60 | PASS: fixed \(L\), full positive Fourier support, derivative moments, compact frame/midpoint scope, exact pins and the distinction between \(Q_r\) and \(Q_r^W\) are explicit. |
+| Lines 64–109 | PASS: the finite observation transform is exact; Hermite target and Peano normalization are correct; \(C^3\) bounds leave no negative powers of \(q,\eta\). |
+| Lines 115–134 | PASS: the cubic determinant is \(dt^3(dc-at)/4\), and compact finite-matrix continuity gives uniform finite-\(q,\eta\) unisolvence. |
+| Lines 139–161 | PASS: the dimensionless \(C^3\) Taylor remainder has the asserted power and gives the upper bound through an unconditional linear predictor. |
+| Lines 165–207 | PASS: the quartic witness adds an independent height row; positive fourth-jet covariance and a centered \(L^2\) reverse triangle inequality give a quadratic-form floor despite correlated remainders. The Schur infimum gives the lower bound. |
+| Lines 211–239 | PASS: the exact target-dependent mean is retained. Density/window bounds have their stated limitations, and marked disintegration preserves original \(W_r/Z_r\) and second-height marks. |
+| Separate control metadata, §8 below | LOW, nonblocking diagnostic erratum: a field named bc_minus_at stores the opposite sign. It is not used to compute contact ranks and does not alter the candidate's correctly signed determinant. Preserve executed bytes with an explicit correction. |
+
+No correction to the frozen candidate is required for this verdict. The threshold \(s_0\) is, as explicitly used at line 188, reduced to at most 1; this is a harmless further reduction of the existential threshold in line 50.
+
+## 4. Independent reconstruction: observation algebra and upper bound
+
+### 4.1 Exact Hermite coordinates and targets
+
+Put \(a=q/2\), and write
+\[
+ H(u)=\alpha+\beta u+\frac{\gamma}{2}u^2+\frac{\delta}{6}u^3.
+\]
+The candidate's endpoint averages/divided differences give
+\[
+ s_0=\alpha+\gamma a^2/2,\quad d_0=\beta+\delta a^2/6,
+ \quad s_1=\beta+\delta a^2/2,\quad d_1=\gamma.
+\]
+Hence \(H(0)=s_0-a^2d_1/2\), \(H'(0)=(3d_0-s_1)/2\), \(H''(0)=d_1\), and \(H'''(0)=3(s_1-d_0)/a^2\). Two integrations by parts yield
+\[
+ \int_{-a}^{a}(a^2-u^2)h'''(u)\,du=4a(s_1-d_0).
+\]
+Multiplication by \(3/(4a^3)\) gives the last Hermite coordinate. Its kernel is nonnegative and has mass
+\[
+ \frac{3}{4a^3}\int_{-a}^{a}(a^2-u^2)\,du=1.
+\]
+This verifies (9) and bounds the row by \(\sup|h'''|\), uniformly as \(q\downarrow0\). The other divided differences are derivative averages. The transverse affine slope uses one derivative of \(g_v\), hence at most second derivatives of \(g\). Also
+\[
+ B_\eta g=\int_0^1 H_g(z+\theta\eta w)w\,d\theta
+\]
+has a uniform \(C^2\)-bound. All observation rows and height evaluation are therefore bounded on one fixed \(C^3(D)\), independently of the relative sizes of positive \(q,\eta\).
+
+The exact pins give \(s_0=b-kr^3/2\), \(d_0=-kr^3/q=-kr^2s\), and \(s_1=d_1=0\). Consequently
+\[
+ A_qg=(b-kr^3/2,-3kr^2s/2,0,12ks^3,0,0).
+\]
+The second entry is not the uncorrected S06 slope. The triangular correction (7) is essential and correctly normalized. For positive \(q,s,\eta\), endpoint Hermite interpolation, physical-to-dimensionless gradient conversion and pair-to-gradient/difference conversion are invertible deterministic transformations. They preserve the conditioning sigma-algebra. Density Jacobians would matter in a transformed density calculation; they do not multiply a conditional variance.
+
+### 4.2 Cubic row rank
+
+On the kernel of the six contact pin rows, write
+\[
+ P(u,v)=\frac{J_{02}}2v^2+\frac{J_{21}}2u^2v+
+        \frac{J_{12}}2uv^2+\frac{J_{03}}6v^3.
+\]
+At \(z=(c,t)\),
+\[
+ P_u=ctJ_{21}+\tfrac12t^2J_{12},\qquad
+ P_v=tJ_{02}+\tfrac12c^2J_{21}+ctJ_{12}+\tfrac12t^2J_{03}.
+\]
+The Hessian entries are \(P_{uu}=tJ_{21}\), \(P_{uv}=cJ_{21}+tJ_{12}\), \(P_{vv}=J_{02}+cJ_{12}+tJ_{03}\). Thus the \(u\) component of \(H_P(z)w\) is
+\[
+ (at+dc)J_{21}+dtJ_{12}.
+\]
+Subtracting \((d/t)P_v(z)\) from the \(v\) component cancels \(J_{02}\), leaving
+\[
+ \left(ac-\frac{dc^2}{2t}\right)J_{21}
+       +atJ_{12}+\frac{dt}{2}J_{03}.
+\]
+This is exactly the displayed matrix. Its leading two-by-two minor is \(t^2(dc-at)/2\), so the determinant is \(dt^3(dc-at)/4\). The unused row \(P_v/t\) recovers \(J_{02}\). Division by \(t\) is permitted by the sector margin; the other margins exclude the remaining determinant zeros.
+
+The \(10\times10\) matrix on a fixed cubic basis is continuous in \((q,\eta,z,w)\) through contact. Its smallest singular value has a positive minimum on contact \(\mathcal K\). Uniform continuity preserves a floor on one common rectangle \(0\leq q\leq q_0\), \(0\leq\eta\leq\eta_0\). This supplies a uniformly bounded inverse and exact cubic evaluation predictor \(\lambda\). Only finite-dimensional polynomial-matrix continuity is used; operator-norm continuity of highest-order point evaluations on a full \(C^3\) unit ball is neither asserted nor needed.
+
+### 4.3 Actual-field Taylor scaling
+
+For \(m=3,4\) and \(|\beta|\leq3\), differentiating \(g(Y)=F(p+sRY)\) contributes \(s^{|\beta|}\). The differentiated degree-\(m\) Taylor polynomial is the degree-\((m-|\beta|)\) Taylor polynomial of that physical derivative. On the fixed dimensionless ball its remainder is bounded by
+\(C s^{m+1-|\beta|}\|F\|_{C^{m+1}}\). The product is \(C s^{m+1}\|F\|_{C^{m+1}}\). Taking the maximum over finitely many \(\beta\) gives (13).
+
+Frame derivatives are uniformly controlled by Cartesian derivative norms over \(O(2)\). A torus lift contains the rescaled chart when \(s_0\) is small. The source provides finite second moments of the required \(C^4,C^5\) norms. These are unconditional moments of the full periodic Gaussian field, not a finite Fourier truncation and not assumed uniform moments under rare pin/witness targets.
+
+Exact cubic reproduction cancels \(P_{3,s}\) in \(g(z)-\lambda Tg\). The bounded rows and \(C^3\) remainder give \(L^2\)-error at most \(Cs^4\). Gaussian Schur variance is the minimum variance over deterministic linear predictors, so this predictor gives \(\sigma^2\leq Cs^8\). It need not equal the actual regression predictor or determine the conditional mean.
+
+## 5. Independent reconstruction: matching lower bound
+
+### 5.1 A new height row on the fourth jet
+
+For \(h_t(u,v)=6(v/t)^2-8(v/t)^3+3(v/t)^4\), value and first derivative at \(v=0\) vanish and every \(u\)-derivative vanishes. All six contact pin rows vanish. At \(v=t\),
+\[
+ h_t=1,\quad \partial_vh_t=(12-24+12)/t=0,\quad
+ \partial_{vv}h_t=(12-48+36)/t^2=0.
+\]
+Thus both witness-gradient rows and both Hessian-direction rows vanish while height does not. The first ten rows have rank ten on cubics, so adjoining height gives row rank eleven on quartics. This is a functional-independence test on a Taylor-jet space, not an assertion that the polynomial is a periodic Gaussian sample.
+
+The \(11\times15\) matrix \(B(q,z,w,\eta)\) is continuous and has full row rank at every contact sector point. Compactness supplies a uniform positive smallest row-singular value at sufficiently small finite \(q,\eta\). The explicit contact polynomial need not annihilate the finite-\(\eta\) row: continuity of the entire matrix gives the finite-parameter result.
+
+### 5.2 Full-field covariance and correlated remainder
+
+Let \(J_4\) contain the distinct symmetric coordinates \(D_R^\alpha F(p)/\alpha!\), \(|\alpha|\leq4\). Strictly positive Fourier weights at every lattice frequency make the variance of every nonzero jet combination positive. A zero-variance combination would have a polynomial Fourier multiplier vanishing on the whole lattice; polynomial uniqueness after the invertible frame rotation forces all coefficients to vanish. This is covariance positive definiteness, not statistical independence of the coordinates.
+
+Derivative covariance is continuous in \(p,R\). Compactness supplies a uniform positive eigenvalue; rotational invariance of the law is not required. With \(D_s=\operatorname{diag}(s^{|\alpha|})\),
+\[
+ \mathcal Bg=B D_sJ_4+\mathcal R_s,\qquad
+ \|\mathcal R_s\|_{L^2(\mathbb R^{11})}\leq Cs^5.
+\]
+For every row vector \(u\) and \(0<s\leq1\), fourth-jet positivity, the minimum diagonal entry of \(D_s\), and row-singular positivity imply
+\[
+ \operatorname{std}(uBD_sJ_4)
+ \geq c\|uBD_s\|\geq cs^4\|uB\|\geq c_1s^4\|u\|.
+\]
+The remainder satisfies \(\operatorname{std}(u\mathcal R_s)\leq C_1s^5\|u\|\). The reverse triangle inequality in centered \(L^2\) therefore gives
+\[
+ \operatorname{std}(u\mathcal Bg)\geq(c_1-C_1s)s^4\|u\|.
+\]
+Reduce one uniform \(s_0\) so \(C_1s_0\leq c_1/2\). Squaring proves
+\(\operatorname{Cov}(\mathcal Bg)\succeq cs^8 I_{11}\). Full correlation between jet and remainder is permitted; there is no invalid covariance-addition step.
+
+This quadratic-form bound controls every regression coefficient, including coefficients that diverge as parameters shrink. For \(u=(-\ell,1)\),
+\[
+ \operatorname{Var}(F(x)-\ell Tg)
+ \geq cs^8(1+\|\ell\|^2)\geq cs^8.
+\]
+The Schur infimum proves the lower bound. The principal observation covariance is positive definite as a consequence, so the regression formula and exact Gaussian conditional law are well-defined. Both variance bounds use common constants throughout a small rectangle with arbitrary relative rates of \(q,\eta,s\).
+
+## 6. Exact mean, rejecting path and weighted-use boundary
+
+Gaussian conditional residual covariance depends on the observation family, not its prescribed values. The mean depends on the exact target \(\nu\), including \(-3kr^2s/2\) and \(12ks^3\). Equation (21) is the correct centered regression formula. Unconditional Taylor control and polynomial reproduction do not permit replacing that mean by \(\lambda\nu\), deleting target entries or assuming a target-uniform conditional Taylor remainder.
+
+The proposed lower bound is rejected by the stated path. Set \(r=s^{5/4}\), \(e=s^2\) at a fixed sector point. Then \(q=s^{1/4}\to0\), \(\eta=s\to0\), and \(e\leq r\) for small \(s\), so the path belongs to the uniform rectangle and short-edge regime. Also
+\[
+ (r^2s+s^4)^2=s^7(1+\sqrt{s})^2,\qquad
+ \frac{\sigma^2}{(r^2s+s^4)^2}
+ \leq\frac{Cs}{(1+\sqrt{s})^2}\longrightarrow0.
+\]
+No positive uniform constant for the proposed lower scale survives. Only the upper variance estimate is needed for this rejection; the lower independently identifies the correct residual order. It is a counterexample path in the original Gaussian field because the preceding proof uses its actual jets and remainders.
+
+The density bound follows by using \(\sigma\geq cs^4\) in the Gaussian prefactor and \(\sigma^2\leq Cs^8\) in its exponent. Integrating over an interval of length \(kr^3\) gives \(\min(1,Ckr^3/s^4)\). The \(s\asymp r^{3/4}\) crossover is for that marginal upper bound with fixed positive compact \(k\); it is not a uniformly attained probability or an asymptotic law. At \(s=Br\) the bound saturates as \(r\to0\), yielding no inner-edge summability gain by itself.
+
+The scalar density is under the original pinned Gaussian law, not the determinant-tilted \(Q_r^W\). Equation (24) correctly keeps the height-conditioned weighted determinant expectation inside the integral. Original \(W_r\), \(Z_r=E_{Q_r}W_r\), actual pin target, Hessian types and second-height marks remain. Factoring out a marginal probability requires a separate uniform bound on the height-conditioned weight. Common-height residual and witness-height difference are different observables.
+
+## 7. Independent analytic negative controls
+
+These are conceptual analytic checks performed for this review, not executed tests or empirical certification.
+
+1. **Cubic rank alone cannot give a positive height residual.** In an auxiliary random polynomial supported only on \(\mathcal P_3\) with positive coefficient covariance, invertibility of \(T|_{\mathcal P_3}\) makes height exactly \(\lambda T\), so conditional height variance is zero. This is not the source field. It shows why the actual fourth-jet covariance and augmented quartic rank are necessary, and why cubic interpolation alone proves only the upper estimate.
+
+2. **Full observation rank does not imply augmented rank.** A Gaussian vector with \(H=\lambda T\) can have positive definite \(\operatorname{Cov}(T)\) and zero \(\operatorname{Var}(H\mid T)\). The quartic's nonzero height on the kernel of all ten rows rules out precisely this failure on the fourth jet.
+
+3. **Correlation prevents naive covariance addition.** If \(X=\xi\) and \(R=-\epsilon\xi\), then \(\operatorname{Var}(X+R)=(1-\epsilon)^2\operatorname{Var}(\xi)\), not \((1+\epsilon^2)\operatorname{Var}(\xi)\). The centered \(L^2\) subtraction used here is valid in this control. The uniform \(s^4\) versus \(s^5\) order gap prevents cancellation of the leading quadratic-form floor.
+
+4. **Target size is not residual variance.** For independent standard Gaussian \(U,Z\), let \(H=\alpha U+s^4Z\) and condition on \(U=v\). The target can make mean \(\alpha v\) arbitrarily large while variance remains \(s^8\). Moving that mean many standard deviations from a window makes probability much smaller than length times maximum density. This rejects promoting the forced target coefficient into variance or treating (23) as uniformly attained.
+
+5. **Angular margins cannot be discarded.** At \(z=(0,1)\), pin-parallel \(w=(1,0)\) has \(d=0\), while radial \(w=(0,1)\) has \(dc-at=0\). In both cases the four remaining cubic contact observations have rank three. For the first, the Hessian-direction rows recover \(J_{21},J_{12}\), and a gradient row combines \(J_{02},J_{03}\). For the second, the \(u\)-related rows both concern \(J_{12}\), while the \(v\)-related rows separate \(J_{02},J_{03}\) and leave \(J_{21}\) absent. Thus full contact rank is nine. This is a chart obstruction, not a claim that finite physical observation covariance is singular. The axis \(t=0\) is also outside this elimination chart.
+
+6. **A marginal factor does not multiply an arbitrary weighted expectation.** If \(P(A)=p\in(0,1)\) and \(V=\mathbf1_A/p\), then \(E[V\mathbf1_A]=1\), whereas \(P(A)E[V]=p\). A bound on \(P(A)\) alone cannot justify that factorization. Equation (24) avoids the error by retaining the height-conditioned expectation.
+
+7. **Contact extension is not conditioning at repeated sites.** At \(q=0\) the raw endpoint values coincide, and at \(\eta=0\) the raw witness gradients coincide. The positive-parameter inverse transforms cannot invert those repeated raw vectors. The proof uses normalized derivative limits on polynomials and asserts the actual conditional result only for positive parameters.
+
+## 8. Separate control-label erratum
+
+The parent disclosed that the finite-control evidence key bc_minus_at is sign-reversed. I inspected the relevant source lines, which store the expression \(z[1]\,w[0]-z[0]\,w[1]\). In the candidate's notation this is \(at-dc\), whereas the named geometric factor is \(dc-at\). The pin-parallel/radial cases use this scalar as diagnostic metadata. Their rank computation uses the full contact matrix directly.
+
+I independently derived the correctly signed candidate determinant in §4.2. Negating the scalar preserves its zero locus and the absolute-value sector restriction. In the pin-parallel example the named factor is \(-1\) and stored diagnostic is \(1\); in the radial example both vanish. This metadata defect does not affect the candidate determinant, contact-rank argument or verdict. Retaining original executed source/results and appending the explicit CONTROL_NOTE.md erratum is adequate. I did not rerun the controls or certify an entire suite because its publication exists. The [control packet](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401718069) is separately attributed execution/publication evidence, not this review's conclusion.
+
+## 9. Dependencies and remaining nodes
+
+PASS_SCOPED depends on the exact smooth Gaussian source law, \(C^4/C^5\) supremum second moments, positive covariance of distinct fourth-jet coordinates, fixed \(L\), fixed nondegenerate sector, exact finite pins/witness rows and the continuous Gaussian conditional version at exact targets. Each is retained in the candidate and has a matching source or direct argument above. No finite-cutoff law or independent-jet model replaces the source.
+
+The following remain outside this verdict:
+
+- A leading coefficient or limiting law of \(\sigma^2/s^8\), or usable quantitative thresholds/constants.
+- The conditional mean's detailed expansion or energy cancellation at actual targets.
+- A joint common-height-conditioned determinant/energy estimate with the same \(W_r/Z_r\), and subsequent BAND summability.
+- Rank-nine, pin-parallel, radial, axis and transition-sector estimates; uniformity as angular margins tend to zero.
+- Joint limits in \(L\), dimension, unbounded marks or \(k\downarrow0\), beyond the strictly covariance-only target independence stated here.
+- New Kac–Rice hypotheses or count-identity review; C321's Borel interface stays separate.
+- Actual elder events, elder pairing versus branch adjacency, once-counted finite ordinary bars, field-first sampling, all-small-bars converses and regional shrinking multiple-witness collisions. A global factorial estimate does not automatically close the regional collision node.
+- Commit, integration, deployment, hosted CI, formal-kernel verification, provider-distinct review, human review or canonical scientific acceptance.
+
+The next useful task is a separately owned joint common-height-conditioned determinant/energy estimate on this fixed generic sector, consuming the corrected variance and exact mean formula while retaining the full normalized marked integrand. This review does not acquire or complete that task.
+
+**Final disposition: PASS_SCOPED for the exact 20,183-byte candidate identified in §1.** The proposed stronger residual-variance lower bound is analytically rejected in the stated band; the corrected \(s^8\) order is supported by the full-field proof under the explicit fixed-sector hypotheses. This bounded review changes no upstream source, ownership or global theorem status.
+
+~~~~~~~~~~~~~~~~~~~~
+
+### C322_EVIDENCE README.md
+Bytes: 4301
+SHA-256: `8adb43cf37a3aecdef3a1c73097bba97af2da6e7f44a048ca19b2177ffabc0fb`
+~~~~~~~~~~~~~~~~~~~~
+# C322: exact generic-sector common-height variance audit
+
+This immutable additive handoff addresses only the explicitly proposed common-height Schur lower bound in main605/6401052901. The analytic candidate proves a two-sided residual variance scale s^8 on a fixed compact generic angular sector, with exact positive finite pin/witness parameters, and exhibits an admissible path rejecting the proposed uniform (r^2 s+s^4)^2 lower bound. This is not a correction to an accepted single-witness theorem.
+
+HEIGHT_SCHUR_AUDIT.md is the immutable author-side candidate. Its original pending-review header records the moment of authorship; the separately dated REVIEW.md is the actual later exact-source verdict. Do not interpret that historical header as a missing review after consulting the review. ADVISER_DERIVATION.md records the analytic adviser's contributions and is not a nonauthor review.
+
+Actual author: OpenAI/Codex /root, delegated for Dylan Roy. Adviser/coauthor: /root/c322_frontier_scout. Finite controls: /root/c302_architecture_ownership. Nonauthor review: /root/c317_h11_nonauthor with its exact exposure declaration. Same-provider/source-exposed work; no human, blind or organizational independence is claimed. Dylan did not personally perform these reviews.
+
+The exact common-height mean remains a Gaussian covariance formula. The scalar density bound Cs^-4 retains its mean-dependent exponential. A height-window marginal bound is not factorizable from the joint endpoint/witness determinant expectation. Preserve one typed endpoint weight W and its full normalizer Z. Rank-nine, axis, small-k, full BAND, actual elder pairing and finite ordinary bars, once-counted bars, field-first sampling, all-small-bars converses and regional shrinking multiple-witness collisions remain separate open nodes.
+
+Finite verification is the one actual isolated exact-Fraction execution retained under controls/ and its unmodified execution receipt: 20 controls, 13 positive and 7 rejecting. CONTROL_NOTE.md discloses an inert diagnostic sign-label erratum without silently editing executed files. VERIFY_FINAL.py is the complete applicable final stable-input check for this additive native handoff: source identities, reviewed candidate, full native payload/body transport, actual control receipts and cooperative claim readback. It is run once on stable inputs; later archive/Drive/register checks are delivery checks. Tests and model agreement are not the analytic proof or scientific acceptance.
+
+Governance was read fresh at main69f825d98676f413f91ce7f2bc3fd8553d963291. The landed 25 October rules-loosening decision is effective; no extra owner approval is required. The architecture discussion in main275 still had a proposed disposition and conditional family routes, not an agreed closure. This run changes no architecture or procedure. Current open-PR triage found no unowned new blocking repair; source owners and Math492's explicit execution stop remain. The current rank-nine pickup605/6401675183 is disjoint and must be preserved. Daily Drive Review Pickup can consume this exact registered delivery; no existing review ownership is transferred.
+
+This selected full native proof/review route preserves existing source/branch owners. Repository commit capability exists; none is used or represented as unavailable. No repository/ref/PR change, hosted candidate workflow, merge, Release, deployment or access change is claimed. Hosted CI does not apply to this additive issue-comment artifact, and no CI success is asserted. The earlier research-main native read timeout was not retried with unchanged inputs; frozen source identities and exact native reads supply the authorized handoff.
+
+Next useful task: an actual owner may freshly claim and derive the joint common-height-conditioned determinant/energy estimate on this fixed generic sector, consuming s^8, the exact conditional mean and the unchanged W/Z interface. Other angular charts have separate owners or requirements. No advance claim is made. This bounded delivery does not complete the project-wide audit.
+
+The private archive is registered once; exact Drive raw bytes, metadata, archive members and literal R17 cells are verified separately after freezing. No frozen source is changed and private sharing stays private.
+~~~~~~~~~~~~~~~~~~~~
+
+### C322_EVIDENCE SOURCE_IDENTITIES.json
+Bytes: 773
+SHA-256: `9996af45fb115af9cb5abc7a93c3e759b90b3a9d3e6ba6562cfa4d703cd436a1`
+~~~~~~~~~~~~~~~~~~~~
+[
+  {
+    "path": "sources/GAUSSIAN_DERIVATIONS.md",
+    "bytes": 27912,
+    "sha256": "946333fcb7985c4989d4f3030022fe35d06744d108860035633f39c98d4a6781"
+  },
+  {
+    "path": "sources/GENERIC_SECTOR.md",
+    "bytes": 6075,
+    "sha256": "864222fd5279d8ddf1a0b091de94f560a601be5051669042f1c983122cd42fa7"
+  },
+  {
+    "path": "sources/INTERMEDIATE_WINDOW_SOURCE.md",
+    "bytes": 27775,
+    "sha256": "b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf"
+  },
+  {
+    "path": "sources/OWNER_FRONTIER.md",
+    "bytes": 1316,
+    "sha256": "762adbccafbd682f4efaf887c8a2b7afa4c400078f08b20b33488f737cf3d3bc"
+  },
+  {
+    "path": "sources/PROPOSED_WIDTH.md",
+    "bytes": 5844,
+    "sha256": "2706deb8a9bd4bedec7e6d8324333f01cc3e7e618153e4747abaaf4d5aed8a54"
+  }
+]
+~~~~~~~~~~~~~~~~~~~~
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN

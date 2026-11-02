@@ -1,0 +1,477 @@
+# C60 — scoped acceptance of the finite eps0_215 contact comparison
+
+**PASS_TECHNICAL, conditional on the retained model and prior scoped inputs.** At exact head `abe10213c672172a73870bebd417d0700377c064`, the finite contact-normalization input used by PR227 is now discharged. This is a COMMENT review, not whole-PR approval or permission to merge. The older positive-radius Theorem L and cap-derived C_BK are not accepted by this contact result. The existing xAI NOT READY and queued C59 documentation corrections remain.
+
+The complete analytic composition and both dimension-specific reconstructions follow, so this review is readable without a private archive. The registered immutable delivery will additionally carry exact source bytes, rational traces, negative controls, native receipts, and the cross-review. Dylan Roy — delegated AI review; actual OpenAI/Codex; personal human reading PENDING, organizational independence0, scientific effect NONE, C8 OPEN.
+
+# C60 — contact comparison and exact composition for eps0_215
+
+## Verdict and mathematical scope
+
+The output actually consumed by PR227's `eps0_215` can be justified by a direct contact argument. This review discharges the **finite contact comparison** between the local typed-pair integrand of the normalized periodized Gaussian kernel and its reference Gaussian counterpart, in dimensions 2 and 3, for fixed L >= 10, every real orthonormal frame, b in [0,1], and k in [1/2,2]. It does not accept every positive-radius term of the older Theorem L, its cap chain, or an elder/persistence interpretation.
+
+The reviewed head is `abe10213c672172a73870bebd417d0700377c064` of Math- PR227, base `5a836a8effb1bd872fbce39331da3496f33cac27`. The current B/E2/E3 copies are byte-identical to PR215 at `0905aa8b4ebb55996969854043ac5668738c047a`. The source-bound C56–C59 conclusions are consumed at their original scopes. In particular, the C57 coefficientwise TV laws authenticate the actual contact law; C59 authenticates the needed scalar primitives, Gaussian moments, and secondary band-law construction. Equality with stored output alone is not the mathematical justification.
+
+Actual performer: OpenAI/Codex root, under **Dylan Roy — delegated AI review**. Personal human reading PENDING; organizational independence 0; one coordinated review; scientific effect NONE; C8 OPEN. The planar and spatial readers belong to this same coordinated group. This report is source-exposed to prior C56–C59 work and to their C60 analyses; it is not a blind or distinct-provider review.
+
+## 1. Contact is a legitimate limit of the typed local integrand
+
+Fix L, frame, b, k in the domain above. The accepted series constructions have no negative powers after the scaled-functional cancellations, and their convergent covariance series extend continuously to r=0. The pin covariance at zero is positive definite (its positive determinant together with covariance semidefiniteness suffices); hence Gaussian regression gives conditional target means m(r) and covariance C(r) continuous at zero. The joint target covariance may be singular; invertibility of that whole target covariance is unnecessary.
+
+Use a single standard Gaussian vector G and the coupling Y_r=m(r)+C(r)^(1/2)G. The positive semidefinite square root is continuous: on a common bounded spectral interval, uniformly approximate sqrt by polynomials and apply the spectral theorem, then matrix-polynomial continuity. Thus Y_r tends pointwise to Y_0. Its norm is bounded by a constant times 1+|G| on a sufficiently small compact r interval. The constant may depend on the fixed L/frame/marks in this limit argument; no interchange of L and r limits is being asserted.
+
+The limiting transverse block B_0 has a nondegenerate Gaussian density: in d=2 its variance is positive; in d=3 the three coordinates in a basis of symmetric matrices have positive definite covariance, as verified in the normalizer reviews. This does not assert their probabilistic independence. Therefore det B_0=0 has probability zero (a nonzero polynomial's zero set has Lebesgue measure zero). This assertion about an exact zero set is not a rate for a soft-eigenvalue boundary layer.
+
+For d=3 the retained exact Hessian identities are
+
+    H_M = [[-r c1, r v^T], [r v, -B]],
+    H_S = [[ r c2, r e^T], [r e, -B_S]],
+    c1=6k-rT, c2=6k+rT+r^2 tau, B_S=B-r Omega', e=r nu-v,
+    det H_M=-r P1, det H_S=r P2,
+    P1=c1 det B-r v^T adj(B)v,
+    P2=c2 det B_S+r e^T adj(B_S)e.
+
+If B_0 is positive definite, both transverse blocks remain positive definite, c1 and c2 tend to 6k>0, and the maximum/saddle Schur conditions hold eventually. Consequently the actual typed determinant weight satisfies W_r/r^2=P1 P2 eventually and tends to 36 k^2(det B_0)^2. If B_0 is nonsingular but not positive definite, it has a negative eigenvalue, so H_M cannot be negative definite for all sufficiently small r; the typed weight is then zero. The planar scalar-block argument is identical, with B_0=lambda_0 and the corresponding two-by-two determinant identities.
+
+The absolute product |P1 P2| has degree at most 2d in the conditional Gaussian targets and polynomial coefficients bounded on the small compact r interval. Thus W_r/r^2 is dominated under this coupling by C(1+|G|)^(2d), an integrable function. Dominated convergence gives
+
+    Z_r/r^2 -> 36 k^2 F_0,
+    F_0 = E[lambda_0^2 1{lambda_0>0}]                 (d=2),
+    F_0 = E[(det B_0)^2 1{B_0 positive definite}]      (d=3).
+
+The scaled pin density pi_r is continuous at zero. Under the retained local typed-integrand normalization A_r=12 pi_r Z_r/r^2, this proves
+
+    A_0 = lim A_r = 432 k^2 pi_0 F_0.
+
+This establishes the contact interface used below without appealing to the full finite-r inequality of Theorem L. The local pin law, typed-weight definition, and parent normalization are retained inputs. This is not a proof that these local pairs are elder-paired persistence bars.
+
+## 2. Authenticating the contact values independently of the old global TM remainder
+
+For each C57 TV scalar, the actual r=0 value lies in
+
+    [(C[0]-D[0])/2^288, (C[0]+D[0])/2^288].
+
+The degree-nine remainder vanishes at zero. This coefficient radius D[0] must not be discarded. B's TM instead carries one uniform remainder E; its `tm_dev` constant allowance is
+
+    abs(C[0]/2^288-ref) + abs(C[1]/2^288)*R + E/2^288.
+
+C60 checks, with exact rational arithmetic, that the first intervals fit inside the second allowances for the consumed pin quantities and transverse mean/covariance quantities. Thus this contact proof needs containment of the independently authenticated TV contact values, not a new acceptance of every B TM remainder at positive r. Here R=1/4096 is an arithmetic envelope parameter only; it is not substituted for the contact radius.
+
+B_TM_LAWS.json was constructed once for each dimension. The original `eps0_215`, `bounds_d2/d3`, `pi_ratio`, and `combine` ran once over each dimension's 96 boxes. Only the two already constructed B TM laws and hash-verified C58 band laws were supplied from cache; those temporary call substitutions were restored. Return-local tracing records every consumed rational. No candidate source was changed, no new band model was built, and no full pipeline was repeated.
+
+## 3. Pin-density comparison, including covariance normalization
+
+Let S_0 be the unnormalized contact pin covariance, D_0=det S_0, and E_0 the unnormalized contact pin energy. There are n=2d+2 pins. For K_L=(G+rho)/Theta with 1<=Theta<=1+theta_1, the normalized covariance is S_0/Theta. Against the reference determinant 12 and E_ref=3b^2/2+24k^2,
+
+    log(pi_0/pi_ref)
+      = (n/2)log Theta - (1/2)log(D_0/12)
+        - (1/2)(Theta E_0-E_ref).
+
+Positivity of S_0 gives E_0>=0. The actual C57 contact intervals, aggregated with b^2, **2bk**, k^2 over each box, satisfy
+
+    |D_0-12|<=de,  de/12<=xm<1/2,
+    |E_0-E_ref|<=Ee,  0<=E_0<=Eu.
+
+For |x|<=de/12, the upper bound on -log(1+x) is (de/12)/(1-xm), and its lower bound is -de/12. Also 0<=log Theta<=theta_1. In the upper energy bound, -(Theta-1)E_0<=0 can be dropped. In the lower bound it costs at most theta_1 Eu. Hence
+
+    -(de/24+(Ee+theta_1 Eu)/2)
+      <= log(pi_0/pi_ref)
+      <= de/[24(1-xm)]+Ee/2+n theta_1/2.
+
+Every actual box passes exact domination of these expressions by `p_dn[1]` and `p_up[1]` respectively. The theta density factor is separate from the energy normalization and cannot be omitted. All denominator guards are checked on the actual rational enclosures.
+
+## 4. Transverse normalizer comparisons
+
+The planar reader reconstructs the Gaussian positive-part second moment and its mean/variance derivatives. It authenticates the actual contact mean and variance against B's Dae/Sae constant allowances, proves positivity along the comparison path, and derives the logarithmic moment allowance Fae[1]. A crude Phi<=1 suffices: the implemented `(3/4)*2*sb` factor is at least one on these actual domains. It need not be interpreted as the false uniform assertion Phi<=3/4. The contact portions of T2 and the g0c term are nonnegative padding. The resulting upper and lower contact deficits are bounded by the actual `z_up[1]`, `z_dn[1]`.
+
+The spatial reader authenticates all contact mean and covariance entries against B's enclosures, then uses a Loewner comparison, the positive-cone determinant moment's logarithmic derivative, and the explicit outside-chi tail. The direct upper core `h_up exp(h_up)+out_D2/m3b0` and lower core `h_dn+tail_c/m3b0` fit the actual `z_up[1]`, `z_dn[1]`; additional terms are nonnegative padding. That proof does not claim all finite-r U2–U10 estimates.
+
+In both dimensions the resulting ratio q=F_0/F_ref is nonnegative and satisfies
+
+    1-z_dn[1] <= q <= 1+z_up[1].
+
+The attached dimension-specific reports give the analytic inequalities, entrywise containments, guards, exact checks, and adverse controls. This root report consumes those precisely delimited conclusions. It does not replace them with a numerical sweep.
+
+## 5. Product bound with the lower-bound sign issue handled
+
+Write p=p_up[1], d=p_dn[1], z=z_up[1], w=z_dn[1]. All are nonnegative. The accepted `exp_up` helper yields a rational upper bound e for p*exp(p_up[0]R^2+p), so e>=exp(p)-1. Therefore the positive pin ratio x obeys x<=1+e and x>=exp(-d)>=1-d.
+
+For the upper product,
+
+    x q - 1 <= e+z+ez.
+
+The actual `combine` uses zR=z_up[0]R^2+z with z_up[0]>=0, and returns constant e+z+e*zR. This dominates the required contact bound, including its product cross term.
+
+For the lower product, xq>=1-d-w. If d+w>=1, positivity suffices. Otherwise d,w<1, and the two nonnegative lower bounds may be multiplied to give (1-d)(1-w)>=1-d-w. We never multiply two negative lower bounds. The returned lower constant is exactly d+w. Since the common factor 432k^2 cancels between A_0 and A_ref, these product bounds apply to A_0/A_ref.
+
+## 6. Complete mark cover and actual numerical output
+
+The mark rectangle is exactly [0,1] x [1/2,2]. Its 8 adjacent birth intervals and 12 adjacent k intervals form the full 96 Cartesian boxes, in the code's actual order. Each has positive width, there are no gaps or omitted boxes, and the sum of exact areas is 3/2. Shared boundaries have measure zero; uniform endpoint bounds hold on both incident boxes. This is a valid cover for taking a maximum, not the unrelated incomplete RN pilot-square cover.
+
+Taking the maximum of both returned contact errors on all 96 boxes gives the exact rational computed by `eps0_215`. Its 24-place decimal ceiling is
+
+| Dimension | Uniform bound for abs(A_0/A_ref-1) |
+|---|---:|
+|2|0.000000000394295484178315|
+|3|0.000000017776414193976447|
+
+Both are positive and less than one. The equality to stored RESULTS is verified after the analytic domination has been established; it only confirms output/source consistency.
+
+## 7. Precisely what downstream dependency is removed
+
+The older proof route for this particular call was “accept all of Theorem L at finite positive r, then send r to zero.” Sections 1–6 above replace that use with an authenticated contact-limit identity and a direct comparison. They supply exactly the conclusion PR227 uses:
+
+    (1-eps_0) A_ref <= A_0^(L) <= (1+eps_0) A_ref
+
+uniformly on its mark/frame domain. This removes that full older theorem as a necessary dependency **of eps0_215 only**. It does not supersede Theorem L for its other callers or accept its whole positive-radius bound.
+
+Multiply the contact comparison by the nonnegative weights 1/(3k^(2/3)), 1/(3k^(4/3)), or 1/(3k) and integrate over a box and the sphere. Since k>=1/2, the mark set and sphere have finite measure, and the reference Gaussian cone moments are finite and positive, these integrals are legitimate. This gives the exact leading-coefficient lower bound and error-weight upper bounds consumed by `assemble_v`. No isotropy of the torus is assumed: the pointwise bound holds for every frame and the reference integrals include the angular measure. No L-to-infinity limit is used.
+
+The existing stored torus corollary assembly is reproduced exactly from these outward eps_0 decimals, the already reviewed rate outputs, and the already reviewed reference weights. Its denominator c_ref,lo*(1-eps_0) is strictly positive. This closes the specific additional finite-normalizer input to the compact-mark **torus candidate** corollary, retaining its parent model and candidate-measure interpretation. The elder corollary still imports the separate cap-derived C_BK chain. Shrinking witness collisions, actual global persistence identification, unrestricted marks, general dimensions, and C8 closure do not follow.
+
+## 8. Validation and limitations
+
+Root exact checks: 2,347 positive checks and ten adverse controls, with no fresh band build and no repeated full run. The controls reject omitted/duplicate/gapped covers, a minimum in place of the maximum over permitted box envelopes, loss of the upper product term, multiplication of negative lower bounds, loss of the theta density factor, loss of the energy cross factor two, and inward decimal rounding. Generic algebraic witnesses are explicitly labeled as such; they are not alleged counterexamples inside this particular Gaussian field.
+
+The original bound loop ran once per dimension, 192 calls total. These calls also compute unused positive-r terms; their successful execution is not acceptance of those terms. The unchanged final tree retains the previously completed full normal and optimized verification and actual hosted receipts, with fresh exact-head CI checked before publication. Candidate mutations, merges, releases, access changes, external human-review assertions, and scientific-status promotions: zero.
+
+One local checkout setup failed because a chain of shared Git alternates was nested too deeply. Only the new C60 checkout's alternates file was flattened to its known existing object directories, then checkout and raw-object verification succeeded. Prior frozen worktrees and all candidate bytes were preserved. This setup repair is not a mathematical finding.
+
+
+---
+
+# C60 planar input to `eps0_215`: direct additive contact comparison
+
+**Verdict: PASS_TECHNICAL for the planar contact-normalizer input consumed by `theorem_v.eps0_215(2)`, with the precise retained hypotheses below.** The returned B normalizer constant terms enclose the difference between the torus contact normalizer and the Gaussian reference normalizer. This is enough for root's separate pin-density and product argument to use the computed additive constant. It does not require, and this report does not accept, the full positive-radius claim in `theorem_b.bounds_d2`'s docstring, full Theorem L, cap estimates, persistence, or Corollary L2.
+
+There is no load-bearing defect in this scoped input. A potentially misleading interpretation of the code's `3/4` factor is resolved below: the full variance coefficient is conservative, while a standalone assertion `Phi<=3/4` on these boxes would be false. No candidate change is needed for the contact conclusion.
+
+Attribution: **Dylan Roy — delegated AI review**. Actual performer: OpenAI/Codex agent `c58_planar_normalizer`. I did not author the reviewed candidate. I previously reviewed the planar V4 branch in C58 and shared primitives in C59, and consumed the scoped C57 conditioning and C59 moment/law reports. This is therefore not source-naive review and is part of one coordinated same-provider review, not an additional organizationally independent vote. Dylan's personal reading remains PENDING; organizational independence is zero; scientific effect is NONE; C8 remains OPEN.
+
+The authorized C60 claim is `d36dbd03-a586-4d28-921c-1e51e1b4c05c`, Work Events480, with exact readback reported by root. The existing explicit resume controls over the old STOP text in AGENTS. I wrote only `work/continuation60/planar-review`, preserved every C58/C59 artifact, made no source or remote edits, and acquired no separate claim.
+
+## Exact source and evidence boundary
+
+The read-only detached candidate is `work/continuation60/checkout`, HEAD `abe10213c672172a73870bebd417d0700377c064`; packet `frontiers/c8_torus_vanishing_remainder_20261001`.
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `theorem_b.py` | 52707 | `b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12` |
+| `theorem_v.py` | 39859 | `3e659f640dfbc5c2f92499056cbad6a69e73b45ed49b60f2bade204211b7d493` |
+| `engine_e2.py` | 52401 | `4e811b9f7e047b2f851a4be9c69ad69476f100ef30664dae252b659cfd63efbe` |
+| `engine_e3.py` | 75753 | `b0e1b3b4f43e140b51609332fe2e54f4f6b50d10f9f6af48d40ff548bbe742c0` |
+| Current `NOTE.md` | 17749 | `bf69df7b21ab282ddf1c76ed4fa3867862af72aaeb97292d154a041696179dd3` |
+| Historical B `NOTE.md`, commit `d77cabf4fee5d36de2a85a810359c1c8812fc28c` | 31488 | `dfb4f7053354a9616239c833c6e7d05799a2e391c42e0ea6e90dde691a4db830` |
+
+The historical NOTE is the exact C59 source object under `source/by-commit/.../frontiers/c8_lifetime_difference_constant_20261001/NOTE.md`. I read its §§2–5 against the copied B implementation, including its Gaussian contact law, first-order cancellation, signed kappa term, and thin typed shell. Provenance and hashes authenticate the bodies; they do not prove the theorems stated there. In particular, `assert_flat` only tests tiny polynomial centers and is not used here as a proof of the actual torus contact law.
+
+`SOURCE_EXPOSURE.json` records all 20 consumed source/evidence identities, byte counts and exposure. Key reused artifacts are:
+
+- C57 four-law dump `conditioning-review/LAW_MODELS.json`: 152906 bytes, SHA `514e98e39a6076d0f5248b6fc93726b8ebf3582f9adf3868f3e77505b57ed24c`.
+- Root C60 `B_TM_LAWS.json`: 38729 bytes, SHA `d0f9dd97d640f49101554631e2c555d6c76b2046a8c46f844e93595364d8264f`.
+- Root C60 `SWEEP_D2.json`: 5258235 bytes, SHA `14ee13d896af1c126db7ce960cb2ca3e76b8f39bde90aecb81724ca4f89ad93b`. This is the actual 96-box `eps0_215`/B execution, with previously authenticated laws substituted into the constructors and original bounds code run once per box. Root's receipt discloses two B TM law builds separately and no new band builds in the sweep. I consumed the exact captured locals, not a rounded table.
+
+I did not read the C60 root or spatial analytic reports before freezing this report. Root sent the intended composition interface and execution metadata; I sent my contact proof approach and bounds. This coordination is disclosed and carries no extra independence credit.
+
+## Retained hypotheses and the sufficient conclusion
+
+The model is the stipulated periodized Gaussian field, each fixed side `L>=10`, each fixed real orthonormal frame, and fixed marks `0<=b<=1`, `1/2<=k<=2`. The finite partition is the exact 8 by 12 grid of `SUBBOXES`. This input is needed only at `R=1/4096`, the value selected by `eps0_215`; this report makes no new claim for the other six B radii.
+
+The following retain their original acceptance scopes:
+
+1. C56 V1 and C57 V2/conditioning: the coefficient-interval Taylor laws enclose the actual fixed-kernel/frame covariances and conditioned means. In particular each contact coefficient is in `(C[0]±D[0])/2^288`, the order-nine remainder vanishes at zero, covariance normalization is division by `Theta`, and `1<=Theta<=1+th1`. The regression means are unchanged by this common covariance scaling. The C57 aggregate and conditioning report are separately identified in `SOURCE_EXPOSURE.json`.
+2. C58 planar V4: the physical preconditioned planar products, typed event, and same-kernel contact normalizer interpretation, including lambda=-w, are the intended ones. This report reconstructs their contact limit below; it does not redo V4's finite-r rate.
+3. C59 primitive report: interval arithmetic, square roots, exp and Gaussian Phi/phi enclose their stated functions on the actual domains. The nonblocking `sqrt_up` relative-precision docstring amendment remains as previously reported; outwardness is valid. No incorrect relative-error claim is needed here.
+4. C59 moment report: `elam_pos`, `elam2_pos`, Gaussian norm/tail wrappers and their actual-domain contracts. The C59 root law report supplies the secondary interval Gaussian law, covariance/conditioning and positive-domain guarantees used by the harmless padding computations. No whole-engine or contact-integral quadrature correctness is inferred from import success.
+5. The original Gaussian field/contact/pin definition and physical identity for the radial ledger remain model premises. Root owns the pin-density contact comparison and final product/composition. They are not proved merely by this planar normalizer report.
+
+Write `F(mu,sigma)=E[(mu+sigma G)_+^2]`, `G~N(0,1)`, and `F1(mu,sigma)=E[(mu+sigma G)_+]`. Let `mu0=-(b alpha_w(0)+k beta_w(0))`, and `v0=Cu_ww(0)/Theta`. The contact ratio to be enclosed is
+
+    z0 = F(mu0,sqrt(v0)) / F(b,sqrt(2)) > 0.
+
+For each grid box, the exact `z_up,z_dn` arguments supplied by B to `combine` satisfy
+
+    z0 - 1 <= z_up[1],       1 - z0 <= z_dn[1].
+
+Their first components are finite and nonnegative. Consequently root may use `z_up(R)>=z_up[1]` in its upper product error. This is a statement about the same returned rational constants; it does not assume B's asserted positive-r estimates to deduce the limit.
+
+## Why this is the contact normalizer
+
+For fixed marks with `k>0`, the planar engine products from the historical NOTE and C58 reconstruction are
+
+    c1=6k-rT,  c2=6k+rT+r^2 tau,
+    P1=c1 lambda-r v^2,
+    P2=c2(lambda-r om)+r(r nu-v)^2,
+
+and the typed event is `{c1>0,P1>0,P2>0}`. Its normalizer obeys `Z_r/r^2=E[P1 P2 1_typed]`. The finite-dimensional conditioned Gaussian mean/covariance extends continuously to contact under the retained covariance/conditioning result; its coefficients are uniformly bounded near zero. Couple its laws as `m(r)+S(r)G` with a continuous positive-semidefinite square root of its covariance. This needs no invertibility of the target covariance, only the established valid conditional covariance and nonsingular pin law.
+
+At every coupled sample with `lambda0!=0`, `c1,c2` tend to `6k` and `P1,P2` tend to `6k lambda0`; the typed indicator tends to `1_{lambda0>0}`. The contact lambda variance is strictly positive by the floor below, so `P(lambda0=0)=0`. The bounded Gaussian coefficients make the product bounded by a fixed polynomial in `||G||`; that polynomial is integrable. Dominated convergence gives
+
+    lim_(r->0) Z_r/r^2 = 36 k^2 E[(lambda0)_+^2].
+
+The reference contact law has mean `b`, variance `2` by the retained Gaussian contact calculation, so the ratio of these limits is exactly `z0`. The common `36k^2` cancels, leaving the stated denominator. No estimate on the thin set, far set or first-order omega term is needed to prove this contact identity. Their finite-r estimates are thus not silently assumed through the limit.
+
+## Independent contact enclosure using C57, not an assumed B TM theorem
+
+The B Taylor model differs from the V interval-coefficient model. C56 V1 cannot simply be relabeled as a proof of B's assembly. For the present input, a much smaller exact certificate suffices. Define, for a raw B model `t` and contact reference `ref`,
+
+    dev_eps(t,ref)=|c0-ref|+|c1|R+E_B/2^288,
+    dev_a(t,ref)=sum_(j>=2) |cj|R^(j-2).
+
+These are exactly B's `tm_dev` components. We do not need to assert that the whole actual function is inside that B model. We instead check the three exact inclusions
+
+    sup_(C57 c0 interval) |alpha_w(0)+1| <= dev_eps(B.alpha_w,-1),
+    sup_(C57 c0 interval) |beta_w(0)|    <= dev_eps(B.beta_w,0),
+    sup_(C57 c0 interval) |Cu_ww(0)-2| <= dev_eps(B.Cu_ww,2).
+
+All three hold with strict rational slack, recorded without decimal truncation in `CHECKS.json.contact_inclusions`. The C57 theta upper bound is also at most B's. These are finite comparisons between authenticated enclosures; coupled with the retained C57 theorem they apply to every permitted side/frame, rather than merely to selected kernels.
+
+For a box `Q=(b0,b1,k0,k1)` with nonnegative marks, the code's
+
+    Dae=b1 dev(B.alpha_w,-1)+k1 dev(B.beta_w,0)
+
+therefore gives `|mu0-b|<=Dae[1]`. Put `aC=dev(B.Cu_ww,2)`, `aC_R=aC[0]R^2+aC[1]`. Since `Theta>=1`,
+
+    |Cu_ww(0)/Theta-2|
+      <= |Cu_ww(0)-2|+|Cu_ww(0)| th1
+      <= aC[1]+(2+aC_R)th1 = Sae[1].
+
+This proves the normalization direction in the code. The extra nonnegative `aC[0]R^2` in the last coefficient is allowed slack. Replacing the normalized variance by raw `Cu` would remove a real contact error; the adverse control uses `Cu=2,Theta=1+1/1024` to refute that omission exactly.
+
+Let `Dm=Dae[0]R^2+Dae[1]` and `Sm=Sae[0]R^2+Sae[1]`. Both the actual contact and reference moment lie in the rectangle
+
+    b0-Dm <= mu <= b1+Dm,
+    2-Sm <= variance <= 2+Sm.
+
+The directed roots used for `sa,sb` enclose that rectangle in standard-deviation coordinates, including `sqrt(2)` explicitly. All 96 exact rows have `Sm<2`, `sa>0`, and `sb^2>=2+Sm`. In particular `sb>=sqrt(2)`.
+
+## Moment comparison and the positive floors
+
+For positive variance `v`, differentiation of the Gaussian expectation (or integration by parts with its Gaussian density) gives
+
+    dF/dmu = 2 F1(mu,sqrt(v)),       dF/dv = Phi(mu/sqrt(v)).
+
+The latter follows from `dF/dsigma=2 sigma Phi(mu/sigma)`. Both F and F1 increase in mean and in standard deviation; for F1 the sigma derivative is phi, and for F it is `2 sigma Phi`. This remains true when the lower mean endpoint is a tiny negative number. Consequently the actual interval evaluations
+
+    Fmin=elam2_pos(b0-Dm,sa).lo,
+    Fmax=elam2_pos(b1+Dm,sb).hi,
+    F1max=elam_pos(b1+Dm,sb).hi
+
+are valid lower/upper bounds over the entire rectangle. The sweep gives the strict global floor
+
+    Fmin >= 0.999999999995705814622962.
+
+The displayed decimal is rounded down from an exact rational; the exact extremum is in CHECKS. Integrate the derivative of log F along the straight segment in `(mu,v)` from `(b,2)` to `(mu0,v0)`. This segment remains in the rectangle. Since `0<=Phi<=1`,
+
+    |log z0| <= (2 F1max Dae[1]+Sae[1])/Fmin.
+
+B stores instead
+
+    Fae = (2 F1max/Fmin)Dae + ((3/2)sb/Fmin)Sae.
+
+This dominates the preceding contact log bound because `(3/2)sb>=1`. The existing `3/4` in source is multiplied by `2sb`; it must not be interpreted as `Phi<=3/4`. In fact the exact Gaussian interval at `mu=1,v=2` has `Phi(1/sqrt(2))>3/4`, and our negative test certifies this strict inequality. This interpretive clarification is not a source failure. The strongest necessary inequality is only that the whole multiplier exceed one.
+
+Every Fae component is nonnegative. Across the 96 boxes the largest contact logarithmic bound is
+
+    Fae[1] <= 0.000000000005119399451388.
+
+The reference floor used for the other terms is `Fref=elam2_pos(b0,sqrt(2).lo).lo>0`, a lower bound on the Gaussian reference moment at every b in the box. It is distinct from Fmin, and its use in `norm36=36k0^2 Fref` is appropriate for a reference-normalized comparison. The exact minimum Fref is just below 1; `norm36>8.999999999999999999999999`, and `cwlo>1.999999999999787242720756`. No division by a mere approximate zero is accepted.
+
+## Every remaining term's necessary disposition
+
+Only nonnegative padding is needed after the contact log estimate. This narrower obligation still accounts for the entire `bounds_d2` path, rather than ignoring terms that happen to be small.
+
+| Code term | Necessary fact at contact | Reason/direction |
+|---|---|---|
+| `T2` | Both components nonnegative | `tm_lin` uses absolute coefficients and nonnegative remainder; all box weights, F1max, Fmax and mmax are nonnegative and `cwlo,Fref>0`. The constant component includes `R` times the remainder expression and is positive padding. Its finite-r regression cancellation is not a premise of this contact proof. |
+| `T3_up`, `T3_dn` | Nonnegative; only first pair component | `max(0,...) / norm36`. The signed `mt` may be negative. We need neither discard its sign nor assert a new finite-r kappa bound. |
+| `T4`, `T5`, `T6` | Nonnegative; only first pair component | These are sums/products of nonnegative Gaussian norms, marks and R; the division is by positive norm36. The identities and finite-r Hölder estimates were reviewed only in their prior V4 scope. |
+| `prec`, `pbar`, `bad` | Finite/nonnegative; `bad` only first component | Positive variance and the C59 conditional-law/diagonal guards make the precision expression defined. Nonnegative roots/norms and positive k0 give nonnegative shell padding. No fresh thin-shell rate claim is needed. |
+| `q`, `P1n`, `P2n`, `g0c` | Nonnegative | Tail bounds and Gaussian norms have the retained C59 contracts; q=0 uses g0c=0, otherwise its root is nonnegative. The fixed-R far correction is added to the constant component. |
+| `X` | `X[1]=T2[1]+g0c/norm36>=0`; `X[0]>=T2[0]>=0` | These exact identities/inequalities are verified for every actual row. |
+| `p_up,p_dn` | Nonnegative components supplied for composition | Arithmetic checked here; analytic pin-density interpretation belongs to root. |
+
+Let `e=Fae[1]`, `a=Fae[0]`. The retained exp enclosure and `a>=0` imply that the exact code's `exp_up(Fae,R)[1]` is at least `e exp(e)`, which is at least `exp(e)-1`. The inequalities are `exp(e)-1=integral_0^e exp(t)dt<=e exp(e)` and `aR^2+e>=e`. Similarly `1-exp(-e)<=e`. Therefore
+
+    z0-1 <= exp(e)-1
+          <= exp_up(Fae,R)[1]
+          <= exp_up(Fae,R)[1]+X[1] = z_up[1],
+
+    1-z0 <= 1-exp(-e) <= e <= e+X[1] = z_dn[1].
+
+The exact captured pair identities also include `T3_up` and `T3_dn` in the respective first components. We checked both pairs componentwise nonnegative. Their maximal constants are
+
+    z_up[1] <= 0.000000000005120810576192,
+    z_dn[1] <= 0.000000000005120810576166.
+
+These are the complete planar normalizer interfaces to root. The larger final planar `eps0_215` includes the separately reviewed pin factors and composition. Root's sweep reports its rounded-up value `0.000000000394295484178315`; this report does not substitute that replay value for the pin/product proof.
+
+## Controls, execution and limits
+
+Executed command:
+
+    work/venv/bin/python -B -S work/continuation60/planar-review/controls.py
+
+The final run exits 0 with **3982 positive checks and 9 strict adverse controls**, including all 96 actual bound rows. It imports the exact copied B module, checks input hashes/HEAD first, disables fresh law construction/full_run, reconstructs B TM readers from the authenticated raw dump, and compares actual TV contact intervals. It does not call `bounds_d2` again or build a band law. The root owns the one sweep; the local counts are zero TM builds, zero band builds, zero bounds calls, zero full runs and zero candidate edits.
+
+The substantive controls include the three uniform contact interval inclusions and theta inclusion, exact coverage of every box, all positive floors and necessary nonnegative terms, rectangle enclosure, coefficient/formula alignment, and the direct log bound versus the actual Fae constant. Twenty-seven synthetic mean/variance perturbations supplement the analytic derivative argument. Their log enclosures use an independent exact rational series
+
+    log x = 2 sum_(j>=0) z^(2j+1)/(2j+1),  z=(x-1)/(x+1),
+
+with absolute geometric tail `2|z|^(2N+1)/((2N+1)(1-z^2))`, after outward 100-bit rational quantization of the moment ratio. They exercise positive/negative mean and variance changes at b=0,1/2,1; they are not claimed to enumerate all parameter values.
+
+The adverse controls refute actual inequalities with strict rational gaps. They remove physical Theta normalization; incorrectly assert Phi<=3/4; drop the mean derivative's factor two; replace the variance multiplier's 3/4 by 1/4; omit all contact coefficient-radius/remainder errors; move a constant mean error solely into an r^2 coefficient; replace the minimum moment by a maximum in the log derivative denominator; linearize an exponential upper error as its exponent; or use the upper variance endpoint as a lower floor. The contact-radius omission uses a positive deviation inside the authenticated scalar alpha contact interval; it shows why deleting the enclosure radius is invalid as enclosure algebra, without pretending that every independently chosen scalar is realized by a torus. The other synthetic witnesses likewise test the general mathematical obligation, not a claim about a specific field realization. They do not merely compare a changed output against saved RESULTS.
+
+`controls_v01.py`, `CHECKS_v01.json` and `run01.log` preserve the initial successful 3982/8 run. The only successor change adds the contact-radius omission adverse control; `run02.log`, current `controls.py` and `CHECKS.json` preserve its successful 3982/9 run. There are no concealed failed iterations. `RUN_RECEIPT.json` records the actual commands, exits and scope. Source HEAD and clean porcelain status were checked after execution.
+
+Finite controls are certificate checks for the stated exact inequalities and supplement the general Gaussian/interval proof. They are not an independent proof of the original Gaussian model or a whole-Theorem-L acceptance. With the retained hypotheses and root's pin/product obligations kept explicit, no unresolved blocker remains in this planar contact input.
+
+
+---
+
+# C60 — the spatial contact comparison consumed by `eps0_215`
+
+**Verdict: PASS_TECHNICAL for the direct spatial contact-factor bound and its domination by the additive coefficients actually returned by `theorem_b.bounds_d3`.** This is sufficient for the spatial normalizer input to `theorem_v.eps0_215`, together with root's pin, composition, partition, and contact-identification argument. It does **not** accept the entire positive-radius Theorem L in the old B packet.
+
+Exact candidate: `abe10213c672172a73870bebd417d0700377c064`, packet `frontiers/c8_torus_vanishing_remainder_20261001/`, read-only checkout `work/continuation60/checkout`. Root supplied fresh claim `d36dbd03-a586-4d28-921c-1e51e1b4c05c`, Work Events480, with exact readback, before work in this directory. This reader wrote only `work/continuation60/spatial-review`, made no remote changes, and preserved all prior frozen artifacts. Candidate bytes and Git status remain unchanged/clean.
+
+**Attribution:** Dylan Roy — delegated AI review. Actual performer: OpenAI/Codex agent `c58_spatial_normalizer`, continued from the C58 spatial and C59 moment reviews. Prior source exposure, the C58 root diagonal-surplus clarification, and C59 primitive/actual-domain coordination are retained and disclosed. This is not a source-naive reader or another independent organizational vote. Personal reading PENDING; organizational independence zero; scientific effect NONE; C8 OPEN.
+
+## Exact input boundary
+
+The packet's copied B file is the actual implementation reviewed here: 52707 bytes, SHA-256 `b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12`. The historical B NOTE at commit `d77cabf4fee5d36de2a85a810359c1c8812fc28c`, retained under `work/continuation59/source/by-commit/`, is 31488 bytes, SHA-256 `dfb4f7053354a9616239c833c6e7d05799a2e391c42e0ea6e90dde691a4db830`. It was read in the prior review and its exact identity is retained; no mutable replacement is used.
+
+`SOURCES.json` binds the current packet files and accepted prior reports. The load-bearing data transfer uses:
+
+| Input | Bytes | SHA-256 |
+|---|---:|---|
+| C57 conditioning `LAW_MODELS.json` | 152906 | 514e98e39a6076d0f5248b6fc93726b8ebf3582f9adf3868f3e77505b57ed24c |
+| C60 root `B_TM_LAWS.json` | 38729 | d0f9dd97d640f49101554631e2c555d6c76b2046a8c46f844e93595364d8264f |
+| C60 root `SWEEP_D3.json` | 6833862 | 9d14307a0feb8a90f95eef0dd54d54c7c36ae19d74ad7b026850c9b32a974b07 |
+
+The C57 dump supplies the accepted same-kernel contact means and covariances, with fixed coefficient intervals, uniform in the stipulated frame and torus side. C56–C59's scoped Gaussian-law, normalization, numerical-primitive, Cholesky, Gaussian/chi, and contact-moment contracts are accepted inputs, not repeated here. In particular, only outward root direction is used; the separately recorded `sqrt_up` relative-error docstring issue is irrelevant to this implication.
+
+Root executed the original V `eps0_215` / B bound functions once across all 96 boxes for this dimension at `R=1/4096`, substituting authenticated previously computed laws for construction calls. The sweep records exact locals and returns. Root owns the accuracy of that execution record, partition coverage, pin contact bound, and final product/max/decimal conversion. This reader authenticates and audits that record without calling either old B bound, `tm_law`, a band builder, or a full certificate.
+
+## Why a contact-only argument is enough
+
+Let `m_0(b,k,u,L)` be `E[det(B)^2 1{B>0}]` under the same-kernel conditional contact law, and let `m3(b)` be the reference GOE contact moment. The quantity needed here is `q=m_0/m3(b)`, not the old finite-radius normalizer ratio. The accepted contact identification gives `A_0/A_0^ref=(pi_0/pi_0^ref) q`; root owns that identification and its composition with the pin factor.
+
+The old B output has the form `(a,eps)`, but its spatial additive component contains a direct contact bound already. Define from the actual locals
+
+`h_up=Dl L3up`, `h_dn=Dl L3dn`,
+
+`e_up=h_up exp_upper(h_up)+out_D2/m3b0`,
+
+`e_dn=h_dn+tail_c/m3b0`.
+
+The argument below proves `1-e_dn <= q <= 1+e_up`. We then prove that the actual old `z_up[1]` and `z_dn[1]` dominate these two constants. Therefore the old positive-radius expansion, its Omega regression interpretation, and its U2–U10 bounds are unnecessary for this contact conclusion. Their numerical contributions still need to be finite and nonnegative wherever they increase a coefficient used by the final product; that narrower property is checked explicitly.
+
+This is not an argument that an unreviewed old inequality becomes accepted merely because `a r^2` tends to zero. The bound is established directly at contact. The accepted same-kernel limit/contact-law interface then identifies the quantity to which it applies.
+
+## Contact-law inclusion, avoiding a new global B-TM assumption
+
+For a C57 TV model, the true constant coefficient lies in `[(C0-D0)/2^P,(C0+D0)/2^P]`. Only these contact intervals are used. It is not necessary here to accept the old B `TM` class as a model for every positive radius.
+
+For each transverse component `a11,a22,a12`, the checker independently expands the old numerical mean-error expression:
+
+`A(t,ref)=|c0-ref|+E+sum_(j>=1)|cj| R^j`.
+
+This is exactly `ae_at(tm_dev(t,ref,R),R)` for the dumped B model. It is a finite nonnegative rational expression whether or not the old model's global semantics are assumed. For all six alpha/beta components, it dominates the corresponding absolute C57 contact-coefficient interval about the reference value. Thus for any nonnegative marks in a box,
+
+`|mu_B,ij-b delta_ij| <= b1 A(alpha_ij,ref_ij)+k1 A(beta_ij,0)`.
+
+The diagonal reference alpha values are -1, and the off-diagonal value is zero; the sign from `B=-A` does not alter the absolute bound. B's `comps` multiply the off-diagonal raw entry by 2, conservatively exceeding its Frobenius weight sqrt(2). Hence the code's `eps=sqrt_up(sum comps_i^2)` is a uniform upper bound for `||mu_B-bI||F` at contact, throughout each box.
+
+Similarly, each of the nine C57 raw contact covariance intervals is contained in the corresponding finite interval returned by the dumped B model's `Cu.enclose(0,R)`. This is an exact endpoint comparison. The B normalization interval contains the C57 normalization interval. Applying natural-coordinate weights `(1,1,sqrt(2))` and dividing by the same positive kernel normalization gives an inner contact covariance enclosure contained in the actual B `Cb` entries. Both the raw and normalized natural-coordinate inclusions were checked.
+
+These inclusions transfer a previously accepted contact law into the numeric B envelopes. They are stronger than merely comparing model centers or file hashes. The contact covariance is independent of the prescribed mark values in Gaussian conditioning, so the same Cb comparison works for every box. All exact comparisons are at the actual e0 radius `R=1/4096`; no claim for all seven old-B radii is needed.
+
+## Direct Loewner comparison and all error directions
+
+Work in natural coordinates `(B11,B22,sqrt(2)B12)`. The contact covariance C0 is contained in Cb, whose Gershgorin floor is positive. By the accepted interval Cholesky contract, the actual Cholesky factor L0 lies in `Lb=cholesky(Cb)`. The recorded
+
+`eta=sqrt_up(sum_(i>=j) absup(Lb_ij-sqrt(2)delta_ij)^2)`
+
+therefore bounds `||L0-sqrt(2)I||F`. Couple the contact B with the reference matrix `bI+GOE` through a common standard Z in R3. The isometry and operator/Frobenius inequality imply, on `||Z||<=12`,
+
+`(b-Dl)I+GOE <= B <= (b+Dl)I+GOE`,
+
+because `Dl=rup_rel(eps+12 eta)>=eps+12 eta`. The inequality is in Loewner order. The function `g(B)=det(B)^2 1{B>0}` is nonnegative and Loewner-monotone, so the same order holds for its values. This uses the accepted matrix/contact interface from C58, not a new gradient-coupling argument.
+
+Set `bA=grid_dn(b0-Dl)` and `bB=grid_up(b1+Dl)`. The checked directions are `bA<=b0-Dl` and `bB>=b1+Dl`. The two contact-moment denominator floors are positive in every actual row:
+
+`m3b0=cm(2,0,b0).lo>0`, `cm(2,0,bA).lo>0`.
+
+Using C59's derivative identity `m3'(t)=2cm(1,1,t)` and monotonicity,
+
+`sup_(t in[b,b+Dl]) (log m3)'(t) <= 2cm(1,1,bB).hi/m3b0 = L3up`,
+
+`sup_(t in[b-Dl,b]) (log m3)'(t) <= 2cm(1,1,b1).hi/cm(2,0,bA).lo = L3dn`.
+
+Integrating these inequalities yields `m3(b+Dl)/m3(b)<=exp(h_up)` and `m3(b-Dl)/m3(b)>=exp(-h_dn)`. The different numerator and denominator marks are intentional; replacing the lower shifted moment in L3dn by an upper-mark moment can invalidate the bound.
+
+For the lower comparison, the in-ball inequality loses the reference shifted moment on the complement. By Cauchy–Schwarz and scalar-shift monotonicity, that loss is at most
+
+`tail_c=sqrt_up(cm(4,0,b1).hi) sqrt_up(P_upper(chi3>12))`.
+
+The lower shift is no larger than b1, so this fourth determinant moment is a valid upper bound for the squared lower-shifted integrand. Thus `q>=exp(-h_dn)-tail_c/m3b0`.
+
+For the upper comparison, the actual contact matrix's outside-ball contribution is bounded using
+
+`g(B)<=||B||F^4/4`, `||B||F<=muB+sig||Z||`.
+
+Here `muB>=sqrt(2)b1+eps`. The recorded `sig^2` is at least `max diagonal(Cb)+2 max off-diagonal magnitude(Cb)`, hence bounds the covariance's maximum eigenvalue. Expanding the fourth power and applying C59's chi upper moments gives precisely
+
+`out_D2=(1/4) sum_(j=0)^4 binom(4,j) muB^(4-j) sig^j E_upper[chi3^j 1{chi3>12}]`.
+
+It follows that `q<=exp(h_up)+out_D2/m3b0`. These outside terms are actual tail losses, with the correct directions. They are not assumed to disappear at contact. Their finite positivity is compatible with a finite additive contact tolerance.
+
+Finally, for h>=0, `exp(h)-1<=h exp(h)` and `1-exp(-h)<=h`. Replacing exp(h) by its upper enclosure proves exactly the e_up/e_dn constants defined above. Every division is by a checked positive moment floor. Recorded `rho_lo` is also positive; this supports the downstream factor interface but is not substituted for either denominator check.
+
+## Exact domination by the consumed B coefficients
+
+The last lines of `bounds_d3` give the identities
+
+`z_up[1] = e_up + U3_up[1] + X[1]`,
+
+`z_dn[1] = e_dn + U3_dn[1] + X[1]`.
+
+The reader verified these as exact rational equalities for all 96 rows of root's single sweep. Moreover, `U3_up[1]`, `U3_dn[1]`, and `X[1]` are nonnegative in every row. Thus the direct contact bound is dominated by the very additive coefficients used by `eps0_215`, rather than by newly substituted coefficients.
+
+The quadratic coefficients are also nonnegative. In source form, U3 uses nonnegative maxima, absolute-value bounds, squares, roots, and positive-denominator products. X is assembled from nonnegative magnitude bounds and a nonnegative far quantity, divided by the positive `norm36`, plus nonnegative terms. The U2 upper/lower coefficients use nonnegative maxima and the same positive denominator. All of `U3_up[0]`, `U3_dn[0]`, `X[0]`, `U2_up`, `U2_dn`, `z_up[0]`, and `z_dn[0]` were checked exactly for all rows.
+
+Consequently `zR=z_up[0]R^2+z_up[1]>=z_up[1]`, which is the numerical condition needed by root's final `combine` domination argument. This check concerns the computed coefficients' signs. It does not claim that the old conditional Omega/zeta regressions, U2–U10 estimates, or thin/far estimates prove a positive-radius normalizer theorem. Their purported probabilistic meanings are deliberately not used here; only their nonnegative numerical additions are needed.
+
+Root's sweep records the dimension-three final `eps0_215` decimal as `0.000000017776414193976447`. This reader does not independently claim the pin or final product/max step from that number alone. The proved handoff is the contact-factor inequality with the actual B z additive constants and the nonnegative z quadratic coefficient.
+
+## Controls and actual execution
+
+The command
+
+`work/venv/bin/python -B -S work/continuation60/spatial-review/check_contact_transfer.py > work/continuation60/spatial-review/check_contact_transfer.stdout 2> work/continuation60/spatial-review/check_contact_transfer.stderr`
+
+exited 0, with **1694 checks including six adverse controls**, in approximately 0.51 seconds of internal elapsed time. Stderr is empty. There were **zero B-bound calls, zero TM builds, zero band builds, and zero full_run calls** in this reader. Forbidden-call replacements enforce this distinction. Root's 96 actual bound calls were consumed through its authenticated trace, not repeated.
+
+`CONTACT_TRANSFER.json` records every box's exact contact floors, shift, direct upper/lower constants, and the surplus of the B additive constants. Numerical summaries, not substitutes for the rational data, are:
+
+- shifted contact-moment floor at least approximately `0.6715728747182641`;
+- `rho_lo` at least approximately `0.9999999989636421`;
+- direct e_up from approximately `3.9017e-10` to `1.0364e-9`;
+- direct e_dn from approximately `3.9019e-10` to `1.0364e-9`;
+- unused additive surplus approximately `1.2561e-13` to `3.7302e-13`.
+
+The adverse controls demonstrate actual failures of the local mathematical claims that would result from:
+
+1. Omitting a nonzero mean perturbation: the shifted reference moment at b=1/8 is strictly larger than at b=0.
+2. Omitting the radius factor in the Frobenius coupling: for `delta L=sI`, a Z near `(12,0,0)` has operator displacement far larger than `sqrt(3)s`.
+3. Setting the outside-ball expectation to zero: at reference b=0, the box `Z1,Z2 in[9,10]`, `Z3 in[-1,1]` has chi>12 and determinant at least 161; its explicit Gaussian density lower bound gives a strictly positive rational expectation lower bound.
+4. Using the upper-mark moment instead of the shifted lower-mark moment in the logarithmic-derivative denominator: a checked contact ratio falls strictly below the resulting claimed lower bound.
+5. Halving `h exp(h)` in the exponential increment bound: the directed intervals at h=1/10 prove the inequality false.
+6. Omitting the off-diagonal Frobenius weight: raw mean `(0,0,1)` has squared Frobenius norm two, not one.
+
+These controls target identities or inequalities, not a change from stored RESULTS bytes. Generic perturbation examples are explicitly controls of the proof steps; they are not reported as counterexamples to the actual torus candidate.
+
+## Conclusion and retained scope
+
+The old B implementation's **actual spatial additive output** dominates a sound direct contact comparison. C57 contact-law inclusion, C59 numerical/moment contracts, and the recorded positive floors discharge the required spatial input without accepting a global old-B Taylor-model law or its positive-r expansion. Root supplies the pin factor, actual partition/max, output rounding, and the established same-kernel contact/limit identification. No amendment is requested in this spatial slice; no full Theorem L or C8 closure is asserted.

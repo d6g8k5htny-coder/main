@@ -1,0 +1,109 @@
+# Fresh review of Lemma A and its interval implementation
+
+**Dylan Roy — delegated AI review. Actual performer: OpenAI / Codex, fresh nonauthor subagent `/root/c54_complex_review`.** Dylan's personal reading is **PENDING**. Organizational-independence credit: **0**. Scientific effect: **NONE**.
+
+**Verdict: PASS_TECHNICAL for the scoped analytic and finite-arithmetic obligation below, on Math- PR219 head `31542bbf84c153945252a54646144da1a4415b54`.** I found no counterexample to Lemma A's analytic construction or to the source-configured ellipse covers. This is not unrestricted approval of these files as a reusable interval library. Two explicit out-of-trajectory limitations are retained below; neither is represented as a defect in the published coefficient enclosure.
+
+The exact scope is NOTE Lemma A, the elementary and complex interval operations used by it (`ia.py`, `elem.py`, `cx.py`, `cusp.py`), `gauss.ellipse_slabs`, and the representation/real-partition consumers needed to interpret that lemma. I read the tensor consumers to establish the meaning of a complex-variable bound; I did not re-review abstract Lemma Q, R.1–R.6, Gauss node/weight construction, tail inequalities, constants, Lemma S, or the parent cusp theorem. The root and the other delegated reviewer own those complementary obligations and the full certificate replay. No full expensive certificate was run here.
+
+The source is `frontiers/cusp_coefficient_certified_20261001` in the read-only candidate checkout. Exact byte lengths and SHA-256 values for all eight consumed files are in `controls-results.json`; for example, NOTE is 26,491 bytes, SHA-256 `e3f3bc2b804b79f2afd58918a62f47bdf9a9cfffbfa7c828d218656d3c092b02`. The script checks the head before running and the clean checkout afterward. These identities describe raw filesystem bytes, not a native-document extraction or a claim that a hash is mathematical evidence.
+
+## Reconstructed analytic argument
+
+Write a box as a closed rectangle in the complex plane. For the safe kernels,
+
+\[
+ E_1(z)=\int_0^1 e^{\tau z}\,d\tau,\quad
+ L(z)=\int_0^1\frac{d\tau}{1+\tau z},\quad
+ A(z)=\int_0^1\frac{d\tau}{1+\tau^2z^2},\quad
+ \operatorname{Sinc}(z)=\int_0^1\cos(\tau z)\,d\tau.
+\]
+
+The first and fourth are entire. The other two are holomorphic wherever their denominators avoid zero for every real `tau` in `[0,1]`. Replacing `tau` or `tau^2` by `[0,1]` gives a containing box, even though it discards correlations. Averaging a curve in a rectangle stays in that rectangle, so the integral-hull return is an enclosure. In particular, `_Ac_hull`'s use of `TAU * z^2` is valid: the range of `tau^2` is exactly `[0,1]`. It does not need the pointwise relation between the two appearances of `z` for an enclosure.
+
+`cdiv` forms `|denominator|^2` with nonnegative square ranges and refuses a lower bound at or below zero. A successful finite calculation therefore gives a positive denominator margin on the whole box, including all `tau`. By compactness that margin persists on a neighborhood. Thus a successful safe-form expression is holomorphic on a neighborhood of the input rectangle. Conservative wrapping can make a nonsingular rectangle fail; it cannot turn an enclosed zero into a certified positive lower bound under the stated finite IEEE-754 arithmetic assumptions.
+
+The closed forms are consistent with that same continuation:
+
+* `Lc` uses `Log(1+z)/z` only when the lower modulus bound is at least one and `Re z > -1/2`. Hence `1+z` is in the right half-plane, its principal argument is `atan(Im/Re)`, and no logarithm cut is crossed.
+* `Ac` uses `(pi/2 - atan(1/z))/z` only for `Re z > 0` and lower modulus at least one. The exact reciprocal is also in the right half-plane. The identity follows there from analytic differentiation and its value on the positive real axis. The reciprocal's integral-hull evaluation must separately pass its denominator check.
+* The closed `E1c` and `Sincc` forms divide only on boxes with a certified positive lower modulus. Their apparent singularities at zero are removed by the hull forms.
+
+For the direct integrands, `_off_cut` requires a principal-power base rectangle to avoid the closed negative real axis: positive real lower endpoint, or an imaginary interval strictly above or below zero. Each condition is sufficient; it is intentionally conservative. If `a` is real and a principal power is defined, `|z^a|=|z|^a`. `g2_bound_direct` and `f3_bound_direct` use outward lower moduli for negative powers, outward upper exponentials, triangle inequalities for `1-(Phi+Phi*)/2`, and a separately checked nonzero denominator. Their `Phi*` is coefficient conjugation, not the nonholomorphic operation `Re(Phi(z))`. All branches agree with the real integrand.
+
+This last point also justifies changing representations between boxes. Every rectangular slab contains a real segment. The real formulas agree there, including the real extensions outside a panel endpoint. For real `u,s,v,t`, the fourth and eighth powers are nonnegative; all real logarithm arguments and direct power bases are nonsingular wherever the direct denominator is nonzero. The identity theorem identifies both formulas on overlapping neighborhoods. Adjacent slabs have a common real neighborhood, so the local continuations glue across the filled ellipse. For an outer `s` or `t` integral, the other variables remain real; the finite covers give uniform bounds and local holomorphy, sufficient to integrate the holomorphic functions in those real parameters. No joint polyellipse claim is needed.
+
+The exact removable value of `g2` at zero is `757/1152`: `Rt=-59/96`, `It=-7/24`, so `-Rt+It^2/2=757/1152`. This supplies a useful control at the cancellation point. The `s^20` factor gives zero at `s=0`; the code encloses those limits without using the direct division by `t^8`.
+
+## Arithmetic reconstruction and independent controls
+
+For finite real interval inputs, the extrema of each bilinear product/quotient occur at endpoints, and one `nextafter` beyond a correctly rounded binary64 result encloses the exact result. The specialized square correctly sets a zero lower bound when the input contains zero. Signed repeated multiplication encloses odd powers; even powers reduce to nonnegative squares. `cpow` uses polar coordinates only in the right half-plane, where `atan(y/x)` is the unique relevant argument, and otherwise uses box products. Integer multiples of its argument interval and repeated products of its radius interval are outward rounded.
+
+For `exp(-y)`, the rational `ln 2` enclosure and the checked remainder interval establish `y=n ln 2+r` independently of whether the approximate quotient selected the exact mathematical floor. The executed remainder lies in the range required by the Taylor bound. For `y<=700`, scaling by `2^-n` stays in the normal range for the final exponential enclosure; for larger `y` the explicit interval `[0,2^-1000]` is conservative. The Horner error allowance is not assumed merely because a test passes: with unit roundoff `u=2^-53`, at most 18 coefficient divisions plus 36 evaluation operations give `gamma_54=54u/(1-54u)`. Rational summation bounds `exp(3/4)<2.12`; together with the degree-18 tail this gives a required upper error of `1.2691921257667359e-14`. The supplied binary64 allowance is `1.3180779748363041e-14`, a factor greater than `1.0385` larger. The exact comparison is reproduced in the control script.
+
+The logarithm's `frexp` scaling is exact. The `atanh` tail is bounded by the first omitted absolute term divided by `1-m^2`. The two arctangent half-angle reductions put the argument below `0.21`; the alternating-series remainder and the symmetric extension cover the result. Sine/cosine argument reduction uses an interval enclosure of `pi/2`, checks its reduced range, and includes every possible critical value in an interval. The critical-index padding of two is ample for the explicit `|t|<=10^6` input guard. The small `E1` and `Sinc` series avoid subtracting close floating values; `L` and `A` divide accurate small-argument numerators by their arguments and return one at zero. Their documented monotonicities follow from the displayed integral representations (and the standard evenness/derivative calculation for `Sinc` on `[0,pi]`). The broad real `Sinc` fallback is subsequently squared in the integrands; `[0,1]` is a valid square range.
+
+The controls are supplementary falsification evidence, not a finite-grid replacement for these arguments:
+
+| Control | Result |
+|---|---|
+| Exact rational interval primitive corner comparisons | 5,592 passed |
+| Exact rational small-kernel point enclosures | 56 passed |
+| Complex closed-form enclosures against independent rational series | 12 passed |
+| Rational points inside complex rectangular hull evaluations | 72 passed |
+| Cut, singularity and zero-denominator controls | 9 rejected as required |
+| Removable-point controls | 4 passed |
+| Trigonometric critical-value controls | 4 passed |
+| High-precision Decimal exp/log diagnostics | 17 passed; diagnostic only |
+
+The closed-form references use the independent identity `pi/4=atan(1/2)+atan(1/3)`, rather than reusing `ia.PI`. Their series have explicit rational tails. The rectangular samples do not certify an entire rectangle; the integral/interval argument above does that.
+
+For the ellipse cover, let `c=(a+b)/2`, `h=(b-a)/2`, `A=h(rho+rho^-1)/2`, `B=h(rho-rho^-1)/2`, taking each input float as an exact rational. On a slab, the maximum exact squared height is
+
+\[
+ B^2\bigl(1-\operatorname{dist}(c,[x_0,x_1])^2/A^2\bigr).
+\]
+
+I compared that rational number against the square of the returned half-height, also exactly rational, checked both horizontal extremities, and checked adjacent horizontal overlaps. All **1,280** source-configured panel/rho combinations, containing **12,640** slabs, passed. This includes unused candidate rhos and both dimensions. The minimum relative excess in squared height was `4.000148865348932e-12`. Thus the `1e-12` padding here is supported by exact coverage checks for the pinned invocation, rather than trusted as an unexplained universal formula for arbitrary panels.
+
+## Explicit limitations and reachability findings
+
+**C54-A-BOUNDARY-01 — nonblocking, unreachable in this certificate; general subdivision contract is too broad.** `d3._sub` at line 40 does not always retain its exact input endpoint. A concrete finite-input counterexample is:
+
+```python
+a = 0.024016010673783495
+b = 0.056037358238828154
+d3._sub(a, b, 2)[-1][1] == 0.05603735823882815
+```
+
+The exact omitted length is `2^-57`. Enumerating 3,919 source-induced real subdivisions found three such endpoint shortfalls. All arise from dynamic `v_edges` for `T=(11,15)` at `rho=1.4`, slab 2, or `rho=1.2`, slabs 1 and 2. The other two intervals are retained in `controls-results.json`.
+
+I then replayed actual **t-direction bound selection only** for all 17 source boxes with `T=(11,15)`, without quadrature sums. Eight boxes take the crude enclosure. All nine noncrude boxes select `rho=2.2`; their search exits before the affected lower-rho candidates. The monitoring wrapper recorded **zero attempted gap events**, not merely zero selected ones. Consequently this counterexample does not invalidate the pinned certificate. It prevents automatic reuse of this review for altered tolerances, panels or search policy. A local future repair is to construct the subdivision's interior endpoints once and preserve the exact supplied `a` and `b` as the first and last endpoints; that repair belongs to the author and was not applied here. I do not rely on the small omitted size being swallowed by an unspecified margin.
+
+**C54-A-FINITE-02 — nonblocking library limitation, not a reached mathematical counterexample.** `ia.mul((0,0),(inf,inf))` returns `(nan,nan)` instead of raising. Some max reductions can then ignore a NaN. Accordingly, “evaluation without exception” must be read with the stated finite valid-interval arithmetic contract, not as a universal NaN/overflow sanitizer. The complementary audit by `/root/c54_quadrature_review` recorded 180,780 bound returns and 13,060 selected supremum/integral returns, all finite and nonnegative; its `selected_finite_receipt.json` has `bad: []`, minimum `4.0442625502267917e-94`, maximum `34138.33776431056`. I read that receipt, but did not rerun or claim authorship of that audit. I found no finite configured argument demonstrating an invalid coefficient bound. Merely injecting an infinite input does not establish such a defect. Explicit finite-result guards would be sensible before general reuse.
+
+**Floating powers in the tiny remainder terms need not be trusted for accuracy in this invocation.** The final `nextafter` in `_with_err` already dominates the exact remainder, even if the computed nonnegative error is zero. For any finite binary64 endpoint `s`, the step away from zero or toward the corresponding enclosing direction is at least `u |s|`, where `u=2^-53`; the least-subnormal step also satisfies this inequality. A nonnegative non-NaN computed error can only widen it further.
+
+For `atanh`, its truncated polynomial `P` is increasing and its tail has the sign of the argument. At a negative lower argument `z`, the computed lower endpoint is at most `P(z)<=z<0`, giving a nextafter allowance at least `u|z|`; at a positive upper argument the argument is symmetric. At the other endpoint signs the tail points into the existing enclosure. The exact tail divided by `|z|` is at most `.34^54/(55(1-.34^2)) < u`.
+
+For `atan` and `sin`, the retained alternating polynomial is an upper approximation at positive arguments and a lower approximation at negative arguments. At a positive lower argument `z`, if the interval endpoint is below `z/2`, it already lies below the true value (`atan z >= z(1-z^2/3)` for `z<=.21`, and `sin z >= z(1-z^2/6)` for `z<=.8`). Otherwise the nextafter allowance is at least `u z/2`, exceeding the exact remainder because `.21^30/31 < u/2` and `.8^26/27! < u/2`. Negative upper endpoints follow by odd symmetry. This covers subnormals as well, since the step is never smaller than the relative allowance.
+
+For `cos` on `[-.8,.8]` and `Sinc` on `[-.5,.5]`, the polynomial is an upper approximation. A lower computed endpoint below `1/2` is already below the true function; otherwise its nextafter step is at least `u/2`. The exact absolute remainders satisfy `.8^26/26! < u/2` and `.5^22/23! < u/2`. For `E1` on `[-.5,.5]`, the true function is at least `3/4` by `exp(x)>=1+x`, and its retained polynomial is greater than `1/2`. Thus a lower endpoint below `1/2` is already safe, and each other relevant endpoint has a nextafter allowance of at least `u/2`; the absolute tail is at most `2*.5^19/20! < u/2`.
+
+`tail_ulp_bounds.py` checks all six strict inequalities in exact rational arithmetic, using no floating powers or imported candidate code. In these inequalities `.34`, `.21` and `.8` mean the exact binary64 guard values; the script converts those floats to their exact rational representations, rather than silently replacing the guards with decimal fractions. These arguments apply to the default orders and checked argument ranges actually used here, not arbitrary optional values of `K`. They remove an accuracy assumption on libm `pow` for these tiny tails. They do not remove the finite valid-interval/IEEE-754 assumptions or constitute formal verification of the whole program.
+
+## Reproduction and exposure
+
+From the base workspace:
+
+```sh
+work/venv/bin/python -B -S work/continuation54/complex-review/controls.py
+work/venv/bin/python -B -S work/continuation54/complex-review/trace_partitions.py
+work/venv/bin/python -B -S work/continuation54/complex-review/tail_ulp_bounds.py
+```
+
+The environment was Python `3.11.16`, macOS `15.7.4` ARM64, binary radix 2, 53-bit significand, round-to-nearest. The recorded logs and JSON are in this directory. An initial strict all-candidate subdivision assertion failed on the endpoint counterexample; the retained control was changed to report and trace those counterexamples rather than erase or falsely pass them. All three completed commands returned zero because the current harness expressly records generic limitations and checks their actual reachability. A zero exit does not mean all 3,919 hypothetical subdivisions cover their endpoints.
+
+The candidate remains unmodified and clean. No remote operation, publication, claim mutation, commit, branch edit or status promotion was performed by this subagent. The controlling root claim is `b37d0e87-9735-4b53-9e35-d318f0ea0c79`, expiry `2026-10-01T21:40:23Z`; I read the root's current-entry policy/workflow receipts, R17 policy, candidate AGENTS/README/formal-required-check contract, and the current task's explicit resume instruction. The earlier owner stop is preserved.
+
+The source identifies its author as Anthropic Claude, session `session_015wNj8LPTKXsaT68G3DgPPh`. This fresh OpenAI/Codex subagent did not author or edit the target. Exposure includes the assigned scope, the source's statements that earlier OpenAI reviews accepted R.1–R.6/Lemma Q, parent coordination messages, and the candidate itself. I did not read those earlier review arguments as substitutes for the work reported here. I exchanged the exact partition finding and reachability trace with `/root/c54_quadrature_review`; its separate audit is neither counted as mine nor counted as human review. The root suggested the endpoint/nextafter route for removing a floating-power remainder assumption, including its `atanh` and `atan` cases. I checked that argument, reconstructed its `sin`, `cos`, `E1` and `Sinc` cases, and supplied the exact inequalities; this amendment is collaborative review reasoning, not an additional independent review credit. This subagent shares provider and root-thread ancestry with the root, so it creates no additional provider or organizational-independence credit. Author/reviewer separation on this exact object is disclosed; external independent review and Dylan's personal reading are not claimed.

@@ -1,0 +1,66 @@
+**Conditional analytic successor: a slowly shrinking far cutoff, and the remaining localization obstruction**
+
+Object: OA-FAR-DIAGONAL-CUTOFF-20261001-v1. Author: OpenAI/Codex root, under Dylan Roy's delegation. This is a new conditional proof, not acceptance of #188, a branch edit or a scientific-status promotion. No numerical replay is used as proof.
+
+**Exact input.** Math-#188, commit 85f0586a468c2b2f73af0e340d251e33a52caade, path frontiers/far_elder_flat_ridge_20260930/PROOF.md, 22806 bytes, Git blob 50cfbf4fcb9a3526f979eaedf885d42824a3c3a3, SHA256 957f9c5e6557a558b2c055fa2a1f11ba301581995b8958658fad2edf47136f57. We consume only its canonical actual-elder Kac–Rice density (0.1) and Theorem G (0.2), with all its analytic hypotheses retained. The unmerged source and its scoped reviews keep their existing status.
+
+Fix d,L. Write F(rho,ell)=nu_eld^{far,rho}(ell). By the nonnegative integral (0.1), F decreases as rho increases. The exact hypothesis is: for each fixed rho in (0,L/4] and integer n>=1 there is a finite C(rho,n) with
+$$0\le F(\rho,\ell)\le C(\rho,n)\ell^n,\qquad 0<\ell\le1.$$
+No uniform bound on C as rho decreases is assumed.
+
+**Proposition D (diagonal cutoff).** There is a deterministic Borel function rho(ell) in (0,L/4], nondecreasing as a function of ell, such that:
+1. rho(ell)->0 as ell->0;
+2. for every fixed a>0, rho(ell)/ell^a -> infinity;
+3. for every integer n>=1,
+$$F(\rho(\ell),\ell)=o(\ell^n). \tag{D1}$$
+The function depends on the fixed model and its constants. It has no explicit numerical or prescribed algebraic rate.
+
+**Proof with all choices.** Let rho_* = min(1,L/4) and rho_j=rho_*2^(-j), j>=1. Choose one finite constant C_(j,m) for each of the countably many instances F(rho_j,ell)<=C_(j,m)ell^m. Replace negative/zero constants by nonnegative constants if necessary. Set t_0=1 and recursively choose
+$$t_j=\min\left\{\frac{t_{j-1}}2,\ 2^{-j},\
+\left(\frac{\rho_j}{j}\right)^j,\
+\frac{2^{-j}}{1+\max_{1\le n\le j}C_{j,n+1}}\right\}. \tag{D2}$$
+Each t_j is strictly positive; t_j<=t_(j-1)/2 and t_j->0. Define rho(ell)=rho_j on t_(j+1)<ell<=t_j, and extend it by rho_1 on t_1<ell<=1. These half-open intervals cover (0,t_1]. The cutoff is Borel, monotone in the stated direction and tends to zero.
+
+For ell in the j-th interval and 1<=n<=j, Theorem G at order n+1 gives
+$$F(\rho_j,\ell)\le C_{j,n+1}\ell^{n+1}
+\le 2^{-j}\ell^n. \tag{D3}$$
+Thus for each fixed n, the ratio in (D1) is at most 2^(-j) eventually and tends to zero. This is one cutoff for ALL integer orders, not a different cutoff for each n.
+
+For any fixed a>0 and all large j with 1/j<=a, since ell<1,
+$$\ell^a\le\ell^{1/j}\le t_j^{1/j}\le\rho_j/j.$$
+Consequently rho(ell)/ell^a>=j, proving assertion 2. No continuous interpolation or derivative of this step function is required. ∎
+
+**Corollary D-cum (one common cutoff for all short bars).** Let N_(t,rho(t)) count actual finite elder bars with lifetime in (0,t] and endpoint separation at least rho(t). The fixed-model marked counting interface of #188(0.1) implies, for every integer n>=1,
+$$E N_{t,\rho(t)}=o(t^{n+1}). \tag{D4}$$
+The density is per unit volume, so the exact volume factor is L^d.
+
+Indeed, for 0<ell<=t, rho(ell)<=rho(t), and hence nonnegativity gives
+$$F(\rho(t),\ell)\le F(\rho(\ell),\ell).$$
+If t is in interval j and j>=n, the index of every ell<=t is at least j, so (D3) yields
+$$
+0\le E N_{t,\rho(t)}
+=L^d\int_0^t F(\rho(t),\ell)\,d\ell
+\le \frac{L^d2^{-j}}{n+1}t^{n+1}.
+$$
+The last ratio tends to zero. Markov's inequality also gives P(N_(t,rho(t))>=1)=o(t^(n+1)). This does not require a factorial moment or independence. Likewise the lifetime-dependent mark separation>=rho(ell) has cumulative expectation o(t^(n+1)). The two counts are different; the displayed inequality is the reason both conclusions hold.
+
+If (0.2) is supplied only almost everywhere for each fixed cutoff, take the union of its exceptional sets over the countable pairs (j,m). The proof then holds almost everywhere for (D1) and exactly for the cumulative conclusions. The canonical pointwise version stated in #188 gives the stated pointwise D1. We do not infer a pointwise density theorem by differentiating a cumulative little-o.
+
+**What this resolves, and what it does not.** It proves the diagonal route for an existential shrinking remote cutoff, conditional on Theorem G. On compact k-marks bounded below by k_0>0, the fold separation r=(ell/k)^(1/3) satisfies r/rho(ell)->0. But the entire interval between O(ell^(1/3)) and rho(ell) remains unestimated by this proposition. In particular it supplies no mixed-witness bound, fold-scale localization, elder-pair identification, rate uniform in rho, or replacement for an explicitly prescribed cutoff used by another theorem. It does not retire RN/24-jet or collision obligations.
+
+**Sharp limitation of the input: no algebraic cutoff follows from fixed-cutoff flatness alone.** This is an abstract nonnegative measure counterexample, NOT a Gaussian-field counterexample. Take D=L/4>0, let 0<ell<e^(-1), h=log(1/ell), and define a joint separation/lifetime density on 0<s<D by
+$$J(s,\ell)=\ell^{-1/3}h^2e^{-s h^2}.$$
+For 0<rho<=D its far tail is
+$$F_{\rm ex}(\rho,\ell)=\int_\rho^D J(s,\ell)\,ds
+=\ell^{-1/3}\big(e^{-\rho h^2}-e^{-D h^2}\big). \tag{D5}$$
+It is nonnegative and monotone in rho. For each fixed rho>0 and every n, F_ex(rho,ell)=o(ell^n), since -rho h^2+(n+1/3)h->-infinity. It therefore satisfies the fixed-cutoff hypothesis, even at all polynomial orders.
+
+Nevertheless for EVERY fixed C>0 and a>0,
+$$\frac{F_{\rm ex}(C\ell^a,\ell)}{\ell^{-1/3}}\longrightarrow1,$$
+because C ell^a h^2->0 and D h^2->infinity. The supposedly far mass at any algebraic cutoff retains the whole leading density. Integrating this lifetime-dependent tail yields (3/2)t^(2/3)+o(t^(2/3)). The same leading cumulative mass survives a common cutoff C t^a: substitute ell=ty, use the bound y^(-1/3), and apply dominated convergence on y in (0,1]. The measure is locally integrable at ell=0 because its total separation marginal is at most ell^(-1/3).
+
+Thus no fixed-cutoff all-orders statement, by itself, proves that the mass sits at the cubic fold scale. Additional geometry is logically indispensable. The example separates an available diagonal remote estimate from the still-needed intermediate/mixed-pair and actual-pairing bridge.
+
+**Review boundary.** A reviewer can accept Proposition D and its counterexample as an implication from the exact stated scalar hypothesis without accepting Theorem G or its Gaussian proof. Source exposure and reviewer provenance must be recorded; same-provider checks earn zero organizational-independence credit. No parent status, C8 flag, merge readiness or mathematical-completion certificate changes.
+
+**Delivered review of this new argument.** OpenAI/Codex /root/diagonal_cutoff_review, fresh nonauthor review: scoped PASS of the diagonal implication, simultaneous-order thresholds, common-cutoff cumulative conversion and revised D=L/4 counterexample. The reviewer identified the original counterexample's cutoff-domain omission; root repaired it and the reviewer checked the revision. The reviewer made no edits or GitHub writes. This does not accept or re-review Theorem G. Zero organizational-independence credit; Dylan Roy's personal reading PENDING. No computational tests are offered as analytic evidence.

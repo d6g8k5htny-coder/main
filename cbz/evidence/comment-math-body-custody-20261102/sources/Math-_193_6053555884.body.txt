@@ -1,0 +1,449 @@
+## FROZEN SOURCE RESULT — actual derivative joint Gaussian laws and coefficient Gram covariance
+
+Actual implementer /root/i2_formal_support; root coordinator/validator; OpenAI/Codex; native pickup6053269987. Scientific effect NONE, original full goal ACTIVE. Exact SourceJets1c57e48… dependency/full completed review: Math193/6053497575. Six actual law targets, 20 boundary examples, eight actual standard-axiom rows; root three-target replay PASS and all74 file bindings checked. Full nonauthor review is a separate companion. Raw Gaussian jets may be singular; rank, every-prescribed-pin Q and remaining I1/I2/I4/scientific/numerical gates stay OPEN.
+
+Literal UTF-8 files use four-backtick fences. Exactly one separator LF before each closing fence is added; remove only that separator, retaining the file terminal LF. Genuine red below; raw first-green warning and failed d0 fixture logs accompany the final review, with full history described in the author report. Freeze24372B SHA9dd6e14cfaad7070283fd86b024541d82fdef1bac44fd82425233e3f7ade37ff; root74/74 receipt27337B SHA8fa1521471670bbd8a5ac25fe214f770816a0cd46598eab9c14834070bff8ff6. Cached-import/organizational-independence0 limits retained.
+
+### Literal SourceJetLaw.lean: 6728 B, SHA256 e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e
+
+````lean
+import SourceJets
+import SourceGaussianLaw
+import SourceCovariance
+
+/-! Gaussian laws and coefficient Gram covariance of the actual sourceField derivatives.
+Mixed finite lists may be singular. No positive-rank, prescribed-pin or torus-chart claim. -/
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4Jets I4SourceGaussian I4SourceCovariance
+  MeasureTheory ProbabilityTheory
+open scoped BigOperators ENNReal NNReal
+
+namespace I4JetLaw
+
+private theorem jet_eq_series_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    (fun ω => sourceJet d L j ω x v) =ᵐ[sourceLaw d]
+      scalarSeries (fun m => modeJetCoefficient d L m j x v) :=
+  (sourceJet_eq_series_ae d hL).mono (fun _ω hω => hω j hj x v)
+
+private theorem jet_aemeasurable (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    AEMeasurable (fun ω => sourceJet d L j ω x v) (sourceLaw d) :=
+  (scalarSeries_measurable (fun m => modeJetCoefficient d L m j x v)).aemeasurable.congr
+    (jet_eq_series_ae d hL j hj x v).symm
+
+theorem sourceJet_map_gaussian (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    (sourceLaw d).map (fun ω => sourceJet d L j ω x v) =
+      gaussianReal 0 (∑' m, (modeJetCoefficient d L m j x v)^2).toNNReal := by
+  rw [Measure.map_congr (jet_eq_series_ae d hL j hj x v)]
+  exact scalarSeries_map_gaussian _ (modeJetCoefficient_summable d hL j hj x v)
+
+theorem sourceJet_linearCombination_hasGaussianLaw (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (n : ℕ) (r : Fin n → ℕ) (hr : ∀ i, r i ≤ 4)
+    (x : Fin n → (Fin d → ℝ)) (v : (i : Fin n) → Fin (r i) → (Fin d → ℝ))
+    (c : Fin n → ℝ) :
+    HasGaussianLaw (fun ω => ∑ i, c i * sourceJet d L (r i) ω (x i) (v i))
+      (sourceLaw d) := by
+  classical
+  let a : SourceMode d → ℝ := fun m => ∑ i, c i * modeJetCoefficient d L m (r i) (x i) (v i)
+  have hc (i : Fin n) : Summable (fun m => modeJetCoefficient d L m (r i) (x i) (v i)) :=
+    modeJetCoefficient_summable d hL (r i) (hr i) (x i) (v i)
+  have ha : Summable a := summable_sum (fun i _ => (hc i).mul_left (c i))
+  have hG : HasGaussianLaw (scalarSeries a) (sourceLaw d) := by
+    constructor
+    · exact (scalarSeries_measurable a).aemeasurable
+    · change IsGaussian ((coefficientLaw (SourceMode d)).map (scalarSeries a))
+      rw [scalarSeries_map_gaussian a ha]
+      infer_instance
+  apply hG.congr
+  filter_upwards [ae_all_iff.2 (fun i : Fin n =>
+      scalarSeries_hasSum_ae (fun m => modeJetCoefficient d L m (r i) (x i) (v i)) (hc i)),
+    scalarSeries_hasSum_ae a ha, sourceJet_eq_series_ae d hL] with ω hω hsum hjet
+  have h : HasSum (fun m => ∑ i, c i * modeJetCoefficient d L m (r i) (x i) (v i) * ω m)
+      (∑ i, c i * scalarSeries (fun m => modeJetCoefficient d L m (r i) (x i) (v i)) ω) := by
+    simpa only [mul_assoc] using hasSum_sum (fun i _ => (hω i).mul_left (c i))
+  have hv : (∑ i, c i * sourceJet d L (r i) ω (x i) (v i)) =
+      ∑ i, c i * scalarSeries (fun m => modeJetCoefficient d L m (r i) (x i) (v i)) ω := by
+    exact Finset.sum_congr rfl (fun i _ => congrArg (c i * ·) (hjet (r i) (hr i) (x i) (v i)))
+  rw [← hv] at h
+  exact hsum.unique (by simpa only [a, Finset.sum_mul] using h)
+
+theorem sourceJet_finiteVector_hasGaussianLaw (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (n : ℕ) (r : Fin n → ℕ) (hr : ∀ i, r i ≤ 4)
+    (x : Fin n → (Fin d → ℝ)) (v : (i : Fin n) → Fin (r i) → (Fin d → ℝ)) :
+    HasGaussianLaw (fun ω i => sourceJet d L (r i) ω (x i) (v i))
+      (sourceLaw d) := by
+  classical
+  have hm : AEMeasurable (fun ω i => sourceJet d L (r i) ω (x i) (v i)) (sourceLaw d) :=
+    AEMeasurable.of_eval (fun i => jet_aemeasurable d hL (r i) (hr i) (x i) (v i))
+  refine ⟨hm, ?_⟩
+  apply isGaussian_of_map_eq_gaussianReal
+  intro ell
+  let c : Fin n → ℝ := fun i => ell (Pi.single i 1)
+  have hrep (u : Fin n → ℝ) : ell u = ∑ i, c i * u i := by
+    rw [← LinearMap.sum_single_apply (fun _ : Fin n => ℝ) u, map_sum]
+    apply Finset.sum_congr rfl
+    intro i _
+    have hs : Pi.single i (u i) = u i • Pi.single i (1 : ℝ) := by
+      rw [← Pi.single_smul, smul_eq_mul, mul_one]
+    rw [hs, map_smul]
+    simp [c, smul_eq_mul, mul_comm]
+  have hg : HasGaussianLaw (fun ω => ell (fun i => sourceJet d L (r i) ω (x i) (v i)))
+      (sourceLaw d) :=
+    (sourceJet_linearCombination_hasGaussianLaw d hL n r hr x v c).congr
+      (Filter.Eventually.of_forall (fun ω => (hrep _).symm))
+  refine ⟨(sourceLaw d)[fun ω => ell (fun i => sourceJet d L (r i) ω (x i) (v i))],
+    Var[fun ω => ell (fun i => sourceJet d L (r i) ω (x i) (v i)); sourceLaw d].toNNReal, ?_⟩
+  rw [AEMeasurable.map_map_of_aemeasurable ell.continuous.measurable.aemeasurable hm]
+  exact hg.map_eq_gaussianReal
+
+theorem sourceJet_integral_zero (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    ∫ ω, sourceJet d L j ω x v ∂sourceLaw d = 0 := by
+  rw [integral_congr_ae (jet_eq_series_ae d hL j hj x v)]
+  exact scalarSeries_integral_zero _ (modeJetCoefficient_summable d hL j hj x v)
+
+theorem sourceJet_covariance (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j k : ℕ) (hj : j ≤ 4) (hk : k ≤ 4) (x y : Fin d → ℝ)
+    (v : Fin j → (Fin d → ℝ)) (w : Fin k → (Fin d → ℝ)) :
+    cov[fun ω => sourceJet d L j ω x v,
+      fun ω => sourceJet d L k ω y w; sourceLaw d] =
+      ∑' m, modeJetCoefficient d L m j x v * modeJetCoefficient d L m k y w := by
+  have h1 := jet_eq_series_ae d hL j hj x v
+  have h2 := jet_eq_series_ae d hL k hk y w
+  have hc : cov[fun ω => sourceJet d L j ω x v,
+      fun ω => sourceJet d L k ω y w; sourceLaw d] =
+      cov[scalarSeries (fun m => modeJetCoefficient d L m j x v),
+        scalarSeries (fun m => modeJetCoefficient d L m k y w); sourceLaw d] := by
+    unfold covariance
+    rw [integral_congr_ae h1, integral_congr_ae h2]
+    apply integral_congr_ae
+    filter_upwards [h1, h2] with ω ha hb
+    rw [ha, hb]
+  rw [hc]
+  exact scalarSeries_covariance _ _ (modeJetCoefficient_summable d hL j hj x v)
+    (modeJetCoefficient_summable d hL k hk y w)
+
+theorem sourceJet_variance (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    Var[fun ω => sourceJet d L j ω x v; sourceLaw d] =
+      ∑' m, (modeJetCoefficient d L m j x v)^2 := by
+  rw [variance_congr (jet_eq_series_ae d hL j hj x v)]
+  exact scalarSeries_variance _ (modeJetCoefficient_summable d hL j hj x v)
+
+end I4JetLaw
+
+````
+
+### Literal JetLawTests.lean: 6612 B, SHA256 3d989ad433f9fc55133bf6899571cb32cd65192d96c37d77025d2911ee6e2720
+
+````lean
+import SourceJetLaw
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4C4 I4Jets I4JetLaw I4Kernel
+  I4SourceCovariance MeasureTheory ProbabilityTheory
+open scoped BigOperators ENNReal NNReal
+
+-- Zeroth-order observations are the unchanged field, for every coefficient sample.
+example (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ) :
+    sourceJet d L 0 ω x (fun i => Fin.elim0 i) = sourceField d L ω x :=
+  sourceJet_zero d L ω x _
+
+example (d : ℕ) (L : ℝ) (m : SourceMode d) (x : Fin d → ℝ) :
+    modeJetCoefficient d L m 0 x (fun i => Fin.elim0 i) = modeCoefficient d L m x := rfl
+
+-- The actual constant Fourier coefficient has no positive-order derivatives.
+example (d : ℕ) (L : ℝ) (j : ℕ) (x : Fin d → ℝ)
+    (v : Fin (j+1) → (Fin d → ℝ)) :
+    modeJetCoefficient d L none (j+1) x v = 0 := by
+  unfold modeJetCoefficient
+  change (iteratedFDeriv ℝ (j+1) (fun _ : Fin d → ℝ => Real.sqrt (1 / sourceZ d L)) x) v = 0
+  rw [iteratedFDeriv_succ_const]
+  simp
+
+-- Zero-direction observations are identically zero, including the order-four boundary.
+example (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ) :
+    sourceJet d L 1 ω x (fun _ => 0) = 0 := by
+  unfold sourceJet
+  exact ContinuousMultilinearMap.map_zero _
+
+example (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ) :
+    sourceJet d L 4 ω x (fun _ => 0) = 0 := by
+  unfold sourceJet
+  exact ContinuousMultilinearMap.map_zero _
+
+-- Empty physical dimension forces every positive-order direction to be zero.
+example (L : ℝ) (j : ℕ) (ω : SourceMode 0 → ℝ) (x : Fin 0 → ℝ)
+    (v : Fin (j+1) → (Fin 0 → ℝ)) : sourceJet 0 L (j+1) ω x v = 0 := by
+  unfold sourceJet
+  rw [show v = 0 from Subsingleton.elim _ _]
+  exact ContinuousMultilinearMap.map_zero _
+
+-- The empty observation vector is a legitimate degenerate Gaussian vector.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (r : Fin 0 → ℕ)
+    (x : Fin 0 → (Fin d → ℝ)) (v : (i : Fin 0) → Fin (r i) → (Fin d → ℝ)) :
+    HasGaussianLaw (fun ω i => sourceJet d L (r i) ω (x i) (v i)) (sourceLaw d) :=
+  sourceJet_finiteVector_hasGaussianLaw d hL 0 r (fun i => Fin.elim0 i) x v
+
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (r : Fin 0 → ℕ)
+    (x : Fin 0 → (Fin d → ℝ)) (v : (i : Fin 0) → Fin (r i) → (Fin d → ℝ))
+    (c : Fin 0 → ℝ) :
+    HasGaussianLaw (fun ω => ∑ i : Fin 0, c i * sourceJet d L (r i) ω (x i) (v i))
+      (sourceLaw d) :=
+  sourceJet_linearCombination_hasGaussianLaw d hL 0 r (fun i => Fin.elim0 i) x v c
+
+-- One true joint vector mixes orders0,1,2,3,4, points and direction tuples.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin 5 → (Fin d → ℝ))
+    (v : (i : Fin 5) → Fin i.val → (Fin d → ℝ)) :
+    HasGaussianLaw (fun ω (i : Fin 5) => sourceJet d L i.val ω (x i) (v i)) (sourceLaw d) := by
+  exact sourceJet_finiteVector_hasGaussianLaw d hL 5 (fun i => i.val)
+    (fun i => by omega) x v
+
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin 5 → (Fin d → ℝ))
+    (v : (i : Fin 5) → Fin i.val → (Fin d → ℝ)) (c : Fin 5 → ℝ) :
+    HasGaussianLaw (fun ω => ∑ i : Fin 5, c i * sourceJet d L i.val ω (x i) (v i))
+      (sourceLaw d) := by
+  exact sourceJet_linearCombination_hasGaussianLaw d hL 5 (fun i => i.val)
+    (fun i => by omega) x v c
+
+-- Duplicate observations are allowed; their contrast is exactly zero.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) (v : Fin 1 → (Fin d → ℝ)) :
+    HasGaussianLaw (fun ω (_ : Fin 2) => sourceJet d L 1 ω x v) (sourceLaw d) := by
+  exact sourceJet_finiteVector_hasGaussianLaw d hL 2 (fun _ => 1)
+    (fun _ => by norm_num) (fun _ => x) (fun _ => v)
+
+example (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ)
+    (v : Fin 1 → (Fin d → ℝ)) :
+    sourceJet d L 1 ω x v - sourceJet d L 1 ω x v = 0 := sub_self _
+
+example (d : ℕ) (L : ℝ) (x : Fin d → ℝ) (v : Fin 1 → (Fin d → ℝ)) :
+    Var[fun ω => sourceJet d L 1 ω x v - sourceJet d L 1 ω x v; sourceLaw d] = 0 := by
+  simp only [sub_self]
+  exact variance_zero _
+
+-- Degenerate derivative laws are N(0,0), rather than a falsely asserted positive-rank law.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :
+    (sourceLaw d).map (fun ω => sourceJet d L 1 ω x (fun _ => 0)) = gaussianReal 0 0 := by
+  simpa [modeJetCoefficient] using sourceJet_map_gaussian d hL 1 (by norm_num) x (fun _ => 0)
+
+example {L : ℝ} (hL : L ≠ 0) (x : Fin 0 → ℝ) :
+    Var[fun ω => sourceJet 0 L 4 ω x (fun _ => 0); sourceLaw 0] = 0 := by
+  have hc (m : SourceMode 0) : modeJetCoefficient 0 L m 4 x (fun _ => 0) = 0 := by
+    unfold modeJetCoefficient
+    exact ContinuousMultilinearMap.map_zero _
+  simpa only [hc, zero_pow (by norm_num : (2 : ℕ) ≠ 0), tsum_zero]
+    using sourceJet_variance 0 hL 4 (by norm_num) x (fun _ => 0)
+
+-- Order0 recovers the already proved centered, unit-variance physical field law.
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :
+    ∫ ω, sourceField d L ω x ∂sourceLaw d = 0 := by
+  simpa only [sourceJet_zero] using sourceJet_integral_zero d hL 0 (by norm_num) x
+    (fun i => Fin.elim0 i)
+
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x : Fin d → ℝ) :
+    Var[fun ω => sourceJet d L 0 ω x (fun i => Fin.elim0 i); sourceLaw d] = 1 := by
+  simp_rw [sourceJet_zero]
+  exact sourceField_variance_one d hL x
+
+example (d : ℕ) {L : ℝ} (hL : L ≠ 0) (x y : Fin d → ℝ) :
+    cov[fun ω => sourceJet d L 0 ω x (fun i => Fin.elim0 i),
+      fun ω => sourceJet d L 0 ω y (fun i => Fin.elim0 i); sourceLaw d] =
+      sourceSpectralKernel d L (x-y) := by
+  simp_rw [sourceJet_zero]
+  exact sourceField_covariance d hL x y
+
+-- Both covariance orders may be4; this needs no sample-C8 assumption.
+example (x y : Fin 3 → ℝ) (v w : Fin 4 → (Fin 3 → ℝ)) :
+    cov[fun ω => sourceJet 3 24 4 ω x v,
+      fun ω => sourceJet 3 24 4 ω y w; sourceLaw 3] =
+      ∑' m, modeJetCoefficient 3 24 m 4 x v * modeJetCoefficient 3 24 m 4 y w :=
+  sourceJet_covariance 3 (by norm_num) 4 4 (by norm_num) (by norm_num) x y v w
+
+-- Graded cross covariance preserves distinct derivative orders and points.
+example (x y : Fin 2 → ℝ) (v : Fin 1 → (Fin 2 → ℝ)) (w : Fin 3 → (Fin 2 → ℝ)) :
+    cov[fun ω => sourceJet 2 24 1 ω x v,
+      fun ω => sourceJet 2 24 3 ω y w; sourceLaw 2] =
+      ∑' m, modeJetCoefficient 2 24 m 1 x v * modeJetCoefficient 2 24 m 3 y w :=
+  sourceJet_covariance 2 (by norm_num) 1 3 (by norm_num) (by norm_num) x y v w
+
+````
+
+### Literal JetLawAxioms.lean: 802 B, SHA256 30ee233b7e6ec7a354fd118286f21b1fc0abfe677555a7217d050a2a5247e6e4
+
+````lean
+import SourceJetLaw
+
+open Lean Elab Command in
+run_cmd do
+  let env ← getEnv
+  for suffix in ["I4JetLaw.jet_eq_series_ae", "I4JetLaw.jet_aemeasurable"] do
+    let candidates := env.constants.toList.filter fun (name, _) =>
+      name.toString.startsWith "_private.SourceJetLaw." && name.toString.endsWith suffix
+    match candidates with
+    | [(name, _)] => elabCommand (← `(#print axioms $(mkIdent name):ident))
+    | _ => throwError "Expected exactly one private helper ending in {suffix}"
+#print axioms I4JetLaw.sourceJet_map_gaussian
+#print axioms I4JetLaw.sourceJet_linearCombination_hasGaussianLaw
+#print axioms I4JetLaw.sourceJet_finiteVector_hasGaussianLaw
+#print axioms I4JetLaw.sourceJet_integral_zero
+#print axioms I4JetLaw.sourceJet_covariance
+#print axioms I4JetLaw.sourceJet_variance
+
+````
+
+### Literal jet-law-evidence/axioms-attempt01.log: 810 B, SHA256 2107d1c4da9072fdb5bccb700726e6d23bc70c6c34748d56f93f65da4b32d051
+
+````text
+'_private.SourceJetLaw.0.I4JetLaw.jet_eq_series_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'_private.SourceJetLaw.0.I4JetLaw.jet_aemeasurable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_map_gaussian' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_linearCombination_hasGaussianLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_finiteVector_hasGaussianLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_integral_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_covariance' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4JetLaw.sourceJet_variance' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+````
+
+### Literal jet-law-evidence/IMPLEMENTATION.md: 15174 B, SHA256 979295bba42c634f5ddf67a518b3e905f1ea784c041cdcff11f8e2c8cdc63ba2
+
+````markdown
+# Actual derivative finite Gaussian law and covariance — bounded producer result
+
+Actual owner `/root`; actual implementer `/root/i2_formal_support`, OpenAI/Codex. Root reported native Math193 pickup [6053269987](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6053269987) with separate GET equality, and mirror main229/6053282797. This producer made no native publication, authoritative source, graph, status, worker, rule, deployment or runtime change. The previous frozen modules remain unchanged. This is an author result, source/proof exposed, organizational independence zero; a distinct nonauthor's final assessment and root's independent verification are separate evidence, not manufactured by this report.
+
+## Result and exact scope
+
+The six originally frozen public target statements are now proved for the **actual** `iteratedFDeriv` evaluations of the unchanged `sourceField`, on its unchanged actual common `sourceLaw`. Orders are individually at most four; points and direction tuples are arbitrary; finite lists may mix orders, points and directions. `L ≠ 0` includes the physical `L > 0` setting and dimension is arbitrary, including boundary dimension zero. No field, normalization, law, physical frequency or derivative definition was replaced by an assumed interface or a coefficient-sum surrogate.
+
+Final code is `SourceJetLaw.lean`, 6728 bytes SHA256 **e5cbf174aee44f2e702db03569554ee3483abfe192095d6fd1d96809f84a380e**. Its final emitted olean is SHA256 `6e5ff0eb1cefd167bde2da5c68ab96066c888f9901acff923246a94b4181a6a6`. The public theorem types match the genuine initial six-goal red after whitespace normalization, independently of their final proof bodies; `semantic-integrity.json` records the actual comparison. There are no sorry, admit or custom axioms in the source.
+
+| Final public declaration | Lines | Actual conclusion |
+|---|---|---|
+| `sourceJet_map_gaussian` | 27–32 | The actual scalar derivative pushforward equals `gaussianReal 0 (Σ modeJetCoefficient²).toNNReal`, including zero variance. |
+| `sourceJet_linearCombination_hasGaussianLaw` | 34–62 | Every finite real linear combination of heterogeneous actual derivatives has a Gaussian law on the same source law. |
+| `sourceJet_finiteVector_hasGaussianLaw` | 64–91 | The entire heterogeneous finite-Pi vector is genuinely jointly Gaussian, using every continuous dual, beyond marginal Gaussianity. |
+| `sourceJet_integral_zero` | 93–97 | The actual derivative mean is zero. |
+| `sourceJet_covariance` | 99–118 | Cross covariance of any two actual derivatives is the summable coefficient Gram series. Each order may be four; no sample-C8 assertion is needed. |
+| `sourceJet_variance` | 120–125 | The actual variance equals the coefficient square sum. |
+
+The two private helpers at 15–25 specialize the root's shared-event equality and derive actual derivative **AEMeasurability** from the measurable coefficient series. They add no abstract smooth-field or law premise. Their axiom output is audited along with all public targets.
+
+## Dependency and proof route
+
+Root owns the separate frozen `SourceJets.lean`, 5044 bytes SHA256 `1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412`; its imported olean is `3e6995899b726af5b255b5971745cc06e1b25b2668d924cfcb6128cab1bf3929`. Its actual definitions are `(iteratedFDeriv ℝ j (modeCoefficient d L m) x) v` and `(iteratedFDeriv ℝ j (sourceField d L ω) x) v`. Its coefficient bound and summability are deterministic. Its equality with the coefficient series is on **one** existing `sourceMajorant_ae` event, before all orders, points and tuples are quantified. Its order-zero identity is unconditional. The initial four core goals, all actual core executions and a retained deprecated-alias cleanup are in root-owned `jet-evidence`; this downstream producer did not implement or edit them.
+
+Our scalar pushforward proof transfers the actual derivative through that ae equality and applies the existing actual `scalarSeries_map_gaussian`. The finite-combination proof first establishes deterministic signed `Summable` coefficients, then proves a finite HasSum interchange on the same sample and transfers the actual combination through ae equality. It never interchanges an uncountable collection of probability-one events. The finite-vector proof obtains AEMeasurability coordinatewise, expands an arbitrary continuous linear functional into its finite coordinate weights, and uses `isGaussian_of_map_eq_gaussianReal` with the ae-measurable pushforward composition theorem. Plain finite Pi carries its existing sup norm; no Euclidean inner product is invented.
+
+The mean and variance proofs transfer through ae invariance to the established scalar law. The covariance proof explicitly unfolds covariance, transfers the centering integrals and integrand by ae equality, and invokes the existing generic scalar covariance theorem. That theorem already obtains L2 from actual Gaussian pushforwards, proves same-sample ae addition and uses variance polarization. There is no unbounded integral/series swap and no claim that differentiating the covariance kernel has already been formalized.
+
+The source law is the actual countable infinite product of variance-one centered real Gaussians from the frozen Foundation. The imported Fourier coefficients are the actual normalized half-lattice cosine/sine coefficients at frequency `2πk/L`. The existing Lattice/Kernel/Covariance/Spatial work identifies the value covariance with the parent's literal normalized periodized `K_L`. This capsule's derivative covariance is explicitly a **coefficient Gram formula**; a differentiated physical-kernel formula still needs its own identity proof and sign check for the second argument.
+
+## Actual commands and retained outcomes
+
+All executions used the exact root-owned `compile-context.json`, SHA256 `e79f978185239fb1af8f8e5978fe8bc5a841fec1969f4a09c0174be0b2dd468e`, pointing at pinned Lean 4.34.1, full commit `5045d0056413266e57c625dcd7c365b10e377c52`, and Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612`. The commands, environment, timestamps, complete logs and literal snapshots are in the following receipts. `run_compile.py` invokes `/usr/bin/nice -n 10` and one Lean thread; it records source, config and imported-source/olean identities before and after every execution. It never resolves/builds dependencies, installs software, retries, overwrites a receipt or prints credentials.
+
+Root explicitly handed off the serialized compiler slot after its actual final core main/tests/audit had passed. No downstream compile was inferred safe merely because an olean existed. Root's handoff message used a rounded 06:00 label; the exact actual first receipt timestamps are 05:59:29–05:59:33 and are preserved, rather than rewritten to fit that label. All our invocations happened causally after the explicit handoff. After our last audit returned, the slot was explicitly released back to root and no further Lean process was started by this producer.
+
+| Command run from the i4-realization directory | Actual outcome and retained evidence |
+|---|---|
+| `python3 jet-law-evidence/run_compile.py SourceJetLaw.lean target-red-run` | Actual session47393, exit1 in **4.4600255s**, exactly **six intended unsolved goals and no unrelated error**. Initial source2293B SHA `2d245d31aa2f4d3d6f7927ed6e3106631ff089e49a82051d31f3e5dd34ea0c4a`; full log2589B SHA `c53635eb733c2b587f4728d067a1064d68c139879e37c77ca3ead9bc8dd6c97c`. Both prior target snapshot and actual run snapshot retained. |
+| `python3 jet-law-evidence/run_compile.py SourceJetLaw.lean attempt01 --emit` | Actual session49170, exit0 in **3.481302541s**. First completed proof source6727B SHA `2c81534b9747bbe783400f6c46f957159b8f8f90db889ffc0cdc2862713498e7`. A harmless unused implicit `ω` binder warning was emitted; full462B log retained. This was a green execution with a warning, not a failed mathematical attempt. |
+| `python3 jet-law-evidence/run_compile.py SourceJetLaw.lean attempt02 --emit` | Actual session61810, exit0 in **3.182916125s**, empty log. The sole cleanup renames the private helper binder `_ω`; the public target types and proof meaning are unchanged. Final source/olean identities above. |
+| `python3 jet-law-evidence/run_compile.py JetLawTests.lean tests-attempt01` | Actual session79765, exit1 in **3.311818334s**. One actual zero-dimensional variance fixture failed to simplify: unfolding mode coefficients caused empty direction-space rewriting before multilinear zero evaluation. Source6407B SHA `1cd1c4a6e53cd022822586cb499665ea83dab49b453071d05ed27fb4163c4012`; full688B log SHA `f3e398d307be13129b45d9af18f5badcf69f9a1128c77330b65a434adff049e0`. No theorem target or proof body was weakened. |
+| `python3 jet-law-evidence/run_compile.py JetLawTests.lean tests-attempt02` | Actual session62196, exit0 in **4.353050167s**, empty log. The fixture now first proves each actual coefficient zero with `ContinuousMultilinearMap.map_zero`, then simplifies the square sum. **20 actual examples** passed. Final tests6612B SHA `3d989ad433f9fc55133bf6899571cb32cd65192d96c37d77025d2911ee6e2720`. |
+| `python3 jet-law-evidence/run_compile.py JetLawAxioms.lean axioms-attempt01` | Actual session67006, exit0 in **4.629498875s**. **Eight actual rows**: six public proofs and two private helpers, each only `[propext, Classical.choice, Quot.sound]`. Full810B log SHA `2107d1c4da9072fdb5bccb700726e6d23bc70c6c34748d56f93f65da4b32d051`; final audit802B SHA `30ee233b7e6ec7a354fd118286f21b1fc0abfe677555a7217d050a2a5247e6e4`. The private names are found exactly in the imported environment and printed through identifiers; no guessed parser namespace or fabricated row. |
+
+Every receipt records unchanged source/config/dependency sources and imported oleans. The final tests/audit bind all ten actually consumed module sources, including the nine dependencies and this final module. Complete failed/warning/red snapshots and logs remain retained. These are cached-import direct elaborations and declaration-level axiom reports, **not a fresh whole-import kernel rebuild, dependency replay, external verifier or scientific acceptance**. Root's independent direct validation and a distinct nonauthor's review are owned separately and can be attached without changing this final source.
+
+## What the 20 fixtures check
+
+The tests cover unconditional zeroth-order recovery of the actual sourceField and actual modeCoefficient; the positive-order constant Fourier mode; raw zero-direction observations at orders1 and4; arbitrary positive order in empty physical dimension; empty finite vector and empty finite combination; one true mixed-order vector and combination covering0,1,2,3,4 with distinct supplied points/tuples; duplicate specifications and their exactly-zero contrast/variance; the zero-direction `N(0,0)` pushforward; dimension-zero variance; order-zero mean, unit variance and the previously established spectral covariance; actual order4/order4 cross covariance without sample-C8; and actual graded order1/order3 cross covariance at dimension2, side24. The zero-direction and duplicate controls deliberately demonstrate why Gaussianity cannot be reported as positive rank.
+
+No test asserts an order-five law, an every-sample derivative-series identity, torus seam-chart differentiability, a covariance inverse, or a prescribed conditional law. The order-zero covariance fixture aligns with the existing normalized value kernel; it does not assert a higher-order differentiated spatial kernel identity.
+
+## Custody, review and remaining obligations
+
+`I4_DERIVATIVE_JET_PREFLIGHT.md` (29064B SHA256 `80939b3b4a48cf81e894daeab9d56a155f22b5bc944fdefe93d292a606222fe0`) contains the primary-source inventory, exact suggested target route, rank counterexamples, the contact-polynomial route and prescribed-pin obstructions. It was completed read-only before this implementation. The independent actual parent reviewer read the immutable six target types and later the genuine six-goal red with no target-level must-fix; that preflight is not final code approval. The child API search was subordinated to the higher-priority ownership audit, then actually resumed/completed with primary-source findings; no idle/completion evidence was invented.
+
+This producer's documentary freeze binds its main/tests/audit, complete own plan/runner/targets/receipts/logs, the unchanged dependency sources and their actual oleans, root's frozen core records, common pinned configs, and consumed primary files. Source exposure and dependency authorship are disclosed. No final reviewer report is copied into an author vote; the distinct reviewer must read the actual final code and evidence. An organizationally independent review is not claimed.
+
+The completed scope is **actual derivative finite Gaussian law, zero mean and coefficient Gram covariance/variance**, conditioned on the already proved concrete source construction and root's exact derivative bridge. It permits singular raw jet vectors. It proves no symmetry-reduced distinct-point rank, full pin covariance positivity, contact uniform lower eigenvalue/inverse bound, all-parameter continuous canonical prescribed-pin Q, conditional Schur positivity, pinned Morse/distinct-critical-value genericity, global derivative-supremum moments, uniform C4 regression coupling, torus-chart C4 or Borel C4-valued Gaussian measure. In particular an unconditioned ae event cannot be transferred to every null singleton pin by evaluating an arbitrary conditional kernel. ELDER/exhaustion/cubic control, full I4 and the leading theorem remain separate obligations.
+
+Final main/tests/audit source bytes were declared frozen to root and the nonauthor reviewer after the last actual audit, at approximately06:03UTC. No code or imported source/config edits are planned. The compiler slot was released. Any later material finding must retain these bytes, notify both reviewers, and produce a new exact version with renewed checks. This report does not mark the full goal complete or paused.
+
+### Actual subsequent root validation, separately read
+
+Root independently reran the same frozen main, all20 tests and eight-row audit, serially after the slot release. The actual receipts and full logs are `jet-evidence/jet-law-root-replay-main01.{json,log}`, `jet-law-root-replay-tests01.{json,log}` and `jet-law-root-replay-axioms01.{json,log}`, with literal source snapshots retained beside them. I read the actual receipts before the documentary freeze. All three exited0: main6.719065375s with empty log, tests3.694994208s with empty log, audit5.04095075s with the same810B standard-three log SHA2107d1c4da9072fdb5bccb700726e6d23bc70c6c34748d56f93f65da4b32d051. Each source hash equals the exact final main/tests/audit above, with unchanged imports. These commands are direct Lean elaborations using cached imports, **not leanchecker, a whole-import replay or a fresh library rebuild**. Root separately reported no mathematical must-fix after full source/history inspection. Actual completed nonauthor final documentary review remains separately owned; no future vote is inferred here.
+
+````
+
+### Literal jet-law-evidence/target-red-run.log: 2589 B, SHA256 c53635eb733c2b587f4728d067a1064d68c139879e37c77ca3ead9bc8dd6c97c
+
+````text
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:18:76: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+j : ℕ
+hj : j ≤ 4
+x : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+⊢ Measure.map (fun ω => sourceJet d L j ω x v) (sourceLaw d) =
+    gaussianReal 0 (∑' (m : SourceMode d), modeJetCoefficient d L m j x v ^ 2).toNNReal
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:25:23: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+n : ℕ
+r : Fin n → ℕ
+hr : ∀ (i : Fin n), r i ≤ 4
+x : Fin n → Fin d → ℝ
+v : (i : Fin n) → Fin (r i) → Fin d → ℝ
+c : Fin n → ℝ
+⊢ HasGaussianLaw (fun ω => ∑ i, c i * sourceJet d L (r i) ω (x i) (v i)) (sourceLaw d)
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:31:23: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+n : ℕ
+r : Fin n → ℕ
+hr : ∀ (i : Fin n), r i ≤ 4
+x : Fin n → Fin d → ℝ
+v : (i : Fin n) → Fin (r i) → Fin d → ℝ
+⊢ HasGaussianLaw (fun ω i => sourceJet d L (r i) ω (x i) (v i)) (sourceLaw d)
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:35:51: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+j : ℕ
+hj : j ≤ 4
+x : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+⊢ ∫ (ω : SourceMode d → ℝ), sourceJet d L j ω x v ∂sourceLaw d = 0
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:42:79: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+j k : ℕ
+hj : j ≤ 4
+hk : k ≤ 4
+x y : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+w : Fin k → Fin d → ℝ
+⊢ cov[fun ω => sourceJet d L j ω x v, fun ω => sourceJet d L k ω y w; sourceLaw d] =
+    ∑' (m : SourceMode d), modeJetCoefficient d L m j x v * modeJetCoefficient d L m k y w
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJetLaw.lean:47:50: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+j : ℕ
+hj : j ≤ 4
+x : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+⊢ Var[fun ω => sourceJet d L j ω x v; sourceLaw d] = ∑' (m : SourceMode d), modeJetCoefficient d L m j x v ^ 2
+
+````

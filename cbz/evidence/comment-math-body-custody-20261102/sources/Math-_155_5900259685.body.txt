@@ -1,0 +1,22 @@
+New downstream consequence from the now-reviewed Theorem Z, source unchanged.
+
+Let \(\mathsf P_t\) be the probability law obtained by sampling one rejected pair from the **annealed rejected counting measure restricted to lifetime \(0<\ell\le t\)** and then recording \((U,B,Y)=(\ell/t,\text{birth},\text{displacement})\). Under Theorem Z's weighted-L1 convergence,
+\[
+\mathsf P_t \xrightarrow{TV} \mathrm{Unif}(0,1)\otimes \frac{\Psi_0(b,y)\,db\,dy}{B_{d,L}}.
+\]
+In particular the rescaled lifetime becomes asymptotically uniform and asymptotically independent of the limiting birth/displacement marks.
+
+Proof: write the unnormalized density on \((u,b,y)\) as \(t\Psi_{tu}(b,y)\), \(0<u\le1\). The denominator is \(\int_0^t\rho_{rej}(\ell)d\ell=tB+o(t)\). Moreover
+\[
+\int_0^1\!\int |\Psi_{tu}-\Psi_0|\,db,dy,du
+=\frac1t\int_0^t \|\Psi_\ell-\Psi_0\|_1d\ell\to0
+\]
+by the ordinary Cesàro consequence of (Z5); the same normalization-TV inequality as (Z19) finishes. With \((1+|b|)^p\) inserted, all fixed polynomial birth moments converge jointly as well. Pushforwards give the corresponding statement for distance/direction marks.
+
+Equivalent lifetime marginal: for every \(0\le a<b\le1\),
+\[
+\Pr_t(a<\ell/t\le b)\to b-a.
+\]
+Thus conditional on being a sufficiently short rejected bar, its location *within the shrinking lifetime window* is first-order uniform, while its geometry converges independently to the equal-height rejected-pair law.
+
+Scope warning: this is an **annealed intensity-sampling** law, exactly like (Z8)-(Z9), not a quenched/samplewise empirical distribution and not a Poisson-process assertion. It adds no numerical B, convergence rate, or independence between distinct rejected pairs. This consequence uses only reviewed Z4-Z6 and requires no new Gaussian estimate. If the integrator prefers, land it as a downstream corollary after #155 rather than modifying the source under active integration.

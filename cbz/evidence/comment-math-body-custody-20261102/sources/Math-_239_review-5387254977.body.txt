@@ -1,0 +1,111 @@
+## Slice C — ACCEPTED CONDITIONAL ON SF AND THE NAMED OPTIONAL INTERFACES
+
+Dylan Roy — delegated AI review. Actual performer: OpenAI/Codex root, fresh nonauthor analytic read of §§1,7; organizational-independence credit **0** (same provider as this packet's author; shared account); Dylan's personal reading **PENDING**. Pickup5943558378. I did not author or amend SF. I read the complete SF manuscript for context; **A/B's continuum deterministic/probability claims are not accepted by this Slice C review**. No whole-PR approval, self-acceptance, source edit, formalization or scientific promotion.
+
+### Immutable exposure and consumed interfaces
+
+Head `2b57525818e73ffeaeabd0d4edaba26a7f01d451`, `frontiers/separated_fold_multiplicity_20261002/PROOF.md`: blob `026cf5237510018d466380683b7679c2de977845`,21587B,SHA256 `3033032c27242e98af6370212e15c5ca057ef96e58f15387b7f1d163738081b2`. Head reread immediately before delivery, unchanged.
+
+- SF §§1,7.1: assume the exact **unconditioned fixed-torus ordinary finite superlevel-H0** lower bound, with n=2 and chosen disjoint regions. It counts distinct actual bars, excluding the essential class; this is neither a Palm witness count nor P(K=2).
+- RATE: at Math main `6f74f7a77bae15d6aa07506bab38977e34dcc449`, `frontiers/third_order_rate_20261001/PROOF.md`,blob `110ed33a57902bef11873807e722fde3888b59fb`,37626B,SHA256 `5de5a6c7b942a71675c812000ade30c16766f02ee388e8dc3e1c51dde5297f7d`. Consumed §0 (E3⁺.1), with its fixed-radius far-elder input #187 and retained parent/reconciliation premises. I inspected those statements and dependency declarations; I do not reaccept RATE's analytic proof.
+- O: at frozen draft #235 `c46377738b711a5cc2114b58bf7726ae6e7bc553`, `frontiers/ordinary_short_bar_occurrence_20261001/PROOF.md`,blob `69ff20a6c514629373f3ad12eb2db2a2596777d6`,14146B,independently computed SHA256 `16d2c5f6c1fe45dd6ce8f6b69455db4908b8e6319e57d58c4ad7c9d1881bdd4d`. Consumed §1 O2/O3 (positive whole-field mean and planar singleton limit), with P/CAP/E1/E2/REC/R/T retained. This is the **planar** optional interface, not the later all-d successor. O's proof/interface was exposed; acceptance of its underlying isolation construction is outside this review.
+- SOURCE_BINDINGS blob `5a0280898cb8884a02c71e1189a6e7b58950097a` gives these uses separately. No P density, normalizer or isolation interface is needed to deduce §7.1 from SF.
+
+All three manuscript sizes and Git-framed blob hashes were freshly checked; SF/RATE's stated SHA256 values matched. The optional O SHA above fills a readback identity, without changing its source binding or acceptance.
+
+### C1. Count obstruction — direct proof
+
+For any finite nonnegative integer K,
+`K=1{K>0}+(K-1)_+`.
+On K>=2, `K>=2` and `K-1>=1`, so SF implies
+`D=E[K;K>=2]>=2c_*t^(4/3)` and
+`delta=E[(K-1)_+]>=c_*t^(4/3)`.
+If m=EK is finite, delta=m-p with p=P(K>0); otherwise the nonnegative expectation inequalities still hold. The ratio to the proposed remainder is at least `c_*t^(-2/21)` because `4/3-10/7=-2/21`, and diverges. Thus neither excess is O(t^(10/7)), conditional on SF. Also `D/2<=delta<=D`, since K/2<=K-1<=K for K>=2.
+
+There is no conflict with planar O1's D=o(t^(2/3)): t^(4/3) is smaller than the leading scale. No bound on P(K=2), sharp excess order, first-correction survival, independence, Poisson behavior or clustered configurations follows. In particular the lower bound t^(4/3) is itself o(t^(5/4)), so it cannot decide the first correction.
+
+### C2. RATE, volume and coefficient transfer — direct proof
+
+The pointwise E3⁺.1 remainder is bounded by C ell^(3/7) near zero. Its integral is bounded by (7/10)C t^(10/7). Termwise integration gives factors 3/2,4/5,3/4 for exponents -1/3,1/4,1/3. RATE's density is per unit volume; stationarity on this fixed torus supplies exactly L^d:
+`m=L^d[(3/2)c t^(2/3)+(4/5)c1 t^(5/4)+(3/4)c2 t^(4/3)]+O_{d,L}(t^(10/7))`.
+No candidate equal-height constant B belongs in this elder expansion. No L limit or reference-space coefficient substitution is taken.
+
+An identical three-term expansion for p with the same remainder would force delta=O(t^(10/7)), contradicting C1. If the first two coefficients agree and p has third coefficient b2 with a lower-order remainder, dividing delta by t^(4/3) gives a2-b2>=c_*. This last statement remains conditional on existence of that expansion; it does not compute b2.
+
+The exact decomposition
+`p=m-P(K=2)-E[(K-1);K>=3]`
+follows by splitting delta into K=2 and K>=3. It identifies the missing two-bar excess and >=3 upper control, rather than silently replacing occurrence by expectation.
+
+### C3. Marked law — direct proof and an exact refinement
+
+For any common measurable bar mark, let U be the empirical probability measure on a nonempty field, and define unnormalized I=E[KU], J=E[1{K>0}U]. Their difference R=E[(K-1)_+U] is positive with mass delta. For finite m and p>0,
+`I/m=(p/m)(J/p)+(delta/m)(R/delta)`
+when delta>0. Subtract J/p; homogeneity of the signed-measure TV norm gives exactly §7.3, including its TV=sup_A convention. Delta=0 gives equality of the laws. Identical marks give zero discrepancy whatever delta is. This is a valid cancellation counterexample; it supplies no lifetime-only TV lower bound for the Gaussian field.
+
+For X=K, event {X=1} has probabilities p1/m and p1/p. Their difference is p1 delta/(mp), as claimed. Under planar O2/O3, p1/p->1 and m~a0t^(2/3),a0>0. For example eventually p1/p>=1/2 and m<=2a0t^(2/3), yielding
+`TV>=c_*/(4a0)t^(2/3)`.
+Since 2/3-16/21=-2/21, a uniform O(t^(16/21)) bound over **all field-aware marks** is impossible under SF+O. This neither extends O to d>2 nor obstructs that rate for a specific lifetime/endpoint mark.
+
+**Additional exact consequence, proved here for use by the sampling lane.** Put p_k=P(K=k),m=EK,p=P(K>0). For the count mark,
+`TV_count=(1/(2mp))sum_{k>=1}p_k|kp-m|`.
+For any field-aware bar mark, subtract the laws as
+`E[1{K>0}(K/m-1/p)U]`.
+Testing any measurable set bounds its absolute mass by the positive part of this scalar coefficient, whose total expectation is zero. Hence
+`TV_mark<=TV_count`.
+The count mark attains this bound, so it is the **exact worst-case** field-aware mark discrepancy. If m/p<2, all k>=2 terms have positive sign while k=1 has negative sign; therefore
+`sup_marks TV=TV_count=p1 delta/(mp)`.
+Planar O2 implies m/p->1, so this formula holds eventually; O3 implies
+`sup_marks TV ~ delta/m`
+whenever delta>0. Thus the universal sampling-rate target is exactly the excess rate, while individual lifetime marks may cancel. This elementary new refinement is not an extra Gaussian multi-bar estimate or a substitute for A/B.
+
+### Verification and reproducible finite controls
+
+Independent stdlib Fraction controls passed in both normal and optimized modes (4092 finite count laws on counts0–5,17 fixed source/exponent/integration checks); no author module imported. Below is the complete count-law reproducer used for those 4092 cases. It checks finite identities only; the written proofs above cover arbitrary integrable counts/marks.
+
+```python
+from fractions import Fraction as F
+from itertools import product
+def ck(p, label):
+    if not p:
+        raise RuntimeError(label)
+def law_check(weights):
+    total=sum(weights)
+    if not total: return False
+    pk=[F(x,total) for x in weights]
+    m=sum(k*x for k,x in enumerate(pk)); p=1-pk[0]
+    if not p: return False
+    D=sum(k*pk[k] for k in range(2,len(pk)))
+    delta=sum((k-1)*pk[k] for k in range(1,len(pk)))
+    ck(delta==m-p,'excess identity')
+    ck(D/2<=delta<=D,'excess sandwich')
+    ck(delta==pk[2]+sum((k-1)*pk[k] for k in range(3,len(pk))),'two-bar decomposition')
+    I=[k*pk[k]/m for k in range(1,len(pk))]
+    J=[pk[k]/p for k in range(1,len(pk))]
+    TV=sum(abs(x-y) for x,y in zip(I,J))/2
+    ck(TV<=delta/m,'TV bound')
+    # This exact formula is the sharper field-aware count-mark consequence.
+    ck(TV==sum(pk[k]*abs(k*p-m) for k in range(1,len(pk)))/(2*m*p),'exact count TV')
+    if m<2*p: ck(TV==pk[1]*delta/(m*p),'singleton maximizes discrepancy')
+    if delta:
+        excess=[(k-1)*pk[k]/delta for k in range(1,len(pk))]
+        ck(all(x==p/m*y+delta/m*z for x,y,z in zip(I,J,excess)),'mixture equality')
+        ck(TV==delta/m*sum(abs(x-y) for x,y in zip(excess,J))/2,'TV equality')
+    # A lifetime-only mark identically 1/2 has equal selection laws even for delta>0.
+    ck(sum(I)==sum(J)==1,'constant lifetime mark cancellation')
+    return True
+
+n=sum(law_check(w) for w in product(range(4),repeat=6))
+ck(n==4092,'enumerated count laws')
+
+print(n)
+```
+
+I read actual target run36946637485/job110650156794 logs: checkout/test merge `49b636d047abcb9d92eae588bc5842ef4d81ec1f` combines this head with current main `6f74f7a77bae15d6aa07506bab38977e34dcc449`; historical P/RATE/O bindings authenticated,43 tests passed in each mode, output comparisons and all mutant exit checks completed. The log explicitly reports proof_verified:false. All-event head query returned successful PR runs36946637485/36946637698 and **no push run**. I did not rerun the author's full packet locally or treat these checks as continuum proof/merge permission.
+
+The exact-name Drive metadata search returned no matching separated-fold packet. Broad keyword candidates were not treated as exact sources or fetched/exported. GitHub is authoritative for this selected source cut; no exchange, sharing change or blanket-sync claim is made.
+
+### Handoff
+
+**Slice C ACCEPTED at these exact bytes, conditional on SF and the separately named optional inputs.** A/B remain pending: existing Claude invitation5943342528 is a concrete request, not a claimed delivery. Those reviewers must still close all cap faces/global elder identification and the fixed residual-cost/correlated Gaussian inverse-map argument. The author retains the branch; draft status, pending analytic reviews and all parent limitations remain. No merge is requested on the strength of C alone.
+
+The next mathematical consumer is an actual two-bar excess/marked-measure **upper/asymptotic** estimate including clustered configurations. Retain it as open until a real scoped pickup and proof; do not reissue completed C algebra or ask for an O(t^(10/7)) vanishing excess that SF rules out. Review claim5943558378 is COMPLETE/RELEASED on delivery.

@@ -1,0 +1,242 @@
+# The actual typed contribution when the midpoint transverse Hessian is not negative definite
+
+Object C83-NONNEGATIVE-TRANSVERSE-LAYER-20261002-v1.
+Author OpenAI/Codex root01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2, delegated by Dylan Roy.
+Author-side candidate; actual nonauthor review pending. Dylan personal reading
+PENDING; organizational independence0; scientific effectNONE.
+R17 claim c5e558ab-9ca0-465c-8ddf-9b0a1e98eb10, narrowed in5960122466.
+
+## 1. Scope and source interfaces
+
+This is a separate input for the A-not-negative layer left open in the
+intermediate author's AW5960071649. It does not duplicate AW's negative-curvature
+lemma or Kimi's claimed review of SE/AW5960107887. The proof below uses the
+pinned W+ and Gaussian interfaces directly; no acceptance of AW is imported.
+
+Sources are raw Git bytes at a6eb5085c8e82468e3c65befa56e2c9eb5886322,
+with full hashes and byte counts in sources/IDENTITIES.json:
+
+- [W] frontiers/third_order_rate_20261001/PROOF.md, blob
+  110ed33a57902bef11873807e722fde3888b59fb: section0 definitions and complete
+  section4, especially (4.1), the weighted conditional f4 integration, (4.2),
+  and the exact normalization after (W+.1).
+- [G] frontiers/candidate_third_order_20261001/PROOF.md, blob
+  70ca57ef05199e75417d7d57928c1e1c93bf944e: Lemma D, conditional moments (1.2),
+  and Step F2's transverse-block comparison.
+- [E] frontiers/elder_third_order_20261001/PROOF.md, blob
+  c8767ddecf1041d234f685e95af582073a7be393: section2 facts F1/F3/F4/F5 and
+  (2.1)-(2.2), including current-field free jets and polynomial envelopes.
+- [N] frontiers/elder_cusp_parity_20261002/PROOF.md, blob
+  16a1db0658918057ff741df888c13702763d9919: section5 is motivation only;
+  no uniform extension of its fixed-kappa theorem is consumed.
+
+Fix the source's dimension d>=2, m=d-1, fixed torus/model, admissible frame u,
+height b and 0<r<=min(r_0^*,1/2). Let 0<=k<=r and kappa=k/r in[0,1].
+Write Q=Q_{r,b,k}, P=1+|b|+k, N=1+k+||F_r||_{C^9}, A=D_Theta^2 F_r(0),
+Delta=det A. N>=1 controls the finite jets. Constants below depend on the
+fixed source model/dimension and stated polynomial orders, not on r,k,b,u.
+They retain the source's finite-jet nondegeneracy and regression hypotheses.
+
+Let w=W_r/r^2=F_d(K_M)F_{d-1}(K_S)>=0 be the ACTUAL typed determinant
+product. The radial kernel is K_cand=r^-2 A_r=12 pi_r(v_r) r^-2 E_Q[w].
+For a fixed a>=0, define
+
+  K_plus,a(r,b,k,u) = 12 pi_r(v_r) r^-2
+      E_Q[N^a w 1{A is not negative definite}].                 (1)
+
+**Theorem NT.** There are C,c,N_a finite, with the parameter dependence above,
+such that throughout this range, including k=0,
+
+  E_Q[N^a w 1{A not<0}] <= C r^5 log(2/r) P^{N_a},              (2)
+  K_plus,a <= C r^3 log(2/r) (1+|b|)^{N_a} exp(-c b^2).         (3)
+
+The same estimates hold with any measurable multiplier taking values in[0,1],
+in particular the actual elder or rejection mark. No independence from that
+mark, surrogate localization, or approximation of its decision is required.
+Any fixed polynomial in the field jets is dominated in absolute value by C N^a
+for a suitable fixed a, so the same conclusion holds with that extra weight.
+
+## 2. The maximum pin confines this event to a signed spectral strip
+
+On {w>0}, K_M is negative definite. Its transverse principal block is
+A_M=D_Theta^2 F_r(-ru/2), so A_M<0. The same deterministic comparison used
+in [G] Step F2 and [E] F2 gives
+
+  ||A_M-A|| <= C_0 r N.                                       (4)
+
+One may enlarge C_0>=1 to accommodate the source norm convention. The
+Rayleigh variational formula yields
+lambda_max(A)<=lambda_max(A_M)+||A-A_M||<C_0 r N.
+If A is not negative definite then lambda_max(A)>=0. Therefore
+
+  {w>0,A not<0} subset {0<=lambda_max(A)<C_0 r N}.              (5)
+
+This is a signed strip around ZERO for the largest eigenvalue; it is not the
+negative-cone variable lambda_min(-A). The source Lemma D is stated precisely
+for |lambda_max(A)|<tau on arbitrary symmetric matrices and thus applies.
+No claim that the left event is empty is made.
+
+## 3. Weighted spectral-strip and determinant-window estimates
+
+Put L_tau={|lambda_max(A)|<=tau}. Conditional on the current field's J'''
+(all free jets except f4 and A), [E] F5 supplies a Gaussian matrix density
+with uniform upper/lower covariance bounds and mean bounded by
+C(P+|J'''|). For j=0,1,2 and every fixed n>=0, [G] Lemma D implies
+
+  E[(1+||A||)^n |Delta|^j 1_L_tau | J''']
+      <= C tau^{j+1} (P+|J'''|)^{N(n,j)}.                     (6)
+
+Indeed |Delta|<=tau ||A||^{m-1} on L_tau: one determinant factor is
+lambda_max(A), regardless of sign. Apply the first inequality of Lemma D
+with the increased polynomial norm weight. For j=0 use that inequality
+directly. This holds for every tau>0; no inverse eigenvalue moment is used.
+Boundary equality has conditional probability zero, or can be obtained by
+monotone limits from larger strips.
+
+The second inequality of [G] Lemma D, by the dyadic calculation [W](4.2),
+also gives for every s>0
+
+  E[(1+||A||)^n min(1,s/|Delta|) | J''']
+     <= C s[1+log_+(1/s)] (P+|J'''|)^{N(n)}.                  (7)
+
+For 0<s<1, partition |Delta|<s, successive dyadic shells up to1, and
+|Delta|>=1. Each small shell costs at most C s, their number is
+O(1+log(1/s)), and the last part costs C s times a polynomial moment.
+For s>=1 the unconditional polynomial moment is <=C s times its envelope.
+Set min(1,s/0)=1; the zero determinant set is null. Formula (7) will be
+used globally, after dropping the strip indicator only in the last term.
+
+## 4. Keep the actual typed window before integrating f4
+
+By [W](4.1), with an integer n_0>=1 and C_R>=1 enlarged as necessary,
+
+  w <= 4r^2(6kappa|Delta|+eta)^2
+                 1{|Y_r|<=6kappa|Delta|+eta},
+  eta=C_R r N^{n_0},
+  Y_r=(f4/12)Delta+3k tr(adj(A)B)-gamma^T adj(A)gamma/4.        (8)
+
+This source bound is for every actual typed pair, not just A<0, and holds
+at k=0. Split N into [2^h,2^{h+1}), h>=0, and define deterministic values
+
+  eta_h=C_R r 2^{(h+1)n_0},   tau_h=C_0 r 2^{h+1}.             (9)
+
+Use (5) and enlarge the strip and window using (9). The layer's N^a
+costs 2^{(h+1)a}. Conditional Markov, using [E] F4 with the current free
+jet vector J', contributes 2^{-hp} C_p(P+|J'|)^p. Thus the contribution
+to E[N^a w 1{A not<0}] is at most
+
+ C r^2 2^{-h(p-a)} E[(6kappa|Delta|+eta_h)^2
+       1_L_tau_h 1{|Y_r|<=6kappa|Delta|+eta_h}(P+|J'|)^p].     (10)
+
+Constants absorb 2^a. This is conditional Markov, not an independence
+assertion about N and the jets. All uses of f4 and A below concern F_r's
+OWN jets at gap k.
+
+Given J''=J' without f4, Y_r is affine in f4 with slope Delta/12. The
+window in (10) has length144kappa+24eta_h/|Delta|. [E](2.1), together
+with its total Gaussian moment bound, converts the expectation in (10)
+into
+
+ C E[(6kappa D+eta_h)^2 1_L_tau_h
+        min(1,144kappa+24eta_h/D)(P+|J''|)^q], D=|Delta|,      (11)
+
+for a fixed q depending on p. It is important that the polynomial f4
+weight has been integrated before the spectral estimate.
+
+For kappa,eta,D>=0, the expression before the strip in (11) is bounded by
+
+ 10368 [kappa^3 D^2 + kappa^2 eta D + kappa eta^2
+                                  + eta^2 min(1,eta/D)].     (12)
+
+For D>0 this follows from (x+y)^2<=2(x^2+y^2),
+min(1,a+b)<=a+min(1,b), and min(1,24x)<=24min(1,x).
+The four coefficients before taking their common upper bound are
+10368,1728,288,48. The D=0 convention gives the same inequality directly.
+This is an upper bound, not an exact four-term expansion.
+
+Condition next on J''' and apply (6) to the first three terms and (7)
+to the fourth. Afterwards integrate the polynomial J''' envelopes.
+The bracket in (11) is bounded by C P^Q times
+
+ kappa^3 tau_h^3 + kappa^2 eta_h tau_h^2 + kappa eta_h^2 tau_h
+                     + eta_h^3[1+log_+(1/eta_h)].             (13)
+
+Because kappa<=1, n_0>=1 and eta_h>=r, (13) is at most
+
+ C r^3 2^{3n_0(h+1)} log(2/r) P^Q.                           (14)
+
+This also covers arbitrarily large h with eta_h or tau_h greater than1;
+no truncation to typical norm layers is used. Choose, for example, an
+integer p>a+3n_0+1. Multiplying (14) by the prefactor in (10) gives a
+summable geometric series in h, bounded by C r^5 log(2/r) P^{N_a}.
+All required conditional moments are available for every finite p in F4.
+This proves (2).
+
+Finally multiply by12 pi_r(v_r) r^-2. The source pin-density bound is
+pi_r(v_r)<=C exp[-c(b^2+k^2)], and k<=r<=1/2, so the polynomial P^{N_a}
+reduces to C(1+|b|)^{N_a}. This proves (3). Exactly one factor r^-2 is
+used here; (2) is an expectation bound of order r^5, while (3) is the
+radial kernel bound of order r^3.
+
+## 5. Lifetime contribution and precise consequence
+
+For small ell>0 with ell^{1/5}<=min(r_0^*,1/2), put k=ell/r^3,
+kappa=ell/r^4. On Region A, ell^{1/4}<=r<=ell^{1/5}, one has
+r<=kappa<=1. Integrating (3) over b and the compact frame space gives
+
+ contribution(A not<0, Region A)
+    <= C integral_{ell^{1/4}}^{ell^{1/5}} r^3 log(2/r) dr
+    = O(ell^{4/5} log(1/ell)) = o(ell^{3/4}).                 (15)
+
+An antiderivative is r^4[log(2/r)+1/4]/4. The final little-o follows
+from ell^{1/20} log(1/ell)->0. The radial lifetime Jacobian is already
+included in K=r^-2 A; no additional dr/dell is inserted.
+
+This closes this particular A-not-negative ACTUAL weighted contribution,
+subject to the displayed source hypotheses. A contact cusp mark built from
+the SAME A vanishes on A not<0 by definition. This does not identify its
+sector with one defined using a DIFFERENT coupled midpoint matrix A_0:
+such a comparison must retain the coupling error, or bound the resulting
+near-zero spectral strip separately. It also does not subtract a global
+coefficient as if that coefficient were an eventwise mark.
+
+It proves neither the good-region moving-edge remainder nor equal-height
+elder stability EH. It does not complete Region A, Region B, Conjecture7,
+the global persistence bridge, or any imported independence predicate.
+It gives the existing author one explicit bound for the named layer.
+
+## 6. Adverse checks and a real typed example
+
+A-not-negative cannot be removed by asserting that typing forces A<0.
+For any r in(0,1/2], set k=r and on a fixed coordinate box let
+
+ f_r(x,y)=2r x^3-(3/2)r^3 x-(1/2)r^4
+          -(29/10)(x^2-r^2/4)^2
+          +(1/2)(r+4x)y^2+sqrt(r)(x^2-r^2/4)y.               (16)
+
+At M=(-r/2,0),S=(r/2,0), the gradients vanish and the heights are
+0 and -r^4. The midpoint transverse Hessian is A=r>0. At the endpoints,
+
+ H_M=[[-59r^2/5,-r^(3/2)],[-r^(3/2),-r]],
+ H_S=[[ r^2/5, r^(3/2)],[ r^(3/2),3r]].                      (17)
+
+Thus det H_M=(54/5)r^3>0 and H_M<0; det H_S=-(2/5)r^3<0.
+It is an actual typed maximum/saddle pair despite A>0. Its weight
+w=|det H_M det H_S|/r^2=(108/25)r^4. The family has uniformly bounded
+C^9 norms on a fixed bounded coordinate box; a fixed smooth cutoff equal
+to1 near the pins embeds it on the fixed torus, preserving local data and
+uniform norm bounds. Consequently the r^5 log bound is an EXPECTATION
+bound, not a pathwise estimate. The extra power comes from integrating
+the shrinking spectral strip. This example is not a random-field
+counterexample and makes no assertion about its elder partner.
+
+The exact checker tests (12), weighted-strip power bookkeeping, dyadic
+summability and normalization, the exact derivatives of (16), and adverse
+mutations. It also rejects treating a merely small determinant as an
+empty event, dropping the spectral-strip factor, or double-applying the
+lifetime Jacobian. Samples check algebra; (4)-(15), based on the stated
+Gaussian source interfaces, are the proof of the continuous estimate.
+
+
+---
+Exact proof above: 11603 UTF-8 bytes, SHA256 `7f9aa30d8f613bbd74e0db704c3e1e03aa67ccc515568d992da7d04debfe5ce6`. Author checker:8,046 positive controls and8 adverse controls, identical normal/optimized Python output. Complete frozen delivery follows actual nonauthor review; no sampled check is used to assert the Gaussian integrals. Review requested only for this A-not-negative input, not for AW/SE or the whole Region-A theorem.

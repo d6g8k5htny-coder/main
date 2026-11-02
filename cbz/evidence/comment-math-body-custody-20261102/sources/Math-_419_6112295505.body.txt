@@ -1,0 +1,633 @@
+C260 — total SuperlevelBarInterface existence and exact controls. Full source-bound prose delivery, delegated OpenAI/Codex for Dylan Roy. Distinct nonauthor review ACCEPT_SCOPED_MATHEMATICAL_PROSE under declared imports/C258; review and master verification follow in a separate full comment. No Lean term, CI/commit or scientific promotion. Fresh own claim99e05246 Work Events1725; C254 source/compile ownership retained.
+
+# C260 — a total realization of the superlevel bar interface
+
+**Status: authored deterministic mathematical proof for distinct nonauthor review.**
+This constructs the data required by the pinned `SuperlevelBarInterface` and
+proves its three clauses. It then consumes C258's existing actual-bar theorem.
+It is prose, not a Lean implementation, kernel theorem, CI receipt, canonical
+promotion, stochastic result, or proof of the full parent theorem.
+
+Author: OpenAI / Codex agent `/root/c260_interface_author`, delegated for Dylan
+Roy by root `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`. Root supplied the
+strict-path-clearance/supremum construction and source pointers. This author
+read those sources and developed the argument below; source and design exposure
+are explicit. Organizational-independence credit is 0. No human review is
+claimed, and model agreement is not mathematical evidence. Root coordinates
+separate controls, nonauthor review, current authority, and publication.
+
+The claim readback supplied and inspected for this task is R17 Work Events
+1725, claim `99e05246-657b-4e61-9196-e00c1100e999`, acquired
+2026-10-11T18:23:24Z, expiring 2026-10-11T20:23:24Z, with all 14 cells matching.
+Its native pickup is [Math- #419 comment 6112211984](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6112211984).
+This author changes only this file and performs no remote mutation or project
+runtime. The claim is cooperative coordination, not an exclusive machine lock.
+
+## 1. Exact inputs, target, and imports
+
+The entire pinned `Field.lean` and C258 `DEATH_PAIR_PROOF.md` were read. Inert
+local SHA-256 reads give:
+
+| Input relative to this workspace | SHA-256 |
+|---|---|
+| `work/continuation250/Field.lean` | `f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e` |
+| `work/continuation258/DEATH_PAIR_PROOF.md` | `b5c2c910646e2f268a48bba08c9b630bcc45f8a16fcc34145630de8316e4aa29` |
+
+The Field identity is Math- commit
+`873c6c01b768acf66c8968e5fb8b734e2d8d61d0`, path
+`specifications/lean_statements_20261010/Specifications/Field.lean`, blob
+`cc40e9d19446b8a150401c574d3cfd56177f195f`. The correct locator is the one
+carried by the [C256 locator erratum](https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6111576469),
+not a shortened historical path. Source freshness and native identity are
+root's custody evidence; the hashes above identify the bytes consumed here.
+
+Write E = `EuclideanSpace R (Fin d)`. The interface requires total functions
+
+    deathHeight : (E -> R) -> E -> R,
+    IsEssential : (E -> R) -> E -> Prop,
+    ElderPartner : (E -> R) -> E -> E -> Prop.
+
+Its first two laws apply only when g is smooth and L-periodic; the second
+additionally assumes that M is nonessential. Its third law additionally
+assumes `IsMorseDistinct d L g`. A construction only for one Morse g would
+not inhabit this interface. We construct all three data on every g and M,
+for every fixed natural number d and real number L, and verify exactly those
+restricted laws. No new field or persistence-agreement axiom is added.
+
+The new construction uses classical real order completeness, compactness of
+the unit interval, the extreme-value theorem for a continuous real function
+on a nonempty compact interval, and continuity of a straight segment in a
+real Euclidean space. These are explicit classical imports in this prose
+argument. Smoothness implies continuity. No differentiability, Morse theory,
+torus compactness, Gaussian law, or persistence theorem is needed to construct
+the interface. The later actual-bar corollary retains all of C256–C258's
+declared geometric and H0 imports rather than proving them again or hiding
+them inside this construction. Lean lemma names and elaboration are not
+verified by this text.
+
+## 2. Total data on arbitrary functions
+
+For an arbitrary function g:E->R and point M in E define
+
+    A_g(M)  :iff  for every y in E, g(y) <= g(M),
+
+    C_g(M) = {h in R : there exist y in E and a continuous path
+               gamma:[0,1]->E from M to y such that
+               g(M) < g(y) and, for every t in [0,1], h < g(gamma(t))}.
+                                                                  (1)
+
+The path in (1) is precisely the mathematical datum represented by the
+source's `Path M y`, with its compact `unitInterval` parameter. In particular
+gamma(0)=M and gamma(1)=y. We use strict clearance at every parameter,
+including the endpoints.
+
+Define the real-valued function
+
+    D_g(M) = sup C_g(M), if C_g(M) is nonempty;
+             0,          if C_g(M) is empty.                       (2)
+
+Every nonempty set in the first branch is bounded above, without any
+regularity assumption on g: a witness for h in C_g(M), evaluated at t=0,
+gives h<g(M). Therefore g(M) is an upper bound. The nonempty branch in (2)
+is consequently the ordinary finite real least upper bound. Formula (2)
+is a classical, possibly noncomputable total definition, and it does not
+appeal to an undefined or infinite real supremum. An implementation may
+use real `sSup` in the first branch; its boundedness and nonemptiness are
+proved here rather than assumed from Lean's totalized notation.
+
+Finally set
+
+    E_g(M,S) :iff IsNondegMax d g M and IsIndexSaddle d g S
+                 and not A_g(M) and D_g(M)=g(S).                    (3)
+
+Here the maximum and saddle predicates are exactly the source definitions,
+including their existing `fderiv` and Hessian conventions. Formula (3)
+defines a total relation even on nonsmooth functions. We claim no geometric
+meaning for it there. It is a definition of the interface's relation; its
+agreement with actual persistence will come separately from C258.
+
+If A_g(M) holds, a strictly higher endpoint cannot exist, so C_g(M) is
+empty and D_g(M)=0. This real zero is a deliberately arbitrary convention
+for an essential input. It is not the extended-real value minus infinity
+mentioned informally in the source comment, and is not an essential-bar
+death. The typed source law for `deathHeight_maximin` excludes precisely
+these inputs. Moreover (3) is false at essential M regardless of that zero.
+
+For arbitrary g, nonemptiness of C_g(M) implies not A_g(M), because a
+witness includes a strictly higher endpoint. The converse will need
+continuity; it is not silently imposed on all inputs in this total record.
+
+## 3. The strict-clearance cut for a continuous nonessential input
+
+Fix a continuous g and assume not A_g(M). Classical negation and the total
+order of R give some y with g(M)<g(y). The straight segment from M to y is
+a continuous path gamma. The continuous function t |-> g(gamma(t)) attains
+a finite minimum m on the nonempty compact interval. At every t its value
+is at least m, so m-1 has strict clearance along this path. Thus
+
+    m-1 belongs to C_g(M); in particular C_g(M) is nonempty.        (4)
+
+This lower witness is pathwise. Neither compactness of all of E nor a
+global lower bound on g is required.
+
+Two elementary facts identify the cut exactly. First, it is downward closed:
+if c belongs to C_g(M) and h<c, the same endpoint and path have clearance
+above h, so h belongs to C_g(M). Second, every member can be increased:
+if h belongs to C_g(M), take its witnessing path gamma and its attained
+minimum m. Because every value along this path is strictly above h, the
+value at a minimizing parameter is strictly above h; hence m>h. The number
+
+    h' = (h+m)/2
+
+satisfies h<h'<m and therefore also belongs to C_g(M), with the same path.
+This step uses attainment on a compact interval. A pointwise strict
+inequality alone does not supply a uniform positive margin without that
+continuity and compactness argument.
+
+Write D=sup C_g(M), now in the nonempty bounded branch of (2). We prove
+
+    for every real h, h<D  iff  h belongs to C_g(M).                (5)
+
+If h<D and there were no c in C_g(M) with h<c, then h would be an upper
+bound for C_g(M). The least-upper-bound property would give D<=h, a
+contradiction. Choose such a c; downward closure gives h in C_g(M).
+Conversely, if h belongs to C_g(M), choose h'>h in the same set as above.
+Because D is an upper bound, h'<=D and hence h<D. This proves (5) in
+both directions, including its strictness at the boundary.
+
+In particular C_g(M)=(-infinity,D), D<=g(M), and D does not belong to
+C_g(M). No path with clearance strictly above D exists. This does not
+exclude a path staying at or above D, and it does not prove such a path
+exists under mere continuity. Also D<g(M) is not asserted for an arbitrary
+continuous nonglobal point. C256 provides the stronger separation and
+closed-threshold attainment on its particular Morse-maximum locus.
+
+## 4. Agreement with the source's supremum of path minima
+
+For the same continuous nonessential input let
+
+    B_g(M) = {min_(t in [0,1]) g(gamma(t)) :
+              y in E, g(M)<g(y), gamma a continuous path M->y}.
+
+Every displayed minimum exists by the same extreme-value argument. A
+straight path proves that B_g(M) is nonempty, and evaluation at its initial
+point bounds every member above by g(M). For any such path with minimum m,
+it has strict clearance above h if and only if h<m. The reverse implication
+is immediate from minimality; for the forward implication evaluate at a
+minimizer. Consequently
+
+    C_g(M) = union over m in B_g(M) of (-infinity,m).               (6)
+
+Let b=sup B_g(M). If h belongs to C_g(M), (6) supplies m with h<m<=b.
+Thus b is an upper bound for C_g(M), so D<=b. Conversely, every m in
+B_g(M) satisfies m<=D: if D<m, the midpoint (D+m)/2 would, by (6), belong
+to C_g(M) while exceeding its upper bound D. Therefore D bounds B_g(M)
+from above and b<=D. We have proved
+
+    D_g(M) = sup_(gamma(0)=M, g(gamma(1))>g(M))
+                    min_(t in [0,1]) g(gamma(t)).                  (7)
+
+This proves the source's maximin expression on the continuous nonessential
+locus. It makes no assertion that the supremum in (7) is attained by one
+path. Its essential empty-family case is handled by the explicit convention
+in (2), not by interpreting an empty real supremum as minus infinity.
+
+## 5. Verifying every field of the pinned interface
+
+For each fixed d in N and L in R, assign the data
+
+    I0.deathHeight = D,  I0.IsEssential = A,  I0.ElderPartner = E.
+
+All are functions on all g:E->R, so the types have no hidden restriction
+to a smooth or Morse subtype. We supply the three proof obligations.
+
+1. **`essential_iff`.** For any g, M, smoothness witness, and periodicity
+   witness, the claimed equivalence is A_g(M) iff for all y, g(y)<=g(M).
+   This is the definition of A_g(M). It actually holds without using
+   either witness.
+2. **`deathHeight_maximin`.** Suppose g is smooth and L-periodic and M
+   is not I0-essential. Smoothness gives continuity and the last assumption
+   is not A_g(M). Section 3 applies. Substituting (1) into (5) gives, for
+   every real h, exactly the source equivalence
+
+       h<I0.deathHeight(g,M)
+         iff exists y, g(M)<g(y) and exists gamma:Path M y,
+                         for all t:unitInterval, h<g(gamma(t)).
+
+   Periodicity is part of the required clause but is not needed in this
+   proof. Essential inputs remain outside the premise.
+3. **`elderPartner_iff`.** Under the supplied smoothness, periodicity,
+   and `IsMorseDistinct` witnesses, substitute the three assigned data.
+   The required equivalence is precisely (3), so it holds by definition.
+   This verification does not purport to derive persistence from a
+   definition; Section 7 invokes the separate actual-bar theorem.
+
+The definitions and these three proofs therefore give a mathematical
+inhabitant I0 of the exact structure `SuperlevelBarInterface d L` for
+every d and L. This is the promised total existence result. A future Lean
+implementation must express and check this construction rather than take
+the existence statement, compact-minimum argument, or (5) as a new axiom.
+
+There is no exceptional existence case at d=0 or L=0. When d=0, E is a
+singleton, so every input is essential, C is empty, D=0, and E_g(M,S) is
+false by its nonessential conjunct. The death clause is vacuous. At L=0
+(or negative L), the data are still those of (1)–(3); periodicity affects
+which hypotheses may be supplied, not whether the record exists. These
+observations extend only the interface construction, not C258's geometric
+torus interpretation, and establish no volume-normalized density at L=0.
+
+## 6. What is unique, and on exactly which locus
+
+First fix continuous g and nonessential M independently of any interface.
+If a real number a satisfies, for all h, h<a iff h belongs to C_g(M),
+then a=D_g(M) by (5). To see uniqueness directly, if a<D choose their
+midpoint h. It lies below D but not below a, contradicting the two cut
+characterizations; if D<a use the same argument with the roles reversed.
+Thus the continuous nonessential cut determines a unique finite real value.
+
+Next let I and J be any two objects of the pinned interface for the same
+d,L. On a smooth L-periodic g, their `essential_iff` laws imply, for every M,
+
+    I.IsEssential(g,M) iff A_g(M) iff J.IsEssential(g,M).            (8)
+
+If not A_g(M), both maximin clauses characterize their death values by
+the same C_g(M). The uniqueness just proved gives
+
+    I.deathHeight(g,M) = D_g(M) = J.deathHeight(g,M).                (9)
+
+The smooth periodic restriction in (8)–(9) matters. Although D itself
+has a characterization for every continuous nonessential g, an arbitrary
+interface's axioms constrain its deathHeight only on smooth periodic g.
+Therefore (9) is not asserted for arbitrary merely continuous g, or for
+arbitrary nonsmooth or nonperiodic inputs.
+
+If in addition g is on the source's distinct-Morse locus, the elder
+relations also agree for every M,S. When A_g(M) holds, the nonessential
+conjunct in each `elderPartner_iff` is false, so both relations are false.
+When it fails, (8)–(9) make all four conjuncts in the two source formulas
+identical. Hence
+
+    I.ElderPartner(g,M,S) iff E_g(M,S)
+                          iff J.ElderPartner(g,M,S).              (10)
+
+The same conclusion holds for the source's `IsFiniteBar` predicates there,
+because their additional candidate and positive-gap clauses do not depend
+on the interface. This is uniqueness of the relevant values and predicates
+on their stated loci, not equality of I and J as total records. Essential
+deathHeight values remain unconstrained; other off-locus data can differ.
+In particular choosing 0 in (2) creates no global uniqueness theorem and
+does not convert the essential interval into a finite interval ending at 0.
+
+## 7. Instantiating the existing actual-persistence bridge
+
+Now impose the geometric hypotheses of the previously delivered C258 argument:
+L>0, g:E->R smooth, L-periodic, and `IsMorseDistinct d L g`. C258's prose
+result covers d>=1; its offered project/formal successor specifies d>=2.
+We retain that project target d>=2 here. The same substitution into C258's
+prose statement is valid for d=1, but nothing here extends it to d=0 or
+L<=0, or alters the stated formal target's scope.
+
+Let X=E/(L Z^d), let gbar be the descended function, and let k be any
+coefficient field. Consume C258 Sections 5–7 with the concrete interface
+I0 from Section 5, rather than leaving I as an existence hypothesis.
+All its other hypotheses and declared classical imports remain in force.
+Write P for the finite set of quotient local maxima, M_* for the unique
+global one, b_M=gbar(M), delta_M for the C256 endpoint, S_M for its unique
+merging critical point, and rho for the unique [0,L)^d representative.
+C258 now gives
+
+    IsFiniteBar d L I0 g x y
+      iff pi(x)=M for a nonglobal local maximum M
+          and pi(y)=S_M,                                         (11)
+
+Its death is D_g(x)=delta_M, its lifetime is b_M-delta_M>0, and its actual ordinary
+singular-H0 interval for V_t=H0({gbar>=-t};k) is
+
+    [-b_M,-delta_M).
+
+The source maximin uses Euclidean paths, whereas these actual bars live
+on the quotient torus. This comparison is exactly the path projection and
+lifting argument already proved in C258 Section 5. We do not replace a
+lifted path by a discontinuous fundamental-domain representative path or
+identify lifted superlevel H0 with quotient H0.
+
+The map M |-> (rho(M),rho(S_M)) is therefore the C258 bijection from
+P without M_* to the finite source-pair population with both coordinates
+in the fundamental domain. For every subset B of R, in particular every
+Borel B, C258's finite-set argument supplies
+
+    pairCount d L (IsFiniteBar d L I0) g B
+      = sum_(M in P without M_*) 1_B(b_M-delta_M)
+      = number of actual finite ordinary H0 bars with lifetime in B. (12)
+
+There is one ordered birth/death pair per bar, with multiplicity of equal
+lifetimes retained; there is no factor 1/2. The essential class stays
+excluded. The merging saddle is the death of the younger component head,
+not necessarily a maximum adjacent along a chosen local branch. A
+nonmerging index-(d-1) saddle does not satisfy the actual finite-pair
+conclusion merely because of its index. These distinctions are inherited
+from C258 and are not bypassed by defining the relation in (3).
+
+By (10), the same finite-pair predicate and counts result from any other
+interface on this locus. The present progress is removal of the GIVEN_I
+existence hypothesis from this deterministic bridge: a total suitable I0
+has now been constructed. The actual interval decomposition, endpoints,
+isolated-death and pair-count leaves are consumed, not reopened or claimed
+as newly proved by this definition.
+
+## 8. Explicit limits and remaining work
+
+The proof above establishes mathematical inhabitance and the stated
+restricted uniqueness of the exact interface. A source-bound Lean term,
+elaboration, hosted compilation, dependency/axiom audit, and kernel check
+remain separate work; their status here is NOT_RUN, with no formal source
+mutation. Distinct nonauthor review and controls must be recorded separately
+from this author's argument. None of those engineering results alone would
+be scientific acceptance of the parent claim.
+
+No measurability of (g,M) |-> D_g(M), of the elder relation, of a random
+pair count, or of any field-law sampling operation is established. There
+is no assertion that every sample is Morse or that any Gaussian interface
+exists. No expectation or density version is constructed; no per-volume
+normalizer, contact integral, weighted critical-pair law, field-first
+sampling equivalence, all-small-bars converse, limit exchange, or regional
+shrinking multiple-witness collision bound is derived. In particular a
+global factorial estimate would not close the regional collision node.
+
+The next source owner's formal task can now distinguish two obligations:
+realize this total cut-based interface and its exact restricted laws; and
+formalize C258's independent actual-bar compatibility with its declared
+geometric dependencies. Turning actual-bar compatibility into a new assumed
+interface field would not accomplish the latter. Existing source owners,
+frozen evidence, open scientific gates, and explicit stops are preserved.
+
+
+# C260 — exact controls for a total superlevel-bar interface
+
+Status: contributor-authored mathematical controls for the C260 prose
+construction. These are exact arguments, not executable tests, a kernel
+certificate, or independent nonauthor review. They do not establish a
+Gaussian field, a persistence theorem off its stated locus, or a full parent
+theorem.
+
+Author/executor: OpenAI Codex agent `/root/c260_interface_controls`, delegated
+for Dylan Roy by root `01a0bbb5-2fcb-77f0-b78b-4d220ddd7ab2`. Root supplied the
+construction target, proposed control families, and source pointers. I read
+the source definitions and C258 adapter, and reconstructed the controls before
+seeing the C260 proof-author candidate. This is source- and design-exposed
+contributor work, with organizational-independence credit 0. No human review
+or mathematical acceptance is claimed.
+
+Root's active C260 claim is `99e05246-657b-4e61-9196-e00c1100e999`, R17 Work
+Events 1725, recorded 2026-10-11T18:23:24Z and expiring 20:23:24Z. The local
+claim readback reports all 14 cells matched. Native pickup:
+<https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6112211984>.
+Freshness/ownership coordination is root's evidence; this agent made no remote
+write and authors only this file.
+
+## 1. Exact source and notation
+
+The inspected definition source is the local C250 byte cache of
+`specifications/lean_statements_20261010/Specifications/Field.lean` at Math-
+commit `873c6c01b768acf66c8968e5fb8b734e2d8d61d0`, blob
+`cc40e9d19446b8a150401c574d3cfd56177f195f`. Its SHA-256 is
+`f22c91e082cd7e738ba47c9c3534e47ac687d066f0b78586d15103cf1132535e`.
+The relevant source declarations are `SuperlevelBarInterface` (lines
+298–323), `IsFiniteBar` (333–334), and their candidate/Morse predicates.
+
+The inspected C258 `DEATH_PAIR_PROOF.md` has SHA-256
+`b5c2c910646e2f268a48bba08c9b630bcc45f8a16fcc34145630de8316e4aa29`.
+Its Sections 5–7 give the concrete torus comparison and actual finite-bar
+identification for a **given** interface, under smooth periodic Morse
+distinct-value assumptions, d>=1 and L>0. Those restrictions are not removed
+by merely constructing total interface data.
+
+For a function g:R^d->R and a point M, define its strict connection cut
+
+    C(g,M) = {h in R : there are y and a continuous path gamma:[0,1]->R^d
+                        with gamma(0)=M, gamma(1)=y, g(M)<g(y),
+                        and h<g(gamma(t)) for every t in [0,1]}.
+
+The interface's maximin clause is required only for smooth periodic g and
+nonessential M. Its essential clause is required for smooth periodic g. Its
+elder-partner characterization is required only on the additional
+Morse-distinct locus. `deathHeight` is real-valued on every input, so an
+essential default is a real convention, not an encoded negative infinity.
+
+Only inert source/text and SHA-256 reads were used. No Python, Node, Lean,
+project runtime, hosted compilation, or CI was executed.
+
+## 2. Continuous nonessential input need not have a positive lifetime
+
+Take d=1, g(x)=x, M=0 and older point y=1. For h<0 the straight segment
+gamma(t)=t satisfies g(gamma(t))=t>=0>h. For h>=0 every proposed path fails
+already at its initial point, since g(M)=0 is not strictly above h. Thus
+
+    C(g,0)=(-infinity,0),       sup C(g,0)=0=g(M).
+
+At the supremum there is no strict witness. There is a closed-level path at
+level zero. Continuity and nonessentiality alone therefore yield neither a
+strict birth/death gap nor a nondegenerate maximum. Here the derivative is
+identically 1, so M is not critical. This example is deliberately
+nonperiodic: it controls the continuity-only cut argument, not the torus
+actual-bar theorem. A proof must not infer a finite bar merely from a
+nonempty bounded strict connection cut.
+
+## 3. Smooth periodic cut with an exact negative death level
+
+Let L=2*pi and, on R, put
+
+    p(x)=cos(2x)+cos(x),       M=pi.
+
+Write u=cos(x). Then
+
+    p(x)=2u^2+u-1=2(u+1/4)^2-9/8=(2u-1)(u+1).
+
+Let alpha=arccos(-1/4), so 0<alpha<pi. The global minimum is -9/8,
+attained at alpha and 2*pi-alpha modulo L. The point M has p(M)=0, while
+p(0)=2>0. Since u is between -1 and 1, the factorization proves
+
+    p(y)>0 iff cos(y)>1/2.
+
+In particular every higher endpoint lies outside the interval
+[alpha,2*pi-alpha] containing M: throughout that interval, u belongs to
+[-1,-1/4] and p<=0. Every continuous real path from M to such an endpoint
+must therefore cross alpha or 2*pi-alpha by the intermediate value theorem.
+At that crossing its height is -9/8. This applies to every path, including
+paths that reverse direction or travel across several periods.
+
+Conversely the straight segment from pi to 0 stays at height at least -9/8
+and reaches the older endpoint of height 2. Consequently
+
+    C(p,pi)=(-infinity,-9/8),       sup C(p,pi)=-9/8.
+
+For h<-9/8 that segment is a strict witness. For h>=-9/8 the mandatory
+minimum crossing rules out every strict witness. At h=-9/8 the same segment
+is a closed-level witness, with equality at the minimum. The exact gap is
+0-(-9/8)=9/8. This separates strict-cut membership from attained closed
+connection; replacing either strict inequality by a weak one changes the
+statement at the endpoint.
+
+The derivative is -sin(x)(4*cos(x)+1). The critical points modulo L are
+0, pi, alpha, 2*pi-alpha, with second derivatives respectively
+-5, -3, 15/4, 15/4. All are nondegenerate, but the two minima have the same
+critical value -9/8. Thus the example is smooth, periodic, and Morse, while
+it fails **distinct critical values**. It is an admissible exact control of
+the interface's maximin clause. The interface's `elderPartner_iff` clause
+does not apply to it. No choice of a unique elder death point or actual
+bar/pair theorem is inferred from this example.
+
+## 4. Dropping continuity changes the strict cut into a closed ray
+
+Define an everywhere positive, discontinuous function on R by
+
+    q(x)=1     if x<=0,
+         x     if 0<x<1,
+         2     if x>=1.
+
+Set M=0, so q(M)=1. The higher endpoints are exactly y>=1. The segment from
+0 to 1 has q>0 at every parameter value, and therefore witnesses 0 in
+C(q,0). It also witnesses every h<0.
+
+For any h>0, choose an integer n>=2 with 1/n<=h. Every continuous path from
+0 to any higher endpoint y>=1 crosses the coordinate 1/n. At that crossing
+q=1/n<=h, so the strict height condition fails. It follows exactly that
+
+    C(q,0)=(-infinity,0],       sup C(q,0)=0.
+
+The maximin equivalence at h=0 would assert the false statement
+`0<0 iff true`. Along the displayed segment the values are all positive,
+but their infimum is zero and is not attained. Compactness of the parameter
+interval alone has not produced a strictly positive uniform clearance.
+Continuity of the composed height is the missing hypothesis.
+
+This does not contradict a total interface: its axioms do not require the
+maximin equivalence on this discontinuous function. It does refute extending
+that equivalence to all functions merely because the assigned supremum is
+a real number and the cut is nonempty and bounded above.
+
+## 5. Abstract cut control: lower closure alone is insufficient
+
+The set A=(-infinity,0] is nonempty, bounded above, and downward closed.
+Nevertheless h in A is not equivalent to h<sup A at h=0. Thus the abstract
+step needed by the continuous construction must also exclude a largest
+element, for example by proving the following upward extensibility:
+
+    for each h in C, there is k in C with h<k.
+
+For continuous g and a witnessing compact path, let m be the attained
+minimum of g along that path. The strict witness gives h<m. The exact
+midpoint k=(h+m)/2 has h<k<m and is witnessed by the same path. This is the
+load-bearing step that fails in Section 4.
+
+For clarity, the two directions of the resulting supremum argument differ.
+If h is in C, extensibility supplies k>h in C, so sup C>=k>h. If h<sup C,
+some k in C satisfies h<k; otherwise h would itself be an upper bound,
+contradicting h<sup C. Downward closure then gives h in C. Neither direction
+licenses a witness at h=sup C. The real-supremum argument additionally uses
+nonemptiness and boundedness; it cannot be applied to an essential empty cut.
+
+## 6. Essential real defaults are not finite death levels
+
+Take g(x)=cos(x), L=2*pi, M=0. There is no higher endpoint, since g<=1=g(M).
+Thus C(g,M) is empty. The maximin axiom has a nonessential hypothesis and
+places no restriction on this essential `deathHeight` value. Assigning
+0, 42, or -1 there does not represent a finite ordinary death and is not
+a choice of a real negative infinity.
+
+More generally, given a valid total interface, changing its death-height
+values only at actual global maximizers preserves its source axioms if the
+essential and elder predicates are kept fixed. On smooth periodic inputs,
+`essential_iff` identifies those points as essential. The maximin axiom
+then has no applicable premise. In `elderPartner_iff`, the right-hand side
+is already false because it conjoins nonessentiality, whatever real value
+is assigned. Hence there can be distinct total interfaces with different
+essential death defaults; no global uniqueness theorem follows from the
+source clauses.
+
+The nonessential guard in the elder characterization is necessary. In the
+cosine example, S=pi is a nondegenerate index-zero saddle in dimension one,
+and M is a nondegenerate maximum at positive torus distance pi from S. If
+one selects the allowed essential default deathHeight(g,M)=-1=g(S) and then
+illegitimately omits the nonessential guard, that weakened formula accepts
+(M,S) with positive gap 1-(-1)=2.
+
+There is no corresponding finite ordinary H0 bar: on the circle the
+superlevel is empty for h>1, a connected arc or a point for -1<h<=1, and
+the whole connected circle for h<=-1. Its sole ordinary H0 class is
+essential. The real default must therefore remain semantically separated
+from an actual death, even when it numerically equals a saddle value.
+
+## 7. Off-locus elder freedom and the precise role of finite-pair guards
+
+The source constrains `ElderPartner g M S` only when g satisfies all three
+hypotheses: smoothness, periodicity, and Morse distinctness. For any valid
+total interface, changing this predicate at one function failing that joint
+locus preserves all source axioms: the other two axioms do not mention the
+elder predicate, and the elder axiom cannot be instantiated at that
+function. This supplies distinct valid extensions once existence has been
+constructed. It gives no new actual persistence interpretation there.
+
+Use p from Section 3, which fails Morse distinctness. One allowed extension
+can make its elder predicate true for every ordered pair; another can make
+it false there, without changing death height or essentiality.
+
+The candidate guard is substantively additional off this locus. For
+M=pi/3 and S=pi/2, one has p(M)=0 and p(S)=-1, hence a positive height gap
+1 and positive torus distance pi/6. But the derivatives are respectively
+-3*sqrt(3)/2 and -1, so neither endpoint is critical and the candidate
+predicate fails. If the off-locus elder predicate is true, dropping the
+candidate guard admits these noncritical endpoints.
+
+The positive-gap guard is separately additional. In dimension two set
+
+    r(x,y)=p(x)+cos(y),       L=2*pi,
+    M=(pi,0),                S=(0,pi).
+
+Both have height 1. The Hessians are diagonal:
+
+    Hess r(M)=diag(-3,-1),       Hess r(S)=diag(-5,1).
+
+Their gradients vanish. M is a nondegenerate maximum and S has exactly
+one negative direction, the required index d-1=1. Their torus distance is
+pi*sqrt(2)>0: each coordinate displacement is an odd multiple of pi after
+adding any lattice vector, and the minimum absolute displacement in each
+coordinate is pi. They form a candidate pair, but their gap is zero.
+Their equal heights at distinct critical positions explicitly violate
+Morse distinctness. An off-locus elder extension declaring this pair true
+is allowed by the interface. Dropping only the positive-gap condition
+would admit it as a finite pair despite its zero lifetime.
+
+Finally, these two guards do **not** themselves exclude every essential
+birth off the Morse-distinct locus. In the one-dimensional p example, take
+its global maximum M=0, of height 2, and S=alpha, of height -9/8. The
+candidate predicate holds, the torus distance is alpha>0, and the gap is
+25/8>0. If the unconstrained off-locus elder extension declares this pair
+true, the source `IsFiniteBar` predicate is true although M is essential.
+Thus even retaining both guards does not justify an actual-bar theorem
+for arbitrary valid interfaces at arbitrary inputs. A particular canonical
+extension may impose nonessentiality everywhere; that is a property of
+that extension, not a uniqueness or universal consequence of the interface.
+
+## 8. What these controls resolve, and what remains outside them
+
+The examples enforce four separate boundaries: strict-cut versus closed
+connection endpoints; continuity versus arbitrary total input; essential
+real defaults versus finite death levels; and Morse-locus characterization
+versus unconstrained elder extensions. They also distinguish a positive
+gap/candidate conjunction from either conjunct alone.
+
+No calculation here supplies Morse genericity, almost-sure finiteness,
+measurability of the samplewise assignment, integrability of counts,
+lifetime densities, stationarity, Gaussian laws, any full normalizer or
+limit exchange, field-first sampling, all-small-bars converses, or regional
+shrinking multiple-witness collision estimates. The C258 bar/count bridge
+must retain its original hypotheses and explicit classical imports after
+its given-interface premise is instantiated. It does not acquire a proof
+off that locus from totality of the data.
+
+All controls were derived by the displayed exact algebra and topology.
+Model agreement, registration, or successful byte verification is not a
+mathematical proof of C260. Distinct nonauthor review, formal realization,
+hosted compilation, kernel checks, and scientific acceptance are separate
+work; none is performed or claimed by this contributor file.

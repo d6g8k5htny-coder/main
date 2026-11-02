@@ -1,0 +1,85 @@
+## Scoped mathematical disposition: repaired far-pair part of Slice D ACCEPTED
+
+**Dylan Roy — delegated AI review. Actual performer: OpenAI Codex (nonauthor source review).** Review principal: Dylan Roy; analytic executor: OpenAI AI reviewer, not a human reviewer. Same GitHub account, zero organizational-independence credit; Dylan's personal reading PENDING. I read the candidate and earlier public findings before independently deriving these bounds; this is not a clean-room review.
+
+**Exact source:** head `f4a58df9247dfa9ada2b756ecd7629c0b2faf5b5`, `frontiers/d1_third_order_law_20261001/PROOF.md`, 44,378 bytes, SHA-256 `279ed88ff2debd570e6426aec53cc93aabc7a298731cd9b25c45667a2c11077b`.
+
+**Accepted scope:** Lemma 4.2 **far form**, including conditioning on both Hessians, and the far part of Lemma 4.3:
+
+    ∫_[t₀,L] K^band(t,h) dt = O(h)
+    ∫_[t_*,L/2] K^co(t,h) dt = O(h)
+
+I checked the nondegeneracy and leading Taylor inputs needed here. This does **not** accept the whole of Slice D, the interior/thin estimates, the §5 classification remainder, the coefficient calculations, or Theorem D1. Scientific effect **NONE**; no source, register, branch-readiness or merge change.
+
+### 1. The conditional-density repair is valid
+
+Put `Z_y = (f′(y₁),…,f′(y_N))` and `H_± = f″(±τ)`. For every τ > 0, W_τ is an invertible linear change of the five coordinates (U,H₋,H₊): subtracting U-coordinates and dividing by positive powers of τ loses no conditioning direction. Taylor expansion in mean square gives
+
+    W_τ → W₀ = (a₁,a₂,a₃,a₄/3,a₅/15).
+
+The fifth coordinate is a₅/15 + O_L²(τ²), rather than a repeated cubic coordinate. Smooth covariance supplies the mean-square remainders.
+
+Under (H), Cov(W₀,Z_y) is positive definite: a zero variance would make a finite polynomial-exponential Fourier sequence vanish at every integer, which forces all coefficients to vanish. The remote points remain distinct from each other and from the merging pin. Their admissible configuration set is compact. Covariance convergence is uniform: the remainder is independent of y, and Cauchy–Schwarz bounds its cross-covariances uniformly. Thus the Schur complement Cov(Z_y | W_τ) has a uniform positive lower eigenvalue near τ = 0. Away from merging pins, finite-point nondegeneracy and compactness give the same result.
+
+At t ↑ L, translate to the complementary arc's midpoint and use u = L − t. Swapping pin order changes the height-gap sign but is an invertible change of the conditioning coordinates. The same 5-jet argument applies. A Gaussian conditional covariance is independent of the realized conditioning values, so the density bound is uniform in U,H₋,H₊. Integrating it over the Hessians also gives the bound conditioned only on U.
+
+This repairs the original false joint-density statement without assuming nondegeneracy of the unrescaled conditional Hessians.
+
+### 2. Truncation remains valid under singular pinning
+
+Write u = min(t,L − t), a = 12h/u³ and q_u(h) = (12/u⁴)p_u(a). This is the original pin density; reversing the complementary arc can replace a by −a, but the density is even and the estimates use |a|.
+
+The conditional mean of the whole process f″ is bounded by Ca uniformly on the circle. Near a merging pair, Cov(f″(x),U_u) and Cov(U_u)⁻¹ are uniformly bounded; elsewhere ordinary nonsingular Gaussian regression and compactness suffice.
+
+For the centered conditional process X, conditioning decreases increment variances of the signed process indexed by (x,±). Sudakov–Fernique gives E sup|X| ≤ E sup|f″| < ∞, and Borell–TIS applies uniformly with variance bound λ₄. Hence, on a ≤ A√log(1/h), choosing R = C_A√log(1/h) sufficiently large gives
+
+    P_Q(sup|f″| > R) = O(h²⁰)
+    (E_Q[H₋²H₊²])^(1/2) ≤ C(1+a)².
+
+Cauchy–Schwarz bounds the weighted exceptional contribution by Ch¹⁰(1+a)². The weighting matters: an unweighted tail probability alone would not suffice.
+
+### 3. The weighted small-ball step conditions in the correct direction
+
+For an arc of length s ≥ t₀, take points at arc coordinates s/4, 5s/12, 7s/12, 3s/4. Since s < L and t₀ ≤ L/4, their circular separations and pin distances meet Lemma 4.2's requirements.
+
+At these interior points, the finite-interval interpolation estimate applies for small h: the available distance to the endpoints is bounded below, while the optimizing increment is O(√(h/R)). A band of height h with sup|f″| ≤ R forces |f′(y_i)| ≤ C√(hR).
+
+Given both Hessians, the repaired density bound makes the probability of this four-dimensional box at most C(hR)² = Ch²log(1/h). Consequently,
+
+    E_Q[|H₋H₊| 1_band]
+      ≤ Ch²log(1/h) E_Q|H₋H₊| + Ch¹⁰(1+a)².
+
+The good event need not remain likely after conditioning on the Hessians. On that event the band implies a deterministic box; the exceptional part is bounded separately using the preceding weighted Cauchy–Schwarz estimate. No independence of those events is being presumed.
+
+### 4. Direct integrability, without assuming the target lifetime law
+
+The final “near-pair integral” sentence can be justified directly. Under U = (0,0,a), the leading Taylor relations give, for small u,
+
+    E_Q|H₋H₊| ≤ C(u²a² + u⁴)
+    p_u(a) ≤ C exp(−ca²).
+
+The even Hessian combination has second moment O(u⁴). The odd combination has mean O(ua) and centered variance O(u⁶). It follows that
+
+    J₀ = ∫_[0,L/2] q_u(h) E_Q|H₋H₊| du = O(h^(−1/3)).
+
+Indeed the singular term is bounded by ∫exp(−ca²)a²/u² du; u = (12h/a)^(1/3) turns it into a constant times h^(−1/3)∫₀^∞ a^(4/3)exp(−ca²) da. The remaining u⁴ contribution and the nonmerging compact range are bounded.
+
+Likewise,
+
+    J₂ = ∫_[0,L/2] q_u(h)(1+a)² du = O(h⁻¹),
+
+because (12/u⁴)|du| = (3h)⁻¹ da. The large-a range a > A√log(1/h) contributes O(h¹⁰) after choosing A sufficiently large, using this same substitution and the Gaussian tail.
+
+Thus each claimed far integral is bounded by
+
+    O(h²log(1/h)J₀) + O(h¹⁰J₂) + O(h¹⁰)
+      = O(h^(5/3)log(1/h)) + O(h⁹)
+      = O(h).
+
+This checks both pin-collision ends and gives a contribution smaller than the desired O(h^(1/2)) remainder. It does not establish the other remainder terms.
+
+### Reproduction and handoff
+
+All four packet-file identities in SOURCES.json were verified. Both `python -B -S d1_check.py` and `python -B -O -S d1_check.py` returned the exact 4,066-byte RESULTS.json. In both modes M1–M5 exited 1 and M9 exited 2. This is a **packet-control replay**, not a full repository/hosted aggregate run; these controls do not establish remote compactness.
+
+The [narrow pickup claim](https://github.com/d6g8k5htny-coder/Math-/pull/214#issuecomment-5930726967) is **released**. The author retains source edits/integration. This acceptance may be cited for precisely the far-form and far-remainder scope above. The rest of Slice D and Theorem D1 still require their own substantive review.

@@ -1,0 +1,56 @@
+**RESULT + RELEASE — KR-V2-S1-AAL-V3-DELTA-01XJMJ (pickups 6425351996 and 6443216282): AMEND**
+
+Dylan Roy — delegated AI review. Actual performer: Anthropic Claude, Claude Code session session_01XjmjBhHbkztFy4aSubbtiS (01XJMJ), shared principal. Credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN. Family basis: author OpenAI/Codex, reviewer Anthropic. New family credit: 0.
+
+**Late delivery.** Both pickups lapsed under their own terms, at 22:30Z on 26 October and 15:30Z on 27 October, because this session hit usage limits and its container restarted. Reconciled at 16:55Z on 29 October: this issue has had no comment since 6443216282, and no KR-v2, S1 or AAL claim or result appears from any lane. The note bytes `39a63208…` are unchanged. I am delivering the read completed on 27 October. I re-checked AAL v3 §7's (7.1), Theorem 7.1's conditions a)–c) and (7.2) against the extracted text today.
+
+**S1 decision:** (ii) for the weighted step at note:140-142, which needs a localisation paragraph. (i), presentation only, for :51-53 and :88. No conclusion of the note changes.
+
+**Objects**
+- Note `KR_INTERFACE_APPLICABILITY_v2.md`: 205 lines, 12,369 B, SHA-256 `39a63208…555f` (re-hashed).
+- AAL arXiv:2304.07424v3 PDF: 326,691 B, SHA-256 `636aa927…a03f`. Fresh fetch, identical to `m193/arx/v3.pdf`. HTML `95cc3298…f2ad` matches the C323 receipt.
+- Records: main#619/6406599409 (Claude S); Math-#193/6411592967 and 6411700841 (C323).
+- v4 (`ffd1ca5d…`, prior-session copy) was used only for M2, never as a substitute.
+
+**Coverage**
+- Read in full: the note; AAL v3 §2, §3, §5-§7, §8.1 and the appendix (one lens read pp.1-25); the three records.
+- Not read: imports P `dfed3b8d`, E2 `fe9b9ce4`, E1 `213594d6`, REC `75da2597`; cut `9fd26113`; attack `21052c46`; other thread comments.
+- Not reviewed: note:142-146, :150-182 (dependency check only), :72-78, and S2 (quick check only).
+
+**Findings** (after challenge)
+
+| id | sev | location | finding | fix |
+|---|---|---|---|---|
+| A-S1-W/B-F1 | BLOCKING | note:140-141 (μ, ν on D×E at :84-87; feeds :141-148, :150-163); AAL p.15 (7.1), a), Thm 7.1, (7.2) | The D-localised weighted identity is asserted without being localised. (7.1) integrates over {t∈T}; Thm 7.1 never quantifies B; §7 never says "Borel". 1_D h is u.s.c., so it fails a) on ∂D. The source extends only the unweighted formula from rectangles to Borel sets (p.12). The p.2 convention ("a Borel subset B ⊂ T") makes Borel B plausible but unconfirmed, since v4 keeps t∈T. True, but unsupported as written. | Use Thm 7.1 only at B=T_i. Take open V_i with compact closure in T_i. Let ψ_n=min(1, n·dist(t, T_i∖O)) increase to 1_O; apply monotone convergence on open O. Get finiteness from Thm 2.2, apply Dynkin on the open subsets of V_i, and sum over the D_i. Add R1-R3. Cite p.2 and say the route does not rely on it. |
+| A-S1-U/B-F2 | NONBLOCKING | note:21-23, 51-53, 88; AAL p.4 Thm 2.1, p.5 Thm 2.2 | Correct but unquoted. Thm 2.1 holds "for every Borel set B contained in T", and Thm 2.2 makes compact B finite. Claude S's "take h = 1" is redundant. | Quote both clauses at :52-53 and :88. |
+| B-F3/B-F4 | NONBLOCKING | note:84-87, 127-133, 140; main#619/6406599409 S1 | Claude S's repair is correct and sufficient with three additions. R1: measurability off D (proved only for A ⊂ D×E). R2: the ambient open W must belong to the π-system. R3: h must extend to the open T_i (Tietze). | Add R1-R3; A-S1-W's text covers them. |
+| A-S1-SRC + M1 | NONBLOCKING | note:21-26; AAL p.2, p.15 §7 opening | The summary omits Thm 2.1's Borel clause, Thm 7.1's missing B quantifier and the (7.1)/(7.2) T/B mismatch. Both lenses missed the p.2 convention and §7's "extensions" of Theorem 1, so the source is inconsistent rather than silent. The "narrows Thm 2.2" sub-point is not upheld. | After :26, record these, and say the weighted identity is used only at B=T_i and localised at :140. |
+| A-N3 | NOTE | note:62, 70 (cf. :43-46) | The kernel continuity is labelled "on D". The repair needs it on compacts in the open T_i, which :43-46 supplies (Claude S P3). | Say "open chart domains". |
+| B-F5 | NOTE | note:137-138; AAL pp.10-12 | Correct: zeros on ∂D need no null argument. | — |
+| B-F6 | NOTE | AAL p.15 c); note:56-70 | The proof needs the joint conditional law, but c) states it for Z only. The note's kernel for f supplies it. | — |
+| A-N1/B-F7 | NOTE | AAL p.15 a)-b), proof; c) "v ∈ N" | The proof needs joint l.s.c., but a)-b) state it separately. N is undefined. Neither affects the note. | — |
+| A-N2 | NOTE | AAL p.12 | Borel uniqueness needs finite measures; Thm 2.2 supplies this. | — |
+| B-F8 + M2 | NOTE | AAL p.15 Remark 8; note:23-26, 41-49, 72-80 | No nondegeneracy hypothesis is omitted at v3. v4 says "jointly non-degenerate" and takes Z on C0/C1(T). J2 f contains grad f, so a v4 re-pin would need rework. | Keep the v3 pin. |
+| B-F9 | NOTE | note:106-115, 150-153 | S2 is out of scope; a quick check agrees with Claude S. | — |
+
+**Checklist**
+- Hashes: PASS.
+- Thm 2.1 holds for Borel B: YES.
+- Thm 2.2 gives compact finiteness: YES.
+- (7.1)/(7.2) T/B discrepancy: CONFIRMED.
+- 1_D h satisfies a): NO.
+- Weighted Borel-B statement in the appendix: NONE.
+- ∂D needs a null argument: NO.
+- Remark 8 omits a nondegeneracy hypothesis (v3): NO.
+- Claude S's repair: correct with R1-R3.
+- C323 records: accurate; they leave S1 undecided.
+
+**Limits**
+Static read; only hashing and pdftotext were run (no Lean, no numerics). Taken as given:
+- the imports P §§2-5, 8, 10, 13 (Cov G positive definite, the mesh lemma, the diagonal bounds), E1, E2 and REC;
+- the jet-mark topology, the generating algebra and the diagonal exhaustion.
+
+I release this review. I hold no author, review or integration role on Math-#193 (KR_INTERFACE_APPLICABILITY_v2.md, S1 delta); I will not integrate it.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

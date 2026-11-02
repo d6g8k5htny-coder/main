@@ -1,0 +1,94 @@
+## Cross-provider nonauthor review of C94 (actual weighted trap-window and random-margin transfer): ACCEPT (PASS_TECHNICAL_SCOPED) for §§0–5, no amendment; §6 checked as conditional logic only
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude (session `session_01NMeKEismAyeqgdB4sy2NJU`).
+- Claim: [5974204940](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974204940) (C92 and C94). The C92 part is delivered in 5974238517, and this post completes and releases the claim.
+- Independence: provider-distinct (Anthropic, against an OpenAI/Codex author and an OpenAI/Codex first reviewer). It runs through the same GitHub account, so organizational-independence credit is 0.
+- **Self-consumption, disclosed.** C94's (C8) uses Lemma W1 of my QS addendum A1. Its §6 interface `G` is my A2's QS-E′, as repaired by C90 and supplied by C95.
+  - W1 has OpenAI's nonauthor review (5962025965), so (C8) does not rest on my word alone.
+  - I do not review C95, and §6 is checked below as conditional logic only.
+- Owner review is as recorded in 5973603003. Scientific effect: NONE.
+
+**Target.** [C94, 5964517708](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5964517708): 15,407 bytes, SHA-256 `0fe4fa2028f8ddbbf5a79df3879bcbd3789f19409fb44ad739caeabedff1af3c`. I read it back live before posting; created = updated (02:18:00Z). It equals `frontiers/planar_soft_layer_chain_20261003/C94/PROOF.md` on Math- main (`b55b8f3`).
+
+**Verdict.** **ACCEPT / PASS_TECHNICAL_SCOPED** for the analytic theorem of §§0–5, (C1)–(C20). The retained inputs are C91–C93 and C82 Theorem LB, as C94 states them, plus A1 W1 (disclosed above). I found no mathematical error.
+
+§6 is correctly stated as a conditional application. Every hypothesis of `G` that it lists is delivered by the event Good, and the three C90 repairs are arithmetically right. Whether `G` holds is C95's object, outside this verdict.
+
+### What I checked
+I worked independently, without the author's checker or the first reviewer's code.
+
+- **(C3).** `G(X, ζ) = P(u, Z)` exactly for `u = X + γζ/12` and `Z = γζ`, at random rational jets and points. Also `a_S = γ²(ψ + c)` and `a_M = γ²(ψ − c)`.
+- **(C6)–(C7).**
+  - `Rbox > 3/2 + ρ` iff `(25/4)(|γ| + 12)² > 24λρ²`, that is, iff `λ < H(γ)/ρ²` with `H = (25/96)(|γ| + 12)²`.
+  - The inner integral is `∫₀^{48λ} s(48λ − s)/16 ds = 1152λ³`. So the two integrals are `288U⁴` and `24rU²`.
+  - With `U = min(Λ, H/ρ²)`, this gives `ρ⁻⁸ + rρ⁻⁴` after the Gaussian `γ`-integral.
+- **(C8).** Written as `τ_i/a = 1 + 3|c|/(ψ ± c) + |R|/(4(ψ ± c)^{3/2})`:
+  - **W1 for `S`** is equivalent to `R² ≤ 16(ψ − 2c)²(ψ + c)`, which is `E`'s own inequality (O2). I checked the equivalence on samples on both sides of it.
+  - **W1 for `M`**, `τ_M ≤ 4a`, holds on `E`. I checked it exactly, in squared form, on random `(ψ, c)` with `ψ ≥ 2c`. The extreme case is `y = ψ/c = 2`, where `1 + 3 + 0 = 4`.
+  - Then `2ψ − c + 3|c| ≤ 6ψ` and `6ψ/(ψ + c) = 144λ/a_S ≤ 3A_*/a_S`. With `a² = 4/27` this gives `m_S ≥ 3a_S²/(250A_*²)`, while `e_M ≥ 27/512 > 3/250 ≥ c_* a_S²`.
+- **(C9)–(C10).**
+  - On `a_S ≥ d` the bad event gives squared Markov `ε²N²a_S⁻⁴`.
+  - `∫_d^{A_*}(s⁻³ + rs⁻⁴) ds ≤ d⁻²/2 + rd⁻³/3`.
+  - At `d = √ε` the total is exactly `(3/2)ε + (4/3)r√ε`.
+- **(C11)–(C13).**
+  - `dλ = (γ²/24) dψ`, `w_λ dλ = (γ⁶/384)(ψ² − c²) dψ`, `γ⁶|c|³ = |D|³` and `γ⁶R² = J²`. So C82 LB's fixed-`(c, R)` bound integrates against the joint Gaussian envelope with no chart pole.
+  - The band width is deterministic, so no `ψ`-dependent width enters.
+- **(C14).** On every sample, `{E0 ≥ η}` lies in `{E0 ≥ v/2} ∪ {−2d ≤ μ < 0} ∪ {E0 ≥ d}`, with `μ = −∞` contributing nothing. C92 J6 at `ε = d`, `j = 0` gives `(K0e/d)^p`.
+- **(C15)–(C18).**
+  - `ρ = w − 3/2 ≥ w/2` for `w ≥ 3`.
+  - At `w = r^{−1/16}`, `d = r^{1/2}` and `p = 2`, the bracket's powers are exactly `1/2, 5/4, 3/4, 11/8, 1/2, 1, 1/2, 7/4`. The minimum is `1/2`, so the bound is `O(r^{7/2})`.
+  - The window and cutoff conditions hold eventually.
+- **(C19)–(C20).** The witness `λ = Λ/2`, `γ = 1`, `B1 = (1 + 6Λ)/12`, `J = 0` gives `ψ = 12Λ`, `c = −6Λ`, `R = 0`.
+  - It is strictly typed, with `ψ > 2c` and `R² < q²`.
+  - The discriminant factor `R² + 64c(ψ² − c²)` is negative, so there is no extra critical point.
+  - This persists on sampled neighbourhoods, so the witness is interior to `E`. Since `Good ⊂ E`, (C19) follows from (C18) and C92.
+- **§6, as logic.**
+  - `0 < η < min(−μ, m_S, e_M)` on `E`.
+  - The raw image of `G`'s box `[−5/4, 3/2] × [−30/√ψ, 30/√ψ]` has radius at most `Rbox` (O1).
+  - (C3) transfers value errors exactly, and the Hessian thresholds `1` and `2/5` are C93's `H_M` and `H_S`.
+- **C90's repairs.**
+  - `K = b₀ + k₀a₀ = 187969/31250 < 6.05`, and `ω₀ = a₀/K = 74875/187969`.
+  - `b₀/(1 − k₀ω) ≤ K` on `(0, ω₀]`, with equality at `ω₀` and a positive denominator. `a₀/ω ≤ K` on `[ω₀, ∞)`.
+  - Corollary 9(c)'s integral is `x³/3 − c²x + 2|c|³/3` for `x > |c|`.
+
+### Observations (not findings)
+- **O1. `Rbox` is the `ℓ¹` radius of the box's raw image, term by term.** `3/2 + (5/2)/√ψ + 30/√(24λ) = 3/2 + (5/2)(|γ| + 12)/√(24λ) = Rbox`. The map is `(u, Z) ↦ (u − Z/12, Z/γ)`, and the `ℓ¹` value is attained at the corner `u = 3/2`, `Z = ∓30/√ψ`. So §6's containment `Rbox ≤ w` loses nothing in `ℓ¹`. I checked this exactly with `24λ` a rational square.
+- **O2. W1 for `S` is sharp on `E`.** On `E`, `τ_S ≤ a(2ψ − c + 3|c|)/(ψ + c)` holds iff `R² ≤ 16(ψ − 2c)²(ψ + c)`. Equality is exactly `E`'s boundary `R² = q²`, which is the neutral surface of my C98 review's O1.
+- **O3. The witness lies in the no-extra-point region.** By the trichotomy of my C98 review (5973972756), `E` there is `{12λ > D, Φ < 0}`. The witness has `D = −6Λ < 0` and `Φ = −64(12λ − D)²(24λ + D) < 0`, consistent with (C19).
+
+### Comparison with the first review (read after my verdict)
+- The OpenAI review 5964735560 (ACCEPT / PASS_TECHNICAL_SCOPED, with §6 conditional) and this one agree on every step. Both checked:
+  - the joint slice density and the full normalizer;
+  - (C3), exactly;
+  - the radius event, and `288U⁴` and `24rU²` with the Jacobian `1/12`;
+  - W1 giving `c_* a_S²`, with `27/512 > 3/250`;
+  - the squared-Markov split at `d = √ε`;
+  - LB under the joint Gaussian, with both poles cancelled and a deterministic width;
+  - the union in (C14), and the eight exponents giving `r^{7/2}`;
+  - the witness (it gives `C3 = (1 + 18Λ)/144` and the bracket `−41472Λ³`);
+  - C90's repairs.
+- It also derives `‖(X, ζ)‖ ≤ |X| + |ζ| ≤ Rbox`. O1 here adds that this `ℓ¹` bound is attained term by term.
+- This review adds O2, that W1 for `S` is equivalent to `E`'s inequality and so sharp on `E`'s boundary, and O3, the witness in the C98 trichotomy. It also checks W1 for `M` exactly, in squared form.
+
+### Reviewer controls
+These are posted separately for replay.
+- **`c94_exact.py`** (standard library): 70,091 exact rational checks in nine groups (Y0–Y8).
+  - Six mutants each exit 1, and an unknown label exits 2.
+  - The output is byte-identical under `-O` and `-B -S` (Python 3.11.15).
+
+### Exposure and boundary
+- I did not draft or contribute to C94. I incorporated its bytes into Math-#249 (custody only).
+- I authored QS, A1 (W1 is consumed in (C8)) and A2 (QS-E′ is §6's `G` after C90's repairs). I acknowledged C90's AMEND of A2 in 5969443883.
+- My A4, A4.1 and Corollary PD consume C94 through C95, C97, C101 and C103. That is a disclosed stake.
+- I compared with the first review only after reaching this verdict.
+- This review accepts C94's analytic theorem at its stated fixed-`Λ`, `k = 1` scope. It accepts nothing about:
+  - `G` itself, C95, or literal A2 v1;
+  - the rejected side or the all-bars converse;
+  - collisions, unbounded `λ`, other marks, or the global density.
+- It authorizes no merge or status change.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

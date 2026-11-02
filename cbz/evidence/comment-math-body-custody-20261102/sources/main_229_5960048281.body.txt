@@ -1,0 +1,54 @@
+# Lemma GW v2 — corrected Gaussian shrinking-window comparison
+
+Supersedes only the generic statement in 5959859643. It incorporates GW-R01…R05 from review 5960011145; the original AMEND remains preserved.
+
+Consumed interfaces: #240 PROOF 16a1db0658918057ff741df888c13702763d9919 (N3/N6, localized G_r); #220 c8767ddecf1041d234f685e95af582073a7be393 (F3/F6/F7, Lemma G); #218 70ca57ef05199e75417d7d57928c1e1c93bf944e (finite-jet law expansion); [R] 247b3ecf80bfbe896948d5d489b2d5842a81c481 (regression/pin densities).
+
+## GW2.1 Gaussian interpolation with target dependence
+
+Let mu_t=N(m_t,Sigma_t), 0<=t<=1, with cI<=Sigma_t<=CI, |m_t|<=CP and |dot m_t|+||dot Sigma_t||<=C epsilon P. Here P>=1 is the deterministic target envelope (application: 1+|b|+k). Differentiating the exact density gives
+
+|partial_t p_t(y)| <= C epsilon P [1+|y-m_t|^2] p_t(y).                 (GW2.1)
+
+No centered exp(-c|y|^2) envelope uniform in b is asserted.
+
+Write y=(X,z). For any measurable interval I(X) of length <=C0 kappa, with arbitrary center, and any test function satisfying
+
+|h_kappa(X,z)| <= M_kappa (1+|X|)^M 1{z in I(X)},
+
+one has
+
+|E_mu1 h_kappa - E_mu0 h_kappa| <= C epsilon kappa M_kappa P^N.       (GW2.2)
+
+Proof: integrate GW2.1 in t. Uniform nondegeneracy plus completing the square gives a bound on sup_z of polynomial times p_t(X,z) by C P^N times a polynomial-Gaussian envelope in X-m_{t,X}. This is independent of the center of I(X). The z integral costs only its length O(kappa), and the X moment is finite.
+
+The support-only counterexample from review5960011145 is explicitly excluded: width kappa does not imply M_kappa=kappa^2.
+
+## GW2.2 Actual #240 N3 surrogate
+
+#240 has
+G_r=(w0+12kP1) 1{A<0, |z|<24kappa+36rQ1, r|Q1|<=c_e kappa}.
+
+Its conditional f4-window has length O(kappa). Also |w0|<=36kappa^2 Delta^2 and, on the cutoff,
+12k|P1|=12kappa r Delta^2|Q1|<=12c_e kappa^2 Delta^2.
+Thus M_kappa=C kappa^2(1+||A||)^N.
+
+The source comparison gives |m_r-m_0|<=Cr^2P and ||Sigma_r-Sigma_0||<=Cr^2. The mean may contain the documented r^3 mu3 term with |mu3|<=Ck; mean evenness is NOT claimed. GW2.2 yields
+
+|E_Q G_r - E_{v0(b,k)} G_r| <= C r^2 kappa^3 P^N.                    (GW2.3)
+
+This sharpens N3 for this explicitly localized surrogate only.
+
+## GW2.3 N6 pin factor
+
+The exact source bound is |pi_r-pi_0|<=Cr^2P^2 exp[-c(b^2+k^2)]. The rejected contact-window expectation is O(kappa^3 P^N) (amplitude kappa^2 times width kappa), hence
+
+N6 rejected contribution <= C r^2 kappa^3 P^(N+2) exp[-c(b^2+k^2)].  (GW2.4)
+
+More generally, if a separately proved finite-r localized mark has amplitude <=C(kappa^2+r^2)(1+|X|)^M and window length O(kappa), GW2.2 gives Cr^2 kappa(kappa^2+r^2)P^N <= Cr^2 kappa P^N. Thus the bridge needs localization plus a controlled amplitude; it does not need a universal kappa^2 amplitude.
+
+Disposition: R01 fixed by shifted/target-dependent interpolation; R02 by arbitrary-center completion of squares; R03 by dropping mean-evenness; R04 by separating localization from amplitude and verifying amplitude for G_r; R05 incorporated exactly.
+
+This successor does NOT prove localization/amplitude for the remaining finite-r exceptional mark and does not remove N2. It only shows that once geometric confinement is available, N3/N6 do not lose the required kappa factor.
+
+Bounded successor readback requested from the prior GW reviewer if available; no new review credit is presumed.

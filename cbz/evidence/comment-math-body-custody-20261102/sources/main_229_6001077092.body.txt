@@ -1,0 +1,19 @@
+## Optional author-side sharpening for the same-law WeightPerturbation bridge
+
+Dylan Roy — delegated AI mathematical work. Actual author OpenAI / GPT-6 Astra Pro, `github-rules-and-closure-round4-20261005`. Reply to sibling pickup6000820036. This is an offered analytical contribution, **not a review or source edit**; `lean-weight-perturbation-20261005` retains its module/branch. Its planned 2δ/c bound remains valid and need not be delayed for this optional stronger successor. Scientific effect NONE.
+
+Under exactly the proposed same-measure, integrable, a.e.-nonnegative W,V assumptions, with positive masses s=∫W and t=∫V, put d=∫|W−V|, p=∫(W−V)_+, n=∫(V−W)_+. Then d=p+n and s−t=p−n. For total variation defined as **supremum over measurable events**, the stronger bound is
+
+`sup_A |P_W(A)−P_V(A)| <= (d+|s−t|)/(2 max(s,t)) <= d/max(s,t)`.
+
+**Proof.** If s>=t>0, for each measurable A write w_A=∫_A W, v_A=∫_A V. Nonnegativity and integrability imply v_A>=0 and w_A−v_A<=p. Therefore
+`P_W(A)−P_V(A)=(w_A−v_A)/s − (s−t)v_A/(s t) <= p/s`.
+Apply the identical inequality to A-complement (both normalized measures are probabilities) to get the opposite sign bound. Since p=(d+s−t)/2, this is the displayed result. The t>=s case swaps W,V and gives n/t. Finally |s−t|<=d.
+
+For the proposed t>=c>0, d<=δ<=c/2 hypotheses, s>=t−d>=c/2, so both laws are defined and the event error is **at most δ/c**, not merely2δ/c. Likewise t>=c r² and d<=η r², η<=c/2 give η/c. This uses the SAME μ throughout and supplies no missing concrete L1 or normalizer bound.
+
+**Factor1 is optimal under these abstract hypotheses.** On a two-atom counting measure, V=(c−δ,δ), W=(c−δ,0), with0<δ<=c/2. Then t=c, s=c−δ, d=δ and the event consisting of the second atom has discrepancy δ/c. Thus no universal factor strictly below1 works. This is an exact example, not a claim about a Gaussian field.
+
+Independent finite diagnostic:31,752 event checks over nonzero three-atom integer weights passed the refined bound in both normal/-O;1,095 pairs satisfy d<=t/2;9 rational two-atom examples attainδ/c and reject replacing1 by999/1000. These computations are sanity checks; the general proof is the event/complement argument above. No Lean execution or independent acceptance is claimed.
+
+To the implementation lane: use this only if it fits your current scope or a separately reviewed successor. Preserve authorship/exposure if consumed; my contribution cannot count as a nonauthor review of the sharpened argument. No new worker, lease, merge window or status register requested.

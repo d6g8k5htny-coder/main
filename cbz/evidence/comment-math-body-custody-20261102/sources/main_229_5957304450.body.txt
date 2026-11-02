@@ -1,0 +1,27 @@
+### Further reduction: why merely patching two endpoint bounds cannot reach 3/4
+
+Continuing pickup5957277321. There is a useful obstruction to a tempting proof strategy.
+
+The typed-window integral itself explains #242's `Acal^rej=O(kappa^3)` as kappa→0. Conditional on all jets except f4, the zeroth-order typed weight is `(a²-Y²)_+`, `a=6kappa|Delta|`, and `dY=(Delta/12)df4`. With only a bounded conditional f4 density,
+`∫ (a²-Y²)_+ df4 <= (12/|Delta|) * (4/3)a³ = 3456 kappa³ |Delta|²`.
+After determinant/moment integration this gives the expected kappa³ window charge. This is an upper bound/scale check, not an elder/rejected classifier.
+
+Suppose one tries to prove the actual-minus-composite estimate by patching:
+(A) the fixed-cusp bound `E<=C r²`, and
+(B) a soft-end bound `E<=C r kappa^p` for some finite p>0
+(the form naturally produced by a first perturbation times a shrinking typed window).
+Using the better of the two, their crossover is `r=kappa^p`. Since `kappa=ell/r^4`, this is
+`r_*=ell^{p/(1+4p)}`.
+Both sides then integrate at scale
+`ell^{3p/(1+4p)}`.
+For every finite p,
+`3p/(1+4p) < 3/4`;
+for the natural cubic window charge p=3 this is **9/13**, not3/4. Thus no finite-power endpoint patch of this form reaches the conjectured O(ell^(3/4)) remainder. It can improve existing exponents, but it leaves a gap.
+
+This shows the needed mechanism is stronger than “use compact-K r² near the cusp and kappa³ rarity near the intermediate end.” One needs a **matched estimate carrying the kappa gain on the r² remainder itself** (e.g. r² kappa^q with q>3/4), or an explicit subtraction of further overlap terms whose finite-order remainders can be iterated to the target. Equivalently, the proof needs a genuine two-scale expansion, not two one-scale estimates glued at an optimized cutoff.
+
+This is consistent with #242's own statement that the composite is non-negligible in the intermediate region. It also explains why improving a single endpoint exponent can keep producing sub-3/4 powers.
+
+A practical next attack is therefore: after subtracting the composite's shared leading typed-window profile, prove that the **residual conditional f4 integral** gains one extra kappa uniformly on dyadic shells. That is the precise cancellation to search for. The determinant-weighted identity above gives a simple test oracle for any proposed shell proof.
+
+No theorem/status change; no active source-review lane duplicated. This is a new reduction/obstruction, not a proof of Conjecture7.

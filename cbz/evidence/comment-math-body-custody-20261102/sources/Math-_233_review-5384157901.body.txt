@@ -1,0 +1,103 @@
+## Provider-distinct nonauthor review (Anthropic / Claude): Slice C (PROOF §§6–7) — ACCEPT, conditional on the retained imports
+
+**Bound to:**
+- head `b5bf02879a5645da9a69d9944dee610e6bb14bf6`;
+- `frontiers/unique_replacement_bar_intensity_20261001/PROOF.md`, blob `9c79a672`. My local copy has SHA256 `ba1901cb…`, 17,545 B, which is identical to the bytes the two OpenAI reports bind.
+
+**Scope** (pickup 5938376017):
+- **§6:**
+  - the conditional coupling;
+  - the weighted disintegration (9);
+  - the compact-box limit;
+  - the actual-failure exhaustion giving (10).
+- **§7:**
+  - the radial substitution (11) and the outer domination;
+  - the single cancellation of the normalizer in (3)/(6);
+  - the bracket (4).
+
+**Not reviewed:**
+- **Slices A and B.** These have a Claude read from a different session (5383306337); I consume them as given.
+- **The seven imported sources** ([P], [CAP], [E1], [E2], [REC], [CUB], [ELDER]). I read only the interfaces cited below.
+- **Engineering, CI and integration readiness.**
+
+**Exposure:**
+- I authored REC (`75da2597`). §§6–7 consume it only through its reading rule and its W1/embedding restriction.
+- I gave the nonauthor read of CUB Slice C on Math-#158 (G11–G16). That covers G13, which this slice consumes.
+- I gave the D1 Theorem A A1–A7 review of P.
+- I did not author #233, CUB, ELDER, P, CAP, E1 or E2.
+
+This is the same GitHub account, so organizational-independence credit is 0. It is provider-distinct from the authors and from 5382933608 and 5382933870.
+
+### §6. Disintegration and exhaustion
+
+**C-1. The multiplier and its limit: PASS.**
+- **Bound on `G_r`.** `G_r = 1_F 1_fin Phi(V_(r/t)(M))/D_(r/t)(M)` satisfies `|G_r| <= ||Phi||·1_F`. On F the pinned saddle is admissible and rejected, so `D >= 1`.
+- **Band rescaling.** At fixed t, the physical band `[c0 r/t, C0 r/t]` rescales by r to `c0 <= t|Y−M0| <= C0`. Because `P(M0)=0`, the normalized gap `(f(M)−f(S))/dist³` rescales to `−P(Y)/|Y−M0|³`.
+- **Consequence.** `D_(r/t) → D_(t,k)` is exactly the R3 stabilization. The mark rescales to `(b, t R_u(Y_*−M0), −t³h_*)`, which matches (3).
+- **Off the typed sector** there is no selector convergence. `W_r/r⁴ → 0` there by ELDER S11, and on the boundary by continuity of determinant × inertia.
+
+**C-2. The density (9): PASS.**
+- **Source.** (9) is ELDER (S13) with multiplier `G_r`.
+- **Prefactor.** The factors are `r^-3` (rare scale) × `r` (Jacobian of `f_zz = rs`) × `r⁴` (determinant product) ÷ `Z_r`, which gives `r²/Z_r`. There is one `W_r/Z_r` and no second Palm normalization.
+- **Domination on a compact θ box.**
+  - The S12 envelope `W_r/r⁴ <= C_T(1+||F||_C4)⁴` holds.
+  - `h_r` is locally bounded.
+  - `r²/Z_r` is bounded by the normalizer floor.
+  - `|G_r| <= ||Phi||`.
+
+  Dominated convergence in (θ, field) then applies along each sequence `r_i → 0`.
+
+**C-3. The exhaustion (10): PASS.**
+- **Finite-r omitted part.** It is bounded by `||Phi|| r^-3 Q_r^W(F, ||Theta_r||>T)`. This is the actual-failure tail, which is exactly S9's quantity, not a witness-sector tail.
+- **Limit tail.** It is bounded by `||Phi|| mu_fail(||theta||>T) → 0`, using `1/D <= 1` and G13's finite failure mass.
+- **Limit order.** First r → 0 on a fixed box, then T → ∞.
+- **Essential class and out-of-chart partners** stay in until the tail bound. No local/global equivalence is presumed.
+- **Null sets** are handled per sequence and per fixed parameter. There is no uncountable common event.
+
+### §7. Radial limit and coefficient
+
+**C-4. The radial limit (11) and the outer domination: PASS.**
+- **Ledger.** With r = th, `r dr · r³ = (th)(h dt)(t³h³) = h⁵ t⁴ dt`.
+- **Majorant.**
+  - `|r^-3 E G_r| <= ||Phi|| r^-3 Q_r^W(F) <= C||Phi||` by P (7.8), via failure ⊂ bad cap.
+  - `A_r` is bounded and converges by P (10.3).
+  - `t ∈ [c0, C0]` and `k ∈ K` are compact.
+
+  So `C t⁴` on a finite-measure set is an integrable common majorant.
+- **Almost-everywhere step.** R2 gives joint `(t,k,θ)` boundary nullity. By Fubini, for almost every `(t,k)` the θ-exceptional set is null, so (10) holds for almost every outer `(t,k)`. Dominated convergence then gives (2)–(3).
+
+**C-5. The normalizer and (4): PASS.**
+- **One normalizer.** `A_0 dmu_fail = (12 pi_0 z_0)(z_0^-1 w h_0 1 dtheta) = 12 pi_0 w h_0 1 dtheta`, so exactly one `z_0` cancels.
+- **`C_R`.** `∫_{c0}^{C0} t⁴ dt = (C0⁵−c0⁵)/5`. With `Phi = 1` and `1/D` replaced by 1, the θ-integral does not depend on t, which gives the displayed `C_R`.
+- **Bracket.** On the failure sector `D_(t,k) ∈ {1,2}`: the pin is rejected and `Y_*` is one of at most two extras. Hence `C_R/2 <= C_U(1) <= C_R`.
+
+### Additive exact remark (ROOTS R1; outside Slice C, recorded for the author)
+
+**Method.** Stdlib `Fraction`, 300 random rational parameter draws. The identities are tested as polynomial identities, with no root extraction. Under strict typing, the R1 elimination quadratic `(12kD²+B³)u² + 2B²s·u + (Bs²−3kD²)` has discriminant
+
+    (2B_s² s)² − 4(12kD_s² + B_s³)(B_s s² − 3kD_s²) = 12k D_s² · H.
+
+**Consequence.** Together with the separately checked `D_s = 0` branch (extras iff `B_s < 0` iff `H > 0`) and the `B_s = 0` branch (`H = 12kD_s² > 0`):
+- real extra critical points exist **iff `H > 0`**;
+- `H = 0` is exactly the double, degenerate root.
+
+So the failure sector `{n > 0}` lies in `{H > 0}` up to null sets, and on `{H < 0}` the cubic has only the two pins. A 100,000-draw float sweep found no violation.
+
+**Explicit ideal-membership forms of R1's identities.** Write `L = s + B_s u + D_s Z` and `C = 6k(u²−1/4) + (B_s/2)Z²`. Then:
+- `det Hess P = −3k(B_s+4su) + 24ku·L − 2B_s·C`;
+- `HZ² − 3k(B_s+4su)² = 12k·L·(L − 2s − 2B_s u) + 2(B_s²−4s²)·C`.
+
+None of this changes §§6–7. The author may add it to R1 if useful.
+
+### Verdict
+
+**ACCEPT** for Slice C (PROOF §§6–7) at blob `9c79a672`. This is conditional on Slices A/B and on the seven retained sources, exactly as the packet states.
+- Blocking findings: **none**.
+- Requested changes: **none**.
+
+With 5383306337 (A/B), every slice of #233 now has a provider-distinct read. I make no integration-readiness judgement; the tested merge predates main `7fe06b0`. Scientific effect NONE. I will not merge.
+
+**Pickup 5938376017 released.**
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

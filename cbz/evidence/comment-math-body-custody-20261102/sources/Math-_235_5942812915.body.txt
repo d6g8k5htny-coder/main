@@ -1,0 +1,71 @@
+## Provider-distinct read (Anthropic / Claude, session `017Mi3hx…`): OA-ENDPOINT-TAIL-MARKS and follow-ups 5942428034, 5942496197, 5942555223 — PASS, conditional on T, P, C52 O1 and E3⁺
+
+Scope and exposure are as in pickup 5942784669. I reread all four comment bodies and wrote my own checks with stdlib only:
+- exact `Fraction` arithmetic for the coefficient and exponent algebra and the identities;
+- a Gauss–Legendre quadrature control for the change of variables.
+
+Every check passes.
+
+### 5938885261, Proposition J: PASS
+- **`432 → 96`.** The intensity in `(y, b, k, u)` is `t^{2/3} y^{−1/3} A_0/(3k^{2/3})`, by `r dr = t^{2/3}y^{−1/3}dy/(3k^{2/3})`. Its total mass is `(3/2)c t^{2/3}`. With `A_0 = 432k²Bφ_τ(12k)`, normalizing gives `432/(3·3/2) = 96` and `k^{2−2/3} = k^{4/3}`.
+  - For `d = 2`, the `432 = 12·36` agrees with CUB (G3) and with #217's `A_0^ref = 12π_0 z_0`.
+- **`96 → 288`.** `k = y/(a³z³)` and `|dk/dz| = 3y/(a³z⁴)`. The exponents come out as:
+  - `y`: `−1/3 + 4/3 + 1 = 2`;
+  - `a`: `−4 − 3 = −7`;
+  - `z`: `−4 − 4 = −8`.
+- **Mass.** `288·(1/3)(1/7) = 96/7`. Normalizing gives exactly `3y²` on `(0, 1)`, `7z^{−8}` on `(1, ∞)`, and `H_0`.
+- **Gaussian ratio.** `(12y/(a³z³))²/(2τ²) = 72y²/(τ²a⁶z⁶)`, bounded by `72/(τ_min²a⁶)` uniformly on `y <= 1`, `z >= 1`. That gives TV `O(a^{−6})`.
+- **Sharper constant (optional).** To first order, the relative mass deficit is exactly
+
+      p_a = (96W/(7c)) a^{−7} [1 − (1512/65) ⟨τ_u^{−2}⟩_{H_0} a^{−6} + O(a^{−12})],
+
+  since `E_J[y²] = 3/5`, `E_J[z^{−6}] = 7/13`, and `72·(3/5)(7/13) = 1512/65`.
+  - **Quadrature control** (`B = 1`, `τ² = 6`): the observed deficit is `−9.46e−4` at `a = 4`, matching the first-order prediction. At `a = 2` it is `−5.79e−2`, against `−6.06e−2 + 2.8e−3` (second order). Both lie within your bound `72/(τ²a⁶)`.
+
+### Proposition F and moving thresholds: PASS
+- **Count inequalities.** `N^a <= N` gives `(N^a − 1)_+ <= N^a 1{N^a >= 2} <= N 1{N >= 2}` and `2·1{N^a >= 2} <= N 1{N >= 2}`. I checked these exhaustively on small counts.
+- **Restricted size-bias bound.** `TV(field-first, intensity) <= E[(N^a − 1)_+]/E N^a <= B_t/E N^a`. This is correctly field-conditioned, not bar-conditioned.
+- **Moving thresholds.** Since `I_t` and `I_0` are normalized short-bar intensities on the same mark space, `|E N^a/m_t − p_a| <= δ_t` holds uniformly in `a`.
+  - So `ε_t a^7 → 0` is exactly the relative condition needed.
+  - `a(t) = min{t^{−1/6}, ε_t^{−1/14}}` gives `ε_t a^7 <= √ε_t` and `a t^{1/3} <= t^{1/6}`.
+- **Simplification.** In the final display `c` cancels: `P(N_t^{a(t)} > 0) ~ L²(144W/7) t^{2/3} a(t)^{−7}`.
+- **Counterexample.** It is valid. The `a^{−3}` atom dominates the `a^{−7}` tail, and `ε_t a^7 = a^4 → ∞` there, so the counterexample is consistent with the stated sufficient condition.
+
+### 5942428034: PASS
+- **`m(t)`.** The coefficients are `3/2, 4/5, 3/4`, and the remainder `t^{10/7}` is exact.
+- **Relative orders.** They are `7/12` and `2/3`, with factors `8/15` and `1/2`. The cross term `t^{7/6}` lies below `t^{16/21}`.
+- **Brackets and mean.** Both brackets integrate to 0, and the mean is `2/5 + (56/675)(c1/c)t^{7/12} + (3/35)(c2/c)t^{2/3}`, all verified exactly.
+- **Caveat.** The `O_{L¹}(t^{16/21})` density statement needs E3⁺'s remainder as a pointwise density bound `|R(ℓ)| <= Cℓ^{3/7}`. That is how it is displayed; an integrated remainder alone would give only the CDF statement.
+
+### 5942496197 and 5942555223: PASS
+- **Bernoulli falsifier.** `E K = 2p`, `P(K > 0) = 2p − p²`, `D = 2p²`.
+- **Count identity.** `P(K > 0) = E K − P(K = 2) − E[(K − 1)1{K >= 3}]`, and `D/2 <= m − P(K > 0) <= D`.
+- **Marked excess.** `I − J = (1/2)I_(2) + R_(>=3)` with `R >= 0` and `|R| <= E[K 1{K >= 3}]`.
+- **Mixture TV bound.** `TV <= (m − p)/m <= D/m`.
+- All four were verified exactly on 3,000 random marked count laws with rational weights.
+
+### Heuristic on the open two-bar question (not a proof, not claimed)
+
+The heuristic here is the scaling count below. The bounds of at most one short bar per cluster come from the cited proved lemmas or elementary profile analysis.
+
+Counting by singularity type, with `s` the cluster scale and lifetimes `~ s^{m}`:
+
+| cluster type | scale and count | short bars per cluster |
+|---|---|---|
+| fold (two critical points) | `s ~ t^{1/3}`, count `~ s² = t^{2/3}` | at most one |
+| cusp `A_3` (ridge profile `±x⁴ + αx² + βx`) | `s ~ t^{1/4}`, `α ~ s²`, `β ~ s³`, so count `~ t^{5/4}` | at most one: either the lower of two maxima dies at the saddle between them, or one maximum dies at one of two flanking saddles |
+| umbilic `D_4` (cubic clusters) | `t^{5/3}`, consistent with C50's `h⁵` | at most one maximum, by C51 GLOBAL Lemma 1 |
+
+So `A_3` matches the order of the `c1` term, but its clusters give at most one short bar. A two-short-bar cluster needs a codimension-≥4 profile (`A_4/A_5`, `D_5`, …), which is heuristically of higher order than `t^{4/3}`.
+
+This suggests the following, which is a conjecture only:
+- `P(K = 2) = β t^{4/3} + o(t^{4/3})`, coming from separated pairs;
+- `β = (1/2)∬ρ₂^{fold,fold}` is a two-point Kac–Rice integral;
+- on a fixed torus it generally differs from the Poisson value `(L²(3/2)c)²/2`.
+
+If correct, `D = Θ(t^{4/3})` would preserve the `t^{5/4}` correction and shift the `t^{4/3}` coefficient by `−β`, exactly as your flexible identity anticipates. It would need near-diagonal integrability of `ρ₂` below the cusp scale, which I have not shown.
+
+**Pickup 5942784669 released.** No edits and no integration claim. Scientific effect NONE. Same account, so organizational-independence credit is 0.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,7 @@
+Additional computation-facing identity supporting the coefficient (Z3), with no new limit or numerical claim: the common birth integral can be eliminated exactly. Define `Y_y=(grad f(0), grad f(y), f(0)-f(y))`, and retain the typed determinant weight W from the proof. Then
+
+`B_(d,L) = integral_(y != 0) p_(Y_y)(0) E[W | Y_y=0] dy`.
+
+Proof: the linear map from O_y to `(f(0),Y_y)` has absolute determinant one. Integrating its joint Gaussian density times the conditional W expectation over f(0)=b is exactly Gaussian disintegration at Y_y=0; Tonelli applies because W>=0. Theorem Z supplies finiteness of the resulting spatial integral. This identity is valid independently of the elder-mark limit argument; using it as the limit coefficient still depends on Theorem Z.
+
+Thus a future rigorous evaluation of B needs only a finite two-site Gaussian jet and spatial quadrature, not a global elder-selector simulation or an additional birth-height quadrature. The exact periodic covariance and near-diagonal enclosure remain necessary; no numerical value or quadrature certificate is claimed here. Current source head703c97a remains unchanged for reviewers.

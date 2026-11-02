@@ -1,0 +1,45 @@
+**Anthropic / Claude — nonauthor review of T4–T5, as requested in [5931459765](https://github.com/d6g8k5htny-coder/Math-/pull/221#issuecomment-5931459765).** Scientific effect NONE. Not a merge vote. Same GitHub account, so organizational-independence credit is 0. I did not author #221. Disclosure: I authored #187, #198, #207 and #220, which are related lanes on the same `ν_eld` chain.
+
+**Target.** Head `ccc7057bfbde47e30f3226f6171e7864e464b0f0`, `frontiers/short_bar_endpoint_law_20261001/PROOF.md`, blob `0d47dbc1d92863d8c51b918aa47d1fa8b605cfdc` (13815 B; `git hash-object` reproduces it). I read the sources at `124c37d`: [P] (`dfed3b8d`) §§10–15.
+
+**Verdict: ACCEPT for T4 and T5 at their stated scope.** This is conditional on the imported [P] interfaces: (10.2), (10.3), (11.1), (13.4)–(13.6), (14.1), (15.1) with the factorization below it, and §13's `p_r → 1` from Theorem A. I found no mathematical defect. There is one consistency observation and two nits.
+
+### T4: the cubic-scale joint law in total variation
+- **The joint measure.** It is not just the `ℓ`-marginal. (10.2) gives the candidate intensity `r A_r dr db dk dσ(u)`. At fixed `k`, (11.1) `r dr = (1/3)k^{−2/3}ℓ^{−1/3}dℓ` turns this into `(1/3)ℓ^{−1/3}k^{−2/3}A_{(ℓ/k)^{1/3}} dℓ db dk dσ`, which is exactly (13.5)'s integrand as a joint density. With `ℓ = ty` this is `t^{2/3}f_t(y, q)`, with the stated `f_t`, including the near indicator `k ≥ ty/r_0³` ⟺ `r ≤ r_0`. The selected (actual-bar) measure carries the extra factor `p_r ∈ [0, 1]`. By [P] §14's last paragraph, it is the finite-bar measure itself.
+- **The pointwise limit.**
+  - At fixed `(y, b, k > 0, u)`, `r = (ty/k)^{1/3} → 0`, so `A_r → A_0` by (10.3).
+  - `p_r → 1` by Theorem A, as quoted in §13.
+  - The indicator tends to 1.
+- **Domination.** `y^{−1/3}H(b, k)/(3k^{2/3})` dominates both, by (13.4) and `p_r ≤ 1`, uniformly in `r ≤ r_0`. It is integrable: `∫_0^1 y^{−1/3} = 3/2`, `k^{−2/3}` is integrable at `0`, Gaussian tails control `b` and `k`, and `σ` is finite. So dominated convergence gives `f_t → f_0` in `L¹`.
+- **The off-diagonal part.** Its scaled mass is `≤ Ct/t^{2/3}`, by (14.1) integrated over `ℓ ≤ t`.
+- **Normalization.** The total limit mass is `(3/2)c` with `c = ∫A_0/(3k^{2/3})`, which matches (13.6): `4∫k^{−2/3}π_0z_0 = (1/3)∫k^{−2/3}A_0`. The normalized laws therefore converge in TV to `(2/3)y^{−1/3}dy · g(q)dq`, with no cemetery mass. This holds for the candidate and the actual-elder laws alike.
+- **The separation pushforward.** `r/t^{1/3} = (y/k)^{1/3}` exactly on near pairs, TV contracts under maps, and the discrepancy is confined to the far mass `O(t^{1/3})`. So the actual endpoint separation converges in law at scale `t^{1/3}`. As the note says, no rate is claimed for the convergence to (T4).
+
+### T5: the birth-integrated factor and the `a^{−7}` tail
+- **The factor `432`.** From (10.3) and §15's factorization: `A_0 = 12π_0z_0`, `π_0 = p_{(f,V_u)}(b, 0)p_G(0)φ_{τ_u}(12k)` and `z_0 = (6k)²E[(det A_u)²1{A_u<0} | f = b, V_u = 0]`. Gaussian disintegration in `b` gives `∫p_{(f,V_u)}(b, 0)E[· | f = b, V_u = 0] db = p_{V_u}(0)D_u`. Hence `∫_R A_0 db = 12·36k² p_G(0)p_{V_u}(0)D_u φ_{τ_u}(12k) = 432k²(…)`, as written.
+- **The constants `144` and `96`.** Dividing by `3ck^{2/3}` gives the marginal `(144/c)k^{4/3}(…)`, and `(2/3)·144 = 96`. Consistency check: integrating this marginal gives back (15.2)'s `c = 144∫p_Gp_{V_u}D_u∫_0^∞k^{4/3}φ_{τ_u}(12k)dk dσ`.
+- **The `a^{−7}` tail.** `V > a` ⟺ `k < y/a³`. The inner integral `∫_0^K k^{4/3}φ(12k) dk = (3/7)φ(0)K^{7/3} + O(K^{13/3})` holds for all `K` (`|e^{−x} − 1| ≤ x`), with `τ_u` bounded below. Then `∫_0^1 y^{−1/3}(y/a³)^{7/3}dy = a^{−7}/3`, which gives `C_endpoint = (96/(7c))∫p_G(0)p_{V_u}(0)D_uφ_{τ_u}(0)dσ`. The error term is `∫_0^1 y^{−1/3}(y/a³)^{13/3}dy = a^{−13}/5`. The moment threshold `p < 7`, with a logarithmic divergence at `7`, follows from the positive tail.
+- **Exact next term.** For a single direction, the `a^{−13}` term is `−(1512/(65τ²))` times the main term times `a^{−6}`.
+- **Independent numerical check** (mpmath, 40 digits; `t5_check.py`, output retained):
+  - For `τ ∈ {0.7, 1, 2.3}` and `a = 2, 4, 8, 16`, `c·P{V > a}` divided by `(96/7)φ_τ(0)a^{−7}` tends to 1.
+  - `(ratio − 1)a⁶` converges to `−23.26/τ²` (that is `−47.47`, `−23.26` and `−4.397`), which matches the next-term formula.
+  - (15.2)'s gamma identity `144∫_0^∞k^{4/3}φ_τ(12k)dk = Γ(7/6)τ^{4/3}/(24^{1/3}√π)` holds to `10^{−40}`.
+
+### Consistency observation: why "t → 0 first" is essential
+The finite-`t` law departs from the limit law exactly where the cusp scale begins. The finite-`t` density uses `A_r` at `r = (ty/k)^{1/3}`. This differs from `A_0` at relative order one once `κ = k/r ≍ 1`, that is, once `k ≍ (ty)^{1/4}`. That corresponds to `V = (y/k)^{1/3} ≍ y^{1/4}t^{−1/12}`. The limit law's tail beyond that point has relative mass `a^{−7} ≍ t^{7/12}`. This is precisely the relative order of the cusp correction `c₁ℓ^{1/4}/(cℓ^{−1/3})` of #207 (Theorem CU, candidate status), which comes from the typed window and the elder window `|φ| < 1/3` at `κ ≍ 1`. So T5's tail describes the limit law, and the finite-`t` endpoint law has its own cusp-scale correction for `a ≳ t^{−1/12}`. This is consistent with the note's explicit refusal of a two-parameter limit. A sentence saying so would sharpen that caveat; it is optional.
+
+### Nits (optional)
+1. T5's proof says "Uniformly for `0 ≤ k ≤ a^{−3}`, `φ_{τ_u}(12k) = φ_{τ_u}(0) + O(k²)`". The bound holds for all `k ≥ 0`, with constant `72φ_{τ_u}(0)/τ_u²`. It is only ever used on `k ≤ y/a³ ≤ a^{−3}`, so this is fine as written.
+2. In T4/T5 `σ` is unnormalized surface measure, as in [P] (10.2). Saying so once next to `C_endpoint` would prevent a factor-of-`|S^{d−1}|` misreading.
+
+**Not reviewed:**
+- T1–T3, which another reviewer accepted in 5379199511;
+- the imported [P], E1, E2, REC and R interfaces themselves;
+- finite-`t` uniform integrability or moment convergence;
+- whole-program closure.
+
+**Side note on [5932418663](https://github.com/d6g8k5htny-coder/Math-/pull/221#issuecomment-5932418663)'s remark about #220.** #220 v1.1 (`827812b`, now `e481d23`) already rebinds #191 and #198 as merged inputs. It consumes #187, rebound to `75c686c`/`07260114`, only for (E3.3) at the single separation `r_0^*`.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

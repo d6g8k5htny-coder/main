@@ -1,0 +1,145 @@
+Publication wrapper by OpenAI/Codex root under Dylan Roy's delegation. The following is the original nonauthor math-review report, preserved verbatim. Its local frozen-byte review predates commit creation; all identified candidate bytes now match head `a38449c30c44733dfb5cd128d11071fac2e0ea98` exactly. This wrapper supplies only publication binding, not an expanded review or GitHub approval.
+
+---
+
+# C51 replacement-bar occurrence: substantive nonauthor technical review
+
+Review date: 2026-10-01. Reviewer: OpenAI/Codex `/root/c51_math_review`, under Dylan Roy's delegation. This is a fresh nonauthor agent-instance review. The candidate authors and this reviewer use the same provider; organizational-independence credit is **0**. Dylan Roy personal reading: **PENDING**. Scientific effect: **NONE**.
+
+**Verdict: PASS_TECHNICAL, conditional on the explicitly retained analytic interfaces and C50 theorem. No unresolved mathematical finding or requested amendment remains in this reviewed scope.** The new isolation and bounded-mark argument supports O2, hence O3–O6, for the fixed planar compact-band population. This verdict does not accept or merge the retained sources, certify an integration head, or discharge an independent-provider, personal-reading, formal-alignment, or scientific-status gate.
+
+## Exact reviewed object and exposure
+
+The complete analytic target is the following immutable byte set, relative to `frontiers/replacement_bar_occurrence_20261001/` in `work/continuation51/checkout`:
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| PROOF.md | 12,965 | `b49f2ea5975dc05270f51fea4a3574093f726258cdab94888742507c2caa275f` |
+| GLOBAL.md | 17,598 | `b5ef49f91207ff2bc3c240b50aa3bc374cabf745524e504cc33b6785bef47d84` |
+| SOURCES.json | 4,438 | `320f64d3feebd7a694fc33458cf5c768207411525e89df6fd786f75990f5fc60` |
+
+All ten source-map entries were checked against (i) their local raw bytes, (ii) recorded length and SHA-256, (iii) `git show commit:path`, and (iv) the recorded Git blob. Every check matched. The C50 map reproduces exactly the same seven retained interfaces as the C51 map. The complete verification record is `SOURCE_IDENTITIES.json` beside this report.
+
+The seven retained source files are pinned at `044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43`; the copied C50 PROOF, ROOTS and source map are pinned at `b5bf02879a5645da9a69d9944dee610e6bb14bf6`. C50's supplied status is a reviewed unmerged draft, consumed as an explicit hypothesis. This review verified its byte identity; it did not perform a fresh remote merge/status audit.
+
+I read both C51 analytic files in full and the full source map. Relevant inspected source slices were U50 PROOF §§1–8; U50 ROOTS R1–R3; CUB §§1–7, particularly C1–C13 and G1–G10; P §§1–4 and 7–10; E1 in full; E2 in full; REC's identity/reading rules, W1/embedding amendment and consumption contract; and ELDER §§8.1–8.6, particularly S4–S14. CAP's identity was verified; its deterministic theorem remains an imported hypothesis through P and ELDER, not a newly reviewed standalone cap theorem. I did not re-audit the external Kac–Rice paper or re-prove C50's actual-elder theorem.
+
+There was no prior candidate authorship by this reviewer and no source/candidate edit. The initial task described the intended proof targets and source status. Late in the review, the agent inventory exposed the completed author feasibility summary incidentally; the author feasibility report itself was not read. By then the candidate and consumed integration slices had been independently inspected. A fresh child reviewer, `/root/c51_math_review/global_falsifier`, received only a bounded counterexample-search task and independently reread GLOBAL §§2,5,6, without reading the author feasibility report. Its derivations agreed with the checks below. This is additional same-provider nonauthor scrutiny, not independent organizational credit.
+
+The coordinating parent author claim is `981c2cab-f793-4168-bae5-6361159a5bc6`, Work Events row 452, main #229 pickup 5937165418. This review is internally delegated under that scope; it does not assert a separately registered remote claim. No remote write, commit, candidate mutation or master/full-suite run was performed by the reviewer. Only this review directory was written.
+
+## 1. Cubic roots, generic exclusions and the unique maximum
+
+GLOBAL §2 correctly keeps original-coordinate distances separate from the shear. With B=Bs and D=Ds, substituting `X=u-aZ/(12k)` gives the entire polynomial
+
+    P=2ku³-3ku/2-k/2+sZ²/2+(B/2)uZ²+(D/3)Z³.
+
+The linear Z terms cancel, so the displayed conic and line classify every extra critical point, not only roots in the height window. If BD is nonzero, elimination gives
+
+    (12kD²+B³)u²+2B²su+Bs²-3kD²=0.
+
+Its linear coefficient cannot vanish under B≠0 and strict typing s<0. The cases B=0 or D=0 are separately handled and leave at most two extras. At an extra root the sheared Hessian is `[[12ku,BZ],[BZ,DZ]]`. Using `DZ=-s-Bu` and `BZ²=3k-12ku²` gives
+
+    det Hess P = -3k(B+4su),
+    H Z² = 12k(s+Bu)²+(B²-4s²)(BZ²)
+          = 3k(B+4su)².
+
+The determinant-one shear preserves the Hessian determinant and inertia. Since Z≠0 for an extra root, H≠0 excludes every extra degenerate root, including roots below the source's original height window. The pin determinants and axial signs give a maximum at M0 and a saddle at S0 under `s<-|B|/2`. The H polynomial numerator and its positive q² coefficient are correct; the generic exclusions are genuinely null at each fixed positive k.
+
+The affine-Hessian argument is valid for every polynomial of degree at most three: if distinct critical points p,q both had negative-definite Hessians, the Hessian would remain negative definite along their segment, making the integral of its quadratic form on q−p strictly negative, contrary to the zero gradient difference. Together with nondegeneracy this proves that M0 is the unique local maximum among all cubic roots.
+
+The homogeneous-gradient coercivity is also correct. In sheared coordinates a nonzero homogeneous critical direction has Z≠0. For B≠0, substitution `u=-DZ/B` reduces the first equation to `(12kD²+B³)Z²/(2B²)=0`; for B=0 the only possibility is D=0. Thus Δ≠0 gives a strictly positive gradient minimum on the unit circle, and the invertible shear preserves a bound `|grad H3(x)|>=c|x|²` after changing c.
+
+Two exact counterexample searches confirm why the exclusions must remain. With k=1, a=0, s=−1, B=1, D=1/2, strict typing holds but H=0; the extra root `(u,Z)=(1/4,3/2)` is degenerate and has height −9/8, below the original window. With k=1, a=0, s=−2, B=−3, D=3/2, strict typing and H≠0 hold but Δ=0; `(u,Z)=(1/2,1)` is a nonzero homogeneous gradient zero. Neither example lies in C51's generic domain. They falsify omitted hypotheses, not the submitted theorem.
+
+Disposition: **PASS** for GLOBAL Lemmas 1–2.
+
+## 2. Full-contact regression and global C4 convergence
+
+P's nonsingular U_r frame tends to `(f,f_x,f_xx,f_xxx,f_z,f_xz)` at the origin. Appending `(f_zz,f_xxz,f_xzz,f_zzz)` gives exactly ten independent entries, the full planar jet through degree three. In particular the limiting Hessian is entirely zero, while the full third tensor is fixed by `(12k,a,beta,q)`. The extra target rs tends to zero; s remains in the finite-scale cubic unfolding even though it disappears from the limiting global field law.
+
+Positive Fourier spectrum proves the ten-jet covariance is nonsingular. The averaged-derivative representation makes U_r(F) converge for the same smooth underlying F. The covariance inverses converge and are bounded. For the regression coefficient functions, differentiating in the field argument through order four still leaves rapidly summable Fourier derivatives of the covariance. This supplies **global** C4 convergence of those functions on the compact torus, not merely local convergence near the pins. Termwise convergence in the displayed regression formula consequently gives global C4 convergence of the coupled fields and a pathwise bounded global C4 norm along each sequence.
+
+CUB G8 separately supplies C2 convergence after spatial/value rescaling on each fixed disk. A countable exhaustion by disk radii suffices even though the later choice of R is sample dependent: a chosen finite disk is contained in one member of that exhaustion. No convergence statement on a growing disk is imported.
+
+Disposition: **PASS** for GLOBAL Lemma 3, under the retained smooth positive-spectrum Gaussian interfaces.
+
+## 3. Off-origin Morse property at the new conditioning
+
+GLOBAL Lemma 4 establishes the required new posterior rank rather than reusing Morse genericity under only the original six pins. At x≠0 consider `Z(x,v)=(grad f0(x),Hess f0(x)v)` with |v|=1. A zero conditional variance would make a nonzero combination of these four observations a linear combination of the ten contact observations. Positive spectrum converts this to a zero distribution. Its parts at x and 0 have disjoint supports, so the part at x must vanish. Its first- and second-order symbols separate; the latter is `(beta·xi)(v·xi)`, which vanishes identically only when beta=0 because v≠0. The gradient coefficients then vanish too. Hence the posterior covariance has full rank four.
+
+On a compact x-domain separated from the origin, crossed with the unit circle, continuity gives a positive eigenvalue floor and a uniform four-dimensional density bound. The mean is irrelevant to that upper bound. The parameter dimension is three. Restricting to a finite C1 norm bound M, an ε mesh has O(ε^−3) points and a possible zero forces one value into an O(Mε) ball in R4. The union bound is O(M4 ε), which tends to zero. Letting M increase and countably exhausting the punctured torus proves almost-sure absence of a zero of Z.
+
+Thus every off-origin critical point is nondegenerate. Remote distinct critical values are unnecessary for the isolation mechanism. All these almost-sure statements are for fixed targets; the explicit joint regression coupling and Fubini suffice for integration in theta along each fixed sequence. There is no unsupported common event over all targets.
+
+Disposition: **PASS** for GLOBAL Lemma 4.
+
+## 4. The intermediate annulus and global root accounting
+
+The endpoint Taylor estimate uses more than global convergence and is correct. Let `g_i=grad f_i(0)`, `A_i=Hess f_i(0)`, `T_i=D³ f_i(0)` and `h_i=r_i/2`. The exact zero gradients at both pins give
+
+    0=g_i ± h_i A_i e_x+(h_i²/2)T_i[e_x,e_x]+O(h_i³).
+
+The uniform C4 bound justifies the remainder. Adding and subtracting yields `g_i=O(r_i²)` and `A_i e_x=O(r_i²)`. Hessian symmetry controls the mixed entries; the remaining entry is exactly `f_zz(0)=r_i s`, so `A_i=O(r_i)`. Midpoint Taylor expansion, and convergence of T_i to the cubic third tensor, now give precisely
+
+    |grad f_i(x)-grad H3(x)|
+       <= C r_i²+C r_i|x|+epsilon_i|x|²+C|x|³,
+       epsilon_i -> 0.
+
+For |x|≥Rr_i the first two terms divided by |x|² are at most C/R²+C/R. Choose R large, then choose δ small inside an embedded torus chart, then take i large for epsilon_i. The stated budget is below 3c/4, leaving the positive gradient floor c|x|²/4. Enlarging R to contain all cubic roots improves the error bound. These sample-dependent constants and thresholds are legitimate because only pointwise vanishing under an integrable envelope is later used.
+
+The local cubic roots continue uniquely under C2 convergence using the fixed inverse-Hessian contraction map; the compact complement has a positive gradient floor. All roots, including roots outside the original height window, are controlled. The same coercivity isolates the limit origin. All remaining limit critical points lie in a compact set away from that origin and are nondegenerate, so they are finite in number. Global C2 convergence continues each once and excludes additional roots on the remaining compact set.
+
+The finitely many remote continuations remain separated from each other and from the shrinking local cluster by positive distances. Since C0r_i/t tends to zero at each fixed t>0, every sufficiently short distinct critical pair is wholly local. The local cluster has exactly one maximum. Every selected bar requires a distinct nearby saddle, so `N_(r_i/t)<=1` eventually, regardless of further birth, gap, finiteness or actual-elder restrictions. The prescribed zero extension handles any exceptional finite field outside the Morse/distinct-value locus.
+
+Disposition: **PASS** for GLOBAL Lemma 5 and Theorem G. The child adversarial review independently derived the same algebra, Taylor bounds and root accounting and identified no defect within its bounded slice.
+
+## 5. Whole-field Borel mark and the exact pair identity
+
+On the C2 Morse/distinct-value locus, finitely many critical roots admit continuous local charts; inertia stays fixed and the remaining compact region has a gradient floor. Separability gives a countable subcover. Pair distances, positive-distance gaps and heights are continuous in each chart; the actual elder selector is Borel by E2/P. Thus D_h, N_h and `H_h=1{N_h>=2}` are Borel after their stated zero extensions.
+
+For each eligible finite maximum M, exactly D_h(M) rejected pair terms contribute `H_h/D_h(M)`, so their sum is H_h. Summing maxima gives O8 exactly. The global event remains a bounded field mark on a **two-point** formula. It does not require a second selected maximum among the pins, independence from the conditioned field, or a four-point Kac–Rice formula.
+
+E2 explicitly identifies two finite measures on compact off-diagonal pair domains times the full C2 field space. Its bounded Borel extension covers this mark. Each fixed h-band is separated from the diagonal. Translation invariance and the unchanged finite population make the midpoint integral L². The ordered maximum/saddle convention gives no factor 1/2. Therefore O9 has the same `A_r=12 pi_r Z_r/r²` and original `W_r/Z_r` as U50, with no additional normalization.
+
+Disposition: **PASS** for PROOF §4, conditional on E2's retained marked Kac–Rice interface.
+
+## 6. Compact disintegration, failure tails and outer integration
+
+For fixed b,k,u,t the mark `G_r=1_F 1_finite H_(r/t)/D_(r/t)(M)` is between zero and `1_F`. The physical midpoint substitution A=rs has Jacobian r. Consequently the scaled density is
+
+    r^(-3) * r * r^4/Z_r
+      = r²/Z_r,
+
+times `h_r(rs,a,beta,q) E[(W_r/r^4)G_r]`, exactly O10. The conditioning remains the original six pins followed by physical midpoint-jet disintegration.
+
+For almost every typed theta the proved global isolation makes H eventually zero. On the typed complement, including its boundary, the determinant-times-inertia factor tends to zero. This factor is continuous at singular Hessians because the determinant vanishes there. Thus the argument does not need the selector or reciprocal count to converge on those sets. The finite polynomial exclusions have zero Lebesgue measure and the physical density is absolutely continuous.
+
+ELDER S12 supplies the same integrable C4 determinant envelope on an entire ambient compact theta box, not only a compact subset of the typed interior. Locally bounded Gaussian densities and the normalizer floor dominate the other factors. Fubini and dominated convergence therefore yield zero on every fixed box along each sequence r_i→0.
+
+The omitted contribution is bounded by the **actual** failure tail `r^(-3)Q_r^W(F,||Theta_r||>T)`. I inspected S4–S9's derivation: failure lies in the cap complement; the scalar near-layer integration retains its rare r5 numerator while preserving a residual tail indicator; the full normalizer floor leaves the r3 tilted scale; endpoint-to-midpoint estimates control Theta by the residual; far and fourth-derivative branches are o(r3). C51 consumes this exact tail, without replacing it by finiteness of the limiting integral. Taking the compact-box limit first and then T→∞ proves O11. No expectation limit of an unbounded count is asserted from pathwise stabilization alone.
+
+For the radial substitution r=th, `r dr * r³ = h5 t4 dt`, giving O12. The pointwise small-o quantity is dominated by `r^(-3)Q_r^W(F)`, uniformly bounded over the fixed compact b,k,u parameters by P (7.8), using the actual failure inclusion. P (10.3) bounds A_r; t ranges in a fixed finite interval bounded away from zero. Outer dominated convergence is justified. A tail bound uniform in every outer variable is not needed: pointwise tail exhaustion proves O11 and the separate uniform upper bound handles the outer integral.
+
+Disposition: **PASS** for PROOF §§5–6 through O2. This remains conditional on the retained C4, full-normalizer, S9 and compact upper-bound interfaces.
+
+## 7. Occurrence coefficient and field-first uniform-bar marks
+
+The integer inequalities O13 are correct. O2 implies O3, and
+
+    P(N_h>0)=E N_h−E[(N_h−1)_+]
+            =L² C_U(1) h5+o(h5).
+
+The L² factor is necessary because C_U is a per-volume coefficient. U50 supplies its positivity and finiteness, so the conditioning event has positive probability for all sufficiently small h. The total-variation distance of the conditioned count from delta_1 equals its probability of N_h≥2, bounded by O2 divided by `2P(N_h>0)`.
+
+For any bounded signed Phi, `|S_h(Phi)|<=||Phi||∞ N_h`, which proves O14 exactly. Its expectation error is o(h5) by O3. Combining with U50's first-moment asymptotic and dividing by the occurrence probability gives `C_U(Phi)/C_U(1)` for the experiment that first conditions a field on occurrence and then samples uniformly among its selected bars. This is the correct field-first numerator and denominator. Only weak convergence of marks is concluded, for bounded continuous tests on the stated noncompact mark space.
+
+Disposition: **PASS** for O3–O6 under U50 O1. No rate, mark total variation, Poisson process, independence, growing-volume result, unrestricted marks or second/factorial moment follows. For example, an abstract integer law with an additional mass h7 at `N_h=ceil(1/h)` has an o(h5) multiple-count first moment but a factorial second moment of order h5; this illustrates why the stated higher-moment boundary must remain.
+
+## Findings, residual obligations and verification boundary
+
+Unresolved findings: **0**. Counterexamples to the submitted conditional statement found: **none**. Requested candidate changes: **none**.
+
+The retained hypotheses are material. In particular, C50 O1/positive coefficient, the exact positive-spectrum smooth model, the full-field coupling/envelope, E2's bounded Borel formula, S9's actual-failure exhaustion and the compact outer upper bound remain dependencies. This review does not turn those assumptions into new unconditional acceptance. It also supplies no numerical enclosure for the coefficient or convergence rate.
+
+Verification consisted of exact source identity checks and substantive mathematical reconstruction, including adversarial checks of omitted-hypothesis counterexamples and the two-scale root bridge. No finite test, source hash, check run or author status label was used as a proof of the continuum assertions. The complete technical conclusion is restricted to the frozen analytic byte set above; README/workflow/finite-control additions and repository integration require their own relevant review.

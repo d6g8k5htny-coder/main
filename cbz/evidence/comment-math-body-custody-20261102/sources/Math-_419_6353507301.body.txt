@@ -1,0 +1,699 @@
+C257 LITERAL TORUS-DISTANCE SOURCE + ACTUAL NONAUTHOR REVIEW — SOURCE-ONLY DELIVERY, UNCOMPILED.
+
+Root01a11cbf / actual ownCLAIM2661/15a35ee8-bafc-430c-a801-d4b5713c1f1b; canonical source pickup6353330697. This is the complete allocated Task1 source prerequisite and its full actual source review, not full C257 closure.
+
+Three exact TorusFiltration.C257 targets now have authored proof bodies: lifetime_torusDist_eq_infDist, lifetime_torusDist_pos_of_torus_proj_ne, lifetime_critical_values_ne_of_torus_proj_ne. They use the EXISTING period lattice and quotient; y-x displacement, actual conditional real infimum, explicit boundedness/nonemptiness, closed discrete subgroup separation and literal IsMorseDistinct. No extra positive-dimension/nearest-point/Morse premise is inserted into positivity.
+
+Actual author /root/c257_distance_source_author_20261022 delivered source and report; distinct fresh nonauthor /root/c257_distance_nonauthor_source_review_20261022 completed SPEC and MATHEMATICAL/CODE QUALITY review. Source requirements met/no blocking source defect found; all execution NOT_RUN. Review resolved original closedness declaration at pinned OpenSubgroup.lean, sourceae99f92e/blob e0e35235. Controls-first chronology remains author-attested; final snapshot alone does not authenticate ordering. No observed RED/GREEN or actual negative diagnostic. Sameprovider/sharedprincipal/source-exposed ORG0/BLIND0/HUMAN0/SCIENCE_NONE.
+
+Root FULLREAD source/author report/full20632-byte review, independently rehashed all18 frozen payloads and repeated4 pinned primary-source byte/Gitblob matches. Freeze ROOT_SOURCE_REVIEW_FREEZE.json SHA256423f884c69f09991203d2ca94710119f188401d0ec3f9c3af9ccfae0914a2829. Exact source5033B/1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9; controls3237B/4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7; inertnegative859B/5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b. Whole authored bytes and complete reports follow unchanged.
+
+Imports must resolve the exact immutable Lifetime51383B/90f48926 and TorusTopology12257B/ddb145b3 at Math9f3fb6918b28e6378c034ebc19e76d432f5391cb. Lean4.34.1/compiler5045d0056413266e57c625dcd7c365b10e377c52; Mathlibd13f23b723b8a846827a245b89c10fc7d3f11612. All source uses one unqualified Lifetime identity. Prospective native directory frontiers/ordinary_h0_barcode_c257_20261022/; no branch/ref/PR/workflow was created.
+
+Remaining actual work: separately exact-reviewed compile/axiom/kernel/negative-diagnostic contract and fresh live admission; full simultaneous actual-H0 construction/rank uniqueness source still in progress under current named authors; literal quotient calculus/Morse-to-geometric discharge/closed-critical LPC/C258 saddle-transfer remainOPEN. Current foreign ComponentKernel/Claude/C299C7 roles and Graph/NUM/Root403 program stops/recovery retained. No program/execution/alignment/full-formal/scientific promotion. Master ACTIVE_UNMET.
+
+Embedded payload convention: exact UTF8 bytes begin immediately after each BEGIN_PAYLOAD line and end immediately before END_PAYLOAD. All members have a final LF; no trimming or code-fence extraction is needed. The declared byte count/hash binds the whole member, including final LF.
+
+PAYLOAD 1: project/TorusDistance.lean; UTF8_BYTES=5033; SHA256=1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9
+BEGIN_PAYLOAD_1
+import Lifetime
+import TorusTopology
+
+/-!
+# Literal Lifetime distance on the existing torus quotient
+
+Author: /root/c257_distance_source_author_20261022, 2026-10-22.
+Source-only allocation under Root's Math419 / ownCLAIM2661.
+Status: UNCOMPILED / NOT_RUN. Prospective controls were written first.
+Lean v4.34.1; Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612.
+Read-only Lifetime and TorusTopology inputs: Math
+9f3fb6918b28e6378c034ebc19e76d432f5391cb, exact snapshot bindings in the packet.
+
+This file uses the existing quotient and the carrier of its period lattice.
+The displacement is y - x, so no lattice reindexing or second quotient is used.
+The conditional real infimum is compared in both directions with infDist,
+using an explicit zero lower bound and the nonempty lattice carrier. Strict
+positivity then uses closedness of the existing discrete additive subgroup.
+The final result consumes the literal second clause of IsMorseDistinct.
+
+This necessary prerequisite supplies no H0 decomposition, geometric attainment,
+local-maximum/critical correspondence, saddle identification, or scientific
+acceptance. The full literal master goal remains ACTIVE_UNMET.
+-/
+
+noncomputable section
+
+open UniversalLaw.Spec
+
+namespace TorusFiltration.C257
+
+/-- The literal indexed distance equals distance from y - x to the carrier of
+the existing period lattice. Both conditional-infimum comparisons are explicit. -/
+theorem lifetime_torusDist_eq_infDist
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (x y : Lifetime.E d) :
+    Lifetime.torusDist d L x y =
+      Metric.infDist (y - x)
+        ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d)) := by
+  classical
+  let S : Set (Lifetime.E d) :=
+    ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d))
+  have hS : S.Nonempty :=
+    ⟨0, (torus_periodLattice d L hL).zero_mem⟩
+  have hlattice (n : Fin d → ℤ) :
+      Lifetime.latticeVec d L n = torus_latticeVec d L n := rfl
+  have hdist (n : Fin d → ℤ) :
+      dist (y - x) (torus_latticeVec d L n) =
+        ‖x - y + Lifetime.latticeVec d L n‖ := by
+    rw [dist_eq_norm', hlattice n]
+    congr 1
+    abel
+  have hmem (n : Fin d → ℤ) : torus_latticeVec d L n ∈ S := by
+    change torus_latticeVec d L n ∈ torus_periodLattice d L hL
+    exact (torus_lattice_mem_iff d L hL _).2 ⟨n, rfl⟩
+  have hbounded : BddBelow
+      (Set.range (fun n : Fin d → ℤ => ‖x - y + Lifetime.latticeVec d L n‖)) := by
+    refine ⟨0, ?_⟩
+    rintro _ ⟨n, rfl⟩
+    exact norm_nonneg _
+  change (⨅ n : Fin d → ℤ, ‖x - y + Lifetime.latticeVec d L n‖) =
+    Metric.infDist (y - x) S
+  apply le_antisymm
+  · apply (Metric.le_infDist hS).2
+    intro q hq
+    have hq' : q ∈ torus_periodLattice d L hL := hq
+    obtain ⟨n, hn⟩ := (torus_lattice_mem_iff d L hL q).1 hq'
+    calc
+      (⨅ n : Fin d → ℤ, ‖x - y + Lifetime.latticeVec d L n‖) ≤
+          ‖x - y + Lifetime.latticeVec d L n‖ := ciInf_le hbounded n
+      _ = dist (y - x) (torus_latticeVec d L n) := (hdist n).symm
+      _ = dist (y - x) q := by rw [hn]
+  · apply le_ciInf
+    intro n
+    calc
+      Metric.infDist (y - x) S ≤ dist (y - x) (torus_latticeVec d L n) :=
+        Metric.infDist_le_dist_of_mem (hmem n)
+      _ = ‖x - y + Lifetime.latticeVec d L n‖ := hdist n
+
+/-- Distinct points of the existing quotient have positive literal Lifetime
+distance. The dimension is arbitrary; positive period and quotient separation
+are the only mathematical hypotheses. -/
+theorem lifetime_torusDist_pos_of_torus_proj_ne
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (x y : Lifetime.E d)
+    (hxy : torus_proj d L hL x ≠ torus_proj d L hL y) :
+    0 < Lifetime.torusDist d L x y := by
+  let S : Set (Lifetime.E d) :=
+    ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d))
+  have hS : S.Nonempty :=
+    ⟨0, (torus_periodLattice d L hL).zero_mem⟩
+  have hclosed : IsClosed S := by
+    change IsClosed
+      ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d))
+    exact AddSubgroup.isClosed_of_discreteTopology
+  have hnotmem : y - x ∉ S := by
+    intro hmem
+    have hmem' : y - x ∈ torus_periodLattice d L hL := hmem
+    obtain ⟨n, hn⟩ := (torus_lattice_mem_iff d L hL (y - x)).1 hmem'
+    apply hxy
+    apply (torus_proj_eq_iff d L hL x y).2
+    refine ⟨n, ?_⟩
+    rw [hn]
+    abel
+  rw [lifetime_torusDist_eq_infDist d L hL x y]
+  exact (hclosed.notMem_iff_infDist_pos hS).1 hnotmem
+
+/-- Literal Morse-distinct data separate the values at two actual literal
+critical points with different projections to the existing quotient. -/
+theorem lifetime_critical_values_ne_of_torus_proj_ne
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (g : Lifetime.E d → ℝ)
+    (hg : Lifetime.IsMorseDistinct d L g) (x y : Lifetime.E d)
+    (hx : Lifetime.IsCriticalPoint d g x)
+    (hy : Lifetime.IsCriticalPoint d g y)
+    (hxy : torus_proj d L hL x ≠ torus_proj d L hL y) :
+    g x ≠ g y :=
+  hg.2 x y hx hy (lifetime_torusDist_pos_of_torus_proj_ne d L hL x y hxy)
+
+end TorusFiltration.C257
+END_PAYLOAD_1
+
+PAYLOAD 2: project/TorusDistanceControls.lean; UTF8_BYTES=3237; SHA256=4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7
+BEGIN_PAYLOAD_2
+import TorusDistance
+
+/-!
+Prospective consumers and falsification controls for the literal torus distance.
+Author: /root/c257_distance_source_author_20261022, 2026-10-22.
+Written before TorusDistance.lean. RED_NOT_RUN; no parser, compiler, or test run.
+
+Named mutations covered:
+* replacing the existing lattice carrier or reversing the displacement in the
+  public equality breaks `literal_infDist_consumer`'s required interface;
+* omitting quotient separation or changing strict positivity to nonnegativity
+  breaks `quotient_distinct_positive_consumer`'s intended contract;
+* using a different Morse predicate or dropping either actual criticality premise
+  breaks the literal critical-value consumer;
+* claiming positive distance after erasing quotient distinctness is contradicted
+  by the independently derived exact self-distance and nonpositive controls.
+
+The erased-premise application is stored separately in TorusDistanceNegative.lean.txt.
+These are prospective source controls, not observed RED/GREEN evidence.
+-/
+
+noncomputable section
+
+open UniversalLaw.Spec
+
+namespace TorusFiltration.C257.Controls
+
+theorem literal_infDist_consumer
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (x y : Lifetime.E d) :
+    Lifetime.torusDist d L x y =
+      Metric.infDist (y - x)
+        ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d)) :=
+  lifetime_torusDist_eq_infDist d L hL x y
+
+theorem quotient_distinct_positive_consumer
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (x y : Lifetime.E d)
+    (hxy : torus_proj d L hL x ≠ torus_proj d L hL y) :
+    0 < Lifetime.torusDist d L x y :=
+  lifetime_torusDist_pos_of_torus_proj_ne d L hL x y hxy
+
+theorem literal_critical_values_consumer
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (g : Lifetime.E d → ℝ)
+    (hg : Lifetime.IsMorseDistinct d L g) (x y : Lifetime.E d)
+    (hx : Lifetime.IsCriticalPoint d g x)
+    (hy : Lifetime.IsCriticalPoint d g y)
+    (hxy : torus_proj d L hL x ≠ torus_proj d L hL y) :
+    g x ≠ g y :=
+  lifetime_critical_values_ne_of_torus_proj_ne d L hL g hg x y hx hy hxy
+
+/-- Exact self-distance derived directly from the literal indexed infimum,
+without using any of the new target conclusions. No positivity of L is needed. -/
+theorem literal_self_distance_zero (d : ℕ) (L : ℝ) (x : Lifetime.E d) :
+    Lifetime.torusDist d L x x = 0 := by
+  classical
+  unfold Lifetime.torusDist
+  have hbounded : BddBelow
+      (Set.range (fun n : Fin d → ℤ => ‖x - x + Lifetime.latticeVec d L n‖)) := by
+    refine ⟨0, ?_⟩
+    rintro _ ⟨n, rfl⟩
+    exact norm_nonneg _
+  apply le_antisymm
+  · calc
+      (⨅ n : Fin d → ℤ, ‖x - x + Lifetime.latticeVec d L n‖) ≤
+          ‖x - x + Lifetime.latticeVec d L (fun _ => 0)‖ :=
+        ciInf_le hbounded (fun _ => 0)
+      _ = 0 := by simp [Lifetime.latticeVec]
+  · exact le_ciInf (fun n => norm_nonneg _)
+
+theorem literal_self_distance_nonpositive (d : ℕ) (L : ℝ) (x : Lifetime.E d) :
+    Lifetime.torusDist d L x x ≤ 0 :=
+  le_of_eq (literal_self_distance_zero d L x)
+
+theorem erased_distinctness_is_false (d : ℕ) (L : ℝ) (x : Lifetime.E d) :
+    ¬ (0 < Lifetime.torusDist d L x x) :=
+  not_lt_of_ge (literal_self_distance_nonpositive d L x)
+
+end TorusFiltration.C257.Controls
+END_PAYLOAD_2
+
+PAYLOAD 3: project/TorusDistanceNegative.lean.txt; UTF8_BYTES=859; SHA256=5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b
+BEGIN_PAYLOAD_3
+import TorusDistance
+
+/-!
+INERT EXPECTED-REJECTION SOURCE. RED_NOT_RUN, not imported by normal sources.
+Author: /root/c257_distance_source_author_20261022, 2026-10-22.
+Mutation: erase quotient distinctness from the positivity consumer and specialize
+to equal representatives. The application below deliberately supplies no hxy.
+Expected future diagnostic: a function still requiring quotient distinctness is
+not a proof of positive self-distance. No diagnostic has been observed.
+The positive source controls independently prove this conclusion is false.
+-/
+
+open UniversalLaw.Spec
+
+namespace TorusFiltration.C257.Negative
+
+theorem erased_distinctness_positive_self
+    (d : ℕ) (L : ℝ) (hL : 0 < L) (x : Lifetime.E d) :
+    0 < Lifetime.torusDist d L x x := by
+  exact lifetime_torusDist_pos_of_torus_proj_ne d L hL x x
+
+end TorusFiltration.C257.Negative
+END_PAYLOAD_3
+
+PAYLOAD 4: task-1-control-status.json; UTF8_BYTES=488; SHA256=a6a113b9f25695987eed40c2547bae835bd2ec63c8125d19540b5cd1024ad7c4
+BEGIN_PAYLOAD_4
+{
+  "author": "/root/c257_distance_source_author_20261022",
+  "stage": "prospective_controls_written_before_implementation",
+  "control_sources": ["project/TorusDistanceControls.lean", "project/TorusDistanceNegative.lean.txt"],
+  "red_status": "RED_NOT_RUN",
+  "green_status": "NOT_RUN",
+  "parser_status": "NOT_RUN",
+  "compiler_status": "NOT_RUN",
+  "kernel_axiom_audit_status": "NOT_RUN",
+  "tdd_completed": false,
+  "execution_stop_preserved": true,
+  "master_goal": "ACTIVE_UNMET"
+}
+END_PAYLOAD_4
+
+PAYLOAD 5: task-1-report.md; UTF8_BYTES=14477; SHA256=c8440f176ead2e9e3d70f4f1b24ee814cc383c926b4af2a5c23b8cdac9a9bd79
+BEGIN_PAYLOAD_5
+# Task 1 source delivery — literal torus-distance prerequisite
+
+Status: **DONE_WITH_CONCERNS / UNCOMPILED** for the allocated source-authoring task. All three requested public targets have authored proof bodies. This is not a compiled result, a source acceptance verdict, a kernel result, or full C257 completion. Master goal: **ACTIVE_UNMET**.
+
+Author: `/root/c257_distance_source_author_20261022`, source exposed, same provider as Root; ORG0 / BLIND0 / HUMAN0, science=NONE. Actual pickup and sole file ownership were acknowledged to Root before authoring. Scope is Root's Math419 comment `https://github.com/d6g8k5htny-coder/Math-/pull/419#issuecomment-6353330697`, ownCLAIM2661 / `15a35ee8-bafc-430c-a801-d4b5713c1f1b`. No separate claim, native mutation, branch, worktree, Git operation, publication, or subagent was made.
+
+## Execution boundary and actual work
+
+Prospective `TorusDistanceControls.lean`, inert `TorusDistanceNegative.lean.txt`, and the control-status JSON were written before `TorusDistance.lean`. The positive controls exercise all three requested interfaces. The self-distance control derives zero directly from the literal indexed infimum, independently of the new target proofs. The erased-distinctness negative is an actual application with the required premise omitted, specialized to equal representatives, and remains a `.lean.txt` file outside normal imports.
+
+**RED_NOT_RUN** means the prospective missing-target/negative checks were never executed. **NOT_RUN** applies to imports, Lean/Lake, parsing, syntax/AST checks, compilation, tests, kernel/axiom audit, collectors, mathematical programs, and all skill scripts. No observed RED or GREEN, diagnostic, or TDD completion is claimed. Actual operations were UTF-8 source/document reads, text searches, allocated file writes, JSON reading, byte counts and SHA-256 comparisons. The authored source was read back in full. Source reads and hashes are evidence of authored bytes, not elaboration.
+
+The exact task stop controls over generic skill execution recipes. The TDD skill, writing-good-tests reference, verification-before-completion skill, and executing-plans skill were read. The using-superpowers skill's subagent exception was noted. No skill script, test command, Git recipe, reviewer dispatch, or cleanup recipe was run. Root retains independent review and any later frozen execution contract.
+
+## Complete declaration inventory and precise assumptions
+
+`project/TorusDistance.lean` imports only the immutable local module identities `Lifetime` and `TorusTopology`. It contains exactly three new public declarations, all in `TorusFiltration.C257`:
+
+1. `lifetime_torusDist_eq_infDist` (line 34): parameters `d : ℕ`, `L : ℝ`, `hL : 0 < L`, and `x y : Lifetime.E d`. Conclusion is exactly `Lifetime.torusDist d L x y = Metric.infDist (y - x) ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d))`. The carrier is the existing lattice's additive subgroup, not a newly defined quotient or replacement lattice. A local reflexivity proof unfolds the identical lattice-vector definitions. The norm-distance orientation uses `dist_eq_norm'` and additive rearrangement. The zero lattice element witnesses carrier nonemptiness. The integer coefficient function type is nonempty, including at dimension zero. An explicit zero lower bound on the range of norms is supplied to `ciInf_le`; `le_ciInf`, lattice membership witnesses, `Metric.infDist_le_dist_of_mem`, and `Metric.le_infDist` complete the two scalar inequalities.
+2. `lifetime_torusDist_pos_of_torus_proj_ne` (line 82): exactly the requested `(d) (L) (hL) (x y) (hxy : torus_proj d L hL x ≠ torus_proj d L hL y) → 0 < Lifetime.torusDist d L x y`. There is no `1 ≤ d`, smoothness, Morse, Hessian, nearest-point, or geometry premise. Membership of `y - x` in the lattice would produce the forbidden equality of the actual quotient images through `torus_proj_eq_iff`. Closedness is obtained by `AddSubgroup.isClosed_of_discreteTopology`, using the existing registered `torus_lattice_addSubgroup_discrete` instance. `IsClosed.notMem_iff_infDist_pos` supplies strict positivity, followed by the literal equality above.
+3. `lifetime_critical_values_ne_of_torus_proj_ne` (line 108): parameters `(d) (L) (hL) (g : Lifetime.E d → ℝ)`, actual `hg : Lifetime.IsMorseDistinct d L g`, points `x y`, both actual `Lifetime.IsCriticalPoint` proofs, and `hxy`. Conclusion `g x ≠ g y` is obtained by `hg.2 x y hx hy` applied to the new positivity theorem. No assumed target field or substitute genericity predicate occurs. This does not derive criticality from quotient local maximality.
+
+`project/TorusDistanceControls.lean` imports only `TorusDistance`. Its six declarations are in `TorusFiltration.C257.Controls`:
+
+| Declaration | Line | Contract and named failure mode |
+| --- | ---: | --- |
+| `literal_infDist_consumer` | 28 | Requires the exact `y - x` displacement, existing carrier and scalar equality; a public-interface mutation to those expressions prevents the direct consumer from matching. |
+| `quotient_distinct_positive_consumer` | 35 | Requires strict positivity under exactly quotient inequality; catches weakening the result to nonnegativity or changing its premise interface. |
+| `literal_critical_values_consumer` | 41 | Requires literal Morse-distinct data and both literal criticality proofs; catches changing the predicate or theorem argument interface. |
+| `literal_self_distance_zero` | 52 | For arbitrary `d`, `L`, `x`, proves distance at `(x,x)` equals zero directly from the definition, explicit boundedness and coefficient zero. Catches a nonzero additive offset or other change making self-distance nonzero. |
+| `literal_self_distance_nonpositive` | 69 | Same unrestricted parameters; derives distance at `(x,x)` at most zero. Rules out the claimed positive value in the erased-distinctness mutation. |
+| `erased_distinctness_is_false` | 73 | Same parameters; derives `¬ 0 < Lifetime.torusDist d L x x`, making the semantic contradiction explicit. |
+
+The first three are prospective API consumers, not an assertion that a future compiler will reject every semantically equivalent reformulation. The last three are actual behavioral boundary controls with independently derived expected value zero.
+
+The inert `project/TorusDistanceNegative.lean.txt` contains one intentionally rejected declaration candidate: `TorusFiltration.C257.Negative.erased_distinctness_positive_self` (line 17). Its statement has `d`, `L`, `hL`, and `x`, but no quotient-separation proof; the body is `exact lifetime_torusDist_pos_of_torus_proj_ne d L hL x x`. Expected future rejection is a proof/type mismatch because the application still requires quotient inequality. No exact diagnostic is asserted; the future executor must authenticate the actual diagnostic. It is not a proved theorem or an imported normal module.
+
+There are no other authored Lean declarations, no new axiom, no `sorry`/`admit`, no `native_decide`, no unsafe proof shortcut, and no incomplete production proof placeholder. Local proof binders and the local carrier abbreviation do not add hypotheses to the public signatures.
+
+## Requirement disposition
+
+| Requirement | Source-stage disposition |
+| --- | --- |
+| Prospective positive consumers first | Authored before production source; RED_NOT_RUN. |
+| Exact self-zero and nonpositive controls | Authored directly from literal definition; NOT_RUN. |
+| Actual erased-premise negative kept inert | Authored as `.lean.txt`; excluded from normal imports; diagnostic NOT_RUN. |
+| Literal equality, correct signs/carrier, nonempty/bounded conditional infimum | Authored with the exact existing definitions and explicit lower bound. |
+| Positive separation through closed existing discrete subgroup | Authored; no nearest-point development. |
+| Literal critical-value consequence | Authored through the second clause of actual `IsMorseDistinct`. |
+| Readback/inventory/hashes | All three source files read back fully; exact byte hashes below; JSON read back. |
+| Missing requested Task 1 load-bearing interfaces | None identified at source level. All remain unelaborated. |
+| Broader C257 literal theorem and scientific acceptance | Not discharged by this prerequisite; ACTIVE_UNMET. |
+
+## Exact source/API references and read extents
+
+Project pin: Math `9f3fb6918b28e6378c034ebc19e76d432f5391cb`. Lean pin: v4.34.1, compiler source `5045d0056413266e57c625dcd7c365b10e377c52`. Mathlib pin: `d13f23b723b8a846827a245b89c10fc7d3f11612`. The supplied `INPUT_SNAPSHOT_BINDINGS.json` was read in full; both task inputs were rehashed and match its SHA-256/byte values. Their historical contents were not changed.
+
+| Source | Personally read extent and relevant APIs |
+| --- | --- |
+| `task-1-brief.md`; `SPEC.md` | Full text. |
+| `c257-torus-distance-design-2250/REPORT.md` | Full text, including exact requested signature, conditional infimum route, and original-call-site qualification. |
+| `c257-formal-design-2250/DESIGN_INPUTS.md` | Task-relevant literal specialization section, lines 170–end, plus bounded keyword excerpts. A prior larger combined read was output-truncated; no full-file reading claim is made. |
+| `c257-formal-design-2250/SOURCE_API_MAP.md` | Full text; its broader coproduct/rank APIs are not used in Task 1. |
+| `project/TorusTopology.lean` | Full file, lines 1–246. Exact lattice formula 22–26, subgroup carrier/quotient 34–42, membership 62–67, registered discrete additive subgroup 74–77, quotient equality 90–101. |
+| `project/Lifetime.lean` | Focused full reads of 65–86, 120–160, 175–198, 245–320. Relevant `E`, `latticeVec`, literal `IsCriticalPoint`, `torusDist`, and `IsMorseDistinct`. A combined earlier 1–340 extraction was truncated; no full-input reading claim. |
+| [Mathlib HausdorffDistance](https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Topology/MetricSpace/HausdorffDistance.lean#L464) | Read lines 420–590 from retained pinned source. `Metric.infDist`, `infDist_le_dist_of_mem`, `le_infDist`, and `IsClosed.notMem_iff_infDist_pos`. |
+| [Mathlib ConditionallyCompleteLattice/Indexed](https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean#L103) | Read lines 55–135. `le_ciInf` and `ciInf_le` are the explicitly named `to_dual` declarations generated by the inspected source. |
+| [Mathlib ZLattice/Basic](https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Algebra/Module/ZLattice/Basic.lean#L328) | Read lines 308–339. Exact `AddSubgroup.isClosed_of_discreteTopology` call site with the lattice carrier. Its original declaration was not located/read; this remains call-site evidence, not a full dependency audit. |
+| [Mathlib Normed/Group/Basic](https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Analysis/Normed/Group/Basic.lean#L738) | Read lines 30–50 and 735–750. `dist_eq_norm'` alias and its additive origin establish the needed reversed subtraction orientation. |
+| `c257-torus-distance-design-2250/MATHLIB_SOURCE_BINDINGS.json` | Full text; all four used source files freshly rehashed against these retained pin bindings, all byte/SHA comparisons matched. No new native source retrieval occurred. |
+
+The full authored source extents read back were `TorusDistance.lean` 1–117, `TorusDistanceControls.lean` 1–77, and `TorusDistanceNegative.lean.txt` 1–22. The report and status are text/JSON records, not proof checks. The memory registry received only a bounded keyword lookup; no prior-memory fact is used in these proof bodies or this delivery claim.
+
+## Concerns and later validation
+
+1. No elaboration evidence exists. The future exact build must resolve `Lifetime.E`/`torus_E`, Submodule/AddSubgroup/Set carrier coercions, local `S` reduction, the subgroup closedness typeclass application, and the two generated conditional-infimum names. They are supported by the read pinned definitions/call sites, but that is not a substitute for compilation.
+2. The `dist_eq_norm'` rewrite, exact lattice definitional equality, additive rearrangement tactics, and zero-coordinate simplification are authored proof steps, not executed observations. They require the future controlled elaboration.
+3. The negative must be run separately as the actual inert source at the frozen snapshot and its diagnostic authenticated; a missing import or unrelated syntax failure would not validate the intended erased-premise control.
+4. Imports and module identity are presently source text only. Root owns packaging and freeze; this author did not create or modify project/build configuration.
+5. No independent review, alignment credit, axiom audit, runtime readiness, H0 decomposition, closed-critical-level result, or scientific completion follows from this source delivery. No Task 2 file is imported, read for proof reuse, or edited.
+
+A future separately reviewed executor must build `TorusDistance` and `TorusDistanceControls`, audit all targets/dependencies, replay the named module at the exact frozen inputs, and execute the negative separately. This statement is a future validation requirement, not authorization to execute now.
+
+## Authored bytes and immutable-input readback
+
+| File | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `project/TorusDistance.lean` | 5033 | `1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9` |
+| `project/TorusDistanceControls.lean` | 3237 | `4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7` |
+| `project/TorusDistanceNegative.lean.txt` | 859 | `5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b` |
+| `task-1-control-status.json` | 488 | `a6a113b9f25695987eed40c2547bae835bd2ec63c8125d19540b5cd1024ad7c4` |
+| Immutable `project/Lifetime.lean` | 51383 | `90f4892608e953ecc696bb32ea159d1c178ceb8a1c6edfd11acfceb14af462c6` |
+| Immutable `project/TorusTopology.lean` | 12257 | `ddb145b3f791c181d4f2a51e54e711937297bd6476ba55bcd5252b7ddb57cfe1` |
+
+This report is the fifth and final authored file. Its own byte count and SHA-256 are supplied externally in the handoff after final write/readback to avoid a self-referential checksum. The status JSON intentionally retains its original controls-first stage as prospective chronology evidence; it is not a claim that production source is still absent.
+END_PAYLOAD_5
+
+PAYLOAD 6: REVIEW.md; UTF8_BYTES=20632; SHA256=389f7d7e39a28c3bd0d38e2e27dcf93ada845c8e4dd16347ec24c81cd777c24b
+BEGIN_PAYLOAD_6
+# Task 1 nonauthor source review — frozen v1
+
+Reviewer: `/root/c257_distance_nonauthor_source_review_20261022`.
+
+**SPEC COMPLIANCE: SOURCE REQUIREMENTS MET, WITH CONTROLS-FIRST CHRONOLOGY NOT INDEPENDENTLY VERIFIED. UNCOMPILED.** All three requested public interfaces, complete proposed proof bodies, positive consumers, direct self-zero/nonpositive controls, and the separate erased-premise negative are present. No missing load-bearing Task 1 interface or extra production scope was found. This disposition concerns the frozen source requirements; it does not establish elaboration or execution success.
+
+**MATHEMATICAL/CODE QUALITY: NO BLOCKING SOURCE DEFECT FOUND. UNCOMPILED.** The mathematical argument is coherent, uses the exact literal definitions, and the inspected pinned APIs support the proposed applications. I found no Critical or Important mathematical defect and no concrete likely Lean elaboration defect. The remaining proof elaboration and execution obligations are unperformed, not presumed successful. No compiled/kernel/test/axiom-audit evidence or observed negative diagnostic is supplied by this review.
+
+Qualification remains **UNCOMPILED / NOT_RUN / ORG0 / BLIND0 / HUMAN0 / SCIENCE_NONE**. The full literal master goal remains **ACTIVE_UNMET**.
+
+## Independence, source identity, and actual operations
+
+I did not author or design these proof bodies or controls and made no production-source changes. No earlier personal inspection of these particular Task 1 proof sources is present in my visible inherited context before this assignment. That context did include general research-program summaries and the standing project authorization. I then read the review brief, task requirements, unverified author report, complete diff, manifest, and frozen source. I am a fresh nonauthor reviewer within the same provider as Root and the source author. This is neither provider-independent nor blind nor human review; the author report and requirements were visible before proof inspection. No organizational/alignment/scientific credit is claimed.
+
+The review subject is exclusively `task-1-review-v1/project/{TorusDistance.lean,TorusDistanceControls.lean,TorusDistanceNegative.lean.txt}`, against immutable Math base `9f3fb6918b28e6378c034ebc19e76d432f5391cb`. I did not review moving copies of the added sources. All five manifest byte counts and SHA-256 values were independently recomputed and matched. A text-only comparison confirmed that `DIFF.md` contains precisely the added bytes of all three frozen source files. Details are in `REVIEW_RECEIPT.json`.
+
+| Frozen source | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `project/TorusDistance.lean` | 5033 | `1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9` |
+| `project/TorusDistanceControls.lean` | 3237 | `4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7` |
+| `project/TorusDistanceNegative.lean.txt` | 859 | `5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b` |
+
+Actual operations were inert text/file/JSON reads, byte/hash comparisons, writes only to this review report/receipt/evidence allocation, and official native read-only GitHub source GETs. No Lean, Lake, parser, AST, syntax check, compiler, import execution, test, mathematical program, collector, Git CLI, skill script, installation, native mutation, or subagent was run. The generic using-superpowers skill was read and its dispatched-subagent stop applied; no skill workflow or script was invoked.
+
+## Specification assessment
+
+| Required property | Frozen evidence and assessment |
+| --- | --- |
+| Literal equality | `TorusDistance.lean:34–38` states `Lifetime.torusDist d L x y = Metric.infDist (y - x) ((torus_periodLattice d L hL).toAddSubgroup : Set (Lifetime.E d))`, with exactly the existing carrier and requested displacement. No new quotient, alternate lattice, lift selection, or assumed distance theorem is introduced. |
+| Literal positivity signature | `TorusDistance.lean:82–85` has exactly `d`, `L`, `hL : 0 < L`, `x y : Lifetime.E d`, and inequality of their existing `torus_proj` images; its conclusion is strict positivity of the literal `Lifetime.torusDist`. There is no added positive-dimension, Morse, smoothness, nearest-point, or Hessian hypothesis. |
+| Literal critical-values consequence | `TorusDistance.lean:108–115` consumes actual `Lifetime.IsMorseDistinct d L g`, both actual `Lifetime.IsCriticalPoint` proofs, and actual quotient inequality, concluding `g x ≠ g y`. It directly applies `hg.2` to the positivity proof. |
+| Explicit conditional-infimum justification | `TorusDistance.lean:42–43` proves carrier nonemptiness by zero; `55–59` gives the zero lower bound on the exact norm range; `63–76` uses `Metric.le_infDist`, `ciInf_le`, `le_ciInf`, and `Metric.infDist_le_dist_of_mem` in the correct directions. The index type `Fin d → ℤ` is inhabited by the zero function even for `d = 0`. |
+| Discreteness-to-closedness route | `TorusDistance.lean:90–93` uses the existing additive subgroup and `AddSubgroup.isClosed_of_discreteTopology`; `94–104` proves nonmembership from the existing quotient equality API and applies `IsClosed.notMem_iff_infDist_pos`. No optional nearest-point development was added. |
+| Positive consumers | `TorusDistanceControls.lean:28–48` directly consumes all three exact interfaces. These are signature consumers; they provide no independent proof of the production theorems. That is appropriate to the requested consumer role. |
+| Independent self-distance boundary | `TorusDistanceControls.lean:52–67` derives self-distance zero directly from `Lifetime.torusDist`, a bounded-below range, the zero coefficient function, and nonnegativity. It does not use any new target conclusion. `69–75` derives nonpositivity and negates strict positivity. No positive-period assumption is needed for these controls. |
+| Exact erased-premise negative | `TorusDistanceNegative.lean.txt:17–20` asserts positive self-distance while omitting `hxy` from an actual application of the positive theorem. The `.lean.txt` file is separate, and neither normal source imports it. The expected missing-argument/type mismatch is prospective; no diagnostic was observed. |
+| Controls first | `TorusDistanceControls.lean:6` and `task-1-control-status.json` attest to controls-first authoring. A frozen final snapshot and author-authored status record cannot independently prove temporal ordering. No independent edit-event trace was supplied to this reviewer; chronology remains author-attested. |
+| Stop and reporting | Source headers, report, and status JSON retain UNCOMPILED/NOT_RUN and do not claim observed RED/GREEN. The review itself preserves the stop. The source author’s past operations are not authenticated merely by their report. |
+| Scope and forbidden premises | Production inventory is exactly three theorem declarations. No desired basis, interval decomposition, event list, geometric attainment, stronger conclusion premise, custom axiom, `sorry`, `admit`, `native_decide`, unsafe shortcut, or incomplete production proof placeholder occurs in the reviewed added source. |
+
+The broader geometry, actual singular H0 comparison, parent-difference basis, all-level decomposition, and rank uniqueness requirements are outside this allocated distance prerequisite. Their absence is not a Task 1 defect; they remain required by the full project target. `TorusDistance.lean:21–23` explicitly preserves that boundary. Nothing here derives criticality from a local maximum or derives conditional geometry from literal smooth Morse hypotheses.
+
+## Mathematical and Lean-source reasoning
+
+### Equality and real infimum
+
+The immutable `Lifetime.CURRENT_9f.SOURCE.txt:76,84–85,262–263` defines the ambient type as `EuclideanSpace ℝ (Fin d)`, the lattice vector as the finite sum of `EuclideanSpace.single i (L * (n i : ℝ))`, and torus distance as the real indexed infimum of `‖x - y + latticeVec d L n‖`. The immutable `TorusTopology.CURRENT_9f.SOURCE.txt:21,24–25` has exactly the same ambient abbreviation and lattice formula. Therefore the proposed `rfl` at `TorusDistance.lean:44–45` is supported by the actual definitions, rather than a narrative equivalence.
+
+At `46–51`, `dist_eq_norm'` changes `dist (y - x) v` to `‖v - (y - x)‖`; additive rearrangement gives `‖x - y + v‖`. This is the correct sign without reindexing the integer lattice. The pinned `Mathlib/Analysis/Normed/Group/Basic.lean:741–747` supplies the primed reversed-subtraction theorem and alias. The `congr 1; abel` steps operate on equality of vectors in the same additive commutative group. I found no mathematical sign error or visible type mismatch there.
+
+The carrier nonemptiness at `42–43` uses zero of the existing submodule, whose membership is definitionally the same carrier membership after `toAddSubgroup`. Membership at `52–54` is supplied by `torus_lattice_mem_iff`; its actual immutable statement at `TorusTopology:62–63` is `q ∈ torus_periodLattice ... ↔ ∃ n, torus_latticeVec ... n = q`.
+
+The first inequality `63–71` proves that the indexed infimum is below every distance to a carrier point, then uses the nonempty-set characterization of `Metric.le_infDist`. The obtained equation has the orientation `torus_latticeVec ... n = q`, exactly the orientation used by `rw [hn]` at `71`. Its `ciInf_le` application has the explicit bounded-below norm range from `55–59`; no unconditional complete-lattice rule is incorrectly used for the reals.
+
+The reverse inequality `72–77` uses `le_ciInf` and the distance bound from each known carrier member. The pinned generated dual at `Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:107–110` requires an inhabited index type and a uniform lower bound; `Fin d → ℤ` is inhabited independently of `d`, and the function supplied in the proof supplies that bound. The generated dual `ciInf_le` at `117–121` requires the bounded-below range and a chosen index, matching `69`. Generation of these declarations was not executed in this review.
+
+Pinned `HausdorffDistance.lean:501–503,509–511` confirms the applications and argument order of `Metric.infDist_le_dist_of_mem` and `Metric.le_infDist`. Thus both nonemptiness hazards—the carrier and the conditional-infimum index—are accounted for. No infimum attainment or properness premise is needed.
+
+### Quotient separation and strict positivity
+
+At `TorusDistance.lean:94–102`, carrier membership of `y - x` yields `torus_latticeVec ... n = y - x`. The immutable quotient API at `TorusTopology:90–92` says equality of projections is equivalent to `∃ n, y = x + torus_latticeVec ... n`. Rewriting the lattice vector by its membership witness and additive cancellation proves exactly that equation. Applying `hxy` is therefore a valid contradiction; there is no replacement of quotient inequality by mere inequality of representatives.
+
+The original closedness declaration was not present in the author’s directly inspected dependency set, so I retrieved its actual pinned source. In `reviewer-evidence/Mathlib__Topology__Algebra__OpenSubgroup.lean.SOURCE.txt:266–268,336–381`, the namespace is `Subgroup`, the enclosing assumptions include `IsTopologicalGroup G`, and `isClosed_of_discreteTopology` is an instance with `[T1Space G]`, implicit `{U : Subgroup G}`, and `[DiscreteTopology U]`. The `@[to_additive]` declaration supplies the additive counterpart used at `TorusDistance.lean:93`. The implicit subgroup binder explains why a bare `exact AddSubgroup.isClosed_of_discreteTopology` is plausible: the expected carrier determines the subgroup. The actual Euclidean ambient space supplies the ordinary topological and separation structures; `TorusTopology:74–77` registers discreteness for this exact additive subgroup. No stronger unprovided closedness assumption is concealed.
+
+Pinned `HausdorffDistance.lean:585–587` states `IsClosed.notMem_iff_infDist_pos` with arguments closedness then carrier nonemptiness and the conclusion `x ∉ s ↔ 0 < infDist x s`. This matches `104`. Rewriting with the equality at `103` leaves precisely the same carrier, up to reduction of the local `S`. The claim remains valid for arbitrary dimension: at dimension zero the separation premise is impossible, without requiring any special proof branch.
+
+### Literal Morse-distinct consequence
+
+Immutable `Lifetime:197–198` defines the literal critical-point predicate, and `311–314` defines `IsMorseDistinct` as a conjunction whose second clause takes `x`, `y`, the two literal criticality proofs, and positive literal torus distance, then gives unequal values. The expression at `TorusDistance.lean:115` exactly follows that argument order. It does not infer differentiability or criticality and does not supply an alternative genericity hypothesis. Omission of an `IsSmooth` premise from this small consequence is justified by the actual definition it consumes, while the full project’s smooth Morse theorem remains unmet.
+
+### Controls, coercions, and universes
+
+The self-distance proof uses the same real-infimum side conditions as the equality proof. The upper bound comes from the zero integer coefficient function at `TorusDistanceControls.lean:63–66`; the lower bound at `67` is uniform norm nonnegativity. This establishes the intended mathematical counterexample to erasing separation for every dimension and period. Simplification of `EuclideanSpace.single` at zero and the tactic elaboration still require future execution.
+
+The negative application at `TorusDistanceNegative.lean.txt:20`, when the positive theorem has its stated type, remains a function from an impossible quotient-self-inequality premise to positivity. It is not already a proof of positivity. Source inspection therefore supports the intended rejection reason. The separate normal self-distance theorem gives the semantic falsification; the negative file is a prospective elaboration control, not a proved theorem. An unrelated import failure would not authenticate this control.
+
+`Lifetime.E d` and `torus_E d` reduce to the same universe-zero Euclidean type. The indexed infimum returns `ℝ`; no category, polymorphic module, or quotient universe parameter is introduced. The local `S` abbreviations and Submodule/AddSubgroup/Set carrier conversions match the actual definitions. The use of `open UniversalLaw.Spec` and namespace `TorusFiltration.C257` resolves the intended Lifetime namespace and existing torus declarations. I found no concrete universe mismatch or additional implicit mathematical assumption. Import resolution and typeclass/tactic elaboration are nevertheless not established by source reading.
+
+## Findings and residual validation
+
+**Critical findings: none identified. Important findings: none identified.** There is therefore no proposed production-source correction from this review. “None identified” records the outcome and limits of this source inspection, not a guarantee of successful elaboration.
+
+1. **Procedural qualification — controls-first chronology is not independently evidenced by the final packet.** Location: `TorusDistanceControls.lean:6` and `task-1-control-status.json:3`. The source and status record assert ordering; they do not prove ordering. This does not invalidate the mathematical arguments, but it prevents this reviewer from independently certifying that process requirement. Suggested handling: retain author-attested status; if Root needs independent chronology certification, use an already-retained tool/edit event trace. Do not relabel the final frozen snapshot as historical proof.
+2. **Resolved dependency concern — closedness original declaration.** Location: `TorusDistance.lean:93`. The actual pinned original declaration and its surrounding assumptions were retrieved and inspected, resolving the report’s call-site-only limitation for this application. Source binding: OpenSubgroup source SHA-256 `ae99f92e86fbbcf2301be8e78ef84dd31a498b29cf11b915b1ce2494c7e9395c`, Git blob `e0e35235a9889ad2752d740e4cb59c883f064383`. The computed blob matches the retained Mathlib pinned tree. No code correction is suggested.
+3. **Execution qualification — every proof is still unelaborated.** Focused future checks include the lattice `rfl` and norm rewrite (`44–51`), carrier coercions and local `S` reductions (`42–43,53,65,91–96,104`), generated conditional-infimum names and instances (`69,72` and controls `65,67`), closedness instance synthesis (`93`), and zero-coordinate simplification (controls `66`). These are residual validation locations, not concrete defects found by this reviewer.
+4. **Negative diagnostic qualification.** Location: `TorusDistanceNegative.lean.txt:20`. The actual negative must eventually be executed separately after the positive module resolves at the exact freeze, and its diagnostic must be authenticated as the omitted-separation failure. No exact diagnostic, observed RED, or test success is claimed here.
+
+The later separately reviewed execution contract must preserve exact source/module identities, build the positive module and all six controls at the pinned toolchain/dependencies, audit all three public targets and their actual axiom/dependency closure, and replay the inert negative separately. These are remaining gates, not authorization to execute now. Source review cannot supply kernel qualification, independent-provider alignment, full C257 closure, or scientific promotion.
+
+## Read extents and evidence limits
+
+- Full reads: `task-1-review-brief.md`, `task-1-brief.md`, `SPEC.md`, frozen author report, `DIFF.md`, `MANIFEST.json`, control-status JSON, and all three added files (`TorusDistance.lean:1–117`, controls `1–77`, negative `1–22`).
+- Immutable project inputs from `../c257-torus-distance-design-2250/`: `TorusTopology.CURRENT_9f.SOURCE.txt:1–110`; `Lifetime.CURRENT_9f.SOURCE.txt:60–90,175–201,245–270,300–318`, plus a bounded declaration-name search. Their complete bytes were hashed and match `INPUT_SNAPSHOT_BINDINGS.json`; no full Lifetime/TorusTopology read is claimed beyond these extents.
+- Pinned API reads from the same design packet: HausdorffDistance `420–590`; ConditionallyCompleteLattice/Indexed `1–35,73–125` (a prior larger combined display truncated, then the pertinent declarations were re-read without truncation); Normed/Group/Basic `30–55,725–755`; ZLattice/Basic `1–65` and exact closedness call-site search context `326–340`. All four complete file hashes match `MATHLIB_SOURCE_BINDINGS.json`.
+- Closedness locator work: bounded exact-name searches across retained `.SOURCE.txt` files; import headers of Group/Basic, Group/Subgroup, Group/ContinuousInv, Group/ClosedSubgroup, IsUniformGroup/Basic, and IsUniformGroup/DiscreteSubgroup; bounded namespace/variable search in DiscreteSubgroup. These did not locate the original declaration and were not treated as proof of absence from Mathlib.
+- New official GET evidence at exact Mathlib pin `d13f23b723b8a846827a245b89c10fc7d3f11612`: IsUniformGroup/Constructions (full displayed source), IsUniformGroup/Defs (import and exact-name text search only), DiscreteSubset (import and exact-name text search; broad display was truncated), and OpenSubgroup (exact declaration context `348–402`, then full relevant namespace/assumption/declaration context `266–284,333–385`). The first three were locator attempts with no matching original declaration. Their retained complete contents are not represented as fully read proof dependencies.
+- A native default-branch code search located the OpenSubgroup path only. Its default-branch ref is excluded from correctness evidence. Every newly fetched source was then byte-bound to the requested pinned tree by computed Git blob SHA-1; all four comparisons matched. Exact native envelopes, exact extracted source bytes, and the search envelope are retained in `reviewer-evidence/`; `REVIEW_RECEIPT.json` records hashes, URLs, and matches.
+- `INPUT_SNAPSHOT_BINDINGS.json` and `MATHLIB_SOURCE_BINDINGS.json` were read fully. The retained Mathlib tree envelope was structurally inspected only to locate and compare the four named pinned entries; no broader tree-audit claim is made. No prior memory file was consulted or used for proof evidence.
+
+The review’s source identities and positive findings are bounded to this frozen v1 packet. An author repair would be a new source attempt requiring its own freeze and scoped review. Current disposition remains **UNCOMPILED / ORG0 / BLIND0 / HUMAN0 / SCIENCE_NONE**, with **ACTIVE_UNMET** unchanged.
+END_PAYLOAD_6
+
+PAYLOAD 7: REVIEW_RECEIPT.json; UTF8_BYTES=3994; SHA256=d75f6e7b3df02a2b463e93f517089c612f9af0100881273e5515d7067e32f2f7
+BEGIN_PAYLOAD_7
+{
+  "reviewer": "/root/c257_distance_nonauthor_source_review_20261022",
+  "review_status": "SOURCE_ONLY_UNCOMPILED",
+  "base": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "execution": "NOT_RUN",
+  "source_files": [
+    {
+      "path": "project/TorusDistance.lean",
+      "bytes": 5033,
+      "sha256": "1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9",
+      "manifest_match": true
+    },
+    {
+      "path": "project/TorusDistanceControls.lean",
+      "bytes": 3237,
+      "sha256": "4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7",
+      "manifest_match": true
+    },
+    {
+      "path": "project/TorusDistanceNegative.lean.txt",
+      "bytes": 859,
+      "sha256": "5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b",
+      "manifest_match": true
+    },
+    {
+      "path": "task-1-control-status.json",
+      "bytes": 488,
+      "sha256": "a6a113b9f25695987eed40c2547bae835bd2ec63c8125d19540b5cd1024ad7c4",
+      "manifest_match": true
+    },
+    {
+      "path": "task-1-report.md",
+      "bytes": 14477,
+      "sha256": "c8440f176ead2e9e3d70f4f1b24ee814cc383c926b4af2a5c23b8cdac9a9bd79",
+      "manifest_match": true
+    }
+  ],
+  "diff_text_comparison": {
+    "project/TorusDistance.lean": true,
+    "project/TorusDistanceControls.lean": true,
+    "project/TorusDistanceNegative.lean.txt": true
+  },
+  "native_source_bindings": [
+    {
+      "path": "Mathlib/Topology/Algebra/IsUniformGroup/Constructions.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Topology/Algebra/IsUniformGroup/Constructions.lean",
+      "bytes": 3081,
+      "sha256": "df83acf0d9b9c9e75fba3f11f57e83759f2f6c9e68158e9403a81cd569895bfb",
+      "git_blob_sha1": "dd48b39c95f9eed1a23881a15251f06dfd89e9aa",
+      "pinned_tree_blob": "dd48b39c95f9eed1a23881a15251f06dfd89e9aa",
+      "pinned_tree_match": true,
+      "envelope": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Constructions.lean.NATIVE.json"
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/IsUniformGroup/Defs.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Topology/Algebra/IsUniformGroup/Defs.lean",
+      "bytes": 32854,
+      "sha256": "ba72a4d85a4a1cda8b0dff2d41b615eae2122bc5b684e31543898292abce0808",
+      "git_blob_sha1": "e2d31affc2b2cd879c6538fe49e479210a7934e4",
+      "pinned_tree_blob": "e2d31affc2b2cd879c6538fe49e479210a7934e4",
+      "pinned_tree_match": true,
+      "envelope": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Defs.lean.NATIVE.json"
+    },
+    {
+      "path": "Mathlib/Topology/Algebra/OpenSubgroup.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Topology/Algebra/OpenSubgroup.lean",
+      "bytes": 22750,
+      "sha256": "ae99f92e86fbbcf2301be8e78ef84dd31a498b29cf11b915b1ce2494c7e9395c",
+      "git_blob_sha1": "e0e35235a9889ad2752d740e4cb59c883f064383",
+      "pinned_tree_blob": "e0e35235a9889ad2752d740e4cb59c883f064383",
+      "pinned_tree_match": true,
+      "envelope": "reviewer-evidence/Mathlib__Topology__Algebra__OpenSubgroup.lean.NATIVE.json"
+    },
+    {
+      "path": "Mathlib/Topology/DiscreteSubset.lean",
+      "url": "https://github.com/leanprover-community/mathlib4/blob/d13f23b723b8a846827a245b89c10fc7d3f11612/Mathlib/Topology/DiscreteSubset.lean",
+      "bytes": 28346,
+      "sha256": "de37d53cc71344364a4cbeafe40815bb651d200160c439604d4ce2a649fb004a",
+      "git_blob_sha1": "15098c5edd123ac4e36f0b866fb371160e89ca40",
+      "pinned_tree_blob": "15098c5edd123ac4e36f0b866fb371160e89ca40",
+      "pinned_tree_match": true,
+      "envelope": "reviewer-evidence/Mathlib__Topology__DiscreteSubset.lean.NATIVE.json"
+    }
+  ],
+  "native_search_role": "Default-branch search was only a locator for OpenSubgroup.lean; correctness uses pinned source and pinned tree blob comparison."
+}
+END_PAYLOAD_7
+
+PAYLOAD 8: MANIFEST.json; UTF8_BYTES=926; SHA256=c9d78f5c38336a1713099ff311b3e67000d6a6310b50eaf6b773c91ce2a1897c
+BEGIN_PAYLOAD_8
+{
+  "base": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "status": "SOURCE_ONLY_UNCOMPILED",
+  "files": [
+    {
+      "path": "project/TorusDistance.lean",
+      "bytes": 5033,
+      "sha256": "1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9"
+    },
+    {
+      "path": "project/TorusDistanceControls.lean",
+      "bytes": 3237,
+      "sha256": "4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7"
+    },
+    {
+      "path": "project/TorusDistanceNegative.lean.txt",
+      "bytes": 859,
+      "sha256": "5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b"
+    },
+    {
+      "path": "task-1-control-status.json",
+      "bytes": 488,
+      "sha256": "a6a113b9f25695987eed40c2547bae835bd2ec63c8125d19540b5cd1024ad7c4"
+    },
+    {
+      "path": "task-1-report.md",
+      "bytes": 14477,
+      "sha256": "c8440f176ead2e9e3d70f4f1b24ee814cc383c926b4af2a5c23b8cdac9a9bd79"
+    }
+  ]
+}
+END_PAYLOAD_8
+
+PAYLOAD 9: ROOT_SOURCE_REVIEW_FREEZE.json; UTF8_BYTES=4010; SHA256=423f884c69f09991203d2ca94710119f188401d0ec3f9c3af9ccfae0914a2829
+BEGIN_PAYLOAD_9
+{
+  "scope": "Exact Task1 source plus nonauthor source review only; UNCOMPILED/NOT_RUN",
+  "base": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "sourceAuthor": "/root/c257_distance_source_author_20261022",
+  "nonauthorReviewer": "/root/c257_distance_nonauthor_source_review_20261022",
+  "files": [
+    {
+      "path": "DIFF.md",
+      "bytes": 9747,
+      "sha256": "ae3e88e4dd0ce16ac2eeb038d57cea2c09fc9488e6f235a4d8ed814352af559d"
+    },
+    {
+      "path": "MANIFEST.json",
+      "bytes": 926,
+      "sha256": "c9d78f5c38336a1713099ff311b3e67000d6a6310b50eaf6b773c91ce2a1897c"
+    },
+    {
+      "path": "REVIEW.md",
+      "bytes": 20632,
+      "sha256": "389f7d7e39a28c3bd0d38e2e27dcf93ada845c8e4dd16347ec24c81cd777c24b"
+    },
+    {
+      "path": "REVIEW_RECEIPT.json",
+      "bytes": 3994,
+      "sha256": "d75f6e7b3df02a2b463e93f517089c612f9af0100881273e5515d7067e32f2f7"
+    },
+    {
+      "path": "project/TorusDistance.lean",
+      "bytes": 5033,
+      "sha256": "1d2ad54bf1842c7d411d9606d6aa161ad9d69d74b648f5f79f3346ef70f38ff9"
+    },
+    {
+      "path": "project/TorusDistanceControls.lean",
+      "bytes": 3237,
+      "sha256": "4a30e291295749bd15af2358c07dfb9658189664aa72c12f5955c5c9d8babea7"
+    },
+    {
+      "path": "project/TorusDistanceNegative.lean.txt",
+      "bytes": 859,
+      "sha256": "5906fc856111b240fee6588f1982f50d34e73511cb7d3e18a6e4dd00fe0de95b"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Constructions.lean.NATIVE.json",
+      "bytes": 7231,
+      "sha256": "12af71c1f7abb539b2db67751644185053b238bed5c88b42fcedd1a6757a309d"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Constructions.lean.SOURCE.txt",
+      "bytes": 3081,
+      "sha256": "df83acf0d9b9c9e75fba3f11f57e83759f2f6c9e68158e9403a81cd569895bfb"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Defs.lean.NATIVE.json",
+      "bytes": 68037,
+      "sha256": "7eb3a102270f855794cd17cad922aea77f64a9adc7b7a0855baaa81820964b6f"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__IsUniformGroup__Defs.lean.SOURCE.txt",
+      "bytes": 32854,
+      "sha256": "ba72a4d85a4a1cda8b0dff2d41b615eae2122bc5b684e31543898292abce0808"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__OpenSubgroup.lean.NATIVE.json",
+      "bytes": 47646,
+      "sha256": "485f548a1deec71a8ab2189d58bd6669c419067227ee20d2c1ba5d9168eb2e87"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__Algebra__OpenSubgroup.lean.SOURCE.txt",
+      "bytes": 22750,
+      "sha256": "ae99f92e86fbbcf2301be8e78ef84dd31a498b29cf11b915b1ce2494c7e9395c"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__DiscreteSubset.lean.NATIVE.json",
+      "bytes": 58826,
+      "sha256": "365ae75a84f17e133da0f83ff46c83a2b022e6fbced72bf6f59c3d26f671b488"
+    },
+    {
+      "path": "reviewer-evidence/Mathlib__Topology__DiscreteSubset.lean.SOURCE.txt",
+      "bytes": 28346,
+      "sha256": "de37d53cc71344364a4cbeafe40815bb651d200160c439604d4ce2a649fb004a"
+    },
+    {
+      "path": "reviewer-evidence/SEARCH_CLOSEDNESS_NATIVE.json",
+      "bytes": 89890,
+      "sha256": "437a4af4953fbdea3569dbf30b0b43b248582d7d3701be5ca6bd3ffc5a75aab1"
+    },
+    {
+      "path": "task-1-control-status.json",
+      "bytes": 488,
+      "sha256": "a6a113b9f25695987eed40c2547bae835bd2ec63c8125d19540b5cd1024ad7c4"
+    },
+    {
+      "path": "task-1-report.md",
+      "bytes": 14477,
+      "sha256": "c8440f176ead2e9e3d70f4f1b24ee814cc383c926b4af2a5c23b8cdac9a9bd79"
+    }
+  ],
+  "payloadFiles": 18,
+  "payloadBytes": 418054,
+  "rootConsumption": "Full author and reviewer reports/source read; all frozen payloads rehashed;4 primary-source byte/Gitblob bindings independently repeated",
+  "chronology": "Controls-first author-attested; not independently authenticated by final snapshot",
+  "org": 0,
+  "blind": 0,
+  "human": 0,
+  "science": "NONE",
+  "masterGoal": "ACTIVE_UNMET"
+}
+END_PAYLOAD_9

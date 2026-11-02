@@ -1,0 +1,313 @@
+# The clipped cusp across scales: a Gaussian envelope and exact crossover
+
+Object C86-CLIPPED-CUSP-CROSSOVER-20261002-v1. AUTHOR CANDIDATE.
+Actual author OpenAI/Codex root01a0bbb5, under Dylan Roy's continuation.
+R17 claim ef7249a9-123a-464a-95ae-531d0bbfd030; actual pickup5962335811.
+Feasibility contributor: OpenAI/Codex clipped_surrogate_review through
+coordinator01a0adb2; reconstructed the profile, joint Gaussian envelope and
+limit qualifications. It is excluded from reviewing this object. Scientific
+effect NONE, personal reading
+PENDING, organizational independence0. This is a finite-jet surrogate theorem,
+not an actual-field persistence theorem.
+
+## 1. Exact source, variables and scope
+
+Consume only the definitions and explicit Gaussian hypotheses G1–G3 of
+[CS/QC5961790128](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5961790128),
+16555 UTF8 bytes, SHA2564a60c0ef1054dcc5c44065134780a1447a9d1729f9b343a3923365b7b4f0f4d0.
+Its actual scoped review is5962287219. The older N/E parent hypotheses remain
+conditional; their mathematical validity is not reestablished here.
+
+Fix dimension, torus, frame, and birth parameter b. Constants below may depend
+on these fixed structural choices and the uniform covariance bounds, and are
+polynomial in 1+|b| where stated. No infinite-volume or dimension-uniform claim
+is made. Fix a cutoff 0<tau<=1 (the source uses9/50).
+
+Use CS's genuine Gaussian coordinates (X,W), W=f4, with a nondegenerate joint
+covariance having eigenvalues in [c,C]. Let Y contain all coordinates except
+W and f5. Thus A,gamma,eta,B are functions of Y, and on A<0,
+
+    Delta=det A, q=gamma^T A^(-1)gamma,
+    Q=f5/120 + h(Y),
+    h(Y)=-eta^T A^(-1)gamma/12
+                     +gamma^T A^(-1)B A^(-1)gamma/8.
+
+Set expressions containing A^(-1) to zero on det A=0, a Gaussian null set.
+For 0<r<=1 and 0<kappa<=1 put lambda=r/kappa and u=36lambda Q. On |u|<=tau,
+
+    a(u)=24+u, b(u)=sqrt(5184+48u), z=W-3q,
+    hhat_(r,kappa)=1{A<0,|u|<=tau}
+        Delta^2 (kappa^2 b(u)^2-z^2)/144
+        1{kappa a(u)<|z|<kappa b(u)}.                 (1)
+
+Outside the clip hhat is zero; do not evaluate an invalid square root there.
+The symbol b(u) is an endpoint, not the birth parameter. The law for Sections3–5
+is the fixed contact law mu_(0,0), including G2: even and odd free-jet blocks
+are independent, the odd block is centered and invariant under simultaneous
+sign reversal. Sections2 and6 explicitly identify their broader law hypotheses.
+
+The results are: an absolute two-coordinate mass envelope valid without parity;
+an exact contact crossover for every finite lambda and its large-lambda limit;
+strict loss relative to the unclipped reference in the limiting crossover;
+and a positive ell^(4/5) coefficient for the clipped radial tail. None controls
+the corresponding discarded actual-field configurations.
+
+## 2. A direct two-coordinate Gaussian envelope
+
+**Theorem CE.** Under G1, uniformly in r,kappa in the above range,
+
+    0<=E hhat_(r,kappa)
+       <=C kappa^3 min(1,kappa/r) (1+|b|+|k|)^N.      (2)
+
+The same holds throughout covariance/mean interpolation between the G3 laws
+and the contact laws, with their uniform nondegeneracy and moment bounds.
+Neither G2 parity nor independence of W and f5 is needed for (2).
+
+*Proof.* Condition on Y. The residual pair (W,f5) is a genuine two-dimensional
+Gaussian. Its covariance, each scalar conditional variance, and each scalar
+marginal variance are bounded above/below uniformly: the Schur complement of
+a covariance >=cI is >=cI, since its quadratic form minimizes the joint
+quadratic form over the conditioned coordinates. In particular the conditional
+joint density and conditional scalar densities have bounded suprema independent
+of their means. No bound on h(Y) or q(Y) is needed.
+
+On the clip, 23<=a<=25, 71<b<73, and the weight is at most37kappa^2 Delta^2.
+For every f5 the allowed W section has length at most146kappa. Integrating
+first in W using its conditional density given Y,f5 and then integrating the
+entire f5 marginal proves C kappa^3 Delta^2.
+
+The clip also restricts f5 to an interval of length
+
+    120 * 2tau/(36lambda)=20tau/(3lambda).             (3)
+
+The two-dimensional Lebesgue measure of the allowed set is therefore at most
+146kappa*20tau/(3lambda), even though its W section depends on f5. Use the
+joint density supremum to obtain C kappa^3 Delta^2/lambda. Take the minimum
+and integrate Delta^2 over Y. It is an ordinary polynomial Gaussian moment.
+This proves (2), with no unweighted inverse-Hessian moment. QED.
+
+**Scored version.** If two such genuine Gaussian laws have mean difference
+<=epsilon P and covariance difference<=epsilon, P=1+|b|+|k|, then
+
+    |E_1 hhat-E_0 hhat|
+      <=C epsilon kappa^3 min(1,1/lambda) P^N.         (4)
+
+Indeed, interpolate their means and covariances. The derivative of the joint
+density is bounded by C epsilon P(1+|x-m_t|^2)p_t(x). Condition on Y. Gaussian
+completion of squares bounds the residual-coordinate polynomial times density
+by a polynomial in P+|Y| times the marginal Y density. For the 1/lambda bound
+take the supremum over both residual coordinates and use the area in (3).
+For the bound without 1/lambda take the W supremum, then integrate the f5
+Gaussian moments. Finally integrate the polynomial in Y. This is a density
+derivative argument on (Y,W,f5), not on the nonlinear variables (Y,z,Q).
+
+## 3. The dimensionless profile and its exact constants
+
+For |u|<=1 define
+
+    F(u)=(1/144) int_(a(u)<|v|<b(u)) (b(u)^2-v^2)dv
+        =(5184+48u)^(3/2)/108-1664-80u-u^2/3+u^3/216. (5)
+
+It is positive, since b(u)^2-a(u)^2=4608-u^2>0 and a(u)>0. Direct
+differentiation, including the two moving inner endpoints, gives
+
+    F(0)=1792, F'(0)=-32,
+    F''(u)=16/b(u)-2/3+u/36, F''(0)=-4/9.            (6)
+
+For |u|<=1,
+
+    F''(u)<=16/71-23/36<0.                           (7)
+
+Thus F is strictly concave on the whole permitted clip. Its symmetrization
+Fbar(s)=(F(s)+F(-s))/2 strictly decreases for 0<s<=tau; extending Fbar by
+zero for s>tau preserves monotonicity, with a downward jump at tau.
+
+The profile integral has the exact positive value
+
+    I_tau=int_(-tau)^tau F(u)du
+      =[(5184+48tau)^(5/2)-(5184-48tau)^(5/2)]/12960
+                                 -3328tau-2tau^3/9. (8)
+
+Positivity follows from the original positive integral in (5), without
+numerical subtraction of the nearly equal terms in (8).
+
+## 4. The weighted Q density and a uniform crossover approximation
+
+Under the fixed contact zero-gap G1–G2 law, conditioning on Y preserves
+independence of W and f5. This follows from the block-diagonal even/odd
+Gaussian covariance: Y conditions separately on coordinates in the two blocks.
+It would not follow from G1 alone.
+
+Let p_W(.|Y) and p_Q(.|Y) denote the corresponding conditional scalar
+densities. The second is Gaussian, with variance
+Var(f5|Y)/120^2 bounded away from zero. Its conditional mean may contain the
+singular function h(Y); the uniform density derivative bounds are independent
+of that mean. Define a finite weighted density on the real line by
+
+    g(t)=E_Y[1{A<0} Delta^2 p_W(3q|Y) p_Q(t|Y)].       (9)
+
+**Lemma.** g is positive everywhere, even, smooth with each fixed derivative
+bounded by C_j(1+|b|)^N, and integrable. Moreover
+
+    int g(t)dt=E[1{A<0}Delta^2 p_W(3q|Y)]<infinity.   (10)
+
+*Proof.* All conditional Gaussian density derivatives have uniform bounded
+suprema. They are dominated by C_j Delta^2 after the factor p_W is included,
+so differentiation under expectation is justified by ordinary Gaussian moments.
+Tonelli gives (10). Positive definiteness gives positive probability for A<0,
+and both conditional densities are positive there; Delta^2>0. Under simultaneous
+odd sign reversal, q and p_W(3q|Y) are unchanged while Q changes sign. In (9)
+this makes g even. QED.
+
+For lambda>=0 define
+
+    H_tau(lambda)=int_R g(t) F(36lambda t)
+                              1{|36lambda t|<=tau}dt,
+    H_tau(0)=1792 int_R g(t)dt.                        (11)
+
+**Theorem CX.** Uniformly for all lambda=r/kappa>0 in the permitted range,
+
+    E_(0,0) hhat_(r,kappa)
+      =kappa^3 H_tau(lambda)
+          +O(kappa^5 min(1,1/lambda)(1+|b|)^N).       (12)
+
+Consequently along every sequence kappa->0 and r/kappa->lambda_*<infinity,
+the kappa^-3 normalized mass converges to H_tau(lambda_*).
+
+*Proof.* Conditional on Y,f5, put z=kappa v in (1). The resulting integral,
+after division by kappa^3 Delta^2, is
+
+    (1/144) int_(a(u)<|v|<b(u))
+             (b(u)^2-v^2)p_W(3q+kappa v|Y)dv.         (13)
+
+Its domain and weight are symmetric in v. Taylor's theorem for p_W cancels
+the first-order term exactly; the remainder is <=C kappa^2 because |v|<=73,
+the weight integral is uniformly bounded and the second derivative of a
+nondegenerate Gaussian density has uniformly bounded supremum. Thus (13)
+equals F(u)p_W(3q|Y)+O(kappa^2), uniformly on the clip and in its arbitrary center.
+Integrate over f5. Its conditional clip probability is bounded by
+min(1,C_tau/lambda). Integrate Delta^2 over Y to prove (12).
+
+For positive finite lambda_*, dominated convergence in (11) applies off the
+two clip boundaries, which have g-measure zero. At lambda_*=0 use the uniform
+bound on F and integrability (10). This proves continuity and the claimed
+sequential limit. No joint Gaussian assertion about (q,Q,z) was used. QED.
+
+## 5. Strict deficit and the large-shift coefficient
+
+**Theorem CL.** H_tau is positive, continuous and strictly decreasing on
+[0,infinity). For every lambda>0, H_tau(lambda)<H_tau(0). As lambda->infinity,
+
+    H_tau(lambda)=C_tau(b)/lambda+O(lambda^-3(1+|b|)^N),
+    C_tau(b)=I_tau g(0)/36>0.                         (14)
+
+Equivalently C_tau=(10/3)I_tau E[1{A<0}Delta^2
+p_(W,f5|Y)(3q,-120h(Y))]. The factor120 is the density Jacobian in Q=f5/120+h;
+the joint density factorizes here only because G2 survives conditioning on Y.
+
+Therefore, in every joint limit kappa->0 and r/kappa->infinity,
+
+    (r/kappa) kappa^-3 E_(0,0)hhat_(r,kappa)
+                                  -> C_tau(b).       (15)
+
+*Proof.* Evenness of g lets us replace F on the clip by Fbar(36lambda|t|).
+Equation(7) makes this test nonincreasing as lambda grows, with strict decrease
+on any positive-length t interval on which both arguments are inside the clip.
+Such an interval exists for any two finite distinct lambdas, and g is strictly
+positive there. Positivity and strict monotonicity follow, including comparison
+with lambda=0. This is a limiting contact-profile assertion; it does not assert
+monotonicity or a sign for every finite-kappa or actual-field correction.
+
+For lambda>0 change variables u=36lambda t in (11):
+
+    H_tau(lambda)=(1/(36lambda))
+                     int_(-tau)^tau F(u)g(u/(36lambda))du. (16)
+
+Since g'(0)=0 and g'' is bounded, Taylor's theorem gives (14). Equation(12)
+then gives (15), since its normalized error after multiplying by lambda is
+O(kappa^2). These limits impose no order between kappa->0 and lambda->infinity
+beyond r<=1. This is a fixed contact-law limit. Identifying a varying finite-r
+law with that coefficient additionally requires r->0 and suitable transport;
+the separate integrated argument below supplies it in its stated regime. QED.
+
+This also quantifies why relative clipping loss cannot be dismissed: the
+retained fraction H_tau(lambda)/H_tau(0) tends to zero. The corresponding
+reference-profile loss tends to100 percent as lambda grows. It is a statement
+about this artificial clip relative to h0, not a probability estimate for the
+actual field's rejected event.
+
+As a consistency check, CS Lemma2 gives int t^2 g(t)dt=M<infinity. The global
+clipping Taylor remainder bound from CS and (6), together with evenness, imply
+
+    H_tau(lambda)=H_tau(0)-288 M lambda^2+o(lambda^2)
+                                             (lambda->0). (17)
+
+This follows by dominated convergence with majorant C t^2g(t); on every fixed
+t the clip is eventually inactive, and (36^2/2)F''(0)=-288. It agrees with QC.
+Equation(12) alone does not replace QC's stronger joint small-r/kappa statement
+after subtraction and division by r^2 kappa, since its separate kappa^5 error
+need not be negligible under that normalization.
+
+## 6. A sharp radial tail for the clipped surrogate
+
+Fix 0<r0<=1 and 0<ell<r0^5. The sector kappa=ell/r^4<r is exactly
+r>ell^(1/5). From (2), for any of the uniform G1 laws with |k|<=1,
+
+    int_(ell^(1/5))^r0 E hhat_(r,ell/r^4)dr
+       <=C(1+|b|)^N ell^4 int_(ell^(1/5))^r0 r^-17 dr
+       <=(C/16)(1+|b|)^N ell^(4/5).                  (18)
+
+At the fixed contact zero-gap law this has a positive exact coefficient:
+
+    int_(ell^(1/5))^r0 E_(0,0)hhat_(r,ell/r^4)dr
+      =J_tau(b) ell^(4/5)+O_b(ell^(6/5)),
+    J_tau(b)=int_1^infinity x^-12 H_tau(x^5)dx,
+                     0<J_tau(b)<infinity.            (19)
+
+To prove it, set r=ell^(1/5)x in (12). Then kappa=ell^(1/5)x^-4 and
+lambda=x^5. The main term is ell^(4/5)x^-12 H_tau(x^5)dx. The envelope
+H_tau(x^5)<=C x^-5 makes the integral at infinity convergent. Its omitted tail
+beyond x=r0 ell^-1/5 costs O_b,r0(ell^4). The error term in (12) integrates as
+O(ell^(6/5) int_1^infinity x^-25 dx). This proves (19), with r0 fixed first.
+
+Under G2–G3, including the stated pin-density bounds, the genuine finite-jet
+radial surrogate Khat=12pi_r(b,k)E_(r,k)hhat with k=kappa r satisfies
+
+    int_(ell^(1/5))^r0 Khat_(r,ell/r^4)dr
+       =12pi_0(b,0)J_tau(b)ell^(4/5)
+          +O(ell^(6/5)(1+|b|)^N exp(-c b^2)).         (20)
+
+For completeness, mean shift from mu_(0,0) to mu_(0,k) is O(|k|), while the
+G3 change is O(r^2 P). Apply (4) with epsilon=|k|+r^2. In this radial sector,
+
+    k=ell^(2/5)x^-3, r^2=ell^(2/5)x^2,
+    kappa^3/lambda=ell^(3/5)x^-17, dr=ell^(1/5)dx.
+
+The law-transport errors are therefore bounded by ell^(6/5) times integrable
+powers x^-20+x^-15. The pin-factor error follows from G3 and the zero-gap
+formula for pi_0: |pi_r(b,k)-pi_0(b,0)|<=C(r^2+k^2)P^N exp(-c b^2).
+Combine this with (2). All remaining birth polynomials are integrable against
+the displayed Gaussian envelope. The same conclusions may be integrated over
+a compact frame family with uniform G1–G3 constants. No actual-field decision
+is introduced by this transport.
+
+## 7. Mathematical boundary and evidence
+
+Equations(2),(12),(14)–(20) concern the explicitly clipped algebraic object(1).
+They close the crossover and the kappa<r radial tail of that object, conditional
+on the stated source Gaussian hypotheses. The contribution O(ell^(4/5)) is
+o(ell^(3/4)); it does not control the whole intermediate range, which retains
+its separate source comparisons and possible ell^(3/4) term.
+
+The actual-field clip complement, physical common-radius confinement,
+equal-height elder comparison, different actual/contact marks, whole Region A/B,
+and the final persistence theorem remain OPEN. In particular, a small surrogate
+mass cannot prove that the excluded field realizations are negligible. The
+nonzero crossover deficit makes that inference especially unsafe.
+
+Exact rational diagnostics will check moving-boundary algebra, concavity
+constants, the primitive, conditional-window width and lifetime exponent ledger,
+including adverse controls. They corroborate these analytic arguments; tests,
+review transport, hashes and this candidate publication do not constitute
+mathematical closure of a parent theorem. A fresh nonauthor review of this exact
+object is required before reporting scoped technical acceptance.

@@ -1,0 +1,880 @@
+Root physical I2 author source freeze, actual 2026-10-08T11:24:36.090685Z. AUTHOR_SCOPE_PENDING_EXACT_NONAUTHOR_REVIEW; no scientific promotion. Full finite-H0 goal retained. Four current proof modules derive ELEVEN unchanged public statements, including actual ALL strictly-higher endpoint path threshold/supremum equals finite death, under the genuine existing ALL-level ClosedComponentCertificate. They do NOT construct that certificate from C4/Morse geometry, identify every chosen point with the unique physical maximum, close I1/I4 or numerical gates. Actual combined validation passed seven conditional controls; thirteen axiom rows have only standard axioms (twelve standard-three; birth freshness only propext/Quot.sound). Earlier failures and the actual maximin timeout remain retained.
+
+Local FINAL_FREEZE.json:51,715B SHA256 3ba7afa7ee5d0f73e44901086d22b0ad14d00f69e4b9324662633c23ca50c1a5,82bindings/15actual receipt-snapshot-log triples plus separate genuine timeout observation. This comment publishes literal core sources, author record, exact header comparisons and five successful execution records/raw logs, NOT the full imported/object/library manifest. Cached imports reused; no independent compiler replay implied. Actual nonauthor /root/local_runtime_readonly is reading final bindings; separate report will be published when completed. Final source byte equality checked against successful snapshots, unchanged parent event sources/objects checked locally. No worker/model/rule/deployment/graph/STATUS change. Actual next cone geometry author /root/i2_formal_support owns one compiler slot; genuine Morse chart and W0/W1 maps remain OPEN.
+
+Literal file lean-project/BirthPhysical.lean — 3515 bytes; SHA256 f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c
+````text
+import ClosedRealization
+
+noncomputable section
+open CategoryTheory OrderDual OrdinaryH0Elder GlobalComponentMaps
+universe u
+namespace ElementaryHistory
+namespace ClosedComponentCertificate
+variable {n : ℕ} {H : History.{u} n} {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ClosedComponentCertificate H f)
+
+theorem stage_at_critical (i : Fin n) :
+    C.stage.obj (OrderDual.toDual (C.criticalHeight i)) = i.succ := by
+  classical
+  apply Fin.ext
+  rw [C.stage_count]
+  change (Finset.univ.filter (fun k => C.criticalHeight i ≤ C.criticalHeight k)).card = i.val + 1
+  have hs : Finset.univ.filter (fun k => C.criticalHeight i ≤ C.criticalHeight k) =
+      Finset.Iic i := by
+    ext k
+    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_Iic]
+    exact C.ordered.le_iff_ge
+  rw [hs, Fin.card_Iic]
+
+private theorem event_birthPoint_new {A B : Type u} {g : A → B}
+    (e : Event g) (hb : e.isBirth) : e.birthPoint hb ∉ Set.range g := by
+  cases e with
+  | birth fresh hi hn hc => exact hn
+  | merge a b hab hs hf => exact False.elim hb
+  | neutral hb' => exact False.elim hb
+
+theorem birthPoint_not_range (j : H.BirthTag) :
+    H.birthPoint j ∉ Set.range (H.step j.1) := by
+  exact event_birthPoint_new (H.event j.1) j.2
+
+private theorem map_eqToHom_heq {t s : Fin (n + 1)} (h : t = s)
+    (x : H.Component t) : HEq (H.diagram.map (eqToHom h) x) x := by
+  cases h
+  simpa only [eqToHom_refl, H.diagram.map_id_apply] using (HEq.refl x)
+
+theorem representative_height (j : H.BirthTag)
+    (x : superlevel f (C.criticalHeight j.1))
+    (hx : HEq (C.chart (OrderDual.toDual (C.criticalHeight j.1)) (ZerothHomotopy.mk x))
+      (H.birthPoint j)) :
+    f x.1 = C.criticalHeight j.1 := by
+  apply le_antisymm _ x.2
+  by_contra hnot
+  have hgt : C.criticalHeight j.1 < f x.1 := lt_of_not_ge hnot
+  let b := OrderDual.toDual (C.criticalHeight j.1)
+  let d := OrderDual.toDual (f x.1)
+  let a : d ⟶ b := homOfLE (show C.criticalHeight j.1 ≤ f x.1 from hgt.le)
+  let xh : superlevel f (f x.1) := ⟨x.1, le_rfl⟩
+  have hs : C.stage.obj b = H.bornStage j := C.stage_at_critical j.1
+  have hpre : C.stage.obj d ≤ j.1.castSucc := by
+    have hn : ¬ H.bornStage j ≤ C.stage.obj d := by
+      rw [C.born_level_iff]
+      exact not_le_of_gt hgt
+    change ¬ j.1.val + 1 ≤ (C.stage.obj d).val at hn
+    change (C.stage.obj d).val ≤ j.1.val
+    omega
+  have hchart := C.commute a (ZerothHomotopy.mk xh)
+  change C.chart b (ZerothHomotopy.mk x) =
+    H.diagram.map (C.stage.map a) (C.chart d (ZerothHomotopy.mk xh)) at hchart
+  have hw : H.diagram.map (eqToHom hs) (C.chart b (ZerothHomotopy.mk x)) =
+      H.birthPoint j :=
+    eq_of_heq ((map_eqToHom_heq hs (C.chart b (ZerothHomotopy.mk x))).trans hx)
+  let w := H.diagram.map (homOfLE hpre) (C.chart d (ZerothHomotopy.mk xh))
+  have hm : homOfLE hpre ≫
+      homOfLE (show j.1.castSucc ≤ j.1.succ by simp [Fin.le_def]) =
+      C.stage.map a ≫ eqToHom hs := Subsingleton.elim _ _
+  have he : H.step j.1 w = H.birthPoint j := by
+    change H.diagram.map (homOfLE (show j.1.castSucc ≤ j.1.succ by simp [Fin.le_def]))
+      (H.diagram.map (homOfLE hpre) (C.chart d (ZerothHomotopy.mk xh))) = _
+    rw [← H.diagram.map_comp_apply, hm]
+    exact (H.diagram.map_comp_apply (C.stage.map a) (eqToHom hs)
+      (C.chart d (ZerothHomotopy.mk xh))).trans
+      ((congrArg (H.diagram.map (eqToHom hs)) hchart).symm.trans hw)
+  exact (birthPoint_not_range j) ⟨w, he⟩
+end ClosedComponentCertificate
+end ElementaryHistory
+````
+
+Literal file lean-project/BirthRepresentatives.lean — 3816 bytes; SHA256 f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7
+````text
+import BirthPhysical
+import Mathlib.Order.ConditionallyCompleteLattice.Basic
+
+noncomputable section
+open CategoryTheory OrderDual OrdinaryH0Elder GlobalComponentMaps
+universe u
+namespace ElementaryHistory.ClosedComponentCertificate
+variable {n : ℕ} {H : History.{u} n} {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ClosedComponentCertificate H f)
+
+private def birthChartComponent (j : H.BirthTag) :
+    H.Component (C.stage.obj (OrderDual.toDual (C.criticalHeight j.1))) :=
+  H.diagram.map (eqToHom (C.stage_at_critical j.1).symm) (H.birthPoint j)
+
+/-- Chosen actual point in the genuine critical closed superlevel. No height equality is input. -/
+def birthRepresentative (j : H.BirthTag) : superlevel f (C.criticalHeight j.1) :=
+  Classical.choose (ZerothHomotopy.mk_surjective
+    ((C.chart (OrderDual.toDual (C.criticalHeight j.1))).symm (C.birthChartComponent j)))
+
+private theorem representative_chart_eq (j : H.BirthTag) :
+    C.chart (OrderDual.toDual (C.criticalHeight j.1))
+      (ZerothHomotopy.mk (C.birthRepresentative j)) = C.birthChartComponent j := by
+  have hx : ZerothHomotopy.mk (C.birthRepresentative j) =
+      (C.chart (OrderDual.toDual (C.criticalHeight j.1))).symm (C.birthChartComponent j) :=
+    Classical.choose_spec (ZerothHomotopy.mk_surjective
+      ((C.chart (OrderDual.toDual (C.criticalHeight j.1))).symm (C.birthChartComponent j)))
+  exact (congrArg (C.chart (OrderDual.toDual (C.criticalHeight j.1))) hx).trans
+    ((C.chart (OrderDual.toDual (C.criticalHeight j.1))).apply_symm_apply (C.birthChartComponent j))
+
+private theorem component_cast_heq {t s : Fin (n + 1)} (hs : t = s)
+    (x : H.Component t) : HEq (H.diagram.map (eqToHom hs) x) x := by
+  cases hs
+  simpa only [eqToHom_refl, H.diagram.map_id_apply] using (HEq.refl x)
+
+theorem birthRepresentative_chart (j : H.BirthTag) :
+    HEq (C.chart (OrderDual.toDual (C.criticalHeight j.1))
+      (ZerothHomotopy.mk (C.birthRepresentative j))) (H.birthPoint j) := by
+  exact (heq_of_eq (C.representative_chart_eq j)).trans
+    (component_cast_heq (C.stage_at_critical j.1).symm (H.birthPoint j))
+
+
+theorem birthRepresentative_height (j : H.BirthTag) :
+    f (C.birthRepresentative j).1 = C.criticalHeight j.1 := by
+  exact C.representative_height j (C.birthRepresentative j) (C.birthRepresentative_chart j)
+
+
+theorem representative_chart_below (j : H.BirthTag) (h : ℝ)
+    (hh : h ≤ C.criticalHeight j.1) :
+    C.chart (OrderDual.toDual h)
+      (ZerothHomotopy.mk (show superlevel f h from
+        ⟨(C.birthRepresentative j).1, hh.trans (C.birthRepresentative j).2⟩)) =
+      H.origin (C.stage.obj (OrderDual.toDual h))
+        ⟨j, (C.born_level_iff j (OrderDual.toDual h)).2 hh⟩ := by
+  let b := OrderDual.toDual (C.criticalHeight j.1)
+  let a : b ⟶ OrderDual.toDual h := homOfLE hh
+  have hc := C.commute a (ZerothHomotopy.mk (C.birthRepresentative j))
+  change C.chart (OrderDual.toDual h)
+    (ZerothHomotopy.mk (show superlevel f h from
+      ⟨(C.birthRepresentative j).1, hh.trans (C.birthRepresentative j).2⟩)) =
+    H.diagram.map (C.stage.map a) (C.chart b (ZerothHomotopy.mk (C.birthRepresentative j))) at hc
+  rw [C.representative_chart_eq] at hc
+  refine hc.trans ?_
+  change H.diagram.map (C.stage.map a)
+    (H.diagram.map (eqToHom (C.stage_at_critical j.1).symm) (H.birthPoint j)) =
+      H.diagram.map (homOfLE ((C.born_level_iff j (OrderDual.toDual h)).2 hh)) (H.birthPoint j)
+  have hm : eqToHom (C.stage_at_critical j.1).symm ≫ C.stage.map a =
+      homOfLE ((C.born_level_iff j (OrderDual.toDual h)).2 hh) := Subsingleton.elim _ _
+  exact (H.diagram.map_comp_apply (eqToHom (C.stage_at_critical j.1).symm)
+    (C.stage.map a) (H.birthPoint j)).symm.trans
+    (congrArg (fun z => H.diagram.map z (H.birthPoint j)) hm)
+
+
+end ElementaryHistory.ClosedComponentCertificate
+````
+
+Literal file lean-project/PhysicalMaximin.lean — 5813 bytes; SHA256 cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9
+````text
+import BirthRepresentatives
+import Mathlib.Order.ConditionallyCompleteLattice.Basic
+
+noncomputable section
+open CategoryTheory OrderDual OrdinaryH0Elder GlobalComponentMaps
+universe u
+namespace ElementaryHistory.ClosedComponentCertificate
+variable {n : ℕ} {H : History.{u} n} {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ClosedComponentCertificate H f)
+
+private theorem joinedIn_iff_component_eq {h : ℝ} {x y : X}
+    (hx : h ≤ f x) (hy : h ≤ f y) :
+    JoinedIn {z : X | h ≤ f z} x y ↔
+      ZerothHomotopy.mk (show superlevel f h from ⟨x, hx⟩) =
+        ZerothHomotopy.mk (show superlevel f h from ⟨y, hy⟩) := by
+  constructor
+  · intro hp
+    exact ZerothHomotopy.sound hp.joined_subtype.somePath
+  · intro he
+    have hj : Joined (show superlevel f h from ⟨x, hx⟩)
+        (show superlevel f h from ⟨y, hy⟩) := Quotient.exact he
+    exact (joinedIn_iff_joined (F := {z : X | h ≤ f z}) hx hy).2 hj
+
+def olderPathAt (j : H.BirthTag) (h : ℝ) : Prop :=
+  ∃ k : H.BirthTag, k < j ∧ JoinedIn {x : X | h ≤ f x}
+    (C.birthRepresentative j).1 (C.birthRepresentative k).1
+
+theorem olderPathAt_iff (j : H.BirthTag) (h : ℝ) :
+    C.olderPathAt j h ↔ H.OlderAt (C.stage.obj (OrderDual.toDual h)) j := by
+  by_cases hh : h ≤ C.criticalHeight j.1
+  · have hjb := (C.born_level_iff j (OrderDual.toDual h)).2 hh
+    have hjm := hh.trans (C.birthRepresentative j).2
+    constructor
+    · rintro ⟨k, hk, hp⟩
+      have hkj : k.1 ≤ j.1 := le_of_lt (show k.1 < j.1 from hk)
+      have hhk := hh.trans (C.ordered.antitone hkj)
+      have hkb := (C.born_level_iff k (OrderDual.toDual h)).2 hhk
+      have hkm := hhk.trans (C.birthRepresentative k).2
+      have he := (joinedIn_iff_component_eq hjm hkm).1 hp
+      have ho : H.origin (C.stage.obj (OrderDual.toDual h)) ⟨j, hjb⟩ =
+          H.origin (C.stage.obj (OrderDual.toDual h)) ⟨k, hkb⟩ := by
+        calc
+          _ = C.chart (OrderDual.toDual h)
+              (ZerothHomotopy.mk (show superlevel f h from
+                ⟨(C.birthRepresentative j).1, hjm⟩)) := (C.representative_chart_below j h hh).symm
+          _ = C.chart (OrderDual.toDual h)
+              (ZerothHomotopy.mk (show superlevel f h from
+                ⟨(C.birthRepresentative k).1, hkm⟩)) :=
+            congrArg (C.chart (OrderDual.toDual h)) he
+          _ = _ := C.representative_chart_below k h hhk
+      refine ⟨hjb, k, hk, ?_⟩
+      simpa only [History.location, dite_eq_left hjb, dite_eq_left hkb] using
+        congrArg Option.some ho.symm
+    · rintro ⟨_, k, hk, hl⟩
+      have hkj : k.1 ≤ j.1 := le_of_lt (show k.1 < j.1 from hk)
+      have hhk := hh.trans (C.ordered.antitone hkj)
+      have hkb := (C.born_level_iff k (OrderDual.toDual h)).2 hhk
+      have hkm := hhk.trans (C.birthRepresentative k).2
+      have ho : H.origin (C.stage.obj (OrderDual.toDual h)) ⟨k, hkb⟩ =
+          H.origin (C.stage.obj (OrderDual.toDual h)) ⟨j, hjb⟩ :=
+        Option.some.inj (by
+          simpa only [History.location, dite_eq_left hjb, dite_eq_left hkb] using hl)
+      refine ⟨k, hk, (joinedIn_iff_component_eq hjm hkm).2 ?_⟩
+      apply (C.chart (OrderDual.toDual h)).injective
+      exact (C.representative_chart_below j h hh).trans
+        (ho.symm.trans (C.representative_chart_below k h hhk).symm)
+  · constructor
+    · rintro ⟨k, hk, hp⟩
+      have hm := hp.source_mem
+      change h ≤ f (C.birthRepresentative j).1 at hm
+      rw [C.birthRepresentative_height] at hm
+      exact False.elim (hh hm)
+    · rintro ⟨hb, _⟩
+      exact False.elim (hh ((C.born_level_iff j (OrderDual.toDual h)).1 hb))
+
+
+theorem olderPathAt_threshold {j p : H.BirthTag} (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧ ∀ h : ℝ,
+      C.olderPathAt j h ↔ h ≤ C.criticalHeight d := by
+  obtain ⟨d, hd, hs⟩ := C.finite_support hp
+  have hb : H.Active (C.stage.obj (OrderDual.toDual (C.criticalHeight j.1))) j := by
+    rw [C.stage_at_critical]
+    exact H.birth_active j
+  have hgap : C.criticalHeight d < C.criticalHeight j.1 :=
+    ((hs (OrderDual.toDual (C.criticalHeight j.1))).1 hb).1
+  refine ⟨d, hd, ?_⟩
+  intro h
+  rw [C.olderPathAt_iff]
+  by_cases hh : h ≤ C.criticalHeight j.1
+  · have hjb := (C.born_level_iff j (OrderDual.toDual h)).2 hh
+    constructor
+    · intro ho
+      by_contra hn
+      have hlt : C.criticalHeight d < h := lt_of_not_ge hn
+      have ha := (hs (OrderDual.toDual h)).2 ⟨hlt, hh⟩
+      exact ((H.active_iff_no_older _ j).1 ha).2 ho
+    · intro hle
+      by_contra hn
+      have ha := (H.active_iff_no_older _ j).2 ⟨hjb, hn⟩
+      exact (not_lt_of_ge hle) ((hs (OrderDual.toDual h)).1 ha).1
+  · constructor
+    · rintro ⟨hjb, _⟩
+      exact False.elim (hh ((C.born_level_iff j (OrderDual.toDual h)).1 hjb))
+    · intro hle
+      exact False.elim (hh (hle.trans hgap.le))
+
+
+/-- Used with a proved finite parent; no essential-bar death value is asserted.
+Supremum of actual path bottleneck thresholds to every chronologically older physical birth representative. -/
+def physicalOlderMaximin (j : H.BirthTag) : ℝ := sSup {h : ℝ | C.olderPathAt j h}
+
+theorem physicalOlderMaximin_eq_death {j p : H.BirthTag} (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧ C.physicalOlderMaximin j = C.criticalHeight d := by
+  obtain ⟨d, hd, ht⟩ := C.olderPathAt_threshold hp
+  refine ⟨d, hd, ?_⟩
+  change sSup {h : ℝ | C.olderPathAt j h} = C.criticalHeight d
+  apply le_antisymm
+  · apply csSup_le ⟨C.criticalHeight d, (ht (C.criticalHeight d)).2 le_rfl⟩
+    intro h hh
+    exact (ht h).1 hh
+  · apply le_csSup
+    · exact ⟨C.criticalHeight d, fun h hh => (ht h).1 hh⟩
+    · exact (ht (C.criticalHeight d)).2 le_rfl
+
+end ElementaryHistory.ClosedComponentCertificate
+````
+
+Literal file lean-project/HigherPointMaximin.lean — 3441 bytes; SHA256 8684e27ab93266674efd59e6a30a138be00c7044acf4bc1970b894716bfe37f2
+````text
+import PhysicalMaximin
+
+noncomputable section
+open CategoryTheory OrderDual OrdinaryH0Elder GlobalComponentMaps
+universe u
+namespace ElementaryHistory.ClosedComponentCertificate
+variable {n : ℕ} {H : History.{u} n} {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ClosedComponentCertificate H f)
+
+/-- Actual paths to ALL endpoints higher than the chosen physical point. -/
+def higherPointPathAt (j : H.BirthTag) (h : ℝ) : Prop :=
+  ∃ z : X, f (C.birthRepresentative j).1 < f z ∧
+    JoinedIn {x : X | h ≤ f x} (C.birthRepresentative j).1 z
+
+theorem higherPointPathAt_iff (j : H.BirthTag) (h : ℝ) :
+    C.higherPointPathAt j h ↔ C.olderPathAt j h := by
+  constructor
+  · rintro ⟨z, hz, hp⟩
+    rw [C.birthRepresentative_height j] at hz
+    let t := C.stage.obj (OrderDual.toDual (f z))
+    obtain ⟨a, ha⟩ := H.origin_surjective t
+      (C.chart (OrderDual.toDual (f z))
+        (ZerothHomotopy.mk (show superlevel f (f z) from ⟨z, le_rfl⟩)))
+    let k : H.BirthTag := a.1
+    have hkb : H.bornStage k ≤ t := a.2
+    have hheight : f z ≤ C.criticalHeight k.1 :=
+      (C.born_level_iff k (OrderDual.toDual (f z))).1 hkb
+    have hk : k < j := by
+      by_contra hn
+      have hle : j.1 ≤ k.1 := le_of_not_gt hn
+      exact (not_lt_of_ge (hheight.trans (C.ordered.antitone hle))) hz
+    have hkm : f z ≤ f (C.birthRepresentative k).1 :=
+      hheight.trans (C.birthRepresentative k).2
+    have hcomp :
+        ZerothHomotopy.mk (show superlevel f (f z) from ⟨z, le_rfl⟩) =
+        ZerothHomotopy.mk (show superlevel f (f z) from
+          ⟨(C.birthRepresentative k).1, hkm⟩) := by
+      apply (C.chart (OrderDual.toDual (f z))).injective
+      calc
+        _ = H.origin t a := ha.symm
+        _ = H.origin t ⟨k, hkb⟩ := rfl
+        _ = _ := (C.representative_chart_below k (f z) hheight).symm
+    have hj : Joined (show superlevel f (f z) from ⟨z, le_rfl⟩)
+        (show superlevel f (f z) from ⟨(C.birthRepresentative k).1, hkm⟩) :=
+      Quotient.exact hcomp
+    have hpath : JoinedIn {x : X | f z ≤ f x} z (C.birthRepresentative k).1 :=
+      (joinedIn_iff_joined (F := {x : X | f z ≤ f x})
+        (by change f z ≤ f z; exact le_rfl) hkm).2 hj
+    have hlow : JoinedIn {x : X | h ≤ f x} z (C.birthRepresentative k).1 :=
+      hpath.mono (by
+        intro x hx
+        change h ≤ f x
+        change f z ≤ f x at hx
+        have hhz : h ≤ f z := hp.target_mem
+        exact hhz.trans hx)
+    exact ⟨k, hk, hp.trans hlow⟩
+  · rintro ⟨k, hk, hp⟩
+    refine ⟨(C.birthRepresentative k).1, ?_, hp⟩
+    rw [C.birthRepresentative_height j, C.birthRepresentative_height k]
+    exact C.ordered (show k.1 < j.1 from hk)
+
+/-- Global path bottleneck supremum against all strictly higher endpoints. -/
+def allHigherPointMaximin (j : H.BirthTag) : ℝ :=
+  sSup {h : ℝ | C.higherPointPathAt j h}
+
+theorem allHigherPointMaximin_eq_death {j p : H.BirthTag}
+    (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧
+      C.allHigherPointMaximin j = C.criticalHeight d := by
+  obtain ⟨d, hd, he⟩ := C.physicalOlderMaximin_eq_death hp
+  refine ⟨d, hd, ?_⟩
+  have hs : {h : ℝ | C.higherPointPathAt j h} = {h : ℝ | C.olderPathAt j h} := by
+    ext h
+    exact C.higherPointPathAt_iff j h
+  change sSup {h : ℝ | C.higherPointPathAt j h} = C.criticalHeight d
+  rw [hs]
+  exact he
+
+end ElementaryHistory.ClosedComponentCertificate
+````
+
+Literal file lean-project/PhysicalValidation.lean — 4375 bytes; SHA256 5ecfbc122aa7c670385d75437a04a368190835e66d9751bab8897ae3dfef8b61
+````text
+import HigherPointMaximin
+
+noncomputable section
+open CategoryTheory OrderDual OrdinaryH0Elder GlobalComponentMaps
+namespace PhysicalValidation
+universe u
+variable {n : ℕ} {H : ElementaryHistory.History.{u} n}
+  {X : Type u} [TopologicalSpace X] {f : X → ℝ}
+variable (C : ElementaryHistory.ClosedComponentCertificate H f)
+
+-- The physical birth point cannot connect to a strictly higher endpoint at birth.
+example (j : H.BirthTag) : ¬ C.higherPointPathAt j (C.criticalHeight j.1) := by
+  intro hp
+  have ha : H.Active (C.stage.obj (OrderDual.toDual (C.criticalHeight j.1))) j := by
+    rw [C.stage_at_critical]
+    exact H.birth_active j
+  exact ((H.active_iff_no_older _ j).1 ha).2
+    ((C.olderPathAt_iff _ _).1 ((C.higherPointPathAt_iff _ _).1 hp))
+
+-- Replacing strictly higher by at least as high admits the constant self-path.
+example (j : H.BirthTag) :
+    ∃ z : X, f (C.birthRepresentative j).1 ≤ f z ∧
+      JoinedIn {x : X | C.criticalHeight j.1 ≤ f x} (C.birthRepresentative j).1 z := by
+  refine ⟨(C.birthRepresentative j).1, le_rfl, ?_⟩
+  exact JoinedIn.refl (C.birthRepresentative j).2
+
+-- A threshold strictly above its actual function value excludes all paths.
+example (j : H.BirthTag) (h : ℝ) (hh : C.criticalHeight j.1 < h) :
+    ¬ C.higherPointPathAt j h := by
+  rintro ⟨z, hz, hp⟩
+  have hm := hp.source_mem
+  change h ≤ f (C.birthRepresentative j).1 at hm
+  rw [C.birthRepresentative_height] at hm
+  exact (not_le_of_gt hh) hm
+
+-- The death level has an actual path to a higher endpoint: closed bottleneck.
+example {j p : H.BirthTag} (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧ C.higherPointPathAt j (C.criticalHeight d) := by
+  obtain ⟨d, hd, ht⟩ := C.olderPathAt_threshold hp
+  exact ⟨d, hd, (C.higherPointPathAt_iff _ _).2 ((ht _).2 le_rfl)⟩
+
+-- Above death there is no such path, even though the interval birth is closed.
+example {j p : H.BirthTag} (hp : H.parent j = some p) :
+    ∃ d : Fin n, H.death j = d.succ.val ∧
+      ∀ h : ℝ, C.criticalHeight d < h → ¬ C.higherPointPathAt j h := by
+  obtain ⟨d, hd, ht⟩ := C.olderPathAt_threshold hp
+  refine ⟨d, hd, ?_⟩
+  intro h hh he
+  exact (not_le_of_gt hh) ((ht _).1 ((C.higherPointPathAt_iff _ _).1 he))
+
+-- Essential roots have no fabricated finite older-path death at any level.
+example {j : H.BirthTag} (hp : H.parent j = none) (h : ℝ) :
+    ¬ C.higherPointPathAt j h := by
+  intro he
+  have ho := (C.olderPathAt_iff _ _).1 ((C.higherPointPathAt_iff _ _).1 he)
+  have ha := H.essential_active hp _ ho.1
+  exact ((H.active_iff_no_older _ j).1 ha).2 ho
+
+-- Dead born labels still chart actual points; they are not removed from BornAt.
+example (j : H.BirthTag) (h : ℝ) (hh : h ≤ C.criticalHeight j.1)
+    (hd : H.death j ≤ (C.stage.obj (OrderDual.toDual h)).val) :
+    C.chart (OrderDual.toDual h)
+      (ZerothHomotopy.mk (show superlevel f h from
+        ⟨(C.birthRepresentative j).1, hh.trans (C.birthRepresentative j).2⟩)) =
+      H.origin (C.stage.obj (OrderDual.toDual h))
+        ⟨j, (C.born_level_iff j (OrderDual.toDual h)).2 hh⟩ ∧
+      ¬ H.Active (C.stage.obj (OrderDual.toDual h)) j := by
+  refine ⟨C.representative_chart_below j h hh, ?_⟩
+  intro ha
+  exact (not_lt_of_ge hd) ha.2
+
+end PhysicalValidation
+
+#print axioms ElementaryHistory.ClosedComponentCertificate.stage_at_critical
+#print axioms ElementaryHistory.ClosedComponentCertificate.birthPoint_not_range
+#print axioms ElementaryHistory.ClosedComponentCertificate.representative_height
+#print axioms ElementaryHistory.ClosedComponentCertificate.birthRepresentative
+#print axioms ElementaryHistory.ClosedComponentCertificate.birthRepresentative_chart
+#print axioms ElementaryHistory.ClosedComponentCertificate.birthRepresentative_height
+#print axioms ElementaryHistory.ClosedComponentCertificate.representative_chart_below
+#print axioms ElementaryHistory.ClosedComponentCertificate.olderPathAt_iff
+#print axioms ElementaryHistory.ClosedComponentCertificate.olderPathAt_threshold
+#print axioms ElementaryHistory.ClosedComponentCertificate.physicalOlderMaximin_eq_death
+#print axioms ElementaryHistory.ClosedComponentCertificate.higherPointPathAt_iff
+#print axioms ElementaryHistory.ClosedComponentCertificate.allHigherPointMaximin
+#print axioms ElementaryHistory.ClosedComponentCertificate.allHigherPointMaximin_eq_death
+````
+
+Literal file IMPLEMENTATION.md — 8291 bytes; SHA256 0d74f21252774c34284a19cfaf8a9ad7c52dae68e02c22edbd19f1c763d9f710
+````text
+# Derived physical representatives and global higher-endpoint threshold
+
+Actual author/coordinator: OpenAI/Codex `/root`; exact nonauthor review is a
+separate artifact by `/root/local_runtime_readonly`. This is the completed
+scoped author record, finalized from actual successful execution receipts.
+The accompanying byte freeze records its exact version; independent final
+acceptance is separate and is not inferred from this author record.
+Source/proof-route exposed; organizational independence 0.
+
+## Mathematical scope
+
+For a primitive finite unlabelled History and the existing genuine ALL-level
+ClosedComponentCertificate, the code derives physical representatives and the
+global superlevel-path threshold against every strictly higher-valued endpoint.
+The certificate supplies only descending event heights, actual path-component
+charts for every weak superlevel, stage prefix counts and naturality for every
+actual inclusion. It supplies no parent, representative height or maximin
+identity. The History supplies primitive birth/merge/neutral witnesses, not an
+elder forest or interval basis. Those are already derived in frozen ancestors.
+
+BirthPhysical derives exact stage at a critical height and primitive birth
+freshness outside the old-map range. If a point representing this fresh birth
+had strictly higher function value, its genuine high-level component inclusion
+would factor through prebirth. Naturality would put the birth in the old-map
+image, contradicting freshness. Thus its value is exactly the birth height.
+BirthRepresentatives chooses an actual point using chart/quotient surjectivity,
+then derives that height and its origin chart at EVERY lower level. Dead born
+labels are retained: they do not cease being actual physical points.
+
+PhysicalMaximin equates paths to chronologically older physical representatives
+with the derived first-collision OlderAt predicate. Finite support then gives
+an actual path at h=death and no such path above death. Its supremum over those
+representatives equals that critical death height. This is not yet the ALL-point
+selector until the next module is used.
+
+HigherPointMaximin supplies that missing global comparison. Its mark quantifies
+EVERY z with f(z)>f(chosen j), using actual JoinedIn weak-superlevel paths. Given
+such z, origin coverage of its actual component at level f(z) yields a born tag
+k. Strict height ordering implies k<j. Chart injectivity connects z to the
+chosen k at f(z); lowering and concatenating gives the older-representative
+path at h. Conversely derived representative heights make any k<j strictly
+higher. Equality of the complete threshold sets then proves the ALL-point
+supremum equals finite death. No global elder equation or chosen maximum label
+is an input to this argument.
+
+These statements are genuine geometry/point/path deductions under the all-level
+certificate, but DO NOT construct that certificate from an actual Morse
+function or identify every chosen point with a unique Morse maximum. No
+continuous-f or ambient LPC assumption is silently inserted. The numeric weak
+superlevel is {f>=h}; topological closedness requires the actual continuous
+source and is not asserted for arbitrary f here. The final supremum is the
+superlevel-path bottleneck definition; an additional pathwise-minimum formal
+conversion for a continuous source is not separately claimed. Finite-parent
+hypotheses exclude essential bars: no fictitious finite essential death or
+meaningful essential value of real sSup(empty) is asserted.
+
+## Target preservation and real failures
+
+All ELEVEN public theorem headers are literally byte-equal to the genuine
+3+6+2 clean-red statements. The first red had exactly three intended goals;
+the representative red had six, split between two files without changing their
+types; the new ALL-point red had exactly two. No unrelated red type/API errors
+are credited as target checks. TARGET_HEADER_CHECK.json retains the actual
+comparison against the genuine runner snapshots. Both retained ALL-point red
+filenames contain identical bytes; the check binds higherpoint-target-red.lean
+to its actual execution receipt/log. The original 11:08:43 comparison is retained
+separately. No final sorry/admit/custom axiom/native_decide is present.
+
+Retained history includes initial physical API/dependent-transport errors,
+representative semireduction and wrong HEq API, and the original maximin180s
+TimeoutExpired. That older copied runner emitted no normal receipt/log; its
+explicit timeout-observation does not fabricate a Lean exit. New timeout-safe
+runner retains actual outputs and a null child exit on timeout. The diagnostic
+profile actually exited1 after178.831552125s, import176s, with one wrongly
+inferred subtype. The narrow repair explicitly types genuine superlevel points;
+its next actual normal compile was green. ALL-point failures01-03 are actual
+Set-membership elaboration issues, retained separately; no public type or
+mathematical premise changed in the fixes. Final04 is green.
+
+## Verification scope and remaining gates
+
+The actual combined physical-validation01 execution exited 0 in 70.464460583
+seconds. Its source SHA256 is
+5ecfbc122aa7c670385d75437a04a368190835e66d9751bab8897ae3dfef8b61;
+its raw log SHA256 is
+f518d7d8ab56dc621e008adc77c1af2ba1e11f8c376e9fd1c88ef96bc20858c4.
+Seven meaningful conditional controls passed: strict-vs-nonstrict higher
+endpoints (constant self-path), no
+path above birth, freshness at birth, included bottleneck at finite death,
+excluded path above death, essential-root nondeath, and dead BornAt transport.
+Thirteen literal axiom commands cover all eleven public theorems plus chosen
+point and ALL-point supremum definitions. Twelve rows depend on precisely
+propext, Classical.choice and Quot.sound; birthPoint_not_range depends only on
+propext and Quot.sound. No custom axiom, sorryAx, diagnostic error or warning
+appears. These controls do not provide an
+actual constructed certificate or a Morse example; nonvacuity for the intended
+physical family remains part of the geometric constructor obligation.
+
+| Current source | Genuine successful attempt | Child exit | Seconds | Diagnostic log |
+| --- | --- | ---: | ---: | --- |
+| BirthPhysical.lean | physical-attempt03 | 0 | 50.15245175 | empty |
+| BirthRepresentatives.lean | representatives-attempt02 | 0 | 61.469061167 | empty |
+| PhysicalMaximin.lean | maximin-attempt02 | 0 | 62.071547875 | empty |
+| HigherPointMaximin.lean | higherpoint-attempt04 | 0 | 68.628132833 | empty |
+| PhysicalValidation.lean | physical-validation01 | 0 | 70.464460583 | thirteen audit rows |
+
+The four current module SHA256 values are, in that order:
+f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c;
+f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7;
+cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9;
+8684e27ab93266674efd59e6a30a138be00c7044acf4bc1970b894716bfe37f2.
+Actual final source bytes equal the retained successful snapshots. The final
+receipt/log comparisons preserve all earlier failed reds/attempts and the
+separate timeout observation; they do not invent a normal timeout child exit.
+
+Pinned Lean4.34.1/mathlibd13f23b723b8a846827a245b89c10fc7d3f11612 and cached
+imports are reused. No whole-import rebuild, external proof replay, installation,
+worker/rule/monitor/deployment/graph/STATUS change or scientific promotion.
+The accompanying manifest binds actual sources/objects/commands/receipts/raw logs and
+unchanged imported event modules. Independent acceptance remains separate.
+
+The 11:15 author deadline was missed during the user's explicit laptop-local
+availability request. Native continuation Math1936058763178 at 11:22:23 UTC
+records author11:30/review11:40/release11:45. These are bounds, not completion
+evidence. This final author record and freeze retain actual observed times.
+
+Remaining full I2 obligations: actual C4 Morse normal-form chart, cone/foot
+classification, genuine regular-band and both critical stopped flows, actual
+critical-level component inclusions, all-real-level geometric certificate and
+ALL physical maxima identification. I1/I4 physical source/whole conditioned
+law/C4-Banach semantics and numerical gates remain open. This leaf does not
+replace that full objective with a conditional theorem.
+````
+
+Literal file evidence/TARGET_HEADER_CHECK.json — 4403 bytes; SHA256 217ac42703f26018bf9418d098c2bca58a86e83edb6bf6f04df285a683a89830
+````text
+{
+  "observed_at_utc": "2026-10-08T11:24:36.038348+00:00",
+  "targets": [
+    {
+      "name": "stage_at_critical",
+      "source": "lean-project/BirthPhysical.lean",
+      "source_sha256": "f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c",
+      "red_snapshot": "evidence/physical-target-red.lean",
+      "red_sha256": "5a797e49765862ee4420d103cb260a83d26284a0ea10be62ef1e4d0b7c4928da",
+      "literal_equal": true
+    },
+    {
+      "name": "birthPoint_not_range",
+      "source": "lean-project/BirthPhysical.lean",
+      "source_sha256": "f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c",
+      "red_snapshot": "evidence/physical-target-red.lean",
+      "red_sha256": "5a797e49765862ee4420d103cb260a83d26284a0ea10be62ef1e4d0b7c4928da",
+      "literal_equal": true
+    },
+    {
+      "name": "representative_height",
+      "source": "lean-project/BirthPhysical.lean",
+      "source_sha256": "f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c",
+      "red_snapshot": "evidence/physical-target-red.lean",
+      "red_sha256": "5a797e49765862ee4420d103cb260a83d26284a0ea10be62ef1e4d0b7c4928da",
+      "literal_equal": true
+    },
+    {
+      "name": "birthRepresentative_chart",
+      "source": "lean-project/BirthRepresentatives.lean",
+      "source_sha256": "f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "birthRepresentative_height",
+      "source": "lean-project/BirthRepresentatives.lean",
+      "source_sha256": "f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "representative_chart_below",
+      "source": "lean-project/BirthRepresentatives.lean",
+      "source_sha256": "f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "olderPathAt_iff",
+      "source": "lean-project/PhysicalMaximin.lean",
+      "source_sha256": "cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "olderPathAt_threshold",
+      "source": "lean-project/PhysicalMaximin.lean",
+      "source_sha256": "cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "physicalOlderMaximin_eq_death",
+      "source": "lean-project/PhysicalMaximin.lean",
+      "source_sha256": "cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9",
+      "red_snapshot": "evidence/representatives-target-red.lean",
+      "red_sha256": "ebf8a478581c495c40bdabfb83bd78e8ec7a720052df7e11cfee68e35431737d",
+      "literal_equal": true
+    },
+    {
+      "name": "higherPointPathAt_iff",
+      "source": "lean-project/HigherPointMaximin.lean",
+      "source_sha256": "8684e27ab93266674efd59e6a30a138be00c7044acf4bc1970b894716bfe37f2",
+      "red_snapshot": "evidence/higherpoint-target-red.lean",
+      "red_sha256": "759115073b0122d40f6e1b1165f1023fbc9905d442e24d478efd2549e038f500",
+      "literal_equal": true
+    },
+    {
+      "name": "allHigherPointMaximin_eq_death",
+      "source": "lean-project/HigherPointMaximin.lean",
+      "source_sha256": "8684e27ab93266674efd59e6a30a138be00c7044acf4bc1970b894716bfe37f2",
+      "red_snapshot": "evidence/higherpoint-target-red.lean",
+      "red_sha256": "759115073b0122d40f6e1b1165f1023fbc9905d442e24d478efd2549e038f500",
+      "literal_equal": true
+    }
+  ],
+  "all_literal_equal": true,
+  "old_comparison_preserved_at": "evidence/TARGET_HEADER_CHECK_20261008T110843Z.json",
+  "higherpoint_red_alias_byte_equal": true
+}
+````
+
+Literal file evidence/physical-attempt03.json — 866 bytes; SHA256 0b0a61476ca5797d5f78a0db4c6b2467a54f93517b2854e8dc192f5912fb4c3f
+````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "BirthPhysical.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project/.lake/build/lib/lean/BirthPhysical.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project",
+  "exit_code": 0,
+  "elapsed": 50.152451750000004,
+  "source_sha256": "f771022087a6baa46bd7fa61223aa5103ac8d8104121276f3ee763ec1543a73c",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+````
+
+Literal file evidence/physical-attempt03.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+````text
+
+````
+
+Literal file evidence/representatives-attempt02.json — 874 bytes; SHA256 e3bf415cdbdf25d3d92943e82fbb190818d046ca4cd78e776813d9428ef14f83
+````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "BirthRepresentatives.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project/.lake/build/lib/lean/BirthRepresentatives.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project",
+  "exit_code": 0,
+  "elapsed": 61.469061167,
+  "source_sha256": "f3967499f7b64a38cea7d0d62d1202c29ffa3aa5786d80f40b7180a6e9d388e7",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+````
+
+Literal file evidence/representatives-attempt02.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+````text
+
+````
+
+Literal file evidence/maximin-attempt02.json — 886 bytes; SHA256 7a1e76d50b8ea38eb38d661f68a8a0de6d5b4d84184aef0c35cb1dc95d6868cc
+````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PhysicalMaximin.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project/.lake/build/lib/lean/PhysicalMaximin.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 62.071547875,
+  "source_sha256": "cdeb4fdba9065f562c8984b84ee1ad89f80b3a57590f76f5a98b11ad0c1624c9",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+````
+
+Literal file evidence/maximin-attempt02.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+````text
+
+````
+
+Literal file evidence/higherpoint-attempt04.json — 892 bytes; SHA256 89b5ad7f8b2b6d26baaeffd9597653cef021ebdea228b03ed12f691a4b5ec864
+````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "HigherPointMaximin.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project/.lake/build/lib/lean/HigherPointMaximin.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 68.628132833,
+  "source_sha256": "8684e27ab93266674efd59e6a30a138be00c7044acf4bc1970b894716bfe37f2",
+  "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "LEAN_NUM_THREADS": "1"
+}
+````
+
+Literal file evidence/higherpoint-attempt04.log — 0 bytes; SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+````text
+
+````
+
+Literal file evidence/physical-validation01.json — 892 bytes; SHA256 345ae7262ba00e259e5406529746b8e3dcec8f50f9f4c4dc4d3512da76dabc9a
+````text
+{
+  "argv": [
+    "nice",
+    "-n",
+    "10",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2/runtime/lean-4.34.1-darwin_aarch64/bin/lean",
+    "PhysicalValidation.lean",
+    "-o",
+    "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project/.lake/build/lib/lean/PhysicalValidation.olean"
+  ],
+  "cwd": "/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i2-physical/lean-project",
+  "exit_code": 0,
+  "timed_out": false,
+  "elapsed": 70.464460583,
+  "source_sha256": "5ecfbc122aa7c670385d75437a04a368190835e66d9751bab8897ae3dfef8b61",
+  "log_sha256": "f518d7d8ab56dc621e008adc77c1af2ba1e11f8c376e9fd1c88ef96bc20858c4",
+  "LEAN_NUM_THREADS": "1"
+}
+````
+
+Literal file evidence/physical-validation01.log — 1688 bytes; SHA256 f518d7d8ab56dc621e008adc77c1af2ba1e11f8c376e9fd1c88ef96bc20858c4
+````text
+'ElementaryHistory.ClosedComponentCertificate.stage_at_critical' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.birthPoint_not_range' depends on axioms: [propext, Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.representative_height' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.birthRepresentative' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.birthRepresentative_chart' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.birthRepresentative_height' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.representative_chart_below' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.olderPathAt_iff' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.olderPathAt_threshold' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.physicalOlderMaximin_eq_death' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.higherPointPathAt_iff' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.allHigherPointMaximin' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'ElementaryHistory.ClosedComponentCertificate.allHigherPointMaximin_eq_death' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+````
+
+Literal file evidence/maximin-attempt01-timeout-observation.json — 553 bytes; SHA256 2278be77353adce09456c6bda0cd9df7143a571c8692df192b24330a8e961d35
+````text
+{
+  "observation": "Actual root exec session19395 ended exit1 with subprocess.TimeoutExpired after180seconds; compiler outcome not accepted. No successful Lean exit/log/json receipt produced by run_compile.py. The wrapper is not timeout-safe; retained actual tool exception is the evidence, not a fabricated compiler exit code.",
+  "source_sha256": "5a8e0765f142cbac834577ba2901b2bb4190b35b4681ea74c21f1dd5c81fb1fd",
+  "source_snapshot": "work/theorem-continuation-20261008/i2-physical/evidence/maximin-attempt01.lean",
+  "status": "TIMEOUT_NOT_PASS"
+}
+````

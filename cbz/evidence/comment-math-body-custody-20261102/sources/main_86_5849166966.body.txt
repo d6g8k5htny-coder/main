@@ -1,0 +1,243 @@
+# KIMI LB-RATE packet: source-bound review
+
+Reviewed 26 September 2026. Reviewer: OpenAI/Codex, with two OpenAI analytical cross-checks. These provide zero organizational-independence credit. This is an additive review of the supplied August 4 packet, with particular attention to KIMI-AUD-023. It is not a modification of any scientific status register or historical proof.
+
+## Finding
+
+The supplied AUD-023 supports some arithmetic checks, but its WP discharge and the downstream fixed lower constant are not established. The recovered August 5 successor and subsequent reconciliation already amend/quarantine those claims. This review additionally identifies a literal contradiction in LB-1's displayed untyped critical-point count and an unsafe Gaussian-tail approximation in the pasted certificate.
+
+This does not refute the existence of a positive persistence lower bound. It distinguishes a false displayed intermediate statement, defective certification, and obligations not yet proved by these sources.
+
+## Exact source identities and revision history
+
+The live main ref read during this review was `6200dfd1f5c3757f9927f44fd9fac47ecb84992b`. Its public-math catalog points to research sources at immutable commit `7caac254cbba5f513b2dc0afb56b78a598bc0c93`. Those files are available at the pinned historical commit; their absence from the landing branch's same paths is not a source loss.
+
+The following GitHub UTF-8 contents were retrieved, written without normalization and SHA-256 checked locally. These are public mirrored sources, not an assertion that every pasted code file was byte-authenticated.
+
+| Source | Bytes | SHA-256 |
+|---|---:|---|
+| [AUD-023 normalized export](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/KIMI%20LB-RATE%20CAMPAIGN%20%E2%80%94%202026-08-04%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/01%20%E2%80%94%20KIMI%20NORMALIZED%20EXPORT/KIMI-AUD-023.md) | 5448 | `df6565acf9231b3ae41e0f5f27f55384d786119013bebc06b79bd87a8e70e874` |
+| [AUD-023 v1.1, August 5](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/KIMI%20LB-RATE%20CAMPAIGN%20%E2%80%94%202026-08-04%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/05%20%E2%80%94%20KIMI%20WO-063%20PARTIAL%20SNAPSHOT%20%E2%80%94%202026-08-05/01%20%E2%80%94%20COMPLETE%20PRIMARY%20CARRIERS/KIMI-AUD-023_v1_1_lb4_residue.txt) | 10394 | `1fe6902cee307081668b61be79cc2085001d25290d4917c615f0cc861af06b97` |
+| [GP-LB-STAT-003 reconciliation](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/KIMI%20LB-RATE%20CAMPAIGN%20%E2%80%94%202026-08-04%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/06%20%E2%80%94%20K3%20MISSING-SQRT%20RECONCILIATION%20%E2%80%94%202026-08-05/GP-LB-STAT-003_K3_MISSING_SQRT_AND_AO48_HANDOFF_RECONCILIATION_v1.0.md) | 7157 | `6b22a0840436b8157ed9b0df6ff7b4d6536a02a05a629e074a60125194b0bc16` |
+| [C030 package](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/C030_CountingLemmas_Package.md) | 3442 | `aed6683edaed6d483704a63cd321fcb300e329a26bf6c143042ead58a60bfc7b` |
+| [C031 integration](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/C031_LBRATE_Integration.md) | 13690 | `e7998ef0d17d951bc89978f9fe32e510019059dd0650c8f0e0ae33273f40f32e` |
+| [LB-1 proof](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/KIMI%20LB-RATE%20CAMPAIGN%20%E2%80%94%202026-08-04%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/01%20%E2%80%94%20KIMI%20NORMALIZED%20EXPORT/LB1_sup_over_zone_proof.md) | 14665 | `be85b2ed0fdcca770dfde191fe91f7cb3ed6ca2076b790b02ed3c78bd604a298` |
+
+The later [GP-LB-STAT-004 adjudication](https://github.com/d6g8k5htny-coder/main/blob/7caac254cbba5f513b2dc0afb56b78a598bc0c93/drive/mirrors/2026-08-03-to-08-06_KIMI_AO48_LB-RATE_K3_INTAKE/00_C030-C031_BASE_CYCLE_SET%20%E2%80%94%202026-08-01/KIMI%20LB-RATE%20CAMPAIGN%20%E2%80%94%202026-08-04%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/K3%20SWARM%20PARTIAL%20DELIVERY%20%E2%80%94%202026-08-05-06%20%E2%80%94%20RAW%20%2B%20GP%20ADJUDICATION/00_READ_FIRST_AND_GP_ADJUDICATION/GP-LB-STAT-004_K3_PARTIAL_DELIVERY_HOSTILE_ADJUDICATION_v1.0.md) was also read. It retains the lower campaign as open, distinguishes unweighted nine-pin calculations from weighted triple-Palm estimates, and identifies the missing Bonferroni and uniformity inputs. Its later workstream verdicts were not independently re-audited here. Historical adjudication is evidence of prior findings, not a substitute for current proof review.
+
+The successor names a different v1.0 body identity from the supplied normalized export. The public catalog separately lists outer-identity crosswalk carriers. These representations must not be collapsed into a single byte identity.
+
+## 1. R2: confirmed arithmetic discrepancy; proposed repair still needs justification
+
+Exact arithmetic gives
+
+\[
+0.76\frac{25-6.25}{9-6.25}=\frac{57}{11},\qquad
+0.76\frac{25-6.25}{9-2.25}=\frac{19}{9}.
+\]
+
+Thus the printed expression is about 5.181818, while the proposed alternative is about 2.111111. Matching an approximate 2.1 does not prove which collar was intended. The retrieved C030 package supplies the B3 budget, but does not supply the proposed B3-to-B5 annular intensity comparison. C031 prints the inconsistent expression directly. For a nonconstant conditioned intensity, an area ratio alone does not justify transferring an integral bound between annuli.
+
+Even if the proposed denominator is established, an upper coefficient 2.1 rounds downward from 19/9. With ell/2 = r^3/12, the proposed exact coefficient is 19/108 = 0.175925925..., which is also greater than 0.1759. Retain the exact coefficient or a justified outward bound, conditional on proving the underlying spatial comparison. This arithmetic issue alone does not disprove existence of some positive asymptotic lower constant.
+
+## 2. WP: arithmetic consistency is not discharge
+
+At r = 0.025,
+
+\[
+1.95\times10^{-6}+1.37\times10^{-6}=0.21248r^3,
+\qquad 0.213r^3=3.328125\times10^{-6}.
+\]
+
+The slack is 8.125e-9. This checks a sum; it does not verify the omitted rigidity region, pin collars, Kac–Rice applicability or a uniform O(r^3) estimate.
+
+The supplied `wp_rho` code contains two concrete defects:
+
+- With t1=(b-mu)/s and t2=(b-ell-mu)/s, t1>t2. Therefore Q(t1)-Q(t2)<0: its window-probability subtraction has the wrong sign and always selects the fallback in exact arithmetic. The correct difference is Q(t2)-Q(t1). The fallback peak-density formula is an upper estimate for the window probability, not the exact probability.
+- Cauchy–Schwarz requires sqrt(P(A)), not P(A). For D=det(H) and the type-and-window event A, the bound is
+
+\[
+\rho_{WP}\le p_{\nabla f}(0)\sqrt{\mathbb E[D^2\mid\nabla f=0]}\sqrt{\min(P_{type},P_{window})}.
+\]
+
+The missing square root was already explicitly rejected in GP-LB-STAT-003 and reaffirmed in GP-LB-STAT-004. Accordingly AUD-023 v1.1's 1.30399e-5 upper-bound claim is also quarantined. Do not replace the August 4 claim with an unqualified acceptance of v1.1.
+
+A large computed upper estimate cannot refute a smaller claimed upper bound on the true count. The later direct estimate near 4.7602e-6 is diagnostic unless supplied with a rigorous lower enclosure. This review did not reproduce that spatial integral.
+
+## 3. LB-1: a deterministic pinned point contradicts the displayed count
+
+LB-1 Section 1 fixes f(M)=b and grad f(M)=0. Section 4 counts all critical points with f>=b in B(3r,M). Hence every sample satisfying those pins obeys
+
+\[
+N_{crit}(f\ge b,B_{3r}(M))\ge1,\qquad
+\mathbb E N_{crit}(f\ge b,B_{3r}(M))\ge1.
+\]
+
+This directly contradicts the displayed bound by E_zone(r), including 2.1e-30 at r=0.05. The same issue defeats Section 2's claim for every Borel set A when A contains this pin. The off-pin Kac–Rice density does not account for the deterministic atom at M.
+
+This is a falsifier of the literal untyped surrogate statement. It does not establish a large count of additional strictly-above-b saddles. A successor must define the additional/punctured count, specify its strict threshold and typing, treat deterministic atoms separately, and prove the resulting estimate. Merely changing the count notation will not supply the missing continuum estimates.
+
+## 4. Certificate distinctions that matter
+
+The pasted `log_phi_bar` uses -1035/t^10 where the fifth Mills-series coefficient is -945/t^10. Repeated integration by parts for Q(t) shows that the series truncated after the negative fifth term is a lower bound for t>0. The supplied polynomial is smaller still, by exactly 90/t^10. Therefore it cannot serve as an upper bound on the Gaussian tail. This direction error is exact, even though its numerical size at t=30 is small. See [NIST DLMF 7.12(i)](https://dlmf.nist.gov/7.12#i) for the expansion and signed remainder rule.
+
+The `rho_bar` fourth-moment calculation applies centered Wick pairing to raw second moments. For Hessian mean entries nu=(nu_xx,nu_xy,nu_yy), its D2 equals the true second determinant moment plus 2(nu_xx*nu_yy-nu_xy^2)^2. The printed exact identity is wrong, but this excess is conservative for that particular upper moment. It is not by itself a refutation of an upper bound.
+
+Finite grids, sampled circles and the declared factor exp(min(25,0.3*abs(L2))) do not provide the missing analytic between-sample bound. Six rungs also do not establish an estimate for all 0<r<=r0. Analyticity requires quantitative remainder control here; high precision and identical optimized transcripts do not provide it.
+
+## 5. Downstream assembly
+
+C031 itself labels 0.0334 as a measured far probability and 0.946 as the Lambda value at r=0.025. It separately gives a derived-on-grid asymptotic estimate 0.9091 with errors. Reusing the finite-rung 0.946 as a proved all-small-r floor needs a new argument. The theorem-tier far factor is a conditional barrier constant, not automatically 1-0.0334.
+
+The exact product 0.9666*0.946 is 0.9144036. If a rigorous asymptotic lower estimate with that leading coefficient were established, the smaller coefficient 0.9144 could eventually be valid. The failure here is unproved inputs, law transfer and uniform remainders—not merely this rounding.
+
+Measured exit zero, deterministic mean connectivity at two rungs, unresolved gamma-LOC and grid extensions do not yield the advertised theorem. The two-dimensional lower campaign also cannot inherit a two-sided rate merely from a ratified three-dimensional upper statement without a matching law/domain theorem.
+
+## Next bounded work
+
+Preserve the original files and the existing correction history. First define the exact counted event and its Palm law, including pins and the weighted qualification event. Then derive the R2 spatial comparison and a valid WP bound at that exact interface; retain all spatial, tail and r-uniform remainder obligations. A source-bound reviewer can audit the deterministic-pin contradiction independently of any large numerical run.
+
+No STATUS, PROOF_INDEX, lemma_closed, prize, proof-body or eligibility field was changed. No new theorem constant is accepted. No full certificate replay or mathematical organizational-independence claim is made.
+
+## Reproduction appendix
+
+The following independently written probes reproduce selected formulas from the pasted code. They are not the original certificate, do not authenticate its advertised hash, and do not replay its full grids. Exact rational checks are distinguished from high-precision numerical illustrations.
+
+```python
+#!/usr/bin/env python3
+"""Small mathematical audit probes of a user-pasted LB1 source, 2026-09-26.
+
+This is an independently written extraction/reproduction, not the raw historical
+certificate. It does not authenticate the pasted file's advertised SHA256 and
+does not execute its full gridded certificate or change any research status.
+Source snippets consumed: wp_rho probability subtraction and final factor;
+log_phi_bar asymptotic polynomial; rho_bar's noncentral Wick construction.
+"""
+from decimal import Decimal as D, getcontext
+from fractions import Fraction
+
+getcontext().prec = 90
+PI = D('3.14159265358979323846264338327950288419716939937510582097494459230781640628620899862803482534')
+
+class MP:
+    mpf = staticmethod(D)
+    sqrt = staticmethod(lambda x: D(x).sqrt())
+    exp = staticmethod(lambda x: D(x).exp())
+    pi = PI
+    nstr = staticmethod(lambda x, n: format(x, '.29g'))
+
+mp = MP()
+
+def emit(name, value):
+    print(name + ': ' + mp.nstr(value, 30))
+
+def Phi_bar(t):
+    # Entire erf power series, only used here for |t|<=2.1.
+    # This numerical probe is not directed interval arithmetic.
+    x = t/mp.sqrt(2)
+    term, total, k = x, x, 0
+    while True:
+        k += 1
+        term *= -x*x/k
+        add = term/(2*k+1)
+        total += add
+        if abs(add) < D('1e-85'):
+            break
+    return (1-2*total/mp.sqrt(PI))/2
+phi = lambda t: mp.exp(-t*t/2) / mp.sqrt(2*mp.pi)
+
+# The exact line order of the pasted wp_rho uses t1 > t2 and Q(t1)-Q(t2).
+b = mp.mpf('1.2')
+ell = mp.mpf('0.025')**3 / 6
+mu = mp.mpf('1.187')
+sigma = mp.sqrt(mp.mpf('5.94e-5'))
+t1, t2 = (b-mu)/sigma, (b-ell-mu)/sigma
+source_pw = Phi_bar(t1) - Phi_bar(t2)
+true_pw = Phi_bar(t2) - Phi_bar(t1)
+emit('wp_rho source subtraction (negative)', source_pw)
+emit('correct window probability (positive)', true_pw)
+if not (source_pw < 0 < true_pw):
+    raise SystemExit('unexpected probability ordering')
+
+# Missing sqrt counterexample to the proposed generic determinant/event bound.
+# Z ~ N(0,1), Hessian diag(Z,-Z): always saddle off Z=0, |det H|=Z^2.
+# E = {2 <= Z <= 2.1}; E[D^2]=E[Z^4]=3, P(type)=1.
+lo, hi = mp.mpf(2), mp.mpf('2.1')
+p_event = Phi_bar(lo)-Phi_bar(hi)
+actual = lo*phi(lo)-hi*phi(hi)+p_event
+source_bound = mp.sqrt(3)*p_event
+cs_bound = mp.sqrt(3*p_event)
+emit('window probability in saddle counterexample', p_event)
+emit('true E[|det H| 1_E]', actual)
+emit('invalid sqrt(E[D^2])*P(E)', source_bound)
+emit('valid Cauchy-Schwarz upper bound', cs_bound)
+if not (source_bound < actual <= cs_bound):
+    raise SystemExit('counterexample not established')
+
+# The pasted log_phi_bar uses -1035 u^5; fifth Mills coefficient is -945.
+# Integration by parts gives Q(t)>phi(t)/t*S5(t) for t>0, where S5
+# terminates in -945u^5. Exact Fraction arithmetic proves source<S5,
+# so source<Q. This does not rely on evaluating the tiny exact tail.
+for t in (30, 40):
+    u = Fraction(1,t*t)
+    source_S = 1-u+3*u**2-15*u**3+105*u**4-1035*u**5
+    lower_S = 1-u+3*u**2-15*u**3+105*u**4-945*u**5
+    deficit = lower_S-source_S
+    print('tail t='+str(t)+' exact lower-polynomial deficit: '+str(deficit))
+    emit('tail t='+str(t)+' lower-polynomial relative deficit',
+         D(deficit.numerator)/D(deficit.denominator)/(D(lower_S.numerator)/D(lower_S.denominator)))
+    if not (source_S < lower_S and deficit == 90*u**5):
+        raise SystemExit('tail underestimate not established')
+
+# Independent exact noncentral determinant moment: Hxx=1+X, Hyy=1+Y,
+# Hxy=Z with X,Y,Z independent standard normal.
+# E[(Hxx*Hyy-Hxy^2)^2] = 2*2 - 2*1*1*1 + 3 = 5.
+# Wick on raw second moments C=Sigma+mu*mu^T gives 7 instead.
+mu = [mp.mpf(1), mp.mpf(0), mp.mpf(1)]
+S = [[mp.mpf(int(i == j)) for j in range(3)] for i in range(3)]
+C = [[S[i][j]+mu[i]*mu[j] for j in range(3)] for i in range(3)]
+def source_em(a,b,c,d):
+    return C[a][b]*C[c][d]+C[a][c]*C[b][d]+C[a][d]*C[b][c]
+code_d2 = source_em(0,0,2,2)-2*source_em(0,1,1,2)+source_em(1,1,1,1)
+exact_d2 = mp.mpf(5)
+det_mean_hessian = mu[0]*mu[2]-mu[1]**2
+emit('raw-second-moment Wick D2', code_d2)
+emit('true noncentral D2', exact_d2)
+emit('conservative excess 2*(det mean H)^2', 2*det_mean_hessian**2)
+if code_d2-exact_d2 != 2*det_mean_hessian**2:
+    raise SystemExit('noncentral moment relation failed')
+
+print('PROBES_PASS: explicit defects and conservative-moment distinction reproduced')
+```
+
+Executed output:
+
+```text
+wp_rho source subtraction (negative): -0.000032508721223141864553873706335
+correct window probability (positive): 0.000032508721223141864553873706335
+window probability in saddle counterexample: 0.0048857113853626504163583969682
+true E[|det H| 1_E]: 0.020502092852841646815743509010
+invalid sqrt(E[D^2])*P(E): 0.0084623003505658369111737824580
+valid Cauchy-Schwarz upper bound: 0.12106665170924630493844613673
+tail t=30 exact lower-polynomial deficit: 1/6561000000000
+tail t=30 lower-polynomial relative deficit: 1.5258476689241607876771936265e-13
+tail t=40 exact lower-polynomial deficit: 9/1048576000000000
+tail t=40 lower-polynomial relative deficit: 8.5884265810219191322929549669e-15
+raw-second-moment Wick D2: 7
+true noncentral D2: 5
+conservative excess 2*(det mean H)^2: 2
+PROBES_PASS: explicit defects and conservative-moment distinction reproduced
+```
+
+Additional exact rational arithmetic:
+
+```text
+R2_printed = 57/11
+R2_proposed = 19/9
+WP_scaled_sum = 664/3125
+WP_slack = 13/1600000000
+coefficient_product = 2286009/2500000
+```
+
+
+Scoped review complete; no repository file write claim remains active. Further theorem review must use the exact successor and dependency identities, not this historical packet's PASS labels.

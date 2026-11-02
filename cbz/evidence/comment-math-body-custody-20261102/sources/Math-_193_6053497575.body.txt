@@ -1,0 +1,354 @@
+## COMPLETE SOURCE BRIDGE — actual derivatives through order four; exact source and completed nonauthor review
+
+Actual root OpenAI/Codex implementer under Math193/6053269987. Scoped code result, scientific effect NONE; original full goal ACTIVE. All four actual derivative targets pass, eight boundary examples pass, six actual standard-axiom rows. Final nonauthor /root/local_runtime_readonly ACCEPT_SCOPED, independently checked all35 freeze bindings, no must-fix; source exposed and organizational independence0. Downstream finite-jet laws/rank/pins remain separate from this core acceptance.
+
+Below are literal UTF-8 file bytes in four-backtick fences. Each fence adds exactly one separator LF before its closing marker; remove only that separator to recover the original file bytes, preserving each file own terminal LF. Retained failed red and first-green warning are included. Complete receipts/context/snapshots are bound by the full review and jet-final-freeze.json11168B SHA7cb61a50a69056464ff2607f24f71d8d415854022e57eb81f319e103bedcc00e. Documentary preflight-path collision/correction is retained and described in the complete review; no code/target change.
+
+### Literal SourceJets.lean: 5044 B, SHA256 1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412
+
+````lean
+import SourceC4
+import Mathlib.Topology.Algebra.Module.Multilinear.Topology
+
+/-! Actual Fréchet derivatives of the unchanged sourceField, on one shared sample event.
+Finite jet Gaussian laws, full rank and prescribed-pin regression are separate. -/
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4C4 MeasureTheory ProbabilityTheory
+open scoped BigOperators
+
+namespace I4Jets
+
+def modeJetCoefficient (d : ℕ) (L : ℝ) (m : SourceMode d) (j : ℕ)
+    (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) : ℝ :=
+  (iteratedFDeriv ℝ j (modeCoefficient d L m) x) v
+
+def sourceJet (d : ℕ) (L : ℝ) (j : ℕ) (ω : SourceMode d → ℝ)
+    (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) : ℝ :=
+  (iteratedFDeriv ℝ j (sourceField d L ω) x) v
+
+private theorem modeCoefficient_contDiff (d : ℕ) (L : ℝ) (m : SourceMode d) :
+    ContDiff ℝ 4 (modeCoefficient d L m) := by
+  cases m with
+  | none =>
+    change ContDiff ℝ 4 (fun _ : Fin d → ℝ => Real.sqrt (1 / sourceZ d L))
+    fun_prop
+  | some p =>
+    rcases p with ⟨k, b⟩
+    change ContDiff ℝ 4 (fun x : Fin d → ℝ =>
+      Real.sqrt (2 * sourceWeight d L k / sourceZ d L) *
+        (if b then Real.sin (phase d L k x) else Real.cos (phase d L k x)))
+    cases b <;> simp [phase] <;> fun_prop
+
+private theorem modeTerm_derivative (d : ℕ) (L : ℝ) (m : SourceMode d)
+    (ω : SourceMode d → ℝ) (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) :
+    iteratedFDeriv ℝ j (fun y => modeCoefficient d L m y * ω m) x =
+      ω m • iteratedFDeriv ℝ j (modeCoefficient d L m) x := by
+  have hc : ContDiff ℝ j (modeCoefficient d L m) :=
+    (modeCoefficient_contDiff d L m).of_le (by exact_mod_cast hj)
+  have heq : (fun y => modeCoefficient d L m y * ω m) = ω m • modeCoefficient d L m := by
+    funext y
+    simp [smul_eq_mul, mul_comm]
+  rw [heq, iteratedFDeriv_const_smul_apply hc.contDiffAt]
+
+theorem modeJetCoefficient_bound (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (m : SourceMode d) (j : ℕ) (hj : j ≤ 4)
+    (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    |modeJetCoefficient d L m j x v| ≤ modeMajorant d L m * ∏ i, ‖v i‖ := by
+  change ‖(iteratedFDeriv ℝ j (modeCoefficient d L m) x) v‖ ≤ _
+  calc
+    _ ≤ ‖iteratedFDeriv ℝ j (modeCoefficient d L m) x‖ * ∏ i, ‖v i‖ :=
+      (iteratedFDeriv ℝ j (modeCoefficient d L m) x).le_opNorm v
+    _ ≤ _ := mul_le_mul_of_nonneg_right
+      (modeCoefficient_iteratedFDeriv_bound d hL m j hj x)
+      (Finset.prod_nonneg (fun i _ => norm_nonneg (v i)))
+
+theorem modeJetCoefficient_summable (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+    (j : ℕ) (hj : j ≤ 4) (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)) :
+    Summable (fun m => modeJetCoefficient d L m j x v) := by
+  apply ((modeMajorant_summable d hL).mul_right (∏ i, ‖v i‖)).of_norm_bounded
+  intro m
+  simpa only [Real.norm_eq_abs] using modeJetCoefficient_bound d hL m j hj x v
+
+theorem sourceJet_eq_series_ae (d : ℕ) {L : ℝ} (hL : L ≠ 0) :
+    ∀ᵐ ω ∂sourceLaw d, ∀ (j : ℕ), j ≤ 4 →
+      ∀ (x : Fin d → ℝ) (v : Fin j → (Fin d → ℝ)),
+        sourceJet d L j ω x v =
+          scalarSeries (fun m => modeJetCoefficient d L m j x v) ω := by
+  filter_upwards [sourceMajorant_ae d hL] with ω hω
+  intro j hj x v
+  have hc (m : SourceMode d) :
+      ContDiff ℝ 4 (fun y => modeCoefficient d L m y * ω m) :=
+    (modeCoefficient_contDiff d L m).mul contDiff_const
+  have hb (k : ℕ) (hk : (k : ℕ∞) ≤ 4) :
+      Summable (fun m => modeMajorant d L m * |ω m|) := hω
+  have hd (k : ℕ) (m : SourceMode d) (y : Fin d → ℝ) (hk : (k : ℕ∞) ≤ 4) :
+      ‖iteratedFDeriv ℝ k (fun z => modeCoefficient d L m z * ω m) y‖ ≤
+        modeMajorant d L m * |ω m| := by
+    have hk' : k ≤ 4 := by exact_mod_cast hk
+    rw [modeTerm_derivative d L m ω k hk' y, norm_smul, Real.norm_eq_abs]
+    simpa only [mul_comm] using mul_le_mul_of_nonneg_left
+      (modeCoefficient_iteratedFDeriv_bound d hL m k hk' y) (abs_nonneg (ω m))
+  have hj' : (j : ℕ∞) ≤ 4 := by exact_mod_cast hj
+  have hs : Summable (fun m =>
+      iteratedFDeriv ℝ j (fun y => modeCoefficient d L m y * ω m) x) :=
+    hω.of_norm_bounded (fun m => hd j m x hj')
+  have heq : iteratedFDeriv ℝ j (sourceField d L ω) x =
+      ∑' m, iteratedFDeriv ℝ j (fun y => modeCoefficient d L m y * ω m) x := by
+    change iteratedFDeriv ℝ j (fun y => ∑' m, modeCoefficient d L m y * ω m) x = _
+    exact iteratedFDeriv_tsum_apply hc hb hd hj' x
+  unfold sourceJet
+  rw [heq, ContinuousMultilinearMap.tsum_eval hs]
+  unfold scalarSeries
+  apply tsum_congr
+  intro m
+  rw [modeTerm_derivative d L m ω j hj x]
+  change ω m * modeJetCoefficient d L m j x v =
+    modeJetCoefficient d L m j x v * ω m
+  exact mul_comm _ _
+
+theorem sourceJet_zero (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ)
+    (x : Fin d → ℝ) (v : Fin 0 → (Fin d → ℝ)) :
+    sourceJet d L 0 ω x v = sourceField d L ω x := by
+  exact iteratedFDeriv_zero_apply v
+
+end I4Jets
+
+````
+
+### Literal JetTests.lean: 2716 B, SHA256 b929dbea46b8afa30e9c22e5b1ba9830b5442bac6708ca3e8d6604e91c6172b2
+
+````lean
+import SourceJets
+
+noncomputable section
+open I4Foundation I4Weights I4Source I4C4 I4Jets MeasureTheory
+open scoped BigOperators
+
+-- The zero order is the actual total sourceField, even without L != 0.
+example (d : ℕ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ)
+    (v : Fin 0 → (Fin d → ℝ)) :
+    sourceJet d 0 0 ω x v = sourceField d 0 ω x :=
+  sourceJet_zero d 0 ω x v
+
+-- The empty direction product must preserve the coefficient value.
+example (d : ℕ) (L : ℝ) (m : SourceMode d) (x : Fin d → ℝ)
+    (v : Fin 0 → (Fin d → ℝ)) :
+    modeJetCoefficient d L m 0 x v = modeCoefficient d L m x :=
+  iteratedFDeriv_zero_apply v
+
+-- The constant Fourier mode contributes no positive-order derivative.
+example (d : ℕ) (L : ℝ) (j : ℕ) (x : Fin d → ℝ)
+    (v : Fin (j + 1) → (Fin d → ℝ)) :
+    modeJetCoefficient d L none (j + 1) x v = 0 := by
+  unfold modeJetCoefficient
+  change (iteratedFDeriv ℝ (j + 1)
+    (fun _ : Fin d → ℝ => Real.sqrt (1 / sourceZ d L)) x) v = 0
+  simp only [iteratedFDeriv_succ_const, Pi.zero_apply, zero_apply]
+
+-- Raw zero-direction observations are singular, for every actual sample.
+example (d : ℕ) (L : ℝ) (ω : SourceMode d → ℝ) (x : Fin d → ℝ) :
+    sourceJet d L 1 ω x (fun _ => 0) = 0 := by
+  exact (iteratedFDeriv ℝ 1 (sourceField d L ω) x).map_coord_zero 0 rfl
+
+example (d : ℕ) (L : ℝ) (m : SourceMode d) (x : Fin d → ℝ)
+    (v : Fin 4 → (Fin d → ℝ)) (hv : v 2 = 0) :
+    modeJetCoefficient d L m 4 x v = 0 := by
+  exact (iteratedFDeriv ℝ 4 (modeCoefficient d L m) x).map_coord_zero 2 hv
+
+-- Fourth-order, nonunit directions use the full product of norms.
+example (m : SourceMode 3) (x : Fin 3 → ℝ) (v : Fin 4 → (Fin 3 → ℝ)) :
+    |modeJetCoefficient 3 24 m 4 x v| ≤ modeMajorant 3 24 m * ∏ i, ‖v i‖ :=
+  modeJetCoefficient_bound 3 (by norm_num) m 4 (by norm_num) x v
+
+-- One event supports different points, orders and direction tuples at once.
+example : ∀ᵐ ω ∂sourceLaw 3, ∀ (x y : Fin 3 → ℝ)
+    (v : Fin 1 → (Fin 3 → ℝ)) (w : Fin 4 → (Fin 3 → ℝ)),
+    sourceJet 3 24 1 ω x v = scalarSeries (fun m => modeJetCoefficient 3 24 m 1 x v) ω ∧
+    sourceJet 3 24 4 ω y w = scalarSeries (fun m => modeJetCoefficient 3 24 m 4 y w) ω := by
+  filter_upwards [sourceJet_eq_series_ae 3 (L := 24) (by norm_num)] with ω hω
+  intro x y v w
+  exact ⟨hω 1 (by norm_num) x v, hω 4 (by norm_num) y w⟩
+
+-- Literal dimension-zero and negative-period cases remain admitted.
+example (x : Fin 0 → ℝ) (v : Fin 4 → (Fin 0 → ℝ)) :
+    Summable (fun m => modeJetCoefficient 0 (-24) m 4 x v) :=
+  modeJetCoefficient_summable 0 (by norm_num) 4 (by norm_num) x v
+
+````
+
+### Literal JetAxioms.lean: 264 B, SHA256 4c21fafc5c17731ca0c03356332d52afb68148caed434572d4bca42415a75edb
+
+````lean
+import SourceJets
+#print axioms I4Jets.modeJetCoefficient
+#print axioms I4Jets.sourceJet
+#print axioms I4Jets.modeJetCoefficient_bound
+#print axioms I4Jets.modeJetCoefficient_summable
+#print axioms I4Jets.sourceJet_eq_series_ae
+#print axioms I4Jets.sourceJet_zero
+
+````
+
+### Literal jet-evidence/jet-axioms01.log: 528 B, SHA256 50c15bb657bec99a2b99af52fb22c0153e1019b78d570b0590ea6f83ac9d14d8
+
+````text
+'I4Jets.modeJetCoefficient' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4Jets.sourceJet' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4Jets.modeJetCoefficient_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4Jets.modeJetCoefficient_summable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4Jets.sourceJet_eq_series_ae' depends on axioms: [propext, Classical.choice, Quot.sound]
+'I4Jets.sourceJet_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+
+````
+
+### Literal jet-evidence/SOURCE_JETS_RESULT.md: 5516 B, SHA256 35892f4999d711500dad4d75937bb5fb3a4a91785a28f9adc8c83bba3e6f5d76
+
+````markdown
+# Actual source derivative bridge: bounded result
+
+Actual implementer /root, OpenAI/Codex. Source and dependency exposure is disclosed; organizational independence is 0. Native pickup Math-193/6053269987, mirror main-229/6053282797. Final source frozen at 06:00 UTC on 2026-10-08. Nonauthor final review is pending; this is an author result, not scientific promotion or a local-rule/deployment vote.
+
+SourceJets.lean (5044 B, SHA256 1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412) defines each observation as an actual iterated Frechet derivative of the unchanged sourceField evaluated on its directions. The deterministic coefficient is the corresponding actual derivative of the unchanged Fourier mode. The two definitions and four public theorem statements are byte-identical to the immutable target. No field, source probability law, Fourier amplitude, normalization or physical covariance geometry was substituted.
+
+The coefficient bound follows from the existing continuous multilinear operator bound and the product of direction norms. Summability follows by domination with the summable modeMajorant multiplied by that fixed product. For the derivative-series identity, take the single existing sourceMajorant_ae event before quantifying over orders, points or directions. Each sampled Fourier term is actually ContDiff 4. Its derivative is the constant sample coordinate times the smooth coefficient derivative, under the exact required ContDiffAt premise. Bounds hold for every derivative order through four, including zero. The summable random majorant first proves summability of the operator series. The actual iteratedFDeriv_tsum_apply theorem then differentiates the actual sum; ContinuousMultilinearMap.tsum_eval only evaluates the already summable operator series. This proves one shared ae identity for all j<=4, x and direction tuples. The zero-order identity is definitional and unconditional, even at L=0 or on exceptional samples where no convergence claim is made.
+
+The norm in the operator estimate is the existing finite-function Banach norm. It is not a change from coordinate squares to a sup-norm Gaussian in the physical covariance. No identity past order four, at L=0 for positive orders, or on exceptional nonsummable samples is asserted.
+
+Actual validation used the unchanged pinned Lean 4.34.1 / Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 context, nice 10, one thread, 180-second bound per invocation. Commands, complete logs, literal source snapshots and actual dependency hashes are retained by jet-evidence/run_compile.py and the receipts:
+
+- Genuine jet-target-red: exit 1, 18.233527833 s, exactly four intended unsolved goals, no unrelated/import/type errors. Literal target 1739 B SHA256 14aa64f6c03a5859befc2ea29c78f62e940d167aec561f1518300d9f4762a143; full log 1460 B SHA256 e9caf48d7763f67e55437b5845b239810bda5db507dcfb6c3707baabc741c8fd.
+- jet-attempt01: exit 0, 7.147542042 s. The actual first implementation compiled, with one deprecated ContinuousMultilinearMap.smul_apply warning. Its source and complete warning remain retained. This was a green execution with a warning, not a failed attempt.
+- jet-attempt02: exit 0, 11.968914083 s, empty log. The sole cleanup replaces that alias by definitional scalar evaluation and mul_comm. Emitted final SourceJets.olean SHA256 3e6995899b726af5b255b5971745cc06e1b25b2668d924cfcb6128cab1bf3929.
+- jet-tests01: exit 0, 5.762655792 s, empty log. Eight actual examples test zero-order at L=0, empty direction value, arbitrary positive-order constant-mode derivative, raw zero-direction singularity, a zero coordinate at order four, nonunit order-four bounds at d=3,L=24, one event for different points/orders/directions, and literal d=0/negative-period summability.
+- jet-axioms01: exit 0, 3.0338285 s. All six actual public-definition/theorem rows contain only propext, Classical.choice and Quot.sound. No sorryAx or custom assumed theorem is present.
+
+All ten old frozen source hashes were reread and match their prior identities. The final-freeze manifest binds exact files, snapshots, logs, receipts and preflights. Checks use cached imports; they do not certify a whole-library rebuild, organizational independence or scientific acceptance. No completed proof/test failure occurred beyond the genuine four-goal red; the first-green warning is retained.
+
+Independent parent and child target preflights found no target-level must-fix. A documentary path collision temporarily replaced the parent preflight with the child preflight. The child bytes were preserved at their own exclusive path and the original parent bytes restored from the retained exact payload, with matching readback hashes. I4_JETS_PREFLIGHT_PATH_CUSTODY_CORRECTION.md retains the actual incident. Neither preflight is final code approval, and no source, target, red receipt or published object was altered by the collision.
+
+Finite heterogeneous jet Gaussian laws and Gram covariance are being implemented separately by actual /root/i2_formal_support after this frozen interface. Raw zero or repeated observations may have singular covariance. This core bridge proves no full rank, symmetry-reduced multipoint positivity, canonical every-prescribed-pin conditional Q/regression/genericity, torus-chart C4 or C4-valued Borel law. Full I4, I1/I2, ELDER, exhaustion, cubic control, finite-L certification and numerical gates remain separately required. Agreement, compilation and saved evidence alone do not close the leading theorem.
+
+````
+
+### Literal I4_JETS_FINAL_REVIEW.md: 15183 B, SHA256 29a69b5c09b1274ca06047a1046cd4ed9c0296ffd1eb84524bdbd2d452014786
+
+````markdown
+# Completed exact SourceJets nonauthor review
+
+Actual reviewer: OpenAI/Codex `/root/local_runtime_readonly`; actual core implementer `/root`. Native bounded pickup Math1936053269987, mirror main2296053282797. I did not implement or edit SourceJets, its tests, its audit, or its dependencies. Source exposed, same provider and shared organization: organizational independence credit0. I previously reviewed the exact stable foundation, weights, Fourier, C4, Gaussian-law and covariance modules and the later Torus/Spatial bridges. I performed target preflight before inspecting the frozen proofs. My actual child `/root/local_runtime_readonly/i4_gaussian_api_audit` provided a separately completed pinned-API/target preflight, with diagnostic participation disclosed; it neither authored these proofs nor supplies an additional final review in this report. The current review is not blind.
+
+**ACCEPT_SCOPED: no required mathematical or implementation amendment found in the exact four SourceJets public theorems and their actual derivative definitions.** This is a completed nonauthor inspection of the final code, eight boundary examples, six actual axiom rows, retained red/warning history and validation evidence. It is not a vote on a local operating rule/deployment, provider-independent scientific acceptance, whole-library verification, or full I4 closure. The independently produced SourceJetLaw remains a separate future final-review target.
+
+## Exact reviewed version and verification custody
+
+The actual root explicitly froze the following final version after cleanup and validation; I read all source/test/audit bytes and recomputed their identities:
+
+- `SourceJets.lean`:5044B, SHA256 `1c57e48f54d560955581124d63361d81f788401d8afe41f4e8ca6c6b6d50c412`.
+- `JetTests.lean`:2716B, `b929dbea46b8afa30e9c22e5b1ba9830b5442bac6708ca3e8d6604e91c6172b2`.
+- `JetAxioms.lean`:264B, `4c21fafc5c17731ca0c03356332d52afb68148caed434572d4bca42415a75edb`.
+- `SourceJets.olean`:actual retained output hash `3e6995899b726af5b255b5971745cc06e1b25b2668d924cfcb6128cab1bf3929`; I independently hashed that file and it agrees with the final compile receipt.
+- `jet-evidence/jet-final-freeze.json`:11168B, `7cb61a50a69056464ff2607f24f71d8d415854022e57eb81f319e103bedcc00e`. I read the entire manifest and recomputed all35 file sizes and SHA256 identities:35/35 match. This includes exact source/snapshots/logs/receipts, the compiler runner/context, ten observed stable older source modules and four preflight/custody documents.
+- `jet-evidence/SOURCE_JETS_RESULT.md`:5516B, `35892f4999d711500dad4d75937bb5fb3a4a91785a28f9adc8c83bba3e6f5d76`. I read its full final narrative. It is separately bound here and is not one of the35 manifest entries; the manifest count is not retroactively changed.
+- `compile-context.json`:2168B, `e79f978185239fb1af8f8e5978fe8bc5a841fec1969f4a09c0174be0b2dd468e`; runner2259B, `4ec23ceb3c9b5ee95e6d3a1be0169e9ded5db5738a7086be2ab38d1e076632a7`.
+
+I compared the final declarations against the immutable1739B target `SourceJets.jet-target-red.lean`, SHA256 `14aa64f6c03a5859befc2ea29c78f62e940d167aec561f1518300d9f4762a143`. Both definitions and all four public theorem signatures are byte-identical. Two private proved helpers were added. No `sorry`, `admit`, custom `axiom`, `unsafe` or `implemented_by` bypass appears in the main source. Actual axiom output checks transitive private dependencies through the public declarations.
+
+Direct imports are SourceC4 and pinned Mathlib's multilinear topology module. The imported project source chain remains exact: GaussianSeriesFoundation `feea566d5aeba58459bd4a1f20f070bdcd80ee30712817324cdd594e3e232c95`; SpectralWeights `92af14a2d83304de3f8576ee10b3d376587e93c4464f8c715b8d2e32360f44b0`; SourceFourierSeries `5f145e8e8693bfe4d1554092c8258dbda4f17f8e078c503029e4e8ff2c018014`; SourceC4 `b15e53b825c2e2d6af2af18182da227d8794dddcc3e1b29611a913f89a889397`. The broader manifest also preserves SourceLattice c644305a…, SourceKernel5fa3abc8…, SourceGaussianLawa60ab609…, SourceCovariance30560009…, SourceTorus02857b44… and SourceSpatialKernel2dea1176… unchanged. Those broader observed identities do not convert this core review into a new proof review of every ancestor.
+
+## Actual definitions and literal premises
+
+Lines13–19 define modeJetCoefficient as the actual `iteratedFDeriv` of the existing deterministic Fourier coefficient, evaluated on the supplied direction tuple, and sourceJet as the actual `iteratedFDeriv` of the existing sourceField. The proof does not rename a coefficient sum as a derivative or replace the source field by a Gaussian surrogate/modification. The existing canonical SourceMode countability, standard independent coefficient product law, zero-mode amplitude, paired square-root amplitude, phase and normalization are unchanged. sourceLaw is a probability law by the frozen foundation, so the common almost-everywhere event is not a vacuous zero-measure assertion.
+
+The coefficient bound and summability theorem require arbitrary finite d, L!=0, derivative order j<=4, arbitrary real-cover point x and arbitrary tuple v of j directions. They impose no unit-vector, distinct-site or rank premise. The same-event derivative-series theorem has those d,L premises and puts the ae sample quantifier before every j<=4, x and v. The order0 theorem is unconditional for all d,L,samples,x and the empty direction tuple. The physical application remains fixed d>=2,L>0; admitting broader literal d=0 or negative nonzero L does not alter that source model.
+
+The operator norm is the existing finite-function Banach norm. It is used only to dominate the derivative coefficients; no physical covariance square sum or Gaussian spectrum is replaced by a sup-norm model. A nonunit direction contributes its norm to the displayed product, exactly as continuous multilinearity requires.
+
+## Independent proof inspection and attacks
+
+**Actual smooth sampled terms.** The private helper at lines21–32 proves ContDiff4 of the constant zero mode and both literal sine/cosine modes. The paired amplitude is a constant with respect to x, so this premise is valid even though its scalar construction uses normalized weights. Lines34–43 derive the derivative of each sample term by rewriting it as constant scalar multiplication and supplying actual ContDiffAt at the requested j through4. This checks the primary API's smoothness premise rather than invoking an unconditional false derivative distributivity rule.
+
+**Coefficient domination and summability.** Lines45–55 apply the continuous multilinear operator inequality to evaluation on v, multiply the previously proved operator bound by the nonnegative product of direction norms, and identify real norm with absolute value. For j=0 the product is1; for positive order a zero direction is admitted and yields0. Lines57–62 dominate the signed deterministic coefficient sequence by modeMajorant times that fixed product. Thus this is genuine absolute summability, not just square summability or a randomized majorant without fixed-coefficient control.
+
+**One event before all observations.** Line69 takes only `sourceMajorant_ae` before line70 introduces j,hj,x,v. There is no conversion from separate ae-for-each-point claims to an ae-for-all-points claim. For each retained sample, lines71–82 supply ContDiff4 of every actual sampled term and the uniform operator bounds for every k<=4, including0, from the same summable random majorant. The upper bound does not depend on y or on the requested directions. This is stronger than the measurability/event intersection needed for any finite jet list and correctly proves the stated universal sample assertion.
+
+**Differentiate before evaluating.** Lines84–86 explicitly prove Summable of the random continuous multilinear operator series at x. Lines87–90 use the exact iteratedFDeriv_tsum_apply theorem on the actual sourceField sum, with all lower-order bounds and termwise smoothness supplied. Only line92 applies `ContinuousMultilinearMap.tsum_eval hs`. This prevents the main potential error: deterministic scalar coefficient summability alone would not authorize evaluating a potentially nonsummable random operator tsum. Lines94–99 then use constant-scalar derivative transfer and literal multiplication commutativity to recover the existing scalarSeries under the same sample coordinates.
+
+**Zero order and exceptional samples.** Lines101–104 use the pinned definitional order0 identity. It holds even at L=0 and on exceptional nonsummable samples because it is an identity with the actual total sourceField, not a convergence claim. Positive-order termwise equality is only asserted on the common probability-one event with L!=0. Ordinary total `tsum` and derivative defaults do not extend that equality to every exceptional sample. A zero-direction derivative evaluation is nevertheless0 for every sample by multilinearity, correctly tested without inventing smoothness of an exceptional sample.
+
+The primary APIs were independently inspected at actual Mathlib HEAD `d13f23b723b8a846827a245b89c10fc7d3f11612`: SmoothSeries189–220, SHA256 `293196f8d3e0fc74837fda06ee2b518ba5d917aba80e72c435311681473c14a1`; multilinear Topology331–338, `7c4a3cb46e9e82c752878d0359182553f33b960ff3141748d72c8df5db2e004e`; multilinear norm Basic378–382, `da569ac52efd30d2697dca3fe6abf17412a76517583aaef07cb5f7f7dab44581`; ContDiff Operations664–670, `2a5fd66cb597c253e023f1072948e1a591f64ba0ee747a6a89139fc7c8c980eb`; FTaylorSeries815–820, `f6ebee83905f13d5648f1a9bff39c15b6109f161fdf5d482af9c5f22176ba535`. Their actual premises agree with the proof. No arbitrary homeomorphism, torus representative, full jet rank or prescribed-pin law is consumed.
+
+## Actual validation and retained history
+
+I read the complete runner and all five owner receipts/full logs. They invoke pinned Lean4.34.1 with nice10, one thread and a180-second per-run bound; the main runs emit the actual module olean. These executions belong to root. I ran only read-only source/hash/type/receipt inspections and no concurrent compiler.
+
+- Genuine red: exit1 in18.233527833s, exactly four intended empty goals, no other error; full1460B log SHA256 `e9caf48d7763f67e55437b5845b239810bda5db507dcfb6c3707baabc741c8fd`.
+- First implementation: actual exit0 in7.147542042s, source5025B `bd6479f9827dde3c28fc2f71045497168afdf0af79d8b5223059b26506a3352f`. The393B warning log `d6d216ba287501d481eba0ba748730d367a29183b4c652fc0411912e37cf7406` reports only deprecated ContinuousMultilinearMap.smul_apply. This was a green run with a warning, not a failed proof attempt.
+- Final cleanup: exit0 in11.968914083s, exact5044B final source1c57e48f… and empty log. I inspected the exact diff: the sole change replaces the deprecated alias at evaluation with definitional scalar multiplication and mul_comm. Public declarations/definitions and proof substance remain unchanged.
+- Eight tests: exit0 in5.762655792s, empty log, exact b929dbea… source. I read every example: unconditional order0 at L=0; empty direction coefficient identity; all positive orders of constant mode; raw all-sample zero-direction source observation; a zero coordinate at order4; nonunit order4 bound at d=3,L=24; one shared event simultaneously at two arbitrary points/orders/direction tuples; d=0,negative-period summability. They probe the endpoint, total-definition, directional and sample-quantifier boundaries of the intended theorem. They do not numerically sample a field or establish rank.
+- Axiom audit: exit0 in3.0338285s; full528B log `50c15bb657bec99a2b99af52fb22c0153e1019b78d570b0590ea6f83ac9d14d8` has six actual named rows, all containing exactly propext, Classical.choice and Quot.sound. No sorryAx/custom theorem axiom appears. The two private helper dependencies are included transitively in the public rows.
+
+Each receipt binds its actual source snapshot, logs, context and source dependencies and records unchanged source/dependencies. I independently checked the final snapshots against the live frozen files and all35 manifest hashes/sizes. The direct-target compilations use existing pinned cached imports. This report does not claim a fresh full-package rebuild, external proof replay, fresh verification of every imported declaration, peakRSS measurement or watchdog evidence beyond the runner's stated timeout. Source inspection, compilation and axiom output are complementary evidence; hash identity alone is not mathematical proof.
+
+The parent/child preflight path collision is retained in the1770B correction `cbecb5cabfac31efba8b775d3c084e6a4b73971574d3891569b74cb42104b8f3`. Exact parent6207B/e3f0baf… was restored from its retained original payload; exact child7599B/730a3e… was preserved under its distinct child path. I checked both manifest/readback identities again. Root reported no publication or final-review credit before correction. No mathematical target/code/receipt was altered. Neither preflight is counted as completed new proof approval; this final report has its own distinct path.
+
+## Accepted scope and still-required gates
+
+Accepted here: actual Frechet derivative coefficient domination and absolute summability through4; actual sourceField derivative equality to the literal same-coordinate scalar series on one event universal in points/directions/orders≤4; unconditional order0 identity. This is a concrete missing derivative-realization bridge beyond the earlier almost-everywhere ContDiff4 theorem.
+
+This core does not prove ae measurability of each derivative observation as a separate theorem, finite Gaussian jet laws, mean/variance/Gram covariance or any positive-rank result. The frozen source interface supports those downstream proofs, but their actual completed SourceJetLaw code/evidence must receive its own exact review. Gaussian marginals alone cannot supply joint law, and raw duplicate, zero-direction or symmetric observations may be singular.
+
+Beyond that downstream capsule remain symmetry-reduced multipoint jet rank, contact-frame nonsingularity/uniform limits, canonical regression kernels at every prescribed Gaussian pin value, conditional regularity and fixed-Q genericity. General conditional-distribution uniqueness is only almost everywhere in the pin distribution; unconditioned ae-C4/Morse cannot be transferred to a prescribed null pin by assumption. Whole torus-chart C4 and C4-valued Borel Gaussian law, where required, retain their own actual obligations. No common ae assertion for an uncountable family of pin laws, near-collision uniform lower covariance bound, isotropy or GOE law follows.
+
+Full formal I1/I2/I4, original elder/barcode/once-counting semantics, quantitative cubic/exhaustion/finite-L/numerical gates and required scientific promotion remain open at their separate scopes. Older source objects and readers' leases were not changed. This ACCEPT_SCOPED disposition is of the exact version identified above and should be refreshed if a material source, premise or proof changes. The only new file created for this completed review is this ordinary report; no runtime, control, rule or authoritative graph/status mutation occurred.
+
+````
+
+### Literal jet-evidence/jet-target-red.log: 1460 B, SHA256 e9caf48d7763f67e55437b5845b239810bda5db507dcfb6c3707baabc741c8fd
+
+````text
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean:24:74: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+m : SourceMode d
+j : ℕ
+hj : j ≤ 4
+x : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+⊢ |modeJetCoefficient d L m j x v| ≤ modeMajorant d L m * ∏ i, ‖v i‖
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean:28:58: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+j : ℕ
+hj : j ≤ 4
+x : Fin d → ℝ
+v : Fin j → Fin d → ℝ
+⊢ Summable fun m => modeJetCoefficient d L m j x v
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean:34:70: error: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+⊢ ∀ᵐ (ω : SourceMode d → ℝ) ∂sourceLaw d,
+    ∀ j ≤ 4,
+      ∀ (x : Fin d → ℝ) (v : Fin j → Fin d → ℝ),
+        sourceJet d L j ω x v = scalarSeries (fun m => modeJetCoefficient d L m j x v) ω
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean:38:51: error: unsolved goals
+d : ℕ
+L : ℝ
+ω : SourceMode d → ℝ
+x : Fin d → ℝ
+v : Fin 0 → Fin d → ℝ
+⊢ sourceJet d L 0 ω x v = sourceField d L ω x
+
+````
+
+### Literal jet-evidence/jet-attempt01.log: 393 B, SHA256 d6d216ba287501d481eba0ba748730d367a29183b4c652fc0411912e37cf7406
+
+````text
+/Users/dylanroy/Documents/Codex/2026-10-03/role-autonomous-lead-systems-coordinator-ai/work/theorem-continuation-20261008/i4-realization/SourceJets.lean:97:13: warning: `ContinuousMultilinearMap.smul_apply` has been deprecated: Use `smul_apply` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.smul_apply` to `smul_apply x`).
+
+````

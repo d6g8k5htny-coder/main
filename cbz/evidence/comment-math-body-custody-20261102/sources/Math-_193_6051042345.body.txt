@@ -1,0 +1,228 @@
+## COMPLETE / RELEASE — concrete UNCONDITIONED normalized-periodized-Gaussian premise audit
+Releases the independent scientific-premise audit subtask of [6050907476](https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6050907476), before its 02:40 checkpoint / 03:00 exit. Actual analyst `/root/local_runtime_readonly`; actual nonauthor root independently checked the final argument, covariance/normalization, finite Fourier interpolation, Banach convergence, Sard/projection dimensions and Borel events. Source-exposed/nonblind; organizational independence 0. No Lean I4/scientific acceptance.
+
+For fixed finite d>=2,L>0 and the supplied positive discrete-Gaussian spectrum: the displayed real series has exactly K_L and variance1, one a.s.C-infinity/C4 realization, a Borel Banach Gaussian law, positive definite finite distinct-point symmetry-reduced jets, and unconditioned a.s.Morse/distinct critical values. The degree-three two-site first-jet construction was checked directly. Finite-L lattice Hessian moments remain concrete; no GOE/isotropy substitution or numerical moment/coefficient is claimed.
+
+Independent remaining-Fourier-coordinate conditioning is NOT prescribed-field-pin conditioning. All fixed-pin Q genericity, numerical marked expectations, near-collision uniform floors and Lean probability/source-semantic identifications retain separate obligations. Existing P/KR premises are not retrospectively promoted. Private other-family spectral code/draft Math403 was not reproduced or automatically accepted. No local inference/compiler/runtime change, blind coefficient reading, rule/seal installation, graph/STATUS or scientific flag change occurred.
+
+### i4-spectral/I4_SPECTRAL_PREMISE_INDEPENDENT_AUDIT.md — 15527 bytes; SHA256 b9da1bcde80d45166c027db831cef458b5830b891e01754ce6846dce6ea27170
+
+# Independent audit of the concrete periodized Gaussian premises
+
+Reviewer: actual collaboration agent `/root/local_runtime_readonly`; owner: `/root`. Prepared 2026-10-08 UTC for the 02:40 checkpoint / 03:00 exit. Independent mathematical derivation, source-exposed / nonblind, organizational independence 0. This reviewer did not author the proposed I4 formal code and did not read a forthcoming author argument. The supplied concrete law is the object audited. No blind coefficient file, Lean declaration/compiler, worker/runtime, local model inference, graph, STATUS, or acceptance flag was accessed or changed. The separate advisory implementation candidate remains inactive.
+
+**Verdict: the stated concrete law has the required smoothness, Gaussian and pointwise jet properties; the finite-coordinate Morse and distinct-critical-value arguments work. In particular, the real Fourier space with |k|₁ ≤ 3 suffices for arbitrary two-point first-jet interpolation.** These are mathematical arguments with explicit dependencies, not checked Lean closure of I4, a numerical Kac–Rice coefficient, a uniform near-collision estimate, or completion of ELDER.
+
+## 1. Fixed object and exact covariance normalization
+
+Fix a finite integer d ≥ 2 and a real L > 0. Write T = ℝᵈ/(Lℤᵈ), ωₖ = 2πk/L,
+
+\[
+Z=\sum_{k\in\mathbb Z^d}e^{-|\omega_k|^2/2},\qquad
+p_k=Z^{-1}e^{-|\omega_k|^2/2}.
+\]
+
+Then 0 < Z < ∞, p₋ₖ = pₖ > 0, and Σₖpₖ = 1. Choose one representative from each nonzero pair {k,−k}, called H. On the countable product standard-normal probability space, use independent ξ₀, ξₖ, ηₖ and the specified real series
+
+\[
+f(x)=\sqrt{p_0}\xi_0+
+\sum_{k\in H}\sqrt{2p_k}
+\bigl(\xi_k\cos(\omega_k\cdot x)+\eta_k\sin(\omega_k\cdot x)\bigr).
+\]
+
+Its covariance is exactly
+
+\[
+\mathbb E[f(x)f(y)]
+=p_0+\sum_{k\in H}2p_k\cos(\omega_k\cdot(x-y))
+=\sum_{k\in\mathbb Z^d}p_ke^{i\omega_k\cdot(x-y)}.
+\]
+
+For P(z) = Σₙ exp(−|z+Ln|²/2), Gaussian tails allow differentiation and unfolding the integral over a fundamental cell. Its k-th Fourier coefficient is
+
+\[
+L^{-d}\int_{\mathbb R^d}e^{-|u|^2/2}e^{-i\omega_k\cdot u}\,du
+=(2\pi)^{d/2}L^{-d}e^{-|\omega_k|^2/2}.
+\]
+
+The coefficients are absolutely summable. Fourier reconstruction and evaluation at 0 therefore give P(0) = (2π)^{d/2}L⁻ᵈZ and covariance P(z)/P(0), precisely the requested K_L. Thus Var f(x) = 1. The factor √(2pₖ) in the real half-lattice formula is necessary: replacing it by √pₖ would give the wrong nonconstant covariance. Constants depend on this fixed L and d; no limit uniform in L is asserted.
+
+## 2. One almost-sure smooth field, not separate derivative versions
+
+For each integer m ≥ 0 set
+
+\[
+S_m=\sqrt{p_0}|\xi_0|+
+\sum_{k\in H}\sqrt{2p_k}(|\xi_k|+|\eta_k|)(1+|\omega_k|)^m.
+\]
+
+Since E|ξ| = √(2/π) and √pₖ = Z⁻¹ᐟ²exp(−π²|k|²/L²), E S_m is finite: a polynomial times a Gaussian is summable on ℤᵈ. Tonelli gives S_m < ∞ almost surely. Intersecting these countably many events gives a single event of probability one on which every multi-index derivative series converges uniformly and absolutely. The usual theorem on uniform convergence of derivatives, applied successively to finite partial sums, yields a periodic C∞ function with exactly those derivatives. In particular it is one actual C⁴ field; there is no incompatible choice of modifications at different derivative orders.
+
+For the norm ||u||_{Cᵐ} = max_{|α|≤m} sup_T |∂ᵅu|, Minkowski also gives
+
+\[
+\bigl(\mathbb E\|f\|_{C^m}^2\bigr)^{1/2}
+\le \sqrt{p_0}+2\sum_{k\in H}\sqrt{2p_k}(1+|\omega_k|)^m<\infty.
+\]
+
+The corresponding tail bounds tend to zero, so the finite sums converge in L²(Cᵐ) as well as almost surely in Cᵐ. Pointwise variance 1 does **not** mean C⁴ norm 1.
+
+## 3. Borel Banach Gaussian law and the spectral norm
+
+Cᵐ(T;ℝ), for finite m, is a separable Banach space. Each finite partial sum is a Borel Cᵐ-valued random variable; its almost-sure limit, defined to be 0 on the null exceptional set, is Borel. For every continuous real linear functional ℓ on Cᵐ, ℓ(f_N) is centered Gaussian and converges in L² to ℓ(f). Its variances converge, hence its characteristic functions converge to exp(−t²Var(ℓf)/2). Thus ℓ(f) is centered Gaussian, possibly degenerate. This proves a Borel Banach Gaussian measure, rather than merely Gaussian evaluation marginals. This is the standard continuous-dual definition used in [Karhunen–Loève decomposition of Gaussian measures on Banach spaces](https://arxiv.org/pdf/1704.01448).
+
+The covariance RKHS spectral norm, if needed to pin deterministic directions, is
+
+\[
+\|h\|_H^2=a_0^2/p_0+
+\sum_{k\in H}(a_k^2+b_k^2)/(2p_k),\quad
+h=a_0+\sum_{k\in H}(a_k\cos\omega_k x+b_k\sin\omega_k x).
+\]
+
+Uniqueness of Fourier coefficients makes this norm unambiguous. The associated weighted ℓ² feature map embeds into every Cᵐ by Cauchy–Schwarz and Σₖpₖ(1+|ωₖ|)²ᵐ < ∞. It is the covariance RKHS (equivalently the Cameron–Martin space of this Gaussian law); every finite trigonometric polynomial is included because every pₖ is positive. This deterministic norm is distinct from the random C⁴ norm. No RKHS membership of a typical sample is claimed.
+
+## 4. Point and finite multipoint jet nondegeneracy
+
+Use symmetry-reduced derivative coordinates, indexed by multi-indices, at finitely many distinct torus points, with arbitrary fixed finite jet orders. For a nonzero real linear functional A on these jet coordinates,
+
+\[
+\operatorname{Var}(Af)=p_0(A1)^2+
+2\sum_{k\in H}p_k\bigl((A\cos\omega_k x)^2+(A\sin\omega_k x)^2\bigr).
+\]
+
+It is zero only if A annihilates every real trigonometric polynomial. Such polynomials interpolate arbitrary finite jets, so this cannot happen. Here is an algebraic verification of that interpolation, avoiding an assumption about an unspecified covariance.
+
+In angular coordinates θ = 2πx/L, let z_i = exp(iθ_i). For each selected point q and every other point r choose a coordinate i(q,r) whose phases differ. The polynomial
+
+\[
+B_q(z)=\prod_{r\ne q}
+\left(\frac{z_{i(q,r)}-z_{i(q,r)}(r)}
+{z_{i(q,r)}(q)-z_{i(q,r)}(r)}\right)^{m_r+1}
+\]
+
+has value 1 at q and all derivatives through order m_r zero at r. Multiplication by B_q is invertible on finite Taylor jets at q. The operators ∂_{θ_i} = iz_i∂_{z_i} give an invertible triangular conversion between polynomial jets in z−z(q) and angular jets, since z_i(q) ≠ 0. Choose a finite Taylor polynomial R_q so that B_qR_q has the desired angular jet at q; sum over q and take the real part. Taking real parts preserves the requested real jets and produces a finite real Fourier polynomial. Physical x derivatives differ by the invertible factor (2π/L)^{|α|}.
+
+Consequently each such finite real Gaussian jet vector has strictly positive definite covariance. Duplicate derivatives, duplicate points or redundant Hessian coordinates would create deterministic relations and must not be described as a nondegenerate vector. This assertion is pointwise in the distinct configuration; it supplies no lower bound uniform as points collide.
+
+Useful exact one-point pins follow directly: Cov(f,∂ᵢf) = 0,
+Cov(∂ᵢf,∂ⱼf) = (2π/L)²Σₖpₖkᵢkⱼ = μ₂δᵢⱼ with μ₂ > 0,
+Cov(f,∂ᵢ∂ⱼf) = −μ₂δᵢⱼ, and
+Cov(∂ᵢ∂ⱼf,∂ₗ∂ᵣf) = (2π/L)⁴Σₖpₖkᵢkⱼkₗkᵣ.
+All sums converge. These are pins for the concrete spectrum, not numerical evaluations of μ₂ or a Kac–Rice constant.
+
+There is a further relevant distinction from a rotationally invariant Euclidean Gaussian law. Here pₖ factorizes into d copies of qₙ proportional to exp(−2π²n²/L²). Set ν₄ = (2π/L)⁴E_q[n⁴]. Conditional on f = u and df = 0, the symmetry-reduced Hessian entries are independent Gaussian variables: diagonal entries have mean −μ₂u and variance ν₄−μ₂²; off-diagonal entries have mean 0 and variance μ₂². This follows from the fourth-moment formula, product structure, parity, and subtracting Cov(Hᵢᵢ,f)Cov(Hⱼⱼ,f) in Gaussian conditioning. Both variances are positive: q has positive mass at 0 and 1, so E_q[n²] > 0 and Var_q(n²) > 0. Signed-permutation symmetry of the lattice does not supply full rotational invariance. A shifted GOE description would require the extra identity ν₄ = 3μ₂², which is not provided by the spectral formula. A subsequent mark expectation must use these concrete moments, or separately prove any claimed simplification.
+
+## 5. The degree-three two-point construction really works
+
+For x ≠ y choose a separating coordinate j, with a = z_j(x) ≠ b = z_j(y). Write a_i = z_i(x), b_i = z_i(y). Work with desired angular derivatives. A complex polynomial P(z_j) of degree ≤ 3 uniquely satisfies any four constraints
+
+\[
+P(a)=u_x,\quad P(b)=u_y,\quad iaP'(a)=v_{xj},\quad ibP'(b)=v_{yj}.
+\]
+
+This is ordinary two-node Hermite interpolation; the homogeneous polynomial would have double zeros at a and b and degree ≤ 3, hence would vanish. Taking Re P gives the prescribed real values and j derivatives, with all other derivatives zero.
+
+For i ≠ j, add the real parts of
+
+\[
+R_{xi}(z)=\frac{v_{xi}}{ia_i(a-b)^2}(z_i-a_i)(z_j-b)^2,\qquad
+R_{yi}(z)=\frac{v_{yi}}{ib_i(b-a)^2}(z_i-b_i)(z_j-a)^2.
+\]
+
+R_xi has zero values at both points, zero j derivative at x because z_i−a_i vanishes there, and all first derivatives zero at y because of the double zero in z_j−b. Its i derivative at x is exactly v_xi. The analogous assertions hold for R_yi. No assumption a_i ≠ b_i is needed. All monomials have total degree ≤ 3; taking real parts adds the negative frequencies but keeps |k|₁ ≤ 3. Scaling to physical derivatives is harmless for L > 0.
+
+Therefore S = span_ℝ{1, cos(ωₖx), sin(ωₖx): 0 < |k|₁ ≤ 3} maps surjectively onto the two value/first-gradient jets, dimension 2d+2. In particular its map to (df_x, df_y, f(x)−f(y)) is surjective, dimension 2d+1. The coefficients may grow as a−b tends to zero; this construction cannot be cited for a uniform off-diagonal estimate.
+
+## 6. Almost-sure Morse property by actual independent finite coordinates
+
+Retain only the 2d fundamental sin/cos coefficients, whose variances 2p_{e_i} are positive, and condition on the independent remaining series g. Almost surely g is C∞. In the unscaled coefficient parametrization a ∈ ℝ²ᵈ,
+
+\[
+F(a,x)=\nabla\left(g(x)+\sum_i
+(a_i\cos(2\pi x_i/L)+b_i\sin(2\pi x_i/L))\right).
+\]
+
+Its derivative in the two i-th parameters gives the i-th row (−(2π/L)sin θ_i, (2π/L)cos θ_i), a nonzero pair, and different rows use disjoint pairs. Thus D_aF is surjective at every x. The zero set Q = F⁻¹(0) is a smooth manifold of dimension 2d. For the projection π:Q→ℝ²ᵈ, its tangent equation is D_aF·δa + Hess(f_a)(x)·δx = 0. Since D_aF is onto, Dπ is onto exactly when that Hessian is onto, equivalently invertible.
+
+Sard's theorem applied in countably many charts makes the critical values of π Lebesgue-null. The retained coefficient vector has an everywhere positive Gaussian density, so for every smooth conditioned g almost every a gives a Morse function. Integrating over g gives probability one. The smooth version of the theorem used here is covered by [Sard's original paper, Theorems 4.1 and 7.2](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/sard.pdf).
+
+The event is measurable without choosing critical-point labels: non-Morse functions form a closed subset of C²(T), since a convergent sequence of degenerate critical points has a convergent subsequence on compact T and the gradient/Hessian evaluations converge. Thus the conditional Fubini step is valid. Compactness and nondegeneracy then imply finitely many critical points.
+
+## 7. Almost-sure distinct critical values, with all off-diagonal pairs covered
+
+Now retain all coordinates in S from section 5 and condition on the independent rest g. Let N = dim S and give these coordinates their actual nondegenerate diagonal Gaussian law. On ℝᴺ × (T×T\Δ), set
+
+\[
+G(a,x,y)=(df_a(x),df_a(y),f_a(x)-f_a(y)).
+\]
+
+Section 5 proves D_aG is onto ℝ²ᵈ⁺¹ at every distinct pair. Hence G⁻¹(0) is a smooth manifold of dimension N+2d−(2d+1) = N−1. Its projection to ℝᴺ has no surjective derivative because its domain dimension is smaller. In each chart, smoothness gives local Lipschitz maps from dimension N−1 into N, whose images have N-dimensional Lebesgue measure zero. A countable chart cover gives a null entire projection image, the lower-dimensional null-image consequence used in the Sard argument. The manifold is second countable, so such a cover exists; compactness/properness of the projection and a uniform submersion constant are unnecessary. Therefore the full-density Gaussian parameter vector almost surely avoids every equal-valued distinct critical pair, for each conditioned smooth g; Fubini gives the unconditional result.
+
+Measurability is explicit. Exhaust the off-diagonal by the compact sets D_n = {(x,y): dist_T(x,y) ≥ 1/n}. For each n, the functions in C¹ with an equal-valued critical pair in D_n form a closed set, by compactness and continuous evaluation of values/first derivatives. Their countable union is the bad event. This establishes a Borel event without claiming globally continuous critical-point marks on C², and covers arbitrarily close but distinct pairs.
+
+## Scope, evidence and remaining obligations
+
+The hypotheses actually used are fixed finite d, L > 0, the given positive Gaussian-decay spectrum, independent standard real Gaussian coefficients, the compact smooth torus, and standard finite-dimensional differential topology/Fourier analysis. The argument also works in dimension 1, but this report claims the assigned d ≥ 2 scope. No arbitrary smooth covariance was substituted: positivity of every pₖ is essential for unrestricted finite-jet interpolation, and the specified decay is essential to the displayed all-orders summability argument.
+
+Only the parent's task law and this reviewer's independent calculations were used as mathematical input. No existing author I4 argument or blind numerical coefficient was consumed. External primary sources read: Sard (1942), first page and Theorems 4.1/7.2 in the original paper scan above; arXiv:1704.01448v4, the continuous-dual Gaussian/Banach definitions and covariance discussion. These were read via the browser tool, not downloaded as purported byte-bound evidence. The algebraic interpolation constraints and every covariance/summability formula are displayed here for direct checking.
+
+No obstruction was found to these unconditioned I4 premises. Conditioning on independent *remaining Fourier coordinates* in sections 6–7 is not conditioning on prescribed field pins. This audit does not establish all fixed-pin Q genericity statements; those need their own conditional jet-rank and compatibility arguments, including any forced critical points. Remaining work includes transporting the concrete law and events into the project's precise probability/regularity definitions (including any Lean measure-level characteristic-function identification), any numerical expectation/mark/integrability claim needed by ELDER, and any requested formal proof. Neither a.s. Morse nor distinct critical values supplies full barcode indexing, a unique elder pair, measurable once-counting, or a verified I4 Lean theorem. Exact source and proof obligations must remain separate from approval or scientific promotion.
+
+
+### i4-spectral/I4_SPECTRAL_PREMISE_INDEPENDENT_BINDING.json — 1383 bytes; SHA256 7199e6c6043d25c254bccdf7664fd319fe40364337ead42d086348c566a03145
+
+```json
+{
+  "reviewer": "/root/local_runtime_readonly",
+  "owner": "/root",
+  "created_utc": "2026-10-08T02:35:36Z",
+  "scope": "Independent mathematical audit of supplied unconditioned normalized periodized-Gaussian law on fixed T_L^d; d>=2, L>0. No I4 Lean closure or fixed-pin Q genericity acceptance.",
+  "report": {
+    "path": "work/theorem-continuation-20261008/i4-spectral/I4_SPECTRAL_PREMISE_INDEPENDENT_AUDIT.md",
+    "bytes": 15527,
+    "sha256": "b9da1bcde80d45166c027db831cef458b5830b891e01754ce6846dce6ea27170"
+  },
+  "evidence_kind": "Displayed analytical derivations; read-only primary-source theorem/definition check; no compiler or model inference.",
+  "primary_sources": [
+    {
+      "url": "https://webhomes.maths.ed.ac.uk/~v1ranick/papers/sard.pdf",
+      "consumed": "Original Sard 1942 paper: first page and Theorems 4.1, 7.2; browser read, no byte-hash claim."
+    },
+    {
+      "url": "https://arxiv.org/pdf/1704.01448",
+      "consumed": "arXiv:1704.01448v4 continuous-dual Banach Gaussian definitions/covariance discussion; browser read, no byte-hash claim."
+    }
+  ],
+  "not_consumed": [
+    "Blind numerical coefficients",
+    "Forthcoming author I4 argument",
+    "Private external-family formal claims"
+  ],
+  "runtime_mutation": false,
+  "compiler_run": false,
+  "model_inference": false,
+  "content_check": {
+    "required_statements_present": true
+  }
+}
+
+```
+
+### i4-spectral/ROOT_PREMISE_CHECK.md — 4740 bytes; SHA256 3d2edf3f84ec3aa19c80ec36ba48e30a7f3ca6473ea0b4b8954e279620320797
+
+# Actual nonauthor root check of the concrete spectral-premise audit
+
+Actual checker: OpenAI/Codex `/root`; actual analyst: `/root/local_runtime_readonly`. Source-exposed/nonblind, organizational independence 0. Checked 2026-10-08 before the 02:40 UTC checkpoint. No compiler, local inference, probability-object installation or scientific-status mutation was performed. This is a mathematical premise check, not formal I4 acceptance.
+
+The report was read in full: `I4_SPECTRAL_PREMISE_INDEPENDENT_AUDIT.md`, 15527 bytes, SHA256 b9da1bcde80d45166c027db831cef458b5830b891e01754ce6846dce6ea27170. Its binding JSON is SHA256 7199e6c6043d25c254bccdf7664fd319fe40364337ead42d086348c566a03145. Exact byte checks are retained in the native release. I independently reconstructed the required Fourier, convergence and finite-coordinate dimension arguments before inspecting the final report.
+
+No required mathematical amendment was found for its stated **unconditioned fixed finite d>=2,L>0** premise scope:
+
+* The Fourier transform of exp(-|x|^2/2), unfolded over the torus cell, gives coefficient (2pi)^(d/2)L^(-d)exp(-|2pi k/L|^2/2). Its common factor cancels against evaluation at zero. Half-lattice real coefficients sqrt(2p_k) give exactly p_0+sum_H 2p_k cos and variance one; using sqrt(p_k) would fail this normalization.
+* For every integer m the sum of sqrt(p_k)(1+|2pi k/L|)^m is finite. Tonelli and the countable intersection over m give one samplewise smooth version. Minkowski gives vanishing L2(C^m) tails. Every continuous linear functional therefore has a centered normal limit with convergent variance, so this is a Borel Banach Gaussian law, not just an assertion about point evaluations. This agrees with the continuous-dual/covariance framework in [Bay–Croix, Karhunen–Loève decomposition of Gaussian measures on Banach spaces](https://arxiv.org/pdf/1704.01448), which I opened directly.
+* Finite jets at distinct points can be prescribed by finite real Fourier polynomials. The report's separating-phase factors vanish to sufficient order at the other points; local polynomial/angular jets are related by an invertible triangular map. Positive weights at every frequency then exclude a zero variance for a nonzero symmetry-reduced jet functional. Coincident points, duplicate Hessian coordinates and near-collision uniform floors are correctly excluded.
+* The two-site first-jet construction uses only frequencies |k|_1<=3. A cubic in the separating phase prescribes its two values/two derivatives. Each transverse correction has one factor vanishing at its intended point and a double separating-coordinate zero at the other point, so it changes only the requested transverse first derivative. This remains valid when the transverse phases agree. Coefficients may blow up near collisions, which is harmless for pointwise surjectivity and forbids a uniform lower-bound claim.
+* The fundamental sine/cosine parameter derivative of the gradient has one nonzero two-entry row per coordinate. The gradient zero manifold has the same dimension as that parameter space; its projection is regular exactly when the sample Hessian is invertible. Smooth Sard in countably many charts and the actual finite-coordinate Gaussian density give the Morse assertion after Fubini. I opened [Sard's original paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/sard.pdf): Theorem4.1 includes the equal-dimension case. For equal critical values the zero manifold has dimension N-1 and its projection into N parameters is Lebesgue-null by the report's local-Lipschitz dimension argument. It does not incorrectly require every lower-dimensional map to be a critical point under a different rank convention. The bad events are Borel by the stated compactness arguments.
+* Product discrete-Gaussian spectral coordinates give conditional Hessian diagonal variance nu4-mu2^2 and off-diagonal variance mu2^2. The diagonal cross-covariances cancel after conditioning on f; odd parity gives independence from df. Positivity follows from positive masses at spectral coordinates 0 and1. No rotational invariance or nu4=3mu2^2 was assumed or supplied.
+
+This closes the conventional **unconditioned smooth-law/genericity premise argument** for the supplied spectrum. It does not establish genericity under prescribed full field pins, a near-collision bound, a Borel Kac–Rice identity by itself, any numerical coefficient, or the project's formal probability/regularity identification. The separately reviewed P/KR fixed-pin interface keeps its own assumptions and scope. The current formal I4 obligation remains open. Private other-family spectral code and draft Math403 were not treated as proof of this report or a source of automatic acceptance.

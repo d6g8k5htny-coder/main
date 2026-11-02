@@ -1,0 +1,267 @@
+# C61 spatial cap proof — supporting appendix
+
+One appendix of the coordinated cap-chain review at `b41eb28bc4351d04ab4754299921a41030715c47`; no separate approval or independent vote. Exact report: 28194 bytes, SHA-256 `bb7cf8661c6074a2db2fafffe50c089b5fd777c096de6af2561b3e50aa3a862b`. Full primary composition and registered handoff follow separately.
+
+<details>
+<summary>Read the complete spatial analytic reconstruction</summary>
+
+# C61 spatial cap-engine review at the PR215 caller
+
+**Verdict: PASS_TECHNICAL for the spatial `engine_e3.box_bound` implication at the actual `theorem_b.cap_band` parameters, conditional on the accepted band-law and numerical contracts and the stated positive-floor guards.** This reconstructs the weighted good-event failure estimate. It does not supply the B prefactor, lifetime aggregation, deterministic elder-partner theorem, or scientific closure.
+
+The exact read-only candidate is `b41eb28bc4351d04ab4754299921a41030715c47`, under `work/continuation61/checkout/frontiers/c8_lifetime_difference_constant_20261001/`. Root supplied claim `072aed5a-7067-4fa0-83d7-188a434d7af2`, Work Events483, verified 23:31:07Z, expiry 2026-10-02 01:31:07Z. Only `work/continuation61/spatial-review/` was written. The resumed authorized task supersedes the historical owner-stop entry; its scientific gates remain in force.
+
+Attribution: **Dylan Roy — delegated AI review.** Actual performer: OpenAI/Codex, continuing agent `c58_spatial_normalizer`. Prior C58 spatial, C59 moment, C60 contact, and coordinated root exposure are disclosed. This is a source-exposed, same-provider technical review; organizational independence zero; personal reading PENDING; scientific effect NONE; C8 OPEN.
+
+## 1. Exact implementation and the proved interface
+
+The copied engine is 75,753 bytes, SHA-256 `b0e1b3b4f43e140b51609332fe2e54f4f6b50d10f9f6af48d40ff548bbe742c0`; copied B is 52,707 bytes, SHA-256 `b79df0880e9690f4ac5e35b2b717bb65c1cbf1a323585165e5745a17104d6f12`. The full historical E3 NOTE at commit `c4b8ec3e0232a6dcfc29c8d938268d51693b46b0` is 35,306 bytes, SHA-256 `3809e3506f2b19f194224163d9c73584a1227fc866a4770c549b33116080e899`. `SOURCES.json` binds those files, CAP/LP definitions, the planar NOTE's explicitly reused formulas, prior scoped reports, and the standard tensor-norm source identified below.
+
+B's actual caller builds one E3 band law, then calls
+
+`box_bound(law,bb,kb,r0,r1,last_band=(r0==0),x0=1/64,theta=1/32)`
+
+on its 56 `CAP_BOXES`, with `0<=b<=1`, `1/2<=k<=2`, and the E3 bands covering `0<r<=1/64`. This is distinct from E3's own 39-box display grid. The reviewed implication is, for every such invocation whose guards pass,
+
+`Z_r/(36 k^2 r^2) >= zt > 0`,
+
+`E_Q[W_r 1{G_r^c}]/(Z_r r^3) <= main + tail = total`.
+
+Every bound is uniform in the accepted band's frame and torus-side parameters. Root owns complete band/box coverage and the actual full-certificate execution receipt. This reader executes a bounded subset, not the full sweep. Arbitrary unsupported values of the optional split parameters are outside this verdict.
+
+C59's exact covariance/band-law/regression contracts and generic directed primitive, Gaussian, chi, Cholesky, and contact-moment contracts are retained inputs. Their proofs are not repeated. In particular the generic contact formula covers all nonnegative integer powers, while the cap code now actually evaluates determinant moments through power 64 and chi moments through order 128. C59's earlier finite trace did not by itself test those cap orders. Their use here relies on its general algebraic contract plus the present actual executions. The separately identified sharp `sqrt_up` docstring issue does not affect the outward root direction used here.
+
+## 2. CAP's norms, tensor weights, and the entire cylinder
+
+The exact CAP definition is the partial-block norm
+
+`M_j=max_(a+c=j) sup_(z in D) ||partial_x^a D_y^c f(z)||op`,
+
+where `D=[-2r,2r] x closed_ball_R2(0,2r)` and the c transverse unit vectors in the operator norm are **independently chosen**. The code is not bounding merely the largest coordinate derivative. All mixed transverse partials of one block form a symmetric c-tensor. Its Frobenius square is
+
+`sum_(j=0)^c binom(c,j) |X_(a,j,c-j)|^2`.
+
+This is exactly `block_members` and its multiplicity `m`. Cauchy–Schwarz against the tensor product of c unit vectors proves `||X||op<=||X||F`. The dimension-dependent coordinates are therefore:
+
+| Block | Isometric coordinates / multiplicities |
+|---|---|
+| transverse vector v or nu | two entries, weights `(1,1)` |
+| symmetric matrix B or Omega | `(11,22,sqrt(2)12)`, squared weights `(1,1,2)` |
+| symmetric cubic Y | `(111,sqrt(3)112,sqrt(3)122,222)`, squared weights `(1,3,3,1)` |
+| fourth derivative block with c transverse slots | `c+1` entries, binomial squared weights `binom(c,j)` |
+
+The free Cholesky blocks thus act on independent chi variables of dimensions 2, 3, 4. Off-diagonal Cholesky blocks enter as their Frobenius norms; a square diagonal block has operator norm at most its maximum diagonal magnitude plus the Frobenius norm of its strict lower part. No coordinate independence is asserted for entries that share a Gaussian block.
+
+For the midpoint jet in the rare fourth-derivative branch, the code needs a sharper operator-norm bound than Frobenius. We use the standard real Euclidean symmetric-tensor theorem: a symmetric tensor attains its independent-unit-vector norm on a diagonal tuple. This follows from Friedland's Theorem 9 and the norm/best-rank-one equivalence in §3, for finite-dimensional **real Euclidean** spaces; it is not asserted for arbitrary Banach spaces. The exact primary source is [Friedland, arXiv:1110.5689v3](https://arxiv.org/pdf/1110.5689v3), retained as a 210,611-byte PDF, SHA-256 `cbcbff36733e1ed6d4f22e21e3a02ca226a215eb494e5f3129aa1f8888fe7f45`. This is an explicit standard analytic input, not something proved by the finite controls.
+
+For a symmetric c-tensor T on R2, put `Q(t)=T(u(t),...,u(t))`, `u(t)=(cos t,sin t)`. The theorem gives `max|Q|=||T||op`, and the chain rule gives
+
+`|Q'(t)|=|c T(u'(t),u(t),...,u(t))|<=c||T||op=c max|Q|`.
+
+This proves the derivative inequality needed here directly; a separate general trigonometric Bernstein theorem is unnecessary. The rational parametrization has angle `2 atan(s)`, derivative `2/(1+s^2)<=2`. Samples `s=j/128`, together with their quarter-turn copies, cover angles `[0,pi]` with gaps at most `2/128`. Because `|Q|` is pi-periodic, including the junctions and seam, every angle is at distance at most `1/128` from a sample. At a maximum,
+
+`max|Q|<=max_NET|Q|+(c/128)max|Q|`,
+
+hence the actual factor `1/(1-c/128)` for `c=2,3,4`. The 258 sample count includes harmless duplicate endpoints. This exactly connects the net branch to CAP's independent-vector operator norm.
+
+## 3. Averaging identities and fourth-derivative envelopes
+
+The pin identities give three positive averages: the Peano average of `f_xxx` equals `12k`; the triangular average of `grad_y f_xx` equals `-2v`; the uniform axial average of `D_y^2 f_x` equals Omega'. The cubic transverse tensor Y is taken at the midpoint. Subtract the appropriate average from the derivative at z and integrate the difference. This is an average-of-differences argument, not a claim that all vector components have a simultaneous mean-value point.
+
+The segment from `(t,0)` to any z in D stays inside D. Its axial displacement is at most `5r/2` for `|t|<=r/2`, and transverse displacement at most `2r`. For the midpoint Y, both bounds are `2r`. Differentiating the multilinear block along that segment, with its transverse test vectors fixed independently, yields
+
+`M3 <= max(12k+r Delta1, 2||v||+r Delta2, ||Omega'||op+r Delta3, ||Y||op+r Delta4)`,
+
+with coefficient rows `(5/2,2)` on adjacent fourth blocks for Delta1–3 and `(2,2)` for Delta4. Replacing the last two operator norms by their Frobenius norms is conservative. These are the exact `nDelta0` coefficients.
+
+For a fourth block `(a,c)`, the whole-cylinder Taylor bound is
+
+`A_(a,c)<=||X_(a,c)||F + sum_(gamma!=0) ||partial^gamma X_(a,c)||F (2r)^|gamma|/gamma!`.
+
+Although the transverse domain is a ball, each coordinate magnitude is at most `2r`, so the polydisc-style coefficient majorant covers it. The accepted unconditional variance estimate is `s_delta^2<=prod_i(2delta_i-1)!!+(2delta)!M1`; conditioning decreases variance and bounds the mean by `s_delta sqrt(E)`. Minkowski on the weighted vector then bounds each coefficient's Lp norm by its weighted variance square-root times `sqrt(E)+||N||p` (with the documented p=1 upper bound). Tonelli and the convergent factorial majorant give absolute uniform convergence of this local random Taylor expansion; equivalently it is the analytic version of the conditioned Gaussian field supplied by the kernel model. No finite jet truncation is silently identified with the full field.
+
+The code sums all gamma with order 1 through 24. For n>=25, the factorial estimate bounds one coefficient by
+
+`2^(c/2) 2^(4+n) (n+4)^4 (2r)^n sqrt(1+M1)`.
+
+There are `(n+1)(n+2)/2` multi-indices. The ratio of the polynomial part at n+1 to n is `((n+3)/(n+1))*((n+5)/(n+4))^4<2` for n>=25 (each factor decreases, so its first value controls all n). With `q=4r1<=1/16`, the infinite tail is bounded by its first term divided by `1-2q`. `taylor_tail_coefficient` even includes an extra factor two in that tail. Thus its `S` bounds the omitted derivative series rather than sampling D.
+
+Regressing a higher derivative on the natural B coordinates gives coefficient norm at most `s_delta/sB_lo`: covariance positivity implies `beta Cb beta^T<=Var(F)<=s_delta^2`. Consequently
+
+`A_(a,c)<=A^g_(a,c)+B_(a,c)||B-muB||F`,
+
+where `B_(a,c)=sqrt(sum multiplicity*bnorm_X^2)+S/sB_lo`. Its g-part remains independent of B and has the original mean and smaller covariance. The implemented `Bblk`, `nA`, and `bbars` are precisely these bounds.
+
+## 4. Soft-eigenvalue cover, retaining lambda2
+
+On typed support B is positive definite. Let `0<lambda1<=lambda2`. Then `||B-muB||F<=lambda1+lambda2+||muB||F`. The derivative envelopes therefore give a failure implication
+
+`lambda1<=a r(y_i''+beta_i lambda1)^2` for some i,
+
+where `a=4/(3k)`, `y_i''=y_i+beta_i(||muB||F+lambda2)`, and beta_i are the four `bbars`. The residual g-field is independent of B; lambda2 is retained in the threshold and is not declared independent of lambda1.
+
+Set `x=a r beta y''`. For `0<x<=1/4`, solving the quadratic or checking its polynomial signs gives
+
+`lambda_minus<=a r y''^2/(1-3x)`, `lambda_plus>=1/(4 a r beta^2)`.
+
+The zero-beta limit has only the near root. For `x<=X0=1/64`, `1/(1-3x)<=1+kappa x`, `kappa=3/(1-3X0)`. Therefore typed failure is covered by:
+
+- N: `lambda1<=r U`, all x_i<=X0, where `U=max_i a y_i''^2(1+kappa x_i)`;
+- F: `lambda1>=1/(4 a r max(beta_i)^2)`;
+- X: at least one x_i>X0;
+- A: `r M4>3k/10`.
+
+The coefficient `4/(3k)` is exact and is not halved. The checker gives a pinned polynomial-field witness where halving it omits a positive-weight soft-eigenvalue failure.
+
+## 5. Density and the near-branch integral
+
+The natural B covariance is bounded above by `sig^2 I`; its determinant has a positive lower enclosure. In raw matrix coordinates the Gaussian density carries the extra Jacobian sqrt(2). For ordered eigenvalues and angle `phi in[0,pi)`, the matrix-to-eigenvalue Jacobian is `lambda2-lambda1`. Since the mean differs from bI by at most eps in Frobenius norm, integrating out phi gives
+
+`p(lambda1,lambda2)<=KB (lambda2-lambda1) g(lambda1)g(lambda2)`,
+
+`KB=pi sqrt(2)(2pi)^(-3/2)det(Cb)^(-1/2)`,
+
+`g(l)=exp(-(l-b)^2/(2sig^2)+eps|l-b|/sig^2)`.
+
+This follows by expanding the squared distance and dropping a favorable square; it does not require rotational invariance of the torus covariance. At contact it reduces to the exact GOE2 density.
+
+The Schur identities give `det HM=-r P1`, `det HS=r P2`, where `P1=c1 detB-r v^T adj(B)v`, `P2=c2 det(B-rOmega')+r e^T adj(B-rOmega')e`, `e=r nu-v`. Typed support implies `B>0,P1>0,P2>0`; the converse need not hold and is not used for this upper bound. Weyl and `||adj(B-rOmega')||op<=lambda2+r||Omega'||op` yield, with Omega a valid norm upper bound,
+
+`W<=r^2 |c1| lambda1 lambda2 (lambda2+rOmega)[|c2|(lambda1+rOmega)+r||e||^2]`.
+
+Write lambda1=r u and integrate `0<=u<=U`, using the additional r from d lambda1 and `lambda2-lambda1<=lambda2`. The result has **r^5**, with outer weight `lambda2^2(lambda2+rOmega)g(lambda2)`. Every target is bounded by its g-part plus `bnorm_F*(muB+2lambda2)` because lambda1<=lambda2. Extending the lambda1 window and lambda2 domain only enlarges this nonnegative integral.
+
+Define `I_j=int_0^infinity l^j g(l)dl` and nu proportional to `l^3 g(l)dl`, nu' proportional to `l^2 g(l)dl`. The code uses the exact half-Gaussian recurrence to bound I_j above at b_hi+eps, with factor `exp((4b_hi eps+eps^2)/(2sig^2))`, and I3 below at b_lo. For any positive power p, association of l and l^p under nu' implies `E_nu'[l^p]<=E_nu[l^p]`; the latter is bounded by `I_hi[3+p]/I3_lo`. This accounts for every lambda2 norm used in both outer integrals.
+
+For the inner density, completing the square on each side of b gives `g<=gbar=exp(eps^2/(2sig^2))` and a global derivative magnitude at most `exp(-1/2)gbar/sig`. Also `g(l)<=g(0)exp((b+eps)l/sig^2)`. Before that exponential reaches gbar, its chord to the crossing is above it; after crossing the same increasing chord exceeds gbar. Thus the smaller slope in code yields `g(l)<=g0+l Lg`. Its y uses the exact rational logarithm of the unrounded analytic gbar/g0 bounds, and replacing the base/exponential by upper enclosures only increases the resulting slope. When y<=0, `g<=gbar<=g0`, so using Lg=0 is valid. The two nonnegative integrals may safely be minimized.
+
+## 6. Normalized moments and shared Gaussian factors
+
+Set K=12k, `aK^2=192k`, and normalize the y_i'' by K. The first normalized component is at least one. Its bound is `1+cmt1+(r1/Klo)D1`, with D1 also containing `bb1 lambda2`. The other three are bounded by `u_i+delta_i`, where `u_2=s2 chi2/Klo`, `u_3=s3 chi3/Klo`, `u_4=s4 chi4/Klo` are independent. Delta includes means, cross-Cholesky blocks, fourth-derivative residuals, and the full beta_i lambda2 term. The norm inflation to the next power of two is in the upper direction.
+
+Let `Fk=1+kappa X0`, `c=1-kappa X0/2`; for the actual parameter, `0<c<=Fk^(-1/2)`. On N, the normalized threshold Ut is bounded by `max(Z1,Fk y_i^2)`, where `Z1=y1^2(1+et1*y1)` and `et1=16 kappa r1 bbars[1]`. Since Z1>=1,
+
+`Ut^p<=Z1^p+Fk^p sum_(i=2)^4 (y_i^(2p)-c^(2p))_+`.
+
+The binomial expansion of Z1 explains `E1[2p+l]`. For theta=1/32, convexity gives
+
+`((u+d)^n-c^n)_+ <= (1+theta)^(n-1)(u^n-[c(1-theta)]^n)_+ +(1+1/theta)^(n-1)d^n`,
+
+because `(1+theta)^(n-1)(1-theta)^n<=1`. `pos_part_moments_chi` integrates the first term exactly through
+
+`E[u^e(u^n-cp^n)_+]=s^(n+e)E[chi^(n+e)1{chi>cp/s}]-cp^n s^e E[chi^e1{chi>cp/s}]`.
+
+The directed upper endpoint encloses this subtraction; no tail is discarded.
+
+The omega factor `o0=s3 chi3=Klo u3` and vector factor `v0^2=s2^2 chi2^2/4=Klo^2 u2^2/4` share Gaussian variables with u3/u2. `To` uses extra power one for i=3 and `Tv` extra power two for i=2. Only the other independent u_i pieces factor. All delta terms, and the D1 binomial cross terms, use Cauchy–Schwarz with the appropriate doubled moment order. Consequently EoUt and EvUt retain the correlations. Treating these factors as independent would not be justified.
+
+`nUt(m,p)` additionally uses the coarse valid envelope `Ut<=Fk max_i y_i^2` on N and the same positive-part excess bound, so `Fk^m*(E1[2mp]+Tn[2mp])^(1/p)` bounds its Lp norm. The enforced order `2mp<=24` covers every call. The near integral may drop the event indicator when integrating these nonnegative majorants against the product of g and nu/nu'.
+
+## 7. Matching every main-term factor
+
+After division by `36k^2`, write `|c1 c2|/(36k^2)<=1+epsc`, with
+
+`epsc <= (2r|Tbar|+r^2|taubar|)/(6k)+r|Tbar|(r|Tbar|+r^2|taubar|)/(36k^2)`.
+
+Its L2 and L4 bounds are `epsc2`, `epsc4`. Split `Omega_bar=o0+d_o`. For the vector square,
+
+`e_bar <= (1+theta_E)^2 v0^2 +(1+theta_E)(1+1/theta_E)d_v^2 +(1+1/theta_E)r^2 nu_bar^2`,
+
+with theta_E=1/16. This is two applications of weighted Cauchy–Schwarz. The last two terms have L2 norm at most cC. The remaining `r|Tbar|/(6k)` factor uses the L4 bound for Tbar and e_bar and the L2 bound for Ut powers.
+
+The lambda1 integration contributes the following coefficients; these are exactly the code's A/B/C and primed terms, with `aK2_hi` substituted upward and klo in denominators:
+
+| Term | Base factor | Random moment being bounded |
+|---|---|---|
+| A | `(aK2)^3/3` | `Ut^3(1+epsc)` |
+| B | `(aK2)^2/2` | `Omega_bar Ut^2(1+epsc)` |
+| C | `(aK2)^2/(12k)` | `(1+r|Tbar|/(6k)) e_bar Ut^2` |
+| A' | `(aK2)^4/4` | `Ut^4(1+epsc)` |
+| B' | `(aK2)^3/3` | `Omega_bar Ut^3(1+epsc)` |
+| C' | `(aK2)^3/(18k)` | `(1+r|Tbar|/(6k)) e_bar Ut^3` |
+
+The epsilon–Omega–Ut products use Holder exponents `(4,4,2)`. The T–e–Ut products use `(4,4,2)`. D and D' arise from the additional outer `r Omega_bar` factor under nu'. Their A part uses the exact shared o0 moment plus `(ndo(2)+epsc4*no4)` times the relevant Ut L2 norm. Their B part uses `no4^2` times the Ut L2 norm, and for its epsilon correction exponents `(2,4,4)` on Omega squared, epsilon, Ut. Their C part uses `no4*(1+r*nT16/(6k))*ebar8` and the Ut L4 norm. Reciprocals `(1/4,1/16,1/8,1/4)` sum to 11/16; a constant-one factor completes Holder on the probability space. This is conservative, not a missing exponent.
+
+Thus `lead=I3(A+B+C)+r1 I2 D` and the primed analogue satisfy the two density bounds. Division by the positive zt yields the exact `main=KB*min(gbar*lead,g0*lead+r1*Lg*leadp)/zt`.
+
+## 8. The finite-radius normalizer floor
+
+This is the cap engine's finite-r typed-weight floor, not a repetition of C60's contact-only comparison. On `G0={r|T|<=3k/2,r^2|tau|<=3k/2}`, one has `c1>=9k/2`, `3k<=c2<=9k`, and `c1 c2>=36k^2(1-epsT)`, where `epsT=(2r|T|+r^2|tau|)/(6k)<=3/4`.
+
+If B>0, lambda1>rOmega and c1 lambda1>r||v||^2, then B-rOmega'>0 and both Schur complements have the required signs. Hence the event is typed and
+
+`W/r^2 >= c2 lambda2(lambda2-rOmega)_+(c1 lambda1-r||v||^2)_+(lambda1-rOmega)_+`.
+
+If those conditions fail, that positive-part product is zero, so the inequality remains valid. Expand the v loss first. For the remaining nonnegative product use `c1c2>=36k^2(1-epsT)` and **then** use `0<=1-epsT<=1` to enlarge the Omega loss. This ordering avoids incorrectly treating c1c2 as bounded above by 36k^2. The result is
+
+`W/r^2 >= 1_G0 {36k^2[(1-epsT)F-rOmega DT]-c2 r||v||^2 lambda1_+ lambda2^2}`,
+
+where `F=det(B)^2 1{B>0}`, `DT=det(B)tr(B)1{B>0}` and `lambda1_+ lambda2^2<=DT`. If lambda1<=0 these expressions vanish.
+
+Taking expectations gives
+
+`Z/(36k^2r^2) >= EF-||F||2 P(G0c)^(1/2)-||epsT||2||F||2-r E[Omega DT]-(r/(4k))E[||v||^2 DT]`.
+
+Regression and independence from B imply
+
+`E[Omega DT]<=E||omega_g|| E[DT]+bo E[(trB+muB)DT]`,
+
+`E[||v||^2 DT]<=(17/16)E||v_g||^2 E[DT]+17 bv^2 E[(trB+muB)^2 DT]`.
+
+The coefficients 17/16 and 17 are weighted Cauchy–Schwarz with theta=1/16. The code's `DT,TDT,TTDT` are precisely the required first, second and third trace powers times det, and its `corr_v` divides by `4klo`.
+
+The accepted finite-r law and Cholesky contract supply a common-Z coupling with contact GOE. On `||Z||<=12`, the actual B lies between shifts at `bp_lo=blo-eps-12eta` and `bp_hi=bhi+eps+12eta`, rounded outwards on the 2^-40 grid. Nonnegative `det^a tr^c 1_PD` is Loewner monotone. Thus EF is bounded below by the contact moment at bp_lo minus its Cauchy–Schwarz outside loss. Correction moments are bounded above by the contact values at bp_hi plus outside terms. For `up_moment(a,c)`, Cauchy–Schwarz requires the B norm of order `2(2a+c)<=16` for all actual uses; hence the single `nBF16` suffices. The factor `2^c` is a conservative bound for the trace's dimension factor, and omitting the determinant factor 2^-a only enlarges the upper bound.
+
+Gaussian tails give `q_bad` for G0c; scalar L2 norms bound epsT. Combining these quantities yields exactly
+
+`zt=m3lo-[tail_c+corr_G0+corr_eps+r1(corr_om+corr_v)]`.
+
+Every subtraction is a loss from a lower bound. The positive-floor guard is essential and is checked in every actual invocation; all twelve present calls pass it. The strongest statement this bounded execution supports is positivity on its sampled boxes. Positivity on every certificate cell belongs to the complete execution receipt, not to extrapolation from these examples.
+
+## 9. Rare branches and their weight moments
+
+On typed support, with `D=detB 1_PD`,
+
+`W/r^2 <= |c1|D[|c2|(D+rOmega trB+r^2 Omega^2)+r||e||^2(trB+rOmega)]`.
+
+The determinant bound follows from Weyl's eigenvalue perturbation, and the adjugate bound from its two eigenvalues. No sign of det(B-rOmega') is assumed for this upper bound. Successive Holder applications give the implemented `wnorm(q)=g1*g2` for q=2,4,8,16: factors c1,D,c2,D use orders 4q; splitting Omega*tr or e squared uses 8q where needed. The reciprocal-exponent sums are exactly at most one. `det_norm(p)` uses the contact det^p moment at an upward 1/1024-grid bp_hi and the explicit chi outside-ball moment, with `detB<=||B||F^2/2`; p=4q<=64. This preserves the factor 2^-p.
+
+For A, each fourth block is split at fractions 7/8 and 15/16 between its midpoint jet and Taylor remainder. Scalar and vector jets use a Gaussian tail and a chi2 spectral bound. Higher blocks use the exact operator-net reduction from §2 and a union bound over 258 directional Gaussian tails; each directional variance includes every covariance cross term conservatively. The Taylor remainder uses Markov order 32 and its full S coefficient. Summing blocks bounds `P(r M4>3k/10)`, since M4 is the maximum of those operator norms over the cylinder. The minimum of the two split bounds for a block is valid.
+
+For F, `lambda1<=B11` implies `P(F)<=P(B11>=lambda_far)`; replacing the signed mean by its absolute upper bound weakens the one-sided Gaussian estimate in the correct direction.
+
+For X, the threshold is `tx=X0/(a_hi r1 beta_i)`. For i=1, split `12khi+beta1 muB+r Delta1+beta1 lambda2` into the deterministic part and equal remaining shares; if the deterministic part reaches tx, probability one is safe. For i=2,3,4 use the three shares for `s_i chi_nu`, the residual delta excluding lambda2, and `beta_i lambda2`. Finally `lambda2<=||B||F<=muB+sig chi3` gives the implemented `lam2_tail`. All numerator functions are nonnegative. Probability sums are clipped above at one, never below.
+
+For each fixed q, Holder gives `E[W 1_E]<=r^2 wnorm(q)P(E)^(1-1/q)` separately on A,F,X. Sum these branches and minimize over q. The normalizer divides by `36klo^2 zt`; finite bands use `rdiv=r0`, giving the exact `tail` formula.
+
+## 10. Why the last band covers every positive radius
+
+Let R=2^-29 and freeze the entire law enclosure and every auxiliary upper coefficient at its computed R value. These bounds apply on all of `[0,R]`. For smaller r, take the same branch splits that were selected at R, the same q that minimizes the R numerator, and the same moment/norm upper bounds. This avoids assuming any scaling identity for rounded program outputs.
+
+Every selected Gaussian/chi tail argument is at least 3 at R, checked by `min(args)>=3`. The threshold terms grow at least as 1/r: `(C/r-m)/s` at radius R/2 is at least twice its R value when m>=0; the lambda2 threshold has the same property after subtracting muB. Far thresholds have the same or faster growth. Freezing bbars and delta norms is conservative; terms containing an explicit extra r only decay faster. Every Markov term decreases at least as r^32. The i=1 X split has no probability-one branch at R, because the separate raw qx guard requires qx<1.
+
+For the chi density, substitution t=2s gives
+
+`P(chi_nu>2x)<=2^nu exp(-3x^2/2)P(chi_nu>x)`.
+
+For x>=3 and nu<=5, the factor is strictly below 1/64; this includes every chi degree in use and the absolute Gaussian tail as chi1. One-sided Gaussian tails satisfy the same bound. Fixing the chosen splits proves each raw probability upper expression shrinks by at least 64 on halving. The guard `max(qA2,qfar,qx)<1` prevents a clipped-one plateau at the top. For every q>=2, exponent `1-1/q>=1/2` turns this into at least an eightfold decrease of each weighted tail term.
+
+On the j-th dyadic sub-band `[R/2^(j+1),R/2^j]`, its numerator is bounded by `2^(-3j)` times the computed top numerator, while its radius divisor is at least `(R/2^(j+1))^3`. Thus the ratio is bounded by the same top expression divided by `(R/2)^3`. The main bound and denominator floor were already uniform on `[0,R]`. This proves the entire open last band without evaluating at zero or dividing by zero.
+
+## 11. Exact controls, actual executions, and limits of the evidence
+
+There were exactly **two genuine band-law builds**, at `[0,2^-29]` and `[15/1024,1/64]`. Complete laws were serialized as `LAW_LAST.json` and `LAW_FINITE.json`; no mixed-source law was synthesized. Twelve actual `box_bound` invocations use the exact B caller parameters: indices 0,3,13,42,52,55 on each band. Indices 0,3,52,55 are the four b/k corner cells; 13 and 42 are retained interior cells. There were zero full runs, zero cap sweeps, zero remote writes, and zero candidate edits.
+
+The first selection 0,13,42,55 was initially described as four corners; inspection showed B orders boxes by k first. The other two corners were then evaluated from the saved laws, with no additional builds. The original eight-call record is preserved in `BOUNDED.json`, and four added calls in `BOUNDED_EXTRA.json`. Their exact locals and returned values support the source/formula checks. Rounded output magnitudes at the finite top band can be large and uninformative as probabilities; that does not reverse their upper-bound direction.
+
+`check_algebra.py` passed **4,880 exact checks, including eleven adverse controls**, with empty final stderr. It supplies exact rational and directed-interval controls of the root cover, positive-part splitting, correlated chi moments, tensor net, Taylor geometric tail, Holder exponents, typed matrix weight bounds and floor, plus the recorded result assembly. It includes 648 rational typed-matrix witnesses. The adverse controls refute specific changed inequalities: halved cap coefficient, omitted Delta, omitted Omega weight, omitted normalizer loss, omitted lambda2 regression, omitted eigenvalue Jacobian, zero density slope, omitted net inflation, signed replacement of a positive part, independent replacement of a shared random factor, and missing off-diagonal Frobenius weight. They do not merely compare stored snapshots. Generic examples are not reported as counterexamples to the candidate; the unmutated candidate passed.
+
+One harness-only predecessor failed because the decoder confused a local dictionary named q with its serialized rational tag. That source, stderr and empty stdout are retained as `check_algebra.failed01.*`. The corrected decoder restricts rational tags to singleton dictionaries with string payloads. No candidate expression or mathematical inequality was changed. The initial successful eight-row control record is also preserved before the twelve-row extension. `COMMANDS.json` records actual command exits and counts; the finite controls supplement the analytic proof above.
+
+## 12. Handoff and remaining assumptions
+
+The cap-engine implication is reconstructed at the exact PR215 caller boundary, including the full partial-block norms, both determinant factors, lambda2-dependent window, shared chi variables, finite-r typed normalizer floor, rare branches and open last band. No load-bearing defect was found in that scope and no source amendment is requested.
+
+The retained analytic inputs are explicit: the smooth/analytic conditioned Gaussian model and accepted uniform band law/regression, the generic numerical enclosure contracts, standard Holder/Cauchy–Schwarz/Weyl/association facts, and the verified real Euclidean symmetric-tensor norm theorem. The conditional band law and primitive routines have not received another independent vote here. CAP's deterministic geometry and LP's implication from G to the global elder partner remain imported statements if one passes from this probability bound to elder failure. Root owns the published cap-table coverage and complete replay, B prefactor, and final lifetime aggregation. None of this changes the scientific status or supplies organizational independence.
+
+</details>

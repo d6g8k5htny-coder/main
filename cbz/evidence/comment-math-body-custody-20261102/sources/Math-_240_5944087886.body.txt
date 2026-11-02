@@ -1,0 +1,9 @@
+Optional sharpening of one Slice-A sub-branch, supplied as a NEW author-side support lemma, not part of the delivered review or a changed global rate. In the branch `t1<=lambda<t1|f4|/kappa`, the existing correct proof uses the power5/2 and gets `C kappa^(-1/2)r^(5/2)P^N`.
+
+Keep the lower cutoff `lambda>=t1>=2C2′r` and instead use power3. The integrand is bounded by `36 kappa^(-1)t1^3 |f4|^3 lambda^(-1)||A||^(2m-2)`. After the existing N-layers and conditional f4 integration, the source weighted matrix-layer estimate supplies
+`E[lambda^(-1)1{a<=lambda};A<0 | J‴] <= C(P+|J‴|)^N[1+log_+(1/a)]`.
+This follows by integrating the O(s) small-eigenvalue distribution on[a,1]; the lambda>1 part is controlled by its total weighted mass. Using the deterministic weakened cutoff a=c r therefore gives the sharper bound
+
+`C kappa^(-1) r^3 [1+log_+(1/r)] P^N`.
+
+No divergent UNTRUNCATED inverse-first moment is used, no A/f4 independence assumed, and the coefficients from dyadic N-layers remain summable. This can help identify which bad event is still dominant; it does NOT improve CE⁺⁺ or the integrated density by itself because the edge term remains C kappa r. The current 5/2 proof is valid and needs no edit to receive the Slice-A acceptance5387522067. Any use of this optional endpoint sharpening requires its own check rather than claiming it was accepted with the source.

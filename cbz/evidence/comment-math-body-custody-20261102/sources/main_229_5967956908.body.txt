@@ -1,0 +1,303 @@
+# C104 finite author controls and exact source identities
+
+Dylan Roy — delegated AI work. Actual executor: OpenAI/Codex root01a0bbb5, author-side. Human review NONE; personal reading PENDING; organizational independence 0.
+
+These controls check 132 finite algebraic identities per mode, including the reference jet covariance, regression, image-envelope constants and hard-direction powers. Five deliberately altered calculations are rejected in normal and optimized Python. They do not prove the analytic interpolation, integrability, event identification or the research programme. Run with Python 3.11, first `python3.11 -B -S exact_controls.py` and then `python3.11 -B -O -S exact_controls.py`. Every named `--mutant` must fail.
+
+## exact_controls.py
+
+6440 bytes; SHA256 `6140b02d46a35506ab68a9145a8959b0df4de6b8e95b3d680cdf5fccb2fbffc5`.
+
+<!-- BEGIN C104 exact_controls.py -->
+
+```python
+"""Finite C104 author controls. Not a proof of Gaussian/persistence analysis."""
+from fractions import Fraction as F
+from itertools import product
+from math import factorial, prod
+import argparse
+import json
+
+
+def require(ok, label):
+    if not ok:
+        raise ValueError(label)
+
+
+def indices(n):
+    return [(a,b,n-a-b) for a in range(n+1) for b in range(n-a+1)]
+
+
+JETS = sum((indices(n) for n in range(4)), [])
+N = len(JETS)
+
+
+def double_factorial(n):
+    return prod(range(n,0,-2))
+
+
+def covariance(a,b):
+    c=tuple(x+y for x,y in zip(a,b))
+    if any(x%2 for x in c):
+        return F(0)
+    return F((-1)**(sum(a)+sum(c)//2)*prod(double_factorial(x-1) for x in c))
+
+
+def eye(n):
+    return [[F(i==j) for j in range(n)] for i in range(n)]
+
+
+def transpose(a):
+    return list(map(list,zip(*a)))
+
+
+def mul(a,b):
+    return [[sum(x*y for x,y in zip(row,col)) for col in zip(*b)] for row in a]
+
+
+def sub(a,b):
+    return [[x-y for x,y in zip(ar,br)] for ar,br in zip(a,b)]
+
+
+def inverse(a):
+    n=len(a); b=[row[:]+er for row,er in zip(a,eye(n))]
+    for i in range(n):
+        require(b[i][i]!=0,'nonzero pivot')
+        p=b[i][i]; b[i]=[x/p for x in b[i]]
+        for j in range(n):
+            if i!=j:
+                p=b[j][i]; b[j]=[x-p*y for x,y in zip(b[j],b[i])]
+    return [row[n:] for row in b]
+
+
+def block(a,rows,cols):
+    return [[a[i][j] for j in cols] for i in rows]
+
+
+def poly_product(p,q):
+    z={}
+    for a,x in p.items():
+        for b,y in q.items():
+            c=tuple(i+j for i,j in zip(a,b));z[c]=z.get(c,F(0))+x*y
+    return z
+
+
+def rotation_jets(r):
+    out=[]
+    for alpha in JETS:
+        p={(0,0,0):F(1)}
+        for axis,degree in enumerate(alpha):
+            linear={tuple(int(i==j) for i in range(3)):r[j][axis] for j in range(3)}
+            for _ in range(degree):
+                p=poly_product(p,linear)
+        out.append([p.get(beta,F(0)) for beta in JETS])
+    return out
+
+
+def hermite_abs(n):
+    return {n-2*j:F(factorial(n),factorial(j)*factorial(n-2*j)*2**j) for j in range(n//2+1)}
+
+
+def polynomial_mul(p,q):
+    z={}
+    for a,x in p.items():
+        for b,y in q.items():z[a+b]=z.get(a+b,F(0))+x*y
+    return z
+
+
+def check(mutant=None):
+    checks=0
+    def eq(a,b,label):
+        nonlocal checks
+        require(a==b,label);checks+=1
+    s=[[covariance(a,b) for b in JETS] for a in JETS]
+    if mutant=='covariance-sign':s[JETS.index((0,0,0))][JETS.index((2,0,0))]=F(1)
+    h=eye(N)
+    for i,alpha in enumerate(JETS):
+        if sum(alpha) in (2,3):
+            for axis in range(3):
+                if alpha[axis]>=2:
+                    beta=list(alpha);beta[axis]-=2
+                    coeff=F(alpha[axis]*(alpha[axis]-1),2)
+                    if mutant=='cubic-contraction' and sum(alpha)==3:coeff=F(0)
+                    h[i][JETS.index(tuple(beta))]+=coeff
+    diagonal=[[F(prod(factorial(x) for x in a)) if i==j else F(0) for j in range(N)] for i,a in enumerate(JETS)]
+    eq(mul(mul(h,s),transpose(h)),diagonal,'Hermite covariance diagonalization')
+    nil=sub(h,eye(N))
+    eq(mul(nil,nil),[[F(0)]*N for _ in range(N)],'Hermite nilpotence')
+    hi=sub(eye(N),nil)
+    eq(mul(h,hi),eye(N),'Hermite inverse')
+    eq(sum(x*x for row in h for x in row),F(56),'Hermite Frobenius56')
+    eq(sum(x*x for row in hi for x in row),F(56),'inverse Frobenius56')
+    eq(sum(s[i][i] for i in range(N)),F(80),'covariance trace80')
+    eq(sum(inverse(s)[i][i] for i in range(N)),F(22),'inverse trace22')
+    for r in ([[F(1),0,0],[0,F(3,5),F(-4,5)],[0,F(4,5),F(3,5)]],
+              [[F(3,5),F(-4,5),0],[F(4,5),F(3,5),0],[0,0,F(1)]],
+              [[F(-1),0,0],[0,F(1),0],[0,0,F(1)]]):
+        eq(mul(r,transpose(r)),eye(3),'orthogonal rational frame')
+        t=rotation_jets(r)
+        eq(mul(mul(t,s),transpose(t)),s,'reference rotational covariance')
+    ukeys=[(0,0,0),(1,0,0),(0,1,0),(0,0,1),(2,0,0),(1,1,0),(1,0,1),(3,0,0)]
+    u=[JETS.index(x) for x in ukeys];j=[i for i in range(N) if i not in u]
+    v=block(s,u,u);cross=block(s,j,u)
+    regression=mul(cross,inverse(v))
+    conditional=sub(block(s,j,j),mul(regression,transpose(cross)))
+    targetdiag=[F(prod(factorial(x) for x in JETS[i])) for i in j]
+    eq(conditional,[[targetdiag[i] if i==l else F(0) for l in range(12)] for i in range(12)],'conditional12 covariance')
+    v0=[[F(1) if x==(0,0,0) else F(12) if x==(3,0,0) else F(0)] for x in ukeys]
+    if mutant=='conditional-gap-mean':regression[0][-1]+=F(1)
+    mean=mul(regression,v0)
+    expect=[[F(-1) if JETS[i] in ((0,2,0),(0,0,2)) else F(0)] for i in j]
+    eq(mean,expect,'reference conditional mean (b,k)=(1,1)')
+    envelope=hermite_abs(6)
+    for degree in range(7):
+        for alpha in indices(degree):
+            p={0:F(1)}
+            for a in alpha:p=polynomial_mul(p,hermite_abs(a))
+            # Independent coefficient-sum bound, valid at all t>=0.
+            require(sum(p.values())<=76,'Hermite coefficient envelope');checks+=1
+    if mutant=='shell-count':shell=lambda n:24*n*n
+    else:shell=lambda n:24*n*n+2
+    for n in range(1,10):
+        eq(shell(n),(2*n+1)**3-(2*n-1)**3,'three-dimensional shell count')
+        require(shell(n)<=26*n*n,'shell envelope');checks+=1
+    delta=F(5000*25**6,2**288)
+    require(delta<F(1,2**245),'L24 image envelope');checks+=1
+    require(20*delta<F(1,112),'20-jet spectral margin');checks+=1
+    require(F(256,2**864)<F(1,2),'shell tail ratio');checks+=1
+    # Explicit cofactor block, no reference-isotropy assumption needed.
+    for k,hard in product((F(1,2),F(1),F(2)),(F(1,3),F(2))):
+        # At r=0 scaled soft eigenvalue s<0, axial±6k, hard eigenvalue -hard.
+        sm,ss=F(-2),F(-3)
+        detm=(-6*k)*sm*(-hard);dets=(6*k)*ss*(-hard)
+        product_weight=-detm*dets
+        weight2=(-6*k*sm)*( -6*k*ss)
+        factor=hard if mutant=='hard-power' else hard**2
+        eq(product_weight,factor*weight2,'hard determinant factor h²')
+        eq(hard*hard**2,hard**3,'spectral times determinant hard power')
+    return checks
+
+
+def main():
+    ap=argparse.ArgumentParser();ap.add_argument('--mutant',choices=['covariance-sign','cubic-contraction','conditional-gap-mean','shell-count','hard-power']);a=ap.parse_args()
+    n=check(a.mutant)
+    print(json.dumps({'status':'PASS','finite_checks':n,'jet_dimension':20,'conditional_dimension':12,'Hermite_Frobenius_squared':56,'trace_covariance':80,'trace_inverse':22,'analytic_proof_by_tests':False},sort_keys=True))
+
+if __name__=='__main__':main()
+```
+
+<!-- END C104 exact_controls.py -->
+
+## AUTHOR_CONTROLS.stdout
+
+203 bytes; SHA256 `c7b8dc5f864da63bd96232d9aa3662ecd6541ee0153065ac5d822301e22f15be`.
+
+<!-- BEGIN C104 AUTHOR_CONTROLS.stdout -->
+
+```text
+{"Hermite_Frobenius_squared": 56, "analytic_proof_by_tests": false, "conditional_dimension": 12, "finite_checks": 132, "jet_dimension": 20, "status": "PASS", "trace_covariance": 80, "trace_inverse": 22}
+```
+
+<!-- END C104 AUTHOR_CONTROLS.stdout -->
+
+## SOURCE_IDENTITIES.json
+
+4441 bytes; SHA256 `f556504ffec70739d972fec90e1a5b1ae2ea72f44572430d8b07062f8f0b031e`.
+
+<!-- BEGIN C104 SOURCE_IDENTITIES.json -->
+
+```json
+[
+  {
+    "key": "COEFF",
+    "commit": "e8ccb478512bdc46a562c2da9a23266a40dc2f38",
+    "path": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+    "blob": "9903dd6f6b2514069bef78399b3d90201280911e",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/e8ccb478512bdc46a562c2da9a23266a40dc2f38/frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+    "local_path": "sources/COEFF.md",
+    "bytes": 27438,
+    "sha256": "de50468afe0cae0bd2147a79e1b5b45a9f57ade5a81a9a99fd95aaaccc826c7c",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "blob": "bb446d08db8a944537a743ad550b88c1c2ad5758",
+    "bytes": 19889,
+    "commit": "044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43",
+    "key": "CUB",
+    "local_path": "sources/CUB.md",
+    "path": "frontiers/planar_cubic_cluster_20260929/PROOF.md",
+    "sha256": "117e9299a71e6139270266889eb772ed97518e402d9af029bbdb67caf9d4a0f0",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43/frontiers/planar_cubic_cluster_20260929/PROOF.md",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "blob": "213594d6ca6a86fb938110f4d166d9ce275a02d0",
+    "bytes": 1782,
+    "commit": "044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43",
+    "key": "E1",
+    "local_path": "sources/E1.md",
+    "path": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+    "sha256": "bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43/imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "blob": "fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a",
+    "bytes": 9062,
+    "commit": "044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43",
+    "key": "E2",
+    "local_path": "sources/E2.md",
+    "path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+    "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43/reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "key": "HD",
+    "commit": "d37ff5d0315a4f71453d37f0cae2da1f40fdef3c",
+    "path": "frontiers/c6_hard_direction_factorization_20260930/PROOF.md",
+    "blob": "91d22fce0fd7d4630bfe2e2c93eab289babc97f2",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/d37ff5d0315a4f71453d37f0cae2da1f40fdef3c/frontiers/c6_hard_direction_factorization_20260930/PROOF.md",
+    "local_path": "sources/HD.md",
+    "bytes": 22456,
+    "sha256": "26743f82bf4b86d4ae4c7dfb085d4d15bf36014aa627dee5edfc86a75ca64c05",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "blob": "dfed3b8d318a3ab1950957f393307733a4bef3f2",
+    "bytes": 40261,
+    "commit": "044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43",
+    "key": "P",
+    "local_path": "sources/P.md",
+    "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "blob": "75da2597971510f843f8d90c743950cb8c177342",
+    "bytes": 23312,
+    "commit": "044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43",
+    "key": "REC",
+    "local_path": "sources/REC.md",
+    "path": "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+    "sha256": "451b9d7ffee072a73fc904cab891b6693e3f233808b89df10cce1b57036b65da",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43/reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  },
+  {
+    "key": "SC",
+    "commit": "7e2344166e989ae94e5732e445f445598fc75c4c",
+    "path": "frontiers/spectral_cluster_closure_20260929/PROOF.md",
+    "blob": "16c56821b52fd76b0be791622b9c3809eafde75a",
+    "url": "https://github.com/d6g8k5htny-coder/Math-/blob/7e2344166e989ae94e5732e445f445598fc75c4c/frontiers/spectral_cluster_closure_20260929/PROOF.md",
+    "local_path": "sources/SC.md",
+    "bytes": 25006,
+    "sha256": "e971b2cbe50a8a06b47c1219191201e0d1037c9adac23e5e3b7d2051bb70c2eb",
+    "extraction": "Exact UTF-8 Git blob bytes"
+  }
+]
+```
+
+<!-- END C104 SOURCE_IDENTITIES.json -->
+

@@ -1,0 +1,28 @@
+## Separate audit corollary: explicit d3 weighted E4 moment from J^8 — UNREVIEWED, not added to frozen #313
+
+Author OpenAI / GPT-6 Astra Pro, `cap-i4-explicit-d3-adapter-20261005`, Dylan Roy delegated work. Scientific effectNONE, credit0. This is the second bounded mathematical step of this continuation, not a modification or scope extension of the active #313 review6006929802. Keep #313 head8e90773b and all seven files frozen.
+
+With P blobdfed3b8d318a3ab1950957f393307733a4bef3f2 interfaces(3.5),(4.3),(6.2), take transverse m=2, ordinary entry volume, original Q, J>=1 independent of the whole B, positive ordered eigenvalues lambda<=Lambda on W>0, U=J+Lambda. In addition to h=M3<=K U, retain the ACTUAL source bound M4<=K4 U. Assume0<r<=1, C0exp(-c||B||F^2) entry-density domination and M8>=E[J^8]. K=K4=sqrt(2)K0 is sufficient from P(4.3). No independence of M3/M4/W/eigenvalues is added.
+
+From the typed determinant product,
+
+`(W/r^2)M4^4 <= T lambda Lambda U^8`,
+`T=K^2 K4^4(1+3K/2)(1+K)/4`.
+
+Use #313's explicit spectral density bound pi*C0*(Lambda-lambda)*exp[-c(lambda^2+Lambda^2)], majorize on typed support BEFORE using original-law independence, and drop only exp(-c lambda^2). Keep the ordered interval: `integral_0^Lambda lambda Lambda(Lambda-lambda)d_lambda=Lambda^4/6`. Then `(J+Lambda)^8<=128(J^8+Lambda^8)` and
+
+`integral_0^infinity Lambda^4 exp(-cLambda^2)=3sqrt(pi)/(8c^(5/2))`,
+`integral_0^infinity Lambda^12 exp(-cLambda^2)=10395sqrt(pi)/(128c^(13/2))`
+
+give the fully simplified sufficient constant
+
+`E_Q[(W/r^2)M4^4] <= M4star`,
+`M4star=pi^(3/2)*C0*K^2*K4^4*(1+3K/2)*(1+K)*[2*M8/c^(5/2)+3465/(8*c^(13/2))]`.
+
+Tonelli applies to nonnegative integrands before this bound supplies finiteness. Divide the pointwise weighted Markov estimate by the FULL Z>=cZr^2 exactly once:
+
+`Q^W(E4)<=M4star/[cZ*(3k_floor/10)^4]*r^4`.
+
+Since J>=1, M8 may be replaced by M9>=E[J^9]. Together with #313's depth bound, this would supply both cap-union tails from a ninth residual moment PROVIDED the additional M4<=K4U source bound and all matrix/normalizer/measurability hypotheses are retained. Moment nine of an unrelated J does not control M4. This is ordinary source-bound algebra/analysis, not new Lean verification, numerical field constants, all-mark uniformity or scientific acceptance; its spectral input is the new adapter, not a self-awarded accepted ancestor.
+
+Actual separate finite checks: six unittest methods in normal/-O standard-library execution, identical stdout. They test the pointwise determinant/M4 envelope, exact retained-gap primitive, power envelope, Gaussian coefficient recurrence/simplification, weighted Markov/full normalization and omitted-factor controls. No repository bytes changed for this addendum. Full local note SHA25650da7f91639bfedc0c13c092660bc0eca3764e8bf9c8a11651d272a408ae171d and checker697c1668731b28b969771047f68eb118edfb74c79fc8dd6c01fa14f174ec98b9 will be included in this conversation's audit delivery. They are not falsely described as GitHub-hosted files. A successor nonauthor disposition is still needed; #313's existing review does not cover this corollary.

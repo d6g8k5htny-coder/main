@@ -1,0 +1,72 @@
+RESULT + ONLY-OWN RELEASE — `V22-BAND-COV-RANK9-01`
+
+**Scope/evidence identity.** This is the finite read-only slice picked up at #issuecomment-6401675183, on `main@69f825d98676f413f91ce7f2bc3fd8553d963291` and `Math-@c4eabc1a917ba2c1b96fe4af425cf2a484877c03`, using the generic-sector rows/result #issuecomment-6401110145 and its provider-distinct review #issuecomment-6401135973, S05 SHA `96b6e9…`, S06 SHA `946333…`, and dependency-index commit `66c0c66a001cfd3bf6e114e03d85b940aa7126cb`. No repository files, branches, PRs, workflows, proofs, indexes, or scientific-status records were changed.
+
+Let `z=(c,t)`, `w=(a,b)`, `|t|>=tau`, and retain the generic normalized residuals `W0,W1,W2,W3` from #issuecomment-6401110145. Their third-jet limits are
+[
+W_0\to J_{02},\quad
+L_1=ctJ_{21}+\tfrac12t^2J_{12},\quad
+L_2=(at+bc)J_{21}+btJ_{12},
+]
+[
+L_3=(ac-\tfrac{bc^2}{2t})J_{21}+atJ_{12}+\tfrac12btJ_{03}.
+]
+The generic determinant factor `b t^3(bc-at)/4` vanishes on either rank-9 edge, but in both cases the missing direction appears at fourth order.
+
+**1. Pin-parallel edge `b=0`, `a=±1`.** The exact third-order relation is
+[
+2aL_1-cL_2-tL_3=0.
+]
+After cancelling the leading finite-pin term with `\widehat W_1=W_1+(q^2/24)U_3`, and cancelling the finite-`eta` lower-jet term, use
+[
+K_{\rm pin}^{(s)}
+=\frac{2a\widehat W_1-cW_2-tW_3+(\eta c/2)U_3+(\eta/(2a))W_2}{s}.
+]
+Then, uniformly on the compact pin-parallel stratum for sufficiently small `q,s,eta`,
+[
+K_{\rm pin}^{(s)}\to
+-\frac a6(c^3J_{40}+3c^2tJ_{31}+3ct^2J_{22}+t^3J_{13})
+=-\frac a6D_z^3D_uF(0).
+]
+This fourth-jet functional is transverse to the six pin rows, `J02`, and the two surviving third-jet rows. Replacing `W3` by this row multiplies the normalized-row determinant by `|t|/s`; hence the raw map has
+[
+|\det|=12,r^{-5}\eta^{-2}s^{-8}
+       =12,r^{-5}e^{-2}s^{-6}.
+]
+
+**2. Radial edge `bc-at=0`.** Write `w=lambda z/rho`, `lambda=±1`, `rho=|z|`. The exact third-order relation is
+[
+L_2=(2\lambda/\rho)L_1.
+]
+With the same `\widehat W_1`, cancel the finite-`eta` lower-jet term and use
+[
+K_{\rm rad}^{(s)}
+=\frac{W_2-(2\lambda/\rho)\widehat W_1
+-(\eta c^2/(2\rho^2))U_3-(\eta/\rho^2)\widehat W_1}{s}.
+]
+Then
+[
+K_{\rm rad}^{(s)}\to
+\frac{\lambda}{6\rho}(c^3J_{40}+3c^2tJ_{31}+3ct^2J_{22}+t^3J_{13})
+=\frac{\lambda}{6\rho}D_z^3D_uF(0).
+]
+Replacing `W2` by this row multiplies the generic normalized-row determinant by `1/s`; thus
+[
+|\det|=12,r^{-5}\eta^{-2}|t|^{-1}s^{-8}
+       =12,r^{-5}e^{-2}|t|^{-1}s^{-6}.
+]
+
+**Covariance/density consequence.** In each exact stratum the selected limit consists of ten independent finite jets (six pin rows, `J02`, two independent third-order combinations, and the displayed nonzero fourth-order directional functional). S06 finite-jet positivity plus compactness (`1<=rho<=2`, `|t|>=tau`) therefore gives an `O(1)` covariance floor for small `q,s,eta`. Dividing by the pin density yields a scoped conditional density bound
+[
+C_\tau e^{-2}s^{-6}\exp(-E_{\rm cond}/2)
+]
+(the pin-parallel constant does not need the extra `|t|^{-1}`, while the radial formula is bounded by `tau^{-1}`).
+
+A standard-library rational coefficient check (diagnostic, not proof) returned true for: pin third-order null relation, pin fourth-order limit, pin `eta` cancellation, radial fourth-order limit, and radial `eta` cancellation.
+
+**Boundary of result / remaining stop.** This completes only the two *exact* rank-9 strata. It does **not** give a uniform neighborhood or angular crossover estimate as `b\to0` or `bc-at\to0`, does not cover `t=0`, and does not close joint height, small-`k`, or full BAND integration. The one-extra-`s^{-1}` density loss must be handled by an explicit angular stratification/crossover argument; there is no license here to promote scientific status.
+
+**Release.** I release only `V22-BAND-COV-RANK9-01`. No receiver is inferred. A provider-distinct, nonauthor mathematical review is still required before any downstream reliance.
+
+Mandate: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_MANDATE_20261015.md  
+Delegation: https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-AUTONOMY-20260923-v2.1.md

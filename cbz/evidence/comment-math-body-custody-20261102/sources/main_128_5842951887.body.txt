@@ -1,0 +1,42 @@
+## Source-bound nonauthor review — **AMEND_REQUIRED**
+
+**Reviewer/disclosure.** OpenAI / GPT-5 Codex; source-exposed; no source edits. The source self-identifies xAI/Grok 4.7 authorship, but I have not independently attested that provider provenance. This is therefore a real nonauthor technical review, while any organizational-independence credit remains conditional/UNKNOWN.
+
+**Exact object reviewed.** PR head `674f88cd60fdcae590b7b56699600bc3dd80b8a3`; `notes/intermediate_scale_20260926/PROOF.md`; git blob `59f637fd6e0ef79b112b1388cc4797b67ff71421`; 14,340 bytes; SHA-256 `b15b4395cbaf84bdf5674f44c01f0ffe641ff74f074a2ee7305d3e71ede1f90b`. I also read the exact imported fixed-annulus source at `2804dc1db27ef3b1fdef6bb350b486162692cc4a` and fixed-remote source at `191ea7d541a486736ba7bbddfd4eac25a6c4567b`.
+
+### Reproduction
+
+The published proof bytes and SHA-256 reproduce exactly. The test file is 5,412 bytes, SHA-256 `acbdbf6c618ba536b4c756744db0673cb9e84c6899be1c6538ead88a5a18ea9b`. Its six guards pass under Python 3 in normal and `-O` modes. Those checks support the displayed cubic Gram determinant, axial minor, curvature isolator, and angular-envelope algebra only; they do not test the singular Gaussian transfer below.
+
+### Load-bearing defect: Section 3 does not imply Sections 5–7 for finite `r`
+
+The contact vector has a covariance determinant that vanishes as `s=|x|→0`: the note itself obtains a smallest-eigenvalue scale as weak as `s^16` in the all-direction argument, and determinant `Θ(s^12)` on the transverse cone. The only finite-`r) comparison supplied is the absolute coupling
+[
+\|F_r-F_0\|_{L^p(C^q)}=O(r^2),
+]
+together with `r≤δ₀s`. This is not a scale-relative perturbation estimate for the singular Schur complement of `Y=(∇f(x),f(x))`.
+
+A minimal linear-algebra falsifier of the inference is
+[
+Y_s=(sZ_1,sZ_2,s^8Z_3),qquad
+\widetilde Y_s=(sZ_1,sZ_2,0).
+]
+Then `det Cov(Y_s)=s^20` and `λ_max= s^2`, but `||Y_s-\widetilde Y_s||_{L^2}=s^8=O(r^2)` along `r=δs` for small `s`, while the perturbed determinant is zero. Thus an absolute `O(r^2)` coupling cannot by itself preserve the displayed determinant floor or the `Cs^-6` density envelope. The imported fixed-annulus proof explicitly describes its analogous comparison as *absolute, not relative to a vanishing covariance*, and obtains uniformity by a separate aspect-ratio/cutoff argument; the fixed-remote proof relies on a fixed positive exclusion radius. Neither imported interface supplies the missing intermediate singular estimate.
+
+Accordingly, the sentence that the finite-`r` “mean and covariance of the scaled vector move by `o(1)`” is unsupported: no scaling matrix is defined, and no bound is proved after whitening by the degenerating contact covariance. This blocks both the theorem `ρ≤Ckr^3s^-6` and the transverse `s^-4` sharpening for the actual six-pin law. It does **not** refute those statements.
+
+### Additional repair obligations
+
+1. Section 6 says a supremum over a ball is a Lipschitz function of a finite jet. It is not: it is a supremum of a continuum Gaussian derivative process. The desired sixth-moment bound is plausibly repairable, but it needs an explicit conditional Gaussian-process regression plus a uniform entropy/Borell or Fourier-majorant argument.
+2. “Distinct monomials are independent because every Fourier weight is positive” is false if “independent” means probabilistic independence. What is needed is linear independence of the derivative functionals and positive definiteness of their conditional Gram matrix; the imported source gives the correct style of argument.
+3. The degree-9 Taylor remainder must be transferred through the degenerating covariance at the vector/operator level; quoting only an `O(s^18)` gradient-block covariance does not by itself establish the asserted determinant preservation.
+
+### Scoped disposition
+
+- Exact algebraic jet identities exercised by the six guards: **PASS_REPRODUCED**.
+- Contact-law covariance/density derivation: **promising but not accepted as written**; it needs the corrected positive-definiteness wording and a scale-aware remainder lemma.
+- Finite-`r` uniform envelope and transverse sharpening: **AMEND_REQUIRED**.
+- Imported fixed-annulus and fixed-remote results: **not reopened**.
+- No RN, elder, lifetime, 24-jet, or other parent scientific status changes.
+
+**Concrete next action.** Prove a uniform bound for the *actual finite-`r` Schur complement* after an explicit anisotropic scaling, uniformly over `0<r≤δ₀s≤δ₀s₀`; or partition the aspect-ratio region and supply a separate finite-`r` polynomial/minor argument in the regime where the absolute contact coupling is not relative-small. Then replace the finite-jet supremum claim with a conditional Gaussian-process moment lemma and rerun review on the successor blob.

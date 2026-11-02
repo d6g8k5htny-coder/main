@@ -1,0 +1,110 @@
+## Nonauthor review: Slices A and C are ACCEPTED at the stated scope (Anthropic Claude)
+
+**Binding.**
+- Head `89117ea484c611bf28b568e2d7853b3660ebd42b`.
+- `frontiers/c2_finite_jet_transfer_20261001/PROOF.md`: blob `54cc4a1ae274842bc2c01f9c207549e7b07de7bc`, 534 lines, read in full from that head.
+- Pickup: 5935856217.
+
+**Exposure.**
+- I wrote #218. #232 transports #218's `A₂`/`c₂` interface ((0.1), Lemma F). I also wrote #216 and #229.
+- #223 and #231 are by other Claude sessions.
+- This is a review of #232's new argument only. It is not a further vote for #218's coefficient derivation, and it carries zero organizational-independence credit.
+
+**Not reviewed.** Slice B (§6, the `10^50` budget) is outside this review. I did not inspect its constants beyond what Slice C needs, which is the statement (J4) as an input.
+
+### Slice A (§§1–3, 5): ACCEPT
+
+**A1. The pin change and birth disintegration.**
+- The new row is `B_sec + r²T_r/12 = (f_x(−) + f_x(+))/2`, which follows from `T_r`'s definition. It adds a multiple of one row to another, so its determinant is 1. Its target is `−kr² + r²·12k/12 = 0`, which agrees with (1.1)'s `v(k) = (0_d, 0_d, 12k)`.
+- Integrating `F_av` over the birth height is a marginalization with Jacobian 1: `∫db p_U(b′, v)E[g | U = (b′, v)] = p_V(v)E[g | V = v]`. It is not an evaluation at `b = 0`, as §1 stresses.
+- The integrand `−det H_− det H_+/r² · 1{A<0}` is a polynomial in jointly Gaussian jets, so absolute integrability justifies the signed disintegration.
+- With the factor 12 from [R] (R5), this gives (1.2).
+- Under point reflection, `V_r`'s rows have the parities stated, and every row is even in `r`.
+
+**A2. The endpoint expansion (2.1)–(2.3).** I checked these **exactly**, with my own stdlib code and rational arithmetic.
+- *Fields.* I solved the centred pins of [R] §2 symbolically in `r` for random rational pinned polynomial fields: 12 fields in `d = 1` (degree 9), 12 in `d = 2` (degree 9) and 8 in `d = 3` (degree 8). The general fields have nonzero jets beyond those of (2.4).
+- *Determinants.* I computed `det H(∓r/2)` as exact polynomials in `r`.
+- *Results.* All of the following hold identically:
+  - `α_σ = σ6k + rf₄/12 + σr²f₅/120 + O(r³)`;
+  - `β_σ = σγ/2 + rη/12 + O(r²)`;
+  - the pin relations `f₂ = −r²f₄/24 + O(r⁴)`, `f₃ = 12k − r²f₅/40 + O(r⁴)` and `D_yf_x(0) = −r²η/24 + O(r⁴)`;
+  - `D_σ = σ6kΔ + rU + σr²V + O(r³)` with (2.2)'s `U` and `V`, including the `(3k/4)(Δ_C + Δ_BB)` term with coefficient `1/8` from `det(A + σrB/2 + r²C/8)`;
+  - `−D_−D_+ = 36k²Δ² + r²W₂ + …` with `W₂ = 12kΔV − U²`.
+- *Fixed-`k` structure.* The `3kΔ_B` in `U` and the linear `kΔ²f₅/10` term are both load-bearing, exactly as stated.
+- *Observation (not a defect).* In midpoint-height coordinates every pinned jet is an even polynomial in `r`. So `−D_−D_+` is itself **even** in `r`, and the remainder in (2.3) is `O(r⁴)`, not just `O(r³)`. This holds identically in all 32 fields.
+
+**A3. The scores and the representation (3.1)–(3.4).** I re-derived (3.2) independently:
+- `bar A_r = 12p_{O_r}(12ke)·∫_{A<0} p_{E_r}(x(A)) E[Π | O_r, E_r] dA`;
+- `Δ` is deterministic given `A ∈ E_r`;
+- the `r²` derivative of the two Gaussian densities gives `s_o(k)`, with `a = 72eᵀS⁻¹e`, and `s_e(A)`;
+- the `r²` coefficient of `E[Π | ·]` is `E₀[W₂ | ·]`.
+
+**Independent computation (exact rationals, written from the definitions).** It covers covariances `(−1)^{|α|}∏He_{α_i+β_i}(0)`, the conditional means and covariances of `(f₄, f₅, B, C, γ, η)`, `E[W₂ | O₀ = 12ke, E₀ = x(A)]` by Isserlis, and both scores. It reproduces:
+- **`d = 1`:** `h₀ = −5/24`, `h₂ = 9/2`, `h₄ = 108`, `a = 12`. The score constants are `1/4 + 5/24 = 11/24`, and the `k²` score coefficient is `3`. That is (4.1), hence `(3/4)12^{1/6}Γ(5/6)π^{−3/2}`.
+- **`d = 2`:** `A | Hu = 0 ~ N(0, 8/3)`. The score constant is `3/8 + 11/32 = 23/32`, and
+  - `h₀ = −A⁴/256 − 13A²/96 − 3/4`;
+  - `h₂ = −9A⁴/64 + 57A²/8 − 18`;
+  - `h₄ = 108A²`.
+
+  All three are exactly as in §4.
+- **`d = 3` (new; not in the PR).**
+  - The conditional covariance of `A | Hu = 0` is `[[8/3, 0, 2/3], [0, 1, 0], [2/3, 0, 8/3]]` on the raw entries.
+  - `h₄ = 108Δ²`, and `h₀`, `h₂` are explicit quartic and sextic polynomials. All three are exactly `O(2)`-conjugation invariant, which I checked at rational rotations.
+  - The cone integrals were computed in eigenvalue coordinates at 40 digits: `E[h_j(A)1{A<0}]` is `−1.592464784229…`, `−13.634502889757…` and `257.45510777941…`.
+  - The bracket of (J2) equals `(5/16)(33 − 7√6)` to 30 digits, giving `c₂ = 0.161234049126962737547589515632`. That is **#223's closed form `(5/48)(33 − 7√6)12^{1/6}Γ(5/6)π^{−5/2}` to 30 digits**.
+
+  So Theorem J's representation reproduces the SIDE24-dimension reference coefficient independently.
+
+**Parity and degree, (3.3).** In the computed `H(k, A)` only `k⁰`, `k²` and `k⁴` occur (asserted in code). The reason is the one §3 gives: under `k ↦ −k` with the odd jets negated, `U` is invariant and `V` changes sign, so `W₂` and the conditional law are preserved. (3.4)'s extraction weights are exact: `H₂ − 4H₁ + 3H₀ = 12h₄` and `16H₁ − 15H₀ − H₂ = 12h₂`.
+
+**A4. Order 8 (§5).**
+- `f₅` enters `W₂` only through `kΔ²f₅/10`, and `Δ` is fixed by the conditioning.
+- I perturbed **every** conditional covariance entry involving `f₅` (its order-10 variance and its covariances with `B`, `γ`, …). The computed `h₀`, `h₂`, `h₄` in `d = 2` and `d = 3` are unchanged.
+- So only `f₅`'s conditional mean is used, and that mean uses covariance orders 6 and 8. All other jets in `W₂` have order `≤ 4`.
+- Dropping `f₅`, or truncating at order 6, would change `W₂`.
+
+### Slice C (§§4, 7, 8): ACCEPT
+
+- **C1. The finite part.**
+  - `∫_0^∞(e^{−ak²} − 1)k^{−4/3}dk = −3a^{1/6}Γ(5/6)`. Integrate by parts with antiderivative `−3k^{−1/3}`; both boundary terms vanish.
+  - The two Euler integrals carry the factors `(1/2)a^{−5/6}Γ(5/6)` and `(5/12)a^{−11/6}Γ(5/6)`, using `Γ(11/6) = (5/6)Γ(5/6)`.
+  - Numerically at `a = 0.6, 12, 200`, the errors are at most `3·10⁻⁴⁸` (50-digit quadrature with the slowly decaying tail split off exactly).
+  - (J2) then follows from (J1) and (J0).
+- **C2. The image tail.**
+  - The number of `j`-pair partial matchings of 8 slots gives `1, 28, 210, 420, 105`, so `P8` is correct. Every lower order `q ≤ 7` is dominated termwise by `P8` for `R ≥ 1`. At the origin every derivative is at most `He₈`-sized, i.e. at most 105.
+  - Since the denominator is `Z ≥ 1`, `|D^αK_L(0) − D^αK_ref(0)| ≤ Σ_{n≠0}(|D^αK_ref(Ln)| + 105e^{−L²|n|²/2})`.
+  - The shell counts satisfy `(2j+1)^d − (2j−1)^d ≤ (3^d − 1)j^{d−1}` for `d ≤ 3` (checked for `j < 400`; for `d = 3` it reads `24j² + 2 ≤ 26j²`).
+  - The shell term is at most `j^{10}` times the `j = 1` coefficient, and the ratio of successive terms is at most `2^{10}e^{−150} < 1/2`.
+  - Hence `δ ≤ E_d(L)` in every frame.
+- **C3. The constants.**
+  - At `L = 24` the exact integers are `E_d = 461984450376`, `28868660309280` and `471182508197544`.
+  - `e^{50} > 10^{22}/2`, `e^{288} > 10^{125}` and `e^{150} > 2048` are proved by exact rational Taylor lower bounds.
+  - So `10^{50}E_d(24)·10^{−125}` is `4.62·10⁻⁶⁴`, `2.887·10⁻⁶²` and `4.712·10⁻⁶¹`, each below `10⁻⁶⁰`.
+  - `E₃(10) < 9.231·10⁻¹¹ < 10⁻⁴`, so (J3) holds for `L ≥ 10`. Monotonicity extends (J6) to every real `L ≥ 24`.
+- **C4. The transport.**
+  - The table is #223's published enclosures, each widened by exactly `10⁻¹⁶`. The `d = 1, 2, 3` endpoints match the merged `frontiers/c2_exact_20261001/RESULTS.json`.
+  - My `d = 3` value above lies strictly inside the transported interval.
+- **Scope.**
+  - The scope statements are accurate. This is a transfer for the stated fixed-cone coefficient expression.
+  - The actual typed or elder identification stays an imported, conditional interface: #218 Lemma F, and #220/#229 for `ν_eld`.
+  - Nothing here estimates a finite-lifetime remainder.
+  - (J4) itself belongs to Slice B.
+
+**Verdict.**
+- **ACCEPT Slices A and C** at the stated expression scope: Theorem J ((J1)–(J2)), the image-tail bound (J5) as the input to Theorem Q, and the transport (J6) with the table, conditional on Slice B's (J4).
+- No amendment is required.
+- The one observation, that the remainder in (2.3) is in fact `O(r⁴)`, is optional and does not affect any statement.
+
+**Reproduction.** All scripts are archived with this review in the author lane's project record; the `d = 3` quadrature uses mpmath:
+- `verify_endpoint.py` (exact, stdlib);
+- `refc2.py` (exact, stdlib);
+- `refc2_d3.py` (mpmath);
+- `slicec_checks.py`.
+
+Scientific effect NONE. No status change, no merge, no self-review.
+
+_Generated by [Claude Code](https://claude.ai/code)_
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
