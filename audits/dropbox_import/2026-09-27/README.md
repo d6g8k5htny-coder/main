@@ -5,6 +5,25 @@ Provenance record of project material that existed only in Dylan's Dropbox.
 the claims their authors made at the time, and current Git and Drive carriers
 govern present status. Treat every file as historical input for review.
 
+## Mathematical reading correction — 2026-11-02
+
+[The archived cross-disciplinary synthesis, §C](https://github.com/d6g8k5htny-coder/main/blob/c1f807e3f1c19374f9e65b46a15ca1936d9620c5/audits/dropbox_import/2026-09-27/files/Github/Cross-Disciplinary%20Connections%20for%20Persistence-Thermodynamic%20Cosmological%20Fingerprints13m.pdf.txt#L161-L167)
+incorrectly gives β < α as the convergence range for a power-law lifetime tail.
+For a nonnegative, locally integrable density on [0, ∞) satisfying
+ρ(ℓ) ~ cℓ^(-α) as ℓ → ∞, c > 0, the integral
+Z(β) = ∫₀∞ exp(βℓ)ρ(ℓ)dℓ diverges for every β > 0, converges for β < 0,
+and converges at β = 0 exactly when α > 1. To see this, bound the tail density
+above and below by positive multiples of ℓ^(-α), then apply exponential
+domination and the power-integral test. Local integrability handles the finite interval.
+
+A small-lifetime asymptotic alone gives no large-lifetime threshold.
+Under the same local-integrability assumptions, a tail
+ρ(ℓ) ~ cℓ^(-p)exp(-aℓ), a > 0, instead has threshold β = a:
+convergence below, divergence above, and convergence at equality exactly when p > 1.
+Finite catalogs of finite lifetimes have finite Z for every real β.
+These are integral-convergence statements, not phase-transition certificates.
+The archived source bytes remain unchanged.
+
 This import follows the owner's standing rule
 [OP-PRIVACY-20260927](../../../governance/OP-PRIVACY-20260927.md): only material
 related to the project is published here, and nothing personal is.
