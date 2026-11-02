@@ -1,0 +1,414 @@
+{
+ "batches": [
+  {
+   "batch": 4,
+   "kind": "screen",
+   "verdicts": [
+    {
+     "object": "frontiers/cap_first_exit_lean_20261002@pr531",
+     "ok": true,
+     "problems": [],
+     "items": [
+      {
+       "object": "frontiers/cap_first_exit_lean_20261002@pr531",
+       "item_id": "manifest",
+       "files": [
+        "frontiers/cap_first_exit_lean_20261002/MANIFEST.json"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean (git blob 01744e2c, the same blob at #531 head c4a89bb9, main c88c34b2 and 4013764)",
+        "Q-1146",
+        "frontiers/cap_first_exit_lean_20261002 (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "tools@pr531"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "This is a custody and gate-expectation manifest. It holds the object id CAP-FIRST-EXIT-LEAN-20261002-v1, scientific_effect NONE, mathematical_acceptance false, alignment_review NOT_CLAIMED, the toolchain/Mathlib/dependency pins, pins_on_main, the allowed axioms, 152 targets with expected axiom lists, per-file bytes/SHA-256 and a source_admission block (helper_sha256, a 152-record census, and continuation and declaration bindings). It states no mathematical claim. The expected_axioms entries are what the gate requires, not observed results, and no receipt is in the file. Against main (blob 5252de50), this version adds source_admission and rebinds the README.md, gate.py and test_gate.py hashes. Against #536 (blob 3c6dd5bd), only two things differ: the README.md bytes/sha256 (36184 B here, 36824 B at #536) and source_admission.helper_sha256 (6fc0f504... here, 04b98b2a... at #536). So #531's manifest binds the earlier tools/lean_packet_admission.py, which pairs raw and lexed lines with splitlines(). #536 replaced that with LF pairing and a strict equal-count zip. The Lean source this manifest binds is the CapFirstExit.lean that Q-1146 holds.",
+       "title": "Cap first-exit packet MANIFEST at #531: byte pins, 152 targets with expected axioms, source-admission census bound to the pre-LF-correction helper",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/cap_first_exit_lean_20261002@pr531",
+       "item_id": "readme",
+       "files": [
+        "frontiers/cap_first_exit_lean_20261002/README.md"
+       ],
+       "classification": "COPY_OR_EXPOSITION_OF",
+       "refers_to": [
+        "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean (git blob 01744e2c, the same blob at #531 head, main c88c34b2 and 4013764)",
+        "frontiers/cap_first_exit_lean_20261002/ALIGNMENT.md (git blob ef05eb26, the same at #531 head and main)",
+        "Q-1146",
+        "frontiers/cap_first_exit_lean_20261002 (Math-#536 head 0dd9f215, tranche-9 batch 3)"
+       ],
+       "claim_held_by": [
+        "Q-1146"
+       ],
+       "classification_reason": "Lines 1-237 are byte-identical to the README at commit 4013764 (blob 4f5e1bf0), the commit Q-1146 binds. Lines 1-253 are identical to main c88c34b2 (blob e87c1b10). Lines 8-201 ('What is proved' / 'What is not proved here', including the declaration table at lines 80-158) describe the declarations of CapFirstExit.lean. That file is unchanged at #531 and belongs to another object. Every mathematical statement in these lines is a description of one of its Lean declarations (CapHyp, elder_death_level, ridge_capHyp_* through ridge_capHyp_blocks, torus_capHyp_blocks, torus_elder_death_level_blocks, toys and counterexamples); the README adds no claim of its own. Q-1146 holds that package; its title reads 'Math- frontiers/cap_first_exit_lean_20261002 (CAP-FIRST-EXIT-LEAN-20261002-v1, v2.6 at commit 4013764): own lake package cap_first_exit, Lean v4.34.1 + Mathlib d13f23b7, CapFirstExit.lean 326607 B, 152 declarations (138 theorems, 13 defs, 1 structure CapHyp), sorry count 0, allowed axioms propext/Classical.choice/Quot.sound; MANIFEST mathematical_acceptance false, alignment_review NOT_CLAIMED'. Lines 203-327 are engineering: run commands, the runtime guard and the bounded source admission. Against #536 (blob fb409091), #531 says 'fourteen old mutants ... fifteen mutants' (lines 321-322) and lacks #536's closing 'Physical-line correction' paragraph and its sixteenth (splitlines-regression) mutant. The two versions differ in nothing else.",
+       "title": "Cap first-exit packet README at #531: exposition of the CapFirstExit.lean declarations plus the source-admission engineering notes",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      }
+     ]
+    },
+    {
+     "object": "frontiers/determinant_moment_20261025@pr531",
+     "ok": false,
+     "problems": [
+      {
+       "field": "items[gate-and-zip-checker].classification_reason",
+       "issue": "States 'Neither file exists on main.' This is false for gate.py: frontiers/determinant_moment_20261025/gate.py exists on main c88c34b2 (blob b9ff3a68, 332 lines, also at 74565f01). Against main, #531 adds 283 lines and removes 26: verified_implementation, determinant_implementation, the compiled_inventory_version-2 route, verify_committed_files, source_custody, load_admission, write_evidence and GIT_*/LEAN_PATH sanitising in run(). Only artifact_integrity.py is absent from main."
+      },
+      {
+       "field": "items[quarantine-record].classification_reason",
+       "issue": "States that #536 'adds seven more attempt entries'. #536's QUARANTINE.json has 15 attempted entries. Its first seven are identical to #531's seven, so #536 adds eight: actual_native_seven_control_execution, real_git_producer_red, bounded_producer_successor, actual_source_qualified_execution (twice), shared_grader_exit_status_repair, deliberate_exact_companion_disposition and actual_byte_workflow_partial_capture. The reason also does not mention that #536 rewrites layer_a_status, blocking_reason, resumption_cost and isolation."
+      },
+      {
+       "field": "items[ledgers].classification_reason",
+       "issue": "Misquote. The item says #536's STATUS, GOVERNANCE and TOOLING all open with 'The66 exact conditional companion statements are CLOSED by actual source-qualified native4871 execution'. Only #536 STATUS.md opens that way. #536 GOVERNANCE.md and TOOLING.md open with the banner '> Current operational scope:66 exact conditional companions are kernel CLOSED at immutable4871, without continuum/scientific acceptance.'"
+      },
+      {
+       "field": "items[manifest].classification_reason",
+       "issue": "The list of file hashes that differ from #536 leaves out artifact_integrity.py. Fourteen differ in all: DECISIONS.md, GOVERNANCE.md, QUARANTINE.json, README.md, STATUS.md, TOOLING.md, artifact_integrity.py, gate.py and six tests. The phrase for the entries missing at #531 is also vague. The nine entries present only at #536 are APPLICATION_BOUNDARIES.md, determinant_git_identity.py, tests/run_cbz_runner_mutations.py, tests/run_git_identity_mutations.py, tests/test_cbz_mutation_runner.py, tests/test_determinant_git_identity.py, tests/test_determinant_workflow_console_capture.py, tests/test_gate_git_qualification.py and tests/test_git_identity_mutation_runner.py. Apart from files, only source_admission.helper_sha256 differs; census, continuations and declarations are identical."
+      }
+     ],
+     "items": [
+      {
+       "object": "frontiers/determinant_moment_20261025@pr531",
+       "item_id": "ledgers",
+       "files": [
+        "frontiers/determinant_moment_20261025/DECISIONS.md",
+        "frontiers/determinant_moment_20261025/GOVERNANCE.md",
+        "frontiers/determinant_moment_20261025/STATUS.md",
+        "frontiers/determinant_moment_20261025/TOOLING.md"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "frontiers/determinant_moment_20261025 (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "Q-3001",
+        "E-DETERMINANT-COMPILED-QUALIFICATION"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "These four files are the packet's engineering documents. DECISIONS.md is a decision ledger: console transport to RUNNER_TEMP, the Measure.map_dirac' fixture API fix, the artifact verifier, source custody, and mutations of the mutation grader. It is not on main. GOVERNANCE.md holds the authority, tool-registry and evidence rules. STATUS.md is a publication checkpoint ('QUARANTINED pending actual execution of this successor', engineering test counts, hosted run ids). TOOLING.md is the tool table and its commands. None states a mathematical result. The historical census counts in STATUS.md:8-10 (157 ConstantInfos, 58421 dependencies, standard axioms) are evidence of runs, not mathematics. STATUS.md:3-6 says the 66 public scalar companion targets in 14 unchanged Lean files are 'not a proof of the surrounding continuum Gaussian/Palm/lifetime claims'. Those Lean files are unchanged from main and are held by Q-3001. Against #536, these are the earlier QUARANTINED checkpoint. #536's STATUS.md opens 'The66 exact conditional companion statements are CLOSED by actual source-qualified native4871 execution'. #536's GOVERNANCE.md and TOOLING.md open with the banner '> Current operational scope:66 exact conditional companions are kernel CLOSED at immutable4871, without continuum/scientific acceptance'. #536's DECISIONS.md is retitled 'Determinant producer decision ledger' and adds the 2026-10-29T20:53:31Z 'Deliberately close only66 exact conditional companion statements' entry. #531 instead records its own custody-candidate entries (21:08:13-21:20:09 UTC), which #536 lacks. All four files describe engineering state only.",
+       "title": "Determinant packet ledgers at #531 (decisions, governance, status checkpoint, tooling): engineering state before #536's native4871 disposition",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/determinant_moment_20261025@pr531",
+       "item_id": "quarantine-record",
+       "files": [
+        "frontiers/determinant_moment_20261025/QUARANTINE.json"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "Q-3001",
+        "E-DETERMINANT-COMPILED-QUALIFICATION",
+        "frontiers/determinant_moment_20261025 (Math-#536 head 0dd9f215, tranche-9 batch 3)"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "The packet's engineering quarantine record CBZ-MATH-DETERMINANT-COMPILED-ADMISSION ('Determinant package current compiled completeness and axiom-closure quarantine'). It binds the 14 Lean module hashes, Layer A A2/A8 'UNESTABLISHED_PACKAGE_WIDE_EVIDENCE', and exact_boundary.status QUARANTINED. Its blocking_reason is missing execution evidence for the auditor ('fresh package build/kernel recheck, runtime inventory equality, all-constant transitive axiom closure and all seven intended negative outcomes'), and it says the scientific parent implications 'remain outside this formal package'. It states no mathematical claim. Q-3001 and E-DETERMINANT-COMPILED-QUALIFICATION bind the main version (blob 6d27176a, at 74565f01). This #531 version (blob 771a3f54) differs from it in four places: it replaces 'compiled_inventory is null' with the 91-record binding from historical census 40923885114, it rewrites closure_limit (157 ConstantInfos / 58421 dependencies from the historical census) and blocking_reason, and it adds an actual_historical_compiled_census attempt (7 attempts in all). #536 (blob ca829c50) is a later state. It retitles the record 'Resolved determinant admission quarantine: exact conditional companion targets closed', sets exact_boundary.status CLOSED with formal_evidence run 40949497117, and rewrites layer_a_status, blocking_reason, resumption_cost and isolation. It keeps #531's seven attempt entries unchanged and adds eight more (15 in all): actual_native_seven_control_execution, real_git_producer_red, bounded_producer_successor, actual_source_qualified_execution twice, shared_grader_exit_status_repair, deliberate_exact_companion_disposition and actual_byte_workflow_partial_capture. #531 keeps QUARANTINED.",
+       "title": "Determinant compiled-admission quarantine record at #531 (still QUARANTINED, with the historical-census binding)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/determinant_moment_20261025@pr531",
+       "item_id": "readme",
+       "files": [
+        "frontiers/determinant_moment_20261025/README.md"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "Q-3001",
+        "frontiers/determinant_moment_20261025/SCOPE.md (main)",
+        "frontiers/determinant_moment_20261025 (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "tools@pr531"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "The packet README. Line 1 is a status banner ('QUARANTINED pending current-source execution'). Lines 3-16 summarise the research topic in one paragraph and defer the premises to SCOPE.md and the SOURCE_*.md contracts. Lines 18-139 give reproduction commands and describe the bounded source admission, the continuation/declaration bindings and the mutation runner ('fifteen mutants'). The paragraph at lines 3-16 states no claim of its own. The Lean modules it summarises are unchanged from main and held by Q-3001, whose exact_boundary reads 'The generic scalar/DM2/Gaussian endpoint moments, canonical conditioning, normalizer and normalized-weight event theorems retain their exact source hypotheses.' Against main, this version adds the source-admission sections (lines 44-139) and a new banner. Against #536 (blob 52842de0), #531 lacks #536's 'Current CBZ scope ... kernel CLOSED at native4871' banner, its Git-qualification paragraph and its physical-line correction / sixteenth-mutant text.",
+       "title": "Determinant packet README at #531: status banner, research summary pointer, reproduction and source-admission notes",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/determinant_moment_20261025@pr531",
+       "item_id": "gate-and-zip-checker",
+       "files": [
+        "frontiers/determinant_moment_20261025/gate.py",
+        "frontiers/determinant_moment_20261025/artifact_integrity.py"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "frontiers/determinant_moment_20261025 (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "tools@pr531",
+        "E-DETERMINANT-COMPILED-QUALIFICATION"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "Both files are engineering tools. gate.py is the source/execution/receipt gate. It checks the manifest and loads the hash-checked helpers (compiled_inventory.py, determinant_inventory.py, tools/lean_packet_admission.py) and the compiled-inventory contract. It allows only propext/Classical.choice/Quot.sound, writes #print axioms and #check scripts, runs controls and writes the receipt. Its Lean snippets (two false norm_num statements, an injected sorry, a custom axiom, native_decide) are rejection fixtures, not claims. artifact_integrity.py checks the bytes of a downloaded ZIP/receipt and 'never award[s] a kernel result'. Both are certifying tools in the A8 sense; neither states mathematics. Against main: gate.py is on main (blob b9ff3a68, 332 lines). #531 adds 283 lines and removes 26: verified_implementation, determinant_implementation, the compiled_inventory_version-2 route, verify_committed_files, source_custody, load_admission, write_evidence and GIT_*/LEAN_PATH sanitising in run(). artifact_integrity.py is not on main. Against #536, gate.py has a different custody route. #531 has source_custody / verify_committed_files, which observe committed, index and working bytes. #536 instead has source_qualification through a separately pinned determinant_git_identity.py. #531's artifact_integrity.py calls archive.stat() and archive.read_bytes() separately from the ZIP read. That is the pathname-replacement race #536 fixes with a single bounded snapshot (#536 test_path_replacement_cannot_relabel_inspected_archive_bytes).",
+       "title": "Determinant gate.py and downloaded-artifact checker at #531 (custody-candidate variant, pre-snapshot ZIP read)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/determinant_moment_20261025@pr531",
+       "item_id": "manifest",
+       "files": [
+        "frontiers/determinant_moment_20261025/manifest.json"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "Q-3001",
+        "E-DETERMINANT-COMPILED-QUALIFICATION",
+        "frontiers/determinant_moment_20261025 (Math-#536 head 0dd9f215, tranche-9 batch 3)"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "The packet's byte and inventory manifest. It holds dependency revisions, 13 source modules, 66 target names, file SHA-256s (256 entries), source_binding, additional_source_contracts, source_admission (106-record census plus continuation/declaration bindings), the 91-record compiled_inventory (typed names only, no statements), compiled_inventory_qualification ('QUARANTINED_PENDING_REPAIRED_GATE_EXECUTION', real_lean_execution 'NOT_RUN_AT_THIS_SOURCE'), compiled_inventory_version 2, ir_extra_counts and auxiliary_compatibility. It names targets but states none of them. Its legacy field formalization_status 'proved' is a label, not evidence, and its own qualification field marks it unexecuted. Against main (compiled_inventory null, no source_admission, 240 file entries), it adds these bindings and 16 file entries. Against #536 (blob db94b229), only files and source_admission.helper_sha256 differ. Fourteen file hashes differ: DECISIONS.md, GOVERNANCE.md, QUARANTINE.json, README.md, STATUS.md, TOOLING.md, artifact_integrity.py, gate.py, tests/run_cbz_mutations.py, tests/test_artifact_integrity.py, tests/test_cli_receipt_boundary.py, tests/test_determinant_execute.py, tests/test_gate.py and tests/test_workflow_receipt_transport.py. It lacks nine entries that #536 has: APPLICATION_BOUNDARIES.md, determinant_git_identity.py, tests/run_cbz_runner_mutations.py, tests/run_git_identity_mutations.py, tests/test_cbz_mutation_runner.py, tests/test_determinant_git_identity.py, tests/test_determinant_workflow_console_capture.py, tests/test_gate_git_qualification.py and tests/test_git_identity_mutation_runner.py. Its helper_sha256 (6fc0f504...) is the pre-LF-correction helper (#536: 04b98b2a...). Its census, continuations and declarations are identical to #536's.",
+       "title": "Determinant manifest.json at #531: file hashes, 66 target names, source-admission census, historical compiled-inventory binding",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      }
+     ]
+    },
+    {
+     "object": "frontiers/determinant_moment_20261025/tests@pr531",
+     "ok": false,
+     "problems": [
+      {
+       "field": "items[component-tests].classification_reason",
+       "issue": "'Their docstrings say all execution fixtures are synthetic and no Lean runs' is not literally true of all five files. tests/test_gate.py has no module docstring; it says it uses synthetic external process results in a comment at line 139 and in the synthetic_inventory docstring at line 168. test_cli_receipt_boundary.py's docstring says only that 'all execution fixtures are synthetic'. The conclusion (tooling tests, no Lean) holds, but the attribution should be per file."
+      }
+     ],
+     "items": [
+      {
+       "object": "frontiers/determinant_moment_20261025/tests@pr531",
+       "item_id": "outer-mutation-runner",
+       "files": [
+        "frontiers/determinant_moment_20261025/tests/run_cbz_mutations.py"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "frontiers/determinant_moment_20261025/tests (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "frontiers/determinant_moment_20261025@pr531"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "A portable engineering mutation runner ('No Lean execution is performed'). It applies 12 source mutants to an isolated copy: six to artifact_integrity, three to compiled_inventory, two to gate receipt/bytecode, plus one runtime-census mutant built from gate.py. For each it requires a passing same-selection baseline, exit code exactly 1, the expected failing tests and a named failure reason per mutant. This is tests of tooling, not mathematics. #536's version (blob 89efd16c) replaces this self-contained classifier with a loader for the shared phase-aware runner run_git_identity_mutations.py and the two workflows. #531 keeps its own reason-bound scoring. Main has an older version (81 lines added and 8 removed here).",
+       "title": "Determinant outer CBZ mutation runner at #531 (12 reason-bound tooling mutants)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "frontiers/determinant_moment_20261025/tests@pr531",
+       "item_id": "component-tests",
+       "files": [
+        "frontiers/determinant_moment_20261025/tests/test_artifact_integrity.py",
+        "frontiers/determinant_moment_20261025/tests/test_cli_receipt_boundary.py",
+        "frontiers/determinant_moment_20261025/tests/test_determinant_execute.py",
+        "frontiers/determinant_moment_20261025/tests/test_gate.py",
+        "frontiers/determinant_moment_20261025/tests/test_workflow_receipt_transport.py"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "frontiers/determinant_moment_20261025/tests (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "frontiers/determinant_moment_20261025@pr531"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "These are unittest suites for the packet's tooling, and none runs Lean. test_artifact_integrity ('byte transport only; no Lean is executed') covers ZIP and CLI byte transport. test_cli_receipt_boundary ('all execution fixtures are synthetic') covers stale-receipt invalidation, the QUARANTINE.json record shape and the portable runner report. test_determinant_execute ('All external process observations are SYNTHETIC ... never executes Lean') holds synthetic execute-path probes. test_gate covers axiom-output parsing, manifest, review and runtime-version checks; it has no module docstring, but its comment at line 139 calls these orchestration tests with synthetic external process results. test_workflow_receipt_transport ('never Lean results') runs the workflow's shell pipeline on synthetic gate output. The Lean snippets in these files are trivial rejection fixtures, not claims. None states a mathematical result. Against #536: test_cli_receipt_boundary.py here asserts A2/A8 'UNESTABLISHED_PACKAGE_WIDE_EVIDENCE' and a 12-mutant runner report. #536 asserts the CLOSED/4871 record and a 20-mutant / 21-pair report. test_artifact_integrity.py lacks #536's path-replacement regression. test_determinant_execute.py and test_gate.py patch source_custody here and source_qualification at #536. test_workflow_receipt_transport.py lacks #536's include-hidden-files and disposable-exclusion checks.",
+       "title": "Determinant component tooling tests at #531 (artifact, CLI receipt, execute probes, gate, workflow transport)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      }
+     ]
+    },
+    {
+     "object": "tests@pr531",
+     "ok": false,
+     "problems": [
+      {
+       "field": "items[source-mutation-runner].classification_reason",
+       "issue": "'classify() ... counts a kill whenever result.returncode != 0' overstates the rule. At lines 168-170 a kill also requires body-phase failure evidence, matching discovery, no errors, an AssertionError and a matching FAILED summary. The defect is that its only exit-status condition is returncode != 0, with no exact-int or exactly-1 check. That is what lets #536's recorded atexit os._exit(2) case count as a kill."
+      }
+     ],
+     "items": [
+      {
+       "object": "tests@pr531",
+       "item_id": "admission-controls",
+       "files": [
+        "tests/test_lean_packet_admission.py"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "tools@pr531",
+        "tests (Math-#536 head 0dd9f215, tranche-9 batch 3)"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "Unit controls for the bounded Lean source-admission helper. Its docstring reads 'never a compiled Lean inventory certificate'. Its Lean fixtures (e.g. 'theorem t : True := by trivial') are trivial lexer inputs, not claims. This is a test of a certifying tool (A8), not mathematics. Against #536 (blob 8bdd723c), this version lacks test_physical_header_lines_keep_unicode_text_alignment and test_physical_header_mapping_refuses_missing_lexical_lines, and differs in nothing else. Those are the controls for the LF physical-line pairing that #536 adds to the helper; #531's helper still pairs lines with splitlines(). The file is not on main.",
+       "title": "Shared Lean packet source-admission unit controls at #531 (without the physical-line alignment controls)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      },
+      {
+       "object": "tests@pr531",
+       "item_id": "source-mutation-runner",
+       "files": [
+        "tests/run_source_admission_mutations.py",
+        "tests/test_source_admission_mutations.py"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "tools@pr531",
+        "tests (Math-#536 head 0dd9f215, tranche-9 batch 3)"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "The runner applies fifteen bounded source-checker mutations with same-copy controls in both Python modes ('No Lean execution; this is not federation G0'). The second file holds its ten acceptance self-tests. Both are engineering. The difference from #536 matters for tool qualification. In #531's classify() (run_source_admission_mutations.py:154-171), a kill also needs body-phase failure evidence, matching discovery, no errors, an AssertionError and a matching FAILED summary. But its only exit-status condition is result.returncode != 0, with no check that the status is the int 1. #536 adds a valid_status guard (type int, value 0 or 1) and three self-tests: test_actual_atexit_failure_cannot_count_as_exit_status_one_kill, test_exit_status_must_be_zero_or_one and test_returncode_type_must_be_exact_int. It also adds three mutants: a physical-line regression and two runner-status removals, for 18 cases at #536. #536's QUARANTINE.json describes the defect: 'atexit os._exit(2) was falsely classified as a kill'. Neither file is on main.",
+       "title": "Shared source-admission mutation runner and its self-tests at #531 (15 mutants, nonzero-exit kill rule)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      }
+     ]
+    },
+    {
+     "object": "tools@pr531",
+     "ok": false,
+     "problems": [
+      {
+       "field": "items[admission-helper].classification_reason",
+       "issue": "The reason leaves out a documentation difference from #536 that matters for status (A7). Lines 57-68 of #531's tools/LEAN_PACKET_ADMISSION.md say the determinant observation status is 'NOT_RUN / UNQUALIFIED'. They also say that gate.py --execute 'remains fail-closed with CBZ_COMPILED_INVENTORY_UNQUALIFIED until a separately qualified exact census is bound', and that the adapter 'cannot currently admit the legitimate private non-target theorem inventory'. These lines are stale against #531's own determinant manifest. That manifest binds a 91-record compiled_inventory with compiled_inventory_version 2, which gate.py routes through determinant_inventory.py. #536 replaces the paragraph with the 91-record determinant-policy and native-run-40945103791 text and adds the physical-line correction paragraph. The diff covers more than the 15/10 versus 18/13 counts."
+      }
+     ],
+     "items": [
+      {
+       "object": "tools@pr531",
+       "item_id": "admission-helper",
+       "files": [
+        "tools/lean_packet_admission.py",
+        "tools/lean_packet_admission.registry.json",
+        "tools/LEAN_PACKET_ADMISSION.md"
+       ],
+       "classification": "NOT_OBLIGATION",
+       "refers_to": [
+        "tools (Math-#536 head 0dd9f215, tranche-9 batch 3)",
+        "tests@pr531",
+        "frontiers/cap_first_exit_lean_20261002@pr531",
+        "frontiers/determinant_moment_20261025@pr531"
+       ],
+       "claim_held_by": [],
+       "classification_reason": "Shared engineering tooling. The helper is the standard-library source declaration census used by the Cap and determinant gates ('NOT an all-compiled-constant audit'). The registry records scientific_effect NONE, registration_status PARENT_REVIEW_INPUT_ONLY, actual_lean NOT_RUN, compiled_census_qualification UNQUALIFIED, 15 mutation cases and 10 runner self-tests, and its file hashes match the #531 bytes. The third file is the documentation. It is a certifying tool for A8 and states no mathematics. The helper differs from #536 in ways that matter for tool qualification. #531's lean_packet_admission.py pairs raw and lexed lines with zip(text.splitlines(), code.splitlines()) (line 120) and iterates code.splitlines() (lines 98 and 165). #536 uses LF split('\\n') with an equal-count check and strict zip, so Unicode or other separators inside comments or literals cannot shift or truncate the header pairing. The registry follows the helper: hashes 6fc0f504... here against 04b98b2a... at #536, and 15/10 counts against 18/13. The documentation also says fifteen/ten and lacks #536's physical-line correction paragraph. Its determinant-workflow paragraph (lines 57-68) differs in substance too. It says observation status is 'NOT_RUN / UNQUALIFIED' and that gate.py --execute 'remains fail-closed with CBZ_COMPILED_INVENTORY_UNQUALIFIED until a separately qualified exact census is bound'. That is stale against #531's own determinant manifest, which binds a 91-record compiled_inventory (version 2). #536 replaces the paragraph with the 91-record determinant-policy and native-run-40945103791 text. None of the three files is on main.",
+       "title": "Shared bounded Lean source-admission helper, registry and documentation at #531 (splitlines() line pairing)",
+       "statements": [],
+       "hypotheses": "n/a",
+       "dependencies": "n/a",
+       "finite_checks": "n/a",
+       "floating_point": "n/a",
+       "source_self_limits": "n/a",
+       "exact_boundary": "n/a",
+       "layer_a_status": "n/a",
+       "blocking_reason": "n/a",
+       "attempted": "n/a",
+       "resumption_cost": "n/a"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
