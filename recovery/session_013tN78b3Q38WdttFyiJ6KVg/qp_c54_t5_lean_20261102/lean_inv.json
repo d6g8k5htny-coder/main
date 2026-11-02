@@ -1,0 +1,8041 @@
+{
+ "summary": {
+  "math_ref": "3b11bff6479f3f40ac838fe1d8b87c7ed6814606",
+  "files": 57,
+  "groups": {
+   "companions/torus_filtration_20261011": 7,
+   "frontiers/asymmetric_elder_bridge_20261017": 8,
+   "frontiers/cap_first_exit_lean_20261002": 1,
+   "frontiers/compact_morse_elder_adapter_20261018": 11,
+   "frontiers/regular_superlevel_geometry_20261020": 6,
+   "frontiers/source_derivative_gaussian_20261025": 18,
+   "frontiers/source_lifetime_realization_20261017": 6
+  },
+  "theorems": 846,
+  "files_with_sorry_or_admit": 0,
+  "files_with_axiom_decl": 0,
+  "files_with_native_decide": 0,
+  "files_with_evidence_leads": 57
+ },
+ "files": [
+  {
+   "path": "companions/torus_filtration_20261011/ClosedSuperlevel.lean",
+   "git_blob": "a4323cb50fb2d5861c4e6240a18684bfb566fb80",
+   "bytes": 8088,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "superlevel_set",
+     "line": 22
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_closed_endpoint",
+     "line": 27
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_strict_endpoint",
+     "line": 32
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_parameter_sign",
+     "line": 38
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_inclusion_direction",
+     "line": 43
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_essential",
+     "line": 51
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_mono",
+     "line": 57
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_isClosed",
+     "line": 63
+    },
+    {
+     "keyword": "def",
+     "name": "superlevel_inclusion",
+     "line": 68
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_inclusion_id",
+     "line": 73
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_inclusion_comp",
+     "line": 79
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_mem_at_own_height",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_neg_height",
+     "line": 91
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_control_strict_thresholds",
+     "line": 97
+    },
+    {
+     "keyword": "def",
+     "name": "superlevel_componentMap",
+     "line": 107
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_componentMap_mk",
+     "line": 112
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_componentMap_id",
+     "line": 116
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_componentMap_comp",
+     "line": 122
+    },
+    {
+     "keyword": "def",
+     "name": "superlevel_componentInclusion",
+     "line": 131
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_componentInclusion_id",
+     "line": 136
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_componentInclusion_comp",
+     "line": 142
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_component_eq_iff_joinedIn",
+     "line": 151
+    },
+    {
+     "keyword": "def",
+     "name": "superlevel_filtration",
+     "line": 164
+    },
+    {
+     "keyword": "def",
+     "name": "superlevel_h0Filtration",
+     "line": 180
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_h0Filtration_map_id",
+     "line": 185
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevel_h0Filtration_map_comp",
+     "line": 191
+    }
+   ],
+   "theorems": 20,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW_MANIFEST.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/OrdinaryH0.lean",
+   "git_blob": "7bc5f80028271e0e33d857e60496ca4cadaa9364",
+   "bytes": 19803,
+   "lake_root": null,
+   "imports": [
+    "Mathlib",
+    "ClosedSuperlevel"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentFunctor",
+     "line": 48
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentCoproductFunctor",
+     "line": 65
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentCoproductMap_iota",
+     "line": 71
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentFiltration",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentFiltration_map_iota",
+     "line": 88
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_simplicialPointClass",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_simplicialPointClass_iso",
+     "line": 111
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_simplicialPointClass_map",
+     "line": 121
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_toSSet_pointMap",
+     "line": 132
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_pointClass",
+     "line": 140
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_map",
+     "line": 148
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_iso",
+     "line": 162
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentIota_isoInv",
+     "line": 175
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_hom_ext",
+     "line": 184
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_iso_naturality",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_naturalIso",
+     "line": 213
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_augmentation",
+     "line": 221
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_ne_zero",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_eq_of_component_eq",
+     "line": 240
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_sameComponent_difference_zero",
+     "line": 249
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_ne_of_component_ne",
+     "line": 257
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_eq_iff",
+     "line": 275
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_difference_map",
+     "line": 288
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_difference_map_eq_zero_iff",
+     "line": 297
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_filtrationIso",
+     "line": 307
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_filtration_naturality",
+     "line": 315
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_filtration_difference_zero_iff_joinedIn",
+     "line": 326
+    }
+   ],
+   "theorems": 20,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW_MANIFEST.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/OrdinaryH0Controls.lean",
+   "git_blob": "187bbcadb16213f6bb3ddbee28897685e1cedcd7",
+   "bytes": 29590,
+   "lake_root": null,
+   "imports": [
+    "Mathlib",
+    "OrdinaryH0"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "ordinaryH0Control_intCoeff",
+     "line": 67
+    },
+    {
+     "keyword": "abbrev",
+     "name": "ordinaryH0Control_zeroCoeff",
+     "line": 72
+    },
+    {
+     "keyword": "abbrev",
+     "name": "ordinaryH0Control_mod2Coeff",
+     "line": 77
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_intCoeff_id_ne_zero",
+     "line": 82
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_mod2Coeff_id_ne_zero",
+     "line": 92
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_mod2Coeff_id_add_self",
+     "line": 102
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_zeroCoeff_isZero",
+     "line": 112
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_zeroCoeff_id_eq_zero",
+     "line": 118
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_empty_components",
+     "line": 125
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_empty_componentCoproduct_isZero",
+     "line": 134
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_empty_h0_isZero",
+     "line": 143
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_zeroCoeff_componentCoproduct_isZero",
+     "line": 152
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_zeroCoeff_h0_isZero",
+     "line": 161
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_point_augmentation",
+     "line": 169
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_point_ne_zero",
+     "line": 178
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_point_h0_not_isZero",
+     "line": 186
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_line_component_eq",
+     "line": 194
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_line_difference_zero_int",
+     "line": 205
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_line_difference_zero_zeroCoeff",
+     "line": 213
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_line_classes_ne_zero",
+     "line": 221
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_discrete_component_ne",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_bool_component_ne",
+     "line": 241
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_bool_pointClass_ne",
+     "line": 248
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_bool_pointClass_ne_mod2",
+     "line": 257
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0Control_collapse",
+     "line": 266
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_collapse_difference_zero",
+     "line": 272
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_collapse_image_ne_zero",
+     "line": 282
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_collapse_difference_dies_classes_survive",
+     "line": 292
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0Control_fst",
+     "line": 305
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_square_differences_ne_zero",
+     "line": 311
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_fst_difference_zero",
+     "line": 324
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_fst_difference_ne_zero",
+     "line": 334
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_bool_zeroCoeff_eq",
+     "line": 345
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_point_zeroCoeff_eq_zero",
+     "line": 353
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_separation_needs_nonzero",
+     "line": 360
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_nonvanishing_needs_nonzero",
+     "line": 370
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0Control_parabolaLeft",
+     "line": 377
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0Control_parabolaRight",
+     "line": 383
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_le",
+     "line": 389
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_strict_growth",
+     "line": 395
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_not_joined_quarter",
+     "line": 403
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_joined",
+     "line": 417
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_difference_zero",
+     "line": 429
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0Control_parabola_strict_difference_ne_zero",
+     "line": 442
+    }
+   ],
+   "theorems": 37,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/SuperlevelBar.lean",
+   "git_blob": "b047384e20306ee030154885536c531633b88bd8",
+   "bytes": 15309,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "superlevelBar_E",
+     "line": 42
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_isEssential",
+     "line": 46
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_clearanceSet",
+     "line": 53
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_deathHeight",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_essential_iff",
+     "line": 69
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_mem_lt_start",
+     "line": 76
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_bddAbove",
+     "line": 86
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_empty_of_essential",
+     "line": 93
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_zero_of_empty",
+     "line": 106
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_zero_of_essential",
+     "line": 115
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_sSup_of_nonempty",
+     "line": 124
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_path_minimum",
+     "line": 134
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_nonempty",
+     "line": 146
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_nonempty_iff",
+     "line": 167
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_downward",
+     "line": 178
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_improve",
+     "line": 187
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_strict_cut",
+     "line": 203
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_le_start_of_nonempty",
+     "line": 227
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_le_start",
+     "line": 237
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_eq_Iio",
+     "line": 246
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_not_mem_clearance",
+     "line": 256
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_cut_unique",
+     "line": 267
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_const",
+     "line": 284
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_control_negative_essential",
+     "line": 293
+    }
+   ],
+   "theorems": 20,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW_MANIFEST.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/SuperlevelBarField.lean",
+   "git_blob": "f0300a6b459440e81064ef6f75990446a8a3db04",
+   "bytes": 11816,
+   "lake_root": null,
+   "imports": [
+    "Mathlib",
+    "SuperlevelBar",
+    "Specifications.Field"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_continuous",
+     "line": 53
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBarField_interface",
+     "line": 62
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_nonempty",
+     "line": 76
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_deathHeight_eq",
+     "line": 82
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_isEssential_iff",
+     "line": 88
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_elderPartner_iff",
+     "line": 95
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_essential_unique",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_deathHeight_unique",
+     "line": 112
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_elderPartner_unique",
+     "line": 126
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBarField_shift",
+     "line": 145
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_shift_deathHeight_const",
+     "line": 164
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_const_smooth",
+     "line": 174
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_const_periodic",
+     "line": 179
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_control_essential_free",
+     "line": 188
+    }
+   ],
+   "theorems": 12,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW_MANIFEST.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/TorusFiltration.lean",
+   "git_blob": "7dff5dbab05ab90b4a2d21aa3a4d6f8bda35f65e",
+   "bytes": 136,
+   "lake_root": null,
+   "imports": [
+    "TorusTopology",
+    "ClosedSuperlevel",
+    "SuperlevelBar",
+    "OrdinaryH0",
+    "OrdinaryH0Controls",
+    "SuperlevelBarField"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json"
+   ]
+  },
+  {
+   "path": "companions/torus_filtration_20261011/TorusTopology.lean",
+   "git_blob": "ed678ea322fe5315b3aaff44e4e2f06b018399d8",
+   "bytes": 12257,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "torus_E",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "torus_latticeVec",
+     "line": 24
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_field_latticeVec_formula",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "torus_periodBasis",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "torus_periodLattice",
+     "line": 35
+    },
+    {
+     "keyword": "abbrev",
+     "name": "torus_quotient",
+     "line": 38
+    },
+    {
+     "keyword": "def",
+     "name": "torus_proj",
+     "line": 41
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_basis_sum_eq_latticeVec",
+     "line": 45
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_lattice_mem_iff",
+     "line": 62
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_discrete",
+     "line": 69
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_addSubgroup_discrete",
+     "line": 74
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_isZLattice",
+     "line": 79
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_surjective",
+     "line": 84
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_continuous",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_eq_iff",
+     "line": 90
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_lattice_translate",
+     "line": 104
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_isCoveringMap",
+     "line": 109
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_compact",
+     "line": 115
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_pathConnectedSpace",
+     "line": 122
+    },
+    {
+     "keyword": "def",
+     "name": "torus_isPeriodic",
+     "line": 127
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_field_periodic_formula",
+     "line": 130
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_periodic_respects",
+     "line": 135
+    },
+    {
+     "keyword": "def",
+     "name": "torus_descend",
+     "line": 143
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_descend_proj",
+     "line": 147
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_descend_continuous",
+     "line": 151
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_path_lift_from",
+     "line": 157
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_constant_path_endpoint",
+     "line": 172
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_no_arbitrary_endpoint",
+     "line": 182
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_higher_path_iff",
+     "line": 195
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_strict_higher_path_iff",
+     "line": 217
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_closed_higher_path_iff",
+     "line": 226
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_global_max_iff",
+     "line": 235
+    }
+   ],
+   "theorems": 21,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:companions/torus_filtration_20261011/SOURCE_FILES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW_MANIFEST.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderBridge.lean",
+   "git_blob": "a59ee9daab7b67eafd7e4f806b27244bcc5caed1",
+   "bytes": 3683,
+   "lake_root": null,
+   "imports": [
+    "ElderClearance",
+    "ElderInterval"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_closedTrace_isClopen",
+     "line": 18
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_of_boundary",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "elderBoundaryDirectSummand",
+     "line": 55
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderBoundary_death_eq",
+     "line": 70
+    }
+   ],
+   "theorems": 3,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:docs/integration/2026-10-23-postcut-proof-sources.md",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/PROOF.md",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderBridgeAudit.lean",
+   "git_blob": "d5979bcc86237a9d57900cd393fb70721978ab82",
+   "bytes": 340,
+   "lake_root": null,
+   "imports": [
+    "ElderBridge"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderClearance.lean",
+   "git_blob": "bc6136ee5e6f676da8a1ca39467d4d25587f8c7e",
+   "bytes": 5866,
+   "lake_root": null,
+   "imports": [
+    "SuperlevelBar"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "elderTrap_strictTrace",
+     "line": 21
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_strictTrace_isClopen",
+     "line": 26
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_path_stays",
+     "line": 49
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_higher_path_meets_threshold",
+     "line": 69
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_clearance_eq_Iio",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_death_eq",
+     "line": 101
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_closed_path_attains",
+     "line": 119
+    }
+   ],
+   "theorems": 6,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderClearanceAudit.lean",
+   "git_blob": "2a8371db0775db0a8a10091f8451076d94e4637e",
+   "bytes": 600,
+   "lake_root": null,
+   "imports": [
+    "ElderClearanceControls"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderClearanceControls.lean",
+   "git_blob": "2fc74bc87b947d596a5c26fcf912e9048489f7d2",
+   "bytes": 1257,
+   "lake_root": null,
+   "imports": [
+    "ElderClearance"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "elder_control_below",
+     "line": 17
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_death_excluded",
+     "line": 23
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_positive_lifetime",
+     "line": 28
+    }
+   ],
+   "theorems": 3,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderInterval.lean",
+   "git_blob": "108f880b314bf9d5f21e8d30513f14a229808198",
+   "bytes": 16006,
+   "lake_root": null,
+   "imports": [
+    "OrdinaryH0"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "elderActive",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiber",
+     "line": 26
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiber_eq_zero",
+     "line": 32
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiberMap",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiberMap_val",
+     "line": 50
+    },
+    {
+     "keyword": "def",
+     "name": "elderInterval",
+     "line": 55
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiberLift",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiberLift_val",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_birth",
+     "line": 91
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_death",
+     "line": 95
+    },
+    {
+     "keyword": "structure",
+     "name": "ElderTrap",
+     "line": 104
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.maximum_mem",
+     "line": 117
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.older_mem",
+     "line": 123
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_clopen_path_iff",
+     "line": 130
+    },
+    {
+     "keyword": "def",
+     "name": "ElderTrap.componentInside",
+     "line": 140
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.componentInside_mk",
+     "line": 145
+    },
+    {
+     "keyword": "def",
+     "name": "elderDifference",
+     "line": 152
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_map",
+     "line": 160
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_map_dead",
+     "line": 169
+    },
+    {
+     "keyword": "def",
+     "name": "elderProjection",
+     "line": 180
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_point",
+     "line": 187
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_projection",
+     "line": 199
+    },
+    {
+     "keyword": "def",
+     "name": "elderSectionApp",
+     "line": 208
+    },
+    {
+     "keyword": "def",
+     "name": "elderRetractionApp",
+     "line": 215
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderSectionApp_naturality",
+     "line": 222
+    },
+    {
+     "keyword": "def",
+     "name": "elderSection",
+     "line": 248
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_naturality_active",
+     "line": 255
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_prebirth",
+     "line": 269
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderRetractionApp_naturality",
+     "line": 288
+    },
+    {
+     "keyword": "def",
+     "name": "elderRetraction",
+     "line": 330
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderSection_retraction",
+     "line": 339
+    },
+    {
+     "keyword": "def",
+     "name": "elderKernelProjection",
+     "line": 355
+    },
+    {
+     "keyword": "def",
+     "name": "elderDirectSummand",
+     "line": 364
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_ordinary_point_survives",
+     "line": 384
+    }
+   ],
+   "theorems": 19,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderIntervalAxiomAudit.lean",
+   "git_blob": "d86702a95a62e3a8263fbb77ffef535b0543c5f0",
+   "bytes": 1802,
+   "lake_root": null,
+   "imports": [
+    "ElderInterval"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/asymmetric_elder_bridge_20261017/ElderIntervalControls.lean",
+   "git_blob": "01cf6084fe60ebb27308c4186a0ff1e8da4535c9",
+   "bytes": 3561,
+   "lake_root": null,
+   "imports": [
+    "ElderInterval"
+   ],
+   "declarations": [
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 13
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 14
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 16
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 17
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 19
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 22
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 26
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 32
+    },
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 37
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "Math-:frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json"
+   ]
+  },
+  {
+   "path": "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean",
+   "git_blob": "01744e2cf571049d7d1557b9ed54646881d341cf",
+   "bytes": 326607,
+   "lake_root": "frontiers/cap_first_exit_lean_20261002",
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "path_meets_frontier",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "preconnected_subset_of_frontier_disjoint",
+     "line": 72
+    },
+    {
+     "keyword": "structure",
+     "name": "CapHyp",
+     "line": 89
+    },
+    {
+     "keyword": "theorem",
+     "name": "s_le_f_M",
+     "line": 106
+    },
+    {
+     "keyword": "theorem",
+     "name": "barrier",
+     "line": 114
+    },
+    {
+     "keyword": "def",
+     "name": "connectionLevels",
+     "line": 124
+    },
+    {
+     "keyword": "theorem",
+     "name": "maximin_isGreatest",
+     "line": 132
+    },
+    {
+     "keyword": "theorem",
+     "name": "maximin_eq",
+     "line": 141
+    },
+    {
+     "keyword": "theorem",
+     "name": "component_separated",
+     "line": 148
+    },
+    {
+     "keyword": "theorem",
+     "name": "component_joined",
+     "line": 162
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_merge_iff_closed",
+     "line": 176
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_merge_iff_open",
+     "line": 194
+    },
+    {
+     "keyword": "def",
+     "name": "joinedLevels",
+     "line": 211
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_death_level",
+     "line": 217
+    },
+    {
+     "keyword": "theorem",
+     "name": "path_through_saddle",
+     "line": 225
+    },
+    {
+     "keyword": "theorem",
+     "name": "saddle_cut",
+     "line": 241
+    },
+    {
+     "keyword": "theorem",
+     "name": "congr",
+     "line": 258
+    },
+    {
+     "keyword": "theorem",
+     "name": "isClosed_connectedComponentIn",
+     "line": 281
+    },
+    {
+     "keyword": "theorem",
+     "name": "older_peak",
+     "line": 298
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_alive",
+     "line": 322
+    },
+    {
+     "keyword": "def",
+     "name": "olderPeakLevels",
+     "line": 332
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_death_level_peak",
+     "line": 338
+    },
+    {
+     "keyword": "theorem",
+     "name": "frontier_image_subset",
+     "line": 359
+    },
+    {
+     "keyword": "theorem",
+     "name": "map",
+     "line": 375
+    },
+    {
+     "keyword": "theorem",
+     "name": "map_saddle",
+     "line": 393
+    },
+    {
+     "keyword": "theorem",
+     "name": "frontier_cylinder",
+     "line": 405
+    },
+    {
+     "keyword": "theorem",
+     "name": "isCompact_cylinder",
+     "line": 414
+    },
+    {
+     "keyword": "def",
+     "name": "torusCover",
+     "line": 419
+    },
+    {
+     "keyword": "theorem",
+     "name": "torusCover_continuous",
+     "line": 422
+    },
+    {
+     "keyword": "theorem",
+     "name": "torusCover_isOpenMap",
+     "line": 425
+    },
+    {
+     "keyword": "theorem",
+     "name": "CapHyp.toTorus",
+     "line": 433
+    },
+    {
+     "keyword": "theorem",
+     "name": "convex_zeros_between",
+     "line": 463
+    },
+    {
+     "keyword": "theorem",
+     "name": "convex_zeros_right",
+     "line": 470
+    },
+    {
+     "keyword": "theorem",
+     "name": "convex_zeros_left",
+     "line": 481
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_profile",
+     "line": 497
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp",
+     "line": 603
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_saddle_strict",
+     "line": 660
+    },
+    {
+     "keyword": "theorem",
+     "name": "strongConcave_le_of_hasFDerivAt",
+     "line": 714
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_le",
+     "line": 747
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_ridge_bound",
+     "line": 754
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_curved",
+     "line": 769
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_hasFDerivAt",
+     "line": 789
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_hasDerivAt",
+     "line": 798
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_of_slices",
+     "line": 817
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_inputs_of_joint",
+     "line": 865
+    },
+    {
+     "keyword": "theorem",
+     "name": "sp_curved_side_constants",
+     "line": 881
+    },
+    {
+     "keyword": "theorem",
+     "name": "convexOn_add_node",
+     "line": 897
+    },
+    {
+     "keyword": "theorem",
+     "name": "two_node_bound",
+     "line": 915
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_gradient_bound",
+     "line": 949
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_sp",
+     "line": 967
+    },
+    {
+     "keyword": "theorem",
+     "name": "hermite_gap_le",
+     "line": 1020
+    },
+    {
+     "keyword": "theorem",
+     "name": "hermite_m_ge_two",
+     "line": 1060
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_normalized",
+     "line": 1075
+    },
+    {
+     "keyword": "theorem",
+     "name": "strongConcaveOn_of_hessian",
+     "line": 1108
+    },
+    {
+     "keyword": "theorem",
+     "name": "transverse_hessian_le",
+     "line": 1164
+    },
+    {
+     "keyword": "theorem",
+     "name": "hessian_increment",
+     "line": 1197
+    },
+    {
+     "keyword": "theorem",
+     "name": "slices_strongConcave",
+     "line": 1228
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_H1",
+     "line": 1249
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_critical_unique",
+     "line": 1293
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_critical_exists",
+     "line": 1311
+    },
+    {
+     "keyword": "theorem",
+     "name": "isInvertible_of_negDef",
+     "line": 1346
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_hasStrictFDerivAt",
+     "line": 1371
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_differentiable",
+     "line": 1402
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_exists",
+     "line": 1432
+    },
+    {
+     "keyword": "theorem",
+     "name": "hessian_increment_D",
+     "line": 1460
+    },
+    {
+     "keyword": "theorem",
+     "name": "transverse_hessian_le_D",
+     "line": 1491
+    },
+    {
+     "keyword": "theorem",
+     "name": "slices_strongConcave_D",
+     "line": 1521
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_source",
+     "line": 1555
+    },
+    {
+     "keyword": "theorem",
+     "name": "convex_deriv_sign",
+     "line": 1749
+    },
+    {
+     "keyword": "theorem",
+     "name": "two_node_deriv_bound",
+     "line": 1777
+    },
+    {
+     "keyword": "theorem",
+     "name": "slice_gradient_deriv_bound",
+     "line": 1835
+    },
+    {
+     "keyword": "theorem",
+     "name": "schur_max",
+     "line": 1855
+    },
+    {
+     "keyword": "theorem",
+     "name": "trilinear_lower",
+     "line": 1894
+    },
+    {
+     "keyword": "theorem",
+     "name": "l12_constants",
+     "line": 1907
+    },
+    {
+     "keyword": "theorem",
+     "name": "transverse_hessian_eq",
+     "line": 1940
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_second_identity",
+     "line": 1954
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_hconv",
+     "line": 1977
+    },
+    {
+     "keyword": "theorem",
+     "name": "dx_grad_increment",
+     "line": 2046
+    },
+    {
+     "keyword": "theorem",
+     "name": "l9_arith",
+     "line": 2073
+    },
+    {
+     "keyword": "theorem",
+     "name": "l12_lower",
+     "line": 2085
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_source_facts",
+     "line": 2108
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_C3",
+     "line": 2279
+    },
+    {
+     "keyword": "theorem",
+     "name": "hermite_gap_le_concave",
+     "line": 2431
+    },
+    {
+     "keyword": "theorem",
+     "name": "third_deriv_exists_two",
+     "line": 2470
+    },
+    {
+     "keyword": "theorem",
+     "name": "fxxx_lower",
+     "line": 2510
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_C4",
+     "line": 2567
+    },
+    {
+     "keyword": "theorem",
+     "name": "hessian_x_bound",
+     "line": 2667
+    },
+    {
+     "keyword": "theorem",
+     "name": "hessian_r_bound",
+     "line": 2699
+    },
+    {
+     "keyword": "theorem",
+     "name": "axis_convexConcave",
+     "line": 2736
+    },
+    {
+     "keyword": "theorem",
+     "name": "block_nonneg",
+     "line": 2791
+    },
+    {
+     "keyword": "theorem",
+     "name": "block_bound_collar",
+     "line": 2806
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_C5",
+     "line": 2867
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_D",
+     "line": 2959
+    },
+    {
+     "keyword": "theorem",
+     "name": "block_of_norm",
+     "line": 3045
+    },
+    {
+     "keyword": "theorem",
+     "name": "collar_subset_open",
+     "line": 3128
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_E",
+     "line": 3162
+    },
+    {
+     "keyword": "def",
+     "name": "toyF",
+     "line": 3325
+    },
+    {
+     "keyword": "def",
+     "name": "toyRidge",
+     "line": 3328
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_ridge_ge",
+     "line": 3334
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_frontier",
+     "line": 3343
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_capHyp",
+     "line": 3346
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_saddle_strict",
+     "line": 3365
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_saddle_cut",
+     "line": 3375
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_death_level",
+     "line": 3381
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_f_M",
+     "line": 3384
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_f_S",
+     "line": 3388
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_needs_C2",
+     "line": 3394
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_needs_C1",
+     "line": 3412
+    },
+    {
+     "keyword": "theorem",
+     "name": "toy_needs_C3",
+     "line": 3431
+    },
+    {
+     "keyword": "def",
+     "name": "ridgeToyF",
+     "line": 3448
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridgeToy_capHyp",
+     "line": 3452
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridgeToy_saddle_strict",
+     "line": 3487
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridgeToy_joint",
+     "line": 3528
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridgeToy_slices",
+     "line": 3551
+    },
+    {
+     "keyword": "def",
+     "name": "spToyF",
+     "line": 3593
+    },
+    {
+     "keyword": "theorem",
+     "name": "spToy_capHyp",
+     "line": 3597
+    },
+    {
+     "keyword": "theorem",
+     "name": "spToy_normalized",
+     "line": 3658
+    },
+    {
+     "keyword": "def",
+     "name": "h1ToyF",
+     "line": 3726
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_capHyp",
+     "line": 3730
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_ridge_differentiable",
+     "line": 3818
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_source",
+     "line": 3893
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_C3",
+     "line": 3993
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_C4",
+     "line": 4137
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_D",
+     "line": 4283
+    },
+    {
+     "keyword": "theorem",
+     "name": "h1Toy_E",
+     "line": 4407
+    },
+    {
+     "keyword": "def",
+     "name": "quarticToyF",
+     "line": 4508
+    },
+    {
+     "keyword": "theorem",
+     "name": "quarticToy_E",
+     "line": 4517
+    },
+    {
+     "keyword": "theorem",
+     "name": "of_const_mul",
+     "line": 4650
+    },
+    {
+     "keyword": "theorem",
+     "name": "hasFDerivAt_zero_const_mul_iff",
+     "line": 4667
+    },
+    {
+     "keyword": "theorem",
+     "name": "iteratedFDeriv_const_mul_of_isOpen",
+     "line": 4681
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_K",
+     "line": 4691
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_norm_K",
+     "line": 4798
+    },
+    {
+     "keyword": "theorem",
+     "name": "iteratedFDeriv_three_swap\u2081\u2082",
+     "line": 4869
+    },
+    {
+     "keyword": "theorem",
+     "name": "iteratedFDeriv_three_swap\u2082\u2083",
+     "line": 4885
+    },
+    {
+     "keyword": "theorem",
+     "name": "block_of_partial",
+     "line": 4919
+    },
+    {
+     "keyword": "theorem",
+     "name": "ridge_capHyp_blocks",
+     "line": 5011
+    },
+    {
+     "keyword": "def",
+     "name": "mixedToyF",
+     "line": 5051
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_blocks",
+     "line": 5059
+    },
+    {
+     "keyword": "theorem",
+     "name": "addCircle_locallyConnectedSpace",
+     "line": 5196
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_locallyConnectedSpace",
+     "line": 5200
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_capHyp_blocks",
+     "line": 5214
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_elder_death_level_blocks",
+     "line": 5256
+    },
+    {
+     "keyword": "def",
+     "name": "circleChart",
+     "line": 5288
+    },
+    {
+     "keyword": "theorem",
+     "name": "circleChart_continuous",
+     "line": 5292
+    },
+    {
+     "keyword": "theorem",
+     "name": "circleChart_coe",
+     "line": 5296
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_hasFDerivAt",
+     "line": 5308
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_contDiff",
+     "line": 5326
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_iteratedFDeriv_two",
+     "line": 5329
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_iteratedFDeriv_three",
+     "line": 5367
+    },
+    {
+     "keyword": "theorem",
+     "name": "mixedToy_iteratedFDeriv_four",
+     "line": 5386
+    },
+    {
+     "keyword": "def",
+     "name": "torusToyF",
+     "line": 5401
+    },
+    {
+     "keyword": "theorem",
+     "name": "torusToy_elder",
+     "line": 5411
+    }
+   ],
+   "theorems": 138,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:docs/integration/2026-10-23-postcut-proof-sources.md"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeField.lean",
+   "git_blob": "a07036a15d9d7757898cc2b235baa89837191449",
+   "bytes": 3913,
+   "lake_root": null,
+   "imports": [
+    "SourceLifetimeGeometry",
+    "SourceThetaBridge"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "actualField_covariance",
+     "line": 16
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_raw_second_moment",
+     "line": 23
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_variance",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "covQuadForm_nonneg",
+     "line": 45
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_map",
+     "line": 51
+    },
+    {
+     "keyword": "def",
+     "name": "actualGaussianFieldInterface",
+     "line": 63
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_exists",
+     "line": 77
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_carrier",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_law",
+     "line": 84
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_field",
+     "line": 87
+    }
+   ],
+   "theorems": 9,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeGeometry.lean",
+   "git_blob": "e83eb8e134484aba40b7f26f0d0cef4db8f9cda5",
+   "bytes": 4588,
+   "lake_root": null,
+   "imports": [
+    "Lifetime",
+    "SourceSmoothCarrier"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "coordinates",
+     "line": 15
+    },
+    {
+     "keyword": "theorem",
+     "name": "coordinates_apply",
+     "line": 18
+    },
+    {
+     "keyword": "theorem",
+     "name": "coordinates_latticeVec",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "actualField",
+     "line": 27
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_smooth",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_periodic",
+     "line": 36
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_eval_measurable",
+     "line": 44
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_eval_hasGaussianLaw",
+     "line": 49
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_measurable",
+     "line": 54
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_hasGaussianLaw",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_integral_zero",
+     "line": 74
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_integral_zero",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_covariance_spectral",
+     "line": 91
+    }
+   ],
+   "theorems": 11,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/inputs/Lifetime.lean",
+   "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+   "bytes": 51383,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "E",
+     "line": 76
+    },
+    {
+     "keyword": "def",
+     "name": "latticeVec",
+     "line": 84
+    },
+    {
+     "keyword": "def",
+     "name": "thetaSum",
+     "line": 95
+    },
+    {
+     "keyword": "def",
+     "name": "periodicCovariance",
+     "line": 107
+    },
+    {
+     "keyword": "def",
+     "name": "covQuadForm",
+     "line": 118
+    },
+    {
+     "keyword": "def",
+     "name": "IsLPeriodic",
+     "line": 127
+    },
+    {
+     "keyword": "def",
+     "name": "IsSmooth",
+     "line": 136
+    },
+    {
+     "keyword": "structure",
+     "name": "GaussianFieldInterface",
+     "line": 150
+    },
+    {
+     "keyword": "def",
+     "name": "hessian",
+     "line": 188
+    },
+    {
+     "keyword": "def",
+     "name": "IsCriticalPoint",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "HessianHasInertia",
+     "line": 210
+    },
+    {
+     "keyword": "def",
+     "name": "IsNondegMax",
+     "line": 223
+    },
+    {
+     "keyword": "def",
+     "name": "IsIndexSaddle",
+     "line": 233
+    },
+    {
+     "keyword": "def",
+     "name": "pinM",
+     "line": 242
+    },
+    {
+     "keyword": "def",
+     "name": "pinS",
+     "line": 251
+    },
+    {
+     "keyword": "def",
+     "name": "torusDist",
+     "line": 262
+    },
+    {
+     "keyword": "def",
+     "name": "FundDomain",
+     "line": 272
+    },
+    {
+     "keyword": "def",
+     "name": "heightGap",
+     "line": 281
+    },
+    {
+     "keyword": "def",
+     "name": "scaledGap",
+     "line": 290
+    },
+    {
+     "keyword": "def",
+     "name": "IsCandidatePair",
+     "line": 300
+    },
+    {
+     "keyword": "def",
+     "name": "IsMorseDistinct",
+     "line": 311
+    },
+    {
+     "keyword": "structure",
+     "name": "SuperlevelBarInterface",
+     "line": 326
+    },
+    {
+     "keyword": "def",
+     "name": "IsFiniteBar",
+     "line": 361
+    },
+    {
+     "keyword": "def",
+     "name": "pairSet",
+     "line": 371
+    },
+    {
+     "keyword": "def",
+     "name": "pairCount",
+     "line": 382
+    },
+    {
+     "keyword": "def",
+     "name": "IsLifetimeDensityVersion",
+     "line": 398
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowPair",
+     "line": 417
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowElderPair",
+     "line": 428
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedPair",
+     "line": 440
+    },
+    {
+     "keyword": "structure",
+     "name": "PairLawInterface",
+     "line": 457
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUniformSelectionA",
+     "line": 479
+    },
+    {
+     "keyword": "def",
+     "name": "ParentCompactWindowDensityB",
+     "line": 498
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedLeadingCoefficient",
+     "line": 522
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUnrestrictedLeadingDensityC",
+     "line": 542
+    },
+    {
+     "keyword": "def",
+     "name": "RemainderBoundedR1",
+     "line": 559
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarElderLowerE2",
+     "line": 581
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarTwoSidedRateE4",
+     "line": 598
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarDensityGapE11",
+     "line": 623
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:docs/integration/2026-10-23-postcut-proof-sources.md"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/OrdinaryH0.lean",
+   "git_blob": "7bc5f80028271e0e33d857e60496ca4cadaa9364",
+   "bytes": 19803,
+   "lake_root": null,
+   "imports": [
+    "Mathlib",
+    "ClosedSuperlevel"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentFunctor",
+     "line": 48
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentCoproductFunctor",
+     "line": 65
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentCoproductMap_iota",
+     "line": 71
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_componentFiltration",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentFiltration_map_iota",
+     "line": 88
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_simplicialPointClass",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_simplicialPointClass_iso",
+     "line": 111
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_simplicialPointClass_map",
+     "line": 121
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_toSSet_pointMap",
+     "line": 132
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_pointClass",
+     "line": 140
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_map",
+     "line": 148
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_iso",
+     "line": 162
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_componentIota_isoInv",
+     "line": 175
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_hom_ext",
+     "line": 184
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_iso_naturality",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_naturalIso",
+     "line": 213
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_augmentation",
+     "line": 221
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_ne_zero",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_eq_of_component_eq",
+     "line": 240
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_sameComponent_difference_zero",
+     "line": 249
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_ne_of_component_ne",
+     "line": 257
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_pointClass_eq_iff",
+     "line": 275
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_difference_map",
+     "line": 288
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_difference_map_eq_zero_iff",
+     "line": 297
+    },
+    {
+     "keyword": "def",
+     "name": "ordinaryH0_filtrationIso",
+     "line": 307
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_filtration_naturality",
+     "line": 315
+    },
+    {
+     "keyword": "theorem",
+     "name": "ordinaryH0_filtration_difference_zero_iff_joinedIn",
+     "line": 326
+    }
+   ],
+   "theorems": 20,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/SuperlevelBar.lean",
+   "git_blob": "b047384e20306ee030154885536c531633b88bd8",
+   "bytes": 15309,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "superlevelBar_E",
+     "line": 42
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_isEssential",
+     "line": 46
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_clearanceSet",
+     "line": 53
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBar_deathHeight",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_essential_iff",
+     "line": 69
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_mem_lt_start",
+     "line": 76
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_bddAbove",
+     "line": 86
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_empty_of_essential",
+     "line": 93
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_zero_of_empty",
+     "line": 106
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_zero_of_essential",
+     "line": 115
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_eq_sSup_of_nonempty",
+     "line": 124
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_path_minimum",
+     "line": 134
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_nonempty",
+     "line": 146
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_nonempty_iff",
+     "line": 167
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_downward",
+     "line": 178
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_improve",
+     "line": 187
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_strict_cut",
+     "line": 203
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_le_start_of_nonempty",
+     "line": 227
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_le_start",
+     "line": 237
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_clearance_eq_Iio",
+     "line": 246
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_not_mem_clearance",
+     "line": 256
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_cut_unique",
+     "line": 267
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_death_const",
+     "line": 284
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBar_control_negative_essential",
+     "line": 293
+    }
+   ],
+   "theorems": 20,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/SuperlevelBarField.lean",
+   "git_blob": "f0300a6b459440e81064ef6f75990446a8a3db04",
+   "bytes": 11816,
+   "lake_root": null,
+   "imports": [
+    "Mathlib",
+    "SuperlevelBar",
+    "Specifications.Field"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_continuous",
+     "line": 53
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBarField_interface",
+     "line": 62
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_nonempty",
+     "line": 76
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_deathHeight_eq",
+     "line": 82
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_isEssential_iff",
+     "line": 88
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_elderPartner_iff",
+     "line": 95
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_essential_unique",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_deathHeight_unique",
+     "line": 112
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_elderPartner_unique",
+     "line": 126
+    },
+    {
+     "keyword": "def",
+     "name": "superlevelBarField_shift",
+     "line": 145
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_shift_deathHeight_const",
+     "line": 164
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_const_smooth",
+     "line": 174
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_const_periodic",
+     "line": 179
+    },
+    {
+     "keyword": "theorem",
+     "name": "superlevelBarField_control_essential_free",
+     "line": 188
+    }
+   ],
+   "theorems": 12,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/TorusTopology.lean",
+   "git_blob": "ed678ea322fe5315b3aaff44e4e2f06b018399d8",
+   "bytes": 12257,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "torus_E",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "torus_latticeVec",
+     "line": 24
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_field_latticeVec_formula",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "torus_periodBasis",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "torus_periodLattice",
+     "line": 35
+    },
+    {
+     "keyword": "abbrev",
+     "name": "torus_quotient",
+     "line": 38
+    },
+    {
+     "keyword": "def",
+     "name": "torus_proj",
+     "line": 41
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_basis_sum_eq_latticeVec",
+     "line": 45
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_lattice_mem_iff",
+     "line": 62
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_discrete",
+     "line": 69
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_addSubgroup_discrete",
+     "line": 74
+    },
+    {
+     "keyword": "instance",
+     "name": "torus_lattice_isZLattice",
+     "line": 79
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_surjective",
+     "line": 84
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_continuous",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_eq_iff",
+     "line": 90
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_lattice_translate",
+     "line": 104
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_proj_isCoveringMap",
+     "line": 109
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_compact",
+     "line": 115
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_pathConnectedSpace",
+     "line": 122
+    },
+    {
+     "keyword": "def",
+     "name": "torus_isPeriodic",
+     "line": 127
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_field_periodic_formula",
+     "line": 130
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_periodic_respects",
+     "line": 135
+    },
+    {
+     "keyword": "def",
+     "name": "torus_descend",
+     "line": 143
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_descend_proj",
+     "line": 147
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_descend_continuous",
+     "line": 151
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_path_lift_from",
+     "line": 157
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_constant_path_endpoint",
+     "line": 172
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_control_no_arbitrary_endpoint",
+     "line": 182
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_higher_path_iff",
+     "line": 195
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_strict_higher_path_iff",
+     "line": 217
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_closed_higher_path_iff",
+     "line": 226
+    },
+    {
+     "keyword": "theorem",
+     "name": "torus_global_max_iff",
+     "line": 235
+    }
+   ],
+   "theorems": 21,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderBridge.lean",
+   "git_blob": "a59ee9daab7b67eafd7e4f806b27244bcc5caed1",
+   "bytes": 3683,
+   "lake_root": null,
+   "imports": [
+    "ElderClearance",
+    "ElderInterval"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_closedTrace_isClopen",
+     "line": 18
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_of_boundary",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "elderBoundaryDirectSummand",
+     "line": 55
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderBoundary_death_eq",
+     "line": 70
+    }
+   ],
+   "theorems": 3,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderClearance.lean",
+   "git_blob": "bc6136ee5e6f676da8a1ca39467d4d25587f8c7e",
+   "bytes": 5866,
+   "lake_root": null,
+   "imports": [
+    "SuperlevelBar"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "elderTrap_strictTrace",
+     "line": 21
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_strictTrace_isClopen",
+     "line": 26
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_path_stays",
+     "line": 49
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_higher_path_meets_threshold",
+     "line": 69
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_clearance_eq_Iio",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_death_eq",
+     "line": 101
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderTrap_closed_path_attains",
+     "line": 119
+    }
+   ],
+   "theorems": 6,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderInterval.lean",
+   "git_blob": "108f880b314bf9d5f21e8d30513f14a229808198",
+   "bytes": 16006,
+   "lake_root": null,
+   "imports": [
+    "OrdinaryH0"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "elderActive",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiber",
+     "line": 26
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiber_eq_zero",
+     "line": 32
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiberMap",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiberMap_val",
+     "line": 50
+    },
+    {
+     "keyword": "def",
+     "name": "elderInterval",
+     "line": 55
+    },
+    {
+     "keyword": "def",
+     "name": "elderFiberLift",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderFiberLift_val",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_birth",
+     "line": 91
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_death",
+     "line": 95
+    },
+    {
+     "keyword": "structure",
+     "name": "ElderTrap",
+     "line": 104
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.maximum_mem",
+     "line": 117
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.older_mem",
+     "line": 123
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_clopen_path_iff",
+     "line": 130
+    },
+    {
+     "keyword": "def",
+     "name": "ElderTrap.componentInside",
+     "line": 140
+    },
+    {
+     "keyword": "theorem",
+     "name": "ElderTrap.componentInside_mk",
+     "line": 145
+    },
+    {
+     "keyword": "def",
+     "name": "elderDifference",
+     "line": 152
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_map",
+     "line": 160
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_map_dead",
+     "line": 169
+    },
+    {
+     "keyword": "def",
+     "name": "elderProjection",
+     "line": 180
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_point",
+     "line": 187
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderDifference_projection",
+     "line": 199
+    },
+    {
+     "keyword": "def",
+     "name": "elderSectionApp",
+     "line": 208
+    },
+    {
+     "keyword": "def",
+     "name": "elderRetractionApp",
+     "line": 215
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderSectionApp_naturality",
+     "line": 222
+    },
+    {
+     "keyword": "def",
+     "name": "elderSection",
+     "line": 248
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_naturality_active",
+     "line": 255
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderProjection_prebirth",
+     "line": 269
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderRetractionApp_naturality",
+     "line": 288
+    },
+    {
+     "keyword": "def",
+     "name": "elderRetraction",
+     "line": 330
+    },
+    {
+     "keyword": "theorem",
+     "name": "elderSection_retraction",
+     "line": 339
+    },
+    {
+     "keyword": "def",
+     "name": "elderKernelProjection",
+     "line": 355
+    },
+    {
+     "keyword": "def",
+     "name": "elderDirectSummand",
+     "line": 364
+    },
+    {
+     "keyword": "theorem",
+     "name": "elder_control_ordinary_point_survives",
+     "line": 384
+    }
+   ],
+   "theorems": 19,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/specifications/lean_statements_20261010/Specifications/Field.lean",
+   "git_blob": "cc40e9d19446b8a150401c574d3cfd56177f195f",
+   "bytes": 27767,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "E",
+     "line": 48
+    },
+    {
+     "keyword": "def",
+     "name": "latticeVec",
+     "line": 56
+    },
+    {
+     "keyword": "def",
+     "name": "thetaSum",
+     "line": 67
+    },
+    {
+     "keyword": "def",
+     "name": "periodicCovariance",
+     "line": 79
+    },
+    {
+     "keyword": "def",
+     "name": "covQuadForm",
+     "line": 90
+    },
+    {
+     "keyword": "def",
+     "name": "IsLPeriodic",
+     "line": 99
+    },
+    {
+     "keyword": "def",
+     "name": "IsSmooth",
+     "line": 108
+    },
+    {
+     "keyword": "structure",
+     "name": "GaussianFieldInterface",
+     "line": 122
+    },
+    {
+     "keyword": "def",
+     "name": "hessian",
+     "line": 160
+    },
+    {
+     "keyword": "def",
+     "name": "IsCriticalPoint",
+     "line": 169
+    },
+    {
+     "keyword": "def",
+     "name": "HessianHasInertia",
+     "line": 182
+    },
+    {
+     "keyword": "def",
+     "name": "IsNondegMax",
+     "line": 195
+    },
+    {
+     "keyword": "def",
+     "name": "IsIndexSaddle",
+     "line": 205
+    },
+    {
+     "keyword": "def",
+     "name": "pinM",
+     "line": 214
+    },
+    {
+     "keyword": "def",
+     "name": "pinS",
+     "line": 223
+    },
+    {
+     "keyword": "def",
+     "name": "torusDist",
+     "line": 234
+    },
+    {
+     "keyword": "def",
+     "name": "FundDomain",
+     "line": 244
+    },
+    {
+     "keyword": "def",
+     "name": "heightGap",
+     "line": 253
+    },
+    {
+     "keyword": "def",
+     "name": "scaledGap",
+     "line": 262
+    },
+    {
+     "keyword": "def",
+     "name": "IsCandidatePair",
+     "line": 272
+    },
+    {
+     "keyword": "def",
+     "name": "IsMorseDistinct",
+     "line": 283
+    },
+    {
+     "keyword": "structure",
+     "name": "SuperlevelBarInterface",
+     "line": 298
+    },
+    {
+     "keyword": "def",
+     "name": "IsFiniteBar",
+     "line": 333
+    },
+    {
+     "keyword": "def",
+     "name": "pairSet",
+     "line": 343
+    },
+    {
+     "keyword": "def",
+     "name": "pairCount",
+     "line": 354
+    },
+    {
+     "keyword": "def",
+     "name": "IsLifetimeDensityVersion",
+     "line": 370
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/development/0758454e88cb02ad56483face96483d8a878afe5eaa72f1ea629f0ca5a29760f.lean",
+   "git_blob": "2b528b9bc450631e434ccdc309724a9136409f30",
+   "bytes": 6173,
+   "lake_root": null,
+   "imports": [
+    "Lifetime"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_openEmbedding",
+     "line": 17
+    },
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_open",
+     "line": 32
+    },
+    {
+     "keyword": "def",
+     "name": "relative_chart_homeomorph",
+     "line": 40
+    },
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_relative_chart",
+     "line": 72
+    },
+    {
+     "keyword": "theorem",
+     "name": "closed_superlevel_basis_of_chart",
+     "line": 93
+    },
+    {
+     "keyword": "theorem",
+     "name": "closed_superlevel_interior_basis",
+     "line": 119
+    }
+   ],
+   "theorems": 5,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/development/b5733777504470cc1a2edfff780d0d7b7f271fdfc3db377cdb093f7e356f946d.lean",
+   "git_blob": "c5fd520ad808720add175c41a1f3353d06c8ce82",
+   "bytes": 6225,
+   "lake_root": null,
+   "imports": [
+    "Lifetime"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_openEmbedding",
+     "line": 17
+    },
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_open",
+     "line": 32
+    },
+    {
+     "keyword": "def",
+     "name": "relative_chart_homeomorph",
+     "line": 40
+    },
+    {
+     "keyword": "theorem",
+     "name": "path_connected_basis_of_relative_chart",
+     "line": 72
+    },
+    {
+     "keyword": "theorem",
+     "name": "closed_superlevel_basis_of_chart",
+     "line": 93
+    },
+    {
+     "keyword": "theorem",
+     "name": "closed_superlevel_interior_basis",
+     "line": 119
+    }
+   ],
+   "theorems": 5,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/negative-project/WithoutCoordinateIdentity.lean",
+   "git_blob": "cb3575107820cf5d73d12c40944ad76601392e61",
+   "bytes": 950,
+   "lake_root": null,
+   "imports": [
+    "RegularSuperlevel"
+   ],
+   "declarations": [
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 16
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/negative-WithoutCoordinateIdentity.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/negative-WithoutCoordinateIdentity.stdout",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/regular_superlevel_geometry_20261020/development/hosted-run1-WithoutCoordinateIdentity.stdout"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/negative-project/WithoutRegularOrInterior.lean",
+   "git_blob": "02028d24970f3f65fa5cf17bb5a44d13582213ec",
+   "bytes": 838,
+   "lake_root": null,
+   "imports": [
+    "RegularSuperlevelLiteral"
+   ],
+   "declarations": [
+    {
+     "keyword": "example",
+     "name": "",
+     "line": 16
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/negative-WithoutRegularOrInterior.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/negative-WithoutRegularOrInterior.stdout",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/regular_superlevel_geometry_20261020/development/hosted-run1-WithoutRegularOrInterior.stdout"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+   "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+   "bytes": 51383,
+   "lake_root": null,
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "E",
+     "line": 76
+    },
+    {
+     "keyword": "def",
+     "name": "latticeVec",
+     "line": 84
+    },
+    {
+     "keyword": "def",
+     "name": "thetaSum",
+     "line": 95
+    },
+    {
+     "keyword": "def",
+     "name": "periodicCovariance",
+     "line": 107
+    },
+    {
+     "keyword": "def",
+     "name": "covQuadForm",
+     "line": 118
+    },
+    {
+     "keyword": "def",
+     "name": "IsLPeriodic",
+     "line": 127
+    },
+    {
+     "keyword": "def",
+     "name": "IsSmooth",
+     "line": 136
+    },
+    {
+     "keyword": "structure",
+     "name": "GaussianFieldInterface",
+     "line": 150
+    },
+    {
+     "keyword": "def",
+     "name": "hessian",
+     "line": 188
+    },
+    {
+     "keyword": "def",
+     "name": "IsCriticalPoint",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "HessianHasInertia",
+     "line": 210
+    },
+    {
+     "keyword": "def",
+     "name": "IsNondegMax",
+     "line": 223
+    },
+    {
+     "keyword": "def",
+     "name": "IsIndexSaddle",
+     "line": 233
+    },
+    {
+     "keyword": "def",
+     "name": "pinM",
+     "line": 242
+    },
+    {
+     "keyword": "def",
+     "name": "pinS",
+     "line": 251
+    },
+    {
+     "keyword": "def",
+     "name": "torusDist",
+     "line": 262
+    },
+    {
+     "keyword": "def",
+     "name": "FundDomain",
+     "line": 272
+    },
+    {
+     "keyword": "def",
+     "name": "heightGap",
+     "line": 281
+    },
+    {
+     "keyword": "def",
+     "name": "scaledGap",
+     "line": 290
+    },
+    {
+     "keyword": "def",
+     "name": "IsCandidatePair",
+     "line": 300
+    },
+    {
+     "keyword": "def",
+     "name": "IsMorseDistinct",
+     "line": 311
+    },
+    {
+     "keyword": "structure",
+     "name": "SuperlevelBarInterface",
+     "line": 326
+    },
+    {
+     "keyword": "def",
+     "name": "IsFiniteBar",
+     "line": 361
+    },
+    {
+     "keyword": "def",
+     "name": "pairSet",
+     "line": 371
+    },
+    {
+     "keyword": "def",
+     "name": "pairCount",
+     "line": 382
+    },
+    {
+     "keyword": "def",
+     "name": "IsLifetimeDensityVersion",
+     "line": 398
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowPair",
+     "line": 417
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowElderPair",
+     "line": 428
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedPair",
+     "line": 440
+    },
+    {
+     "keyword": "structure",
+     "name": "PairLawInterface",
+     "line": 457
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUniformSelectionA",
+     "line": 479
+    },
+    {
+     "keyword": "def",
+     "name": "ParentCompactWindowDensityB",
+     "line": 498
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedLeadingCoefficient",
+     "line": 522
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUnrestrictedLeadingDensityC",
+     "line": 542
+    },
+    {
+     "keyword": "def",
+     "name": "RemainderBoundedR1",
+     "line": 559
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarElderLowerE2",
+     "line": 581
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarTwoSidedRateE4",
+     "line": 598
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarDensityGapE11",
+     "line": 623
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/literal-c297-map.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/build-Lifetime.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevelAxiomAudit.lean",
+   "git_blob": "40e334d0e73a20055db662d6d9060bae25cae533",
+   "bytes": 3248,
+   "lake_root": null,
+   "imports": [
+    "RegularSuperlevelLiteral",
+    "Lean.Elab.Command",
+    "Lean.Util.CollectAxioms"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/SOURCE_MANIFEST.json",
+    "cbz/evidence/kernel/additional/kernel-targets.json",
+    "cbz/evidence/kernel/additional/receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/build-RegularSuperlevelAxiomAudit.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/mutation-custom-axiom-audit.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/mutation-custom-axiom-audit.stdout",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/mutation-sorry-audit.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/mutation-sorry-audit.stdout",
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/positive-audit-after-mutations.receipt.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/ConfluentIntegralIdentities.lean",
+   "git_blob": "eafb41ab09d1e88296a918fdb1a236fa865da8b5",
+   "bytes": 10154,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "Mathlib.Analysis.Calculus.IteratedDeriv.Defs",
+    "Mathlib.Analysis.Calculus.Deriv.Pow",
+    "Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts",
+    "Mathlib.Tactic.FieldSimp",
+    "Mathlib.Tactic.Linarith",
+    "Mathlib.Tactic.Ring"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "pin3",
+     "line": 24
+    },
+    {
+     "keyword": "def",
+     "name": "pin4",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "pin5",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "scaled_hasDerivAt",
+     "line": 34
+    },
+    {
+     "keyword": "theorem",
+     "name": "average_identity",
+     "line": 41
+    },
+    {
+     "keyword": "theorem",
+     "name": "left_endpoint_identity",
+     "line": 57
+    },
+    {
+     "keyword": "theorem",
+     "name": "right_endpoint_identity",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_identity",
+     "line": 108
+    },
+    {
+     "keyword": "theorem",
+     "name": "iterated_hasDerivAt",
+     "line": 141
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin3_integral",
+     "line": 148
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin4_integral",
+     "line": 155
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin5_integral",
+     "line": 162
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjusted_second_left",
+     "line": 172
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjusted_second_right",
+     "line": 180
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjusted_transverse_left",
+     "line": 188
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjusted_transverse_right",
+     "line": 196
+    }
+   ],
+   "theorems": 13,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/ConfluentIntegralIdentities/HANDOFF.md",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/ConfluentIntegralIdentities/qualification_receipt.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-nine-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-seven-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-ten-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-ten-module/published-package-metadata/EVIDENCE_CATALOG.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/ContactJetCovariance.lean",
+   "git_blob": "a6614b8170a9e87aa637f85cf61375084a0e3a05",
+   "bytes": 6927,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "Mathlib.LinearAlgebra.Matrix.PosDef",
+    "Mathlib.LinearAlgebra.Matrix.Notation",
+    "Mathlib.Analysis.Normed.Ring.InfiniteSum",
+    "Mathlib.Analysis.Normed.Module.FiniteDimension",
+    "Mathlib.Tactic.FinCases",
+    "Mathlib.Tactic.Linarith"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "contactWitness",
+     "line": 27
+    },
+    {
+     "keyword": "lemma",
+     "name": "contactWitness_transpose_mulVec_eq_zero",
+     "line": 36
+    },
+    {
+     "keyword": "lemma",
+     "name": "contactWitness_transpose_injective",
+     "line": 59
+    },
+    {
+     "keyword": "lemma",
+     "name": "contactWitness_amplitude_transpose_injective",
+     "line": 66
+    },
+    {
+     "keyword": "def",
+     "name": "coefficientGram",
+     "line": 77
+    },
+    {
+     "keyword": "lemma",
+     "name": "coefficient_product_summable",
+     "line": 80
+    },
+    {
+     "keyword": "lemma",
+     "name": "coefficientGram_quadratic_hasSum",
+     "line": 87
+    },
+    {
+     "keyword": "lemma",
+     "name": "coefficientGram_posDef_of_separating",
+     "line": 105
+    },
+    {
+     "keyword": "theorem",
+     "name": "contact_coefficientGram_posDef",
+     "line": 123
+    },
+    {
+     "keyword": "theorem",
+     "name": "contact_schur_pos",
+     "line": 145
+    }
+   ],
+   "theorems": 8,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/GaussianRegressionLimits.lean",
+   "git_blob": "4e548566744fcd63a7febf7d08028953e991fb3d",
+   "bytes": 8122,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "Mathlib.Topology.Instances.Matrix",
+    "Mathlib.Topology.Algebra.GroupWithZero",
+    "Mathlib.Topology.Algebra.Ring.Real",
+    "Mathlib.Topology.Order.LeftRightNhds",
+    "Mathlib.Analysis.Normed.Group.Real",
+    "Mathlib.Analysis.Normed.Group.Constructions",
+    "Mathlib.Analysis.Normed.Group.Continuity",
+    "Mathlib.Tactic.Linarith",
+    "Mathlib.Tactic.Positivity",
+    "Mathlib.Tactic.FunProp"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "regressionMean",
+     "line": 28
+    },
+    {
+     "keyword": "def",
+     "name": "regressionCovariance",
+     "line": 33
+    },
+    {
+     "keyword": "theorem",
+     "name": "tendsto_matrix_mul_explicit",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "tendsto_matrix_mulVec_explicit",
+     "line": 54
+    },
+    {
+     "keyword": "theorem",
+     "name": "regression_parameter_limits",
+     "line": 70
+    },
+    {
+     "keyword": "theorem",
+     "name": "bounds_from_limits",
+     "line": 105
+    },
+    {
+     "keyword": "theorem",
+     "name": "regression_uniform_bounds",
+     "line": 134
+    }
+   ],
+   "theorems": 5,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/GaussianWeightedMajorants.lean",
+   "git_blob": "67533820681a0978958cbfb33d4b8fd8baaecf84",
+   "bytes": 20065,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "Mathlib.MeasureTheory.Order.Group.Lattice",
+    "Mathlib.Analysis.Convex.Jensen",
+    "Mathlib.Analysis.Convex.SpecificFunctions.Basic",
+    "Mathlib.MeasureTheory.Integral.Lebesgue.Add",
+    "Mathlib.Tactic.FieldSimp",
+    "Mathlib.Tactic.Ring",
+    "Mathlib.Tactic.Linarith",
+    "Mathlib.Tactic.Positivity",
+    "Mathlib.Probability.Distributions.Gaussian.Real",
+    "Mathlib.Probability.HasLaw",
+    "Mathlib.MeasureTheory.Constructions.BorelSpace.Order",
+    "Mathlib.Tactic.FunProp",
+    "Mathlib.MeasureTheory.Function.LpSpace.InfiniteSum",
+    "Mathlib.MeasureTheory.Function.LpSeminorm.SMul",
+    "Mathlib.MeasureTheory.Function.L1Space.Integrable"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "weightedAbsSeries",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "standardAbsMoment",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "standardAbsMoment_integrable",
+     "line": 32
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_nonneg",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_measurable",
+     "line": 41
+    },
+    {
+     "keyword": "theorem",
+     "name": "coordinate_eLpNorm",
+     "line": 46
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_memLp_bound",
+     "line": 68
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_ae_summable",
+     "line": 111
+    },
+    {
+     "keyword": "theorem",
+     "name": "eLpNorm_nat_pow_integral",
+     "line": 125
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_moment",
+     "line": 139
+    },
+    {
+     "keyword": "lemma",
+     "name": "exp_mul_abs_le",
+     "line": 177
+    },
+    {
+     "keyword": "theorem",
+     "name": "foldedGaussian_exp",
+     "line": 187
+    },
+    {
+     "keyword": "lemma",
+     "name": "finite_exp_jensen",
+     "line": 209
+    },
+    {
+     "keyword": "lemma",
+     "name": "finite_exp_integrable_bound",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_exp_posWeight",
+     "line": 271
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_exp_bound",
+     "line": 336
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedAbsSeries_upper_tail",
+     "line": 360
+    }
+   ],
+   "theorems": 15,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/FIELD_EVIDENCE_CATALOG.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceConditionalMajorant.lean",
+   "git_blob": "205903a0f3c56763c904a8f0cc27bfca2cd4f781",
+   "bytes": 24822,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceSmoothConditionalKernel",
+    "GaussianWeightedMajorants",
+    "SourceSmoothPalm"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sampleMajorant",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "sourceDerivativeMajorant",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "sampleMajorant_nonneg",
+     "line": 33
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeMajorant_weighted_summable",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentMajorant_weighted_summable",
+     "line": 43
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinCoefficient_abs_le",
+     "line": 53
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPins_abs_le",
+     "line": 58
+    },
+    {
+     "keyword": "theorem",
+     "name": "six_mulVec_abs_le",
+     "line": 70
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_abs_le",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "posterior_sampleMajorant_le",
+     "line": 109
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceInverse_prescribed_uniform_bounds",
+     "line": 148
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_global_derivative_bound",
+     "line": 187
+    },
+    {
+     "keyword": "theorem",
+     "name": "sampleMajorant_measurable",
+     "line": 205
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceDerivativeMajorant_measurable",
+     "line": 210
+    },
+    {
+     "keyword": "theorem",
+     "name": "sampleMajorant_add",
+     "line": 213
+    },
+    {
+     "keyword": "theorem",
+     "name": "sampleMajorant_const_mul",
+     "line": 221
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceDerivativeMajorant_uniform_domination",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "source_coordinate_hasLaw",
+     "line": 276
+    },
+    {
+     "keyword": "theorem",
+     "name": "sampleMajorant_prior_moment",
+     "line": 281
+    },
+    {
+     "keyword": "theorem",
+     "name": "drift_majorant_integrable_pow",
+     "line": 292
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConditionalDerivative_moments",
+     "line": 308
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConditionalDerivative_cutoff_tail",
+     "line": 347
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConditionalDerivative_gaussian_upper_tail",
+     "line": 378
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceWeightedDerivative_cutoff_tail",
+     "line": 415
+    }
+   ],
+   "theorems": 22,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/FIELD_EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/SourceConditionalMajorant/HANDOFF.md",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/SourceConditionalMajorant/qualification_receipt.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceConfluentLimits.lean",
+   "git_blob": "5daa669f9cc87ebad7749e2d237433570663519a",
+   "bytes": 54275,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceEndpointRegression",
+    "SourceDerivativeContinuity",
+    "SourceContactSchur",
+    "SourceContactEndpointParameters",
+    "ConfluentIntegralIdentities",
+    "Mathlib.Analysis.Normed.Group.Tannery",
+    "Mathlib.MeasureTheory.Integral.DominatedConvergence",
+    "Mathlib.Analysis.SpecialFunctions.Integrals.Basic"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "rawDerivativeOrder",
+     "line": 24
+    },
+    {
+     "keyword": "def",
+     "name": "rawDerivativePoint",
+     "line": 26
+    },
+    {
+     "keyword": "def",
+     "name": "rawDerivativeDirections",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "rawDerivativeCoefficient",
+     "line": 35
+    },
+    {
+     "keyword": "def",
+     "name": "pinObservationMap",
+     "line": 39
+    },
+    {
+     "keyword": "def",
+     "name": "adjustedObservationMap",
+     "line": 42
+    },
+    {
+     "keyword": "def",
+     "name": "pinCoefficient",
+     "line": 45
+    },
+    {
+     "keyword": "def",
+     "name": "adjustedCoefficient",
+     "line": 48
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_weighted_summable",
+     "line": 51
+    },
+    {
+     "keyword": "theorem",
+     "name": "finiteSeries_map",
+     "line": 64
+    },
+    {
+     "keyword": "theorem",
+     "name": "finiteCoefficient_map_summable",
+     "line": 87
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawPinsWithHessians_series",
+     "line": 95
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinCoefficient_summable",
+     "line": 118
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjustedCoefficient_summable",
+     "line": 124
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_series",
+     "line": 130
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_series",
+     "line": 142
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovarianceAt_coefficient",
+     "line": 154
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceCrossCovarianceAt_coefficient",
+     "line": 163
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointCovarianceAt_coefficient",
+     "line": 173
+    },
+    {
+     "keyword": "def",
+     "name": "axisMap",
+     "line": 195
+    },
+    {
+     "keyword": "theorem",
+     "name": "mode_smooth",
+     "line": 201
+    },
+    {
+     "keyword": "theorem",
+     "name": "axis_iteratedDeriv",
+     "line": 215
+    },
+    {
+     "keyword": "theorem",
+     "name": "axis_transverse_smooth",
+     "line": 225
+    },
+    {
+     "keyword": "theorem",
+     "name": "axis_transverse_iteratedDeriv",
+     "line": 231
+    },
+    {
+     "keyword": "def",
+     "name": "modeF",
+     "line": 246
+    },
+    {
+     "keyword": "def",
+     "name": "modeH",
+     "line": 247
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeH_eq",
+     "line": 250
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeF_C3",
+     "line": 255
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeH_C2",
+     "line": 258
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeF_deriv",
+     "line": 262
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeF_second",
+     "line": 268
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeF_third",
+     "line": 277
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeH_deriv",
+     "line": 286
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeH_second",
+     "line": 294
+    },
+    {
+     "keyword": "def",
+     "name": "modeYY",
+     "line": 309
+    },
+    {
+     "keyword": "def",
+     "name": "modeRawValues",
+     "line": 312
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections2",
+     "line": 319
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections3",
+     "line": 324
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections4",
+     "line": 329
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections5",
+     "line": 334
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections6",
+     "line": 339
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections7",
+     "line": 343
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections8",
+     "line": 347
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections9",
+     "line": 351
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections10",
+     "line": 355
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDirections11",
+     "line": 359
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDerivativeCoefficient_explicit",
+     "line": 363
+    },
+    {
+     "keyword": "def",
+     "name": "modePinValues",
+     "line": 395
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinCoefficient_explicit",
+     "line": 401
+    },
+    {
+     "keyword": "def",
+     "name": "modeAdjustedValues",
+     "line": 410
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjustedCoefficient_explicit",
+     "line": 417
+    },
+    {
+     "keyword": "def",
+     "name": "weightedDerivativeIntegral",
+     "line": 439
+    },
+    {
+     "keyword": "theorem",
+     "name": "weighted_integrand_bound",
+     "line": 443
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedDerivativeIntegral_continuous",
+     "line": 454
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedDerivativeIntegral_norm_le",
+     "line": 473
+    },
+    {
+     "keyword": "theorem",
+     "name": "weightedDerivativeIntegral_zero",
+     "line": 483
+    },
+    {
+     "keyword": "def",
+     "name": "peanoLeft",
+     "line": 498
+    },
+    {
+     "keyword": "def",
+     "name": "peanoRight",
+     "line": 499
+    },
+    {
+     "keyword": "def",
+     "name": "peanoCubic",
+     "line": 500
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_one_bound",
+     "line": 502
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_left_bound",
+     "line": 505
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_right_bound",
+     "line": 511
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_cubic_bound",
+     "line": 517
+    },
+    {
+     "keyword": "theorem",
+     "name": "peano_kernel_masses",
+     "line": 526
+    },
+    {
+     "keyword": "def",
+     "name": "regularizedPinCoefficient",
+     "line": 548
+    },
+    {
+     "keyword": "def",
+     "name": "regularizedAdjustedCoefficient",
+     "line": 556
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinCoefficient_eq_regularized",
+     "line": 563
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjustedCoefficient_eq_regularized",
+     "line": 584
+    },
+    {
+     "keyword": "def",
+     "name": "contactPinCoefficient",
+     "line": 621
+    },
+    {
+     "keyword": "def",
+     "name": "contactAdjustedCoefficient",
+     "line": 624
+    },
+    {
+     "keyword": "theorem",
+     "name": "contactPinCoefficient_summable",
+     "line": 632
+    },
+    {
+     "keyword": "theorem",
+     "name": "contactAdjustedCoefficient_summable",
+     "line": 636
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinVector_eq_contactSeries",
+     "line": 654
+    },
+    {
+     "keyword": "theorem",
+     "name": "scalarSeries_div",
+     "line": 661
+    },
+    {
+     "keyword": "theorem",
+     "name": "scalarSeries_neg",
+     "line": 665
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointVector_eq_contactSeries",
+     "line": 669
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovariance_eq_contactCoefficientGram",
+     "line": 702
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointCrossCovariance_eq_contactCoefficientGram",
+     "line": 713
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointCovariance_eq_contactCoefficientGram",
+     "line": 723
+    },
+    {
+     "keyword": "def",
+     "name": "modeComponentMajorant",
+     "line": 739
+    },
+    {
+     "keyword": "def",
+     "name": "confluentModeMajorant",
+     "line": 749
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeComponentMajorant_nonneg",
+     "line": 752
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentModeMajorant_nonneg",
+     "line": 757
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentModeMajorant_summable",
+     "line": 761
+    },
+    {
+     "keyword": "theorem",
+     "name": "six_component_le_majorant",
+     "line": 769
+    },
+    {
+     "keyword": "theorem",
+     "name": "component_le_majorant",
+     "line": 774
+    },
+    {
+     "keyword": "theorem",
+     "name": "average_norm_le",
+     "line": 780
+    },
+    {
+     "keyword": "theorem",
+     "name": "integral_bound_one",
+     "line": 788
+    },
+    {
+     "keyword": "theorem",
+     "name": "modeF_norm_bound",
+     "line": 795
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedPinCoefficient_bound",
+     "line": 800
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedAdjustedCoefficient_bound",
+     "line": 827
+    },
+    {
+     "keyword": "theorem",
+     "name": "helper_left_bound",
+     "line": 865
+    },
+    {
+     "keyword": "theorem",
+     "name": "helper_right_bound",
+     "line": 871
+    },
+    {
+     "keyword": "theorem",
+     "name": "helper_cubic_bound",
+     "line": 877
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedPinCoefficient_continuous",
+     "line": 886
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedAdjustedCoefficient_continuous",
+     "line": 909
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedPinCoefficient_zero",
+     "line": 941
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedAdjustedCoefficient_zero",
+     "line": 967
+    },
+    {
+     "keyword": "def",
+     "name": "regularizedPinCovariance",
+     "line": 999
+    },
+    {
+     "keyword": "def",
+     "name": "regularizedCrossCovariance",
+     "line": 1002
+    },
+    {
+     "keyword": "def",
+     "name": "regularizedEndpointCovariance",
+     "line": 1005
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedGram_continuous",
+     "line": 1008
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedPinCovariance_continuous",
+     "line": 1029
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedCrossCovariance_continuous",
+     "line": 1035
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedEndpointCovariance_continuous",
+     "line": 1041
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovarianceAt_eq_regularized",
+     "line": 1047
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceCrossCovarianceAt_eq_regularized",
+     "line": 1056
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointCovarianceAt_eq_regularized",
+     "line": 1065
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedPinCovariance_zero",
+     "line": 1074
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedCrossCovariance_zero",
+     "line": 1081
+    },
+    {
+     "keyword": "theorem",
+     "name": "regularizedEndpointCovariance_zero",
+     "line": 1088
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovarianceAt_tendsto",
+     "line": 1097
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceCrossCovarianceAt_tendsto",
+     "line": 1107
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointCovarianceAt_tendsto",
+     "line": 1118
+    }
+   ],
+   "theorems": 86,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceConfluentPins.lean",
+   "git_blob": "6ee0be6db66a71c94f3b88a73097c0535b7fb7fc",
+   "bytes": 7123,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceDerivativeGaussian",
+    "Mathlib.Tactic.FieldSimp",
+    "Mathlib.Tactic.FinCases",
+    "Mathlib.Tactic.Ring"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "confluentTransform",
+     "line": 23
+    },
+    {
+     "keyword": "def",
+     "name": "rawTransform",
+     "line": 29
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawTransform_confluentTransform",
+     "line": 35
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentTransform_rawTransform",
+     "line": 42
+    },
+    {
+     "keyword": "def",
+     "name": "confluentEquiv",
+     "line": 51
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentEquiv_apply",
+     "line": 65
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentEquiv_symm_apply",
+     "line": 68
+    },
+    {
+     "keyword": "theorem",
+     "name": "prescribed_target",
+     "line": 73
+    },
+    {
+     "keyword": "def",
+     "name": "endpointM",
+     "line": 79
+    },
+    {
+     "keyword": "def",
+     "name": "endpointS",
+     "line": 80
+    },
+    {
+     "keyword": "def",
+     "name": "directionX",
+     "line": 81
+    },
+    {
+     "keyword": "def",
+     "name": "directionY",
+     "line": 82
+    },
+    {
+     "keyword": "def",
+     "name": "rawPins",
+     "line": 86
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawPins_hasGaussianLaw",
+     "line": 96
+    },
+    {
+     "keyword": "def",
+     "name": "confluentPins",
+     "line": 111
+    },
+    {
+     "keyword": "theorem",
+     "name": "confluentPins_hasGaussianLaw",
+     "line": 114
+    },
+    {
+     "keyword": "def",
+     "name": "rawPinsWithHessians",
+     "line": 120
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawPinsWithHessians_hasGaussianLaw",
+     "line": 132
+    }
+   ],
+   "theorems": 8,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/SourceConfluentPins/earlier_compile/source_confluent_handoff.md",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/SourceConfluentPins/qualification_receipt.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-nine-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-seven-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-ten-module/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/catalog-history/historical-ten-module/published-package-metadata/EVIDENCE_CATALOG.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceContactCovariance.lean",
+   "git_blob": "b64390842914e81114e240943e4b7066b39e30bc",
+   "bytes": 8225,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceDerivativeGaussian",
+    "ContactJetCovariance",
+    "Mathlib.Tactic.FinCases",
+    "Mathlib.Tactic.NormNum",
+    "Mathlib.Tactic.Ring"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "contactOrder",
+     "line": 18
+    },
+    {
+     "keyword": "def",
+     "name": "contactE0",
+     "line": 20
+    },
+    {
+     "keyword": "def",
+     "name": "contactE1",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "contactDirections",
+     "line": 23
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactVector",
+     "line": 32
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactCoefficient",
+     "line": 35
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactCovariance",
+     "line": 38
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactVector_hasGaussianLaw",
+     "line": 42
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactCoefficient_summable",
+     "line": 47
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactCovariance_eq_coefficientGram",
+     "line": 51
+    },
+    {
+     "keyword": "def",
+     "name": "frequency10",
+     "line": 57
+    },
+    {
+     "keyword": "def",
+     "name": "frequency01",
+     "line": 62
+    },
+    {
+     "keyword": "def",
+     "name": "frequency11",
+     "line": 67
+    },
+    {
+     "keyword": "def",
+     "name": "frequency20",
+     "line": 72
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactMode",
+     "line": 79
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactMode_nonzero_frequency",
+     "line": 83
+    },
+    {
+     "keyword": "def",
+     "name": "sourceModeAmplitude",
+     "line": 91
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactAmplitude",
+     "line": 95
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactAmplitude_pos",
+     "line": 98
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_none",
+     "line": 110
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_some",
+     "line": 122
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContact_selected_columns",
+     "line": 147
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactCovariance_posDef",
+     "line": 169
+    }
+   ],
+   "theorems": 9,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceContactEndpointParameters.lean",
+   "git_blob": "ba4c8e5a3e580d5add77222ef43a8e77a232e8a3",
+   "bytes": 16225,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceContactSchur",
+    "Mathlib.Probability.Moments.CovarianceBilin"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sourceContactA",
+     "line": 24
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointVector",
+     "line": 28
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointCrossCovariance",
+     "line": 34
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointCovariance",
+     "line": 39
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointRegression",
+     "line": 43
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactPinValue",
+     "line": 47
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointMean",
+     "line": 49
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointSchur",
+     "line": 52
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactEndpointResidual",
+     "line": 57
+    },
+    {
+     "keyword": "theorem",
+     "name": "contact_generic_residual_covariance",
+     "line": 61
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactA_memLp",
+     "line": 130
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePin_memLp",
+     "line": 135
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpoint_memLp",
+     "line": 139
+    },
+    {
+     "keyword": "theorem",
+     "name": "cross_row_zero",
+     "line": 154
+    },
+    {
+     "keyword": "theorem",
+     "name": "cross_row_one",
+     "line": 161
+    },
+    {
+     "keyword": "theorem",
+     "name": "cross_row_two",
+     "line": 168
+    },
+    {
+     "keyword": "theorem",
+     "name": "cross_row_four",
+     "line": 178
+    },
+    {
+     "keyword": "theorem",
+     "name": "regression_pin_coordinates",
+     "line": 182
+    },
+    {
+     "keyword": "theorem",
+     "name": "regression_other_coordinates",
+     "line": 215
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointMean_contact",
+     "line": 225
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointResidual_contact",
+     "line": 240
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointSchur_covariance",
+     "line": 257
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointSchur_posSemidef",
+     "line": 271
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointSchur_contact",
+     "line": 276
+    },
+    {
+     "keyword": "theorem",
+     "name": "cross_row_Q",
+     "line": 303
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointSchur_four_four_eq_schur",
+     "line": 308
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactEndpointSchur_referenceVariance_pos",
+     "line": 320
+    }
+   ],
+   "theorems": 18,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceContactSchur.lean",
+   "git_blob": "11019ab3956b3221aadc0b415c07a77521d56417",
+   "bytes": 9665,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceContactCovariance"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sourcePinVector",
+     "line": 27
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactQ",
+     "line": 31
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePinCovariance",
+     "line": 35
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactCross",
+     "line": 39
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactQVariance",
+     "line": 43
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactCrossMatrix",
+     "line": 45
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactQMatrix",
+     "line": 48
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactSchur",
+     "line": 52
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactBlockEquiv",
+     "line": 57
+    },
+    {
+     "keyword": "lemma",
+     "name": "sourceContactBlockEquiv_inl",
+     "line": 60
+    },
+    {
+     "keyword": "lemma",
+     "name": "sourceContactBlockEquiv_inr",
+     "line": 63
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactCovariance_block_identity",
+     "line": 69
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovariance_posDef",
+     "line": 90
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePinCovariance_isUnit",
+     "line": 94
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePinCovarianceInvertible",
+     "line": 99
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactQVariance_eq_variance",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactSchur_pos",
+     "line": 109
+    },
+    {
+     "keyword": "lemma",
+     "name": "contact_residual_variance_of_isUnit_covariance",
+     "line": 131
+    },
+    {
+     "keyword": "def",
+     "name": "sourceContactResidual",
+     "line": 175
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactResidual_variance",
+     "line": 180
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceContactResidual_variance_pos",
+     "line": 201
+    }
+   ],
+   "theorems": 10,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceDerivativeContinuity.lean",
+   "git_blob": "c618c20e0a4287bd70e763889fc2113377914511",
+   "bytes": 5076,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceDerivativeGaussian",
+    "Mathlib.Analysis.Normed.Group.FunctionSeries"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "derivativeMajorant",
+     "line": 16
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeMajorant_nonneg",
+     "line": 20
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeMajorant_summable",
+     "line": 26
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_bound",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_continuous",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeMajorant_product_summable",
+     "line": 55
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivative_covariance_continuous",
+     "line": 67
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivative_integral_zero",
+     "line": 87
+    }
+   ],
+   "theorems": 7,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceDerivativeGaussian.lean",
+   "git_blob": "c405115536f564b746fe09763ea881cb6522b5d8",
+   "bytes": 9874,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceSmoothCarrier",
+    "Mathlib.Analysis.Calculus.SmoothSeries",
+    "Mathlib.Topology.Algebra.Module.Multilinear.Topology"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "modeCoefficient_smooth",
+     "line": 18
+    },
+    {
+     "keyword": "theorem",
+     "name": "weighted_iteratedFDeriv",
+     "line": 32
+    },
+    {
+     "keyword": "theorem",
+     "name": "weighted_iteratedFDeriv_bound",
+     "line": 44
+    },
+    {
+     "keyword": "def",
+     "name": "derivativeCoefficient",
+     "line": 53
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_summable",
+     "line": 57
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivative_series",
+     "line": 72
+    },
+    {
+     "keyword": "theorem",
+     "name": "scalarSeries_linearCombination_hasGaussianLaw",
+     "line": 101
+    },
+    {
+     "keyword": "theorem",
+     "name": "scalarSeries_finiteVector_hasGaussianLaw",
+     "line": 123
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivativeVector_hasGaussianLaw",
+     "line": 154
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivative_covariance",
+     "line": 176
+    }
+   ],
+   "theorems": 9,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceEndpointEstimates.lean",
+   "git_blob": "5beba8edd9ea8b027c113df10ebc3a2aa362a6de",
+   "bytes": 20080,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceEndpointParameters",
+    "SourceConfluentLimits",
+    "SourceContactEndpointParameters",
+    "SourcePhysicalEndpointKernel",
+    "GaussianRegressionLimits",
+    "ResearchFormalCoreR1.GaussianNormalizerLimit",
+    "ResearchFormalCoreR1.PalmReweighting"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalCoordinates",
+     "line": 30
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalIndex",
+     "line": 33
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalCoordinates_apply",
+     "line": 35
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalCoordinates_continuous",
+     "line": 39
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalCoordinates_inverse",
+     "line": 43
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointWeight",
+     "line": 49
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointWeight_measurable",
+     "line": 52
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointWeight_nonneg",
+     "line": 55
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointWeight_eq_continuous",
+     "line": 62
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointLaw",
+     "line": 67
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointMean",
+     "line": 70
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_isProbabilityMeasure",
+     "line": 73
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_euclidean_hasLaw",
+     "line": 80
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_physical_marginal",
+     "line": 89
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_weight_integral",
+     "line": 103
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_second_moment_of_parameter_bounds",
+     "line": 119
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_weight_square_integrable",
+     "line": 142
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointLaw_weight_integrable",
+     "line": 154
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePrescribedPins_tendsto",
+     "line": 162
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointWeightedProbability",
+     "line": 171
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_weighted_event_bound_of_estimates",
+     "line": 176
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_parameter_limits",
+     "line": 192
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_uniform_parameter_bounds",
+     "line": 217
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_normalizer_floor",
+     "line": 245
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_estimates",
+     "line": 271
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpoint_estimates_and_weighted_events",
+     "line": 292
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalEndpointLaw",
+     "line": 317
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointLaw_eq",
+     "line": 322
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointLaw_isProbabilityMeasure",
+     "line": 326
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_eventually_hasCondDistrib",
+     "line": 333
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalEndpointWeightedProbability",
+     "line": 341
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointWeightedProbability_eq",
+     "line": 344
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpoint_estimates_and_weighted_events",
+     "line": 352
+    }
+   ],
+   "theorems": 25,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/SourceEndpointEstimates/HANDOFF.md",
+    "Math-:frontiers/source_derivative_gaussian_20261025/evidence/SourceEndpointEstimates/qualification_receipt.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceEndpointParameters.lean",
+   "git_blob": "dac364319e8a764b938321f610254e475eb86250",
+   "bytes": 15783,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceEndpointRegression",
+    "Mathlib.Probability.Distributions.Gaussian.Multivariate"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_derivative_integral_zero",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawPinsWithHessians_integral_zero",
+     "line": 40
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawPinsWithHessians_integral_vector_zero",
+     "line": 53
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePins_adjusted_integral_zero",
+     "line": 64
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_integral_zero",
+     "line": 72
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_integral_zero",
+     "line": 78
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointResidual_integral_zero",
+     "line": 84
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointResidual_covariance",
+     "line": 93
+    },
+    {
+     "keyword": "lemma",
+     "name": "finiteGaussian_law_parameters",
+     "line": 150
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointSchurAt",
+     "line": 192
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointResidual_hasGaussianLaw",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointPosterior",
+     "line": 205
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointPosterior_hasGaussianLaw",
+     "line": 208
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointPosterior_integral",
+     "line": 218
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointPosterior_covariance",
+     "line": 227
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_eq_map_posterior",
+     "line": 241
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_isGaussian",
+     "line": 249
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointSchurAt_posSemidef",
+     "line": 255
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_eq_multivariateGaussian",
+     "line": 262
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_integral",
+     "line": 274
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_covariance",
+     "line": 281
+    }
+   ],
+   "theorems": 19,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceEndpointRegression.lean",
+   "git_blob": "9e832ed609344797a18a0f1ec2a8d13ffb7c90fa",
+   "bytes": 10303,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceConfluentPins",
+    "ResearchFormalCoreR1.GaussianRegressionKernel",
+    "Mathlib.LinearAlgebra.Matrix.ToLin"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sourceConfluentPinsAt",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_eq",
+     "line": 33
+    },
+    {
+     "keyword": "def",
+     "name": "sourceAdjustedEndpoints",
+     "line": 37
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePinCovarianceAt",
+     "line": 43
+    },
+    {
+     "keyword": "def",
+     "name": "sourceCrossCovarianceAt",
+     "line": 48
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointCovarianceAt",
+     "line": 53
+    },
+    {
+     "keyword": "def",
+     "name": "sourceRegressionMatrixAt",
+     "line": 57
+    },
+    {
+     "keyword": "def",
+     "name": "sourceRegressionMapAt",
+     "line": 60
+    },
+    {
+     "keyword": "def",
+     "name": "endpointObservationMap",
+     "line": 64
+    },
+    {
+     "keyword": "lemma",
+     "name": "endpointObservationMap_actual",
+     "line": 77
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePins_adjusted_hasGaussianLaw",
+     "line": 89
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceRegressionMapAt_apply",
+     "line": 97
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceRegressionMapAt_single",
+     "line": 100
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceRegression_normal_equations",
+     "line": 105
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointResidual",
+     "line": 133
+    },
+    {
+     "keyword": "def",
+     "name": "sourceEndpointKernel",
+     "line": 137
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_markov",
+     "line": 141
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_measurable",
+     "line": 147
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_apply",
+     "line": 151
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_hasCondDistrib",
+     "line": 162
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceEndpointKernel_spec",
+     "line": 173
+    },
+    {
+     "keyword": "def",
+     "name": "sourceNormalizedEndpoints",
+     "line": 186
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePrescribedPins",
+     "line": 190
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_on_pin_fiber",
+     "line": 193
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_on_prescribed",
+     "line": 199
+    }
+   ],
+   "theorems": 13,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourcePhysicalEndpointKernel.lean",
+   "git_blob": "5b345c2f14512608f592cf4b1718a255a15fc1b2",
+   "bytes": 7126,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceEndpointParameters"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalCorrection",
+     "line": 24
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalRegressionMap",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceNormalizedEndpoints_eq_adjusted",
+     "line": 34
+    },
+    {
+     "keyword": "def",
+     "name": "sourcePhysicalEndpointKernel",
+     "line": 42
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_markov",
+     "line": 46
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_measurable",
+     "line": 52
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_apply",
+     "line": 56
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_hasCondDistrib",
+     "line": 67
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalCorrection_prescribed",
+     "line": 91
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_at_prescribed",
+     "line": 97
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_integral",
+     "line": 105
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourcePhysicalEndpointKernel_spec",
+     "line": 119
+    }
+   ],
+   "theorems": 9,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceSmoothConditionalKernel.lean",
+   "git_blob": "1eac792eeba31493de8bad65502b84f81b49413b",
+   "bytes": 34339,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceEndpointEstimates",
+    "Mathlib.Probability.Independence.Process.Basic",
+    "Mathlib.MeasureTheory.MeasurableSpace.Embedding"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "zeroSample",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "exists_measurable_sampleProjection",
+     "line": 36
+    },
+    {
+     "keyword": "theorem",
+     "name": "goodSample_add",
+     "line": 42
+    },
+    {
+     "keyword": "theorem",
+     "name": "goodSample_neg",
+     "line": 54
+    },
+    {
+     "keyword": "theorem",
+     "name": "derivativeCoefficient_weighted_summable",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "finiteCoefficient_weighted_summable",
+     "line": 73
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinCoefficient_weighted_summable",
+     "line": 90
+    },
+    {
+     "keyword": "theorem",
+     "name": "adjustedCoefficient_weighted_summable",
+     "line": 98
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_measurable",
+     "line": 106
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_measurable",
+     "line": 116
+    },
+    {
+     "keyword": "def",
+     "name": "pinLift",
+     "line": 126
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_zero",
+     "line": 129
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_add",
+     "line": 133
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_neg",
+     "line": 138
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_goodSample",
+     "line": 143
+    },
+    {
+     "keyword": "theorem",
+     "name": "pinLift_measurable",
+     "line": 163
+    },
+    {
+     "keyword": "def",
+     "name": "addLift",
+     "line": 169
+    },
+    {
+     "keyword": "theorem",
+     "name": "addLift_val",
+     "line": 174
+    },
+    {
+     "keyword": "theorem",
+     "name": "addLift_measurable",
+     "line": 178
+    },
+    {
+     "keyword": "def",
+     "name": "posteriorSample",
+     "line": 185
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_val",
+     "line": 189
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_measurable",
+     "line": 194
+    },
+    {
+     "keyword": "lemma",
+     "name": "scalarSeries_add_finiteShift",
+     "line": 204
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_addLift",
+     "line": 230
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_addLift",
+     "line": 246
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceConfluentPinsAt_posteriorSample",
+     "line": 264
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceAdjustedEndpoints_posteriorSample",
+     "line": 273
+    },
+    {
+     "keyword": "def",
+     "name": "sourceSmoothKernel",
+     "line": 288
+    },
+    {
+     "keyword": "instance",
+     "name": "sourceSmoothKernel_isMarkov",
+     "line": 294
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_measurable",
+     "line": 299
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_apply",
+     "line": 303
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_pin_map",
+     "line": 311
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_pin_fiber",
+     "line": 325
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_endpoint_map",
+     "line": 337
+    },
+    {
+     "keyword": "theorem",
+     "name": "scalarSeries_finite_hasGaussianLaw",
+     "line": 363
+    },
+    {
+     "keyword": "def",
+     "name": "residualCoefficient",
+     "line": 374
+    },
+    {
+     "keyword": "lemma",
+     "name": "scalarSeries_single",
+     "line": 377
+    },
+    {
+     "keyword": "lemma",
+     "name": "scalarSeries_coordinate_covariance",
+     "line": 381
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin_coefficient_covariance",
+     "line": 396
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin_finite_coefficients_hasGaussianLaw",
+     "line": 409
+    },
+    {
+     "keyword": "def",
+     "name": "finiteLift",
+     "line": 445
+    },
+    {
+     "keyword": "lemma",
+     "name": "finiteLift_apply",
+     "line": 450
+    },
+    {
+     "keyword": "theorem",
+     "name": "pin_residual_finite_hasGaussianLaw",
+     "line": 457
+    },
+    {
+     "keyword": "lemma",
+     "name": "coefficient_hasGaussianLaw",
+     "line": 475
+    },
+    {
+     "keyword": "theorem",
+     "name": "residualCoefficient_zero_covariance",
+     "line": 482
+    },
+    {
+     "keyword": "theorem",
+     "name": "residualCoefficient_finite_indepFun",
+     "line": 524
+    },
+    {
+     "keyword": "theorem",
+     "name": "residualCoefficient_indepFun",
+     "line": 531
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceNormalizedEndpoints_measurable",
+     "line": 552
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_physical_endpoint_map",
+     "line": 564
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_physical_prescribed_map",
+     "line": 590
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_self",
+     "line": 604
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_eq_addLift_residual",
+     "line": 611
+    },
+    {
+     "keyword": "theorem",
+     "name": "addLift_observation_residual",
+     "line": 620
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_zero_inclusion",
+     "line": 625
+    },
+    {
+     "keyword": "theorem",
+     "name": "posteriorSample_zero_indepFun",
+     "line": 633
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_hasCondDistrib",
+     "line": 643
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_map_hasCondDistrib",
+     "line": 680
+    },
+    {
+     "keyword": "theorem",
+     "name": "smoothSourceField_measurable",
+     "line": 691
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_field_hasCondDistrib",
+     "line": 697
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_eventually_hasCondDistrib",
+     "line": 705
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothKernel_eventually_map_hasCondDistrib",
+     "line": 712
+    }
+   ],
+   "theorems": 53,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/FIELD_EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/historical-conditioning-54/FIELD_EVIDENCE_CATALOG.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/03-first-integration.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/03-first-integration.log",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/04-shift-observations.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/05-kernel-and-marginals.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/06-process-integration.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/07-physical-marginal.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/08-full-conditional-final.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/09-controls.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/10-axiom-audit.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/field-evidence/raw/source-smooth-conditional/11-kernel-replay.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_derivative_gaussian_20261025/SourceSmoothPalm.lean",
+   "git_blob": "62da624fa7e358dacac0a516e6e7da94d5a59cc7",
+   "bytes": 17790,
+   "lake_root": "frontiers/source_derivative_gaussian_20261025",
+   "imports": [
+    "SourceSmoothConditionalKernel"
+   ],
+   "declarations": [
+    {
+     "keyword": "lemma",
+     "name": "withDensity_map_comp",
+     "line": 28
+    },
+    {
+     "keyword": "theorem",
+     "name": "prwMeasure_map_comp",
+     "line": 38
+    },
+    {
+     "keyword": "lemma",
+     "name": "prwMeasure_absolutelyContinuous",
+     "line": 49
+    },
+    {
+     "keyword": "lemma",
+     "name": "prwMeasure_ae_of_ae",
+     "line": 53
+    },
+    {
+     "keyword": "lemma",
+     "name": "prwMeasure_ae_weight_pos",
+     "line": 58
+    },
+    {
+     "keyword": "def",
+     "name": "sourceSmoothLaw",
+     "line": 68
+    },
+    {
+     "keyword": "instance",
+     "name": "sourceSmoothLaw_isProbabilityMeasure",
+     "line": 71
+    },
+    {
+     "keyword": "lemma",
+     "name": "rawPins_prescribed_iff",
+     "line": 76
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_raw_pin_fiber",
+     "line": 84
+    },
+    {
+     "keyword": "lemma",
+     "name": "sourceRawPins_measurable",
+     "line": 94
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_raw_pin_fiber_ae",
+     "line": 105
+    },
+    {
+     "keyword": "theorem",
+     "name": "raw_pin_fiber_of_absolutelyContinuous",
+     "line": 114
+    },
+    {
+     "keyword": "theorem",
+     "name": "prwMeasure_raw_pin_fiber",
+     "line": 123
+    },
+    {
+     "keyword": "def",
+     "name": "sourceRawHM",
+     "line": 132
+    },
+    {
+     "keyword": "def",
+     "name": "sourceRawHS",
+     "line": 137
+    },
+    {
+     "keyword": "def",
+     "name": "sourceSmoothTyped",
+     "line": 141
+    },
+    {
+     "keyword": "def",
+     "name": "sourceSmoothWeight",
+     "line": 145
+    },
+    {
+     "keyword": "lemma",
+     "name": "sourceRawHM_eq_normalized",
+     "line": 149
+    },
+    {
+     "keyword": "lemma",
+     "name": "sourceRawHS_eq_normalized",
+     "line": 156
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeight_eq",
+     "line": 163
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeight_nonneg",
+     "line": 169
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeight_measurable",
+     "line": 176
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeight_pos_iff",
+     "line": 183
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothTyped_measurableSet",
+     "line": 196
+    },
+    {
+     "keyword": "def",
+     "name": "sourceSmoothWeightedLaw",
+     "line": 206
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_endpoint_hasLaw",
+     "line": 209
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_weight_square_integrable",
+     "line": 216
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_weight_integral",
+     "line": 223
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothLaw_weight_square_integral",
+     "line": 231
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeightedLaw_endpoint_map",
+     "line": 240
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmooth_weighted_event_bound_of_estimates",
+     "line": 251
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeightedLaw_typed",
+     "line": 265
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothWeightedLaw_raw_pins",
+     "line": 276
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSmoothPalm_estimates",
+     "line": 287
+    }
+   ],
+   "theorems": 27,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/source_derivative_gaussian_20261025/FIELD_EVIDENCE_CATALOG.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeAxiomAudit.lean",
+   "git_blob": "e437045b27407de0d1f3d5508ba9e22da2923186",
+   "bytes": 3759,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "SourceLifetimeField",
+    "SourceLifetimeControls",
+    "SourceSmoothControls",
+    "Lean.Elab.Command",
+    "Lean.Util.CollectAxioms"
+   ],
+   "declarations": [],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:cbz/evidence/math-pr-dispositions/unmerged_branches.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeControls.lean",
+   "git_blob": "de65503cda596172a49516d8cbe87135588f356b",
+   "bytes": 5456,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "SourceLifetimeField"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "unrestrictedEndpoint",
+     "line": 14
+    },
+    {
+     "keyword": "theorem",
+     "name": "literalCarrier",
+     "line": 17
+    },
+    {
+     "keyword": "theorem",
+     "name": "literalLaw",
+     "line": 20
+    },
+    {
+     "keyword": "theorem",
+     "name": "literalField",
+     "line": 23
+    },
+    {
+     "keyword": "theorem",
+     "name": "sameCarrierOrders",
+     "line": 28
+    },
+    {
+     "keyword": "theorem",
+     "name": "wholeCoefficientLaw",
+     "line": 35
+    },
+    {
+     "keyword": "theorem",
+     "name": "periodicCovariance_zero",
+     "line": 39
+    },
+    {
+     "keyword": "theorem",
+     "name": "rawDiagonalOne",
+     "line": 43
+    },
+    {
+     "keyword": "theorem",
+     "name": "zeroMean",
+     "line": 47
+    },
+    {
+     "keyword": "theorem",
+     "name": "dimensionZeroTheta",
+     "line": 51
+    },
+    {
+     "keyword": "theorem",
+     "name": "dimensionZeroSpectralNormalizer",
+     "line": 54
+    },
+    {
+     "keyword": "theorem",
+     "name": "dimensionZeroRawVariance",
+     "line": 57
+    },
+    {
+     "keyword": "theorem",
+     "name": "emptyQuad",
+     "line": 61
+    },
+    {
+     "keyword": "theorem",
+     "name": "emptyFamilyLaw",
+     "line": 64
+    },
+    {
+     "keyword": "theorem",
+     "name": "cancelledQuad",
+     "line": 74
+    },
+    {
+     "keyword": "theorem",
+     "name": "cancelledSample",
+     "line": 78
+    },
+    {
+     "keyword": "theorem",
+     "name": "cancelledLaw",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "reinforcedQuad",
+     "line": 94
+    },
+    {
+     "keyword": "theorem",
+     "name": "reinforcedLaw",
+     "line": 98
+    },
+    {
+     "keyword": "theorem",
+     "name": "everyLatticeTranslation",
+     "line": 107
+    },
+    {
+     "keyword": "theorem",
+     "name": "euclideanNormSquared",
+     "line": 112
+    },
+    {
+     "keyword": "theorem",
+     "name": "shiftedMeanOne",
+     "line": 117
+    }
+   ],
+   "theorems": 21,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:cbz/evidence/math-pr-dispositions/unmerged_branches.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeField.lean",
+   "git_blob": "a07036a15d9d7757898cc2b235baa89837191449",
+   "bytes": 3913,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "SourceLifetimeGeometry",
+    "SourceThetaBridge"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "actualField_covariance",
+     "line": 16
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_raw_second_moment",
+     "line": 23
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_variance",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "covQuadForm_nonneg",
+     "line": 45
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_map",
+     "line": 51
+    },
+    {
+     "keyword": "def",
+     "name": "actualGaussianFieldInterface",
+     "line": 63
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_exists",
+     "line": 77
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_carrier",
+     "line": 81
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_law",
+     "line": 84
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualGaussianFieldInterface_field",
+     "line": 87
+    }
+   ],
+   "theorems": 9,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:cbz/evidence/math-pr-dispositions/unmerged_branches.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeGeometry.lean",
+   "git_blob": "e83eb8e134484aba40b7f26f0d0cef4db8f9cda5",
+   "bytes": 4588,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "Lifetime",
+    "SourceSmoothCarrier"
+   ],
+   "declarations": [
+    {
+     "keyword": "def",
+     "name": "coordinates",
+     "line": 15
+    },
+    {
+     "keyword": "theorem",
+     "name": "coordinates_apply",
+     "line": 18
+    },
+    {
+     "keyword": "theorem",
+     "name": "coordinates_latticeVec",
+     "line": 21
+    },
+    {
+     "keyword": "def",
+     "name": "actualField",
+     "line": 27
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_smooth",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_periodic",
+     "line": 36
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_eval_measurable",
+     "line": 44
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_eval_hasGaussianLaw",
+     "line": 49
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_measurable",
+     "line": 54
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_hasGaussianLaw",
+     "line": 60
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_integral_zero",
+     "line": 74
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_linearCombination_integral_zero",
+     "line": 83
+    },
+    {
+     "keyword": "theorem",
+     "name": "actualField_covariance_spectral",
+     "line": 91
+    }
+   ],
+   "theorems": 11,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:cbz/evidence/math-pr-dispositions/unmerged_branches.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/SourceThetaBridge.lean",
+   "git_blob": "06d14bc95a1eca45ba349809ae0397b6c963b70d",
+   "bytes": 11897,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "Lifetime",
+    "SourceKernel",
+    "Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation"
+   ],
+   "declarations": [
+    {
+     "keyword": "theorem",
+     "name": "latticeVec_apply",
+     "line": 16
+    },
+    {
+     "keyword": "theorem",
+     "name": "theta_summand_eq_product",
+     "line": 22
+    },
+    {
+     "keyword": "theorem",
+     "name": "shifted_gaussian_le",
+     "line": 30
+    },
+    {
+     "keyword": "theorem",
+     "name": "shifted_gaussian_summable",
+     "line": 37
+    },
+    {
+     "keyword": "theorem",
+     "name": "theta_summable",
+     "line": 46
+    },
+    {
+     "keyword": "theorem",
+     "name": "theta_zero_pos",
+     "line": 62
+    },
+    {
+     "keyword": "theorem",
+     "name": "summable_nonneg_fin_product",
+     "line": 67
+    },
+    {
+     "keyword": "theorem",
+     "name": "summable_norm_fin_product",
+     "line": 93
+    },
+    {
+     "keyword": "theorem",
+     "name": "tsum_fin_product",
+     "line": 100
+    },
+    {
+     "keyword": "def",
+     "name": "poissonScale",
+     "line": 114
+    },
+    {
+     "keyword": "theorem",
+     "name": "poissonScale_eq",
+     "line": 117
+    },
+    {
+     "keyword": "def",
+     "name": "spectral1Term",
+     "line": 124
+    },
+    {
+     "keyword": "theorem",
+     "name": "spectral1Term_norm",
+     "line": 128
+    },
+    {
+     "keyword": "theorem",
+     "name": "spectral1Term_summable_norm",
+     "line": 134
+    },
+    {
+     "keyword": "theorem",
+     "name": "poisson_one_dimension",
+     "line": 140
+    },
+    {
+     "keyword": "theorem",
+     "name": "spectral1Term_prod",
+     "line": 192
+    },
+    {
+     "keyword": "theorem",
+     "name": "complex_spectral_summable",
+     "line": 203
+    },
+    {
+     "keyword": "theorem",
+     "name": "thetaSum_complex",
+     "line": 215
+    },
+    {
+     "keyword": "theorem",
+     "name": "thetaSum_eq_scaled_cos",
+     "line": 239
+    },
+    {
+     "keyword": "theorem",
+     "name": "thetaSum_zero_eq",
+     "line": 250
+    },
+    {
+     "keyword": "theorem",
+     "name": "sourceSpectralKernel_eq_periodicCovariance",
+     "line": 254
+    }
+   ],
+   "theorems": 19,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:cbz/evidence/math-pr-dispositions/unmerged_branches.json"
+   ]
+  },
+  {
+   "path": "frontiers/source_lifetime_realization_20261017/inputs/Lifetime.lean",
+   "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+   "bytes": 51383,
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "imports": [
+    "Mathlib"
+   ],
+   "declarations": [
+    {
+     "keyword": "abbrev",
+     "name": "E",
+     "line": 76
+    },
+    {
+     "keyword": "def",
+     "name": "latticeVec",
+     "line": 84
+    },
+    {
+     "keyword": "def",
+     "name": "thetaSum",
+     "line": 95
+    },
+    {
+     "keyword": "def",
+     "name": "periodicCovariance",
+     "line": 107
+    },
+    {
+     "keyword": "def",
+     "name": "covQuadForm",
+     "line": 118
+    },
+    {
+     "keyword": "def",
+     "name": "IsLPeriodic",
+     "line": 127
+    },
+    {
+     "keyword": "def",
+     "name": "IsSmooth",
+     "line": 136
+    },
+    {
+     "keyword": "structure",
+     "name": "GaussianFieldInterface",
+     "line": 150
+    },
+    {
+     "keyword": "def",
+     "name": "hessian",
+     "line": 188
+    },
+    {
+     "keyword": "def",
+     "name": "IsCriticalPoint",
+     "line": 197
+    },
+    {
+     "keyword": "def",
+     "name": "HessianHasInertia",
+     "line": 210
+    },
+    {
+     "keyword": "def",
+     "name": "IsNondegMax",
+     "line": 223
+    },
+    {
+     "keyword": "def",
+     "name": "IsIndexSaddle",
+     "line": 233
+    },
+    {
+     "keyword": "def",
+     "name": "pinM",
+     "line": 242
+    },
+    {
+     "keyword": "def",
+     "name": "pinS",
+     "line": 251
+    },
+    {
+     "keyword": "def",
+     "name": "torusDist",
+     "line": 262
+    },
+    {
+     "keyword": "def",
+     "name": "FundDomain",
+     "line": 272
+    },
+    {
+     "keyword": "def",
+     "name": "heightGap",
+     "line": 281
+    },
+    {
+     "keyword": "def",
+     "name": "scaledGap",
+     "line": 290
+    },
+    {
+     "keyword": "def",
+     "name": "IsCandidatePair",
+     "line": 300
+    },
+    {
+     "keyword": "def",
+     "name": "IsMorseDistinct",
+     "line": 311
+    },
+    {
+     "keyword": "structure",
+     "name": "SuperlevelBarInterface",
+     "line": 326
+    },
+    {
+     "keyword": "def",
+     "name": "IsFiniteBar",
+     "line": 361
+    },
+    {
+     "keyword": "def",
+     "name": "pairSet",
+     "line": 371
+    },
+    {
+     "keyword": "def",
+     "name": "pairCount",
+     "line": 382
+    },
+    {
+     "keyword": "def",
+     "name": "IsLifetimeDensityVersion",
+     "line": 398
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowPair",
+     "line": 417
+    },
+    {
+     "keyword": "def",
+     "name": "IsWindowElderPair",
+     "line": 428
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedPair",
+     "line": 440
+    },
+    {
+     "keyword": "structure",
+     "name": "PairLawInterface",
+     "line": 457
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUniformSelectionA",
+     "line": 479
+    },
+    {
+     "keyword": "def",
+     "name": "ParentCompactWindowDensityB",
+     "line": 498
+    },
+    {
+     "keyword": "def",
+     "name": "IsUnrestrictedLeadingCoefficient",
+     "line": 522
+    },
+    {
+     "keyword": "def",
+     "name": "ParentUnrestrictedLeadingDensityC",
+     "line": 542
+    },
+    {
+     "keyword": "def",
+     "name": "RemainderBoundedR1",
+     "line": 559
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarElderLowerE2",
+     "line": 581
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarTwoSidedRateE4",
+     "line": 598
+    },
+    {
+     "keyword": "def",
+     "name": "PlanarDensityGapE11",
+     "line": 623
+    }
+   ],
+   "theorems": 0,
+   "risk": {
+    "sorry": 0,
+    "admit": 0,
+    "axiom_decl": 0,
+    "native_decide": 0,
+    "implemented_by": 0,
+    "extern": 0,
+    "unsafe": 0,
+    "opaque": 0,
+    "maxHeartbeats_0": 0
+   },
+   "evidence_leads": [
+    "cbz/evidence/kernel/additional/resumed-20261029/c297/RESULT.json",
+    "cbz/evidence/kernel/additional/resumed-20261029/smooth/RESULT.json",
+    "cbz/evidence/verifier-audit-db642-20261029/public-source-census.json",
+    "Math-:frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json"
+   ]
+  }
+ ]
+}

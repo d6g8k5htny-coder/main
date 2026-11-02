@@ -1,0 +1,1570 @@
+{
+ "batch": 4,
+ "math_ref": "3b11bff6479f3f40ac838fe1d8b87c7ed6814606",
+ "groups": [
+  {
+   "group": "frontiers/source_lifetime_realization_20261017",
+   "lake_root": "frontiers/source_lifetime_realization_20261017",
+   "lean_toolchain": "leanprover/lean4:v4.34.1",
+   "lean_files": [
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeAxiomAudit.lean",
+     "git_blob": "e437045b27407de0d1f3d5508ba9e22da2923186",
+     "bytes": 3759,
+     "theorems": 0,
+     "declarations": [],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "SourceLifetimeField",
+      "SourceLifetimeControls",
+      "SourceSmoothControls",
+      "Lean.Elab.Command",
+      "Lean.Util.CollectAxioms"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeControls.lean",
+     "git_blob": "de65503cda596172a49516d8cbe87135588f356b",
+     "bytes": 5456,
+     "theorems": 21,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "unrestrictedEndpoint",
+       "line": 14
+      },
+      {
+       "keyword": "theorem",
+       "name": "literalCarrier",
+       "line": 17
+      },
+      {
+       "keyword": "theorem",
+       "name": "literalLaw",
+       "line": 20
+      },
+      {
+       "keyword": "theorem",
+       "name": "literalField",
+       "line": 23
+      },
+      {
+       "keyword": "theorem",
+       "name": "sameCarrierOrders",
+       "line": 28
+      },
+      {
+       "keyword": "theorem",
+       "name": "wholeCoefficientLaw",
+       "line": 35
+      },
+      {
+       "keyword": "theorem",
+       "name": "periodicCovariance_zero",
+       "line": 39
+      },
+      {
+       "keyword": "theorem",
+       "name": "rawDiagonalOne",
+       "line": 43
+      },
+      {
+       "keyword": "theorem",
+       "name": "zeroMean",
+       "line": 47
+      },
+      {
+       "keyword": "theorem",
+       "name": "dimensionZeroTheta",
+       "line": 51
+      },
+      {
+       "keyword": "theorem",
+       "name": "dimensionZeroSpectralNormalizer",
+       "line": 54
+      },
+      {
+       "keyword": "theorem",
+       "name": "dimensionZeroRawVariance",
+       "line": 57
+      },
+      {
+       "keyword": "theorem",
+       "name": "emptyQuad",
+       "line": 61
+      },
+      {
+       "keyword": "theorem",
+       "name": "emptyFamilyLaw",
+       "line": 64
+      },
+      {
+       "keyword": "theorem",
+       "name": "cancelledQuad",
+       "line": 74
+      },
+      {
+       "keyword": "theorem",
+       "name": "cancelledSample",
+       "line": 78
+      },
+      {
+       "keyword": "theorem",
+       "name": "cancelledLaw",
+       "line": 83
+      },
+      {
+       "keyword": "theorem",
+       "name": "reinforcedQuad",
+       "line": 94
+      },
+      {
+       "keyword": "theorem",
+       "name": "reinforcedLaw",
+       "line": 98
+      },
+      {
+       "keyword": "theorem",
+       "name": "everyLatticeTranslation",
+       "line": 107
+      },
+      {
+       "keyword": "theorem",
+       "name": "euclideanNormSquared",
+       "line": 112
+      },
+      {
+       "keyword": "theorem",
+       "name": "shiftedMeanOne",
+       "line": 117
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "SourceLifetimeField"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeField.lean",
+     "git_blob": "a07036a15d9d7757898cc2b235baa89837191449",
+     "bytes": 3913,
+     "theorems": 9,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "actualField_covariance",
+       "line": 16
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_raw_second_moment",
+       "line": 23
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_variance",
+       "line": 30
+      },
+      {
+       "keyword": "theorem",
+       "name": "covQuadForm_nonneg",
+       "line": 45
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_map",
+       "line": 51
+      },
+      {
+       "keyword": "def",
+       "name": "actualGaussianFieldInterface",
+       "line": 63
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_exists",
+       "line": 77
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_carrier",
+       "line": 81
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_law",
+       "line": 84
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_field",
+       "line": 87
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "SourceLifetimeGeometry",
+      "SourceThetaBridge"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeField.lean"
+     ]
+    },
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/SourceLifetimeGeometry.lean",
+     "git_blob": "e83eb8e134484aba40b7f26f0d0cef4db8f9cda5",
+     "bytes": 4588,
+     "theorems": 11,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "coordinates",
+       "line": 15
+      },
+      {
+       "keyword": "theorem",
+       "name": "coordinates_apply",
+       "line": 18
+      },
+      {
+       "keyword": "theorem",
+       "name": "coordinates_latticeVec",
+       "line": 21
+      },
+      {
+       "keyword": "def",
+       "name": "actualField",
+       "line": 27
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_smooth",
+       "line": 30
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_periodic",
+       "line": 36
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_eval_measurable",
+       "line": 44
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_eval_hasGaussianLaw",
+       "line": 49
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_measurable",
+       "line": 54
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_hasGaussianLaw",
+       "line": 60
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_integral_zero",
+       "line": 74
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_integral_zero",
+       "line": 83
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_covariance_spectral",
+       "line": 91
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Lifetime",
+      "SourceSmoothCarrier"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeGeometry.lean"
+     ]
+    },
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/SourceThetaBridge.lean",
+     "git_blob": "06d14bc95a1eca45ba349809ae0397b6c963b70d",
+     "bytes": 11897,
+     "theorems": 19,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "latticeVec_apply",
+       "line": 16
+      },
+      {
+       "keyword": "theorem",
+       "name": "theta_summand_eq_product",
+       "line": 22
+      },
+      {
+       "keyword": "theorem",
+       "name": "shifted_gaussian_le",
+       "line": 30
+      },
+      {
+       "keyword": "theorem",
+       "name": "shifted_gaussian_summable",
+       "line": 37
+      },
+      {
+       "keyword": "theorem",
+       "name": "theta_summable",
+       "line": 46
+      },
+      {
+       "keyword": "theorem",
+       "name": "theta_zero_pos",
+       "line": 62
+      },
+      {
+       "keyword": "theorem",
+       "name": "summable_nonneg_fin_product",
+       "line": 67
+      },
+      {
+       "keyword": "theorem",
+       "name": "summable_norm_fin_product",
+       "line": 93
+      },
+      {
+       "keyword": "theorem",
+       "name": "tsum_fin_product",
+       "line": 100
+      },
+      {
+       "keyword": "def",
+       "name": "poissonScale",
+       "line": 114
+      },
+      {
+       "keyword": "theorem",
+       "name": "poissonScale_eq",
+       "line": 117
+      },
+      {
+       "keyword": "def",
+       "name": "spectral1Term",
+       "line": 124
+      },
+      {
+       "keyword": "theorem",
+       "name": "spectral1Term_norm",
+       "line": 128
+      },
+      {
+       "keyword": "theorem",
+       "name": "spectral1Term_summable_norm",
+       "line": 134
+      },
+      {
+       "keyword": "theorem",
+       "name": "poisson_one_dimension",
+       "line": 140
+      },
+      {
+       "keyword": "theorem",
+       "name": "spectral1Term_prod",
+       "line": 192
+      },
+      {
+       "keyword": "theorem",
+       "name": "complex_spectral_summable",
+       "line": 203
+      },
+      {
+       "keyword": "theorem",
+       "name": "thetaSum_complex",
+       "line": 215
+      },
+      {
+       "keyword": "theorem",
+       "name": "thetaSum_eq_scaled_cos",
+       "line": 239
+      },
+      {
+       "keyword": "theorem",
+       "name": "thetaSum_zero_eq",
+       "line": 250
+      },
+      {
+       "keyword": "theorem",
+       "name": "sourceSpectralKernel_eq_periodicCovariance",
+       "line": 254
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Lifetime",
+      "SourceKernel",
+      "Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/source_lifetime_realization_20261017/inputs/Lifetime.lean",
+     "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+     "bytes": 51383,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "E",
+       "line": 76
+      },
+      {
+       "keyword": "def",
+       "name": "latticeVec",
+       "line": 84
+      },
+      {
+       "keyword": "def",
+       "name": "thetaSum",
+       "line": 95
+      },
+      {
+       "keyword": "def",
+       "name": "periodicCovariance",
+       "line": 107
+      },
+      {
+       "keyword": "def",
+       "name": "covQuadForm",
+       "line": 118
+      },
+      {
+       "keyword": "def",
+       "name": "IsLPeriodic",
+       "line": 127
+      },
+      {
+       "keyword": "def",
+       "name": "IsSmooth",
+       "line": 136
+      },
+      {
+       "keyword": "structure",
+       "name": "GaussianFieldInterface",
+       "line": 150
+      },
+      {
+       "keyword": "def",
+       "name": "hessian",
+       "line": 188
+      },
+      {
+       "keyword": "def",
+       "name": "IsCriticalPoint",
+       "line": 197
+      },
+      {
+       "keyword": "def",
+       "name": "HessianHasInertia",
+       "line": 210
+      },
+      {
+       "keyword": "def",
+       "name": "IsNondegMax",
+       "line": 223
+      },
+      {
+       "keyword": "def",
+       "name": "IsIndexSaddle",
+       "line": 233
+      },
+      {
+       "keyword": "def",
+       "name": "pinM",
+       "line": 242
+      },
+      {
+       "keyword": "def",
+       "name": "pinS",
+       "line": 251
+      },
+      {
+       "keyword": "def",
+       "name": "torusDist",
+       "line": 262
+      },
+      {
+       "keyword": "def",
+       "name": "FundDomain",
+       "line": 272
+      },
+      {
+       "keyword": "def",
+       "name": "heightGap",
+       "line": 281
+      },
+      {
+       "keyword": "def",
+       "name": "scaledGap",
+       "line": 290
+      },
+      {
+       "keyword": "def",
+       "name": "IsCandidatePair",
+       "line": 300
+      },
+      {
+       "keyword": "def",
+       "name": "IsMorseDistinct",
+       "line": 311
+      },
+      {
+       "keyword": "structure",
+       "name": "SuperlevelBarInterface",
+       "line": 326
+      },
+      {
+       "keyword": "def",
+       "name": "IsFiniteBar",
+       "line": 361
+      },
+      {
+       "keyword": "def",
+       "name": "pairSet",
+       "line": 371
+      },
+      {
+       "keyword": "def",
+       "name": "pairCount",
+       "line": 382
+      },
+      {
+       "keyword": "def",
+       "name": "IsLifetimeDensityVersion",
+       "line": 398
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowPair",
+       "line": 417
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowElderPair",
+       "line": 428
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedPair",
+       "line": 440
+      },
+      {
+       "keyword": "structure",
+       "name": "PairLawInterface",
+       "line": 457
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUniformSelectionA",
+       "line": 479
+      },
+      {
+       "keyword": "def",
+       "name": "ParentCompactWindowDensityB",
+       "line": 498
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedLeadingCoefficient",
+       "line": 522
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUnrestrictedLeadingDensityC",
+       "line": 542
+      },
+      {
+       "keyword": "def",
+       "name": "RemainderBoundedR1",
+       "line": 559
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarElderLowerE2",
+       "line": 581
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarTwoSidedRateE4",
+       "line": 598
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarDensityGapE11",
+       "line": 623
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/inputs/Lifetime.lean",
+      "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean"
+     ]
+    }
+   ],
+   "non_lean_files": [
+    "frontiers/source_lifetime_realization_20261017/.gitignore",
+    "frontiers/source_lifetime_realization_20261017/EVIDENCE_EXPORT.md",
+    "frontiers/source_lifetime_realization_20261017/NEXT_TASK.md",
+    "frontiers/source_lifetime_realization_20261017/README.md",
+    "frontiers/source_lifetime_realization_20261017/evidence/DEVELOPMENT_COMPILE_SUMMARY.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/STATIC_CONTROLS.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/STATIC_VALIDATION.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/STATIC_VALIDATOR_GUARD.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/SourceLifetimeAxiomAudit.development.stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_DEPENDENCY_REHASH.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_KERNEL_RECOVERY_START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_PREPARE_START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_RECOVERY_START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_SEQUENCE_RECOVERED_RESULT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_SEQUENCE_RESULT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_SEQUENCE_START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_SEQUENCE_TERMINAL_RESULT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/FINAL_SOURCE_INVENTORY.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/NEGATIVE_FINAL_INDEX.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/NONAUTHOR_REVIEW.md",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/PUBLIC_EVIDENCE_PROJECTION.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/REVIEW_C291_ACTUAL_FINAL_EXECUTION_VERIFICATION.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/REVIEW_C291_ACTUAL_MUTATION_VERIFICATION.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/ROOT_ACCEPTANCE.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/SCOPE.md",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/FINAL_BUILD_INITIALIZATION.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/INITIAL_CACHE_COPY.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/1231ff977ea78c4e402c0f43a3777e7e97ac7155b4fdfbe9f41da2eb8f771ef8.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/4dfa901029fab71d127c9f4c8cf30c937607f4444e6af64f429890d9d141d591.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/77a339c2a4bac62472e7b612f72c14161396543a3b66e632c1890e0319d5f8ac.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/9686926a3bb8fd15384e39900d9241958bdf170ff6c409b0dace2f7e55f63808.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/9eae99382c8f3b9cb3a48c282ac3bbf87431f64fe23a4a9c5cceb77937119513.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/e1b699d2773bde899df9b5de9838a54e8550bc5824a21f9b1dae34f888aba529.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/edb7385f92dc55a1b57b328d5b5c5b29920ea804a45483d631273ac6a9f1f89d.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/evidence/development-source-snapshots/f694ef7ac460e798d6d39dc1e336e63e7d3e4e14d3c9ef63234d24e32fcf0bff.lean.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/export_public_evidence.py",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231625Z-build-GaussianSeriesFoundation-1c941865/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231625Z-build-GaussianSeriesFoundation-1c941865/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231625Z-build-GaussianSeriesFoundation-1c941865/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231625Z-build-GaussianSeriesFoundation-1c941865/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231722Z-build-SpectralWeights-bfb833bc/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231722Z-build-SpectralWeights-bfb833bc/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231722Z-build-SpectralWeights-bfb833bc/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231722Z-build-SpectralWeights-bfb833bc/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231805Z-build-Lifetime-5d16e5f2/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231805Z-build-Lifetime-5d16e5f2/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231805Z-build-Lifetime-5d16e5f2/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T231805Z-build-Lifetime-5d16e5f2/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T232503Z-build-SourceFourierSeries-8869fd1b/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T232503Z-build-SourceFourierSeries-8869fd1b/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T232503Z-build-SourceFourierSeries-8869fd1b/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T232503Z-build-SourceFourierSeries-8869fd1b/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233033Z-build-SourceLattice-f9efae75/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233033Z-build-SourceLattice-f9efae75/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233033Z-build-SourceLattice-f9efae75/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233033Z-build-SourceLattice-f9efae75/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233504Z-build-SourceGaussianLaw-0b4340f3/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233504Z-build-SourceGaussianLaw-0b4340f3/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233504Z-build-SourceGaussianLaw-0b4340f3/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T233504Z-build-SourceGaussianLaw-0b4340f3/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234128Z-build-SourceC4-cdfd8719/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234128Z-build-SourceC4-cdfd8719/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234128Z-build-SourceC4-cdfd8719/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234128Z-build-SourceC4-cdfd8719/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234227Z-build-SourceKernel-48e372e9/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234227Z-build-SourceKernel-48e372e9/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234227Z-build-SourceKernel-48e372e9/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234227Z-build-SourceKernel-48e372e9/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234353Z-build-SourceSmooth-af5e7e62/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234353Z-build-SourceSmooth-af5e7e62/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234353Z-build-SourceSmooth-af5e7e62/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234353Z-build-SourceSmooth-af5e7e62/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234444Z-build-SourceCovariance-79d69d23/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234444Z-build-SourceCovariance-79d69d23/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234444Z-build-SourceCovariance-79d69d23/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234444Z-build-SourceCovariance-79d69d23/stdout.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234549Z-build-SourceThetaBridge-944396e3/RECEIPT.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234549Z-build-SourceThetaBridge-944396e3/START.json",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234549Z-build-SourceThetaBridge-944396e3/stderr.txt",
+    "frontiers/source_lifetime_realization_20261017/evidence/final/final-runs/20261017T234549Z-build-SourceThetaBridge-944396e3/stdout.txt"
+   ],
+   "non_lean_files_total": 230
+  },
+  {
+   "group": "frontiers/cap_first_exit_lean_20261002",
+   "lake_root": "frontiers/cap_first_exit_lean_20261002",
+   "lean_toolchain": "leanprover/lean4:v4.34.1",
+   "lean_files": [
+    {
+     "path": "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean",
+     "git_blob": "01744e2cf571049d7d1557b9ed54646881d341cf",
+     "bytes": 326607,
+     "theorems": 138,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "path_meets_frontier",
+       "line": 60
+      },
+      {
+       "keyword": "theorem",
+       "name": "preconnected_subset_of_frontier_disjoint",
+       "line": 72
+      },
+      {
+       "keyword": "structure",
+       "name": "CapHyp",
+       "line": 89
+      },
+      {
+       "keyword": "theorem",
+       "name": "s_le_f_M",
+       "line": 106
+      },
+      {
+       "keyword": "theorem",
+       "name": "barrier",
+       "line": 114
+      },
+      {
+       "keyword": "def",
+       "name": "connectionLevels",
+       "line": 124
+      },
+      {
+       "keyword": "theorem",
+       "name": "maximin_isGreatest",
+       "line": 132
+      },
+      {
+       "keyword": "theorem",
+       "name": "maximin_eq",
+       "line": 141
+      },
+      {
+       "keyword": "theorem",
+       "name": "component_separated",
+       "line": 148
+      },
+      {
+       "keyword": "theorem",
+       "name": "component_joined",
+       "line": 162
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_merge_iff_closed",
+       "line": 176
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_merge_iff_open",
+       "line": 194
+      },
+      {
+       "keyword": "def",
+       "name": "joinedLevels",
+       "line": 211
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_death_level",
+       "line": 217
+      },
+      {
+       "keyword": "theorem",
+       "name": "path_through_saddle",
+       "line": 225
+      },
+      {
+       "keyword": "theorem",
+       "name": "saddle_cut",
+       "line": 241
+      },
+      {
+       "keyword": "theorem",
+       "name": "congr",
+       "line": 258
+      },
+      {
+       "keyword": "theorem",
+       "name": "isClosed_connectedComponentIn",
+       "line": 281
+      },
+      {
+       "keyword": "theorem",
+       "name": "older_peak",
+       "line": 298
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_alive",
+       "line": 322
+      },
+      {
+       "keyword": "def",
+       "name": "olderPeakLevels",
+       "line": 332
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_death_level_peak",
+       "line": 338
+      },
+      {
+       "keyword": "theorem",
+       "name": "frontier_image_subset",
+       "line": 359
+      },
+      {
+       "keyword": "theorem",
+       "name": "map",
+       "line": 375
+      },
+      {
+       "keyword": "theorem",
+       "name": "map_saddle",
+       "line": 393
+      },
+      {
+       "keyword": "theorem",
+       "name": "frontier_cylinder",
+       "line": 405
+      },
+      {
+       "keyword": "theorem",
+       "name": "isCompact_cylinder",
+       "line": 414
+      },
+      {
+       "keyword": "def",
+       "name": "torusCover",
+       "line": 419
+      },
+      {
+       "keyword": "theorem",
+       "name": "torusCover_continuous",
+       "line": 422
+      },
+      {
+       "keyword": "theorem",
+       "name": "torusCover_isOpenMap",
+       "line": 425
+      },
+      {
+       "keyword": "theorem",
+       "name": "CapHyp.toTorus",
+       "line": 433
+      },
+      {
+       "keyword": "theorem",
+       "name": "convex_zeros_between",
+       "line": 463
+      },
+      {
+       "keyword": "theorem",
+       "name": "convex_zeros_right",
+       "line": 470
+      },
+      {
+       "keyword": "theorem",
+       "name": "convex_zeros_left",
+       "line": 481
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_profile",
+       "line": 497
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp",
+       "line": 603
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_saddle_strict",
+       "line": 660
+      },
+      {
+       "keyword": "theorem",
+       "name": "strongConcave_le_of_hasFDerivAt",
+       "line": 714
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_le",
+       "line": 747
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_ridge_bound",
+       "line": 754
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_curved",
+       "line": 769
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_hasFDerivAt",
+       "line": 789
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_hasDerivAt",
+       "line": 798
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_of_slices",
+       "line": 817
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_inputs_of_joint",
+       "line": 865
+      },
+      {
+       "keyword": "theorem",
+       "name": "sp_curved_side_constants",
+       "line": 881
+      },
+      {
+       "keyword": "theorem",
+       "name": "convexOn_add_node",
+       "line": 897
+      },
+      {
+       "keyword": "theorem",
+       "name": "two_node_bound",
+       "line": 915
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_gradient_bound",
+       "line": 949
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_sp",
+       "line": 967
+      },
+      {
+       "keyword": "theorem",
+       "name": "hermite_gap_le",
+       "line": 1020
+      },
+      {
+       "keyword": "theorem",
+       "name": "hermite_m_ge_two",
+       "line": 1060
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_normalized",
+       "line": 1075
+      },
+      {
+       "keyword": "theorem",
+       "name": "strongConcaveOn_of_hessian",
+       "line": 1108
+      },
+      {
+       "keyword": "theorem",
+       "name": "transverse_hessian_le",
+       "line": 1164
+      },
+      {
+       "keyword": "theorem",
+       "name": "hessian_increment",
+       "line": 1197
+      },
+      {
+       "keyword": "theorem",
+       "name": "slices_strongConcave",
+       "line": 1228
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_H1",
+       "line": 1249
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_critical_unique",
+       "line": 1293
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_critical_exists",
+       "line": 1311
+      },
+      {
+       "keyword": "theorem",
+       "name": "isInvertible_of_negDef",
+       "line": 1346
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_hasStrictFDerivAt",
+       "line": 1371
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_differentiable",
+       "line": 1402
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_exists",
+       "line": 1432
+      },
+      {
+       "keyword": "theorem",
+       "name": "hessian_increment_D",
+       "line": 1460
+      },
+      {
+       "keyword": "theorem",
+       "name": "transverse_hessian_le_D",
+       "line": 1491
+      },
+      {
+       "keyword": "theorem",
+       "name": "slices_strongConcave_D",
+       "line": 1521
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_source",
+       "line": 1555
+      },
+      {
+       "keyword": "theorem",
+       "name": "convex_deriv_sign",
+       "line": 1749
+      },
+      {
+       "keyword": "theorem",
+       "name": "two_node_deriv_bound",
+       "line": 1777
+      },
+      {
+       "keyword": "theorem",
+       "name": "slice_gradient_deriv_bound",
+       "line": 1835
+      },
+      {
+       "keyword": "theorem",
+       "name": "schur_max",
+       "line": 1855
+      },
+      {
+       "keyword": "theorem",
+       "name": "trilinear_lower",
+       "line": 1894
+      },
+      {
+       "keyword": "theorem",
+       "name": "l12_constants",
+       "line": 1907
+      },
+      {
+       "keyword": "theorem",
+       "name": "transverse_hessian_eq",
+       "line": 1940
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_second_identity",
+       "line": 1954
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_hconv",
+       "line": 1977
+      },
+      {
+       "keyword": "theorem",
+       "name": "dx_grad_increment",
+       "line": 2046
+      },
+      {
+       "keyword": "theorem",
+       "name": "l9_arith",
+       "line": 2073
+      },
+      {
+       "keyword": "theorem",
+       "name": "l12_lower",
+       "line": 2085
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_source_facts",
+       "line": 2108
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_C3",
+       "line": 2279
+      },
+      {
+       "keyword": "theorem",
+       "name": "hermite_gap_le_concave",
+       "line": 2431
+      },
+      {
+       "keyword": "theorem",
+       "name": "third_deriv_exists_two",
+       "line": 2470
+      },
+      {
+       "keyword": "theorem",
+       "name": "fxxx_lower",
+       "line": 2510
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_C4",
+       "line": 2567
+      },
+      {
+       "keyword": "theorem",
+       "name": "hessian_x_bound",
+       "line": 2667
+      },
+      {
+       "keyword": "theorem",
+       "name": "hessian_r_bound",
+       "line": 2699
+      },
+      {
+       "keyword": "theorem",
+       "name": "axis_convexConcave",
+       "line": 2736
+      },
+      {
+       "keyword": "theorem",
+       "name": "block_nonneg",
+       "line": 2791
+      },
+      {
+       "keyword": "theorem",
+       "name": "block_bound_collar",
+       "line": 2806
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_C5",
+       "line": 2867
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_D",
+       "line": 2959
+      },
+      {
+       "keyword": "theorem",
+       "name": "block_of_norm",
+       "line": 3045
+      },
+      {
+       "keyword": "theorem",
+       "name": "collar_subset_open",
+       "line": 3128
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_E",
+       "line": 3162
+      },
+      {
+       "keyword": "def",
+       "name": "toyF",
+       "line": 3325
+      },
+      {
+       "keyword": "def",
+       "name": "toyRidge",
+       "line": 3328
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_ridge_ge",
+       "line": 3334
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_frontier",
+       "line": 3343
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_capHyp",
+       "line": 3346
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_saddle_strict",
+       "line": 3365
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_saddle_cut",
+       "line": 3375
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_death_level",
+       "line": 3381
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_f_M",
+       "line": 3384
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_f_S",
+       "line": 3388
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_needs_C2",
+       "line": 3394
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_needs_C1",
+       "line": 3412
+      },
+      {
+       "keyword": "theorem",
+       "name": "toy_needs_C3",
+       "line": 3431
+      },
+      {
+       "keyword": "def",
+       "name": "ridgeToyF",
+       "line": 3448
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridgeToy_capHyp",
+       "line": 3452
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridgeToy_saddle_strict",
+       "line": 3487
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridgeToy_joint",
+       "line": 3528
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridgeToy_slices",
+       "line": 3551
+      },
+      {
+       "keyword": "def",
+       "name": "spToyF",
+       "line": 3593
+      },
+      {
+       "keyword": "theorem",
+       "name": "spToy_capHyp",
+       "line": 3597
+      },
+      {
+       "keyword": "theorem",
+       "name": "spToy_normalized",
+       "line": 3658
+      },
+      {
+       "keyword": "def",
+       "name": "h1ToyF",
+       "line": 3726
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_capHyp",
+       "line": 3730
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_ridge_differentiable",
+       "line": 3818
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_source",
+       "line": 3893
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_C3",
+       "line": 3993
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_C4",
+       "line": 4137
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_D",
+       "line": 4283
+      },
+      {
+       "keyword": "theorem",
+       "name": "h1Toy_E",
+       "line": 4407
+      },
+      {
+       "keyword": "def",
+       "name": "quarticToyF",
+       "line": 4508
+      },
+      {
+       "keyword": "theorem",
+       "name": "quarticToy_E",
+       "line": 4517
+      },
+      {
+       "keyword": "theorem",
+       "name": "of_const_mul",
+       "line": 4650
+      },
+      {
+       "keyword": "theorem",
+       "name": "hasFDerivAt_zero_const_mul_iff",
+       "line": 4667
+      },
+      {
+       "keyword": "theorem",
+       "name": "iteratedFDeriv_const_mul_of_isOpen",
+       "line": 4681
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_K",
+       "line": 4691
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_norm_K",
+       "line": 4798
+      },
+      {
+       "keyword": "theorem",
+       "name": "iteratedFDeriv_three_swap\u2081\u2082",
+       "line": 4869
+      },
+      {
+       "keyword": "theorem",
+       "name": "iteratedFDeriv_three_swap\u2082\u2083",
+       "line": 4885
+      },
+      {
+       "keyword": "theorem",
+       "name": "block_of_partial",
+       "line": 4919
+      },
+      {
+       "keyword": "theorem",
+       "name": "ridge_capHyp_blocks",
+       "line": 5011
+      },
+      {
+       "keyword": "def",
+       "name": "mixedToyF",
+       "line": 5051
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_blocks",
+       "line": 5059
+      },
+      {
+       "keyword": "theorem",
+       "name": "addCircle_locallyConnectedSpace",
+       "line": 5196
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_locallyConnectedSpace",
+       "line": 5200
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_capHyp_blocks",
+       "line": 5214
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_elder_death_level_blocks",
+       "line": 5256
+      },
+      {
+       "keyword": "def",
+       "name": "circleChart",
+       "line": 5288
+      },
+      {
+       "keyword": "theorem",
+       "name": "circleChart_continuous",
+       "line": 5292
+      },
+      {
+       "keyword": "theorem",
+       "name": "circleChart_coe",
+       "line": 5296
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_hasFDerivAt",
+       "line": 5308
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_contDiff",
+       "line": 5326
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_iteratedFDeriv_two",
+       "line": 5329
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_iteratedFDeriv_three",
+       "line": 5367
+      },
+      {
+       "keyword": "theorem",
+       "name": "mixedToy_iteratedFDeriv_four",
+       "line": 5386
+      },
+      {
+       "keyword": "def",
+       "name": "torusToyF",
+       "line": 5401
+      },
+      {
+       "keyword": "theorem",
+       "name": "torusToy_elder",
+       "line": 5411
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": []
+    }
+   ],
+   "non_lean_files": [
+    "frontiers/cap_first_exit_lean_20261002/.gitignore",
+    "frontiers/cap_first_exit_lean_20261002/ALIGNMENT.md",
+    "frontiers/cap_first_exit_lean_20261002/MANIFEST.json",
+    "frontiers/cap_first_exit_lean_20261002/README.md",
+    "frontiers/cap_first_exit_lean_20261002/gate.py",
+    "frontiers/cap_first_exit_lean_20261002/lake-manifest.json",
+    "frontiers/cap_first_exit_lean_20261002/lakefile.toml",
+    "frontiers/cap_first_exit_lean_20261002/lean-toolchain",
+    "frontiers/cap_first_exit_lean_20261002/test_gate.py"
+   ],
+   "non_lean_files_total": 9
+  }
+ ]
+}

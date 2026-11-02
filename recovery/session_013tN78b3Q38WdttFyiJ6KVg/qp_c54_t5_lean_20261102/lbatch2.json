@@ -1,0 +1,1900 @@
+{
+ "batch": 2,
+ "math_ref": "3b11bff6479f3f40ac838fe1d8b87c7ed6814606",
+ "groups": [
+  {
+   "group": "frontiers/compact_morse_elder_adapter_20261018",
+   "lake_root": null,
+   "lean_toolchain": null,
+   "lean_files": [
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeField.lean",
+     "git_blob": "a07036a15d9d7757898cc2b235baa89837191449",
+     "bytes": 3913,
+     "theorems": 9,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "actualField_covariance",
+       "line": 16
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_raw_second_moment",
+       "line": 23
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_variance",
+       "line": 30
+      },
+      {
+       "keyword": "theorem",
+       "name": "covQuadForm_nonneg",
+       "line": 45
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_map",
+       "line": 51
+      },
+      {
+       "keyword": "def",
+       "name": "actualGaussianFieldInterface",
+       "line": 63
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_exists",
+       "line": 77
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_carrier",
+       "line": 81
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_law",
+       "line": 84
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualGaussianFieldInterface_field",
+       "line": 87
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "SourceLifetimeGeometry",
+      "SourceThetaBridge"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/source_lifetime_realization_20261017/SourceLifetimeField.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/SourceLifetimeGeometry.lean",
+     "git_blob": "e83eb8e134484aba40b7f26f0d0cef4db8f9cda5",
+     "bytes": 4588,
+     "theorems": 11,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "coordinates",
+       "line": 15
+      },
+      {
+       "keyword": "theorem",
+       "name": "coordinates_apply",
+       "line": 18
+      },
+      {
+       "keyword": "theorem",
+       "name": "coordinates_latticeVec",
+       "line": 21
+      },
+      {
+       "keyword": "def",
+       "name": "actualField",
+       "line": 27
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_smooth",
+       "line": 30
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_periodic",
+       "line": 36
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_eval_measurable",
+       "line": 44
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_eval_hasGaussianLaw",
+       "line": 49
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_measurable",
+       "line": 54
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_hasGaussianLaw",
+       "line": 60
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_integral_zero",
+       "line": 74
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_linearCombination_integral_zero",
+       "line": 83
+      },
+      {
+       "keyword": "theorem",
+       "name": "actualField_covariance_spectral",
+       "line": 91
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Lifetime",
+      "SourceSmoothCarrier"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/source_lifetime_realization_20261017/SourceLifetimeGeometry.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/inputs/Lifetime.lean",
+     "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+     "bytes": 51383,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "E",
+       "line": 76
+      },
+      {
+       "keyword": "def",
+       "name": "latticeVec",
+       "line": 84
+      },
+      {
+       "keyword": "def",
+       "name": "thetaSum",
+       "line": 95
+      },
+      {
+       "keyword": "def",
+       "name": "periodicCovariance",
+       "line": 107
+      },
+      {
+       "keyword": "def",
+       "name": "covQuadForm",
+       "line": 118
+      },
+      {
+       "keyword": "def",
+       "name": "IsLPeriodic",
+       "line": 127
+      },
+      {
+       "keyword": "def",
+       "name": "IsSmooth",
+       "line": 136
+      },
+      {
+       "keyword": "structure",
+       "name": "GaussianFieldInterface",
+       "line": 150
+      },
+      {
+       "keyword": "def",
+       "name": "hessian",
+       "line": 188
+      },
+      {
+       "keyword": "def",
+       "name": "IsCriticalPoint",
+       "line": 197
+      },
+      {
+       "keyword": "def",
+       "name": "HessianHasInertia",
+       "line": 210
+      },
+      {
+       "keyword": "def",
+       "name": "IsNondegMax",
+       "line": 223
+      },
+      {
+       "keyword": "def",
+       "name": "IsIndexSaddle",
+       "line": 233
+      },
+      {
+       "keyword": "def",
+       "name": "pinM",
+       "line": 242
+      },
+      {
+       "keyword": "def",
+       "name": "pinS",
+       "line": 251
+      },
+      {
+       "keyword": "def",
+       "name": "torusDist",
+       "line": 262
+      },
+      {
+       "keyword": "def",
+       "name": "FundDomain",
+       "line": 272
+      },
+      {
+       "keyword": "def",
+       "name": "heightGap",
+       "line": 281
+      },
+      {
+       "keyword": "def",
+       "name": "scaledGap",
+       "line": 290
+      },
+      {
+       "keyword": "def",
+       "name": "IsCandidatePair",
+       "line": 300
+      },
+      {
+       "keyword": "def",
+       "name": "IsMorseDistinct",
+       "line": 311
+      },
+      {
+       "keyword": "structure",
+       "name": "SuperlevelBarInterface",
+       "line": 326
+      },
+      {
+       "keyword": "def",
+       "name": "IsFiniteBar",
+       "line": 361
+      },
+      {
+       "keyword": "def",
+       "name": "pairSet",
+       "line": 371
+      },
+      {
+       "keyword": "def",
+       "name": "pairCount",
+       "line": 382
+      },
+      {
+       "keyword": "def",
+       "name": "IsLifetimeDensityVersion",
+       "line": 398
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowPair",
+       "line": 417
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowElderPair",
+       "line": 428
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedPair",
+       "line": 440
+      },
+      {
+       "keyword": "structure",
+       "name": "PairLawInterface",
+       "line": 457
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUniformSelectionA",
+       "line": 479
+      },
+      {
+       "keyword": "def",
+       "name": "ParentCompactWindowDensityB",
+       "line": 498
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedLeadingCoefficient",
+       "line": 522
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUnrestrictedLeadingDensityC",
+       "line": 542
+      },
+      {
+       "keyword": "def",
+       "name": "RemainderBoundedR1",
+       "line": 559
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarElderLowerE2",
+       "line": 581
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarTwoSidedRateE4",
+       "line": 598
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarDensityGapE11",
+       "line": 623
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+      "frontiers/source_lifetime_realization_20261017/inputs/Lifetime.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/OrdinaryH0.lean",
+     "git_blob": "7bc5f80028271e0e33d857e60496ca4cadaa9364",
+     "bytes": 19803,
+     "theorems": 20,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_componentFunctor",
+       "line": 48
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_componentCoproductFunctor",
+       "line": 65
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_componentCoproductMap_iota",
+       "line": 71
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_componentFiltration",
+       "line": 81
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_componentFiltration_map_iota",
+       "line": 88
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_simplicialPointClass",
+       "line": 103
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_simplicialPointClass_iso",
+       "line": 111
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_simplicialPointClass_map",
+       "line": 121
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_toSSet_pointMap",
+       "line": 132
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_pointClass",
+       "line": 140
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_map",
+       "line": 148
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_iso",
+       "line": 162
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_componentIota_isoInv",
+       "line": 175
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_hom_ext",
+       "line": 184
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_iso_naturality",
+       "line": 197
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_naturalIso",
+       "line": 213
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_augmentation",
+       "line": 221
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_ne_zero",
+       "line": 230
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_eq_of_component_eq",
+       "line": 240
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_sameComponent_difference_zero",
+       "line": 249
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_ne_of_component_ne",
+       "line": 257
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_pointClass_eq_iff",
+       "line": 275
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_difference_map",
+       "line": 288
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_difference_map_eq_zero_iff",
+       "line": 297
+      },
+      {
+       "keyword": "def",
+       "name": "ordinaryH0_filtrationIso",
+       "line": 307
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_filtration_naturality",
+       "line": 315
+      },
+      {
+       "keyword": "theorem",
+       "name": "ordinaryH0_filtration_difference_zero_iff_joinedIn",
+       "line": 326
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib",
+      "ClosedSuperlevel"
+     ],
+     "identical_copies_elsewhere": [
+      "companions/torus_filtration_20261011/OrdinaryH0.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/SuperlevelBar.lean",
+     "git_blob": "b047384e20306ee030154885536c531633b88bd8",
+     "bytes": 15309,
+     "theorems": 20,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "superlevelBar_E",
+       "line": 42
+      },
+      {
+       "keyword": "def",
+       "name": "superlevelBar_isEssential",
+       "line": 46
+      },
+      {
+       "keyword": "def",
+       "name": "superlevelBar_clearanceSet",
+       "line": 53
+      },
+      {
+       "keyword": "def",
+       "name": "superlevelBar_deathHeight",
+       "line": 60
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_essential_iff",
+       "line": 69
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_mem_lt_start",
+       "line": 76
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_bddAbove",
+       "line": 86
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_empty_of_essential",
+       "line": 93
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_eq_zero_of_empty",
+       "line": 106
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_eq_zero_of_essential",
+       "line": 115
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_eq_sSup_of_nonempty",
+       "line": 124
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_path_minimum",
+       "line": 134
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_nonempty",
+       "line": 146
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_nonempty_iff",
+       "line": 167
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_downward",
+       "line": 178
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_improve",
+       "line": 187
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_strict_cut",
+       "line": 203
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_le_start_of_nonempty",
+       "line": 227
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_le_start",
+       "line": 237
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_clearance_eq_Iio",
+       "line": 246
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_not_mem_clearance",
+       "line": 256
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_cut_unique",
+       "line": 267
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_death_const",
+       "line": 284
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBar_control_negative_essential",
+       "line": 293
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": [
+      "companions/torus_filtration_20261011/SuperlevelBar.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/SuperlevelBarField.lean",
+     "git_blob": "f0300a6b459440e81064ef6f75990446a8a3db04",
+     "bytes": 11816,
+     "theorems": 12,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_continuous",
+       "line": 53
+      },
+      {
+       "keyword": "def",
+       "name": "superlevelBarField_interface",
+       "line": 62
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_nonempty",
+       "line": 76
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_deathHeight_eq",
+       "line": 82
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_isEssential_iff",
+       "line": 88
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_elderPartner_iff",
+       "line": 95
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_essential_unique",
+       "line": 103
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_deathHeight_unique",
+       "line": 112
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_elderPartner_unique",
+       "line": 126
+      },
+      {
+       "keyword": "def",
+       "name": "superlevelBarField_shift",
+       "line": 145
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_shift_deathHeight_const",
+       "line": 164
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_const_smooth",
+       "line": 174
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_const_periodic",
+       "line": 179
+      },
+      {
+       "keyword": "theorem",
+       "name": "superlevelBarField_control_essential_free",
+       "line": 188
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib",
+      "SuperlevelBar",
+      "Specifications.Field"
+     ],
+     "identical_copies_elsewhere": [
+      "companions/torus_filtration_20261011/SuperlevelBarField.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/companions/torus_filtration_20261011/TorusTopology.lean",
+     "git_blob": "ed678ea322fe5315b3aaff44e4e2f06b018399d8",
+     "bytes": 12257,
+     "theorems": 21,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "torus_E",
+       "line": 21
+      },
+      {
+       "keyword": "def",
+       "name": "torus_latticeVec",
+       "line": 24
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_field_latticeVec_formula",
+       "line": 27
+      },
+      {
+       "keyword": "def",
+       "name": "torus_periodBasis",
+       "line": 30
+      },
+      {
+       "keyword": "def",
+       "name": "torus_periodLattice",
+       "line": 35
+      },
+      {
+       "keyword": "abbrev",
+       "name": "torus_quotient",
+       "line": 38
+      },
+      {
+       "keyword": "def",
+       "name": "torus_proj",
+       "line": 41
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_basis_sum_eq_latticeVec",
+       "line": 45
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_lattice_mem_iff",
+       "line": 62
+      },
+      {
+       "keyword": "instance",
+       "name": "torus_lattice_discrete",
+       "line": 69
+      },
+      {
+       "keyword": "instance",
+       "name": "torus_lattice_addSubgroup_discrete",
+       "line": 74
+      },
+      {
+       "keyword": "instance",
+       "name": "torus_lattice_isZLattice",
+       "line": 79
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_proj_surjective",
+       "line": 84
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_proj_continuous",
+       "line": 87
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_proj_eq_iff",
+       "line": 90
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_control_lattice_translate",
+       "line": 104
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_proj_isCoveringMap",
+       "line": 109
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_compact",
+       "line": 115
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_pathConnectedSpace",
+       "line": 122
+      },
+      {
+       "keyword": "def",
+       "name": "torus_isPeriodic",
+       "line": 127
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_field_periodic_formula",
+       "line": 130
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_periodic_respects",
+       "line": 135
+      },
+      {
+       "keyword": "def",
+       "name": "torus_descend",
+       "line": 143
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_descend_proj",
+       "line": 147
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_descend_continuous",
+       "line": 151
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_path_lift_from",
+       "line": 157
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_control_constant_path_endpoint",
+       "line": 172
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_control_no_arbitrary_endpoint",
+       "line": 182
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_higher_path_iff",
+       "line": 195
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_strict_higher_path_iff",
+       "line": 217
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_closed_higher_path_iff",
+       "line": 226
+      },
+      {
+       "keyword": "theorem",
+       "name": "torus_global_max_iff",
+       "line": 235
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": [
+      "companions/torus_filtration_20261011/TorusTopology.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderBridge.lean",
+     "git_blob": "a59ee9daab7b67eafd7e4f806b27244bcc5caed1",
+     "bytes": 3683,
+     "theorems": 3,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_closedTrace_isClopen",
+       "line": 18
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_of_boundary",
+       "line": 30
+      },
+      {
+       "keyword": "def",
+       "name": "elderBoundaryDirectSummand",
+       "line": 55
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderBoundary_death_eq",
+       "line": 70
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "ElderClearance",
+      "ElderInterval"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/asymmetric_elder_bridge_20261017/ElderBridge.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderClearance.lean",
+     "git_blob": "bc6136ee5e6f676da8a1ca39467d4d25587f8c7e",
+     "bytes": 5866,
+     "theorems": 6,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "elderTrap_strictTrace",
+       "line": 21
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_strictTrace_isClopen",
+       "line": 26
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_path_stays",
+       "line": 49
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_higher_path_meets_threshold",
+       "line": 69
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_clearance_eq_Iio",
+       "line": 83
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_death_eq",
+       "line": 101
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderTrap_closed_path_attains",
+       "line": 119
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "SuperlevelBar"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/asymmetric_elder_bridge_20261017/ElderClearance.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/ElderInterval.lean",
+     "git_blob": "108f880b314bf9d5f21e8d30513f14a229808198",
+     "bytes": 16006,
+     "theorems": 19,
+     "declarations": [
+      {
+       "keyword": "def",
+       "name": "elderActive",
+       "line": 21
+      },
+      {
+       "keyword": "def",
+       "name": "elderFiber",
+       "line": 26
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderFiber_eq_zero",
+       "line": 32
+      },
+      {
+       "keyword": "def",
+       "name": "elderFiberMap",
+       "line": 37
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderFiberMap_val",
+       "line": 50
+      },
+      {
+       "keyword": "def",
+       "name": "elderInterval",
+       "line": 55
+      },
+      {
+       "keyword": "def",
+       "name": "elderFiberLift",
+       "line": 81
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderFiberLift_val",
+       "line": 87
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_control_birth",
+       "line": 91
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_control_death",
+       "line": 95
+      },
+      {
+       "keyword": "structure",
+       "name": "ElderTrap",
+       "line": 104
+      },
+      {
+       "keyword": "theorem",
+       "name": "ElderTrap.maximum_mem",
+       "line": 117
+      },
+      {
+       "keyword": "theorem",
+       "name": "ElderTrap.older_mem",
+       "line": 123
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_clopen_path_iff",
+       "line": 130
+      },
+      {
+       "keyword": "def",
+       "name": "ElderTrap.componentInside",
+       "line": 140
+      },
+      {
+       "keyword": "theorem",
+       "name": "ElderTrap.componentInside_mk",
+       "line": 145
+      },
+      {
+       "keyword": "def",
+       "name": "elderDifference",
+       "line": 152
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderDifference_map",
+       "line": 160
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderDifference_map_dead",
+       "line": 169
+      },
+      {
+       "keyword": "def",
+       "name": "elderProjection",
+       "line": 180
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderProjection_point",
+       "line": 187
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderDifference_projection",
+       "line": 199
+      },
+      {
+       "keyword": "def",
+       "name": "elderSectionApp",
+       "line": 208
+      },
+      {
+       "keyword": "def",
+       "name": "elderRetractionApp",
+       "line": 215
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderSectionApp_naturality",
+       "line": 222
+      },
+      {
+       "keyword": "def",
+       "name": "elderSection",
+       "line": 248
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderProjection_naturality_active",
+       "line": 255
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderProjection_prebirth",
+       "line": 269
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderRetractionApp_naturality",
+       "line": 288
+      },
+      {
+       "keyword": "def",
+       "name": "elderRetraction",
+       "line": 330
+      },
+      {
+       "keyword": "theorem",
+       "name": "elderSection_retraction",
+       "line": 339
+      },
+      {
+       "keyword": "def",
+       "name": "elderKernelProjection",
+       "line": 355
+      },
+      {
+       "keyword": "def",
+       "name": "elderDirectSummand",
+       "line": 364
+      },
+      {
+       "keyword": "theorem",
+       "name": "elder_control_ordinary_point_survives",
+       "line": 384
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "OrdinaryH0"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/asymmetric_elder_bridge_20261017/ElderInterval.lean"
+     ]
+    },
+    {
+     "path": "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/specifications/lean_statements_20261010/Specifications/Field.lean",
+     "git_blob": "cc40e9d19446b8a150401c574d3cfd56177f195f",
+     "bytes": 27767,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "E",
+       "line": 48
+      },
+      {
+       "keyword": "def",
+       "name": "latticeVec",
+       "line": 56
+      },
+      {
+       "keyword": "def",
+       "name": "thetaSum",
+       "line": 67
+      },
+      {
+       "keyword": "def",
+       "name": "periodicCovariance",
+       "line": 79
+      },
+      {
+       "keyword": "def",
+       "name": "covQuadForm",
+       "line": 90
+      },
+      {
+       "keyword": "def",
+       "name": "IsLPeriodic",
+       "line": 99
+      },
+      {
+       "keyword": "def",
+       "name": "IsSmooth",
+       "line": 108
+      },
+      {
+       "keyword": "structure",
+       "name": "GaussianFieldInterface",
+       "line": 122
+      },
+      {
+       "keyword": "def",
+       "name": "hessian",
+       "line": 160
+      },
+      {
+       "keyword": "def",
+       "name": "IsCriticalPoint",
+       "line": 169
+      },
+      {
+       "keyword": "def",
+       "name": "HessianHasInertia",
+       "line": 182
+      },
+      {
+       "keyword": "def",
+       "name": "IsNondegMax",
+       "line": 195
+      },
+      {
+       "keyword": "def",
+       "name": "IsIndexSaddle",
+       "line": 205
+      },
+      {
+       "keyword": "def",
+       "name": "pinM",
+       "line": 214
+      },
+      {
+       "keyword": "def",
+       "name": "pinS",
+       "line": 223
+      },
+      {
+       "keyword": "def",
+       "name": "torusDist",
+       "line": 234
+      },
+      {
+       "keyword": "def",
+       "name": "FundDomain",
+       "line": 244
+      },
+      {
+       "keyword": "def",
+       "name": "heightGap",
+       "line": 253
+      },
+      {
+       "keyword": "def",
+       "name": "scaledGap",
+       "line": 262
+      },
+      {
+       "keyword": "def",
+       "name": "IsCandidatePair",
+       "line": 272
+      },
+      {
+       "keyword": "def",
+       "name": "IsMorseDistinct",
+       "line": 283
+      },
+      {
+       "keyword": "structure",
+       "name": "SuperlevelBarInterface",
+       "line": 298
+      },
+      {
+       "keyword": "def",
+       "name": "IsFiniteBar",
+       "line": 333
+      },
+      {
+       "keyword": "def",
+       "name": "pairSet",
+       "line": 343
+      },
+      {
+       "keyword": "def",
+       "name": "pairCount",
+       "line": 354
+      },
+      {
+       "keyword": "def",
+       "name": "IsLifetimeDensityVersion",
+       "line": 370
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": []
+    }
+   ],
+   "non_lean_files": [
+    "frontiers/compact_morse_elder_adapter_20261018/PROOF.md",
+    "frontiers/compact_morse_elder_adapter_20261018/README.md",
+    "frontiers/compact_morse_elder_adapter_20261018/ROOT_ACCEPTANCE.json",
+    "frontiers/compact_morse_elder_adapter_20261018/SOURCE_IDENTITIES.json",
+    "frontiers/compact_morse_elder_adapter_20261018/evidence/ROOT_MATHEMATICAL_CHECK.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/NEXT_TASK.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/evidence/final/NONAUTHOR_REVIEW.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/asymmetric_elder_bridge_20261017/provenance/INTERFACE_BOUNDARIES.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/DEPENDENCIES.json",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/README.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/SOURCE_MAP.json",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/PROOF.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/asymmetric_elder/REVIEW.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/Math-/frontiers/gaussian_short_bar_theory_20261017/smooth_gaussian_manifold_admission/PROOF.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/main/experiments/universality/finite_h0_lifetime/PROOF.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/main/experiments/universality/fold_isolation_diagonal/QUANTITATIVE_FOLD_ISOLATION_PROPOSAL.md",
+    "frontiers/compact_morse_elder_adapter_20261018/inputs/main/experiments/universality/fold_structural_universality/PROOF.md",
+    "frontiers/compact_morse_elder_adapter_20261018/reviews/NONAUTHOR_REVIEW.md"
+   ],
+   "non_lean_files_total": 18
+  },
+  {
+   "group": "frontiers/regular_superlevel_geometry_20261020",
+   "lake_root": null,
+   "lean_toolchain": null,
+   "lean_files": [
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/development/0758454e88cb02ad56483face96483d8a878afe5eaa72f1ea629f0ca5a29760f.lean",
+     "git_blob": "2b528b9bc450631e434ccdc309724a9136409f30",
+     "bytes": 6173,
+     "theorems": 5,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_openEmbedding",
+       "line": 17
+      },
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_open",
+       "line": 32
+      },
+      {
+       "keyword": "def",
+       "name": "relative_chart_homeomorph",
+       "line": 40
+      },
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_relative_chart",
+       "line": 72
+      },
+      {
+       "keyword": "theorem",
+       "name": "closed_superlevel_basis_of_chart",
+       "line": 93
+      },
+      {
+       "keyword": "theorem",
+       "name": "closed_superlevel_interior_basis",
+       "line": 119
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Lifetime"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/development/b5733777504470cc1a2edfff780d0d7b7f271fdfc3db377cdb093f7e356f946d.lean",
+     "git_blob": "c5fd520ad808720add175c41a1f3353d06c8ce82",
+     "bytes": 6225,
+     "theorems": 5,
+     "declarations": [
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_openEmbedding",
+       "line": 17
+      },
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_open",
+       "line": 32
+      },
+      {
+       "keyword": "def",
+       "name": "relative_chart_homeomorph",
+       "line": 40
+      },
+      {
+       "keyword": "theorem",
+       "name": "path_connected_basis_of_relative_chart",
+       "line": 72
+      },
+      {
+       "keyword": "theorem",
+       "name": "closed_superlevel_basis_of_chart",
+       "line": 93
+      },
+      {
+       "keyword": "theorem",
+       "name": "closed_superlevel_interior_basis",
+       "line": 119
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Lifetime"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/negative-project/WithoutCoordinateIdentity.lean",
+     "git_blob": "cb3575107820cf5d73d12c40944ad76601392e61",
+     "bytes": 950,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "example",
+       "name": "",
+       "line": 16
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "RegularSuperlevel"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/negative-project/WithoutRegularOrInterior.lean",
+     "git_blob": "02028d24970f3f65fa5cf17bb5a44d13582213ec",
+     "bytes": 838,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "example",
+       "name": "",
+       "line": 16
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "RegularSuperlevelLiteral"
+     ],
+     "identical_copies_elsewhere": []
+    },
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/project/Lifetime.lean",
+     "git_blob": "f2508f7f2e3fd42f22f5aa52bc5ead5ff9e73b9a",
+     "bytes": 51383,
+     "theorems": 0,
+     "declarations": [
+      {
+       "keyword": "abbrev",
+       "name": "E",
+       "line": 76
+      },
+      {
+       "keyword": "def",
+       "name": "latticeVec",
+       "line": 84
+      },
+      {
+       "keyword": "def",
+       "name": "thetaSum",
+       "line": 95
+      },
+      {
+       "keyword": "def",
+       "name": "periodicCovariance",
+       "line": 107
+      },
+      {
+       "keyword": "def",
+       "name": "covQuadForm",
+       "line": 118
+      },
+      {
+       "keyword": "def",
+       "name": "IsLPeriodic",
+       "line": 127
+      },
+      {
+       "keyword": "def",
+       "name": "IsSmooth",
+       "line": 136
+      },
+      {
+       "keyword": "structure",
+       "name": "GaussianFieldInterface",
+       "line": 150
+      },
+      {
+       "keyword": "def",
+       "name": "hessian",
+       "line": 188
+      },
+      {
+       "keyword": "def",
+       "name": "IsCriticalPoint",
+       "line": 197
+      },
+      {
+       "keyword": "def",
+       "name": "HessianHasInertia",
+       "line": 210
+      },
+      {
+       "keyword": "def",
+       "name": "IsNondegMax",
+       "line": 223
+      },
+      {
+       "keyword": "def",
+       "name": "IsIndexSaddle",
+       "line": 233
+      },
+      {
+       "keyword": "def",
+       "name": "pinM",
+       "line": 242
+      },
+      {
+       "keyword": "def",
+       "name": "pinS",
+       "line": 251
+      },
+      {
+       "keyword": "def",
+       "name": "torusDist",
+       "line": 262
+      },
+      {
+       "keyword": "def",
+       "name": "FundDomain",
+       "line": 272
+      },
+      {
+       "keyword": "def",
+       "name": "heightGap",
+       "line": 281
+      },
+      {
+       "keyword": "def",
+       "name": "scaledGap",
+       "line": 290
+      },
+      {
+       "keyword": "def",
+       "name": "IsCandidatePair",
+       "line": 300
+      },
+      {
+       "keyword": "def",
+       "name": "IsMorseDistinct",
+       "line": 311
+      },
+      {
+       "keyword": "structure",
+       "name": "SuperlevelBarInterface",
+       "line": 326
+      },
+      {
+       "keyword": "def",
+       "name": "IsFiniteBar",
+       "line": 361
+      },
+      {
+       "keyword": "def",
+       "name": "pairSet",
+       "line": 371
+      },
+      {
+       "keyword": "def",
+       "name": "pairCount",
+       "line": 382
+      },
+      {
+       "keyword": "def",
+       "name": "IsLifetimeDensityVersion",
+       "line": 398
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowPair",
+       "line": 417
+      },
+      {
+       "keyword": "def",
+       "name": "IsWindowElderPair",
+       "line": 428
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedPair",
+       "line": 440
+      },
+      {
+       "keyword": "structure",
+       "name": "PairLawInterface",
+       "line": 457
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUniformSelectionA",
+       "line": 479
+      },
+      {
+       "keyword": "def",
+       "name": "ParentCompactWindowDensityB",
+       "line": 498
+      },
+      {
+       "keyword": "def",
+       "name": "IsUnrestrictedLeadingCoefficient",
+       "line": 522
+      },
+      {
+       "keyword": "def",
+       "name": "ParentUnrestrictedLeadingDensityC",
+       "line": 542
+      },
+      {
+       "keyword": "def",
+       "name": "RemainderBoundedR1",
+       "line": 559
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarElderLowerE2",
+       "line": 581
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarTwoSidedRateE4",
+       "line": 598
+      },
+      {
+       "keyword": "def",
+       "name": "PlanarDensityGapE11",
+       "line": 623
+      }
+     ],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "Mathlib"
+     ],
+     "identical_copies_elsewhere": [
+      "frontiers/compact_morse_elder_adapter_20261018/inputs/C291/inputs/Lifetime.lean",
+      "frontiers/source_lifetime_realization_20261017/inputs/Lifetime.lean"
+     ]
+    },
+    {
+     "path": "frontiers/regular_superlevel_geometry_20261020/project/RegularSuperlevelAxiomAudit.lean",
+     "git_blob": "40e334d0e73a20055db662d6d9060bae25cae533",
+     "bytes": 3248,
+     "theorems": 0,
+     "declarations": [],
+     "risk_static": {
+      "sorry": 0,
+      "admit": 0,
+      "axiom_decl": 0,
+      "native_decide": 0,
+      "implemented_by": 0,
+      "extern": 0,
+      "unsafe": 0,
+      "opaque": 0,
+      "maxHeartbeats_0": 0
+     },
+     "imports": [
+      "RegularSuperlevelLiteral",
+      "Lean.Elab.Command",
+      "Lean.Util.CollectAxioms"
+     ],
+     "identical_copies_elsewhere": []
+    }
+   ],
+   "non_lean_files": [
+    "frontiers/regular_superlevel_geometry_20261020/HOSTED_SOURCE_MANIFEST.json",
+    "frontiers/regular_superlevel_geometry_20261020/README.md",
+    "frontiers/regular_superlevel_geometry_20261020/SOURCE_SCOPE.md",
+    "frontiers/regular_superlevel_geometry_20261020/c297_hosted_verify.py",
+    "frontiers/regular_superlevel_geometry_20261020/development/COERCION_PROJECTION_IDENTITIES.json",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_GREEN.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_GREEN.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_OPTIMIZED.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_OPTIMIZED.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_RED.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_COERCION_RED.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_FINAL.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_FINAL.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_FINAL_OPTIMIZED.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_FINAL_OPTIMIZED.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_WRAPPED_RED.stderr",
+    "frontiers/regular_superlevel_geometry_20261020/development/TEST_WRAPPED_RED.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/hosted-run1-WithoutCoordinateIdentity.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/hosted-run1-WithoutRegularOrInterior.stdout",
+    "frontiers/regular_superlevel_geometry_20261020/development/linux-candidate1.md",
+    "frontiers/regular_superlevel_geometry_20261020/development/linux-candidate2.md",
+    "frontiers/regular_superlevel_geometry_20261020/development/linux-candidate3.md",
+    "frontiers/regular_superlevel_geometry_20261020/development/native-candidate1-timeout.json",
+    "frontiers/regular_superlevel_geometry_20261020/reviews/ANALYTIC_CONTROL_AND_PRELIM_REVIEW.md",
+    "frontiers/regular_superlevel_geometry_20261020/reviews/CANDIDATE3_SOURCE_REVIEW.md",
+    "frontiers/regular_superlevel_geometry_20261020/reviews/HOSTED_COERCION_AMENDMENT_REVIEW.md",
+    "frontiers/regular_superlevel_geometry_20261020/reviews/HOSTED_ENGINEERING_SOURCE_REVIEW.md",
+    "frontiers/regular_superlevel_geometry_20261020/reviews/PROJECTION_IDENTITIES.json",
+    "frontiers/regular_superlevel_geometry_20261020/test_c297_hosted_verify.py"
+   ],
+   "non_lean_files_total": 29
+  }
+ ]
+}
