@@ -1,12 +1,14 @@
 PASS additive-only: staging bytes and values unchanged; exactly the nine new keys appended
-PASS rows equal a fresh build of the retained sources; digests and counts ({"proposed_quarantines": 226, "proposed_quarantines_federation": 8, "proposed_pinning_amendments": 22, "proposed_byte_pins": 41, "proposed_closed_candidates": 29, "held_by_other_lane": 1, "accounting_dispositions": 386})
-PASS 256 proposals carry the 13 required keys, QUARANTINED/PROPOSED/none/zero, classified floating point
-PASS ids unique across 632 rows
-PASS 9766 file bindings match repository bytes (main, Math- and federation clones)
-PASS 865 quoted statements verbatim at their lines
+PASS rows equal a fresh build of all 14 required sources; digests and counts ({"proposed_quarantines": 239, "proposed_quarantines_federation": 8, "proposed_pinning_amendments": 29, "proposed_byte_pins": 41, "proposed_closed_candidates": 29, "held_by_other_lane": 1, "accounting_dispositions": 515})
+PASS 276 proposals carry the 13 required keys, QUARANTINED/PROPOSED/none/zero, classified floating point
+PASS ids unique across 652 rows
+PASS 10037 file bindings match repository bytes (main, Math- and federation clones)
+PASS 926 quoted statements verbatim at their lines
 PASS every proposal location exists at its commit
-PASS 41 byte pins and 22 pinning amendments target adopted records
-PASS P15 closed candidates: each declaration is the theorem at its line in the bound source
-PASS no new proposal sits at or under an adopted location
+PASS 41 byte pins and 29 pinning amendments target adopted records
+PASS P15 closed candidates: each fully qualified declaration is the theorem at its line in the bound source
+PASS no proposal sits at or under any of 246 adopted locations (all location forms; declared engineering regions excepted)
 PASS 7 reconciled federation files are byte-identical to their primary main bindings
-11/11 checks passed
+PASS 1705 archive-member bindings match the bytes inside their bound archives
+PASS 30 errata items each set their value on exactly their target rows
+13/13 checks passed

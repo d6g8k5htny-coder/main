@@ -93,11 +93,11 @@ the earlier v2 build `75ee024f…`, finds on main outside the engineering direct
 | Records | Object | What they state |
 |---|---|---|
 | T4-001 to -004 | `audits/dropbox_import/2026-09-27` | Lifetime-tail convergence erratum, the persistence-thermodynamics programme, the LPW_CONSTANT explicit pair, and the **LPW Return-05 findings** (exact c_rat, E[(\|X\|+\|Y\|)⁴] = 12 + 32/π, the Rayleigh-majorant replacement lemma and the nonzero Cov(J) entry) |
-| T4-005 to -007 | `audits/exact_sample_shrinking_bin` | The exact-sample shrinking-bin lemma, its nonauthor review (threshold cA² > 10/3) and the reviewer's controls |
+| T4-005 to -007 | `audits/exact_sample_shrinking_bin` | The exact-sample shrinking-bin lemma (an amendment to adopted Q-10085 in catalog candidate v2, erratum `E-R-T4-005-*`), its nonauthor review (threshold cA² > 10/3) and the reviewer's controls |
 | T4-008, -009 | `docs` | Shrinking witness pairs away from the pins, and a conditional universality transfer |
 | T4-010 | `docs/manuscript/side24_v3_draft_20261013` | Theorem 2.1 of the SIDE24 v3 draft |
 | T4-011 to -022 | `docs/manuscript/side24_v3_supplement_draft_20261013` | Supplement sections S1–S13 and its concordance with errata |
-| T4-023 to -025 | `docs/research-translation/20260930` | The planar side-24 cap-to-elder bridge, the axial older-path lemma, and the T24 completion audit (**amendment to Q-2012**) |
+| T4-023 to -025 | `docs/research-translation/20260930` | The planar side-24 cap-to-elder bridge, the axial older-path lemma, and the T24 completion audit (assembled as an amendment to Q-2012; a new record in catalog candidate v2, erratum `E-R-T4-025-*`) |
 | T4-026 | `experiments/h3_band_v2` | Outward-rounded H3 band ceiling and floor of E[G_r] on eight cells |
 | T4-027 to -037 | `experiments/periodic_h0` | Two new lemmas (T4-027 interpolation and bins, T4-037 mean-adaptive Chernoff–KL confidence), and **nine amendments to Q-1160–Q-1168** (T4-028 to -036) |
 | T4-038 to -046 | `experiments/periodic_h0/results` | The nine stored certificates, as **amendments to Q-1160–Q-1168** |
