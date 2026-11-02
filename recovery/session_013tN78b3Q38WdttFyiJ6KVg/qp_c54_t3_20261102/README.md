@@ -51,6 +51,27 @@ The standalone claims include, for example:
 
 None of these directories is named by any catalog record.
 
+**Rebuilding the assembler's inputs.**
+- The candidate catalog: run `python3 -I -B ../qp_c54_catalog_candidate_20261102/build_candidate.py STAGING
+  ../qp_c54_quarantine_proposals_20261101/records_verified.json ../qp_c54_t2_20261102/records_verified_t2.json CAND`.
+  `STAGING` is `git show 32ab7d9013264d2874aa4b778a90eede0cda0cdf:cbz/quarantine/catalog.json`.
+- The closed list: `git show 32ab7d9013264d2874aa4b778a90eede0cda0cdf:cbz/evidence/kernel/all-closed-declarations.json`.
+- Then: `python3 -I -B assemble_t3.py MATH_CLONE . CAND CLOSED ../pinning_sweep_20261102/pins.json
+  verdicts_verified_t3.json OUT`.
+
+**Different-family check (main#738).** a3 ran the check (comment 6568629873) and a16 read it back (6568685335):
+PASS_WITH_NITS, MATCH. Dispositions:
+1. Rebuild steps are missing: **accepted**. They are above.
+2. Nine standalone records mix a review with a result of their own: **accepted**. Erratum `E-T3-N2` tags 001, 004,
+   008, 014, 035, 037, 038, 039 and 040 with `standalone_basis: ADDED_TO_REVIEW`.
+3. T3-015 uses Decimal, not binary float: **accepted**. Erratum `E-T3-N3` labels it "USED (Decimal, non-directed
+   rounding; no binary float)".
+4. Three REVIEW_OF items sit at the REVIEW_OF / NOT_OBLIGATION boundary: kept as REVIEW_OF, as the reviewer
+   judged acceptable. No obligation is lost either way.
+- The pr25 observation (its R3 counterexample is internal to the review, so REVIEW_OF holds) is agreed.
+- The errata live in `../qp_c54_errata_20261102/errata.json` and are applied by catalog candidate v2. This
+  directory's files are left as verified.
+
 ## Part 2: the A3 audits (`a3_audits.json`, `a3_sliver_check.py`)
 
 These are read-only interval-arithmetic audits of QP-C54-T2-008, -016 and -029, each followed by an independent
@@ -61,6 +82,12 @@ cross-verifier.
 - **T2-029 `cusp_coefficient_certified`: INDETERMINATE.** `d3._sub` (`d3.py:40-41`) can end a v-panel 2⁻⁵⁷ short of `b` on
   the published d = 3 path. `a3_sliver_check.py` reproduces this without running the packet's code.
 - These verdicts are advice for the records' A3 field, not certifications.
+- **Executed replay of T2-029, by a different family** (main#738: a16 at 6568215011, read back by a3 at 6568411087):
+  - the function-level shortfall reproduced;
+  - the published d = 3 path showed 0 shortfalls across 247 boxes, and 72,394 calls in the readback;
+  - so the defect is latent, and the published numbers are unaffected;
+  - an end-at-`b` patch went to Math-#219;
+  - the static verdict stays INDETERMINATE. This is erratum `E-A3-T2-029`.
 
 ## Limits
 

@@ -69,4 +69,8 @@ replace a kernel replay.
   mathematics, and no row is a verdict on any declaration.
 - QUARANTINE_PENDING_KERNEL_REPLAY means no indexed receipt binds these bytes. A pinned replay with a receipt can
   reopen any of these records deliberately and CLOSE literal declarations.
-- The held group's directory changes when Math-#514 merges, so its record describes the pre-merge state only.
+- The held group's directory changed when Math-#514 merged, at Math- `c88c34b2`; it now holds 11,653 paths. The record
+  describes the pre-merge bytes at `3b11bff6` only. These records are pinned to `3b11bff6` and reproduce there. At a
+  later tip they differ only in commit ids, as VERIFY-T5-C54-RETIP found (main#738, comments 6568128371 and
+  6568149184). Erratum `E-T5-HELD` (`../qp_c54_errata_20261102/errata.json`) replaces the stale "in integration" text.
+  CLOSED registration of the merged package belongs with the kernel-index lane.

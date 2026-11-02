@@ -40,16 +40,17 @@ disposed main or Math- location. This replaces the filename-pattern census, whic
 
 ## Result (`records_verified_t6.json`)
 
-166 items:
+175 items:
 
-- 8 OBLIGATION records `QP-C54-T6-001` to `-008`;
+- 9 OBLIGATION items, which become 8 records `QP-C54-T6-001` to `-008` once the two identical palette
+  `PROOF.md` items are merged;
 - 36 REVIEW_OF;
 - 26 COPY_OR_EXPOSITION_OF;
 - 104 NOT_OBLIGATION.
 
 | Record | Repository and object | What it states |
 |---|---|---|
-| T6-001 | google-drive `replicas/demanded-palette-consecutive-v1` **and** meta-framework `replicas/consecutive-palette-v1` (byte-identical, blob `1aa9db5b`) | Exact demanded-palette optimum for consecutive capacity supports (P15-CONSECUTIVE-CAPACITY-PALETTES-20260924-v1); in neither main nor Math- |
+| T6-001 | google-drive `replicas/demanded-palette-consecutive-v1` **and** meta-framework `replicas/consecutive-palette-v1` (the two `PROOF.md` files are byte-identical, blob `1aa9db5b`. The `SOURCE.json` files differ, `e566be67` and `529c3281`, and each is its own NOT_OBLIGATION provenance item) | Exact demanded-palette optimum for consecutive capacity supports (P15-CONSECUTIVE-CAPACITY-PALETTES-20260924-v1); in neither main nor Math- |
 | T6-002 | governance- `amendments/20260925-math18-d6-analytic-review.md` | Counterexample and erratum to the full-price (F10) endpoint: p > 1/2 must be narrowed to 1/2 < p < 1 |
 | T6-003 | governance- `amendments/20260925-math19-finite-r-review.md` | The reviewer's sharpness remark on the S1 O(r) rate |
 | T6-004 | governance- `amendments/20260925-mesoscopic-d2-chart-handoff.md` and `check_mesoscopic_d2_taylor.py` | d = 2 contact-chart Taylor rows, the J₀ divided-difference block and the r³ height row |
@@ -60,8 +61,10 @@ disposed main or Math- location. This replaces the filename-pattern census, whic
 
 Floating point: NO_SCRIPTS 4, NONE 3, USED 1 (T6-005, the Monte Carlo probe).
 
-**Referents.** Every COPY or REVIEW item names its target. 14 named targets exist in main or Math- but have no
-disposition in the catalog as it stands:
+**Referents.** Every COPY or REVIEW item names its target. The assembler also reports 207 referents that do not
+resolve to a main or Math- path or record. Most are catalog keys or paths inside the item's own repository, or
+PR and comment references. They are reported by design, not failed. 14 named targets exist in main or Math- but
+have no disposition in the catalog as it stands:
 
 - two main review directories that tranche 4 covers;
 - `docs/retro` traces and `docs/RESEARCH_INDEX.md`, which are engineering or index files;
@@ -74,5 +77,12 @@ disposition in the catalog as it stands:
 - trial's `portable` object holds about 5,970 files, mostly JSON batch briefs. Its classification rests on the
   `ls-tree` listing and on the example files the screen cites, such as `BATCH387_TIP_SYNC.json` and
   `BATCH357_RESEARCH_STACK_AUDIT.json`, not on reading every file.
+- **Reproduce:** `python3 -I -B assemble_t6.py MAIN_CLONE MATH_CLONE . fed_objects.json CANDIDATE_CATALOG CLOSED_JSON verdicts_verified_t6.json OUT.json`.
+  `CANDIDATE_CATALOG` is catalog candidate v1, built by `../qp_c54_catalog_candidate_20261102/build_candidate.py`
+  (SHA-256 `0f956ace…`). `CLOSED_JSON` is staging `32ab7d90`'s `cbz/evidence/kernel/all-closed-declarations.json`
+  (SHA-256 `c25b7e46…`). Each federation repository is read from its own clone, as named in `fed_objects.json`.
+- Corrections accepted from the different-family check (main#738, comments 6568869813 and 6568931499): the item
+  total (175), the `SOURCE.json` wording, the 207 unresolved referents, and this recipe. The `**` markup dropped
+  inside quoted classification reasons is left as it is, because those reasons are not checked statements.
 - One agent wrote two scratch files (`b8_items*.json`) outside this directory despite the no-write instruction. They are
   not used and not retained.

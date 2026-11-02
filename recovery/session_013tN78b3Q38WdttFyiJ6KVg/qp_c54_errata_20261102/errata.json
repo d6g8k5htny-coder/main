@@ -1,0 +1,92 @@
+{
+ "schema": "claude54.errata.v1",
+ "created": "2026-11-02",
+ "boundary": "Corrections accepted from different-family checks (Grok Bot agents on main#738). Each item changes one field of one retained row; the retained tranche files stay as verified, and build_candidate_v2.py applies these items and marks every touched row with errata_applied.",
+ "items": [
+  {
+   "id": "E-T2-N2",
+   "source": "main#738/6569098238 N2, confirmed 6569136696",
+   "target": {
+    "tranche": "t2",
+    "section": "not_obligations",
+    "object": "PROOF_INDEX.md"
+   },
+   "field": "source_binding.files",
+   "value": [
+    {
+     "path": "PROOF_INDEX.md",
+     "git_blob": "6b406a44acff3005b1112e932b9f053324e96632",
+     "bytes": 37988,
+     "sha256": "4ad88f3e5e43a4caaada8124eade96114336b7c80ca5cbaeb2aab934f7862c58",
+     "identical_at_catalog_cut": true
+    }
+   ],
+   "reason": "The PROOF_INDEX.md not-obligation bound no file (files: []). Bound now from Git at the tranche ref."
+  },
+  {
+   "id": "E-T2-N4",
+   "source": "main#738/6569136696 N4",
+   "target": {
+    "tranche": "t2",
+    "record": "QP-C54-T2-015"
+   },
+   "field": "floating_point",
+   "value": "NONE on the enclosure path: cap_coefficient.py uses exact rational interval arithmetic with outward rounding to 2^-160. exp(-t) is a fixed-point alternating series with an integer rounding budget, pi comes from Machin's formula, and Phi from a fixed-point series (NOTE.md lines 217-218). Floats appear only in __repr__ (line 71) and in the float controls _Phi_f, _phi_f, float_mc, float_quad2d and float_R (lines 507-717). The corollary's slack factors (NOTE.md lines 77-79, 295-304) divide by [NUM]'s binary64 GH60 values of J_1+J_2, which are quoted from another packet and not computed by this object's code. The reference-kernel corollary's slack factors rest on [NUM]'s binary64 GH60 values (see exact_boundary and layer_a_status); those are quoted comparisons, not enclosures.",
+   "reason": "Scope the NONE to the enclosure path, as T2-007 does, and name the binary64 dependence the record already states elsewhere."
+  },
+  {
+   "id": "E-T3-N2",
+   "source": "main#738/6568629873 nit 2, confirmed 6568685335",
+   "target": {
+    "tranche": "t3",
+    "records": [
+     "QP-C54-T3-001",
+     "QP-C54-T3-004",
+     "QP-C54-T3-008",
+     "QP-C54-T3-014",
+     "QP-C54-T3-035",
+     "QP-C54-T3-037",
+     "QP-C54-T3-038",
+     "QP-C54-T3-039",
+     "QP-C54-T3-040"
+    ]
+   },
+   "field": "standalone_basis",
+   "value": "ADDED_TO_REVIEW",
+   "reason": "These directories review an object and add a result of their own; the record covers the added part only."
+  },
+  {
+   "id": "E-T3-N3",
+   "source": "main#738/6568629873 nit 3, confirmed 6568685335",
+   "target": {
+    "tranche": "t3",
+    "record": "QP-C54-T3-015"
+   },
+   "field": "floating_point",
+   "value": "USED (Decimal, non-directed rounding; no binary float): periodic_jet_check.py sets decimal.getcontext().prec = 270 and computes image sums, cumulants, Schur complements, a Stirling-series Gamma(7/6) (shift 200, about 1e-108 relative) and trapezoid-rule angular quadrature in Decimal with ordinary, not directed, rounding; acceptance uses tolerance comparisons (< D('1e-250'), < D('1e-100'), < D('1e-12')). NOTE.md:54: 'This is floating, not interval, arithmetic'.",
+   "reason": "Label the kind of floating arithmetic in the leading class."
+  },
+  {
+   "id": "E-T5-HELD",
+   "source": "main#738/6568128371 and 6568149184 (VERIFY-T5-C54-RETIP)",
+   "target": {
+    "tranche": "t5",
+    "section": "held_by_other_lane",
+    "object": "frontiers/source_derivative_gaussian_20261025"
+   },
+   "field": "held_by",
+   "value": "Math-#514 merged at Math- c88c34b2 (\"Merge PR #514: Register 67-module source derivative companion with closed lower separation\"); the directory grew to 11,653 paths. The record here describes the pre-merge bytes at 3b11bff6 only. CLOSED registration of the merged package's declarations, from its own receipts, belongs with the kernel-index lane; nothing is proposed here.",
+   "reason": "The earlier text said \"in integration\", which became stale when Math-#514 merged."
+  },
+  {
+   "id": "E-A3-T2-029",
+   "source": "main#738/6568215011 (a16 result) and 6568411087 (a3 readback)",
+   "target": {
+    "a3": "QP-C54-T2-029"
+   },
+   "field": "dynamic_replay_note",
+   "value": "Different-family replay (Grok Bot a16, read back by a3) reproduced the function-level shortfall (the last panel ends at b - 2^-57 for every k in 1..48 on the example) but found 0 shortfalls on the published d = 3 path (247 boxes; 72,394 calls in the readback). The published numbers are unaffected; the defect is latent. A one-line end-at-b patch was routed to Math-#219. The static verdict stays INDETERMINATE.",
+   "reason": "Record the executed replay beside the static audit."
+  }
+ ]
+}

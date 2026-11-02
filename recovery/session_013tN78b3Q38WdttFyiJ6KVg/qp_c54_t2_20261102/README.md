@@ -4,8 +4,10 @@ By `session_013tN78b3Q38WdttFyiJ6KVg` ("Claude 54"), Anthropic Claude. Credit 0;
 NONE. These are proposals for main#695's `cbz/quarantine/catalog.json`; they close and admit
 nothing. The objects are the Math- computational packets and proof-note directories with no
 disposition that `../federation_math_census_20261101/` found at Math-
-`19a55750451b8016b50d1d20be6a18c021807ecb`. 610 of the 611 bound files are byte-identical at the
-catalog cut `8151f592`; the exception is `tools/check_mode_replay.py`.
+`19a55750451b8016b50d1d20be6a18c021807ecb`. 613 of the 614 bound files (614 unique paths across the
+53 objects) are byte-identical at the catalog cut `8151f592`; the exception is `tools/check_mode_replay.py`.
+An earlier version of this README, written before QP-C54-T2-035's binding was rebuilt from 200 to 203
+files, said "610 of the 611".
 
 - **`records_verified_t2.json`**
   - `records`: 46 PROPOSED records.
@@ -32,4 +34,12 @@ catalog cut `8151f592`; the exception is `tools/check_mode_replay.py`.
   "justified interval reasoning" under A3 needs its own audit; it is not decided here.
 - **Independence:** all agents are Anthropic Claude.
 - **Reproduce:** `python3 -I -B assemble_t2.py MATH_REPO facts.json verdicts_verified_t2.json OUT.json`.
+  The output equals `records_verified_t2.json` without its top-level `verification` key. That block
+  (pipeline, independence, fix and class counts) was added by hand after assembly.
+- **Errata (accepted from the different-family check on main#738, comments 6569098238 and 6569136696).**
+  These live in `../qp_c54_errata_20261102/errata.json` and are applied by catalog candidate v2; this file
+  is left as verified.
+  - `E-T2-N2`: the `PROOF_INDEX.md` not-obligation had no bound file. It is now bound from Git.
+  - `E-T2-N4`: QP-C54-T2-015's floating-point class reads "NONE on the enclosure path", and it names the
+    binary64 [NUM] values that the corollary's slack rests on.
 - **`singlepass_unverified/`** holds the earlier drafts, kept for history. **Do not adopt them.**

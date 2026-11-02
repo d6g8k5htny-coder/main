@@ -5,8 +5,7 @@ Usage: python3 -I -B assemble_t6.py MAIN_REPO MATH_REPO FACTS_DIR OBJECTS_JSON C
 
 FACTS_DIR holds fbatch<N>.json; OBJECTS_JSON is fed_objects.json (full, untruncated file lists, with clone and ref per object).
 
-FACTS_DIR holds tbatch<N>.json (the objects given to the workflow). OBJECTS_JSON is objects.json (all 76 objects, including the
-four resolved mechanically). VERDICTS_JSON is the workflow result {"batches": [{"batch", "kind", "verdicts": [{"object", "ok",
+VERDICTS_JSON is the workflow result {"batches": [{"batch", "kind", "verdicts": [{"object", "ok",
 "problems", "items"}]}]}.
 
 Fails (exit 1, nothing written) on: a missing, duplicate or unknown object; an item whose files are not a partition of the
