@@ -1,0 +1,15 @@
+Independent lifecycle review, kernel_replay
+
+Reviewer: /root/cbz_mutation_lifecycle_fix/kernel_lifecycle_review (separate agent).
+Review scope: run_tests.py, mutations.py, tests/test_mutation_harness.py only.
+
+Found and resolved:
+1. _callTestMethod dispatch-hook assertion could be labeled body failure without invoking the selected method. A focused RED reproduced this; actual selected-method wrapping with preserved decorators resolved it.
+2. Selector metadata could disagree with selected canonical IDs. Selector coherence and pristine, externally discovered expected method populations now bind receipts; --list executes no fixtures or bodies.
+3. A setup hook invoking the actual selected method could still be labeled body execution. Dispatcher authorization and lifecycle depth now reject direct and dispatched method calls from lifecycle hooks, with focused RED/GREEN controls.
+
+4. A manually reported subtest belonging to a foreign TestCase could be attributed to the selected body. The final addSubTest guard requires actual parent object identity. A new focused normal/optimized control and one actual guard-source mutation close this obligation.
+
+Final reviewer result: all four reproduced defects addressed; final source bindings are CLEAR in evidence/independent-lifecycle-review.json. No further actionable issue found in changed hunks. Completed twelve-method GREEN evidence was reused. Reviewer ran only the newly uncovered dispatch and setup-invokes-method counterexamples, with no original suites, original mutants, Lean checks, or redundant full verification. The thirteenth listing control and fourteenth foreign-parent control were added under their specific new obligations; unrelated completed evidence was reused.
+
+This is a technical independent-agent review record. Provider-distinct review requirements remain separately tracked by the parent; this record does not assert that process requirement is fulfilled.

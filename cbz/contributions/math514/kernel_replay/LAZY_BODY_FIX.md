@@ -1,0 +1,9 @@
+# Synchronous None-return mutation grading
+
+Mutation grading supports ordinary synchronous unittest methods that return None. Generator, coroutine, async-generator and wraps-linked suspended method shapes are refused during pristine population discovery. Every non-None body return is ERROR, including falsey values and opaque iterables. Returned work is not consumed or awaited; only a fresh native coroutine may be closed without entering its body. Creating a suspended call object is not evidence that its deferred test body executed.
+
+The published predecessor at 7b50d2b4c433a8f3b5442925e1ac9ff664880166 awarded KILLED to a mixed generator method plus ordinary assertion while the generator-body sentinel was absent. The actual RED is retained in evidence/lazy-body/evidence/kernel-mixed-generator-red.json. Six new methods pass normally and optimized; the final return-guard mutant is assertion-killed in each mode. Earlier shape/decorator controls remain applicable and earlier type-only return acceptance is explicitly superseded.
+
+The current 60 methods are 31 wrapper + 9 real-Lean + 14 prior lifecycle + 6 new profile methods. Static direct-method AST inspection of the 54 predecessor methods establishes the synchronous/None-return applicability of completed evidence, excluding nested helper functions from their enclosing method shape. Prior 25 production mutations and mathematics are retained, not replayed. No new full G0, Lean/project run or hosted successor-head CI claim is made.
+
+The classifier and production driver are unchanged; only run_tests.py and tests/test_mutation_harness.py change. No additional runtime module or dependency was added. Full isolated report, frozen hashes, minimal/cumulative patches, RED/GREEN/source-mutant receipts and independent review are under evidence/lazy-body/. evidence/lazy-body/current-composed-receipt.json provides the exact split. Registry/ledger changes are contribution payloads for the canonical owner.

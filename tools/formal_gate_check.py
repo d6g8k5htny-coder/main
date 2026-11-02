@@ -40,6 +40,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -68,6 +69,12 @@ BUILD_DIR = ".lake"
 
 def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+LOADED_AUDITOR_SOURCES = {
+    "tools/formal_gate_check.py": (Path(__file__).resolve(), sha(Path(__file__).read_bytes())),
+    "tools/formal_compiled_inventory.py": (Path(compiled.__file__).resolve(), sha(Path(compiled.__file__).read_bytes())),
+}
 
 
 def require(condition, message):
@@ -241,12 +248,20 @@ def source_check(root: Path, manifest_rel: str = MANIFEST) -> tuple[dict, str, P
             spec["expected_diagnostic"]) is not None,
             "invalid negative control diagnostic contract: " + label)
     if manifest_rel == MANIFEST:
+        require({"tools/required_formal_check.py", "tests/test_required_formal_check.py",
+                 "tests/test_required_formal_binding_control.py", "tests/test_formal_source_custody.py",
+                 ".github/workflows/workspace-landing.yml"} <= set(files),
+                "unbound live receipt consumer or source custody control")
         require({'.github/workflows/formal-verification.yml', 'tests/test_formal_workflow_shell.py'} <= set(files),
                 'unbound formal workflow or regression control')
         require(m["package"] == "side24-arithmetic-skeleton" and set(controls) == {
             "false_exponent_bound_d3", "false_covariance_bound", "false_exp_partial_sum",
             "wrong_image_constant", "false_eigenvalue_third", "false_trace_variance",
-            "false_endpoint_adjacency"}, "incomplete main negative control inventory")
+            "false_endpoint_adjacency",
+            # P15 modules (recomposed from #358): one statement control per displayed arithmetic family
+            "false_price_boundary_third", "wrong_generator_prices", "false_palette_815_count",
+            "wrong_transversal_count", "wrong_whole_ground_chromatic", "false_rho_endpoint_adjacency",
+            "false_rho_upper_six_sevenths", "wrong_taylor_certificate"}, "incomplete main negative control inventory")
     compiled.bound_inventory(m.get("compiled_inventory"), target_names, [p[:-5].replace("/", ".") for p in modules])
     compiled.bound_codegen(m.get("codegen_inventory"), [p[:-5].replace("/", ".") for p in modules])
     return m, sha(raw), pkg
@@ -304,7 +319,80 @@ def negative_controls(m: dict, pkg: Path) -> dict:
     return cases
 
 
-def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
+def checked_source_commit(root: Path, m: dict, digest: str, *, manifest_rel=MANIFEST,
+                          expected_head=None) -> str:
+    """Bind owned input bytes/modes to one immutable commit at this endpoint.
+
+    Build outputs and unrelated repository paths are not owned inputs. This is
+    pre/post endpoint custody, not isolation against a malicious concurrent writer.
+    Raw Git blobs are read without filters, replacement objects or ambient Git
+    repository/index/config overrides.
+    """
+    root = root.resolve()
+    env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    env.update(GIT_CONFIG_NOSYSTEM="1", GIT_CONFIG_GLOBAL=os.devnull,
+               GIT_NO_REPLACE_OBJECTS="1", GIT_OPTIONAL_LOCKS="0")
+
+    def git(*args):
+        command = ["git", "--no-replace-objects", "--literal-pathspecs", "-c", "core.fsmonitor=false",
+                   "-c", "core.hooksPath=/dev/null", *args]
+        result = subprocess.run(command, cwd=root, env=env, capture_output=True, timeout=30)
+        require(result.returncode == 0, "source custody Git command failed: " + args[0])
+        return result.stdout
+
+    require(git("rev-parse", "--show-toplevel").decode("utf-8").strip() == str(root),
+            "source custody root is not the exact Git top-level")
+    head = git("rev-parse", "--verify", "HEAD").decode("ascii").strip()
+    require(HEX40.fullmatch(head) is not None, "source custody missing exact checked HEAD")
+    require(expected_head is None or head == expected_head, "source custody HEAD changed during execution")
+    manifest_raw = safe_path(root, manifest_rel).read_bytes()
+    require(sha(manifest_raw) == digest and load_json(manifest_raw.decode("utf-8")) == m,
+            "source custody manifest argument differs from actual bytes")
+    for relative, (loaded_path, loaded_digest) in LOADED_AUDITOR_SOURCES.items():
+        require(m["files"].get(relative) == loaded_digest
+                and sha(loaded_path.read_bytes()) == loaded_digest,
+                "loaded auditor source differs from bound input: " + relative)
+    critical = set(m["files"]) | set(m.get("unbound_files", [])) | {manifest_rel}
+    # Validate every path independently before passing literal pathspecs to Git.
+    paths = {relative: safe_path(root, relative) for relative in critical}
+    entries = {}
+    for record in git("ls-tree", "--full-tree", "-z", head, "--", *sorted(critical)).split(b"\0"):
+        if not record:
+            continue
+        fields, relative_raw = record.split(b"\t", 1)
+        mode, kind, object_id = fields.split(b" ")
+        relative = relative_raw.decode("utf-8")
+        require(relative in critical and relative not in entries and kind == b"blob"
+                and mode in {b"100644", b"100755"}
+                and HEX40.fullmatch(object_id.decode("ascii")) is not None,
+                "source custody inventory has a non-regular or unexpected input")
+        entries[relative] = (mode, object_id)
+    require(set(entries) == critical, "source custody inventory is incomplete at checked HEAD")
+    for relative in sorted(critical):
+        path = paths[relative]
+        mode, object_id = entries[relative]
+        actual_mode = path.stat().st_mode
+        require(stat.S_ISREG(actual_mode) and bool(actual_mode & stat.S_IXUSR) == (mode == b"100755"),
+                "source custody mode differs from checked HEAD: " + relative)
+        require(path.read_bytes() == git("cat-file", "blob", object_id.decode("ascii")),
+                "source custody input bytes differ from checked HEAD: " + relative)
+    require(git("rev-parse", "--verify", "HEAD").decode("ascii").strip() == head,
+            "source custody HEAD changed during inspection")
+    return head
+
+
+def execute(m: dict, digest: str, pkg: Path, root: Path, *, manifest_rel=MANIFEST) -> dict:
+    root = root.resolve()
+    relative = PurePosixPath(m["package_root"])
+    require(not relative.is_absolute() and ".." not in relative.parts and relative.parts
+            and str(relative) == m["package_root"], "source custody package argument is unsafe")
+    owned_pkg = root
+    for part in relative.parts:
+        owned_pkg = owned_pkg / part
+        require(not owned_pkg.is_symlink(), "source custody package argument traverses a symlink")
+    require(owned_pkg.is_dir() and not pkg.is_symlink() and pkg.resolve() == owned_pkg.resolve(),
+            "source custody package argument differs from manifest-owned tree")
+    pkg = owned_pkg
     out = pkg / BUILD_DIR / "formal-evidence"
     require(not (pkg / BUILD_DIR).is_symlink() and not (pkg / BUILD_DIR / "build").is_symlink()
             and not out.is_symlink(), "symlink build directory")
@@ -321,6 +409,7 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
     lake = lake_binary()
     require(lake is not None, "lake not found on PATH or in ~/.elan/bin")
     env = dict(os.environ, PATH=f"{Path(lake).parent}{os.pathsep}{os.environ.get('PATH', '')}")
+    checked_head = checked_source_commit(root, m, digest, manifest_rel=manifest_rel)
     check_lean_version(run([lake, "env", "lean", "--version"], "preflight-version", out, pkg, env))
     if (pkg / BUILD_DIR / "build").exists():
         shutil.rmtree(pkg / BUILD_DIR / "build")
@@ -367,11 +456,11 @@ def execute(m: dict, digest: str, pkg: Path, root: Path) -> dict:
                 raise ValueError("negative control escaped axiom auditor: " + label)
         else:
             outcomes[label] = "REJECTED_BY_LEAN"
-    _, after, _ = source_check(root)
+    _, after, _ = source_check(root, manifest_rel)
     require(after == digest, "manifest changed during execution")
     version = check_lean_version(run([lake, "env", "lean", "--version"], "version", out, pkg, env))
-    head = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, text=True, capture_output=True).stdout.strip()
-    require(HEX40.fullmatch(head or ""), "missing exact checked commit")
+    head = checked_source_commit(root, m, digest, manifest_rel=manifest_rel, expected_head=checked_head)
+    require(head == checked_head, "source custody HEAD changed during execution")
     receipt = dict(schema_version=1, scientific_effect="NONE", scientific_status_authority=False,
                    package=m["package"], formalization_status="kernel-checked",
                    alignment_status="PENDING_INDEPENDENT_REVIEW", manifest_sha256=digest, checked_commit=head,
@@ -463,7 +552,7 @@ def main(argv=None) -> int:
             axioms = audit_axioms(args.axioms_output.read_text(encoding="utf-8"), [t["name"] for t in m["targets"]])
             print(json.dumps({"axiom_audit": axioms, "manifest_sha256": digest}, indent=2, sort_keys=True))
         if args.run_lean:
-            print(json.dumps(execute(m, digest, pkg, root), indent=2, sort_keys=True))
+            print(json.dumps(execute(m, digest, pkg, root, manifest_rel=args.manifest), indent=2, sort_keys=True))
         elif not args.axioms_output:
             print("SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): " + digest)
             print(json.dumps({"package": m["package"], "targets": len(m["targets"]), "sources": len(m["sources"]),

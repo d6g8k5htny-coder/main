@@ -15,9 +15,10 @@ cross-repository synchronization and final common G0-G11 pass remain unfinished.
 Source-only checks and individual successful jobs do not complete the twelve
 baseline criteria. The [foundation candidate #695](https://github.com/d6g8k5htny-coder/main/pull/695)
 is a candidate handoff, not the current default-branch baseline.
-At this observation, current Main is `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
-PR #713 is pending integration; its replay sources, controls and this documentation
-must be qualified at their final composed source. The proof catalogue and other
+The pre-integration Main source was `11e28815163e15223e8827fe6ff47a1faaf36ebd`.
+[PR #713](https://github.com/d6g8k5htny-coder/main/pull/713) merged on 2026-10-31 at 10:18:44 UTC
+as `9abd2c100ae105103945073a7fa6c47b15679269`; its qualification evidence
+remains bound to the sources actually checked, not automatically to later compositions. The proof catalogue and other
 foundation material in #695 are pending, not an admitted default-branch baseline.
 This intermediate entry is not a completed cold-start acceptance test.
 
@@ -44,6 +45,45 @@ do not resolve its later graph and Lean-context findings. A bounded repair is
 not full AST/type/theorem synchronization. New gating tools require documented
 commands and self-verification before admission; unavailable or unsupported
 coverage remains explicit. No documented command here runs all G0-G11 yet.
+
+The empirical statement check for core-Lean arithmetic skeletons is a registered
+bounded component on `main` ([PR #726](https://github.com/d6g8k5htny-coder/main/pull/726),
+merged `d0d384b18a409ed51061458287dde22816782210`). From a checkout, run:
+
+```
+python3 -B -S -m unittest tests.test_cbz_statement_fuzz -v
+python3 -B -O -S -m unittest tests.test_cbz_statement_fuzz -v
+python3 -B -S tools/cbz/statement_fuzz.py --package formal --selftest --json report.json
+```
+
+It evaluates every registered Lean statement of a formal package independently in exact
+arithmetic with Lean-core semantics and grades itself by a mutation contract; the
+[registration](GOVERNANCE.md#empirical-statement-check-for-core-lean-arithmetic-skeletons-bounded-registration)
+records commands, hosted self-verification and limits. At [registration #741](https://github.com/d6g8k5htny-coder/main/pull/741): main `formal/` 31/31
+PASS; the Math- core's 63 real-analysis statements are UNSUPPORTED, which is the honest
+coverage at that source cut, not a pass. A PASS is statement-level evidence
+only: not kernel evidence, not scientific acceptance, not the common G0-G11 run.
+
+The finite MomentTail component is a registered bounded candidate in
+[Math PR #545](https://github.com/d6g8k5htny-coder/Math-/pull/545), exact source
+`e1cf617b6bc979b75d420f28df17ddad59426522`. In an isolated checkout of that Math
+source, run all six commands:
+
+```
+python3 -B cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -O cbz/finite_moment_tail_20261030/test_adapter.py -v
+python3 -B -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B -O -m unittest discover -s formal/tests -p test_moment_tail.py -v
+python3 -B cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+python3 -B -O cbz/finite_moment_tail_20261030/adapter.py --source-root . campaign --seed 20261030 --count 10019
+```
+
+The [contract](https://github.com/d6g8k5htny-coder/Math-/blob/e1cf617b6bc979b75d420f28df17ddad59426522/cbz/finite_moment_tail_20261030/CONTRACT.json)
+and [bounded governance registration](GOVERNANCE.md#finite-momenttail-empirical-component-bounded-registration)
+record the six-command hosted job, exact source/test evidence and limits.
+Its CPython 3.11.16 run actually passed; it covers one finite specialization,
+not a federation-wide empirical gate or a new CLOSED decision. Existing pins
+and the global unsupported inventory are unchanged by this registration.
 
 ## Team and reconstitution
 

@@ -48,7 +48,8 @@ class FormalWorkflowShellTests(unittest.TestCase):
         self.assertLess(controls, kernel)
         self.assertLess(kernel, binding)
         body = self.text[controls:self.text.index('- name: Bind current-run receipt', controls)]
-        modules = 'tests.test_formal_gate tests.test_formal_negative_diagnostics tests.test_formal_compiled_inventory'
+        modules = ('tests.test_formal_gate tests.test_formal_negative_diagnostics '
+                   'tests.test_formal_compiled_inventory tests.test_formal_source_custody')
         self.assertIn('python -B -S -m unittest ' + modules + ' -v 2>&1 | tee /tmp/tests-normal.log', body)
         self.assertIn('python -B -O -S -m unittest ' + modules + ' -v 2>&1 | tee /tmp/tests-optimized.log', body)
 

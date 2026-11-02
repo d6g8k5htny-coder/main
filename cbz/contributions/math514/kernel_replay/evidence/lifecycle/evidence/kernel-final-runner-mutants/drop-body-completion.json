@@ -1,0 +1,53 @@
+{
+  "name": "drop-body-completion",
+  "file": "run_tests.py",
+  "test": "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+  "outcome": "KILLED",
+  "returncode": 1,
+  "original_sha256": "5403f6b1ca6954cb0db9e0dc29e16b97a8f82506d1acedb8f0d7d2bece49bbf9",
+  "mutated_sha256": "d64bec8d1d7849796cc87bae06f94034e19592bd9d68d0b60f70a4245a351743",
+  "guard_sha256": "5403f6b1ca6954cb0db9e0dc29e16b97a8f82506d1acedb8f0d7d2bece49bbf9",
+  "tests": {
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selection": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "selected_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "invalid_population": [],
+    "tests_run": 1,
+    "assertion_failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "successful": false,
+    "log": "test_body_assertion_kills_after_all_selected_bodies_finish (test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish) ... FAIL\n\n======================================================================\nFAIL: test_body_assertion_kills_after_all_selected_bodies_finish (test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/mutation-lifecycle-fix/evidence/kernel-final-runner-mutants/guard_run_tests.py\", line 110, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 'ERROR' != 'KILLED'\n- ERROR\n+ KILLED\n : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one', 'fixture.Case.test_two'], 'invalid_population': [], 'tests_run': 2, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\\ntest_two (fixture.Case.test_two) ... ok\\n\\n======================================================================\\nFAIL: test_one (fixture.Case.test_one)\\n----------------------------------------------------------------------\\nTraceback (most recent call last):\\n  File \"/tmp/tmpislbdejc/run_tests.py\", line 110, in dispatch\\n    return original_dispatch(*args, **kwargs)\\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAssertionError: body assertion\\n\\nRan 2 tests\\n', 'started_ids': ['fixture.Case.test_one', 'fixture.Case.test_two'], 'finished_ids': ['fixture.Case.test_one', 'fixture.Case.test_two'], 'body_entered_ids': ['fixture.Case.test_one', 'fixture.Case.test_two'], 'body_finished_ids': [], 'body_assertion_ids': ['fixture.Case.test_one'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_one', 'origin': 'body'}]}\n\nRan 1 tests\n",
+    "started_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "body_entered_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "body_finished_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "body_assertion_ids": [
+      "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish"
+    ],
+    "lifecycle_failures": 0,
+    "subtests": 0,
+    "subtest_events": [],
+    "assertion_events": [
+      {
+        "parent_id": "test_mutation_harness.MutationHarnessTests.test_body_assertion_kills_after_all_selected_bodies_finish",
+        "origin": "body"
+      }
+    ]
+  },
+  "stderr": ""
+}

@@ -1,0 +1,42 @@
+{
+  "receipt_schema": "cbz-unittest-lifecycle-v1",
+  "selection": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "selected_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "invalid_population": [],
+  "tests_run": 1,
+  "assertion_failures": 1,
+  "errors": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "successful": false,
+  "log": "test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body) ... FAIL\n\n======================================================================\nFAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/optimized/allow-selector-descriptor-or-proxy-execution/run_tests.py\", line 324, in dispatch\n    return original_dispatch(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['proxy', 'body'] != []\n\nFirst list contains 2 additional elements.\nFirst extra element 0:\n'proxy'\n\n- ['proxy', 'body']\n+ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['test_identity.proxy.C.test_one'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_identity.C.test_one) ... ok\\n\\nRan 1 tests\\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}\n\nRan 1 tests\n",
+  "started_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_entered_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_finished_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "body_assertion_ids": [
+    "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body"
+  ],
+  "lifecycle_failures": 0,
+  "subtests": 0,
+  "subtest_events": [],
+  "assertion_events": [
+    {
+      "parent_id": "test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body",
+      "origin": "body"
+    }
+  ]
+}

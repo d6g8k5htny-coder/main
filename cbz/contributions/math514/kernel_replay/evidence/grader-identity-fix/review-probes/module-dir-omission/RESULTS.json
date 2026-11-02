@@ -1,0 +1,55 @@
+{
+  "new_obligation": "Module __dir__ omits TestCase declaration before snapshots",
+  "no_completed_verification_repeated": true,
+  "results": [
+    {
+      "tool": "kernel_replay",
+      "source_sha256": "c77ee122e788fbb2a88ffaba12e0b4de75209b6f18ce2b6053fed68a5a4ce4d5",
+      "fixture_sha256": "000f7e0f21e6895a40b759992937fa712b6de326b6d17c0522086135a9a6c533",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/module-dir-omission/kernel_replay/run_tests.py",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/module-dir-omission/kernel_replay/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_module_dir.Visible.test_first"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "first"
+      ],
+      "receipt": "review-probes/module-dir-omission/kernel_replay/receipt.json"
+    },
+    {
+      "tool": "layer_a",
+      "source_sha256": "50c0e2d64fecbaa232fa867eb7c9e4a1a4f02ed1ea163389c1111ba700c729cc",
+      "fixture_sha256": "62371bcd5cd50b1c651a4076fcbe1ecd82f14cce6b848d9b2a99eb4a07ef284e",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-S",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/module-dir-omission/layer_a/mutation_test.py",
+        "--internal-test-runner",
+        "--test-root",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/module-dir-omission/layer_a/tests",
+        "--output",
+        "/workspace/cbz-0/delivery/grader-identity-fix/review-probes/module-dir-omission/layer_a/receipt.json"
+      ],
+      "exit_code": 0,
+      "outcome": "SURVIVED",
+      "selected_ids": [
+        "test_auditor.Visible.test_first"
+      ],
+      "invalid_population": [],
+      "body_trace": [
+        "first"
+      ],
+      "receipt": "review-probes/module-dir-omission/layer_a/receipt.json"
+    }
+  ]
+}

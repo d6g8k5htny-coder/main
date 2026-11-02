@@ -1,0 +1,58 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpja15artg/run_tests.py",
+    "--output",
+    "/tmp/tmpja15artg/receipt.json",
+    "--test",
+    "test_identity.C.test_second"
+  ],
+  "events": [
+    "second"
+  ],
+  "exit_code": 0,
+  "fixture_sha256": "761bd4a58f04c356c56108ff7a8dec830098d92f4bb00e84e25b618e6aee02dc",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpja15artg/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self): record(\"second\")\n",
+  "label": "named-method",
+  "optimize": 1,
+  "outcome": "SURVIVED",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [
+      "test_identity.C.test_second"
+    ],
+    "body_finished_ids": [
+      "test_identity.C.test_second"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [
+      "test_identity.C.test_second"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_second (test_identity.C.test_second) ... ok\n\nRan 1 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_identity.C.test_second"
+    ],
+    "selection": [
+      "test_identity.C.test_second"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_identity.C.test_second"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 1,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_second (test_identity.C.test_second) ... ok\n\nRan 1 tests\n"
+}

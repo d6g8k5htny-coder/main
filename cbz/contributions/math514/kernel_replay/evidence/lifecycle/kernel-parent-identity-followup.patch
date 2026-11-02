@@ -1,0 +1,24 @@
+--- a/tools/kernel_replay/run_tests.py
++++ b/tools/kernel_replay/run_tests.py
+@@ -74,6 +74,8 @@
+         phase = self.phase.get(id(test))
+         if phase == 'body' and id(test) not in self.body_active:
+             phase = 'outside-body'
++        if getattr(subtest, 'test_case', None) is not test:
++            phase = 'foreign-parent'
+         outcome = 'success' if err is None else 'assertion' if isinstance(err[1], AssertionError) else 'error'
+         self.subtest_events.append({'parent_id': method_id(test), 'phase': phase, 'outcome': outcome})
+         if err is not None and outcome == 'assertion':
+--- a/tools/kernel_replay/tests/test_mutation_harness.py
++++ b/tools/kernel_replay/tests/test_mutation_harness.py
+@@ -103,6 +103,10 @@
+         outcome, value, _ = self.run_fixture("def test_one(self):\n    with self.subTest(i=1): pass")
+         self.assertEqual(outcome, 'SURVIVED', value)
+ 
++    def test_foreign_subtest_parent_cannot_claim_selected_body_assertion(self):
++        outcome, value, _ = self.run_fixture("def test_one(self):\n    import sys\n    foreign = unittest.case._SubTest(unittest.FunctionTestCase(lambda: None), 'foreign', {})\n    try: raise AssertionError('foreign parent assertion')\n    except AssertionError: self._outcome.result.addSubTest(self, foreign, sys.exc_info())")
++        self.assertEqual(outcome, 'ERROR', value)
++
+     def test_lifecycle_subtests_and_subtest_errors_are_errors(self):
+         for source in ("def setUp(self):\n    with self.subTest(i=1): self.fail('setup subtest')\ndef test_one(self): pass",
+                        "def tearDown(self):\n    with self.subTest(i=1): self.fail('teardown subtest')\ndef test_one(self): self.fail('body')",
