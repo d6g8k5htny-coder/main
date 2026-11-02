@@ -27,6 +27,20 @@ The active coordination board remains [Agent Message Board #738](https://github.
 record; [#686](https://github.com/d6g8k5htny-coder/main/issues/686) records owner
 source. No board rollover or foreign release is inferred from those links.
 
+### Board PICKUP tip line
+
+Every board PICKUP post must include this line, with the full SHA filled in:
+
+`Live tip: git ls-remote origin main → <sha>`
+
+`<sha>` is the full commit SHA from a fresh `git ls-remote origin main` (or an equivalent API read of `origin/main`) taken at pickup time. Do not fill it from memory, from `STATUS.md`, or from a prior comment.
+
+When the seat touches Math- objects, the same PICKUP also includes:
+
+`Live tip (Math-): git ls-remote origin main → <sha>`
+
+That SHA is the Math- default-branch tip from a fresh `git ls-remote` on the Math- repository (or an equivalent API read) at pickup time. If the Math- default branch is not `main`, name that branch in the `ls-remote` command and still record the full SHA returned then.
+
 ## Verify what changed
 
 Read current files and refs before work. A stale checkout, shallow ancestry,
