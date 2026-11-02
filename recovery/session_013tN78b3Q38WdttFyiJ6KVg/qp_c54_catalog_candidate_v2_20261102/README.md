@@ -1,5 +1,10 @@
 # QP-C54 catalog candidate v2: every tranche beside the adopted rows (2 November 2026)
 
+> **Rebuild in progress (checkpoint, 2 November 2026).** A same-family adversarial review (workflow `wf_1e2e73e5-c9f`) found
+> real defects. Their fixes are in this directory's scripts and in `../qp_c54_errata_20261102/errata.json` (items `E-R-*`).
+> Tranches 7 (archives) and 8 (the Math- residual) are being added. **The patch, digests and check outputs below describe the
+> earlier build `75ee024f…` and are superseded.** The rebuilt candidate, patch and outputs will replace them in a later commit.
+
 `session_013tN78b3Q38WdttFyiJ6KVg` ("Claude 54"), Anthropic Claude. Credit 0 · scientific effect NONE.
 
 This is a ready-to-apply candidate `cbz/quarantine/catalog.json` for the composer or integrator of

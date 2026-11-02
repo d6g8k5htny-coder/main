@@ -1,7 +1,7 @@
 {
- "schema": "claude54.errata.v1",
+ "schema": "claude54.errata.v2",
  "created": "2026-11-02",
- "boundary": "Corrections accepted from different-family checks (Grok Bot agents on main#738). Each item changes one field of one retained row; the retained tranche files stay as verified, and build_candidate_v2.py applies these items and marks every touched row with errata_applied.",
+ "boundary": "Corrections to retained tranche rows. Items E-* without R come from different-family checks (Grok Bot agents on main#738); items E-R-* come from Claude 54's own same-family adversarial review of catalog candidate v2, each reproduced by an independent refuter. Each item sets one field of one retained row or of a listed set of rows; the retained tranche files stay as verified, and build_candidate_v2.py applies these items and marks every touched row with errata_applied.",
  "items": [
   {
    "id": "E-T2-N2",
@@ -87,6 +87,309 @@
    "field": "dynamic_replay_note",
    "value": "Different-family replay (Grok Bot a16, read back by a3) reproduced the function-level shortfall (the last panel ends at b - 2^-57 for every k in 1..48 on the example) but found 0 shortfalls on the published d = 3 path (247 boxes; 72,394 calls in the readback). The published numbers are unaffected; the defect is latent. A one-line end-at-b patch was routed to Math-#219. The static verdict stays INDETERMINATE.",
    "reason": "Record the executed replay beside the static audit."
+  },
+  {
+   "id": "E-R-T4-025-KIND",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding t4-01, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-025"
+   },
+   "field": "proposal_kind",
+   "value": "NEW_RECORD",
+   "reason": "assemble_t4.py made this item a pinning amendment to Q-2012 because Q-2012's JSON text contains the file path. The only match is inside Q-2012's source_quotes[1] (kind nonclaims), a quotation saying the completion audit was read for context; Q-2012 does not quarantine the audit's claims. The other 19 tranche-4 amendments match in a title or source_claim field."
+  },
+  {
+   "id": "E-R-T4-025-TARGET",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding t4-01, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-025"
+   },
+   "field": "target_records",
+   "value": [],
+   "reason": "Follows E-R-T4-025-KIND: a new record has no target."
+  },
+  {
+   "id": "E-R-T5-003-KIND",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-001, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t5",
+    "record": "QP-C54-T5-003"
+   },
+   "field": "proposal_kind",
+   "value": "PINNING_AMENDMENT",
+   "reason": "Adopted Q-1146 (REGISTER claim lean:math-frontier-cap_first_exit_lean_20261002, kind existing_lean_package) already quarantines this package at claim level: its title names CapFirstExit.lean, 326607 bytes, 152 declarations. The file's blob is 01744e2c at Math- 4013764, 8151f592 and 3b11bff6. This row therefore binds the bytes into Q-1146 and keeps its replay release condition."
+  },
+  {
+   "id": "E-R-T5-003-TARGET",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-001, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t5",
+    "record": "QP-C54-T5-003"
+   },
+   "field": "target_records",
+   "value": [
+    "Q-1146"
+   ],
+   "reason": "Follows E-R-T5-003-KIND."
+  },
+  {
+   "id": "E-R-T1-015-018-KIND",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-002, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t1",
+    "records": [
+     "QP-C54-015",
+     "QP-C54-016",
+     "QP-C54-017",
+     "QP-C54-018"
+    ]
+   },
+   "field": "proposal_kind",
+   "value": "PINNING_AMENDMENT",
+   "reason": "Adopted Q-3008 (location Math-@8151f592 frontiers/gaussian_short_bar_theory_20261017/README.md) quarantines 'the four preserved conventional sources' at their exact hypotheses, and that README (lines 10-35) maps them to these four subdirectories. Each row therefore binds its subdirectory's bytes into Q-3008 and keeps its statement detail."
+  },
+  {
+   "id": "E-R-T1-015-018-TARGET",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-002, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t1",
+    "records": [
+     "QP-C54-015",
+     "QP-C54-016",
+     "QP-C54-017",
+     "QP-C54-018"
+    ]
+   },
+   "field": "target_records",
+   "value": [
+    "Q-3008"
+   ],
+   "reason": "Follows E-R-T1-015-018-KIND."
+  },
+  {
+   "id": "E-R-T4-005-KIND",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-004, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-005"
+   },
+   "field": "proposal_kind",
+   "value": "PINNING_AMENDMENT",
+   "reason": "Adopted Q-10085 (legacy V20 NUM-BIN-EXACT, 'Conditional lemma', with a second location at main 7e9a532c experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md) quarantines this lemma: the same equations h^2 sqrt(log(1/h)) = o(tau_h) and E|N_h(I_h) - N(I_h)| / E N(I_h) -> 0 on the torus L = 24 with exact vertex samples. That reading page routes to comment 5976299711, whose custody copy this row binds. The row therefore binds those authoritative bytes into Q-10085."
+  },
+  {
+   "id": "E-R-T4-005-TARGET",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-004, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-005"
+   },
+   "field": "target_records",
+   "value": [
+    "Q-10085"
+   ],
+   "reason": "Follows E-R-T4-005-KIND."
+  },
+  {
+   "id": "E-R-OVL-T4-021",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-005, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-021"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-1011",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "Theorems A, B and C (eq:parent-A..C) for every d >= 2 and L > 0, which S12 transcribes from the parent UNIFORM_MATRIX_CAP_AND_LIFETIME.md, are quarantined by adopted Q-1011."
+    },
+    {
+     "record": "Q-1014",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "thm:cap-main (a)-(d), which S13 restates from MARKED_CYLINDER_CAP_PROOF.md section 1, is quarantined by adopted Q-1014."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "On adoption, narrow this row's boundary to the content its classification_reason names as added: Lemma parent-generic(b), the derivations written out in drafts 6-7 and the proof of Proposition parent-push (supp_s0_status.tex:52-58)."
+    }
+   ],
+   "reason": "The row's exact_boundary lists the transcribed parent theorems, which adopted records already hold."
+  },
+  {
+   "id": "E-R-OVL-T4-018",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-018"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "QP-C54-T2-029",
+     "relation": "PRIMARY_FOR_TRANSCRIBED_PART",
+     "note": "The Gaussian-kernel enclosures of c_1, I^cand and c_1/c_(d,ref) for d = 1, 2, 3 (supp_s9_cusp.tex:314-347 and 398-415) transcribe Math-@19a55750 frontiers/cusp_coefficient_certified_20261001/NOTE.md:26-51 digit for digit; that packet's row is primary for them."
+    },
+    {
+     "record": "Q-2016",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "The enclosure 0.07340691930603427103 < c_{2,24} < 0.07340691930603427104 is adopted Q-2016's (main@81acc060 formal/sources/side24_v1/PROOF.md:25)."
+    }
+   ],
+   "reason": "Cross-reference added; no row is removed."
+  },
+  {
+   "id": "E-R-OVL-T4-020",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006 and semantics-008, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-020"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "QP-C54-T2-008",
+     "relation": "PRIMARY_FOR_TRANSCRIBED_PART",
+     "note": "The closed forms of c[K_ref] and c_2[K_ref], the kappa/omega ratio and their interval enclosures (supp_s11_ctwo.tex:103-143) transcribe Math-@19a55750 frontiers/c2_exact_20261001/NOTE.md:32-50; that packet's row is primary for them."
+    },
+    {
+     "record": "Q-2016",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "The enclosure 0.04177593184059834334 < c_{3,24} < 0.04177593184059834335 (supp_s11:420-426, a quotation of the main text's Theorem 2.3(iii)) is adopted Q-2016's (formal/sources/side24_v1/PROOF.md:26)."
+    }
+   ],
+   "reason": "Cross-reference added; no row is removed."
+  },
+  {
+   "id": "E-R-OVL-T4-012",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-008, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t4",
+    "record": "QP-C54-T4-012"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-10041",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "The cone constant D_2 = 29/6 - sqrt 6 (supp_s3:372-377) is the identity of adopted Q-10041 (legacy D3-03) and of Math- coefficients/side24_v1/PROOF.md, the source of adopted Q-1001."
+    },
+    {
+     "record": "Q-1001",
+     "relation": "HOLDS_TRANSCRIBED_PART",
+     "note": "See the Q-10041 entry."
+    }
+   ],
+   "reason": "Cross-reference added; no row is removed."
+  },
+  {
+   "id": "E-R-OVL-T2-029",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t2",
+    "record": "QP-C54-T2-029"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "QP-C54-T4-018",
+     "relation": "TRANSCRIBED_BY",
+     "note": "The SIDE24 v3 supplement section S9 transcribes these enclosures; this row is primary for them."
+    }
+   ],
+   "reason": "Back-link for E-R-OVL-T4-018."
+  },
+  {
+   "id": "E-R-OVL-T2-008",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-006, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t2",
+    "record": "QP-C54-T2-008"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "QP-C54-T4-020",
+     "relation": "TRANSCRIBED_BY",
+     "note": "The SIDE24 v3 supplement section S11 transcribes these closed forms and enclosures; this row is primary for them."
+    }
+   ],
+   "reason": "Back-link for E-R-OVL-T4-020."
+  },
+  {
+   "id": "E-R-OVL-T6-005",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-005"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-10041",
+     "relation": "HOLDS_SAME_IDENTITY",
+     "note": "The identity D_2 = 29/6 - sqrt(6) for s ~ N(0, 5/3), x, y ~ N(0, 1) and the remark that the untruncated half-moment 29/6 is incorrect are stated in Math-@760340e9 coefficients/side24_v1/PROOF.md:59-75 and held by adopted Q-10041 (legacy D3-03) and Q-1001."
+    },
+    {
+     "record": "Q-1001",
+     "relation": "HOLDS_SAME_IDENTITY",
+     "note": "See the Q-10041 entry."
+    },
+    {
+     "record": null,
+     "relation": "ADOPTION_NOTE",
+     "note": "The sandbox probe is then a Monte Carlo check of an identity held elsewhere; the composer may reclassify it COPY_OR_EXPOSITION_OF, or narrow it to its own unstated label."
+    }
+   ],
+   "reason": "The row claimed the constant had no other source."
+  },
+  {
+   "id": "E-R-T6-005-REASON",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding semantics-009, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-005"
+   },
+   "field": "classification_reason",
+   "value": "The source records 29/6 - sqrt(6) as the code constant 'reference' (cone_probe.py:23), the value against which it compares the Monte Carlo mean of the random variable defined at cone_probe.py:15-18. It thereby asserts a closed form for that variable's expectation, an exact expectation identity. It also labels 29/6 as 'incorrect_untruncated_half_moment'. The sandbox item names no source for the constant, but the same identity, with the same setup and the same remark on 29/6, is stated in Math-@760340e9 coefficients/side24_v1/PROOF.md:59-75 and held by adopted Q-10041 and Q-1001 (see claim_overlaps); it is not CLOSED. OBSERVATION.json:2-9 records one Monte Carlo estimate against it, labelled '\"certified\": false'. Being exploratory and numerical does not remove the claimed constant.",
+   "reason": "Corrects the sentence 'The constant belongs to this item: no other object is named as its source', which is false for the identity."
+  },
+  {
+   "id": "E-R-OVL-T6-007",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding t4-06, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-007"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-9001",
+     "relation": "INSIDE_ADOPTED_ENGINEERING_REGION",
+     "note": "Adopted Q-9001 ('Archived trial regression and historical live-write orchestration') has a dict location in trial at 3738c859 whose paths include portable/. It is an engineering regression region and does not quarantine this row's mathematical claims."
+    }
+   ],
+   "reason": "The row sits under Q-9001's location."
+  },
+  {
+   "id": "E-R-OVL-T6-008",
+   "source": "Claude 54 same-family adversarial review of catalog candidate v2 (workflow wf_1e2e73e5-c9f), finding t4-06, reproduced by its independent refuter",
+   "target": {
+    "tranche": "t6",
+    "record": "QP-C54-T6-008"
+   },
+   "field": "claim_overlaps",
+   "value": [
+    {
+     "record": "Q-9001",
+     "relation": "INSIDE_ADOPTED_ENGINEERING_REGION",
+     "note": "Adopted Q-9001 ('Archived trial regression and historical live-write orchestration') has a dict location in trial at 3738c859 whose paths include portable/. It is an engineering regression region and does not quarantine this row's mathematical claims."
+    }
+   ],
+   "reason": "The row sits under Q-9001's location."
   }
  ]
 }

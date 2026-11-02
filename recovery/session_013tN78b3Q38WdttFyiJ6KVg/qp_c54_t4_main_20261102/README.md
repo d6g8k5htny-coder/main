@@ -11,7 +11,11 @@ comment 6567093162; checkpoint 6569878801. No repository code was run.
 each directory covered when a catalog location, or a disposed `PROOF.md` packet, is the directory or an ancestor. Each file is
 marked `copy_of` when its Git blob equals a file at a disposed main or Math- location.
 
-`objects.py` (output `objects.json`) turns the uncovered directories into **76 objects** (1,367 files):
+`objects.py` (output `objects.json`) turns the uncovered directories into **76 objects** (1,367 files). *Correction:*
+`main_dirs.py` parses `git ls-tree` without `-z`, so the two census-type paths that contain U+2014 were dropped. Both sit in
+`audits/dropbox_import/2026-09-27/files/Github/`. They are classified by hand in the scope addendum below. An independent
+census with `ls-tree -z` (`../qp_c54_t8_math_residual_20261102/math_dirs.py`), run against catalog candidate v2, finds no
+other unbound census-type file on main outside the engineering directories, apart from CSV data and manifests.
 - 72 are TO_CLASSIFY;
 - 4 are resolved mechanically: `formal/UniversalLaw/Side24` (every Lean file is CLOSED), `formal/sources/p15_v1` and
   `reviews/lb_rate_thm023_landing_20260926` (every file disposed or a copy), and `formal/UniversalLaw/P15` (main#740's lane).
@@ -38,6 +42,13 @@ marked `copy_of` when its Git blob equals a file at a disposed main or Math- loc
 
    An OBLIGATION item becomes a **PINNING_AMENDMENT** when an adopted record's text names one of the item's files without
    binding it. Otherwise it is a NEW_RECORD.
+   - *Correction (erratum `E-R-T4-025-*`):* this text match is too broad. For QP-C54-T4-025 the only match is inside Q-2012's
+     `nonclaims` quotation, which says the completion audit was read for context. Q-2012 does not quarantine the audit's claims,
+     so catalog candidate v2 carries T4-025 as a NEW_RECORD. The other 19 amendments match in a title or `source_claim` field.
+     The retained records are left as assembled.
+   - *Correction (erratum `E-R-T4-005-*`):* QP-C54-T4-005 binds the authoritative comment for a lemma that adopted Q-10085
+     (legacy NUM-BIN-EXACT, with a second location at the lemma's reading page) already quarantines. In v2 it is a pinning
+     amendment to Q-10085.
 4. **One assembler rule was added after the run.** The first assembly failed on one item: `zf-numerics` in
    `experiments/zeta_fold_exploration` quotes two statements from the packet's `README.md`, which belongs to the item
    `zf-heat-fold-exact`.
@@ -57,8 +68,14 @@ marked `copy_of` when its Git blob equals a file at a disposed main or Math- loc
      certified", "any claim that … are discharged").
    - **Privacy**: no e-mail address, token, signed link, SSN pattern, `/Users/` path or device code. The 4 device-code-shaped
      strings are claim-ID ranges (`C009-C104`, `C041-C046`, `C099-C101`) and a token name (`BAND-CERT`).
-   - Three Google Drive file ids occur in one REVIEW_OF item's `refers_to`. They are quoted from main's own committed
-     `docs/public-math/recovery-20260927/README.md`, so they add no new disclosure.
+   - *Corrected count:* 15 Google Drive file ids occur in the `refers_to` of three items:
+     - 11 in `audits/vault_99#vault99-extracted-facts`;
+     - 3 in `docs/public-math#recovery-reconciliation-readme`;
+     - 1 in `incoming/grok-session-20260926-replay#grok-custody-copies`.
+
+     Each is quoted from main's own committed files: `audits/vault_99/2026-09-25/EXTRACTED_FACTS_BATCH1.md`, `BATCH2.md` and
+     `baseline.csv`, `docs/public-math/recovery-20260927/README.md`, and `incoming/grok-session-20260926-replay/C006_ARM1C_V2_INGEST.md`.
+     None is a new disclosure.
 
 ## Result (`records_verified_t4.json`)
 
@@ -100,12 +117,26 @@ tranche's own rows. Of the other 13:
 - Math- `coefficients/side24_v1/coefficient.py` and `test_coefficient.py` sit beside Q-1001's `PROOF.md`;
 - the notebook below.
 
-145 further targets are PR numbers, comment ids or claim ids. They are reported by design, not failed.
+145 further targets do not resolve mechanically. They are reported by design, not failed. *Corrected wording:* they are 38
+PR or issue numbers, 26 comment, review or run ids, 11 bare Drive ids, 45 file names or paths and 25 other names. The resolver
+stops at a space and knows only 13 top-level directories, so some are real paths. For example, the two `context/Lemma I
+Package.md` and `Lemma MODZONE CountLaw Package.md` references resolve to records Q-2017 and Q-2018.
+
+**Claim-level overlaps** (errata `E-R-OVL-*`, from the same review). These rows transcribe material that other records hold.
+Catalog candidate v2 records each overlap in a `claim_overlaps` field; no row is removed:
+- T4-018 transcribes the cusp enclosures of QP-C54-T2-029, which is primary for them;
+- T4-020 transcribes the closed forms of QP-C54-T2-008, which is primary for them;
+- T4-018 and T4-020 also repeat the c_{2,24} and c_{3,24} enclosures of adopted Q-2016;
+- T4-012 repeats D₂ = 29/6 − √6, which adopted Q-10041 and Q-1001 hold;
+- T4-021's boundary includes the parent Theorems A, B and C and thm:cap-main, which adopted Q-1011 and Q-1014 hold. On adoption
+  it narrows to the supplement's added content.
 
 ## Reconciliation with tranche 6 (`reconcile_t6.py`, output `reconciliation_t6.json`)
 
-The script matches tranche 6's bound files against this tranche's by Git blob. Main is inside the catalog's scope and the
-federation repositories are not, so **main's copy is primary** for every shared blob.
+The script matches tranche 6's bound files against this tranche's by Git blob. Main is inside the catalog's mathematical scope
+and the federation repositories are not, so **main's copy is primary** for every shared blob. *Wording corrected:* the
+catalog's one federation row, adopted Q-9001, is an engineering regression region in trial that includes `portable/`. T6-007
+and T6-008 sit inside it. Q-9001 does not quarantine their mathematical claims, and v2 records this in their `claim_overlaps`.
 
 - **QP-C54-T6-007** (trial's copy of LPW Return-05) shares 7 of its 8 files with main
   `audits/dropbox_import/2026-09-27/files/Github/LPW_Return_05_Archive_Audit_2026-09-12 (1)/`:
@@ -120,7 +151,11 @@ federation repositories are not, so **main's copy is primary** for every shared 
 
 ## Scope addendum (`scope_addendum.py`, output `scope_addendum.json`)
 
-The only main file outside the census's file types that could carry mathematics is
+Three hand-read rows. The first two are the files dropped by the ls-tree defect above, both NOT_OBLIGATION custody indexes:
+- a condensed Drive file-title manifest, part 01 of 13 (blob `33f67778`, 6,874 bytes);
+- a log verifying that three same-named files are exact duplicates (blob `bc1870ae`, 3,626 bytes). Its Drive ids are not quoted.
+
+The third: the only main file outside the census's file types that could carry mathematics is
 `docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb`. I read all six cells by hand.
 - It fetches `Math-@9d7b6802:coefficients/side24_v1/ENCLOSURE.json`, which adopted record Q-1170 covers, and checks its size
   and SHA-256.

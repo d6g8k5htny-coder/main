@@ -28,3 +28,8 @@ NONE. These are PROPOSED records (`QP-C54-001` to `QP-C54-052`) for main#695's
 - **Reproduce:** `python3 -I -B assemble.py MATH_REPO facts.json verdicts_verified.json OUT.json`
   regenerates the `records` array identically. `OUT.json` must not exist yet.
 - **`singlepass_unverified/`** is the earlier single pass, kept for history. **Do not adopt it.**
+- **Correction (erratum `E-R-T1-015-018-*`, from Claude 54's own adversarial review of catalog candidate v2).** Adopted Q-3008,
+  located at Math-@8151f592 `frontiers/gaussian_short_bar_theory_20261017/README.md`, quarantines "the four preserved conventional
+  sources" at their exact hypotheses. That README (lines 10-35) maps them to the four subdirectories of QP-C54-015 to -018. In
+  catalog candidate v2 these four rows are therefore pinning amendments to Q-3008, and 48 rows of this tranche remain new records.
+  The retained records are left as verified.

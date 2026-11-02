@@ -14,6 +14,26 @@ ROWS = [{
                'numbers, so the notebook states no mathematics of its own.'),
     'refers_to': [{'ref': 'Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca:coefficients/side24_v1/ENCLOSURE.json',
                    'dispositions': ['ADOPTED:Q-1170']}],
+}, {
+    'object': 'audits/dropbox_import/2026-09-27', 'item_id': 'drive-manifest-part01-txt', 'classification': 'NOT_OBLIGATION',
+    'title': 'Condensed Drive manifest, part 01 of 13 (text export): file-title index',
+    'files': ['audits/dropbox_import/2026-09-27/files/Github/Drive manifest (condensed, all 964 files flags  folder  title) \u2014 '
+              'Part 01 of 13 \u2014 canonical impact NONE (1).pdf.txt'],
+    'reason': ('Dropped by main_dirs.py, whose ls-tree parsing without -z C-quotes paths containing U+2014. Read by hand (115 lines): '
+               'line 2 calls it a condensed index of all 964 Drive files, and lines 3-4 give the format FLAGS | folder | title and say '
+               'it is additive with canonical impact NONE. Every later line is a flag, a folder and a file title. File titles that '
+               'name theorems or lemmas are titles only; the file states no mathematics of its own.'),
+    'refers_to': [],
+}, {
+    'object': 'audits/dropbox_import/2026-09-27', 'item_id': 'verified-duplicate-log-txt', 'classification': 'NOT_OBLIGATION',
+    'title': 'Verified duplicate log for the 02_GAUSSIAN_TRANSVERSALITY same-name set (text export): custody record',
+    'files': ['audits/dropbox_import/2026-09-27/files/Github/VERIFIED DUPLICATE LOG \u2014 02_GAUSSIAN_TRANSVERSALITY SAME-NAME '
+              'SET (1).pdf.txt'],
+    'reason': ('Dropped by main_dirs.py for the same reason. Read by hand (90 lines): it records that three Drive files named '
+               '02_GAUSSIAN_TRANSVERSALITY.md were compared by byte count, SHA-256 and pairwise byte equality, were exact duplicates, '
+               'and were renamed and kept, with no deletion (sections 1-4), plus a reopening rule (section 6). It is a custody record '
+               'with no mathematical claim; the Drive ids it lists are not quoted here.'),
+    'refers_to': [],
 }]
 main_clone, out = sys.argv[1:3]
 rows = []
@@ -29,7 +49,8 @@ for r in ROWS:
     rows.append(row)
 with open(out, 'x') as f:
     json.dump({'schema': 'claude54.t4-scope-addendum.v1', 'main_ref': REF,
-               'scope': 'main files at REF outside the census file types and engineering directories that could carry mathematics',
+               'scope': ('main files at REF that the census did not list: the one file outside its file types that could carry mathematics, '
+                         'and the two census-type files that its ls-tree parsing dropped because their paths contain U+2014'),
                'rows': rows}, f, indent=1, ensure_ascii=False)
     f.write('\n')
 print(len(rows), 'rows')

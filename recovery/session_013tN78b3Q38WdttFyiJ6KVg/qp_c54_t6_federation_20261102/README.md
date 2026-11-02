@@ -5,7 +5,7 @@ comment 6567295735. No repository code was run.
 
 ## Scope
 
-The CBZ catalog covers only main and Math-. `fed_objects.py` (output `fed_objects.json`) lists every Markdown, TeX,
+The CBZ catalog's mathematical scope is main and Math-. Its one federation row, adopted Q-9001, is an engineering regression region in trial (`tests/test_intent.py`, `README.md`, `scripts/` and `portable/` at `3738c859`). Q-9001 does not quarantine mathematics, but T6-007 and T6-008 sit inside its location, and catalog candidate v2 records this (erratum `E-R-OVL-T6-007`/`-008`). `fed_objects.py` (output `fed_objects.json`) lists every Markdown, TeX,
 Python, JSON, Lean or text file in eight repositories, each at its remote tip:
 
 - meta-framework `0f5894f8`, google-drive `ad08584b`, governance- `1b62ca2f`;
@@ -54,7 +54,7 @@ disposed main or Math- location. This replaces the filename-pattern census, whic
 | T6-002 | governance- `amendments/20260925-math18-d6-analytic-review.md` | Counterexample and erratum to the full-price (F10) endpoint: p > 1/2 must be narrowed to 1/2 < p < 1 |
 | T6-003 | governance- `amendments/20260925-math19-finite-r-review.md` | The reviewer's sharpness remark on the S1 O(r) rate |
 | T6-004 | governance- `amendments/20260925-mesoscopic-d2-chart-handoff.md` and `check_mesoscopic_d2_taylor.py` | d = 2 contact-chart Taylor rows, the J₀ divided-difference block and the r³ height row |
-| T6-005 | sandbox `experiments/cone_v1` | Closed form 29/6 − √6 for a truncated Gaussian cone moment; the only evidence is a Monte Carlo probe |
+| T6-005 | sandbox `experiments/cone_v1` | Closed form 29/6 − √6 for a truncated Gaussian cone moment; the only evidence is a Monte Carlo probe. *Correction (`E-R-OVL-T6-005`, `E-R-T6-005-REASON`):* the same identity, with the same setup and the same remark on 29/6, is in Math-@760340e9 `coefficients/side24_v1/PROOF.md:59-75`, which adopted Q-10041 and Q-1001 hold. The record's sentence that no other object is its source is corrected, and the composer may reclassify the probe as a Monte Carlo check of that identity. |
 | T6-006 | trial `experiments/p15_assumption_probe_20260925` | Hypothesis minimality for the P15 F5 curvature sign and F10 recurrence sign |
 | T6-007 | trial `portable/DROPBOX_GAP_HUNT_20260927/NEW_RELEVANT/LPW_Return_05…` | LPW_CONSTANT decimal erratum and corrected fourth moment. **7 of its 8 files are byte-identical to main `audits/dropbox_import/2026-09-27/…/LPW_Return_05…`**. Reconciled in tranche 4 (`../qp_c54_t4_main_20261102/reconciliation_t6.json`): main's QP-C54-T4-004 is primary for the shared bytes, and T6-007 stays only for the trial-only `04_RETURN_TO_KIMI.md`. |
 | T6-008 | trial `portable/review_packets/2026-09-27_pr160_lean_replay.md` | mpmath non-vacuity of the Γ(1/6) hypothesis window for PR #160 |

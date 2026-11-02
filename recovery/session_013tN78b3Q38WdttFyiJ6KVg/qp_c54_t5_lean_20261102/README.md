@@ -39,7 +39,7 @@ quarantine record.
 |---|---|---|
 | `companions/torus_filtration_20261011` | **QP-C54-T5-001** QUARANTINE_PENDING_KERNEL_REPLAY | 7 / 130 |
 | `frontiers/asymmetric_elder_bridge_20261017` | **QP-C54-T5-002** QUARANTINE_PENDING_KERNEL_REPLAY | 8 / 31 |
-| `frontiers/cap_first_exit_lean_20261002` | **QP-C54-T5-003** QUARANTINE_PENDING_KERNEL_REPLAY | 1 / 138 |
+| `frontiers/cap_first_exit_lean_20261002` | **QP-C54-T5-003** QUARANTINE_PENDING_KERNEL_REPLAY. *Correction (`E-R-T5-003-*`):* adopted Q-1146 (REGISTER claim `lean:math-frontier-cap_first_exit_lean_20261002`) already quarantines this package at claim level; its title names `CapFirstExit.lean`, 326,607 bytes, 152 declarations. In catalog candidate v2 this row is a pinning amendment that binds the bytes into Q-1146. | 1 / 138 |
 | `frontiers/regular_superlevel_geometry_20261020` | **QP-C54-T5-004** QUARANTINE_PENDING_KERNEL_REPLAY. The group holds two failed development candidates and two negative controls; both are kept as evidence. | 6 / 10 |
 | `frontiers/source_lifetime_realization_20261017` (C291) | **CLOSED_CANDIDATE_OWN_RECEIPT**, which still needs CBZ indexing | 6 / 60 |
 | `frontiers/compact_morse_elder_adapter_20261018` (C292) | **NOT_OBLIGATION**: all 11 files are byte-identical vendored inputs from other groups, and its README says it adds no Lean implementation | 11 / 121 |

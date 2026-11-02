@@ -1,7 +1,7 @@
 {
  "schema": "claude54.t4-scope-addendum.v1",
  "main_ref": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
- "scope": "main files at REF outside the census file types and engineering directories that could carry mathematics",
+ "scope": "main files at REF that the census did not list: the one file outside its file types that could carry mathematics, and the two census-type files that its ls-tree parsing dropped because their paths contain U+2014",
  "rows": [
   {
    "object": "docs/notebooks",
@@ -26,6 +26,56 @@
       "git_blob": "c7fcde5461305ff249384e873476d34a4f470976",
       "bytes": 61961,
       "sha256": "e348db8e9d667caff2a8da1d85ffd5ad599db34b34e542d9662d0bc1edc84024"
+     }
+    ]
+   },
+   "verification": {
+    "ok": true,
+    "problems_fixed": [],
+    "method": "read by hand (all six cells); no agent"
+   }
+  },
+  {
+   "object": "audits/dropbox_import/2026-09-27",
+   "item_id": "drive-manifest-part01-txt",
+   "classification": "NOT_OBLIGATION",
+   "title": "Condensed Drive manifest, part 01 of 13 (text export): file-title index",
+   "reason": "Dropped by main_dirs.py, whose ls-tree parsing without -z C-quotes paths containing U+2014. Read by hand (115 lines): line 2 calls it a condensed index of all 964 Drive files, and lines 3-4 give the format FLAGS | folder | title and say it is additive with canonical impact NONE. Every later line is a flag, a folder and a file title. File titles that name theorems or lemmas are titles only; the file states no mathematics of its own.",
+   "refers_to": [],
+   "source_binding": {
+    "repository": "d6g8k5htny-coder/main",
+    "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
+    "files": [
+     {
+      "path": "audits/dropbox_import/2026-09-27/files/Github/Drive manifest (condensed, all 964 files flags  folder  title) — Part 01 of 13 — canonical impact NONE (1).pdf.txt",
+      "git_blob": "33f67778b396312671304ee2ae48dfe5fcdd5862",
+      "bytes": 6874,
+      "sha256": "432493c56300af4a7a58bfc8b376ccf4e30af7c31d01fbc61156025d618854b5"
+     }
+    ]
+   },
+   "verification": {
+    "ok": true,
+    "problems_fixed": [],
+    "method": "read by hand (all six cells); no agent"
+   }
+  },
+  {
+   "object": "audits/dropbox_import/2026-09-27",
+   "item_id": "verified-duplicate-log-txt",
+   "classification": "NOT_OBLIGATION",
+   "title": "Verified duplicate log for the 02_GAUSSIAN_TRANSVERSALITY same-name set (text export): custody record",
+   "reason": "Dropped by main_dirs.py for the same reason. Read by hand (90 lines): it records that three Drive files named 02_GAUSSIAN_TRANSVERSALITY.md were compared by byte count, SHA-256 and pairwise byte equality, were exact duplicates, and were renamed and kept, with no deletion (sections 1-4), plus a reopening rule (section 6). It is a custody record with no mathematical claim; the Drive ids it lists are not quoted here.",
+   "refers_to": [],
+   "source_binding": {
+    "repository": "d6g8k5htny-coder/main",
+    "commit": "d2b0216e15d545c47f25b6a9265dd3298971e9fe",
+    "files": [
+     {
+      "path": "audits/dropbox_import/2026-09-27/files/Github/VERIFIED DUPLICATE LOG — 02_GAUSSIAN_TRANSVERSALITY SAME-NAME SET (1).pdf.txt",
+      "git_blob": "bc1870aeac7d1999cb7ef62302f43ca2f983e8f9",
+      "bytes": 3626,
+      "sha256": "c91b03dc2ff796d43acb0f577e243c33c86ee2ee5efd0e7d2a1495f1f26fdec6"
      }
     ]
    },
