@@ -1,0 +1,248 @@
+#!/usr/bin/env python3
+"""C92 cross-provider review controls: exact rational checks, standard library only.
+
+Target: C92-PLANAR-COMPACT-SOFT-JET-WEIGHTED-TRANSFER-20261003-v1, main issue 229, comment 5963825788
+(19,567 bytes, SHA-256 6fa4c3d6...084a).
+Reviewer: Anthropic Claude, session_01NMeKEismAyeqgdB4sy2NJU, for Dylan Roy (delegated AI review).
+Written without the author's or the first reviewer's code.
+
+Usage: python3 c92_exact.py [MUTANT]   (exit 0 pass, 1 fail, 2 unknown label)
+Mutants (each must exit 1):
+  PIVOT_HALF   F_2(L_M) = (6 lambda + 3 B1 - gamma^2/2)_+ in place of gamma^2/4 (J14)
+  LIP_ONE      (J13) with factor 1 in place of 2
+  SCALE_R3     F_j(H/r) = F_j(H)/r^3 in place of /r^2 (J15)
+  REF_6        reference product 6 A^2 1{A<0} in place of 36 A^2 1{A<0} (J2), (J4)
+  ROW4_30      fourth centered row f''' + (r^2/30) f^(5) in place of r^2/40 (section 2)
+  LEDGER_3     (J7) with exponent 1 - 3 beta - eta in place of 1 - 4 beta - eta
+These checks test finite algebra only. They do not prove C92's Gaussian rank, interpolation (J9),
+regression moments (J10), [R]'s normalizer estimate or any measure-theoretic step.
+"""
+import math
+import random
+import sys
+from fractions import Fraction as F
+
+MUTANTS = ("PIVOT_HALF", "LIP_ONE", "SCALE_R3", "REF_6", "ROW4_30", "LEDGER_3")
+MUT = None
+if len(sys.argv) > 1:
+    MUT = sys.argv[1]
+    if len(sys.argv) > 2 or MUT not in MUTANTS:
+        print("unknown mutant label: %s" % " ".join(sys.argv[1:]))
+        sys.exit(2)
+
+RNG = random.Random(92_5963825788)
+RESULTS, FAILS = [], []
+
+
+class Group:
+    def __init__(self, name):
+        self.name, self.n, self.bad = name, 0, 0
+
+    def check(self, ok, msg=""):
+        self.n += 1
+        if not ok:
+            self.bad += 1
+            if len(FAILS) < 12:
+                FAILS.append("%s: %s" % (self.name, msg))
+
+    def close(self):
+        RESULTS.append((self.name, self.n - self.bad, self.n))
+
+
+def rq(lo, hi, den=97):
+    a, b = int(math.floor(F(lo) * den)), int(math.floor(F(hi) * den))
+    return F(RNG.randint(a, b), den)
+
+
+def det(h):
+    return h[0] * h[2] - h[1] ** 2
+
+
+def index(h):
+    d = det(h)
+    if d < 0:
+        return 1
+    if d > 0:
+        return 2 if h[0] < 0 else 0
+    return None                                   # singular
+
+
+def Fj(h, j):
+    """Filtered determinant |det H| 1{index(H) = j}, zero on singular H."""
+    return abs(det(h)) if index(h) == j else F(0)
+
+
+def sqrt_lb(x, prec=10**9):
+    """A rational lower bound for sqrt(x), x >= 0."""
+    return F(math.isqrt(int(x * prec * prec)), prec)
+
+
+def opnorm_lb(h):
+    """Rational lower bound for the operator norm of the symmetric matrix h = (h11, h12, h22)."""
+    tr, d = h[0] + h[2], det(h)
+    disc = tr * tr - 4 * d
+    return (abs(tr) + sqrt_lb(disc)) / 2
+
+
+def opnorm_ub(h):
+    tr, d = h[0] + h[2], det(h)
+    disc = tr * tr - 4 * d
+    return (abs(tr) + sqrt_lb(disc) + F(1, 10**8)) / 2
+
+
+# =====================================================================
+# K0  (J2), (J11), (J14): pin Hessians of the model cubic, pivots, w_lambda
+# =====================================================================
+g = Group("K0 (J2), (J11), (J14) pivots and weight")
+
+
+def G_hess(lam, gam, B1, C3, X, zeta):
+    # G = 2X^3 - 3X/2 - 1/2 + (gam/2)(X^2 - 1/4) zeta - (lam/2) zeta^2 + (B1/2) X zeta^2 + (C3/6) zeta^3
+    return (12 * X + 0 * zeta, gam * X + B1 * zeta, gam * 0 - lam + B1 * X + C3 * zeta)
+
+
+for _ in range(6000):
+    lam, gam, B1, C3 = rq(-3, 3), rq(-3, 3), rq(-3, 3), rq(-3, 3)
+    LM, LS = G_hess(lam, gam, B1, C3, F(-1, 2), F(0)), G_hess(lam, gam, B1, C3, F(1, 2), F(0))
+    g.check(LM == (F(-6), -gam / 2, -lam - B1 / 2) and LS == (F(6), gam / 2, -lam + B1 / 2), "(J11) pin Hessians")
+    piv = F(1, 2) if MUT == "PIVOT_HALF" else F(1, 4)
+    f2 = max(F(0), 6 * lam + 3 * B1 - piv * gam**2)
+    f1 = max(F(0), 6 * lam - 3 * B1 + gam**2 / 4)
+    g.check(Fj(LM, 2) == f2 and Fj(LS, 1) == f1, "(J14) F_2(L_M), F_1(L_S)")
+    aM, aS = 24 * lam - gam**2 + 12 * B1, 24 * lam + gam**2 - 12 * B1
+    g.check(f2 * f1 == max(F(0), aM) * max(F(0), aS) / 16, "(J2) w_lambda = (a_M)_+ (a_S)_+/16")
+    g.check((6 * lam + 3 * B1 - gam**2 / 4) + (6 * lam - 3 * B1 + gam**2 / 4) == 12 * lam, "sum before positive parts = 12 lambda")
+    if lam <= 0:
+        g.check(f2 * f1 == 0, "lambda <= 0: the weight vanishes")
+# (section 4) the positive witness: at t = 0, w_lambda = 36 lambda^2
+for lam in [F(k, 7) for k in range(1, 30)]:
+    g.check(Fj(G_hess(lam, 0, 0, 0, F(-1, 2), 0), 2) * Fj(G_hess(lam, 0, 0, 0, F(1, 2), 0), 1) == 36 * lam**2, "t = 0: w = 36 lambda^2")
+g.close()
+
+# =====================================================================
+# K1  (J12), (J13): the entry-to-operator bound and the filtered-determinant Lipschitz bound
+# =====================================================================
+g = Group("K1 (J12), (J13) filtered determinants")
+g.check(2 * F(115, 48) == F(115, 24), "(J12) 2 (115/48) = 115/24")
+lipc = 1 if MUT == "LIP_ONE" else 2
+n_cross = 0
+for _ in range(8000):
+    X = (rq(-4, 4), rq(-4, 4), rq(-4, 4))
+    if RNG.random() < 0.5:                        # small perturbations, often crossing an index boundary
+        Y = tuple(x + rq(-F(1, 2), F(1, 2), 997) for x in X)
+    else:
+        Y = (rq(-4, 4), rq(-4, 4), rq(-4, 4))
+    Dm = tuple(a - b for a, b in zip(X, Y))
+    # ||E||_op <= 2 max |E_jk| for symmetric 2 x 2
+    emax = max(abs(e) for e in Dm)
+    g.check(opnorm_ub(Dm) <= 2 * emax + F(1, 10**7), "||E||_op <= 2 max|E_jk|")
+    for j in (0, 1, 2):
+        lhs = abs(Fj(X, j) - Fj(Y, j))
+        if (index(X) == j) != (index(Y) == j):
+            n_cross += 1
+        rhs = lipc * max(opnorm_lb(X), opnorm_lb(Y)) * opnorm_lb(Dm)
+        g.check(lhs <= rhs, "(J13) |F_j(X) - F_j(Y)| <= 2 max(||X||, ||Y||) ||X - Y||")
+g.check(n_cross > 1000, "many index-crossing pairs were exercised")
+g.close()
+
+# =====================================================================
+# K2  (J15): scaling, and the normalizer congruence of section 4
+# =====================================================================
+g = Group("K2 (J15) scaling, congruence, reference")
+for _ in range(4000):
+    H = (rq(-4, 4), rq(-4, 4), rq(-4, 4))
+    r = F(RNG.randint(1, 60), 61)
+    Hr = tuple(h / r for h in H)
+    pw = 3 if MUT == "SCALE_R3" else 2
+    for j in (0, 1, 2):
+        g.check(Fj(Hr, j) == Fj(H, j) / r**pw, "(J15) F_j(H/r) = F_j(H)/r^2")
+    # congruence: H = [[r al, r be], [r be, A]] -> diag(r^-1/2, 1) H diag(r^-1/2, 1) = [[al, sqrt(r) be], [sqrt(r) be, A]]
+    s = F(RNG.randint(1, 30), 31)                 # sqrt(r) rational
+    rr = s * s
+    al, be, A = rq(-8, 8), rq(-4, 4), rq(-4, 4)
+    Hact = (rr * al, rr * be, A)
+    C = (al, s * be, A)
+    g.check(det(C) == det(Hact) / rr and index(C) == index(Hact), "congruence: det / r, inertia preserved")
+    g.check(det(C) == al * A - rr * be**2, "the determinant is affine in r")
+    Dg = (al, F(0), A)
+    for j in (0, 1, 2):
+        g.check(abs(Fj(C, j) - Fj(Dg, j)) <= rr * be**2, "removing the off-diagonal changes F_j by <= r beta^2")
+# reference product F_2(diag(-6, A)) F_1(diag(6, A)) = 36 A^2 1{A < 0}
+for _ in range(500):
+    A = rq(-5, 5)
+    ref = 6 if MUT == "REF_6" else 36
+    g.check(Fj((F(-6), F(0), A), 2) * Fj((F(6), F(0), A), 1) == (ref * A**2 if A < 0 else 0), "(J2)/(J4) reference product")
+g.close()
+
+# =====================================================================
+# K3  section 2: exact pins give the target v_r; the fourth centered row on polynomial profiles
+# =====================================================================
+g = Group("K3 section 2 centered observations")
+
+
+def poly_eval(c, x):
+    return sum(ci * x**i for i, ci in enumerate(c))
+
+
+def poly_der(c, k=1):
+    for _ in range(k):
+        c = [i * c[i] for i in range(1, len(c))]
+    return c or [F(0)]
+
+
+for _ in range(2000):
+    r = F(RNG.randint(1, 40), 41)
+    b = rq(-2, 2)
+    # an axial profile with exact pins: f(-r/2) = b, f(r/2) = b - r^3, f'(+-r/2) = 0, from the model cubic plus a pinned septic part
+    base = [b - r**3 / 2, -3 * r**2 / 2, F(0), 2 * F(1)]          # b + r^3 (2(x/r)^3 - 3(x/r)/2 - 1/2)
+    q = [rq(-1, 1) for _ in range(4)]                             # times ((x/r)^2 - 1/4)^2 q(x): keeps pins
+    # build ((x/r)^2 - 1/4)^2 * q(x) as coefficients
+    w2 = [F(1, 16), F(0), -F(1, 2) / r**2, F(0), 1 / r**4]          # (x^2/r^2 - 1/4)^2
+    extra = [F(0)] * (len(w2) + len(q) - 1)
+    for i, wi in enumerate(w2):
+        for k, qk in enumerate(q):
+            extra[i + k] += wi * qk
+    c = [F(0)] * max(len(base), len(extra))
+    for i, ci in enumerate(base):
+        c[i] += ci
+    for i, ci in enumerate(extra):
+        c[i] += ci
+    a_, c_ = -r / 2, r / 2
+    f, fx = (lambda x: poly_eval(c, x)), (lambda x: poly_eval(poly_der(c), x))
+    g.check(f(a_) == b and f(c_) == b - r**3 and fx(a_) == 0 and fx(c_) == 0, "exact axial pins")
+    U = ((f(a_) + f(c_)) / 2, (f(c_) - f(a_)) / r, (fx(c_) - fx(a_)) / r, 6 / r**2 * (fx(a_) + fx(c_) - 2 * (f(c_) - f(a_)) / r))
+    g.check(U == (b - r**3 / 2, -r**2, F(0), F(12)), "U_r = v_r on the axial rows (transverse rows are zero by the z-pins)")
+    # fourth row identity on degree <= 7: f''' + (r^2/40) f^(5) + (r^4/4480) f^(7), exactly
+    row4 = 6 / r**2 * (fx(a_) + fx(c_) - 2 * (f(c_) - f(a_)) / r)
+    d3, d5, d7 = poly_eval(poly_der(c, 3), F(0)), poly_eval(poly_der(c, 5), F(0)), poly_eval(poly_der(c, 7), F(0))
+    k5 = F(1, 30) if MUT == "ROW4_30" else F(1, 40)
+    g.check(row4 == d3 + k5 * r**2 * d5 + r**4 * d7 / 4480, "fourth row = f''' + (r^2/40) f^(5) + (r^4/4480) f^(7)")
+g.close()
+
+# =====================================================================
+# K4  (J16)-(J17), (J7): elementary inequalities and the Taylor ledger
+# =====================================================================
+g = Group("K4 (J16)-(J17), (J7) ledger")
+for _ in range(3000):
+    a, bb = rq(0, 20), rq(0, 20)
+    g.check((a + bb)**4 <= 8 * (a**4 + bb**4), "(D + rN)^4 <= 8 (D^4 + (rN)^4)")
+for beta in [F(k, 100) for k in range(0, 26)]:
+    for eta in [F(k, 100) for k in range(0, 101)]:
+        exps = [1 - (4 - j) * beta - eta for j in (0, 1, 2)]
+        if MUT == "LEDGER_3":
+            exps[0] = 1 - 3 * beta - eta
+        g.check((min(exps) > 0) == (4 * beta + eta < 1), "(J7) min_j 1 - (4 - j) beta - eta > 0 iff 4 beta + eta < 1")
+        if 4 * beta + eta < 1:
+            g.check(beta < 1, "beta < 1, so 2 r w -> 0")
+g.close()
+
+# ---------------------------------------------------------------------
+total = sum(t for _, _, t in RESULTS)
+passed = sum(p for _, p, _ in RESULTS)
+for name, p, t in RESULTS:
+    print("%-46s %6d/%-6d %s" % (name, p, t, "PASS" if p == t else "FAIL"))
+print("mutant: %s" % (MUT if MUT else "none"))
+print("total checks: %d; failures: %d" % (total, total - passed))
+for f_ in FAILS:
+    print("  FAIL " + f_)
+sys.exit(0 if passed == total else 1)

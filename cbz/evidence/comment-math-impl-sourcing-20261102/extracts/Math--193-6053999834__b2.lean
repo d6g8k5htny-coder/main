@@ -1,0 +1,5 @@
+import ContactAlgebra
+
+#print axioms SourceContactRank.contact_phase_elimination
+#print axioms SourceContactRank.contact_polynomial_separation
+

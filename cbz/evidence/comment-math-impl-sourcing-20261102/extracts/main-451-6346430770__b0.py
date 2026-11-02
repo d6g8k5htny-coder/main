@@ -1,0 +1,186 @@
+"""Exact inequalities for an explicit local fold and finite-interval barcode.
+
+No quadrature or root search runs here. Consumes the authenticated root and
+fixed-center reports; PROOF.md explains the real-variable and topology steps.
+"""
+import argparse
+from fractions import Fraction as F
+import hashlib
+import json
+from pathlib import Path
+
+PINS = {
+    'collision.json': (4473, 'd9e686a315f802dba108571560eb9d722bdc1459f8ed7d475293dcb046f452b7'),
+    'fixed_center_384.json': (7083, '14b4298050b7a9dd6c0e15298433c5675bbded35eb3b0306a8383c7ddce2c6aa'),
+}
+ROOT_SOURCE = '3e28e507ed5dbebc2e0e1a943b99b4c54dd4182ada84e9cab284eb8f4d053cc7'
+QUAD_SOURCE = '0d996aa24933db95e72dd3f173a44e9ac39a52bdc51b8188c75ab41155581359'
+RADIUS = F(1, 10**6)
+HORIZON = RADIUS**2/16
+TOLERANCE = F(1, 1000)
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+class Bound:
+    __slots__ = ('lo', 'hi')
+
+    def __init__(self, lo, hi):
+        self.lo, self.hi = F(lo), F(hi)
+        require(self.lo <= self.hi, 'reversed bound')
+
+    def magnitude(self):
+        return max(abs(self.lo), abs(self.hi))
+
+
+def load_inputs(directory):
+    objects = {}
+    for name, (size, digest) in PINS.items():
+        raw = (Path(directory)/name).read_bytes()
+        require(len(raw) == size and hashlib.sha256(raw).hexdigest() == digest,
+                'input identity mismatch: '+name)
+        objects[name] = json.loads(raw)
+    root, fixed = objects['collision.json'], objects['fixed_center_384.json']
+    require(root['source_sha256'] == ROOT_SOURCE and fixed['source_sha256'] == QUAD_SOURCE,
+            'consumed source identity')
+    require(root['input_sha256'] == PINS['fixed_center_384.json'][1], 'input chain')
+    center = tuple(F(root['center'][key]) for key in ('t', 'z'))
+    require(center == tuple(F(fixed['center'][key]) for key in ('t', 'z')), 'center identity')
+    require(root['unique_real_zero_of_H_and_Hz_in_stated_box'] is True,
+            'missing local-root evidence')
+    require(root['moment_orders'] == list(range(7)), 'moment order scope')
+    q = F(500,1359)
+    majorant = F(259,27)*q**3/(1-4*q**9)
+    require(F(root['moment_majorant']) == majorant < F(1,2), 'moment evidence')
+    transfer = F(root['coefficient_transfer_error_upper'])
+    require(transfer > 0, 'invalid root transfer')
+    ds = []
+    require(len(fixed['D']) == 5 and fixed['precision_bits'] == 384, 'input derivative inventory')
+    for row in fixed['D']:
+        require(row['denominator_power_two'] == 384, 'input endpoint precision')
+        ds.append(Bound(F(int(row['lo_numerator']),2**384)-transfer,
+                        F(int(row['hi_numerator']),2**384)+transfer))
+    radius = F(root['uniqueness_box_radius_infinity'])
+    require(radius == F(3,10**30), 'root box identity')
+    return {'d2': ds[2], 'b3': ds[3].magnitude(), 'b4': ds[4].magnitude(),
+            'root_radius': radius, 'time_upper': F(root['root_enclosure']['t']['hi']),
+            'center_z': center[1], 'moment_upper': F(root['moment_bound_lt'])}
+
+
+def curvature_variation(radius, horizon, b3, b4, moment):
+    """Taylor bound for D2, using known D3/D4 and global D5/D6 bounds."""
+    return (b3*radius + b4*(radius**2/2+horizon)
+            + moment*(radius**3/6+horizon*radius+horizon**2/2))
+
+
+def geometry_checks(m, M, radius, horizon, offset):
+    require(0 < m <= M, 'positive curvature not established')
+    inner, outer = radius-offset, radius+offset
+    require(inner > 0, 'root inclusion not established')
+    boundary = m*inner**2/2-M*horizon
+    require(boundary > 0, 'boundary positivity not established')
+    half = radius**2/4-2*M*horizon/m
+    require(half > 0, 'half-radius root localization not established')
+    elder = m*inner**3/6-M*horizon*(outer+radius/2)
+    require(elder > 0, 'elder ordering not established')
+    return {'boundary_margin': boundary, 'half_radius_margin': half, 'elder_margin': elder}
+
+
+def prove(data, radius=RADIUS, horizon=HORIZON, tolerance=TOLERANCE):
+    require(isinstance(radius,F) and isinstance(horizon,F) and radius > 0 and horizon > 0,
+            'positive geometry required')
+    require(isinstance(tolerance,F) and 0 < tolerance < 1, 'invalid relative tolerance')
+    require(data['moment_upper'] == F(1,2), 'unsupported moment bound')
+    require(data['time_upper']+horizon < 0, 'rectangle leaves proven time domain')
+    delta = data['root_radius']
+    require(0 <= delta < radius, 'root inclusion not established')
+    d2 = data['d2']
+    require(d2.lo > 0, 'root curvature not positively separated')
+    outer = radius+delta
+    variation = curvature_variation(outer,horizon,data['b3'],data['b4'],data['moment_upper'])
+    m, M = d2.lo-variation, d2.hi+variation
+    result = geometry_checks(m,M,radius,horizon,delta)
+    gap = Bound(m/M,M/m)
+    bar = Bound(m/d2.hi,M/d2.lo)
+    require(1-tolerance < gap.lo and gap.hi < 1+tolerance, 'gap accuracy not established')
+    require(1-tolerance < bar.lo and bar.hi < 1+tolerance, 'bar accuracy not established')
+    result.update(m=m, M=M, variation=variation, gap_ratio=gap, bar_ratio=bar,
+                  radius=radius, horizon=horizon, tolerance=tolerance)
+    return result
+
+
+def decimal_endpoint(value, places=60, upper=False):
+    scale = 10**places
+    n, d = value.numerator*scale, value.denominator
+    x = -((-n)//d) if upper else n//d
+    sign = '-' if x < 0 else ''
+    digits = str(abs(x)).zfill(places+1)
+    return sign+digits if places == 0 else sign+digits[:-places]+'.'+digits[-places:]
+
+
+def interval_report(value):
+    return {'lo': decimal_endpoint(value.lo), 'hi': decimal_endpoint(value.hi,upper=True)}
+
+
+def report(data, result):
+    R = result['radius']
+    return {
+        'arithmetic': 'fractions.Fraction; exact finite comparisons',
+        'input_sha256': {name: digest for name,(_,digest) in PINS.items()},
+        'source_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'fixed_spatial_interval_exact': [str(data['center_z']-R),str(data['center_z']+R)],
+        'spatial_radius_exact': str(R),
+        'time_horizon_exact': str(result['horizon']),
+        'time_offset': 'tau=t-t_star; root from the authenticated local-collision proof',
+        'curvature_lower': decimal_endpoint(result['m']),
+        'curvature_upper': decimal_endpoint(result['M'],upper=True),
+        'curvature_variation_upper': decimal_endpoint(result['variation'],upper=True),
+        'boundary_positivity_margin_lower': decimal_endpoint(result['boundary_margin']),
+        'half_radius_margin_lower': decimal_endpoint(result['half_radius_margin']),
+        'elder_ordering_margin_lower': decimal_endpoint(result['elder_margin']),
+        'gap_squared_over_8tau': interval_report(result['gap_ratio']),
+        'bar_over_Astar_gap_cubed_over_6': interval_report(result['bar_ratio']),
+        'relative_tolerance_exact': str(result['tolerance']),
+        'real_zeros_in_fixed_interval': {'negative_time':0, 'collision_time':1,
+                                       'collision_zero_multiplicity':2, 'positive_time':2},
+        'finite_interval_bars': {'nonpositive_time':0, 'positive_time':1,
+                                'filtration':'sublevel H0 of the primitive on the fixed closed interval'},
+        'global_zero_indexing': False,
+        'full_line_persistence': False,
+        'new_quadrature_or_root_search': False,
+        'scientific_acceptance_changed': False,
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--inputs',type=Path,default=Path(__file__).resolve().parent/'inputs')
+    args = parser.parse_args()
+    data = load_inputs(args.inputs)
+    answer = prove(data)
+    controls = (
+        ('excessive time window',lambda: prove(data,horizon=F(1,10**12))),
+        ('excessive spatial window',lambda: prove(data,radius=F(1,10000))),
+        ('uncertified tighter gap accuracy',lambda: prove(data,tolerance=F(3,10000))),
+        ('nonpositive spatial radius',lambda: prove(data,radius=F(0))),
+        ('unestablished elder bound',lambda: geometry_checks(F(2),F(2),F(1),F(3,100),F(2,5))),
+    )
+    refused = []
+    for label, action in controls:
+        try:
+            action()
+        except ValueError as exc:
+            refused.append({'case':label,'reason':str(exc)})
+        else:
+            raise ValueError('negative control accepted: '+label)
+    output=report(data,answer)
+    output['negative_controls']=refused
+    print(json.dumps(output,indent=2,sort_keys=True))
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

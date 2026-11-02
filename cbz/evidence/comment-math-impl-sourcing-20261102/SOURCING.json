@@ -1,0 +1,3648 @@
+{
+ "schema": "cbz.comment-math-impl-sourcing.v1",
+ "banner": "**Custody and discovery evidence, not a result.** For each artifact in census gap list D (computational content with no committed implementation), this records whether an implementation was located: as code inside the comment itself (extracted byte-exact here), as a committed file the comment identifies by SHA-256, or as a Drive or Dropbox file found by metadata search. Nothing here was executed, and nothing here makes a correctness claim or a disposition. Credit 0 · sci NONE · OBL OPEN.",
+ "census": {
+  "pr": "main#745",
+  "head": "683fdfa225d3bec536d5756cbb1f2701f05c695b",
+  "path": "cbz/evidence/comment-math-census-20261031/CENSUS.json"
+ },
+ "summary": {
+  "rows": 274,
+  "outcome": {
+   "DRIVE_OR_DROPBOX_CANDIDATE": 4,
+   "INLINE_EXTRACTED": 75,
+   "NOT_LOCATED": 195
+  },
+  "extracts": 135,
+  "git_carriers": 0,
+  "store_candidates": 41
+ },
+ "limits": [
+  "The block classification and the committed-elsewhere judgments are made by Anthropic Claude subagents of this session. Independence credit 0.",
+  "Python extracts were compiled, never run. Compiling proves only that the text parses. Running, adopting or replaying any extract is a packet owner decision.",
+  "A PARTIAL extract needs the project modules or sibling files named in its dependencies field.",
+  "Drive and Dropbox candidates are metadata matches only (title, size, modified time). No bytes were fetched or compared, and titles can mislead.",
+  "NOT_LOCATED is not proof of absence: the code may exist under another name, in an unsearched store, or only in a local workspace.",
+  "Comment bodies are the versions the census recorded on 31 October. A comment edited later may differ; verify_extracts.py --live reports drift.",
+  "Census correction, census left unchanged: four extracted Lean blocks (three for C212, one for I2-OrdinaryH0Split) match files committed at Math- 06bac48e under frontiers/compact_source_cutoff_baseline_20261009/ and reachable from eight codex/compact-cutoff-* and codex/source-smooth-realization-* branches, none on Math- main. Three are byte-identical; the I2 block has one extra final newline. MANIFEST.json records commit, path, blob and relation under committed_elsewhere. These are additional carriers, not the reviewed implementations of the artifacts' own claims.",
+  "DRIVE_OR_DROPBOX_CANDIDATE requires a match whose title indicates code, a checker or a certificate. Matches on data, archives or reviews are listed on the row but leave it NOT_LOCATED."
+ ],
+ "rows": [
+  {
+   "key": "B00-main#56-INVMOMENT-OBSTRUCTION",
+   "comment": "main#56/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/56",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1EGn8_l0XAkfgEuw0_Ci3DV8nZNaaE8gO",
+     "title": "run_validation.py",
+     "size": "5653",
+     "modified": "2026-09-24T12:19:29.079Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "1ESAH87PDeSW3pVWf0dn6cKzxvx5pIHxL",
+     "title": "spectral_boundary.py",
+     "size": "7290",
+     "modified": "2026-09-24T12:19:18.590Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "13TUkTblaJN7jyYCzbxpkDcN823yYu-OJ",
+     "title": "test_spectral_boundary.py",
+     "size": "11046",
+     "modified": "2026-09-24T12:19:24.866Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    }
+   ],
+   "note": "No title carries a cited SHA-256. The cited folder holds run_validation.py, spectral_boundary.py and test_spectral_boundary.py, with sizes matching the record, plus the cited package SIDE24_SCHUR_SPECTRAL_BOUNDARY_20260924_v1.zip (1DfvFZBSloiSUA2sMvepWhvhI41ePo2wy, 87474 B), whose title has no SHA; there are no Dropbox hits.",
+   "outcome": "DRIVE_OR_DROPBOX_CANDIDATE"
+  },
+  {
+   "key": "B00-main#56-SCHUR-SPECTRAL",
+   "comment": "main#56/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/56",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1EGn8_l0XAkfgEuw0_Ci3DV8nZNaaE8gO",
+     "title": "run_validation.py",
+     "size": "5653",
+     "modified": "2026-09-24T12:19:29.079Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "1ESAH87PDeSW3pVWf0dn6cKzxvx5pIHxL",
+     "title": "spectral_boundary.py",
+     "size": "7290",
+     "modified": "2026-09-24T12:19:18.590Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "13TUkTblaJN7jyYCzbxpkDcN823yYu-OJ",
+     "title": "test_spectral_boundary.py",
+     "size": "11046",
+     "modified": "2026-09-24T12:19:24.866Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    }
+   ],
+   "note": "The cited folder holds spectral_boundary.py (7290 B), test_spectral_boundary.py (11046 B) and run_validation.py (5653 B), matching the record's sizes, and the cited 87474 B package ZIP is present, but no title carries a cited SHA-256.",
+   "outcome": "DRIVE_OR_DROPBOX_CANDIDATE"
+  },
+  {
+   "key": "B00-main#57-ISOLATION-PREEMPTION",
+   "comment": "main#57/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/57",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1X8kPgP5_BXjD1JMbZOMtQf8q-OSmsJQJ",
+     "title": "local_geometry.py",
+     "size": "9353",
+     "modified": "2026-09-24T12:43:44.845Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "1LEoGk4VPQHzYw-4RMGAAza-xtNLWq0n4",
+     "title": "test_local_geometry.py",
+     "size": "9575",
+     "modified": "2026-09-24T12:43:49.027Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "1kgUX7KtSEad7sk8nyMb8mvdZBFMWIpEG",
+     "title": "run_verification.py",
+     "size": "4363",
+     "modified": "2026-09-24T12:43:53.790Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    }
+   ],
+   "note": "No title carries a cited SHA-256. The cited folder holds local_geometry.py, test_local_geometry.py and run_verification.py, with sizes matching the record, plus the cited ZIP SIDE24_LOCAL_CRITICAL_GEOMETRY_20260924_v1.zip (1IfvV6EfR5NsX_dqe6YbNi24TxVzINtoZ, 96578 B), whose title has no SHA.",
+   "outcome": "DRIVE_OR_DROPBOX_CANDIDATE"
+  },
+  {
+   "key": "B00-main#57-LPW-THIRD-SADDLE",
+   "comment": "main#57/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/57",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "There is no SHA or filename match for this claim; the #57 folder's local_geometry.py and test_local_geometry.py (hits on the ISOLATION-PREEMPTION row) may contain the saddle check, but their names do not show that, so they are not recorded here.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B00-main#58-SEPARATING-CAP-GLOBAL-ELDER",
+   "comment": "main#58/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/58",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "19VqvnZQXLoB9jqrFqbEhaKeUzQ0STSTz",
+     "title": "cap_certificate.py",
+     "size": "4769",
+     "modified": "2026-09-24T13:23:49.572Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "1cY6irXTa8GpPZMXuMFiTRNcVHMwbf1VS",
+     "title": "test_cap_certificate.py",
+     "size": "4287",
+     "modified": "2026-09-24T13:23:52.967Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    },
+    {
+     "store": "drive",
+     "id": "17F9E2cuyFk-IIOCz9F2eB-BEcKoeevp8",
+     "title": "run_checks.py",
+     "size": "5378",
+     "modified": "2026-09-24T13:25:05.510Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": true
+    }
+   ],
+   "note": "No title carries a cited SHA-256. The cited folder holds run_checks.py and global_pairing/cap_certificate.py and test_cap_certificate.py, with sizes matching the record, plus the cited ZIP MATH_ADVANCE_20260924_v1.zip (1lRvVjuja4zXD59R0yCSM-6Utdon5FsfF, 101854 B), whose title has no SHA.",
+   "outcome": "DRIVE_OR_DROPBOX_CANDIDATE"
+  },
+  {
+   "key": "B00-main#59-MATROID-PALETTE",
+   "comment": "main#59/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/59",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B00-main#59-PALETTE-REFUSALS",
+   "comment": "main#59/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/59",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "PAL-01",
+   "comment": "main#61/5815701872",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/61#issuecomment-5815701872",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No title carries a cited SHA-256 and no file name is cited. The known capsule MATH_PUSH_CAP_PALETTE_20260924_v1.zip (1soVnQdYxLU8LHcQzteabic_Bdn6fD_dE, 86308 B) sits in folder 1vWBxZZzLNz4BTNXX0Fvjv0Y4AWpalDIv next to interval_palette.py (1nXleprHJTEXUEN0HhYFUn2LnHR4t7jIz, 6009 B) and test_math_push.py (1fPjgxpbEakhBa2KdfHnlfyQ8vWrSoW8U, 12039 B); these are leads only, not recorded hits, because no cited name matches them.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1",
+   "comment": "main#61/5816982665",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/61#issuecomment-5816982665",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "OA-D5-BRIDGE-INTERFACE-AUDIT-20260925",
+   "comment": "Math-#28/5839952465",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/28#issuecomment-5839952465",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MAIN121-C1-BMISS-ROUTE-20260926",
+   "comment": "main#121/5848715982",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/121#issuecomment-5848715982",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "KIMI-LB-RATE-PACKET-REVIEW-20260926",
+   "comment": "main#86/5849166966",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/86#issuecomment-5849166966",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    0
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "CBZ0-P1-B002-Math-82-5849565581",
+   "comment": "Math-#82/5849565581",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/82#issuecomment-5849565581",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    1
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "MATH35-REVIEW-SUBLEADING-EXPONENT-20260926",
+   "comment": "Math-#35/5850462236",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/35#issuecomment-5850462236",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the angular-contact code names, and every run_validation.py copy found belongs to an unrelated package.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MAIN128-CLAUDE-REVIEW-FRAME-MEAN-20260926",
+   "comment": "main#128/5850654979",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/128#issuecomment-5850654979",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is named test_intermediate_scale.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CBZ0-P1-B002-Math-58-5850921404",
+   "comment": "Math-#58/5850921404",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/58#issuecomment-5850921404",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#165/body:D5-transverse-cone-KR-ledger",
+   "comment": "main#165/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/165",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title carries any of the 4 cited SHA-256 values, and no code file is cited.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b004-P15-R1-exact-binomial-certificate",
+   "comment": "Math-#124/5879976522",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/124#issuecomment-5879976522",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B03-Math146-R5355817385-B3-rate",
+   "comment": "Math-#146/review-5355817385",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/146#pullrequestreview-5355817385",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is a real match: the only exact verify.py on Drive dates from 2026-08-02 in an unrelated SIDE24 recovery folder, and every other result is a substring match.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-159/review-5359895261/A1-full-normalizer-counterexample",
+   "comment": "Math-#159/review-5359895261",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/159#pullrequestreview-5359895261",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is named cluster_law_check.py, and the reviewer's diagnostic suite is not identifiable from metadata.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-159/review-5359895261/A2-remote-covariance-whitening-repair",
+   "comment": "Math-#159/review-5359895261",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/159#pullrequestreview-5359895261",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is named cluster_law_check.py, and no protected-covariance diagnostic is identifiable from metadata.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#159/5901977049:morse-index-resolved-vector-intensity-corollary",
+   "comment": "Math-#159/5901977049",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/159#issuecomment-5901977049",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B05-A03-Math169-r5363731045-noncircular-E18",
+   "comment": "Math-#169/review-5363731045",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/169#pullrequestreview-5363731045",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1p-t37fufdUKsbcZD4kqA7c1NjIiO8K6s",
+     "title": "SOURCES.json",
+     "size": "1335",
+     "modified": "2026-09-21T23:07:23.713Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "No title carries the cited SHA-256. The only hit is a Drive data file named exactly SOURCES.json (generic name, no artifact context, created 2026-09-21), which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#176/5907571058/bias-correction-bijection-corollary",
+   "comment": "Math-#176/5907571058",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/176#issuecomment-5907571058",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#174/5907931352/gaussian-domain-truncation-bound-cut9-certificate",
+   "comment": "Math-#174/5907931352",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/174#issuecomment-5907931352",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#174/5907931352/one-site-finite-periodic-control",
+   "comment": "Math-#174/5907931352",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/174#issuecomment-5907931352",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#95/5908259383/transverse-covariance-cut9-counterexample",
+   "comment": "main#95/5908259383",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/95#issuecomment-5908259383",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a file titled Remote_Quadrature_Review_20260930.zip.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "TYPED-CUBIC-WINDOW-ROOT-CONFINEMENT",
+   "comment": "Math-#180/5908860911",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/180#issuecomment-5908860911",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b008-Math-180-5908860911-approx-critical-slab",
+   "comment": "Math-#180/5908860911",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/180#issuecomment-5908860911",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b008-Math-180-5908860911-window-root-confinement",
+   "comment": "Math-#180/5908860911",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/180#issuecomment-5908860911",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "W-ALPHA-BETA-DETERMINANT-POWER-COMPARISON",
+   "comment": "Math-#182/5909553087",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/182#issuecomment-5909553087",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CHECK-M182-WALPHABETA-CLAUDE",
+   "comment": "Math-#182/5910875677",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/182#issuecomment-5910875677",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b008-Math-181-5911588678-second-order-small-lifetime",
+   "comment": "Math-#181/5911588678",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/181#issuecomment-5911588678",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#203/review-5372981851/cap-vs-selection-constant-countermodel",
+   "comment": "Math-#203/review-5372981851",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/203#pullrequestreview-5372981851",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither cited SHA-256 appears in any Drive title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A01-Math-203-r5373441664-escaping-mass",
+   "comment": "Math-#203/review-5373441664",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/203#pullrequestreview-5373441664",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC",
+     "title": "RESULTS.json",
+     "size": "237",
+     "modified": "2026-09-28T18:58:38.914Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "No title carries the cited hashes and no cap_coefficient.py copy turned up. The only hit is a generic Drive data file named exactly RESULTS.json (created 2026-09-28), which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CL-THIRD-ORDER-COEFF-20261001-v1.2 (Monte Carlo)",
+   "comment": "Math-#216/5928793847",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/216#issuecomment-5928793847",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A02-Math-205-r5377957341-singleton-windows",
+   "comment": "Math-#205/review-5377957341",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/205#pullrequestreview-5377957341",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1nLq7i_1sAZpGtX58IpcYmKPTUIthbY_F",
+     "title": "SOURCE_FILES.json",
+     "size": "1375",
+     "modified": "2026-09-28T18:58:35.171Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "None of the four cited SHA-256 values, including receipt 48717a45, appears in a Drive title. The only hit is a Drive data file named exactly SOURCE_FILES.json (created 2026-09-28, same folder as a RESULTS.json), which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A03-Math-217-r5378890193-tail-moment-bracket",
+   "comment": "Math-#217/review-5378890193",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/217#pullrequestreview-5378890193",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC",
+     "title": "RESULTS.json",
+     "size": "237",
+     "modified": "2026-09-28T18:58:38.914Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "No torus.py copy is in either store. The only hit is a generic Drive data file named exactly RESULTS.json, which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A04-Math-207-r5378895166-lemmaL-guard",
+   "comment": "Math-#207/review-5378895166",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/207#pullrequestreview-5378895166",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC",
+     "title": "RESULTS.json",
+     "size": "237",
+     "modified": "2026-09-28T18:58:38.914Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1p-t37fufdUKsbcZD4kqA7c1NjIiO8K6s",
+     "title": "SOURCES.json",
+     "size": "1335",
+     "modified": "2026-09-21T23:07:23.713Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "The cited SHA-256 is in no Drive title and no cusp_check.py copy turned up. The only hits are generic Drive data files named exactly RESULTS.json and SOURCES.json, neither of which is an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-M214-SLICE-D-THIN-ASSEMBLY-CODEX",
+   "comment": "Math-#214/5931058934",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/214#issuecomment-5931058934",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The cited SHA-256 appears in no Drive title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A05-Math-220-r5379015767-OA-220-B-01",
+   "comment": "Math-#220/review-5379015767",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/220#pullrequestreview-5379015767",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC",
+     "title": "RESULTS.json",
+     "size": "237",
+     "modified": "2026-09-28T18:58:38.914Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "The cited SHA-256 is in no Drive title and no e3_check.py copy turned up. The only hit is a generic Drive data file named exactly RESULTS.json, which is not an implementation. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "B07-A06-Math-220-r5379186710-OA-220-C-01",
+   "comment": "Math-#220/review-5379186710",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/220#pullrequestreview-5379186710",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The cited SHA-256 appears in no Drive title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-221-review-5379954654-T5-next-term",
+   "comment": "Math-#221/review-5379954654",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/221#pullrequestreview-5379954654",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a file titled t5_check.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-221-review-5380803360-T2-cutoff-removal",
+   "comment": "Math-#221/review-5380803360",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/221#pullrequestreview-5380803360",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "BIRTH-MARGINAL-FLOOR-8-SQRT58",
+   "comment": "Math-#224/5933888942",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/224#issuecomment-5933888942",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CUSP-TORUS-TRANSFER-RECOVERED-SHARPENING",
+   "comment": "Math-#224/5933888942",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/224#issuecomment-5933888942",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-232-review-5382589439-d3-ThmJ-reproduction",
+   "comment": "Math-#232/review-5382589439",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/232#pullrequestreview-5382589439",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of refc2.py, refc2_d3.py, slicec_checks.py or verify_endpoint.py is in either store. The only near-miss, verify_quartic_endpoint_counterexample.py, is a different file and was dropped.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-234-review-5383466767-exclusion-counterexamples",
+   "comment": "Math-#234/review-5383466767",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/234#pullrequestreview-5383466767",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1tFqMy26kvTtngP5Jfo5DyHuX2iNgGGhQ",
+     "title": "SOURCE_IDENTITIES.json",
+     "size": "995",
+     "modified": "2026-09-19T14:59:59.909Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "No SHA-256 title match and no code found; the one same-name SOURCE_IDENTITIES.json on Drive is a data file in a 19 Sep CI-integrity-hardening delivery folder (next to ci_integrity_hardening.patch, HANDOFF.md), so it is probably not this review's file. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-233-review-5384157901-R1-discriminant-identity",
+   "comment": "Math-#233/review-5384157901",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/233#pullrequestreview-5384157901",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-231-r5384221624",
+   "comment": "Math-#231/review-5384221624",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/231#pullrequestreview-5384221624",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No real match; every transfer.py result was a longer unrelated file name, and the reviewer's 25 tests are unnamed.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-219-r5384432735",
+   "comment": "Math-#219/review-5384432735",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/219#pullrequestreview-5384432735",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title carries the cited SHA-256 of the Fraction-only reductions script.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-236-r5384434232",
+   "comment": "Math-#236/review-5384434232",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/236#pullrequestreview-5384434232",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No SHA-256 or exact filename match for check_slice_b.py or its outputs in Drive or Dropbox.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#233/5938972534/CR-reduction-and-estimate",
+   "comment": "Math-#233/5938972534",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/233#issuecomment-5938972534",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-227-r5384474393",
+   "comment": "Math-#227/review-5384474393",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5384474393",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited hashes or theorem_v.py/theorem_b.py, and the 126 assembly checks remain unnamed.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-219-r5384863435",
+   "comment": "Math-#219/review-5384863435",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/219#pullrequestreview-5384863435",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match for tail_ulp_bounds.py, controls.py, trace_partitions.py or the cited SHA-256 in either store.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-237-r5385136758",
+   "comment": "Math-#237/review-5385136758",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/237#pullrequestreview-5385136758",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The unnamed exact Fraction window control has no Drive title carrying its cited SHA-256.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-237-r5385169112",
+   "comment": "Math-#237/review-5385169112",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/237#pullrequestreview-5385169112",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1xkz17ZdwNLd0_RvzzGWvA_F1bQYfCPGj",
+     "title": "exact_controls.py",
+     "size": "10227",
+     "modified": "2026-09-24T10:33:30.371Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "Only a same-name exact_controls.py turned up, inside a 24 Sep SIDE24_FINITE_RADIUS_WEIGHTED_CONTROL delivery folder with no exact_controls_receipt.json, so it is probably a different artifact's code and not the kink-review script. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-237-r5385194600",
+   "comment": "Math-#237/review-5385194600",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/237#pullrequestreview-5385194600",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1xkz17ZdwNLd0_RvzzGWvA_F1bQYfCPGj",
+     "title": "exact_controls.py",
+     "size": "10227",
+     "modified": "2026-09-24T10:33:30.371Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "The only hit is the same-name Drive exact_controls.py from the SIDE24 finite-radius weighted-control delivery, whose folder has no CONTROL_RESULTS.json, so it is probably not the parity-review script. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-227-r5386158110",
+   "comment": "Math-#227/review-5386158110",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5386158110",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited hashes or theorem_v.py, and the executed-check harness is unnamed.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-227-r5386707554",
+   "comment": "Math-#227/review-5386707554",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5386707554",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match for controls.py, check_contact_transfer.py, their JSON outputs or any cited SHA-256 in either store.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-215-r5386924911",
+   "comment": "Math-#215/review-5386924911",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/215#pullrequestreview-5386924911",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No real match; the audit.py results were all unrelated longer names, and crosscheck_transfer.py, bind_sources.py and the six cited SHA-256 values do not appear.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-238-r5387084565",
+   "comment": "Math-#238/review-5387084565",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/238#pullrequestreview-5387084565",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefixes or bind.py; the cited JSON files are data, not code, so they were not searched.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-239-r5387254977",
+   "comment": "Math-#239/review-5387254977",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/239#pullrequestreview-5387254977",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    2
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "b09-Math-227-r5387311588",
+   "comment": "Math-#227/review-5387311588",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/227#pullrequestreview-5387311588",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive file title contains any of the four cited SHA-256 prefixes, and the row cites no code file name to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-240-r5387455963",
+   "comment": "Math-#240/review-5387455963",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387455963",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No real match: the only Drive hit, exact_controls.py, is a substring coincidence that has no continuation64 or algebra-review context, and Dropbox returned nothing.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "b09-Math-240-r5387638502",
+   "comment": "Math-#240/review-5387638502",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387638502",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefixes or ecp_check.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#240/review-5387686986/RV",
+   "comment": "Math-#240/review-5387686986",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387686986",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file named ecp_check.py was found.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#240/5944399633/window-selected-law",
+   "comment": "Math-#240/5944399633",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/240#issuecomment-5944399633",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#240/review-5387809997/RV",
+   "comment": "Math-#240/review-5387809997",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/240#pullrequestreview-5387809997",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive file title contains any of the three cited SHA-256 prefixes, including the c3c9f676 report hash.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C66-Q4-LOG-FREE-BRANCH",
+   "comment": "Math-#240/5944610126",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/240#issuecomment-5944610126",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive file title contains any of the three cited SHA-256 prefixes.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-M242-B-MODEL-GEOMETRY-CODEX",
+   "comment": "Math-#242/5948352439",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5948352439",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file named soft_check.py was found.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#242/review-5390555860/RV",
+   "comment": "Math-#242/review-5390555860",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5390555860",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefix or independent_controls.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#242/review-5390667993/RV",
+   "comment": "Math-#242/review-5390667993",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5390667993",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefix or independent_controls.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CE-1-WEIGHTED-COAREA-BOUND",
+   "comment": "Math-#242/5950404012",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5950404012",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CE-2-MARGINAL-PROBABILITY-FALSIFIER",
+   "comment": "Math-#242/5950404012",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5950404012",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    4
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#242/5950717986/CE-2-strengthened-falsifier",
+   "comment": "Math-#242/5950717986",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/242#issuecomment-5950717986",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefix, ce_independent.py or coarea_error_controls.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#242/review-5391485205/B5",
+   "comment": "Math-#242/review-5391485205",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5391485205",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited SHA-256 prefixes, soft_check.py or SIDE24_MC_raw_2026-10-01.zip.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#242/review-5391986303/D1",
+   "comment": "Math-#242/review-5391986303",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/242#pullrequestreview-5391986303",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: none of the cited SHA-256 prefixes appear in any Drive title, and the only Drive file named exactly RESULTS.json (1kKgma2o4pMQqenhT8c7InMcyjKnKAHVC, 237 B, 2026-09-28) sits in the unrelated Remote_Singleton_Corollary_2026-09-28 packet next to finite_law.py, so it was dropped; Dropbox has no file with that exact name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "D1-REVIEW-5954510413",
+   "comment": "Math-#243/5954510413",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/243#issuecomment-5954510413",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    5
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C81-SIGNED-FOLD-BOUNDARY-20261002-v1",
+   "comment": "main#229/5957815904",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5957815904",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and neither store has a file named exactly check.py (only unrelated withdrawal_check.py, c7_mc_check.py, check_r04.py, CL-DATA-049_v1_blind_check.py, run_checks.py, check_review.py and similar).",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C81-CLIPPED-WIDTH-20261002-v1",
+   "comment": "main#229/5958645096",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5958645096",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C81-SIGNED-MARGIN-GEOMETRY-20261002-v1",
+   "comment": "main#229/5958755234",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5958755234",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: neither cited SHA-256 prefix appears in any Drive title, and neither store has a file named exactly check.py or one with C81 context.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C81-SIGNED-MARGIN-GEOMETRY-CHECK-20261002",
+   "comment": "main#229/5958757934",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5958757934",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    6
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "SM-REVIEW-5959754319",
+   "comment": "main#229/5959754319",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5959754319",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C82-DIRECT-SADDLE-LEVEL-BAND-20261002-v1",
+   "comment": "main#229/5959920397",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5959920397",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and neither store has a file named exactly check.py or one with C82 context.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main229-5960011145-GW-REVIEW-AMEND",
+   "comment": "main#229/5960011145",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5960011145",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C83-NONNEGATIVE-TRANSVERSE-LAYER-20261002-v1",
+   "comment": "main#229/5960195345",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5960195345",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C84-COUPLED-TRANSVERSE-SECTOR-20261002-v1",
+   "comment": "main#229/5960630207",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5960630207",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#180/review-5396856086/CX",
+   "comment": "Math-#180/review-5396856086",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/180#pullrequestreview-5396856086",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the only Drive file named exactly SOURCES.json (1p-t37fufdUKsbcZD4kqA7c1NjIiO8K6s, 1335 B, 2026-09-21) belongs to the unrelated H3_solver_pilot_20260921 packet and predates C85, so it was dropped; Dropbox has no file with that exact name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "OA-CLIPPED-CUSP-SURROGATE-20261002-v1",
+   "comment": "main#229/5961790128",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5961790128",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "OA-QS-TOLERANCE-LAYER-20261002-v1",
+   "comment": "main#229/5962071521",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5962071521",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C86-CLIPPED-CUSP-CROSSOVER-20261002-v1",
+   "comment": "main#229/5962394718",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5962394718",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C90-COMPLEMENTARY-REVIEW-A2-LEMMAS5-7-QSE-PRIME",
+   "comment": "main#229/5963452713",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5963452713",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    7
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C103-COMPACT-K-TAILS-20261003-v1",
+   "comment": "main#229/5967654152",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967654152",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: neither cited SHA-256 prefix appears in any Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C104-D3-TORUS-CONTACT-COEFFICIENT-TRANSFER-20261003",
+   "comment": "main#229/5967953399",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967953399",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the only Drive file named exactly SOURCE_IDENTITIES.json (1tFqMy26kvTtngP5Jfo5DyHuX2iNgGGhQ, 995 B, 2026-09-19) belongs to the unrelated ci_integrity_hardening packet and predates C104, so it was dropped; Dropbox returned nothing.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C104-AUTHOR-EXACT-CONTROLS (5967956908)",
+   "comment": "main#229/5967956908",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5967956908",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    8
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C104-REVIEWER-CONTROLS-20261003",
+   "comment": "main#229/5968196365",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5968196365",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    9
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "MATH231-EF-REVIEWER-CONTROLS (5968791648)",
+   "comment": "Math-#231/5968791648",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/231#issuecomment-5968791648",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    10
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#216/review-5401550768",
+   "comment": "Math-#216/review-5401550768",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/216#pullrequestreview-5401550768",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No match: the only Drive file named exactly SOURCES.json is in the unrelated H3_solver_pilot_20260921 packet (2026-09-21), not the third-order-coefficient NOTE, so it was dropped; Dropbox has no file with that exact name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#216/review-5401560065",
+   "comment": "Math-#216/review-5401560065",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/216#pullrequestreview-5401560065",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither Drive nor Dropbox has a file titled c2_check.py or any file tied to this artifact.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5971201678:C104-review-F1-E1",
+   "comment": "main#229/5971201678",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971201678",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256 or the names rev_exact.py, rev_constants_stdlib.py or rev_numeric.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5971203987:rev_constants_stdlib.py",
+   "comment": "main#229/5971203987",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971203987",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5971203987:rev_exact.py",
+   "comment": "main#229/5971203987",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5971203987",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    13,
+    14
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#252/body",
+   "comment": "main#252/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/252",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5973562375:C102-reviewer-controls-c102_exact",
+   "comment": "main#229/5973562375",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973562375",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    15
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/5973972756:C98-review-O1-mu-trichotomy",
+   "comment": "main#229/5973972756",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973972756",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256 or the names c98_exact.py or c98_numeric.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5974137504:C96-reviewer-controls-c96_discrete",
+   "comment": "main#229/5974137504",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974137504",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    16
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/5974184980:C93-review-O1-E16-sharpness",
+   "comment": "main#229/5974184980",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974184980",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256 or the name c93_exact.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5974188273:C93-reviewer-controls-c93_exact",
+   "comment": "main#229/5974188273",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974188273",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    17
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/5974238517:C92-review-O1-J13-factor2-sharp",
+   "comment": "main#229/5974238517",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974238517",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256 or the name c92_exact.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5974241360:C92-reviewer-controls-c92_exact",
+   "comment": "main#229/5974241360",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974241360",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    18
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/5974283483:C94-review-O1-O2-Rbox-W1-sharp",
+   "comment": "main#229/5974283483",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5974283483",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256 or the name c94_exact.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#259/body:IBA2-001",
+   "comment": "main#259/body",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    19,
+    20
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "REVIEW-M188-ITEMB-GROKBOT15-SHARPER-LOWER-EXPONENT",
+   "comment": "Math-#188/5974808194",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/188#issuecomment-5974808194",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the cited SHA-256, c89_replay.py or flat_ridge_check.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "NOTE-BL-20261004-v1.1-ACK-R3",
+   "comment": "main#229/5975600099",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5975600099",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither Drive nor Dropbox has a file titled bl_exact.py or any sympy script for this note.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C135-Q4-REVIEW-A3.2",
+   "comment": "main#229/5977474770",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5977474770",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has any of the four searched SHA-256 prefixes, including the reviewer control program 20cdd0da..., or the name a32_exact.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "QS-A3-Q1-REVIEW",
+   "comment": "main#229/5979976359",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5979976359",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither Drive nor Dropbox has a file titled a3d_exact.py or a3d_numeric.py, or any reviewer sympy check for this artifact.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5995044382/RG-review-derivations",
+   "comment": "main#229/5995044382",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5995044382",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    21
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/5996257547/P02-LM-008-AB-countermodels",
+   "comment": "main#229/5996257547",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5996257547",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has the cited SHA-256, and no file names were cited to search further.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/5996258385/P02-LM-008-C-lemma",
+   "comment": "main#229/5996258385",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5996258385",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    22
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "QS-A3.3-S2-REVIEW",
+   "comment": "main#229/5999689011",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5999689011",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has the cited reviewer-diagnostic SHA-256, and no file names were cited to search further.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "QS-A3.3-S1-REVIEW",
+   "comment": "main#229/5999709566",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5999709566",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file has any of the three cited SHA-256 prefixes or a33_exact.py in its title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/6001077092/WP-event-TV-sharpening",
+   "comment": "main#229/6001077092",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6001077092",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#259/6001580409/IBA2-009-TL_a-relative-bound",
+   "comment": "main#259/6001580409",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6001580409",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "LM006-QL-SEVEN-PIN-GRAM-DET24-AND-SCHUR-FLOOR-20261005",
+   "comment": "main#229/6002756269",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6002756269",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "GP-DER-044-SOURCE-INTERFACE-15-GRAM-PD-AND-QL-EXACT-LAW",
+   "comment": "main#229/6002858116",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6002858116",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has any of the three cited SHA-256 prefixes, and the row cites no file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "IBA2-012-FINITE-RADIUS-TRANSVERSE-SECTOR-BOUND",
+   "comment": "main#259/6004452810",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6004452810",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "IBA2-012-MOVING-CORNER-WITNESS",
+   "comment": "main#259/6004452810",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6004452810",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "DL-AXIS-K-01-ENDPOINT-DET-REPAIR-AND-WITNESS",
+   "comment": "main#259/6004712957",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6004712957",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#309/review-5422247279/D2Schur-gram-rotation-and-exact-S-range",
+   "comment": "Math-#309/review-5422247279",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/309#pullrequestreview-5422247279",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No real match: the SHA prefixes, algebra_audit.py and D2Schur.lean returned nothing, and every gate.py result was an unrelated file whose name only contains 'gate'.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "cbz0-b023-main229-6006686158-d3-2x2-weyl-csp",
+   "comment": "main#229/6006686158",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6006686158",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has either cited SHA-256 prefix, and the row cites no file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "cbz0-b023-main229-6007067368-d3-weighted-e4-moment",
+   "comment": "main#229/6007067368",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6007067368",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CAP-I4-GENERAL-MOMENT-APPENDIX-6007901231",
+   "comment": "main#229/6007901231",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6007901231",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#259/6008930580:endpoint-obstruction",
+   "comment": "main#259/6008930580",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6008930580",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#259/6008930580:growing-order-holder",
+   "comment": "main#259/6008930580",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6008930580",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#341/6009112421:cubic-from-G",
+   "comment": "Math-#341/6009112421",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/341#issuecomment-6009112421",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#341/6009171044:gram-witness",
+   "comment": "Math-#341/6009171044",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/341#issuecomment-6009171044",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#341/6009171044:tenth-moment-constant",
+   "comment": "Math-#341/6009171044",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/341#issuecomment-6009171044",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#337/6009823379:MC-growing-order-consequence-of-G",
+   "comment": "Math-#337/6009823379",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/337#issuecomment-6009823379",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "LM006-ONED-REDUCTION-R23",
+   "comment": "Math-#362/6016901181",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/362#issuecomment-6016901181",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither reduction_check.py nor test_reduction.py appears in any Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "JOINT-ENVELOPE-SUPPORT-01",
+   "comment": "Math-#376/6017466593",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/376#issuecomment-6017466593",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    23
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "R19-WEAKER-SUPPORT-FALLBACK-U8-ABSORPTION",
+   "comment": "main#229/6018051095",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6018051095",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "R19-NINTH-ONLY-WEAKENING-COUNTEREXAMPLE",
+   "comment": "main#229/6019121717",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6019121717",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No real match: the SHA prefix returned nothing, and the replay.py results were only files whose names contain 'replay', with no connection to R19.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C144-C7-SLICE-A-CODEX-REVIEW",
+   "comment": "main#229/6035984449",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6035984449",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title has the reviewer's independent_checks.py hash prefix, the other searched prefixes, or the cited file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CUB-ATTACK-GROK3-L1",
+   "comment": "main#229/6049460292",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6049460292",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main229-6049713530-CUB-vs-ATTACK-conversion-transfer",
+   "comment": "main#229/6049713530",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6049713530",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has the cited SHA-256 prefix, and the row cites no file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "FINITE_BAR_SECTOR_EXHAUSTION-v2",
+   "comment": "main#281/6049856542",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/281#issuecomment-6049856542",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has any of the searched SHA-256 prefixes, and the row cites no file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main229-6050117695-W2e-lower-bound",
+   "comment": "main#229/6050117695",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050117695",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of the cited box-local scripts (kr_mc.py, c152.py, analyze.py, plot_slopes.py) appears in any Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main229-6050164818-W2e-PASS_SCOPED-recomputed",
+   "comment": "main#229/6050164818",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050164818",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither analyze.py nor kr_mc.py appears in any Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "L1-UPPER-BOUND-VERDICT-GROK12",
+   "comment": "main#229/6050283428",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050283428",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title has the cited SHA-256 prefix, and the row cites no file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main229-6050878036-W2g-endpoint-nonaxial",
+   "comment": "main#229/6050878036",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050878036",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file title matches any cited script name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/6050974070:Side24Spectral.lean",
+   "comment": "main#229/6050974070",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6050974070",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No matches: the only SHA-query result had neither prefix in its title, and every gate.py result was an unrelated substring coincidence (m1_quote_gate.py, math_integrity_gate.py, gate_kernel_v2_0.py and similar), with no exact title gate.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/6051067747:W2h-N3-lemmas",
+   "comment": "main#229/6051067747",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6051067747",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file title matches any cited script name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/6051133763:Side24Measure.lean",
+   "comment": "main#229/6051133763",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6051133763",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    24
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-OrdinaryH0Split",
+   "comment": "Math-#193/6051264586",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6051264586",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    70,
+    71,
+    72,
+    73
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "4 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/6051316119:Side24Moments.lean",
+   "comment": "main#229/6051316119",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6051316119",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    25,
+    26
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#229/6051686758:Side24Conditional.lean",
+   "comment": "main#229/6051686758",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6051686758",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains the cited SHA-256 prefix; the one returned result was an unrelated CL-DATA file whose title does not contain it.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "W3m-Side24Determinacy",
+   "comment": "main#229/6051871605",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6051871605",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains the cited SHA-256 prefix, and no Drive or Dropbox title matches certified_d2.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "W3n-Side24TargetDeterminacy",
+   "comment": "main#229/6052048302",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6052048302",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains the cited SHA-256 prefix, and no Drive or Dropbox title matches D2MomentBridge.lean or certified_d2.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#229/6052898922:W2i-nonaxial-gamma-gt-1-floor-limit",
+   "comment": "main#229/6052898922",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6052898922",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file title matches any cited script name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#193/6053136078:I4Spatial-physical-Gaussian-image-kernel",
+   "comment": "Math-#193/6053136078",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6053136078",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    74,
+    75,
+    76
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-SourceJets",
+   "comment": "Math-#193/6053497575",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6053497575",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    77,
+    78,
+    79
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-SourceJetLaw",
+   "comment": "Math-#193/6053555884",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6053555884",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    80,
+    81,
+    82
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-CONTACT-ALGEBRA",
+   "comment": "Math-#193/6053999834",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6053999834",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    83,
+    84,
+    85
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-CONTACT-RANK",
+   "comment": "Math-#193/6054175588",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6054175588",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    86,
+    87,
+    88
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-ENLARGED-CONTACT-SMALL-RADIUS",
+   "comment": "Math-#193/6054607543",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6054607543",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    89
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6057400328:finite-event-lean-main-sources-B",
+   "comment": "Math-#193/6057400328",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6057400328",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    90,
+    91,
+    92,
+    93
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "4 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6057677944:finite-event-lean-validation-packet-C",
+   "comment": "Math-#193/6057677944",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6057677944",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    94,
+    95,
+    96
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-EVENT-FIXTURES-SUPPLEMENT-D",
+   "comment": "Math-#193/6057690473",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6057690473",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    97,
+    98
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "BLIND-COLLISION-COEFFICIENT-20261008",
+   "comment": "Math-#193/6058383024",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6058383024",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    99,
+    100
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "BLIND-COLLISION-COEFFICIENT-COMPARISON",
+   "comment": "Math-#193/6058383024",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6058383024",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    101,
+    102
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-PHYSICAL-MAXIMIN",
+   "comment": "Math-#193/6058807220",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6058807220",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    103,
+    104,
+    105,
+    106,
+    107
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "5 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-GLOBAL-JOINT-FLOW",
+   "comment": "Math-#193/6060228054",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6060228054",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    108,
+    109,
+    110
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-FREE-ALPHA-DIAGNOSTIC",
+   "comment": "Math-#193/6060261259",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6060261259",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    111,
+    112
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "ELDER-EXPLICIT-ENLARGED-FLOOR",
+   "comment": "Math-#193/6060324901",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6060324901",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matched the cited SHA-256 prefixes or the cited contact-algebra Lean file names.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "I4-PROJECTED-MORSE-RANK",
+   "comment": "Math-#193/6060544014",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6060544014",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    113,
+    114,
+    115
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-PIN-MAJORANT",
+   "comment": "Math-#193/6061085674",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6061085674",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    117,
+    118,
+    119
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I4-TWO-PIN-RANK",
+   "comment": "Math-#193/6061498746",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6061498746",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    120,
+    121,
+    122,
+    123
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "4 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6061714542:PinKernel.lean",
+   "comment": "Math-#193/6061714542",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6061714542",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    124,
+    125,
+    126
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-CRITICAL-COMPONENT-INCIDENCE",
+   "comment": "Math-#193/6061970417",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6061970417",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a title matching the cited SHA-256 prefixes or the cited Lean file names, and no script for the Fraction checks was found.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "I4-PIN-REPRODUCTION",
+   "comment": "Math-#193/6062080872",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6062080872",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    127,
+    128,
+    129
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-GLOBAL-CLOSED-COMPONENT-ELDER",
+   "comment": "Math-#193/6062533032",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6062533032",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a title matching the cited SHA-256 prefixes, CapFirstExit.lean or ClosedRealization.lean.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#193/6062549287:PhysicalFrame.lean",
+   "comment": "Math-#193/6062549287",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6062549287",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    130,
+    131,
+    132
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6063048669:PinDisintegration.lean",
+   "comment": "Math-#193/6063048669",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6063048669",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    133,
+    134,
+    135
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "3 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-HELDOUT-NUMERICS-20261008",
+   "comment": "Math-#193/6063173538",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6063173538",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    136,
+    137
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "I2-TRUNCATION-NORMALIZATION-BOUND",
+   "comment": "Math-#193/6063173538",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6063173538",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    141
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6063173997:prospective-heldout-numerics",
+   "comment": "Math-#193/6063173997",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6063173997",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Drive has no title matching the cited SHA-256 prefixes; this row cites no code file names, so neither store got a file-name search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C212",
+   "comment": "Math-#193/6067795162",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6067795162",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    27,
+    28,
+    29,
+    30,
+    31
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "5 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C213",
+   "comment": "Math-#193/6068460766",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6068460766",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    34,
+    35,
+    36,
+    37
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "4 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C214",
+   "comment": "Math-#193/6069003964",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6069003964",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a title matching the cited SHA-256 prefixes, the EventTransport/ComponentEventTransport Lean files or DeterministicSourceC4.lean.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#389/6155958479:r3-disposition-repairs",
+   "comment": "main#389/6155958479",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6155958479",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#389/6180226921:S8-cutoff-exponent-uniqueness-alpha-1-12",
+   "comment": "main#389/6180226921",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6180226921",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of the three cited SHA-256 prefixes appears in any Drive title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#389/6180538023:S8-sign-window-diagnostic-verify_sign_window.py",
+   "comment": "main#389/6180538023",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6180538023",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    38
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#389/6193989322:det-weighted-index-stability",
+   "comment": "main#389/6193989322",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6193989322",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    39
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "D9-K0-ENDPOINT-OPPOSITE-CAP-DIAGNOSTIC-20261015",
+   "comment": "main#389/6194372448",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6194372448",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file matches the cited probe or verifier hashes or the evidence zip name.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#389/6196937659:K0-allangle-limiting-gram",
+   "comment": "main#389/6196937659",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/389#issuecomment-6196937659",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "check_allangle.py and its two result hashes are not in Drive or Dropbox by title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "D4-GAUSSIAN-JET-COEFFICIENT-20261016-ROOT01A11CBF",
+   "comment": "main#419/6205958137",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6205958137",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the D4 coefficient zip or its cited hashes.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "HIGHER-CONFIG-NORMALIZED-GAUSSIAN-SQUARE-TRUNCATIONS-20261016",
+   "comment": "main#419/6207092823",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6207092823",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of the cited SHA-256 prefixes for the higher-configuration controls appears in any Drive title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "ASYMMETRIC-ELDER-TRAP-20261016",
+   "comment": "main#419/6240825785",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6240825785",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither store has a title matching the cited Lean companion files or the cited SHA-256 prefixes.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#419/6240826208:asymmetric-elder-trap-review-regular-sector-join",
+   "comment": "main#419/6240826208",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6240826208",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "asymmetric_elder_trap_controls.py, the reviewer controls hash and the cited Lean or manifest names are not in Drive or Dropbox by title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVERSE-LOCALIZATION-FULL-PPP-20261017",
+   "comment": "main#419/6241687471",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6241687471",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the cited reverse-localization hashes or INPUT_IDENTITIES_BEFORE.json.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "A4-GAUSSIAN-ELDER-SECTOR-20261017",
+   "comment": "main#419/6242536232",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242536232",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The single cited SHA-256 prefix and INPUT_MANIFEST.json have no title match in either store.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "NG-SMOOTHING-ADMISSION-20261017",
+   "comment": "main#419/6242848584",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242848584",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of the four cited SHA-256 prefixes or INPUT_MANIFEST.json appears in a Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "I2-FINITE-L-ENCLOSURE-METHOD-V1",
+   "comment": "Math-#193/6242959634",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6242959634",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither the METHOD_V1 or original hash prefixes nor SOURCE_BINDINGS_V1.json matches any Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "I2-ORIGINAL-FINITE-L-GAD-BINDING-20261017",
+   "comment": "Math-#193/6243294265",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6243294265",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the cited GAD-binding hashes or INPUT_MANIFEST.json, so no off-git copy of the 58-check diagnostic was found.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "LPW-CONSTANT-V4-C-OUTWARD-CORRECTION",
+   "comment": "main#419/6243792389",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6243792389",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1uTcWaYLtJUszT7iBEWzI1Xa6J7_nw9E6",
+     "title": "d1_falsify_v4.py",
+     "size": "20558",
+     "modified": "2026-09-16T22:07:27.932Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1QiYU-g8Ddn_95JwGn6_uLv9TCezms-XV",
+     "title": "h5_zband_consume.py",
+     "size": "6488",
+     "modified": "2026-09-16T16:46:33.977Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "dropbox",
+     "id": "id:t5K6lb1v9lEAAAAAAAAAAQ",
+     "title": "lpw_constant_v4.py",
+     "size": "34538",
+     "modified": "2026-09-26T20:22:44Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "Three exact-name matches for cited code files (Drive d1_falsify_v4.py and h5_zband_consume.py, Dropbox lpw_constant_v4.py at path .../LPW_CONSTANT/v4/). All three predate the correction (16 and 26 Sept), and the impl note says lpw_constant_v4.py computes only the published c, so none is marked as the implementation of the corrected-c recomputation. The RECEIPT.json results were only other *_receipt.json names and were dropped. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "IBA2-012-NEW-AUTHOR-PROOF-REVIEW-01FI",
+   "comment": "main#259/6243898609",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6243898609",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    40,
+    41
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6244609604:PROSPECTIVE_CORRECTIVE_PROTOCOL_V1+ADDENDUM_V2",
+   "comment": "Math-#193/6244609604",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6244609604",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches any cited SHA-256 prefix, PAPER_ALGEBRA_CHECKS_V1.py or SOURCE_BINDINGS_V1.json.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-#193/6244612457:PAPER_ALGEBRA_CHECKS_V1",
+   "comment": "Math-#193/6244612457",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6244612457",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    142
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "M193-V2-XFAM-INPUT-CLAUDES-20261018",
+   "comment": "Math-#193/6251562000",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6251562000",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No exact or contextual match for verify_coefficient.py or RESULT.json. The RESULT.json searches returned only unrelated *_result(s).json(l) names, which were dropped.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "FLB-XPROV-REVIEW-014K-20261019",
+   "comment": "main#419/6277920922",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277920922",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    42,
+    43
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "2 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "FLB-XPROV-REVIEW-014K-20261019-v2",
+   "comment": "main#419/6278343295",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278343295",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains the cited SHA-256 prefix f38c085ab5b15368.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "CLAUDES-METHOD-V2-INPUT-6251562000-DATA-ADDENDUM",
+   "comment": "Math-#193/6279536241",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6279536241",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MATH193-P5-EXACT-CONTROLS-V1",
+   "comment": "Math-#193/6289668819",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6289668819",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    143
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "MATH193-P5-QUANTITATIVE-REDUCTION-V1-ADDENDUM-V2",
+   "comment": "Math-#193/6289668819",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6289668819",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    144
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "P5-M31-QUANTITATIVE-REDUCTION-V1",
+   "comment": "main#307/6289728964",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6289728964",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox copy of EXACT_CONTROLS_V1.py or the control files was found by title, and no title holds a cited SHA-256 prefix.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MATH193-P5-RATIONAL-WINDOW-SELECTION-SUGGESTION-V1",
+   "comment": "Math-#193/6290022153",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6290022153",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains the cited SHA-256 prefix f10edc87be8368a3.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "Math-193/P5-EXPLICIT-WINDOW-V1/ellstar-2^-104451",
+   "comment": "Math-#193/6290377327",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6290377327",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    45
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "R83-ARITHMETIC-SOURCE-CONTRACT-V1",
+   "comment": "Math-#193/6294252123",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6294252123",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    47
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "CL-R81-FAR-LEDGER-017-20261020",
+   "comment": "Math-#193/6294643099",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6294643099",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#451/6328317007:R2B-ANALYTIC-TRUNCATION-BOUND",
+   "comment": "main#451/6328317007",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6328317007",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    49
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "R2B-CERTIFIED-FIXED-CENTER-QUADRATURE-20261021",
+   "comment": "main#451/6329016914",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6329016914",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title contains any of the first four cited SHA-256 prefixes (certificate script, 384/448-bit outputs).",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "R2B-LOCAL-COLLISION-ENCLOSURE-20261022",
+   "comment": "main#451/6345455932",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6345455932",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    50
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#451/6345484271:R2B-LOCAL-COLLISION-ENCLOSURE",
+   "comment": "main#451/6345484271",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6345484271",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "RTW-H2-TRUNCATION-PROPAGATION-20261022",
+   "comment": "main#447/6345664554",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6345664554",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the cited SHA-256 prefixes (including bdfd157d for check_propagation.py), check_propagation.py or the packet zip.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/review-5617496148:H3-normalizer-impact",
+   "comment": "main#447/review-5617496148",
+   "url": "https://github.com/d6g8k5htny-coder/main/pull/447#pullrequestreview-5617496148",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches check_bound_direction.py or its SHA-256 prefix 397428bfea12f73a, or any other cited prefix.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "RL-H2-NORMALIZER-SUCCESSOR-PROPOSAL-20261022",
+   "comment": "main#447/6345825413",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6345825413",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    52
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "PARTIALREVIEW-H2-PROPAGATION-ARGUMENT-20261022-L",
+   "comment": "main#447/6345992970",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6345992970",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches any of the four cited SHA-256 prefixes or check_propagation_review.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/6346327646/check_propagation.py",
+   "comment": "main#447/6346327646",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6346327646",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    53
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#451/6346430770/fold_certificate.py",
+   "comment": "main#451/6346430770",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6346430770",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    54
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#451/6346453709/fold-window-cubic-bar-theorem",
+   "comment": "main#451/6346453709",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/451#issuecomment-6346453709",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/6346581958/check_global_transfer.py",
+   "comment": "main#447/6346581958",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6346581958",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    55
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "main#447/6346608112/PR463-H2-GLOBAL-WEIGHTED-TRANSFER",
+   "comment": "main#447/6346608112",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6346608112",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches either cited SHA-256 prefix or check_global_transfer.py.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "RTW-H2-RATIONAL-TAIL-BUDGET-20261022",
+   "comment": "main#447/6346790378",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6346790378",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    56
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "Math-#193/6351388631/R83-V2-arithmetic-source-contract",
+   "comment": "Math-#193/6351388631",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351388631",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the four searched SHA-256 prefixes or the two cited .py files (the JSON files are not code, so they were not searched).",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C261-CRITICAL-BOUNDARY-TUBE-BASIS-PAPER-V1",
+   "comment": "Math-#487/6351475203",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/487#issuecomment-6351475203",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the four searched SHA-256 prefixes or the three cited .lean files.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C261-CRITICAL-BASIS-FORMAL-DEPENDENCY-MEMO-20261022",
+   "comment": "Math-#487/6351666432",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/487#issuecomment-6351666432",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title matches the four searched SHA-256 prefixes, and with no cited code files no file-name searches were run.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C257-TASK1-TORUS-DISTANCE-SOURCE-20261022",
+   "comment": "Math-#419/6353507301",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/419#issuecomment-6353507301",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the four searched SHA-256 prefixes or the three cited .lean files, including TorusDistance.lean.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/6356930437:fixed-rung-finite-law-stability-witness",
+   "comment": "main#447/6356930437",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6356930437",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    57
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "RTW-FINITE-LAW-STABILITY-20261023",
+   "comment": "main#447/6356968823",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6356968823",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title matches any of the three cited SHA-256 prefixes, and with no cited files no file-name searches were run.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/6357482792:fixed-rung-payoff-moment-transfer-support",
+   "comment": "main#447/6357482792",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6357482792",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    58
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "RTW-FIXED-RUNG-PAYOFF-MOMENT-20261023",
+   "comment": "main#447/6357498683",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6357498683",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title matches the four searched SHA-256 prefixes, and with no cited files no file-name searches were run.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#447/6357921839:RTW-FIXED-RUNG-POSITIVE-FLOOR-20261023",
+   "comment": "main#447/6357921839",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/447#issuecomment-6357921839",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title matches the four searched SHA-256 prefixes, including those of floor_witness.py, test_floor_witness.py and the supervisor, and with no cited files no file-name searches were run.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C317-W2D-H11-QUALIFICATION-20261025-v1",
+   "comment": "main#539/6399918290",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6399918290",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    147
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "V21-ANTIPODAL-UNFOLDING",
+   "comment": "main#605/6400020997",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400020997",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive title matches either cited SHA-256 prefix, and with no cited code files no file-name searches were run.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C318-S06-GAUSSIAN-DERIVATIONS",
+   "comment": "main#605/6400187065",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400187065",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the four searched SHA-256 prefixes or rn_field.py (gaussian_checks.json is data and was not searched).",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C319-S02-H3-SINGLE-RUNG-PROOF-FROZEN",
+   "comment": "main#605/6400428837",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400428837",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1esmPO0V_DQ4BNCH5iZjs-9aXbeqUZyPw",
+     "title": "RN3-20260917-b9c2_PAYLOAD_MANIFEST_v1.0.json",
+     "size": "15052",
+     "modified": "2026-09-17T11:15:21.719Z",
+     "match": "FILENAME_PLUS_CONTEXT",
+     "is_implementation": false
+    }
+   ],
+   "note": "The only match is the RN3-20260917-b9c2 payload manifest JSON on Drive, which is a manifest data file and not the missing H3 checker (check_h3_floor.py is not a cited code name here, and no cited SHA prefix appears in any Drive title). The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C319-S03-RN3-REPLAY-ADDENDUM-FROZEN",
+   "comment": "main#605/6400428837",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400428837",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1esmPO0V_DQ4BNCH5iZjs-9aXbeqUZyPw",
+     "title": "RN3-20260917-b9c2_PAYLOAD_MANIFEST_v1.0.json",
+     "size": "15052",
+     "modified": "2026-09-17T11:15:21.719Z",
+     "match": "FILENAME_PLUS_CONTEXT",
+     "is_implementation": false
+    }
+   ],
+   "note": "No replay code or cited audit JSON was found in Drive or Dropbox; the only related hit is the RN3-20260917-b9c2 payload manifest (a data file) on Drive. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C319-S06-INDEPENDENT-REVIEW-SPECTRAL-H3-FROZEN",
+   "comment": "main#605/6400429135",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400429135",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "10uhOpqUFdwWswAAX7rTYWXwmBxPpxR4K",
+     "title": "Universal_Law_v21_Separated_Collision_Supplement.zip",
+     "size": "7288931",
+     "modified": "2026-10-25T15:15:39.171Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1sxlsGbPs_4Kz503maI5Fj_jZSXPpCTae",
+     "title": "Universal_Law_v21_Separated_Collision_Supplement.zip.sha256",
+     "size": "119",
+     "modified": "2026-10-25T15:15:43.965Z",
+     "match": "FILENAME_PLUS_CONTEXT",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "18wDJEAv_iXF9SwkIGhMSbR95SsvbkDYs",
+     "title": "Universal_Law_v20_Conditional_Mathematics.zip.part001",
+     "size": "83886080",
+     "modified": "2026-10-25T15:10:54.527Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1829rvZ4cFxHz0vqLlWbGD-mN_M3ml9rN",
+     "title": "Universal_Law_v20_Conditional_Mathematics.zip.part002",
+     "size": "83886080",
+     "modified": "2026-10-25T15:11:28.741Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1svbFcKq0HR71FXenqOtGaVvYnPeVaI5f",
+     "title": "Universal_Law_v20_Conditional_Mathematics.zip.part003",
+     "size": "83886080",
+     "modified": "2026-10-25T15:12:05.257Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1a9UXRYtSGcXXgS9Bn5jMq76Q5qySHP5D",
+     "title": "Universal_Law_v20_Conditional_Mathematics.zip.part004",
+     "size": "38737333",
+     "modified": "2026-10-25T15:15:25.321Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "drive",
+     "id": "1s_VkOze9Zbf0vCXqtL8SHfZvNtQetjSU",
+     "title": "Universal_Law_v20_Conditional_Mathematics.zip.sha256",
+     "size": "112",
+     "modified": "2026-10-25T15:15:29.892Z",
+     "match": "FILENAME_PLUS_CONTEXT",
+     "is_implementation": false
+    }
+   ],
+   "note": "Drive holds the cited v21 supplement zip and the v20 zip as four .partNNN split pieces, each with a .sha256 sidecar; these are bundles rather than the spectral checker, and ORIGINAL_RN3.zip, v19, check_spectral_h3.py and the review JSONs were not found. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C319-S11-RN-JOINT-001-FROZEN",
+   "comment": "main#605/6400429386",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400429386",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "dropbox",
+     "id": "id:SEEEbo-ObMAAAAAAAAAAAQ",
+     "title": "h3_rung_floor.py",
+     "size": "16960",
+     "modified": "2026-09-26T20:35:55Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    },
+    {
+     "store": "dropbox",
+     "id": "id:28YA_TzIMVkAAAAAAAAAAQ",
+     "title": "h3_rung_floor.py",
+     "size": "16960",
+     "modified": "2026-09-26T20:22:44Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "Dropbox has two copies of h3_rung_floor.py, both 16960 B and in UPPER2D/H3_closure folders; this is H3-closure code the artifact cites as a dependency, not its rn_joint.py or audit_rn_joint.py checker, and neither of those was found in Drive or Dropbox. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C320-SCC-GROWTH-01-CORRECTION",
+   "comment": "main#605/6400707380",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400707380",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    148
+   ],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1xkz17ZdwNLd0_RvzzGWvA_F1bQYfCPGj",
+     "title": "exact_controls.py",
+     "size": "10227",
+     "modified": "2026-09-24T10:33:30.371Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "V22-K-OFFAXIS-OBSTRUCTION-01",
+   "comment": "main#605/6401073860",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401073860",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither cited SHA-256 prefix appears in any Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C321-EXACT-CONTROLS",
+   "comment": "main#605/6401283692",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401283692",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    149
+   ],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1xkz17ZdwNLd0_RvzzGWvA_F1bQYfCPGj",
+     "title": "exact_controls.py",
+     "size": "10227",
+     "modified": "2026-09-24T10:33:30.371Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "C321-COUNT-INTERFACE",
+   "comment": "main#605/6401300570",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401300570",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1tFqMy26kvTtngP5Jfo5DyHuX2iNgGGhQ",
+     "title": "SOURCE_IDENTITIES.json",
+     "size": "995",
+     "modified": "2026-09-19T14:59:59.909Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "VERIFY_FINAL.py was not found anywhere; the only exact name hit is a 995 B SOURCE_IDENTITIES.json data file dated 2026-09-19, before this artifact, so it is likely an unrelated name collision. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C321",
+   "comment": "main#605/6401431575",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401431575",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1cNAvWjJ2XTiVmblGiykEANvBBhh53gaj",
+     "title": "C321_PIN_WEIGHTED_WITNESS_COUNT_INTERFACE_20261025.zip",
+     "size": "864033",
+     "modified": "2026-10-25T18:19:56.462Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "Drive holds the cited C321 interface bundle zip (864033 B, 2026-10-25); its title marks it as a bundle rather than code, though it may contain the inline controls and VERIFY_FINAL.py. The store matches listed are data, archives or reviews, not implementation code.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "C322-EXACT-CONTROLS",
+   "comment": "main#605/6401718069",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401718069",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    150
+   ],
+   "git_carriers": [],
+   "store_candidates": [
+    {
+     "store": "drive",
+     "id": "1xkz17ZdwNLd0_RvzzGWvA_F1bQYfCPGj",
+     "title": "exact_controls.py",
+     "size": "10227",
+     "modified": "2026-09-24T10:33:30.371Z",
+     "match": "EXACT_FILENAME",
+     "is_implementation": false
+    }
+   ],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "V22-BAND-COV-ANGULAR-XOVER-01",
+   "comment": "main#605/6401823149",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401823149",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither cited SHA-256 prefix appears in any Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-GENERIC-HEIGHT-MEAN-01-FAIL",
+   "comment": "main#605/6402298236",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402298236",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The single cited SHA-256 prefix appears in no Drive title, and the row cites no file names to search.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-MATH514-CURVATURE-A-B",
+   "comment": "Math-#514/6405655198",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6405655198",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "Neither Drive nor Dropbox has a file whose title matches ScalarProductCurvatureBound.lean, so this search found no off-git copy of the review's sympy check or Lean file.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-LM004-V1.1-ROBUSTNESS-01CZ",
+   "comment": "Math-#514/6406504239",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6406504239",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "ACTUAL-CANONICAL-CAPTURE-APPLICATION-20261026",
+   "comment": "Math-#514/6407376329",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6407376329",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title contains the cited SHA-256 prefix 6369fae0f5c746ed or the file name REUSED_SOURCES.json.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "ACTUAL-ADAPTIVE-ELDER-PLANAR-PARENTS-20261026",
+   "comment": "Math-#514/6407927085",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/issues/514#issuecomment-6407927085",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "None of the three cited SHA-256 prefixes, and not the name REUSED_SOURCES.json, appears in any Drive or Dropbox title.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#429/review-5655761213",
+   "comment": "main#429/review-5655761213",
+   "url": "https://github.com/d6g8k5htny-coder/main/pull/429#pullrequestreview-5655761213",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    59,
+    60,
+    61,
+    62,
+    63
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "5 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "REVIEW-V22-BAND-COV-ANGULAR-XOVER-02",
+   "comment": "main#605/6423015802",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6423015802",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    64
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "FIELD-NATIVE-NORMALIZED-ROOT-COUPLING-v1",
+   "comment": "main#664/6426043466",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/664#issuecomment-6426043466",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No title matches either cited SHA-256 prefix; the five Dropbox files named exactly RECEIPT.json sit in unrelated LPW_CONSTANT/K3_SIDE24 folders and predate main#664, so they were dropped as name coincidences.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "REVIEW-V22-SECOND-HEIGHT-GENERIC-ANTHROPIC-014K-20261027",
+   "comment": "main#674/6444486996",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/674#issuecomment-6444486996",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is named check_joint_window_cubic.py, and nothing turned up for the reviewer's unpublished sympy/mpmath scripts.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "605-D-H3-FLOOR-XCHECK-014K-20261027",
+   "comment": "main#605/6445675520",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6445675520",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    65
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "REVIEW-606-SCI-014K-20261027",
+   "comment": "main#606/6448947886",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/606#issuecomment-6448947886",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    66
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "605-D-RN3-S11-DERIVATIONS-014K-20261027",
+   "comment": "main#605/6453643649",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6453643649",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    67
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  },
+  {
+   "key": "REVIEW-664-C334-CODE-ALIGN-014K-20261028",
+   "comment": "main#664/6471272030",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/664#issuecomment-6471272030",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox title matches the reviewed code files (field_certificate.py, run_falsifier.py, test_normalized_certificate.py, exact_h0.py), so these searches found no off-git copy of commit 8dd0cf50's files or of the review's local scripts.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main#664/6473020199:C336-F1-N1-corner-monotonicity",
+   "comment": "main#664/6473020199",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/664#issuecomment-6473020199",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "No Drive or Dropbox file is named test_normalized_certificate.py; the cited bytes remain reachable only through the unreferenced GitHub commit fd10916c.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "main606-REVIEW-606-SCI-01XJMJ-rate-and-eta-uniformity-repair",
+   "comment": "main#606/6502821328",
+   "url": "https://github.com/d6g8k5htny-coder/main/issues/606#issuecomment-6502821328",
+   "census_class": "NONE_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MATH525-R-01DKKE-RIDGE-RELAXATION-COUNTEREXAMPLE",
+   "comment": "Math-#525/review-5701971506",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/525#pullrequestreview-5701971506",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "The comment names no file or hash to search for.",
+   "outcome": "NOT_LOCATED"
+  },
+  {
+   "key": "MATH525-R-01DKKE-SHARP-ACTION-REPAIR",
+   "comment": "Math-#525/review-5701971506",
+   "url": "https://github.com/d6g8k5htny-coder/Math-/pull/525#pullrequestreview-5701971506",
+   "census_class": "CITED_NOT_FOUND",
+   "extracts": [
+    69
+   ],
+   "git_carriers": [],
+   "store_candidates": [],
+   "note": "1 code block(s) in the comment extracted byte-exact.",
+   "outcome": "INLINE_EXTRACTED"
+  }
+ ]
+}

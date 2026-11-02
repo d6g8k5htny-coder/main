@@ -1,0 +1,355 @@
+#!/usr/bin/env python3
+"""C102 cross-provider review controls: exact rational checks, standard library only.
+
+Target: C102-COMPACT-POSITIVE-GAP-GAUSSIAN-TRANSFER-20261003-v1, main issue 229,
+comment 5967305153 (28,794 bytes, SHA-256 1a89b365...7628).
+Reviewer: Anthropic Claude, session_01NMeKEismAyeqgdB4sy2NJU, for Dylan Roy
+(delegated AI review). Written without the author's or the first reviewer's code.
+
+Usage: python3 c102_exact.py [MUTANT]
+  exit 0: every check passes; exit 1: some check fails; exit 2: unknown label.
+Mutant labels (each must make the script exit 1):
+  DET_11      |det T_r| = 11 r^-5 in place of 12 r^-5 (2.1)
+  ROW4_30     the fourth row of U_r expanded as f_xxx + (r^2/30) f_xxxxx (Lemma 1)
+  STRIP_12    the union of the two typing strips given lambda-length delta/12 (5.2)
+  W_LAMBDA    the strip weight bound w <= Lambda delta in place of 3 Lambda delta (5.3)
+  REF_6K      the Lemma 5 reference product 6k A^2 1{A<0} in place of 36k^2 A^2 1{A<0}
+  LEDGER_R2   the candidate ledger with r^2 in place of r for the polar factor (7.2)
+These checks test finite algebra and exactly pinned polynomial fields only. They do
+not prove C102's Gaussian rank, interpolation, moment or normalizer statements.
+"""
+import sys
+import random
+from fractions import Fraction as F
+from math import isqrt
+
+MUTANTS = ("DET_11", "ROW4_30", "STRIP_12", "W_LAMBDA", "REF_6K", "LEDGER_R2")
+MUT = None
+if len(sys.argv) > 1:
+    MUT = sys.argv[1]
+    if len(sys.argv) > 2 or MUT not in MUTANTS:
+        print("unknown mutant label: %s" % " ".join(sys.argv[1:]))
+        sys.exit(2)
+
+RNG = random.Random(102_5967305153)
+RESULTS, FAILS = [], []
+
+
+class Group:
+    def __init__(self, name):
+        self.name, self.n, self.bad = name, 0, 0
+
+    def check(self, ok, msg=""):
+        self.n += 1
+        if not ok:
+            self.bad += 1
+            if len(FAILS) < 12:
+                FAILS.append("%s: %s" % (self.name, msg))
+
+    def close(self):
+        RESULTS.append((self.name, self.n - self.bad, self.n))
+
+
+def rq(lo, hi, den=97):
+    a, b = int(F(lo) * den), int(F(hi) * den)
+    return F(RNG.randint(a, b), den)
+
+
+def rq_nonzero(lo, hi, den=97):
+    while True:
+        x = rq(lo, hi, den)
+        if x != 0:
+            return x
+
+
+def pos(x):
+    return x if x > 0 else F(0)
+
+
+def det_n(M):
+    M = [row[:] for row in M]
+    n, d = len(M), F(1)
+    for c in range(n):
+        piv = next((r_ for r_ in range(c, n) if M[r_][c] != 0), None)
+        if piv is None:
+            return F(0)
+        if piv != c:
+            M[c], M[piv] = M[piv], M[c]
+            d = -d
+        d *= M[c][c]
+        for r_ in range(c + 1, n):
+            fct = M[r_][c] / M[c][c]
+            for cc in range(c, n):
+                M[r_][cc] -= fct * M[c][cc]
+    return d
+
+
+def det2(m):
+    p, q, s = m
+    return p * s - q * q
+
+
+def index2(m):
+    p, q, s = m
+    d = det2(m)
+    if d == 0:
+        return None
+    if d < 0:
+        return 1
+    return 2 if p + s < 0 else 0
+
+
+def filt(m, j):
+    return abs(det2(m)) if index2(m) == j else F(0)
+
+
+SQ = 10**12
+
+
+def sqrt_lo(x):
+    n, d = x.numerator, x.denominator
+    return F(isqrt(n * d * SQ * SQ), d * SQ)
+
+
+def opnorm_lo(m):
+    p, q, s = m
+    return (abs(p + s) + sqrt_lo((p - s)**2 + 4 * q * q)) / 2
+
+
+def upoly(coefs, x):
+    return sum(c * x**i for i, c in enumerate(coefs))
+
+
+def uderiv(coefs, n=1):
+    for _ in range(n):
+        coefs = [i * c for i, c in enumerate(coefs)][1:]
+    return coefs
+
+
+# =====================================================================
+# X0  (2.1): the pin transform T_r, its determinant and the exact target v_{r,k}
+# =====================================================================
+g = Group("X0 (2.1) pin transform, determinant, target")
+for _ in range(400):
+    r, k, b = rq(F(1, 100), 1, 997), rq(F(1, 5), 5), rq(-3, 3)
+    Tr = [[F(1, 2), F(1, 2), 0, 0, 0, 0],
+          [-1 / r, 1 / r, 0, 0, 0, 0],
+          [0, 0, -1 / r, 1 / r, 0, 0],
+          [12 / r**3, -12 / r**3, 6 / r**2, 6 / r**2, 0, 0],
+          [0, 0, 0, 0, F(1, 2), F(1, 2)],
+          [0, 0, 0, 0, -1 / r, 1 / r]]
+    c12 = 11 if MUT == "DET_11" else 12
+    g.check(abs(det_n(Tr)) == c12 / r**5, "|det T_r| = 12 r^-5")
+    g.check(abs(det_n([row[:4] for row in Tr[:4]])) == 12 / r**4, "axial block 12/r^4")
+    g.check(abs(det_n([row[4:] for row in Tr[4:]])) == 1 / r, "transverse block 1/r")
+    obs = [b, b - k * r**3, 0, 0, 0, 0]
+    v = [sum(Tr[i][j] * obs[j] for j in range(6)) for i in range(6)]
+    g.check(v == [b - k * r**3 / 2, -k * r**2, 0, 12 * k, 0, 0], "v_{r,k} = (b - k r^3/2, -k r^2, 0, 12k, 0, 0)")
+    g.check([v[i] - x for i, x in enumerate([b, 0, 0, 12 * k, 0, 0])] == [-k * r**3 / 2, -k * r**2, 0, 0, 0, 0],
+            "v_{r,k} - v_{0,k} = O(r^2)")
+    # amplitude rescaling: k f + b(1-k) keeps the gap-k pins of a gap-1 field but scales the residual by k
+    f1M, f1S = b, b - r**3
+    g.check(k * f1M + b * (1 - k) == b and k * f1S + b * (1 - k) == b - k * r**3, "rescaled pins hold")
+g.close()
+
+# =====================================================================
+# X1  Lemma 1: U_r - U_0 = O(r^2) row by row, with the exact fourth-row expansion
+# =====================================================================
+g = Group("X1 Lemma 1 row expansions of U_r")
+for _ in range(1500):
+    r = rq(F(1, 100), 1, 997)
+    a = r / 2
+    fc = [rq(-5, 5) for _ in range(8)]                  # axial profile f(x, 0), degree 7
+    fz = [rq(-5, 5) for _ in range(7)]                  # transverse profile f_z(x, 0), degree 6
+    f, fx = (lambda x: upoly(fc, x)), (lambda x: upoly(uderiv(fc), x))
+    q = lambda x: upoly(fz, x)
+    der = [upoly(uderiv(fc, n), 0) for n in range(8)]   # f^(n)(0)
+    dz = [upoly(uderiv(fz, n), 0) for n in range(7)]
+    row1 = (f(-a) + f(a)) / 2
+    row2 = (f(a) - f(-a)) / r
+    row3 = (fx(a) - fx(-a)) / r
+    row4 = 6 / r**2 * (fx(-a) + fx(a) - 2 * (f(a) - f(-a)) / r)
+    row5 = (q(-a) + q(a)) / 2
+    row6 = (q(a) - q(-a)) / r
+    c40 = F(1, 30) if MUT == "ROW4_30" else F(1, 40)
+    g.check(row4 == der[3] + c40 * r**2 * der[5] + r**4 * der[7] / 4480, "row 4 = f''' + (r^2/40) f^(5) + (r^4/4480) f^(7)")
+    g.check(row1 == der[0] + a**2 * der[2] / 2 + a**4 * der[4] / 24 + a**6 * der[6] / 720, "row 1 = f + O(r^2)")
+    g.check(row2 == der[1] + a**2 * der[3] / 6 + a**4 * der[5] / 120 + a**6 * der[7] / 5040, "row 2 = f_x + O(r^2)")
+    g.check(row3 == der[2] + a**2 * der[4] / 6 + a**4 * der[6] / 120, "row 3 = f_xx + O(r^2)")
+    g.check(row5 == dz[0] + a**2 * dz[2] / 2 + a**4 * dz[4] / 24 + a**6 * dz[6] / 720, "row 5 = f_z + O(r^2)")
+    g.check(row6 == dz[1] + a**2 * dz[3] / 6 + a**4 * dz[5] / 120, "row 6 = f_xz + O(r^2)")
+# the ten contact jets of orders 0..3 are the ten monomials of degree <= 3 in two variables
+mono = sorted({(i, j) for i in range(4) for j in range(4 - i)})
+jets = [(0, 0), (1, 0), (2, 0), (3, 0), (0, 1), (1, 1), (0, 2), (2, 1), (1, 2), (0, 3)]   # U_0 then J
+g.check(len(mono) == 10 and sorted(jets) == mono, "V_0 lists the ten distinct jets of orders 0..3")
+g.close()
+
+# =====================================================================
+# X2  Lemma 3: Jacobian r/k^4, determinant factor 1, inertia; CUB's cubic at gap k
+# =====================================================================
+g = Group("X2 Lemma 3 Jacobian, determinant factor, CUB cubic")
+for _ in range(1500):
+    r, k = rq(F(1, 100), 1, 997), rq(F(1, 5), 5)
+    g.check(abs((-r / k) * (1 / k) * (1 / k**2)) == r / k**4, "(4.1) |det D_y J| = r/k^4")
+    g.check(r**-5 * (r / k**4) * r**4 == k**-4, "(1.4) prefactor r^-5 (r/k^4) r^4 = k^-4")
+    Hm = (rq(-5, 5), rq(-5, 5), rq(-5, 5))
+    HF = (Hm[0] / (k * r), Hm[1] * k / (k * r), Hm[2] * k * k / (k * r))
+    g.check(det2(Hm) / r**2 == det2(HF) and k**2 / (k**2) == 1, "(4.3) det(H/r) = det Hess F_r; factor k^2/(det D_k)^2 = 1")
+    g.check(index2(Hm) == index2(HF), "(4.2) inertia preserved")
+    lam, gam, B, C = rq(-3, 3), rq(-3, 3), rq(-3, 3), rq(-3, 3)
+    s_, a_, be_, c_ = -lam / k, gam, B / k, C / k**2
+    for X, z in ((F(1, 3), F(-2, 5)), (F(-7, 4), F(1, 2)), (F(2), F(3, 7))):
+        G = (2 * X**3 - F(3, 2) * X - F(1, 2) + gam / 2 * (X**2 - F(1, 4)) * z - lam / 2 * z**2 + B / 2 * X * z**2
+             + C / 6 * z**3)
+        Z = k * z
+        P = (2 * k * X**3 - F(3, 2) * k * X - k / 2 + s_ / 2 * Z**2 + a_ / 2 * (X**2 - F(1, 4)) * Z + be_ / 2 * X * Z**2
+             + c_ / 6 * Z**3)
+        g.check(G == P / k, "G_y(X, z) = P_theta(X, k z)/k")
+g.close()
+
+# =====================================================================
+# X3  (4.4), (1.1), (4.7), (6.3), (6.4) and the Lemma 5 reference product
+# =====================================================================
+g = Group("X3 pivots, F_j, congruence, Lemma 5 reference")
+for _ in range(3000):
+    lam, gam, B = rq(-6, 6), rq(-4, 4), rq(-3, 3)
+    LM, LS = (F(-6), -gam / 2, -lam - B / 2), (F(6), gam / 2, -lam + B / 2)
+    hM, hS = 6 * lam + 3 * B - gam**2 / 4, 6 * lam - 3 * B + gam**2 / 4
+    g.check(filt(LM, 2) == pos(hM) and filt(LS, 1) == pos(hS), "(4.4) F_2(L_M) = (h_M)_+, F_1(L_S) = (h_S)_+")
+    g.check(hM + hS == 12 * lam and pos(hM) * pos(hS) <= 36 * pos(lam)**2, "(1.1) w <= 36 lambda_+^2")
+    Tm = (rq(-3, 3), rq(-3, 3), rq(-3, 3))
+    g.check(filt(Tm, 1) == pos(-det2(Tm)), "F_1(T) = (-det T)_+")
+    X_, Y_ = (rq(-3, 3), rq(-3, 3), rq(-3, 3)), (rq(-3, 3), rq(-3, 3), rq(-3, 3))
+    D_ = tuple(x - y for x, y in zip(X_, Y_))
+    for j in (1, 2):
+        g.check(abs(filt(X_, j) - filt(Y_, j)) <= 2 * max(opnorm_lo(X_), opnorm_lo(Y_)) * opnorm_lo(D_), "(4.7)")
+    al, A_, cc = rq(-3, 3), rq(-3, 3), rq(-2, 2)
+    for j in (1, 2):
+        g.check(abs(filt((al, cc, A_), j) - filt((al, F(0), A_), j)) <= cc * cc, "(6.4)")
+    # (6.3): C_i = diag(r^-1/2, 1) H_i diag(r^-1/2, 1) = [[alpha, sqrt(r) beta], [sqrt(r) beta, A]]
+    r = rq(F(1, 100), 1, 997)
+    alpha, beta, Ai = rq(-5, 5), rq(-5, 5), rq(-5, 5)
+    H = (r * alpha, r * beta, Ai)
+    # det C_i = alpha A - r beta^2 = det H_i / r, and the index is preserved (positive diagonal congruence)
+    Cdet = alpha * Ai - r * beta**2
+    g.check(Cdet == det2(H) / r, "(6.3) det C_i = det H_i / r")
+    if Cdet != 0:
+        Cidx = 1 if Cdet < 0 else (2 if alpha + Ai < 0 else 0)
+        g.check(index2(H) == Cidx, "(6.3) inertia preserved by diag(r^-1/2, 1)")
+    k = rq(F(1, 5), 5)
+    Ac = rq(-5, 5)
+    ref = filt((-6 * k, F(0), Ac), 2) * filt((6 * k, F(0), Ac), 1)
+    target = (6 * k if MUT == "REF_6K" else 36 * k**2) * Ac**2 * (1 if Ac < 0 else 0)
+    g.check(ref == target, "Lemma 5: F_2(diag(-6k, A)) F_1(diag(6k, A)) = 36 k^2 A^2 1{A < 0}")
+g.close()
+
+# =====================================================================
+# X4  Lemma 4 (5.2)-(5.3): strip lambda-length and the weight on the strips inside T
+# =====================================================================
+g = Group("X4 (5.2)-(5.3) typing strips")
+for _ in range(3000):
+    gam, B = rq(-4, 4), rq(-3, 3)
+    delta = rq(F(1, 100), 1, 1000)
+    Lam = rq(1, 30)
+    D = gam**2 - 12 * B
+    # |a_M| <= delta  <=>  |24 lambda - D| <= delta ; |a_S| <= delta <=> |24 lambda + D| <= delta
+    I1 = ((D - delta) / 24, (D + delta) / 24)
+    I2 = ((-D - delta) / 24, (-D + delta) / 24)
+    lo, hi = max(I1[0], I2[0]), min(I1[1], I2[1])
+    union = (I1[1] - I1[0]) + (I2[1] - I2[0]) - (hi - lo if hi > lo else 0)
+    bound = delta / 12 if MUT == "STRIP_12" else delta / 6
+    g.check(union <= bound, "(5.2) union length <= delta/6")
+    # on the model support inside the strips, w = a_M a_S / 16 <= 3 Lambda delta
+    for t_ in range(6):
+        Ii = I1 if t_ % 2 == 0 else I2
+        lam = Ii[0] + (Ii[1] - Ii[0]) * F(RNG.randint(0, 1000), 1000)
+        if not 0 < lam <= Lam:
+            continue
+        aM, aS = 24 * lam - D, 24 * lam + D
+        if aM > 0 and aS > 0 and min(aM, aS) <= delta:
+            wb = Lam * delta if MUT == "W_LAMBDA" else 3 * Lam * delta
+            g.check(aM * aS / 16 <= wb, "(5.3) w <= 3 Lambda delta")
+            g.check(aM + aS == 48 * lam <= 48 * Lam, "a_M + a_S = 48 lambda <= 48 Lambda")
+g.close()
+
+# =====================================================================
+# X5  (6.2)-type pin bounds on exactly pinned quintic axis profiles and quartic f_z profiles
+# =====================================================================
+g = Group("X5 (6.2) endpoint pin bounds on pinned fields")
+for _ in range(1500):
+    k, r, b = rq(F(1, 5), 3), rq(F(1, 200), F(1, 2), 997), rq(-2, 2)
+    a = r / 2
+    c4, c5 = rq(-30, 30), rq(-300, 300)
+    c2 = -2 * c4 * a**2
+    c0 = b - 4 * k * a**3 - c2 * a**2 - c4 * a**4
+    c3 = 2 * k - 2 * c5 * a**2
+    c1 = -3 * c3 * a**2 - 5 * c5 * a**4
+    gc = [c0, c1, c2, c3, c4, c5]
+    gv, gd, gdd = (lambda x: upoly(gc, x)), (lambda x: upoly(uderiv(gc), x)), (lambda x: upoly(uderiv(gc, 2), x))
+    g.check(gv(-a) == b and gv(a) == b - k * r**3 and gd(a) == 0 and gd(-a) == 0, "exact axial pins")
+    M4 = max(abs(24 * c4 + 120 * c5 * x) for x in (-a, a))       # sup |g''''| on [-a, a] (affine)
+    alM, alS = gdd(-a) / r, gdd(a) / r
+    g.check(abs(alM + 6 * k) <= r * M4 / 2 and abs(alS - 6 * k) <= r * M4 / 2, "|alpha_M + 6k|, |alpha_S - 6k| <= r M4/2")
+    # beta_i = f_xz(i)/r with f_xz(x, 0) = q'(x), q = f_z(x, 0) vanishing at +-a: |beta_i| <= sup|q'''| / 2
+    q3, q4, q2 = rq(-30, 30), rq(-200, 200), rq(-5, 5)
+    q0, q1 = -q2 * a**2 - q4 * a**4, -q3 * a**2
+    qc = [q0, q1, q2, q3, q4]
+    qd = lambda x: upoly(uderiv(qc), x)
+    g.check(upoly(qc, a) == 0 and upoly(qc, -a) == 0, "exact transverse gradient pins")
+    # sup |q''| = sup |f_xxz| on the segment: q'' = 2 q2 + 6 q3 x + 12 q4 x^2 is quadratic
+    q2c = [2 * q2, 6 * q3, 12 * q4]
+    pts = [-a, a] + ([-q2c[1] / (2 * q2c[2])] if q2c[2] != 0 and abs(q2c[1] / (2 * q2c[2])) <= a else [])
+    M3 = max(abs(upoly(q2c, x)) for x in pts)
+    g.check(abs(qd(-a) / r) <= M3 / 2 and abs(qd(a) / r) <= M3 / 2, "|beta_i| <= sup|f_xxz|/2 (the average of f_xz vanishes)")
+g.close()
+
+# =====================================================================
+# X6  (6.5): contact parity -- an even covariance makes odd-order cross-covariances at 0 vanish
+# =====================================================================
+g = Group("X6 (6.5) contact parity")
+# K(z) = sum_n a_n cos(w_n . z); D^gamma cos(w.z) at 0 equals Re(i^|gamma|) w^gamma, zero for odd |gamma|
+freqs = [((rq(-3, 3), rq(-3, 3)), rq(F(1, 10), 1)) for _ in range(6)]
+
+
+def DK0(gx, gz):
+    order = gx + gz
+    if order % 2 == 1:
+        return F(0)
+    sgn = 1 if order % 4 == 0 else -1
+    return sum(w * sgn * om[0]**gx * om[1]**gz for om, w in freqs)
+
+
+even = [(0, 0), (2, 0), (1, 1), (0, 2)]          # f, f_xx, f_xz, f_zz (A)
+odd = [(1, 0), (3, 0), (0, 1), (2, 1), (1, 2), (0, 3)]   # f_x, f_xxx, f_z, f_xxz, f_xzz, f_zzz
+for e in even:
+    for o in odd:
+        # Cov(D^e f(0), D^o f(0)) = (-1)^|o| D^(e+o) K(0)
+        g.check(DK0(e[0] + o[0], e[1] + o[1]) == 0, "even/odd jets uncorrelated at contact %s %s" % (e, o))
+g.check(set(even) | set(odd) == set(mono) and not set(even) & set(odd), "the ten jets split into 4 even and 6 odd")
+g.close()
+
+# =====================================================================
+# X7  (7.2) candidate ledger, (1.10) and (7.1) admissibility exponents
+# =====================================================================
+g = Group("X7 (7.2) ledger, (1.10), (7.1)")
+pin, polar, height, norm = F(-5), (F(2) if MUT == "LEDGER_R2" else F(1)), F(3), F(2)
+g.check(pin + polar + height + norm == 1, "(7.2) (12 r^-5 pi_r)(r dr)(r^3 db dk)(r^2 z_r) = r A_r")
+g.check(F(12) * 1 == 12, "A_r = 12 pi_r z_r")
+for a in (F(1, 8), F(1, 5), F(24, 100), F(1, 4), F(1, 3)):
+    # Lambda = r^-a: rH/k_- -> 0 iff a < 1; r H^4 -> 0 iff a < 1/4
+    g.check((1 - a > 0) == (a < 1) and (1 - 4 * a > 0) == (a < F(1, 4)), "Lambda = r^-a admissibility, a = %s" % a)
+# section 8: at r = (l/k)^(1/3), A_r - A_0 = O(r) supports beta up to 1; error exponent (2 + min(beta, 1))/3
+for beta in (F(1, 4), F(1, 2), F(1), F(3, 2)):
+    g.check((2 + min(beta, F(1))) / 3 == F(2, 3) + min(beta, F(1)) / 3, "section 8 prospective error, beta = %s" % beta)
+g.close()
+
+# ---------------------------------------------------------------------
+total = sum(t for _, _, t in RESULTS)
+passed = sum(p for _, p, _ in RESULTS)
+for name, p, t in RESULTS:
+    print("%-50s %6d/%-6d %s" % (name, p, t, "PASS" if p == t else "FAIL"))
+print("mutant: %s" % (MUT if MUT else "none"))
+print("total checks: %d; failures: %d" % (total, total - passed))
+for f_ in FAILS:
+    print("  FAIL " + f_)
+sys.exit(0 if passed == total else 1)
