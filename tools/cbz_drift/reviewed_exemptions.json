@@ -1,0 +1,22 @@
+{
+ "schema": "cbz.drift.exemptions.v1",
+ "exemptions": [
+  {
+   "id": "FEDDRIFT-C88-01",
+   "name": "CapFirstExit.frontier_image_subset",
+   "rationale": "Math-#514 added a reused copy of this theorem whose context opens Set where the original opens Set unitInterval; the copy's single topology import does not provide unitInterval. The statement uses no name from the unitInterval namespace (no scoped I, no sigma, no unitInterval.* identifier), checked against the interface the crawl records at both locations, so the context difference does not change it. Only a change to either interface (the statement or its context: open, variable and the like) re-blocks; comments, whitespace and proof bodies are outside interface_sha256. Remove this entry if the #514 packet owner restores the original context in the copy. Routed at main#738 comments 6568570507 and 6569726362; design 6568753056; wording 6570035707.",
+   "locations": [
+    {
+     "repository": "d6g8k5htny-coder/Math-",
+     "path": "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean",
+     "interface_sha256": "d0b4c10808199ba143e93ceb53999b618a000f7fc8b45b98720b605e0dc8c317"
+    },
+    {
+     "repository": "d6g8k5htny-coder/Math-",
+     "path": "frontiers/source_derivative_gaussian_20261025/inputs/elder/ReusedCompactFrontier.lean",
+     "interface_sha256": "460289c21db481a8af33b1910b066f50100fd64c2a5c9798318eed7522e4519c"
+    }
+   ]
+  }
+ ]
+}
