@@ -1,0 +1,47 @@
+{
+  "verdict": "AMEND",
+  "scope": "Only changed construction/module discovery boundaries and applicable evidence; no completed verification rerun",
+  "reviewed_runtime_hashes": {
+    "kernel_replay": "730bf28746f6574dc11cf9d8b63d759c6edab1aafed8d2a73b21f2388278cef3",
+    "layer_a": "c07a257fd5a641b67e00431616fe2e3cfd0426ebc0066383bf328356c227f822"
+  },
+  "frozen_bindings_read": {
+    "kernel_replay/run_tests.py": "730bf28746f6574dc11cf9d8b63d759c6edab1aafed8d2a73b21f2388278cef3",
+    "kernel_replay/tests/test_mutation_harness.py": "8d42a69f5b9a73705837111d59bbbe56c5f41ee84362ff1b006ea38226a37690",
+    "layer_a/mutation_test.py": "c07a257fd5a641b67e00431616fe2e3cfd0426ebc0066383bf328356c227f822",
+    "layer_a/tests/test_mutation_runner.py": "708061a74bdc800addd5394f058605f4e063e172dd6933e715639a499f6c7956"
+  },
+  "closed_previous_findings": [
+    {
+      "id": "IDENTITY-REVIEW-F1",
+      "state": "SOURCE_AND_SCOPED_EVIDENCE_CLOSED",
+      "reason": "Ordinary construction, metaclass and attribute dispatch checked before instantiation; class function/code declarations snapshotted before construction and compared afterward."
+    },
+    {
+      "id": "IDENTITY-REVIEW-F2",
+      "state": "SOURCE_AND_SCOPED_EVIDENCE_CLOSED",
+      "reason": "Module enumeration now uses sorted actual module dictionary keys/direct values, bypassing module __dir__ and __getattr__."
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "IDENTITY-REVIEW-F3",
+      "severity": "P1",
+      "title": "Reject method descriptors before named-selector resolution",
+      "cause": "loadTestsFromName calls getattr(TestCaseClass,part) before ordinary_test_class is checked by frozen_cases. An unsupported descriptor can alias itself to another body before that guard sees the class.",
+      "observed": "Both exact proposed runners return SURVIVED/exit0 with selected C.test_second, invalid_population=[], trace descriptor,first. The retained original second body is absent.",
+      "evidence": "review-probes/method-descriptor-alias/RESULTS.json",
+      "fix": "Validate an ordinary TestCase class before accessing a method selector and avoid invoking custom descriptors. Refuse non-module/non-TestCase object traversal rather than allowing selector factory side effects."
+    }
+  ],
+  "followup_guard_evidence": {
+    "records": 8,
+    "themes_per_tool_mode": 2,
+    "actual_assertion_kills": 8,
+    "errors": 0,
+    "file": "FOLLOWUP_GUARD_MUTATIONS.json"
+  },
+  "prior_evidence": "Original32 guard executions and normal/optimized27kernel19layer applicable method unions retain source-specific validity; not new whole40guard/fullG0 runs. Original AMEND/probes remain preserved.",
+  "new_execution": "Exactlytwo new normal-mode CLI probes for new named-method descriptor path; no completed tests/math/Lean/scanner jobs rerun.",
+  "limits": "Ordinary trusted Python runtime and source custody; no malicious sandbox or universal scanner correctness claim."
+}

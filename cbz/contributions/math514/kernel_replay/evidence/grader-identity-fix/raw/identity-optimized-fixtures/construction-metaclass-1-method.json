@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpof50u_5p/run_tests.py",
+    "--output",
+    "/tmp/tmpof50u_5p/receipt.json",
+    "--test",
+    "test_identity.C.test_one"
+  ],
+  "events": [],
+  "exit_code": 1,
+  "fixture_sha256": "e0f321203cc3f734dc17c138e0363873bd5d08cdf0460aee41d11e69f27d77ba",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpof50u_5p/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass Meta(type):\n def __call__(cls,*a,**k):\n  record(\"metaclass\")\n  return super().__call__(*a,**k)\nclass C(unittest.TestCase,metaclass=Meta):\n def test_one(self): record(\"body\")\n",
+  "label": "construction-metaclass-1-method",
+  "optimize": 1,
+  "outcome": "ERROR",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [],
+    "body_finished_ids": [],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [],
+    "invalid_population": [
+      "empty selected population",
+      "unsupported test selector: test_identity.C.test_one (ValueError)"
+    ],
+    "lifecycle_failures": 0,
+    "log": "\nRan 0 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [],
+    "selection": [
+      "test_identity.C.test_one"
+    ],
+    "skipped": 0,
+    "started_ids": [],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 0,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "\nRan 0 tests\n"
+}

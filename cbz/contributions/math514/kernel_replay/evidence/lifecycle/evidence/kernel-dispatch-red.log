@@ -1,0 +1,17 @@
+test_dispatch_hook_assertion_without_selected_method_is_error (test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error) ... FAIL
+
+======================================================================
+FAIL: test_dispatch_hook_assertion_without_selected_method_is_error (test_mutation_harness.MutationHarnessTests.test_dispatch_hook_assertion_without_selected_method_is_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 54, in test_dispatch_hook_assertion_without_selected_method_is_error
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... FAIL\n\n======================================================================\nFAIL: test_one (fixture.Case.test_one)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp2q0dzi55/run_tests.py", line 100, in body\n    return original_body(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/tmp/tmp2q0dzi55/tests/fixture.py", line 3, in _callTestMethod\n    def _callTestMethod(self, method): self.fail(\'dispatch hook only\')\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: dispatch hook only\n\nRan 1 tests\n', 'started_ids': ['fixture.Case.test_one'], 'finished_ids': ['fixture.Case.test_one'], 'body_entered_ids': ['fixture.Case.test_one'], 'body_finished_ids': ['fixture.Case.test_one'], 'body_assertion_ids': ['fixture.Case.test_one'], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': [{'parent_id': 'fixture.Case.test_one', 'origin': 'body'}]}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.068s
+
+FAILED (failures=1)

@@ -1,0 +1,64 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "-S",
+    "/tmp/tmpbxpu8q2v/run_tests.py",
+    "--output",
+    "/tmp/tmpbxpu8q2v/receipt.json",
+    "--test",
+    "test_identity.C"
+  ],
+  "events": [
+    "first",
+    "second"
+  ],
+  "exit_code": 0,
+  "fixture_sha256": "f4e4595acb1b6d1da51b1aaae46dd94fb13eb8540563ff9652a7b9bf2b9460da",
+  "fixture_source": "import unittest\nfrom pathlib import Path\ndef record(label):\n with Path('/tmp/tmpbxpu8q2v/events').open(\"a\") as out: out.write(label+\"\\n\")\nclass C(unittest.TestCase):\n def test_first(self): record(\"first\")\n def test_second(self): record(\"second\")\n",
+  "label": "named-class",
+  "optimize": 0,
+  "outcome": "SURVIVED",
+  "receipt": {
+    "assertion_events": [],
+    "assertion_failures": 0,
+    "body_assertion_ids": [],
+    "body_entered_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "body_finished_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "errors": 0,
+    "expected_failures": 0,
+    "finished_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "invalid_population": [],
+    "lifecycle_failures": 0,
+    "log": "test_first (test_identity.C.test_first) ... ok\ntest_second (test_identity.C.test_second) ... ok\n\nRan 2 tests\n",
+    "receipt_schema": "cbz-unittest-lifecycle-v1",
+    "selected_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "selection": [
+      "test_identity.C"
+    ],
+    "skipped": 0,
+    "started_ids": [
+      "test_identity.C.test_first",
+      "test_identity.C.test_second"
+    ],
+    "subtest_events": [],
+    "subtests": 0,
+    "successful": true,
+    "tests_run": 2,
+    "unexpected_successes": 0
+  },
+  "stderr": "",
+  "stdout": "test_first (test_identity.C.test_first) ... ok\ntest_second (test_identity.C.test_second) ... ok\n\nRan 2 tests\n"
+}

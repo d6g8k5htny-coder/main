@@ -1,0 +1,124 @@
+{
+  "schema": "cbz-kernel-replay/v1",
+  "gate": "G4-scoped-adapter",
+  "started": "2026-10-29T17:51:50.822704+00:00",
+  "ok": false,
+  "results": [
+    {
+      "module": "BadPrivate",
+      "command": [
+        "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+        "-j1",
+        "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean"
+      ],
+      "started": "2026-10-29T17:51:50.825886+00:00",
+      "status": "FAIL",
+      "ok": false,
+      "returncode": 1,
+      "memory_mib": 8192,
+      "timeout_seconds": 60,
+      "source": {
+        "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPrivate.lean",
+        "sha256": "fa95b63ae8037158cdc643a6542ed28dc1adde86a529a535cfc0c713033ec429"
+      },
+      "parts": [
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean",
+          "sha256": "4852f84146cb5a48707afd347a25b72a515bf8b49d3fcb41de8737207fa07c4a"
+        },
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean.server",
+          "sha256": "1fdecaa00df8d775a546be77006e144d7400bf57e79f00264fa698f9a8ed18d8"
+        },
+        {
+          "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean.private",
+          "sha256": "3bff38ad49d726bb62879d3ed4e7a1ad155dd1bfb35dd48f5a210243caf9db2a"
+        }
+      ],
+      "pid": 9633,
+      "stdout": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean:33:0: error: while replaying declaration '_private.BadPrivate.0.malformedPrivate':\n(kernel) unknown constant '_private.BadPrivate.0.malformedPrivate'\n",
+      "stdout_bytes": 204,
+      "stderr": "",
+      "stderr_bytes": 0,
+      "ended": "2026-10-29T17:51:51.947126+00:00",
+      "elapsed_seconds": 1.121253784000146
+    }
+  ],
+  "completed_count": 0,
+  "expected_count": 1,
+  "manifest": {
+    "schema": "cbz-kernel-replay/v1",
+    "lean": {
+      "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean",
+      "sha256": "e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550"
+    },
+    "sysroot": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1",
+    "lean_path": [
+      "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures"
+    ],
+    "expected_modules": [
+      "BadPrivate"
+    ],
+    "modules": [
+      {
+        "name": "BadPrivate",
+        "source": {
+          "path": "/workspace/cbz-0/tools/kernel_replay/tests/fixtures/BadPrivate.lean",
+          "sha256": "fa95b63ae8037158cdc643a6542ed28dc1adde86a529a535cfc0c713033ec429"
+        },
+        "parts": [
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean",
+            "sha256": "4852f84146cb5a48707afd347a25b72a515bf8b49d3fcb41de8737207fa07c4a"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean.server",
+            "sha256": "1fdecaa00df8d775a546be77006e144d7400bf57e79f00264fa698f9a8ed18d8"
+          },
+          {
+            "path": "/workspace/cbz-0/tools/kernel_replay/evidence/compiled-fixtures/BadPrivate.olean.private",
+            "sha256": "3bff38ad49d726bb62879d3ed4e7a1ad155dd1bfb35dd48f5a210243caf9db2a"
+          }
+        ]
+      }
+    ],
+    "context": [],
+    "tool": [
+      {
+        "path": "/workspace/cbz-0/tools/kernel_replay/kernel_replay.py",
+        "sha256": "416b688929daff9f473ce3e0abd399d8be2cde46c12956d3e5d5d9937d914293"
+      },
+      {
+        "path": "/workspace/cbz-0/tools/kernel_replay/ExactReplay.lean",
+        "sha256": "24e55f5e99c83a46f9f908bbc90f22292a94305294e287d9b2eccbf24e8e6b66"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/LeanChecker.lean",
+        "sha256": "2d18ec111d73c536b0bdee2533556bb9548c349f386797d3d3837b1f84d55dae"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/src/lean/Lean/Replay.lean",
+        "sha256": "c434b5b2bc5047ca58d4a095fcf1d9935d413c788ae98a4f21948e6a95ca3fb0"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/LeanChecker.olean",
+        "sha256": "d6829015630328e3c70909a4cba004a7933f6d52cad3721488a2efaa14c1bbbe"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean",
+        "sha256": "66cb6f6d0bd6f9faee0205ddf0e289d1936e40f7808dfe9ad6eba412a5d8b427"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.server",
+        "sha256": "46026af21aa760fb2343c15336f6e1476d37e4829e4e0ec529ab499fd0a2b010"
+      },
+      {
+        "path": "/home/agent/.elan/toolchains/leanprover--lean4---v4.34.1/lib/lean/Lean/Replay.olean.private",
+        "sha256": "fadad15c5bb080fee117b7fd049b6f54e3077b5b258902fe47cad8dbf76649a1"
+      }
+    ]
+  },
+  "g2_status": "NOT_ASSESSED",
+  "full_cbz": false,
+  "ended": "2026-10-29T17:51:51.949454+00:00"
+}

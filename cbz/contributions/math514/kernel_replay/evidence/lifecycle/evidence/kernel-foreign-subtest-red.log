@@ -1,0 +1,17 @@
+test_foreign_subtest_parent_cannot_claim_selected_body_assertion (test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion) ... FAIL
+
+======================================================================
+FAIL: test_foreign_subtest_parent_cannot_claim_selected_body_assertion (test_mutation_harness.MutationHarnessTests.test_foreign_subtest_parent_cannot_claim_selected_body_assertion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/mutation-lifecycle-fix/work/kernel_replay/tests/test_mutation_harness.py", line 108, in test_foreign_subtest_parent_cannot_claim_selected_body_assertion
+    self.assertEqual(outcome, 'ERROR', value)
+AssertionError: 'KILLED' != 'ERROR'
+- KILLED
++ ERROR
+ : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['fixture.Case'], 'selected_ids': ['fixture.Case.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 1, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': False, 'log': 'test_one (fixture.Case.test_one) ... \n  unittest.case.FunctionTestCase (<lambda>) [foreign] ... FAIL\ntest_one (fixture.Case.test_one) ... ok\n\n======================================================================\nFAIL: unittest.case.FunctionTestCase (<lambda>) [foreign]\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File "/tmp/tmp7qy0b623/tests/fixture.py", line 6, in test_one\n    try: raise AssertionError(\'foreign parent assertion\')\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: foreign parent assertion\n\nRan 1 tests\n', 'started_ids': ['fixture.Case.test_one'], 'finished_ids': ['fixture.Case.test_one'], 'body_entered_ids': ['fixture.Case.test_one'], 'body_finished_ids': ['fixture.Case.test_one'], 'body_assertion_ids': ['fixture.Case.test_one'], 'lifecycle_failures': 0, 'subtests': 1, 'subtest_events': [{'parent_id': 'fixture.Case.test_one', 'phase': 'body', 'outcome': 'assertion'}], 'assertion_events': [{'parent_id': 'fixture.Case.test_one', 'origin': 'subtest'}]}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.068s
+
+FAILED (failures=1)

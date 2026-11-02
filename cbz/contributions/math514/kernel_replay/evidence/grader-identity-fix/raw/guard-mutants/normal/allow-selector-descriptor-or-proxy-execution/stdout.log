@@ -1,0 +1,19 @@
+test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body) ... FAIL
+
+======================================================================
+FAIL: test_callable_factory_selector_is_refused_before_factory_or_body (test_mutation_harness.IdentityHarnessTests.test_callable_factory_selector_is_refused_before_factory_or_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/cbz-0/delivery/grader-identity-fix/kernel_replay/evidence/guard-mutants/normal/allow-selector-descriptor-or-proxy-execution/run_tests.py", line 324, in dispatch
+    return original_dispatch(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['proxy', 'body'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'proxy'
+
+- ['proxy', 'body']
++ [] : {'receipt_schema': 'cbz-unittest-lifecycle-v1', 'selection': ['test_identity.proxy.C.test_one'], 'selected_ids': ['test_identity.C.test_one'], 'invalid_population': [], 'tests_run': 1, 'assertion_failures': 0, 'errors': 0, 'skipped': 0, 'expected_failures': 0, 'unexpected_successes': 0, 'successful': True, 'log': 'test_one (test_identity.C.test_one) ... ok\n\nRan 1 tests\n', 'started_ids': ['test_identity.C.test_one'], 'finished_ids': ['test_identity.C.test_one'], 'body_entered_ids': ['test_identity.C.test_one'], 'body_finished_ids': ['test_identity.C.test_one'], 'body_assertion_ids': [], 'lifecycle_failures': 0, 'subtests': 0, 'subtest_events': [], 'assertion_events': []}
+
+Ran 1 tests
